@@ -17,349 +17,236 @@
  */
 class ComApplicationRouter extends KDispatcherRouterDefault
 {
-    public function parse($url)
+    public function parse(KHttpUrl $url)
 	{
-		$vars = array();
-
 		// Get the application
 		$app = JFactory::getApplication();
-
-		// Forward to https
-		if($app->getCfg('force_ssl') == 2 && strtolower($url->getScheme()) != 'https')
-		{
-			$url->setScheme('https');
-			$app->redirect($url->toString());
-		}
-
 
 		// Get the path
 		$path = $url->getPath();
 
 		if($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
 		{
-			if($suffix = pathinfo($path, PATHINFO_EXTENSION))
+			if($format = pathinfo($path, PATHINFO_EXTENSION))
 			{
-				$path = str_replace('.'.$suffix, '', $path);
-				$vars['format'] = $suffix;
+				$path = str_replace('.'.$format, '', $path);
+				$vars['format'] = $format;
 			}
 		}
 
-		//Remove basepath
-		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
+		//Remove base path
+		$path = substr_replace($path, '', 0, strlen(KRequest::base()->getPath()));
 
-		//Remove prefix
+		//Remove the filename
 		$path = str_replace('index.php', '', $path);
 
 		//Set the route
-		$url->setPath(trim($path , '/'));
+		$url->path = trim($path , '/');
 
-		$vars += parent::parse($url);
-
-		return $vars;
+		return parent::parse($url);
 	}
 
-	public function build($url)
+	public function build(KHttpUrl $url)
 	{
-		$url = parent::build($url);
+        $result = parent::build($url);
 
 		// Get the path data
 		$route = $url->getPath();
 
-		//Add the suffix to the uri
-		if($route)
+		//Add the format to the uri
+        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
+
+	    if(JFactory::getApplication()->getCfg('sef_suffix'))
 		{
-            $app = JFactory::getApplication();
-
-			if($format = $url->getVar('format', 'html'))
-			{
-			    if($app->getCfg('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
-			    {
-			        $route .= '.'.$format;
-			    	$url->delVar('format');
-			    }
-			    else 
-			    {
-			        if($format == 'html') {
-			            $url->delVar('format');
-			        }   
-			    }
+		    $route .= '.'.$format;
+            unset($url->query['format']);
+	    }
+		else
+		{
+	        if($format == 'html') {
+			    unset($url->query['format']);
 			}
+	    }
 
-            //Transform the route
-			if($app->getCfg('sef_rewrite')) {
-				$route = str_replace('index.php/', '', $route);
-			}
+        //Transform the route
+		if(JFactory::getApplication()->getCfg('sef_rewrite')) {
+		    $route = str_replace('index.php/', '', $route);
 		}
 
-		//Add basepath to the uri
-		$url->setPath(JURI::base(true).'/'.$route);
+		$url->path   = KRequest::base()->getPath().'/'.$route;
+        $url->format = '';
 
-		return $url;
+		return $result;
 	}
 
 	protected function _parseRoute($url)
 	{
-		$vars   = array();
+        $this->_parseSiteRoute($url);
+        $this->_parsePageRoute($url);
+        $this->_parseViewRoute($url);
 
-		$menu  = JFactory::getApplication()->getMenu(true);
-		$route = $url->getPath();
-
-		//Get the variables from the uri
-		$vars = $url->getQuery(true);
-
-		//Remove the site from the route
-		$site  = JFactory::getApplication()->getSite();
-		$route = ltrim(str_replace($site, '', $route), '/');
-
-		/*
-		 * Parse the application route
-		 */
-		if(substr($route, 0, 9) == 'component')
-		{
-			$segments	= explode('/', $route);
-			$route      = str_replace('component/'.$segments[1], '', $route);
-
-			$vars['option'] = 'com_'.$segments[1];
-			$vars['Itemid'] = null;
-		}
-		else
-		{
-			//Need to reverse the array (highest sublevels first)
-			$items = array_reverse($menu->getMenu());
-
-			foreach ($items as $item)
-			{
-				$lenght = strlen($item->route); //get the lenght of the route
-
-				if($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink')
-				{
-					$route   = substr($route, $lenght);
-
-                    $vars['Itemid'] = $item->id;
-					$vars['option'] = $item->component;
-					
-					break;
-				}
-			}
-		}
-
-		// Set the active menu item
-		if ( isset($vars['Itemid']) ) {
-			$menu->setActive(  $vars['Itemid'] );
-		}
-
-		//Set the variables
-		$this->setVars($vars);
-
-		/*
-		 * Parse the component route
-		 */
-		if(!empty($route) && isset($this->_vars['option']) )
-		{
-			$segments = explode('/', $route);
-			array_shift($segments);
-
-			// Handle component	route
-			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
-
-			if (count($segments))
-			{
-				if ($component != "com_search") { // Cheap fix on searches
-					//decode the route segments
-					$segments = $this->_decodeSegments($segments);
-				}
-				else
-                {
-                   // fix up search for URL
-					$total = count($segments);
-					for($i=0; $i<$total; $i++) {
-						// urldecode twice because it is encoded twice
-						$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
-					}
-				}
-
-                $vars = KService::get('com://site/'.substr($component, 4).'.router')->parseRoute($segments);
-
-				$this->setVars($vars);
-			}
-		}
-		else
-		{
-			//Set active menu item
-			if($item =& $menu->getActive()) {
-				$vars = $item->query;
-			}
-		}
-
-		return $vars;
+		return true;
 	}
+
+    protected function _parseSiteRoute($url)
+    {
+        $route = $url->getPath();
+
+        //Find the site
+        $url->query['site']  = JFactory::getApplication()->getSite();
+
+        $route = str_replace($url->query['site'], '', $route);
+        $url->path = ltrim($route, '/');
+
+        return true;
+    }
+
+    protected function _parsePageRoute($url)
+    {
+        $route = $url->getPath();
+
+        if(substr($route, 0, 9) != 'component')
+        {
+            //Need to reverse the array (highest sublevels first)
+            $items = array_reverse(JFactory::getApplication()->getMenu()->getMenu());
+
+            foreach ($items as $item)
+            {
+                $length = strlen($item->route);
+
+                if($length > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink')
+                {
+                    $route = substr($route, $length);
+
+                    $url->query = $item->query;
+                    $url->query['Itemid'] = $item->id;
+                    $url->query['option'] = $item->component;
+
+                    JFactory::getApplication()->getMenu()->setActive($item->id);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            $segments	= explode('/', $route);
+            $route      = str_replace('component/'.$segments[1], '', $route);
+
+            $url->query['Itemid'] = JFactory::getApplication()->getMenu()->getDefault()->id;
+            $url->query['option'] = 'com_'.$segments[1];
+        }
+
+        $url->path =  ltrim($route, '/');
+
+        return true;
+    }
+
+    protected function _parseViewRoute($url)
+    {
+        $route = $url->path;
+
+        if(isset($url->query['option']) )
+        {
+            if(!empty($route))
+            {
+                //Store the default
+                $defaults = array(
+                    'option' => $url->query['option'],
+                    'Itemid' => $url->query['Itemid']
+                );
+
+                //Get the router identifier
+                $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
+
+                //Parse the view route
+                $vars = KService::get($identifier)->parseRoute($route);
+
+                //Merge default and vars
+                $url->query = array_merge($defaults, $vars);
+            }
+        }
+
+        $url->path = '';
+
+        return true;
+    }
 
 	protected function _buildRoute($url)
 	{
-		// Get the route
-		$route = $url->getPath();
+        $segments = array();
 
-		// Get the query data
-		$query = $url->getQuery(true);
+        $view = $this->_buildViewRoute($url);
+        $page = $this->_buildPageRoute($url);
+        $site = $this->_buildSiteRoute($url);
 
-		if(!isset($query['option'])) {
-			return;
-		}
+        $segments = array_merge($site, $page, $view);
 
-		$menu = JFactory::getApplication()->getMenu();
+        //Set the path
+        $url->path = array_filter($segments);
 
-		/*
-		 * Build the component route
-		 */
-		$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$tmp 		= '';
+        // Removed unused query variables
+        unset($url->query['Itemid']);
+        unset($url->query['option']);
 
-		// Use the custom routing handler if it exists
-		if (!empty($query))
-		{
-            $parts = KService::get('com://site/'.substr($component, 4).'.router')->buildRoute($query);
-
-			// encode the route segments
-			if ($component != "com_search") { // Cheep fix on searches
-				$parts = $this->_encodeSegments($parts);
-			}
-			else 
-			{ 
-			    // fix up search for URL
-				$total = count($parts);
-				for($i=0; $i<$total; $i++) 
-				{
-					// urlencode twice because it is decoded once after redirect
-					$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
-				}
-			}
-
-			$result = implode('/', $parts);
-			$tmp	= ($result != "") ? '/'.$result : '';
-		}
-
-		/*
-		 * Build the application route
-		 */
-		$built = false;
-		if (isset($query['Itemid']) && !empty($query['Itemid']))
-		{
-			$item = $menu->getItem($query['Itemid']);
-
-			if (is_object($item) && $query['option'] == $item->component) {
-				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
-				$built = true;
-			}
-		}
-
-		if(!$built) {
-			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
-		}
-
-		//Add the site
-	    $site = JFactory::getApplication()->getSite();
-	    if($site != 'default' && $site != JURI::getInstance()->getHost()) {
-	        $tmp = $site.'/'.$tmp;
-	    }
-		
-		$route .= '/'.$tmp;
-
-		// Unset unneeded query information
-		unset($query['Itemid']);
-		unset($query['option']);
-
-		//Set query again in the URI
-		$url->setQuery($query);
-		$url->setPath($route);
+        return true;
 	}
 
-	protected function _processParseRules($url)
-	{
-		// Process the attached parse rules
-		$vars = parent::_processParseRules($url);
+    protected function _buildViewRoute($url)
+    {
+        $segments = array();
 
-		if($start = $url->getVar('start'))
-		{
-			$url->delVar('start');
-			$vars['limitstart'] = $start;
-		}
+        // Use the custom routing handler if it exists
+        if (isset($url->query['option']))
+        {
+            //Get the router identifier
+            $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
 
-		return $vars;
-	}
+            //Build the view route
+            $segments = KService::get($identifier)->buildRoute($url->query);
+        }
 
-	protected function _processBuildRules($url)
-	{
-		// Make sure any menu vars are used if no others are specified
-		if($url->getVar('Itemid') && count($url->getQuery(true)) == 2)
-		{
-			$menu = JFactory::getApplication()->getMenu();
+        return $segments;
+    }
 
-			// Get the active menu item
-			$itemid = $url->getVar('Itemid');
-			$item   = $menu->getItem($itemid);
+    protected function _buildPageRoute($url)
+    {
+        $segments = '';
 
-			$url->setQuery($item->query);
-			$url->setVar('Itemid', $itemid);
-		}
+        if(!isset($url->query['Itemid']))
+        {
+            $page = JFactory::getApplication()->getMenu()->getActive();
+            if($page) {
+                $url->query['Itemid'] = $page->id;
+            }
+        }
 
-		// Process the attached build rules
-		parent::_processBuildRules($url);
+        if(isset($url->query['Itemid']))
+        {
+            $menu = JFactory::getApplication()->getMenu();
+            $item = $menu->getItem($url->query['Itemid']);
 
-		// Get the path data
-		$route = $url->getPath();
+            if ($item->component == $url->query['option']) {
+                $segments = $item->route;
+            } else {
+                $segments = 'component/'.substr($url->query['option'], 4);
+            }
+        }
+        else $segments = 'component/'.substr($url->query['option'], 4);
 
-		if($route)
-		{
-			if ($limitstart = $url->getVar('limitstart'))
-			{
-				$url->setVar('start', (int) $limitstart);
-				$url->delVar('limitstart');
-			}
-		}
+        $segments = explode('/', $segments);
 
-		$url->setPath($route);
-	}
+        return $segments;
+    }
 
-	protected function _createUrl($url)
-	{
-		//Create the URI
-		$url = parent::_createUrl($url);
+    protected function _buildSiteRoute($url)
+    {
+        $segments = array();
 
-		// Set URI defaults
-		$menu = JFactory::getApplication()->getMenu();
+        $site = JFactory::getApplication()->getSite();
+        if($site != 'default' && $site != KRequest::url()->getUrl(KHttpUrl::HOST)) {
+            $segments[] = $site;
+        }
 
-		// Get the itemid form the URI
-		$itemid = $url->getVar('Itemid');
-
-		if(is_null($itemid))
-		{
-            if($option = $url->getVar('option'))
-			{
-				$item  = $menu->getItem($this->getVar('Itemid'));
-				if(isset($item) && $item->component == $option) {
-					$url->setVar('Itemid', $item->id);
-				}
-			}
-			else
-			{
-				if($option = $this->getVar('option')) {
-					$url->setVar('option', $option);
-				}
-
-				if($itemid = $this->getVar('Itemid')) {
-					$url->setVar('Itemid', $itemid);
-				}
-			}
-		}
-		else
-		{
-			if(!$url->getVar('option'))
-			{
-				$item  = $menu->getItem($itemid);
-				$url->setVar('option', $item->component);
-			}
-		}
-
-		return $url;
-	}
+        return $segments;
+    }
 }
