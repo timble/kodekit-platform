@@ -117,8 +117,8 @@ function viewTrashContent( $option )
 
 	// get the total number of content
 	$query = 'SELECT count(c.articles_article_id)'
-	. ' FROM #__articles_articles AS c'
-	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
+	. ' FROM #__articles AS c'
+	. ' LEFT JOIN #__categories AS cc ON cc.id = c.categories_category_id'
 	. ' LEFT JOIN #__articles_sections AS s ON s.articles_section_id = cc.section AND s.scope = "content"'
 	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
@@ -131,9 +131,9 @@ function viewTrashContent( $option )
 	$pageNav = new JPagination( $total, $limitstart, $limit );
 
 	// Query articles
-	$query = 'SELECT c.title, c.articles_article_id, c.articles_section_id, c.catid, g.name AS groupname, cc.title AS catname, s.title AS sectname'
-	. ' FROM #__articles_articles AS c'
-	. ' LEFT JOIN #__categories AS cc ON cc.id = c.catid'
+	$query = 'SELECT c.title, c.articles_article_id, c.articles_section_id, c.categories_category_id, g.name AS groupname, cc.title AS catname, s.title AS sectname'
+	. ' FROM #__articles AS c'
+	. ' LEFT JOIN #__categories AS cc ON cc.id = c.categories_category_id'
 	. ' LEFT JOIN #__articles_sections AS s ON s.articles_section_id = cc.section AND s.scope="content"'
 	. ' LEFT JOIN #__groups AS g ON g.id = c.access'
 	. ' LEFT JOIN #__users AS u ON u.id = c.checked_out'
@@ -144,7 +144,7 @@ function viewTrashContent( $option )
 	$contents = $db->loadObjectList();
 
 	for ( $i = 0; $i < count($contents); $i++ ) {
-		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->catid == 0 ) ) {
+		if ( ( $contents[$i]->sectionid == 0 ) && ( $contents[$i]->categories_category_id == 0 ) ) {
 			$contents[$i]->sectname = JText::_('UNCATEGORIZED');
 		}
 	}
@@ -245,7 +245,7 @@ function viewdeleteTrash( $cid, $mid, $option )
 	if ( $cids ) {
 		// Articles query
 		$query = 	'SELECT a.title AS name'
-		. ' FROM #__articles_articles AS a'
+		. ' FROM #__articles AS a'
 		. ' WHERE ( a.articles_article_id IN ( '.$cids.' ) )'
 		. ' ORDER BY a.title'
 		;
@@ -329,7 +329,7 @@ function viewrestoreTrash( $cid, $mid, $option ) {
 	if ( $cids ) {
 		// Articles query
 		$query = 'SELECT a.title AS name'
-		. ' FROM #__articles_articles AS a'
+		. ' FROM #__articles AS a'
 		. ' WHERE ( a.articles_article_id IN ( '.$cids.' ) )'
 		. ' ORDER BY a.title'
 		;
@@ -381,7 +381,7 @@ function restoreTrash( $cid, $option )
 		$cids = implode( ',', $cid );
 
 		// query to restore article
-		$query = 'UPDATE #__articles_articles'
+		$query = 'UPDATE #__articles'
 		. ' SET state = '.(int) $state.', ordering = '.(int) $ordering
 		. ' WHERE articles_article_id IN ( '.$cids.' )'
 		;
