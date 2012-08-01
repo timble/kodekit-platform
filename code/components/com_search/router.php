@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Search
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,7 +12,6 @@
  * Search Router
  *
  * @author    	Arunas Mazeika <http://nooku.assembla.com/profile/amazeika>
- * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Search
  */
