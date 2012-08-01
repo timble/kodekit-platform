@@ -25,8 +25,8 @@ window.addEvent('domready', function() {
 		options = {
 			state: {
 				defaults: {
-					limit: <?= (int) $state->limit; ?>,
-					offset: <?= (int) $state->offset; ?>
+					limit: 0,
+					offset: 0
 				}
 			},
 			editor: <?= json_encode($state->editor); ?>,
