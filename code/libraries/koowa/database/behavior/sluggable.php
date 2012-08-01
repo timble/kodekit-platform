@@ -10,9 +10,13 @@
 /**
  * Database Sluggable Behavior
  *
+ * Generates a slug, a short label for the row, containing only letters, numbers, underscores or hyphens. A slug is
+ * generaly using a URL.
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Behavior
+ * @see         http://en.wikipedia.org/wiki/Slug_(web_publishing)
  */
 class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 {
@@ -89,7 +93,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
             'separator' => '-',
             'updatable' => true,
             'length'    => null,
-            'unique'    => null
+            'unique'    => null,
+            'auto_mixin'=> true,
         ));
 
         parent::_initialize($config);
@@ -113,6 +118,26 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         }
 
         return $methods;
+    }
+
+    /**
+     * Get the slug
+     *
+     * This function will always return a unique slug. If the slug is not unique
+     * it will prepend the identity column value.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        $result = $this->slug;
+        if(!$this->getTable()->getColumn('slug', true)->unique)
+        {
+            $column = $this->getIdentityColumn();
+            $result = $this->{$column}.$this->_separator.$this->slug;
+        }
+
+        return $result;
     }
     
     /**
@@ -194,7 +219,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         }
         else
         {
-            if(in_array('slug', $this->getModified())) 
+            if(in_array('slug', $this->getModified()))
             {
                 $this->slug = $filter->sanitize($this->slug);
                 $this->_canonicalizeSlug();
@@ -224,13 +249,13 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         }
     
         //If the slug needs to be unique and it already exist make it unqiue
-        if($this->_unique && $table->count(array('slug' => $this->slug))) 
+        if($this->_unique && $table->count(array('slug' => $this->slug)))
         {   
             $db    = $table->getDatabase();
             $query = $this->getService('koowa:database.query.select')
-                ->columns('slug')
-                ->where('slug LIKE :slug')
-                ->bind(array('slug' => $this->slug.'-%'));          
+                          ->columns('slug')
+                          ->where('slug LIKE :slug')
+                          ->bind(array('slug' => $this->slug.'-%'));
             
             $slugs = $table->select($query, KDatabase::FETCH_FIELD_LIST);
             
