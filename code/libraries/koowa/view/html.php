@@ -8,10 +8,9 @@
  */
 
 /**
- * View HTML Class
+ * View Html Class
  *
  * @author		Johan Janssens <johan@nooku.org>
-
  * @package     Koowa_View
  */
 class KViewHtml extends KViewTemplate
@@ -73,14 +72,15 @@ class KViewHtml extends KViewTemplate
 	/**
 	 * Get a route based on a full or partial query string. 
 	 * 
-	 * This function force the route to be not fully qualified. 
+	 * This function force the route to be not fully qualified and not escaped
 	 *
 	 * @param	string	The query string used to create the route
 	 * @param 	boolean	If TRUE create a fully qualified route. Default TRUE.
+     * @param 	boolean	If TRUE escapes the route for xml compliance. Default TRUE.
 	 * @return 	string 	The route
 	 */
-	public function getRoute( $route = '', $fqr = true)
+	public function getRoute( $route = '', $fqr = true, $escape = true)
 	{
-		return parent::getRoute($route, false);
+		return parent::getRoute($route, false, false);
 	}
 }
