@@ -55,7 +55,7 @@ class JPathwaySite extends JPathway
 							$url = null;
 							break;
 						default      :
-							$url = 'index.php?Itemid='.$link->id;
+							$url = JRoute::_($link->link.'&Itemid='.$link->id);
 					}
 
 					$this->addItem( $menus[$menupath]->name, $url);
