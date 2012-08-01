@@ -26,14 +26,19 @@ class modBreadCrumbsHelper
 		for ($i = 0; $i < $count; $i ++)
 		{
 			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name));
-			$items[$i]->link = JRoute::_($items[$i]->link);
+
+            if($items[$i]->link) {
+                $items[$i]->link = $items[$i]->link;
+            }
 		}
 
 		if ($params->get('showHome', 1))
 		{
 			$item = new stdClass();
 			$item->name = $params->get('homeText', JText::_('Home'));
-			$item->link = JRoute::_('index.php?Itemid='.JFactory::getApplication()->getMenu()->getDefault()->id);
+
+            $default = JFactory::getApplication()->getMenu()->getDefault();
+			$item->link = JRoute::_($default->link.'&Itemid='.$default->id);
 
 			array_unshift($items, $item);
 		}
