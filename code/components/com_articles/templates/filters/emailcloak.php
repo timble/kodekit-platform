@@ -20,24 +20,31 @@
 class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
     /**
-     * @var boolean Determines if email address should be linked.
+     * Determines if email address should be linked
+     *
+     * @var boolean
      */
     protected $_linkable;
 
     /**
-     * @var array An associative array containing patterns.
+     * n associative array containing patterns.
+     *
+     * @var array
      */
     protected $_patterns = array(
         'email' => '[\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4})',
-        'query' => '(?:[?&][^?&"]+)*');
+        'query' => '(?:[?&][^?&"]+)*'
+    );
 
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         $this->_linkable = $config->linkable;
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $config->append(array('linkable' => true));
         parent::_initialize($config);
     }
@@ -45,11 +52,11 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
     /**
      * Pattern getter.
      *
-     * @param $name The title of the pattern
-     *
+     * @param string $name The title of the pattern
      * @return null|string The pattern, null if there's no patter with provided title.
      */
-    protected function _getPattern($name) {
+    protected function _getPattern($name)
+    {
         $result = null;
         if (isset($this->_patterns[$name])) {
             $result = $this->_patterns[$name];
@@ -57,9 +64,8 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
         return $result;
     }
 
-    public
-    function write(&$text) {
-
+    public function write(&$text)
+    {
         // Search for <a href="mailto:|http(s)://mce_host/dir/email@email.tld">
         $pattern = '~<a[^>]*href\s*=\s*"(?:mailto:|https?://.+?)';
         $pattern .= '(';
@@ -72,14 +78,16 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
         $pattern .= '(.*?)';
         $pattern .= '</a>~i';
 
-        while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE)) {
+        while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE))
+        {
             $text = substr_replace($text, $this->_cloak($matches[1][0], $matches[2][0]), $matches[0][1],
                 strlen($matches[0][0]));
         }
 
         // Search for email@amail.tld
         $pattern = '~(' . $this->_getPattern('email') . ')[\W]~i';
-        while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE)) {
+        while (preg_match($pattern, $text, $matches, PREG_OFFSET_CAPTURE))
+        {
             $text = substr_replace($text, $this->_cloak($matches[1][0]), $matches[1][1],
                 strlen($matches[1][0]));
         }
@@ -88,12 +96,16 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
     }
 
     /**
-     * Simple Javascript email Cloaker
+     * Simple Javascript email cloaker
      *
      * By default replaces an email with a mailto link with email cloacked
+     *
+     * @param string $email
+     * @param string $text
+     * @return string The cloacked email
      */
-    protected
-    function _cloak($email, $text = '') {
+    protected function _cloak($email, $text = '')
+    {
         // Random var suffix.
         $rand = rand(1, 100000);
 
@@ -110,29 +122,31 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
         $output .= "\n addy{$rand} = addy{$rand} + '";
         $output .= implode('\' + \'&#46;\' + \'', explode('.', $email_parts[1])) . '\';';
 
-        if ($this->_linkable) {
+        if ($this->_linkable)
+        {
             // Render a linkable email address.
             $output .= "\n document.write('<a ' + path + '\'mailto:' + addy{$rand} + '\'>');";
-            if ($text) {
-                if ($this->_isEmail($text)) {
+            if ($text)
+            {
+                if ($this->_isEmail($text))
+                {
                     $text       = $this->_encode($text);
                     $text_parts = explode('@', $text);
                     $output .= "\n var text{$rand} = '{$text_parts[0]}' + '&#64;';";
                     $output .= "\n text{$rand} = text{$rand} + '";
                     $output .= implode('\' + \'&#46;\' + \'', explode('.', $text_parts[1])) . '\';';
-                } else {
-                    $output .= "\n var text{$rand} = '{$text}';";
                 }
+                else $output .= "\n var text{$rand} = '{$text}';";
+
                 $output .= "\n document.write(text{$rand});";
-            } else {
-                // Use email address as link text.
-                $output .= "\n document.write(addy{$rand});";
             }
+            else  $output .= "\n document.write(addy{$rand});"; // Use email address as link text.
+
             $output .= "\n document.write('</a>');";
-        } else {
-            // Do not link, just render the email address.
-            $output .= "\n document.write( addy{$rand});";
         }
+        else $output .= "\n document.write( addy{$rand});"; // Do not link, just render the email address.
+
+
         $output .= "\n //-->";
         $output .= "\n </script>";
 
@@ -157,16 +171,16 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
      * Determines if text is an email address.
      *
      * @param $text The text to test.
-     *
      * @return bool True if email address, false otherwise.
      */
-    protected
-    function _isEmail($text) {
+    protected function _isEmail($text)
+    {
         $result  = false;
         $pattern = '~' . $this->_getPattern('email') . '~i';
         if (preg_match($pattern, $text, $matches)) {
             $result = true;
         }
+
         return $result;
     }
 
@@ -174,13 +188,14 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
      * Text encoder.
      *
      * @param string $text Text to encode.
-     *
      * @return string Encoded text.
      */
-    protected
-    function _encode($text) {
+    protected function _encode($text)
+    {
+        $search  = array('a', 'e', 'i', 'o', 'u');
+        $replace = array('&#97;', '&#101;', '&#105;', '&#111;', '&#117;')
+
         // Replace with HTML entities.
-        return str_replace(array('a', 'e', 'i', 'o', 'u'), array('&#97;', '&#101;', '&#105;', '&#111;', '&#117;'),
-            $text);
+        return str_replace($search, $replace, $text);
     }
 }
