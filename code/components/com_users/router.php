@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Users Router
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
  */
@@ -28,8 +26,8 @@ class ComUsersRouter extends ComDefaultRouter
         {
             if(!empty($query['Itemid']))
             {
-                $menu = JFactory::getApplication()->getMenu()->getItem( $query['Itemid'] );
-                if(!isset($menu->query['view']) || $menu->query['view'] != $query['view']) {
+                $page = JFactory::getApplication()->getMenu()->getItem( $query['Itemid'] );
+                if(!isset($page->query['view']) || $page->query['view'] != $query['view']) {
                     $segments[] = $query['view'];
                 }
             }
@@ -37,6 +35,7 @@ class ComUsersRouter extends ComDefaultRouter
 
             unset($query['view']);
         }
+
         return $segments;
     }
 
@@ -50,7 +49,7 @@ class ComUsersRouter extends ComDefaultRouter
         }
 
         if($count > 1) {
-            $vars['id']    = $segments[$count - 1];
+            $vars['id'] = $segments[$count - 1];
         }
 
         return $vars;
