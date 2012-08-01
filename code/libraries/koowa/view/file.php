@@ -29,7 +29,6 @@
  * </code>
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
  * @package     Koowa_View
  */
 class KViewFile extends KViewAbstract
