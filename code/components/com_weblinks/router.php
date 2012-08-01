@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,7 +12,6 @@
  * Weblink Router
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
@@ -24,67 +22,56 @@ class ComWeblinksRouter extends ComDefaultRouter
     {
         $segments = array();
 
-        if(isset($query['view']) && isset($query['Itemid']))
-        {
-            $view = JFactory::getApplication()->getMenu()->getItem($query['Itemid'])->query['view'];
-
-            if($view == 'categories')
-            {
-                if(isset($query['category']))
-                {
-                    $segments[] = $query['category'];
-                    unset($query['category']);
-                }
-
-                if(isset($query['id']))
-                {
-                    $segments[] = $query['id'];
-                    unset($query['id']);
-                }
-            }
-
-            if($view == 'weblinks')
-            {
-                if(isset($query['id']))
-                {
-                    $segments[] = $query['id'];
-
-                    unset($query['category']);
-                    unset($query['id']);
-                }
-            }
-
-            if($view == 'weblink')
-            {
-                $segments[] = $query['category'];
-                unset($query['category']);
-
-                $segments[] = $query['id'];
-                unset($query['id']);
-            }
-
-            unset( $query['view'] );
+        if(isset($query['Itemid'])) {
+            $page = JFactory::getApplication()->getMenu()->getItem($query['Itemid']);
+        } else {
+            $page = JFactory::getApplication()->getMenu()->getActive();
         }
+
+        $view = $page->query['view'];
+
+        if($view == 'categories')
+        {
+            if(isset($query['category'])) {
+                $segments[] = $query['category'];
+            }
+
+            if(isset($query['id'])) {
+                $segments[] = $query['id'];
+            }
+        }
+
+        if($view == 'weblinks')
+        {
+            if(isset($query['id'])) {
+                $segments[] = $query['id'];
+            }
+        }
+
+        unset($query['category']);
+        unset($query['id']);
+        unset($query['view']);
 
         return $segments;
     }
 
     public function parseRoute($segments)
     {
-        $vars	= array();
+        $vars = array();
 
-        $view = JFactory::getApplication()->getMenu()->getActive()->query['view'];
+        $page = JFactory::getApplication()->getMenu()->getActive();
+
+        $view  = $page->query['view'];
+        $count = count($segments);
 
         if($view == 'categories')
         {
-            $count = count($segments);
-
             if ($count)
             {
                 $count--;
                 $segment = array_shift( $segments );
 
-                $vars['category'] = str_replace(':', '-', $segment);
+                $vars['category'] = $segment;
                 $vars['view'] = 'weblinks';
             }
 
@@ -93,7 +80,7 @@ class ComWeblinksRouter extends ComDefaultRouter
                 $count--;
                 $segment = array_shift( $segments) ;
 
-                $vars['id'] = str_replace(':', '-', $segment);
+                $vars['id'] = $segment;
                 $vars['view'] = 'weblink';
             }
         }
@@ -102,7 +89,7 @@ class ComWeblinksRouter extends ComDefaultRouter
         {
             $segment = array_shift( $segments) ;
 
-            $vars['id'] = str_replace(':', '-', $segment);
+            $vars['id'] = $segment;
             $vars['view'] = 'weblink';
         }
 
