@@ -145,7 +145,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(":", b.id, b.alias) ELSE b.id END as catslug,'
 		. ' u.articles_section_id AS sectionid,'
 		. ' "2" AS browsernav'
-		. ' FROM #__articles_articles AS a'
+		. ' FROM #__articles AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid'
 		. ' INNER JOIN #__articles_sections AS u ON u.articles_section_id = a.articles_section_id'
 		. ' WHERE ( '.$where.' )'
@@ -179,7 +179,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		$query = 'SELECT articles_article_id AS id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
 		. ' CONCAT(a.introtext, a.fulltext) AS text,'
 		. ' "2" as browsernav, "'. $db->getEscaped(JText::_('Uncategorised Content')) .'" AS section'
-		. ' FROM #__articles_articles AS a'
+		. ' FROM #__articles AS a'
 		. ' WHERE ('.$where.')'
 		. ' AND a.state = 1'
 		. ' AND a.access <= '.(int) $user->get( 'aid' )
@@ -216,7 +216,7 @@ function plgSearchContent( $text, $phrase='', $ordering='', $areas=null )
 		. ' u.articles_section_id AS sectionid,'
 		. ' CONCAT_WS( "/", u.title, b.title ) AS section,'
 		. ' "2" AS browsernav'
-		. ' FROM #__articles_articles AS a'
+		. ' FROM #__articles AS a'
 		. ' INNER JOIN #__categories AS b ON b.id=a.catid AND b.access <= ' .$user->get( 'gid' )
 		. ' INNER JOIN #__articles_sections AS u ON u.articles_section_id = a.articles_section_id'
 		. ' WHERE ( '.$where.' )'
