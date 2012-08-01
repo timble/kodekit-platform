@@ -28,6 +28,16 @@ Files.Grid = new Class({
 	initialize: function(container, options) {
 		this.setOptions(options);
 
+        // Attach spinner events
+        this.addEvents({
+            afterReset: function(){
+                this.spin();
+            },
+            afterInsertRows: function(){
+                this.unspin();
+            }
+        });
+
 		this.nodes = new Hash();
 		this.container = document.id(container);
 
@@ -402,7 +412,30 @@ Files.Grid = new Class({
 		}
 
     	this.fireEvent('afterSetIconSize', {size: size});
-	}
+	},
+    spin: function(){
+        if(!this.spinner)
+        {
+            var target = document.id('files-grid');
+            var opts = {
+                lines: 12, // The number of lines to draw
+                length: 7, // The length of each line
+                width: 4, // The line thickness
+                radius: 10, // The radius of the inner circle
+                color: '#666', // #rgb or #rrggbb
+                speed: 1, // Rounds per second
+                trail: 60 // Afterglow percentage
+            };
+            this.spinner = new Koowa.Spinner(opts);
+        }
+        this.spinner.spin(target);
+    },
+    unspin: function(){
+        if(this.spinner) {
+            this.spinner.stop();
+            this.spinner = null;
+        }
+    }
 });
 
 Files.Grid.Root = new Class({

@@ -54,19 +54,6 @@ Files.App = new Class({
 		initial_response: null,
 
 		onAfterSetGrid: function(){
-		    var target = document.id('files-grid');
-		    var opts = {
-		      lines: 12, // The number of lines to draw
-		      length: 7, // The length of each line
-		      width: 4, // The line thickness
-		      radius: 10, // The radius of the inner circle
-		      color: '#666', // #rgb or #rrggbb
-		      speed: 1, // Rounds per second
-		      trail: 60 // Afterglow percentage
-		    };
-		    this.spinner = new Koowa.Spinner(opts);
-		    this.spinner.spin(target);
-
 		    window.addEvent('resize', function(){
 		        this.setDimensions(true);
 		    }.bind(this));
@@ -258,9 +245,6 @@ Files.App = new Class({
 
 			if (this.container.parameters.thumbnails !== true) {
 				this.options.thumbnails = false;
-				if (this.spinner) {
-					this.spinner.stop();
-				}
 			} else {
 				this.state.set('thumbnails', true);
 			}
@@ -435,10 +419,6 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
-		if (this.spinner) {
-			this.spinner.stop();
-		}
-
 		this.setDimensions(true);
 		var nodes = this.grid.nodes,
 			that = this;
