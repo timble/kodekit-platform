@@ -71,7 +71,7 @@ class modMenuHelper
 		 */
 		if ($editAllComponents)
 		{
-			$menu->addChild(new JMenuNode(JText::_('Components')), true);
+			$menu->addChild(new JMenuNode(JText::_('Content')), true);
 
 			$query = 'SELECT *' .
 				' FROM #__components' .
