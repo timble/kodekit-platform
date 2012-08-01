@@ -17,10 +17,8 @@
  */
 class ComApplicationRouter extends KDispatcherRouterDefault
 {
-    public function parse($url)
+    public function parse(KHttpUrl $url)
 	{
-        $vars = array();
-
         $path = trim($url->getPath(), '/');
 
         //Remove basepath
@@ -55,16 +53,15 @@ class ComApplicationRouter extends KDispatcherRouterDefault
             }
         }
 
-        return $vars;
+        $url->query = array_merge($url->query, $vars);
+        $url->path  = '';
+
+        return true;
 	}
 
-	public function build($url)
+	public function build(KHttpUrl $url)
 	{
-        //Create the url object
-        $url = $this->_createUrl($url);
-
-        $query = $url->getQuery(true);
-        $path  = $url->getPath();
+        $query = $url->query;
 
         $segments = array();
         if(isset($query['option']))
@@ -82,33 +79,32 @@ class ComApplicationRouter extends KDispatcherRouterDefault
             }
         }
 
-        $path = implode('/', $segments);
+        $route = implode('/', $segments);
 
-        //Add format to path
-        if($format = $url->getVar('format', 'html'))
+        //Add the format to the uri
+        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
+
+        if(JFactory::getApplication()->getCfg('sef_suffix'))
         {
-            if(JFactory::getApplication()->getCfg('sef_suffix') && !empty($path))
-            {
-                $path .= '.'.$format;
-                unset($query['format']);
-            }
-            else
-            {
-                if($format == 'html') {
-                    unset($query['format']);
-                }
+            $route .= '.'.$format;
+            unset($url->query['format']);
+        }
+        else
+        {
+            if($format == 'html') {
+                unset($url->query['format']);
             }
         }
 
-        //Add index.php to the path
-        if(!JFactory::getApplication()->getCfg('sef_rewrite')) {
-            $path = 'index.php/'.$path;
+        //Transform the route
+        if(JFactory::getApplication()->getCfg('sef_rewrite')) {
+            $route = str_replace('index.php/', '', $route);
         }
 
-        //Set query again in the URI
-        $url->setQuery($query);
-        $url->setPath(JURI::base(true).'/'.$path);
+        $url->query  = $query;
+        $url->path   = KRequest::base()->getPath().'/'.$route;
+        $url->format = '';
 
-        return $url;
+        return true;
 	}
 }
