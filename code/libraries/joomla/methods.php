@@ -37,49 +37,13 @@ class JRoute
 	 */
 	function _($url, $xhtml = true, $ssl = null)
 	{
-		// Get the router
-		$router = JFactory::getApplication()->getRouter();
+		//Create the route
+        $url = KService::get('koowa:http.url', array('url' => $url));
 
-		if ( (strpos($url, '&') !== 0 ) && (strpos($url, 'index.php') !== 0) ) {
-            return $url;
- 		}
+        JFactory::getApplication()->getRouter()->build($url);
 
-		// Build route
-		$uri = $router->build($url);
-		$url = $uri->toString(array('path', 'query', 'fragment'));
-		
-		// Replace spaces
-		$url = preg_replace('/\s/u', '%20', $url);
-
-		/*
-		 * Get the secure/unsecure URLs.
-		 * 
-		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
-		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
-		 * 'http', then we need to do a quick string manipulation to switch schemes.
-		 */
-		$ssl = (int) $ssl;
-		if ($ssl)
-		{
-			$uri = JURI::getInstance();
-
-			// Get additional parts
-			static $prefix;
-			if (!$prefix ) {
-				$prefix = $uri->toString( array('host', 'port'));
-			}
-
-			// Determine which scheme we want
-			$scheme	= ( $ssl === 1 ) ? 'https' : 'http';
-
-			// Make sure our url path begins with a slash
-			if (!preg_match('#^/#', $url) ) {
-				$url = '/'.$url;
-			}
-
-			// Build the URL
-			$url = $scheme.'://'.$prefix.$url;
-		}
+		// Transform to string
+		$url = (string) $url;
 
 		if($xhtml) {
 			$url = str_replace( '&', '&amp;', $url );
