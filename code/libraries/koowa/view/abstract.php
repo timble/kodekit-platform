@@ -127,7 +127,7 @@ abstract class KViewAbstract extends KObject
 	 */
 	public function display()
 	{
-		return $this->output;
+		return trim($this->output);
 	}
 	
 	/**
@@ -222,9 +222,10 @@ abstract class KViewAbstract extends KObject
 	 *
 	 * @param	string	The query string used to create the route
 	 * @param 	boolean	If TRUE create a fully qualified route. Default TRUE.
+     * @param 	boolean	If TRUE escapes the route for xml compliance. Default TRUE.
 	 * @return 	string 	The route
 	 */
-	public function getRoute( $route = '', $fqr = true)
+	public function getRoute( $route = '', $fqr = true, $escape = true)
 	{
 		//Parse route
 		$parts = array();
@@ -259,7 +260,10 @@ abstract class KViewAbstract extends KObject
 		}
 
 		//Create the route 
-		$route = KService::get('koowa:http.url', array('url' => JRoute::_('index.php?'.http_build_query($parts))));
+		$route = KService::get('koowa:http.url', array(
+            'url'    => JRoute::_('index.php?'.http_build_query($parts)),
+            'escape' => $escape
+        ));
 		
 		//Add the host and the schema
 		if($fqr)
