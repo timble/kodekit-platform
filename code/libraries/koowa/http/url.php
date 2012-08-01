@@ -141,19 +141,19 @@ class KHttpUrl extends KObject
     public $pass = '';
 
     /**
-     * The path portion (for example, 'path/to/index.php').
-     *
-     * @var string
-     */
-    public $path = '';
-
-    /**
      * The dot-format extension of the last path element (for example, the "rss"
      * in "feed.rss").
      *
      * @var string
      */
     public $format = '';
+
+    /**
+     * The fragment aka anchor portion (for example, the "foo" in "#foo").
+     *
+     * @var string
+     */
+    public $fragment = '';
 
     /**
      * The query portion (for example baz=dib)
@@ -168,11 +168,14 @@ class KHttpUrl extends KObject
     protected $_query = array();
 
     /**
-     * The fragment aka anchor portion (for example, the "foo" in "#foo").
+     * The path portion (for example, 'path/to/index.php').
      *
      * @var string
+     *
+     * @see setPath()
+     * @see getPath()
      */
-    public $fragment = '';
+    protected $_path = '';
 
     /**
      * Url-encode only these characters in path elements.
@@ -190,6 +193,16 @@ class KHttpUrl extends KObject
     );
 
     /**
+     * Escape '&' to '&amp;'
+     *
+     * @var boolean
+     *
+     * @see getQuery()
+     * @see getUrl()
+     */
+    protected $_escape;
+
+    /**
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
@@ -201,6 +214,10 @@ class KHttpUrl extends KObject
 
         parent::__construct($config);
 
+        //Set the escaping behavior
+        $this->_escape = $config->escape;
+
+        //Set the url from a string
         $this->setUrl($config->url);
     }
 
@@ -215,14 +232,15 @@ class KHttpUrl extends KObject
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'url'  => '',
+            'url'    => '',
+            'escape' => false
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Implements the virtual $query property.
+     * Set the virtual properties.
      *
      * @param   string $key   The virtual property to set.
      * @param   string $value Set the virtual property to this value.
@@ -239,8 +257,7 @@ class KHttpUrl extends KObject
     }
 
     /**
-     * Implements access to $_query by reference so that it appears to be
-     * a public $query property.
+     * Get the virtual properties by reference so that they appears to be public
      *
      * @param   string  $key The virtual property to return.
      * @return  mixed   The value of the virtual property.
@@ -249,6 +266,10 @@ class KHttpUrl extends KObject
     {
         if ($key == 'query') {
            return $this->_query;
+        }
+
+        if ($key == 'path') {
+            return $this->_path;
         }
 
         return null;
@@ -292,17 +313,16 @@ class KHttpUrl extends KObject
 
         // Add the rest of the url. we use trim() instead of empty() on string
         // elements to allow for string-zero values.
-        if(($parts & self::PATH) && !empty($this->path))
+        if(($parts & self::PATH) && !empty($this->_path))
         {
-            $url .= $this->_pathEncode($this->path);
+            $url .= $this->getPath();
             if(($parts & self::FORMAT) && trim($this->format) !== '') {
                 $url .= '.' . urlencode($this->format);
             }
         }
 
-        $query = $this->getQuery();
-        if(($parts & self::QUERY) && !empty($query)) {
-            $url .= '?' . $this->getQuery();
+        if(($parts & self::QUERY) && !empty($this->_query)) {
+            $url .= '?' . $this->getQuery(false, $this->_escape);
         }
 
         if(($parts & self::FRAGMENT) && trim($this->fragment) !== '') {
@@ -322,14 +342,8 @@ class KHttpUrl extends KObject
     {
         if(!empty($url))
         {
-            $segments = parse_url($url);
-
-            foreach ($segments as $key => $value) {
+            foreach (parse_url($url) as $key => $value) {
                 $this->$key = $value;
-            }
-
-            if($this->format = pathinfo($this->path, PATHINFO_EXTENSION)) {
-                $this->path = str_replace('.'.$this->format, '', $this->path);
             }
         }
 
@@ -355,10 +369,7 @@ class KHttpUrl extends KObject
             //Set the query vars
             parse_str($query, $this->_query);
         }
-
-        if(is_array($query)) {
-            $this->_query = $query;
-        }
+        else  $this->_query = $query;
 
         return $this;
     }
@@ -367,11 +378,12 @@ class KHttpUrl extends KObject
      * Returns the query portion as a string or array
      *
      * @param 	boolean $toArray If TRUE return an array. Default FALSE
+     * @param 	boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
      * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
-    public function getQuery($toArray = false)
+    public function getQuery($toArray = false, $escape = false)
     {
-		$result = $toArray ? $this->_query : http_build_query($this->_query, '', '&');
+        $result = $toArray ? $this->_query : http_build_query($this->_query, '', $escape ? '&amp;' : '&');
 		return $result;
     }
 
@@ -381,37 +393,53 @@ class KHttpUrl extends KObject
      * This will overwrite any previous values. Also, resets the format based
      * on the final path value.
      *
-     * @param   string  $path The path string to use; for example,"/foo/bar/baz/dib". A leading slash will *not* create
-     *                        an empty first element; if the string has a leading slash, it is ignored.
+     * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
+     *                              A leading slash will *not* create an empty first element; if the string has a
+     *                              leading slash, it is ignored.
      * @return  KHttpUrl
      */
     public function setPath($path)
     {
-        $spec = trim($path, '/');
-
-        $this->path = array();
-        if (! empty($path)) {
-            $this->path = explode('/', $path);
+        if(is_string($path))
+        {
+            if(!empty($path)) {
+                $path = explode('/', $path);
+            } else {
+               $path = array();
+            }
         }
 
-        foreach ($this->path as $key => $val) {
-            $this->path[$key] = urldecode($val);
+        foreach ($path as $key => $val) {
+            $path[$key] = urldecode($val);
         }
 
-        if ($val = end($this->path))
+        if ($val = end($path))
         {
             // find the last dot in the value
             $pos = strrpos($val, '.');
 
             if ($pos !== false)
             {
-                $key = key($this->path);
+                $key = key($path);
                 $this->format = substr($val, $pos + 1);
-                $this->path[$key] = substr($val, 0, $pos);
+                $path[$key] = substr($val, 0, $pos);
             }
         }
 
+        $this->_path = $path;
         return $this;
+    }
+
+    /**
+     * Returns the path portion as a string or array
+     *
+     * @param 	boolean $toArray If TRUE return an array. Default FALSE
+     * @return  string|array The path string; e.g., `path/to/site`.
+     */
+    public function getPath($toArray = false)
+    {
+        $result = $toArray ? $this->_path : $this->_pathEncode($this->_path);
+        return $result;
     }
 
     /**
