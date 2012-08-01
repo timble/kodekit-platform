@@ -22,4 +22,6 @@ if (!JFactory::getUser()->authorize( 'com_weblinks', 'manage' )) {
 	JFactory::getApplication()->redirect( 'index.php', JText::_('ALERTNOTAUTH') );
 }
 
+KLoader::loadIdentifier('com://admin/weblinks.aliases');
+
 echo KService::get('com://admin/weblinks.dispatcher')->dispatch();
