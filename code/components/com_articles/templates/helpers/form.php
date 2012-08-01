@@ -39,25 +39,6 @@ class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
         return $html;
     }
 
-    public function action($config = array())
-    {
-        $config = new KConfig($config);
-
-        $article = $config->row;
-
-        $url = '';
-
-        if (!$article->isNew())
-        {
-            $route = $this->getService('com://site/articles.helper.route')
-                          ->getArticleRoute($article->id, $article->category_id,$article->section_id);
-
-            $url  = $route.'&layout=form';
-        }
-
-        return $url;
-    }
-
     public function unpublish($config = array())
     {
         $config = new KConfig($config);
