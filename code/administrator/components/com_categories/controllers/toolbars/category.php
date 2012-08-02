@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Categories Toolbar Class
  *
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories   
  */
@@ -30,10 +28,10 @@ class ComCategoriesControllerToolbarCategory extends ComDefaultControllerToolbar
     
     protected function _commandNew(KControllerToolbarCommand $command)
     {
-        $option  = $this->getController()->getIdentifier()->package;
-		$view	 = KInflector::singularize($this->getIdentifier()->name);
-		$section = $this->getController()->getModel()->get('section');
+        $option = $this->getController()->getIdentifier()->package;
+		$view	= KInflector::singularize($this->getIdentifier()->name);
+		$table  = $this->getController()->getModel()->get('table');
 		
-        $command->attribs->href = JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&section='.$section ); 
+        $command->attribs->href = JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&table='.$table );
     }
 }
