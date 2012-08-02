@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -12,35 +11,11 @@
 /**
  * Categories Html View
  *
- * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
- * @category 	Nooku
+ * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksViewCategoriesHtml extends ComDefaultViewHtml
+class ComWeblinksViewCategoriesHtml extends ComCategoriesViewCategoriesHtml
 {
-	public function display()
-	{
-		$params = JFactory::getApplication()->getParams();
 
-		// Build the image, if set
-		if ($params->get('image') != -1)
-		{
-			if($params->get('image_align') != "") {
-			    $attribs['align'] = $params->get('image_align');
-			}
-			
-			$attribs['hspace'] = 6;
-			$attribs['title']  = JText::_('Web Links');
-
-			$image['src']     = KRequest::base().'/images/stories/'.$params->get('image');
-			$image['attribs'] = $attribs;
-			
-			$this->assign('image', $image);
-		}
-
-		$this->assign('params', $params);
-
-		return parent::display();
-	}
 }
