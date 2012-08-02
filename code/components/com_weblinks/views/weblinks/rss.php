@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,56 +12,41 @@
  * Weblink Rss View
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksViewWeblinksRss extends KViewAbstract
+class ComWeblinksViewWeblinksRss extends KViewRss
 {
-	protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
-			'mimetype'	  => 'application/rss+xml',
-       	));
-
-    	parent::_initialize($config);
-    }
-
 	public function display()
     {
-		$category = $this->getService('com://site/weblinks.model.categories')
-	                     ->id($this->getModel()->getState()->category)
-	                     ->getItem();
-		
-		$weblinks = $this->getModel()->getList();
+        //Get the category
+        $category = $this->getCategory();
 
-		$xml  = '<?xml version="1.0" encoding="utf-8"?>'.PHP_EOL;
-		$xml .= '<rss version="2.0">'.PHP_EOL;
-		$xml .= '<channel>'.PHP_EOL;
-		$xml .= '	<title>'.htmlspecialchars($category->title).'</title>'.PHP_EOL;
-		$xml .= '	<description><![CDATA['.$category->description.']]></description>'.PHP_EOL;
-		$xml .= '	<link>'.KRequest::url().'</link>'.PHP_EOL;
-		$xml .= '	<lastBuildDate>'.date('r').'</lastBuildDate>'.PHP_EOL;
-		$xml .= '	<generator>'.JURI::base().'</generator>'.PHP_EOL;
-		$xml .= '	<language>'.JFactory::getLanguage()->getTag().'</language>'.PHP_EOL;
-
-		foreach($weblinks as $weblink)
-		{
-			$xml .= '	<item>'.PHP_EOL;
-			$xml .= '		<title>'.htmlspecialchars($weblink->title).'</title>'.PHP_EOL;
-			$xml .= '		<link>'.$this->getRoute('view=weblink&category='.$category->id.':'.$category->slug.'&id='.$weblink->id.':'.$weblink->slug).'</link>'.PHP_EOL;
-			$xml .= '		<guid>'.$this->getRoute('view=weblink&category='.$category->id.':'.$category->slug.'&id='.$weblink->id.':'.$weblink->slug).'</guid>'.PHP_EOL;
-			$xml .= '		<description><![CDATA['.htmlspecialchars($weblink->description).']]></description>'.PHP_EOL;
-			$xml .= '		<category>'.$category->title.'</category>'.PHP_EOL;
-			$xml .= '		<pubDate>'.date('r',strtotime($weblink->date)).'</pubDate>'.PHP_EOL;
-			$xml .= '	</item>'.PHP_EOL;
-		}
-
-		$xml .= '</channel>'.PHP_EOL;
-		$xml .= '</rss>';
-
-    	$this->output = $xml;
-
+        $this->assign('category'  , $category);
     	return parent::display();
+    }
+
+    public function getCategory()
+    {
+        //Get the category
+        $category = $this->getService('com://site/weblinks.model.categories')
+                         ->table('weblinks')
+                         ->id($this->getModel()->getState()->category)
+                         ->getItem();
+
+        //Set the category image
+        if (isset( $category->image ) && !empty($category->image))
+        {
+            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $size = getimagesize($path);
+
+            $category->image = (object) array(
+                'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
+                'width'  => $size[0],
+                'height' => $size[1]
+            );
+        }
+
+        return $category;
     }
 }
