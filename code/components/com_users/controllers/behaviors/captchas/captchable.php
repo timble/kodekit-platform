@@ -20,8 +20,10 @@
 
 class ComUsersControllerBehaviorCaptchaCaptchable extends ComUsersControllerBehaviorCaptchable
 {
-    protected function _actionPost(KCommandContext $context) {
-        if ($this->captchaValid($context->data)) {
+    protected function _actionPost(KCommandContext $context)
+    {
+        if ($this->captchaValid($context->data))
+        {
             // Get the user data.
             $data = KRequest::get('session.com.users.controller.user.data', 'raw', null);
             if (is_null($data)) {
