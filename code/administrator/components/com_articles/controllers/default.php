@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,7 +12,6 @@
  * Articles Controller Default Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
