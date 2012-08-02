@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,56 +12,41 @@
  * Contacts Rss View
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsViewContactsRss extends KViewAbstract
+class ComContactsViewContactsRss extends KViewRss
 {
-	protected function _initialize(KConfig $config)
+    public function display()
     {
-    	$config->append(array(
-			'mimetype'	  => 'application/rss+xml',
-       	));
+        //Get the category
+        $category = $this->getCategory();
 
-    	parent::_initialize($config);
+        $this->assign('category'  , $category);
+        return parent::display();
     }
 
-	public function display()
+    public function getCategory()
     {
-		$category = $this->getService('com://site/contacts.model.categories')
-	                     ->id($this->getModel()->getState()->category)
-	                     ->getItem();
-		
-		$contacts = $this->getModel()->getList();
+        //Get the category
+        $category = $this->getService('com://site/contacts.model.categories')
+                         ->table('contacts')
+                         ->id($this->getModel()->getState()->category)
+                         ->getItem();
 
-		$xml  = '<?xml version="1.0" encoding="utf-8"?>'.PHP_EOL;
-		$xml .= '<rss version="2.0">'.PHP_EOL;
-		$xml .= '<channel>'.PHP_EOL;
-		$xml .= '	<title>'.htmlspecialchars($category->title).'</title>'.PHP_EOL;
-		$xml .= '	<description><![CDATA['.$category->description.']]></description>'.PHP_EOL;
-		$xml .= '	<link>'.KRequest::url().'</link>'.PHP_EOL;
-		$xml .= '	<lastBuildDate>'.date('r').'</lastBuildDate>'.PHP_EOL;
-		$xml .= '	<generator>'.JURI::base().'</generator>'.PHP_EOL;
-		$xml .= '	<language>'.JFactory::getLanguage()->getTag().'</language>'.PHP_EOL;
+        //Set the category image
+        if (isset( $category->image ) && !empty($category->image))
+        {
+            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $size = getimagesize($path);
 
-		foreach($contacts as $contact)
-		{
-			$xml .= '	<item>'.PHP_EOL;
-			$xml .= '		<title>'.htmlspecialchars($contact->title).'</title>'.PHP_EOL;
-			$xml .= '		<link>'.$this->getRoute('view=weblink&category='.$category->id.':'.$category->slug.'&id='.$contact->id.':'.$contact->slug).'</link>'.PHP_EOL;
-			$xml .= '		<guid>'.$this->getRoute('view=weblink&category='.$category->id.':'.$category->slug.'&id='.$contact->id.':'.$contact->slug).'</guid>'.PHP_EOL;
-			$xml .= '		<description><![CDATA['.htmlspecialchars($contact->description).']]></description>'.PHP_EOL;
-			$xml .= '		<category>'.$category->title.'</category>'.PHP_EOL;
-			$xml .= '		<pubDate>'.date('r',strtotime($contact->date)).'</pubDate>'.PHP_EOL;
-			$xml .= '	</item>'.PHP_EOL;
-		}
+            $category->image = (object) array(
+                'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
+                'width'  => $size[0],
+                'height' => $size[1]
+            );
+        }
 
-		$xml .= '</channel>'.PHP_EOL;
-		$xml .= '</rss>';
-
-    	$this->output = $xml;
-
-    	return parent::display();
+        return $category;
     }
 }
