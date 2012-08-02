@@ -23,7 +23,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 </module>
 
 <form action="" method="get" class="-koowa-grid">
-    <?= @template('com://admin/articles.view.sections.default_scopebar'); ?>
+    <?= @template('default_scopebar'); ?>
 	<table>
 	<thead>
 		<tr>
@@ -58,7 +58,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<?= @helper('grid.checkbox', array('row' => $weblink))?>
 			</td>
 			<td>
-				<a href="<?= @route( 'view=weblink&task=edit&id='. $weblink->id ); ?>"><?= @escape($weblink->title); ?></a>
+				<a href="<?= @route( 'view=weblink&id='. $weblink->id ); ?>"><?= @escape($weblink->title); ?></a>
 			</td>
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $weblink)) ?>
