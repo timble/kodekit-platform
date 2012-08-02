@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -25,9 +24,6 @@ defined('KOOWA') or die('Restricted access') ?>
 					<?= @helper('grid.sort', array('title' => 'Access', 'column' => 'access')) ?>
 				</th>
 				<th class="title" width="15%" nowrap="nowrap">
-					<?= @helper('grid.sort', array('title' => 'Section', 'column' => 'section_title')) ?>
-				</th>
-				<th class="title" width="15%" nowrap="nowrap">
 					<?= @helper('grid.sort', array('title' => 'Category', 'column' => 'category_title')) ?>
 				</th>
 				<th align="center" width="10">
@@ -39,9 +35,6 @@ defined('KOOWA') or die('Restricted access') ?>
 				    <?= @helper('grid.search') ?>
 				</td>
 				<td></td>
-				<td>
-					<?= @helper('listbox.sections', array('selected' => $state->section, 'attribs' => array('id' => 'articles-form-section'))) ?>
-				</td>
 				<td>
 					<?= @helper('listbox.categories', array('selected' => $state->category, 'attribs' => array('id' => 'articles-form-category'))) ?>
 				</td>
@@ -64,10 +57,8 @@ defined('KOOWA') or die('Restricted access') ?>
 					</a>
 				</td>
 				<td align="center">
-				    <?= $article->group_name ?></td>
-				<td>
-					<?= $article->section_id ? $article->section_title : @text('Uncategorised') ?>
-				</td>
+				    <?= $article->group_name ?>
+                </td>
 				<td>
 					<?= $article->category_id ? $article->category_title : @text('Uncategorised') ?>
 				</td>
