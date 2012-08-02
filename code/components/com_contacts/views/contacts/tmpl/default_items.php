@@ -1,7 +1,6 @@
 <?
 /**
  * @version		$Id: default_items.php 3537 2012-04-02 17:56:59Z johanjanssens $
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -14,7 +13,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <? foreach( $contacts as $contact ) : ?>
 <tr>
     <td height="20">
-		<a href="<?= @route('view=contact&category='.$category->id.':'.$category->slug.'&id='. $contact->id.':'.$contact->slug);?>" class="category<?= @escape($params->get('pageclass_sfx'));?> ">
+		<a href="<?= @helper('route.contact', array('row' => $contact)) ?>" class="category<?= @escape($params->get('pageclass_sfx'));?> ">
 		    <?= $contact->name; ?>
 		</a>
 	</td>    
