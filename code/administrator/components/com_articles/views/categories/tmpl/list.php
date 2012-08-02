@@ -1,7 +1,6 @@
 <?php 
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -11,26 +10,26 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <ul class="scrollable">
-	<li class="<?= !is_numeric($state->section) && !is_numeric($state->category) ? 'active' : ''; ?>">
-		<a href="<?= @route('section=&category=' ) ?>">
+	<li class="<?= !is_numeric($state->category) ? 'active' : ''; ?>">
+		<a href="<?= @route('category=' ) ?>">
 		    <?= @text('All articles')?>
 		</a>
 	</li>
-	<li class="<?= $state->category == '0' && $state->category == '0' ? 'active' : ''; ?>">
-		<a href="<?= @route('section=0&category=0' ) ?>">
+	<li class="<?= $state->category == '0' ? 'active' : ''; ?>">
+		<a href="<?= @route('&category=0' ) ?>">
 			<?= @text('Uncategorised') ?>
 		</a>
 	</li>
 	<? foreach($categories as $category) : ?>
-	<li class="<?= $state->section == $category->id ? 'active' : ''; ?>">
-		<a href="<?= @route('section='.$category->id.'&category=' ) ?>">
+	<li class="<?= $state->category == $category->id ? 'active' : ''; ?>">
+		<a href="<?= @route('category='.$category->id ) ?>">
 			<?= @escape($category->title) ?>
 		</a>
 		<? if($category->hasChildren()) : ?>
 		<ul>
 			<? foreach($category->getChildren() as $child) : ?>
 			<li class="<?= $state->category == $child->id ? 'active' : ''; ?>">
-				<a href="<?= @route('section=&category='.$child->id ) ?>">
+				<a href="<?= @route('category='.$child->id ) ?>">
 					<?= $child->title; ?>
 				</a>
 			</li>
