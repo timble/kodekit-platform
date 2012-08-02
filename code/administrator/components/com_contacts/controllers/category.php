@@ -19,9 +19,5 @@
  */
 class ComContactsControllerCategory extends ComCategoriesControllerCategory
 {    
-	public function getRequest()
-	{
-		$this->_request['section'] = 'com_contacts_contacts';
-	    return $this->_request;
-	}
+
 }
