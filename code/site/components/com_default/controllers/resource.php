@@ -34,21 +34,4 @@ class ComDefaultControllerResource extends KControllerResource
 
         return parent::_actionGet($context);
     }
-
-	/**
-     * Set a request property
-     *
-     *  This function translates 'limitstart' to 'offset' for compatibility with Joomla
-     *
-     * @param  	string 	The property name.
-     * @param 	mixed 	The property value.
-     */
- 	public function __set($property, $value)
-    {
-        if($property == 'limitstart') {
-            $property = 'offset';
-        }
-
-        parent::__set($property, $value);
-  	}
 }
