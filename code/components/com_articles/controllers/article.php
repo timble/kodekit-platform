@@ -17,18 +17,9 @@
  */
 class ComArticlesControllerArticle extends ComArticlesControllerDefault
 {
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->registerCallback(array('after.read', 'after.browse'), array($this, 'setAcls'));
-        $this->registerCallback('before.add', array($this, 'filterInput'));
-    }
-
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'behaviors' => array('com://site/articles.controller.behavior.article.executable'),
             'toolbars'  => array('article'))
         );
 
@@ -37,7 +28,7 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
 
     public function setRequest(array $request)
     {
-        $view   = isset($request['view'])?$request['view']:null;
+        $view = isset($request['view']) ? $request['view'] : null;
 
         if ($view && KInflector::isPlural($view))
         {
@@ -60,37 +51,23 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
 
             // Allow editors (and above) to view unpublished items on lists.
             if (!$this->canEdit()) {
-                // Only return published items.
                 $request['state'] = 1;
             }
+
+            //Always show child category articles
+            $request['category_recurse'] = true;
         }
 
         return parent::setRequest($request);
     }
 
-    public function filterInput(KCommandContext $context)
+    protected function _actionAdd(KCommandContext $context)
     {
-        if (!$this->canEdit())
-        {
-            // Force some default values.
-            $data        = $context->data;
-            $data->state = 0;
+        //Force article to unpublished if you cannot edit
+        if (!$this->canEdit()) {
+            $context->data->state = 0;
         }
-    }
 
-    public function setAcls(KCommandContext $context)
-    {
-        if (KInflector::isPlural($this->getView()->getName()))
-        {
-            $data = $this->getModel()->getList();
-            foreach ($data as $row) {
-                $row->editable = $this->canEdit();
-            }
-        }
-        else
-        {
-            $data           = $this->getModel()->getItem();
-            $data->editable = $this->canEdit();
-        }
+        return parent::_actionAdd($context);
     }
 }
