@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,13 +12,36 @@
  * Article Database Row Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
 
 class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 {
+    /**
+     * Get the author
+     *
+     * Returns the author alias if any. Otherwise the created_by col is translated to user's name.
+     *
+     * @return null|string Null is row is new, author alias/name otherwise.
+     */
+    public function getAuthor()
+    {
+        $result = null;
+
+        if (!$this->isNew())
+        {
+            if (!$this->created_by_alias)
+            {
+                $user = JFactory::getUser($this->created_by);
+                $result = $user->name;
+            }
+            else $this->created_by_alias;
+        }
+
+        return $result;
+    }
+
     public function __get($column)
     {
         if($column == 'params' && !($this->_data['params']) instanceof JParameter)
@@ -41,19 +63,6 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
     public function save()
     {
-        //Set the section_id based on the category_id
-        if(isset($this->_modified['category_id']))
-        {
-            if($this->category_id != 0)
-            {
-                $this->_data['section_id'] = $this->getService('com://admin/categories.model.categories')
-                    ->set('id', $this->category_id)
-                    ->getItem()->section_id;
-
-            }
-            else $this->_data['section_id'] = 0;
-        }
-
         //Set the introtext and the full text
         $text    = str_replace('<br>', '<br />', $this->text);
         $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
@@ -124,44 +133,5 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
         $data['params'] = $this->params->toArray();
         return $data;
-    }
-
-    /**
-     * Author getter.
-     *
-     * Returns the author alias if any. Otherwise the created_by col is translated to user's name.
-     *
-     * @return null|string Null is row is new, author alias/name otherwise.
-     */
-    public function getAuthor() {
-        $result = null;
-
-        if (!$this->isNew()) {
-            if ($alias = $this->created_by_alias) {
-                $result = $alias;
-            } else {
-                $user = JFactory::getUser($this->created_by);
-                $result = $user->name;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Category getter.
-     *
-     * @return ComArticlesDatabaseRowCategory|null The category row attached to this article, null if row is new.
-     */
-    public function getCategory() {
-
-        $category = null;
-
-        if (!$this->isNew()) {
-            $category = $this->getService('com://admin/articles.model.categories')->set('id', $this->category_id)
-                ->getItem();
-        }
-
-        return $category;
     }
 }
