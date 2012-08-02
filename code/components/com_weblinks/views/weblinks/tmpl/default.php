@@ -1,7 +1,6 @@
 <?
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -22,7 +21,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <div class="clearfix">
 <? if ( $category->image || $category->description ) : ?>
 	<? if (isset($category->image)) : ?>
-		<img src="<?= $category->image['src'] ?>" <? foreach ($category->image['attribs'] as $attrib => $value) : echo $attrib.'="'.$value.'" '; endforeach ?>/>
+		<img src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
 	<? endif; ?>
 	<?= $category->description; ?>
 <? endif; ?>
