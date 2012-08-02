@@ -1,7 +1,6 @@
 <?php
 /**
  * @version    	$Id$
- * @category	Nooku
  * @package    	Nooku_Server
  * @subpackage 	Categories
  * @copyright  	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -12,46 +11,24 @@
 /**
  * Categories Model Class
  *
- * @author		John Bell <http://nooku.assembla.com/profile/johnbell>
- * @category	Nooku
+ * @author		Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package		Nooku_Server
  * @subpackage	Categories
  */
 class ComCategoriesModelCategories extends ComDefaultModelDefault
 {
-    protected $child_id;
-
     public function __construct(KConfig $config)
 	{
         parent::__construct($config);
 
         // Set the state
         $this->getState()
-            ->insert('section'   , 'string')
+            ->insert('table'     , 'string', $this->getIdentifier()->package)
             ->insert('parent'    , 'string')
             ->insert('published' , 'boolean')
-            ->insert('distinct'  , 'string');
-
+            ->insert('distinct'  , 'string')
+            ->insert('access'    , 'int', JFactory::getUser()->get('aid', '0'));
     }
-
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
-    {
-        parent::_buildQueryColumns($query);
-        $state = $this->getState();
-        
-        if ($state->section) 
-        {
-            if ( $state->section == 'com_articles' || is_numeric($state->section))
-            {
-                $query->columns(array(
-                	'section_title' => 'section.title',
-                    'activecount' => 'SUM(IF(content.state <> -2, 1, 0))',
-                ));
-            } 
-            else $query->columns(array('activecount' => 'SUM(IF(child.catid, 1, 0))'));
-        }
-    }
-
 
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
@@ -60,20 +37,21 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         //Exclude joins if counting records
         if(!$query->isCountQuery())
         {
-            if ($state->section) 
+            if ($state->table)
             {
-                if ($state->section == 'com_articles' || is_numeric($state->section))
-                {
-                    $query->join(array('content' => 'articles_articles'), 'content.catid = tbl.id');
-                    $query->join(array('section' => 'articles_sections'), 'section.articles_section_id = tbl.section');
-                } 
-                else $query->join(array('child' => substr($state->section, 4)), 'child.catid = tbl.id');
+                $query->columns(array('count'));
+
+                $subquery = $this->getService('koowa:database.query.select')
+                                 ->columns(array('categories_category_id', 'count' => 'COUNT(categories_category_id)'))
+                                 ->table($state->table)
+                                 ->group('categories_category_id');
+
+                $query->join(array('content' => $subquery), 'content.categories_category_id = tbl.categories_category_id');
             }
         }
 
         parent::_buildQueryJoins($query);
     }
-
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
@@ -83,23 +61,28 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             $query->where('tbl.title LIKE %:search%')->bind(array('search' => $state->search));
         }
 
-        //select overall section
-        if ($state->section)
-        {
-            if( $state->section == 'com_articles' ) {
-                $query->where('tbl.section NOT LIKE :section')->bind(array('section' => 'com%'));
-            } else {
-                $query->where('tbl.section '.(is_array($state->section) ? 'IN' : '=').' :section')->bind(array('section' => $state->section));
-            }
+        if ($state->table) {
+            $query->where('tbl.table '.(is_array($state->table) ? 'IN' : '=').' :table')->bind(array('table' => $state->table));
         }
 
-        //select parent section within com_articles
         if ($state->parent) {
-            $query->where('tbl.section '.(is_array($state->section) ? 'IN' : '=').' :parent')->bind(array('parent' => $state->parent));
+            $query->where('tbl.parent_id '.(is_array($state->parent) ? 'IN' : '=').' :parent')->bind(array('parent' => $state->parent));
         }
 
-        if (is_bool($state->published)) {
-            $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
+        if (is_bool($state->published))
+        {
+            $query->where('tbl.published = :published');
+
+            if ($state->table) {
+                //@TODO : com_articles doesn't have a published column need to fix this
+                //$query->where('content.published = :published');
+            }
+
+            $query->bind(array('published' => (int) $state->published));
+        }
+
+        if (is_integer($state->access)) {
+            $query->where('tbl.access <= :access')->bind(array('access' => (int) $state->access));
         }
 
         parent::_buildQueryWhere($query);
@@ -113,27 +96,6 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             $query->distinct();
             $query->group($state->distinct);
         } 
-        else $query->group('tbl.id');
-    }
-
-    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
-    {
-        $state = $this->getState();
-        
-        $sort = $state->sort;
-        $direction  = strtoupper($state->direction);
-
-	    if ( $sort) {
-            $query->order($this->getTable()->mapColumns($sort), $direction);
-        }
-
-        if (empty($sort))
-        {
-            if ($state->section == 'com_articles'){
-                $query->order('section.ordering','ASC');
-            }
-        }
-
-	    $query->order('ordering', 'ASC');
+        else $query->group('tbl.categories_category_id');
     }
 }
