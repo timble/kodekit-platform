@@ -81,5 +81,5 @@ class JConfig
 	var $feed_limit   = 10;
 
 	/* Template Settings */
-	vr $template = 'bootstrap';
+	var $template = 'bootstrap';
 }
