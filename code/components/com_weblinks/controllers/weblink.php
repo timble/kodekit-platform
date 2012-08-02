@@ -1,7 +1,6 @@
  <?php
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,7 +12,6 @@
  * Weblink Controller Class
  *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
- * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
@@ -21,8 +19,8 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
 {
     public function getRequest()
 	{
-		//Display only enabled items
-		$this->_request->enabled = 1;
+		//Display only published items
+		$this->_request->published = 1;
 		
 		return parent::getRequest();
 	}
