@@ -23,7 +23,7 @@ defined('KOOWA') or die('Restricted access') ?>
 </module>
 
 <form action="" method="get"  class="-koowa-grid">
-<?= @template('com://admin/articles.view.sections.default_scopebar'); ?>
+<?= @template('default_scopebar'); ?>
 <table>
 	<thead>
 		<tr>
