@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * @version		$Id$
  * @package     Koowa_Database
@@ -89,7 +89,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         {
             foreach ($this->getColumns(true) as $column)
             {
-                if($column->autoinc) {
+                //Find auto increment columns or none-composite primary columns
+                if($column->autoinc || ($column->primary && empty($column->related))) {
                     $this->_identity_column = $column->name;
                     break;
                 }
