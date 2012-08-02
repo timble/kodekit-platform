@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default_filter.php 3475 2012-03-17 18:16:38Z tomjanssens $
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
