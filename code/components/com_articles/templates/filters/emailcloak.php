@@ -193,7 +193,7 @@ class ComArticlesTemplateFilterEmailcloak extends KTemplateFilterAbstract implem
     protected function _encode($text)
     {
         $search  = array('a', 'e', 'i', 'o', 'u');
-        $replace = array('&#97;', '&#101;', '&#105;', '&#111;', '&#117;')
+        $replace = array('&#97;', '&#101;', '&#105;', '&#111;', '&#117;');
 
         // Replace with HTML entities.
         return str_replace($search, $replace, $text);
