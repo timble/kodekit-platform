@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -10,10 +9,9 @@
  */
 
 /**
- * Orderable Database Behavior Class
+ * Revisable Database Behavior Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
@@ -38,7 +36,7 @@ class ComArticlesDatabaseBehaviorRevisable extends ComVersionsDatabaseBehaviorRe
         // Filter by category id if set in the query.
         foreach ($query->where as $where) 
         {
-            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.catid\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches)) 
+            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.categories_category_id\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches))
             {
                 if (is_numeric($matches[1])) 
                 {
@@ -52,25 +50,7 @@ class ComArticlesDatabaseBehaviorRevisable extends ComVersionsDatabaseBehaviorRe
                 }
             }
         }
-        
-        // Filter by section id if set in the query.
-        foreach ($query->where as $where) 
-        {
-            if (is_string($where['condition']) && preg_match('/(?:^|AND\s+)tbl\.articles_section_id\s*=\s*(\d+|:[a-z_]+)/', $where['condition'], $matches))
-            {
-                if (is_numeric($matches[1])) 
-                {
-                    $needle['section_id'] = (int) $matches[1];
-                    break;
-                } 
-                elseif (isset($query->params[substr($matches[1], 1)])) 
-                {
-                    $needle['section_id'] = (int) $query->params[substr($matches[1], 1)];
-                    break;
-                }
-            }
-        }
-        
+
         if($needle) {
             $result = $result->find($needle);
         }
