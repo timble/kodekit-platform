@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Listbox Template Helper
  *
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories    
  */
@@ -53,4 +51,41 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         )); 
         return $list;
      }
+
+    public function categories($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+            'name'      => 'category',
+            'deselect'  => true,
+            'selected'  => $config->category,
+            'prompt'	=> '- Select -',
+            'table'     => '',
+            'max_depth' => 9,
+        ));
+
+        if($config->deselect) {
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
+        }
+
+        $list = $this->getService('com://admin/categories.model.categories')
+                     ->set('table', $config->table)
+                     ->set('sort', 'title')
+                     ->getList();
+
+        $iterator = new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST);
+        foreach($iterator as $item)
+        {
+            if($iterator->getDepth() > $config->max_depth) {
+                break;
+            }
+
+            $title =  substr('---------', 0, $iterator->getDepth()).$item->title;
+            $options[] = $this->option(array('text' => $title, 'value' => $item->id));
+        }
+
+        $config->options = $options;
+
+        return $this->optionlist($config);
+    }
 }
