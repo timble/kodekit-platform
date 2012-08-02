@@ -46,7 +46,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     }
 
     protected function _initialize(KConfig $config) {
-        $config->append(array('table'=> 'articles_articles', 'identity_column' => 'articles_article_id'));
+        $config->append(array('table'=> 'articles', 'identity_column' => 'articles_article_id'));
         parent::_initialize($config);
     }
 
