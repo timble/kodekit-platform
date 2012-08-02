@@ -8,9 +8,9 @@
 	<state>
 		<name>Contacts Category Layout</name>
 		<description>CONTACT CATEGORY LAYOUT DESC</description>
-		<url addpath="/administrator/components/com_contact/elements">
-			<param name="catid" type="category" scope="com_contact_contacts" default="0" label="Select Category" description="A contacts category" />
-		</url>
+        <url addpath="/administrator/components/com_categories/elements">
+            <param name="category" type="category" table="contacts" default="0" label="Category" description="PARAMCATSELECT" />
+        </url>
 		<params>
 			<param name="@spacer" type="spacer" default="" label="" description="" />
 			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
