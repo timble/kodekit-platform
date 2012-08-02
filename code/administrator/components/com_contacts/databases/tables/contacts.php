@@ -22,9 +22,8 @@ class ComContactsDatabaseTableContacts extends KDatabaseTableDefault
 {
 	public function _initialize(KConfig $config)
 	{
-		$config->identity_column = 'id';
-	
         $config->append(array(
+            'name' => 'contacts',
             'behaviors' => array(
             	'orderable', 'lockable', 
                 'sluggable' => array('columns' => array('name'))
@@ -34,7 +33,6 @@ class ComContactsDatabaseTableContacts extends KDatabaseTableDefault
 				'locked_on' => 'checked_out_time',
 				'locked_by'	=> 'checked_out',
 				'slug'		=> 'alias',
-                'category'  => 'catid',
             ),
              'filters' => array(
                 'params'    => 'ini'
