@@ -89,7 +89,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         {
             foreach ($this->getColumns(true) as $column)
             {
-                //Find auto increment columns or none-composite primary columns
+                //Find auto increment or none-composite primary column
                 if($column->autoinc || ($column->primary && empty($column->related))) {
                     $this->_identity_column = $column->name;
                     break;
