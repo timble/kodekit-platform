@@ -1,7 +1,6 @@
 <?php
 /**
 * @version		$Id: html.php 3541 2012-04-02 18:24:42Z johanjanssens $
-* @category		Nooku
 * @package     	Nooku_Server
 * @subpackage  	Contacts
 * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,7 +12,6 @@
  * Contact Html View
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
@@ -26,37 +24,60 @@ class ComContactsViewContactHtml extends ComDefaultViewHtml
         
         //Get the contact
         $contact = $this->getModel()->getData();
-        
+
         //Get the category
-        $category = $this->getService('com://site/contacts.model.contacts')
-                        ->id($this->getModel()->getState()->category)
-                        ->getItem();
+        $category = $this->getCategory();
 
-        // Set the page title
-        $menu = JFactory::getApplication()->getMenu()->getActive();
-
-        if (is_object( $menu ))
+        //Get the parameters of the active menu item
+        if ($page = JFactory::getApplication()->getMenu()->getActive())
         {
-            $menu_params = new JParameter( $menu->params );
+            $menu_params = new JParameter( $page->params );
             if (!$menu_params->get( 'page_title')) {
-                $params->set('page_title',	$category->title);
+                $params->set('page_title',	$contact->name);
             }
         }
-        else $params->set('page_title',	$category->title);
+        else $params->set('page_title',	$contact->name);
 
+        //Set the page title
         JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the breadcrumbs
-        $pathway  = JFactory::getApplication()->getPathway();
+        $pathway = JFactory::getApplication()->getPathway();
 
-        $view = JRequest::getString('view');
-        if ( $view == 'categories' ) {
-            $pathway->addItem($contact->category, 'index.php?view=category&id='.$contact->catslug);
+        if($page->query['view'] == 'categories' ) {
+            $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
+            $pathway->addItem($contact->name, '');
         }
 
-        $pathway->addItem($contact->title, '');
+        if($page->query['view'] == 'contacts' ) {
+            $pathway->addItem($contact->name, '');
+        }
 
         $this->assign('params', $params);
         return parent::display();
+    }
+
+    public function getCategory()
+    {
+        //Get the category
+        $category = $this->getService('com://site/contacts.model.categories')
+                         ->table('contacts')
+                         ->id($this->getModel()->getState()->category)
+                         ->getItem();
+
+        //Set the category image
+        if (isset( $category->image ) && !empty($category->image))
+        {
+            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $size = getimagesize($path);
+
+            $category->image = (object) array(
+                'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
+                'width'  => $size[0],
+                'height' => $size[1]
+            );
+        }
+
+        return $category;
     }
 }
