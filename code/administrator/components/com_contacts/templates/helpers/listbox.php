@@ -32,18 +32,4 @@ class ComContactsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
 		return parent::_listbox($config);
 	}
-	
-    public function category( $config = array())
-	{
-		$config = new KConfig($config);
-		$config->append(array(
-			'identifier'  => 'com://admin/categories.model.categories',
-			'name' 		=> 'category',
-			'value'		=> 'id',
-			'text'		=> 'title',
-			'filter'    => array('section' => 'com_contact')
-		));
-
-		return parent::_listbox($config);
-	}
 }
