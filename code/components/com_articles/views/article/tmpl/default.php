@@ -7,14 +7,38 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link           http://www.nooku.org
  */
-defined('KOOWA') or die('Restricted access');
-?>
 
+defined('KOOWA') or die('Restricted access'); ?>
 
 <style src="media://com_articles/css/site.css"/>
 
-<? echo @helper('com://site/articles.template.helper.article.edit', array('row' => $article)); ?>
+<? if ($article->editable) : ?>
+<div class="edit-article">
+    <a href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
+        <?= @text('Edit') ?>
+     </a>
+    </div>
+<? endif; ?>
+
 <div class="clear_both"></div>
-<? echo @helper('com://site/articles.template.helper.article.render', array(
-    'row'       => $article,
-    'show_more' => false, 'linkable' => false)); ?>
+
+<article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
+
+    <h1><?= $article->title ?></h1>
+
+    <p class="timestamp">
+        <?= @helper('date.timestamp', array('row' => $article)); ?>
+    </p>
+
+    <? if ($article->fulltext && $params->get('show_readmore')) : ?>
+
+        <?= $article->introtext; ?>
+        <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
+
+    <? else : ?>
+
+        <?= $article->introtext . $article->fulltext ?>
+
+    <? endif; ?>
+
+</article>
