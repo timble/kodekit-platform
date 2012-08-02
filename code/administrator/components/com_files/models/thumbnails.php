@@ -28,7 +28,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 			->insert('files'     , 'com://admin/files.filter.path', null)
 			->insert('source'    , 'raw', null, true)
 		    ->insert('types'     , 'cmd', '')
-		    ->insert('config'    , 'json', '')
+		    ->insert('config'    , 'json', '');
 	}
 	
 	protected function _initialize(KConfig $config)
