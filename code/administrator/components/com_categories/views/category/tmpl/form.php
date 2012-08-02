@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Categories
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -43,14 +42,9 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 				        <?= @helper('image.listbox', array('name' => 'image')); ?>
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="image_position"><?= @text( 'Image Position' ); ?></label>
-				    <div class="controls">
-				        <?=  @helper('image.position'); ?>
-				    </div>
-				</div>
 			</fieldset>
 		</div>
+
 	</div>
 
     <div class="sidebar">
@@ -62,24 +56,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
     		    </div>
     		</div>
-    		<? $section = $category->id ? $category->section_id : $state->section ?>
-    		<? if(substr($section, 0, 3) != 'com' || $section =='com_articles') : ?>
-    		<div class="control-group">
-    		    <label class="control-label" for="section_id"><?= @text('Section') ?></label>
-    		    <div class="controls">
-    		        <input type="hidden" name="old_parent" value="<?= $category->section_id ?>" />
-    		        <?= @helper('listbox.sections', array(
-    		        	'name' => 'section_id', 
-    		        	'selected' => $category->section_id, 
-    		        	'attribs' => array('id' => 'section_id', 'class' => 'required'),
-    		        	'deselect' => false,
-    		        	'uncategorised' => false
-    		        )) ?>
-    		    </div>
-    		</div>
-    		<? else : ?>
-    		    <input type="hidden" name="section_id" value="<?= $section ?>" />
-    		<? endif ?>
     		<div class="control-group">
     		    <label class="control-label" for="access"><?= @text('Access Level') ?></label>
     		    <div class="controls">
@@ -87,5 +63,17 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     		    </div>
     		</div>
     	</fieldset>
+        <fieldset class="categories group">
+            <legend><?= @text('Parent') ?></legend>
+            <div class="control-group">
+                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
+                'name'      => 'category_id',
+                'selected'  => $category->parent_id,
+                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
+                'prompt'    => '- None -',
+                'max_depth' => 1
+            )) ?>
+            </div>
+        </fieldset>
     </div>
 </form>
