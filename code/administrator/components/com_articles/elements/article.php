@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,30 +12,22 @@
  * Article Element Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
 
 class JElementArticle extends JElement
 {
-    /**
-     * Element name
-     *
-     * @access  protected
-     * @var     string
-     */
     var $_name = 'Article';
 
     function fetchElement($name, $value, &$node, $control_name)
     {
-        global $mainframe;
+        $db         = JFactory::getDBO();
+        $doc        = JFactory::getDocument();
+        $template   = JFactory::getApplication()->getTemplate();
 
-        $db         =& JFactory::getDBO();
-        $doc        =& JFactory::getDocument();
-        $template   = $mainframe->getTemplate();
         $fieldName  = $control_name.'['.$name.']';
-        $article =& JTable::getInstance('content');
+        $article    = JTable::getInstance('content');
         if ($value) {
             $article->load($value);
         } else {
