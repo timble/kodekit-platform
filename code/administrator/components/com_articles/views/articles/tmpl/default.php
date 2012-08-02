@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -37,9 +36,6 @@ defined('KOOWA') or die('Restricted access') ?>
                 </th>
                 <th width="20">
                     <?= @helper('grid.sort', array('column' => 'state', 'title' => 'Published')) ?>
-                </th>
-                <th width="10%">
-                    <?= @helper('grid.sort', array('column' => 'section_title', 'title' => 'Section')) ?>
                 </th>
                 <th width="10%">
                     <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
@@ -90,9 +86,6 @@ defined('KOOWA') or die('Restricted access') ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.state', array('row' => $article, 'option' => 'com_articles', 'view' => 'article')) ?>
-                </td>
-                <td>
-               	    <?= $article->section_title ?> 
                 </td>
                 <td>
                     <?= $article->category_title ?>
