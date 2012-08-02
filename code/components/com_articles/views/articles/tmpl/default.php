@@ -7,15 +7,20 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link           http://www.nooku.org
  */
-defined('KOOWA') or die('Restricted access');
-?>
 
+defined('KOOWA') or die('Restricted access'); ?>
 
-<? echo @template('list'); ?>
+<style src="media://com_articles/css/site.css"/>
 
-<? echo @helper('com://site/articles.template.helper.rss.link'); ?>
+<? if ($params->get('show_feed_link', 1) == 1) : ?>
+<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
+<? endif; ?>
 
-<? echo (count($articles) == $total) ? '' : @helper('paginator.pagination', array(
-    'total'      => $total,
-    'show_limit' => false)); ?>
+<? foreach ($articles as $article): ?>
+    <?= @template('default_item', array('article' => $article)) ?>
+<? endforeach; ?>
+
+<? if(count($articles) != $total) : ?>
+    <?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false)); ?>
+<? endif; ?>
 
