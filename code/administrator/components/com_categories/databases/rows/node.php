@@ -1,9 +1,8 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Articles
+ * @subpackage  Categories
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -13,12 +12,11 @@
  * Node Database Row Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Articles
+ * @subpackage  Categories
  */
 
-class ComArticlesDatabaseRowNode extends KDatabaseRowAbstract
+class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
 {
     /**
      * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
