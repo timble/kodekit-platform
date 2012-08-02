@@ -1,7 +1,6 @@
 <?php 
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Categories
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -27,7 +26,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />
 
-    <?= @template('com://admin/articles.view.sections.default_scopebar'); ?>
+    <?= @template('default_scopebar'); ?>
     <table>
         <thead>
             <tr>
@@ -47,7 +46,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                     <?= @helper('grid.sort',  array('title' => 'Access', 'column' => 'access')   ); ?>
                 </th>
                 <th width="5%">
-                    <?= @helper('grid.sort',  array( 'title' => 'Num Active', 'column' => 'activecount') ); ?>
+                    <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count') ); ?>
                 </th>
             </tr>
         </thead>
@@ -81,7 +80,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
                         <?= @helper( 'grid.access' , array('row' => $category)); ?>
                     </td>
                     <td align="center">
-                        <?= $category->activecount; ?>
+                        <?= $category->count; ?>
                     </td>
             	</tr>
             <? endforeach; ?>
