@@ -1,7 +1,6 @@
 <?php 
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -11,4 +10,4 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <h3><?= @text('Categories')?></h3>
-<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->getFolders())); ?>
+<?= @template('com://admin/articles.view.categories.list', array('categories' => @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getList())); ?>
