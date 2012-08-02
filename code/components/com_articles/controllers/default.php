@@ -39,7 +39,7 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         parent::__construct($config);
     }
 
-    public function setRequest($request)
+    public function setRequest(array $request)
     {
         // Filter rowsets based on current logged user's permissions.
         $request['access'] = JFactory::getUser()->get('aid', 0);
