@@ -42,7 +42,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 	{
 		parent::_buildQueryJoins($query);
 
-		$query->join(array('categories' => 'categories'), 'categories.id = tbl.catid')
+		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
 			  ->join(array('users' => 'users'), 'users.id = tbl.checked_out');
 	}
 	
@@ -60,7 +60,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		}
 		
 	    if ($state->category) {
-			$query->where('tbl.catid = :category')->bind(array('category' => (int) $state->category));
+			$query->where('tbl.categories_category_id = :category')->bind(array('category' => (int) $state->category));
 		}
 	}
 }
