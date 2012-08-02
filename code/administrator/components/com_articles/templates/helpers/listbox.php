@@ -32,72 +32,6 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
 		return parent::_listbox($config);
     }
-    
-    public function sections($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'name'      => 'section',
-            'deselect'  => true,
-            'selected'  => -1,
-            'prompt'	=> '- Select -',
-        	'uncategorised' => true
-        ));
-
-        $list = $this->getService('com://admin/articles.model.sections')
-            ->set('sort', 'title')
-            ->getList();
-            
-        if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
-        }
-
-        if($config->uncategorised) {
-        	$options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));	
-        }
-
-        foreach($list as $item) {
-            $options[] = $this->option(array('text' => $item->title, 'value' => $item->id));
-        }
-
-        $config->options = $options;
-
-        return $this->optionlist($config);
-    }
-
-    public function categories($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'name'      => 'category',
-            'deselect'  => true,
-            'selected'  => $config->category,
-            'prompt'	=> '- Select -'
-        ));
-
-        if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
-        }
-
-        $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
-
-        if($config->section != '0')
-        {
-            $list = $this->getService('com://admin/categories.model.categories')
-                ->set('section', $config->section > 0 ? $config->section : 'com_articles')
-                ->set('sort', 'title')
-                ->getList();
-
-            foreach($list as $item) {
-                $options[] = $this->option(array('text' => $item->title, 'value' => $item->id));
-            }
-        }
-        else $config->selected = 0;
-
-        $config->options = $options;
-
-        return $this->optionlist($config);
-    }
 
     public function states($config = array())
     {
@@ -122,7 +56,8 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         return $this->optionlist($config);
     }
 
-    public function ordering($config = array()) {
+    public function ordering($config = array())
+    {
         $config = new KConfig($config);
 
         if (!$config->row instanceof ComArticlesDatabaseRowArticle) {
@@ -140,10 +75,11 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                 'category'  => $article->category_id)));
 
         $list = $this->getService('com://admin/articles.model.articles')
-            ->set($config->filter)
-            ->getList();
+                     ->set($config->filter)
+                     ->getList();
 
-        foreach ($list as $item) {
+        foreach ($list as $item)
+        {
             $options[] = $this->option(array(
                 'text'  => '( ' . $item->ordering . ' ) ' . $item->title,
                 'value' => ($item->ordering - $article->ordering)));
