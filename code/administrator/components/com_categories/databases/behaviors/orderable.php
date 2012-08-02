@@ -1,24 +1,24 @@
 <?php
 /**
  * @version      $Id$
- * @category	  Nooku
  * @package      Nooku_Server
  * @subpackage   Categories
  * @copyright    Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link          http://www.nooku.org
+ * @link         http://www.nooku.org
  */
 
 /**
  * Orderable Database Behavior Class
  *
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
- * @category	 Nooku
  * @package     Nooku_Server
  * @subpackage  Categories    
  */
 class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
 {
+    protected $_table;
+
     protected $_parent;
 
     /**
@@ -28,8 +28,6 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected $_parent_column;
 
-    protected $_table;
-    
     public function __construct( KConfig $config = null)
     {
         $config->append(array('parent_column' => null));
@@ -113,12 +111,12 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
                 $parent_column = $table->mapColumns($parent_column);
 
                 $subquery = $this->getService('koowa:database.query.select')
-                    ->columns(array($parent_column, 'order_total' => 'COUNT(ordering)'))
-                    ->table($table->getBase())
-                    ->group($parent_column);
+                                 ->columns(array($parent_column, 'order_total' => 'COUNT(ordering)'))
+                                 ->table($table->getBase())
+                                 ->group($parent_column);
                 
                 $query->columns('orderable.order_total')
-                    ->join(array('orderable' => $subquery), 'orderable.'.$parent_column.' = tbl.'.$parent_column);
+                      ->join(array('orderable' => $subquery), 'orderable.'.$parent_column.' = tbl.'.$parent_column);
             }
         }
     }  
