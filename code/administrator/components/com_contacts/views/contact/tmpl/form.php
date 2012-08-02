@@ -123,17 +123,6 @@ defined('KOOWA') or die('Restricted access') ?>
 			    </div>
 			</div>
 			<div class="control-group">
-			    <label class="control-label" for="catid"><?= @text( 'Category' ); ?></label>
-			    <div class="controls">
-			        <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-			            'name' => 'catid',
-			            'text' => 'title',
-			            'filter' => array('section' => 'com_contacts_contacts'),
-			            'selected' => $contact->category,
-			        )); ?>
-			    </div>
-			</div>
-			<div class="control-group">
 			    <label class="control-label" for="slug"><?= @text( 'Alias' ); ?></label>
 			    <div class="controls">
 			        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug; ?>" />
@@ -146,18 +135,27 @@ defined('KOOWA') or die('Restricted access') ?>
 			    </div>
 			</div>
 			<div class="control-group">
-			    <label class="control-label" for="ordering"><?= @text( 'Ordering' ); ?></label>
-			    <div class="controls">
-			        <?= @helper('listbox.ordering'); ?>
-			    </div>
-			</div>
-			<div class="control-group">
 			    <label class="control-label" for="access"><?= @text( 'Access' ); ?></label>
 			    <div class="controls">
 			        <?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
 			    </div>
 			</div>
+
+
 		</fieldset>
+
+        <fieldset class="categories group">
+            <legend><?= @text('Category') ?></legend>
+            <div class="control-group">
+                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
+                'name'      => 'category_id',
+                'selected'  => $contact->category_id,
+                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
+                'deselect'  => false,
+                'table'     => 'contacts'
+            )) ?>
+            </div>
+        </fieldset>
 		
 		<fieldset>
 			<legend><?= @text('Parameters'); ?></legend>
