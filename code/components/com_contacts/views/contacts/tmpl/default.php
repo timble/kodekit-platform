@@ -1,7 +1,6 @@
 <?
 /**
  * @version		$Id: default.php 3537 2012-04-02 17:56:59Z johanjanssens $
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Weblinks
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -23,12 +22,11 @@ defined('KOOWA') or die('Restricted access'); ?>
 <h1><?= @escape($params->get('page_title')); ?></h1>
 <? endif; ?>
 
-
 <? if ( $category->image || $category->description ) : ?>
-	<? if (isset($category->image)) : ?>
-		<img src="<?= $category->image['src'] ?>" <? foreach ($category->image['attribs'] as $attrib => $value) : echo $attrib.'="'.$value.'" '; endforeach ?>/>
-	<? endif; ?>
-	<?= $category->description; ?>
+<? if (isset($category->image)) : ?>
+    <img src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
+    <? endif; ?>
+    <?= $category->description; ?>
 <? endif; ?>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
