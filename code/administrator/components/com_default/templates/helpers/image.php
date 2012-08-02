@@ -18,39 +18,6 @@
  */
 class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
 {
- 	/**
-     * Generates an HTML image position listbox
-     *
-     * @param 	array   An optional array with configuration options
-     * @return 	string  Html
-     */
-   	public function position($config = array())
-   	{
-       	$config = new KConfig($config);
-      	$config->append(array(
-          	'name'          => 'image_position',
-           	'attribs'       => array(),
-            'deselect'      => false
-      	))->append(array(
-           	'selected'  => $config->{$config->name}
-       	));
-
-		$options  = array();
-
-     	if($config->deselect) {
-         	$options[] =  $this->option(array('text' => '- '.JText::_( 'Select' ).' -'));
-       	}
-
-      	$options[] = $this->option(array('text' => JText::_( 'Left' ), 'value' => 'left' ));
-      	$options[] = $this->option(array('text' => JText::_( 'Center' ), 'value' => 'center' ));
-       	$options[] = $this->option(array('text' => JText::_( 'Right' ), 'value' => 'right' ));
-
-       	//Add the options to the config object
-       	$config->options = $options;
-
-      	return $this->optionlist($config);
-	}
-
 	/**
 	 * Generated a HTML images listbox
 	 * .
