@@ -10,7 +10,7 @@
  */
 
 /**
- * Articles Table Model Class
+ * Articles Model Class
  *
  * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
  * @category    Nooku
@@ -24,16 +24,16 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         parent::__construct($config);
 
         $this->getState()
-            ->insert('section'   , 'int')
-            ->insert('category'  , 'int')
+            ->insert('category'         , 'slug')
+            ->insert('category_recurse' , 'boolean', false)
             ->insert('state'     , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
             ->insert('trashed'   , 'int')
-            ->insert('aid'       , 'int');
+            ->insert('access'    , 'int');
 
-        $this->getState()->remove('sort')->insert('sort', 'cmd', 'section_title');
+        $this->getState()->remove('sort')->insert('sort', 'cmd', 'category_title');
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
@@ -41,12 +41,10 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         parent::_buildQueryColumns($query);
 
         $query->columns(array(
-        	'section_title'     => 'sections.title',
             'category_title'    => 'categories.title',
             'created_by_name'   => 'users.name',
             'created_by_id'     => 'users.id',
             'featured_ordering' => 'featured.ordering',
-            'group_name'        => 'groups.name',
         	'featured'          => 'IF(featured.articles_article_id, 1, 0)'
         ));
     }
@@ -57,10 +55,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         
         $state = $this->getState();
 
-        $query->join(array('sections' => 'articles_sections'), 'sections.articles_section_id = tbl.articles_section_id')
-              ->join(array('categories' => 'categories'), 'categories.id = tbl.catid')
-              ->join(array('users' => 'users'), 'users.id = tbl.created_by')
-              ->join(array('groups' => 'groups'), 'groups.id = tbl.access');
+        $query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
+              ->join(array('users'  => 'users'), 'users.id = tbl.created_by');
 
         $query->join(array('featured' => 'articles_featured'), 'featured.articles_article_id = tbl.articles_article_id', $state->featured ? 'RIGHT' : 'LEFT');
     }
@@ -88,16 +84,15 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
                 ->bind(array('search' => '%'.$state->search.'%'));
         }
 
-        if($state->section || is_numeric($state->section))
+        if($state->category)
         {
-            $query->where('tbl.articles_section_id IN :section')
-                ->bind(array('section' => (array) $state->section));
-        }
+            $query->where('tbl.categories_category_id IN :category' );
 
-        if($state->category || is_numeric($state->category))
-        {
-            $query->where('tbl.catid IN :category')
-                ->bind(array('category' => (array) $state->category));
+            if($state->category_recurse === true) {
+                $query->where('categories.parent_id IN :category', 'OR');
+            }
+
+            $query->bind(array('category' => (array) $state->category));
         }
 
         if($state->created_by) 
@@ -118,8 +113,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
                 ->bind(array('trashed' => 1));
         }
 
-        if (is_numeric($state->aid)) {
-            $query->where('tbl.access <= :aid')->bind(array('aid' => $state->aid));
+        if (is_numeric($state->access)) {
+            $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
         }
     }
 
@@ -129,29 +124,27 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         $direction = strtoupper($state->direction);
 
-        if (is_bool($state->featured) && $state->featured == true) 
+        if (is_bool($state->featured) && $state->featured == true)
         {
-            if ($state->sort != 'ordering') 
+            if ($state->sort != 'ordering')
             {
                 $query->order($this->getState()->sort, $direction)
                     ->order('featured_ordering', 'ASC');
-            } 
+            }
             else $query->order('featured_ordering',  $direction);
-        } 
-        else 
+        }
+        else
         {
-            if ($state->sort == 'ordering') 
+            if ($state->sort == 'ordering')
             {
-                $query->order('section_title', 'ASC')
-                    ->order('category_title', 'ASC')
-                    ->order('ordering', $direction);
-            } 
-            else 
+                $query->order('category_title', 'ASC')
+                      ->order('ordering', $direction);
+            }
+            else
             {
                 $query->order($state->sort, $direction)
-                    ->order('section_title', 'ASC')
-                    ->order('category_title', 'ASC')
-                    ->order('ordering', 'ASC');
+                      ->order('category_title', 'ASC')
+                      ->order('ordering', 'ASC');
             }
         }
     }
