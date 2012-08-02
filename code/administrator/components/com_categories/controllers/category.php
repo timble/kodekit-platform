@@ -1,9 +1,8 @@
 <?php
 /**
  * @version		$Id: category.php 2034 2011-06-26 17:08:29Z johanjanssens $
- * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Articles
+ * @subpackage  Categories
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
@@ -13,9 +12,8 @@
  * Category Controller Class
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category 	Nooku
  * @package     Nooku_Server
- * @subpackage  Articles
+ * @subpackage  Categories
  */
 abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefault
 { 
@@ -54,7 +52,9 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
     
     public function getRequest()
 	{
-		$this->_request['section'] = 'com_'.$this->getIdentifier()->package;
+		$this->_request['table']  = $this->getIdentifier()->package;
+        $this->_request['access'] = JFactory::getUser()->get('aid', '0');
+
 	    return $this->_request;
 	}
 }
