@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -100,7 +99,7 @@ defined('KOOWA') or die('Restricted access') ?>
         <fieldset class="categories group">
             <legend><?= @text('Category') ?></legend>
             <div class="control-group">
-            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->getFolders(), 'article' => $article)) ?>
+            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getList(), 'article' => $article)) ?>
             </div>
         </fieldset>
         <fieldset>
