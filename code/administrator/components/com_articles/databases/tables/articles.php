@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -10,10 +9,9 @@
  */
 
 /**
- * Articls Database Table class
+ * Articles Database Table class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Articles
  */
@@ -22,17 +20,18 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'behaviors'        => array(
+            'name'       => 'articles',
+            'behaviors'  => array(
             	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', 'revisable', 'publishable'
             ),
             'column_map' => array(
                 'locked_on'        => 'checked_out_time',
                 'locked_by'        => 'checked_out',
                 'slug'       	   => 'alias',
-                'section_id'       => 'articles_section_id',
-                'category_id'	   => 'catid',
                 'created_on' 	   => 'created',
                 'modified_on'      => 'modified',
+                'published_on'     => 'publish_up',
+                'archived_on'      => 'publish_down',
                 'description'      => 'metadesc',
                 'params'		   => 'attribs'
             ),
