@@ -1,7 +1,6 @@
  <?php
 /**
  * @version		$Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -13,7 +12,6 @@
  * Contact Controller
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category 	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
@@ -21,7 +19,7 @@ class ComContactsControllerContact extends ComDefaultControllerDefault
 {
     public function getRequest()
 	{
-		//Display only enabled items
+		//Display only published items
 		$this->_request->enabled = 1;
 		
 		return parent::getRequest();
