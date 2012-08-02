@@ -7,11 +7,11 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link           http://www.nooku.org
  */
-defined('KOOWA') or die('Restricted access');
-?>
 
-<? echo @helper('behavior.mootools'); ?>
-<? echo @helper('behavior.keepalive'); ?>
+defined('KOOWA') or die('Restricted access'); ?>
+
+<?= @helper('behavior.mootools'); ?>
+<?= @helper('behavior.keepalive'); ?>
 
 <style src="media://com_articles/css/toolbar.css"/>
 <style src="media://com_articles/css/site.css"/>
@@ -19,14 +19,15 @@ defined('KOOWA') or die('Restricted access');
 <script src="media://lib_koowa/js/koowa.js"/>
 
 <div id="toolbar-box">
-    <? echo @helper('com://admin/default.template.helper.toolbar.render', array('toolbar' => $toolbar));?>
+    <?= @helper('com://admin/default.template.helper.toolbar.render', array('toolbar' => $toolbar));?>
 </div>
 
 <div class="clear_both"></div>
 
 <? if ($params->get('show_page_title')) : ?>
-<h1
-    class="componentheading<? echo @escape($params->get('pageclass_sfx')); ?>"><? echo @escape($params->get('page_title')); ?></h1>
+<h1 class="componentheading<?= @escape($params->get('pageclass_sfx')); ?>">
+    <?= @escape($params->get('page_title')); ?>
+</h1>
 <? endif; ?>
 
 <script type="text/javascript">
@@ -37,7 +38,7 @@ defined('KOOWA') or die('Restricted access');
 
         section_select.addEvent('change', function (event, category_id) {
 
-            var url = "<? echo @route('option=com_articles&view=categories&format=json&Itemid=');?>";
+            var url = "<?= @route('view=categories&format=json');?>";
             var section_id = this.get('value').toInt();
 
             if (section_id <= 0) {
@@ -53,7 +54,7 @@ defined('KOOWA') or die('Restricted access');
                 url:url,
                 onSuccess:function (response) {
                     var categories = JSON.decode(response);
-                    categories.items.unshift({data:{title:"- Select -", id:-1}}, {data:{title:"<? echo JText::_('Uncategorized');?>", id:0}})
+                    categories.items.unshift({data:{title:"- Select -", id:-1}}, {data:{title:"<?= @text('Uncategorized');?>", id:0}})
                     Array.each(categories.items, function (category) {
                         data = category.data;
                         new Element('option')
@@ -77,7 +78,7 @@ defined('KOOWA') or die('Restricted access');
     });
 </script>
 
-<form method="post" action="<? echo @helper('com://site/articles.template.helper.form.action', array('row' => $article)); ?>" class="-koowa-form">
+<form method="post" action="" class="-koowa-form">
     <fieldset>
         <legend><? echo JText::_('Editor'); ?></legend>
         <table class="adminform" width="100%">
@@ -91,114 +92,116 @@ defined('KOOWA') or die('Restricted access');
                 </td>
             </tr>
         </table>
-        <? echo @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display(); ?>
+        <?= @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display(); ?>
     </fieldset>
     <fieldset>
-        <legend><? echo JText::_('Publishing'); ?></legend>
+        <legend><?= @text('Publishing'); ?></legend>
         <table class="adminform">
             <tr>
                 <td class="key">
                     <label for="section_id">
-                        <? echo JText::_('Section'); ?>:
+                        <?= @text('Section'); ?>:
                     </label>
                 </td>
                 <td>
-                    <? echo @helper('com://admin/articles.template.helper.listbox.sections',
-                    array(
-                        'name'     => 'section_id',
-                        'selected' => $article->section_id,
-                        'attribs'  => array('id' => 'section_id'))); ?>
+                    <?= @helper('listbox.sections', array(
+                            'name'     => 'section_id',
+                            'selected' => $article->section_id,
+                            'attribs'  => array('id' => 'section_id'))
+                    ); ?>
                 </td>
             </tr>
             <tr>
                 <td class="key">
                     <label for="category_id">
-                        <? echo JText::_('Category'); ?>:
+                        <?= @text('Category'); ?>:
                     </label>
                 </td>
                 <td>
-                    <? echo @helper('com://admin/articles.template.helper.listbox.categories', array(
-                    'selected' => $article->category_id,
-                    'name'     => 'category_id',
-                    'attribs'  => array('id' => 'category_id'))); ?>
+                    <?= @helper('listbox.categories', array(
+                        'selected' => $article->category_id,
+                        'name'     => 'category_id',
+                        'attribs'  => array('id' => 'category_id')));
+                    ?>
                 </td>
             </tr>
             <? if ($article->editable) : ?>
             <tr>
                 <td class="key">
                     <label for="state">
-                        <? echo JText::_('Published'); ?>:
+                        <?= @text('Published'); ?>:
                     </label>
                 </td>
                 <td>
-                    <? echo @helper('select.booleanlist', array(
-                    'name'     => 'state',
-                    'selected' => $article->state)); ?>
+                    <?= @helper('select.booleanlist', array(
+                        'name'     => 'state',
+                        'selected' => $article->state)
+                    ); ?>
                 </td>
             </tr>
             <? endif; ?>
             <tr>
                 <td width="120" class="key">
                     <label for="featured">
-                        <? echo JText::_('Featured'); ?>:
+                        <?= @text('Featured'); ?>:
                     </label>
                 </td>
                 <td>
                     <? echo @helper('select.booleanlist', array(
-                    'name'     => 'featured',
-                    'selected' => $article->featured)); ?>
+                        'name'     => 'featured',
+                        'selected' => $article->featured)
+                    ); ?>
                 </td>
             </tr>
             <tr>
                 <td class="key">
                     <label for="created_by_alias">
-                        <? echo JText::_('Author Alias'); ?>:
+                        <?= @text('Author Alias'); ?>:
                     </label>
                 </td>
                 <td>
                     <input type="text" id="created_by_alias" name="created_by_alias" size="50" maxlength="100"
-                           value="<? echo @escape($article->created_by_alias); ?>" class="inputbox"/>
+                           value="<?= @escape($article->created_by_alias); ?>" class="inputbox"/>
                 </td>
             </tr>
             <tr>
                 <td class="key">
                     <label for="publish_up">
-                        <? echo JText::_('Start Publishing'); ?>:
+                        <?= @text('Start Publishing'); ?>:
                     </label>
                 </td>
                 <td>
-                    <? echo @helper('com://site/articles.template.helper.form.publish', array('row' => $article));?>
+                    <?= @helper('form.publish', array('row' => $article));?>
                 </td>
             </tr>
             <tr>
                 <td class="key">
                     <label for="publish_down">
-                        <? echo JText::_('Finish Publishing'); ?>:
+                        <?= @text('Finish Publishing'); ?>:
                     </label>
                 </td>
                 <td>
-                    <? echo @helper('com://site/articles.template.helper.form.unpublish', array('row' => $article)); ?>
+                    <?= @helper('form.unpublish', array('row' => $article)); ?>
                 </td>
             </tr>
             <tr>
                 <td valign="top" class="key">
                     <label for="access">
-                        <? echo JText::_('Access Level'); ?>:
+                        <?= @text('Access Level'); ?>:
                     </label>
                 </td>
                 <td>
-                    <? echo  JHTML::_('list.accesslevel', $article); ?>
+                    <?= JHTML::_('list.accesslevel', $article); ?>
                 </td>
             </tr>
             <tr>
                 <td class="key">
                     <label for="ordering">
-                        <? echo JText::_('Ordering'); ?>:
+                        <?= @text('Ordering'); ?>:
                     </label>
                 </td>
                 <td>
-                    <? echo @helper('com://admin/articles.template.helper.listbox.ordering',
-                    array('row' => $article)); ?>
+                    <?= @helper('listbox.ordering', array('row' => $article)); ?>
                 </td>
             </tr>
         </table>
