@@ -17,19 +17,14 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksControllerToolbarWeblinks extends ComDefaultControllerToolbarDefault
+class ComWeblinksControllerToolbarWeblink extends ComDefaultControllerToolbarDefault
 {
-    public function getCommands()
+    public function onAfterControllerBrowse(KEvent $event)
     {
+        parent::onAfterControllerBrowse($event);
+
         $this->addSeparator()
-			 ->addEnable()
-			 ->addDisable()
-			 ->addSeparator()
-			 ->addModal(array(
-			    'label' => 'Preferences',
-			 	'href' => 'index.php?option=com_config&controller=component&component=com_weblinks')
-			 );
-			 
-	    return parent::getCommands();
+             ->addEnable(array('label' => 'publish'))
+             ->addDisable(array('label' => 'unpublish'));
     }
 }
