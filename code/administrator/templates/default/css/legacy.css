@@ -2126,6 +2126,10 @@ a:hover {
   margin: 4px;
   border: 1px solid #aaaaaa;
 }
+input[type="search"] {
+  height: 11px;
+  padding: 4px;
+}
 /* -- overall styles ------------------------------ */
 #header-box {
   background-color: #333;
