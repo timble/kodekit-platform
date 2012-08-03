@@ -250,6 +250,7 @@ class KModelTable extends KModelAbstract
             if($this->isConnected())
             {
                 $query = $this->getService('koowa:database.query.select');
+                $query->columns('COUNT(*)');
                 
                 $this->_buildQueryTable($query);
                 $this->_buildQueryJoins($query);
