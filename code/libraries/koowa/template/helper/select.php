@@ -140,8 +140,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			$text = $config->translate ? JText::_( $row->{$config->text} ) : $row->{$config->text};
 			$id	  = isset($row->id) ? $row->id : null;
 
-			$extra = '';
-			$extra .= ($key == $config->selected ? 'checked="checked"' : '');
+			$extra = ($key == $config->selected ? 'checked="checked"' : '');
 
 			$html[] = '<label class="radio" for="'.$name.$id.'">';
 			$html[] = '<input type="radio" name="'.$name.'" id="'.$name.$id.'" value="'.$key.'" '.$extra.' '.$attribs.' />';
