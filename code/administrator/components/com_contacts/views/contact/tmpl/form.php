@@ -113,63 +113,61 @@ defined('KOOWA') or die('Restricted access') ?>
 		</div>
 	</div>
 
-	<div class="sidebar" style="width: 430px;">
-		<fieldset class="form-horizontal">
-			<legend><?= @text('Publish'); ?></legend>
-			<div class="control-group">
-			    <label class="control-label" for="enabled"><?= @text( 'Published' ); ?></label>
-			    <div class="controls">
-			        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $contact->enabled)); ?>
-			    </div>
-			</div>
-			<div class="control-group">
-			    <label class="control-label" for="slug"><?= @text( 'Alias' ); ?></label>
-			    <div class="controls">
-			        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug; ?>" />
-			    </div>
-			</div>
-			<div class="control-group">
-			    <label class="control-label" for="user_id"><?= @text( 'Linked to User' ); ?></label>
-			    <div class="controls">
-			        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id', 'validate' => false)) ?>
-			    </div>
-			</div>
-			<div class="control-group">
-			    <label class="control-label" for="access"><?= @text( 'Access' ); ?></label>
-			    <div class="controls">
-			        <?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
-			    </div>
-			</div>
-
-
-		</fieldset>
-
-        <fieldset class="categories group">
-            <legend><?= @text('Category') ?></legend>
-            <div class="control-group">
-                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-                'name'      => 'category_id',
-                'selected'  => $contact->category_id,
-                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
-                'deselect'  => false,
-                'table'     => 'contacts'
-            )) ?>
-            </div>
-        </fieldset>
-		
-		<fieldset>
-			<legend><?= @text('Parameters'); ?></legend>
-
-			<?= @helper('tabs.startPane'); ?>
-			<?= @helper('tabs.startPanel', array('title' => @text('Contact Parameters'))); ?>
-			<?= $contact->params->render(); ?>
-			<?= @helper('tabs.endPanel', array()); ?>
-			<?= @helper('tabs.startPanel', array('title' => @text('E-mail Parameters'))); ?>
-			<?= $contact->params->render('params', 'email'); ?>
-			<?= @helper('tabs.endPanel'); ?>
-			<?= @helper('tabs.endPane'); ?>
-
-		</fieldset>
+	<div class="sidebar">
+		<div class="scrollable">
+			<fieldset class="form-horizontal">
+				<legend><?= @text('Publish'); ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for="enabled"><?= @text( 'Published' ); ?></label>
+				    <div class="controls">
+				        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $contact->enabled)); ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="slug"><?= @text( 'Alias' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug; ?>" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="user_id"><?= @text( 'Linked to User' ); ?></label>
+				    <div class="controls">
+				        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id', 'validate' => false)) ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="access"><?= @text( 'Access' ); ?></label>
+				    <div class="controls">
+				        <?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
+				    </div>
+				</div>
+			</fieldset>
+	
+	        <fieldset class="categories group">
+	            <legend><?= @text('Category') ?></legend>
+	            <div class="control-group">
+	                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
+	                'name'      => 'category_id',
+	                'selected'  => $contact->category_id,
+	                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
+	                'deselect'  => false,
+	                'table'     => 'contacts'
+	            )) ?>
+	            </div>
+	        </fieldset>
+			
+			<fieldset>
+				<legend><?= @text('Parameters'); ?></legend>
+				<?= @helper('tabs.startPane'); ?>
+				<?= @helper('tabs.startPanel', array('title' => @text('Contact Parameters'))); ?>
+				<?= $contact->params->render(); ?>
+				<?= @helper('tabs.endPanel', array()); ?>
+				<?= @helper('tabs.startPanel', array('title' => @text('E-mail Parameters'))); ?>
+				<?= $contact->params->render('params', 'email'); ?>
+				<?= @helper('tabs.endPanel'); ?>
+				<?= @helper('tabs.endPane'); ?>
+			</fieldset>
+		</div>
 	</div>
 	
 </form>

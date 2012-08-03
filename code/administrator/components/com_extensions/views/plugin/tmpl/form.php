@@ -58,26 +58,28 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     </div>
     
     <div class="sidebar">
-    	<fieldset class="form-horizontal">
-        	<legend><?= @text('Details') ?></legend>
-        	<div class="control-group">
-        	    <label class="control-label" for=""><?= @text('Published') ?></label>
-        	    <div class="controls">
-        	        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected'	=> $plugin->enabled)) ?>
-        	    </div>
-        	</div>
-        	<div class="control-group">
-        	    <label class="control-label" for=""><?= @text('Plugin file') ?></label>
-        	    <div class="controls controls-calendar">
-        	        <input class="required validate-alphanum" type="text" name="element" value="<?= @escape($plugin->name) ?>" />.php
-        	    </div>
-        	</div>
-        	<div class="control-group">
-        	    <label class="control-label" for=""><?= @text('Access Level') ?></label>
-        	    <div class="controls">
-        	        <?= JHTML::_('list.accesslevel', $plugin) ?>
-        	    </div>
-        	</div>
-    	</fieldset>
+    	<div class="scrollable">
+	    	<fieldset class="form-horizontal">
+	        	<legend><?= @text('Details') ?></legend>
+	        	<div class="control-group">
+	        	    <label class="control-label" for=""><?= @text('Published') ?></label>
+	        	    <div class="controls">
+	        	        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected'	=> $plugin->enabled)) ?>
+	        	    </div>
+	        	</div>
+	        	<div class="control-group">
+	        	    <label class="control-label" for=""><?= @text('Plugin file') ?></label>
+	        	    <div class="controls controls-calendar">
+	        	        <input class="required validate-alphanum" type="text" name="element" value="<?= @escape($plugin->name) ?>" />.php
+	        	    </div>
+	        	</div>
+	        	<div class="control-group">
+	        	    <label class="control-label" for=""><?= @text('Access Level') ?></label>
+	        	    <div class="controls">
+	        	        <?= JHTML::_('list.accesslevel', $plugin) ?>
+	        	    </div>
+	        	</div>
+	    	</fieldset>
+    	</div>
     </div>
 </form>

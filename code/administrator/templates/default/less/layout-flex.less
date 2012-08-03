@@ -12,84 +12,103 @@ html, body, #container {
 }
 
 #container {
-	#flexbox > .box(vertical, 1);
-	overflow: hidden; /* This overflow hidden on the container is for making the resize of the debug area work smoothly */
+	#flexbox > .box(column, 1)
 }
 
 #header-box  { 
-	#flexbox > .box();
-}
+	#flexbox > .box(row, 30px 0);
 
-#statusmenu {
-	#flexbox > .box();
-}
-
-#submenu {
-	#flexbox > .box();
-}
-
-#tabs-box {
-	#flexbox > .box();
-}
-
-#toolbar-box {
-	#flexbox .box();
-}
-
-#window-body { 
-	#flexbox > .box(horizontal, 1);
-
-	&.default #window-sidebar,
-	&.default #window-inspector {
-		#flexbox > .box(vertical, 0);
-
-		width: 200px;
-		.scrollable {
-			#flexbox > .box(vertical, 1, scrollable);
-		}
+	#menu {
+		#flexbox > .box(row, 1);
 	}
 }
 
-#window-content { 
-	#flexbox > .box(horizontal, 1);
+#tabs-box {
+	#flexbox > .box(column, 28px 0);
+
+	#submenu {
+		#flexbox > .box();
+	}
+}
+
+#toolbar-box {
+	#flexbox .box(row, 20px 0);
+}
+
+#window-body { 
+	#flexbox > .box(row, 1);
+	
+	&.default #window-sidebar,
+	&.default #window-inspector {
+		#flexbox > .box(column);
+		min-width: 200px;
+		
+		.scrollable {
+			#flexbox > .box(column, 1 0 0%, scrollable);
+			
+			* {
+				#flexbox > .box-flex(none);
+			}
+		}
+	}
+	
+	#window-content { 
+		#flexbox > .box(column, initial);
+		
+		.-koowa-form {
+			#flexbox > .box(row, 1);
+		
+			.form-body {
+				#flexbox > .box(column, 1);
+		
+				.title {
+					height: 36px;
+				}
+				
+				.form-content {
+					#flexbox > .box-flex(1);
+					#flexbox > .box-scrollable(scrollable);
+				}
+			}
+			
+			.sidebar {
+				#flexbox > .box(column, initial);
+				
+				.scrollable {
+					#flexbox > .box(column, 1 0 0%, scrollable);
+					
+					* {
+						#flexbox > .box-flex(none);
+					}
+				}
+			}
+		}		
+	}
 }
 
 .editor-wrap,
 .editor-container,
 .mceEditor,
-.mceLayout,
-.mceLayout tbody,
-.mceLayout tbody tr td.mceIframeContainer,
+table.mceLayout,
+table.mceLayout > tbody,
+table.mceLayout > tbody > tr:nth-of-type(2),
+table.mceLayout > tbody > tr td.mceIframeContainer { 
+	#flexbox > .box(column, 1);
+}
+
 .CodeMirror { 
-	#flexbox > .box(vertical, 1);
-}
-
-.mceLayout tbody tr 	{ 
-	#flexbox > .box(vertical);
-}
-
-.mceLayout tbody tr:nth-of-type(2),
-.mceLayout tbody tr td.mceIframeContainer iframe,
-.CodeMirror .CodeMirror-scroll { 
-	#flexbox > .box-flex(1);
+	#flexbox > .box(column, 1);
+	
+	.CodeMirror-scroll { 
+		#flexbox > .box-flex(1);
+	}
 }
 
 .-koowa-grid {
-	#flexbox > .box(vertical, 1);
+	#flexbox > .box(column, 1);
 }
 
-.-koowa-form {
-	#flexbox > .box(horizontal, 1);
 
-	.form-body {
-		#flexbox > .box(vertical, 1);
-	}
-
-	.form-content {
-		.-koowa-box-scroll;
-		.-koowa-box-flex1;
-	}
-}
 
 form[name="adminForm"] {
 	#flexbox > .box(horizontal, 1, scrollable);
@@ -97,11 +116,7 @@ form[name="adminForm"] {
 
 /* @group Scope Bar */
 .scopebar { 
-	#flexbox > .box(horizontal, 0);
-
-	.scopebar-group { 
-		#flexbox > .box(horizontal, 0);
-	}
+	#flexbox > .box(row, 20px 0);
 
 	.scopebar-search {
 		#flexbox > .box(horizontal, 1);
@@ -110,12 +125,5 @@ form[name="adminForm"] {
 		input {
 			#flexbox > .box(horizontal, 1);
 		}
-	}
-}
-
-#header-box {
-	ul#menu {
-		#flexbox > .box();
-		#flexbox > .box-flex(1);
 	}
 }

@@ -38,75 +38,77 @@ defined('KOOWA') or die('Restricted access') ?>
         <?= @service('com://admin/editors.controller.editor')->name('text')->data($article->text)->display() ?>
     </div>
     <div class="sidebar">        
-        <fieldset class="form-horizontal">
-        	<legend><?= @text('Publish') ?></legend>
-            <div class="control-group">
-                <label class="control-label" for="state"><?= @text('Published') ?></label>
-                <div class="controls">
-                    <?= @helper('select.booleanlist', array('name' => 'state', 'selected' => $article->state)) ?>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="featured"><?= @text('Featured') ?></label>
-                <div class="controls">
-                    <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
-                </div>
-            </div>
-            <div class="control-group">
-        	    <label class="control-label" for="publish_up"><?= @text('Publish on') ?></label>
-                <div class="controls controls-calendar">
-                    <?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="publish_down"><?= @text('Unpublish on') ?></label>
-                <div class="controls controls-calendar">
-                    <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="slug"><?= @text('Slug') ?></label>
-                <div class="controls">
-                   <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
-                </div>
-            </div>
-        </fieldset>
-    
-        <fieldset class="form-horizontal">
-        	<legend><?= @text('Details') ?></legend>
-            <tbody>
-                <div class="control-group">
-                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
-                    <div class="controls">
-                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="access"><?= @text('Visibility') ?></label>
-                    <div class="controls">
-                        <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
-                    <div class="controls controls-calendar">
-                    	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
-                    </div>
-                </div>
-            </tbody>
-        </fieldset>
-        
-        <fieldset class="categories group">
-            <legend><?= @text('Category') ?></legend>
-            <div class="control-group">
-            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getList(), 'article' => $article)) ?>
-            </div>
-        </fieldset>
-        <fieldset>
-    		<legend><?= @text('Description') ?></legend>
-    		<div class="control-group">
-                <textarea name="description" rows="5"><?= $article->description ?></textarea>
-            </div>
-        </fieldset>
+        <div class="scrollable">
+	        <fieldset class="form-horizontal">
+	        	<legend><?= @text('Publish') ?></legend>
+	            <div class="control-group">
+	                <label class="control-label" for="state"><?= @text('Published') ?></label>
+	                <div class="controls">
+	                    <?= @helper('select.booleanlist', array('name' => 'state', 'selected' => $article->state)) ?>
+	                </div>
+	            </div>
+	            <div class="control-group">
+	                <label class="control-label" for="featured"><?= @text('Featured') ?></label>
+	                <div class="controls">
+	                    <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
+	                </div>
+	            </div>
+	            <div class="control-group">
+	        	    <label class="control-label" for="publish_up"><?= @text('Publish on') ?></label>
+	                <div class="controls controls-calendar">
+	                    <?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
+	                </div>
+	            </div>
+	            <div class="control-group">
+	                <label class="control-label" for="publish_down"><?= @text('Unpublish on') ?></label>
+	                <div class="controls controls-calendar">
+	                    <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
+	                </div>
+	            </div>
+	            <div class="control-group">
+	                <label class="control-label" for="slug"><?= @text('Slug') ?></label>
+	                <div class="controls">
+	                   <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
+	                </div>
+	            </div>
+	        </fieldset>
+	    
+	        <fieldset class="form-horizontal">
+	        	<legend><?= @text('Details') ?></legend>
+	            <tbody>
+	                <div class="control-group">
+	                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
+	                    <div class="controls">
+	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
+	                    </div>
+	                </div>
+	                <div class="control-group">
+	                    <label class="control-label" for="access"><?= @text('Visibility') ?></label>
+	                    <div class="controls">
+	                        <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
+	                    </div>
+	                </div>
+	                <div class="control-group">
+	                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
+	                    <div class="controls controls-calendar">
+	                    	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
+	                    </div>
+	                </div>
+	            </tbody>
+	        </fieldset>
+	        
+	        <fieldset class="categories group">
+	            <legend><?= @text('Category') ?></legend>
+	            <div class="control-group">
+	            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getList(), 'article' => $article)) ?>
+	            </div>
+	        </fieldset>
+	        <fieldset>
+	    		<legend><?= @text('Description') ?></legend>
+	    		<div class="control-group">
+	                <textarea name="description" rows="5"><?= $article->description ?></textarea>
+	            </div>
+	        </fieldset>
+        </div>
     </div>
 </form>

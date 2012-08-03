@@ -1899,27 +1899,27 @@ table .span24 {
 }
 /* @group Flexible Box Model, powered by CSS3 */
 .-koowa-box {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
 }
 .-koowa-box-vertical {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
   -webkit-box-align: stretch;
@@ -1928,28 +1928,14 @@ table .span24 {
 }
 .-koowa-box-flex1,
 .-koowa-box-flex {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 /* @end group */
 .-koowa-box-scroll {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
-}
-.scrolling-shadow {
   background: /* Shadow covers */
  -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
  -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
@@ -2398,20 +2384,20 @@ a:hover {
   width: 20px;
   text-align: center;
 }
-.pagination {
+.-koowa-grid table .pagination {
   float: right;
 }
-.pagination li {
+.-koowa-grid table .pagination li {
   list-style: none;
   float: left;
 }
-.pagination div.limit {
+.-koowa-grid table .pagination div.limit {
   float: left;
   line-height: 22px;
   margin: 0 10px;
 }
-.pagination div.page a,
-.pagination div.page span {
+.-koowa-grid table .pagination div.page a,
+.-koowa-grid table .pagination div.page span {
   float: left;
   margin: 0;
   padding: 4px 10px;
@@ -2423,31 +2409,31 @@ a:hover {
   -moz-border-radius: 0;
   border-radius: 0;
 }
-.pagination div.prev a,
-.pagination div.prev span {
+.-koowa-grid table .pagination div.prev a,
+.-koowa-grid table .pagination div.prev span {
   border-right: 0 none;
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
 }
-.pagination div.next a,
-.pagination div.next span {
+.-koowa-grid table .pagination div.next a,
+.-koowa-grid table .pagination div.next span {
   border-left: 0 none;
   margin-left: 0;
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
 }
-.pagination .active a,
-.pagination div.page span {
+.-koowa-grid table .pagination .active a,
+.-koowa-grid table .pagination div.page span {
   color: #333;
   font-weight: bold;
   -webkit-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   -moz-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
 }
-.pagination div.off a,
-.pagination div.off span {
+.-koowa-grid table .pagination div.off a,
+.-koowa-grid table .pagination div.off span {
   border-color: #D7D7D7;
 }
 .-koowa-form {
@@ -2784,14 +2770,12 @@ div.toolbar table.toolbar td a.disabled:active {
 /* @end */
 /* Sidebar */
 #window-content.form .sidebar {
-  width: 300px;
-  float: none !important;
-  display: block !important;
-  margin: 0 !important;
+  width: 350px;
+}
+#window-content.form .sidebar .scrollable {
   border-left: 1px solid #E1E1E1;
   padding: 14px;
   background-color: #F9F9F9;
-  overflow-y: scroll;
 }
 div#window-content > div.col {
   float: none;
@@ -3094,63 +3078,51 @@ div.message {
   padding: 2px 0px 0px 0px;
 }
 .com_dashboard #window-content > div:first-child {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   border-right: 1px solid #dddddd;
 }
 .com_dashboard #window-content > div:first-child > div {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .com_dashboard #window-content > div:first-child > div > div {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .com_dashboard #window-content > div:first-child > div > div > div:last-child {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
 }
 .com_articles .categories,
 .com_users .groups {
@@ -3186,15 +3158,15 @@ div.message {
   overflow-y: scroll;
   float: none !important;
   margin: 0 !important;
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
 }
 .com_settings dl.tabs h3 {
   color: #666;
@@ -3262,41 +3234,29 @@ div.message {
   border-top: 0 none !important;
   border-right: 0 none !important;
   border-bottom: 0 none !important;
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .com_settings .current dd {
   padding: 14px 20px !important;
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
 }
 .com_settings .current h2 {
   border-bottom: 1px solid #EEE;
@@ -3459,15 +3419,15 @@ label.control-label:after {
 }
 .input-append,
 .input-prepend {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .input-append input,
 .input-prepend input,
@@ -3477,15 +3437,15 @@ label.control-label:after {
 }
 .input-append input,
 .input-prepend input {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .input-normal {
   max-width: 220px;

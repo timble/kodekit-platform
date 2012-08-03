@@ -47,32 +47,34 @@ defined('KOOWA') or die('Restricted access'); ?>
 		</div>
 	</div>
 	<div class="sidebar">
-		<fieldset class="form-horizontal">
-			<legend><?= @text( 'Publish' ); ?></legend>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text( 'Published' ) ?></label>
-			    <div class="controls">
-			        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $weblink->enabled)) ?>
-			    </div>
-			</div>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text( 'Slug' ); ?></label>
-			    <div class="controls">
-			        <input type="text" name="slug" maxlength="255" value="<?= $weblink->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
-			    </div>
-			</div>
-		</fieldset>
-        <fieldset class="categories group">
-            <legend><?= @text('Category') ?></legend>
-            <div class="control-group">
-                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-                'name'      => 'category_id',
-                'selected'  => $weblink->category_id,
-                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
-                'deselect'  => false,
-                'table'     => 'weblinks'
-            )) ?>
-            </div>
-        </fieldset>
+		<div class="scrollable">
+			<fieldset class="form-horizontal">
+				<legend><?= @text( 'Publish' ); ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text( 'Published' ) ?></label>
+				    <div class="controls">
+				        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $weblink->enabled)) ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text( 'Slug' ); ?></label>
+				    <div class="controls">
+				        <input type="text" name="slug" maxlength="255" value="<?= $weblink->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
+				    </div>
+				</div>
+			</fieldset>
+	        <fieldset class="categories group">
+	            <legend><?= @text('Category') ?></legend>
+	            <div class="control-group">
+	                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
+	                'name'      => 'category_id',
+	                'selected'  => $weblink->category_id,
+	                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
+	                'deselect'  => false,
+	                'table'     => 'weblinks'
+	            )) ?>
+	            </div>
+	        </fieldset>
+        </div>
 	</div>
 </form>

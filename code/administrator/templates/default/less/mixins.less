@@ -1,16 +1,16 @@
 #flexbox {	
-	.box(@orient: inline-axis, @flex: 0, @scroll: 0) { 
-		display: -webkit-box;
-		display: -moz-box;
-		display: box;
+	.box(@orient: row, @flex: 0, @scroll: 0) { 
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: flex;
 
 		#flexbox .box-orient(@orient);
 		#flexbox .box-flex(@flex);
 		#flexbox .box-scrollable(@scroll);
 	}
 
-	.box-orient(@orient: inline-axis) {
-		-webkit-box-orient: @orient;
+	.box-orient(@orient: row) {
+		-webkit-flex-direction: @orient;
 		-moz-box-orient: @orient;
 		box-orient: @orient;
 	}
@@ -28,23 +28,23 @@
 	}
 
 	.box-flex(@flex: 0) {
-		-webkit-box-flex: @flex;
-		-moz-box-flex: @flex;
-		box-flex: @flex;
+		-webkit-flex: @flex;
+		-moz-flex: @flex;
+		flex: @flex;
 	}
 
 	.box-scroll { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
-		
+
 		.scrolling-shadow();
 	}
 
 	.box-scrollable(@scroll) when (@scroll = scrollable) { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
+
 		
-		.scrolling-shadow();
 	}
 
 	.box-scrollable(@scroll) when not (@scroll = scrollable) { }
@@ -70,12 +70,12 @@
 
 .-koowa-box-scroll { #flexbox > .box-scroll(); }
 
-.scrolling-shadow {
+.scrolling-shadow(@background: #F9F9F9) {
 	background:
 		/* Shadow covers */
-		-webkit-linear-gradient(#F9F9F9 30%, #F9F9F9), 
-		-webkit-linear-gradient(#F9F9F9, #F9F9F9 70%) 0 100%,
-		
+		-webkit-linear-gradient(@background 30%, @background), 
+		-webkit-linear-gradient(@background, @background 70%) 0 100%,
+
 		/* Shadows */
 		-webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), transparent), 
 		-webkit-radial-gradient(50% 100%,farthest-side, rgba(0, 0, 0, .2), transparent) 0 100%;
@@ -83,14 +83,14 @@
 		/* Shadow covers */
 		linear-gradient(white 30%, rgba(255,255,255,0)),
 		linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
-			
+
 		/* Shadows */
 		radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
 		radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
 	background-repeat: no-repeat;
-	
+
 	background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-	
+
 	/* Opera doesn't support this in the shorthand */
 	background-attachment: local, local, scroll, scroll;
 }

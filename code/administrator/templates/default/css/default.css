@@ -1873,27 +1873,27 @@ table .span24 {
 }
 /* @group Flexible Box Model, powered by CSS3 */
 .-koowa-box {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
 }
 .-koowa-box-vertical {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
   -webkit-box-align: stretch;
@@ -1902,28 +1902,14 @@ table .span24 {
 }
 .-koowa-box-flex1,
 .-koowa-box-flex {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 /* @end group */
 .-koowa-box-scroll {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
-}
-.scrolling-shadow {
   background: /* Shadow covers */
  -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
  -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
@@ -2372,20 +2358,20 @@ a:hover {
   width: 20px;
   text-align: center;
 }
-.pagination {
+.-koowa-grid table .pagination {
   float: right;
 }
-.pagination li {
+.-koowa-grid table .pagination li {
   list-style: none;
   float: left;
 }
-.pagination div.limit {
+.-koowa-grid table .pagination div.limit {
   float: left;
   line-height: 22px;
   margin: 0 10px;
 }
-.pagination div.page a,
-.pagination div.page span {
+.-koowa-grid table .pagination div.page a,
+.-koowa-grid table .pagination div.page span {
   float: left;
   margin: 0;
   padding: 4px 10px;
@@ -2397,31 +2383,31 @@ a:hover {
   -moz-border-radius: 0;
   border-radius: 0;
 }
-.pagination div.prev a,
-.pagination div.prev span {
+.-koowa-grid table .pagination div.prev a,
+.-koowa-grid table .pagination div.prev span {
   border-right: 0 none;
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   border-radius: 3px 0 0 3px;
 }
-.pagination div.next a,
-.pagination div.next span {
+.-koowa-grid table .pagination div.next a,
+.-koowa-grid table .pagination div.next span {
   border-left: 0 none;
   margin-left: 0;
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
 }
-.pagination .active a,
-.pagination div.page span {
+.-koowa-grid table .pagination .active a,
+.-koowa-grid table .pagination div.page span {
   color: #333;
   font-weight: bold;
   -webkit-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   -moz-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
   box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 3px;
 }
-.pagination div.off a,
-.pagination div.off span {
+.-koowa-grid table .pagination div.off a,
+.-koowa-grid table .pagination div.off span {
   border-color: #D7D7D7;
 }
 .-koowa-form {
@@ -2758,14 +2744,12 @@ div.toolbar table.toolbar td a.disabled:active {
 /* @end */
 /* Sidebar */
 #window-content.form .sidebar {
-  width: 300px;
-  float: none !important;
-  display: block !important;
-  margin: 0 !important;
+  width: 350px;
+}
+#window-content.form .sidebar .scrollable {
   border-left: 1px solid #E1E1E1;
   padding: 14px;
   background-color: #F9F9F9;
-  overflow-y: scroll;
 }
 div#window-content > div.col {
   float: none;
@@ -3068,63 +3052,51 @@ div.message {
   padding: 2px 0px 0px 0px;
 }
 .com_dashboard #window-content > div:first-child {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   border-right: 1px solid #dddddd;
 }
 .com_dashboard #window-content > div:first-child > div {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .com_dashboard #window-content > div:first-child > div > div {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .com_dashboard #window-content > div:first-child > div > div > div:last-child {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
 }
 .com_articles .categories,
 .com_users .groups {
@@ -3160,15 +3132,15 @@ div.message {
   overflow-y: scroll;
   float: none !important;
   margin: 0 !important;
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: vertical;
   -moz-box-orient: vertical;
   box-orient: vertical;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
 }
 .com_settings dl.tabs h3 {
   color: #666;
@@ -3236,41 +3208,29 @@ div.message {
   border-top: 0 none !important;
   border-right: 0 none !important;
   border-bottom: 0 none !important;
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .com_settings .current dd {
   padding: 14px 20px !important;
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
 }
 .com_settings .current h2 {
   border-bottom: 1px solid #EEE;
@@ -3291,308 +3251,280 @@ body,
   min-width: 960px;
 }
 #container {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-  overflow: hidden;
-  /* This overflow hidden on the container is for making the resize of the debug area work smoothly */
-
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 #header-box {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 30px 0;
+  -moz-flex: 30px 0;
+  flex: 30px 0;
 }
-#statusmenu {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-}
-#submenu {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+#header-box #menu {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 #tabs-box {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 28px 0;
+  -moz-flex: 28px 0;
+  flex: 28px 0;
+}
+#tabs-box #submenu {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
 }
 #toolbar-box {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 20px 0;
+  -moz-flex: 20px 0;
+  flex: 20px 0;
 }
 #window-body {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 #window-body.default #window-sidebar,
 #window-body.default #window-inspector {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-  width: 200px;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
+  min-width: 200px;
 }
 #window-body.default #window-sidebar .scrollable,
 #window-body.default #window-inspector .scrollable {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1 0 0%;
+  -moz-flex: 1 0 0%;
+  flex: 1 0 0%;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
 }
-#window-content {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+#window-body.default #window-sidebar .scrollable *,
+#window-body.default #window-inspector .scrollable * {
+  -webkit-flex: none;
+  -moz-flex: none;
+  flex: none;
+}
+#window-body #window-content {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: initial;
+  -moz-flex: initial;
+  flex: initial;
+}
+#window-body #window-content .-koowa-form {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+#window-body #window-content .-koowa-form .form-body {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+#window-body #window-content .-koowa-form .form-body .title {
+  height: 36px;
+}
+#window-body #window-content .-koowa-form .form-body .form-content {
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+#window-body #window-content .-koowa-form .sidebar {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: initial;
+  -moz-flex: initial;
+  flex: initial;
+}
+#window-body #window-content .-koowa-form .sidebar .scrollable {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1 0 0%;
+  -moz-flex: 1 0 0%;
+  flex: 1 0 0%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+#window-body #window-content .-koowa-form .sidebar .scrollable * {
+  -webkit-flex: none;
+  -moz-flex: none;
+  flex: none;
 }
 .editor-wrap,
 .editor-container,
 .mceEditor,
-.mceLayout,
-.mceLayout tbody,
-.mceLayout tbody tr td.mceIframeContainer,
+table.mceLayout,
+table.mceLayout > tbody,
+table.mceLayout > tbody > tr:nth-of-type(2),
+table.mceLayout > tbody > tr td.mceIframeContainer {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
 .CodeMirror {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
-.mceLayout tbody tr {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-}
-.mceLayout tbody tr:nth-of-type(2),
-.mceLayout tbody tr td.mceIframeContainer iframe,
 .CodeMirror .CodeMirror-scroll {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .-koowa-grid {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-}
-.-koowa-form {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-}
-.-koowa-form .form-body {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-}
-.-koowa-form .form-content {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 form[name="adminForm"] {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
 }
 /* @group Scope Bar */
 .scopebar {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-}
-.scopebar .scopebar-group {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 20px 0;
+  -moz-flex: 20px 0;
+  flex: 20px 0;
 }
 .scopebar .scopebar-search {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   -webkit-box-pack: end;
   -moz-box-pack: end;
   box-pack: end;
 }
 .scopebar .scopebar-search input {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
-}
-#header-box ul#menu {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: inline-axis;
-  -moz-box-orient: inline-axis;
-  box-orient: inline-axis;
-  -webkit-box-flex: 0;
-  -moz-box-flex: 0;
-  box-flex: 0;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 /* -- Specific styles ----------------------------- */
 body.com_users.login {
@@ -3749,15 +3681,15 @@ label.control-label:after {
 }
 .input-append,
 .input-prepend {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .input-append input,
 .input-prepend input,
@@ -3767,15 +3699,15 @@ label.control-label:after {
 }
 .input-append input,
 .input-prepend input {
-  display: -webkit-box;
-  display: -moz-box;
-  display: box;
-  -webkit-box-orient: horizontal;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: horizontal;
   -moz-box-orient: horizontal;
   box-orient: horizontal;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 .input-normal {
   max-width: 220px;

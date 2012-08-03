@@ -48,32 +48,34 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	</div>
 
     <div class="sidebar">
-    	<fieldset class="form-horizontal">
-    		<legend><?= @text( 'Publish' ); ?></legend>
-    		<div class="control-group">
-    		    <label class="control-label" for="enabled"><?= @text('Published') ?></label>
-    		    <div class="controls">
-    		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
-    		    </div>
-    		</div>
-    		<div class="control-group">
-    		    <label class="control-label" for="access"><?= @text('Access Level') ?></label>
-    		    <div class="controls">
-    		        <?= @helper('listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)) ?>
-    		    </div>
-    		</div>
-    	</fieldset>
-        <fieldset class="categories group">
-            <legend><?= @text('Parent') ?></legend>
-            <div class="control-group">
-                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-                'name'      => 'category_id',
-                'selected'  => $category->parent_id,
-                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
-                'prompt'    => '- None -',
-                'max_depth' => 1
-            )) ?>
-            </div>
-        </fieldset>
+    	<div class="scrollable">
+	    	<fieldset class="form-horizontal">
+	    		<legend><?= @text( 'Publish' ); ?></legend>
+	    		<div class="control-group">
+	    		    <label class="control-label" for="enabled"><?= @text('Published') ?></label>
+	    		    <div class="controls">
+	    		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
+	    		    </div>
+	    		</div>
+	    		<div class="control-group">
+	    		    <label class="control-label" for="access"><?= @text('Access Level') ?></label>
+	    		    <div class="controls">
+	    		        <?= @helper('listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)) ?>
+	    		    </div>
+	    		</div>
+	    	</fieldset>
+	        <fieldset class="categories group">
+	            <legend><?= @text('Parent') ?></legend>
+	            <div class="control-group">
+	                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
+	                'name'      => 'category_id',
+	                'selected'  => $category->parent_id,
+	                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
+	                'prompt'    => '- None -',
+	                'max_depth' => 1
+	            )) ?>
+	            </div>
+	        </fieldset>
+        </div>
     </div>
 </form>

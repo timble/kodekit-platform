@@ -12,20 +12,18 @@ defined('KOOWA') or die( 'Restricted access' );
 
 ?>
 
-<div class="sidebar">
-	<h3><?= @text('Groups') ?></h3>
-	<ul class="scrollable">
-		<li class="<?= !is_numeric($state->group) ? 'active' : ''; ?>">
-			<a href="<?= @route('group=' ) ?>">
-			    <?= @text('All users')?>
-			</a>
-		</li>
-		<? foreach($groups as $group) : ?>
-            <li <?= $state->group == $group->id ? 'class="active"' : '' ?>>
-                <a style="padding-left: <?= ($group->depth * 15) + 22 ?>px" href="<?= @route('group='.$group->id) ?>">
-                    <?= $group->name ?>
-                </a>
-            </li>
-		<? endforeach ?>
-	</ul>
-</div>
+<h3><?= @text('Groups') ?></h3>
+<ul class="scrollable">
+	<li class="<?= !is_numeric($state->group) ? 'active' : ''; ?>">
+		<a href="<?= @route('group=' ) ?>">
+		    <?= @text('All users')?>
+		</a>
+	</li>
+	<? foreach($groups as $group) : ?>
+        <li <?= $state->group == $group->id ? 'class="active"' : '' ?>>
+            <a style="padding-left: <?= ($group->depth * 15) + 22 ?>px" href="<?= @route('group='.$group->id) ?>">
+                <?= $group->name ?>
+            </a>
+        </li>
+	<? endforeach ?>
+</ul>

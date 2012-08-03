@@ -107,114 +107,116 @@ window.addEvent('domready', function() {
 		</div>
 	</div>
 
-	<div class="sidebar">		
-		<fieldset class="form-horizontal">
-			<legend><?= @text('Publish') ?></legend>
-			<? if($state->application == 'site') : ?>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text('Show title') ?></label>
-			    <div class="controls">
-			        <?= @helper('select.booleanlist', array(
-			        	'name'		=> 'showtitle',
-			        	'selected'	=> $module->showtitle
-			        )) ?>
-			    </div>
-			</div>
-			<? endif ?>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text('Published') ?></label>
-			    <div class="controls">
-			        <?= @helper('select.booleanlist', array(
-			        	'name'		=> 'enabled',
-			        	'selected'	=> $module->enabled	
-			        )) ?>
-			    </div>
-			</div>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text('Position') ?></label>
-			    <div class="controls">
-			        <?= @helper('combobox.positions', array('application' => $state->application)) ?>
-			    </div>
-			</div>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text( 'Order' ) ?></label>
-			    <div class="controls">
-			        <?= @helper('select.optionlist', array('name' => 'ordering', 'attribs' => array('id' =>'ordering'))) ?>
-			    </div>
-			</div>
-			<? if($state->application == 'site') : ?>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text('Access Level') ?></label>
-			    <div class="controls">
-			        <?= JHTML::_('list.accesslevel', $module) ?>
-			    </div>
-			</div>
-			<? endif ?>
-		</fieldset>
-		
-		<? if($state->application == 'site') : ?>
-		
-		<script type="text/javascript">
-		window.addEvent('domready', function(){
-			var selections = $('selections'),
-				setSelections = function(disabled, selected){
-					this.disabled = disabled;
-					$$(this.options).each(function(option){
-						option.disabled = disabled;
-						if(selected !== null) option.selected = selected;
-					});
-				};
-			$('menus-all').addEvent('change', function(){
-				setSelections.call(selections, true, true);
-			});
-			$('menus-none').addEvent('change', function(){
-				setSelections.call(selections, true, false);
-			});
-			$('menus-select').addEvent('change', function(){
-				setSelections.call(selections, false, null);
-			});
-		
-			<? if($state->application == 'site') : ?>
-				<? if($module->pages == 'all') : ?>
-					$('menus-all').fireEvent('change');
+	<div class="sidebar">
+		<div class="scrollable">	
+			<fieldset class="form-horizontal">
+				<legend><?= @text('Publish') ?></legend>
+				<? if($state->application == 'site') : ?>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Show title') ?></label>
+				    <div class="controls">
+				        <?= @helper('select.booleanlist', array(
+				        	'name'		=> 'showtitle',
+				        	'selected'	=> $module->showtitle
+				        )) ?>
+				    </div>
+				</div>
 				<? endif ?>
-				<? if($module->pages == 'none') : ?>
-					$('menus-none').fireEvent('change');
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Published') ?></label>
+				    <div class="controls">
+				        <?= @helper('select.booleanlist', array(
+				        	'name'		=> 'enabled',
+				        	'selected'	=> $module->enabled	
+				        )) ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Position') ?></label>
+				    <div class="controls">
+				        <?= @helper('combobox.positions', array('application' => $state->application)) ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text( 'Order' ) ?></label>
+				    <div class="controls">
+				        <?= @helper('select.optionlist', array('name' => 'ordering', 'attribs' => array('id' =>'ordering'))) ?>
+				    </div>
+				</div>
+				<? if($state->application == 'site') : ?>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Access Level') ?></label>
+				    <div class="controls">
+				        <?= JHTML::_('list.accesslevel', $module) ?>
+				    </div>
+				</div>
 				<? endif ?>
+			</fieldset>
+			
+			<? if($state->application == 'site') : ?>
+			
+			<script type="text/javascript">
+			window.addEvent('domready', function(){
+				var selections = $('selections'),
+					setSelections = function(disabled, selected){
+						this.disabled = disabled;
+						$$(this.options).each(function(option){
+							option.disabled = disabled;
+							if(selected !== null) option.selected = selected;
+						});
+					};
+				$('menus-all').addEvent('change', function(){
+					setSelections.call(selections, true, true);
+				});
+				$('menus-none').addEvent('change', function(){
+					setSelections.call(selections, true, false);
+				});
+				$('menus-select').addEvent('change', function(){
+					setSelections.call(selections, false, null);
+				});
+			
+				<? if($state->application == 'site') : ?>
+					<? if($module->pages == 'all') : ?>
+						$('menus-all').fireEvent('change');
+					<? endif ?>
+					<? if($module->pages == 'none') : ?>
+						$('menus-none').fireEvent('change');
+					<? endif ?>
+				<? endif ?>
+			});
+			</script>			
+			
+			<fieldset class="form-horizontal">
+				<legend><?= @text('Menu Assignment') ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text( 'Menus' ) ?></label>
+				    <div class="controls">
+				        <? if(!$module->client_id) : ?>
+				        	<label for="menus-all">
+				        		<input id="menus-all" type="radio" name="pages" value="all" <? if($module->pages == 'all') echo 'checked="checked"' ?> />
+				        		<?= @text('All') ?>
+				        	</label>
+				        	<label for="menus-none">
+				        		<input id="menus-none" type="radio" name="pages" value="none" <? if($module->pages == 'none') echo 'checked="checked"' ?> />
+				        		<?= @text('None') ?>
+				        	</label>
+				        	<label for="menus-select">
+				        		<input id="menus-select" type="radio" name="pages" value="select" <? if(is_array($module->pages)) echo 'checked="checked"' ?> />
+				        		<?= @text('Select From List') ?>
+				        	</label>
+				        <? endif ?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for=""><?= @text('Selection') ?></label>
+				    <div class="controls">
+				        <?= JHTML::_('select.genericlist', JHTML::_('menu.linkoptions'), 'pages[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $module->pages, 'selections' ) ?>
+				    </div>
+				</div>
+			</fieldset>
+			
 			<? endif ?>
-		});
-		</script>			
-		
-		<fieldset class="form-horizontal">
-			<legend><?= @text('Menu Assignment') ?></legend>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text( 'Menus' ) ?></label>
-			    <div class="controls">
-			        <? if(!$module->client_id) : ?>
-			        	<label for="menus-all">
-			        		<input id="menus-all" type="radio" name="pages" value="all" <? if($module->pages == 'all') echo 'checked="checked"' ?> />
-			        		<?= @text('All') ?>
-			        	</label>
-			        	<label for="menus-none">
-			        		<input id="menus-none" type="radio" name="pages" value="none" <? if($module->pages == 'none') echo 'checked="checked"' ?> />
-			        		<?= @text('None') ?>
-			        	</label>
-			        	<label for="menus-select">
-			        		<input id="menus-select" type="radio" name="pages" value="select" <? if(is_array($module->pages)) echo 'checked="checked"' ?> />
-			        		<?= @text('Select From List') ?>
-			        	</label>
-			        <? endif ?>
-			    </div>
-			</div>
-			<div class="control-group">
-			    <label class="control-label" for=""><?= @text('Selection') ?></label>
-			    <div class="controls">
-			        <?= JHTML::_('select.genericlist', JHTML::_('menu.linkoptions'), 'pages[]', 'class="inputbox" size="15" multiple="multiple"', 'value', 'text', $module->pages, 'selections' ) ?>
-			    </div>
-			</div>
-		</fieldset>
-		
-		<? endif ?>
+		</div>
 	</div>
 
 	<input type="hidden" name="type" value="<?= $module->type ?>" />
