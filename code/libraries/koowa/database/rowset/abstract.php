@@ -407,7 +407,6 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     /**
      * Reset the rowset
      *
-     * @return bool  If successful return TRUE, otherwise FALSE
      * @return  KDatabaseRowInterface
      */
     public function reset()
