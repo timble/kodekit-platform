@@ -3,10 +3,6 @@
 label.invalid { color: #ff0000; }
 
 /* Buttons */
-#editor-xtd-buttons {
-	padding: 5px;
-}
-
 .button2-left,
 .button2-right,
 .button2-left div,
