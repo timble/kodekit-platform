@@ -36,15 +36,13 @@ class ComDefaultTemplateHelperEditor extends KTemplateHelperAbstract
             'rows'      => '20',
             'buttons'   => true,
             'options'   => array()
-        ))->append(array(
-            'id'		=> $config->name
         ));
 
         $editor  = JFactory::getEditor($config->editor);
         $options = KConfig::unbox($config->options);
 
         if (version_compare(JVERSION, '1.6.0', 'ge')) {
-            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::unbox($config->buttons), $config->id, null, null, $options);
+            $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::unbox($config->buttons), $config->name, null, null, $options);
         } else {
             $result = $editor->display($config->name, $config->{$config->name}, $config->width, $config->height, $config->cols, $config->rows, KConfig::unbox($config->buttons), $options);
         }
