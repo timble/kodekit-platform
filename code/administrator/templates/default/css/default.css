@@ -3051,52 +3051,32 @@ div.message {
   margin: 0;
   padding: 2px 0px 0px 0px;
 }
-.com_dashboard #window-content > div:first-child {
+.com_dashboard #window-body #window-content {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_dashboard #window-body #window-content > div:first-child {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
   border-right: 1px solid #dddddd;
 }
-.com_dashboard #window-content > div:first-child > div {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-.com_dashboard #window-content > div:first-child > div > div {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-.com_dashboard #window-content > div:first-child > div > div > div:last-child {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+.com_dashboard #window-body #window-content .sidebar {
+  width: 400px;
+  padding: 20px;
 }
 .com_articles .categories,
 .com_users .groups {
@@ -3135,9 +3115,9 @@ div.message {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
   -webkit-flex: 0;
   -moz-flex: 0;
   flex: 0;
@@ -3211,9 +3191,9 @@ div.message {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
@@ -3223,9 +3203,9 @@ div.message {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;

@@ -21,7 +21,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 
 <?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 
-<div class="sidebar-right" style="width:400px; padding: 20px;">
+<div class="sidebar">
     <? foreach ($modules as $module) : ?>
     <div class="<?= $module->type ?>">
     	<h3><?= $module->title ?></h3>

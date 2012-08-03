@@ -46,23 +46,18 @@ div.message {
 	padding: 2px 0px 0px 0px;
 }
 
-.com_dashboard #window-content {
+.com_dashboard #window-body #window-content {
+	#flexbox > .box(row, 1);
+	
 	> div:first-child {
-		#flexbox > .box(horizontal, 1);
+		#flexbox > .box(row, 1);
 		
 		border-right: 1px solid @grayLighter;
-		
-		> div {
-			#flexbox > .box(horizontal, 1);
-			
-			> div {
-				#flexbox > .box(vertical, 1);
-				
-				> div:last-child {
-					#flexbox > .box(vertical, 1, scrollable);
-				}
-			}
-		}
+	}
+	
+	.sidebar {
+		width: 400px;
+		padding: 20px;
 	}
 }
 
@@ -108,7 +103,7 @@ div.message {
 		float: none !important;
 		margin: 0 !important;
 		
-		#flexbox > .box(vertical, 0);
+		#flexbox > .box(column, 0);
 	}
 	
 	dl.tabs h3 {
@@ -166,12 +161,12 @@ div.message {
 		border-right: 0 none !important;
 		border-bottom: 0 none !important;
 		
-		#flexbox > .box(horizontal, 1);
+		#flexbox > .box(row, 1);
 		
 		dd {
 			padding: 14px 20px !important;
 			
-			#flexbox > .box(horizontal, 1, scrollable);
+			#flexbox > .box(row, 1, scrollable);
 		}
 	}
 	
