@@ -27,18 +27,18 @@ class ComDefaultTemplateHelperRoute extends KTemplateHelperDefault
     protected function _findPage($needles)
 	{
         $component = JComponentHelper::getComponent('com_'.$this->getIdentifier()->package);
-        $items	   = JFactory::getApplication()->getMenu()->getItems('componentid', $component->id);
+        $pages     = JFactory::getApplication()->getPages()->find(array('component_id' => $component->id));
 
 		$match = null;
-        foreach($items as $item)
+        foreach($pages as $page)
         {
-            $match = $item;
+            $match = $page;
 
             foreach($needles as $needle)
             {
                 foreach($needle as $key => $value)
                 {
-                    if(!(isset($match->query[$key]) && $match->query[$key] == $value)) {
+                    if(!(isset($match->link->query[$key]) && $match->link->query[$key] == $value)) {
                         $match = null;
                         break;
                     }
