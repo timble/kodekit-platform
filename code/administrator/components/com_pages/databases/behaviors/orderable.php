@@ -66,9 +66,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
             $identifier = $this->getTable()->getIdentifier();
             $identifier->name = substr($this->getTable()->getOrderingTable(), strlen($identifier->package) + 1);
             
-            // TODO: Remove identity column when issue fixed in framework.
-            $table = $this->getService($identifier, array('identity_column' => $this->getTable()->getIdentityColumn()));
-            
+            $table = $this->getService($identifier);
             $orderings = $table->select(count($siblings) ? $siblings->id : null, KDatabase::FETCH_ROWSET);
             
             switch($context->operation)
