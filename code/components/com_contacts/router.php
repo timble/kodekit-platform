@@ -23,12 +23,12 @@ class ComContactsRouter extends ComDefaultRouter
         $segments = array();
 
         if(isset($query['Itemid'])) {
-            $page = JFactory::getApplication()->getMenu()->getItem($query['Itemid']);
+            $page = JFactory::getApplication()->getPages()->find($query['Itemid']);
         } else {
-            $page = JFactory::getApplication()->getMenu()->getActive();
+            $page = JFactory::getApplication()->getPages()->getActive();
         }
 
-        $view = $page->query['view'];
+        $view = $page->link->query['view'];
 
         if($view == 'categories')
         {
@@ -59,9 +59,9 @@ class ComContactsRouter extends ComDefaultRouter
     {
         $vars = array();
 
-        $page = JFactory::getApplication()->getMenu()->getActive();
+        $page = JFactory::getApplication()->getPages()->getActive();
 
-        $view  = $page->query['view'];
+        $view  = $page->link->query['view'];
         $count = count($segments);
 
         if($view == 'categories')

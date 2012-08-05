@@ -104,35 +104,34 @@ class ComApplicationRouter extends KDispatcherRouterDefault
     protected function _parsePageRoute($url)
     {
         $route = $url->getPath();
-
+        $pages = JFactory::getApplication()->getPages();
+        
         if(substr($route, 0, 9) != 'component')
         {
             //Need to reverse the array (highest sublevels first)
-            $items = array_reverse(JFactory::getApplication()->getMenu()->getMenu());
-
-            foreach ($items as $item)
+            foreach(array_reverse($pages->id) as $id)
             {
-                $length = strlen($item->route);
+                $page   = $pages->find($id);
+                $length = strlen($page->route);
 
-                if($length > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink')
+                if($length > 0 && strpos($route.'/', $page->route.'/') === 0 && $page->type != 'menulink')
                 {
                     $route = substr($route, $length);
 
-                    $url->query = $item->query;
-                    $url->query['Itemid'] = $item->id;
-                    $url->query['option'] = $item->component;
+                    $url->query = $page->link->query;
+                    $url->query['Itemid'] = $page->id;
 
-                    JFactory::getApplication()->getMenu()->setActive($item->id);
+                    $pages->setActive($page->id);
                     break;
                 }
             }
         }
         else
         {
-            $segments	= explode('/', $route);
-            $route      = str_replace('component/'.$segments[1], '', $route);
+            $segments = explode('/', $route);
+            $route    = str_replace('component/'.$segments[1], '', $route);
 
-            $url->query['Itemid'] = JFactory::getApplication()->getMenu()->getDefault()->id;
+            $url->query['Itemid'] = $pages->getHome()->id;
             $url->query['option'] = 'com_'.$segments[1];
         }
 
@@ -214,7 +213,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
         if(!isset($url->query['Itemid']))
         {
-            $page = JFactory::getApplication()->getMenu()->getActive();
+            $page = JFactory::getApplication()->getPages()->getActive();
             if($page) {
                 $url->query['Itemid'] = $page->id;
             }
@@ -222,11 +221,11 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
         if(isset($url->query['Itemid']))
         {
-            $menu = JFactory::getApplication()->getMenu();
-            $item = $menu->getItem($url->query['Itemid']);
+            $pages = JFactory::getApplication()->getPages();
+            $page  = $pages->find($url->query['Itemid']);
 
-            if ($item->component == $url->query['option']) {
-                $segments = $item->route;
+            if($page->link->query['option'] == $url->query['option']) {
+                $segments = $page->route;
             } else {
                 $segments = 'component/'.substr($url->query['option'], 4);
             }

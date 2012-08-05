@@ -47,7 +47,7 @@ class ComUsersControllerBehaviorUserSpammable extends ComUsersControllerBehavior
             $this->blacklist($context->data);
 
             // Re-direct user to default page with message corresponding message.
-            $url = JRoute::_('index.php?Itemid=' . JFactory::getApplication()->getMenu()->getDefault()->id, false);
+            $url = JRoute::_('index.php?Itemid=' . JFactory::getApplication()->getPages()->getHome()->id, false);
             $this->setRedirect($url, JText::_($this->_error_msg), 'notice');
         }
         else

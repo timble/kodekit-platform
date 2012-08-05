@@ -1,0 +1,117 @@
+/* Additions and overrides for the template */
+#main			{ background: #E6E6E6; } /* tabs.css */
+#main .tabs 	{ float: none !important; } /* tabs.css */
+#main .current 	{ overflow-y: scroll; -webkit-box-flex: 1; } /* scroll inside the tabs */
+
+#components {
+	width: 200px;
+	background: #F7F7F7;
+	border-right: 1px solid #DDD;
+}
+
+#components h3 {
+	border-bottom: 1px solid #DDD;
+	margin: 0;
+	padding: 10px;
+}
+
+#components span.icon { float: left; display: block; width: 14px; height: 14px; margin-right: 5px; background-position: 0 0; background-size: 14px; }
+
+#components a {
+	display: block;
+	font-size: 120%;
+	font-weight: bold;
+	padding: 10px 15px;
+	border-bottom: 1px solid #DDD;
+}
+
+#components a.active 	{ background: #E8F3FB; }
+#components a.selected 	{ background: #E8F3FB; }
+
+#types {
+	width: 250px;
+	background: #F7F7F7;
+	border-right: 1px solid #DDD;
+}
+
+#types .view h4 {
+	margin: 0;
+	padding: 5px;
+	background: #F0F0F0;
+	border-bottom: 1px solid #DDD;
+	border-top: 1px solid #DDD;
+}
+
+#types .view:first-of-type h4 { border-top: none 0px; }
+
+#types .view a {
+	padding: 5px 10px;
+	display: block;
+	font-weight: bold;
+}
+
+#types .view a small {
+	font-style: italic;
+	font-weight: normal;
+	color: #333;
+}
+
+section 		{ padding: 0 !important; }
+section h3 	{
+	padding: 7px 10px;
+	margin: 0 0 5px 0;
+	color: #666;
+	background-color: #f1f2f4;
+	border: 1px solid #EEE;
+	-webkit-border-radius: 5px;
+}
+
+section h4 { padding: 0; margin: 5px 0 0 10px; }
+
+#publish #parent {
+	margin: 5px 0 0 15px;
+	display: block;
+}
+
+#title 			{ padding: 10px; background-color: #EDEDED; border-bottom: 1px solid #ABABAB; -webkit-box-shadow: hsla(0, 0%, 10%, 0.20) 0px 2px 2px; z-index: 100; }
+#title label[for="title"] 		{ font-size: 13px; }
+#title label[for="title"] input { width: 60%; font-size: 13px; padding: 5px; }
+#title label[for="alias"]		{ margin: 4px 0 0 70px; display: block; }
+
+/* @group Tabs */
+#main dl.tabs {
+	float: left;
+	padding-top: 10px;
+	margin: 0 0 -1px 0;
+	z-index: 50;
+}
+#main dl.tabs dt {
+	float: left;
+	padding: 8px 12px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin-left: 3px;
+	background: #f0f0f0;
+	color: #666;
+	-webkit-border-radius: 5px 5px 0 0;
+	font-weight: bold;
+	font-size: 110%;
+}
+#main dl.tabs dt.open {
+	background: #FFF;
+	border-bottom: 1px solid #FFF;
+	z-index: 100;
+	color: #222;
+}
+#main div.current {
+	clear: both;
+	border-top: 1px solid #ccc;
+	padding: 10px 10px;
+	background-color: #FFF;
+}
+#main div.current dd {
+	padding: 0;
+	margin: 0;
+}
+/* @end */

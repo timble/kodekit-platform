@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0" client="administrator">
+	<name>Pages</name>
+	<author>Nooku Project</author>
+	<creationDate>June 2012</creationDate>
+	<copyright>Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>12.3</version>
+	<description>This module shows the main admin navigation menu.</description>
+	<files>
+		<filename module="mod_pages">mod_pages.php</filename>
+		<filename>html.php</filename>
+	</files>
+	<params>
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+	</params>
+</install>

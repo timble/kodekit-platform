@@ -39,7 +39,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		$query
 		    ->join(array('user' => 'users'), 'user.id = tbl.checked_out')
 		    ->join(array('group' => 'groups'), 'group.id = tbl.access')
-		    ->join(array('module_menu' => 'modules_menu'), 'module_menu.moduleid = tbl.id');
+		    ->join(array('module_menu' => 'pages_modules'), 'module_menu.moduleid = tbl.id');
 
 		parent::_buildQueryJoin($query);
 	}

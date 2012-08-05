@@ -23,12 +23,12 @@ class ComArticlesRouter extends ComDefaultRouter
         $segments = array();
 
         if(isset($query['Itemid'])) {
-            $page = JFactory::getApplication()->getMenu()->getItem($query['Itemid']);
+            $page = JFactory::getApplication()->getPages()->find($query['Itemid']);
         } else {
-            $page = JFactory::getApplication()->getMenu()->getActive();
+            $page = JFactory::getApplication()->getPages()->getActive();
         }
 
-        $view = $page->query['view'];
+        $view = $page->link->query['view'];
 
         if($view == 'categories')
         {
@@ -51,9 +51,9 @@ class ComArticlesRouter extends ComDefaultRouter
         }
 
         //Todo : move to the the generic component router
-        if(isset($page->query['layout']) && isset($query['layout']))
+        if(isset($page->link->query['layout']) && isset($query['layout']))
         {
-            if($page->query['layout'] == $query['layout']) {
+            if($page->link->query['layout'] == $query['layout']) {
                 unset($query['layout']);
             }
         }
@@ -69,14 +69,14 @@ class ComArticlesRouter extends ComDefaultRouter
     {
         $vars = array();
 
-        $page = JFactory::getApplication()->getMenu()->getActive();
+        $page = JFactory::getApplication()->getPages()->getActive();
 
-        $view  = $page->query['view'];
+        $view  = $page->link->query['view'];
         $count = count($segments);
 
         if($view == 'categories')
         {
-            if ($count)
+            if($count)
             {
                 $count--;
                 $segment = array_shift( $segments );
@@ -85,12 +85,12 @@ class ComArticlesRouter extends ComDefaultRouter
                 $vars['view'] = 'articles';
             }
 
-            if ($count)
+            if($count)
             {
                 $count--;
                 $segment = array_shift( $segments) ;
 
-                $vars['id'] =  $segment;
+                $vars['id'] = $segment;
                 $vars['view'] = 'article';
             }
         }
@@ -106,6 +106,3 @@ class ComArticlesRouter extends ComDefaultRouter
         return $vars;
     }
 }
-
-
-

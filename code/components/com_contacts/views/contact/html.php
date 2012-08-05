@@ -29,7 +29,7 @@ class ComContactsViewContactHtml extends ComDefaultViewHtml
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if ($page = JFactory::getApplication()->getMenu()->getActive())
+        if ($page = JFactory::getApplication()->getPages()->getActive())
         {
             $menu_params = new JParameter( $page->params );
             if (!$menu_params->get( 'page_title')) {
@@ -44,12 +44,12 @@ class ComContactsViewContactHtml extends ComDefaultViewHtml
         //Set the breadcrumbs
         $pathway = JFactory::getApplication()->getPathway();
 
-        if($page->query['view'] == 'categories' ) {
+        if($page->link->query['view'] == 'categories' ) {
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($contact->name, '');
         }
 
-        if($page->query['view'] == 'contacts' ) {
+        if($page->link->query['view'] == 'contacts' ) {
             $pathway->addItem($contact->name, '');
         }
 

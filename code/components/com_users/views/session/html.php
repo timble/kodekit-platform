@@ -34,19 +34,13 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
     
     public function getParameters()
     {
-        $menu    = JFactory::getApplication()->getMenu();
-        $default = $menu->getDefault();
-        $active  = $menu->getActive();
-        $parameters = $active ? $menu->getParams($active->id) : $parameters = $menu->getParams(null);
+        $active = JFactory::getApplication()->getPages()->getActive();
+        $parameters = new JParameter($active->params);
 
         $parameters->def('show_page_title', 1);
 
         if(!$parameters->get('page_title')) {
             $parameters->set('page_title', JText::_('Login'));
-        }
-
-        if(!$active) {
-            $parameters->def('header_login', '');
         }
 
         $parameters->def('pageclass_sfx', '');

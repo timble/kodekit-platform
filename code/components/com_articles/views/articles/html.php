@@ -26,11 +26,11 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if ($page = JFactory::getApplication()->getMenu()->getActive())
+        if($page = JFactory::getApplication()->getPages()->getActive())
         {
-            $menu_params = new JParameter( $page->params );
-            if (!$menu_params->get( 'page_title')) {
-                $params->set('page_title',	$category->title);
+            $menu_params = new JParameter($page->params);
+            if(!$menu_params->get('page_title')) {
+                $params->set('page_title', $category->title);
             }
         }
         else $params->set('page_title',	$category->title);
@@ -55,7 +55,7 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
                          ->getItem();
 
         //Set the category image
-        if (isset( $category->image ) && !empty($category->image))
+        if(isset( $category->image ) && !empty($category->image))
         {
             $path = JPATH_IMAGES.'/stories/'.$category->image;
             $size = getimagesize($path);
@@ -69,5 +69,4 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
 
         return $category;
     }
-
 }

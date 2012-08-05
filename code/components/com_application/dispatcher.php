@@ -44,6 +44,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      * @var KConfig
      */
     protected $_options = null;
+    
+    /**
+     * Pages
+     * 
+     * @var ComPagesDatabaseRowsetPages
+     */
+    protected $_pages;
 
     /**
      * Constructor.
@@ -184,8 +191,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             //Redirect to the default menu item if the route is empty
             if(empty($route))
             {
-                $default = $this->getMenu()->getDefault();
-                $this->redirect(JRoute::_($default->link.'&Itemid='.$default->id), '', '', true);
+                $home = JFactory::getApplication()->getPages()->getHome();
+                $this->redirect(JRoute::_($home->link.'&Itemid='.$home->id), '', '', true);
             }
         }
 
@@ -194,13 +201,17 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
         //Set the request
         $this->setRequest($url->query);
+        
+        // TODO: Remove this JRequest call.
+        JRequest::set($url->query, 'get');
     }
 
     protected function _actionAuthorize(KCommandContext $context)
     {
         if(!($this->getCfg('offline') && JFactory::getUser()->get('guest')))
         {
-            if(!$this->getMenu()->authorize(JRequest::getInt('Itemid'), JFactory::getUser()->get('aid')))
+            $pages = JFactory::getApplication()->getPages();
+            if(!$pages->isAuthorized(JRequest::getInt('Itemid'), JFactory::getUser()->get('aid')))
             {
                 if (JFactory::getUser()->get('aid'))
                 {
@@ -460,19 +471,27 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     }
 
     /**
-     * Return a reference to the application JPathway object.
+     * Get pages
      *
-     * @param  array	$options 	An optional associative array of configuration settings.
-     * @return object JMenu.
+     * @return ComPagesDatabaseRowsetPages The rowset object.
      */
-    public function getMenu($options = array())
+    public function getPages()
     {
-        $name = $this->getName();
-
-        jimport( 'joomla.application.menu' );
-        $menu = JMenu::getInstance($name, $options);
-
-        return $menu;
+        if(!$this->_pages)
+        {
+            // Select enabled pages.
+            $pages = $this->getService('com://admin/pages.model.pages')->enabled(true)->getList();
+            
+            // Mixin the pages mixin into the rowset.
+            $this->getService('koowa:loader')->loadIdentifier('com://admin/pages.mixin.pages');
+            $pages->mixin(new ComPagesMixinPages(new KConfig()));
+            
+            // Set route for pages and store the object in the application.
+            $pages->setRoute();
+            $this->_pages = $pages;
+        }
+        
+        return $this->_pages;
     }
 
     /**
@@ -516,15 +535,15 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             $params[$hash] = JComponentHelper::getParams($option);
 
             // Get menu parameters
-            $menu = $this->getMenu()->getActive();
+            $page = JFactory::getApplication()->getPages()->getActive();
 
             $title  = htmlspecialchars_decode($this->getCfg('sitename' ));
 
             // Lets cascade the parameters if we have menu item parameters
-            if (is_object($menu))
+            if (is_object($page))
             {
-                $params[$hash]->merge(new JParameter($menu->params));
-                $title = $menu->name;
+                $params[$hash]->merge(new JParameter((string) $page->params));
+                $title = $page->title;
 
             }
 

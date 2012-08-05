@@ -23,12 +23,12 @@ class ComWeblinksRouter extends ComDefaultRouter
         $segments = array();
 
         if(isset($query['Itemid'])) {
-            $page = JFactory::getApplication()->getMenu()->getItem($query['Itemid']);
+            $page = JFactory::getApplication()->getPages()->find($query['Itemid']);
         } else {
-            $page = JFactory::getApplication()->getMenu()->getActive();
+            $page = JFactory::getApplication()->getPages()->getActive();
         }
 
-        $view = $page->query['view'];
+        $view = $page->link->query['view'];
 
         if($view == 'categories')
         {
@@ -58,15 +58,14 @@ class ComWeblinksRouter extends ComDefaultRouter
     public function parseRoute($segments)
     {
         $vars = array();
+        $page = JFactory::getApplication()->getPages()->getActive();
 
-        $page = JFactory::getApplication()->getMenu()->getActive();
-
-        $view  = $page->query['view'];
+        $view  = $page->link->query['view'];
         $count = count($segments);
 
         if($view == 'categories')
         {
-            if ($count)
+            if($count)
             {
                 $count--;
                 $segment = array_shift( $segments );
@@ -75,7 +74,7 @@ class ComWeblinksRouter extends ComDefaultRouter
                 $vars['view'] = 'weblinks';
             }
 
-            if ($count)
+            if($count)
             {
                 $count--;
                 $segment = array_shift( $segments) ;

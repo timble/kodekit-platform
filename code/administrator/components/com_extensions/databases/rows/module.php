@@ -89,10 +89,10 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 		{
 		    if(!$this->isNew()) 
 		    {
-		        $table = $this->getService('com://admin/extensions.database.table.menus');
+		        $table = $this->getService('com://admin/pages.database.table.modules');
 				$query = $this->getService('koowa:database.query.select')
-                    ->columns('menuid')
-                    ->where('moduleid = :id')
+                    ->columns('pages_page_id')
+                    ->where('modules_module_id = :id')
                     ->bind(array('id' => $this->id));
                 
 				$pages = $table->select($query, KDatabase::FETCH_FIELD_LIST);
@@ -128,10 +128,10 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 
 		if(in_array('pages', $modified)) 
 		{
-		    $table = $this->getService('com://admin/extensions.database.table.menus');
+		    $table = $this->getService('com://admin/pages.database.table.modules');
 		
 		    //Clean up existing assignemnts
-		    $table->select(array('moduleid' => $this->id))->delete();
+		    $table->select(array('modules_module_id' => $this->id))->delete();
 
 		    if(is_array($this->pages)) 
 		    {
@@ -140,8 +140,8 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 				    $table
 					    ->select(null, KDatabase::FETCH_ROW)
 					    ->setData(array(
-							'moduleid'	=> $this->id,
-							'menuid'	=> $page
+							'modules_module_id' => $this->id,
+							'pages_page_id' => $page
 				    	))
 					    ->save();
 			    }
@@ -175,8 +175,8 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 		
 		if($this->getStatus() != KDatabase::STATUS_FAILED) 
 		{	
-		    $this->getService('com://admin/extensions.database.table.menus')
-			    ->select(array('moduleid' => $this->id))
+		    $this->getService('com://admin/pages.database.table.modules')
+			    ->select(array('modules_module_id' => $this->id))
 			    ->delete();
 		}
 

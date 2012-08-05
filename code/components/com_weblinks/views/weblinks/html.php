@@ -31,7 +31,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if ($page = JFactory::getApplication()->getMenu()->getActive())
+        if ($page = JFactory::getApplication()->getPages()->getActive())
         {
             $menu_params = new JParameter( $page->params );
             if (!$menu_params->get( 'page_title')) {
@@ -44,7 +44,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
         JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the pathway
-        if($page->query['view'] == 'categories' ) {
+        if($page->link->query['view'] == 'categories' ) {
             JFactory::getApplication()->getPathway()->addItem($category->title, '');
         }
 

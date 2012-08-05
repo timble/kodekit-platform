@@ -26,10 +26,10 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         $article = $this->getModel()->getData();
 
         //Get the parameters of the active menu item
-        if ($page = JFactory::getApplication()->getMenu()->getActive())
+        if($page = JFactory::getApplication()->getPages()->getActive())
         {
-            $menu_params = new JParameter( $page->params );
-            if (!$menu_params->get( 'page_title')) {
+            $menu_params = new JParameter($page->params);
+            if(!$menu_params->get('page_title')) {
                 $params->set('page_title',	$article->title);
             }
         }
@@ -41,14 +41,14 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         //Set the breadcrumbs
         $pathway = JFactory::getApplication()->getPathway();
 
-        if($page->query['view'] == 'categories')
+        if($page->link->query['view'] == 'categories')
         {
             $category = $article->getCategory();
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($article->title, '');
         }
 
-        if($page->query['view'] == 'articles') {
+        if($page->link->query['view'] == 'articles') {
             $pathway->addItem($article->title, '');
         }
 
@@ -81,5 +81,4 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
 
         return $category;
     }
-
 }

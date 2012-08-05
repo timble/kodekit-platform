@@ -37,7 +37,7 @@ class modBreadCrumbsHelper
 			$item = new stdClass();
 			$item->name = $params->get('homeText', JText::_('Home'));
 
-            $default = JFactory::getApplication()->getMenu()->getDefault();
+            $default = JFactory::getApplication()->getPages()->getHome();
 			$item->link = JRoute::_($default->link.'&Itemid='.$default->id);
 
 			array_unshift($items, $item);

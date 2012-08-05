@@ -22,17 +22,17 @@ class JElementArticle extends JElement
 
     function fetchElement($name, $value, &$node, $control_name)
     {
-        $db         = JFactory::getDBO();
-        $doc        = JFactory::getDocument();
-        $template   = JFactory::getApplication()->getTemplate();
-
-        $fieldName  = $control_name.'['.$name.']';
-        $article    = JTable::getInstance('content');
-        if ($value) {
-            $article->load($value);
-        } else {
-            $article->title = JText::_('Select an Article');
+        if(is_numeric($value))
+        {
+            $title = KService::get('com://admin/articles.model.articles')
+                ->id($value)
+                ->getItem()
+                ->title;
         }
+        else $title = JText::_('Select an Article');
+
+        $doc        =& JFactory::getDocument();
+        $fieldName  = $control_name.'['.$name.']';
 
         $js = "
         function jSelectArticle(id, title, object) {
@@ -45,7 +45,7 @@ class JElementArticle extends JElement
         $link = 'index.php?option=com_articles&view=articles&layout=element&tmpl=component&object='.$name;
 
         JHTML::_('behavior.modal', 'a.modal');
-        $html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
+        $html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
 //      $html .= "\n &nbsp; <input class=\"inputbox modal-button\" type=\"button\" value=\"".JText::_('Select')."\" />";
         $html .= '<a style="margin-left: 10px;" class="btn modal" title="'.JText::_('Select an Article').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Select').'</a>'."\n";
         $html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';

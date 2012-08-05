@@ -29,39 +29,34 @@ class JPathwaySite extends JPathway
 	function __construct($options = array())
 	{
 		//Initialise the array
-		$this->_pathway = array();
+	    $this->_pathway = array();
+        $pages = JFactory::getApplication()->getPages();
 
-		$menu = JFactory::getApplication()->getMenu();
+        if($active = $pages->getActive())
+        {
+            $home = $pages->getHome();
+            if(is_object($home) && ($active->id != $home->id))
+            {
+                foreach(explode('/', $active->path) as $id)
+                {
+                    $page = $pages->find($id);
+                    $url  = '';
+                    switch($page->type)
+                    {
+                        case 'menulink' :
+                        case 'url' :
+                            $url = $page->link;
+                            break;
+                        case 'separator' :
+                            $url = null;
+                            break;
+                        default      :
+                            $url = JRoute::_($page->link.'&Itemid='.$page->id);
+                    }
 
-		if($item = $menu->getActive())
-		{
-			$menus	= $menu->getMenu();
-			$home	= $menu->getDefault();
-
-			if(is_object($home) && ($item->id != $home->id))
-			{
-				foreach($item->tree as $menupath)
-				{
-					$url  = '';
-					$link = $menu->getItem($menupath);
-
-					switch($link->type)
-					{
-						case 'menulink' :
-						case 'url' :
-							$url = $link->link;
-							break;
-						case 'separator' :
-							$url = null;
-							break;
-						default      :
-							$url = JRoute::_($link->link.'&Itemid='.$link->id);
-					}
-
-					$this->addItem( $menus[$menupath]->name, $url);
-
-				} // end foreach
-			}
-		} // end if getActive
+                    $this->addItem($page->title, $url);
+                }
+            }
+        }
 	}
 }

@@ -7,8 +7,9 @@
 -- Server version: 5.5.24
 -- PHP Version: 5.3.12
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40101 SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 
 -- --------------------------------------------------------
 
@@ -17,18 +18,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `#__activities_activities` (
-	`activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-	`application` VARCHAR(10) NOT NULL DEFAULT '',
-	`type` VARCHAR(3) NOT NULL DEFAULT '',
-	`package` VARCHAR(50) NOT NULL DEFAULT '',
-	`name` VARCHAR(50) NOT NULL DEFAULT '',
-	`action` VARCHAR(50) NOT NULL DEFAULT '',
-	`row` BIGINT NOT NULL DEFAULT '0',
-	`title` VARCHAR(255) NOT NULL DEFAULT '',
-	`status` varchar(100) NOT NULL,
-	`created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`created_by` INT(11) NOT NULL DEFAULT '0',
-	PRIMARY KEY(`activities_activity_id`)
+    `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `application` VARCHAR(10) NOT NULL DEFAULT '',
+    `type` VARCHAR(3) NOT NULL DEFAULT '',
+    `package` VARCHAR(50) NOT NULL DEFAULT '',
+    `name` VARCHAR(50) NOT NULL DEFAULT '',
+    `action` VARCHAR(50) NOT NULL DEFAULT '',
+    `row` BIGINT NOT NULL DEFAULT '0',
+    `title` VARCHAR(255) NOT NULL DEFAULT '',
+    `status` varchar(100) NOT NULL,
+    `created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `created_by` INT(11) NOT NULL DEFAULT '0',
+    PRIMARY KEY(`activities_activity_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -246,54 +247,6 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__menu`
---
-
-CREATE TABLE `#__menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menutype` varchar(75) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `alias` varchar(255) NOT NULL DEFAULT '',
-  `link` text,
-  `type` varchar(50) NOT NULL DEFAULT '',
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `parent` int(11) unsigned NOT NULL DEFAULT '0',
-  `componentid` int(11) unsigned NOT NULL DEFAULT '0',
-  `sublevel` int(11) DEFAULT '0',
-  `ordering` int(11) DEFAULT '0',
-  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `pollid` int(11) NOT NULL DEFAULT '0',
-  `browserNav` tinyint(4) DEFAULT '0',
-  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `utaccess` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `params` text NOT NULL,
-  `lft` int(11) unsigned NOT NULL DEFAULT '0',
-  `rgt` int(11) unsigned NOT NULL DEFAULT '0',
-  `home` int(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `componentid` (`componentid`,`menutype`,`published`,`access`),
-  KEY `menutype` (`menutype`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__menu_types`
---
-
-CREATE TABLE `#__menu_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `menutype` varchar(75) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `description` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `menutype` (`menutype`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__modules`
 --
 
@@ -322,13 +275,88 @@ CREATE TABLE `#__modules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__modules_menu`
+-- Table structure for table `#__pages_page_orderings`
 --
 
-CREATE TABLE `#__modules_menu` (
-  `moduleid` int(11) NOT NULL DEFAULT '0',
-  `menuid` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`moduleid`,`menuid`)
+CREATE TABLE `#__pages_page_orderings` (
+  `pages_page_id` INT UNSIGNED NOT NULL,
+  `title` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `custom` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`pages_page_id`),
+  INDEX `ix_title` (`title`),
+  INDEX `ix_custom` (`custom`),
+  CONSTRAINT `pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__pages_page_relations`
+--
+
+CREATE TABLE IF NOT EXISTS `#__pages_page_relations` (
+  `ancestor_id` INT UNSIGNED NOT NULL,
+  `descendant_id` INT UNSIGNED NOT NULL,
+  `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`ancestor_id`, `descendant_id`),
+  CONSTRAINT `ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE,
+  INDEX `ix_level` (`level`),
+  INDEX `ix_descendant_id` (`descendant_id`)
+) ENGINE = InnoDB CHARSET = utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__pages_menus`
+--
+
+CREATE TABLE `#__pages_menus` (
+  `pages_menu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `slug` VARCHAR(255),
+  `description` VARCHAR(255),
+  PRIMARY KEY (`pages_menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__pages_modules`
+--
+
+CREATE TABLE `#__pages_modules` (
+  `modules_module_id` INT NOT NULL,
+  `pages_page_id` INT NOT NULL,
+  PRIMARY KEY (`modules_module_id`,`pages_page_id`),
+  INDEX `ix_pages_page_id` (`pages_page_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__pages_pages`
+--
+
+CREATE TABLE `#__pages_pages` (
+  `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pages_menu_id` INT UNSIGNED NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `slug` VARCHAR(255),
+  `link` TEXT,
+  `type` VARCHAR(50),
+  `enabled` BOOLEAN NOT NULL DEFAULT 0,
+  `component_id` INT UNSIGNED,
+  `locked_by` INT UNSIGNED,
+  `locked_on` DATETIME,
+  `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `params` TEXT,
+  `home` BOOLEAN NOT NULL DEFAULT 0,
+  PRIMARY KEY (`pages_page_id`),
+  CONSTRAINT `pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
+  INDEX `ix_enabled` (`enabled`),
+  INDEX `ix_component_id` (`component_id`),
+  INDEX `ix_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -471,3 +499,6 @@ CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
   PRIMARY KEY (`files_thumbnail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

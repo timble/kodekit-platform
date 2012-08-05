@@ -48,7 +48,7 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		}
 
 		if(is_bool($state->enabled)) {
-			$query->where('tbl.enabled :enabled')->bind(array('enabled' => (int) $state->enabled));
+			$query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
 		}
 		
 	    if(is_bool($state->hidden)) {

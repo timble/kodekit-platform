@@ -65,13 +65,13 @@ class ComContactsTemplateHelperRoute extends ComDefaultTemplateHelperRoute
             'layout'   => $config->layout
         );
 
-        if($item = $this->_findPage($needles))
+        if($page = $this->_findPage($needles))
         {
-            if(isset($item->query['layout'])) {
-                $route['layout'] = $item->query['layout'];
+            if(isset($page->link->query['layout'])) {
+                $route['layout'] = $page->link->query['layout'];
             }
 
-            $route['Itemid'] = $item->id;
+            $route['Itemid'] = $page->id;
         };
 
         return $this->getTemplate()->getView()->getRoute(http_build_query($route, '', '&'));

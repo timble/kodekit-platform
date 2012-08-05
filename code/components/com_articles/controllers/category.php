@@ -18,7 +18,7 @@
 
 class ComArticlesControllerCategory extends ComArticlesControllerDefault
 {
-    public function setRequest($request)
+    public function setRequest(array $request)
     {
         // Only return published items.
         $request['published'] = 1;
