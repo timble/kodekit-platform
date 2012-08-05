@@ -32,41 +32,26 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
     {
         if(is_array($needle) && array_key_exists('link', $needle) && is_array($needle['link']))
         {
-            $result = null;
+            $query = $needle['link'];
+            unset($needle['link']);
             
-            // Iterate through the pages.
-            foreach($this as $row)
+            $pages = parent::find($needle);
+            foreach($pages as $page)
             {
-                // Iterate through the needles.
-                foreach($needle as $key => $value)
+                foreach($query as $parts)
                 {
-                    if($key == 'link')
+                    $result = $page;
+                    foreach($parts as $key => $value)
                     {
-                        // Iterate through the query parts array.
-                        foreach($value as $query_parts)
+                        if(!(isset($page->link->query[$key]) && $page->link->query[$key] == $value))
                         {
-                            $result = $row;
-                            
-                            // Iterate through the query parts.
-                            foreach($query_parts as $query_key => $query_value)
-                            {
-                                if(!(isset($row->link->query[$query_key]) && $row->link->query[$query_key] == $query_value))
-                                {
-                                    $result = null;
-                                    break;
-                                }
-                            }
-                            
-                            if(!is_null($result)) {
-                                break(3);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if(!in_array($row->{$key}, (array) $value)) {
+                            $result = null;
                             break;
                         }
+                    }
+                    
+                    if(!is_null($result)) {
+                        break(2);
                     }
                 }
             }
