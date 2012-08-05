@@ -28,6 +28,54 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
         parent::_initialize($config);
     }
     
+    public function find($needle)
+    {
+        if(is_array($needle) && array_key_exists('link', $needle) && is_array($needle['link']))
+        {
+            $result = null;
+            
+            // Iterate through the pages.
+            foreach($this as $row)
+            {
+                // Iterate through the needles.
+                foreach($needle as $key => $value)
+                {
+                    if($key == 'link')
+                    {
+                        // Iterate through the query parts array.
+                        foreach($value as $query_parts)
+                        {
+                            $result = $row;
+                            
+                            // Iterate through the query parts.
+                            foreach($query_parts as $query_key => $query_value)
+                            {
+                                if(!(isset($row->link->query[$query_key]) && $row->link->query[$query_key] == $query_value))
+                                {
+                                    $result = null;
+                                    break;
+                                }
+                            }
+                            
+                            if(!is_null($result)) {
+                                break(3);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(!in_array($row->{$key}, (array) $value)) {
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            return $result;
+        }
+        else return parent::find($needle);
+    }
+    
     public function __call($method, $arguments)
     {
         // Call these methods directly on the rowset.
