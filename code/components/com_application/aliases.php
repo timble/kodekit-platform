@@ -12,9 +12,11 @@
  * Service Aliases
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Application
  */
 
 KService::setAlias('session', 'koowa:dispatcher.session.default');
+
+KService::setAlias('database'                     , 'com://admin/default.database.adapter.mysqli');
+KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
