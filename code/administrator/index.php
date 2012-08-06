@@ -1,83 +1,30 @@
 <?php
 /**
-* @version		$Id: index.php 14401 2010-01-26 14:10:00Z louis $
-* @package		Joomla
-* @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
-* @license		GNU/GPL, see LICENSE.php
-* Joomla! is free software. This version may have been modified pursuant
-* to the GNU General Public License, and as distributed it includes or
-* is derivative of works licensed under the GNU General Public License or
-* other free or open source software licenses.
-* See COPYRIGHT.php for copyright notices and details.
-*/
+ * @version     $Id: dispatcher.php 4629 2012-05-06 22:11:00Z johanjanssens $
+ * @package     Nooku_Server
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
 // Set flag that this is a parent file
 define( '_JEXEC', 1 );
 
-define('JPATH_BASE', dirname(__FILE__) );
+define('JPATH_BASE'         , dirname(__FILE__) );
+define('JPATH_ROOT'         , dirname(JPATH_BASE));
+define('JPATH_SITE'         , JPATH_ROOT );
+define('JPATH_ADMINISTRATOR', JPATH_ROOT.'/administrator' );
+define('JPATH_LIBRARIES'    , JPATH_ROOT.'/libraries' );
+define('JPATH_THEMES'       , JPATH_BASE.'/templates' );
+define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
-define('DS', DIRECTORY_SEPARATOR);
+define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once( JPATH_BASE .DS.'includes'.DS.'defines.php' );
-require_once( JPATH_BASE .DS.'includes'.DS.'framework.php' );
-require_once( JPATH_BASE .DS.'includes'.DS.'toolbar.php' );
+require_once(JPATH_BASE.'/includes/framework.php' );
 
 //Nooku Server identification information
 header('X-Nooku-Server: version='.Koowa::VERSION);
 
-/**
- * CREATE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe = JFactory::getApplication('administrator');
+KLoader::loadIdentifier('com://admin/application.aliases');
 
-/**
- * INITIALISE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->initialise(array(
-	'language' => $mainframe->getUserState( "application.lang", 'lang' )
-));
-
-JPluginHelper::importPlugin('system');
-
-// trigger the onAfterInitialise events
-JDispatcher::getInstance()->trigger('onAfterInitialise');
-
-/**
- * ROUTE THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->route();
-
-// trigger the onAfterRoute events
-JDispatcher::getInstance()->trigger('onAfterRoute');
-
-/**
- * DISPATCH THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->dispatch();
-
-// trigger the onAfterDispatch events
-JDispatcher::getInstance()->trigger('onAfterDispatch');
-
-/**
- * RENDER THE APPLICATION
- *
- * NOTE :
- */
-$mainframe->render();
-
-// trigger the onAfterRender events
-JDispatcher::getInstance()->trigger( 'onAfterRender' );
-
-/**
- * RETURN THE RESPONSE
- */
-echo JResponse::toString($mainframe->getCfg('gzip'));
-?>
+echo KService::get('com://admin/application.dispatcher')->run();
