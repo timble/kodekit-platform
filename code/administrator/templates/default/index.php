@@ -16,9 +16,7 @@
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/css/legacy.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 
-<?php if(JModuleHelper::isEnabled('menu')) : ?>
-	<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/js/index.js"></script>
-<?php endif; ?>
+<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/js/index.js"></script>
 
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
