@@ -30,20 +30,14 @@ window.addEvent('domready', function(){
 
 <h3><?=@text( 'Components' )?></h3>
 <div class="scrollable">
-	<ul>
-		<li class="<?= empty($state->package) ? 'active' : ''; ?>">
-			<a href="<?= @route('package=') ?>">
-			<?= @text('All components')?>
-			</a>
-		</li>
+	<nav>
+		<a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= @route('package=') ?>">
+		<?= @text('All components')?>
+		</a>
 		<?php foreach ($packages as $package): ?>
-			<?php if ($package->id == $state->package): ?>
-				<li class="active">
-			<?php else: ?> <li> <?php endif ?>
-				<a href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
-			</li>
+		<a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
 		<?php endforeach ?>
-	</ul>
+	</nav>
 	
 	<div class="activities-filter">
 		<h3><?=@text( 'Filters' )?></h3>
