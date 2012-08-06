@@ -3454,6 +3454,21 @@ div.message {
   padding: 0;
   margin: 0;
 }
+.com_pages #parent .level1 {
+  padding-left: 36px;
+}
+.com_pages #parent .level2 {
+  padding-left: 54px;
+}
+.com_pages #parent .level3 {
+  padding-left: 54px;
+}
+.com_pages #parent .level4 {
+  padding-left: 54px;
+}
+.com_pages #parent .level5 {
+  padding-left: 54px;
+}
 /*!
  * Overrides for bootstrap/forms.less
  */
