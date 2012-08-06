@@ -52,8 +52,7 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 (2, 'Login', '', 3, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 0, 1, ''),
 (10, 'Logged in Users', '', 13, 'cpanel', 62, '2011-10-18 00:40:23', 1, 'mod_logged', 0, 2, 1, '', 0, 1, ''),
 (12, 'Admin Pages', '', 5, 'menu', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 2, 1, '', 1, 1, ''),
-(14, 'User Status', '', 7, 'status', 0, '0000-00-00 00:00:00', 1, 'mod_status', 0, 2, 1, '', 0, 1, ''),
-(15, 'Title', '', 8, 'title', 0, '0000-00-00 00:00:00', 1, 'mod_title', 0, 2, 1, '', 1, 1, '');
+(14, 'User Status', '', 7, 'status', 0, '0000-00-00 00:00:00', 1, 'mod_status', 0, 2, 1, '', 0, 1, '');
 
 --
 -- Dumping data for table `#__pages_menus`

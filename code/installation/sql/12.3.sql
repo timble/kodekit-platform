@@ -7,6 +7,7 @@ DELETE FROM `#__modules` WHERE `id` = 4;
 
 DELETE FROM `#__modules` WHERE `module` = 'mod_toolbar';
 DELETE FROM `#__modules` WHERE `module` = 'mod_submenu';
+DELETE FROM `#__modules` WHERE `module` = 'mod_title';
 
 -- Remove mod_related_items
 DELETE FROM `#__modules` WHERE `module` = 'mod_related_items';
