@@ -36,7 +36,10 @@ class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
         $config->append(array(
             'relation_table' => 'pages_page_relations',
             'ordering_table' => 'pages_page_orderings',
-            'behaviors'  => array('lockable', 'sluggable', 'orderable', 'assignable'),
+            'behaviors'  => array(
+                'lockable', 'sluggable', 'assignable',
+                'com://admin/pages.database.behavior.orderable' => array('columns' => array('title', 'custom'))
+            ),
             'filters' => array(
                 'params' => 'ini'
             )

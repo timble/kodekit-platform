@@ -27,7 +27,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         $config->append(array(
             'priority'   => KCommand::PRIORITY_LOWEST,
             'auto_mixin' => true,
-            'columns'    => array('custom', 'title')
+            'columns'    => array()
         ));
 
         parent::_initialize($config);
