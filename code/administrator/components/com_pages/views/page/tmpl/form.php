@@ -56,14 +56,24 @@ defined('KOOWA') or die('Restricted access') ?>
             <?= dirname(JURI::base()) ?>/<input type="text" name="slug" placeholder="<?= @text('Alias') ?>" value="<?= $page->slug ?>" maxlength="255" />
         </div>
         <?= @helper('tabs.startPane', array('id' => 'pane_1')); ?>
-        <?= @helper('tabs.startPanel', array('title' => 'General')); ?>
-            <?= @template('form_general') ?>
-        <?= @helper('tabs.endPanel'); ?>
-        <? if($state->type['name'] == 'component') : ?>
-            <?= @template('form_component') ?>
-            <?= @template('form_page') ?>
-        <? endif ?>
-        <?= @template('form_modules') ?>
+	        <?= @helper('tabs.startPanel', array('title' => 'General')); ?>
+	            <?= @template('form_general') ?>
+	        <?= @helper('tabs.endPanel'); ?>
+	        
+	        <? if($state->type['name'] == 'component') : ?>
+	        <?= @helper('tabs.startPanel', array('title' => 'Component')); ?>
+	            <?= @template('form_component') ?>
+	        <?= @helper('tabs.endPanel'); ?>
+	        
+	        <?= @helper('tabs.startPanel', array('title' => 'System')); ?>
+		        <fieldset class="form-horizontal">
+		            <?= $page->params_page->render('params'); ?>
+		        </fieldset>
+	        <?= @helper('tabs.endPanel'); ?>
+	        <?= @helper('tabs.startPanel', array('title' => 'Modules')) ?>
+	            <?= @template('form_modules') ?>
+	        <?= @helper('tabs.endPanel') ?>
+	        <? endif ?>  
         <?= @helper('tabs.endPane') ?>
     </div>
     <? endif ?>

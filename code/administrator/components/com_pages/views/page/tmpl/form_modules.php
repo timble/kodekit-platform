@@ -12,7 +12,6 @@
 defined('KOOWA') or die('Restricted access') ?>
 <?= @helper('behavior.modal') ?>
 
-<?= @helper('tabs.startPanel', array('title' => 'Modules')) ?>
 <fieldset id="pages-modules" class="form-horizontal">
 	<div class="control-group">
 	    <label class="control-label">
@@ -32,4 +31,3 @@ defined('KOOWA') or die('Restricted access') ?>
 	    </div>
     </div>
 </fieldset>
-<?= @helper('tabs.endPanel') ?>
