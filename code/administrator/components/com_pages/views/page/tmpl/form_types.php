@@ -18,7 +18,7 @@ defined('KOOWA') or die('Restricted access') ?>
 	    <h3><?= @text('Component') ?></h3>
 	    <div id="components-inner">
 	        <? foreach($components as $component) : ?>
-	        <span><a data-component="<?= $component->option ?>" class="component-<?= $component->option ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->name) ?></a></span>
+	        <a data-component="<?= $component->option ?>" class="component-<?= $component->option ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->name) ?></a>
 	        <? endforeach ?>
 	    </div>
 	    <h3><?= @text('Other') ?></h3>

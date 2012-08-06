@@ -11,12 +11,10 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<ul class="scrollable">
+<nav class="scrollable">
     <? foreach($menus as $menu) : ?>
-    <li class="<?= $state->menu == $menu->id ? 'active' : '' ?>">
-        <a href="<?= @route('view=pages&menu='.$menu->id ) ?>">
-            <?= @escape($menu->title) ?> (<?= $menu->page_count; ?>)
-        </a>
-    </li>
+    <a class="<?= $state->menu == $menu->id ? 'active' : '' ?>" href="<?= @route('view=pages&menu='.$menu->id ) ?>">
+        <?= @escape($menu->title) ?> (<?= $menu->page_count; ?>)
+    </a>
     <? endforeach ?>
-</ul>
+</nav>

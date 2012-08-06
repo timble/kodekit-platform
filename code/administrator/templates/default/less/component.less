@@ -251,11 +251,9 @@ div.message {
 	}
 	
 	#components a.active 	{ background: #E8F3FB; }
-	#components a.selected 	{ background: #E8F3FB; }
 	
 	#layouts {
 		width: 250px;
-		background: #F7F7F7;
 		border-right: 1px solid #DDD;
 	}
 	
@@ -319,14 +317,6 @@ div.message {
 	/* @end */
 	
 	#parent {
-		.level1 { .com_pages #parent .padding(1) }
-		.level2 { .com_pages #parent .padding(2) }
-		.level3 { .com_pages #parent .padding(2) }
-		.level4 { .com_pages #parent .padding(2) }
-		.level5 { .com_pages #parent .padding(2) }
 		
-		.padding(@level:1) {
-			padding-left: (18px * @level) + 18px;
-		}
 	}
 }

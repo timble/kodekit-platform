@@ -9,17 +9,13 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<ul class="scrollable">
-	<li class="<?= $state->category == null ? 'active' : ''; ?>">
-		<a href="<?= @route('category=' ) ?>">
-			<?= 'All categories' ?>
-		</a>
-	</li>
+<nav class="scrollable">
+	<a class="<?= $state->category == null ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
+		<?= 'All categories' ?>
+	</a>
 	<? foreach ($categories as $category) : ?>
-	<li class="<?= $state->category == $category->id ? 'active' : ''; ?>">
-		<a href="<?= @route('category='.$category->id ) ?>">
-			<?= @escape($category->title) ?>
-		</a>
-	</li>
+	<a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
+		<?= @escape($category->title) ?>
+	</a>
 	<? endforeach ?>
-</ul>
+</nav>

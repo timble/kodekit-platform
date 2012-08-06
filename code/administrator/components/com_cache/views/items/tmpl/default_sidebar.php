@@ -11,20 +11,16 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <h3><?= @text( 'Groups' ); ?></h3>
-<ul>
-    <li <? if(!$state->group) echo 'class="active"' ?>>
-        <a href="<?= @route('group=') ?>">
-            <?= @text('All groups') ?>
-        </a>
-    </li>
+<nav>
+    <a <? if(!$state->group) echo 'class="active"' ?> href="<?= @route('group=') ?>">
+        <?= @text('All groups') ?>
+    </a>
     <? foreach($groups as $group) : ?>
-    <li <? if($state->group == $group->name) echo 'class="active"' ?>>
-        <a href="<?= @route('group='.$group->name) ?>">
-            <?= $group->name; ?>
-        </a>
-    </li>
+    <a <? if($state->group == $group->name) echo 'class="active"' ?> href="<?= @route('group='.$group->name) ?>">
+        <?= $group->name; ?>
+    </a>
     <? endforeach ?>
-</ul>
+</nav>
 <h3><?= @text( 'Details' ); ?></h3>
 <p><?= @text('Files').':'.$count ?></p>
 <p><?= @text('Size').':'.number_format($size / 1024, 2) ?></p>

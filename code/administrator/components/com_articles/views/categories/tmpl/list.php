@@ -9,33 +9,24 @@
  */
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<ul class="scrollable">
-	<li class="<?= !is_numeric($state->category) ? 'active' : ''; ?>">
-		<a href="<?= @route('category=' ) ?>">
-		    <?= @text('All articles')?>
-		</a>
-	</li>
-	<li class="<?= $state->category == '0' ? 'active' : ''; ?>">
-		<a href="<?= @route('&category=0' ) ?>">
-			<?= @text('Uncategorised') ?>
-		</a>
-	</li>
+<nav class="scrollable">
+	<a class="<?= !is_numeric($state->category) ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
+	    <?= @text('All articles')?>
+	</a>
+
+	<a class="<?= $state->category == '0' ? 'active' : ''; ?>" href="<?= @route('&category=0' ) ?>">
+		<?= @text('Uncategorised') ?>
+	</a>
 	<? foreach($categories as $category) : ?>
-	<li class="<?= $state->category == $category->id ? 'active' : ''; ?>">
-		<a href="<?= @route('category='.$category->id ) ?>">
-			<?= @escape($category->title) ?>
-		</a>
-		<? if($category->hasChildren()) : ?>
-		<ul>
-			<? foreach($category->getChildren() as $child) : ?>
-			<li class="<?= $state->category == $child->id ? 'active' : ''; ?>">
-				<a href="<?= @route('category='.$child->id ) ?>">
-					<?= $child->title; ?>
-				</a>
-			</li>
-			<? endforeach ?>
-		</ul>
-		<? endif; ?>
-	</li>
+	<a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
+		<?= @escape($category->title) ?>
+	</a>
+	<? if($category->hasChildren()) : ?>
+		<? foreach($category->getChildren() as $child) : ?>
+			<a style="padding-left: 36px;" class="<?= $state->category == $child->id ? 'active' : ''; ?>" href="<?= @route('category='.$child->id ) ?>">
+				<?= $child->title; ?>
+			</a>
+		<? endforeach ?>
+	<? endif; ?>
 	<? endforeach ?>
-</ul>
+</nav>
