@@ -1,28 +1,15 @@
 # --------------------------------------------------------
 # Removing unused extensions
 
--- Remove legacy plugin
--- http://nooku.assembla.com/spaces/nooku-server/tickets/191-remove-joomla-legacy-support
-DELETE FROM `#__plugins` WHERE `id` = 29;
-
--- Remove Joomla user plugin
-DELETE FROM `#__plugins` WHERE `id` = 5;
-
--- Remove Joomla authentication plugin
-DELETE FROM `#__plugins` WHERE `id` = 1;
-
--- Remove editor and editor-xtd plugins
-DELETE FROM `#__plugins` WHERE `folder` = 'editors' OR `folder` = 'editors-xtd';
-
--- Remove section search plugin
-DELETE FROM `#__plugins` WHERE `folder` = 'search' AND `element` = 'sections';
-
 -- Remove administrator latest news module
 -- http://nooku.assembla.com/spaces/nooku-server/tickets/217-remove-administrator-latest-news-module
 DELETE FROM `#__modules` WHERE `id` = 4;
 
+DELETE FROM `#__modules` WHERE `module` = 'mod_toolbar';
+DELETE FROM `#__modules` WHERE `module` = 'mod_submenu';
+
 -- Remove mod_related_items
-DELETE FROM `#__modules` WHERE `module` = 'mod_related_items';s
+DELETE FROM `#__modules` WHERE `module` = 'mod_related_items';
 
 -- Remove core logs
 DROP TABLE `#__core_log_items`, `#__core_log_searches`;
@@ -42,6 +29,29 @@ DELETE FROM `#__components` WHERE `option` = 'com_massmail';
 DELETE FROM `#__components` WHERE `option` = 'com_mailto';
 DELETE FROM `#__components` WHERE `option` = 'com_templates';
 DELETE FROM `#__components` WHERE `option` = 'com_messages';
+
+# --------------------------------------------------------
+# com_extensions schema changes
+
+-- Remove plugins
+TRUNCATE #__plugins;
+
+-- Rename tables to follow conventions
+RENAME TABLE  `#__plugins` TO `#__extensions_plugins`;
+
+-- Update schema to follow conventions
+ALTER TABLE `#__extensions_plugins` CHANGE  `id`  `extensions_plugin_id` INT( 11 ) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__extensions_plugins` CHANGE  `element`  `identifier` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
+ALTER TABLE `#__extensions_plugins` CHANGE  `folder`  `component` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
+ALTER TABLE `#__extensions_plugins` CHANGE  `published`  `enabled` TINYINT( 3 ) NOT NULL DEFAULT  '0';
+
+ALTER TABLE `#__extensions_plugins` DROP `iscore`;
+ALTER TABLE `#__extensions_plugins` DROP `ordering`;
+ALTER TABLE `#__extensions_plugins` DROP `iscore`;
+ALTER TABLE `#__extensions_plugins` DROP `client_id`;
+
+-- Add plugins
+//@TODO
 
 # --------------------------------------------------------
 # com_contacts schema changes
@@ -104,10 +114,10 @@ ALTER TABLE `#__articles` DROP `hits`
 ALTER TABLE `#__articles` DROP `sectionid`
 
 -- Remove loadmodule plugin
-DELETE FROM `#__plugins` WHERE `element` = 'loadmodule' AND `folder` = 'content';
+DELETE FROM `#__extensions_plugins` WHERE `element` = 'loadmodule' AND `folder` = 'content';
 
 -- Remove pagenavigation plugin
-DELETE FROM `#__plugins` WHERE `element` = 'pagenavigation' AND `folder` = 'content';
+DELETE FROM `#__extensions_plugins` WHERE `element` = 'pagenavigation' AND `folder` = 'content';
 
 -- Remove unused table
 DROP TABLE #__content_rating;
@@ -126,7 +136,7 @@ UPDATE `#__categories` SET `parent_id` = `section` , `section` = 'com_articles' 
 -- Remove the com_ prefix, the section now refers to the table
 UPDATE `#__categories` SET `section` = REPLACE(`section`,'com_','');
 
--- Migrate data from sections to categories
+-- Migrate date from sections to categories
 ALTER TABLE #__categories ADD old_id int(11) NOT NULL;
 INSERT INTO #__categories (parent_id, title, alias, image, `table`, description, published, checked_out, checked_out_time, ordering, access, count, params, old_id)
 SELECT 0, title, alias, image, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM #__sections;
@@ -149,9 +159,6 @@ DELETE FROM `#__components` WHERE `parent` = 11 OR `option` = 'com_newsfeeds';
 
 -- Remove mod_feed
 DELETE FROM `#__modules` WHERE `module` = 'mod_feed';
-
--- Remove newsfeeds search plugin
-DELETE FROM `#__plugins` WHERE `element` = 'newsfeeds' AND `folder` = 'search';
 
 -- Remove menu links to newsfeeds component
 DELETE FROM `#__menu` WHERE `componentid` = 11;
@@ -182,19 +189,6 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_poll';
 
 -- Remove com_installer
 DELETE FROM `#__components` WHERE `id` = 22
-
-# --------------------------------------------------------
-# plugin schema changes
-
-DELETE FROM `#__plugins` WHERE `folder` = 'authentication';
-DELETE FROM `#__plugins` WHERE `folder` = 'content';
-DELETE FROM `#__plugins` WHERE `folder` = 'xmlrpc';
-
-DELETE FROM `#__plugins` WHERE `element` = 'mtupgrade';
-DELETE FROM `#__plugins` WHERE `element` = 'backlink';
-DELETE FROM `#__plugins` WHERE `element` = 'remember';
-
-UPDATE  `#__plugins` SET  `name` =  'System - Route', `element` =  'route' WHERE  `id` = 27;
 
 # --------------------------------------------------------
 # com_categories schema changes
@@ -262,6 +256,7 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_stats';
 DELETE FROM `#__modules` WHERE `module` = 'mod_whoisonline';
 DELETE FROM `#__modules` WHERE `module` = 'mod_sections';
 
+
 # --------------------------------------------------------
 # change engine to InnoDB
 
@@ -270,13 +265,13 @@ ALTER TABLE `#__articles_featured` ENGINE = INNODB;
 ALTER TABLE `#__categories` ENGINE = INNODB;
 ALTER TABLE `#__components` ENGINE = INNODB;
 ALTER TABLE `#__contacts` ENGINE = INNODB;
-ALTER TABLE `#__menu` ENGINE = INNODB;
-ALTER TABLE `#__menu_types` ENGINE = INNODB;
-ALTER TABLE `#__modules` ENGINE = INNODB;
-ALTER TABLE `#__modules_menu` ENGINE = INNODB;
-ALTER TABLE `#__plugins` ENGINE = INNODB;
-ALTER TABLE `#__users_sessions` ENGINE = INNODB;
-ALTER TABLE `#__weblinks` ENGINE = INNODB;
+ALTER TABLE  `#__menu` ENGINE = INNODB;
+ALTER TABLE  `#__menu_types` ENGINE = INNODB;
+ALTER TABLE  `#__modules` ENGINE = INNODB;
+ALTER TABLE  `#__modules_menu` ENGINE = INNODB;
+ALTER TABLE  `#__extensions_plugins` ENGINE = INNODB;
+ALTER TABLE  `#__users_sessions` ENGINE = INNODB;
+ALTER TABLE  `#__weblinks` ENGINE = INNODB;
 
 # --------------------------------------------------------
 # com_menus schema changes
@@ -355,13 +350,13 @@ BEGIN
 
     TRUNCATE `#__pages_page_relations`;
     INSERT INTO `#__pages_page_relations` SELECT `pages_page_id`, `pages_page_id`, 0 FROM `#__pages_pages`;
-    
+
     WHILE distance < max_level DO
         INSERT INTO `#__pages_page_relations`
             SELECT `relations`.`ancestor_id`, `pages`.`pages_page_id`, distance + 1
             FROM `#__pages_page_relations` AS `relations`, `#__pages_pages` AS `pages`
             WHERE `relations`.`descendant_id` = `pages`.`parent` AND `relations`.`level` = distance;
-        
+
         SET distance = distance + 1;
     END WHILE;
 END//
@@ -396,23 +391,23 @@ BEGIN
     DECLARE done BOOLEAN DEFAULT FALSE;
     DECLARE menu_cursor CURSOR FOR SELECT DISTINCT `pages_menu_id` FROM `#__pages_pages`;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-    
+
     OPEN menu_cursor;
     menu_loop: LOOP
         FETCH menu_cursor INTO menu_id;
-        
+
         IF done THEN
             LEAVE menu_loop;
         END IF;
-        
+
         SELECT MAX(`sublevel`) INTO max_level FROM `#__pages_pages` WHERE `pages_menu_id` = menu_id;
         SET distance = 0;
-        
+
         WHILE distance <= max_level DO
             SET @index = 1, @parent_id = -1;
             UPDATE `#__pages_page_orderings` AS `orderings`, (SELECT `pages_page_id`, @index := IF(@parent_id = `parent`, @index + 1, 1) AS `index`, @parent_id := `parent` FROM `#__pages_pages` WHERE `pages_menu_id` = menu_id AND `sublevel` = distance ORDER BY `parent`, `title` ASC) AS `pages`
                 SET `orderings`.`title` = `index` WHERE `orderings`.`pages_page_id` = `pages`.`pages_page_id`;
-            
+
             SET distance = distance + 1;
         END WHILE;
     END LOOP;
@@ -432,4 +427,4 @@ ALTER TABLE `#__pages_pages` DROP COLUMN `pollid`;
 ALTER TABLE `#__pages_pages` DROP COLUMN `browserNav`;
 ALTER TABLE `#__pages_pages` DROP COLUMN `utaccess`;
 ALTER TABLE `#__pages_pages` DROP COLUMN `lft`;
-ALTER TABLE `#__pages_pages` DROP COLUMN `rgt`;
+ALTER TABLE `#__pages_pages` DROP COLUMN `rgt`
