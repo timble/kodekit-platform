@@ -24,20 +24,24 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     {
         $config = new KConfig($config);
         $config->append(array(
-            'name'    => 'parent_id'
+            'name' => 'parent_id',
+            'page' => null,
+            'menu' => null
         ));
 
         $pages = $this->getService('com://admin/pages.model.pages')
             ->enabled(true)
-            ->menu($config->pages_menu_id)
+            ->menu($config->menu)
             ->limit(0)
             ->getList();
 
-        // @TODO: Extract page and its children.
-        if($config->exclude)
+        if($config->page)
         {
-            if($row = $pages->find($config->pages_page_id)) {
-                $pages->extract($row);
+            $path = $config->page->path;
+            foreach(clone $pages as $page) {
+                if(strpos($page->path, $config->page->path) === 0) {
+                    $pages->extract($page);
+                }
             }
         }
 
