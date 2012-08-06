@@ -249,10 +249,10 @@ class JHTMLSelect
 			} else {
 				$extra .= ((string)$k == (string)$selected ? " checked=\"checked\"" : '');
 			}
-			$html .= "\n\t<input type=\"radio\" name=\"$name\" id=\"$id_text$k\" value=\"".$k."\"$extra $attribs />";
-			$html .= "\n\t<label for=\"$id_text$k\">$t</label>";
+			$html .= "<label class=\"radio\" for=\"$id_text$k\">$t";
+			$html .= "<input type=\"radio\" name=\"$name\" id=\"$id_text$k\" value=\"".$k."\"$extra $attribs />";
+			$html .= "</label>";
 		}
-		$html .= "\n";
 		return $html;
 	}
 

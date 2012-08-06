@@ -193,33 +193,30 @@ class JParameter extends JRegistry
 
 		$params = $this->getParams($name, $group);
 		$html = array ();
-		$html[] = '<table class="admintable" cellspacing="1">';
 
 		if ($description = $this->_xml[$group]->attributes('description')) {
 			// add the params description to the display
 			$desc	= JText::_($description);
-			$html[]	= '<tr><td class="paramlist_description" colspan="2">'.$desc.'</td></tr>';
+			$html[]	= $desc;
 		}
 
 		foreach ($params as $param)
 		{
-			$html[] = '<tr>';
+			$html[] = '<div class="control-group">';
 
 			if ($param[0]) {
-				$html[] = '<td class="key"><span class="editlinktip">'.$param[0].'</span></td>';
-				$html[] = '<td>'.$param[1].'</td>';
+				$html[] = $param[0];
+				$html[] = '<div class="controls">'.$param[1].'</div>';
 			} else {
-				$html[] = '<td colspan="2">'.$param[1].'</td>';
+				$html[] = '<div class="controls">'.$param[1].'</div>';
 			}
 
-			$html[] = '</tr>';
+			$html[] = '</div>';
 		}
 
 		if (count($params) < 1) {
-			$html[] = "<tr><td colspan=\"2\"><i>".JText::_('There are no Parameters for this item')."</i></td></tr>";
+			$html[] = JText::_('There are no Parameters for this item');
 		}
-
-		$html[] = '</table>';
 
 		return implode("\n", $html);
 	}
