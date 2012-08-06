@@ -41,21 +41,24 @@ class ComPagesModelPages extends ComPagesModelClosures
 
         $query->columns(array('component_name' => 'component.name'));
 
-        if($this->getTable()->hasBehavior('orderable') && !$query->isCountQuery())
+        $table = $this->getTable();
+        if($table->isOrderable() && !$query->isCountQuery())
         {
-            $state = $this->getState();
-
-            // TODO: Get columns from the behavior.
-            if(in_array($state->sort, array('title', 'created_on', 'custom')))
+            $state   = $this->getState();
+            $columns = $table->getBehavior('orderable')->getColumns();
+            
+            if(in_array($state->sort, $columns))
             {
+                if($state->sort == 'custom') {
+                    $query->columns(array('ordering' => 'orderings.custom'));
+                }
+                
                 $subquery = $this->getService('koowa:database.query.select')
                     ->columns('CHAR_LENGTH(MAX('.$state->sort.'))')
                     ->table($this->getTable()->getOrderingTable());
 
                 $query->columns(array('ordering_path' => 'GROUP_CONCAT(LPAD(ordering_crumbs.'.$state->sort.', ('.$subquery.'), \'0\') ORDER BY crumbs.level DESC  SEPARATOR \'/\')'));
             }
-
-            $query->columns(array('ordering' => 'orderings.custom'));
         }
     }
 
@@ -65,20 +68,24 @@ class ComPagesModelPages extends ComPagesModelClosures
 
         $query->join(array('component' => 'components'), 'component.id = tbl.component_id');
 
-        if($this->getTable()->hasBehavior('orderable') && !$query->isCountQuery())
+        $table = $this->getTable();
+        if($table->isOrderable() && !$query->isCountQuery())
         {
-            $state     = $this->getState();
-            $ordering  = $this->getTable()->getOrderingTable();
-            $id_column = $this->getTable()->getIdentityColumn();
-
+            $state          = $this->getState();
+            $columns        = $table->getBehavior('orderable')->getColumns();
+            $id_column      = $table->getIdentityColumn();
+            $ordering_table = $table->getOrderingTable();
+            
             // This one is to have a breadcrumbs style order like 1/3/4.
-            // TODO: Get the columns from the behavior.
-            if(in_array($state->sort, array('title', 'created_on', 'custom'))) {
-                $query->join(array('ordering_crumbs' => $ordering), 'crumbs.ancestor_id = ordering_crumbs.'.$id_column, 'INNER');
+            if(in_array($state->sort, $columns))
+            {
+                // This one is to display the custom ordering in backend.
+                if($state->sort == 'custom') {
+                    $query->join(array('orderings' => $ordering_table), 'tbl.'.$id_column.' = orderings.'.$id_column);
+                }
+                
+                $query->join(array('ordering_crumbs' => $ordering_table), 'crumbs.ancestor_id = ordering_crumbs.'.$id_column, 'INNER');
             }
-
-            // This one is to display the custom ordering in backend.
-            $query->join(array('orderings' => $ordering), 'tbl.'.$id_column.' = orderings.'.$id_column);
         }
     }
 
@@ -119,8 +126,9 @@ class ComPagesModelPages extends ComPagesModelClosures
     protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
         $state = $this->getState();
-        // TODO: Get the columns from the behavior.
-        if($this->getTable()->hasBehavior('orderable') && in_array($state->sort, array('title', 'created_on', 'custom'))) {
+        $table = $this->getTable();
+        
+        if($table->isOrderable() && in_array($state->sort, $table->getBehavior('orderable')->getColumns())) {
             $query->order('ordering_path', 'ASC');
         } else {
             parent::_buildQueryWhere($query);

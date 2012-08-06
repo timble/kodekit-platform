@@ -11,17 +11,17 @@
  */
 class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 {
-    protected $_columns;
+    protected $_columns = array();
     
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
         
         if($config->columns) {
-            $this->_columns = KConfig::unbox($config->columns);
+            $this->setColumns(KConfig::unbox($config->columns));
         }
     }
-
+    
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
@@ -31,6 +31,16 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         ));
 
         parent::_initialize($config);
+    }
+    
+    public function setColumns(array $columns = array())
+    {
+        $this->_columns = array_unique(array_merge($this->_columns, $columns));
+    }
+    
+    public function getColumns()
+    {
+        return $this->_columns;
     }
     
     protected function _afterTableInsert(KCommandContext $context)
@@ -157,5 +167,14 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         }
         
         return $list;
+    }
+    
+    public function getMixableMethods(KObject $mixer = null)
+    {
+        $methods = parent::getMixableMethods($mixer);
+        unset($methods['setColumns']);
+        unset($methods['getColumns']);
+
+        return $methods;
     }
 }
