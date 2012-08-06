@@ -19,6 +19,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 {
     public function parse(KHttpUrl $url)
 	{
+        $vars = array();
         $path = trim($url->getPath(), '/');
 
         //Remove basepath
