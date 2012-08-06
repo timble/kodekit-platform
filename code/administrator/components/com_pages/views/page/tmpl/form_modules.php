@@ -13,20 +13,23 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @helper('behavior.modal') ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Modules')) ?>
-<section id="pages-modules">
-    <fieldset>
-        <? foreach($modules->available as $module) : ?>
-            <input type="hidden" name="modules[<?= $module->id ?>][others]" value="" />
-            
-            <a class="modal" href="<?= @route('option=com_pages&view=module&layout=modal&tmpl=component&module='.$module->id.'&page='.$page->id) ?>" rel="{handler: 'iframe', size: {x: 800, y: 400}}">
-                <label>
-                    <? $checked = count($modules->assigned->find(array('modules_module_id' => $module->id))) ? 'checked="checked"' : '' ?>
-                    <input type="checkbox" name="modules[<?= $module->id ?>][current]" value="1" class="module-<?= $module->id ?>" <?= $checked ?>/>
-                    
-                    <?= $module->title ?>
-                </label>
-            </a><br>
-        <? endforeach ?>
-    </fieldset>
-</section>
+<fieldset id="pages-modules" class="form-horizontal">
+	<div class="control-group">
+	    <label class="control-label">
+	    	<?= @text('Module assignement') ?>
+	    </label>
+	    <div class="controls">
+	    <? foreach($modules->available as $module) : ?>
+	        <input type="hidden" name="modules[<?= $module->id ?>][others]" value="" />
+	        <label class="checkbox">
+	            <? $checked = count($modules->assigned->find(array('modules_module_id' => $module->id))) ? 'checked="checked"' : '' ?>
+	            <input type="checkbox" name="modules[<?= $module->id ?>][current]" value="1" class="module-<?= $module->id ?>" <?= $checked ?>/>
+	            <a class="modal" href="<?= @route('option=com_pages&view=module&layout=modal&tmpl=component&module='.$module->id.'&page='.$page->id) ?>" rel="{handler: 'iframe', size: {x: 800, y: 600}}">
+	           	    <?= $module->title ?>
+	            </a>
+	        </label>
+	    <? endforeach ?>
+	    </div>
+    </div>
+</fieldset>
 <?= @helper('tabs.endPanel') ?>

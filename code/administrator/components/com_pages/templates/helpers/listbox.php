@@ -44,7 +44,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $html     = array();
         $selected = $config->selected == 0 ? 'checked="checked"' : '';
 
-        $html[] = '<label for="'.$config->name.'0">';
+        $html[] = '<label class="radio" for="'.$config->name.'0">';
         $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.'0" value="0" '.$selected.' />';
         $html[] = JText::_('Top').'</label>';
 
@@ -52,12 +52,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         {
             $selected = $config->selected == $page->id ? 'checked="checked"' : '';
 
-            if($page->level + 1) {
-                $html[] = str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;', $page->level);
-                $html[] = '<sup>|_</sup>&nbsp;';
-            }
-
-            $html[] = '<label for="'.$config->name.$page->id.'">';
+            $html[] = '<label class="radio level'.$page->level.'" for="'.$config->name.$page->id.'">';
             $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$page->id.'" value="'.$page->id.'" '.$selected.' />';
             $html[] = $page->title.'</label>';
         }

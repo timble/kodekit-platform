@@ -242,8 +242,6 @@ div.message {
 		padding: 10px;
 	}
 	
-	#components span.icon { float: left; display: block; width: 14px; height: 14px; margin-right: 5px; background-position: 0 0; background-size: 14px; }
-	
 	#components a {
 		display: block;
 		font-size: 120%;
@@ -255,13 +253,13 @@ div.message {
 	#components a.active 	{ background: #E8F3FB; }
 	#components a.selected 	{ background: #E8F3FB; }
 	
-	#types {
+	#layouts {
 		width: 250px;
 		background: #F7F7F7;
 		border-right: 1px solid #DDD;
 	}
 	
-	#types .view h4 {
+	#layouts .view h4 {
 		margin: 0;
 		padding: 5px;
 		background: #F0F0F0;
@@ -269,41 +267,18 @@ div.message {
 		border-top: 1px solid #DDD;
 	}
 	
-	#types .view:first-of-type h4 { border-top: none 0px; }
+	#layouts .view:first-of-type h4 { border-top: none 0px; }
 	
-	#types .view a {
+	#layouts .view a {
 		padding: 5px 10px;
 		display: block;
 		font-weight: bold;
 	}
 	
-	#types .view a small {
-		font-style: italic;
+	#layouts .view a small {
 		font-weight: normal;
 		color: #333;
 	}
-	
-	section 		{ padding: 0 !important; }
-	section h3 	{
-		padding: 7px 10px;
-		margin: 0 0 5px 0;
-		color: #666;
-		background-color: #f1f2f4;
-		border: 1px solid #EEE;
-		-webkit-border-radius: 5px;
-	}
-	
-	section h4 { padding: 0; margin: 5px 0 0 10px; }
-	
-	#publish #parent {
-		margin: 5px 0 0 15px;
-		display: block;
-	}
-	
-	#title 			{ padding: 10px; background-color: #EDEDED; border-bottom: 1px solid #ABABAB; -webkit-box-shadow: hsla(0, 0%, 10%, 0.20) 0px 2px 2px; z-index: 100; }
-	#title label[for="title"] 		{ font-size: 13px; }
-	#title label[for="title"] input { width: 60%; font-size: 13px; padding: 5px; }
-	#title label[for="alias"]		{ margin: 4px 0 0 70px; display: block; }
 	
 	/* @group Tabs */
 	#main dl.tabs {
@@ -342,4 +317,16 @@ div.message {
 		margin: 0;
 	}
 	/* @end */
+	
+	#parent {
+		.level1 { .com_pages #parent .padding(1) }
+		.level2 { .com_pages #parent .padding(2) }
+		.level3 { .com_pages #parent .padding(2) }
+		.level4 { .com_pages #parent .padding(2) }
+		.level5 { .com_pages #parent .padding(2) }
+		
+		.padding(@level:1) {
+			padding-left: (18px * @level) + 18px;
+		}
+	}
 }

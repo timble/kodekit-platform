@@ -3378,15 +3378,6 @@ div.message {
   margin: 0;
   padding: 10px;
 }
-.com_pages #components span.icon {
-  float: left;
-  display: block;
-  width: 14px;
-  height: 14px;
-  margin-right: 5px;
-  background-position: 0 0;
-  background-size: 14px;
-}
 .com_pages #components a {
   display: block;
   font-size: 120%;
@@ -3400,68 +3391,29 @@ div.message {
 .com_pages #components a.selected {
   background: #E8F3FB;
 }
-.com_pages #types {
+.com_pages #layouts {
   width: 250px;
   background: #F7F7F7;
   border-right: 1px solid #DDD;
 }
-.com_pages #types .view h4 {
+.com_pages #layouts .view h4 {
   margin: 0;
   padding: 5px;
   background: #F0F0F0;
   border-bottom: 1px solid #DDD;
   border-top: 1px solid #DDD;
 }
-.com_pages #types .view:first-of-type h4 {
+.com_pages #layouts .view:first-of-type h4 {
   border-top: none 0px;
 }
-.com_pages #types .view a {
+.com_pages #layouts .view a {
   padding: 5px 10px;
   display: block;
   font-weight: bold;
 }
-.com_pages #types .view a small {
-  font-style: italic;
+.com_pages #layouts .view a small {
   font-weight: normal;
   color: #333;
-}
-.com_pages section {
-  padding: 0 !important;
-}
-.com_pages section h3 {
-  padding: 7px 10px;
-  margin: 0 0 5px 0;
-  color: #666;
-  background-color: #f1f2f4;
-  border: 1px solid #EEE;
-  -webkit-border-radius: 5px;
-}
-.com_pages section h4 {
-  padding: 0;
-  margin: 5px 0 0 10px;
-}
-.com_pages #publish #parent {
-  margin: 5px 0 0 15px;
-  display: block;
-}
-.com_pages #title {
-  padding: 10px;
-  background-color: #EDEDED;
-  border-bottom: 1px solid #ABABAB;
-  -webkit-box-shadow: rgba(26, 26, 26, 0.2) 0px 2px 2px;
-  z-index: 100;
-}
-.com_pages #title label[for="title"] {
-  font-size: 13px;
-}
-.com_pages #title label[for="title"] input {
-  width: 60%;
-  font-size: 13px;
-  padding: 5px;
-}
-.com_pages #title label[for="alias"] {
-  margin: 4px 0 0 70px;
-  display: block;
 }
 .com_pages #main dl.tabs {
   float: left;
@@ -3497,6 +3449,21 @@ div.message {
 .com_pages #main div.current dd {
   padding: 0;
   margin: 0;
+}
+.com_pages #parent .level1 {
+  padding-left: 36px;
+}
+.com_pages #parent .level2 {
+  padding-left: 54px;
+}
+.com_pages #parent .level3 {
+  padding-left: 54px;
+}
+.com_pages #parent .level4 {
+  padding-left: 54px;
+}
+.com_pages #parent .level5 {
+  padding-left: 54px;
 }
 /*!
  * Overrides for bootstrap/forms.less
@@ -4116,6 +4083,38 @@ form[name="adminForm"] {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+}
+.com_pages #components,
+.com_pages #layouts {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: initial;
+  -moz-flex: initial;
+  flex: initial;
+}
+.com_pages #components .scrollable,
+.com_pages #layouts .scrollable {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1 0 0%;
+  -moz-flex: 1 0 0%;
+  flex: 1 0 0%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.com_pages #components .scrollable *,
+.com_pages #layouts .scrollable * {
+  -webkit-flex: none;
+  -moz-flex: none;
+  flex: none;
 }
 .com_pages #main {
   display: -webkit-flex;

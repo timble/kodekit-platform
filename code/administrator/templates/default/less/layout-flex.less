@@ -129,6 +129,19 @@ form[name="adminForm"] {
 }
 
 .com_pages {
+	#components,
+	#layouts {
+		#flexbox > .box(column, initial);
+				
+		.scrollable {
+			#flexbox > .box(column, 1 0 0%, scrollable);
+			
+			* {
+				#flexbox > .box-flex(none);
+			}
+		}
+	}
+	
 	#main {
 		#flexbox > .box(column, 1);
 		
