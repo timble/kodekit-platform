@@ -33,23 +33,7 @@ class JFactory
 	 */
 	function &getApplication($id = null, $config = array(), $prefix='J')
 	{
-		static $instance;
-
-		if(!KService::has('application'))
-        {
-            if (!is_object($instance) || !($instance instanceof JApplication))
-            {
-                jimport( 'joomla.application.application' );
-
-                if (!$id) {
-                    JError::raiseError(500, 'Application Instantiation Error');
-                }
-
-                $instance = JApplication::getInstance($id, $config, $prefix);
-            }
-
-		} else $instance = KService::get('application');
-
+		$instance = KService::get('application');
 		return $instance;
 	}
 
@@ -65,16 +49,7 @@ class JFactory
      */
     function &getSession($options = array())
     {
-        static $instance;
-
-        if(!KService::has('session'))
-        {
-            if (!is_object($instance) || !($instance instanceof JSession)) {
-                $instance = JFactory::_createSession($options);
-            }
-        }
-        else $instance = KService::get('session');
-
+        $instance = KService::get('session');
         return $instance;
     }
 
