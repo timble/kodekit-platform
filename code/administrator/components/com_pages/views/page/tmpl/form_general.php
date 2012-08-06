@@ -28,7 +28,7 @@ defined('KOOWA') or die('Restricted access') ?>
     <div class="control-group">
         <label class="control-label" for="parent"><?= @text('Parent') ?></label>
         <div id="parent" class="controls">
-        	<?= @helper('listbox.parents', array('pages_page_id' => $page->id, 'pages_menu_id' => $state->menu, 'selected' => $page->parent_id)) ?>
+        	<?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id)) ?>
         </div>
     </div>
 </fieldset>
