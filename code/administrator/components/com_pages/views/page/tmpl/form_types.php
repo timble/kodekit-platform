@@ -13,7 +13,7 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <? $components = @service('com://admin/pages.model.types')->getList() ?>
 
-<div id="components" class="scroll">
+<div id="components">
     <h3><?= @text('Component') ?></h3>
     <div id="components-inner">
         <? foreach($components as $component) : ?>
@@ -26,7 +26,7 @@ defined('KOOWA') or die('Restricted access') ?>
     <a href="<?= @route('menu='.$state->menu.'&type[name]=menulink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Alias') ?></a>
 </div>
 
-<div id="types" class="scroll">
+<div id="types">
     <? foreach($components as $component) : ?>
     <div data-component="<?= $component->option ?>" class="component-<?= $component->option ?>">
         <? foreach($component->views as $view) : ?>

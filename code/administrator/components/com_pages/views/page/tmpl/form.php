@@ -43,23 +43,19 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <?= @template('com://admin/default.view.form.toolbar') ?>
 
-<form action="" method="post" class="-koowa-box-horizontal -koowa-box-flex -koowa-form">
+<form action="" method="post" class="-koowa-form">
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />
 
     <?= @template('form_types') ?>
 
     <? if($state->type) : ?>
-    <div id="main" class="-koowa-box-vertical -koowa-box-flex">
-        <fieldset id="title">
-            <label for="title">
-                <span><?= @text('Page Title') ?>:</span>
-                <input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
-            </label><br />
-            <label for="alias" class="toggle-select">
-                <?= @text('Visitors can access this page at'); ?>
-                <?= dirname(JURI::base()) ?>/<input type="text" name="slug" placeholder="<?= @text('Alias') ?>" value="<?= $page->slug ?>" maxlength="255" />
-            </label>
-        </fieldset>
+    <div id="main">
+        <div class="title">
+        	<input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
+            <br />
+            <?= @text('Visitors can access this page at'); ?>
+            <?= dirname(JURI::base()) ?>/<input type="text" name="slug" placeholder="<?= @text('Alias') ?>" value="<?= $page->slug ?>" maxlength="255" />
+        </div>
         <?= @helper('tabs.startPane', array('id' => 'pane_1')); ?>
         <?= @helper('tabs.startPanel', array('title' => 'General')); ?>
             <?= @template('form_general') ?>
