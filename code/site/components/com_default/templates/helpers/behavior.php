@@ -47,20 +47,23 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
      */
     public function keepalive($config = array())
     {
-        //Get the config session lifetime
-        $lifetime = JFactory::getSession()->getExpire() * 1000;
+        $session = $this->getService('session');
+        if($session->isActive())
+        {
+            //Get the config session lifetime
+            $lifetime = $session->getLifetime() * 1000;
 
-        //Refresh time is 1 minute less than the liftime
-        $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
+            //Refresh time is 1 minute less than the liftime
+            $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 
-        $config = new KConfig($config);
-        $config->append(array(
-            'refresh' => $refresh
-        ));
+            $config = new KConfig($config);
+            $config->append(array(
+                'refresh' => $refresh
+            ));
 
-        return parent::keepalive($config);
+            return parent::keepalive($config);
+        }
     }
-
 
    	/**
 	 * Render a modal box
