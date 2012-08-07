@@ -7,7 +7,7 @@
 
 <jdoc:include type="head" />
 
-<link href="templates/<?php echo  $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body id="tmpl-component" class="<?php echo JRequest::getVar('option', 'cmd'); ?> contentpane">
