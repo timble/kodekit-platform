@@ -35,24 +35,7 @@ DELETE FROM `#__components` WHERE `option` = 'com_messages';
 # com_extensions schema changes
 
 -- Remove plugins
-TRUNCATE #__plugins;
-
--- Rename tables to follow conventions
-RENAME TABLE  `#__plugins` TO `#__extensions_plugins`;
-
--- Update schema to follow conventions
-ALTER TABLE `#__extensions_plugins` CHANGE  `id`  `extensions_plugin_id` INT( 11 ) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `#__extensions_plugins` CHANGE  `element`  `identifier` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
-ALTER TABLE `#__extensions_plugins` CHANGE  `folder`  `component` VARCHAR( 100 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
-ALTER TABLE `#__extensions_plugins` CHANGE  `published`  `enabled` TINYINT( 3 ) NOT NULL DEFAULT  '0';
-
-ALTER TABLE `#__extensions_plugins` DROP `iscore`;
-ALTER TABLE `#__extensions_plugins` DROP `ordering`;
-ALTER TABLE `#__extensions_plugins` DROP `iscore`;
-ALTER TABLE `#__extensions_plugins` DROP `client_id`;
-
--- Add plugins
-//@TODO
+DROP TABLE #__plugins;
 
 # --------------------------------------------------------
 # com_contacts schema changes
