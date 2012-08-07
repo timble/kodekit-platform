@@ -11,24 +11,6 @@
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <fieldset class="form-horizontal">
-	<legend><?php echo JText::_( 'Path' ); ?></legend>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][log_path]"><?= @text('Log-folder'); ?></label>
-	    <div class="controls">
-	        <input type="text" name="settings[system][log_path]" value="<?php echo $settings->log_path; ?>" />
-	        <p class="help-block"><?= @text( 'TIPLOGFOLDER' ); ?></p>
-	    </div>
-	</div>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][tmp_path]"><?= @text( 'Temp-folder' ); ?></label>
-	    <div class="controls">
-	        <input type="text" name="settings[system][tmp_path]" value="<?= $settings->tmp_path; ?>" />
-	        <p class="help-block"><?= @text( 'TIPTMPFOLDER' ); ?></p>
-	    </div>
-	</div>
-</fieldset>
-
-<fieldset class="form-horizontal">
 	<legend><?= @text( 'Server' ); ?></legend>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][gzip]"><?= @text( 'Page Compression' ); ?></label>
