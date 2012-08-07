@@ -11,8 +11,6 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<style src="media://com_pages/css/menu-form.css" />
-
 <script language="javascript" type="text/javascript">
 <!--
     function submitbutton(pressbutton) {
@@ -44,42 +42,25 @@ defined('KOOWA') or die('Restricted access') ?>
     }
 //-->
 </script>
-<form action="<?= @route('&id='.$menu->id)?>" method="post" name="adminForm">
-<input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $menu->title ?>" size="50" maxlength="255" />
 
-<table class="adminform">
-    <tr>
-        <td width="100">
-            <label for="name">
-                <strong><?= @text('Unique Name') ?>:</strong>
-            </label>
-        </td>
-        <td>
-            <input class="inputbox" type="text" name="name" size="30" maxlength="25" value="<?= $menu->name ?>" />
-        </td>
-    </tr>
-    <tr>
-        <td width="100" >
-            <label for="description">
-                <strong><?= @text('Description') ?>:</strong>
-            </label>
-        </td>
-        <td>
+<?= @template('com://admin/default.view.form.toolbar'); ?>
+
+<form action="<?= @route('&id='.$menu->id)?>" method="post" class="-koowa-form">
+	<div class="form-body">
+        <div class="title">
+            <input class="required" type="text" name="title" maxlength="255" value="<?= $menu->title ?>" placeholder="<?= @text('Title') ?>" />
+        </div>
+		<div class="form-content">			
+            <label for="name"><?= @text('Unique Name') ?>:</label>
+            <input class="inputbox" type="text" name="name" size="30" maxlength="25" value="<?= $menu->slug ?>" />
+
+            <label for="description"><?= @text('Description') ?>:</label>
             <textarea name="description" rows="3" placeholder="<?= @text('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>
-        </td>
-    </tr>
-
-    <? if(!$state->id) : ?>
-    <tr>
-        <td width="100"  valign="top">
-            <label for="module_title">
-                <strong><?= @text('Module Title') ?>:</strong>
-            </label>
-        </td>
-        <td>
-            <input class="inputbox" type="text" name="module_title" id="module_title" size="30" value="" />
-        </td>
-    </tr>
-    <? endif ?>
-</table>
+			      
+		    <? if(!$state->id) : ?>
+		    <label for="module_title"><?= @text('Module Title') ?>:</label>
+		    <input class="inputbox" type="text" name="module_title" id="module_title" size="30" value="" />
+		    <? endif ?>
+		</div>
+    </div>
 </form>

@@ -11,10 +11,12 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
-<style src="media://com_pages/css/menus-default.css" />
+<?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form id="menus-form" action="<?= @route()?>" method="get" class="-koowa-grid">
     <table class="adminlist">
@@ -46,10 +48,10 @@ defined('KOOWA') or die('Restricted access') ?>
                 <td>
                     <? if(!$state->trash) : ?>
                     <a href="<?= @route('view=menu&id='.$menu->id); ?>">
-                        <strong><?= @escape($menu->title); ?></strong> (<?= $menu->name; ?>)
+                        <strong><?= @escape($menu->title); ?></strong>
                     </a>
                     <? else : ?>
-                        <strong><?= @escape($menu->title); ?></strong> (<?= $menu->name; ?>)
+                        <strong><?= @escape($menu->title); ?></strong>
                     <? endif ?>
                 </td>
             </tr>

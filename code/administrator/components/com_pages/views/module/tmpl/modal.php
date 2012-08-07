@@ -12,18 +12,23 @@ window.addEvent('domready', (function() {
 }));
 </script>
 
-<form id="module-pages">
-    <input type="radio" name="pages" value="all" <?= count($relations) == 1 && $relations->top()->pages_page_id == 0 ? 'checked="checked"' : '' ?>/>
-    <label><?= @text('All') ?></label>
-
-    <input type="radio" name="pages" value="selected" <?= count($relations) && $relations->top()->pages_page_id != 0 ? 'checked="checked"' : '' ?>/>
-    <label><?= @text('Selected') ?></label>
-
-    <input type="radio" name="pages" value="none" <?= !count($relations) ? 'checked="checked"' : '' ?>/>
-    <label><?= @text('None') ?></label>
-
-    <input type="button" name="save" value="<?= @text('Save') ?>" />
-
+<form id="module-pages" class="form-horizontal">
+    <fieldset>
+	    <label class="radio inline">
+	    	<input type="radio" name="pages" value="all" <?= count($relations) == 1 && $relations->top()->pages_page_id == 0 ? 'checked="checked"' : '' ?>/>
+	    	<?= @text('All') ?>
+	    </label>
+	    <label class="radio inline">
+	    	<input type="radio" name="pages" value="selected" <?= count($relations) && $relations->top()->pages_page_id != 0 ? 'checked="checked"' : '' ?>/>
+	    	<?= @text('Selected') ?>
+	    </label>
+	    <label class="radio inline">
+	    	<input type="radio" name="pages" value="none" <?= !count($relations) ? 'checked="checked"' : '' ?>/>
+	    	<?= @text('None') ?>
+	    </label>
+	
+	    <input type="button" name="save" value="<?= @text('Save') ?>" />
+    </fieldset>
     <?= @helper('tabs.startPane') ?>
     <?= @helper('tabs.startPanel', array('title' => @text('All pages'))) ?>
         <? foreach($pages as $page) : ?>

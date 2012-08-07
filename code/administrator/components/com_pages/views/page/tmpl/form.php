@@ -11,10 +11,10 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
+<!--
 <script src="media://com_pages/js/widget.js" />
 <script src="media://com_pages/js/page.js" />
-
-<style src="media://com_pages/css/page-form.css" />
+-->
 
 <script>
     function checksubmit(form)

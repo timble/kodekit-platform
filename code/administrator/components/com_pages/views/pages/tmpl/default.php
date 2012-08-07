@@ -11,9 +11,10 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
-<style src="media://com_pages/css/pages-default.css" />
+-->
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
 
