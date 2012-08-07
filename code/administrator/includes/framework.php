@@ -30,17 +30,16 @@ if (!file_exists( JPATH_ROOT.'/configuration.php' ) || (filesize( JPATH_ROOT.'/c
 
 // Joomla : setup
 require_once( JPATH_LIBRARIES.'/joomla/import.php');
-jimport( 'joomla.application.menu' );
 jimport( 'joomla.user.user');
 jimport( 'joomla.environment.uri' );
 jimport( 'joomla.html.html' );
 jimport( 'joomla.html.parameter' );
 jimport( 'joomla.utilities.utility' );
-jimport( 'joomla.event.event');
-jimport( 'joomla.event.dispatcher');
 jimport( 'joomla.language.language');
 jimport( 'joomla.utilities.string' );
-jimport( 'joomla.plugin.helper' );
+
+jimport( 'joomla.application.helper');
+jimport( 'joomla.application.component.helper');
 
 // Koowa : setup
 require_once JPATH_ROOT.'/configuration.php';
@@ -55,15 +54,10 @@ Koowa::getInstance(array(
 unset($config);
 
 KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_BASE)));
-KLoader::addAdapter(new KLoaderAdapterPlugin(array('basepath' => JPATH_ROOT)));
 KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
 
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.module'));
-KServiceIdentifier::addLocator(KService::get('koowa:service.locator.plugin'));
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 		
 KServiceIdentifier::setApplication('site' , JPATH_SITE);
 KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
-
-KService::setAlias('database'                     , 'com://admin/default.database.adapter.mysqli');
-KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
