@@ -2709,12 +2709,12 @@ div.toolbar table.toolbar td a.disabled:active {
   padding-left: 20px;
 }
 /* tabs */
-#window-content dl.tabs {
+dl.tabs {
   float: left;
   margin: 10px 0 0 0;
   z-index: 50;
 }
-#window-content dl.tabs dt {
+dl.tabs dt {
   float: left;
   padding: 6px 14px;
   border: 1px solid #ccc;
@@ -2726,14 +2726,14 @@ div.toolbar table.toolbar td a.disabled:active {
   border-radius: 5px 5px 0 0;
   margin-bottom: -1px;
 }
-#window-content dl.tabs dt:hover {
+dl.tabs dt:hover {
   background-color: #F6F6F6;
   z-index: 100;
   color: #333;
 }
-#window-content dl.tabs dt:active,
-#window-content dl.tabs dt.open,
-#window-content dl.tabs dt.open:active {
+dl.tabs dt:active,
+dl.tabs dt.open,
+dl.tabs dt.open:active {
   background-color: #FFF;
   z-index: 100;
   color: #333;
@@ -2742,17 +2742,17 @@ div.toolbar table.toolbar td a.disabled:active {
   -moz-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
   box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
 }
-#window-content dl.tabs dt:active {
+dl.tabs dt:active {
   background-color: #FFF;
   border-bottom-color: #CCC;
 }
-#window-content div.current {
+div.current {
   clear: both;
   border: 1px solid #CCC;
   padding: 10px 10px;
   background-color: #FFF;
 }
-#window-content div.current dd {
+div.current dd {
   padding: 0;
   margin: 0;
 }
@@ -3365,10 +3365,6 @@ div.message {
 
   /* tabs.css */
 
-  /* @group Tabs */
-
-  /* @end */
-
 }
 .com_pages #main {
   background: #E6E6E6;
@@ -3419,40 +3415,10 @@ div.message {
   font-weight: normal;
   color: #333;
 }
-.com_pages #main dl.tabs {
-  float: left;
-  padding-top: 10px;
-  margin: 0 0 -1px 0;
-  z-index: 50;
-}
 .com_pages #main dl.tabs dt {
-  float: left;
   padding: 8px 12px;
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  margin-left: 3px;
-  background: #f0f0f0;
-  color: #666;
-  -webkit-border-radius: 5px 5px 0 0;
   font-weight: bold;
   font-size: 110%;
-}
-.com_pages #main dl.tabs dt.open {
-  background: #FFF;
-  border-bottom: 1px solid #FFF;
-  z-index: 100;
-  color: #222;
-}
-.com_pages #main div.current {
-  clear: both;
-  border-top: 1px solid #ccc;
-  padding: 10px 10px;
-  background-color: #FFF;
-}
-.com_pages #main div.current dd {
-  padding: 0;
-  margin: 0;
 }
 .com_pages #parent .level1 {
   padding-left: 36px;
