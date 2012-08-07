@@ -20,7 +20,7 @@ defined('KOOWA') or die('Restricted access') ?>
 </module>
 
 <module title="" position="inspector">
-    <?= @template('default_activities'); ?>
+    <?= @template('com://admin/activities.view.activities.simple', array('package' => 'articles', 'name' => 'article')); ?>
 </module>
 
 <form id="articles-form" action="" method="get" class="-koowa-grid">

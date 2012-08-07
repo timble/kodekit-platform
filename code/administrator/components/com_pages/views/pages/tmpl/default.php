@@ -22,6 +22,10 @@ defined('KOOWA') or die('Restricted access') ?>
     <?= @template('default_sidebar') ?>
 </module>
 
+<module title="" position="inspector">
+    <?= @template('com://admin/activities.view.activities.simple', array('package' => 'pages', 'name' => 'page')); ?>
+</module>
+
 <form id="pages-form" action="" method="get" class="-koowa-grid" >
     <?= @template('default_scopebar') ?>
     <table class="adminlist">

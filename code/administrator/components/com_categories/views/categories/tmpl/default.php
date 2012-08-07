@@ -22,6 +22,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 </module>
 <? endif; ?>
 
+<module title="" position="inspector">
+    <?= @template('com://admin/activities.view.activities.simple', array('package' => $state->table, 'name' => 'category')); ?>
+</module>
+
 <form action="" method="get" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />

@@ -21,6 +21,10 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<?= @template('default_sidebar', array('groups' => $groups)); ?>
 </module>
 
+<module title="" position="inspector">
+    <?= @template('com://admin/activities.view.activities.simple', array('package' => 'users', 'name' => 'user')); ?>
+</module>
+
 <form action="" method="get" class="-koowa-grid">
 	<?= @template('default_scopebar'); ?>
 	<table>
