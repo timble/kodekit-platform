@@ -21,11 +21,11 @@
 </head>
 <body id="minwidth-body" class="<?php echo JRequest::getVar('option', 'cmd'); ?>">
 	<div id="container">
-		<div id="header-box" class="row">
+		<div id="header-box">
 			<jdoc:include type="modules" name="menu" />
 			<jdoc:include type="modules" name="status"  />
 		</div>
-		<div id="tabs-box" class="row">
+		<div id="tabs-box">
 			<jdoc:include type="modules" name="submenu" />
 		</div>
 		<?php if($this->countModules('toolbar OR title')) : ?>
