@@ -64,7 +64,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $this->registerCallback('before.run', array($this, 'loadConfig'));
         $this->registerCallback('before.run', array($this, 'loadSession'));
         $this->registerCallback('before.run', array($this, 'loadLanguage'));
-        $this->registerCallback('before.run', array($this, 'loadPlugins'));
 
         //Set exception handler
         set_exception_handler(array($this, 'error'));
@@ -249,6 +248,9 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                 throw new KException(JText::_('Component Not Found'), KHttpResponse::NOT_FOUND);
                 return false;
             }*/
+
+            //@TODO : Need this for ComDefaultTemplateFilterModule.
+            JFactory::getDocument();
 
             $name = substr( $component, 4);
 
@@ -437,24 +439,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         // Check that we were given a language in the array (since by default may be blank)
         if(isset($language)) {
             JFactory::getConfig()->setValue('config.language', $language);
-        }
-    }
-
-    /**
-     * Load the application plugins
-     *
-     * @param KCommandContext $context	A command context object
-     * @return	void
-     */
-    public function loadPlugins(KCommandContext $context)
-    {
-        $plugins = $this->getService('com://admin/extensions.model.plugins')
-                        ->type('system')
-                        ->enabled(true)
-                        ->getList();
-
-        foreach($plugins as $plugin) {
-            $this->addEventSubscriber($plugin->identifier, $plugin->params->toArray());
         }
     }
 
