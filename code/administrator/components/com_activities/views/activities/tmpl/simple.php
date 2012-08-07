@@ -11,6 +11,10 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
+<? $activities = @service('com://admin/activities.model.activities')->package($package)->name($name)->limit('10')->getList() ?>
+
+<h3><?= @text('Recent Activities')?></h3>
+<div class="scrollable">
 <? if(count($activities)) : ?>
     <?
     foreach ($activities as $activity) {
@@ -41,8 +45,9 @@ defined('KOOWA') or die('Restricted access') ?>
     			<? endforeach ?>
     		</div>
     	<? endforeach ?>
-    	<a class="btn" href="<?= @route('option=com_activities&view=activities') ?>">
+    	<a class="btn" href="<?= @route('option=com_activities&view=activities&package='.$package) ?>">
     	   <?= @text('More activities') ?>
     	</a>
     </div>
 <? endif ?>
+</div>
