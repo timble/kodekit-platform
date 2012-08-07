@@ -2102,7 +2102,7 @@ a:hover {
 }
 input[type="search"] {
   height: 11px;
-  padding: 4px;
+  padding: 3px;
 }
 /* -- overall styles ------------------------------ */
 #header-box {
@@ -2732,7 +2732,6 @@ div.current dd {
 }
 /* @group Scope Bar */
 .scopebar {
-  height: 18px;
   padding: 3px 10px 3px;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e9e9e9);
@@ -3999,9 +3998,10 @@ form[name="adminForm"] {
   -webkit-flex-direction: row;
   -moz-box-orient: row;
   box-orient: row;
-  -webkit-flex: 20px 0;
-  -moz-flex: 20px 0;
-  flex: 20px 0;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
+  min-height: 18px;
 }
 .scopebar .scopebar-search {
   display: -webkit-flex;
