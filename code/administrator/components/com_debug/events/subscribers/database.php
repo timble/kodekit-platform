@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Debug
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,12 +12,11 @@
  * Database Event Subscriber Class
  * 
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Components
  * @subpackage  Debug
  */
  
-class ComDebugEventSubscriberDatabase extends KEventSubscriberDefault implements KServiceInstantiatable
+class ComDebugEventSubscriberDatabase extends KEventSubscriberAbstract implements KServiceInstantiatable
 {    
     /**
      * The start time
