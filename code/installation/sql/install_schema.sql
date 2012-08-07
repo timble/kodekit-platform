@@ -362,29 +362,6 @@ CREATE TABLE `#__pages_pages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__plugins`
---
-
-CREATE TABLE `#__plugins` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL DEFAULT '',
-  `element` varchar(100) NOT NULL DEFAULT '',
-  `folder` varchar(100) NOT NULL DEFAULT '',
-  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `published` tinyint(3) NOT NULL DEFAULT '0',
-  `iscore` tinyint(3) NOT NULL DEFAULT '0',
-  `client_id` tinyint(3) NOT NULL DEFAULT '0',
-  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `params` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idx_folder` (`published`,`client_id`,`access`,`folder`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__users`
 --
 
