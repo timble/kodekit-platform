@@ -44,8 +44,6 @@ class JConfig
 	var $secret          = 'FBVtggIk5lAzEU9H'; 	//Change this to something more secure
 	var $gzip            = '0';
 	var $error_reporting = '-1';
-	var $tmp_path	     = '/tmp';
-	var $log_path	     = '/var/logs';
 	var $timezone        = 'UTC';
 	var $force_ssl       = 0;					//Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
 
