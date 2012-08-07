@@ -10,8 +10,6 @@
 <link href="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/css/default.css" rel="stylesheet" type="text/css" />
 </head>
 
-<?php echo JHTML::_('behavior.keepalive'); ?>
-
 <body class="<?php echo JRequest::getVar('option', 'cmd'); ?> login">
 	<div id="container">
 		<div id="login-box" class="login">

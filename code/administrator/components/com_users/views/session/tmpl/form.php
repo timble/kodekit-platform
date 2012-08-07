@@ -17,8 +17,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <style src="media://lib_koowa/css/koowa.css" />
 -->
 
-<?= @helper('behavior.keepalive'); ?>
-
 <form action="" method="post" name="login" id="form-login">
     <div class="control-group">
         <label class="control-label" for=""><?= @text( 'Email' ); ?></label>
