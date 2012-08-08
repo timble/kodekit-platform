@@ -278,7 +278,8 @@ ALTER TABLE `#__pages_pages` CHANGE `published` `enabled` BOOLEAN NOT NULL DEFAU
 ALTER TABLE `#__pages_pages` CHANGE `componentid` `component_id` INT UNSIGNED;
 ALTER TABLE `#__pages_pages` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `#__pages_pages` CHANGE `checked_out_time` `locked_on` DATETIME;
-ALTER TABLE `#__pages_pages` MODIFY `home` BOOLEAN NOT NULL DEFAULT 0;
+ALTER TABLE `#__pages_pages` ADD COLUMN `hidden` BOOLEAN NOT NULL DEFAULT 0 AFTER `enabled`;
+ALTER TABLE `#__pages_pages` MODIFY `home` BOOLEAN NOT NULL DEFAULT 0 AFTER `hidden`;
 
 ALTER TABLE `#__pages_menus` CHANGE `id` `pages_menu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__pages_menus` CHANGE `menutype` `slug` VARCHAR(255) AFTER `title`;

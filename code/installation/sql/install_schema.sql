@@ -283,9 +283,9 @@ CREATE TABLE `#__pages_page_orderings` (
   `title` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
   `custom` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`pages_page_id`),
-  INDEX `ix_title` (`title`),
-  INDEX `ix_custom` (`custom`),
   CONSTRAINT `pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE
+  INDEX `ix_title` (`title`),
+  INDEX `ix_custom` (`custom`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -346,12 +346,13 @@ CREATE TABLE `#__pages_pages` (
   `link` TEXT,
   `type` VARCHAR(50),
   `enabled` BOOLEAN NOT NULL DEFAULT 0,
+  `hidden` BOOLEAN NOT NULL DEFAULT 0,
+  `home` BOOLEAN NOT NULL DEFAULT 0,
   `component_id` INT UNSIGNED,
   `locked_by` INT UNSIGNED,
   `locked_on` DATETIME,
   `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `params` TEXT,
-  `home` BOOLEAN NOT NULL DEFAULT 0,
   PRIMARY KEY (`pages_page_id`),
   CONSTRAINT `pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   INDEX `ix_enabled` (`enabled`),

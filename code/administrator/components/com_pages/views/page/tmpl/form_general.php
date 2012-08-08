@@ -25,6 +25,12 @@ defined('KOOWA') or die('Restricted access') ?>
        	</div>
     </div>
     <div class="control-group">
+        <label class="control-label" for="publish_up"><?= @text('Hidden') ?></label>
+        <div class="controls">
+       	    <?= @helper('select.booleanlist',  array('selected' => $page->isNew() ? 0 : $page->hidden)) ?>
+       	</div>
+    </div>
+    <div class="control-group">
         <label class="control-label" for="parent"><?= @text('Parent') ?></label>
         <div id="parent" class="controls">
         	<?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id)) ?>
