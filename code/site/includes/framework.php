@@ -61,5 +61,5 @@ KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLIC
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.module'));
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 
-KServiceIdentifier::setApplication('site' , JPATH_APPLICATION);
+KServiceIdentifier::setApplication('site' , JPATH_ROOT.'/site');
 KServiceIdentifier::setApplication('admin', JPATH_ROOT.'/administrator');
