@@ -1,0 +1,83 @@
+<?php
+/**
+* @version		$Id: html.php 3541 2012-04-02 18:24:42Z johanjanssens $
+* @package     	Nooku_Server
+* @subpackage  	Contacts
+* @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+* @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+* @link			http://www.nooku.org
+*/
+
+/**
+ * Contact Html View
+ *
+ * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package     Nooku_Server
+ * @subpackage  Contacts
+ */
+class ComContactsViewContactHtml extends ComDefaultViewHtml
+{
+    public function display()
+    {
+        //Get the parameters
+        $params = JFactory::getApplication()->getParams();
+        
+        //Get the contact
+        $contact = $this->getModel()->getData();
+
+        //Get the category
+        $category = $this->getCategory();
+
+        //Get the parameters of the active menu item
+        if ($page = JFactory::getApplication()->getPages()->getActive())
+        {
+            $menu_params = new JParameter( $page->params );
+            if (!$menu_params->get( 'page_title')) {
+                $params->set('page_title',	$contact->name);
+            }
+        }
+        else $params->set('page_title',	$contact->name);
+
+        //Set the page title
+        JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
+
+        //Set the breadcrumbs
+        $pathway = JFactory::getApplication()->getPathway();
+
+        if($page->link->query['view'] == 'categories' ) {
+            $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
+            $pathway->addItem($contact->name, '');
+        }
+
+        if($page->link->query['view'] == 'contacts' ) {
+            $pathway->addItem($contact->name, '');
+        }
+
+        $this->assign('params', $params);
+        return parent::display();
+    }
+
+    public function getCategory()
+    {
+        //Get the category
+        $category = $this->getService('com://site/contacts.model.categories')
+                         ->table('contacts')
+                         ->id($this->getModel()->getState()->category)
+                         ->getItem();
+
+        //Set the category image
+        if (isset( $category->image ) && !empty($category->image))
+        {
+            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $size = getimagesize($path);
+
+            $category->image = (object) array(
+                'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
+                'width'  => $size[0],
+                'height' => $size[1]
+            );
+        }
+
+        return $category;
+    }
+}

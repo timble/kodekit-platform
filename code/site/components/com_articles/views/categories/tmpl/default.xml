@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+<layout title="Standard Category Layout">
+    <message>
+        <![CDATA[STANDARD CATEGORY LAYOUT DESC]]>
+    </message>
+</layout>
+<state>
+    <name>Standard Category Layout</name>
+    <description>STANDARD CATEGORY LAYOUT DESC</description>
+    <url addpath="/administrator/components/com_categories/elements">
+        <param name="category" type="category" table="articles" label="Category" description="SELECT CATEGORY"/>
+    </url>
+    <params>
+        <param name="sort_by" type="list" default="newest" label="Sort by" description="SORT BY DESC">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="order">Ordering</option>
+        </param>
+        <param name="show_description" type="radio" default="0" label="Category description"
+               description="CATEGORY DESCRIPTION DESC">
+            <option value="0">Hide</option>
+            <option value="1">Show</option>
+        </param>
+        <param name="show_description_image" type="radio" default="0" label="Category Image"
+               description="CATEGORY IMAGE DESC">
+            <option value="0">Hide</option>
+            <option value="1">Show</option>
+        </param>
+    </params>
+</state>
+</metadata>
