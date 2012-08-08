@@ -28,11 +28,11 @@
 		<div id="tabs-box">
 			<jdoc:include type="modules" name="submenu" />
 		</div>
-		<?php if($this->countModules('toolbar OR title')) : ?>
+		<?php //if($this->countModules('toolbar OR title')) : ?>
 		<div id="toolbar-box">
 			<jdoc:include type="modules" name="toolbar" />
 		</div>
-		<?php endif; ?>
+		<?php //endif; ?>
 		<jdoc:include type="message" />
 		<div id="window-body" class="<?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
             <?php if(isset($this->modules['sidebar']) && count($this->modules['sidebar'])) : ?>
