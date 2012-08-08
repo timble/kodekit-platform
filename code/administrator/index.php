@@ -10,17 +10,16 @@
 // Set flag that this is a parent file
 define( '_JEXEC', 1 );
 
-define('JPATH_BASE'         , dirname(__FILE__) );
-define('JPATH_ROOT'         , dirname(JPATH_BASE));
-define('JPATH_SITE'         , JPATH_ROOT );
-define('JPATH_ADMINISTRATOR', JPATH_ROOT.'/administrator' );
+define('JPATH_APPLICATION'  , dirname(__FILE__) );
+define('JPATH_BASE'         , JPATH_APPLICATION );
+define('JPATH_ROOT'         , dirname(JPATH_APPLICATION));
+
 define('JPATH_LIBRARIES'    , JPATH_ROOT.'/libraries' );
-define('JPATH_THEMES'       , JPATH_BASE.'/templates' );
 define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once(JPATH_BASE.'/includes/framework.php' );
+require_once(JPATH_APPLICATION.'/includes/framework.php' );
 
 //Nooku Server identification information
 header('X-Nooku-Server: version='.Koowa::VERSION);
