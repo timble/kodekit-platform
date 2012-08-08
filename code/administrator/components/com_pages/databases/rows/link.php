@@ -33,7 +33,7 @@ class ComPagesDatabaseRowLink extends ComPagesDatabaseRowPage
         {
             $xml  = JFactory::getXMLParser('simple');
             $type = $this->getType();
-            $path = JPATH_ADMINISTRATOR.'/components/com_pages/databases/rows/link.xml';
+            $path = JPATH_APPLICATION.'/components/com_pages/databases/rows/link.xml';
 
             if(file_exists($path)) {
                 $xml->loadFile($path);
