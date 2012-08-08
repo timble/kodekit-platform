@@ -37,3 +37,9 @@ defined('KOOWA') or die('Restricted access') ?>
         </div>
     </div>
 </fieldset>
+
+<fieldset class="form-horizontal">
+    <? if(count($page->params_state->getParams('params'))) : ?>
+        <?= $page->params_state->render('params') ?>
+    <? endif ?>
+</fieldset>
