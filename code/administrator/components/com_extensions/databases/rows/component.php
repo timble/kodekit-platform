@@ -57,7 +57,7 @@ class ComExtensionsDatabaseRowComponent extends KDatabaseRowDefault
 	    
 	    if($column == 'manifest' && empty($this->_data['manifest'])) 
 		{
-            $file = JPATH_ADMINISTRATOR.'/components/'.$this->option.'/manifest.xml';
+            $file = JPATH_APPLICATION.'/components/'.$this->option.'/manifest.xml';
               
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
@@ -72,7 +72,7 @@ class ComExtensionsDatabaseRowComponent extends KDatabaseRowDefault
         
 	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-	        $file = JPATH_ADMINISTRATOR.'/components/'.$this->option.'/config.xml';
+	        $file = JPATH_APPLICATION.'/components/'.$this->option.'/config.xml';
 	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );
         }
         
