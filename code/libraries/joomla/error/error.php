@@ -574,7 +574,7 @@ class JError
 		$document->setDirection($dir);
 		$data = $document->render(false, array (
 			'template' => $template,
-			'directory' => JPATH_THEMES,
+			'directory' => JPATH_APPLICATION.'/templates',
 			'debug' => $config->getValue('config.debug')
 		));
 
