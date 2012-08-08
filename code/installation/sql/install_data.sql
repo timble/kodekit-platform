@@ -56,26 +56,26 @@ VALUES
 INSERT INTO `#__pages_modules` (`modules_module_id`, `pages_page_id`) VALUES (1, 0);
 
 --
--- Dumping data for table `#__pages_page_orderings`
+-- Dumping data for table `#__pages_orderings`
 --
 
-INSERT INTO `#__pages_page_orderings` (`pages_page_id`, `title`, `custom`)
+INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
     (1, 2, 1);
 
 --
--- Dumping data for table `#__pages_page_relations`
+-- Dumping data for table `#__pages_closures`
 --
 
-INSERT INTO `#__pages_page_relations` (`ancestor_id`, `descendant_id`, `level`)
+INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
     (1, 1, 0);
 
 --
--- Dumping data for table `#__pages_pages`
+-- Dumping data for table `#__pages`
 --
 
-INSERT INTO `#__pages_pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link`, `type`, `enabled`, `hidden`, `home`, `component_id`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link`, `type`, `enabled`, `hidden`, `home`, `component_id`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
     (1, 1, 'Home', 'home', 'index.php?option=com_articles&view=articles', 'component', 1, 0, 1, 20, 0, '0000-00-00 00:00:00', 0, 'show_featured=1\nshow_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n');
 

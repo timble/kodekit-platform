@@ -174,10 +174,10 @@ VALUES
     (40, 0);
 
 --
--- Dumping data for table `#__pages_page_orderings`
+-- Dumping data for table `#__pages_orderings`
 --
 
-INSERT INTO `#__pages_page_orderings` (`pages_page_id`, `title`, `custom`)
+INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
     (2, 3, 4),
     (11, 5, 1),
@@ -209,10 +209,10 @@ VALUES
     (52, 2, 3);
 
 --
--- Dumping data for table `#__pages_page_relations`
+-- Dumping data for table `#__pages_closures`
 --
 
-INSERT INTO `#__pages_page_relations` (`ancestor_id`, `descendant_id`, `level`)
+INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
     (2, 2, 0),
     (11, 11, 0),
@@ -245,10 +245,10 @@ VALUES
     (27, 34, 1);
 
 --
--- Dumping data for table `#__pages_pages`
+-- Dumping data for table `#__pages`
 --
 
-INSERT INTO `#__pages_pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link`, `type`, `enabled`, `hidden`, `home`, `component_id`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link`, `type`, `enabled`, `hidden`, `home`, `component_id`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
     (2, 1, 'Joomla! License', 'joomla-license', 'index.php?option=com_articles&view=article&id=5', 'component', 1, 0, 0, 20, 0, '0000-00-00 00:00:00', 0, 'pageclass_sfx=\nmenu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
     (11, 4, 'Joomla! Home', 'joomla-home', 'http://www.joomla.org', 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),

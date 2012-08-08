@@ -275,15 +275,15 @@ CREATE TABLE `#__modules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_page_orderings`
+-- Table structure for table `#__pages_orderings`
 --
 
-CREATE TABLE `#__pages_page_orderings` (
+CREATE TABLE `#__pages_orderings` (
   `pages_page_id` INT UNSIGNED NOT NULL,
   `title` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
   `custom` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`pages_page_id`),
-  CONSTRAINT `pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_title` (`title`),
   INDEX `ix_custom` (`custom`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -291,16 +291,16 @@ CREATE TABLE `#__pages_page_orderings` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_page_relations`
+-- Table structure for table `#__pages_closures`
 --
 
-CREATE TABLE IF NOT EXISTS `#__pages_page_relations` (
+CREATE TABLE IF NOT EXISTS `#__pages_closures` (
   `ancestor_id` INT UNSIGNED NOT NULL,
   `descendant_id` INT UNSIGNED NOT NULL,
   `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`ancestor_id`, `descendant_id`),
-  CONSTRAINT `ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE,
-  CONSTRAINT `descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_level` (`level`),
   INDEX `ix_descendant_id` (`descendant_id`)
 ) ENGINE = InnoDB CHARSET = utf8;
@@ -335,10 +335,10 @@ CREATE TABLE `#__pages_modules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_pages`
+-- Table structure for table `#__pages`
 --
 
-CREATE TABLE `#__pages_pages` (
+CREATE TABLE `#__pages` (
   `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) NOT NULL,

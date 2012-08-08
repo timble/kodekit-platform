@@ -34,8 +34,9 @@ class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'relation_table' => 'pages_page_relations',
-            'ordering_table' => 'pages_page_orderings',
+            'name' => 'pages',
+            'relation_table' => 'pages_closures',
+            'ordering_table' => 'pages_orderings',
             'behaviors'  => array(
                 'lockable', 'sluggable', 'assignable',
                 'com://admin/pages.database.behavior.orderable' => array('columns' => array('title', 'custom'))
