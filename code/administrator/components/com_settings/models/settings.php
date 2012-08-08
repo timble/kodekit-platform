@@ -53,7 +53,7 @@ class ComSettingsModelSettings extends KModelAbstract
             
             foreach($components as $component)
             {
-                $path   = JPATH_ADMINISTRATOR.'/components/'.$component->option.'/config.xml';
+                $path   = JPATH_APPLICATION.'/components/'.$component->option.'/config.xml';
                     
                 $config = array(
                 	'name' => strtolower(substr($component->option, 4)),
