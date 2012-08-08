@@ -11,7 +11,5 @@
 
 defined('KOOWA') or die('Restricted access') ?>
 
-<div class="sidebar">
-    <h3><?= @text('Menus') ?></h3>
-    <?= @template('com://admin/pages.view.menus.list', array('state' => $state, 'menus' => @service('com://admin/pages.model.menus')->getList())); ?>
-</div>
+<h3><?= @text('Menus') ?></h3>
+<?= @template('com://admin/pages.view.menus.list', array('state' => $state, 'menus' => @service('com://admin/pages.model.menus')->getList())); ?>
