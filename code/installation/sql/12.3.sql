@@ -309,6 +309,8 @@ UPDATE `#__modules` SET `title` = 'Admin Pages', `module` = 'mod_pages' WHERE `m
 UPDATE `#__modules` SET `module` = 'mod_pages' WHERE `module` = 'mod_mainmenu';
 UPDATE `#__modules` AS `modules` SET `modules`.`params` = REPLACE(`modules`.`params`, CONCAT('menutype=', SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)), CONCAT('menu_id=', (SELECT `id` FROM `#__pages_menus` AS `menus` WHERE `menus`.`slug` = SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)))) WHERE `modules`.`module` = 'mod_pages';
 
+UPDATE `#__pages` SET `params` = REPLACE(`params`, 'menu_item=', 'page_id');
+
 DELETE FROM `#__pages` WHERE `enabled` < 0;
 
 -- Add relations table
