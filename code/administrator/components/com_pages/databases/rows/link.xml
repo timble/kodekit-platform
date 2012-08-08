@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<state>
-		<name>Menu Link</name>
-		<description>Menu Link parameters...</description>
-		<params>
-			<param name="menu_item" type="menuitem" state="1" disable="menulink, separator" label="Menu Item" description="Menu Item to link to..." />
+		<name>Link</name>
+		<description>Link parameters...</description>
+		<params addpath="/administrator/components/com_pages/elements">
+			<param name="page_id" type="page" label="Page" description="Page to link to..." />
 		</params>
 		<advanced />
 	</state>
