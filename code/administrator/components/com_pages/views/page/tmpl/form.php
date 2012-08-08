@@ -17,23 +17,6 @@ defined('KOOWA') or die('Restricted access') ?>
 -->
 
 <script>
-    function checksubmit(form)
-    {
-        var submitOK=true;
-        var checkaction=form.action.value;
-        // do field validation
-        if (checkaction=='cancel') {
-            return true;
-        }
-        if (form.title.value == ""){
-            alert( "<?= @text( 'Page must have a title', true ); ?>" );
-            submitOK=false;
-            // remove the action field to allow another submit
-            form.action.remove();
-        }
-        return submitOK;
-    }
-
     window.addEvent('domready', function(){
         $$('.widget').widget({cookie: 'widgets-page'});
 
