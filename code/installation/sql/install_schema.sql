@@ -283,7 +283,7 @@ CREATE TABLE `#__pages_page_orderings` (
   `title` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
   `custom` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`pages_page_id`),
-  CONSTRAINT `pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE
+  CONSTRAINT `pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages_pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_title` (`title`),
   INDEX `ix_custom` (`custom`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
