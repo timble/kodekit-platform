@@ -27,10 +27,10 @@ class ModDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
         parent::__construct($config);
 
         //Load the theme chrome functions
-        include_once JPATH_THEMES.'/system/html/modules.php';
+        include_once JPATH_APPLICATION.'/templates/system/html/modules.php';
 
-        if(file_exists(JPATH_THEMES.'/'.$config->template.'/html/modules.php')) {
-		    include_once JPATH_THEMES.'/'.$config->template.'/html/modules.php';
+        if(file_exists(JPATH_APPLICATION.'/templates/'.$config->template.'/html/modules.php')) {
+		    include_once JPATH_APPLICATION.'/templates/'.$config->template.'/html/modules.php';
         }
     }
 
