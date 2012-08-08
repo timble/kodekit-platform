@@ -219,8 +219,9 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             }*/
 
             //@TODO : Need this for ComDefaultTemplateFilterModule.
-            $document = JFactory::getDocument();
-            $document->addScript('/media/lib_koowa/js/mootools.js');;
+            //$document = JFactory::getDocument();
+            //$document->addScript(KRequest::root().'/media/lib_koowa/js/mootools.js');
+            JHTML::_('behavior.mootools', false);
 
             $name = substr( $component, 4);
 
