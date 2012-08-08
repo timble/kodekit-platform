@@ -27,7 +27,7 @@ class ComSettingsViewSettingsHtml extends ComDefaultViewHtml
         foreach($settings as $setting) 
         {
 	    	if($setting->getType() == 'component' && $setting->getPath()) {
-	    	    JFactory::getLanguage()->load('com_'.$setting->getName(), JPATH_ADMINISTRATOR);
+	    	    JFactory::getLanguage()->load('com_'.$setting->getName(), JPATH_APPLICATION);
 	    	}
         } 
        
