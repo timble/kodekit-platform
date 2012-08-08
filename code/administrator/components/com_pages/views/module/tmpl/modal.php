@@ -29,22 +29,21 @@ window.addEvent('domready', (function() {
 	
 	    <input type="button" name="save" value="<?= @text('Save') ?>" />
     </fieldset>
-    <?= @helper('tabs.startPane') ?>
-    <?= @helper('tabs.startPanel', array('title' => @text('All pages'))) ?>
-        <? foreach($pages as $page) : ?>
-            <?= str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $page->level - 1) ?><sup>|_</sup>&nbsp;
-            <? $checked  = array_intersect(array(0, $page->id), $relations->pages_page_id) ? ' checked="checked"' : '' ?>
-            <input type="checkbox" name="page_ids[]" value="<?= $page->id ?>" class="page-<?= $page->id ?>" <?= $checked ?>/>
-            <?= $page->title ?><br>
-        <? endforeach ?>
-    <?= @helper('tabs.endPanel') ?>
-    <?= @helper('tabs.startPanel', array('title' => @text('Child pages'))) ?>
-        <? foreach($pages as $page) : ?>
-            <? if(in_array($state->page, $page->parent_ids)) : ?>
-                <?= str_repeat('.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $page->level - array_search($state->page, $page->parent_ids) - 1) ?><sup>|_</sup>&nbsp;
-                <?= $page->title ?><br>
-            <? endif ?>
-        <? endforeach ?>
-    <?= @helper('tabs.endPanel') ?>
-    <?= @helper('tabs.endPane') ?>
+    <? foreach($menus as $menu) : ?>
+        <? $menu_pages = $pages->find(array('pages_menu_id' => $menu->id)) ?>
+        <? if(count($menu_pages)) : ?>
+            <h3><?= $menu->title ?></h3>
+            <? foreach($menu_pages as $page) : ?>
+                <? $checked  = array_intersect(array(0, $page->id), $relations->pages_page_id) ? ' checked="checked"' : '' ?>
+                <? $disabled = count($relations) && $relations->top()->pages_page_id != 0 ? '' : ' disabled="disabled"'?>
+                <input type="checkbox" name="page_ids[]" value="<?= $page->id ?>" class="page-<?= $page->id ?> level<?= $page->level ?>" <?= $checked ?><?= $disabled ?> />
+                <? if($page->id == $state->page) : ?>
+                    <strong><?= $page->title ?></strong>
+                <? else : ?>
+                    <?= $page->title ?>
+                <? endif ?>   
+                <br>
+            <? endforeach ?>
+        <? endif ?>
+    <? endforeach ?>
 </form>

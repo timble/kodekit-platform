@@ -15,20 +15,20 @@ Pages.Module = new Class({
                 case 'all':
                     this.options.form.getElement('input[name=pages][value=all]').set('checked', true);
                     this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
-                        element.set('checked', true);
+                        element.set('checked', true).set('disabled', true);
                     });
                     break;
                 case 'none':
                     this.options.form.getElement('input[name=pages][value=none]').set('checked', true);
                     this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
-                        element.set('checked', false);
+                        element.set('checked', false).set('disabled', true);
                     });
                     break;
                 default:
                     this.options.form.getElement('input[name=pages][value=selected]').set('checked', true);
                     value = JSON.decode(value);
                     this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
-                        element.set('checked', value.contains(element.get('value').toInt()));
+                        element.set('checked', value.contains(element.get('value').toInt())).set('disabled', false);
                     });
                     break;
             }
@@ -43,6 +43,9 @@ Pages.Module = new Class({
                 if (!checked) {
                     this.options.form.getElement('input[name=pages][value=selected]').set('checked', true);
                     this.options.form.getElement('input[name="page_ids[]"][value=' + this.options.page + ']').set('checked', false);
+                    this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
+                        element.set('disabled', false);
+                    });
                 }
                 break;
             case 'none':
@@ -50,13 +53,38 @@ Pages.Module = new Class({
                 if (checked) {
                     this.options.form.getElement('input[name=pages][value=selected]').set('checked', true);
                     this.options.form.getElement('input[name="page_ids[]"][value=' + this.options.page + ']').set('checked', true);
+                    this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
+                        element.set('disabled', false);
+                    });
                 }
                 break;
             case 'selected':
                 // Change page according to parent input.
                 this.options.form.getElement('input[name="page_ids[]"][value=' + this.options.page + ']').set('checked', checked ? true : false);
+                this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
+                    element.set('disabled', false);
+                });
                 break;
         }
+        
+        // Add click event to types.
+        this.options.form.getElement('input[name=pages][value=all]').addEvent('click', function() {
+            this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
+                element.set('checked', true).set('disabled', true);
+            });
+        }.bind(this));
+        
+        this.options.form.getElement('input[name=pages][value=none]').addEvent('click', function() {
+            this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
+                element.set('checked', false).set('disabled', true);
+            });
+        }.bind(this));
+        
+        this.options.form.getElement('input[name=pages][value=selected]').addEvent('click', function() {
+            this.options.form.getElements('input[name="page_ids[]"]').each(function(element) {
+                element.set('disabled', false);
+            });
+        }.bind(this));
 
         // Add click event to save button.
         this.options.form.getElement('input[name=save]').addEvent('click', function() {
