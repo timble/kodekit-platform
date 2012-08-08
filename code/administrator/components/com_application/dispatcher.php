@@ -219,8 +219,9 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             }*/
 
             //@TODO : Need this for ComDefaultTemplateFilterModule.
-            //$document = JFactory::getDocument();
-            //$document->addScript(KRequest::root().'/media/lib_koowa/js/mootools.js');
+            $document = JFactory::getDocument();
+
+            //#TODO : Need this to prevent mootools from being loaded twice
             JHTML::_('behavior.mootools', false);
 
             $name = substr( $component, 4);
@@ -256,7 +257,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $config = array(
             'template' 	=> $template,
             'file'		=> $file.'.php',
-            'directory'	=> JPATH_THEMES
+            'directory'	=> JPATH_APPLICATION.'/templates'
         );
 
         $document->setBase(JURI::current());
@@ -267,7 +268,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $data = $document->render( $this->getCfg('caching'), $config);
 
         //Make images paths absolute
-        $path = JURI::root(true).'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
+        $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
 
         $data = str_replace(JURI::base().'images/', $path, $data);
         $data = str_replace(array('../images', './images') , '"'.$path, $data);
