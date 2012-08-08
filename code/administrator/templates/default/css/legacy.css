@@ -2325,6 +2325,9 @@ input[type="search"] {
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 .-koowa-grid {
+  margin: 0;
+  /* bootstrap override */
+
   /** Table styles **/
 
 }
