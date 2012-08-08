@@ -127,7 +127,7 @@ class JModuleHelper
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		$path = JPATH_BASE.DS.'modules'.DS.$module->module.DS.$module->module.'.php';
+		$path = JPATH_APPLICATION.DS.'modules'.DS.$module->module.DS.$module->module.'.php';
 
 		// Load the module
 		if (!$module->user && file_exists( $path ) && empty($module->content))
@@ -147,8 +147,8 @@ class JModuleHelper
 			$chrome = array();
 		}
 
-		require_once (JPATH_BASE.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php');
-		$chromePath = JPATH_BASE.DS.'templates'.DS.JFactory::getApplication()->getTemplate().DS.'html'.DS.'modules.php';
+		require_once (JPATH_APPLICATION.DS.'templates'.DS.'system'.DS.'html'.DS.'modules.php');
+		$chromePath = JPATH_APPLICATION.DS.'templates'.DS.JFactory::getApplication()->getTemplate().DS.'html'.DS.'modules.php';
 		if (!isset( $chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
@@ -198,8 +198,8 @@ class JModuleHelper
 	function getLayoutPath($module, $layout = 'default')
 	{
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE.DS.'templates'.DS.JFactory::getApplication()->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
-		$bPath = JPATH_BASE.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';
+		$tPath = JPATH_APPLICATION.DS.'templates'.DS.JFactory::getApplication()->getTemplate().DS.'html'.DS.$module.DS.$layout.'.php';
+		$bPath = JPATH_APPLICATION.DS.'modules'.DS.$module.DS.'tmpl'.DS.$layout.'.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath)) {
