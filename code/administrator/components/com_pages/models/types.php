@@ -37,7 +37,7 @@ class ComPagesModelTypes extends KModelAbstract
             // Iterate through the components.
             foreach($components as $component)
             {
-                $path = JPATH_SITE.'/components/'.$component->option.'/views';
+                $path = JPATH_ROOT.'/site/components/'.$component->option.'/views';
 
                 if(!is_dir($path)) {
                     continue;
