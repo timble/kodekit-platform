@@ -9,9 +9,5 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_readmore" type="radio" default="1" label="Read More Link" description="TIPIFSETTOSHOWREADMORELINK">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 	</params>
 </config>

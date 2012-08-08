@@ -24,7 +24,6 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         $params->def('articles_per_page', 5);
         $params->def('show_featured', 0);
         $params->def('sort_by', 'newest');
-        $params->def('show_readmore', 1);
         $params->def('show_description', 0);
         $params->def('show_description_image', 0);
         $params->def('show_page_title', 1);

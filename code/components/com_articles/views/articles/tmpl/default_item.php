@@ -26,7 +26,7 @@ defined('KOOWA') or die('Restricted access'); ?>
         <?= @helper('date.timestamp', array('row' => $article)); ?>
     </p>
 
-    <? if ($article->fulltext && $params->get('show_readmore')) : ?>
+    <? if ($article->fulltext) : ?>
 
         <?= $article->introtext; ?>
          <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
