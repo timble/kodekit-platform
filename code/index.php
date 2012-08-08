@@ -7,24 +7,4 @@
  * @link        http://www.nooku.org
  */
 
-// Set flag that this is a parent file
-define( '_JEXEC', 1 );
-
-define('JPATH_BASE'         , dirname(__FILE__) );
-define('JPATH_ROOT'         , JPATH_BASE);
-define('JPATH_SITE'         , JPATH_ROOT );
-define('JPATH_ADMINISTRATOR', JPATH_ROOT.'/administrator' );
-define('JPATH_LIBRARIES'    , JPATH_ROOT.'/libraries' );
-define('JPATH_THEMES'       , JPATH_BASE.'/templates' );
-define('JPATH_SITES'        , JPATH_ROOT.'/sites');
-
-define( 'DS', DIRECTORY_SEPARATOR );
-
-require_once(JPATH_BASE.'/includes/framework.php' );
-
-//Nooku Server identification information
-header('X-Nooku-Server: version='.Koowa::VERSION);
-
-KLoader::loadIdentifier('com://site/application.aliases');
-
-echo KService::get('com://site/application.dispatcher')->run();
+require_once(dirname(__FILE__).'/site/index.php' );
