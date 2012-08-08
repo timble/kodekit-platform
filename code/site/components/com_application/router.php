@@ -35,7 +35,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 		}
 
 		//Remove base path
-		$path = substr_replace($path, '', 0, strlen(KRequest::base()->getPath()));
+		$path = substr_replace($path, '', 0, strlen(KRequest::root()->getPath()));
 
 		//Remove the filename
 		$path = str_replace('index.php', '', $path);
@@ -73,7 +73,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 		    $route = str_replace('index.php/', '', $route);
 		}
 
-		$url->path   = KRequest::base()->getPath().'/'.$route;
+		$url->path   = KRequest::root()->getPath().'/'.$route;
         $url->format = '';
 
 		return $result;
@@ -105,7 +105,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
     {
         $route = $url->getPath();
         $pages = JFactory::getApplication()->getPages();
-        
+
         if(substr($route, 0, 9) != 'component')
         {
             //Need to reverse the array (highest sublevels first)
