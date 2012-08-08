@@ -53,11 +53,11 @@ Koowa::getInstance(array(
 
 unset($config);
 
-KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_BASE)));
-KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_BASE)));
+KLoader::addAdapter(new KLoaderAdapterModule(array('basepath' => JPATH_APPLICATION)));
+KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
 
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.module'));
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 		
-KServiceIdentifier::setApplication('site' , JPATH_SITE);
-KServiceIdentifier::setApplication('admin', JPATH_ADMINISTRATOR);
+KServiceIdentifier::setApplication('site' , JPATH_ROOT.'/site');
+KServiceIdentifier::setApplication('admin', JPATH_ROOT.'/administrator');
