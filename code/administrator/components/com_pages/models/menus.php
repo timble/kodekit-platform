@@ -30,7 +30,7 @@ class ComPagesModelMenus extends KModelTable
     {
          parent::_buildQueryJoins($query);
 
-         $query->join(array('pages' => 'pages_pages'), 'tbl.pages_menu_id = pages.pages_menu_id');
+         $query->join(array('pages' => 'pages'), 'tbl.pages_menu_id = pages.pages_menu_id');
     }
 
     protected function _buildQueryGroup(KDatabaseQuerySelect $query)
