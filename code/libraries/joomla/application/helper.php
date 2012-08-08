@@ -47,13 +47,13 @@ class JApplicationHelper
 			// Site Client
 			$obj->id		= 0;
 			$obj->name	= 'site';
-			$obj->path	= JPATH_SITE;
+			$obj->path	= JPATH_APPLICATION;
 			$clients[0] = clone($obj);
 
 			// Administrator Client
 			$obj->id		= 1;
 			$obj->name	= 'administrator';
-			$obj->path	= JPATH_ADMINISTRATOR;
+			$obj->path	= JPATH_APPLICATION;
 			$clients[1] = clone($obj);
 		}
 
