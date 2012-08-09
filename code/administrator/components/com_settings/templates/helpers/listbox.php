@@ -112,31 +112,7 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
 		return $list;
 	}
-	
-	public function session_handlers($config = array())
-	{
-		$config = new KConfig($config);
-        $config->append(array(
-            'name'		=> 'session_handler',
-            'attribs'	=> array()
-        ));
 
-        $rows = JSession::getStores();
-
-		foreach($rows as $row) {
-			$options[] 	= $this->option(array('text' => JText::_(ucfirst($row)), 'value' => $row));
-		}
-
-		$list = $this->optionlist(array(
-			'options'   => $options,
-			'name'      => $config->name,
-			'selected'  => $config->selected,
-			'attribs'   => $config->attribs
-		));
-
-		return $list;
-	}
-	
 	public function error_reportings($config = array())
 	{
 		$config = new KConfig($config);
@@ -158,29 +134,7 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
 		return $list;
 	}
-	
-	public function force_ssl($config = array())
-	{
-		$config = new KConfig($config);
-        $config->append(array(
-            'name'		=> 'force_ssl',
-            'attribs'	=> array()
-        ));
 
-		$options[] 	= $this->option(array('text' => 'None', 'value' => 0));
-		$options[] 	= $this->option(array('text' => 'Administrator Only', 'value' =>  1));
-		$options[] 	= $this->option(array('text' => 'Entire Site', 'value' => 2));
-
-		$list = $this->optionlist(array(
-			'options'   => $options,
-			'name'      => $config->name,
-			'selected'  => $config->selected,
-			'attribs'   => $config->attribs
-		));
-
-		return $list;
-	}
-	
 	public function mailers($config = array())
 	{
 		$config = new KConfig($config);
