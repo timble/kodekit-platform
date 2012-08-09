@@ -64,10 +64,10 @@ class JHTMLImage
 			// Comes from an image list param field with 'Do not use' selected
 			return '';
 		} else {
-			$path = JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file;
+			$path = JPATH_ROOT .'/site/templates/'. $cur_template .'/images/'. $file;
 			if (!isset( $paths[$path] ))
 			{
-				if ( file_exists( JPATH_SITE .'/templates/'. $cur_template .'/images/'. $file ) ) {
+				if ( file_exists( JPATH_ROOT .'/site/templates/'. $cur_template .'/images/'. $file ) ) {
 					$paths[$path] = 'templates/'. $cur_template .'/images/'. $file;
 				} else {
 					// outputs only path to image
@@ -124,7 +124,7 @@ class JHTMLImage
 		} else if ( $param == -1 ) {
 			$image = '';
 		} else {
-			if ( file_exists( JPATH_ADMINISTRATOR .'/templates/'. $cur_template .'/images/'. $file ) ) {
+			if ( file_exists( JPATH_ROOT .'/administrator/templates/'. $cur_template .'/images/'. $file ) ) {
 				$image = 'templates/'. $cur_template .'/images/'. $file;
 			} else {
 				// compability with previous versions
