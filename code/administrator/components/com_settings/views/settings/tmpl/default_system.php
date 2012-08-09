@@ -21,7 +21,3 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @helper('tabs.startPanel', array('id' => 'mail', 'title' => @text('Mail'))) ?>
    	<?= @template('default_mail'); ?>  
 <?= @helper('tabs.endPanel') ?>
-
- <?= @helper('tabs.startPanel', array('id' => 'database', 'title' => @text('Database'))) ?>
-	<?= @template('default_database'); ?> 
- <?= @helper('tabs.endPanel') ?>
