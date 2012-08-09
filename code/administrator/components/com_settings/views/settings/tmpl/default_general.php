@@ -19,13 +19,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	        <p class="help-block"><?= @text( 'Compress buffered output if supported' ); ?></p>
 	    </div>
 	</div>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][force_ssl]"><?= @text('Force SSL'); ?></label>
-	    <div class="controls">
-	        <?= @helper('listbox.force_ssl', array('name' => 'settings[system][force_ssl]', 'selected' => $settings->force_ssl)); ?>
-	        <p class="help-block"><?= @text( 'TIPFORCESSL' ); ?></p>
-	    </div>
-	</div>
 </fieldset>
 
 <fieldset class="form-horizontal">
@@ -76,41 +69,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	        <p class="help-block"><?= @text( 'TIPCACHETIME' ); ?></p>
 	    </div>
 	</div>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][cache_handler]"><?= @text( 'Cache Handler' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('listbox.cache_handlers', array('name' => 'settings[system][cache_handler]', 'selected' => $settings->cache_handler)); ?>
-	        <p class="help-block"><?= @text( 'TIPCACHEHANDLER' ); ?></p>
-	    </div>
-	</div>
-	<? if ($settings->cache_handler == 'memcache' || $settings->session_handler == 'memcache') : ?>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][memcache_settings][persistent]"><?= @text( 'Memcache Persistent' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][memcache_settings][persistent]', 'selected' => $settings->memcache_settings['persistent']));?>
-	        <p class="help-block"></p>
-	    </div>
-	</div>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][memcache_settings][compression]"><?= @text( 'Memcache Compression' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][memcache_settings][compression]', 'selected' => $settings->memcache_settings['compression']));?>
-	        <p class="help-block"></p>
-	    </div>
-	</div>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][memcache_settings][servers][0][host]"><?= @text( 'Memcache Server - Host' ); ?></label>
-	    <div class="controls">
-	        <input type="text" name="settings[system][memcache_settings][servers][0][host]" value="<?= @$settings->memcache_settings['servers'][0]['host']; ?>" />
-	    </div>
-	</div>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][memcache_settings][servers][0][port]"><?= @text( 'Memcache Server - Port' ); ?></label>
-	    <div class="controls">
-	        <input type="text" name="settings[system][memcache_settings][servers][0][port]" value="<?= @$settings->memcache_settings['servers'][0]['port']; ?>" />
-	    </div>
-	</div>
-	<? endif; ?>
 </fieldset>
 
 <fieldset class="form-horizontal">
@@ -123,13 +81,6 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	            <span class="add-on"><?= @text( 'Minutes' ); ?></span>
 	        </div>
 	        <p class="help-block"><?= @text( 'TIPAUTOLOGOUTTIMEOF' ); ?></p>
-	    </div>
-	</div>
-	<div class="control-group">
-	    <label class="control-label" for=""><?= @text( 'Session Handler' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('listbox.session_handlers', array('name' => 'settings[system][session_handler]', 'selected' => $settings->session_handler)); ?>
-	        <p class="help-block"><?= @text( 'TIPSESSIONHANDLER' ); ?></p>
 	    </div>
 	</div>
 </fieldset>
