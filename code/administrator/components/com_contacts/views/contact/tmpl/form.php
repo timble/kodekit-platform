@@ -22,6 +22,7 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
+	<input type="hidden" name="enabled" value="0" />
 	
 	<div class="form-body">
 		<div class="title">
@@ -120,7 +121,7 @@ defined('KOOWA') or die('Restricted access') ?>
 				<div class="control-group">
 				    <label class="control-label" for="enabled"><?= @text( 'Published' ); ?></label>
 				    <div class="controls">
-				        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $contact->enabled)); ?>
+				        <input type="checkbox" name="enabled" value="1" <?= $contact->enabled ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">

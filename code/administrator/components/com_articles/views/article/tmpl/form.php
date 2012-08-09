@@ -30,6 +30,9 @@ defined('KOOWA') or die('Restricted access') ?>
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="article-form" class="-koowa-form">
+    <input type="hidden" name="state" value="0" />
+    <input type="hidden" name="featured" value="0" />
+    
     <div class="form-body">
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
@@ -44,13 +47,19 @@ defined('KOOWA') or die('Restricted access') ?>
 	            <div class="control-group">
 	                <label class="control-label" for="state"><?= @text('Published') ?></label>
 	                <div class="controls">
-	                    <?= @helper('select.booleanlist', array('name' => 'state', 'selected' => $article->state)) ?>
+	                    <input type="checkbox" name="state" value="1" <?= $article->state ? 'checked="checked"' : '' ?> />
 	                </div>
 	            </div>
 	            <div class="control-group">
 	                <label class="control-label" for="featured"><?= @text('Featured') ?></label>
 	                <div class="controls">
-	                    <?= @helper('select.booleanlist', array('name' => 'featured', 'selected' => $article->featured)) ?>
+	                    <input type="checkbox" name="featured" value="1" <?= $article->featured ? 'checked="checked"' : '' ?> />
+	                </div>
+	            </div>
+	            <div class="control-group">
+	                <label class="control-label" for="access"><?= @text('Visibility') ?></label>
+	                <div class="controls">
+	                    <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
 	                </div>
 	            </div>
 	            <div class="control-group">
@@ -67,8 +76,8 @@ defined('KOOWA') or die('Restricted access') ?>
 	            </div>
 	            <div class="control-group">
 	                <label class="control-label" for="slug"><?= @text('Slug') ?></label>
-	                <div class="controls">
-	                   <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
+	                <div class="controls controls-calendar">
+	                    <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
 	                </div>
 	            </div>
 	        </fieldset>
@@ -83,15 +92,9 @@ defined('KOOWA') or die('Restricted access') ?>
 	                    </div>
 	                </div>
 	                <div class="control-group">
-	                    <label class="control-label" for="access"><?= @text('Visibility') ?></label>
-	                    <div class="controls">
-	                        <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
-	                    </div>
-	                </div>
-	                <div class="control-group">
 	                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
-	                    <div class="controls controls-calendar">
-	                    	<?= @helper('behavior.calendar', array('date' => $article->created_on, 'name' => 'created_on')); ?>
+	                    <div class="controls">
+	                    	<p class="help-block"><?= @helper('date.humanize', array('date' => $article->created_on)) ?></p>
 	                    </div>
 	                </div>
 	            </tbody>

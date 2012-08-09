@@ -13,21 +13,21 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <fieldset class="form-horizontal">
     <div class="control-group">
-        <label class="control-label" for="status"><?= @text('Status') ?></label>
+        <label class="control-label" for="status"><?= @text('Published') ?></label>
         <div class="controls">
-            <?= @helper('listbox.published',  array('deselect' => false, 'selected' => $page->isNew() ? 1 : $page->enabled)) ?>
+            <input type="checkbox" name="enabled" value="1" <?= $page->enabled ? 'checked="checked"' : '' ?> />
         </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="publish_up"><?= @text('Hidden') ?></label>
+        <div class="controls">
+       	    <input type="checkbox" name="hidden" value="1" <?= $page->hidden ? 'checked="checked"' : '' ?> />
+       	</div>
     </div>
     <div class="control-group">
         <label class="control-label" for="publish_up"><?= @text('Visibility') ?></label>
         <div class="controls">
        	    <?= @helper('listbox.access',  array('deselect' => false)) ?>
-       	</div>
-    </div>
-    <div class="control-group">
-        <label class="control-label" for="publish_up"><?= @text('Hidden') ?></label>
-        <div class="controls">
-       	    <?= @helper('select.booleanlist',  array('selected' => $page->isNew() ? 0 : $page->hidden)) ?>
        	</div>
     </div>
     <div class="control-group">

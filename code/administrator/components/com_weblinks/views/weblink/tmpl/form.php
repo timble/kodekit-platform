@@ -22,7 +22,8 @@ defined('KOOWA') or die('Restricted access'); ?>
 -->
 <form action="" method="post" id="weblink-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $weblink->id ?>" />
-
+	<input type="hidden" name="enabled" value="0" />
+	
 	<div class="form-body">
 		<div class="title">
 		    <input class="required" type="text" name="title" maxlength="255" value="<?= $weblink->title ?>" placeholder="<?= @text('Title') ?>" />
@@ -53,7 +54,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 				<div class="control-group">
 				    <label class="control-label" for=""><?= @text( 'Published' ) ?></label>
 				    <div class="controls">
-				        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $weblink->enabled)) ?>
+				        <input type="checkbox" name="enabled" value="1" <?= $weblink->enabled ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">

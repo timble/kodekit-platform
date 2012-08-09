@@ -28,6 +28,8 @@ defined('KOOWA') or die('Restricted access') ?>
 
 <form action="" method="post" class="-koowa-form">
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />
+    <input type="hidden" name="enabled" value="0" />
+    <input type="hidden" name="hidden" value="0" />
 
     <?= @template('form_types') ?>
 

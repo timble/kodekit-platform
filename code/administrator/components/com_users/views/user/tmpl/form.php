@@ -33,6 +33,9 @@ if(Form && Form.Validator) {
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
+	<input type="hidden" name="enabled" value="0" />
+	<input type="hidden" name="send_email" value="0" />
+	
 	<div class="form-content">
 		<div class="span8">
 			<fieldset class="form-horizontal">
@@ -81,13 +84,13 @@ if(Form && Form.Validator) {
 				<div class="control-group">
 				    <label class="control-label" for=""><?= @text('Enable User') ?></label>
 				    <div class="controls">
-				        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $user->enabled)) ?>
+				        <input type="checkbox" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">
 				    <label class="control-label" for=""><?= @text('Receive System E-mails') ?></label>
 				    <div class="controls">
-				        <?= @helper('select.booleanlist', array('name' => 'send_email', 'selected' => $user->send_email)) ?>
+				        <input type="checkbox" name="send_email" value="1" <?= $user->send_email ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<? if (!$user->isNew()): ?>

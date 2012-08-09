@@ -19,6 +19,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" class="-koowa-form" id="category-form">
+    <input type="hidden" name="enabled" value="0" />
+    
     <div class="form-body">
 		<div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
@@ -54,7 +56,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	    		<div class="control-group">
 	    		    <label class="control-label" for="enabled"><?= @text('Published') ?></label>
 	    		    <div class="controls">
-	    		        <?= @helper('select.booleanlist', array('name' => 'enabled', 'selected' => $category->enabled)) ?>
+	    		        <input type="checkbox" name="enabled" value="1" <?= $category->enabled ? 'checked="checked"' : '' ?> />
 	    		    </div>
 	    		</div>
 	    		<div class="control-group">
