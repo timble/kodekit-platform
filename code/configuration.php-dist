@@ -23,16 +23,19 @@ class JConfig
 	* Site configuration section
 	* -------------------------------------------------------------------------
 	*/
+
 	/* Site Settings */
 	var $offline    = '0';
 	var $sitename   = 'Nooku Server';		// Name of the site
 	var $list_limit = '20';
+	var $feed_limit =  10;
 
 	/**
 	* -------------------------------------------------------------------------
 	* Database configuration section
 	* -------------------------------------------------------------------------
 	*/
+
 	/* Database Settings */
 	var $host = 'localhost';				// This is normally set to localhost
 	var $user = '';							// MySQL username
@@ -45,11 +48,9 @@ class JConfig
 	var $gzip            = '0';
 	var $error_reporting = '-1';
 	var $timezone        = 'UTC';
-	var $force_ssl       = 0;					//Force areas of the site to be SSL ONLY.  0 = None, 1 = Administrator, 2 = Both Site and Administrator
 
 	/* Session settings */
 	var $lifetime          = '15';				// Session time
-	var $session_handler   = 'database';
 
 	/* Mail Settings */
 	var $mailer = 'mail';
@@ -74,9 +75,6 @@ class JConfig
 	/* SEO Settings */
 	var $sef_rewrite = '0';
 	var $sef_suffix  = '';
-
-	/* Feed Settings */
-	var $feed_limit   = 10;
 
 	/* Template Settings */
 	var $template = 'bootstrap';
