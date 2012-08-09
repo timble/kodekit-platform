@@ -17,7 +17,7 @@
 -- Table structure for table `#__activities_activities`
 --
 
-CREATE TABLE IF NOT EXISTS `#__activities_activities` (
+CREATE TABLE `#__activities_activities` (
     `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `application` VARCHAR(10) NOT NULL DEFAULT '',
     `type` VARCHAR(3) NOT NULL DEFAULT '',
@@ -294,7 +294,7 @@ CREATE TABLE `#__pages_orderings` (
 -- Table structure for table `#__pages_closures`
 --
 
-CREATE TABLE IF NOT EXISTS `#__pages_closures` (
+CREATE TABLE `#__pages_closures` (
   `ancestor_id` INT UNSIGNED NOT NULL,
   `descendant_id` INT UNSIGNED NOT NULL,
   `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
@@ -468,7 +468,7 @@ CREATE TABLE `#__files_containers` (
 -- Table structure for table `#__files_thumbnails`
 --
 
-CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
+CREATE TABLE `#__files_thumbnails` (
   `files_thumbnail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `files_container_id` varchar(255) NOT NULL,
   `folder` varchar(255) NOT NULL,
