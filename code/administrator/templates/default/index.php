@@ -53,5 +53,8 @@
 	<?php if(KDEBUG) : ?>
 		<?php echo KService::get('com://admin/debug.controller.debug')->display(); ?>
 	<?php endif; ?>
+	
+	<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/js/chosen.mootools.1.2.js"></script>
+	<script> $$(".chzn-select").chosen(); </script>
 </body>
 </html>

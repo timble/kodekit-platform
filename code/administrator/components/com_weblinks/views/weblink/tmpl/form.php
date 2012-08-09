@@ -68,9 +68,9 @@ defined('KOOWA') or die('Restricted access'); ?>
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
 	                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-	                'name'      => 'category_id',
-	                'selected'  => $weblink->category_id,
-	                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
+	                'name'      => 'categories_category_id',
+	                'selected'  => $weblink->categories_category_id,
+	                'attribs'   => array('class' => 'chzn-select'),
 	                'deselect'  => false,
 	                'table'     => 'weblinks'
 	            )) ?>
