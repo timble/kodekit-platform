@@ -1,10 +1,9 @@
-<!-- <script src="media://com_attachments/js/attachments.js" /> -->
 
 <div id="attachments-attachments-upload">
-	<label><?= @text('Attachements') ?></label>
+	<label><?= @text('Attachments') ?></label>
 	<ul class="attachments">
 	    <li>
-	        <input type="file" name="attachments[]" />
+	        <?= @helper('com://admin/attachments.template.helper.attachment.upload', array('holder' => 'attachments-attachments-upload')) ?>
 	    </li>
 	</ul>
 </div>

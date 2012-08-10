@@ -28,7 +28,7 @@ class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
 			$this->getService('com://admin/files.controller.file', array(
 				'request' => array('container' => $this->container, 'name' => $this->path)
 			))->delete();
-						
+			
 			$relations = $this->getService('com://admin/attachments.database.table.relations')
 				->select(array('attachments_attachment_id' => $this->id));
 			$relations->delete();
