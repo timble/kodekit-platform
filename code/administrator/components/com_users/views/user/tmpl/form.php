@@ -132,7 +132,7 @@ if(Form && Form.Validator) {
 						<?= @text('Register Date') ?>:
 					</td>
 					<td>
-						<? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
+						<? if($user->registered_on == '0000-00-00 00:00:00') : ?>
 							<?= @text('Never') ?>
 						<? else : ?>
 							<?= @helper('date.format', array('date' => $user->registered_on, 'format' => '%Y-%m-%d %H:%M:%S')) ?>
