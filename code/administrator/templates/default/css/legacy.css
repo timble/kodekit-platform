@@ -3247,15 +3247,17 @@ div.message {
   width: 100%;
 }
 .com_settings dl.tabs {
-  width: 200px;
+  min-width: 200px;
   border-right: 1px solid #E1E1E1;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
   background-color: #F9F9F9;
-  overflow-y: scroll;
   float: none !important;
   margin: 0 !important;
+  /* default tabs styling */
+
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -3265,6 +3267,8 @@ div.message {
   -webkit-flex: 0;
   -moz-flex: 0;
   flex: 0;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 .com_settings dl.tabs h3 {
   color: #666;
@@ -3280,6 +3284,8 @@ div.message {
   margin: 0 !important;
   border: 0 none !important;
   background: none !important;
+  /* default tabs styling */
+
 }
 .com_settings dl.tabs dt span {
   display: block;
@@ -3325,19 +3331,19 @@ div.message {
 }
 .com_settings .current {
   padding: 0 !important;
-  clear: none !important;
+  border: 0 none !important;
+  /* default tabs styling */
+
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
   box-sizing: border-box;
-  border-top: 0 none !important;
-  border-right: 0 none !important;
-  border-bottom: 0 none !important;
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
@@ -3347,12 +3353,12 @@ div.message {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1 0 0%;
+  -moz-flex: 1 0 0%;
+  flex: 1 0 0%;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
@@ -3872,7 +3878,7 @@ div.chzn-container a.chzn-single div {
   width: 18px;
 }
 div.chzn-container a.chzn-single div b {
-  background: url('chosen-sprite.png') no-repeat 0 1px;
+  background: url('../images/chosen-sprite.png') no-repeat 0 1px;
   display: block;
   width: 100%;
   height: 100%;
@@ -3883,10 +3889,10 @@ div.chzn-container div.chzn-search {
   white-space: nowrap;
 }
 div.chzn-container div.chzn-search input {
-  background: url('chosen-sprite.png') no-repeat 97% -35px, #ffffff;
-  background: url('chosen-sprite.png') no-repeat 97% -35px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #ffffff), color-stop(0.99, #eeeeee));
-  background: url('chosen-sprite.png') no-repeat 97% -35px, -moz-linear-gradient(center bottom, #ffffff 85%, #eeeeee 99%);
-  background: url('chosen-sprite.png') no-repeat 97% -35px, -o-linear-gradient(bottom, #ffffff 85%, #eeeeee 99%);
+  background: url('../images/chosen-sprite.png') no-repeat 97% -35px, #ffffff;
+  background: url('../images/chosen-sprite.png') no-repeat 97% -35px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, #ffffff), color-stop(0.99, #eeeeee));
+  background: url('../images/chosen-sprite.png') no-repeat 97% -35px, -moz-linear-gradient(center bottom, #ffffff 85%, #eeeeee 99%);
+  background: url('../images/chosen-sprite.png') no-repeat 97% -35px, -o-linear-gradient(bottom, #ffffff 85%, #eeeeee 99%);
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   -o-border-radius: 0px;
@@ -3970,7 +3976,7 @@ div.chzn-container ul.chzn-choices li.search-choice a.search-choice-close {
   width: 8px;
   height: 9px;
   font-size: 1px;
-  background: url(chosen-sprite.png) right top no-repeat;
+  background: url(../images/chosen-sprite.png) right top no-repeat;
 }
 div.chzn-container ul.chzn-choices li.search-choice a.search-choice-close:hover {
   background-position: right -9px;

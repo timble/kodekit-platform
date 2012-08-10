@@ -139,18 +139,15 @@ div.message {
 
 .com_settings {
 	dl.tabs {
-		width: 200px;
+		min-width: 200px;
 		border-right: 1px solid #E1E1E1;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
+		.box-sizing(border-box);
 		background-color: #F9F9F9;
-		overflow-y: scroll;
 		
-		float: none !important;
-		margin: 0 !important;
+		float: none !important; /* default tabs styling */
+		margin: 0 !important; /* default tabs styling */
 		
-		#flexbox > .box(column, 0);
+		#flexbox > .box(column, 0, scrollable);
 	}
 	
 	dl.tabs h3 {
@@ -163,11 +160,11 @@ div.message {
 	}
 	
 	dl.tabs dt {
-		float: none !important;
-		padding: 0 !important;
-		margin: 0 !important;
-		border: 0 none !important;
-		background: none !important;
+		float: none !important; /* default tabs styling */
+		padding: 0 !important; /* default tabs styling */
+		margin: 0 !important; /* default tabs styling */
+		border: 0 none !important; /* default tabs styling */
+		background: none !important; /* default tabs styling */
 	}
 	
 	dl.tabs dt span {
@@ -199,21 +196,16 @@ div.message {
 	}
 	
 	.current {
-	 	padding: 0 !important;
-		clear: none !important;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-		border-top: 0 none !important;
-		border-right: 0 none !important;
-		border-bottom: 0 none !important;
+	 	padding: 0 !important; /* default tabs styling */
+		border: 0 none !important; /* default tabs styling */
 		
-		#flexbox > .box(row, 1);
+		.box-sizing(border-box);
+		#flexbox > .box(column, 1);
 		
 		dd {
 			padding: 14px 20px !important;
 			
-			#flexbox > .box(row, 1, scrollable);
+			#flexbox > .box(column, 1 0 0%, scrollable);
 		}
 	}
 	
