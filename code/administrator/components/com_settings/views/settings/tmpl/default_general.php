@@ -62,9 +62,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][cachetime]"><?= @text( 'Cache Time' ); ?></label>
 	    <div class="controls">
-	        <div class="input-append input-normal">
-	            <input type="text" name="settings[system][cachetime]" value="<?= $settings->cachetime; ?>" />
-	            <span class="add-on"><?= @text( 'Minutes' ); ?></span>
+	        <div class="input-append">
+	            <input style="width: 40px;" type="text" name="settings[system][cachetime]" value="<?= $settings->cachetime; ?>" /><span class="add-on"><?= @text( 'Minutes' ); ?></span>
 	        </div>
 	        <p class="help-block"><?= @text( 'TIPCACHETIME' ); ?></p>
 	    </div>
@@ -76,9 +75,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Session Lifetime' ); ?></label>
 	    <div class="controls">
-	        <div class="input-append input-normal">
-	            <input type="text" name="settings[system][lifetime]" value="<?= $settings->lifetime; ?>" />
-	            <span class="add-on"><?= @text( 'Minutes' ); ?></span>
+	        <div class="input-append">
+	            <input style="width: 40px;" type="text" name="settings[system][lifetime]" value="<?= $settings->lifetime; ?>" /><span class="add-on"><?= @text( 'Minutes' ); ?></span>
 	        </div>
 	        <p class="help-block"><?= @text( 'TIPAUTOLOGOUTTIMEOF' ); ?></p>
 	    </div>
@@ -90,7 +88,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Time Zone' ); ?></label>
 	    <div class="controls">
-	        <?= @helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone)) ?>
+	        <?= @helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone, 'deselect' => false)) ?>
 	        <p class="help-block"><?= @text( 'TIPDATETIMEDISPLAY' ) .': '. @helper('date.format', array('format' => @text('DATE_FORMAT_LC2'))) ?></p>
 	    </div>
 	</div>

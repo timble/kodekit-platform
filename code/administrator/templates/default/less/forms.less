@@ -82,23 +82,3 @@ label.control-label:after {
 	width: 100% - 18px;
 	margin-right: 4px;
 }
-
-// New style, Making input-append flexible
-.input-append,
-.input-prepend {
-	#flexbox > .box(horizontal, 1);
-	
-	input,
-	.add-on {
-		float: none; // Override
-	}
-	
-	input {
-		#flexbox > .box(horizontal, 1);
-	}
-}
-
-// New style
-.input-normal {
-	max-width: 220px;
-}

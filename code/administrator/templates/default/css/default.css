@@ -3230,7 +3230,7 @@ div.message {
   background-color: #F9F9F9;
   float: none !important;
   margin: 0 !important;
-  /* default tabs styling */
+  /* override default tabs styling */
 
   display: -webkit-flex;
   display: -moz-flex;
@@ -3258,7 +3258,7 @@ div.message {
   margin: 0 !important;
   border: 0 none !important;
   background: none !important;
-  /* default tabs styling */
+  /* override default tabs styling */
 
 }
 .com_settings dl.tabs dt span {
@@ -3306,7 +3306,7 @@ div.message {
 .com_settings .current {
   padding: 0 !important;
   border: 0 none !important;
-  /* default tabs styling */
+  /* override default tabs styling */
 
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -3324,6 +3324,8 @@ div.message {
 }
 .com_settings .current dd {
   padding: 14px 20px !important;
+  /* override default tabs styling */
+
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -3336,7 +3338,7 @@ div.message {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
-.com_settings .current h2 {
+.com_settings .current dd h2 {
   border-bottom: 1px solid #EEE;
   color: #53637D;
   padding-bottom: 4px;
@@ -3471,39 +3473,6 @@ label.control-label:after {
 .controls-calendar input {
   width: 82%;
   margin-right: 4px;
-}
-.input-append,
-.input-prepend {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-.input-append input,
-.input-prepend input,
-.input-append .add-on,
-.input-prepend .add-on {
-  float: none;
-}
-.input-append input,
-.input-prepend input {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-.input-normal {
-  max-width: 220px;
 }
 /* Forms validation message */
 .validation-advice {

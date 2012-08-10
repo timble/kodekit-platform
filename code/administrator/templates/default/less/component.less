@@ -144,8 +144,8 @@ div.message {
 		.box-sizing(border-box);
 		background-color: #F9F9F9;
 		
-		float: none !important; /* default tabs styling */
-		margin: 0 !important; /* default tabs styling */
+		float: none !important; /* override default tabs styling */
+		margin: 0 !important; /* override default tabs styling */
 		
 		#flexbox > .box(column, 0, scrollable);
 	}
@@ -160,11 +160,11 @@ div.message {
 	}
 	
 	dl.tabs dt {
-		float: none !important; /* default tabs styling */
-		padding: 0 !important; /* default tabs styling */
-		margin: 0 !important; /* default tabs styling */
-		border: 0 none !important; /* default tabs styling */
-		background: none !important; /* default tabs styling */
+		float: none !important; /* override default tabs styling */
+		padding: 0 !important; /* override default tabs styling */
+		margin: 0 !important; /* override default tabs styling */
+		border: 0 none !important; /* override default tabs styling */
+		background: none !important; /* override default tabs styling */
 	}
 	
 	dl.tabs dt span {
@@ -196,24 +196,23 @@ div.message {
 	}
 	
 	.current {
-	 	padding: 0 !important; /* default tabs styling */
-		border: 0 none !important; /* default tabs styling */
+	 	padding: 0 !important; /* override default tabs styling */
+		border: 0 none !important; /* override default tabs styling */
 		
 		.box-sizing(border-box);
 		#flexbox > .box(column, 1);
 		
 		dd {
-			padding: 14px 20px !important;
-			
+			padding: 14px 20px !important; /* override default tabs styling */
 			#flexbox > .box(column, 1 0 0%, scrollable);
+			
+			h2 {
+				border-bottom: 1px solid #EEE;
+				color: #53637D;
+				padding-bottom: 4px;
+				margin-bottom: 20px;
+			}
 		}
-	}
-	
-	.current h2 {
-		border-bottom: 1px solid #EEE;
-		color: #53637D;
-		padding-bottom: 4px;
-		margin-bottom: 20px;
 	}
 }
 
