@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -50,16 +49,8 @@
             <a><?= @text('Extensions') ?></a>
             <? if(!$disabled) : ?>
                 <ul>
-                    <li><a href="<?= @route('option=com_installer&view=components') ?>"><?= @text('Install/Uninstall') ?></a></li>
-                    <li class="separator"><span></span></li>
                     <? if($user->authorize('com_modules', 'manage')) : ?>
                         <li><a href="<?= @route('option=com_extensions&view=modules') ?>"><?= @text('Modules') ?></a></li>
-                    <? endif ?>
-                    <? if($user->authorize('com_plugins', 'manage')) : ?>
-                        <li><a href="<?= @route('option=com_extensions&view=plugins') ?>"><?= @text('Plugins') ?></a></li>
-                    <? endif ?>
-                    <? if($user->authorize('com_templates', 'manage')) : ?>
-                        <li><a href="<?= @route('option=com_extensions&view=templates') ?>"><?= @text('Templates') ?></a></li>
                     <? endif ?>
                     <? if($user->authorize('com_languages', 'manage')) : ?>
                         <li><a href="<?= @route('option=com_extensions&view=languages') ?>"><?= @text('Languages') ?></a></li>
@@ -77,7 +68,6 @@
                     <li><a href="<?= @route('option=com_settings&view=settings') ?>"><?= @text('Settings') ?></a></li>
                     <li class="separator"><span></span></li>
                     <li><a href="<?= @route('option=com_activities&view=activities') ?>"><?= @text('Activity Logs') ?></a></li>
-                    <li><a href="<?= @route('option=com_info&view=system') ?>"><?= @text('System Info') ?></a></li>
                     <li class="separator"><span></span></li>
                     <li><a href="<?= @route('option=com_cache&view=items') ?>"><?= @text('Clean Cache') ?></a></li>
                 </ul>
