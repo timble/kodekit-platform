@@ -92,7 +92,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             'client_id' => 1,
             'site'      => null,
             'options'   => array(
-                'session_name' => $this->getName(),
+                'session_name' => 'admin',
                 'config_file'  => JPATH_ROOT.'/configuration.php',
                 'language'     => null
             ),
@@ -391,7 +391,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             else
             {
                 $params = JComponentHelper::getParams('com_extensions');
-                $language = $params->get('language_'.$this->getName(), 'en-GB');
+                $language = $params->get('language_admin', 'en-GB');
             }
         }
 
@@ -416,16 +416,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     {
         $router = $this->getService('com://admin/application.router', $options);
         return $router;
-    }
-
-    /**
-     * Get the application name
-     *
-     * @return	string
-     */
-    public function getName()
-    {
-        return $this->getIdentifier()->application;
     }
 
     /**
