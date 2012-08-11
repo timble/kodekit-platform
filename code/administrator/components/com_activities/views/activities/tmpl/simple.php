@@ -8,8 +8,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-
-defined('KOOWA') or die('Restricted access') ?>
+?>
 
 <? $activities = @service('com://admin/activities.model.activities')->package($package)->name($name)->limit('10')->getList() ?>
 
