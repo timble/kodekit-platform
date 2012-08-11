@@ -8,8 +8,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-
-defined('KOOWA') or die('Restricted access'); ?>
+?>
 
 <form action="<?= @route('option=com_users&view=session&id='.JFactory::getSession()->getId()) ?>" method="post" name="login" id="form-login">
 	<input type="hidden" name="action" value="delete" />
