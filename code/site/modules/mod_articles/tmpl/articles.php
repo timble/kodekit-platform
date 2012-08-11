@@ -7,7 +7,7 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link           http://www.nooku.org
  */
-defined('KOOWA') or die('Restricted access'); ?>
+?>
 
 <div class="mod_articles<?php echo $params->get('moduleclass_sfx'); ?>">
     <?php foreach ($articles as $article): ?>

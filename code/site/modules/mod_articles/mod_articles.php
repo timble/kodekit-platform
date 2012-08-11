@@ -15,7 +15,6 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-defined('KOOWA') or die('Restricted access');
 
 echo KService::get('mod://site/articles.html')
     ->params($params)
