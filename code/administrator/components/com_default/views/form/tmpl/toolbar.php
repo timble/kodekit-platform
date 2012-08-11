@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id: default.php 3024 2011-10-09 01:44:30Z johanjanssens $
  * @package     Nooku_Components
@@ -7,8 +7,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-
-defined('KOOWA') or die('Restricted access') ?>
+?>
 
 <module position="title" content="replace">
 	<?= @helper('toolbar.title', array('toolbar' => $toolbar))?>
