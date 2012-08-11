@@ -17,9 +17,6 @@
  * @package     Nooku_Server
  * @subpackage  Templates
  */
-
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" >
