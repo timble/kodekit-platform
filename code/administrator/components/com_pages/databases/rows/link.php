@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: link.php 3029 2011-10-09 13:07:11Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -12,7 +11,7 @@
 /**
  * Link Database Row Class
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages

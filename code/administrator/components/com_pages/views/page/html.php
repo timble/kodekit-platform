@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: html.php 3031 2011-10-09 14:21:07Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Page Html View Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  */

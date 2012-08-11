@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: page.php 3216 2011-11-28 15:33:44Z kotuha $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -12,8 +11,7 @@
 /**
  * Pages Toolbar Class
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Pages
  */

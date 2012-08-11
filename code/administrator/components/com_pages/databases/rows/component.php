@@ -33,6 +33,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
         
         $component = $this->getService('com://admin/extensions.database.table.components')
             ->select($query, KDatabase::FETCH_ROW);
+
         $this->component_id = $component->id;
         
         // Set link.
@@ -97,6 +98,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
         switch($name)
         {
             case 'type_description':
+            {
                 if(!isset($this->_data['type_description']))
                 {
                     $query       = $this->link->query;
@@ -112,23 +114,29 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 
                     $this->_data['type_description'] = $description;
                 }
-                break;
+
+            } break;
 
             case 'type_title':
+            {
                 if(!isset($this->_data['type_title']))
                 {
                     $title = JText::_('Component');
                     $this->_data['type_title'] = $title;
                 }
-                break;
+
+            } break;
 
             case 'link':
+            {
                 if(!$this->_data['link'] instanceof KHttpUri) {
                     $this->_data['link'] = $this->getService('koowa:http.url', array('url' => $this->_data['link']));
                 }
-                break;
+
+            } break;
 
             case 'params_page':
+            {
                 if(!isset($this->_data['params_page']))
                 {
                     $file = JPATH_APPLICATION.'/components/com_pages/databases/rows/component.xml';
@@ -141,9 +149,11 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 
                     $this->_data['params_page'] = $params;
                 }
-                break;
+
+            } break;
 
             case 'params_component':
+            {
                 // TODO: Clean this up.
                 if(!isset($this->_data['params_component']))
                 {
@@ -188,9 +198,11 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 
                     $this->_data['params_component'] = $params;
                 }
-                break;
+
+            } break;
 
             case 'params_url':
+            {
                 if(!isset($this->_data['params_url']))
                 {
                     $state  = $this->_getPageXml()->document->getElementByPath('state');
@@ -207,7 +219,8 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 
                     $this->_data['params_url'] = $params;
                 }
-                break;
+
+            } break;
         }
 
         return parent::__get($name);

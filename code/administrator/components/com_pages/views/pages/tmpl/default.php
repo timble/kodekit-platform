@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: default.php 3216 2011-11-28 15:33:44Z kotuha $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).

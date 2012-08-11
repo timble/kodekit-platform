@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: page.php 3035 2011-10-09 16:57:12Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -12,8 +11,7 @@
 /**
  * Page Database Row Class
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Pages
  */
@@ -140,6 +138,7 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
         switch($name)
         {
             case 'params_advanced':
+            {
                 if(!isset($this->_data['params_advanced']))
                 {
                     $params = new JParameter($this->params);
@@ -151,9 +150,11 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
 
                     $this->_data['params_advanced'] = $params;
                 }
-                break;
+
+            } break;
 
             case 'params_state':
+            {
                 if(!isset($this->_data['params_state']))
                 {
                     $params = new JParameter($this->params);
@@ -165,7 +166,8 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
 
                     $this->_data['params_state'] = $params;
                 }
-                break;
+
+            } break;
         }
 
         return parent::__get($name);

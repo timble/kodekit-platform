@@ -1,17 +1,22 @@
 <?php
 /**
- * @package     DOCman
- * @copyright   Copyright (C) 2012 Timble CVBA. (http://www.timble.net)
+ * @version     $Id: pages.php 3029 2011-10-09 13:07:11Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.joomlatools.com
+ * @link        http://www.nooku.org
  */
 
 /**
- * Companion behavior for the node row
+ * Assignable Database Behavior Class
  *
- * This behavior is used for saving and deleting relations.
- * The reason for using a separate behavior is to make sure that other behaviors
- * like orderable can use methods like getAncestors, getParent.
+ * This behavior is used for saving and deleting relations. The reason for using a separate behavior is to make sure that
+ * other behaviors like orderable can use methods like getAncestors, getParent.
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Pages
  */
 class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
 {

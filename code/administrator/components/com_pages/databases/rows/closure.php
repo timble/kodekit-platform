@@ -1,9 +1,19 @@
 <?php
 /**
- * @package     DOCman
- * @copyright   Copyright (C) 2012 Timble CVBA. (http://www.timble.net)
+ * @version     $Id: pages.php 3029 2011-10-09 13:07:11Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.joomlatools.com
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Closure Database Row Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Pages
  */
 
 class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
@@ -32,7 +42,8 @@ class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
                 ->order('path', 'ASC')
                 ->bind(array('id' => $this->id, 'level' => $this->level));
 
-            if(count($this->parent_ids)) {
+            if(count($this->parent_ids))
+            {
                 $query->join(array('relations' => $table->getRelationTable()), 'relations.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
                     ->where('relations.ancestor_id = :parent_id')
                     ->bind(array('parent_id' => end(array_values($this->parent_ids))));
@@ -59,7 +70,6 @@ class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
      * Get ancestors of the row
      *
      * @param int $level Filters results by level
-     * 
      * @return KDatabaseRowsetAbstract A rowset containing all ancestors
      */
     public function getAncestors($level = null)
@@ -158,20 +168,26 @@ class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
         switch($name)
         {
             case 'parent_id':
+            {
                 if(!isset($this->_data['parent_id'])) {
                     return end(array_values($this->parent_ids));
                 }
-                break;
+
+            } break;
                 
             case 'parent_ids':
+            {
                 $ids = array_map('intval', explode('/', $this->path));
                 array_pop($ids);
                 return $ids;
-                break;
+
+            } break;
                 
             case 'parent_path':
+            {
                 return substr($this->path, 0, strrpos($this->path, '/'));
-                break;
+
+            } break;
         }
 
         return parent::__get($name);

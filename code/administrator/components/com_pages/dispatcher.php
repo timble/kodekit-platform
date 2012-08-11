@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: dispatcher.php 3030 2011-10-09 13:21:09Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -12,8 +11,7 @@
 /**
  * Dispatcher Class
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Pages
  */

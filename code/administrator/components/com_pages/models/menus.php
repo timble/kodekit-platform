@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: menus.php 3029 2011-10-09 13:07:11Z johanjanssens $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Menus Model Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  */

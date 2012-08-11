@@ -1,13 +1,21 @@
 <?php
 /**
- * @package     DOCman
- * @copyright   Copyright (C) 2012 Timble CVBA. (http://www.timble.net)
+ * @version     $Id: pages.php 3029 2011-10-09 13:07:11Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.joomlatools.com
+ * @link        http://www.nooku.org
  */
 
 /**
- * Provides ordering support for closure tables by the help of another table
+ * Assignable Database Behavior Class
+ *
+ * Provides ordering support for closure tables by using a special ordering help of another table
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Pages
  */
 class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 {
@@ -124,7 +132,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         }
     }
     
-    protected function _reorderCustom(KCommandContext $context, KDatabaseRowsetAbstract $siblings, KDatabaseRowsetAbstract $orderings)
+    protected function _reorderCustom(KCommandContext $context, KDatabaseRowsetInterface $siblings, KDatabaseRowsetInterface $orderings)
     {
         $data = $context->data;
         $list = array_combine($orderings->id, $orderings->custom);
@@ -132,6 +140,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         switch($context->operation)
         {
             case KDatabase::OPERATION_INSERT:
+            {
                 if($data->ordering)
                 {
                     // If ordering is set, increase value of elements that are after the number.
@@ -146,9 +155,10 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
                 else $ordering = max($orderings->custom) + 1;
                 
                 $list[$data->id] = $ordering;
-                break;
+            } break;
                 
             case KDatabase::OPERATION_UPDATE:
+            {
                 // Modify ordering with the change.
                 $ordering = $data->order ? $data->ordering + $data->order : $data->ordering;
                 $ordering = $ordering <= 0 ? 1 : $ordering;
@@ -163,7 +173,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
                 }
                 
                 $list[$data->id] = $ordering;
-                break;
+            } break;
         }
         
         return $list;

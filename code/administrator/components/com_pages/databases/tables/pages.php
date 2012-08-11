@@ -1,7 +1,6 @@
  <?php
 /**
  * @version     $Id: pages.php 3216 2011-11-28 15:33:44Z kotuha $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Pages Database Table Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  */
@@ -57,7 +55,6 @@ class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
     public function setOrderingTable($table)
     {
         $this->_ordering_table = $table;
-
         return $this;
     }
 }
