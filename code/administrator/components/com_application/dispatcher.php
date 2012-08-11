@@ -155,7 +155,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         }
 
         //Set the site debug mode
-        define( 'JDEBUG', $this->getCfg('debug') );
         define( 'KDEBUG', $this->getCfg('debug') );
 
         //Set the paths
