@@ -75,7 +75,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $this->_options = $config->options;
 
         //Setup the request
-        KRequest::root(str_replace('/'.$this->getName(), '', KRequest::base()));
+        KRequest::root(str_replace('/site', '', KRequest::base()));
 
         //Set the site name
         if(empty($config->site)) {
@@ -99,7 +99,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             'client_id' => 0,
             'site'      => null,
             'options'   => array(
-                'session_name' => $this->getName(),
+                'session_name' => 'site',
                 'config_file'  => JPATH_ROOT.'/configuration.php',
                 'language'     => null
             ),
@@ -435,7 +435,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             else
             {
                 $params = JComponentHelper::getParams('com_extensions');
-                $language = $params->get('language_'.$this->getName(), 'en-GB');
+                $language = $params->get('language_site', 'en-GB');
             }
         }
 
@@ -494,10 +494,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      */
     public function getPathway($options = array())
     {
-        $name = $this->getName();
-
         jimport( 'joomla.application.pathway' );
-        $pathway = JPathway::getInstance($name, $options);
+        $pathway = JPathway::getInstance('site', $options);
 
         return $pathway;
     }
@@ -544,16 +542,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         }
 
         return $params[$hash];
-    }
-
-    /**
-     * Get the application name
-     *
-     * @return	string
-     */
-    public function getName()
-    {
-        return $this->getIdentifier()->application;
     }
 
     /**
