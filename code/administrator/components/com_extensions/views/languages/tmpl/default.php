@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id: form.php 1167 2011-05-11 15:37:22Z johanjanssens $
  * @category	Nooku
@@ -8,7 +8,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-defined('KOOWA') or die( 'Restricted access' ); ?>
+?>
 
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
