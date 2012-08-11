@@ -1,6 +1,3 @@
-<? /** $Id: default_changes.php 972 2009-04-12 22:42:27Z johan $ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
-
 <h3><?= @text('Latest Translated Items')?></h3>
 
 <? if(!count(@$changes)) { echo @text('No items found'); return; }?>

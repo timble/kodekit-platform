@@ -1,6 +1,3 @@
-<? /** $Id: default_additions.php 987 2009-04-15 10:19:00Z johan $ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
-
 <h3><?= @text('Latest Additions')?></h3>
 
 <? if(!count(@$additions)) { echo @text('No items found'); return; }?>

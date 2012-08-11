@@ -1,6 +1,3 @@
-<? /** $Id:default_tbody_table_name.php 222 2007-12-13 21:48:32Z mjaz $ */ ?>
-<? defined('_JEXEC') or die; ?>
-
 <? $i = 0; $m = 0;
 foreach (@$items as $item) :
     $m = $item->original ? (1 - $m) : $m;

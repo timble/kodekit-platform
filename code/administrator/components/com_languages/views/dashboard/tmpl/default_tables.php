@@ -1,6 +1,3 @@
-<? /** $Id: default_tables.php 731 2008-09-25 15:55:25Z Johan $ */ ?>
-<?php defined('_JEXEC') or die('Restricted access'); ?>
-
 <h3><?= @text('Tables')?></h3>
 
 <!-- Translatable Database Tables List -->

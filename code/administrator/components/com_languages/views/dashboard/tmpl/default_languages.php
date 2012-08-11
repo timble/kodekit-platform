@@ -1,6 +1,3 @@
-<? /** $Id: default_languages.php 787 2008-10-28 17:03:08Z mathias $ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
-
 <?
 $sparkurl   = 'index.php?option=com_nooku&view=statistics.translations';
 $sparklink  = 'index.php?option=com_nooku&view=statistics&graph=translations';

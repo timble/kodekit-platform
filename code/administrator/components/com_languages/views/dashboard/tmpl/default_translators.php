@@ -1,5 +1,3 @@
-<? /** $Id: default_translators.php 731 2008-09-25 15:55:25Z Johan $ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
 <?
 $sparkurl   = 'index.php?option=com_nooku&view=statistics.translators&month='.date('m').'&year='.date('Y');
 $sparklink  = 'index.php?option=com_nooku&view=statistics&graph=translators';

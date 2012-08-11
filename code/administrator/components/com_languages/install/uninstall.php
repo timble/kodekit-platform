@@ -9,9 +9,6 @@
  * @link        http://www.nooku.org
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
-
 $status = new JObject();
 
 // Get the database connection object and make sure we are using the unwrapped version

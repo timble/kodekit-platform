@@ -1,6 +1,3 @@
-<? /** $Id: default_deletes.php 795 2008-10-31 01:08:15Z mathias $ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
-
 <h3><?= @text('Latest Deleted Items')?></h3>
 
 <? if(!count(@$deletes)) { echo @text('No items found'); return; }?>

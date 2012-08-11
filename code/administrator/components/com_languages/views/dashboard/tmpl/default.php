@@ -1,6 +1,3 @@
-<? /** $Id: default.php 777 2008-10-19 22:18:08Z mathias $ */ ?>
-<? defined('_JEXEC') or die('Restricted access'); ?>
-
 <? @helper('behavior.tooltip'); ?>
 
 <div style="width:49%;float:left;">
