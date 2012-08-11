@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id: form_types.php 3030 2011-10-09 13:21:09Z johanjanssens $
  * @package     Nooku_Server
@@ -7,8 +7,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-
-defined('KOOWA') or die('Restricted access') ?>
+?>
 
 <? $components = @service('com://admin/pages.model.types')->getList() ?>
 
