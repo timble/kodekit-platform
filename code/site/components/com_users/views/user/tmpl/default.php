@@ -1,4 +1,4 @@
-<?php 
+<?
 /**
  * @version     $Id$
  * @category	Nooku
@@ -8,7 +8,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-defined('KOOWA') or die( 'Restricted access' ); ?>
+?>
 
 <? if($parameters->def('show_page_title', 1)) : ?>
 <h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>

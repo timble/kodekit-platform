@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id$
  * @category	Nooku
@@ -8,8 +8,6 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-
-defined('KOOWA') or die('Restricted access');
 ?>
 <div id="captcha">
 	<?=@helper('com://site/users.template.helper.captcha.render', array('public_key' => $captcha_public_key));?>
