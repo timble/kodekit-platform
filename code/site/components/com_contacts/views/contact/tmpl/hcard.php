@@ -7,8 +7,7 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
  */
-
-defined('KOOWA') or die('Restricted access'); ?>
+?>
 
 <address class="vcard">
     <h1 class="fn url" href="<?= @route(); ?>"><?= $contact->name?></h1>
