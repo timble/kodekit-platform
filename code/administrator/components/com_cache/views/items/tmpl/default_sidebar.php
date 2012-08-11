@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id: default_sidebar.php 1625 2011-06-07 15:22:36Z johanjanssens $
  * @category	Nooku
@@ -8,7 +8,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-defined('KOOWA') or die( 'Restricted access' ); ?>
+?>
 
 <h3><?= @text( 'Groups' ); ?></h3>
 <nav>
