@@ -43,7 +43,6 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
             $parameters->set('page_title', JText::_('Login'));
         }
 
-        $parameters->def('pageclass_sfx', '');
         $parameters->def('description_login', 1);
         $parameters->def('description_login_text', JText::_('LOGIN_DESCRIPTION'));
         $parameters->def('registration', JComponentHelper::getParams('com_users')->get('allowUserRegistration'));
