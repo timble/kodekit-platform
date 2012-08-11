@@ -16,8 +16,6 @@
  * @package     Nooku_Server
  */
 
-ini_set('magic_quotes_runtime', 0);
-
 //Installation check, and check on removal of the install directory.
 if (!file_exists( JPATH_ROOT.'/configuration.php' ) || (filesize( JPATH_ROOT.'/configuration.php' ) < 10))
 {
