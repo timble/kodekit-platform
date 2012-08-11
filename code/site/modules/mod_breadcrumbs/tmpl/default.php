@@ -1,5 +1,3 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
 <ul class="breadcrumb">
 
 	<?php for ($i = 0; $i < $count; $i ++) : ?>
