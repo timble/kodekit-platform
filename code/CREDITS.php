@@ -7,9 +7,6 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
  */
-
-// no direct access
-defined('_JEXEC') or die('Restricted access');
 ?>
 
 -------------------- Nooku Server Contributors ---------------------
@@ -18,7 +15,7 @@ John Bell       		<http://nooku.assembla.com/profile/johnbell>
 Cristiano Cucco 		<http://nooku.assembla.com/profile/cristiano.cucco>
 Stian Didriksen 		<http://nooku.assembla.com/profile/stiandidriksen>
 Gergo Erdosi    		<http://nooku.assembla.com/profile/gergoerdosi>
-Babs Gšsgens    		<http://nooku.assembla.com/profile/babsgosgens>
+Babs Gï¿½sgens    		<http://nooku.assembla.com/profile/babsgosgens>
 Johan Janssens  		<http://nooku.assembla.com/profile/johanjanssens>
 Tom Janssens    		<http://nooku.assembla.com/profile/tomjanssens>
 Torkil Johnsen 			<http://nooku.assembla.com/profile/torkiljohnsen>
@@ -160,7 +157,7 @@ Website
 Image name strawberry.jpg
 Original image http://www.sxc.hu/photo/160407
 Photographer Andrew Hiller
-Location Pozna–, WLKP, Poland 
+Location Poznaï¿½, WLKP, Poland 
 Website http://expressive-one.com
 
 -------------------- Joomla! 1.5 Credits ---------------------

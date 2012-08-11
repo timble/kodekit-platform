@@ -10,8 +10,6 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
-
-defined('_JEXEC') or die('Restricted access');
 ?>
 
 Joomla! includes or is derivative of works distributed under the licenses listed below.
