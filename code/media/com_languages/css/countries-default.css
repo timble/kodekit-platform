@@ -1,0 +1,27 @@
+
+.flag_select_wrapper{ 
+	display:block;
+	float: left;
+	text-align:center;
+	width: 60px;
+	height: 60px;
+	padding:4px;
+	border: 1px solid #EEEEEE;
+	margin:4px;
+	text-decoration:none;
+}
+.flag_select_wrapper:hover {
+	border-left: 1px solid #CCCCCC;
+	border-top: 1px solid #CCCCCC;
+	border-bottom: 1px solid #AAAAAA;
+	border-right: 1px solid #AAAAAA;
+	background-color: #FBFBFB;
+	text-decoration:none;
+}
+.flag_select_img { margin-bottom: 3px;}	
+.flag_select_country {
+	float: none;
+	text-align:center;
+}
+
+div.pagination { clear: both; text-align: center; }

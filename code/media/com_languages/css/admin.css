@@ -1,0 +1,54 @@
+/* Status strings */
+.languages-status
+{
+	border: 1px solid;
+	width: 70px;
+	display: block;
+}
+.original
+{
+	border-color: #578AD6;
+	background-color: #C1CAD6;
+}
+.outdated
+{
+	border-color: #EBAD14;
+	background-color: #EBD6A2;
+}
+.missing
+{
+	border-color: #ED2E38;
+	background-color: #EDBEC0;
+}
+.completed
+{
+	border-color: #61BF1A;
+	background-color: #C7E3B1;
+}
+.deleted
+{
+	border-color: #878787;
+	background-color: #E0E0E0;
+}
+.unknown
+{
+	border-color: #F2F2F2;
+	background-color: #F7F7F7;
+}
+.pending
+{
+	border-color: #F2F2F2;
+	background-color: #F7F7F7;
+}
+
+/* Flags */
+div.languages-flag
+{
+    display: inline-block;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 11px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-top: 1px;
+}

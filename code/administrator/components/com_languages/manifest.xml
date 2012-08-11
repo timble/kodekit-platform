@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Languages</name>
+  	<author>Nooku Project</author>
+  	<creationDate>October 2011</creationDate>
+  	<copyright>Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+  	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+  	<authorEmail>info@nooku.org</authorEmail>
+  	<authorUrl>www.nooku.org</authorUrl>
+  	<version>12.3</version>
+   	<description>This component provides translation management.</description>
+   	
+    <files folder="site/components/com_languages">
+        <folder>controllers</folder>
+        <folder>events</folder>
+        <folder>models</folder>
+        <folder>proxies</folder>
+        <folder>routers</folder>
+        <folder>views</folder>
+        <file>loader.php</file>
+        <file>metadata.xml</file>
+        <file>nooku.php</file>
+    </files>
+    
+    <administration>
+        <files folder="administrator/components/com_languages">
+            <folder>commands</folder>
+            <folder>configs</folder>
+            <folder>controllers</folder>
+            <folder>databases</folder>
+            <folder>decorators</folder>
+            <folder>elements</folder>
+            <folder>events</folder>
+            <folder>filters</folder>
+            <folder>install</folder>
+            <folder>models</folder>
+            <folder>templates</folder>
+            <folder>views</folder>
+            <file>config.xml</file>
+            <file>dispatcher.php</file>
+            <file>languages.php</file>
+        </files>
+        
+        <submenu>
+            <menu view="dashboard">Dashboard</menu>
+            <menu view="items">Items</menu>
+            <menu view="languages">Languages</menu>
+            <menu view="tables">Tables</menu>
+        </submenu>
+    </administration>
+    
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">install/install.sql</file>
+        </sql>
+    </install>
+    <installfile>install/install.php</installfile>
+    
+    <uninstall>
+        <sql>
+            <file driver="mysql" charset="utf8">install/uninstall.sql</file>
+        </sql>
+    </uninstall>
+</install>
