@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id: default.php 1708 2011-06-10 20:46:02Z johanjanssens $
  * @category	Nooku
@@ -8,8 +8,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-  
-defined('KOOWA') or die('Restricted access'); ?>
+?>
 
 <h3><?= @text('Categories') ?></h3>
 
