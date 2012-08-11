@@ -30,7 +30,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
     <input type="hidden" name="action" value="save" />
 
     <? if($parameters->def('show_page_title', 1)) : ?>
-        <div class="componentheading<?= @escape($parameters->get('pageclass_sfx')) ?>"><?= @escape($parameters->get('page_title')) ?></div>
+        <div><?= @escape($parameters->get('page_title')) ?></div>
     <? endif ?>
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
