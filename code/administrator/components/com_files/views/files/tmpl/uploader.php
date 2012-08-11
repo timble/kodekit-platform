@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id$
  * @package     Nooku_Components
@@ -7,7 +7,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-defined('KOOWA') or die( 'Restricted access' ); ?>
+?>
 
 <style src="media://com_files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
 
