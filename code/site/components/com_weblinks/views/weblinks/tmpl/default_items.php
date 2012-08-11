@@ -19,7 +19,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 		<p><?= nl2br(@escape($weblink->description)); ?></p>
 	<? endif; ?>
 
-    <a href="<?= @helper('route.weblink', array('row' => $weblink)) ?>" class="<?= 'category'.@escape($params->get( 'pageclass_sfx' )); ?>">
+    <a href="<?= @helper('route.weblink', array('row' => $weblink)) ?>" class="category">
         <?= @escape($weblink->url) ?>
     </a>
 
