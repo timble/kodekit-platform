@@ -48,9 +48,6 @@ defined('KOOWA') or die('Restricted access') ?>
 			    <?= @helper('grid.sort', array('column' => 'ordering')); ?>
 			</th>
 			<? endif ?>
-			<th>
-			    <?= @helper('grid.sort', array('column' => 'user', 'title' => 'Linked to User')); ?>
-			 </th>
 		</tr>		
 	</thead>
 
@@ -89,13 +86,6 @@ defined('KOOWA') or die('Restricted access') ?>
 				<?= @helper('grid.order', array('row' => $contact)); ?>
 			</td>
 			<? endif ?>
-			<td align="left">
-				<?  if($contact->user_id) : ?>
-				    <a href="<?= @route('option=com_users&view=user&id='.$contact->user_id) ?>">
-				       <?= $contact->username; ?>
-					</a>
-				<? endif; ?>
-			</td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>	

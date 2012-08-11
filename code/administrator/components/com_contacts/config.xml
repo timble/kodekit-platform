@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params>
-		<param name="show_headings" type="radio" default="1" label="Show Table Headings" description="Show/Hide the Table Headings">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
 		<param name="show_position" type="radio" default="1" label="Show Contact's Position" description="Show/Hide the Contact Position">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
@@ -14,14 +10,6 @@
 			<option value="1">Show</option>
 		</param>
 		<param name="show_telephone" type="radio" default="1" label="Show Phone Number" description="Show/Hide the Telephone Number">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_mobile" type="radio" default="1" label="Show Mobile Number" description="Show/Hide the Mobile Number">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_fax" type="radio" default="1" label="Show Fax Number" description="Show/Hide the Fax Number">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

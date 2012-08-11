@@ -34,8 +34,7 @@ class ComContactsModelContacts extends KModelTable
 		parent::_buildQueryColumns($query);
 		
 		$query->columns(array(
-			'category_title' => 'categories.title',
-		    'username'       => 'users.name'
+			'category_title' => 'categories.title'
 		));
 	}
 
@@ -43,8 +42,7 @@ class ComContactsModelContacts extends KModelTable
 	{
 		parent::_buildQueryJoins($query);
 		
-		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
-		      ->join(array('users' => 'users'), 'users.id = tbl.user_id');
+		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)

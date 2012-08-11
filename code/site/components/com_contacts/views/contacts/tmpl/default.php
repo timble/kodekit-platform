@@ -18,9 +18,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 	<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 <? endif; ?>
 
-<? if ( $params->def( 'show_page_title', 1 ) ) : ?>
 <h1><?= @escape($params->get('page_title')); ?></h1>
-<? endif; ?>
 
 <? if ( $category->image || $category->description ) : ?>
 <? if (isset($category->image)) : ?>
@@ -51,16 +49,6 @@ defined('KOOWA') or die('Restricted access'); ?>
                 <?= @text( 'Phone' ); ?>
         	</th>
         	<? endif; ?>
-            <? if ( $params->get( 'show_mobile' ) ) : ?>
-            <th height="20" width="15%">
-                <?= @text( 'Mobile' ); ?>
-        	</th>
-            <? endif; ?>
-            <? if ( $params->get( 'show_fax' ) ) : ?>
-            <th height="20" width="15%">
-                <?= @text( 'Fax' ); ?>
-        	</th>
-            <? endif; ?>
         </tr>
     </thead>
     <? endif; ?>

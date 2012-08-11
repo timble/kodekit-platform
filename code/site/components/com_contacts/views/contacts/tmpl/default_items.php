@@ -13,7 +13,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 <? foreach( $contacts as $contact ) : ?>
 <tr>
     <td height="20">
-		<a href="<?= @helper('route.contact', array('row' => $contact)) ?>" class="category<?= @escape($params->get('pageclass_sfx'));?> ">
+		<a href="<?= @helper('route.contact', array('row' => $contact)) ?>">
 		    <?= $contact->name; ?>
 		</a>
 	</td>    
@@ -31,16 +31,6 @@ defined('KOOWA') or die('Restricted access'); ?>
     <td width="15%">
         <?= @escape($contact->telephone); ?>
     </td>
-    <? endif; ?>
-    <? if ( $params->get( 'show_mobile' ) ) : ?>
-	<td width="15%">
-        <?= @escape($contact->mobile); ?>
-	</td>
-    <? endif; ?>
-    <? if ( $params->get( 'show_fax' ) ) : ?>
-	<td width="15%">
-        <?= @escape($contact->fax); ?>
-	</td>
     <? endif; ?>
 </tr>
 <? endforeach; ?>

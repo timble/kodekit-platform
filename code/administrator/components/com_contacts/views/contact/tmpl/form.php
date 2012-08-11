@@ -107,7 +107,7 @@ defined('KOOWA') or die('Restricted access') ?>
 				<div class="control-group">
 				    <label class="control-label" for="image"><?= @text( 'Image' ); ?></label>
 				    <div class="controls">
-				        <?= @helper('image.listbox', array('name' => 'image')); ?>
+				        <?= @helper('image.listbox', array('name' => 'image', 'attribs' => array('class' => 'chzn-select'))); ?>
 				    </div>
 				</div>
 			</fieldset>
@@ -128,12 +128,6 @@ defined('KOOWA') or die('Restricted access') ?>
 				    <label class="control-label" for="slug"><?= @text( 'Alias' ); ?></label>
 				    <div class="controls">
 				        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug; ?>" />
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for="user_id"><?= @text( 'Linked to User' ); ?></label>
-				    <div class="controls">
-				        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'text' => 'name', 'name' => 'user_id', 'validate' => false)) ?>
 				    </div>
 				</div>
 				<div class="control-group">

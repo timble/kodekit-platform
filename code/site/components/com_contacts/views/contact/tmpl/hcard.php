@@ -11,49 +11,47 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <address class="vcard">
-    <? if ($contact->name && $contact->params->get('show_name')) : ?>
     <h1 class="fn url" href="<?= @route(); ?>"><?= $contact->name?></h1>
-    <? endif;?>
-    <?if ($contact->con_position && $contact->params->get('show_position')) : ?>
+    <?if ($contact->con_position) : ?>
     <h2 class="title"><?= $contact->con_position?></h2>
     <? endif;?>
-    <?if ($contact->image && $contact->params->get('show_image')) : ?>
+    <?if ($contact->image) : ?>
     <div style="float: right;">
         <img class="photo" src="images/stories/<?= $contact->image ?>" title="<?= $contact->name ?>" />
     </div>
     <? endif;?>
     <div class="adr">
         <span class="type">Work</span>:
-        <? if ($contact->address && $contact->params->get('show_street_address')) : ?>
+        <? if ($contact->address) : ?>
         <div class="street-address"><?= $contact->address?></div>
         <? endif; ?>
-        <? if ( $contact->suburb && $contact->params->get('show_suburb')) : ?>
+        <? if ( $contact->suburb) : ?>
         <span class="locality"><?= $contact->suburb?></span>,
         <? endif; ?>
-        <? if ($contact->state && $contact->params->get('show_state')) : ?>
+        <? if ($contact->state) : ?>
         <span class="region"> <?= $contact->state?></span>&nbsp;&nbsp;
         <? endif; ?>
-        <?if ($contact->postcode && $contact->params->get('show_postcode')) : ?>
+        <?if ($contact->postcode) : ?>
         <span class="postal-code"><?= $contact->postcode?></span>
         <? endif; ?>
-        <? if ($contact->country && $contact->params->get('show_country')) : ?>
+        <? if ($contact->country) : ?>
         <div class="country-name"><?= $contact->country?></div>
         <? endif; ?>
     </div>
     <ul>
-        <? if ($contact->telephone && $contact->params->get('show_telephone')) :?>
+        <? if ($contact->telephone) :?>
         <li class="tel">
             <span class="type">Work</span>:
             <span class="value"><?= $contact->telephone?></span>
         </li>
         <? endif; ?>
-        <? if ($contact->fax && $contact->params->get('show_fax')) :?>
+        <? if ($contact->fax) :?>
         <li class="tel">
             <span class="type">Fax</span>:
             <span class="value"><?= $contact->fax?></span>
         </li>
         <? endif; ?>
-        <?if ($contact->mobile && $contact->params->get('show_mobile')) :?>
+        <?if ($contact->mobile) :?>
         <li class="tel">
             <span class="type">Cell</span>:
             <span class="value"><?= $contact->mobile?></span>
@@ -65,7 +63,7 @@ defined('KOOWA') or die('Restricted access'); ?>
         </li>
         <? endif; ?>
     </ul>
-    <?if ($contact->fax && $contact->params->get('show_misc')) :?>
+    <?if ($contact->misc) :?>
     <p class="note">
         <?= $contact->misc ?>
     </p>
