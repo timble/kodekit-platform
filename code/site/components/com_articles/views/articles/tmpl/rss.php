@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version        $Id: default.php 3870 2012-06-26 11:41:41Z arunasmazeika $
  * @package        Nooku_Server
@@ -7,7 +7,7 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link           http://www.nooku.org
  */
-defined('KOOWA' or die('Restricted access'));?>
+?>
 
 <?='<?xml version="1.0" encoding="utf-8" ?>' ?>
 
