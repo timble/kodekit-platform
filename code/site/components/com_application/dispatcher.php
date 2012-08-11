@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     $Id: dispatcher.php 4448 2012-08-08 22:01:03Z johanjanssens $
+ * @version     $Id$
  * @package     Nooku_Server
  * @subpackage  Application
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -319,28 +319,33 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $data = str_replace(array('"images/','"/images/') , '"'.$path, $data);
 
         JResponse::setBody($data);
-        return JResponse::toString($this->getCfg('gzip'));
+        echo JResponse::toString($this->getCfg('gzip'));
     }
 
     /**
      * Catch all exception handler
      *
-     * Calls the Joomla error handler to process the exception
+     * We're wrapping it in a try catch block to avoid exceptions thrown inside the handler.
+     * Exceptions thrown in the handler leads to debugging nightmare.
      *
+     * @link http://www.php.net/manual/en/function.set-exception-handler.php#88082
      * @param KCommandContext $context	A command context object
      */
     protected function _actionError(KCommandContext $context)
     {
-        $this->_exception = $context->data; //store the exception
+        try
+        {
+            $data = $this->getService('com://admin/application.controller.error')
+                ->format(KRequest::format() ? KRequest::format() : 'html')
+                ->display($context);
+        }
+        catch (Exception $e) {
+            $data = get_class($e)." thrown within the exception handler. Message: ".$e->getMessage()." on line ".$e->getLine();
+        }
 
-        //Change the Joomla error handler to our own local handler and call it
-        JError::setErrorHandling( E_ERROR, 'callback', array($this,'errorHandler'));
-
-        $code    = KHttpResponse::isError($this->_exception->getCode()) ? $this->_exception->getCode() : 500;
-        $message = $this->_exception->getMessage();
-
-        //Make sure we have a valid status code
-        JError::raiseError($code, $message);
+        JResponse::setBody($data);
+        echo JResponse::toString();
+        exit(0);
     }
 
     /**
@@ -723,67 +728,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         }
 
         return $this->_message_queue;
-    }
-
-    /**
-     * Custom JError callback
-     *
-     * Push the exception call stack in the JException returned through the call back and then render the custom
-     * error page
-     *
-     * @param object A JException object
-     * @return void
-     */
-    public function errorHandler($error)
-    {
-        $error->setProperties(array(
-            'backtrace'	=> $this->_exception->getTrace(),
-            'file'		=> $this->_exception->getFile(),
-            'line'		=> $this->_exception->getLine()
-        ));
-
-        if(JFactory::getConfig()->getValue('config.debug')) {
-            $error->set('message', (string) $this->_exception);
-        } else {
-            $error->set('message', KHttpResponse::getMessage($error->code));
-        }
-
-        //Make sure the buffers are cleared
-        while(@ob_get_clean());
-
-        //Throw json formatted error
-        if(	KRequest::format() == 'json')
-        {
-            $properties = array(
-                'message' => $error->message,
-                'code'    => $error->code
-            );
-
-            if(KDEBUG)
-            {
-                $properties['data'] = array(
-                    'file'	    => $error->file,
-                    'line'      => $error->line,
-                    'function'  => $error->function,
-                    'class'		=> $error->class,
-                    'args'		=> $error->args,
-                    'info'		=> $error->info
-                );
-            }
-
-            //Encode data
-            $data = json_encode(array(
-                'version'  => '1.0',
-                'errors' => array($properties)
-            ));
-
-            JResponse::setHeader('Content-Type','application/json');
-            JResponse::setBody($data);
-
-            echo JResponse::toString();
-            exit(0);
-        }
-        else JError::customErrorPage($error);
     }
 
     /**
