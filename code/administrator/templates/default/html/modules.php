@@ -1,7 +1,4 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
-
 /**
  * This is a file to add template specific chrome to module rendering.  To use it you would
  * set the style attribute for the given module(s) include in your template to use the style

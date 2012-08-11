@@ -1,6 +1,4 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
 
 /**
  * This is a file to add template specific chrome to pagination rendering.
