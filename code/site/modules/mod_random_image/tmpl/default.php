@@ -1,5 +1,3 @@
-<?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
 <div align="center">
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>" target="_self">

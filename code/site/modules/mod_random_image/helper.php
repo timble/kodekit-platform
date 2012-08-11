@@ -11,9 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
 class modRandomImageHelper
 {
 	function getRandomImage(&$params, $images)
@@ -25,7 +22,6 @@ class modRandomImageHelper
 		$random 		= mt_rand(0, $i - 1);
 		$image 			= $images[$random];
 		$size 			= getimagesize (JPATH_IMAGES.DS.$image->folder .DS. $image->name);
-
 
 		if ($width == '') {
 			$width = 100;
