@@ -16,9 +16,6 @@
  * @package     Nooku_Server
  */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
 ini_set('magic_quotes_runtime', 0);
 
 //Installation check, and check on removal of the install directory.
