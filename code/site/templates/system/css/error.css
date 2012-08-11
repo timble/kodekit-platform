@@ -33,7 +33,7 @@ body {
 	margin-top: 0px;
 }
 
-table, td, th, div, pre, blockquote, ul, ol, dl, address,.componentheading,.contentheading,.contentpagetitle,.sectiontableheader,.newsfeedheading {
+table, td, th, div, pre, blockquote, ul, ol, dl, address {
 	font-family: helvetica, arial, sans-serif;
 	font-weight: normal;
 }
