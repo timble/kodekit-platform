@@ -461,16 +461,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     }
 
     /**
-     * Is admin
-     *
-     * @return	boolean
-     */
-    public function isAdmin()
-    {
-        return ($this->getName() == 'admin');
-    }
-
-    /**
      * Get the template
      *
      * @return string The template name
