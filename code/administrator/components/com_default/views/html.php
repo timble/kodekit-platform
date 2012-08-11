@@ -16,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultViewHtml extends KViewDefault
+class ComDefaultViewHtml extends KViewHtml
 {
     /**
      * Initializes the configuration for the object
