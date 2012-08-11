@@ -11,9 +11,6 @@
 * See COPYRIGHT.php for copyright notices and details.
 */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Direct Access to this location is not allowed.');
-
 // Include the syndicate functions only once
 require_once (dirname(__FILE__) . DS . 'helper.php');
 
