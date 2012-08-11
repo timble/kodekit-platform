@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @version     $Id$
  * @category	Nooku
@@ -8,8 +8,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
-
-defined('KOOWA') or die( 'Restricted access' ); ?>
+?>
 
 <table id="revisions-list" class="adminlist">
 	<thead>
