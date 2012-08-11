@@ -11,14 +11,14 @@
 
 defined('KOOWA') or die('Restricted access'); ?>
 
-<table class="contentpaneopen<?= @escape($params->get('pageclass_sfx')); ?>">
+<table>
 	<tr>
 		<td>
 		<? $i = 1;
 		foreach( $results as $result ) : ?>
 			<fieldset>
 				<div>
-					<span class="small<?= @escape($params->get('pageclass_sfx')); ?>">
+					<span class="small">
 						<?= $state->offset + $i.'. ';?>
 					</span>
 					<? if ( $result->href ) : ?>
@@ -36,7 +36,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 						<? endif; ?>
 						<? if ( $result->section ) : ?>
 							<br />
-							<span class="small<?= @escape($params->get('pageclass_sfx')); ?>">
+							<span class="small">
 								(<?= @escape($result->section); ?>)
 							</span>
 						<? endif; ?>
@@ -46,7 +46,7 @@ defined('KOOWA') or die('Restricted access'); ?>
 					<?= @helper('string.summary', array('text' => $result->text)); ?>
 				</div>
 				<? if ( $params->get( 'show_date' )) : ?>
-				<div class="small<?= @escape($params->get('pageclass_sfx')); ?>">
+				<div class="small">
 					<? if($result->created) : ?>
                         <?= @helper('date.format', array('date' => $result->created)) ?>
 					<? endif; ?>
