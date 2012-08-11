@@ -20,6 +20,7 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <form action="" method="post" class="-koowa-form" id="category-form">
     <input type="hidden" name="enabled" value="0" />
+    <input type="hidden" name="table" value="<?= $state->table ?>" />
     
     <div class="form-body">
 		<div class="title">
@@ -66,18 +67,20 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 	    		    </div>
 	    		</div>
 	    	</fieldset>
+	    	<? if($state->table == 'articles') : ?>
 	        <fieldset class="categories group">
 	            <legend><?= @text('Parent') ?></legend>
 	            <div class="control-group">
 	                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-	                'name'      => 'category_id',
+	                'name'      => 'parent_id',
 	                'selected'  => $category->parent_id,
-	                'attribs'   => array('id' => 'category_id', 'class' => 'required'),
 	                'prompt'    => '- None -',
-	                'max_depth' => 1
+	                'max_depth' => 1,
+	                'table'     => 'articles'
 	            )) ?>
 	            </div>
 	        </fieldset>
+	        <? endif ?>
         </div>
     </div>
 </form>
