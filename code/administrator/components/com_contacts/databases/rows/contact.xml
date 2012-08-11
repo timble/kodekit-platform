@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <model>
 	<params>
-		<param name="show_email" type="radio" default="0" label="E-mail" description="PARAMEMAIL">
+		<param name="show_email" type="radio" default="0" label="Show e-mail address" description="PARAMEMAIL">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="allow_vcard" type="radio" default="0" label="vCard" description="Show/Hide VCard">
+		<param name="show_email_form" type="radio" default="1" label="Show e-mail form" description="Show/Hide the email to form">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-	</params>
-	<params group="email">
-		<param name="show_email_form" type="radio" default="1" label="Email Form" description="Show/Hide the email to form">
+		<param name="allow_vcard" type="radio" default="0" label="Show vCard" description="Show/Hide VCard">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="email_description" type="text" size="30" default="" label="Description text" description="PARAMEMAILDESCTEXT" />
-		<param name="show_email_copy" type="radio" default="1" label="Email Copy" description="PARAMEMAILCOPY">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="banned_email" type="textarea" default="" label="BANNED EMAIL LABEL" rows="3" cols="30" description="BANNED EMAIL DESC" />
-		<param name="banned_subject" type="textarea" default="" label="BANNED SUBJECT LABEL" rows="3" cols="30" description="BANNED SUBJECT DESC" />
-		<param name="banned_text" type="textarea" default="" label="BANNED TEXT LABEL" rows="3" cols="30" description="BANNED TEXT DESC" />
 	</params>
 </model>

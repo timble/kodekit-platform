@@ -175,39 +175,6 @@ class ContactController extends JController
 			}
 		}
 
-		// Determine banned e-mails
-		$configEmail	= $pparams->get( 'banned_email', '' );
-		$paramsEmail	= $params->get( 'banned_mail', '' );
-		$bannedEmail 	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');
-
-		// Prevent form submission if one of the banned text is discovered in the email field
-		if(false === $this->_checkText($email, $bannedEmail )) {
-			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', JText::_('Email')) );
-			return false;
-		}
-
-		// Determine banned subjects
-		$configSubject	= $pparams->get( 'banned_subject', '' );
-		$paramsSubject	= $params->get( 'banned_subject', '' );
-		$bannedSubject 	= $configSubject . ( $paramsSubject ? ';'.$paramsSubject : '');
-
-		// Prevent form submission if one of the banned text is discovered in the subject field
-		if(false === $this->_checkText($subject, $bannedSubject)) {
-			$this->setError( JText::sprintf('MESGHASBANNEDTEXT',JText::_('Subject')) );
-			return false;
-		}
-
-		// Determine banned Text
-		$configText		= $pparams->get( 'banned_text', '' );
-		$paramsText		= $params->get( 'banned_text', '' );
-		$bannedText 	= $configText . ( $paramsText ? ';'.$paramsText : '' );
-
-		// Prevent form submission if one of the banned text is discovered in the text field
-		if(false === $this->_checkText( $body, $bannedText )) {
-			$this->setError( JText::sprintf('MESGHASBANNEDTEXT', JText::_('Message')) );
-			return false;
-		}
-
 		// test to ensure that only one email address is entered
 		$check = explode( '@', $email );
 		if ( strpos( $email, ';' ) || strpos( $email, ',' ) || strpos( $email, ' ' ) || count( $check ) > 2 ) {

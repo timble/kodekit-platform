@@ -125,13 +125,13 @@ defined('KOOWA') or die('Restricted access') ?>
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for="slug"><?= @text( 'Alias' ); ?></label>
+				    <label class="control-label" for="slug"><?= @text( 'Slug' ); ?></label>
 				    <div class="controls">
 				        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug; ?>" />
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for="access"><?= @text( 'Access' ); ?></label>
+				    <label class="control-label" for="access"><?= @text( 'Visibility' ); ?></label>
 				    <div class="controls">
 				        <?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
 				    </div>
@@ -151,16 +151,9 @@ defined('KOOWA') or die('Restricted access') ?>
 	            </div>
 	        </fieldset>
 			
-			<fieldset>
+			<fieldset class="form-horizontal">
 				<legend><?= @text('Parameters'); ?></legend>
-				<?= @helper('tabs.startPane'); ?>
-				<?= @helper('tabs.startPanel', array('title' => @text('Contact Parameters'))); ?>
 				<?= $contact->params->render(); ?>
-				<?= @helper('tabs.endPanel', array()); ?>
-				<?= @helper('tabs.startPanel', array('title' => @text('E-mail Parameters'))); ?>
-				<?= $contact->params->render('params', 'email'); ?>
-				<?= @helper('tabs.endPanel'); ?>
-				<?= @helper('tabs.endPane'); ?>
 			</fieldset>
 		</div>
 	</div>
