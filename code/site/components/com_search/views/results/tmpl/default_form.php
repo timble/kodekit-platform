@@ -12,7 +12,7 @@
 defined('KOOWA') or die('Restricted access'); ?>
 
 <form id="searchForm" action="" method="get" name="searchForm">
-	<table class="contentpaneopen<?= @escape($params->get('pageclass_sfx')); ?>">
+	<table>
 		<tr>
 			<td nowrap="nowrap">
 				<label for="search_searchword">
