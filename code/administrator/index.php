@@ -25,5 +25,4 @@ require_once(JPATH_APPLICATION.'/includes/framework.php' );
 header('X-Nooku-Server: version='.Koowa::VERSION);
 
 KLoader::loadIdentifier('com://admin/application.aliases');
-
-echo KService::get('com://admin/application.dispatcher')->run();
+KService::get('com://admin/application.dispatcher')->run();
