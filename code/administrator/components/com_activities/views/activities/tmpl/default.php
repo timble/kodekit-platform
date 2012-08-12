@@ -10,7 +10,9 @@
  */
 ?>
 
+<!--
 <style src="media://com_activities/css/activities-default.css" />
+-->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
@@ -20,7 +22,7 @@
 
 <form action="" method="get" class="-koowa-grid">
 	<?= @template('default_scopebar') ?>
-	<table class="adminlist">
+	<table>
 		<thead>
 			<tr>
 				<th width="10" align="center">
