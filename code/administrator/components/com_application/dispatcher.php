@@ -256,7 +256,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $config = array(
             'template' 	=> $template,
             'file'		=> $file.'.php',
-            'directory'	=> JPATH_APPLICATION.'/templates'
+            'directory'	=> JPATH_APPLICATION.'/templates',
+            'baseurl'   => KRequest::root()->getPath().'/administrator'
         );
 
         $document->setBase(JURI::current());
