@@ -9,7 +9,7 @@
  */
 ?>
 
-<form action="" method="get" name="adminForm">
+<form action="" method="get">
 <? foreach ($weblinks as $weblink) : ?>
 
     <h2><?= @escape($weblink->title) ?></h2>

@@ -80,7 +80,7 @@
 <form method="post" action="" class="-koowa-form">
     <fieldset>
         <legend><? echo JText::_('Editor'); ?></legend>
-        <table class="adminform" width="100%">
+        <table width="100%">
             <tr>
                 <td>
                     <label for="title">
@@ -95,7 +95,7 @@
     </fieldset>
     <fieldset>
         <legend><?= @text('Publishing'); ?></legend>
-        <table class="adminform">
+        <table>
             <tr>
                 <td class="key">
                     <label for="section_id">
