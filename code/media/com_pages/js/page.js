@@ -1,4 +1,8 @@
-var Page = new Class({
+if (!Pages) {
+    var Pages = {};
+}
+
+Pages.Page = new Class({
 
 	Implements: Options,
 
@@ -6,7 +10,8 @@ var Page = new Class({
 		
 		sidebar: 'components-inner',
 		panel: 'types',
-		active: ''
+		active: '',
+		type: ''
 		
 	},
 
@@ -17,6 +22,7 @@ var Page = new Class({
 		this.togglers	= $(this.options.sidebar).getElements('a');
 		this.types		= $(this.options.panel).getChildren();
 		this.active		= this.options.active;
+		this.type       = this.options.type;
 
 		this.togglers.each(function(toggle){
 			
@@ -42,6 +48,22 @@ var Page = new Class({
 			}.bindWithEvent(this));
 
 		}, this);
+		
+		if(this.type == 'redirect') {
+		    var page = $('page-link-id');
+            var url  = $('page-link-url');
+            var type = $('page-link-type').getElement('input[name=link_type]:checked');
+            
+            page.setStyle('display', type.value == 'id' ? 'block' : 'none');
+            url.setStyle('display', type.value == 'url' ? 'block' : 'none');
+            
+            $('page-link-type').getElements('input[name=link_type]').each(function(input) {
+		        input.addEvent('click', function() {
+		            page.setStyle('display', input.value == 'id' ? 'block' : 'none');
+		            url.setStyle('display', input.value == 'url' ? 'block' : 'none');
+		        });
+		    }.bind(this));
+		}
 
 	}
 
