@@ -220,6 +220,7 @@ class JDocumentHTML extends JDocument
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$template	= JFilterInput::clean($params['template'], 'cmd');
 		$file		= JFilterInput::clean($params['file'], 'cmd');
+        $baseurl    = $params['baseurl'];
 
 		if ( !file_exists( $directory.DS.$template.DS.$file) ) {
 			$template = 'system';
@@ -239,7 +240,7 @@ class JDocumentHTML extends JDocument
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl  = JURI::base(true);
+		$this->baseurl  = $baseurl;
 		$this->params   = $params;
 
 		// load
