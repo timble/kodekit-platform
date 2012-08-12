@@ -118,8 +118,11 @@ class ComApplicationRouter extends KDispatcherRouterDefault
                 {
                     $route = substr($route, $length);
 
-                    $url->query = $page->link->query;
-                    $url->query['Itemid'] = $page->id;
+                    if($page->type != 'redirect')
+                    {
+                        $url->query = $page->link->query;
+                        $url->query['Itemid'] = $page->id;
+                    }
 
                     $pages->setActive($page->id);
                     break;

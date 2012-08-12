@@ -179,8 +179,9 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
     protected function _actionRoute(KCommandContext $context)
     {
-        $url = clone KRequest::url();
-
+        $url   = clone KRequest::url();
+        $pages = JFactory::getApplication()->getPages();
+        
         if(KRequest::type() != 'AJAX')
         {
             // get the route based on the path
@@ -189,14 +190,25 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             //Redirect to the default menu item if the route is empty
             if(empty($route))
             {
-                $home = JFactory::getApplication()->getPages()->getHome();
+                $home = $pages->getHome();
                 $this->redirect(JRoute::_($home->link.'&Itemid='.$home->id), '', '', true);
             }
         }
 
         //Parse the route
         $this->getRouter()->parse($url);
-
+        
+        // Redirect if page type is redirect.
+        if(($page = $pages->getActive()) && $page->type == 'redirect')
+        {
+            if($page->link_id)
+            {
+                $redirect = $pages->find($page->link_id);
+                $this->redirect($redirect->type == 'url' ? $redirect->link_url : $redirect->route, '', '', true);
+            }
+            else $this->redirect($page->link_url, '', '', true);
+        }
+        
         //Set the request
         $this->setRequest($url->query);
         
