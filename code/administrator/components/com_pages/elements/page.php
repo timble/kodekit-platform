@@ -23,7 +23,10 @@ class JElementPage extends JElement
     function fetchElement($name, $value, &$node, $control_name)
     {
         $listbox = KService::get('com://admin/pages.template.helper.listbox')
-            ->pages(array('disable' => array('separator', 'url')));
+            ->pages(array(
+                'disable' => array('separator', 'url'),
+                'name' => 'params[page_id]'
+            ));
         
         return $listbox;
     }

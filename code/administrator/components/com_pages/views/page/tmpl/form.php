@@ -18,13 +18,13 @@
     window.addEvent('domready', function(){
         $$('.widget').widget({cookie: 'widgets-page'});
 
-        new Page(<?= json_encode(array('active' => $state->type['option'])) ?>);
+        new Pages.Page(<?= json_encode(array('active' => $state->type['name'] == 'option' ? $state->type['option'] : '', 'type' => $state->type['name'])) ?>);
     });
 </script>
 
 <?= @template('com://admin/default.view.form.toolbar') ?>
 
-<form action="" method="post" class="-koowa-form">
+<form action="" method="post" class="-koowa-form" id="page-form">
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />
     <input type="hidden" name="enabled" value="0" />
     <input type="hidden" name="hidden" value="0" />

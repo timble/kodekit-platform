@@ -52,7 +52,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
                 $query += $this->urlparams;
             }
 
-            $this->link = 'index.php?'.http_build_query($query);
+            $this->link_url = 'index.php?'.http_build_query($query);
         }
         
         return parent::save();
@@ -129,8 +129,8 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 
             case 'link':
             {
-                if(!$this->_data['link'] instanceof KHttpUri) {
-                    $this->_data['link'] = $this->getService('koowa:http.url', array('url' => $this->_data['link']));
+                if(!isset($this->_data['link']) || !$this->_data['link'] instanceof KHttpUri) {
+                    $this->_data['link'] = $this->getService('koowa:http.url', array('url' => $this->_data['link_url']));
                 }
 
             } break;
@@ -212,7 +212,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
                     {
                         $params->setXML($state->getElementByPath('url'));
 
-                        if($this->link) {
+                        if($this->link_url) {
                             $params->loadArray($this->link->query);
                         }
                     }

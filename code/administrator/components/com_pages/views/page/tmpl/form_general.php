@@ -13,7 +13,7 @@
     <div class="control-group">
         <label class="control-label" for="status"><?= @text('Published') ?></label>
         <div class="controls">
-            <input type="checkbox" name="enabled" value="1" <?= $page->enabled ? 'checked="checked"' : '' ?> />
+            <input type="checkbox" name="enabled" value="1" <?= $page->isNew() || $page->enabled ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div class="control-group">
@@ -34,6 +34,9 @@
         	<?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id)) ?>
         </div>
     </div>
+    <? if($state->type['name'] == 'redirect') : ?>
+        <?= @template('form_redirect') ?>
+    <? endif ?>
 </fieldset>
 
 <fieldset class="form-horizontal">

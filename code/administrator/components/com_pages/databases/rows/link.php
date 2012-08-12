@@ -21,7 +21,7 @@ class ComPagesDatabaseRowLink extends ComPagesDatabaseRowPage
 {
     public function save()
     {
-        $this->link = 'index.php?Itemid='.$this->params['menu_item'];
+        $this->link_url = 'index.php?Itemid='.$this->params['menu_item'];
         
         return parent::save();
     }
@@ -48,12 +48,12 @@ class ComPagesDatabaseRowLink extends ComPagesDatabaseRowPage
     {
         if($column == 'type_title' && !isset($this->_data['type_title']))
         {
-            $title = JText::_('Menu Link');
+            $title = JText::_('Page Link');
             $this->_data['type_title'] = $title;
         }
 
         if($column == 'type_description' && !isset($this->_data['type_description'])) {
-            $this->_data['type_description'] = JText::_('Menu Link');
+            $this->_data['type_description'] = JText::_('Page Link');
         }
 
         return parent::__get($column);
