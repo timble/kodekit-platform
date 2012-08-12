@@ -10,7 +10,7 @@
  */
 ?>
 
-<table id="revisions-list" class="adminlist">
+<table id="revisions-list">
 	<thead>
       	<tr>
           	<th width="80"><?= @text('Revision') ?></th>
