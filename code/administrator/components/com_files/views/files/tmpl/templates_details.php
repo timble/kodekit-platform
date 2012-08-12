@@ -31,7 +31,7 @@ window.addEvent('domready', function() {
 
 <textarea style="display: none" id="details_container">
 <div class="manager">
-	<table width="100%" cellspacing="0" class="adminlist">
+	<table>
 		<thead>
 			<tr>
 				<th width="10" ><input type="checkbox" class="-check-all" /></th>
