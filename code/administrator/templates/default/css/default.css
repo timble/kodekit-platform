@@ -4150,9 +4150,9 @@ body,
   -webkit-flex-direction: column;
   -moz-box-orient: column;
   box-orient: column;
-  -webkit-flex: initial;
-  -moz-flex: initial;
-  flex: initial;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 #window-body #window-content .-koowa-form {
   display: -webkit-flex;

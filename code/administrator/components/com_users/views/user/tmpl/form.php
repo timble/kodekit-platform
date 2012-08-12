@@ -36,7 +36,7 @@ if(Form && Form.Validator) {
 	<input type="hidden" name="enabled" value="0" />
 	<input type="hidden" name="send_email" value="0" />
 	
-	<div class="form-content">
+	<div class="form-content row-fluid">
 		<div class="span8">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('User Details') ?></legend>

@@ -39,7 +39,7 @@
 				<jdoc:include type="modules" name="sidebar" />
 			</div>
             <?php endif; ?>
-			<div id="window-content" class="<?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?> row-fluid">
+			<div id="window-content" class="<?php echo (JRequest::getInt('hidemainmenu')) ? 'form' : 'default' ?>">
 				<jdoc:include type="component" />
 			</div>
 			<?php if(isset($this->modules['inspector']) && count($this->modules['inspector'])) : ?>
