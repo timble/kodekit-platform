@@ -273,6 +273,8 @@ RENAME TABLE `#__menu_types` TO `#__pages_menus`;
 ALTER TABLE `#__pages` CHANGE `id` `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__pages` CHANGE `name` `title` VARCHAR(255) NOT NULL;
 ALTER TABLE `#__pages` CHANGE `alias` `slug` VARCHAR(255);
+ALTER TABLE `#__pages` CHANGE `link` `link_url` TEXT;
+ALTER TABLE `#__pages` ADD COLUMN `link_id` INT UNSIGNED AFTER `link_url`;
 ALTER TABLE `#__pages` MODIFY `type` VARCHAR(50);
 ALTER TABLE `#__pages` CHANGE `published` `enabled` BOOLEAN NOT NULL DEFAULT 0;
 ALTER TABLE `#__pages` CHANGE `componentid` `component_id` INT UNSIGNED;
@@ -297,6 +299,7 @@ ALTER TABLE `#__pages` ADD INDEX `ix_enabled` (`enabled`);
 ALTER TABLE `#__pages` ADD INDEX `ix_component_id` (`component_id`);
 ALTER TABLE `#__pages` ADD INDEX `ix_home` (`home`);
 ALTER TABLE `#__pages` ADD CONSTRAINT `pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
+ALTER TABLE `#__pages` ADD CONSTRAINT `link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE;
 
 ALTER TABLE `#__pages_modules` ADD INDEX `ix_pages_page_id` (`pages_page_id`);
 

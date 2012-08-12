@@ -344,6 +344,7 @@ CREATE TABLE `#__pages` (
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
   `link` TEXT,
+  `link_id` INT UNSIGNED,
   `type` VARCHAR(50),
   `enabled` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
@@ -355,6 +356,7 @@ CREATE TABLE `#__pages` (
   `params` TEXT,
   PRIMARY KEY (`pages_page_id`),
   CONSTRAINT `pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
+  CONSTRAINT `link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_enabled` (`enabled`),
   INDEX `ix_component_id` (`component_id`),
   INDEX `ix_home` (`home`)
