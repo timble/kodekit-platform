@@ -44,5 +44,10 @@
                     <span><?= $page->title ?></span>
                 </a>
 				<? break ?>
+				
+	        <? case 'redirect'?>
+	            <a href="<?= $page->route ?>">
+	                <span><?= $page->title ?></span>
+	            </a>
 		<? endswitch ?>
 <? endforeach ?>
