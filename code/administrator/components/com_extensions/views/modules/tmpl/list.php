@@ -12,7 +12,7 @@
 
 <?= @helper('behavior.tooltip') ?>
 
-<table class="adminlist" summary="Add Module">
+<table summary="Add Module">
 	<thead>
 		<tr>
 			<th colspan="4">

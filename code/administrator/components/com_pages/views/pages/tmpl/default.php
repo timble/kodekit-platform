@@ -26,7 +26,7 @@
 
 <form id="pages-form" action="" method="get" class="-koowa-grid" >
     <?= @template('default_scopebar') ?>
-    <table class="adminlist">
+    <table>
         <thead>
             <tr>
                 <th width="5"></th>
@@ -36,11 +36,8 @@
                 <th width="5">
                     <?= @helper('grid.sort', array('column' => 'enabled' , 'title' => 'Published')); ?>
                 </th>
-                <th width="5">
+                <th width="80">
                     <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
-                </th>
-                <th width="7%" nowrap>
-                    <?= @helper('grid.sort', array('column' => 'access')) ?>
                 </th>
                 <th>
                     <?= @helper('grid.sort',  array('column' => 'component_id' , 'title' => 'Type')); ?>
@@ -80,15 +77,17 @@
                     <? if($page->home) : ?>
                         <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
                     <? endif ?>
+                    <? if($page->access == '1') : ?>
+                        <span class="label label-important"><?= @text('Registered') ?></span>
+                    <? elseif($page->access == '2') : ?>
+                        <span class="label"><?= @text('Special') ?></span>
+                    <? endif; ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $page)) ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>
-                </td>
-                <td align="center">
-                    <?= @helper('grid.access', array('row' => $page)) ?>
                 </td>
                 <td>
                     <?= $page->type_description ?>

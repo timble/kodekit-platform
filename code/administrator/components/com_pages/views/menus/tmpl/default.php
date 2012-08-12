@@ -17,7 +17,7 @@
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form id="menus-form" action="<?= @route()?>" method="get" class="-koowa-grid">
-    <table class="adminlist">
+    <table>
         <thead>
             <tr>
                 <th width="5">
@@ -46,10 +46,10 @@
                 <td>
                     <? if(!$state->trash) : ?>
                     <a href="<?= @route('view=menu&id='.$menu->id); ?>">
-                        <strong><?= @escape($menu->title); ?></strong>
+                        <?= @escape($menu->title); ?>
                     </a>
                     <? else : ?>
-                        <strong><?= @escape($menu->title); ?></strong>
+                        <?= @escape($menu->title); ?>
                     <? endif ?>
                 </td>
             </tr>

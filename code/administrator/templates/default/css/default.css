@@ -2628,13 +2628,6 @@ div.toolbar table.toolbar td a.disabled:active {
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
 }
-.panel .adminlist {
-  border: 0 none;
-  background-color: #f6f6f6;
-}
-.panel .adminlist td {
-  border: 0 none;
-}
 .-koowa-form div.title {
   padding: 10px 10px 10px 10px;
   background-color: #eeeeee;
@@ -2669,13 +2662,6 @@ div.toolbar table.toolbar td a.disabled:active {
 }
 .pane-sliders .panel h3.jpane-toggler {
   border-bottom: 0 none;
-}
-.pane-sliders .adminlist {
-  border: 0 none;
-  background-color: #f6f6f6;
-}
-.pane-sliders .adminlist td {
-  border: 0 none;
 }
 .jpane-toggler span {
   background: transparent url(../images/j_arrow.png) 5px 50% no-repeat;
@@ -3544,60 +3530,6 @@ td .validation-advice {
   margin-top: 5px;
   top: 0px;
   float: left;
-}
-table.admintable td {
-  padding: 3px;
-}
-table.admintable td.key,
-table.admintable td.paramlist_key {
-  text-align: right;
-  width: 140px;
-  color: #666;
-  font-weight: bold;
-}
-table.admintable td label {
-  display: inline;
-}
-table.admintable td.paramlist_description {
-  text-align: left;
-  width: 170px;
-  color: #333;
-  font-weight: normal;
-}
-table.admintable td.key.vtop {
-  vertical-align: top;
-}
-table.adminform {
-  width: 100%;
-  margin: 8px 0 15px 0;
-}
-table.adminform.nospace {
-  margin-bottom: 0;
-}
-table.adminform th {
-  font-size: 11px;
-  padding: 6px 2px 4px 4px;
-  text-align: left;
-  height: 25px;
-  color: #000;
-  background-repeat: repeat;
-}
-table.adminform td {
-  padding: 3px;
-  text-align: left;
-}
-table.adminform td.filter {
-  text-align: left;
-}
-table.adminform td.helpMenu {
-  text-align: right;
-}
-fieldset.adminform {
-  border: 1px solid #ccc;
-  margin: 0 10px 10px 10px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
 }
 /* @group Buttons */
 .button2-left,

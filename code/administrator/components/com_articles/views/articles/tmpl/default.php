@@ -9,8 +9,10 @@
  */
 ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
@@ -22,7 +24,7 @@
     <?= @template('com://admin/activities.view.activities.simple', array('package' => 'articles', 'name' => 'article')); ?>
 </module>
 
-<form id="articles-form" action="" method="get" class="-koowa-grid">
+<form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar'); ?>
     <table>
         <thead>

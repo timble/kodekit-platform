@@ -9,11 +9,13 @@
  */
 ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <form action="<?= @route('tmpl=component') ?>" method="get" class="-koowa-grid">
-	<table class="adminlist" cellspacing="1">
+	<table>
 		<thead>
 			<tr>
 				<th class="title">

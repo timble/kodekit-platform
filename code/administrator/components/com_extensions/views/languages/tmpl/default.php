@@ -10,8 +10,10 @@
  */
 ?>
 
+<!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
@@ -20,7 +22,7 @@
 </module>
 
 <form action="" method="get" class="-koowa-grid">
-    <table class="adminlist"  style="clear: both;">
+    <table>
     	<thead>
     		<tr>
     			<th width="10"></th>

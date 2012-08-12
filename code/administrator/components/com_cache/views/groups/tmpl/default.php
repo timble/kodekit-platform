@@ -9,14 +9,15 @@
  * @link        http://www.nooku.org
  */
 ?>
- 
+ <!--
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
+-->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
 <form action="" method="get" class="-koowa-grid">	
-<table class="adminlist" cellspacing="1">
+<table>
 	<thead>
 		<tr>
 			<th width="10">	
@@ -70,3 +71,4 @@
 	<? endforeach; ?>
 	</tbody>
 </table>
+</form>

@@ -36,9 +36,6 @@
 				<th>
 					<?= @helper('grid.sort', array('title' => 'Name', 'column' => 'name')) ?>
 				</th>
-				<th width="15%">
-					<?= @helper('grid.sort',  array('title' => 'Username', 'column' => 'username')) ?>
-				</th>
 				<th width="8%">
 					<?= @helper('grid.sort',  array('title' => 'Logged In', 'column' => 'loggedin')) ?>
 				</th>
@@ -74,9 +71,6 @@
 					<a href="<?= @route('view=user&id='.$user->id) ?>">
 						<?= @escape($user->name) ?>
 					</a>
-				</td>
-				<td>
-					<?= @escape($user->username) ?>
 				</td>
 				<td align="center">
 					<img src="media://system/images/<?= $user->loggedin ? 'tick.png' : 'publish_x.png' ?>" border="0" />
