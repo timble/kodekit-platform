@@ -9,6 +9,19 @@
  */
 ?>
 
+<?
+$query = array(
+    'option' => $state->type['option'],
+    'view'   => $state->type['view']
+);
+
+if(!empty($state->type['layout']) && $state->layout != 'default') {
+    $query['layout'] = $state->layout;
+}
+?>
+
+<input type="hidden" name="link_url" value="<?= http_build_query($query) ?>" />
+
 <fieldset class="form-horizontal">
     <? $model = $this->getView()->getModel() ?>
 

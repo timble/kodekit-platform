@@ -18,18 +18,7 @@
 
 class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KServiceInstantiatable
 {
-    protected $_type;
-
     protected $_page_xml;
-
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-
-        if($config->state && $config->state->type) {
-            $this->setType($config->state->type);
-        }
-    }
 
     public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
@@ -54,9 +43,6 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
 
     public function save()
     {
-        // Set type.
-        $this->type = $this->getType()->name; 
-        
         // Set home.
         if($this->isModified('home') && $this->home == 1)
         {
@@ -68,18 +54,6 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
         }
 
         return parent::save();
-    }
-
-    public function setType(array $type = array())
-    {
-        $this->_type = new KConfig($type);
-
-        return $this;
-    }
-
-    public function getType()
-    {
-        return $this->_type;
     }
 
     /**

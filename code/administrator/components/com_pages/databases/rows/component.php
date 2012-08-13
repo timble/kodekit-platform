@@ -23,36 +23,22 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
     
     public function save()
     {
-        $type = $this->getType();
-        
-        // Set component id.
-        $query = $this->getService('koowa:database.query.select')
-            ->where('link <> :link')
-            ->where('option = :option')
-            ->bind(array('link' => '', 'option' => $type->option));
-        
-        $component = $this->getService('com://admin/extensions.database.table.components')
-            ->select($query, KDatabase::FETCH_ROW);
-
-        $this->component_id = $component->id;
-        
-        // Set link.
-        if($type->option && $type->view)
+        if($this->isModified('link_url'))
         {
-            $query = array(
-                'option' => $type->option,
-                'view' => $type->view
-            );
-
-            if($type->layout && $type->layout != 'default') {
-                $query['layout'] = $type->layout;
-            }
+            // Set link.
+            parse_str($this->link_url, $query);
 
             if($this->urlparams) {
                 $query += $this->urlparams;
             }
 
             $this->link_url = 'index.php?'.http_build_query($query);
+            
+            // Set component id.
+            $component = $this->getService('com://admin/extensions.database.table.components')
+                ->select(array('option' => $query['option'], 'parent' => 0), KDatabase::FETCH_ROW);
+    
+            $this->component_id = $component->id;
         }
         
         return parent::save();
@@ -63,7 +49,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
         if(!isset($this->_component_xml))
         {
             $xml  = JFactory::getXMLParser('simple');
-            $path = JPATH_APPLICATION.'/components/'.$this->getType()->option.'/config.xml';
+            $path = $this->getIdentifier()->getApplication('admin').'/components/'.$this->link->query['option'].'/config.xml';
 
             if(file_exists($path)) {
                 $xml->loadFile($path);
