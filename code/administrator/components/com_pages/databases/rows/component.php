@@ -75,24 +75,6 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
         return $this->_component_xml;
     }
 
-    protected function _getPageXml()
-    {
-        if(!isset($this->_page_xml))
-        {
-            $xml  = JFactory::getXMLParser('simple');
-            $type = $this->getType();
-            $path = JPATH_ROOT.'/site/components/'.$type->option.'/views/'.$type->view.'/tmpl/'.$type->layout.'.xml';
-
-            if(file_exists($path)) {
-                $xml->loadFile($path);
-            }
-
-            $this->_page_xml = $xml;
-        }
-
-        return $this->_page_xml;
-    }
-
     public function __get($name)
     {
         switch($name)
@@ -119,10 +101,8 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 
             case 'type_title':
             {
-                if(!isset($this->_data['type_title']))
-                {
-                    $title = JText::_('Component');
-                    $this->_data['type_title'] = $title;
+                if(!isset($this->_data['type_title'])) {
+                    $this->_data['type_title'] = JText::_('Component');
                 }
 
             } break;

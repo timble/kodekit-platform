@@ -126,7 +126,19 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
 
     protected function _getPageXml()
     {
-        return null;
+        if(!isset($this->_page_xml))
+        {
+            $xml  = JFactory::getXMLParser('simple');
+            $path = dirname($this->getIdentifier()->filepath).'/'.$this->getIdentifier()->name.'.xml';
+
+            if(file_exists($path)) {
+                $xml->loadFile($path);
+            }
+
+            $this->_page_xml = $xml;
+        }
+
+        return $this->_page_xml;
     }
 
     public function __get($name)

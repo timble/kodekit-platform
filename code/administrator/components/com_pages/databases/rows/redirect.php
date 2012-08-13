@@ -9,24 +9,6 @@ class ComPagesDatabaseRowRedirect extends ComPagesDatabaseRowPage
         
         return parent::save();
     }
-    
-    protected function _getPageXml()
-    {
-        if(!isset($this->_page_xml))
-        {
-            $xml  = JFactory::getXMLParser('simple');
-            $type = $this->getType();
-            $path = dirname($this->getIdentifier()->filepath).'/redirect.xml';
-
-            if(file_exists($path)) {
-                $xml->loadFile($path);
-            }
-
-            $this->_page_xml = $xml;
-        }
-
-        return $this->_page_xml;
-    }
 
     public function __get($column)
     {

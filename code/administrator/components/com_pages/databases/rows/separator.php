@@ -18,30 +18,10 @@
 
 class ComPagesDatabaseRowSeparator extends ComPagesDatabaseRowPage
 {
-    protected function _getPageXml()
-    {
-        if(!isset($this->_page_xml))
-        {
-            $xml  = JFactory::getXMLParser('simple');
-            $type = $this->getType();
-            $path = JPATH_APPLICATION.'/components/com_pages/databases/rows/separator.xml';
-
-            if(file_exists($path)) {
-                $xml->loadFile($path);
-            }
-
-            $this->_page_xml = $xml;
-        }
-
-        return $this->_page_xml;
-    }
-
     public function __get($column)
     {
-        if($column == 'type_title' && !isset($this->_data['type_title']))
-        {
-            $title = JText::_('Separator');
-            $this->_data['type_title'] = $title;
+        if($column == 'type_title' && !isset($this->_data['type_title'])) {
+            $this->_data['type_title'] = JText::_('Separator');
         }
 
         if($column == 'type_description' && !isset($this->_data['type_description'])) {
