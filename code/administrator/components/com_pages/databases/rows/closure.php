@@ -16,7 +16,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
+abstract class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
 {
     /**
      * Returns the siblings of the row
