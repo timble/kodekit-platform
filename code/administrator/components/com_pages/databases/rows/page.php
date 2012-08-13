@@ -41,10 +41,6 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
             $type = ucfirst($config->data->type);
         }
 
-        if($type == 'Menulink') {
-            $type = 'Link';
-        }
-
         //Override the identifier
         $container->get('koowa:loader')->loadIdentifier('com://admin/pages.database.row.'.strtolower($type));
         $config->service_identifier = $container->getIdentifier('com://admin/pages.database.row.'.strtolower($type));

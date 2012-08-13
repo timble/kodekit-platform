@@ -43,7 +43,7 @@ class JPathwaySite extends JPathway
                     $url  = '';
                     switch($page->type)
                     {
-                        case 'menulink' :
+                        case 'pagelink' :
                         case 'url' :
                             $url = $page->link;
                             break;

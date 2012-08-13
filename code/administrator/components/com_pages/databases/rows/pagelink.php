@@ -9,7 +9,7 @@
  */
 
 /**
- * Link Database Row Class
+ * Pagelink Database Row Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @category    Nooku
@@ -17,22 +17,15 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowLink extends ComPagesDatabaseRowPage
+class ComPagesDatabaseRowPagelink extends ComPagesDatabaseRowPage
 {
-    public function save()
-    {
-        $this->link_url = 'index.php?Itemid='.$this->params['menu_item'];
-        
-        return parent::save();
-    }
-    
     protected function _getPageXml()
     {
         if(!isset($this->_page_xml))
         {
             $xml  = JFactory::getXMLParser('simple');
             $type = $this->getType();
-            $path = JPATH_APPLICATION.'/components/com_pages/databases/rows/link.xml';
+            $path = JPATH_APPLICATION.'/components/com_pages/databases/rows/pagelink.xml';
 
             if(file_exists($path)) {
                 $xml->loadFile($path);

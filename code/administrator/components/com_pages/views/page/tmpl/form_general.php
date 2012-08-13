@@ -34,9 +34,18 @@
         	<?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id)) ?>
         </div>
     </div>
-    <? if($state->type['name'] == 'redirect') : ?>
-        <?= @template('form_redirect') ?>
-    <? endif ?>
+    <?
+        switch($state->type['name'])
+        {
+            case 'redirect':
+                echo @template('form_redirect');
+                break;
+                
+            case 'pagelink':
+                echo @template('form_pagelink');
+                break;
+        }
+    ?>
 </fieldset>
 
 <fieldset class="form-horizontal">

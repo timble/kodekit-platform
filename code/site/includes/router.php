@@ -192,7 +192,7 @@ class JRouterSite extends JRouter
 		    foreach(array_reverse($pages->getData()) as $page)
 		    {
 		        $length = strlen($page['route']);
-		        if($length > 0 && strpos($route.'/', $page['route'].'/') === 0 && $page['type'] != 'menulink')
+		        if($length > 0 && strpos($route.'/', $page['route'].'/') === 0 && $page['type'] != 'pagelink')
 				{
 					$route = substr($route, $length);
 

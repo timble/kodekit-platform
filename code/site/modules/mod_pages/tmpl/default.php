@@ -28,9 +28,9 @@
                 </a>
 				<? break ?>
 				
-		    <? case 'menulink': ?>
-		        $page_linked = JFactory::getApplication()->getPages()->find($page->link->query['Itemid']);
-		        <a href="<?= $page_linked->link ?>">
+		    <? case 'pagelink': ?>
+		        <? $page_linked = JFactory::getApplication()->getPages()->find($page->link_id) ?>
+		        <a href="<?= JRoute::_($page_linked->link.'&Itemid='.$page_linked->id) ?>">
                     <span><?= $page->title ?></span>
                 </a>
 				<? break ?>

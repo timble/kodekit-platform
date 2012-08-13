@@ -114,7 +114,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
                 $page   = $pages->find($id);
                 $length = strlen($page->route);
 
-                if($length > 0 && strpos($route.'/', $page->route.'/') === 0 && $page->type != 'menulink')
+                if($length > 0 && strpos($route.'/', $page->route.'/') === 0 && $page->type != 'pagelink')
                 {
                     $route = substr($route, $length);
 
