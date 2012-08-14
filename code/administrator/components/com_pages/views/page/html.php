@@ -22,7 +22,7 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
     {
         // Load languages.
         $language   = JFactory::getLanguage();
-        $components = $this->getModel()->getComponents();
+        $components = $this->getService('com://admin/extensions.model.components')->parent(0)->getList();
 
         foreach($components as $component) {
             $language->load($component->option);

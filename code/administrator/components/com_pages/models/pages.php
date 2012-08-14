@@ -132,17 +132,4 @@ class ComPagesModelPages extends ComPagesModelClosures
             parent::_buildQueryWhere($query);
         }
     }
-
-    public function getComponents()
-    {
-        $table = $this->getService('com://admin/extensions.database.table.components');
-        $query = $this->getService('koowa:database.query.select')
-            ->where('link', '<>', '')
-            ->where('parent', '=', 0)
-            ->order('name');
-
-        $components = $table->select($query);
-
-        return $components;
-    }
 }
