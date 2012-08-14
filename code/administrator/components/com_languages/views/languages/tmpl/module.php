@@ -1,4 +1,4 @@
-<? if(JFactory::getApplication()->getCfg('multilanguage')) : ?>
+<? if(JFactory::getApplication()->getCfg('multilang')) : ?>
     <?= @helper('behavior.mootools') ?>
     <script>
     window.addEvent('domready', function(){
