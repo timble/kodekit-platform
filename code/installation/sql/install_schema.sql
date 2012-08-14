@@ -405,7 +405,7 @@ CREATE TABLE `#__pages` (
   `pages_menu_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
-  `link` TEXT,
+  `link_url` TEXT,
   `link_id` INT UNSIGNED,
   `type` VARCHAR(50),
   `enabled` BOOLEAN NOT NULL DEFAULT 0,
