@@ -247,6 +247,30 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__languages`
+--
+
+CREATE TABLE IF NOT EXISTS `#__languages` (
+    `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(150) NOT NULL,
+    `native_name` VARCHAR(150) NOT NULL,
+    `iso_code` VARCHAR(8) NOT NULL,
+    `slug` VARCHAR(255) NOT NULL,
+    `created_on` DATETIME,
+    `created_by` INT UNSIGNED,
+    `locked_on` DATETIME,
+    `locked_by` INT UNSIGNED,
+    `enabled` BOOLEAN NOT NULL DEFAULT 0,
+    `image` VARCHAR(255),
+    `ordering` INT UNSIGNED NOT NULL DEFAULT 0,
+    PRIMARY KEY (`languages_language_id`),
+    UNIQUE KEY (`iso_code`),
+    UNIQUE KEY (`slug`)
+) ENGINE = InnoDB CHARSET = utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__languages_items`
 --
 
@@ -265,30 +289,6 @@ CREATE TABLE IF NOT EXISTS `#__languages_items` (
     `deleted` BOOLEAN NOT NULL DEFAULT 0,
     `params` TEXT,
     PRIMARY KEY (`languages_item_id`)
-) ENGINE = InnoDB CHARSET = utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__languages_languages`
---
-
-CREATE TABLE IF NOT EXISTS `#__languages_languages` (
-    `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(150) NOT NULL,
-    `native_name` VARCHAR(150) NOT NULL,
-    `iso_code` VARCHAR(8) NOT NULL,
-    `slug` VARCHAR(255) NOT NULL,
-    `created_on` DATETIME,
-    `created_by` INT UNSIGNED,
-    `locked_on` DATETIME,
-    `locked_by` INT UNSIGNED,
-    `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    `image` VARCHAR(255),
-    `ordering` INT UNSIGNED NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_language_id`),
-    UNIQUE KEY (`iso_code`),
-    UNIQUE KEY (`slug`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------

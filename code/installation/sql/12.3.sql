@@ -425,24 +425,7 @@ ALTER TABLE `#__pages` DROP COLUMN `rgt`;
 # com_languages schema changes
 
 -- Add tables
-CREATE TABLE IF NOT EXISTS `#__languages_items` (
-    `languages_item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `iso_code` VARCHAR(8) NOT NULL,
-    `table` VARCHAR(150) NOT NULL,
-    `row` INT UNSIGNED NOT NULL,
-    `title` VARCHAR(255) NOT NULL,
-    `created_on` DATETIME,
-    `created_by` INT UNSIGNED,
-    `modified_on` DATETIME,
-    `modified_by` INT UNSIGNED,
-    `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-    `original` BOOLEAN NOT NULL DEFAULT 0,
-    `deleted` BOOLEAN NOT NULL DEFAULT 0,
-    `params` TEXT,
-    PRIMARY KEY (`languages_item_id`)
-) ENGINE = InnoDB CHARSET = utf8;
-
-CREATE TABLE IF NOT EXISTS `#__languages_languages` (
+CREATE TABLE IF NOT EXISTS `#__languages` (
     `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(150) NOT NULL,
     `native_name` VARCHAR(150) NOT NULL,
@@ -458,6 +441,23 @@ CREATE TABLE IF NOT EXISTS `#__languages_languages` (
     PRIMARY KEY (`languages_language_id`),
     UNIQUE KEY (`iso_code`),
     UNIQUE KEY (`slug`)
+) ENGINE = InnoDB CHARSET = utf8;
+
+CREATE TABLE IF NOT EXISTS `#__languages_items` (
+    `languages_item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `iso_code` VARCHAR(8) NOT NULL,
+    `table` VARCHAR(150) NOT NULL,
+    `row` INT UNSIGNED NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `created_on` DATETIME,
+    `created_by` INT UNSIGNED,
+    `modified_on` DATETIME,
+    `modified_by` INT UNSIGNED,
+    `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+    `original` BOOLEAN NOT NULL DEFAULT 0,
+    `deleted` BOOLEAN NOT NULL DEFAULT 0,
+    `params` TEXT,
+    PRIMARY KEY (`languages_item_id`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS `#__languages_tables` (

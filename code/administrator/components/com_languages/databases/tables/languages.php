@@ -4,13 +4,13 @@ class ComLanguagesDatabaseTableLanguages extends KDatabaseTableAbstract
 {
     protected function _initialize(KConfig $config)
     {
-        $sluggable = $this->getService('koowa:database.behavior.sluggable', array('columns' => array('name')));
-        
         $config->append(array(
+            'name'      => 'languages',
             'behaviors' => array(
-            	'creatable', 'lockable', 'orderable', $sluggable
+            	'creatable', 'lockable', 'orderable',
+                'koowa:database.behavior.sluggable' => array('columns' => array('name'))
             ),
-            'filters' => array(
+            'filters'   => array(
                 'iso_code'  => array('com://admin/languages.filter.iso'),
 		    )
         ));
