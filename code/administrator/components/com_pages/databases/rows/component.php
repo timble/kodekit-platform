@@ -49,7 +49,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
         if(!isset($this->_component_xml))
         {
             $xml  = JFactory::getXMLParser('simple');
-            $path = $this->getIdentifier()->getApplication('admin').'/components/'.$this->link->query['option'].'/config.xml';
+            $path = $this->getIdentifier()->getApplication('admin').'/components/'.$this->_state->type['option'].'/config.xml';
 
             if(file_exists($path)) {
                 $xml->loadFile($path);
@@ -105,7 +105,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
             {
                 if(!isset($this->_data['params_page']))
                 {
-                    $file = JPATH_APPLICATION.'/components/com_pages/databases/rows/component.xml';
+                    $file = dirname($this->getIdentifier()->filepath).'/component.xml';
 
                     $xml = JFactory::getXMLParser('simple');
                     $xml->loadFile($file);
