@@ -174,7 +174,7 @@ abstract class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
                 }
 
             } break;
-                
+
             case 'parent_ids':
             {
                 $ids = array_map('intval', explode('/', $this->path));
@@ -182,7 +182,7 @@ abstract class ComPagesDatabaseRowClosure extends KDatabaseRowDefault
                 return $ids;
 
             } break;
-                
+
             case 'parent_path':
             {
                 return substr($this->path, 0, strrpos($this->path, '/'));

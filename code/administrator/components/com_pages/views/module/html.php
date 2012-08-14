@@ -32,9 +32,9 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
         $menus = $this->getService('com://admin/pages.model.menus')
             ->sort('title')
             ->getList();
-        
+
         $this->assign('menus', $menus);
-        
+
         $pages = $this->getService('com://admin/pages.model.pages')->getList();
         $this->assign('pages', $pages);
 

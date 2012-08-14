@@ -20,7 +20,7 @@
 class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 {
     protected $_component_xml;
-    
+
     public function save()
     {
         if($this->isModified('link_url'))
@@ -33,14 +33,14 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
             }
 
             $this->link_url = 'index.php?'.http_build_query($query);
-            
+
             // Set component id.
             $component = $this->getService('com://admin/extensions.database.table.components')
                 ->select(array('option' => $query['option'], 'parent' => 0), KDatabase::FETCH_ROW);
-    
+
             $this->component_id = $component->id;
         }
-        
+
         return parent::save();
     }
 

@@ -37,7 +37,7 @@ if(!empty($state->type['layout']) && $state->layout != 'default') {
 <? $advanced_parameters = $page->params_advanced ?>
 <? if($rendered_parameters = $advanced_parameters->render('params')) : ?>
 <fieldset class="form-horizontal">
-	<legend><?= @text('Advanced') ?></legend>
+    <legend><?= @text('Advanced') ?></legend>
     <?= $rendered_parameters ?>
 </fieldset>
 <? endif ?>

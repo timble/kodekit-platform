@@ -25,20 +25,20 @@ window.addEvent('domready', (function() {
 
 <form id="module-pages" class="form-horizontal">
     <fieldset>
-	    <label class="radio inline">
-	    	<input type="radio" name="pages" value="all" <?= count($relations) == 1 && $relations->top()->pages_page_id == 0 ? 'checked="checked"' : '' ?>/>
-	    	<?= @text('All') ?>
-	    </label>
-	    <label class="radio inline">
-	    	<input type="radio" name="pages" value="selected" <?= count($relations) && $relations->top()->pages_page_id != 0 ? 'checked="checked"' : '' ?>/>
-	    	<?= @text('Selected') ?>
-	    </label>
-	    <label class="radio inline">
-	    	<input type="radio" name="pages" value="none" <?= !count($relations) ? 'checked="checked"' : '' ?>/>
-	    	<?= @text('None') ?>
-	    </label>
-	
-	    <input type="button" name="save" value="<?= @text('Save') ?>" />
+        <label class="radio inline">
+            <input type="radio" name="pages" value="all" <?= count($relations) == 1 && $relations->top()->pages_page_id == 0 ? 'checked="checked"' : '' ?>/>
+            <?= @text('All') ?>
+        </label>
+        <label class="radio inline">
+            <input type="radio" name="pages" value="selected" <?= count($relations) && $relations->top()->pages_page_id != 0 ? 'checked="checked"' : '' ?>/>
+            <?= @text('Selected') ?>
+        </label>
+        <label class="radio inline">
+            <input type="radio" name="pages" value="none" <?= !count($relations) ? 'checked="checked"' : '' ?>/>
+            <?= @text('None') ?>
+        </label>
+
+        <input type="button" name="save" value="<?= @text('Save') ?>" />
     </fieldset>
     <? foreach($menus as $menu) : ?>
         <? $menu_pages = $pages->find(array('pages_menu_id' => $menu->id)) ?>
@@ -52,7 +52,7 @@ window.addEvent('domready', (function() {
                     <strong><?= $page->title ?></strong>
                 <? else : ?>
                     <?= $page->title ?>
-                <? endif ?>   
+                <? endif ?>
                 <br>
             <? endforeach ?>
         <? endif ?>

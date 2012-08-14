@@ -44,13 +44,13 @@ class ComPagesModelPages extends ComPagesModelClosures
         {
             $state   = $this->getState();
             $columns = $table->getBehavior('orderable')->getColumns();
-            
+
             if(in_array($state->sort, $columns))
             {
                 if($state->sort == 'custom') {
                     $query->columns(array('ordering' => 'orderings.custom'));
                 }
-                
+
                 $subquery = $this->getService('koowa:database.query.select')
                     ->columns('CHAR_LENGTH(MAX('.$state->sort.'))')
                     ->table($this->getTable()->getOrderingTable());
@@ -73,7 +73,7 @@ class ComPagesModelPages extends ComPagesModelClosures
             $columns        = $table->getBehavior('orderable')->getColumns();
             $id_column      = $table->getIdentityColumn();
             $ordering_table = $table->getOrderingTable();
-            
+
             // This one is to have a breadcrumbs style order like 1/3/4.
             if(in_array($state->sort, $columns))
             {
@@ -81,7 +81,7 @@ class ComPagesModelPages extends ComPagesModelClosures
                 if($state->sort == 'custom') {
                     $query->join(array('orderings' => $ordering_table), 'tbl.'.$id_column.' = orderings.'.$id_column);
                 }
-                
+
                 $query->join(array('ordering_crumbs' => $ordering_table), 'crumbs.ancestor_id = ordering_crumbs.'.$id_column, 'INNER');
             }
         }
@@ -125,7 +125,7 @@ class ComPagesModelPages extends ComPagesModelClosures
     {
         $state = $this->getState();
         $table = $this->getTable();
-        
+
         if($table->isOrderable() && in_array($state->sort, $table->getBehavior('orderable')->getColumns())) {
             $query->order('ordering_path', 'ASC');
         } else {

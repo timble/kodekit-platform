@@ -26,15 +26,15 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'prompt' => '- Select -',
             'disable' => array()
         ));
-        
+
         $options = array();
         if($config->deselect) {
-         	$options[] = $this->option(array('text' => JText::_($config->prompt)));
+            $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
-        
+
         $menus = $this->getService('com://admin/pages.model.menus')->getList();
         $pages = $this->getService('com://admin/pages.model.pages')->enabled(true)->getList();
-        
+
         foreach($menus as $menu)
         {
             $options[] = $this->option(array('text' => $menu->title, $value = '', 'disable' => true));
@@ -47,12 +47,12 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                 ));
             }
         }
-        
+
         $config->options = $options;
-        
+
         return $this->optionlist($config);
     }
-    
+
     public function parents($config = array())
     {
         $config = new KConfig($config);

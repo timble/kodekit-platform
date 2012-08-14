@@ -41,7 +41,7 @@ class ComPagesModelClosures extends ComDefaultModelDefault
             if($this->isConnected())
             {
                 $query = $this->getService('koowa:database.query.select');
-    
+
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
                 $this->_buildQueryJoins($query);
@@ -53,10 +53,10 @@ class ComPagesModelClosures extends ComDefaultModelDefault
                 $this->_total = $total;
             }
         }
-    
+
         return $this->_total;
     }
-    
+
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
@@ -64,7 +64,7 @@ class ComPagesModelClosures extends ComDefaultModelDefault
         $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
             ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'));
     }
-    
+
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);

@@ -20,7 +20,7 @@ class ComPagesMixinPages extends KMixinAbstract
 {
     protected $_active;
     protected $_home;
-    
+
     public function setRoute()
     {
         $pages = $this->getData();

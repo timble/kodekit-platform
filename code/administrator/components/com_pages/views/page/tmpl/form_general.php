@@ -19,19 +19,19 @@
     <div class="control-group">
         <label class="control-label" for="publish_up"><?= @text('Hidden') ?></label>
         <div class="controls">
-       	    <input type="checkbox" name="hidden" value="1" <?= $page->hidden ? 'checked="checked"' : '' ?> />
-       	</div>
+            <input type="checkbox" name="hidden" value="1" <?= $page->hidden ? 'checked="checked"' : '' ?> />
+        </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="publish_up"><?= @text('Visibility') ?></label>
         <div class="controls">
-       	    <?= @helper('listbox.access',  array('deselect' => false)) ?>
-       	</div>
+            <?= @helper('listbox.access',  array('deselect' => false)) ?>
+        </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="parent"><?= @text('Parent') ?></label>
         <div id="parent" class="controls">
-        	<?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id)) ?>
+            <?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id)) ?>
         </div>
     </div>
     <?
@@ -40,7 +40,7 @@
             case 'redirect':
                 echo @template('form_redirect');
                 break;
-                
+
             case 'pagelink':
                 echo @template('form_pagelink');
                 break;

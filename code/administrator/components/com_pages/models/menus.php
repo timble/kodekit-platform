@@ -20,10 +20,10 @@ class ComPagesModelMenus extends KModelTable
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
+
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'title');
     }
-    
+
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);

@@ -6,7 +6,7 @@ class ComPagesDatabaseRowRedirect extends ComPagesDatabaseRowPage
         if($this->link_type) {
             $this->link_type == 'id' ? $this->link_url = null : $this->link_id = null;
         }
-        
+
         return parent::save();
     }
 

@@ -27,20 +27,20 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
         foreach($components as $component) {
             $language->load($component->option);
         }
-        
+
         // Get available and assigned modules.
         $available = $this->getService('com://admin/extensions.model.modules')
             ->enabled(true)
             ->application('site')
             ->getList();
-        
+
         $query = $this->getService('koowa:database.query.select')
             ->where('pages_page_id IN :id')
             ->bind(array('id' => array((int) $this->getModel()->getItem()->id, 0)));
-        
+
         $assigned = $this->getService('com://admin/pages.database.table.modules')
             ->select($query);
-        
+
         $this->assign('modules', (object) array('available' => $available, 'assigned' => $assigned));
 
         return parent::display();

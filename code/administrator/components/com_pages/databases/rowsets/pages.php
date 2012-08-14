@@ -26,14 +26,14 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
 
         parent::_initialize($config);
     }
-    
+
     public function find($needle)
     {
         if(is_array($needle) && array_key_exists('link', $needle) && is_array($needle['link']))
         {
             $query = $needle['link'];
             unset($needle['link']);
-            
+
             $pages = parent::find($needle);
             foreach($pages as $page)
             {
@@ -48,18 +48,18 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
                             break;
                         }
                     }
-                    
+
                     if(!is_null($result)) {
                         break(2);
                     }
                 }
             }
-            
+
             return $result;
         }
         else return parent::find($needle);
     }
-    
+
     public function __call($method, $arguments)
     {
         // Call these methods directly on the rowset.
@@ -70,7 +70,7 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
             $result = null;
 
             $object->setMixer($this);
-            
+
             switch(count($arguments))
             {
                 case 0:
@@ -85,7 +85,7 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
              }
         }
         else $result = parent::__call($method, $arguments);
-        
+
         return $result;
     }
 }

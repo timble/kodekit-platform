@@ -19,13 +19,13 @@
 class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KServiceInstantiatable
 {
     protected $_page_xml;
-    
+
     protected $_state;
-    
+
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
+
         if($config->state) {
             $this->_state = $config->state;
         }
