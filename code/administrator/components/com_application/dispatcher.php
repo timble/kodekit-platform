@@ -165,9 +165,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
         // Set timezone to user's setting, falling back to global configuration.
-        if(!@date_default_timezone_set(JFactory::getUser()->getParam('timezone'))) {
-            @date_default_timezone_set($this->getCfg('timezone'));
-        }
+        try {
+		    $timezone = new DateTimeZone(JFactory::getUser()->getParam('timezone'));
+		} catch(Exception $e) {
+		    $timezone = new DateTimeZone($this->getCfg('timezone'));
+		}
+		
+		date_default_timezone_set($timezone->getName());
     }
 
     protected function _actionRoute(KCommandContext $context)
