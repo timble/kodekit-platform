@@ -8,11 +8,12 @@ class ComLanguagesModelLanguages extends KModelTable
         $this->getState()
             ->insert('primary', 'boolean', null, true)
             ->insert('iso_code', 'com://admin/languages.filter.iso', null, true)
-            ->insert('published', 'boolean');
+            ->insert('enabled', 'boolean');
     }
     
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
+        parent::_buildQueryWhere($query);
         $state = $this->getState();
         
         if($state->primary)
@@ -21,10 +22,8 @@ class ComLanguagesModelLanguages extends KModelTable
 	        $state->remove('primary');
         }
         
-        if(is_bool($state->published)) {
-            $query->where('tbl.enabled = :published')->bind(array('published' => (int) $state->published));
+        if(is_bool($state->enabled)) {
+            $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
         }
-        
-        parent::_buildQueryWhere($query);
     }
 }

@@ -29,11 +29,10 @@ VALUES
     (28, 'Extension Manager', '', 0, 0, '', 'Extensions', 'com_extensions', 0, '', 1, 'template_site=bootstrap\ntemplate_administrator=default\nlanguage_site=en-GB\nlanguage_administrator=en-GB', 1),
     (31, 'User Manager', 'option=com_users', 0, 0, '', 'Users', 'com_users', 0, '', 1, 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
     (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1),
-    (33, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=dashboard', 'Languages', 'com_languages', 0, '', 0, '', 1),
-    (34, 'Dashboard', '', 0, 33, 'option=com_languages&view=dashboard', 'Dashboard', '', 1, '', 0, '', 1),
+    (33, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=languages', 'Languages', 'com_languages', 0, '', 0, '', 1),
+    (34, 'Languages', '', 0, 33, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
     (35, 'Items', '', 0, 33, 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1),
-    (36, 'Languages', '', 0, 33, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
-    (37, 'Tables', '', 0, 33, 'option=com_languages&view=tables', 'Tables', '', 4, '', 0, '', 1);
+    (36, 'Tables', '', 0, 33, 'option=com_languages&view=tables', 'Tables', '', 4, '', 0, '', 1);
 
 --
 -- Dumping data for table `#__modules`

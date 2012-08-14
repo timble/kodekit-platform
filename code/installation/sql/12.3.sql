@@ -472,13 +472,12 @@ CREATE TABLE IF NOT EXISTS `#__languages_tables` (
 -- Add component to the components table
 INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `iscore`, `params`, `enabled`)
 VALUES
-    (NULL, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=dashboard', 'Languages', 'com_languages', 0, '', 0, '', 1);
+    (NULL, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=languages', 'Languages', 'com_languages', 0, '', 0, '', 1);
 
 SET @id = LAST_INSERT_ID();
 
 INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `iscore`, `params`, `enabled`)
 VALUES
-    (NULL, 'Dashboard', '', 0, @id, 'option=com_languages&view=dashboard', 'Dashboard', '', 1, '', 0, '', 1),
-    (NULL, 'Items', '', 0, @id , 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1),
     (NULL, 'Languages', '', 0, @id, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
+    (NULL, 'Items', '', 0, @id , 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1),
     (NULL, 'Tables', '', 0, @id, 'option=com_languages&view=tables', 'Tables', '', 4, '', 0, '', 1);
