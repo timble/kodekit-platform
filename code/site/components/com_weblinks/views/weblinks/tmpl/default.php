@@ -18,12 +18,11 @@
 <? endif; ?>
 
 <div class="clearfix">
-<? if ( $category->image || $category->description ) : ?>
+	<?= $category->description; ?>
+	
 	<? if (isset($category->image)) : ?>
 		<img class="thumbnail" align="right" src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
 	<? endif; ?>
-	<?= $category->description; ?>
-<? endif; ?>
 </div>
 
 <?= @template('default_items'); ?>

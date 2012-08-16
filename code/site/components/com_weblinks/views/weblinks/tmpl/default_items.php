@@ -11,11 +11,9 @@
 
 <? foreach ($weblinks as $weblink) : ?>
     <h2><?= @escape($weblink->title) ?></h2>
-    <? if ( $params->get( 'show_link_description' ) ) : ?>
-		<p><?= nl2br(@escape($weblink->description)); ?></p>
-	<? endif; ?>
+	<p><?= nl2br(@escape($weblink->description)); ?></p>
 
-    <a href="<?= @helper('route.weblink', array('row' => $weblink)) ?>" class="category">
+    <a href="<?= @helper('route.weblink', array('row' => $weblink)) ?>">
         <?= @escape($weblink->url) ?>
     </a>
 <? endforeach; ?>
