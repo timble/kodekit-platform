@@ -19,15 +19,15 @@
 
 <h1><?= @escape($params->get('page_title')); ?></h1>
 
-<? if ( $category->image || $category->description ) : ?>
-<? if (isset($category->image)) : ?>
-    <img src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
-    <? endif; ?>
-    <?= $category->description; ?>
+<div class="clearfix">
+<? if ($category->image) : ?>
+    <img class="thumbnail" src="<?= $category->image->path ?>" align="right" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
 <? endif; ?>
+    
+<?= $category->description; ?>
+</div>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
-    <? if ($params->get( 'show_headings' )) : ?>
     <thead>
         <tr>
             <th height="20">
@@ -50,7 +50,6 @@
         	<? endif; ?>
         </tr>
     </thead>
-    <? endif; ?>
     <tbody>
         <?= @template('default_items'); ?>
     </tbody>

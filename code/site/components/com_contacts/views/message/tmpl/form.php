@@ -60,11 +60,8 @@
         </div>
     </div>
     <div class="control-group">
-        <label for="contact_email_copy">
-            <?= @text( 'EMAIL_A_COPY' ); ?>
-        </label>
         <div class="controls">
-             <input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
+             <input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  /> <?= @text( 'EMAIL_A_COPY' ); ?>
         </div>
     </div>
     
