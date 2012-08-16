@@ -9,20 +9,19 @@
  */
 ?>
 
-<style src="media://com_articles/css/site.css"/>
-
 <? if ($params->get('show_page_title')): ?>
-<h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
+    <h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
+<? endif; ?>
+
+<div class="clearfix">
+<? if ($params->get('show_description') && $category->description): ?>
+    <?= $category->description; ?>
 <? endif; ?>
 
 <? if ($params->get('show_description_image') && $category->image): ?>
-    <img src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
+    <img class="thumbnail" src="<?= $category->image->path ?>" align="right" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
 <? endif; ?>
-
-
-<? if ($params->get('show_description') && $category->description): ?>
-<?= $category->description; ?>
-<? endif; ?>
+</div>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
     <? if ($params->get('show_headings')): ?>
@@ -57,6 +56,7 @@
     <?= @helper('paginator.pagination',array(
             'limit'      => $params->get('articles_per_page'),
             'total'      => $total,
-            'show_limit' => false)
+            'show_limit' => false,
+            'show_count' => false)
     ); ?>
 <? endif; ?>

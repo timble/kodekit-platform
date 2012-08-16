@@ -9,8 +9,6 @@
  */
 ?>
 
-<style src="media://com_articles/css/site.css"/>
-
 <? if ($params->get('show_feed_link', 1) == 1) : ?>
 <link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 <? endif; ?>

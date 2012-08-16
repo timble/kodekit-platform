@@ -12,10 +12,9 @@
 <?= @helper('behavior.mootools'); ?>
 <?= @helper('behavior.keepalive'); ?>
 
-<style src="media://com_articles/css/toolbar.css"/>
-<style src="media://com_articles/css/site.css"/>
-
+<!--
 <script src="media://lib_koowa/js/koowa.js"/>
+-->
 
 <div id="toolbar-box">
     <?= @helper('com://admin/default.template.helper.toolbar.render', array('toolbar' => $toolbar));?>

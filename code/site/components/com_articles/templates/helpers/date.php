@@ -23,7 +23,6 @@ class ComArticlesTemplateHelperDate extends ComDefaultTemplateHelperDate
 
         $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
                ->append(array(
-                    'show_author'      => true,
                     'show_create_date' => $config->parameters->get('show_create_date'),
                     'show_modify_date' => $config->parameters->get('show_modify_date')
                 ));
@@ -31,10 +30,6 @@ class ComArticlesTemplateHelperDate extends ComDefaultTemplateHelperDate
         $article = $config->row;
 
         $html = array();
-
-        if ($config->show_author && ($author = $article->getAuthor())) {
-            $html[] = JText::sprintf('Written by', $author);
-        }
 
         if ($config->show_create_date) {
             $html[] = $this->format(array('date'=> $article->created_on, 'format' => JText::_('DATE_FORMAT_LC2')));

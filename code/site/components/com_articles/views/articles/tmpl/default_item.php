@@ -18,7 +18,6 @@
 <? endif; ?>
 
 <article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
-
     <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a></h1>
 
     <p class="timestamp">
@@ -26,14 +25,9 @@
     </p>
 
     <? if ($article->fulltext && $params->get('show_readmore')) : ?>
-
         <?= $article->introtext; ?>
-         <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
-
+        <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
     <? else : ?>
-
         <?= $article->introtext . $article->fulltext ?>
-
     <? endif; ?>
-
 </article>

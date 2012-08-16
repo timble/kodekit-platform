@@ -9,8 +9,6 @@
  */
 ?>
 
-<style src="media://com_articles/css/site.css"/>
-
 <? if ($article->editable) : ?>
 <div class="edit-article">
     <a href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
@@ -19,8 +17,6 @@
     </div>
 <? endif; ?>
 
-<div class="clear_both"></div>
-
 <article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
 
     <h1><?= $article->title ?></h1>
@@ -28,16 +24,6 @@
     <p class="timestamp">
         <?= @helper('date.timestamp', array('row' => $article)); ?>
     </p>
-
-    <? if ($article->fulltext && $params->get('show_readmore')) : ?>
-
-        <?= $article->introtext; ?>
-        <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
-
-    <? else : ?>
-
-        <?= $article->introtext . $article->fulltext ?>
-
-    <? endif; ?>
-
+    
+    <?= $article->introtext . $article->fulltext ?>
 </article>
