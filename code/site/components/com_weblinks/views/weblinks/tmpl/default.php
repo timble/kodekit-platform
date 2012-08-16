@@ -20,10 +20,12 @@
 <div class="clearfix">
 <? if ( $category->image || $category->description ) : ?>
 	<? if (isset($category->image)) : ?>
-		<img src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
+		<img class="thumbnail" align="right" src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
 	<? endif; ?>
 	<?= $category->description; ?>
 <? endif; ?>
 </div>
 
 <?= @template('default_items'); ?>
+
+<?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)) ?>

@@ -9,11 +9,8 @@
  */
 ?>
 
-<form action="" method="get">
 <? foreach ($weblinks as $weblink) : ?>
-
     <h2><?= @escape($weblink->title) ?></h2>
-
     <? if ( $params->get( 'show_link_description' ) ) : ?>
 		<p><?= nl2br(@escape($weblink->description)); ?></p>
 	<? endif; ?>
@@ -21,8 +18,4 @@
     <a href="<?= @helper('route.weblink', array('row' => $weblink)) ?>" class="category">
         <?= @escape($weblink->url) ?>
     </a>
-
-    <? endforeach; ?>
-
-<?= @helper('paginator.pagination', array('total' => $total)) ?>
-</form>
+<? endforeach; ?>
