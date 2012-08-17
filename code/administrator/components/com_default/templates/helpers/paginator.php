@@ -72,22 +72,20 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
 		));
 	   
         $class = $config->pages->first->active ? '' : 'off';
-        $html  = '<div class="button2-right '.$class.'"><div class="start">'.$this->link($config->pages->first).'</div></div>';
+        $html  = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
         
         $class = $config->pages->prev->active ? '' : 'off';
-        $html  .= '<div class="button2-right '.$class.'"><div class="prev">'.$this->link($config->pages->prev).'</div></div>';
-        
-        $html  .= '<div class="button2-left"><div class="page">';
+        $html  .= '<div class="btn-group">'.$this->link($config->pages->prev);
+
         foreach($config->pages->offsets as $offset) {
             $html .= $this->link($offset);
         }
-        $html .= '</div></div>';
         
         $class = $config->pages->next->active ? '' : 'off';
-        $html  .= '<div class="button2-left '.$class.'"><div class="next">'.$this->link($config->pages->next).'</div></div>';
+        $html  .= $this->link($config->pages->next).'</div>';
         
         $class = $config->pages->last->active ? '' : 'off';
-        $html  .= '<div class="button2-left '.$class.'"><div class="end">'.$this->link($config->pages->last).'</div></div>';
+        $html  .= '<div class="btn-group">'.$this->link($config->pages->last).'</div>';
 
         return $html;
     }
