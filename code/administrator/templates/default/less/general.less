@@ -299,54 +299,24 @@ input[type="search"] {
 	table td.order 		{ text-align: center; white-space: nowrap; }
 	table td.order span { float: left; display: block; width: 20px; text-align: center; }
 	
-	table .pagination { float: right; }
+	.pagination {
+		float: right;
+		
+		> div {
+			float: left;
 	
-	table .pagination li {
-		list-style: none;
-		float: left;
-	}
-	
-	table .pagination div.limit {
-		float: left;
-		line-height: 22px;
-		margin: 0 10px;
-	}
-	
-	table .pagination div.page a,
-	table .pagination div.page span {
-		float: left;
-		margin: 0;
-		padding: 4px 10px;
-		border-top: 1px solid #BBB;
-		border-bottom: 1px solid #BBB;
-		border-right: 0px none;
-		border-left: 0px none;
-		.border-radius(0);
-	}
-	
-	table .pagination div.prev a,
-	table .pagination div.prev span {
-		border-right: 0 none;
-		.border-radius(3px 0 0 3px);
-	}
-	
-	table .pagination div.next a,
-	table .pagination div.next span {
-		border-left: 0 none;
-		margin-left: 0;
-		.border-radius(0 3px 3px 0);
-	}
-	
-	table .pagination .active a,
-	table .pagination div.page span {
-		color: #333;
-		font-weight: bold;
-		.box-shadow(inset hsla(0, 0%, 55%, 0.8) 0px 0px 3px);
-	}
-	
-	table .pagination div.off a,
-	table .pagination div.off span {
-		border-color: #D7D7D7;
+			a,
+			span {
+				color: #333;
+				font-weight: bold;
+				border: 1px solid #BBB;
+			}
+			
+			&.limit {
+				line-height: 22px;
+				margin: 0 10px;
+			}
+		}
 	}
 }
 
@@ -365,61 +335,24 @@ input[type="search"] {
 
 /** toolbar **/
 div.toolbar { 
-	table.toolbar { 
+	.btn-group {
 		border-collapse: collapse;
 		padding: 0;
 		margin: 0 10px;
 		float: left;
 		
-		td {
-			margin: 0;
-			padding: 0;
-		}
-		
-		td a { 
+		a { 
 			min-width: 50px;
-			line-height: @baseLineHeight;
-			display: block;
-			float: left;
-			text-align: center;
-			color: #666;
-			white-space: nowrap;
 			padding: 4px 12px;
-			border-right: 1px solid #BBB;
-			cursor: pointer;
 			color: #333;
 			font-weight: bold;
-			font-size: 1em;
-			opacity: 1;
-			border-top: 1px solid #BBB;
-			border-bottom: 1px solid #BBB;
+			border: 1px solid #BBB;
 			#gradient > .vertical(#F9F9F9, #E3E3E3);
 			-webkit-user-select: none;
 		 }
-		 td a:not(.beforeload) {
-		     .transition(opacity 300ms ease-in-out);
+		 a:not(.beforeload) {
+			 .transition(opacity 300ms ease-in-out);
 		 }
-		 
-		td:first-child a,
-		td.divider + td a { 
-			.border-radius(4px 0 0 4px);
-			border-top: 1px solid #BBB;
-			border-bottom: 1px solid #BBB;
-			border-left: 1px solid #BBB;
-		}
-		
-		td:last-child a,
-		td.last a { 
-			.border-radius(0 4px 4px 0);
-			border-top: 1px solid #BBB;
-			border-bottom: 1px solid #BBB;
-			border-right: 1px solid #BBB;
-		}
-		
-		td.spacer  {  }
-		td.divider { width: 10px; }
-		
-		span { display: none; }
 		
 		a:hover:not(.disabled) {
 			border-color: #999;
@@ -431,16 +364,11 @@ div.toolbar {
 		a:active:not(.disabled) {
 			.box-shadow(inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px);
 		}
-		td a.disabled,
-		td a.disabled:hover,
-		td a.disabled:active {
-		    opacity: 0.5;
-		    text-decoration: none;
-		}
-		/* For some bizarre reason Chrome will activate :hover on the Dashboard button if cursor: default; is applied to the table.toolbar td a.disabled selector */
-		td a.disabled:hover,
-		td a.disabled:active {
-		    cursor: default;
+		a.disabled,
+		a.disabled:hover,
+		a.disabled:active {
+			opacity: 0.5;
+			text-decoration: none;
 		}
 	}
 }
