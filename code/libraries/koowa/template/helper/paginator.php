@@ -99,8 +99,6 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 			'limit'	     => 0,
 			'attribs'	=> array(),
 		));
-	    
-	    $html = '<ul class="pages">';
 
 		$html .= $this->link($config->pages->first);
 		$html .= $this->link($config->pages->prev);
@@ -112,7 +110,6 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$html .= $this->link($config->pages->next);
 		$html .= $this->link($config->pages->last);
 
-		$html .= '</ul>';
 		return $html;
 	}
 
@@ -140,11 +137,11 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : ''; 
         
         if(!$config->active && $config->current) {
-        	$html = '<li class="active"><a href="#">'.JText::_($config->title).'</a></li>';
+            $html = '<a class="btn active" href="#">'.JText::_($config->title).'</a>';
         } elseif (!$config->active && !$config->current) {
-        	$html = '<li class="disabled"><a href="#">'.JText::_($config->title).'</a></li>';
+            $html = '<a class="btn disabled" href="#">'.JText::_($config->title).'</a>';
         } else {
-        	$html = '<li><a href="'.$route.'" '.$rel.'>'.JText::_($config->title).'</a></li>';
+            $html = '<a class="btn" href="'.$route.'" '.$rel.'>'.JText::_($config->title).'</a>';
         }
 
         return $html;
