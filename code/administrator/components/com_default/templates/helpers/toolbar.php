@@ -31,13 +31,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         ));
 
         $html = '<div class="header pagetitle icon-48-'.$config->toolbar->getIcon().'">';
-
-        if (version_compare(JVERSION,'1.6.0','ge')) {
-			$html .= '<h2>'.JText::_($config->toolbar->getTitle()).'</h2>';
-        } else {
-            $html .= JText::_($config->toolbar->getTitle());
-        }
-
+        $html .= JText::_($config->toolbar->getTitle());
 		$html .= '</div>';
 
         return $html;
@@ -56,14 +50,8 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         	'toolbar' => null
         ));
 
-        if (version_compare(JVERSION,'1.6.0','ge')) {
-		  $html	= '<div class="toolbar-list" id="toolbar-'.$config->toolbar->getName().'">';
-        } else {
-          $html = '<div class="toolbar" id="toolbar-'.$config->toolbar->getName().'">';
-        }
-
-        $html .= '<table class="toolbar">';
-	    $html .= '<tr>';
+        $html  = '<div class="toolbar" id="toolbar-'.$config->toolbar->getName().'">';
+        $html .= '<div class="btn-group">';
 	    foreach ($config->toolbar->getCommands() as $command)
 	    {
             $name = $command->getName();
@@ -74,9 +62,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
                 $html .= $this->command(array('command' => $command));
             }
        	}
-		$html .= '</tr>';
-		$html .= '</table>';
-
+        $html .= '</div>';
 		$html .= '</div>';
 
 		return $html;
@@ -105,12 +91,9 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 
 		$command->attribs->class = implode(" ", KConfig::unbox($command->attribs->class));
 
-        $html  = '<td class="button" id="'.$id.'">';
-        $html .= '	<a '.KHelperArray::toString($command->attribs).'>';
-        $html .= '		<span class="'.$command->icon.'" title="'.JText::_($command->title).'"></span>';
+        $html .= '<a class="btn" id="'.$id.'" '.KHelperArray::toString($command->attribs).'>';
        	$html .= JText::_($command->label);
-       	$html .= '   </a>';
-        $html .= '</td>';
+       	$html .= '</a>';
 
     	return $html;
     }
