@@ -91,7 +91,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 
 		$command->attribs->class = implode(" ", KConfig::unbox($command->attribs->class));
 
-        $html .= '<a class="btn" id="'.$id.'" '.KHelperArray::toString($command->attribs).'>';
+        $html  = '<a class="btn" id="'.$id.'" '.KHelperArray::toString($command->attribs).'>';
        	$html .= JText::_($command->label);
        	$html .= '</a>';
 
@@ -113,7 +113,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 
         $command = $config->command;
 
-       	$html = '<td class="divider"></td>';
+        $html = '</div><div class="btn-group">';
 
     	return $html;
     }
