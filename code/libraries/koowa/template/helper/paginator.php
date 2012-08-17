@@ -116,8 +116,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	/**
 	 * Render a page link
 	 *
-	 * @param	object The page data
-	 * @param	string The link title
+	 * @param   array   An optional array with configuration options
 	 * @return	string	Html
 	 */
     public function link($config)
