@@ -70,23 +70,52 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
 			'limit'	     => 0,
 			'attribs'	=> array(),
 		));
-	   
-        $class = $config->pages->first->active ? '' : 'off';
-        $html  = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
-        
-        $class = $config->pages->prev->active ? '' : 'off';
-        $html  .= '<div class="btn-group">'.$this->link($config->pages->prev);
+
+        $html   = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
+        $html  .= '<div class="btn-group">';
+        $html  .= $this->link($config->pages->prev);
 
         foreach($config->pages->offsets as $offset) {
             $html .= $this->link($offset);
         }
-        
-        $class = $config->pages->next->active ? '' : 'off';
-        $html  .= $this->link($config->pages->next).'</div>';
-        
-        $class = $config->pages->last->active ? '' : 'off';
+
+        $html  .= $this->link($config->pages->next);
+        $html  .= '</div>';
         $html  .= '<div class="btn-group">'.$this->link($config->pages->last).'</div>';
 
         return $html;
     }
+
+    /**
+     * Render a page link
+     *
+     * @param   array   An optional array with configuration options
+     * @return	string	Html
+     */
+   public function link($config)
+   {
+        $config = new KConfig($config);
+		$config->append(array(
+			'title'   => '',
+			'current' => false,
+		    'active'  => false,
+			'offset'  => 0,
+			'limit'	  => 0,
+		    'rel'	  => '',
+			'attribs'  => array(),
+		));
+
+        $route = $this->getTemplate()->getView()->getRoute('limit='.$config->limit.'&offset='.$config->offset);
+        $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : '';
+
+        if(!$config->active && $config->current) {
+            $html = '<a class="btn active" href="#">'.JText::_($config->title).'</a>';
+        } elseif (!$config->active && !$config->current) {
+            $html = '<a class="btn disabled" href="#">'.JText::_($config->title).'</a>';
+        } else {
+            $html = '<a class="btn" href="'.$route.'" '.$rel.'>'.JText::_($config->title).'</a>';
+        }
+
+        return $html;
+   }
 }
