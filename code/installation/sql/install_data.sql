@@ -31,8 +31,29 @@ VALUES
     (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1),
     (33, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=languages', 'Languages', 'com_languages', 0, '', 0, '', 1),
     (34, 'Languages', '', 0, 33, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
-    (35, 'Items', '', 0, 33, 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1),
-    (36, 'Tables', '', 0, 33, 'option=com_languages&view=tables', 'Tables', '', 4, '', 0, '', 1);
+    (35, 'Components', '', 0, 33, 'option=com_languages&view=components', 'Components', '', 4, '', 0, '', 1),
+    (36, 'Items', '', 0, 33, 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1);
+
+--
+-- Dumping data for table `#__languages`
+--
+
+INSERT INTO `#__languages` (`languages_language_id`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `created_on`, `created_by`, `locked_on`, `locked_by`, `image`)
+VALUES
+    (1, 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, NOW(), 1, NULL, NULL, 'gb.png');
+
+
+--
+-- Dumping data for table `#__languages_components`
+--
+
+INSERT INTO `#__languages_components` (`components_component_id`, `enabled`)
+VALUES
+    (4, 0),
+    (6, 0),
+    (7, 1),
+    (20, 1),
+    (25, 0);
 
 --
 -- Dumping data for table `#__modules`
@@ -117,14 +138,14 @@ INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`
 --
 
 INSERT INTO `#__users` (`id`, `uuid`, `name`, `email`, `password`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`)
-VALUES (62, UUID(), 'Administrator', 'admin@localhost.home', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
+VALUES (1, UUID(), 'Administrator', 'admin@localhost.home', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
 
 --
 -- Dumping data for table `#__core_acl_aro`
 --
 
 INSERT INTO `#__core_acl_aro` (`id`, `section_value`, `value`, `order_value`, `name`, `hidden`)
-VALUES (10, 'users', '62', 0, 'Administrator', 0);
+VALUES (10, 'users', '1', 0, 'Administrator', 0);
 
 --
 -- Dumping data for table `#__core_acl_groups_aro_map`
