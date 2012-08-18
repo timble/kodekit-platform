@@ -75,7 +75,7 @@
 	            </div>
 	            <div class="control-group">
 	                <label class="control-label" for="slug"><?= @text('Slug') ?></label>
-	                <div class="controls controls-calendar">
+	                <div class="controls">
 	                    <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
 	                </div>
 	            </div>

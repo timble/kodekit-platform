@@ -3525,8 +3525,7 @@ div.message {
 label {
   font-size: 12px;
 }
-input,
-textarea,
+input[type="text"],
 select {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
