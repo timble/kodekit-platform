@@ -455,18 +455,24 @@ CREATE TABLE `#__languages_items` (
     `languages_language_id` INT UNSIGNED NOT NULL,
     `table` VARCHAR(150) NOT NULL,
     `row` INT UNSIGNED NOT NULL,
+    `title` VARCHAR(255),
     `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `original` BOOLEAN NOT NULL DEFAULT 0,
     `deleted` BOOLEAN NOT NULL DEFAULT 0,
-    `params` TEXT,
+    `created_on` DATETIME,
+    `created_by` INT UNSIGNED,
+    `modified_on` DATETIME,
+    `modified_by` INT UNSIGNED,
     PRIMARY KEY (`languages_item_id`),
     FOREIGN KEY (`languages_language_id`) REFERENCES `#__languages` (`languages_language_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS `#__languages_tables` (
     `components_component_id` INT UNSIGNED NOT NULL,
-    `table_name` VARCHAR(150) NOT NULL,
-    PRIMARY KEY (`components_component_id`, `table_name`),
+    `name` VARCHAR(150) NOT NULL,
+    `unique_column` VARCHAR(150) NOT NULL,
+    `title_column` VARCHAR(150) NOT NULL,
+    PRIMARY KEY (`components_component_id`, `name`),
     FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB CHARSET = utf8;
 
