@@ -13,7 +13,7 @@
 
 The .less files are being compiled during development.
 
-After making a change to one of the files you need to recompile the 'default.less' file.
+After making a change to one of the files you need to recompile the 'loader-default.less' & 'loader-legacy.less' files.
 
 Check one of the following applications to compile LESS:
 - http://incident57.com/codekit (Mac)
