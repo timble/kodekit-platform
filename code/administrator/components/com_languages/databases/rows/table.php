@@ -5,19 +5,6 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
     {
         if($this->isNew())
         {
-            // Make sure unique and title columns are set.
-            if(!$this->unique_column)
-            {
-                $this->setStatus(KDatabase::STATUS_FAILED);
-    			$this->setStatusMessage(JText::_('No unique column was found.'));
-    
-    			return false;
-            }
-            
-            if(!$this->title_column) {
-                $this->title_column = $this->unique_column;
-            }
-            
             $database  = $this->getTable()->getDatabase();
             $languages = $this->getService('com://admin/languages.model.languages')->getList();
             $primary   = $this->getService('com://admin/languages.config.language')->getPrimary();

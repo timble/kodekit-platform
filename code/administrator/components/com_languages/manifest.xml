@@ -37,15 +37,12 @@
             <folder>templates</folder>
             <folder>views</folder>
             <file>config.xml</file>
-            <file>dispatcher.php</file>
-            <file>languages.php</file>
         </files>
         
         <submenu>
-            <menu view="dashboard">Dashboard</menu>
-            <menu view="items">Items</menu>
             <menu view="languages">Languages</menu>
-            <menu view="tables">Tables</menu>
+            <menu view="components">Components</menu>
+            <menu view="items">Items</menu>            
         </submenu>
     </administration>
     

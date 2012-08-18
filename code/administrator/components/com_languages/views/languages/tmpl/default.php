@@ -4,8 +4,8 @@
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
 
-<form id="languages-form" action="" method="post" class="-koowa-grid">
-    <?= @template('default_filter') ?>
+<form id="languages-form" action="" method="get" class="-koowa-grid">
+    <?= @template('default_scopebar') ?>
 	<table class="adminlist">
 		<thead>
 			<tr>

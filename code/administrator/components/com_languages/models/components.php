@@ -1,66 +1,40 @@
 <?php
-
-class ComLanguagesModelComponents extends KModelTable
+class ComLanguagesModelComponents extends KModelDefault
 {
-	/**
-	 * Maps component names to table prefixes
-	 *
-	 * @var array
-	 */
-	protected $_list = array(
-		'virtuemart' => 'vm',
-		'menus' 	 => 'menu'
-	);
-	
-	/**
-	 * Finds the table prefix for a component
-	 *
-	 * @param 	string	Component name
-	 * @return	string	Table prefix
-	 */
-	public function getTablePrefix($option)
-	{
-		$component = substr($option, 4);
-		
-		if('trash' == $component) {
-			$prefix = strtolower(substr(JRequest::getCmd('task'), 4));
-		} elseif(array_key_exists($component, $this->_list)) {
-			$prefix =  $this->_list[$component];			
-		} else {
-			$prefix = $component;
-		}
-		
-		return $prefix;
-	}
-	
-	/**
-	 * Is a component translatable?
-	 *
-	 * @param	string	Component name
-	 * @param	string	View name
-	 * @return 	bool
-	 */
-	public function isTranslatable($option, $view = '')
-	{
-		if(empty($option)) {
-			return false;
-		}
-		
-		$prefix = $this->getTablePrefix($option);
-		if(!empty($view)) {
-			$prefix = $prefix.'_'.$view;
-		}
-		
-		$nooku  = $this->getService('com://admin/languages/model.tables');
-		$tables = $nooku->getTranslatedTables();
-		
-		foreach($tables as $table)
-		{
-			if(strpos($table, $prefix) !== FALSE) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
+    public function __construct(KConfigInterface $config)
+    {
+        parent::__construct($config);
+        
+        $this->getState()
+            ->remove('sort')->insert('sort', 'cmd', 'name')
+            ->insert('enabled', 'boolean');
+    }
+    
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryColumns($query);
+        
+        $query->columns('components.name');
+    }
+    
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryColumns($query);
+        
+        $query->join(array('components' => 'components'), 'components.id = tbl.components_component_id');
+    }
+    
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryWhere($query);
+        $state = $this->getState();
+        
+        if($state->enabled) {
+            $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
+        }
+        
+        if($state->search) {
+            $query->where('components.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+        }
+    }
 }
