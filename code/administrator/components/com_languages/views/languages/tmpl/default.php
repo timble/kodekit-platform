@@ -24,9 +24,6 @@
                 <th width="31px" nowrap="nowrap">
                     <?= @text('Flag') ?>
                 </th>
-                <th width="31px" nowrap="nowrap">
-                	<?= @helper('grid.sort', array('column' => 'ordering')) ?>
-                </th>
                 <th width="50px" nowrap="nowrap">
                     <?= @text('Primary') ?>
                 </th>
@@ -34,7 +31,7 @@
 					<?= @helper('grid.sort', array('column' => 'slug')) ?>
 				</th>
 				<th width="31px" nowrap="nowrap">
-					<?= @helper('grid.sort', array('column' => 'enabled', 'title' => 'Published')) ?>
+					<?= @helper('grid.sort', array('column' => 'enabled', 'title' => 'Enabled')) ?>
 				</th>
 			</tr>
 		</thead>
@@ -52,7 +49,7 @@
 					<?= @helper('grid.checkbox', array('row' => $language)) ?>
 				</td>
 				<td>
-					<a href="<?= @route('view=language&id='.$language->id); ?>"><?= $language->name ?></a>
+					<a href="<?= @route('view=language&id='.$language->id) ?>"><?= $language->name ?></a>
 				</td>
 				<td>
 					<?= $language->native_name ?>
@@ -64,11 +61,8 @@
                     <?= @helper('grid.flag', array('iso_code' => $language->iso_code)) ?>
                 </td>
                 <td align="center">
-                	<?= @helper('grid.order', array('row' => $language, 'total' => $total)) ?>
-                </td>
-                <td align="center">
                     <? if($language->primary): ?>
-                        <img src="templates/default/images/menu/icon-16-default.png" alt="<?= @text( 'Primary Language' ) ?>" />
+                        <img src="media://system/images/star.png" alt="<?= @text( 'Primary Language' ) ?>" />
                     <? endif ?>
                 </td>
 				<td align="center">
