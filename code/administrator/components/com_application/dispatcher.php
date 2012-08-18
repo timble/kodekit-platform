@@ -44,6 +44,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      * @var KConfig
      */
     protected $_options = null;
+    
+    /**
+     * Languages
+     * 
+     * @var ComLanguagesDatabaseRowsetLanguages
+     */
+    protected $_languages;
 
     /**
      * Constructor.
@@ -420,6 +427,24 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     {
         $router = $this->getService('com://admin/application.router', $options);
         return $router;
+    }
+    
+    public function getLanguages()
+    {
+        if(!$this->_languages)
+        {
+            // Select enabled languages.
+            $languages = $this->getService('com://admin/languages.model.languages')->enabled(true)->getList();
+            
+            // Mixin the languages mixin into the rowset.
+            $this->getService('koowa:loader')->loadIdentifier('com://admin/languages.mixin.languages');
+            $languages->mixin(new ComLanguagesMixinLanguages(new KConfig()));
+            
+            // Store the object in the application.
+            $this->_languages = $languages;
+        }
+        
+        return $this->_languages;
     }
 
     /**
