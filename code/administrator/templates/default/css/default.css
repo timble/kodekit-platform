@@ -3150,15 +3150,16 @@ div.message {
 }
 .com_users.login #login-box {
   padding: 50px 0 10px 0;
-  width: 300px;
+  width: 275px;
   margin: 0 auto;
 }
 .com_users.login #login-box form {
   margin: 0px;
   padding: 0px;
 }
-.com_users.login #login-box form input {
-  width: 235px !important;
+.com_users.login #login-box form input.inputbox,
+.com_users.login #login-box form input.btn {
+  width: 220px !important;
   padding: 4px 8px;
   border: 1px solid #D7DADE;
   font-size: 16.5px;

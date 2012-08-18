@@ -21,8 +21,10 @@
 				<?php echo JText::_('Return to') ?>
 				<?php echo $this->params->get('showSiteName') ? $mainframe->getCfg( 'sitename' ) : JText::_('Website'); ?>
 			</a>
-			
 		</div>
 	</div>
+	
+	<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo  $this->template ?>/js/chosen.mootools.1.2.js"></script>
+	<script> $$(".chzn-select").chosen(); </script>
 </body>
 </html>

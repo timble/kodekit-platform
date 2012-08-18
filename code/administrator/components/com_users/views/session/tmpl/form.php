@@ -34,7 +34,7 @@
    <div class="control-group">
        <label class="control-label" for="site"><?php echo JText::_('Site'); ?></label>
        <div class="controls">
-            <?= @service('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'inputbox'))); ?>
+            <?= @service('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'chzn-select'))); ?>
        </div>
    </div>
    <? endif ?>
