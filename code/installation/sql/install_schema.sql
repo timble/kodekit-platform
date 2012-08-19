@@ -252,20 +252,17 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
 
 CREATE TABLE `#__languages` (
     `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `application` VARCHAR(50) NOT NULL,
     `name` VARCHAR(150) NOT NULL,
     `native_name` VARCHAR(150) NOT NULL,
     `iso_code` VARCHAR(8) NOT NULL,
     `slug` VARCHAR(255) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     `primary` BOOLEAN NOT NULL DEFAULT 0,
-    `created_on` DATETIME,
-    `created_by` INT UNSIGNED,
-    `locked_on` DATETIME,
-    `locked_by` INT UNSIGNED,
     `image` VARCHAR(255),
     PRIMARY KEY (`languages_language_id`),
-    UNIQUE KEY (`iso_code`),
-    UNIQUE KEY (`slug`)
+    UNIQUE KEY (`application`, `iso_code`),
+    UNIQUE KEY (`application`, `slug`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------

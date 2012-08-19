@@ -427,20 +427,17 @@ ALTER TABLE `#__pages` DROP COLUMN `rgt`;
 -- Add tables
 CREATE TABLE `#__languages` (
     `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `application` VARCHAR(50) NOT NULL,
     `name` VARCHAR(150) NOT NULL,
     `native_name` VARCHAR(150) NOT NULL,
     `iso_code` VARCHAR(8) NOT NULL,
     `slug` VARCHAR(255) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     `primary` BOOLEAN NOT NULL DEFAULT 0,
-    `created_on` DATETIME,
-    `created_by` INT UNSIGNED,
-    `locked_on` DATETIME,
-    `locked_by` INT UNSIGNED,
     `image` VARCHAR(255),
     PRIMARY KEY (`languages_language_id`),
-    UNIQUE KEY (`iso_code`),
-    UNIQUE KEY (`slug`)
+    UNIQUE KEY (`application`, `iso_code`),
+    UNIQUE KEY (`application`, `slug`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 CREATE TABLE `#__languages_components` (
@@ -492,9 +489,10 @@ VALUES
     (NULL, 'Items', '', 0, @id , 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1);
 
 -- Add priamry language
-INSERT INTO `#__languages` (`languages_language_id`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `created_on`, `created_by`, `locked_on`, `locked_by`, `image`)
+INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `image`)
 VALUES
-    (1, 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, NOW(), 1, NULL, NULL, 'gb.png');
+    (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png'),
+    (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png');
 
 -- Add translatable components
 INSERT INTO `#__languages_components` (`components_component_id`, `enabled`)

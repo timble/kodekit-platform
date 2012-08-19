@@ -38,10 +38,10 @@ VALUES
 -- Dumping data for table `#__languages`
 --
 
-INSERT INTO `#__languages` (`languages_language_id`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `created_on`, `created_by`, `locked_on`, `locked_by`, `image`)
+INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `image`)
 VALUES
-    (1, 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, NOW(), 1, NULL, NULL, 'gb.png');
-
+    (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png'),
+    (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png');
 
 --
 -- Dumping data for table `#__languages_components`
