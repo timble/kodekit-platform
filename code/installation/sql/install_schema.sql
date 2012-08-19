@@ -315,6 +315,8 @@ CREATE TABLE IF NOT EXISTS `#__languages_tables` (
     `name` VARCHAR(150) NOT NULL,
     `unique_column` VARCHAR(150) NOT NULL,
     `title_column` VARCHAR(150) NOT NULL,
+    `table_column` VARCHAR(150),
+    `table_value` VARCHAR(150),
     PRIMARY KEY (`components_component_id`, `name`),
     FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB CHARSET = utf8;

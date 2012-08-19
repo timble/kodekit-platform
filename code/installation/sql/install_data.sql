@@ -50,9 +50,8 @@ VALUES
 INSERT INTO `#__languages_components` (`components_component_id`, `enabled`)
 VALUES
     (4, 0),
-    (6, 0),
-    (7, 1),
-    (20, 1),
+    (7, 0),
+    (20, 0),
     (25, 0);
 
 --
