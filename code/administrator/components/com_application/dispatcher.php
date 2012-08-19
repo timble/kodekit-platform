@@ -439,7 +439,10 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         if(!$this->_languages)
         {
             // Select enabled languages.
-            $languages = $this->getService('com://admin/languages.model.languages')->enabled(true)->getList();
+            $languages = $this->getService('com://admin/languages.model.languages')
+                ->enabled(true)
+                ->application('admin')
+                ->getList();
             
             // Mixin the languages mixin into the rowset.
             $this->getService('koowa:loader')->loadIdentifier('com://admin/languages.mixin.languages');
