@@ -25,7 +25,9 @@ class ComLanguagesDatabaseRowComponent extends KDatabaseRowDefault
                             'components_component_id' => $this->id,
                             'name' => (string) $table->name,
                             'unique_column' => (string) $table->columns->unique,
-                            'title_column' => (string) $table->columns->title
+                            'title_column' => (string) $table->columns->title,
+                            'table_column' => (string) $table->columns->table,
+                            'table_value' => (string) $table->columns->table['value']
                         );
                     }
                     

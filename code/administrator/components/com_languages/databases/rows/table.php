@@ -61,6 +61,12 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                         'original' => $original
                     ));
                 
+                if($this->table_column && $this->table_value)
+                {
+                    $select->where($this->table_column.' = :table_column')
+                        ->bind(array('table_column' => $this->table_value));
+                }
+                
                 $query = $this->getService('koowa:database.query.insert')
                     ->table('languages_items')
                     ->columns(array(
