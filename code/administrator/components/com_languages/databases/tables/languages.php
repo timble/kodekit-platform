@@ -7,7 +7,6 @@ class ComLanguagesDatabaseTableLanguages extends KDatabaseTableAbstract
         $config->append(array(
             'name'      => 'languages',
             'behaviors' => array(
-            	'creatable', 'lockable',
                 'koowa:database.behavior.sluggable' => array('columns' => array('name'))
             ),
             'filters'   => array(
