@@ -22,7 +22,8 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
         $config->append(array(
             'name'       => 'articles',
             'behaviors'  => array(
-            	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', 'revisable', 'publishable'
+            	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', 'revisable', 'publishable',
+                'com://admin/languages.database.behavior.translatable'
             ),
             'column_map' => array(
                 'locked_on'        => 'checked_out_time',

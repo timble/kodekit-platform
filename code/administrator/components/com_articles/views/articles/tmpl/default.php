@@ -15,6 +15,7 @@
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
+<?= @template('com://admin/languages.view.languages.module') ?>
 
 <module title="" position="sidebar">
     <?= @template('default_sidebar'); ?>

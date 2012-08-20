@@ -26,7 +26,8 @@
     }
 </script>
 
-<?= @template('com://admin/default.view.form.toolbar'); ?>
+<?= @template('com://admin/default.view.form.toolbar') ?>
+<?= @template('com://admin/languages.view.languages.module') ?>
 
 <form action="" method="post" id="article-form" class="-koowa-form">
     <input type="hidden" name="state" value="0" />
