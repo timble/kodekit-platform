@@ -20,9 +20,10 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
 {
     public function save()
     {
-        $result = parent::save();
+        $modified = $this->isModified('enabled');
+        $result   = parent::save();
         
-        if($this->getStatus() == KDatabase::STATUS_CREATED)
+        if($this->getStatus() == KDatabase::STATUS_UPDATED && $modified && $this->enabled)
         {
             $database  = $this->getTable()->getDatabase();
             $prefix    = $database->getTablePrefix();

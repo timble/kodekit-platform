@@ -23,20 +23,7 @@ class ComLanguagesModelTables extends ComDefaultModelDefault
         
         $this->getState()
             ->insert('enabled', 'boolean')
-            ->insert('translated', 'boolean');
-    }
-    
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
-    {
-        parent::_buildQueryJoins($query);
-        $state = $this->getState();
-        
-        if(!$state->isUnique())
-        {
-            if(!is_null($state->enabled)) {
-                $query->join(array('components' => 'languages_components'), 'components.components_component_id = tbl.components_component_id', 'RIGHT');
-            }
-        }
+            ->insert('component', 'int');
     }
     
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -47,7 +34,11 @@ class ComLanguagesModelTables extends ComDefaultModelDefault
         if(!$state->isUnique())
         {
             if(!is_null($state->enabled)) {
-                $query->where('components.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
+                $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
+            }
+            
+            if($state->component) {
+                $query->where('tbl.components_component_id IN :component')->bind(array('component' => (array) $state->component));
             }
         }
     }

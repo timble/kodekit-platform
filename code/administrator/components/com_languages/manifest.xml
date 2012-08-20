@@ -41,7 +41,7 @@
         
         <submenu>
             <menu view="languages">Languages</menu>
-            <menu view="components">Components</menu>
+            <menu view="tables">Components</menu>
             <menu view="items">Items</menu>            
         </submenu>
     </administration>
