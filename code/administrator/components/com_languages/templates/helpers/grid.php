@@ -9,13 +9,10 @@ class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
             'url'      => 'media://com_languages/images/flags/'
         ));
         
-        $languages = clone $this->getTemplate()->getView()->languages;
+        $languages = $this->getTemplate()->getView()->languages;
         $language  = $languages->find(array('iso_code' => $config->iso_code))->top();
         
-        if($language) {
-            $image = $config->url.$language->image;
-        }
-        else
+        if($language)
         {
             if(!strpos($config->iso_code, '-')) {
                 $image = 'unknown.png';
@@ -26,6 +23,7 @@ class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
                 $image = $config->url.$country.'.png';
             }
         }
+        else $image = $config->url.$language->image;
         
         return '<div class="languages-flag" style="background-image: url('.$image.');" title="'.$config->iso_code.'"></div>';
     }
@@ -46,18 +44,9 @@ class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
             ComLanguagesDatabaseRowItem::STATUS_OUTDATED  => 'Outdated',
             ComLanguagesDatabaseRowItem::STATUS_PENDING   => 'Pending'
         );
-    
-        if($config->original)
-        {
-            $text  = 'Original';
-            $class = 'original';
-        }
-        else
-        {
-            $text  = $statuses[$config->status];
-            $class = strtolower($statuses[$config->status]);
-        }
-    
+        
+        $text  = $config->original ? 'Original' : $statuses[$config->status];
+        $class = $config->original ? 'original' : strtolower($statuses[$config->status]);
         $class = $config->deleted ? 'deleted' : $class;
     
         return '<span class="languages-status '.$class.'">'.JText::_($text).'</span>';

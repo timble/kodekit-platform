@@ -1,9 +1,28 @@
 <?php
+/**
+ * @version     $Id$
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Language Database Row Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ */
 class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
 {
     public function save()
     {
-        if($this->isNew())
+        $modified = $this->isModified('enabled');
+        $result   = parent::save();
+        
+        if($this->getStatus() == KDatabase::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
             $tables   = $this->getService('com://admin/languages.model.tables')->getList();
             $database = $this->getTable()->getDatabase();
@@ -11,13 +30,13 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
             
             foreach($tables as $table)
             {
-                $table_name = strtolower($this->iso_code).'_'.$table->table_name;
+                $table_name = strtolower($this->iso_code).'_'.$table->name;
                 
                 // Add language specific table and copy the content of the original table.
-                $database->execute('CREATE TABLE '.$database->quoteIdentifier($prefix.$table_name).' LIKE '.$database->quoteIdentifier($prefix.$table->table_name));
+                $database->execute('CREATE TABLE '.$database->quoteIdentifier($prefix.$table_name).' LIKE '.$database->quoteIdentifier($prefix.$table->name));
                 
                 $select = $this->getService('koowa:database.query.select')
-                    ->table($table->table_name);
+                    ->table($table->name);
                 
                 $insert = $this->getService('koowa:database.query.insert')
                     ->table($table_name)
@@ -32,7 +51,9 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                     'row' => 'tbl.'.$table->unique_column,
                     'title' => 'tbl.'.$table->title_column,
                     'status' => ':status',
-                    'original' => ':original'
+                    'original' => ':original',
+                    'created_on' => ':created_on',
+                    'created_by' => ':created_by'
                 );
                 
                 $select = $this->getService('koowa:database.query.select')
@@ -40,9 +61,11 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                     ->table(array('tbl' => $table_name))
                     ->bind(array(
                         'iso_code' => $this->iso_code,
-                        'table' => $table->table_name,
+                        'table' => $table->table,
                         'status' => ComLanguagesDatabaseRowItem::STATUS_MISSING,
-                        'original' => 0
+                        'original' => 0,
+                        'created_on' => gmdate('Y-m-d H:i:s'),
+                        'created_by' => JFactory::getUser()->id
                     ));
                 
                 $insert = $this->getService('koowa:database.query.insert')
@@ -54,7 +77,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
             }
         }
         
-        return parent::save();
+        return $result;
     }
     
     public function __set($column, $value)

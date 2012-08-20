@@ -1,4 +1,21 @@
 <?php
+/**
+ * @version     $Id$
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Table Database Row Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ */
+
 class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
 {
     public function save()
@@ -16,17 +33,17 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
             {
                 if($language->id != $primary->id)
                 {
-                    $table = strtolower($language->iso_code).'_'.$this->table;
+                    $table = strtolower($language->iso_code).'_'.$this->name;
                     
                     // Create language specific table.
                     $query = 'CREATE TABLE '.$database->quoteIdentifier($prefix.$table).
-                        ' LIKE '.$database->quoteIdentifier($prefix.$this->table);
+                        ' LIKE '.$database->quoteIdentifier($prefix.$this->name);
                     $database->execute($query);
                     
                     // Copy content of original table into the language specific one.
                     $query = $this->getService('koowa:database.query.insert')
                         ->table($table)
-                        ->values($this->getService('koowa:database.query.select')->table($this->table));
+                        ->values($this->getService('koowa:database.query.select')->table($this->name));
                     $database->execute($query);
                     
                     $status   = ComLanguagesDatabaseRowItem::STATUS_MISSING;
@@ -42,7 +59,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                 // Add items to the items table.
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array(
-                        'languages_language_id' => ':languages_language_id',
+                        'iso_code' => ':iso_code',
                         'table' => ':table',
                         'row' => $this->unique_column,
                         'title' => $this->title_column,
@@ -53,7 +70,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                     ))
                     ->table($this->name)
                     ->bind(array(
-                        'languages_language_id' => $language->id,
+                        'iso_code' => $language->iso_code,
                         'table' => $this->name,
                         'created_on' => gmdate('Y-m-d H:i:s'),
                         'created_by' => JFactory::getUser()->id,
@@ -70,7 +87,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                 $query = $this->getService('koowa:database.query.insert')
                     ->table('languages_items')
                     ->columns(array(
-                        'languages_language_id',
+                        'iso_code',
                         'table',
                         'row',
                         'title',

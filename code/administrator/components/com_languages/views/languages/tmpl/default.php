@@ -4,6 +4,10 @@
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
 
+<module title="" position="sidebar">
+	<?= @template('default_sidebar') ?>
+</module>
+
 <form id="languages-form" action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar') ?>
 	<table class="adminlist">

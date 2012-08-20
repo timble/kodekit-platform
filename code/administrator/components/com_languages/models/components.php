@@ -1,5 +1,21 @@
 <?php
-class ComLanguagesModelComponents extends KModelDefault
+/**
+ * @version     $Id$
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Components Model Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ */
+class ComLanguagesModelComponents extends ComDefaultModelDefault
 {
     public function __construct(KConfigInterface $config)
     {
@@ -29,12 +45,15 @@ class ComLanguagesModelComponents extends KModelDefault
         parent::_buildQueryWhere($query);
         $state = $this->getState();
         
-        if($state->enabled) {
-            $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
-        }
-        
-        if($state->search) {
-            $query->where('components.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+        if(!$state->isUnique())
+        {
+            if($state->enabled) {
+                $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
+            }
+            
+            if($state->search) {
+                $query->where('components.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+            }
         }
     }
 }
