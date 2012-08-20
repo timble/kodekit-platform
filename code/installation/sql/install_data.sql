@@ -31,7 +31,7 @@ VALUES
     (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', 1, '', 1),
     (33, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=languages', 'Languages', 'com_languages', 0, '', 0, '', 1),
     (34, 'Languages', '', 0, 33, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
-    (35, 'Components', '', 0, 33, 'option=com_languages&view=components', 'Components', '', 4, '', 0, '', 1),
+    (35, 'Components', '', 0, 33, 'option=com_languages&view=tables', 'Components', '', 4, '', 0, '', 1),
     (36, 'Items', '', 0, 33, 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1);
 
 --
@@ -47,12 +47,10 @@ VALUES
 -- Dumping data for table `#__languages_components`
 --
 
-INSERT INTO `#__languages_components` (`components_component_id`, `enabled`)
+INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `title_column`, `filter_column`, `filter_value`, `enabled`)
 VALUES
-    (4, 0),
-    (7, 0),
-    (20, 0),
-    (25, 0);
+    (20, 'articles', 'articles_article_id', 'title', NULL, NULL, 0),
+    (20, 'categories', 'categories_category_id', 'title', 'table', 'articles', 0);
 
 --
 -- Dumping data for table `#__modules`

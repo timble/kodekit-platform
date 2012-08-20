@@ -440,13 +440,6 @@ CREATE TABLE `#__languages` (
     UNIQUE KEY (`application`, `slug`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
-CREATE TABLE `#__languages_components` (
-    `components_component_id` INT UNSIGNED NOT NULL,
-    `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`components_component_id`),
-    FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
-) ENGINE = InnoDB CHARSET = utf8;
-
 CREATE TABLE `#__languages_items` (
     `languages_item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `iso_code` VARCHAR(8) NOT NULL,
@@ -465,11 +458,12 @@ CREATE TABLE `#__languages_items` (
 
 CREATE TABLE IF NOT EXISTS `#__languages_tables` (
     `components_component_id` INT UNSIGNED NOT NULL,
-    `name` VARCHAR(150) NOT NULL,
-    `unique_column` VARCHAR(150) NOT NULL,
-    `title_column` VARCHAR(150) NOT NULL,
-    `table_column` VARCHAR(150),
-    `table_value` VARCHAR(150),
+    `name` VARCHAR(64) NOT NULL,
+    `unique_column` VARCHAR(64) NOT NULL,
+    `title_column` VARCHAR(64) NOT NULL,
+    `filter_column` VARCHAR(64),
+    `filter_value` VARCHAR(255),
+    `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`components_component_id`, `name`),
     FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB CHARSET = utf8;
@@ -484,7 +478,7 @@ SET @id = LAST_INSERT_ID();
 INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `iscore`, `params`, `enabled`)
 VALUES
     (NULL, 'Languages', '', 0, @id, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
-    (NULL, 'Components', '', 0, @id, 'option=com_languages&view=components', 'Components', '', 4, '', 0, '', 1),
+    (NULL, 'Components', '', 0, @id, 'option=com_languages&view=tables', 'Components', '', 4, '', 0, '', 1),
     (NULL, 'Items', '', 0, @id , 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1);
 
 -- Add primary languages
@@ -493,10 +487,8 @@ VALUES
     (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png'),
     (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png');
 
--- Add translatable components
-INSERT INTO `#__languages_components` (`components_component_id`, `enabled`)
+-- Add tables
+INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `title_column`, `filter_column`, `filter_value`, `enabled`)
 VALUES
-    (4, 0),
-    (7, 0),
-    (20, 0),
-    (25, 0);
+    (20, 'articles', 'articles_article_id', 'title', NULL, NULL, 0),
+    (20, 'categories', 'categories_category_id', 'title', 'table', 'articles', 0);
