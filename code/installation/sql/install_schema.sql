@@ -286,7 +286,7 @@ CREATE TABLE `#__languages_components` (
 
 CREATE TABLE `#__languages_items` (
     `languages_item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `languages_language_id` INT UNSIGNED NOT NULL,
+    `iso_code` VARCHAR(8) NOT NULL,
     `table` VARCHAR(150) NOT NULL,
     `row` INT UNSIGNED NOT NULL,
     `title` VARCHAR(255),
@@ -297,8 +297,7 @@ CREATE TABLE `#__languages_items` (
     `created_by` INT UNSIGNED,
     `modified_on` DATETIME,
     `modified_by` INT UNSIGNED,
-    PRIMARY KEY (`languages_item_id`),
-    FOREIGN KEY (`languages_language_id`) REFERENCES `#__languages` (`languages_language_id`) ON DELETE CASCADE
+    PRIMARY KEY (`languages_item_id`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------

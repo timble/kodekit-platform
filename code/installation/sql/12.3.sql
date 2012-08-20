@@ -449,7 +449,7 @@ CREATE TABLE `#__languages_components` (
 
 CREATE TABLE `#__languages_items` (
     `languages_item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `languages_language_id` INT UNSIGNED NOT NULL,
+    `iso_code` VARCHAR(8) NOT NULL,
     `table` VARCHAR(150) NOT NULL,
     `row` INT UNSIGNED NOT NULL,
     `title` VARCHAR(255),
@@ -460,8 +460,7 @@ CREATE TABLE `#__languages_items` (
     `created_by` INT UNSIGNED,
     `modified_on` DATETIME,
     `modified_by` INT UNSIGNED,
-    PRIMARY KEY (`languages_item_id`),
-    FOREIGN KEY (`languages_language_id`) REFERENCES `#__languages` (`languages_language_id`) ON DELETE CASCADE
+    PRIMARY KEY (`languages_item_id`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS `#__languages_tables` (
@@ -488,7 +487,7 @@ VALUES
     (NULL, 'Components', '', 0, @id, 'option=com_languages&view=components', 'Components', '', 4, '', 0, '', 1),
     (NULL, 'Items', '', 0, @id , 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1);
 
--- Add priamry language
+-- Add primary languages
 INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `image`)
 VALUES
     (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png'),
