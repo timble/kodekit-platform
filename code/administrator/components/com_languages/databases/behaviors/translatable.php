@@ -93,8 +93,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         if($application->getCfg('multilanguage'))
         {
             // Modify table in the query if translatable.
-            $tables = $this->getService('com://admin/languages.model.tables')
-                ->select(array('enabled' => 1));
+            $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
             
             if(in_array($context->table, $tables->name))
             {
