@@ -36,12 +36,45 @@ class ComApplicationRouter extends KDispatcherRouterDefault
                 $path = str_replace('.'.$suffix, '', $path);
                 $vars['format'] = $suffix;
             }
+            
+            //Get the segments
+            $segments = explode('/', $path);
         }
+        
+	    // Find language if multilanguage is enabled. 
+	    $application = JFactory::getApplication();
+	    if($application->getCfg('multilanguage'))
+	    {
+	        $languages = $application->getLanguages();
+	        
+	        // Test if the first segment of the path is a language slug.
+	        if(!empty($path) && !empty($segments[0]))
+	        {
+                foreach($languages as $language)
+                {
+                    if($segments[0] == $language->slug)
+                    {
+                        $languages->setActive($language);
+                        
+                        $vars['language'] = array_shift($segments);
+                        $url->setPath(implode($segments, '/'));
+                        break;
+                    }
+                }
+	        }
+	        
+		    // Redirect if language wasn't found.
+            if(empty($path) || !isset($vars['language']))
+            {
+                $redirect  = JURI::base(true).'/'.$languages->getPrimary()->slug;
+                $redirect .= '/'.$path.$url->getQuery();
+                
+                $application->redirect($redirect);
+            }
+	    }
 
         if(!empty($path))
         {
-            //Get the segments
-            $segments = explode('/', $path);
             if(isset($segments[0]))
             {
                 $vars['option'] = 'com_'.$segments[0];
@@ -62,9 +95,20 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
 	public function build(KHttpUrl $url)
 	{
-        $query = $url->query;
-
+        $query    = $url->query;
         $segments = array();
+        
+	    // Add language slug if multilanguage is enabled.
+	    $application = JFactory::getApplication();
+        if($application->getCfg('multilanguage'))
+        {
+	        if(!isset($query['language'])) {
+	            $segments[] = $application->getLanguages()->getActive()->slug;
+	        } else {
+	            $segments[] = $query['language'];
+	        }
+        }
+	        
         if(isset($query['option']))
         {
             $segments[] = substr($query['option'], 4);
