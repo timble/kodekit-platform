@@ -155,9 +155,9 @@ window.addEvent('domready', function() {
 	<?= @template('templates_icons'); ?>
 	<?= @template('templates_details'); ?>
 	
-	<module title="" position="sidebar">
+	<ktml:module position="sidebar">
 		<div id="files-tree"></div>
-	</module>
+	</ktml:module>
 
 	<div id="files-canvas" class="-koowa-box -koowa-box-vertical -koowa-box-flex">
 	    <div class="path" style="height: 24px;">
