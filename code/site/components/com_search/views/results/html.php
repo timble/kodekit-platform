@@ -31,7 +31,7 @@ class ComSearchViewResultsHtml extends ComDefaultViewHtml
 	{
         $model = $this->getModel();
 
-		$params = JFactory::getApplication()->getParams();	
+		$params = $this->getService('application')->getParams();
 
         $this->assign('params', $params);
         $this->assign('results', $model->getList());
