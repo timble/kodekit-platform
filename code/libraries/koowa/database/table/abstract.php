@@ -814,8 +814,25 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $data = array_intersect_key($data, $this->getColumns($base));
         
         // Filter data based on column type
-        foreach($data as $key => $value) {
-            $data[$key] = $this->getColumn($key, $base)->filter->sanitize($value);
+        foreach($data as $key => $value)
+        {
+            $column = $this->getColumn($key, $base);
+            $data[$key] = $column->filter->sanitize($value);
+
+            // If NULL is allowed and default is NULL, set value to NULL in the following cases.
+            if(!$column->required && is_null($column->default))
+            {
+                // If value is empty.
+                if(empty($data[$key])) {
+                    $data[$key] = null;
+                }
+
+                // If type is date, time or datetime and value is like 0000-00-00 00:00:00.
+                $date_types = array('date', 'time', 'datetime');
+                if(in_array($column->type, $date_types) && !preg_match('/[^-0:\s]/', $data[$key])) {
+                    $data[$key] = null;
+                }
+            }
         }
             
         return $data;
