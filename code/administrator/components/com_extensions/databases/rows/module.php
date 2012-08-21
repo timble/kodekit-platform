@@ -38,8 +38,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 	/**
 	 * Get a value by key
 	 *
-	 * This method is specialized because of the magic property "pages"
-	 * which is in a 1:n relation with modules
+	 * This method is specialized because of the magic property "pages" which is in a 1:n relation with modules
 	 *
 	 * @param   string  The key name.
 	 * @return  string  The corresponding value.
@@ -59,6 +58,20 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 	    {
             $client	= JApplicationHelper::getClientInfo($this->client_id);
 	        $this->_data['application'] = $client->name;
+        }
+
+        if($column == 'identifier' && empty($this->_data['identifier']))
+        {
+            $application = $this->getIdentifier()->application;
+            $this->_data['identifier'] = 'mod://'.$application.'/'.substr($this->type, 4).'.html';
+        }
+
+        if($column == 'attribs' && empty($this->_data['attribs'])) {
+            $this->_data['attribs'] = array();
+        }
+
+        if($column == 'chrome' && empty($this->_data['chrome'])) {
+            $this->_data['chrome'] = array();
         }
 	    
 	    if($column == 'manifest' && empty($this->_data['manifest'])) 
@@ -84,7 +97,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 		    
 	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'module' );
         }
-	     
+
 	    if($column == 'pages' && !isset($this->_data['pages'])) 
 		{
 		    if(!$this->isNew()) 
