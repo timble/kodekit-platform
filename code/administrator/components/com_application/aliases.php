@@ -16,7 +16,7 @@
  * @subpackage  Application
  */
 
-KService::setAlias('session', 'koowa:dispatcher.session.default');
+KService::setAlias('application.session', 'koowa:dispatcher.session.default');
 
 KService::setAlias('database'                     , 'com://admin/default.database.adapter.mysqli');
 KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/default.database.adapter.mysqli');
