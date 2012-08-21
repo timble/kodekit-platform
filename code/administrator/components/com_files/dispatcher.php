@@ -49,7 +49,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     		header($code.' '.str_replace("\n", ' ', $e->getMessage()), true, $code);
 
     		echo json_encode($obj);
-    		JFactory::getApplication()->close();
+    		exit(0);
     	}
     	else throw $e;
     }
