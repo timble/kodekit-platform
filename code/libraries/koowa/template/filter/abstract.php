@@ -17,7 +17,7 @@
 abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilterInterface
 {
     /**
-     * The behavior priority
+     * The filter priority
      *
      * @var integer
      */
@@ -40,6 +40,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
         parent::__construct($config);
 
         $this->_priority = $config->priority;
+        $this->_template = $config->template;
     }
 
     /**
@@ -88,9 +89,6 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      */
     final public function execute( $name, KCommandContext $context)
     {
-        //Set the template
-        $this->_template = $context->caller;
-
         //Set the data
         $data = $context->data;
 
@@ -104,9 +102,6 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
 
         //Get the data
         $context->data = $data;
-
-        //Reset the template
-        $this->_template = null;
 
         //@TODO : Allows filters to return false and halt the filter chain
         return true;
