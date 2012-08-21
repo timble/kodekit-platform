@@ -79,6 +79,10 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
 	 */
     protected function _tokenValue($force = false)
     {
+        if(empty($this->_token_value) || $force) {
+            $this->_token_value = $this->getService('application.session')->getToken($force);
+        }
+
         return $this->_token_value;
     }
     
