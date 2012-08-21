@@ -25,7 +25,7 @@ class ComContactsControllerMessage extends ComDefaultControllerResource
 	    $subject       = $context->data->subject;
 	    $emailcopy     = $context->data->email_copy;
 	
-	    $mainframe = JFactory::getApplication();
+	    $mainframe =$this->getService('application');
 	    
 	    $SiteName = $mainframe->getCfg('sitename');
 	    $default  = JText::sprintf( 'MAILENQUIRY', $SiteName );
