@@ -37,7 +37,7 @@ class ComDefaultControllerDefault extends KControllerService
 		$this->_limit = $config->limit;
 
 		if($config->persistable && $this->isDispatched()) {
-			$this->addBehavior('persistable');
+			$this->attachBehavior('persistable');
 		}
 	}
 
@@ -61,7 +61,7 @@ class ComDefaultControllerDefault extends KControllerService
         $config->append(array(
     		'persistable' => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
             'toolbars'    => array('menubar', $this->getIdentifier()->name),
-            'limit'       => array('max' => 100, 'default' => JFactory::getApplication()->getCfg('list_limit'))
+            'limit'       => array('max' => 100, 'default' => $this->getService('application')->getCfg('list_limit'))
         ));
 
         parent::_initialize($config);
@@ -84,7 +84,7 @@ class ComDefaultControllerDefault extends KControllerService
         if(isset($row))
         {
             if(!isset($this->_request->layout) && $row->isLockable() && $row->locked()) {
-                JFactory::getApplication()->enqueueMessage($row->lockMessage(), 'notice');
+                $this->getService('application')->enqueueMessage($row->lockMessage(), 'notice');
             }
         }
 
