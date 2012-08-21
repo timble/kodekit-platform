@@ -45,8 +45,7 @@ class ModPagesHtml extends ModDefaultHtml
         
         $this->components = $tree;
         $this->user       = JFactory::getUser();
-        $this->disabled   = (bool) KRequest::get('get.hidemainmenu', 'int');
-        
+
         return parent::display();
     }
 }
