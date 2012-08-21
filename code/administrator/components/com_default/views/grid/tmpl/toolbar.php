@@ -9,14 +9,10 @@
  */
 ?>
 
-<module position="title" content="replace">
-	<?= @helper('toolbar.title', array('toolbar' => $toolbar))?>
-</module>
-
-<module position="toolbar" content="replace">
+<ktml:module position="toolbar">
 	<?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
-</module>
+</ktml:module>
 
-<module position="submenu" content="replace">
+<ktml:module position="submenu">
 	<?= @helper('menubar.render', array('menubar' => $menubar))?>
-</module>
+</ktml:module>
