@@ -228,12 +228,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                 return false;
             }*/
 
-            //@TODO : Need this for ComDefaultTemplateFilterModule.
-            $document = JFactory::getDocument();
-
-            //#TODO : Need this to prevent mootools from being loaded twice
-            JHTML::_('behavior.mootools', false);
-
             $name = substr( $component, 4);
 
             //Load common language files
@@ -249,7 +243,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     }
 
     /**
-     * Render the application
+     * Render the page
      *
      * Rendering is the process of pushing the document buffers into the template placeholders, retrieving data from the
      * document and pushing it into the JResponse buffer.
@@ -258,25 +252,17 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      */
     protected function _actionRender(KCommandContext $context)
     {
-        $document = JFactory::getDocument();
-
-        $component	= JRequest::getCmd('option');
-        $template	= $this->getTemplate();
-        $file 		= JRequest::getCmd('tmpl', 'index');
-
         $config = array(
-            'template' 	=> $template,
-            'file'		=> $file.'.php',
-            'directory'	=> JPATH_APPLICATION.'/templates',
-            'baseurl'   => KRequest::root()->getPath().'/administrator'
+            'request' => $this->getRequest(),
         );
 
-        $document->setBase(JURI::current());
-        $document->setTitle(htmlspecialchars_decode($this->getCfg('sitename' )). ' - ' .JText::_( 'Administration' ));
-        $document->setBuffer( $context->result, 'component');
+        $controller = $this->getService('com://admin/application.controller.page', $config);
+        $controller->getView()
+                ->layout('page')
+                ->component($context->result);
 
-        //Render the document
-        $data = $document->render( $this->getCfg('caching'), $config);
+        //Render the page controller
+        $data = $controller->display($context);
 
         //Make images paths absolute
         $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
@@ -284,16 +270,23 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $data = str_replace(JURI::base().'images/', $path, $data);
         $data = str_replace(array('../images', './images') , '"'.$path, $data);
 
+        //@TODO :Setup the response
+        //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+        //if ($mdate = $this->getModifiedDate()) {
+        //    JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
+        //}
+        //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
+
         JResponse::setBody($data);
         echo JResponse::toString($this->getCfg('gzip'));
         exit(0);
     }
 
     /**
-     * Catch all exception handler
+     * Render the error
      *
-     * We're wrapping it in a try catch block to avoid exceptions thrown inside the handler.
-     * Exceptions thrown in the handler leads to debugging nightmare.
+     * We're wrapping it in a try catch block to avoid exceptions thrown inside the handler. Exceptions thrown in the
+     * handler leads to debugging nightmare.
      *
      * @link http://www.php.net/manual/en/function.set-exception-handler.php#88082
      * @param KCommandContext $context	A command context object
@@ -303,12 +296,19 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         try
         {
             $data = $this->getService('com://admin/application.controller.error')
-                      ->format(KRequest::format() ? KRequest::format() : 'html')
-                      ->display($context);
+                ->format(KRequest::format() ? KRequest::format() : 'html')
+                ->display($context);
         }
         catch (Exception $e) {
             $data = get_class($e)." thrown within the exception handler. Message: ".$e->getMessage()." on line ".$e->getLine();
         }
+
+        //@TODO :Setup the response
+        //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+        //if ($mdate = $this->getModifiedDate()) {
+        //    JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
+        //}
+        //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 
         JResponse::setBody($data);
         echo JResponse::toString();
@@ -363,7 +363,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         );
 
         //Create the session
-        $session = $this->getService('session', $config);
+        $session = $this->getService('application.session', $config);
 
         //Auto-start the session if a cookie is found
         if(!$session->isActive())
