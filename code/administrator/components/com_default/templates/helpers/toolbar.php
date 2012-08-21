@@ -17,26 +17,6 @@
  */
 class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
 {
-	/**
-     * Render the toolbar title
-     *
-     * @param   array   An optional array with configuration options
-     * @return  string  Html
-     */
-    public function title($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-        	'toolbar' => null
-        ));
-
-        $html = '<div class="header pagetitle icon-48-'.$config->toolbar->getIcon().'">';
-        $html .= JText::_($config->toolbar->getTitle());
-		$html .= '</div>';
-
-        return $html;
-    }
-
     /**
      * Render the toolbar
      *
