@@ -29,37 +29,7 @@ interface KControllerToolbarInterface
      * @return string
      */
     public function getName();
-    
-    /**
-     * Set the toolbar's title
-     *
-     * @param   string  Title
-     * @return  KControllerToolbarInterface
-     */
-    public function setTitle($title);
-    
- 	/**
-     * Get the toolbar's title
-     *
-     * @return   string  Title
-     */
-    public function getTitle();
-    
-    /**
-     * Set the toolbar's icon
-     *
-     * @param   string  Icon
-     * @return  KControllerToolbarInterface
-     */
-    public function setIcon($icon);
-    
-	/**
-     * Get the toolbar's icon
-     *
-     * @return   string  Icon
-     */
-    public function getIcon();
-    
+
     /**
      * Add a separator
      *
