@@ -1,0 +1,19 @@
+body {color: #000}
+
+/* System Messages */
+#system-message    { height: 33px; margin: 0; padding: 0; border-bottom: 1px solid #E1E1E1;}
+#system-message dt { font-weight: bold; }
+#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB;  list-style: none; padding: 10px; margin: 0; }
+
+/* System Standard Messages */
+#system-message dt.message { display: none; }
+#system-message dd.message {  }
+
+/* System Error Messages */
+#system-message dt.error { display: none; }
+#system-message dd.error ul { color: #c00; background-color: #E6C0C0; }
+
+/* System Notice Messages */
+#system-message dt.notice { display: none; }
+#system-message dd.notice ul { color: #c00; background: #EFE7B8; }
