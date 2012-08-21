@@ -17,11 +17,8 @@
 
 <style src="media://system/css/mootree.css" />
 <style src="media://com_files/css/files.css" />
-
-<? if (version_compare(JVERSION, '1.7.0', '<')): ?>
 <script src="media://com_files/js/delegation.js" />
 <script src="media://com_files/js/uri.js" />
-<? endif; ?>
 <script src="media://com_files/js/history/history.js" />
 <script src="media://com_files/js/history/history.html4.js" />
 
