@@ -25,13 +25,13 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
     public function display()
     {
         //Get the parameters
-        $params = JFactory::getApplication()->getParams();
+        $params = $this->getService('application')->getParams();
 
         //Get the category
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if ($page = JFactory::getApplication()->getPages()->getActive())
+        if ($page = $this->getService('application')->getPages()->getActive())
         {
             $menu_params = new JParameter( $page->params );
             if (!$menu_params->get( 'page_title')) {
@@ -45,7 +45,7 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
 
         //Set the pathway
         if($page->link->query['view'] == 'categories' ) {
-            JFactory::getApplication()->getPathway()->addItem($category->title, '');
+            $this->getService('application')->getPathway()->addItem($category->title, '');
         }
 
         //Set the breadcrumbs
