@@ -37,6 +37,12 @@ DELETE FROM `#__components` WHERE `option` = 'com_messages';
 -- Remove plugins
 DROP TABLE #__plugins;
 
+ALTER TABLE `#__modules` DROP `iscore`;
+ALTER TABLE `#__modules` DROP `control`;
+ALTER TABLE `#__modules` DROP `numnews`;
+
+ALTER TABLE `#__components` DROP `iscore`;
+
 # --------------------------------------------------------
 # com_contacts schema changes
 
@@ -313,7 +319,7 @@ UPDATE `#__modules` SET `module` = 'mod_pages' WHERE `module` = 'mod_mainmenu';
 UPDATE `#__modules` AS `modules` SET `modules`.`params` = REPLACE(`modules`.`params`, CONCAT('menutype=', SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)), CONCAT('menu_id=', (SELECT `id` FROM `#__pages_menus` AS `menus` WHERE `menus`.`slug` = SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)))) WHERE `modules`.`module` = 'mod_pages';
 
 UPDATE `#__pages` SET `params` = REPLACE(`params`, 'menu_item=', 'page_id');
-UPDATE `#_pages` SET `link_id` = SUBSTRING(`link_url`, LOCATE('Itemid=', `link`) + 7) WHERE `type` = 'menulink';
+UPDATE `#__pages` SET `link_id` = SUBSTRING(`link_url`, LOCATE('Itemid=', `link`) + 7) WHERE `type` = 'menulink';
 UPDATE `#__pages` SET `type` = 'pagelink' WHERE `type` = 'menulink';
 
 DELETE FROM `#__pages` WHERE `enabled` < 0;
