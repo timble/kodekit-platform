@@ -16,13 +16,13 @@
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
 
-<module position="sidebar">
+<ktml:module position="sidebar">
     <?= @template('default_sidebar') ?>
-</module>
+</ktml:module>
 
-<module title="" position="inspector">
+<ktml:module position="inspector">
     <?= @template('com://admin/activities.view.activities.simple', array('package' => 'pages', 'name' => 'page')); ?>
-</module>
+</ktml:module>
 
 <form id="pages-form" action="" method="get" class="-koowa-grid" >
     <?= @template('default_scopebar') ?>
