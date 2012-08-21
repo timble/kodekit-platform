@@ -30,8 +30,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		 	->insert('enabled'	  , 'boolean')
 		 	->insert('position'   , 'cmd')
 		 	->insert('type' 	  , 'cmd')
-		 	->insert('installed'  , 'boolean', false)
-		 	->insert('hidden'     , 'boolean');
+		 	->insert('installed'  , 'boolean', false);
 	}
 
 	protected function _buildQueryJoin(KDatabaseQuerySelect $query)
@@ -63,12 +62,9 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		if(is_bool($state->enabled)) {
 		    $query->where('tbl.published = :enabled')->bind(array('enabled' => (int) $state->enabled));
 		}
-		
-	    if(is_bool($state->hidden)) {
-	        $query->where('tbl.iscore = :hidden')->bind(array('hidden' => (int) $state->hidden));
-		}
-		
-		if($state->application && is_scalar($state->application)) {
+
+		if($state->application && is_scalar($state->application))
+        {
 		    $client	= JApplicationHelper::getClientInfo($state->application, true);
 		    $query->where('tbl.client_id = :client')->bind(array('client' => $client->id));
 	    }
