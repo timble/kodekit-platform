@@ -9,14 +9,14 @@
  */
 ?>
 
-<ul class="mod_articles<?php echo $params->get('moduleclass_sfx'); ?>">
+<ul class="mod_articles">
     <?php foreach ($articles as $article): ?>
-    <li class="mod_articles<?php echo $params->get('moduleclass_sfx'); ?>">
+    <li class="mod_articles">
         <?php echo @helper('com://site/articles.template.helper.article.link',
         array(
             'row'     => $article,
             'text'    => @escape($article->title),
-            'attribs' => array('class' => 'mod_articles' . $params->get('moduleclass_sfx'))));?>
+            'attribs' => array('class' => 'mod_articles')));?>
     </li>
     <?php endforeach; ?>
 </ul>
