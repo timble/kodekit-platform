@@ -129,7 +129,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
         //Add the format to the uri
         $format = isset($url->query['format']) ? $url->query['format'] : 'html';
 
-        if(JFactory::getApplication()->getCfg('sef_suffix'))
+        if($this->getService('application')->getCfg('sef_suffix'))
         {
             $route .= '.'.$format;
             unset($url->query['format']);
@@ -142,7 +142,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
         }
 
         //Transform the route
-        if(JFactory::getApplication()->getCfg('sef_rewrite')) {
+        if($this->getService('application')->getCfg('sef_rewrite')) {
             $route = str_replace('index.php/', '', $route);
         }
 
