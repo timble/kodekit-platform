@@ -53,11 +53,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 	    		$row->enabled = 1;
 
 	    		if ($row->save()) {
-	    			return JFactory::getApplication()->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
+	    			return $this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
 	    		}
     		}
 
-    		return JFactory::getApplication()->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
+    		return $this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
     	}
     }
     
@@ -78,7 +78,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         if($this->_request->layout == 'register' && !$user->guest)
         {
-            $url =  'index.php?Itemid='.JFactory::getApplication()->getPages()->getHome()->id;
+            $url =  'index.php?Itemid='.$this->getService('application')->getPages()->getHome()->id;
             $msg =  JText::_('You are already registered.');
 
             $this->setRedirect($url, $msg);
