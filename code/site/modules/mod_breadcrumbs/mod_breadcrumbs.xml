@@ -9,9 +9,6 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.5.0</version>
 	<description>This module displays the breadcrumbs</description>
-	<files>
-		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
-	</files>
 	<params>
 		<param name="showHome" type="radio" default="1" label="Show Home" description="PARAMSHOWHOME">
 			<option value="0">No</option>
@@ -23,7 +20,6 @@
 			<option value="1">Yes</option>
 		</param>
 		<param name="separator" type="text" default="" label="Text Separator" description="A text separator" />
-		<param name="moduleclass_sfx" type="text" default="" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
 	</params>
 	<params group="advanced">
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
