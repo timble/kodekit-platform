@@ -38,7 +38,7 @@ class ComCacheControllerDefault extends ComDefaultControllerDefault
 		$request = parent::getRequest();
 		
 	    //Force the site
-	    //$request->site = JFactory::getApplication()->getSite();
+	    //$request->site = $this->getService('application')->getSite();
 	    
 	    return $request;
 	}
