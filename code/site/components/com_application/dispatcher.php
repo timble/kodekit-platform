@@ -184,8 +184,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     protected function _actionRoute(KCommandContext $context)
     {
         $url   = clone KRequest::url();
-        $pages = JFactory::getApplication()->getPages();
-        
+        $pages = $this->getPages();
+
         if(KRequest::type() != 'AJAX')
         {
             // get the route based on the path
@@ -224,8 +224,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     {
         if(!($this->getCfg('offline') && JFactory::getUser()->get('guest')))
         {
-            $pages = JFactory::getApplication()->getPages();
-            if(!$pages->isAuthorized(JRequest::getInt('Itemid'), JFactory::getUser()->get('aid')))
+            if(!$this->getPages()->isAuthorized(JRequest::getInt('Itemid'), JFactory::getUser()->get('aid')))
             {
                 if (JFactory::getUser()->get('aid'))
                 {
@@ -412,7 +411,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         );
 
         //Create the session
-        $session = $this->getService('session', $config);
+        $session = $this->getService('application.session', $config);
 
         //Auto-start the session if a cookie is found
         if(!$session->isActive())
@@ -541,7 +540,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             $params[$hash] = JComponentHelper::getParams($option);
 
             // Get menu parameters
-            $page = JFactory::getApplication()->getPages()->getActive();
+            $page = $this->getPages()->getActive();
 
             $title  = htmlspecialchars_decode($this->getCfg('sitename' ));
 
