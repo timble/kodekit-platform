@@ -3292,6 +3292,17 @@ div.message {
   flex: 1;
   border-right: 1px solid #dddddd;
 }
+.com_dashboard #window-body #window-content > div:first-child > div {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
 .com_dashboard #window-body #window-content .sidebar {
   width: 400px;
   padding: 20px;
