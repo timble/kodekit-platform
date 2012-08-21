@@ -19,7 +19,7 @@ class ComArticlesViewCategoriesHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		$params = JFactory::getApplication()->getParams();
+		$params = $this->getService('application')->getParams();
 		$this->assign('params', $params);
 
 		return parent::display();
