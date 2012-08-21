@@ -41,8 +41,8 @@ class ComUsersDispatcher extends ComDefaultDispatcher
             //Redirect if user is already logged in
             if($this->getRequest()->view == 'session')
             {
-                $menu = JFactory::getApplication()->getPages()->getHome();
-                //JFactory::getApplication()->redirect('index.php?Itemid='.$menu->id, 'You are already logged in!');
+                $menu = $this->getService('application')->getPages()->getHome();
+                //$this->getService('application')->redirect('index.php?Itemid='.$menu->id, 'You are already logged in!');
             }
         }
 
@@ -51,8 +51,8 @@ class ComUsersDispatcher extends ComDefaultDispatcher
             //Redirect if user is already logged in
             if($this->getRequest()->view == 'session')
             {
-                $menu = JFactory::getApplication()->getPages()->getHome();
-                //JFactory::getApplication()->redirect('index.php?Itemid='.$menu->id, 'You are already logged out!');
+                $menu = $this->getService('application')->getPages()->getHome();
+                //$this->getService('application')->redirect('index.php?Itemid='.$menu->id, 'You are already logged out!');
             }
         } 
                
