@@ -20,13 +20,13 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
     public function display()
     {
         //Get the parameters
-        $params = JFactory::getApplication()->getParams();
+        $params = $this->getService('application')->getParams();
 
         //Get the category
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if($page = JFactory::getApplication()->getPages()->getActive())
+        if($page = $this->getService('application')->getPages()->getActive())
         {
             $menu_params = new JParameter($page->params);
             if(!$menu_params->get('page_title')) {
@@ -37,7 +37,7 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
 
         //Set the pathway
         if($page->query['view'] == 'categories' ) {
-            JFactory::getApplication()->getPathway()->addItem($category->title, '');
+            $this->getService('application')->getPathway()->addItem($category->title, '');
         }
 
         $this->assign('params'  , $params);
