@@ -10,9 +10,9 @@
 ?>
 
 <!DOCTYPE HTML>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
-    <link rel="stylesheet" href="media://com_application/css/error.css" />
+    <link rel="stylesheet" href="media://com_application/css/error.css" type="text/css" />
     <title><?= @text('Error').': '.$error->getCode(); ?></title>
 </head>
 <body>
