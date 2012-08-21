@@ -82,7 +82,7 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	 */
 	public function findFile($path)
 	{
-	    $template  = JFactory::getApplication()->getTemplate();
+	    $template  = $this->getService('application')->getTemplate();
         $override  = JPATH_APPLICATION.'/templates/'.$template.'/html';
 	    $override .= str_replace(array(JPATH_BASE.'/modules', JPATH_BASE.'/components', '/views'), '', $path);
 
