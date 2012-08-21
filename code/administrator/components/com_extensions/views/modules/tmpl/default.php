@@ -25,12 +25,12 @@
     });
 </script>
 
-<module title="" position="sidebar">
+<ktml:module position="sidebar">
 	<?= @template('default_sidebar'); ?>
-</module>
+</ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
-	<?= @template('com://admin/extensions.view.plugins.default_scopebar'); ?>
+	<?= @template('default_scopebar'); ?>
 	<table>
 		<thead>
 			<tr>
