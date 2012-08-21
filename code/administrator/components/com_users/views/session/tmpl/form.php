@@ -30,9 +30,9 @@
             <input name="password" type="password" id="password" class="inputbox" size="15" placeholder="<?= @text('Password') ?>" />
        </div>
    </div>
-   <? if(JFactory::getApplication()->getSite() == 'default') : ?>
+   <? if(@service('application')->getSite() == 'default') : ?>
    <div class="control-group">
-       <label class="control-label" for="site"><?php echo JText::_('Site'); ?></label>
+       <label class="control-label" for="site"><?= @text('Site'); ?></label>
        <div class="controls">
             <?= @service('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'chzn-select'))); ?>
        </div>
