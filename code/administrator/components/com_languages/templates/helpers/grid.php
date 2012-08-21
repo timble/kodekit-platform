@@ -9,7 +9,8 @@ class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
             'url'      => 'media://com_languages/images/flags/'
         ));
         
-        $languages = $this->getTemplate()->getView()->languages;
+        // Need to clone, otherwise it breaks the foreach in the layout.
+        $languages = clone $this->getTemplate()->getView()->languages;
         $language  = $languages->find(array('iso_code' => $config->iso_code))->top();
         
         if($language)
