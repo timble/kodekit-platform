@@ -49,8 +49,7 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
             
         if($saveable)
         {
-            $this->setTitle($title)
-                 ->addCommand('save')
+            $this->addCommand('save')
                  ->addCommand('apply');
         }
                    
