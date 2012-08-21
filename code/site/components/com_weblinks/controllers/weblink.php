@@ -33,7 +33,7 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
 		if ($this->_request->format == 'html')
 		{           
 			if ($weblink->url) {
-				JFactory::getApplication()->redirect($weblink->url);
+                $this->getService('application')->redirect($weblink->url);
 			}
 
 			return true;
