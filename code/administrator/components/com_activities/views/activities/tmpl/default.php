@@ -16,9 +16,9 @@
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<module title="" position="sidebar">
+<ktml:module position="sidebar">
 	<?= @template('default_sidebar'); ?>
-</module>
+</ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
 	<?= @template('default_scopebar') ?>
