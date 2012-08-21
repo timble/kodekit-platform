@@ -10,13 +10,9 @@
  */
 ?>
 
-<module position="title" content="replace">
-	<?= @helper('toolbar.title', array('toolbar' => $toolbar))?>
-</module>
-
-<module position="toolbar" content="replace">
+<ktml:module position="toolbar">
 	<?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
-</module>
+</ktml:module>
 
 <?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 
