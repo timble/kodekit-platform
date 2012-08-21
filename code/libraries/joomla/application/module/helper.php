@@ -233,7 +233,7 @@ class JModuleHelper
 
 		$wheremenu = isset( $Itemid ) ? ' AND ( mm.pages_page_id = '. (int) $Itemid .' OR mm.pages_page_id = 0 )' : '';
 
-		$query = 'SELECT id, title, module, position, content, showtitle, control, params'
+		$query = 'SELECT id, title, module, position, content, showtitle, params'
 			. ' FROM #__modules AS m'
 			. ' LEFT JOIN #__pages_modules AS mm ON mm.modules_module_id = m.id'
 			. ' WHERE m.published = 1'
