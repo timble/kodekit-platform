@@ -52,9 +52,9 @@ class KMixinBehavior extends KMixinAbstract
             foreach($behaviors as $key => $value) 
             {
                 if(is_numeric($key)) {
-                    $this->addBehavior($value);
+                    $this->attachBehavior($value);
                 } else {
-                    $this->addBehavior($key, $value);
+                    $this->attachBehavior($key, $value);
                 }
             }
         } 
@@ -77,18 +77,7 @@ class KMixinBehavior extends KMixinAbstract
             'auto_mixin' => true
         ));
     }
-    
-	/**
-     * Check if a behavior exists
-     *
-     * @param 	string	The name of the behavior
-     * @return  boolean	TRUE if the behavior exists, FALSE otherwise
-     */
-	public function hasBehavior($behavior)
-	{ 
-	    return isset($this->_behaviors[$behavior]); 
-	}
-	
+
 	/**
      * Add one or more behaviors to the controller
      *
@@ -97,15 +86,12 @@ class KMixinBehavior extends KMixinAbstract
      * @param	array An optional associative array of configuration settings
      * @return  KObject	The mixer object
      */
-    public function addBehavior($behavior, $config = array())
+    public function attachBehavior($behavior, $config = array())
     {  
         if (!($behavior instanceof KBehaviorInterface)) { 
            $behavior = $this->getBehavior($behavior, $config);
         }
-                
-        //Add the behaviors
-        $this->_behaviors[$behavior->getIdentifier()->name] = $behavior;
-            
+
         //Enqueue the behavior
         $this->getCommandChain()->enqueue($behavior);
         
@@ -115,6 +101,17 @@ class KMixinBehavior extends KMixinAbstract
         }
         
         return $this->_mixer;
+    }
+
+    /**
+     * Check if a behavior exists
+     *
+     * @param 	string	The name of the behavior
+     * @return  boolean	TRUE if the behavior exists, FALSE otherwise
+     */
+    public function hasBehavior($behavior)
+    {
+        return isset($this->_behaviors[$behavior]);
     }
    
 	/**
@@ -142,13 +139,14 @@ class KMixinBehavior extends KMixinAbstract
        if(!isset($this->_behaviors[$identifier->name])) 
        {
            $config['mixer'] = $this->getMixer();
-           
+
            $behavior = $this->getService($identifier, $config);
-           
-           //Check the behavior interface
+
 		   if(!($behavior instanceof KBehaviorInterface)) {
 			   throw new KBehaviorException("Behavior $identifier does not implement KBehaviorInterface");
 		   }
+
+           $this->_behaviors[$behavior->getIdentifier()->name] = $behavior;
        } 
        else $behavior = $this->_behaviors[$identifier->name];
        
