@@ -17,14 +17,14 @@
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
 <? if( $state->section == 'com_articles') : ?>
-<module title="" position="sidebar">
+<ktml:module position="sidebar">
     <?= @template('default_sidebar'); ?>
-</module>
+</ktml:module>
 <? endif; ?>
 
-<module title="" position="inspector">
+<ktml:module  position="inspector">
     <?= @template('com://admin/activities.view.activities.simple', array('package' => $state->table, 'name' => 'category')); ?>
-</module>
+</ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
