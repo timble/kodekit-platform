@@ -18,6 +18,21 @@
 
 class ComApplicationViewHtml extends KViewHtml
 {
+    /**
+     * Constructor
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        //@TODO : Remove this once media is in the resources/media folder
+        $this->getTemplate()->getFilter('alias')->addAlias(
+            array($this->_mediaurl.'/com_application/' => (string) KRequest::root().'/administrator/templates/default/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
+        );
+    }
+
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
