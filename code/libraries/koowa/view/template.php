@@ -80,14 +80,14 @@ abstract class KViewTemplate extends KViewAbstract
          
         // set the template object
         $this->_template = $config->template;
-             
+
         //Set the template filters
         if(!empty($config->template_filters)) {
-            $this->getTemplate()->addFilter($config->template_filters);
+            $this->getTemplate()->attachFilter($config->template_filters);
         }
          
-        //Add alias filter for media:// namespace
-        $this->getTemplate()->getFilter('alias')->append(
+        //Add alias filter for media:// namespaced
+        $this->getTemplate()->getFilter('alias')->addAlias(
             array('media://' => (string) $this->_mediaurl.'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
     }
@@ -109,7 +109,7 @@ abstract class KViewTemplate extends KViewAbstract
             'data'			   => array(),
             'escape'           => 'htmlspecialchars',
             'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'alias', 'variable', 'script', 'style', 'link', 'template'),
+            'template_filters' => array('shorttag', 'alias', 'variable', 'template'),
             'auto_assign'      => true,
             'media_url'        => '/media',
         ));
@@ -218,8 +218,11 @@ abstract class KViewTemplate extends KViewAbstract
     {
         if(empty($this->output))
 		{
-		    $this->output = $this->getTemplate()
-                                 ->loadIdentifier($this->_layout, $this->_data)
+            $identifier = clone $this->getIdentifier();
+            $identifier->name = $this->getLayout();
+
+            $this->output = $this->getTemplate()
+                                 ->loadIdentifier($identifier, $this->_data)
                                  ->render();
 		}
                         
@@ -237,36 +240,7 @@ abstract class KViewTemplate extends KViewAbstract
         $this->_escape = $spec;
         return $this;
     }
-    
-	/**
-     * Sets the layout name
-     *
-     * @param    string  The template name.
-     * @return   KViewAbstract
-     */
-    public function setLayout($layout)
-    {
-        if(is_string($layout) && strpos($layout, '.') === false ) 
-		{
-            $identifier = clone $this->getIdentifier(); 
-            $identifier->name = $layout;
-	    }
-		else $identifier = $this->getIdentifier($layout);
-        
-        $this->_layout = $identifier;
-        return $this;
-    }
-    
-	/**
-     * Get the layout.
-     *
-     * @return string The layout name
-     */
-    public function getLayout()
-    {
-        return $this->_layout->name;
-    }
-    
+
     /**
      * Get the identifier for the template with the same name
      *
