@@ -106,7 +106,6 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
 		$module->module    = 'mod_'.$name;
 		$module->content   = $text;
 		$module->position  = $name;
-		$module->params    = 'moduleclass_sfx='.$this->_class;
 		$module->showtitle = (bool) $this->_title;
 		$module->title     = $this->_title;
 		$module->user      = 0;
