@@ -98,9 +98,8 @@ window.addEvent('domready', function() {
 				<legend><?= @text('Custom Output') ?></legend>
 				
 				<?= @service('com://admin/editors.controller.editor')
-					//@TODO is escaping the module content really necessary?
 					->name('content')
-					->data(@escape($module->content))
+					->data($module->content)
 					->display() ?>
 			</fieldset>
 			<? endif ?>
