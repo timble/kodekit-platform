@@ -21,14 +21,9 @@ class ComUsersViewResetHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $this->parameters = $this->getParameters();
+        $this->parameters = $this->getService('application')->getParams();
 		
         JFactory::getDocument()->setTitle($this->parameters->get('page_title')); 
         return parent::display();
-    }
-    
-    public function getParameters()
-    {
-         return JFactory::getApplication()->getParams();
     }
 }
