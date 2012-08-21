@@ -46,7 +46,7 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
      * @param array     An array of aliases to be appended
      * @return KTemplateFilterAlias
      */
-    public function append(array $alias, $mode = KTemplateFilter::MODE_READ)
+    public function addAlias(array $alias, $mode = KTemplateFilter::MODE_READ)
     {
         if($mode & KTemplateFilter::MODE_READ) {
             $this->_alias_read = array_merge($this->_alias_read, $alias);
