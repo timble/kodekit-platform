@@ -18,20 +18,6 @@
 abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract implements KControllerToolbarInterface
 {
     /**
-     * The toolbar title
-     *
-     * @var     string
-     */
-    protected $_title = '';
-    
-    /**
-     * The toolbar icon
-     *
-     * @var     string
-     */
-    protected $_icon = '';
-     
-    /**
      * Controller object
      *
      * @var     array
@@ -63,12 +49,6 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
         
         // Set the controller
         $this->_controller = $config->controller;
-
-        // Set the title
-        $this->setTitle($config->title);
-        
-        // Set the icon
-        $this->setIcon($config->icon);
     }
 
     /**
@@ -82,8 +62,6 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'title'         => KInflector::humanize(KInflector::pluralize($this->getName())),
-            'icon'          => $this->getName(),
             'controller'    => null,
         ));
         
@@ -109,51 +87,7 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
     {
         return $this->getIdentifier()->name;
     }
-    
-    /**
-     * Set the toolbar's title
-     *
-     * @param   string  Title
-     * @return  KControllerToolbarAbstract
-     */
-    public function setTitle($title)
-    {
-        $this->_title = $title;
-        return $this;
-    }
-    
- 	/**
-     * Get the toolbar's title
-     *
-     * @return   string  Title
-     */
-    public function getTitle()
-    {
-        return $this->_title;
-    }
-    
-    /**
-     * Set the toolbar's icon
-     *
-     * @param   string  Icon
-     * @return  KControllerToolbarAbstract
-     */
-    public function setIcon($icon)
-    {
-        $this->_icon = $icon;
-        return $this;
-    }
-    
-	/**
-     * Get the toolbar's icon
-     *
-     * @return   string  Icon
-     */
-    public function getIcon()
-    {
-        return $this->_icon;
-    }
-    
+
     /**
      * Add a separator
      *
