@@ -26,7 +26,7 @@ class ComUsersRouter extends ComDefaultRouter
         {
             if(!empty($query['Itemid']))
             {
-                $page = JFactory::getApplication()->getPages()->find($query['Itemid'] );
+                $page = $this->getService('application')->getPages()->find($query['Itemid'] );
                 if(!isset($page->link->query['view']) || $page->link->query['view'] != $query['view']) {
                     $segments[] = $query['view'];
                 }
