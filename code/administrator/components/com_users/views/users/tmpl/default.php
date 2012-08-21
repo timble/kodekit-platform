@@ -17,13 +17,13 @@
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<module title="" position="sidebar">
+<ktml:module position="sidebar">
 	<?= @template('default_sidebar', array('groups' => $groups)); ?>
-</module>
+</ktml:module>
 
-<module title="" position="inspector">
+<ktml:module position="inspector">
     <?= @template('com://admin/activities.view.activities.simple', array('package' => 'users', 'name' => 'user')); ?>
-</module>
+</ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
 	<?= @template('default_scopebar'); ?>
