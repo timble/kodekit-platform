@@ -15,53 +15,17 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class KTemplateFilterScript extends KTemplateFilterTag
 {
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOW,
-        ));
-
-        parent::_initialize($config);
-    }
-
-	/**
-	 * Find any <script src="" /> or <script></script> elements and render them
-	 *
-	 * <script inline></script> can be used for inline scripts
-	 *
-	 * @param string Block of text to parse
-	 * @return KTemplateFilterLink
-	 */
-	public function write(&$text)
-	{
-		//Parse the script information
-		$scripts = $this->_parseScripts($text);
-
-		//Prepend the script information
-		$text = $scripts.$text;
-
-		return $this;
-	}
-
 	/**
 	 * Parse the text for script tags
 	 *
 	 * @param string Block of text to parse
 	 * @return string
 	 */
-	protected function _parseScripts(&$text)
+	protected function _parseTags(&$text)
 	{
-		$scripts = '';
+		$tags = '';
 
 		$matches = array();
 		// <script src="" />
@@ -69,8 +33,13 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 		{
 			foreach(array_unique($matches[1]) as $key => $match)
 			{
-				$attribs = $this->_parseAttributes( $matches[2][$key]);
-				$scripts .= $this->_renderScript($match, true, $attribs);
+                //Set required attributes
+                $attribs = array(
+                    'src' => $match
+                );
+
+                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+				$tags .= $this->_renderTag($attribs);
 			}
 
 			$text = str_replace($matches[0], '', $text);
@@ -78,39 +47,46 @@ class KTemplateFilterScript extends KTemplateFilterAbstract implements KTemplate
 
 		$matches = array();
 		// <script></script>
-		if(preg_match_all('#<script(?!\s+data\-inline\s*)(.*)>(.*)</script>#siU', $text, $matches))
+		if(preg_match_all('#<script(?!\s+data\-inline\s*)(.*)>(.*)</script>#iU', $text, $matches))
 		{
 			foreach($matches[2] as $key => $match)
 			{
 				$attribs = $this->_parseAttributes( $matches[1][$key]);
-				$scripts .= $this->_renderScript($match, false, $attribs);
+				$tags .= $this->_renderTag($attribs, $match);
 			}
 
 			$text = str_replace($matches[0], '', $text);
 		}
 
-		return $scripts;
+		return $tags;
 	}
 
-	/**
-	 * Render script information
-	 *
-	 * @param string	The script information
-	 * @param boolean	True, if the script information is a URL.
-	 * @param array		Associative array of attributes
-	 * @return string
-	 */
-	protected function _renderScript($script, $link, $attribs = array())
+    /**
+     * Render the tag
+     *
+     * @param 	array	Associative array of attributes
+     * @param 	string	The tag content
+     * @return string
+     */
+    protected function _renderTag($attribs = array(), $content = null)
 	{
-		$attribs = KHelperArray::toString($attribs);
+        $link = isset($attribs['src']) ? $attribs['src'] : false;
 
 		if(!$link)
 		{
-			$html  = '<script type="text/javascript" '.$attribs.'>'."\n";
-			$html .= trim($script);
+            $attribs = KHelperArray::toString($attribs);
+
+            $html  = '<script type="text/javascript" '.$attribs.'>'."\n";
+			$html .= trim($content);
 			$html .= '</script>'."\n";
 		}
-		else $html = '<script type="text/javascript" src="'.$script.'" '.$attribs.'></script>'."\n";
+		else
+        {
+            unset($attribs['src']);
+            $attribs = KHelperArray::toString($attribs);
+
+            $html = '<script type="text/javascript" src="'.$link.'" '.$attribs.'></script>'."\n";
+        }
 
 		return $html;
 	}
