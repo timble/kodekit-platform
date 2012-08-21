@@ -267,19 +267,6 @@ CREATE TABLE `#__languages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__languages_components`
---
-
-CREATE TABLE `#__languages_components` (
-    `components_component_id` INT UNSIGNED NOT NULL,
-    `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`components_component_id`),
-    FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
-) ENGINE = InnoDB CHARSET = utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__languages_items`
 --
 
