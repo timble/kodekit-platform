@@ -63,8 +63,11 @@ class ModDefaultHtml extends KViewHtml
 
         if(empty($this->module->content))
 		{
+            $identifier = clone $this->getIdentifier();
+            $identifier->name = $this->getLayout();
+
             $this->output = $this->getTemplate()
-                ->loadIdentifier($this->_layout, $this->_data)
+                ->loadIdentifier($identifier, $this->_data)
                 ->render();
 		}
 		else
