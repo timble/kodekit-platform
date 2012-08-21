@@ -12,6 +12,9 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_title';
 -- Remove mod_related_items
 DELETE FROM `#__modules` WHERE `module` = 'mod_related_items';
 
+-- Remove mod_random_image to mod_image
+UPDATE `#__modules` SET `module` = 'mod_image' WHERE `module` = 'mod_random_image';
+
 -- Remove core logs
 DROP TABLE `#__core_log_items`, `#__core_log_searches`;
 
