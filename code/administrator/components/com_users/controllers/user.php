@@ -64,12 +64,10 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         if($context->result->status == KDatabase::STATUS_CREATED)
         {
-            $application = JFactory::getApplication();
-
             // Send e-mail to the user.
-            $mail_from_email    = $application->getCfg('mailfrom');
-            $mail_from_name     = $application->getCfg('fromname');
-            $mail_site_name     = $application->getCfg('sitename');
+            $mail_from_email    = $this->getService('application')->getCfg('mailfrom');
+            $mail_from_name     = $this->getService('application')->getCfg('fromname');
+            $mail_site_name     = $this->getService('application')->getCfg('sitename');
 
             if($mail_from_email == '' || $mail_from_name == '')
             {
