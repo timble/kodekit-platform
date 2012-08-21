@@ -9,7 +9,7 @@
  */
 
 /**
- * Articles Module html View Class
+ * Articles Module Html View Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package    Nooku_Server
