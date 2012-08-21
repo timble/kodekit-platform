@@ -336,104 +336,89 @@ abstract class KTemplateAbstract extends KObject
         
         return $context->data;
 	}
-	
-	/**
-     * Check if a filter exists
-     *
-     * @param 	string	The name of the filter
-     * @return  boolean	TRUE if the filter exists, FALSE otherwise
-     */
-	public function hasFilter($filter)
-	{ 
-	    return isset($this->_filters[$filter]); 
-	}
-	
-	/**
-	 * Adds one or more filters for template transformation
-	 * 
-	 * @param array 	Array of one or more behaviors to add.
-	 * @return KTemplate
-	 */
-	public function addFilter($filters)
- 	{
- 		$filters =  (array) KConfig::unbox($filters);
- 	    
- 	    foreach($filters as $filter)
-		{
-			if(!($filter instanceof KTemplateFilterInterface)) {
-				$filter = $this->getFilter($filter);
-			}
-			
-			//Enqueue the filter in the command chain
-			$this->getCommandChain()->enqueue($filter);
-			
-			//Store the filter
-			$this->_filters[$filter->getIdentifier()->name] = $filter; 
-		}
-		
-		return $this;
- 	}
- 	
- 	/**
-	 * Get a filter by identifier
-	 *
-	 * @return KTemplateFilterInterface
-	 */
- 	 public function getFilter($filter)     
- 	 { 
-         //Create the complete identifier if a partial identifier was passed 
-        if(is_string($filter) && strpos($filter, '.') === false ) 
-        { 
-            $identifier = clone $this->getIdentifier(); 
-            $identifier->path = array('template', 'filter'); 
-            $identifier->name = $filter; 
-        } 
-        else $identifier = KService::getIdentifier($filter); 
 
-        if (!isset($this->_filters[$identifier->name])) 
-        { 
-            $filter = KService::get($identifier);
+    /**
+     * Get a filter by identifier
+     *
+     * @return KTemplateFilterInterface
+     */
+    public function getFilter($filter, $config = array())
+    {
+        //Create the complete identifier if a partial identifier was passed
+        if(is_string($filter) && strpos($filter, '.') === false )
+        {
+            $identifier = clone $this->getIdentifier();
+            $identifier->path = array('template', 'filter');
+            $identifier->name = $filter;
+        }
+        else $identifier = $this->getIdentifier($filter);
+
+        if (!isset($this->_filters[$identifier->name]))
+        {
+            $filter = $this->getService($identifier, array_merge($config, array('template' => $this)));
 
             if(!($filter instanceof KTemplateFilterInterface)) {
-			    throw new KTemplateException("Template filter $identifier does not implement KTemplateFilterInterface");
-		    }
-        } 
-        else $filter = $this->_filters[$identifier->name]; 
+                throw new KTemplateException("Template filter $identifier does not implement KTemplateFilterInterface");
+            }
+
+            $this->_filters[$filter->getIdentifier()->name] = $filter;
+        }
+        else $filter = $this->_filters[$identifier->name];
 
         return $filter;
- 	 } 
- 	
-	/**
-	 * Searches for the file
-	 *
-	 * @param	string	The file path to look for.
-	 * @return	mixed	The full path and file name for the target file, or FALSE
-	 * 					if the file is not found
-	 */
-	public function findFile($file)
-	{    
-	    $result = false;
-	    $path   = dirname($file);
-	    
-	    // is the path based on a stream?
-		if (strpos($path, '://') === false)
-		{
-			// not a stream, so do a realpath() to avoid directory
-			// traversal attempts on the local file system.
-			$path = realpath($path); // needed for substr() later
-			$file = realpath($file);
-		}
+    }
 
-		// The substr() check added to make sure that the realpath()
-		// results in a directory registered so that non-registered directores 
-		// are not accessible via directory traversal attempts.
-		if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
-			$result = $file;
-		}
+    /**
+     * Attach one or more filters for template transformation
+     *
+     * @param array 	Array of one or more behaviors to add.
+     * @return KTemplate
+     */
+    public function attachFilter($filters)
+    {
+        $filters =  (array) KConfig::unbox($filters);
 
-		// could not find the file in the set of paths
-		return $result;
-	}
+        foreach($filters as $filter)
+        {
+            if(!($filter instanceof KTemplateFilterInterface)) {
+                $filter = $this->getFilter($filter);
+            }
+
+            //Enqueue the filter in the command chain
+            $this->getCommandChain()->enqueue($filter);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get a template helper
+     *
+     * @param	mixed	KServiceIdentifierInterface
+     * @param	array	An optional associative array of configuration settings
+     * @return 	KTemplateHelperInterface
+     */
+    public function getHelper($helper, $config = array())
+    {
+        //Create the complete identifier if a partial identifier was passed
+        if(is_string($helper) && strpos($helper, '.') === false )
+        {
+            $identifier = clone $this->getIdentifier();
+            $identifier->path = array('template','helper');
+            $identifier->name = $helper;
+        }
+        else $identifier = $this->getIdentifier($helper);
+
+        //Create the template helper
+        $helper = $this->getService($identifier, array_merge($config, array('template' => $this)));
+
+        //Check the helper interface
+        if(!($helper instanceof KTemplateHelperInterface)) {
+            throw new KTemplateHelperException("Template helper $identifier does not implement KTemplateHelperInterface");
+        }
+
+        return $helper;
+    }
 	
 	/**
 	 * Load a template helper
@@ -460,36 +445,7 @@ abstract class KTemplateAbstract extends KObject
 		
 		return $helper->$function($config);
 	}
-	
-	/**
-	 * Get a template helper
-	 *
-	 * @param	mixed	KServiceIdentifierInterface
-	 * @param	array	An optional associative array of configuration settings
-	 * @return 	KTemplateHelperInterface
-	 */
-	public function getHelper($helper, $config = array())
-	{	
-		//Create the complete identifier if a partial identifier was passed
-		if(is_string($helper) && strpos($helper, '.') === false ) 
-		{
-            $identifier = clone $this->getIdentifier();
-            $identifier->path = array('template','helper');
-            $identifier->name = $helper;
-		}
-		else $identifier = $this->getIdentifier($helper);
-	 
-		//Create the template helper
-		$helper = $this->getService($identifier, array_merge($config, array('template' => $this)));
-		
-	    //Check the helper interface
-        if(!($helper instanceof KTemplateHelperInterface)) {
-            throw new KTemplateHelperException("Template helper $identifier does not implement KTemplateHelperInterface");
-        }
-		
-		return $helper;
-	}
-	
+
 	/**
      * Handle template errors
      * 
@@ -511,6 +467,38 @@ abstract class KTemplateAbstract extends KObject
         }
         
         return false;
+    }
+
+    /**
+     * Searches for the file
+     *
+     * @param	string	The file path to look for.
+     * @return	mixed	The full path and file name for the target file, or FALSE
+     * 					if the file is not found
+     */
+    public function findFile($file)
+    {
+        $result = false;
+        $path   = dirname($file);
+
+        // is the path based on a stream?
+        if (strpos($path, '://') === false)
+        {
+            // not a stream, so do a realpath() to avoid directory
+            // traversal attempts on the local file system.
+            $path = realpath($path); // needed for substr() later
+            $file = realpath($file);
+        }
+
+        // The substr() check added to make sure that the realpath()
+        // results in a directory registered so that non-registered directores
+        // are not accessible via directory traversal attempts.
+        if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
+            $result = $file;
+        }
+
+        // could not find the file in the set of paths
+        return $result;
     }
 	
 	/**
