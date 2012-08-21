@@ -21,7 +21,7 @@ class ComDebugEventSubscriberApplication extends KEventSubscriberAbstract
     public function __construct(KConfig $config)
 	{
 	    //Intercept the events for profiling
-	    if(JFactory::getApplication()->getCfg('debug'))
+	    if($this->getService('application')->getCfg('debug'))
 	    {
 	        //Replace the event dispatcher
 	        KService::setAlias('koowa:event.dispatcher', 'com://admin/debug.event.profiler');
