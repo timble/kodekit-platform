@@ -17,7 +17,24 @@
  */
 class KTemplateFilterVariable extends KTemplateFilterAbstract implements KTemplateFilterRead
 {
-	/**
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'priority'   => KCommand::PRIORITY_HIGH,
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
 	 * Convert '@' to '$this->', unless when they are escaped '\@'
 	 *
 	 * @param string
@@ -39,6 +56,20 @@ class KTemplateFilterVariable extends KTemplateFilterAbstract implements KTempla
 
         // Replace \$ with @
 		$text = str_replace('\$', '@', $text);
+
+        // Replace <ktml:variable /> with the contents of the variable if it exists
+        $matches = array();
+        if(preg_match_all('#<ktml:variable\ name="([^"]+)"(.*)\/>#iU', $text, $matches))
+        {
+            foreach($matches[1] as $key => $match)
+            {
+                $attribs = $this->_parseAttributes( $matches[2][$key]);
+
+                if($this->getTemplate()->getView()->$match) {
+                    $text = str_replace($matches[0][$key], $this->getTemplate()->getView()->$match, $text);
+                }
+            }
+        }
 
 		return $this;
 	}
