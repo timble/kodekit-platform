@@ -8,7 +8,7 @@
     });
     </script>
     
-    <module position="status" content=append>
+    <ktml:module position="status" content="append">
         <?= @helper('com://admin/languages.template.helper.listbox.languages') ?>
-    </module>
+    </ktml:module>
 <? endif ?>
