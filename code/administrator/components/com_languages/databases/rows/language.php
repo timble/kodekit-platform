@@ -61,7 +61,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                     ->table(array('tbl' => $table_name))
                     ->bind(array(
                         'iso_code' => $this->iso_code,
-                        'table' => $table->table,
+                        'table' => $table->name,
                         'status' => ComLanguagesDatabaseRowItem::STATUS_MISSING,
                         'original' => 0,
                         'created_on' => gmdate('Y-m-d H:i:s'),
