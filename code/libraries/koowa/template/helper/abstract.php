@@ -35,7 +35,7 @@ abstract class KTemplateHelperAbstract extends KObject implements KTemplateHelpe
 	{
 		parent::__construct($config);
 
-		// Set the view indentifier
+		// Set the template indentifier
     	$this->_template = $config->template;
 	}
 
