@@ -79,8 +79,8 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         {
             $url = clone(KRequest::url());
             $url->query['view'] = $this->getController()->getView()->getName();
-           
-            JFactory::getApplication()->redirect($url);
+
+            $this->getService('application')->redirect($url);
         }
        
         return parent::_actionDispatch($context);
@@ -104,7 +104,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         //Sign the response with a token
         //@TODO : don't render the token if an error is thrown (check request)
         if(KRequest::method() == 'GET') {
-            setcookie('_token', $this->getService('session')->getToken(), 0, JURI::base(true));
+            setcookie('_token', $this->getService('application.session')->getToken(), 0, JURI::base(true));
         }
         
         return parent::_actionRender($context);
