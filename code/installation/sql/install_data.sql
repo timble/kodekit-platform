@@ -23,7 +23,7 @@ VALUES
     (7, 'Contacts', 'option=com_contacts', 0, 0, 'option=com_contacts&view=contacts', 'Edit contact details', 'com_contacts', 0, '', 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1),
     (8, 'Contacts', '', 0, 7, 'option=com_contacts&view=contacts', 'Edit contact details', 'com_contacts', 0, '', '', 1),
     (9, 'Categories', '', 0, 7, 'option=com_contacts&view=categories', 'Manage contact categories', '', 2, '', 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1),
-    (19, 'Media Manager', '', 0, 0, '', 'Media Manager', 'com_files', 0, '', 1, 'upload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1),
+    (19, 'Media Manager', '', 0, 0, '', 'Media Manager', 'com_files', 0, '', 'pload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1),
     (20, 'Articles', 'option=com_articles', 0, 0, 'option=com_articles&view=articles', 'Articles', 'com_articles', 0, '',  'show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_hits=1\nfeed_summary=0\n\n', 1),
     (25, 'Pages', '', 0, 0, '', 'Pages', 'com_pages', 0, '', '', 1),
     (28, 'Extension Manager', '', 0, 0, '', 'Extensions', 'com_extensions', 0, '', 'template_site=bootstrap\ntemplate_administrator=default\nlanguage_site=en-GB\nlanguage_administrator=en-GB', 1),
@@ -56,12 +56,12 @@ VALUES
 -- Dumping data for table `#__modules`
 --
 
-INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `numnews`, `access`, `showtitle`, `params`, `client_id`, `control`) VALUES
-(1, 'Main Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 0, ''),
-(2, 'Login', '', 3, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 0, 1, '', 1, ''),
-(10, 'Logged in Users', '', 13, 'cpanel', 62, '2011-10-18 00:40:23', 1, 'mod_logged', 0, 2, 1, '', 1, ''),
-(12, 'Admin Pages', '', 5, 'menu', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 2, 1, '', 1, ''),
-(14, 'User Status', '', 7, 'status', 0, '0000-00-00 00:00:00', 1, 'mod_status', 0, 2, 1, '', 1, '');
+INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`) VALUES
+(1, 'Main Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 0),
+(2, 'Login', '', 3, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, '', 1),
+(10, 'Logged in Users', '', 13, 'cpanel', 62, '2011-10-18 00:40:23', 1, 'mod_logged', 2, 1, '', 1),
+(12, 'Admin Pages', '', 5, 'menu', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 2, 1, '', 1),
+(14, 'User Status', '', 7, 'status', 0, '0000-00-00 00:00:00', 1, 'mod_status', 2, 1, '', 1);
 
 --
 -- Dumping data for table `#__pages_menus`
