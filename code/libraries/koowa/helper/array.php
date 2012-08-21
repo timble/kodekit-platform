@@ -157,7 +157,7 @@ class KHelperArray
                     }
 
                     // This is value is an array, go and do it again!
-                    $output[] = KHelperArray::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
+                    $output[] = implode(' ', $item);
                 }
                 else $output[] = $key.$inner_glue.'"'.str_replace('"', '&quot;', $item).'"';
             }
