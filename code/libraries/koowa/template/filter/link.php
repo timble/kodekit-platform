@@ -15,62 +15,51 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterLink extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class KTemplateFilterLink extends KTemplateFilterTag
 {
-	/**
-	 * Find any <link /> elements and render them
-	 *
-	 * @param string Block of text to parse
-	 * @return KTemplateFilterLink
-	 */
-	public function write(&$text)
-	{
-		//Parse the script information
-		$scripts = $this->_parseLinks($text);
-
-		//Prepend the script information
-		$text = $scripts.$text;
-
-		return $this;
-	}
-
 	/**
 	 * Parse the text for script tags
 	 *
 	 * @param string Block of text to parse
 	 * @return string
 	 */
-	protected function _parseLinks(&$text)
+	protected function _parseTags(&$text)
 	{
-		$scripts = '';
+		$tags = '';
 
 		$matches = array();
 		if(preg_match_all('#<link\ href="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
 			foreach(array_unique($matches[1]) as $key => $match)
 			{
-				$attribs = $this->_parseAttributes( $matches[2][$key]);
-				$scripts .= $this->_renderScript($match, $attribs);
+                //Set required attributes
+                $attribs = array(
+                    'href' => $match
+                );
+
+                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+
+				$tags .= $this->_renderTag($attribs);
 			}
 
 			$text = str_replace($matches[0], '', $text);
 		}
 
-		return $scripts;
+		return $tags;
 	}
 
-	/**
-	 * Render script information
-	 *
-	 * @param string	The script information
-	 * @param array		Associative array of attributes
-	 * @return string
-	 */
-	protected function _renderLink($link, $attribs = array())
+    /**
+     * Render the tag
+     *
+     * @param 	array	Associative array of attributes
+     * @param 	string	The tag content
+     * @return string
+     */
+    protected function _renderTag($attribs = array(), $content = null)
 	{
 		$attribs = KHelperArray::toString($attribs);
 
-		$html = '<link href="'.$link.'" '.$attribs.'/>'."\n";
+		$html = '<link '.$attribs.'/>'."\n";
 		return $html;
 	}
 }
