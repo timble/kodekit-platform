@@ -2294,10 +2294,6 @@ a:hover {
   margin: 4px;
   border: 1px solid #aaaaaa;
 }
-input[type="search"] {
-  height: 11px;
-  padding: 3px;
-}
 /* -- overall styles ------------------------------ */
 #header-box {
   background-color: #333;
@@ -2676,42 +2672,6 @@ div.toolbar .btn-group a {
   color: #333;
   font-weight: bold;
   border: 1px solid #BBB;
-  background-color: #f0f0f0;
-  background-image: -moz-linear-gradient(top, #f9f9f9, #e3e3e3);
-  background-image: -ms-linear-gradient(top, #f9f9f9, #e3e3e3);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#e3e3e3));
-  background-image: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
-  background-image: -o-linear-gradient(top, #f9f9f9, #e3e3e3);
-  background-image: linear-gradient(top, #f9f9f9, #e3e3e3);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e3e3e3', GradientType=0);
-  -webkit-user-select: none;
-}
-div.toolbar .btn-group a:not(.beforeload) {
-  -webkit-transition: opacity 300ms ease-in-out;
-  -moz-transition: opacity 300ms ease-in-out;
-  -ms-transition: opacity 300ms ease-in-out;
-  -o-transition: opacity 300ms ease-in-out;
-  transition: opacity 300ms ease-in-out;
-}
-div.toolbar .btn-group a:hover:not(.disabled) {
-  border-color: #999;
-  -webkit-box-shadow: rgba(140, 140, 140, 0.8) 0px 0px 2px;
-  -moz-box-shadow: rgba(140, 140, 140, 0.8) 0px 0px 2px;
-  box-shadow: rgba(140, 140, 140, 0.8) 0px 0px 2px;
-  text-decoration: none;
-  color: #333;
-}
-div.toolbar .btn-group a:active:not(.disabled) {
-  -webkit-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 2px;
-  -moz-box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 2px;
-  box-shadow: inset rgba(140, 140, 140, 0.8) 0px 0px 2px;
-}
-div.toolbar .btn-group a.disabled,
-div.toolbar .btn-group a.disabled:hover,
-div.toolbar .btn-group a.disabled:active {
-  opacity: 0.5;
-  text-decoration: none;
 }
 /* panels  */
 .panel {
@@ -2889,8 +2849,10 @@ div.current dd {
 .scopebar .scopebar-search {
   margin-left: 25px;
 }
-.scopebar .scopebar-search input {
+.scopebar .scopebar-search input[type="search"] {
   max-width: 250px;
+  height: 11px;
+  padding: 3px;
 }
 .scopebar .scopebar-search button {
   display: none;
@@ -2904,10 +2866,6 @@ div.current dd {
   border-left: 1px solid #E1E1E1;
   padding: 14px;
   background-color: #F9F9F9;
-}
-div#window-content > div.col {
-  float: none;
-  /* Children of #window-content are vertically laid out by Flexbox */
 }
 /* @endgroup */
 .box .box-title {

@@ -72,11 +72,6 @@ a:hover   { color: @linkColorHover; text-decoration: underline; }
     border: 1px solid darken(#C3C3C3, 10%);
 }
 
-input[type="search"] {
-	height: 11px;
-	padding: 3px;
-}
-
 /* -- overall styles ------------------------------ */
 #header-box  { 
 	background-color: #333;
@@ -351,29 +346,7 @@ div.toolbar {
 			color: #333;
 			font-weight: bold;
 			border: 1px solid #BBB;
-			#gradient > .vertical(#F9F9F9, #E3E3E3);
-			-webkit-user-select: none;
 		 }
-		 a:not(.beforeload) {
-			 .transition(opacity 300ms ease-in-out);
-		 }
-		
-		a:hover:not(.disabled) {
-			border-color: #999;
-			.box-shadow(hsla(0, 0%, 55%, 0.8) 0px 0px 2px);
-			text-decoration: none;
-			color: #333;
-		}
-		
-		a:active:not(.disabled) {
-			.box-shadow(inset hsla(0, 0%, 55%, 0.8) 0px 0px 2px);
-		}
-		a.disabled,
-		a.disabled:hover,
-		a.disabled:active {
-			opacity: 0.5;
-			text-decoration: none;
-		}
 	}
 }
 
@@ -522,8 +495,10 @@ div.current dd {
 	.scopebar-search {
 		margin-left: 25px;
 		
-		input {
+		input[type="search"] {
 			max-width: 250px;
+			height: 11px;
+			padding: 3px;
 		}
 		
 		button {
@@ -545,8 +520,6 @@ div.current dd {
 		}
 	}
 }
-
-div#window-content > div.col { float: none; /* Children of #window-content are vertically laid out by Flexbox */ }
 
 /* @endgroup */
 
