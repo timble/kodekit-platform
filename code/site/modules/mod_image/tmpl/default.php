@@ -1,9 +1,20 @@
+<?
+/**
+ * @version		$Id: form.php 1294 2011-05-16 22:57:57Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+?>
+
 <div align="center">
-<?php if ($link) : ?>
-<a href="<?php echo $link; ?>" target="_self">
-<?php endif; ?>
-	<?php echo JHTML::_('image', $image->folder.'/'.$image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
-<?php if ($link) : ?>
-</a>
-<?php endif; ?>
+    <? if ($link) : ?>
+    <a href="<?= $link; ?>" target="_self">
+    <? endif; ?>
+	    <?= JHTML::_('image', $image->folder.'/'.$image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
+    <? if ($link) : ?>
+    </a>
+    <? endif; ?>
 </div>
