@@ -9,7 +9,7 @@
  */
 ?>
 
-<div class="mod_articles<?php echo $params->get('moduleclass_sfx'); ?>">
+<div class="mod_articles">
     <?php foreach ($articles as $article): ?>
     <?php echo @helper('com://site/articles.template.helper.article.render',
         array(
