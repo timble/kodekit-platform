@@ -17,26 +17,6 @@
  */
 class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
 {
-	/**
-	 * Method to load the mootools framework into the document head
-	 *
-	 *@return string   The html output
-	 */
-	public function mootools($config = array())
-	{
-		$config = new KConfig($config);
-		$html ='';
-
-		// Only load once
-		if (!isset(self::$_loaded['mootools']))
-		{
-		    JHTML::_('behavior.mootools', false);
-			self::$_loaded['mootools'] = true;
-		}
-
-		return $html;
-	}
-
     /**
      * Keep session alive
      *
@@ -46,7 +26,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
      */
     public function keepalive($config = array())
     {
-        $session = $this->getService('session');
+        $session = $this->getService('application.session');
         if($session->isActive())
         {
             //Get the config session lifetime
