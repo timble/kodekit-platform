@@ -55,7 +55,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
     protected function _actionAdd(KCommandContext $context)
     {
         //Start the session (if not started already)
-        $session = $this->getService('session')->start();
+        $session = $this->getService('application.session')->start();
 
         //Insert the session into the database
         if($session->isActive())
@@ -77,7 +77,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         {
             //Set the session data
             $session->user = $context->user;
-            $session->site = JFactory::getApplication()->getSite();
+            $session->site = $this->getService('application')->getSite();
         }
 
         return $data;
@@ -95,7 +95,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         {
             // Destroy the php session for this user if we are logging out ourselves
             if(JFactory::getUser()->email == $data->email) {
-                $this->getService('session')->destroy();
+                $this->getService('application.session')->destroy();
             }
         }
 
@@ -105,7 +105,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
     protected function _actionFork(KCommandContext $context)
     {
         //Fork the session to prevent session fixation issues
-        $session = $this->getService('session')->fork();
+        $session = $this->getService('application.session')->fork();
 
         //Re-Load the user
         $user = $this->getService('com://admin/users.database.row.user')
