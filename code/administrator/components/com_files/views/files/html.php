@@ -30,11 +30,11 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 	{
 	    $state = $this->getModel()->getState();
 	    if (empty($state->limit)) {
-	        $state->limit = JFactory::getApplication()->getCfg('list_limit');
+	        $state->limit = $this->getService('application')->getCfg('list_limit');
 	    }
 	    
 	    $this->assign('sitebase' , trim(JURI::root(), '/'));
-		$this->assign('token'    , $this->getService('session')->getToken());
+		$this->assign('token'    , $this->getService('application.session')->getToken());
 		$this->assign('container', $this->getModel()->getState()->container);
 
 		return parent::display();
