@@ -20,11 +20,12 @@
 
 abstract class ComUsersFilterSpamCompositeAbstract extends ComUsersFilterSpamAbstract
 {
-
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
-        foreach ($config->checks as $identifier => $settings) {
+        foreach ($config->checks as $identifier => $settings)
+        {
             if (is_numeric($identifier)) {
                 $identifier = $settings;
                 $settings   = array();
@@ -38,7 +39,8 @@ abstract class ComUsersFilterSpamCompositeAbstract extends ComUsersFilterSpamAbs
         }
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $config->append(array('checks' => array()));
         parent::_initialize($config);
     }
