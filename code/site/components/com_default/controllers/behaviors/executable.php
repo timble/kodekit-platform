@@ -53,13 +53,8 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     {
         $result = false;
 
-        if(parent::canAdd())
-        {
-            if(version_compare(JVERSION,'1.6.0','ge')) {
-                $result = JFactory::getUser()->authorise('core.create') === true;
-            } else {
-                $result = JFactory::getUser()->get('gid') > 18;
-            }
+        if(parent::canAdd()) {
+            $result = JFactory::getUser()->get('gid') > 18;
         }
 
         return $result;
@@ -74,13 +69,8 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     {
         $result = false;
 
-        if(parent::canEdit())
-        {
-            if(version_compare(JVERSION,'1.6.0','ge')) {
-                $result = JFactory::getUser()->authorise('core.edit') === true;
-            } else {
-                $result = JFactory::getUser()->get('gid') > 19;
-            }
+        if(parent::canEdit()) {
+            $result = JFactory::getUser()->get('gid') > 19;
         }
 
         return $result;
@@ -95,13 +85,8 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     {
         $result = false;
 
-        if(parent::canDelete())
-        {
-            if(version_compare(JVERSION,'1.6.0','ge')) {
-                $result = JFactory::getUser()->authorise('core.delete') === true;
-            } else {
-                $result = JFactory::getUser()->get('gid') > 20;
-            }
+        if(parent::canDelete()) {
+            $result = JFactory::getUser()->get('gid') > 20;
         }
 
         return $result;
@@ -136,7 +121,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
                 //Check session token
                 if(!JFactory::getUser()->guest)
                 {
-                    if( KRequest::token() !== $this->getService('session')->getToken()) {
+                    if( KRequest::token() !== $this->getService('application.session')->getToken()) {
                         return false;
                     }
                 }
