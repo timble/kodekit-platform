@@ -21,8 +21,7 @@ class ComCacheControllerToolbarDefault extends ComDefaultControllerToolbarDefaul
 {
     public function getCommands()
     {
-        $this->setTitle('Cache Manager')
-		     ->addPurge();
+        $this->addPurge();
 		     
         return parent::getCommands();
     }
