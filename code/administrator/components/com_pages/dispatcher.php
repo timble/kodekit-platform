@@ -31,7 +31,7 @@ class ComPagesDispatcher extends ComDefaultDispatcher
             $url->query['view'] = $view;
             $url->query['menu'] = $page->pages_menu_id;
 
-            JFactory::getApplication()->redirect($url);
+            $this->getService('application')->redirect($url);
         }
 
         return parent::_actionDispatch($context);
