@@ -27,7 +27,7 @@ class ComDefaultTemplateHelperRoute extends KTemplateHelperDefault
     protected function _findPage($needles)
 	{
         $component = JComponentHelper::getComponent('com_'.$this->getIdentifier()->package);
-        $pages     = JFactory::getApplication()->getPages();
+        $pages     = $this->getService('application')->getPages();
 
         return $pages->find(array('component_id' => $component->id, 'link' => $needles));
 	}
