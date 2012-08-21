@@ -30,8 +30,8 @@ class ComExtensionsDispatcher extends ComDefaultDispatcher
 		    {
 			    $url = clone(KRequest::url());
                 $url->query['application']  = 'site';
-           
-                JFactory::getApplication()->redirect($url);
+
+                $this->getService('application')->redirect($url);
 		    }
 		}
 	
