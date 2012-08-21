@@ -1,7 +1,6 @@
 <?
 /**
  * @version		$Id: form.php 1294 2011-05-16 22:57:57Z johanjanssens $
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Searcg
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
@@ -14,10 +13,10 @@
 
 <div class="control-group">
 	<div class="controls">
-			<? $output = '<input name="term" id="mod_search_term" maxlength="' . $maxlength . '" alt="' . $button_text . '" class="inputbox' . $moduleclass_sfx . '" type="text" size="' . $width . '" value="' . $text . '"  onblur="if(this.value==\'\') this.value=\'' . $text . '\';" onfocus="if(this.value==\'' . $text . '\') this.value=\'\';" />';
+			<? $output = '<input name="term" id="mod_search_term" maxlength="' . $maxlength . '" alt="' . $button_text . '" class="inputbox" type="text" size="' . $width . '" value="' . $text . '"  onblur="if(this.value==\'\') this.value=\'' . $text . '\';" onfocus="if(this.value==\'' . $text . '\') this.value=\'\';" />';
 						
 			    if($button) :
-					$button = '<input type="submit" value="' . $button_text . '" class="btn' . $moduleclass_sfx . '" onclick="this.form.searchword.focus();"/>';
+					$button = '<input type="submit" value="' . $button_text . '" onclick="this.form.searchword.focus();"/>';
 				endif;
 						
 				switch($button_pos) :
@@ -47,6 +46,4 @@
 			?>
 	</div>
 </div>
-
-<input type="hidden" name="Itemid" value="<?php echo $itemid; ?>" />
 </form>

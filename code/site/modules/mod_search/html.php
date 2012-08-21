@@ -32,15 +32,7 @@ class ModSearchHtml extends ModDefaultHtml
 		$this->assign('width'          , intval($this->module->params->get('width', 20)));
 		$this->assign('maxlength'      , $this->module->params->get('width') > 20 ? $this->module->params->get('width') : 20);
 		$this->assign('text'           , $this->module->params->get('text', JText::_('search...')));
-		$this->assign('moduleclass_sfx', $this->module->params->get('moduleclass_sfx'));
-		
-		// If no menu item id is given, or its value is zero, attempt to use 
-		// the current item id of the current menu.
-		$itemid = intval($this->module->params->get('set_itemid', 0));
-		$itemid = $itemid > 0 ? $itemid : KRequest::get('get.Itemid', 'int');
-		
-		$this->assign('itemid', $itemid);
-		
+
 		return parent::display();
 	}
 }
