@@ -35,7 +35,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         {  
             //Redirect if user is already logged in
             if($this->getRequest()->view == 'session') {
-                //JFactory::getApplication()->redirect('index.php', 'You are already logged in!');
+                //$this->getService('application')->redirect('index.php', 'You are already logged in!');
             }
         }
        
