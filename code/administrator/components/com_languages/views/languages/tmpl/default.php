@@ -1,16 +1,15 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
-<style src="media://com_languages/css/admin.css" />
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
 
-<module title="" position="sidebar">
-	<?= @template('default_sidebar') ?>
-</module>
+<ktml:module position="sidebar">
+    <?= @template('default_sidebar'); ?>
+</ktml:module>
 
-<form id="languages-form" action="" method="get" class="-koowa-grid">
+<form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar') ?>
-	<table class="adminlist">
+	<table>
 		<thead>
 			<tr>
 				<th width="10">

@@ -50,6 +50,6 @@ class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
         $class = $config->original ? 'original' : strtolower($statuses[$config->status]);
         $class = $config->deleted ? 'deleted' : $class;
     
-        return '<span class="languages-status '.$class.'">'.JText::_($text).'</span>';
+        return '<span class="label label-'.$class.'">'.JText::_($text).'</span>';
     }
 }

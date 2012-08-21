@@ -11,11 +11,8 @@
 
 <h3><?= @text('Applications') ?></h3>
 <nav class="scrollable">
-    <a class="<?= is_null($state->application) ? 'active' : '' ?>" href="<?= @route('application=') ?>">
-        <?= @text('All') ?>
-    </a>
     <a class="<?= $state->application == 'admin' ? 'active' : '' ?>" href="<?= @route('application=admin') ?>">
-        <?= @text('Admin') ?>
+        <?= @text('Administrator') ?>
     </a>
     <a class="<?= $state->application == 'site' ? 'active' : '' ?>" href="<?= @route('application=site') ?>">
         <?= @text('Site') ?>

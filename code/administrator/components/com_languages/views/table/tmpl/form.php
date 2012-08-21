@@ -9,7 +9,7 @@
 			<?= @text( 'Tables list' );?>
 		</legend>
 
-		<table class="adminlist" style="clear: both;">
+		<table>
 			<thead>
 				<tr>
 					<th width="5">

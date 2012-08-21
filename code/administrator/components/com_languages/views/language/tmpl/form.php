@@ -22,7 +22,7 @@
         		</fieldset>
         		<fieldset id="lang_details">
         			<legend><?= @text('Details') ?></legend>
-        			<table class="admintable">
+        			<table>
         				<tr style="height:28px">
         					<td class="key">
         						<label><?= @text('ISO Code') ?></label>

@@ -1,10 +1,13 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
-<style src="media://com_languages/css/admin.css" />
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
 
-<form id="items-form" action="" method="post" class="-koowa-grid">
+<ktml:module position="sidebar">
+    <?= @template('default_sidebar'); ?>
+</ktml:module>
+
+<form action="" method="post" class="-koowa-grid">
     <!-- <table class="adminlist">
         <tr>
             <td align="left" width="100%">
@@ -23,7 +26,7 @@
         </tr>
     </table> -->
 
-    <table class="adminlist">
+    <table>
         <thead>
             <tr>
                 <th width="20">
@@ -32,11 +35,8 @@
                 <th>
                     <?= @helper('grid.sort', array('column' => 'table')) ?>
                 </th>
-                <th width="5p">
-                    <?= @text('Id') ?>
-                </th>
                 <th width="65">
-                    <?= @helper('grid.sort', array('column' => 'iso_code', 'title' => 'ISO Code')) ?>
+                    <?= @helper('grid.sort', array('column' => 'iso_code', 'title' => 'Flag')) ?>
                 </th>
                 <th class="title">
                     <?= @helper('grid.sort', array('column' => 'title')) ?>

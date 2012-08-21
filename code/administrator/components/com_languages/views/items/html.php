@@ -11,6 +11,11 @@ class ComLanguagesViewItemsHtml extends ComDefaultViewHtml
         
         $this->assign('languages', $languages);
         
+        $tables = $this->getService('com://admin/languages.model.tables')
+            ->getList();
+            
+        $this->assign('tables', $tables);
+        
         $state = $model->getState();
         $this->assign('group_tables', $state->sort == 'table' && !$state->iso_code && !$state->status && !$state->search);
         

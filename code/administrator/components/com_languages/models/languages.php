@@ -24,7 +24,7 @@ class ComLanguagesModelLanguages extends ComDefaultModelDefault
         $this->getState()
             ->insert('primary', 'boolean')
             ->insert('enabled', 'boolean')
-            ->remove('application')->insert('application', 'cmd', null, true, array('iso_code'))
+            ->remove('application')->insert('application', 'cmd', 'admin', true, array('iso_code'))
             ->remove('iso_code')->insert('iso_code', 'com://admin/languages.filter.iso', null, true, array('application'));
     }
     

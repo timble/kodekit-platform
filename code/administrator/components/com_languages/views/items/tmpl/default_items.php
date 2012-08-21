@@ -7,9 +7,6 @@
         <?= $item->table ?>
     </td>
     <td align="center">
-        <?= $item->row ?>
-    </td>
-    <td align="center">
         <?= @helper('grid.flag', array('iso_code' => $item->iso_code)) ?>
     </td>
     <td align="left">

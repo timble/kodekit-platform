@@ -4,17 +4,11 @@ foreach (@$items as $item) :
 ?>
 <tr class="<?= 'row'.$m; ?>">
     <td align="center">
-        <?= $i + 1; ?>
-    </td>
-    <td align="center">
         <?= @helper('grid.id', $i, $item->nooku_node_id, $item->deleted); ?>
     </td>
     <? if($item->original) : ?>
         <td align="center">
             <?= $item->table_name?>
-        </td>
-        <td align="center">
-            <?= $item->row_id?>
         </td>
     <? else : ?>
         <td colspan="2">&nbsp;</td>
