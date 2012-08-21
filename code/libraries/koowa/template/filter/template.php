@@ -35,7 +35,7 @@ class KTemplateFilterTemplate extends KTemplateFilterAbstract implements KTempla
     }
 
     /**
-     * Replace template alias with loadFile functions.
+     * Replace template alias with a fully qualified identifier
      *
      * This function only replaces relative identifiers to a full path
      * based on the path of the template.
@@ -51,8 +51,10 @@ class KTemplateFilterTemplate extends KTemplateFilterAbstract implements KTempla
 			{
 			    if(is_string($match) && strpos($match, '.') === false )
 		        {
-		            $path =  dirname($this->getTemplate()->getPath()).DS.$match.'.php';
-		            $text = str_replace($matches[0][$key], '$this->loadFile('."'".$path."'", $text);
+                    $identifier = clone $this->getTemplate()->getView()->getIdentifier();
+                    $identifier->name = '';
+
+		            $text = str_replace($matches[0][$key], '$this->loadIdentifier('."'".$identifier.".".$matches[1][$key]."'", $text);
 		        }
 			}
 		}
