@@ -22,6 +22,7 @@ class ComApplicationViewHtml extends KViewHtml
     {
         $config->append(array(
             'auto_assign' => false,
+            'template_filters' => array('script', 'style', 'link', 'meta'),
         ));
 
         parent::_initialize($config);
