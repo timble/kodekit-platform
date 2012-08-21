@@ -23,7 +23,7 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
     {
         $title = JText::_('Login');
 
-        JFactory::getApplication()->getPathway()->addItem($title);
+        $this->getService('application')->getPathway()->addItem($title);
         JFactory::getDocument()->setTitle($title);
         
         $this->user       = JFactory::getUser();
@@ -34,7 +34,7 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
     
     public function getParameters()
     {
-        $active = JFactory::getApplication()->getPages()->getActive();
+        $active = $this->getService('application')->getPages()->getActive();
         $parameters = new JParameter($active->params);
 
         $parameters->def('show_page_title', 1);
