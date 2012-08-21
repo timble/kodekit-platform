@@ -1,3 +1,14 @@
+<?
+/**
+ * @version		$Id: form.php 1294 2011-05-16 22:57:57Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+?>
+
 <? $first = true; $last_depth = 0; ?>
 <? foreach($pages as $page) : ?>
     <? $depth = substr_count($page->path, '/') ?>
@@ -28,9 +39,9 @@
                 </a>
 				<? break ?>
 				
-		    <? case 'pagelink': ?>
-		        <? $page_linked = JFactory::getApplication()->getPages()->find($page->link_id) ?>
-		        <a href="<?= JRoute::_($page_linked->link.'&Itemid='.$page_linked->id) ?>">
+		    <? case 'menulink': ?>
+		        <? $page_linked = @service('application')->getPages()->find($page->link->query['Itemid']); ?>
+		        <a href="<?= $page_linked->link ?>">
                     <span><?= $page->title ?></span>
                 </a>
 				<? break ?>
