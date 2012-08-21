@@ -77,8 +77,8 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         //Redirect if no view information can be found in the request
         if(!$this->getRequest()->view) 
         {
-            $route    = $this->getController()->getView()->getRoute();   
-            JFactory::getApplication()->redirect($route);
+            $route    = $this->getController()->getView()->getRoute();
+            $this->getService('application')->redirect($route);
         }
        
         return parent::_actionDispatch($context);
@@ -91,20 +91,10 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
      */
     protected function _actionRender(KCommandContext $context)
     {
-        $view = $this->getController()->getView();
-        
-        //Set the document mimetype
-        JFactory::getDocument()->setMimeEncoding($view->mimetype);
-        
-        //Disabled the application menubar
-        if($this->getController()->isEditable() && KInflector::isSingular($view->getName())) {
-            KRequest::set('get.hidemainmenu', 1);
-        }
-
         //Sign the response with a token
         //@TODO : don't render the token if an error is thrown (check request)
         if(KRequest::method() == 'GET') {
-            setcookie('_token', $this->getService('session')->getToken(), 0, JURI::base(true));
+            setcookie('_token', $this->getService('application.session')->getToken(), 0, JURI::base(true));
         }
    
         return parent::_actionRender($context);
