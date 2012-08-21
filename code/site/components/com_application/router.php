@@ -20,7 +20,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
     public function parse(KHttpUrl $url)
 	{
 		// Get the application
-		$app = JFactory::getApplication();
+		$app = $this->getService('application');
 
 		// Get the path
 		$path = $url->getPath();
@@ -56,7 +56,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 		//Add the format to the uri
         $format = isset($url->query['format']) ? $url->query['format'] : 'html';
 
-	    if(JFactory::getApplication()->getCfg('sef_suffix'))
+	    if($this->getService('application')->getCfg('sef_suffix'))
 		{
 		    $route .= '.'.$format;
             unset($url->query['format']);
@@ -69,7 +69,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 	    }
 
         //Transform the route
-		if(JFactory::getApplication()->getCfg('sef_rewrite')) {
+		if($this->getService('application')->getCfg('sef_rewrite')) {
 		    $route = str_replace('index.php/', '', $route);
 		}
 
@@ -93,7 +93,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
         $route = $url->getPath();
 
         //Find the site
-        $url->query['site']  = JFactory::getApplication()->getSite();
+        $url->query['site']  = $this->getService('application')->getSite();
 
         $route = str_replace($url->query['site'], '', $route);
         $url->path = ltrim($route, '/');
@@ -104,7 +104,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
     protected function _parsePageRoute($url)
     {
         $route = $url->getPath();
-        $pages = JFactory::getApplication()->getPages();
+        $pages = $this->getService('application')->getPages();
 
         if(substr($route, 0, 9) != 'component')
         {
@@ -216,7 +216,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
         if(!isset($url->query['Itemid']))
         {
-            $page = JFactory::getApplication()->getPages()->getActive();
+            $page = $this->getService('application')->getPages()->getActive();
             if($page) {
                 $url->query['Itemid'] = $page->id;
             }
@@ -224,7 +224,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
         if(isset($url->query['Itemid']))
         {
-            $pages = JFactory::getApplication()->getPages();
+            $pages = $this->getService('application')->getPages();
             $page  = $pages->find($url->query['Itemid']);
 
             if($page->link->query['option'] == $url->query['option']) {
@@ -244,7 +244,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
     {
         $segments = array();
 
-        $site = JFactory::getApplication()->getSite();
+        $site = $this->getService('application')->getSite();
         if($site != 'default' && $site != KRequest::url()->getUrl(KHttpUrl::HOST)) {
             $segments[] = $site;
         }
