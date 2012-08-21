@@ -15,59 +15,30 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterStyle extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class KTemplateFilterStyle extends KTemplateFilterTag
 {
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options
-     * @return void
-     */
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOW,
-        ));
-
-        parent::_initialize($config);
-    }
-
-	/**
-	 * Find any <style src"" /> or <style></style> elements and render them
-	 *
-	 * @param string Block of text to parse
-	 * @return KTemplateFilterStyle
-	 */
-	public function write(&$text)
-	{
-		//Parse the script information
-		$styles = $this->_parseStyles($text);
-
-		//Prepend the script information
-		$text = $styles.$text;
-
-		return $this;
-	}
-
 	/**
 	 * Parse the text for style tags
 	 *
 	 * @param 	string 	Block of text to parse
 	 * @return 	string
 	 */
-	protected function _parseStyles(&$text)
+	protected function _parseTags(&$text)
 	{
-		$styles = '';
+		$tags = '';
 
 		$matches = array();
-		if(preg_match_all('#<style\s*src="([^"]+)"(.*)\/>#iU', $text, $matches))
+		if(preg_match_all('#<style\s+src="([^"]+)"(.*)\/>#iU', $text, $matches))
 		{
 			foreach(array_unique($matches[1]) as $key => $match)
 			{
-				$attribs = $this->_parseAttributes( $matches[2][$key]);
-				$styles .= $this->_renderStyle($match, true, $attribs);
+                //Set required attributes
+                $attribs = array(
+                    'src' => $match
+                );
+
+                $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
+				$tags .= $this->_renderTag($attribs);
 			}
 
 			$text = str_replace($matches[0], '', $text);
@@ -79,34 +50,41 @@ class KTemplateFilterStyle extends KTemplateFilterAbstract implements KTemplateF
 			foreach($matches[2] as $key => $match)
 			{
 				$attribs = $this->_parseAttributes( $matches[1][$key]);
-				$styles .= $this->_renderStyle($match, false, $attribs);
+				$tags .= $this->_renderTag($attribs, $match);
 			}
 
 			$text = str_replace($matches[0], '', $text);
 		}
 
-		return $styles;
+		return $tags;
 	}
 
-	/**
-	 * Render style information
-	 *
-	 * @param 	string	The style information
-	 * @param 	boolean	True, if the style information is a URL
-	 * @param 	array	Associative array of attributes
-	 * @return string
-	 */
-	protected function _renderStyle($style, $link, $attribs = array())
+    /**
+     * Render the tag
+     *
+     * @param 	array	Associative array of attributes
+     * @param 	string	The tag content
+     * @return string
+     */
+	protected function _renderTag($attribs = array(), $content = null)
 	{
-		$attribs = KHelperArray::toString($attribs);
+        $link = isset($attribs['src']) ? $attribs['src'] : false;
 
-		if(!$link)
+        if(!$link)
 		{
-			$html  = '<style type="text/css" '.$attribs.'>'."\n";
-			$html .= trim($style['data']);
+            $attribs = KHelperArray::toString($attribs);
+
+            $html  = '<style type="text/css" '.$attribs.'>'."\n";
+			$html .= trim($content);
 			$html .= '</style>'."\n";
 		}
-		else $html = '<link type="text/css" rel="stylesheet" href="'.$style.'" '.$attribs.' />'."\n";
+		else
+        {
+            unset($attribs['src']);
+            $attribs = KHelperArray::toString($attribs);
+
+            $html = '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
+        }
 
 		return $html;
 	}
