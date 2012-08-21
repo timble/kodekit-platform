@@ -25,7 +25,7 @@ function modChrome_none($module, &$params, &$attribs)
 function modChrome_xhtml($module, &$params, &$attribs)
 {
 	if (!empty ($module->content)) : ?>
-		<div class="module <?php echo $module->module; ?> <?php echo $params->get('moduleclass_sfx'); ?>">
+		<div class="module <?php echo $module->module; ?>">
 		<?php if ($module->showtitle != 0) : ?>
 			<h3><?php echo $module->title; ?></h3>
 		<?php endif; ?>
