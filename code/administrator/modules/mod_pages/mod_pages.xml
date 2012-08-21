@@ -9,12 +9,6 @@
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>12.3</version>
 	<description>This module shows the main admin navigation menu.</description>
-	<files>
-		<filename module="mod_pages">mod_pages.php</filename>
-		<filename>html.php</filename>
-	</files>
-	<params>
-	</params>
 	<params group="advanced">
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
 			<option value="1">Use global</option>
