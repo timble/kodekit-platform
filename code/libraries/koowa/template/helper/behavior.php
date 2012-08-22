@@ -392,8 +392,10 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		
 		$attribs = KHelperArray::toString($config->attribs);
 
+        $html .= '<div class="input-append">';
    		$html .= '<input type="text" name="'.$config->name.'" id="'.$config->name.'" value="'.$config->date.'" '.$attribs.' />';
-		$html .= '<img class="calendar" src="media://lib_koowa/images/calendar.png" alt="calendar" id="button-'.$config->name.'" />';
+        $html .= '<a id="button-'.$config->name.'" class="btn calendar"><i class="icon-calendar"></i></a>';
+        $html .= '</div>';
 		
 		return $html;
 	}
