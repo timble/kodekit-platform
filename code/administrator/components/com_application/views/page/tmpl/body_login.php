@@ -11,7 +11,6 @@
 
 <body class="<?= JRequest::getVar('option', 'cmd'); ?> login">
 <div id="container">
-
     <div id="login-box" class="login">
 		<img src="media://com_application/images/nooku-server_logo.png" alt="Nooku Server logo">
 		<?= @template('message') ?>
@@ -22,6 +21,8 @@
 			<?= JText::_('Go to site home page.'); ?>
 		</a>
 	</div>
-
 </div>
+
+<script data-inline src="media://com_application/js/chosen.mootools.1.2.js" /></script>
+<script data-inline> $$(".chzn-select").chosen(); </script>
 </body>
