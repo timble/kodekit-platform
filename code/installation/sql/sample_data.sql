@@ -114,7 +114,6 @@ INSERT INTO `#__pages_menus` (`pages_menu_id`, `title`, `slug`, `description`)
 VALUES
     (2, 'User Menu', 'usermenu', 'A Menu for logged in Users'),
     (3, 'Top Menu', 'topmenu', 'Top level navigation'),
-    (4, 'Resources', 'othermenu', 'Additional links'),
     (5, 'Example Pages', 'ExamplePages', 'Example Pages'),
     (6, 'Key Concepts', 'keyconcepts', 'This describes some critical information for new Users.');
 
@@ -130,7 +129,6 @@ INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `che
 (27, 'Search', '', 10, 'user4', 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 'cache=1', 0),
 (28, 'Random Image', '', 23, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 0, 1, '', 0),
 (29, 'Top Menu', '', 11, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 0, 'cache=1\nmenu_id=3\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\n', 0),
-(31, 'Resources', '', 14, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'menu_id=4\nmenu_style=list\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nshow_whitespace=0\ncache=1\ntag_id=\nclass_sfx=\nmaxdepth=10\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nfull_active_id=0\nspacer=\nend_spacer=\n\n', 0),
 (35, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 'showHome=1\nhomeText=Home\nshowLast=1\nseparator=\ncache=0\n\n', 0),
 (36, 'Syndication', '', 15, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, '', 0),
 (39, 'Example Pages', '', 20, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=5\nmenu_style=list_flat\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 0),
@@ -159,7 +157,6 @@ VALUES
     (27, 0),
     (29, 0),
     (30, 0),
-    (31, 1),
     (32, 0),
     (33, 0),
     (34, 0),
@@ -180,13 +177,6 @@ VALUES
 INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
     (2, 3, 4),
-    (11, 5, 1),
-    (12, 4, 2),
-    (13, 3, 3),
-    (14, 2, 4),
-    (15, 6, 5),
-    (16, 7, 6),
-    (17, 1, 7),
     (20, 4, 1),
     (24, 1, 4),
     (27, 4, 2),
@@ -215,13 +205,6 @@ VALUES
 INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
     (2, 2, 0),
-    (11, 11, 0),
-    (12, 12, 0),
-    (13, 13, 0),
-    (14, 14, 0),
-    (15, 15, 0),
-    (16, 16, 0),
-    (17, 17, 0),
     (20, 20, 0),
     (24, 24, 0),
     (27, 27, 0),
@@ -251,13 +234,6 @@ VALUES
 INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `enabled`, `hidden`, `home`, `component_id`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
     (2, 1, 'Joomla! License', 'joomla-license', 'index.php?option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-    (11, 4, 'Joomla! Home', 'joomla-home', 'http://www.joomla.org', NULL, 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),
-    (12, 4, 'Joomla! Forums', 'joomla-forums', 'http://forum.joomla.org', NULL, 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),
-    (13, 4, 'Joomla! Documentation', 'joomla-documentation', 'http://docs.joomla.org', NULL, 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),
-    (14, 4, 'Joomla! Community', 'joomla-community', 'http://community.joomla.org', NULL, 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),
-    (15, 4, 'Joomla! Magazine', 'joomla-community-magazine', 'http://magazine.joomla.org/', NULL, 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),
-    (16, 4, 'OSM Home', 'osm-home', 'http://www.opensourcematters.org', NULL, 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),
-    (17, 4, 'Administrator', 'administrator', 'administrator/', NULL, 'url', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\n\n'),
     (20, 2, 'Your Details', 'your-details', 'index.php?option=com_user&view=user&task=edit', NULL, 'component', 1, 0, 0, 14, 0, '0000-00-00 00:00:00', 1, ''),
     (24, 2, 'Logout', 'logout', 'index.php?option=com_user&view=login', NULL, 'component', 1, 0, 0, 14, 0, '0000-00-00 00:00:00', 1, ''),
     (27, 1, 'Joomla! Overview', 'joomla-overview', 'index.php?option=com_articles&view=article&id=19', NULL, 'component', 1, 0, 0, 20, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
