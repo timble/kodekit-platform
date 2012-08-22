@@ -61,6 +61,6 @@
 	<?= @service('com://admin/debug.controller.debug')->display(); ?>
 <? endif; ?>
 	
-<script src="media://com_application/js/chosen.mootools.1.2.js" />
-<script> $$(".chzn-select").chosen(); </script>
+<script data-inline src="media://com_application/js/chosen.mootools.1.2.js" />
+<script data-inline> $$(".chzn-select").chosen(); </script>
 </body>
