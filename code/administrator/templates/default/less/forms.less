@@ -5,16 +5,15 @@
 
 // Identify controls by their labels
 label {
-  font-size: @baseFontSize + 1;
+	font-size: @baseFontSize + 1;
 }
 
 // Override Inputs, Textareas, Selects
 input[type="text"],
 select {
-  .box-sizing(border-box);
-  height: @baseLineHeight * 2;
-  width: 100%;
-  padding: 4px;
+	.box-sizing(border-box);
+	height: @baseLineHeight * 2;
+	width: 100%;
 }
 
 // Override the above applied width
@@ -29,14 +28,18 @@ label.radio {
 
 // Make textarea height behave and only resize vertically
 textarea {
-  height: auto;
+	height: auto;
 }
 
 .input-prepend,
 .input-append {
-  .add-on {
-    padding: 5px 5px;
-  }
+	.add-on {
+		padding: 5px 5px;
+	}
+	
+	.btn {
+		padding-top: 3px;
+	}
 }
 
 // Override form elements in sidebar
@@ -46,13 +49,13 @@ textarea {
 	}
 	
 	.form-horizontal {
-	  .control-label {
-	    width: 90px;
-	  }
-	  // Move over all input controls and content
-	  .controls {
-	    margin-left: 110px;
-	  }
+		.control-label {
+			width: 90px;
+		}
+		// Move over all input controls and content
+		.controls {
+			margin-left: 110px;
+		}
 	}
 }
 
@@ -78,6 +81,9 @@ label.control-label:after {
 
 // New style for calendar input
 .controls-calendar input {
-	width: 100% - 18px;
-	margin-right: 4px;
+	width: 100% - 30px;
+}
+
+.controls-calendar .input-append {
+	width: 153px;
 }

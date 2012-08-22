@@ -2592,6 +2592,12 @@ a:hover {
   color: #07367c;
   text-decoration: underline;
 }
+.btn,
+a.btn {
+  color: #333;
+  font-weight: bold;
+  border: 1px solid #BBB;
+}
 .ellipsis {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2653,7 +2659,6 @@ a:hover {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 8px 0;
-  border-bottom: 1px solid #dddddd;
   background-color: #f4f4f4;
   background-image: -moz-linear-gradient(top, #f9f9f9, #ececec);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9f9f9), to(#ececec));
@@ -2666,6 +2671,9 @@ a:hover {
 #toolbar-box select[name="language"] {
   margin-right: 12px;
 }
+#window-body.form {
+  border-top: 1px solid #dddddd;
+}
 #window-body #window-sidebar,
 #window-body #window-inspector {
   -webkit-box-sizing: border-box;
@@ -2674,14 +2682,18 @@ a:hover {
   background-color: #F9F9F9;
 }
 #window-body #window-sidebar h3,
-#window-body #window-inspector h3 {
+#window-body #window-inspector h3,
+#window-body #window-sidebar legend,
+#window-body #window-inspector legend {
   padding: 0;
   margin: 0;
   vertical-align: middle;
   color: #555555;
   font-size: 11px;
+  font-weight: bold;
   text-indent: 12px;
   text-transform: uppercase;
+  border-top: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e9e9e9);
@@ -2750,9 +2762,8 @@ a:hover {
 #window-body #window-inspector #activities-list .activities .activity:last-child {
   border-bottom: none 0px;
 }
-#window-body #window-inspector #activities-list .btn {
-  margin: 0 10px;
-  vertical-align: text-bottom;
+#window-body #window-inspector #activities-list .btn-group {
+  padding: 0 10px;
 }
 #window-body #window-sidebar {
   border-right: 1px solid #dddddd;
@@ -2766,7 +2777,7 @@ a:hover {
 #window-body #window-sidebar h4:first-of-type {
   margin-top: 2px;
 }
-#window-body #window-sidebar a {
+#window-body #window-sidebar nav a {
   display: block;
   padding: 7px 0 6px 22px;
   color: #444;
@@ -2774,7 +2785,7 @@ a:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-#window-body #window-sidebar a:hover {
+#window-body #window-sidebar nav a:hover {
   padding-top: 6px;
   color: #444;
   border-top: 1px solid #c4dbf2;
@@ -2788,8 +2799,8 @@ a:hover {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9e8f6', endColorstr='#ffafceed', GradientType=0);
   text-decoration: none;
 }
-#window-body #window-sidebar a.active,
-#window-body #window-sidebar a.active:hover {
+#window-body #window-sidebar nav a.active,
+#window-body #window-sidebar nav a.active:hover {
   padding-top: 6px;
   color: #FFF;
   border-top: 1px solid #5c9bda;
@@ -2903,18 +2914,15 @@ a:hover {
   border-top: 1px solid #FFF;
 }
 .-koowa-grid table tbody tr:nth-child(even) {
-  background: #f9f9f9;
+  background-color: #f9f9f9;
 }
-.-koowa-grid table tbody tr:nth-child(even):hover td,
-.-koowa-grid table tbody tr:nth-child(odd):hover td {
+.-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
+.-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
 .-koowa-grid table tbody tr td {
   height: 25px;
   border-top: 1px solid #FFF;
-}
-.-koowa-grid table tbody tr:nth-child(even) td {
-  background: #f9f9f9;
 }
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
@@ -2950,12 +2958,6 @@ a:hover {
 .-koowa-grid .pagination > div {
   float: left;
 }
-.-koowa-grid .pagination > div a,
-.-koowa-grid .pagination > div span {
-  color: #333;
-  font-weight: bold;
-  border: 1px solid #BBB;
-}
 .-koowa-grid .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
@@ -2980,9 +2982,6 @@ div.toolbar .btn-group {
 div.toolbar .btn-group a {
   min-width: 50px;
   padding: 4px 12px;
-  color: #333;
-  font-weight: bold;
-  border: 1px solid #BBB;
 }
 /* panels  */
 .panel {
@@ -2999,8 +2998,10 @@ div.toolbar .btn-group a {
   vertical-align: middle;
   color: #555555;
   font-size: 11px;
+  font-weight: bold;
   text-indent: 12px;
   text-transform: uppercase;
+  border-top: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e9e9e9);
@@ -3115,6 +3116,7 @@ div.current dd {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f2f2', endColorstr='#ffe9e9e9', GradientType=0);
   border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
 }
 .scopebar .scopebar-group {
   border-right: 1px solid #BBB;
@@ -3182,8 +3184,10 @@ div.current dd {
   vertical-align: middle;
   color: #555555;
   font-size: 11px;
+  font-weight: bold;
   text-indent: 12px;
   text-transform: uppercase;
+  border-top: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e9e9e9);
@@ -3447,18 +3451,13 @@ div.message {
   margin: 0px;
   padding: 0px;
 }
-.com_users.login #login-box form input.inputbox,
-.com_users.login #login-box form input.btn {
+.com_users.login #login-box form input.inputbox {
   width: 220px !important;
   padding: 4px 8px;
-  border: 1px solid #D7DADE;
   font-size: 16.5px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
   height: 36px;
 }
 .com_users.login #login-box .login {
@@ -3466,8 +3465,9 @@ div.message {
   width: 300px;
   margin-bottom: 100px;
 }
-.com_users.login #login-box .btn {
+.com_users.login #login-box .btn-block {
   margin-top: 14px;
+  width: 100%;
 }
 .com_users.login #login-box h1 {
   margin: 0;
@@ -3592,6 +3592,9 @@ div.message {
   margin: 0;
   resize: vertical;
   width: 100%;
+}
+.com_settings #toolbar-box {
+  border-bottom: 1px solid #dddddd;
 }
 .com_settings dl.tabs {
   min-width: 200px;
@@ -3825,7 +3828,6 @@ select {
   box-sizing: border-box;
   height: 24px;
   width: 100%;
-  padding: 4px;
 }
 select {
   max-width: 220px;
@@ -3839,6 +3841,10 @@ textarea {
 .input-prepend .add-on,
 .input-append .add-on {
   padding: 5px 5px;
+}
+.input-prepend .btn,
+.input-append .btn {
+  padding-top: 3px;
 }
 #content-box > form .sidebar label {
   font-size: 11px;
@@ -3862,8 +3868,10 @@ label.control-label:after {
   content: ":";
 }
 .controls-calendar input {
-  width: 82%;
-  margin-right: 4px;
+  width: 70%;
+}
+.controls-calendar .input-append {
+  width: 153px;
 }
 /* Forms validation message */
 .validation-advice {

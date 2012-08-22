@@ -79,7 +79,7 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'name'		=> 'timezone',
             'attribs'	=> array(),
             'deselect'  => true,
-            'prompt'    => '- '.JText::_('Select').' -',
+            'prompt'    => '- '.JText::_('Select Time Zone').' -',
         ));
         
         if ($config->deselect) {
@@ -94,7 +94,7 @@ class ComSettingsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             }
         }
         
-        $options[] = $this->option(array('text' => 'Universal Time, Coordinated (UTC)', 'value' => 'UTC'));
+        $options[] = $this->option(array('text' => 'Coordinated Universal Time', 'value' => 'UTC'));
         foreach ($groups as $group => $locales) {
             $options[] = $this->option(array('text' => $group, 'group' => true));
             

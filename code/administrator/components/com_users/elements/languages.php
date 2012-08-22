@@ -37,6 +37,6 @@ class JElementLanguages extends JElement
 		$languages = JLanguageHelper::createLanguageList($value, JPATH_ROOT.'/'.$client, true);
 		array_unshift($languages, JHTML::_('select.option', '', '- '.JText::_('Select Language').' -'));
 
-		return JHTML::_('select.genericlist',  $languages, ''.$control_name.'['.$name.']', 'class="inputbox"', 'value', 'text', $value, $control_name.$name );
+		return JHTML::_('select.genericlist',  $languages, ''.$control_name.'['.$name.']', 'class="chzn-select"', 'value', 'text', $value, $control_name.$name );
 	}
 }

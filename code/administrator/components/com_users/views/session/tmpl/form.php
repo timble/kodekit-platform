@@ -21,13 +21,13 @@
     <div class="control-group">
         <label class="control-label" for=""><?= @text( 'Email' ); ?></label>
         <div class="controls">
-        <input name="email" id="email" type="text" class="inputbox" size="20" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
+        <input name="email" id="email" type="text" class="inputbox" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
         </div>
     </div>
    <div class="control-group">
        <label class="control-label" for=""><?= @text( 'Password' ); ?></label>
        <div class="controls">
-            <input name="password" type="password" id="password" class="inputbox" size="15" placeholder="<?= @text('Password') ?>" />
+            <input name="password" type="password" id="password" class="inputbox" placeholder="<?= @text('Password') ?>" />
        </div>
    </div>
    <? if(@service('application')->getSite() == 'default') : ?>
@@ -41,5 +41,5 @@
    <? if($error = JError::getError(true)) : ?>
    	<p id="login-error-message"><?= $error->get('message') ?></p>
    <? endif ?>
-   <input type="submit" class="btn" value="<?= @text('Login') ?>" />
+   <input type="submit" class="btn btn-large btn-block" value="<?= @text('Login') ?>" />
 </form>

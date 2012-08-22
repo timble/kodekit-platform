@@ -22,21 +22,19 @@ div.message {
 		margin: 0 auto;
 
 		form  			{ margin: 0px; padding: 0px; }
-		form input.inputbox,
-		form input.btn  { 
+		form input.inputbox { 
 			width: 220px !important;
 			padding: 4px 8px;
-			border: 1px solid #D7DADE;
 			font-size: @baseFontSize * 1.5;
 			.box-sizing(border-box);
-			.border-radius(4px);
 			height: @baseLineHeight * 3;
 		}
 
 		.login { margin: 0 auto; width: 300px; margin-bottom: 100px; }
 
-		.btn {
+		.btn-block {
 			margin-top: 14px;
+			width: 100%;
 		}
 
 		h1 { 
@@ -143,6 +141,10 @@ div.message {
 }
 
 .com_settings {
+	#toolbar-box {
+		border-bottom: 1px solid @grayLighter;
+	}
+	
 	dl.tabs {
 		min-width: 200px;
 		border-right: 1px solid #E1E1E1;
