@@ -11,9 +11,9 @@
 
 <?= @helper('listbox.radiolist', array(
 	'list'      => array((object) array('title' => 'Uncategorized', 'id' => 0)),
-	'name'      => 'category_id',
+	'name'      => 'categories_category_id',
     'text'      => 'title',
-	'selected'  => $article->category_id,
+	'selected'  => $article->categories_category_id,
     'translate' => true));
 ?>
 
@@ -22,8 +22,8 @@
 	<? if($category->hasChildren()) : ?>
 		<?= @helper('listbox.radiolist', array(
 				'list'     => $category->getChildren(),
-				'selected' => $article->category_id,
-				'name'     => 'category_id',
+				'selected' => $article->categories_category_id,
+				'name'     => 'categories_category_id',
 		        'text'     => 'title',
 			));
 		?>
