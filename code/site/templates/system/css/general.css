@@ -169,13 +169,3 @@ text-align: center!important;
 .caption  {
 	text-align: center!important;
 }
-
-/* Calendar */
-a img.calendar {
-	width: 16px;
-	height: 16px;
-	margin-left: 3px;
-	background: url(../images/calendar.png) no-repeat;
-	cursor: pointer;
-	vertical-align: middle;
-}
