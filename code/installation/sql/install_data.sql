@@ -59,7 +59,7 @@ VALUES
 INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`) VALUES
 (1, 'Main Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 0),
 (2, 'Login', '', 3, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, '', 1),
-(10, 'Logged in Users', '', 13, 'cpanel', 62, '2011-10-18 00:40:23', 1, 'mod_logged', 2, 1, '', 1),
+(10, 'Logged in Users', '', 13, 'cpanel', 0, '0000-00-00 00:00:00', 1, 'mod_logged', 2, 1, '', 1),
 (12, 'Admin Pages', '', 5, 'menu', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 2, 1, '', 1),
 (14, 'User Status', '', 7, 'status', 0, '0000-00-00 00:00:00', 1, 'mod_status', 2, 1, '', 1);
 
