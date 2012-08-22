@@ -25,11 +25,11 @@
 	<table>
 		<thead>
 			<tr>
-				<th width="10" align="center">
+				<th width="10">
                     <?= @helper('grid.checkall') ?>
                 </th>
-				<th class="activities-time"><?=@text('Time')?></th>
-				<th class="activities-message"><?=@text('Message')?></th>
+				<th width="55"><?=@text('Time')?></th>
+				<th><?=@text('Message')?></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -42,10 +42,10 @@
 		<tbody>
 		<? $date = $old_date = '';   ?>
 		<? foreach ($activities as $activity) : ?>	
-	        <? $date = @date(array('date' => $activity->created_on, 'format' => '%d %b %Y'))?>
+	        <? $date = @date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
-	        <tr>
+	        <tr class="no-hover">
 				<td class="activities-timeago" colspan="3">
 			        <?= $date; ?>
 				</td>
@@ -56,12 +56,12 @@
 			        <?= @helper('grid.checkbox',array('row' => $activity)); ?>
 				</td>
 
-				<td align="left" class="activities-when">
-			        <?= @date(array('date' => $activity->created_on, 'format' => '%l:%M%p'))?>
+				<td align="left">
+			        <?= @date(array('date' => $activity->created_on, 'format' => 'H:i'))?>
 				</td>
 
-				<td class="activities-message">
-					<?= @helper('activity.message', array('row' => $activity))?>
+				<td>
+					<i class="icon-<?= $activity->action ?>"></i> <?= @helper('activity.message', array('row' => $activity))?>
 				</td>
 			</tr>
         <? endforeach; ?>

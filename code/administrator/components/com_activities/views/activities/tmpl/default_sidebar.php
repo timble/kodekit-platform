@@ -37,14 +37,13 @@ window.addEvent('domready', function(){
 		<a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
 		<?php endforeach ?>
 	</nav>
-	
-	<div class="activities-filter">
-		<h3><?=@text( 'Filters' )?></h3>
-	
-		<form action="" method="get" id="activities-filter">
-			<fieldset>
-				<h4><?=@text( 'Start Date' )?></h4>
-				<div class="activities-calendar">
+		
+	<form action="" method="get" class="activities-filter">
+		<fieldset>
+		    <legend><?=@text( 'Filters' )?></legend>
+		    <div>
+				<label for="start_date"><?=@text( 'Start Date' )?></label>
+				<div class="controls-calendar">
 					<?= @helper('behavior.calendar',
 							array(
 								'date' => $state->start_date,
@@ -53,12 +52,12 @@ window.addEvent('domready', function(){
 							)); ?>
 				</div>
 	
-				<h4><?=@text( 'Days Back' )?></h4>
+				<label for="days_back"><?=@text( 'Days Back' )?></label>
 				<div class="activities-days-back">
 					<input type="text" size="3" name="days_back" value="<?=($state->days_back) ? $state->days_back : '' ?>" />
 				</div>
 	
-				<h4><?=@text( 'User' )?></h4>
+				<label for="user"><?=@text( 'User' )?></label>
 				<div>
 					<?= @helper('com://admin/users.template.helper.listbox.users',
 							array(
@@ -69,11 +68,11 @@ window.addEvent('domready', function(){
 							)) ?>
 				</div>
 	
-				<div class="activities-buttons">
+				<div class="btn-group">
 					<input type="submit" name="submitfilter" class="btn" value="<?=@text('Filter')?>" />
 					<input type="reset" name="cancelfilter" class="btn" value="<?=@text('Reset')?>" />
 				</div>
-			</fieldset>
-		</form>
-	</div>
+			</div>
+		</fieldset>
+	</form>
 </div>

@@ -44,9 +44,11 @@
     			<? endforeach ?>
     		</div>
     	<? endforeach ?>
-    	<a class="btn" href="<?= @route('option=com_activities&view=activities&package='.$package) ?>">
-    	   <?= @text('More activities') ?>
-    	</a>
+    	<div class="btn-group">
+	    	<a class="btn btn-block" href="<?= @route('option=com_activities&view=activities&package='.$package) ?>">
+	    	   <?= @text('More activities') ?>
+	    	</a>
+    	</div>
     </div>
 <? endif ?>
 </div>

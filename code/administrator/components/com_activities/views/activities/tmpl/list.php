@@ -13,9 +13,7 @@
 <style src="media://com_activities/css/activities-list.css" />
 
 <div id="activities-list">
-    <div>
-        <?= @template('default_scopebar') ?>
-    </div>
+    <?= @template('default_scopebar') ?>
     <? if(count($activities)) : ?>
     <div class="activities">
 	    <? foreach ($activities as $activity) : ?>

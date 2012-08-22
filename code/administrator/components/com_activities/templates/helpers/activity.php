@@ -55,16 +55,16 @@ class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault impleme
 		$item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
 		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$row->created_by); 
 		
-		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a>'; 
-		$message  .= ' <span class="action">'.$row->status.'</span>';
+		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a> '; 
+		$message  .= $row->status;
        
 		if ($row->status != 'deleted') {
 			$message .= ' <a href="'.$item.'">'.$row->title.'</a>';
 		} else {
-			$message .= ' <span class="ellipsis" class="deleted">'.$row->title.'</span>';
+			$message .= ' <span class="deleted">'.$row->title.'</span>';
 		}
 		
-		$message .= ' <span class="ellipsis" class="package">'.$row->name.'</span>'; 
+		$message .= ' '.$row->name; 
 		
 		return $message;
 	}
