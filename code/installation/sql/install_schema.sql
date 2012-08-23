@@ -319,11 +319,11 @@ CREATE TABLE `#__modules` (
   `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `published` tinyint(1) NOT NULL DEFAULT '0',
-  `module` varchar(50) DEFAULT NULL,
+  `module` varchar(50) NOT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `params` text NOT NULL,
-  `client_id` tinyint(4) NOT NULL DEFAULT '0',
+  `application` varchar(50) NOT NULL
   PRIMARY KEY (`id`),
   KEY `published` (`published`,`access`),
   KEY `newsfeeds` (`module`,`published`)
@@ -456,7 +456,7 @@ CREATE TABLE `#__users_sessions` (
   `users_session_id` varchar(128) NOT NULL,
   `guest` tinyint(4) DEFAULT '1',
   `email` varchar(100) NOT NULL COMMENT '@Filter("email")',
-  `client_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `application` varchar(50) NOT NULL
   `data` longtext,
   PRIMARY KEY (`users_session_id`(64)),
   KEY `whosonline` (`guest`),
