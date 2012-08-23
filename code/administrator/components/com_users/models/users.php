@@ -59,9 +59,9 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	    if($state->loggedin)
         {
 	        $query->columns(array(
-	        	'loggedin_client_id'  => 'session.client_id',
-	        	'loggedin_on'         => 'session.time',
-	        	'loggedin_session_id' => 'session.users_session_id',
+	        	'loggedin_application' => 'session.application',
+	        	'loggedin_on'          => 'session.time',
+	        	'loggedin_session_id'  => 'session.users_session_id',
 	        ));
 	    }
 	}
