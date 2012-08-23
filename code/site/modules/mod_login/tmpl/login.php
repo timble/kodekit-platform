@@ -10,7 +10,7 @@
  */
 ?>
 
-<form action="<?= JRoute::_('index.php?option=com_users&view=session', true, $usesecure); ?>" method="post" name="login" id="form-login" >
+<form action="<?= @route('option=com_users&view=session'); ?>" method="post" name="login" id="form-login" >
 
 	<?= $pretext ?>
 	
