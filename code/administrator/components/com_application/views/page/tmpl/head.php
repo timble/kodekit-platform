@@ -16,9 +16,9 @@
 <meta content="chrome=1" http-equiv="X-UA-Compatible" />
 
 <ktml:meta />
-<ktml:links />
-<ktml:styles />
-<ktml:scripts />
+<ktml:link />
+<ktml:style />
+<ktml:script />
 
 <link href="media://com_application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
