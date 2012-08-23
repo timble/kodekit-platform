@@ -146,3 +146,27 @@ form[name="adminForm"] {
 		}
 	}
 }
+
+.com_dashboard #window-body #window-content {
+	#flexbox > .box(row, 1);
+
+	> div:first-child {
+		#flexbox > .box(row, 1);
+
+		> div {
+			#flexbox > .box(column, 1);
+
+			#activities-list {
+				#flexbox > .box(column, 1);
+
+				.activities {
+					#flexbox > .box(column, 1 0 0%, scrollable);
+
+					* {
+						#flexbox > .box-flex(none);
+					}
+				}
+			}
+		}
+	}
+}

@@ -3434,39 +3434,8 @@ div.message {
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(43, 117, 191, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(43, 117, 191, 0.6);
 }
-.com_dashboard #window-body #window-content {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
 .com_dashboard #window-body #window-content > div:first-child {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
   border-right: 1px solid #dddddd;
-}
-.com_dashboard #window-body #window-content > div:first-child > div {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
 }
 .com_dashboard #window-body #window-content .sidebar {
   width: 400px;
@@ -4586,4 +4555,78 @@ form[name="adminForm"] {
   /* Opera doesn't support this in the shorthand */
 
   background-attachment: local, local, scroll, scroll;
+}
+.com_dashboard #window-body #window-content {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_dashboard #window-body #window-content > div:first-child {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_dashboard #window-body #window-content > div:first-child > div {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_dashboard #window-body #window-content > div:first-child > div #activities-list {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_dashboard #window-body #window-content > div:first-child > div #activities-list .activities {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1 0 0%;
+  -moz-flex: 1 0 0%;
+  flex: 1 0 0%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
+}
+.com_dashboard #window-body #window-content > div:first-child > div #activities-list .activities * {
+  -webkit-flex: none;
+  -moz-flex: none;
+  flex: none;
 }

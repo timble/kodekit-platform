@@ -3462,39 +3462,8 @@ div.message {
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(43, 117, 191, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(43, 117, 191, 0.6);
 }
-.com_dashboard #window-body #window-content {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
 .com_dashboard #window-body #window-content > div:first-child {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
   border-right: 1px solid #dddddd;
-}
-.com_dashboard #window-body #window-content > div:first-child > div {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
 }
 .com_dashboard #window-body #window-content .sidebar {
   width: 400px;
