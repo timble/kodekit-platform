@@ -18,13 +18,6 @@
 class ComApplicationDispatcher extends KControllerAbstract implements KServiceInstantiatable
 {
     /**
-     * The client identifier.
-     *
-     * @var		integer
-     */
-    protected $_client_id;
-
-    /**
      * The site identifier.
      *
      * @var string
@@ -68,9 +61,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         //Set exception handler
         set_exception_handler(array($this, 'error'));
 
-        //Set the client id
-        $this->_client_id = $config->client_id;
-
         // Set the connection options
         $this->_options = $config->options;
 
@@ -96,7 +86,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'client_id' => 0,
             'site'      => null,
             'options'   => array(
                 'session_name' => 'site',
@@ -263,12 +252,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                 return false;
             }*/
 
-            //@TODO : Need this for ComDefaultTemplateFilterModule.
-            $document = JFactory::getDocument();
-
-            //#TODO : Need this to prevent mootools from being loaded twice
-            JHTML::_('behavior.mootools', false);
-
             $name = substr( $component, 4);
 
             //Load common language files
@@ -293,45 +276,46 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      */
     protected function _actionRender(KCommandContext $context)
     {
-        $document = JFactory::getDocument();
-        $user     = JFactory::getUser();
-        $params   = $this->getParams();
+        $config = array(
+            'request' => $this->getRequest(),
+        );
 
-        $config = array();
-        if($document->getType() == 'html')
-        {
-            $template	= $this->getTemplate();
-            $file 		= JRequest::getCmd('tmpl', 'index');
+        $controller = $this->getService('com://site/application.controller.page', $config);
+        $controller->getView()
+            ->layout('page')
+            ->component($context->result);
 
-            if ($this->getCfg('offline') && JFactory::getUser()->get('guest')) {
-                $file = 'login';
-            }
-
-            if (!is_dir( JPATH_APPLICATION.'/templates/'.$template ) && !$this->getCfg('offline')) {
-                $file = 'component';
-            }
-
-            $config = array(
-                'template' 	=> $template,
-                'file'		=> $file.'.php',
-                'directory'	=> JPATH_APPLICATION.'/templates',
-                'baseurl'   => KRequest::root()->getPath().'/site'
-            );
-        }
-
-        $document->setBase(JURI::current());
-        $document->setTitle( $params->get('page_title') );
-        $document->setDescription( $params->get('page_description') );
-        $document->setBuffer( $context->result, 'component');
-
-        //Render the document
-        $data = $document->render( $this->getCfg('caching'), $config);
+        //Render the page controller
+        $data = $controller->display($context);
 
         //Make images paths absolute
         $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
 
         $data = str_replace(JURI::base().'images/', $path, $data);
         $data = str_replace(array('"images/','"/images/') , '"'.$path, $data);
+
+        //Prettyprint
+        /*$data = $this->getService('koowa:filter.tidy', array('options' => array(
+            'clean'          => false,
+            'drop-proprietary-attributes' => false,
+            'show-body-only' => false,
+            'bare'           => false,
+            'word-2000'      => false,
+            'indent'         => true,
+            'vertical-space' => true,
+
+        )))->sanitize($data);*/
+
+        //Spaceless
+        //$data = trim(preg_replace('/>\s+</', '><', $data));
+
+
+        //@TODO :Setup the response
+        //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+        //if ($mdate = $this->getModifiedDate()) {
+        //    JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
+        //}
+        //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 
         JResponse::setBody($data);
         echo JResponse::toString($this->getCfg('gzip'));
@@ -350,13 +334,20 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     {
         try
         {
-            $data = $this->getService('com://admin/application.controller.error')
+            $data = $this->getService('com://site/application.controller.error')
                 ->format(KRequest::format() ? KRequest::format() : 'html')
                 ->display($context);
         }
         catch (Exception $e) {
             $data = get_class($e)." thrown within the exception handler. Message: ".$e->getMessage()." on line ".$e->getLine();
         }
+
+        //@TODO :Setup the response
+        //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
+        //if ($mdate = $this->getModifiedDate()) {
+        //    JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
+        //}
+        //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 
         JResponse::setBody($data);
         echo JResponse::toString();
@@ -569,16 +560,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     public function getCfg( $name, $default = null )
     {
         return JFactory::getConfig()->getValue('config.' . $name, $default);
-    }
-
-    /**
-     * Gets the client id of the current running application.
-     *
-     * @return	int
-     */
-    public function getClientId( )
-    {
-        return $this->_client_id;
     }
 
     /**
