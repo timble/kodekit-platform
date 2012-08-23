@@ -53,17 +53,10 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
                  $this->_data['title'] = null;
             }
 	    }
-        
-	    if($column == 'application' && empty($this->_data['application'])) 
-	    {
-            $client	= JApplicationHelper::getClientInfo($this->client_id);
-	        $this->_data['application'] = $client->name;
-        }
 
         if($column == 'identifier' && empty($this->_data['identifier']))
         {
-            $application = $this->getIdentifier()->application;
-            $this->_data['identifier'] = 'mod://'.$application.'/'.substr($this->type, 4).'.html';
+            $this->_data['identifier'] = 'mod://'.$this->application.'/'.substr($this->type, 4).'.html';
         }
 
         if($column == 'attribs' && empty($this->_data['attribs'])) {
@@ -76,8 +69,8 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 	    
 	    if($column == 'manifest' && empty($this->_data['manifest'])) 
 		{
-            $client	= JApplicationHelper::getClientInfo($this->application, true);
-		    $file   = $client->path.'/modules/'.$this->type.'/'.$this->type.'.xml';  
+            $path = $this->getIdentifier()->getApplication($this->application);
+		    $file = $path.'/modules/'.$this->type.'/'.$this->type.'.xml';
             
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
@@ -92,8 +85,8 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
         
 	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-	        $client	= JApplicationHelper::getClientInfo($this->application, true);
-		    $file   = $client->path.'/modules/'.$this->type.'/'.$this->type.'.xml';  
+            $path = $this->getIdentifier()->getApplication($this->application);
+		    $file = $path.'/modules/'.$this->type.'/'.$this->type.'.xml';
 		    
 	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'module' );
         }
@@ -210,9 +203,8 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
            $data[$field] = (string) $this->$field;
         }
         
-        $data['title']        = (string) $this->title;
-        $data['application']  = (string) $this->application;
-        $data['params']       = $this->params->toArray();
+        $data['title']  = (string) $this->title;
+        $data['params'] = $this->params->toArray();
         return $data;
     }
 }
