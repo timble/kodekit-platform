@@ -67,7 +67,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         
         $state = $this->getState();
 
-        if(is_numeric($state->state)) 
+        //@TODO : refactor the article state to a published column
+        if(is_numeric($state->state))
         {
             $query->where('tbl.state = :state')
                 ->bind(array('state' => $state->state));
