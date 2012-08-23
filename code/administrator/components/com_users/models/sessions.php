@@ -29,8 +29,8 @@ class ComUsersModelSessions extends KModelTable
         parent::__construct($config);
 
         $this->getState()
-            ->insert('client', 'int')
-            ->insert('email' , 'email');
+            ->insert('application', 'word')
+            ->insert('email'      , 'email');
 
         //@TODO : Add special session id filter
         $this->getState()
@@ -79,10 +79,10 @@ class ComUsersModelSessions extends KModelTable
         parent::_buildQueryWhere($query);
         $state = $this->getState();
         
-        if ($state->client)
+        if ($state->application)
         {
-            $query->where('client_id IN :client')
-                  ->bind(array('client' => (array) $state->client));
+            $query->where('application IN :application')
+                  ->bind(array('application' => (array) $state->application));
         }
 
         if ($state->email)
