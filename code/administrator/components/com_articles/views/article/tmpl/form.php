@@ -63,15 +63,15 @@
 	                </div>
 	            </div>
 	            <div class="control-group">
-	        	    <label class="control-label" for="publish_up"><?= @text('Publish on') ?></label>
+	        	    <label class="control-label" for="published_on"><?= @text('Publish on') ?></label>
 	                <div class="controls controls-calendar">
-	                    <?= @helper('behavior.calendar', array('date' => $article->publish_up, 'name' => 'publish_up')); ?>
+	                    <?= @helper('behavior.calendar', array('date' => $article->published_on, 'name' => 'published_on')); ?>
 	                </div>
 	            </div>
 	            <div class="control-group">
-	                <label class="control-label" for="publish_down"><?= @text('Unpublish on') ?></label>
+	                <label class="control-label" for="unpublished_on"><?= @text('Unpublish on') ?></label>
 	                <div class="controls controls-calendar">
-	                    <?= @helper('behavior.calendar', array('date' => $article->publish_down, 'name' => 'publish_down')); ?>
+	                    <?= @helper('behavior.calendar', array('date' => $article->unpublished_on, 'name' => 'unpublished_on')); ?>
 	                </div>
 	            </div>
 	            <div class="control-group">
