@@ -24,21 +24,21 @@ class KFilterTidy extends KFilterAbstract
      *
      * @var object
      */
-    protected $_tidy = null;
+    protected $_tidy =  null;
 
     /**
      * The input/output encoding
      *
      * @var string
      */
-    protected $_encoding = 'utf8';
+    protected $_encoding;
 
     /**
      * The tidy configuration
      *
      * @var array
      */
-    protected $_config = array();
+    protected $_options;
 
     /**
      * Constructor
@@ -49,8 +49,8 @@ class KFilterTidy extends KFilterAbstract
     {
         parent::__construct($config);
 
-        $this->_encdoing = $config->encoding;
-        $this->_config   = KConfig::unbox($config->config);
+        $this->_encoding = $config->encoding;
+        $this->_options  = KConfig::unbox($config->options);
     }
 
  	/**
@@ -65,7 +65,7 @@ class KFilterTidy extends KFilterAbstract
     {
         $config->append(array(
             'encoding'      => 'utf8',
-            'config'        =>  array(
+            'options'       =>  array(
                 	'clean'                       => true,
                 	'drop-proprietary-attributes' => true,
             		'output-html'                 => true,
@@ -122,7 +122,7 @@ class KFilterTidy extends KFilterAbstract
                 $this->_tidy = new Tidy();
             }
 
-            $this->_tidy->parseString($string, $this->_config, $this->_encoding);
+            $this->_tidy->parseString($string, $this->_options, $this->_encoding);
         }
 
         return $this->_tidy;
