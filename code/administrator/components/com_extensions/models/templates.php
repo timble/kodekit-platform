@@ -48,8 +48,11 @@ class ComExtensionsModelTemplates extends KModelAbstract
         if(!isset($this->_item))
         {
             $state = $this->getState();
+
+            //Get application path
+            $path = $this->getIdentifier()->getApplication($state->application);
             
-            if (!empty($state->application)) 
+            if ($path)
             {                
                 //Get default template
                 $default = JComponentHelper::getParams('com_extensions')->get('template_'.$state->application, 'site');
@@ -57,16 +60,9 @@ class ComExtensionsModelTemplates extends KModelAbstract
                 if ($state->default) {
 			        $state->name = $default;
 				}
-				
-				//Find the template
-				if($state->application == 'site') {
-				    $path = JPATH_ROOT.'/site/templates/'.$state->name;
-				} else {
-				    $path = JPATH_ROOT.'/administrator/templates/'.$state->name;
-				}
 
                 $data = array(
-                	'path'        => $path,
+                	'path'        => $path.'/templates',
                 	'application' => $state->application
                 );
 
