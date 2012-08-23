@@ -20,14 +20,14 @@ class ModImageHtml extends ModDefaultHtml
 {
     public function display()
     {
-        $link 	 = $this->params->get( 'link' );
+        $link 	 = $this->module->params->get( 'link' );
 
-        $folder	= $this-getFolder($this->params);
-        $images	= $this->getImages($this->params, $folder);
+        $folder	= $this-getFolder($this->module->params);
+        $images	= $this->getImages($this->module->params, $folder);
 
         if (count($images))
         {
-            $this->image = $this->getRandomImage($this->params, $images);
+            $this->image = $this->getRandomImage($this->module->params, $images);
             return parent::display();
         }
     }
