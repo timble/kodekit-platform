@@ -16,14 +16,11 @@
 		</a>
 	</div>
 	<div class="scopebar-group">
-		<a class="<?= $state->state === 0 ? 'active' : ''; ?>" href="<?= @route($state->state === 0 ? 'state=' : 'state=0' ) ?>">
-		    <?= 'Draft' ?>
-		</a>
 		<a class="<?= $state->state === 1 ? 'active' : ''; ?>" href="<?= @route($state->state === 1 ? 'state=' : 'state=1' ) ?>">
 		    <?= 'Published' ?>
 		</a>
-		<a class="<?= $state->state === -1 ? 'active' : ''; ?>" href="<?= @route($state->state === -1 ? 'state=' : 'state=-1' ) ?>">
-		    <?= 'Archived' ?>
+		<a class="<?= $state->state === 0 ? 'active' : ''; ?>" href="<?= @route($state->state === 0 ? 'state=' : 'state=0' ) ?>">
+		    <?= 'Unpublished' ?>
 		</a>
 	</div>
 	<div class="scopebar-group">

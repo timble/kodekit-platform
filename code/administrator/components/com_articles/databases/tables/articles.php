@@ -32,7 +32,7 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
                 'created_on' 	   => 'created',
                 'modified_on'      => 'modified',
                 'published_on'     => 'publish_up',
-                'archived_on'      => 'publish_down',
+                'unpublished_on'   => 'publish_down',
                 'description'      => 'metadesc',
                 'params'		   => 'attribs'
             ),
