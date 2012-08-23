@@ -144,9 +144,9 @@ window.addEvent('domready', function() {
 				</div>
 				<? if($state->application == 'site') : ?>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Access Level') ?></label>
+				    <label class="control-label" for=""><?= @text('Visibility') ?></label>
 				    <div class="controls">
-				        <?= JHTML::_('list.accesslevel', $module) ?>
+				        <?= @helper('listbox.access', array('selected' => $module->access, 'deselect' => false)) ?>
 				    </div>
 				</div>
 				<? endif ?>

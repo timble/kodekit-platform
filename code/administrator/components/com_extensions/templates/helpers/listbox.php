@@ -18,7 +18,7 @@
  * @subpackage  Extensions    
  */
 
-class ComExtensionsTemplateHelperListbox extends KTemplateHelperListbox
+class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
 	/**
 	 * Customized to add a few attributes.

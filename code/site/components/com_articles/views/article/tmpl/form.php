@@ -189,7 +189,7 @@
                     </label>
                 </td>
                 <td>
-                    <?= JHTML::_('list.accesslevel', $article); ?>
+                    <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
                 </td>
             </tr>
             <tr>
