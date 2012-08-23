@@ -26,21 +26,22 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 	
 		$this->getState()
 		 	->insert('application', 'cmd')
-		 	->insert('sort'  	  , 'cmd', array('position', 'ordering'))
+		 	->insert('sort'  	  , 'cmd', array('position'))
 		 	->insert('enabled'	  , 'boolean')
 		 	->insert('position'   , 'cmd')
 		 	->insert('type' 	  , 'cmd')
-		 	->insert('installed'  , 'boolean', false);
+		 	->insert('installed'  , 'boolean', false)
+            ->insert('access'     , 'int', JFactory::getUser()->aid)
+            ->insert('page'       , 'int');
 	}
 
-	protected function _buildQueryJoin(KDatabaseQuerySelect $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
 		$query
 		    ->join(array('user' => 'users'), 'user.id = tbl.checked_out')
-		    ->join(array('group' => 'groups'), 'group.id = tbl.access')
-		    ->join(array('module_menu' => 'pages_modules'), 'module_menu.moduleid = tbl.id');
+		    ->join(array('module_menu' => 'pages_modules'), 'module_menu.modules_module_id = tbl.id');
 
-		parent::_buildQueryJoin($query);
+		parent::_buildQueryJoins($query);
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -63,11 +64,17 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		    $query->where('tbl.published = :enabled')->bind(array('enabled' => (int) $state->enabled));
 		}
 
-		if($state->application && is_scalar($state->application))
-        {
-		    $client	= JApplicationHelper::getClientInfo($state->application, true);
-		    $query->where('tbl.client_id = :client')->bind(array('client' => $client->id));
+		if($state->application) {
+		    $query->where('tbl.application = :application')->bind(array('application' => $state->application));
 	    }
+
+        if (is_numeric($state->access)) {
+            $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
+        }
+
+        if (is_numeric($state->page)) {
+            $query->where('module_menu.pages_page_id = :page OR module_menu.pages_page_id = 0')->bind(array('page' => $state->page));
+        }
 
 		parent::_buildQueryWhere($query);
 	}
@@ -90,9 +97,8 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 
 			if($this->_item->isNew() && $this->getState()->type) 
 			{
-			    $client	                = JApplicationHelper::getClientInfo($this->getState()->application, true);
-			    $this->_item->client_id = $client->id;
-				$this->_item->type      = $this->getState()->type;
+			    $this->_item->application = $this->getState()->application;
+				$this->_item->type        = $this->getState()->type;
 			}
 		}
 
@@ -120,10 +126,12 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 
                 foreach((array) KConfig::unbox($state->application) as $application)
                 {
-                    $client	= JApplicationHelper::getClientInfo($application, true);
-            	    if(!empty($client)) 
+                    //Get application path
+                    $path = $this->getIdentifier()->getApplication($state->application);
+
+            	    if($path)
 			        {        
-            	        $path = $client->path.'/modules';
+            	        $path = $path.'/modules';
             	    
 			            foreach(new DirectoryIterator($path) as $folder)
                         {
@@ -134,7 +142,7 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
                                     $modules[] = array(
                                     	'id'          => $folder->getFilename(),
                        					'type'        => $folder->getFilename(),
-                        				'application' => $client->name,
+                        				'application' => $state->application,
                                     	'title'		  => null
 	                                    );
                                 }
