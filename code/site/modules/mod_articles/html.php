@@ -24,10 +24,8 @@ class ModArticlesHtml extends ModDefaultHtml
      */
     public function display()
     {
-        $this->assign('params', $this->params);
-
         // Preparing the sort and direction model states.
-        switch ($this->params->get('sort_by', 'newest')) {
+        switch ($this->module->params->get('sort_by', 'newest')) {
             default:
             case 'newest':
                 $sort      = 'created';
@@ -44,13 +42,13 @@ class ModArticlesHtml extends ModDefaultHtml
         }
 
         // Prepare category state.
-        $category = str_replace(' ', '', $this->params->get('category', ''));
+        $category = str_replace(' ', '', $this->module->params->get('category', ''));
         if ($category) {
             $category = explode(',', $category);
         }
 
         // Prepare section state.
-        $section = str_replace(' ', '', $this->params->get('section', ''));
+        $section = str_replace(' ', '', $this->module->params->get('section', ''));
         if ($section) {
             $section = explode(',', $section);
         }
@@ -63,18 +61,18 @@ class ModArticlesHtml extends ModDefaultHtml
             ->set(array(
             'aid'       => $aid,
             'state'     => 1,
-            'limit'     => $this->params->get('count', 5),
+            'limit'     => $this->module->params->get('count', 5),
             'sort'      => $sort,
             'direction' => $direction,
             'section'   => $section,
             'category'  => $category,
-            'featured'  => $this->params->get('show_featured', false)))
+            'featured'  => $this->module->params->get('show_featured', false)))
             ->getList();
 
         $this->assign('articles', $articles);
 
         // Set layout based on params.
-        $this->setLayout($this->params->get('show_content', 0) ? 'articles' : 'links');
+        $this->setLayout($this->module->params->get('show_content', 0) ? 'articles' : 'links');
 
         return parent::display();
     }
