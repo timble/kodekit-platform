@@ -9,41 +9,41 @@
  */
 ?>
 
-<form action="<?= JRoute::_('index.php?option=com_search'); ?>" method="get">
+<form action="<?= @route('option=com_search'); ?>" method="get">
 
 <div class="control-group">
 	<div class="controls">
-			<? $output = '<input name="term" id="mod_search_term" maxlength="' . $maxlength . '" alt="' . $button_text . '" class="inputbox" type="text" size="' . $width . '" value="' . $text . '"  onblur="if(this.value==\'\') this.value=\'' . $text . '\';" onfocus="if(this.value==\'' . $text . '\') this.value=\'\';" />';
+	<? $output = '<input name="term" id="mod_search_term" maxlength="' . $maxlength . '" alt="' . $button_text . '" class="inputbox" type="text" size="' . $width . '" value="' . $text . '"  onblur="if(this.value==\'\') this.value=\'' . $text . '\';" onfocus="if(this.value==\'' . $text . '\') this.value=\'\';" />';
 						
-			    if($button) :
-					$button = '<input type="submit" value="' . $button_text . '" onclick="this.form.searchword.focus();"/>';
-				endif;
+	    if($button) :
+			$button = '<input type="submit" value="' . $button_text . '" onclick="this.form.searchword.focus();"/>';
+		endif;
 						
-				switch($button_pos) :
+		switch($button_pos) :
 						
-				    case 'top':
-						$button = $button . '<br />';
-						$output = $button . $output;
-						break;
+		    case 'top':
+			    $button = $button . '<br />';
+				$output = $button . $output;
+				break;
 							
-					case 'bottom':
-						$button = '<br />' . $button;
-						$output = $output . $button;
-						break;
+			case 'bottom':
+				$button = '<br />' . $button;
+				$output = $output . $button;
+				break;
 							
-					case 'right':
-						$output = $output . $button;
-						break;
+			case 'right':
+				$output = $output . $button;
+				break;
 							
-					case 'left':
-					default:
-						$output = $button . $output;
-						break;
+			case 'left':
+			default:
+				$output = $button . $output;
+				break;
 			
-				endswitch;
+		endswitch;
 						
-				echo $output;
-			?>
+		echo $output;
+	?>
 	</div>
 </div>
 </form>
