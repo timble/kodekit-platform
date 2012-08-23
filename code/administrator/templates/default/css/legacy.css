@@ -2817,6 +2817,53 @@ a.btn {
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
+#window-body dl.tabs {
+  float: left;
+  margin: 10px 0 0 0;
+  z-index: 50;
+}
+#window-body dl.tabs dt {
+  float: left;
+  padding: 6px 14px;
+  border: 1px solid #ccc;
+  margin-left: 6px;
+  background: #f0f0f0;
+  color: #666;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: -1px;
+}
+#window-body dl.tabs dt:hover {
+  background-color: #F6F6F6;
+  z-index: 100;
+  color: #333;
+}
+#window-body dl.tabs dt:active,
+#window-body dl.tabs dt.open,
+#window-body dl.tabs dt.open:active {
+  background-color: #FFF;
+  z-index: 100;
+  color: #333;
+  border-bottom-color: #FFF;
+  -webkit-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
+  -moz-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
+  box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
+}
+#window-body dl.tabs dt:active {
+  background-color: #FFF;
+  border-bottom-color: #CCC;
+}
+#window-body div.current {
+  clear: both;
+  border: 1px solid #CCC;
+  padding: 10px 10px;
+  background-color: #FFF;
+}
+#window-body div.current dd {
+  padding: 0;
+  margin: 0;
+}
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
@@ -3055,54 +3102,6 @@ div.toolbar .btn-group a {
 .jpane-toggler-down span {
   background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat;
   padding-left: 20px;
-}
-/* tabs */
-dl.tabs {
-  float: left;
-  margin: 10px 0 0 0;
-  z-index: 50;
-}
-dl.tabs dt {
-  float: left;
-  padding: 6px 14px;
-  border: 1px solid #ccc;
-  margin-left: 6px;
-  background: #f0f0f0;
-  color: #666;
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
-  margin-bottom: -1px;
-}
-dl.tabs dt:hover {
-  background-color: #F6F6F6;
-  z-index: 100;
-  color: #333;
-}
-dl.tabs dt:active,
-dl.tabs dt.open,
-dl.tabs dt.open:active {
-  background-color: #FFF;
-  z-index: 100;
-  color: #333;
-  border-bottom-color: #FFF;
-  -webkit-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
-  -moz-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
-  box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
-}
-dl.tabs dt:active {
-  background-color: #FFF;
-  border-bottom-color: #CCC;
-}
-div.current {
-  clear: both;
-  border: 1px solid #CCC;
-  padding: 10px 10px;
-  background-color: #FFF;
-}
-div.current dd {
-  padding: 0;
-  margin: 0;
 }
 /* @group Scope Bar */
 .scopebar {

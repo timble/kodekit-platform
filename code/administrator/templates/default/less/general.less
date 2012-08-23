@@ -219,6 +219,56 @@ a.btn {
 			}	
 		}	
 	}
+	
+	dl.tabs {
+		float: left;
+		margin: 10px 0 0 0;
+		z-index: 50;
+	
+		dt {
+			float: left;
+			padding: 6px 14px;
+			border: 1px solid #ccc;
+			margin-left: 6px;
+			background: #f0f0f0;
+			color: #666;
+			.border-radius(5px 5px 0 0);
+			margin-bottom: -1px;
+		}
+	
+		dt:hover {
+			background-color: #F6F6F6;
+			z-index: 100;
+			color: #333;
+		}
+	
+		dt:active,
+		dt.open,
+		dt.open:active {
+			background-color: #FFF;
+			z-index: 100;
+			color: #333;
+			border-bottom-color: #FFF;
+			.box-shadow(inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px);
+		}
+	
+		dt:active {
+			background-color: #FFF;
+			border-bottom-color: #CCC;
+		}
+	}
+	
+	div.current {
+		clear: both;
+		border: 1px solid #CCC;
+		padding: 10px 10px;
+		background-color: #FFF;
+	}
+	
+	div.current dd {
+		padding: 0;
+		margin: 0;
+	}
 }
 
 .-koowa-grid {
@@ -395,58 +445,6 @@ div.toolbar {
 
 .jpane-toggler span     	{ background: transparent url(../images/j_arrow.png) 5px 50% no-repeat; padding-left: 20px;}
 .jpane-toggler-down span 	{ background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat; padding-left: 20px;}
-
-/* tabs */
-dl.tabs {
-	float: left;
-	margin: 10px 0 0 0;
-	z-index: 50;
-
-	dt {
-		float: left;
-		padding: 6px 14px;
-		border: 1px solid #ccc;
-		margin-left: 6px;
-		background: #f0f0f0;
-		color: #666;
-		.border-radius(5px 5px 0 0);
-		margin-bottom: -1px;
-	}
-	
-	dt:hover {
-		background-color: #F6F6F6;
-		z-index: 100;
-		color: #333;
-	}
-	
-	dt:active,
-	dt.open,
-	dt.open:active {
-		background-color: #FFF;
-		z-index: 100;
-		color: #333;
-		border-bottom-color: #FFF;
-		.box-shadow(inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px);
-	}
-	
-	dt:active {
-		background-color: #FFF;
-		border-bottom-color: #CCC;
-	}
-}
-
-div.current {
-	clear: both;
-	border: 1px solid #CCC;
-	padding: 10px 10px;
-	background-color: #FFF;
-}
-
-div.current dd {
-	padding: 0;
-	margin: 0;
-}
-
 
 /* @group Scope Bar */
 .scopebar { 
