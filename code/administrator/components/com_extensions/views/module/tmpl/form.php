@@ -144,5 +144,5 @@ window.addEvent('domready', function() {
 	</div>
 
 	<input type="hidden" name="type" value="<?= $module->type ?>" />
-	<input type="hidden" name="client_id" value="<?= $module->client_id ?>" />
+	<input type="hidden" name="client_id" value="<?= $module->application ?>" />
 </form>
