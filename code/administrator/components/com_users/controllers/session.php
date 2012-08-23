@@ -78,7 +78,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
             $context->data->email = $context->user->email;
             $context->data->data  = '';
             $context->data->time  = time();
-            $context->data->client_id = 1;
+            $context->data->application = $this->getIdentifier()->application;
         }
 
         //Add the session to the session store
@@ -97,7 +97,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
     protected function _actionDelete(KCommandContext $context)
     {
         //Force logout from site and administrator
-        $this->client = array(0, 1);
+        $this->application = array_keys($this->getIdentifier()->getApplications());
 
         //Remove the session from the session store
         $data = parent::_actionDelete($context);
