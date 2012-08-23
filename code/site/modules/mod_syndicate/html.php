@@ -30,8 +30,9 @@ class ModSyndicateHtml extends ModDefaultHtml
         }
     }
 
-    function getLink($params)
+    public function getLink($params)
     {
+        //@TODO : This is no longer working. Implement differently
         $document = JFactory::getDocument();
 
         foreach($document->_links as $link)
