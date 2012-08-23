@@ -116,8 +116,8 @@ class ModDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
         if (!empty ($module->content))
         {
             $html .= '<div class="module">';
-            if ($module->showtitle != 0) {
-                $html = '<h3>'.$module->title.'</h3>';
+            if ($module->showtitle) {
+                $html .= '<h3>'.$module->title.'</h3>';
             }
 
             $html .= $module->content;
