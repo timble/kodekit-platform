@@ -46,6 +46,11 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
 
     protected function _actionGet(KCommandContext $context)
     {
+        //Force the application template
+        if ($this->getService('application')->getCfg('offline') && JFactory::getUser()->get('guest')) {
+            KRequest::set('get.tmpl', 'login');
+        }
+
         //Set the status
         $context->status = KHttpResponse::UNAUTHORIZED;
 
@@ -67,7 +72,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
             $context->data->email = $context->user->email;
             $context->data->data  = '';
             $context->data->time  = time();
-            $context->data->client_id = 0;
+            $context->data->application = $this->getIdentifier()->application;
         }
 
         //Add the session to the session store
@@ -86,7 +91,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
     protected function _actionDelete(KCommandContext $context)
     {
         //Force logout from site only
-        $this->client = array(0);
+        $this->application = array($this->getIdentifier()->application);
 
         //Remove the session from the session store
         $data = parent::_actionDelete($context);
