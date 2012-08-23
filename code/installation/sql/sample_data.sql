@@ -121,18 +121,18 @@ VALUES
 -- Dumping data for table `#__modules`
 --
 
-INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`) VALUES
-(17, 'User Menu', '', 18, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 1, 1, 'menu_id=2\ncache=1', 0),
-(18, 'Login Form', '', 21, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 'greeting=1\nname=0', 0),
-(19, 'Latest News', '', 19, 'user1', 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'cache=1', 0),
-(25, 'Newsflash', '', 9, 'top', 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\r\n', 0),
-(27, 'Search', '', 10, 'user4', 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 'cache=1', 0),
-(28, 'Random Image', '', 23, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 0, 1, '', 0),
-(29, 'Top Menu', '', 11, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 0, 'cache=1\nmenu_id=3\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\n', 0),
-(35, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 'showHome=1\nhomeText=Home\nshowLast=1\nseparator=\ncache=0\n\n', 0),
-(36, 'Syndication', '', 15, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, '', 0),
-(39, 'Example Pages', '', 20, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=5\nmenu_style=list_flat\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 0),
-(40, 'Key Concepts', '', 17, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=6\nmenu_style=list\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 0);
+INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `access`, `showtitle`, `params`, `application`) VALUES
+(17, 'User Menu', '', 18, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 1, 1, 'menu_id=2\ncache=1', 'site'),
+(18, 'Login Form', '', 21, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 'greeting=1\nname=0', 'site'),
+(19, 'Latest News', '', 19, 'user1', 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'cache=1', 'site'),
+(25, 'Newsflash', '', 9, 'top', 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\r\n', 'site'),
+(27, 'Search', '', 10, 'user4', 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 'cache=1', 'site'),
+(28, 'Random Image', '', 23, 'right', 0, '0000-00-00 00:00:00', 1, 'mod_random_image', 0, 1, '', 'site'),
+(29, 'Top Menu', '', 11, 'user3', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 0, 'cache=1\nmenu_id=3\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\n', 'site'),
+(35, 'Breadcrumbs', '', 1, 'breadcrumb', 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 'showHome=1\nhomeText=Home\nshowLast=1\nseparator=\ncache=0\n\n', 'site'),
+(36, 'Syndication', '', 15, 'syndicate', 0, '0000-00-00 00:00:00', 1, 'mod_syndicate', 0, 0, '', 'site'),
+(39, 'Example Pages', '', 20, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=5\nmenu_style=list_flat\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 'site'),
+(40, 'Key Concepts', '', 17, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=6\nmenu_style=list\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 'site');
 
 --
 -- Dumping data for table `#__pages_modules`
