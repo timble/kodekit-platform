@@ -18,13 +18,6 @@
 class ComApplicationDispatcher extends KControllerAbstract implements KServiceInstantiatable
 {
     /**
-     * The client identifier.
-     *
-     * @var		integer
-     */
-    protected $_client_id;
-
-    /**
      * The site identifier.
      *
      * @var string
@@ -68,9 +61,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         //Set exception handler
         set_exception_handler(array($this, 'error'));
 
-        //Set the client id
-        $this->_client_id = $config->client_id;
-
         // Set the connection options
         $this->_options = $config->options;
 
@@ -96,7 +86,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'client_id' => 1,
             'site'      => null,
             'options'   => array(
                 'session_name' => 'admin',
@@ -465,16 +454,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     public function getCfg( $name, $default = null )
     {
         return JFactory::getConfig()->getValue('config.' . $name, $default);
-    }
-
-    /**
-     * Gets the client id of the current running application.
-     *
-     * @return	int
-     */
-    public function getClientId( )
-    {
-        return $this->_client_id;
     }
 
     /**
