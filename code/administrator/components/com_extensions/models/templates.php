@@ -49,22 +49,25 @@ class ComExtensionsModelTemplates extends KModelAbstract
         {
             $state = $this->getState();
             
-            //Get application information
-			$client	= JApplicationHelper::getClientInfo($state->application, true);
-            if (!empty($client)) 
-            {
-                //Get the path
-                $default = JComponentHelper::getParams('com_extensions')->get('template_'.$client->name, 'site');
+            if (!empty($state->application)) 
+            {                
+                //Get default template
+                $default = JComponentHelper::getParams('com_extensions')->get('template_'.$state->application, 'site');
              
                 if ($state->default) {
 			        $state->name = $default;
 				}
-			
-                $path  = $client->path.'/templates/'.$state->name;
+				
+				//Find the template
+				if($state->application == 'site') {
+				    $path = JPATH_ROOT.'/site/templates/'.$state->name;
+				} else {
+				    $path = JPATH_ROOT.'/administrator/templates/'.$state->name;
+				}
 
                 $data = array(
                 	'path'        => $path,
-                	'application' => $client->name
+                	'application' => $state->application
                 );
 
                 $row = $this->getService('com://admin/extensions.database.row.template', array('data' => $data));
@@ -76,74 +79,6 @@ class ComExtensionsModelTemplates extends KModelAbstract
         }
         
         return $this->_item;
-    }
-
-    /**
-     * Get a list of items
-     *
-     * @return KDatabaseRowsetInterface
-     */
-    public function getList()
-    { 
-        if(!isset($this->_list))
-        {
-            $state     = $this->getState();
-            $templates = array();
-              
-            foreach((array) KConfig::unbox($state->application) as $application)
-            {
-                //Get application information
-			    $client	= JApplicationHelper::getClientInfo($application, true);
-			    if(!empty($client)) 
-			    {
-                    $default = JComponentHelper::getParams('com_extensions')->get('template_'.$client->name, 'site');
-			    
-			        //Find the templates
-                    $path      = $client->path.'/templates';
-
-                    foreach(new DirectoryIterator($path) as $folder)
-                    {
-                        if($folder->isDir())
-                        {
-                            if(file_exists($folder->getRealPath().'/templateDetails.xml')) 
-                            {     
-                                $templates[] = array(
-                       				'path'        => $folder->getRealPath(),
-                        			'application' => $client->name
-                                );
-                            }
-                        }
-                    }
-                }
-            }
-                
-            //Set the total
-			$this->_total = count($templates);
-
-            //Apply limit and offset
-            if($this->getState()->limit) {
-                $templates = array_slice($templates, $state->offset, $state->limit ? $state->limit : $this->_total);
-            }
-                
-			//Apply direction
-			if(strtolower($state->direction) == 'desc') {
-	            $templates = array_reverse($templates);
-			}
-                
-            //Create the rowset
-            $rowset = $this->getService('com://admin/extensions.database.rowset.templates');
-			foreach ($templates as $template)
-			{
-			    $row = $rowset->getRow()->setData($template);
-			    $row->default = ($row->name == $default);
-
-		        $rowset->insert($row);
-			}
-
-			$this->_list = $rowset;
-        }
-
-        return $this->_list;
     }
 
     public function getTotal()

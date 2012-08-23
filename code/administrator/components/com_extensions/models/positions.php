@@ -19,33 +19,46 @@
  */
 class ComExtensionsModelPositions extends KModelAbstract 
 {
+    /**
+     * Constructor
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->getState()
+            ->insert('application', 'cmd', 'site');        
+    }
+    
     public function getList() 
     {
         if (!$this->_list) 
         {
-            $templates = $this->getService('com://admin/extensions.model.templates')->getList();
+            $state = $this->getState();
+            
+            $template   = $this->getService('com://admin/extensions.model.templates')->application($state->application)->default(1)->getItem();
           
             $positions = array();
-            foreach ($templates as $template) 
+            
+            $templateDetails = $template->path . '/templateDetails.xml';
+            
+            if (file_exists($templateDetails)) 
             {
-                $path = $template->path;
-                $templateDetails = $path . '/templateDetails.xml';
-                
-                if (file_exists($templateDetails)) 
+                $xml = simplexml_load_file($templateDetails);
+                if (isset($xml->positions)) 
                 {
-                    $xml = simplexml_load_file($templateDetails);
-                    if (isset($xml->positions)) 
+                    foreach ($xml->positions->children() as $position) 
                     {
-                        foreach ($xml->positions->children() as $position) 
-                        {
-                            $position = (string)$position;
-                            $positions[$position] = array(
-                                'position' => $position
-                            );
-                        }
+                        $position = (string)$position;
+                        $positions[$position] = array(
+                            'position' => $position
+                        );
                     }
-                } 
-            }
+                }
+            } 
+            
             
             asort($positions);
             
