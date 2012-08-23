@@ -19,13 +19,13 @@ class ModPagesHtml extends ModDefaultHtml
 {
     public function display()
     {
-        $start    = $this->params->get('startLevel');
-        $end      = $this->params->get('endLevel');
-        $children = $this->params->get('showAllChildren');
+        $start    = $this->module->params->get('startLevel');
+        $end      = $this->module->params->get('endLevel');
+        $children = $this->module->params->get('showAllChildren');
         $pages    = $this->getService('application')->getPages();
 
         $this->active = $pages->getActive();
-        $this->pages  = $pages->find(array('pages_menu_id' => $this->params->get('menu_id'), 'hidden' => 0));
+        $this->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0));
 
         foreach($pages as $page)
         {
