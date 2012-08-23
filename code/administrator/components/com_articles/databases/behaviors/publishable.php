@@ -77,7 +77,9 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
         $db = $this->getMixer()->getDatabase();
 
         if ($ids = $db->select($query, KDatabase::FETCH_ARRAY_LIST)) {
-            $this->_updateState($ids, 1);
+            foreach ($ids as $id) {
+            	$this->_updateState($id, 1);
+            }
         }
     }
 
@@ -95,7 +97,9 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
         $db = $this->getMixer()->getDatabase();
 
         if ($ids = $db->select($query)) {
-            $this->_updateState($ids, 0);
+        	foreach ($ids as $id) {
+        		$this->_updateState($id, 0);
+        	}
         }
     }
 
@@ -119,18 +123,15 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      * @param     $ids   A list of items ids to be updated.
      * @param int $state The new state value.
      */
-    protected function _updateState($ids, $state = 0) {
+    protected function _updateState($id, $state = 0) {
         $query = $this->getService('koowa:database.query.update');
 
         $query->table($this->_table);
 
-        // Determine which column should be reset.
-        $column = $state ? 'publish_up' : 'publish_down';
-        $query->values(array('state = :state', $column . ' = :default'))->bind(array(
-            'state'   => $state,
-            'default' => '0000-00-00 00:00:00'));
+        $query->values(array('state = :state'))->bind(array(
+            'state'   => $state));
 
-        $query->where($this->_identity_column . ' IN :ids')->bind(array('ids' => (array) $ids));
+        $query->where($this->_identity_column . ' IN :id')->bind(array('id' => (array) $id));
 
         $db = $this->getMixer()->getDatabase();
         $db->update($query);
