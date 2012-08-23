@@ -12,6 +12,6 @@
 <a href="<?= $link ?>">
 	<img src="media://system/images/livemarks.png" />
     <span>
-        <?= $params->get('text') ?>
+        <?= $module->params->get('text') ?>
     </span>
 </a>
