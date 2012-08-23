@@ -46,5 +46,4 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
 
         return parent::setRequest($request);
     }
-
 }
