@@ -20,11 +20,10 @@ class ModSyndicateHtml extends ModDefaultHtml
 {
     public function display()
     {
-        $this->params->set('text', 'Feed Entries');
+        $this->module->params->set('text', 'Feed Entries');
 
-        if($link = $this->getLink($this->params))
+        if($link = $this->getLink($this->module->params))
         {
-            $this->assign('params', $this->params);
             $this->assign('link'  , $link);
 
             return parent::display();
