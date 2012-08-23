@@ -20,7 +20,7 @@ class ComApplicationTemplateFilterLink extends KTemplateFilterLink
     public function write(&$text)
     {
         $links = $this->_parseTags($text);
-        $text = str_replace('<ktml:links />'."\n", $links, $text);
+        $text = str_replace('<ktml:link />'."\n", $links, $text);
 
         return $this;
     }
