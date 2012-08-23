@@ -10,33 +10,48 @@
 ?>
 
 <!DOCTYPE HTML>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
-    <link rel="stylesheet" href="media://com_application/css/error.css" />
+    <link rel="stylesheet" href="media://com_application/css/error.css" type="text/css" />
     <title><?= @text('Error').': '.$error->getCode(); ?></title>
 </head>
 <body>
-<table width="550" align="center" class="outline">
-    <tr>
-        <td align="center">
-            <h1>
-                <?= $error->getCode() ?> - <?= @text('An error has occurred') ?>
-        </td>
-    </tr>
-    <tr>
-        <td width="39%" align="center">
+<div align="center">
+    <div id="outline">
+        <div id="errorboxoutline">
+            <div id="errorboxheader">
             <? if(KDEBUG) : ?>
-            <p><?= (string) $error ?></p>
+                <?= (string) $error ?>
             <? else : ?>
-            <p><?= KHttpResponse::getMessage($error->getCode()) ?></p>
+                <?= KHttpResponse::getMessage($error->getCode()) ?>
             <? endif ?>
-            <p>
-                <? if(KDEBUG) : ?>
-                <?= @template('default_backtrace'); ?>
-                <? endif; ?>
-            </p>
-        </td>
-    </tr>
-</table>
-</body>
-</html>
+            </div>
+            <div id="errorboxbody">
+                <p><strong><?= @text('You may not be able to visit this page because of:'); ?></strong></p>
+                <ol>
+                    <li><?= @text('An out-of-date bookmark/favourite'); ?></li>
+                    <li><?= @text('A search engine that has an out-of-date listing for this site'); ?></li>
+                    <li><?= @text('A mis-typed address'); ?></li>
+                    <li><?= @text('You have no access to this page'); ?></li>
+                    <li><?= @text('The requested resource was not found'); ?></li>
+                    <li><?= @text('An error has occurred while processing your request.'); ?></li>
+                </ol>
+                <p><strong><?= @text('Please try one of the following pages:'); ?></strong></p>
+                <p>
+                <ul>
+                    <li><a href="<? KRequest::root(); ?>" title="<?= @text('Go to the home page'); ?>"><?= @text('Home Page'); ?></a></li>
+                </ul>
+                </p>
+                <p><?= @text('If difficulties persist, please contact the system administrator of this site.'); ?></p>
+                <div id="techinfo">
+                    <p><?= $error->getMessage(); ?></p>
+                    <p>
+                        <? if(KDEBUG) : ?>
+                        <?= @template('default_backtrace'); ?>
+                        <? endif; ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
