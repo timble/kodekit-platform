@@ -10,7 +10,7 @@
  */
 ?>
 
-<form action="<?= @route('option=com_users&view=session&id='.JFactory::getSession()->getId()) ?>" method="post" name="login" id="form-login">
+<form action="<?= @route('option=com_users&view=session&id='.@service('application.session')->getId()) ?>" method="post" name="login" id="form-login">
 	<input type="hidden" name="action" value="delete" />
     <? if ($show_greeting) : ?>
 	<div>
