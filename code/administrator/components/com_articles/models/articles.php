@@ -31,7 +31,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
             ->insert('trashed'   , 'int')
-            ->insert('access'    , 'int');
+            ->insert('access'    , 'int', JFactory::getUser()->aid);
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'category_title');
     }
@@ -72,16 +72,10 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             $query->where('tbl.state = :state')
                 ->bind(array('state' => $state->state));
         } 
-        else 
-        {
-            $query->where('tbl.state <> :state')
-                ->bind(array('state' => -2));
-        }
+        else $query->where('tbl.state <> :state')->bind(array('state' => -2));
 
-        if($state->search) 
-        {
-            $query->where('tbl.title LIKE :search')
-                ->bind(array('search' => '%'.$state->search.'%'));
+        if($state->search) {
+            $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
 
         if($state->category)
@@ -97,20 +91,11 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         if($state->created_by) 
         {
-            $query->where('tbl.created_by = :created_by')
-                ->bind(array('created_by' => $state->created_by));
+            $query->where('tbl.created_by = :created_by')->bind(array('created_by' => $state->created_by));
         }
 
-        if(is_numeric($state->access)) 
-        {
-            $query->where('tbl.access = :access')
-                ->bind(array('access' => $state->access));
-        }
-        
-        if($this->getTable()->isRevisable() && $state->trashed) 
-        {
-            $query->where('tbl.deleted = :trashed')
-                ->bind(array('trashed' => 1));
+        if($this->getTable()->isRevisable() && $state->trashed) {
+            $query->where('tbl.deleted = :trashed')->bind(array('trashed' => 1));
         }
 
         if (is_numeric($state->access)) {
