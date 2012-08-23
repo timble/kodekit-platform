@@ -20,7 +20,7 @@ class ComApplicationTemplateFilterScript extends KTemplateFilterScript
     public function write(&$text)
     {
         $scripts = $this->_parseTags($text);
-        $text = str_replace('<ktml:scripts />'."\n", $scripts, $text);
+        $text = str_replace('<ktml:script />'."\n", $scripts, $text);
 
         return $this;
     }
