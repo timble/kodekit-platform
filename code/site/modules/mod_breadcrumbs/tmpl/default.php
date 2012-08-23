@@ -20,7 +20,7 @@
 				<li><?= $list[$i]->name; ?></li>
 			<? endif; ?>
 			<span class="divider">/</span>
-		<? elseif ($params->get('showLast', 1)) : // when $i == $count -1 and 'showLast' is true ?>
+		<? elseif ($module->params->get('showLast', 1)) : // when $i == $count -1 and 'showLast' is true ?>
 		    <li><?=  $list[$i]->name; ?></li>
 		<? endif; ?>
 	<? endfor; ?>
