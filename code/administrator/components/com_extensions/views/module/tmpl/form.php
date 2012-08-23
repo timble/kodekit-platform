@@ -41,18 +41,13 @@ window.addEvent('domready', function() {
 			    setList(data);
 			}
 		});
-
-	$$('#combobox-position-select', '#position').addEvent('change', function(){
-	    position = this.get('value');
-	    cache[position] ? setList(cache[position]) : request.get({position: position});
-	}).fireEvent('change');
-	
-	//Sets a placeholder for the default position, for usability
-	$('position').set('placeholder', position);
 });
 </script>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
+	<input type="hidden" name="showtitle" value="0" />
+	<input type="hidden" name="enabled" value="0" />
+	
 	<div class="form-body">
 		<div class="title">
 			<input class="required" type="text" name="title" value="<?= @escape($module->title) ?>" />
@@ -110,30 +105,24 @@ window.addEvent('domready', function() {
 		<div class="scrollable">	
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Publish') ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for="enabled"><?= @text('Published') ?></label>
+				    <div class="controls">
+				        <input type="checkbox" name="enabled" value="1" <?= $module->enabled ? 'checked="checked"' : '' ?> />
+				    </div>
+				</div>
 				<? if($state->application == 'site') : ?>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Show title') ?></label>
+				    <label class="control-label" for="showtitle"><?= @text('Show title') ?></label>
 				    <div class="controls">
-				        <?= @helper('select.booleanlist', array(
-				        	'name'		=> 'showtitle',
-				        	'selected'	=> $module->showtitle
-				        )) ?>
+				        <input type="checkbox" name="showtitle" value="1" <?= $module->showtitle ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<? endif ?>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Published') ?></label>
-				    <div class="controls">
-				        <?= @helper('select.booleanlist', array(
-				        	'name'		=> 'enabled',
-				        	'selected'	=> $module->enabled	
-				        )) ?>
-				    </div>
-				</div>
-				<div class="control-group">
 				    <label class="control-label" for=""><?= @text('Position') ?></label>
 				    <div class="controls">
-				        <?= @helper('combobox.positions', array('application' => $state->application)) ?>
+				        <?= @helper('listbox.positions', array('application' => $state->application, 'deselect' => false)) ?>
 				    </div>
 				</div>
 				<div class="control-group">
