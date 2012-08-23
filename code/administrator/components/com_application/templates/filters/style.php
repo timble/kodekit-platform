@@ -20,7 +20,7 @@ class ComApplicationTemplateFilterStyle extends KTemplateFilterStyle
     public function write(&$text)
     {
         $styles = $this->_parseTags($text);
-        $text = str_replace('<ktml:styles />'."\n", $styles, $text);
+        $text = str_replace('<ktml:style />'."\n", $styles, $text);
 
         return $this;
     }
