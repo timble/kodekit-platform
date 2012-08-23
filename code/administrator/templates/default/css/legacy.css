@@ -2466,74 +2466,6 @@ table .span24 {
 .row-fluid [class*="span"].pull-right {
   float: right;
 }
-#flexbox .box-scroll {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
-}
-/* @group Flexible Box Model, powered by CSS3 */
-.-koowa-box {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
-  -webkit-flex: 0;
-  -moz-flex: 0;
-  flex: 0;
-}
-.-koowa-box-vertical {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
-  -webkit-flex: 0;
-  -moz-flex: 0;
-  flex: 0;
-  -webkit-flex-direction: vertical;
-  -moz-box-orient: vertical;
-  box-orient: vertical;
-  -webkit-box-align: stretch;
-  -moz-box-align: stretch;
-  box-align: stretch;
-}
-.-koowa-box-flex1,
-.-koowa-box-flex {
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-/* @end group */
-.-koowa-box-scroll {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  background: /* Shadow covers */
- -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
- -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
-  background: /* Shadow covers */
- /* Shadow covers */
- linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
- radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
-  background-repeat: no-repeat;
-  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-  /* Opera doesn't support this in the shorthand */
-
-  background-attachment: local, local, scroll, scroll;
-}
 /* -- General styles ------------------------------ */
 body {
   margin: 0;
@@ -3617,6 +3549,18 @@ div.message {
   flex: 0;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 .com_settings dl.tabs h3 {
   color: #666;
@@ -3708,6 +3652,18 @@ div.message {
   flex: 1 0 0%;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  background: /* Shadow covers */
+ -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
+ -webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), transparent), -webkit-radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), transparent) 0 100%;
+  background: /* Shadow covers */
+ /* Shadow covers */
+ linear-gradient(#ffffff 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), #ffffff 70%) 0 100%, /* Shadows */
+ radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0)) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+  /* Opera doesn't support this in the shorthand */
+
+  background-attachment: local, local, scroll, scroll;
 }
 .com_settings .current dd h2 {
   border-bottom: 1px solid #EEE;
@@ -3721,14 +3677,10 @@ div.message {
   /* tabs.css */
 
 }
-.com_pages #main {
-  background: #E6E6E6;
-}
 .com_pages #main .tabs {
   float: none !important;
 }
 .com_pages #components {
-  width: 200px;
   background: #F7F7F7;
   border-right: 1px solid #DDD;
 }

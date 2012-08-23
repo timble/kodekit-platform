@@ -11,7 +11,7 @@
 
 <? $components = @service('com://admin/pages.model.types')->getList() ?>
 
-<div id="components">
+<div id="components" style="width: 200px;">
     <div class="scrollable">
         <h3><?= @text('Component') ?></h3>
         <div id="components-inner">

@@ -44,16 +44,9 @@ html, body, #container {
 	
 	&.default #window-sidebar,
 	&.default #window-inspector {
-		#flexbox > .box(column);
+		#flexbox > .box(column, initial);
 		min-width: 200px;
-		
-		.scrollable {
-			#flexbox > .box(column, 1 0 0%, scrollable);
-			
-			* {
-				#flexbox > .box-flex(none);
-			}
-		}
+		max-width: 200px;
 	}
 	
 	#window-content { 
@@ -77,16 +70,16 @@ html, body, #container {
 			
 			.sidebar {
 				#flexbox > .box(column, initial);
-				
-				.scrollable {
-					#flexbox > .box(column, 1 0 0%, scrollable);
-					
-					* {
-						#flexbox > .box-flex(none);
-					}
-				}
 			}
 		}		
+	}
+}
+
+.scrollable {
+	#flexbox > .box(column, 1 0 0%, scrollable);
+	
+	* {
+		#flexbox > .box-flex(none);
 	}
 }
 
@@ -135,17 +128,9 @@ form[name="adminForm"] {
 }
 
 .com_pages {
-	#window-sidebar,
+	#components,
 	#layouts {
 		#flexbox > .box(column, initial);
-				
-		.scrollable {
-			#flexbox > .box(column, 1 0 0%, scrollable);
-			
-			* {
-				#flexbox > .box-flex(none);
-			}
-		}
 	}
 	
 	#main {

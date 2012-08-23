@@ -36,65 +36,35 @@
 	.box-justify-content(@justify: flex-start) {
 		-webkit-justify-content: @justify;
 	}
-
-	.box-scroll { 
-		overflow-y: scroll;
-		-webkit-overflow-scrolling: touch;
-
-		.scrolling-shadow();
-	}
-
+	
 	.box-scrollable(@scroll) when (@scroll = scrollable) { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
-
 		
+		@background: #F9F9F9;
+		background:
+			/* Shadow covers */
+			-webkit-linear-gradient(@background 30%, @background), 
+			-webkit-linear-gradient(@background, @background 70%) 0 100%,
+		
+			/* Shadows */
+			-webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), transparent), 
+			-webkit-radial-gradient(50% 100%,farthest-side, rgba(0, 0, 0, .2), transparent) 0 100%;
+		background: 		/* Shadow covers */
+			/* Shadow covers */
+			linear-gradient(white 30%, rgba(255,255,255,0)),
+			linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+		
+			/* Shadows */
+			radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+			radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+		background-repeat: no-repeat;
+		
+		background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
+		
+		/* Opera doesn't support this in the shorthand */
+		background-attachment: local, local, scroll, scroll;
 	}
 
 	.box-scrollable(@scroll) when not (@scroll = scrollable) { }
-}
-
-// #TODO: Cleanup (only used in com_files and com_menus)
-/* @group Flexible Box Model, powered by CSS3 */
-.-koowa-box { 
-	#flexbox .box();
-}	
-
-.-koowa-box-vertical { 
-	#flexbox > .box();
-	#flexbox > .box-orient(vertical);
-	#flexbox > .box-align(stretch);
-}
-
-.-koowa-box-flex1,
-.-koowa-box-flex 	{ 
-	#flexbox > .box-flex(1);
-}
-/* @end group */
-
-.-koowa-box-scroll { #flexbox > .box-scroll(); }
-
-.scrolling-shadow(@background: #F9F9F9) {
-	background:
-		/* Shadow covers */
-		-webkit-linear-gradient(@background 30%, @background), 
-		-webkit-linear-gradient(@background, @background 70%) 0 100%,
-
-		/* Shadows */
-		-webkit-radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), transparent), 
-		-webkit-radial-gradient(50% 100%,farthest-side, rgba(0, 0, 0, .2), transparent) 0 100%;
-	background: 		/* Shadow covers */
-		/* Shadow covers */
-		linear-gradient(white 30%, rgba(255,255,255,0)),
-		linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
-
-		/* Shadows */
-		radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
-		radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
-	background-repeat: no-repeat;
-
-	background-size: 100% 10px, 100% 10px, 100% 5px, 100% 5px;
-
-	/* Opera doesn't support this in the shorthand */
-	background-attachment: local, local, scroll, scroll;
 }
