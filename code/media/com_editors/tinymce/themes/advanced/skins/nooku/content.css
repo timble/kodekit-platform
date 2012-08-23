@@ -65,7 +65,9 @@ dl.aligncenter {
 }
 
 body.mceContentBody {
-	font: 13px/19px Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
 	padding: 0.6em;
 	margin: 0;
 }
