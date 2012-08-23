@@ -30,7 +30,7 @@ class ComPagesModelPages extends ComPagesModelClosures
             ->insert('type'      , 'cmd')
             ->insert('home'      , 'boolean')
             ->insert('trashed'   , 'int')
-            ->insert('access'    , 'int');
+            ->insert('access'    , 'int', JFactory::getUser()->aid);
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
