@@ -43,7 +43,7 @@
 			<?= $user->group_name;?>
 		</td>
 		<td>
-			<?= JApplicationHelper::getClientInfo($user->loggedin_client_id)->name;?>
+			<?= $user->loggedin_application; ?>
 		</td>
 		<td>
 			<?= @helper('com://admin/users.template.helper.date.humanize', array('date' => '@'.$user->loggedin_on));?>
