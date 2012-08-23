@@ -21,9 +21,8 @@ class ModBreadcrumbsHtml extends ModDefaultHtml
 {
     public function display()
     {
-        // Get the breadcrumbs
-        $this->assign('params', $this->params);
-        $this->assign('list'  , $this->getList($this->params));
+        // Get the breadcrumb
+        $this->assign('list'  , $this->getList($this->module->params));
 
         return parent::display();
     }
