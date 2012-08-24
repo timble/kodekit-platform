@@ -536,6 +536,18 @@ CREATE TABLE `#__files_thumbnails` (
   PRIMARY KEY (`files_thumbnail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__users_credentials`
+--
+
+CREATE TABLE `#__users_credentials` (
+  `users_user_id` bigint(20) unsigned NOT NULL,
+  `change` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`users_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

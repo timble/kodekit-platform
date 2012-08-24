@@ -95,16 +95,15 @@ class ComUsersHelperPassword extends KObject
     /**
      * Returns a salt.
      *
-     * @param string The seed to get the salt from (probably a previously generated password).
-     * 			     Defaults to generating a new seed.
-     * @return string  The generated or extracted salt.
+     * @param string The encrypted password.
+     * @return string The generated or extracted salt.
      */
-    public function getSalt($seed)
+    public function getSalt($password = null)
     {
-        if($seed) {
-            $result = substr(preg_replace('|^{crypt}|i', '', $seed), 0, 2);
+        if($password) {
+            $result = substr(strrchr($password, ':'), 1);
         } else {
-            $result = substr(md5(mt_rand()), 0, 2);
+            $result = $this->getRandom(32);
         }
 
         return $result;
@@ -119,7 +118,7 @@ class ComUsersHelperPassword extends KObject
 	 */
 	public function encrypt($password, $salt = null)
 	{
-		$salt = is_null($salt) ? $this->getRandom(32) : $salt;
+		$salt = is_null($salt) ? $this->getSalt() : $salt;
 		$password = $this->getCrypted($password, $salt);
 		
 		return $password . ':' . $salt;

@@ -108,24 +108,24 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-		if(($this->isNew() || $this->isModified('username')) &&  trim($this->username) == '')
+		/*if(($this->isNew() || $this->isModified('username')) &&  trim($this->username) == '')
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_('Please enter a username!'));
 
 			return false;
-		}
+		}*/
 
-		if(($this->isNew() || $this->isModified('username')) && preg_match('#[<>"\'%;()&]#i', $this->username) || strlen(utf8_decode($this->username)) < 2)
+		/*if(($this->isNew() || $this->isModified('username')) && preg_match('#[<>"\'%;()&]#i', $this->username) || strlen(utf8_decode($this->username)) < 2)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_('Please enter a valid username. No spaces, at least 2 characters '.
 				'and must contain <strong>only</strong> letters and numbers.'));
 
 			return false;
-		}
+		}*/
 
-	   if($this->isModified('username'))
+	   /*if($this->isModified('username'))
        {
             $query = $this->getService('koowa:database.query.select')
                 ->where('username = :username')
@@ -141,7 +141,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
                 return false;
             }
-        }
+        }*/
 
 		if(($this->isNew() || $this->isModified('email')) && (trim($this->email) == '') || !($this->getService('koowa:filter.email')->validate($this->email)))
 		{
@@ -257,6 +257,18 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 			return false;
 		}
+
+        if (!$this->isNew() && $this->password) {
+            // Check if new and old passwords are the same.
+            $helper = $this->getService('com://admin/users.helper.password');
+            // Encrypt new password using old salt.
+            $password = $helper->encrypt($this->password, $helper->getSalt($old_row->password));
+            if ($password == $old_row->password) {
+                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatusMessage(JText::_("New and old passwords are the same!"));
+                return false;
+            }
+        }
 
 		// Generate a random password if empty and the record is new.
 		if($this->isNew() && !$this->password)

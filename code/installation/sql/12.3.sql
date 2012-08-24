@@ -505,3 +505,9 @@ INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_co
 VALUES
     (20, 'articles', 'articles_article_id', 'title', NULL, NULL, 0),
     (20, 'categories', 'categories_category_id', 'title', 'table', 'articles', 0);
+
+CREATE TABLE `#__users_credentials` (
+  `users_user_id` bigint(20) unsigned NOT NULL,
+  `change` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`users_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

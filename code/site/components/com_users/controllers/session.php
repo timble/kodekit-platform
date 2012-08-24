@@ -28,6 +28,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
 
         //Authorize the user before adding
         $this->registerCallback('before.add' , array($this, 'authorize'));
+        $this->registerCallback('after.add', array($this, 'redirect'));
 
         //Set the default redirect.
         $this->setRedirect(KRequest::referrer());
@@ -198,5 +199,15 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
        }
 
        return false;
+    }
+
+    public function redirect(KCommandContext $context) {
+
+        $credential = $this->getService('com://admin/users.model.credentials')->set('id', $context->user->id)->getItem();
+
+        if ($context->result !== false && $credential->change) {
+            // Force a password change.
+            $this->setRedirect('index.php?option=com_users&view=credential&layout=form');
+        }
     }
 }

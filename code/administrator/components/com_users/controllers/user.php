@@ -24,6 +24,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         parent::__construct($config);
 
         $this->registerCallback('after.add'   , array($this, 'notify'));
+        $this->registerCallback(array('after.save', 'after.apply'), array($this, 'redirect'));
     }
     
     protected function _initialize(KConfig $config)
@@ -58,6 +59,15 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             ->delete();
 
         return $data;
+    }
+
+    public function redirect(KCommandContext $context) {
+
+        $result = $context->result;
+
+        if ($result && $result->getStatus() == KDatabase::STATUS_FAILED) {
+            $this->setRedirect(KRequest::referrer(), JText::_($result->getStatusMessage()), 'error');
+        }
     }
 
     public function notify(KCommandContext $context)

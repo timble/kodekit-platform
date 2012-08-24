@@ -65,6 +65,14 @@ if(Form && Form.Validator) {
 				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" />
 				    </div>
 				</div>
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="radio" for="password_change">
+                            <input type="checkbox" name="password_change" />
+                            <?= @text('Require a change of password in the next sign in') ?>
+                        </label>
+                    </div>
+                 </div>
 				<div class="control-group">
 				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
 				    <div class="controls">

@@ -41,7 +41,7 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 				'registered_on'		=> 'registerDate',
 				'last_visited_on'	=> 'lastvisitDate'
 			),
-			'behaviors' => array('identifiable')
+			'behaviors' => array('identifiable', 'authenticatable')
 		));
 		
 		parent::_initialize($config);
