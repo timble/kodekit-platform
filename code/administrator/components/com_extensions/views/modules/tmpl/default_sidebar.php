@@ -22,11 +22,11 @@
 	</a>
 	<? endforeach ?>
 	<h4><?= @text( 'Administrator' ); ?></h4>
-	<a <? if(!$state->position && $state->application == 'administrator') echo 'class="active"' ?> href="<?= @route('position=&application=administrator') ?>">
+	<a <? if(!$state->position && $state->application == 'admin') echo 'class="active"' ?> href="<?= @route('position=&application=admin') ?>">
 	    <?= @text('All positions') ?>
 	</a>
-	<? foreach(array_unique(@service('com://admin/extensions.model.modules')->application('administrator')->getList()->position) as $position) : ?>
-	<a <? if($state->position == $position && $state->application == 'administrator') echo 'class="active"' ?> href="<?= @route('position='.$position.'&application=administrator') ?>">
+	<? foreach(array_unique(@service('com://admin/extensions.model.modules')->application('admin')->getList()->position) as $position) : ?>
+	<a <? if($state->position == $position && $state->application == 'admin') echo 'class="active"' ?> href="<?= @route('position='.$position.'&application=admin') ?>">
 	    <?= $position; ?>
 	</a>
 	<? endforeach ?>
