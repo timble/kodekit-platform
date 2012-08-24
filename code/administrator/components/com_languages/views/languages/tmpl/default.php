@@ -24,9 +24,6 @@
 				<th width="10%">
 					<?= @helper('grid.sort', array('column' => 'iso_code', 'title' => 'ISO Code')) ?>
 				</th>
-                <th width="31px" nowrap="nowrap">
-                    <?= @text('Flag') ?>
-                </th>
                 <th width="50px" nowrap="nowrap">
                     <?= @text('Primary') ?>
                 </th>
@@ -60,9 +57,6 @@
 				<td align="center">
 					<a  href="<?= @route('view=language&id='.$language->id) ?>"><?= $language->iso_code ?></a>
 				</td>
-                <td align="center">
-                    <?= @helper('grid.flag', array('iso_code' => $language->iso_code)) ?>
-                </td>
                 <td align="center">
                     <? if($language->primary): ?>
                         <img src="media://system/images/star.png" alt="<?= @text( 'Primary Language' ) ?>" />
