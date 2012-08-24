@@ -483,7 +483,6 @@ INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_me
 VALUES
     (NULL, 'Languages', '', 0, @id, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
     (NULL, 'Components', '', 0, @id, 'option=com_languages&view=tables', 'Components', '', 4, '', 0, '', 1),
-    (NULL, 'Items', '', 0, @id , 'option=com_languages&view=items', 'Items', '', 2, '', 0, '', 1);
 
 -- Add primary languages
 INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)

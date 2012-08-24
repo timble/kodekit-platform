@@ -31,8 +31,7 @@ VALUES
     (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', '', 1),
     (33, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=languages', 'Languages', 'com_languages', 0, '', '', 1),
     (34, 'Languages', '', 0, 33, 'option=com_languages&view=languages', 'Languages', '', 3, '', '', 1),
-    (35, 'Components', '', 0, 33, 'option=com_languages&view=tables', 'Components', '', 4, '', '', 1),
-    (36, 'Items', '', 0, 33, 'option=com_languages&view=items', 'Items', '', 2, '', '', 1);
+    (35, 'Components', '', 0, 33, 'option=com_languages&view=tables', 'Components', '', 4, '', '', 1);
 
 --
 -- Dumping data for table `#__languages`
