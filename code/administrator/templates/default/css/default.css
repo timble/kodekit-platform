@@ -2484,6 +2484,12 @@ h1 {
 h3 {
   font-size: 13px;
 }
+hr {
+  margin: 12px 0;
+  border: 0;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #ffffff;
+}
 a:link {
   color: #0b55c4;
   text-decoration: none;
