@@ -10,5 +10,5 @@
  */
 ?>
 <div id="captcha">
-	<?=@helper('com://site/users.template.helper.captcha.render', array('public_key' => $captcha_public_key));?>
+    <?=@helper('com://site/users.template.helper.captcha.render');?>
 </div>

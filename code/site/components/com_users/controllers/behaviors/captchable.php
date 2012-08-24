@@ -20,84 +20,174 @@
 class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
 {
     /**
-     * @var string Private key.
+     * @var ComUsersConfigCaptcha Captcha configuration object.
      */
-    protected $_private_key;
+    protected $_config;
 
     /**
-     * @var string Public key.
+     * @var string The last error message.
      */
-    protected $_public_key;
-    
+    protected $_error_message;
 
-    public function __construct(KConfig $config = null) 
-    {
-        if (!$config) {
-            $config = new KConfig();
-        }
-
+    public function __construct(KConfig $config) {
         parent::__construct($config);
 
-        if (is_null($config->private_key) || is_null($config->public_key)) {
+        if (is_null($config->captcha->private_key) || is_null($config->captcha->public_key)) {
             throw new KControllerBehaviorException('Public and/or private key(s) missing');
         }
 
-        $this->_private_key = $config->private_key;
-        $this->_public_key  = $config->public_key;
+        $this->_config = $this->getService('com://admin/users.config.captcha')->append($config->captcha);
     }
 
-    protected function _initialize(KConfig $config) 
-    {
-        $parameters = JComponentHelper::getParams('com_users');
+    protected function _initialize(KConfig $config) {
+        $params = JComponentHelper::getParams('com_users');
 
         $config->append(array(
-            'auto_mixin'  => true,
-            'private_key' => $parameters->get('recaptcha_private_key', null),
-            'public_key'  => $parameters->get('recaptcha_public_key', null)
-        ));
-        
+            'auto_mixin'        => true,
+            'captcha'           => array(
+                'options'           => array(
+                    'theme' => 'clean',
+                    'lang'  => 'en'),
+                'private_key'       => $params->get('recaptcha_private_key', null),
+                'public_key'        => $params->get('recaptcha_public_key', null),
+                'api_server'        => 'http://www.google.com/recaptcha/api',
+                'api_secure_server' => 'https://www.google.com/recaptcha/api',
+                'remote_ip'         => KRequest::get('server.REMOTE_ADDR', 'ip'),
+                'verify_server'     => array(
+                    'host' => 'www.google.com',
+                    'path' => '/recaptcha/api/verify',
+                    'port' => 80))));
+
         parent::_initialize($config);
     }
 
-    protected function _beforeControllerEdit(KCommandContext $context) 
-    {
+    /**
+     * Submits an HTTP POST to a reCAPTCHA server
+     *
+     * @param array  $data The POST data.
+     *
+     * @return object The request response.
+     */
+    protected function _post($data) {
+
+        $config = $this->_config;
+
+        $content = array();
+        foreach ($data as $key => $value) {
+            $content[] = $key . '=' . urlencode(stripslashes($value));
+        }
+        $content = implode('&', $content);
+
+        $request = "POST {$config->verify_server->path} HTTP/1.0\r\n";
+        $request .= "Host: {$config->verify_server->host}\r\n";
+        $request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
+        $request .= "Content-Length: " . strlen($content) . "\r\n";
+        $request .= "User-Agent: reCAPTCHA/PHP\r\n";
+        $request .= "\r\n";
+        $request .= $content;
+
+        $fs = @fsockopen($config->verify_server->host, $config->verify_server->port, $errno, $errstr, 10);
+        if ($fs === false) {
+            throw new KException('Could not open socket.');
+        }
+
+        fwrite($fs, $request);
+
+        $response = '';
+        while (!feof($fs)) {
+            // One TCP-IP packet
+            $response .= fgets($fs, 1160);
+        }
+        fclose($fs);
+
+        $response = explode("\r\n\r\n", $response, 2);
+
+        return $response;
+    }
+
+    /**
+     * Error message setter.
+     *
+     * @param $message The error message.
+     *
+     * @return ReCaptcha this.
+     */
+    protected function _setCaptchaErrorMessage($message) {
+        $this->_error_message = $message;
+        return $this;
+    }
+
+    /**
+     * Error message getter.
+     *
+     * @return string The last error message.
+     */
+    public function getCaptchaErrorMessage() {
+        return (string) $this->_error_message;
+    }
+
+    protected function _beforeControllerEdit(KCommandContext $context) {
         // Same as add.
         return $this->_beforeControllerAdd($context);
     }
 
-    protected function _beforeControllerAdd(KCommandContext $context) 
-    {
-        if (!$this->captchaValid($context->data)) {
+    protected function _beforeControllerAdd(KCommandContext $context) {
+        $data = $context->data;
+
+        if (!$this->verifyCaptcha($data->recaptcha_challenge_field, $data->recaptcha_response_field)) {
             // Prevent the action from happening.
             return false;
         }
     }
 
-    protected function _beforeControllerGet(KCommandContext $context) {
-        // Auto-set the public key in the view.
-        $this->getView()->captcha_public_key = $this->_public_key;
-    }
-
     /**
-     * Checks if the provided captcha info is valid.
+     * Calls an HTTP POST function to verify if the user's guess was correct
      *
-     * @param
-     *            KConfig The POST request data containing captcha information.
+     * @param string $challenge The requested captcha string.
+     * @param string $answer    The provided captcha string.
      *
-     * @return boolean True on success, false otherwise.
+     * @return bool True if valid, false otherwise.
      */
-    public function captchaValid(KConfig $data) 
-    {
-        require_once (JPATH_LIBRARIES . '/recaptcha/recaptchalib.php');
-        
-        $result = recaptcha_check_answer($this->_private_key, KRequest::get('server.REMOTE_ADDR', 'raw'),
-        $data->recaptcha_challenge_field, $data->recaptcha_response_field);
+    public function verifyCaptcha($challenge, $answer) {
 
-        if ($result->is_valid) {
-            return true;
+        $config = $this->_config;
+
+        if (!$private_key = $config->private_key) {
+            throw new KException('reCAPTCHA private key is not set.');
         }
-        
-        return false;
+
+        if (!$remote_ip = $config->remote_ip) {
+            throw new KException('reCAPTCHA remote ip is not set.');
+        }
+
+        if (!trim((string) $challenge) || !trim((string) $answer)) {
+            $this->_setCaptchaErrorMessage('incorrect-captcha-sol');
+            $result = false;
+        } else {
+            // Prepare the POST data.
+            $data = array(
+                'privatekey' => $private_key,
+                'remoteip'   => $remote_ip,
+                'challenge'  => $challenge,
+                'response'   => $answer
+            );
+
+            $response = $this->_post($data);
+
+            $response = explode("\n", $response [1]);
+
+            if ($response[0] == 'false') {
+                $result = false;
+            } else {
+                $result = true;
+            }
+
+            if (!$result) {
+                $this->_setCaptchaErrorMessage((string) $response[1]);
+            }
+        }
+
+        return $result;
     }
 
 }

@@ -19,20 +19,56 @@
  */
 class ComUsersTemplateHelperCaptcha extends KTemplateHelperDefault
 {
-	
-	public function render($config = array())
-	{
-		
-		$config = new KConfig($config);
-		
-		// Include the reCaptcha lib.
-		require_once (JPATH_LIBRARIES . '/recaptcha/recaptchalib.php');
+    /**
+     * Renders the reCAPTCHA widget.
+     *
+     * @param string  $error   The error message given by reCAPTCHA.
+     * @param boolean $ssl     Determines is the request should be made over SSL.
+     *
+     * @return string - The HTML to be embedded in the user's form.
+     */
+    public function render($config = array()) {
 
-		$output = recaptcha_get_html($config->public_key);
-		// Avoid the template filter from parsing script tags
-		$output = str_replace('<script','<script data-inline', $output);
-		
-		return $output;
-	}
+        $config = new KConfig($config);
 
+        $config->append(array(
+            'error'=> '',
+            'ssl'  => false));
+
+        // Get captcha configuration object.
+        $captcha = $this->getService('com://admin/users.config.captcha');
+
+        if (!$public_key = $captcha->public_key) {
+            throw new KException('The reCaptcha public key is not set.');
+        }
+
+        if ($config->ssl) {
+            $server = $captcha->api_secure_server;
+        } else {
+            $server = $captcha->api_server;
+        }
+
+        if ($config->error) {
+            $config->error = '&amp;error=' . $config->error;
+        }
+
+        $html = '';
+
+        // Use options if any.
+        if (count($options = $captcha->options)) {
+            $options = KConfig::unbox($options);
+            $html .= '<script type="text/javascript">';
+            $html .= 'var RecaptchaOptions = ' . json_encode($options);
+            $html .= '</script> ';
+        }
+
+        $html .= '<script data-inline type="text/javascript" src="' . $server . '/challenge?k=' . $public_key . $config->error . '"></script>
+	<noscript>
+  		<iframe src="' . $server . '/noscript?k=' . $public_key . $config->error . '" height="300" width="500" frameborder="0"></iframe><br/>
+  		<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
+  		<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
+	</noscript>';
+
+        return $html;
+    }
 }

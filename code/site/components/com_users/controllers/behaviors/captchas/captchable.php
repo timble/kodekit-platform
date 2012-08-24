@@ -22,7 +22,9 @@ class ComUsersControllerBehaviorCaptchaCaptchable extends ComUsersControllerBeha
 {
     protected function _actionPost(KCommandContext $context)
     {
-        if ($this->captchaValid($context->data))
+        $data = $context->data;
+
+        if ($this->verifyCaptcha($data->recaptcha_challenge_field, $data->recaptcha_response_field))
         {
             // Get the user data.
             $data = KRequest::get('session.com.users.controller.user.data', 'raw', null);
