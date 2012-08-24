@@ -250,18 +250,15 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
 --
 
 CREATE TABLE `#__languages` (
-    `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `languages_language_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `application` VARCHAR(50) NOT NULL,
     `name` VARCHAR(150) NOT NULL,
     `native_name` VARCHAR(150) NOT NULL,
     `iso_code` VARCHAR(8) NOT NULL,
-    `slug` VARCHAR(255) NOT NULL,
+    `slug` VARCHAR(50) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     `primary` BOOLEAN NOT NULL DEFAULT 0,
-    `image` VARCHAR(255),
-    PRIMARY KEY (`languages_language_id`),
-    UNIQUE KEY (`application`, `iso_code`),
-    UNIQUE KEY (`application`, `slug`)
+    PRIMARY KEY (`languages_language_id`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------
@@ -271,19 +268,15 @@ CREATE TABLE `#__languages` (
 --
 
 CREATE TABLE `#__languages_items` (
-    `languages_item_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `languages_item_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `iso_code` VARCHAR(8) NOT NULL,
-    `table` VARCHAR(150) NOT NULL,
+    `table` VARCHAR(64) NOT NULL,
     `row` INT UNSIGNED NOT NULL,
-    `title` VARCHAR(255),
     `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `original` BOOLEAN NOT NULL DEFAULT 0,
     `deleted` BOOLEAN NOT NULL DEFAULT 0,
-    `created_on` DATETIME,
-    `created_by` INT UNSIGNED,
-    `modified_on` DATETIME,
-    `modified_by` INT UNSIGNED,
-    PRIMARY KEY (`languages_item_id`)
+    PRIMARY KEY (`languages_item_id`),
+    KEY (`iso_code`, `table`, `row`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------
@@ -293,14 +286,13 @@ CREATE TABLE `#__languages_items` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__languages_tables` (
+    `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `components_component_id` INT UNSIGNED NOT NULL,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `title_column` VARCHAR(64) NOT NULL,
-    `filter_column` VARCHAR(64),
-    `filter_value` VARCHAR(255),
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`components_component_id`, `name`),
+    PRIMARY KEY (`languages_table_id`),
     FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB CHARSET = utf8;
 

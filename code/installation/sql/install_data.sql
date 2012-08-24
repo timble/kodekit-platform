@@ -38,20 +38,20 @@ VALUES
 -- Dumping data for table `#__languages`
 --
 
-INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`, `image`)
+-- Add primary languages
+INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)
 VALUES
-    (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png'),
-    (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1, 'gb.png');
+    (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1),
+    (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1);
 
 --
 -- Dumping data for table `#__languages_components`
 --
 
-INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `title_column`, `filter_column`, `filter_value`, `enabled`)
+INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `title_column`, `enabled`)
 VALUES
-    (20, 'articles', 'articles_article_id', 'title', NULL, NULL, 0),
-    (20, 'categories', 'categories_category_id', 'title', 'table', 'articles', 0);
-
+    (20, 'articles', 'articles_article_id', 'title', 0),
+    (20, 'categories', 'categories_category_id', 'title', 0);
 --
 -- Dumping data for table `#__modules`
 --
