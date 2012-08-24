@@ -42,7 +42,6 @@
         <submenu>
             <menu view="languages">Languages</menu>
             <menu view="tables">Components</menu>
-            <menu view="items">Items</menu>            
         </submenu>
     </administration>
     
