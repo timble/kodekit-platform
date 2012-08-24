@@ -31,7 +31,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
             ->insert('trashed'   , 'int')
-            ->insert('access'    , 'int', JFactory::getUser()->aid);
+            ->insert('access'    , 'int');
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'category_title');
     }
