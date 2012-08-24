@@ -88,7 +88,7 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
 
         $fs = @fsockopen($config->verify_server->host, $config->verify_server->port, $errno, $errstr, 10);
         if ($fs === false) {
-            throw new KException('Could not open socket.');
+            throw new KControllerBehaviorException('Could not open socket.');
         }
 
         fwrite($fs, $request);
@@ -153,11 +153,11 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
         $config = $this->_config;
 
         if (!$private_key = $config->private_key) {
-            throw new KException('reCAPTCHA private key is not set.');
+            throw new KControllerBehaviorException('reCAPTCHA private key is not set.');
         }
 
         if (!$remote_ip = $config->remote_ip) {
-            throw new KException('reCAPTCHA remote ip is not set.');
+            throw new KControllerBehaviorException('reCAPTCHA remote ip is not set.');
         }
 
         if (!trim((string) $challenge) || !trim((string) $answer)) {
