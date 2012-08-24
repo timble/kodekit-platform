@@ -15,8 +15,10 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesModelTables extends ComDefaultModelDefault
+class ComLanguagesModelTables extends KModelTable implements KServiceInstantiatable
 {
+    protected $_list_cache;
+    
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
@@ -26,20 +28,59 @@ class ComLanguagesModelTables extends ComDefaultModelDefault
             ->insert('component', 'int');
     }
     
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
-        parent::_buildQueryWhere($query);
-        $state = $this->getState();
-        
-        if(!$state->isUnique())
+        if(!$container->has($config->service_identifier))
         {
-            if(!is_null($state->enabled)) {
-                $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
-            }
-            
-            if($state->component) {
-                $query->where('tbl.components_component_id IN :component')->bind(array('component' => (array) $state->component));
-            }
+            $classname = $config->service_identifier->classname;
+            $instance  = new $classname($config);
+            $container->set($config->service_identifier, $instance);
         }
+        
+        return $container->get($config->service_identifier);
     }
+    
+    public function getItem()
+     {
+        if(!$this->_list_cache) {
+            $this->_list_cache = $this->getTable()->select();
+        }
+        
+        $state  = $this->getState();
+        return $state->isUnique() ? $this->_list_cache->find($state->id) : $this->_list_cache->getRow();
+    }
+    
+    public function getList()
+    {
+        if(!$this->_list_cache) {
+            $this->_list_cache = $this->getTable()->select($this->getService('koowa:database.query.select'));
+        }
+        
+        $this->_list  = $this->_filter();
+        $this->_total = count($this->_list);
+        
+        $state = $this->getState();
+        if($state->limit)
+        {
+            // TODO: Handle limit and offset.
+        }
+        
+        return $this->_list;
+    }
+    
+    protected function _filter()
+    {
+        $state   = $this->getState();
+        $filters = array();
+        
+        if(!is_null($state->enabled)) {
+            $filters['enabled'] = (int) $state->enabled;
+        }
+        
+        if($state->component) {
+            $filters['components_component_id'] = $state->component;
+        }
+        
+        return $filters ? $this->_list_cache->find($filters) : clone $this->_list_cache;
+     }
 }
