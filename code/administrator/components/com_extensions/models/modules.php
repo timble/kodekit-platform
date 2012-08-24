@@ -29,9 +29,8 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 		 	->insert('sort'  	  , 'cmd', array('position'))
 		 	->insert('enabled'	  , 'boolean')
 		 	->insert('position'   , 'cmd')
-		 	->insert('type' 	  , 'cmd')
 		 	->insert('installed'  , 'boolean', false)
-            ->insert('access'     , 'int', JFactory::getUser()->aid)
+            ->insert('access'     , 'int')
             ->insert('page'       , 'int');
 	}
 
@@ -54,10 +53,6 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
 
 		if($state->position) {
 		    $query->where('tbl.position = :position')->bind(array('position' => $state->position));
-		}
-		
-		if($state->type) {
-		    $query->where('tbl.module = :type')->bind(array('type' => $state->type));
 		}
 
 		if(is_bool($state->enabled)) {
@@ -118,11 +113,11 @@ class ComExtensionsModelModules extends ComDefaultModelDefault
         if(!isset($this->_list))
         {
             $state = $this->getState();
-           
+
             if($state->installed)
             {
                 $modules = array();
-               	$ids = parent::getList()->type; 
+               	$ids = parent::getList()->type;
 
                 foreach((array) KConfig::unbox($state->application) as $application)
                 {
