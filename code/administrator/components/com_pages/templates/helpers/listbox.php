@@ -18,6 +18,19 @@
 
 class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
+    public function menus($config = array())
+    {
+        $config = new KConfig($config);
+		$config->append(array(
+			'model'		=> 'menus',
+			'name' 		=> 'pages_menu_id',
+			'value'		=> 'id',
+			'text'		=> 'title',
+		));
+
+		return $this->_listbox($config);
+    }
+    
     public function pages($config = array())
     {
         $config = new KConfig($config);

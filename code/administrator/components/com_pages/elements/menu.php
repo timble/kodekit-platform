@@ -25,7 +25,7 @@ class JElementMenu extends JElement
         $config = array(
             'name'     => $control_name . '[' . $name . ']',
             'selected' => $value,
-            'attribs'  => array('class' => 'inputbox'),
+            'deselect' => false
         );
 
         $html = KService::get('com://admin/pages.template.helper.listbox')->menus($config);

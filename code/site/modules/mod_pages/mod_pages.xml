@@ -9,10 +9,8 @@
     <authorUrl>www.nooku.org</authorUrl>
     <version>12.3</version>
     <description>This module will display a menu</description>
-	<url addpath="/administrator/components/com_pages/elements">
+	<params addpath="/administrator/components/com_pages/elements">
 		<param name="menu_id" type="menu" default="" label="Menu Name" description="The name of the menu" />
-	</url>
-	<params>
 		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
 		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />
 		<param name="showAllChildren" type="radio" default="0" label="Always show submenu items" description="PARAMSHOWSUBMENUITEMS">
