@@ -482,7 +482,7 @@ SET @id = LAST_INSERT_ID();
 INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `iscore`, `params`, `enabled`)
 VALUES
     (NULL, 'Languages', '', 0, @id, 'option=com_languages&view=languages', 'Languages', '', 3, '', 0, '', 1),
-    (NULL, 'Components', '', 0, @id, 'option=com_languages&view=tables', 'Components', '', 4, '', 0, '', 1),
+    (NULL, 'Components', '', 0, @id, 'option=com_languages&view=tables', 'Components', '', 4, '', 0, '', 1);
 
 -- Add primary languages
 INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)
