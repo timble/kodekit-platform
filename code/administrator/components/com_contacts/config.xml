@@ -2,22 +2,22 @@
 <config>
 	<params>
 		<param name="show_position" type="radio" default="1" label="Show Contact's Position" description="Show/Hide the Contact Position">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
 		</param>
 		<param name="show_email" type="radio" default="0" label="Show Email Address" description="Show/Hide the Email Address">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
 		</param>
 		<param name="show_telephone" type="radio" default="1" label="Show Phone Number" description="Show/Hide the Telephone Number">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
 		</param>
 
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="allow_vcard" type="radio" default="0" label="Enable vcard" description="Enable vcard support for contacts">
-			<option value="0">NO</option>
-			<option value="1">YES</option>
+			<option value="0">No</option>
+			<option value="1">Yes</option>
 		</param>
 	</params>
 </config>
