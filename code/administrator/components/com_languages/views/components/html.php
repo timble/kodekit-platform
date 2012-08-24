@@ -1,5 +1,5 @@
 <?php
-class ComLanguagesViewTablesHtml extends ComDefaultViewHtml
+class ComLanguagesViewComponentsHtml extends ComDefaultViewHtml
 {
     protected function _initialize(KConfig $config)
     {
@@ -12,7 +12,7 @@ class ComLanguagesViewTablesHtml extends ComDefaultViewHtml
     
     public function display()
     {
-        $tables     = $this->getModel()->getList();
+        $tables     = $this->getService('com://admin/languages.model.tables')->getList();
         $components = $this->getService('com://admin/extensions.model.components')
             ->id(array_unique($tables->components_component_id))
             ->getList();

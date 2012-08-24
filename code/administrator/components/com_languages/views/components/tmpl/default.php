@@ -1,8 +1,6 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 
-<?= @template('com://admin/default.view.grid.toolbar') ?>
-
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar') ?>
 	<table>
@@ -36,7 +34,7 @@
 					<?= @escape($component->name) ?>
 				</td>
 				<td align="center">
-					<?= @helper('grid.enable', array('row' => $component, 'data' => array('components_component_id' => $component->id))) ?>   
+					<?= @helper('grid.enable', array('row' => $component)) ?>   
 				</td>
 			</tr>
 			<? endforeach ?>
