@@ -26,8 +26,7 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		$this->getState()
 		 	->insert('enabled', 'boolean')
 		 	->insert('parent' , 'int')
-		 	->insert('component' , 'cmd')
-		 	->insert('hidden' , 'boolean');	
+		 	->insert('component' , 'cmd');
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -49,10 +48,6 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 
 		if(is_bool($state->enabled)) {
 			$query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
-		}
-		
-	    if(is_bool($state->hidden)) {
-			$query->where('tbl.iscore = :hidden')->bind(array('hidden' => (int) $state->hidden));
 		}
 	}
 }

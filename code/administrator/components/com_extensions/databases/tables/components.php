@@ -25,7 +25,6 @@ class ComExtensionsDatabaseTableComponents extends KDatabaseTableDefault
 
         $config->append(array(
             'name'       => 'components',
-            'column_map' => array('hidden' => 'iscore'),
             'filters'    => array('params' => 'ini')
         ));
         
