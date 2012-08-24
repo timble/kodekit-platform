@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesModelTables extends KModelTable implements KServiceInstantiatable
+class ComLanguagesModelTables extends ComDefaultModelDefault implements KServiceInstantiatable
 {
     protected $_list_cache;
     
@@ -56,13 +56,33 @@ class ComLanguagesModelTables extends KModelTable implements KServiceInstantiata
             $this->_list_cache = $this->getTable()->select($this->getService('koowa:database.query.select'));
         }
         
-        $this->_list  = $this->_filter();
-        $this->_total = count($this->_list);
+        $list  = $this->_filter();
+        $total = count($list);
         
         $state = $this->getState();
-        if($state->limit)
+        if($limit = $state->limit)
         {
-            // TODO: Handle limit and offset.
+            $offset = $state->offset;
+            $total  = $this->_total;
+            
+            if($offset && $total)        
+            {
+                if($offset >= $total) 
+                {
+                    $offset = floor(($total - 1) / $limit) * $limit;    
+                    $state->offset = $offset;
+                }
+             }
+             
+             $counter = 1;
+             foreach(clone $list as $item)
+             {
+                 if($counter <= $offset || $counter > $offset + $limit) {
+                     $list->extract($item);
+                 }
+                 
+                 $counter++;
+             }
         }
         
         return $this->_list;

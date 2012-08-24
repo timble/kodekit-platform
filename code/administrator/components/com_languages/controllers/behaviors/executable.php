@@ -3,12 +3,8 @@ class ComLanguagesControllerBehaviorExecutable extends ComDefaultControllerBehav
 {
     public function canEdit()
     {
-        if($this->getMixer()->getIdentifier()->name == 'component') {
-            $result = true;
-        } else {
-            $result = parent::canEdit();
-        }
+        $name = $this->getMixer()->getIdentifier()->name;
         
-        return $result;
+        return $name == 'component' ? true : parent::canEdit();
     }
 }
