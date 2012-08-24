@@ -75,8 +75,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'params'     => $attributes['params'],
                     'showtitle'  => !empty($attributes['title']),
                     'title'      => $attributes['title'],
-                    'module'     => 'mod_dynamic',
-                    'identifier' => 'mod://site/default.html',
+                    'identifier' => 'com://site/default.module.default.html',
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
@@ -155,6 +154,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                 ->application('site')
                 ->page($page->id)
                 ->enabled(true)
+                ->access(JFactory::getUser()->aid)
                 ->getList();
 
             $this->_modules = $modules;
