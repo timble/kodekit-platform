@@ -56,7 +56,7 @@ class ComLanguagesModelTables extends ComDefaultModelDefault implements KService
             $this->_list_cache = $this->getTable()->select($this->getService('koowa:database.query.select'));
         }
         
-        $list  = $this->_filter();
+        $list  = $this->_filterList();
         $total = count($list);
         
         $state = $this->getState();
@@ -88,7 +88,7 @@ class ComLanguagesModelTables extends ComDefaultModelDefault implements KService
         return $this->_list;
     }
     
-    protected function _filter()
+    protected function _filterList()
     {
         $state   = $this->getState();
         $filters = array();

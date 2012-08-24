@@ -58,7 +58,7 @@ class ComLanguagesModelLanguages extends ComDefaultModelDefault implements KServ
             $this->_list_cache = $this->getTable()->select($this->getService('koowa:database.query.select'));
         }
         
-        $list  = $this->_filter();
+        $list  = $this->_filterList();
         $total = count($list);
         
         $state = $this->getState();
@@ -93,20 +93,20 @@ class ComLanguagesModelLanguages extends ComDefaultModelDefault implements KServ
         return $this->_list;
     }
     
-    protected function _filter()
+    protected function _filterList()
     {
         $state   = $this->getState();
         $filters = array();
         
         if(!is_null($state->primary)) {
-            $filters['parimy'] = (int) $state->primary;
+            $filters['primary'] = (int) $state->primary;
         }
         
         if(!is_null($state->enabled)) {
             $filters['enabled'] = (int) $state->enabled;
         }
         
-        if(!is_null($state->application)) {
+        if($state->application) {
             $filters['application'] = $state->application;
         }
         

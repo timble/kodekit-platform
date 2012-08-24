@@ -1,6 +1,6 @@
 <div class="scopebar">
     <div class="scopebar-group">
-        <a href="<?= @route('published=') ?>" class="<?= is_null($state->enabled) ? 'active' : '' ?>">
+        <a href="<?= @route('enabled=') ?>" class="<?= is_null($state->enabled) ? 'active' : '' ?>">
             <?= @text('All') ?>
         </a>
     </div>
