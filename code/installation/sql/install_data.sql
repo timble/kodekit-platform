@@ -38,7 +38,6 @@ VALUES
 -- Dumping data for table `#__languages`
 --
 
--- Add primary languages
 INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)
 VALUES
     (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1),
