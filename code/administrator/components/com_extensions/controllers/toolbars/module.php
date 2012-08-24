@@ -24,8 +24,8 @@ class ComExtensionsControllerToolbarModule extends ComDefaultControllerToolbarDe
         parent::onAfterControllerBrowse($event);
         
         $this->addSeparator()
-			 ->addEnable()
-			 ->addDisable();    	 
+        	 ->addEnable(array('label' => 'publish'))
+        	 ->addDisable(array('label' => 'unpublish'));
     }
     
     protected function _commandNew(KControllerToolbarCommand $command)
