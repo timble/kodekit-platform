@@ -49,11 +49,8 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                     'iso_code' => ':iso_code',
                     'table' => ':table',
                     'row' => 'tbl.'.$table->unique_column,
-                    'title' => 'tbl.'.$table->title_column,
                     'status' => ':status',
-                    'original' => ':original',
-                    'created_on' => ':created_on',
-                    'created_by' => ':created_by'
+                    'original' => ':original'
                 );
                 
                 $select = $this->getService('koowa:database.query.select')
@@ -63,9 +60,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                         'iso_code' => $this->iso_code,
                         'table' => $table->name,
                         'status' => ComLanguagesDatabaseRowItem::STATUS_MISSING,
-                        'original' => 0,
-                        'created_on' => gmdate('Y-m-d H:i:s'),
-                        'created_by' => JFactory::getUser()->id
+                        'original' => 0
                     ));
                 
                 $insert = $this->getService('koowa:database.query.insert')

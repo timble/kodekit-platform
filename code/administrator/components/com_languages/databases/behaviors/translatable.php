@@ -42,9 +42,6 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     'iso_code'   => $active->iso_code,
                     'table'      => $context->table,
                     'row'        => $context->data->id,
-                    'title'      => $context->data->title,
-                    'created_on' => $context->data->created_on,
-                    'created_by' => $context->data->created_by,
                     'status'     => ComLanguagesDatabaseRowItem::STATUS_COMPLETED,
                     'original'   => 1
                 );
@@ -131,7 +128,6 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     ), KDatabase::FETCH_ROW);
                 
                 $item->setData(array(
-                    'title'  => $context->data->{$table->title_column},
                     'status' => ComLanguagesDatabaseRowItem::STATUS_COMPLETED
                 ))->save();
                 
@@ -171,12 +167,6 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     $prefix = $database->getTablePrefix().($item->iso_code != $primary->iso_code ? strtolower($item->iso_code.'_') : '');
                     $query = 'REPLACE INTO '.$database->quoteIdentifier($prefix.$table->name).' '.$select;
                     $database->execute($query);
-                    
-                    $item->setData(array(
-                        'title' => $context->data->{$table->title_column},
-                        'modified_by' => $context->data->modified_by,
-                        'modified_on' => $context->data->modified_on
-                    ))->save();
                 }
             }
         }

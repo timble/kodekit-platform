@@ -27,7 +27,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
         {
             $database  = $this->getTable()->getDatabase();
             $prefix    = $database->getTablePrefix();
-            $languages = JFactory::getApplication()->getLanguages();
+            $languages = $this->getService('application')->getLanguages();
             $primary   = $languages->getPrimary();
 
             foreach($languages as $language)
@@ -63,9 +63,6 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                         'iso_code' => ':iso_code',
                         'table' => ':table',
                         'row' => $this->unique_column,
-                        'title' => $this->title_column,
-                        'created_on' => ':created_on',
-                        'created_by' => ':created_by',
                         'status' => ':status',
                         'original' => ':original'
                     ))
@@ -73,30 +70,13 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                     ->bind(array(
                         'iso_code' => $language->iso_code,
                         'table' => $this->name,
-                        'created_on' => gmdate('Y-m-d H:i:s'),
-                        'created_by' => JFactory::getUser()->id,
                         'status' => $status,
                         'original' => $original
                     ));
                 
-                if($this->table_column && $this->table_value)
-                {
-                    $select->where($this->table_column.' = :table_column')
-                        ->bind(array('table_column' => $this->table_value));
-                }
-                
                 $query = $this->getService('koowa:database.query.insert')
                     ->table('languages_items')
-                    ->columns(array(
-                        'iso_code',
-                        'table',
-                        'row',
-                        'title',
-                        'created_on',
-                        'created_by',
-                        'status',
-                        'original'
-                    ))
+                    ->columns(array('iso_code', 'table', 'row', 'status', 'original'))
                     ->values($select);
                 
                 $database->execute($query);
