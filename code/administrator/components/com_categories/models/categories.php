@@ -27,7 +27,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             ->insert('parent'    , 'string')
             ->insert('published' , 'boolean')
             ->insert('distinct'  , 'string')
-            ->insert('access'    , 'int', JFactory::getUser()->aid);
+            ->insert('access'    , 'int');
     }
 
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
