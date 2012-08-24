@@ -88,7 +88,7 @@
 	<div class="control-group">
 	    <label class="control-label" for=""><?= @text( 'Time Zone' ); ?></label>
 	    <div class="controls">
-	        <?= @helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone, 'deselect' => false)) ?>
+	        <?= @helper('listbox.timezones', array('name' => 'settings[system][timezone]', 'selected' => $settings->timezone, 'deselect' => false, 'attribs' => array('class' => 'chzn-select', 'style' => 'width: 300px'))) ?>
 	        <p class="help-block"><?= @text( 'TIPDATETIMEDISPLAY' ) .': '. @helper('date.format', array('format' => @text('DATE_FORMAT_LC2'))) ?></p>
 	    </div>
 	</div>
