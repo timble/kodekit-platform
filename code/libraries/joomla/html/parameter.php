@@ -212,7 +212,7 @@ class JParameter extends JRegistry
 		}
 
 		if (count($params) < 1) {
-			$html[] = JText::_('There are no Parameters for this item');
+			return false;
 		}
 
 		return implode("\n", $html);

@@ -10,14 +10,17 @@
  */
 ?>
 
+<? 
+$params = new JParameter( null, $settings->getPath() );
+$params->loadArray($settings->toArray());
+?>
+
+<? if($params = $params->render('settings['.$settings->getName().']')) : ?>
 <?= @helper('tabs.startPanel', array('id' => $settings->getName(), 'title' => @text(ucfirst($settings->getName())))) ?>
+	
 	<fieldset class="form-horizontal">
 	    <legend><?=  @text(ucfirst($settings->getName())); ?></legend>
-		<? 
-		    $params = new JParameter( null, $settings->getPath() );
-			$params->loadArray($settings->toArray());
-			
-			echo $params->render('settings['.$settings->getName().']');
-		?>
+		<?= $params; ?>
 	</fieldset>
 <?= @helper('tabs.endPanel') ?>
+<? endif ?>
