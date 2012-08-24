@@ -47,10 +47,10 @@ VALUES
 -- Dumping data for table `#__languages_components`
 --
 
-INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `title_column`, `enabled`)
+INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `enabled`)
 VALUES
-    (20, 'articles', 'articles_article_id', 'title', 0),
-    (20, 'categories', 'categories_category_id', 'title', 0);
+    (20, 'articles', 'articles_article_id', 0),
+    (20, 'categories', 'categories_category_id', 0);
 --
 -- Dumping data for table `#__modules`
 --

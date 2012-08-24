@@ -290,7 +290,6 @@ CREATE TABLE IF NOT EXISTS `#__languages_tables` (
     `components_component_id` INT UNSIGNED NOT NULL,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
-    `title_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
     FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE

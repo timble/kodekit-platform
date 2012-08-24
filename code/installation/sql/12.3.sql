@@ -467,7 +467,6 @@ CREATE TABLE IF NOT EXISTS `#__languages_tables` (
     `components_component_id` INT UNSIGNED NOT NULL,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
-    `title_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
     FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
@@ -493,10 +492,10 @@ VALUES
     (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1);
 
 -- Add tables
-INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `title_column`, `enabled`)
+INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `enabled`)
 VALUES
-    (20, 'articles', 'articles_article_id', 'title', 0),
-    (20, 'categories', 'categories_category_id', 'title', 0);
+    (20, 'articles', 'articles_article_id', 0),
+    (20, 'categories', 'categories_category_id', 0);
 
 CREATE TABLE `#__users_credentials` (
   `users_user_id` bigint(20) unsigned NOT NULL,
