@@ -46,11 +46,6 @@
 				<th width="80" nowrap="nowrap">
 					<?= @helper('grid.sort', array('column' => 'ordering' , 'title' => 'Order')) ?>
 				</th>
-				<? if($state->application == 'site') : ?>
-					<th nowrap="nowrap" width="7%">
-						<?= @helper('grid.sort', array('column' => 'access' , 'title' => 'Access')) ?>
-					</th>
-				<? endif ?>
 				<th nowrap="nowrap" width="5%">
 					<?= @helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
 				</th>
@@ -63,9 +58,6 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<? if($state->application == 'site') : ?>
-				<td></td>
-				<? endif ?>
 				<td></td>
 				<td>
 					<?= @helper('listbox.types') ?>
@@ -87,10 +79,15 @@
 				<td width="20" align="center">
 					<?= @helper('grid.checkbox',array('row' => $module)) ?>
 				</td>
-				<td class="title">
+				<td>
 					<a href="<?= @route('view=module&id='.$module->id.'&application='.$state->application) ?>">
 					    <?= @escape($module->title) ?>
 					</a>
+					<? if($module->access == '1') : ?>
+					    <span class="label label-important"><?= @text('Registered') ?></span>
+					<? elseif($module->access == '2') : ?>
+					    <span class="label"><?= @text('Special') ?></span>
+					<? endif; ?>
 				</td>
 				<td align="center" width="15px">
 					<?= @helper('grid.enable', array('row' => $module)) ?>
@@ -98,11 +95,6 @@
 				<td class="order">
 					<?= @helper('grid.order', array('row'=> $module))?>
 				</td>
-				<? if($state->application == 'site') : ?>
-					<td align="center">
-						<?= @helper('grid.access', array('row' => $module)) ?>
-					</td>
-				<? endif ?>
 				<td align="center">
 					<?= @text(
 						is_array($module->pages) ? 'Varies' : $module->pages
