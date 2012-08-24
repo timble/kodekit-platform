@@ -203,14 +203,11 @@ class JParameter extends JRegistry
 		foreach ($params as $param)
 		{
 			$html[] = '<div class="control-group">';
-
-			if ($param[0]) {
-				$html[] = $param[0];
-				$html[] = '<div class="controls">'.$param[1].'</div>';
-			} else {
-				$html[] = '<div class="controls">'.$param[1].'</div>';
-			}
-
+			$html[] = $param[0];
+			$html[] = '<div class="controls">';
+			$html[] = $param[1];
+			$html[] = $param[2] ? '<p class="help-block">'.$param[2].'</p>' : '';
+			$html[] = '</div>';
 			$html[] = '</div>';
 		}
 
