@@ -12,23 +12,17 @@ class ComLanguagesViewTablesHtml extends ComDefaultViewHtml
     
     public function display()
     {
-        $query = $this->getService('koowa:database.query.select')
-            ->distinct()
-            ->columns(array('components_component_id', 'enabled'))
-            ->group('components_component_id');
-        
-        $list = $this->getModel()->getTable()->select($query);
-        
+        $tables     = $this->getModel()->getList();
         $components = $this->getService('com://admin/extensions.model.components')
-            ->id(array_values($list->components_component_id))
+            ->id(array_unique($tables->components_component_id))
             ->getList();
         
-        foreach($list as $item) {
-            $components->find($item->components_component_id)->enabled = $item->enabled;
+        foreach($tables as $table) {
+            $components->find($table->components_component_id)->enabled = $table->enabled;
         }
         
         $this->assign('components', $components);
-        $this->assign('total', count($list));
+        $this->assign('total', count($components));
         
         return parent::display();
     }
