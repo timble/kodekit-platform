@@ -44,16 +44,6 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
     public function __get($column)
     {
-        if($column == 'params' && !($this->_data['params']) instanceof JParameter)
-        {
-	        $file = JPATH_BASE.'/components/com_articles/databases/rows/article.xml';
-
-			$params	= new JParameter($this->_data['params']);
-			$params->loadSetupFile($file);
-
-			$this->_data['params'] = $params;
-        }
-
         if($column == 'text' && !isset($this->_data['text'])) {
             $this->_data['text'] = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
         }
