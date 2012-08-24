@@ -62,7 +62,7 @@ class ComExtensionsModelTemplates extends KModelAbstract
 				}
 
                 $data = array(
-                	'path'        => $path.'/templates',
+                	'path'        => $path.'/templates/'.$default,
                 	'application' => $state->application
                 );
 
