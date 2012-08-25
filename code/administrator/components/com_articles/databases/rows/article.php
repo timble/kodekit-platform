@@ -82,13 +82,13 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
         //Set the featured
         if(isset($modified['featured']))
-        {
-            $featured     = $this->getService('com://admin/articles.database.row.featured');
-            $featured->article = $this->id;
-
+        {    
+  			$featured = $this->getService('com://admin/articles.database.row.featured')
+  			     ->set('id', $this->id);
+            
             if($this->featured)
             {
-                if(!$featured->load()) {
+                if(!$featured->load()) {           
                     $featured->save();
                 }
             }
@@ -107,8 +107,8 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
     {
         $result = parent::delete();
 
-        $featured     = $this->getService('com://admin/articles.database.row.featured');
-        $featured->article = $this->id;
+        $featured = $this->getService('com://admin/articles.database.row.featured')
+             ->set('id', $this->id);
 
         if($featured->load()) {
             $featured->delete();
