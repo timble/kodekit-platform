@@ -39,7 +39,7 @@ if(Form && Form.Validator) {
 	<div class="form-content row-fluid">
 		<div class="span8">
 			<fieldset class="form-horizontal">
-				<legend><?= @text('User Details') ?></legend>
+				<legend><?= @text('General') ?></legend>
 				<div class="control-group">
 				    <label class="control-label" for="name"><?= @text('Name') ?></label>
 				    <div class="controls">
@@ -53,27 +53,6 @@ if(Form && Form.Validator) {
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for="password"><?= @text('New Password') ?></label>
-				    <div class="controls">
-				        <input id="password" type="password" name="password" maxlength="100" />
-                        <?=@helper('com://admin/users.template.helper.form.passwcheck', array('min_len' => $params->get('min_passw_len')));?>
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
-				    <div class="controls">
-				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" />
-				    </div>
-				</div>
-                <div class="control-group">
-                    <div class="controls">
-                        <label class="checkbox" for="password_change">
-                            <input type="checkbox" name="password_change" />
-                            <?= @text('Require a change of password in the next sign in') ?>
-                        </label>
-                    </div>
-                 </div>
-				<div class="control-group">
 				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
 				    <div class="controls">
 				        <?= @helper('com://admin/settings.template.helper.listbox.timezones',
@@ -82,7 +61,31 @@ if(Form && Form.Validator) {
 				</div>
 			</fieldset>
 			<fieldset class="form-horizontal">
-				<legend><?= @text('User Parameters') ?></legend>
+				<legend><?= @text('Password') ?></legend>
+				<div class="control-group">
+				    <label class="control-label" for="password"><?= @text('Password') ?></label>
+				    <div class="controls">
+				        <input id="password" type="password" name="password" maxlength="100" />
+				        <?=@helper('com://admin/users.template.helper.form.passwcheck', array('min_len' => $params->get('min_passw_len')));?>
+				    </div>
+				</div>
+				<div class="control-group">
+				    <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
+				    <div class="controls">
+				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" name="password_verify" maxlength="100" />
+				    </div>
+				</div>
+				<div class="control-group">
+				    <div class="controls">
+				        <label class="checkbox" for="password_change">
+				            <input type="checkbox" name="password_change" />
+				            <?= @text('Require a change of password in the next sign in') ?>
+				        </label>
+				    </div>
+				</div>
+			</fieldset>
+			<fieldset class="form-horizontal">
+				<legend><?= @text('Language') ?></legend>
 				<?= $user->params->render('params') ?>
 			</fieldset>
 		</div>
@@ -90,20 +93,20 @@ if(Form && Form.Validator) {
 			<fieldset class="form-horizontal">
 				<legend><?= @text('System Information') ?></legend>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Enable User') ?></label>
+				    <label class="control-label" for="enabled"><?= @text('Enable User') ?></label>
 				    <div class="controls">
 				        <input type="checkbox" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Receive System E-mails') ?></label>
+				    <label class="control-label" for="send_email"><?= @text('Receive System E-mails') ?></label>
 				    <div class="controls">
 				        <input type="checkbox" name="send_email" value="1" <?= $user->send_email ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<? if (!$user->isNew()): ?>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Register Date') ?></label>
+				    <label class="control-label" for="registered_on"><?= @text('Register Date') ?></label>
 				    <div class="controls">
 				        <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
 				        	<?= @text('Never') ?>
@@ -113,7 +116,7 @@ if(Form && Form.Validator) {
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Last Visit') ?></label>
+				    <label class="control-label" for="last_visited_on"><?= @text('Last signed in') ?></label>
 				    <div class="controls">
 				        <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
 				        	<?= @text('Never') ?>
