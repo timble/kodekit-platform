@@ -85,6 +85,9 @@ class ComLanguagesModelTables extends ComDefaultModelDefault implements KService
              }
         }
         
+        $this->_list  = $list;
+        $this->_total = count($this->_list);
+        
         return $this->_list;
     }
     
