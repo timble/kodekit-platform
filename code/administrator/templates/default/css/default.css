@@ -3351,16 +3351,16 @@ div.message {
 .com_users.login {
   overflow: auto;
 }
-.com_users.login #login-box {
+.com_users .login {
   padding: 50px 0 10px 0;
   width: 275px;
   margin: 0 auto;
 }
-.com_users.login #login-box form {
+.com_users .login form {
   margin: 0px;
   padding: 0px;
 }
-.com_users.login #login-box form input.inputbox {
+.com_users .login form input.inputbox {
   width: 220px !important;
   padding: 4px 8px;
   font-size: 16.5px;
@@ -3369,16 +3369,16 @@ div.message {
   box-sizing: border-box;
   height: 36px;
 }
-.com_users.login #login-box .login {
+.com_users .login .login {
   margin: 0 auto;
   width: 300px;
   margin-bottom: 100px;
 }
-.com_users.login #login-box .btn-block {
+.com_users .login .btn-block {
   margin-top: 14px;
   width: 100%;
 }
-.com_users.login #login-box h1 {
+.com_users .login h1 {
   margin: 0;
   text-align: center;
   background: grey;
@@ -3399,15 +3399,15 @@ div.message {
   -moz-box-shadow: #aaaaaa 0px 2px 3px;
   box-shadow: #aaaaaa 0px 2px 3px;
 }
-.com_users.login #login-box p {
+.com_users .login p {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-.com_users.login #login-box img {
+.com_users .login img {
   margin-bottom: 25px;
 }
-.com_users.login #login-box #section-box {
+.com_users .login #section-box {
   -webkit-box-shadow: #aaaaaa 0px 3px 15px;
   -moz-box-shadow: #aaaaaa 0px 3px 15px;
   box-shadow: #aaaaaa 0px 3px 15px;
@@ -3418,15 +3418,15 @@ div.message {
   padding: 0 !important;
   background: #FFF;
 }
-.com_users.login #login-box form {
+.com_users .login form {
   padding: 25px;
 }
-.com_users.login #login-box a.return {
+.com_users .login a.return {
   margin-top: 15px;
   text-align: center;
   display: block;
 }
-.com_users.login #login-box #form-login label {
+.com_users .login #form-login label {
   font-size: 13px;
   width: 120px;
   text-align: left;
@@ -3434,11 +3434,26 @@ div.message {
   color: #666;
   font-weight: bold;
 }
-.com_users.login input:focus,
-.com_users.login textarea:focus {
+.com_users .login input:focus,
+.com_users .login textarea:focus {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(43, 117, 191, 0.6);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(43, 117, 191, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(43, 117, 191, 0.6);
+}
+.com_users .form #password-check.score1 {
+  color: #FF0000;
+}
+.com_users .form #password-check.score2 {
+  color: #FF5F5F;
+}
+.com_users .form #password-check.score3 {
+  color: #56E500;
+}
+.com_users .form #password-check.score4 {
+  color: #4DCD00;
+}
+.com_users .form #password-check.score5 {
+  color: #399800;
 }
 .com_dashboard #window-body #window-content > div:first-child {
   border-right: 1px solid #dddddd;

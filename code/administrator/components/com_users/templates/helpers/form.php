@@ -33,7 +33,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
         $config = new KConfig($config);
 
         $config->append(array(
-            'class'                    => 'password-check',
+            'class'                    => 'help-block',
             'input_id'                 => 'password',
             'user_input_ids'           => array(),
             'words'                    => array(),
@@ -65,11 +65,10 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'min_len_msg'         => $config->min_len_msg);
 
 
-        // Add required libs and styles.
+        // Add required assets
         $html = '<script src="media://com_users/js/users.js" />';
-        $html .= '<style src="media://com_users/css/password.css" />';
 
-        $html .= '<span id="' . $config->container_id . '" class="' . $config->class . ' score0">' . $config->score_map[0] . '</span>';
+        $html .= '<span id="' . $config->container_id . '" class="'.$config->class.'">' . $config->score_map[0] . '</span>';
 
         // Async load of zxcvbn
         $zxcvbn_url = 'media://com_users/js/libs/zxcvbn/zxcvbn.js';

@@ -13,10 +13,13 @@ div.message {
 }
 
 /* -- Specific styles ----------------------------- */
-.com_users.login {
-	overflow: auto;
-
-	#login-box  {
+.com_users
+{
+	&.login {
+		overflow: auto;
+	}
+	
+	.login {
 		padding: 50px 0 10px 0;
 		width: 275px;
 		margin: 0 auto;
@@ -82,13 +85,35 @@ div.message {
 			color: #666;
 			font-weight: bold;
 		}
+		
+		input:focus,
+		textarea:focus {
+		  @color: @blueDark;
+		  @shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px hsla(hue(@color), saturation(@color), lightness(@color), .6);
+		  .box-shadow(@shadow);
+		}
 	}
-
-	input:focus,
-	textarea:focus {
-	  @color: @blueDark;
-	  @shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px hsla(hue(@color), saturation(@color), lightness(@color), .6);
-	  .box-shadow(@shadow);
+	
+	.form {	
+		#password-check.score1 {
+			color: #FF0000;
+		}
+		
+		#password-check.score2 {
+			color: #FF5F5F;
+		}
+		
+		#password-check.score3 {
+			color: #56E500;
+		}
+		
+		#password-check.score4 {
+			color: #4DCD00;
+		}
+		
+		#password-check.score5 {
+			color: #399800;
+		}
 	}
 }
 
