@@ -67,7 +67,7 @@ if(Form && Form.Validator) {
 				</div>
                 <div class="control-group">
                     <div class="controls">
-                        <label class="radio" for="password_change">
+                        <label class="checkbox" for="password_change">
                             <input type="checkbox" name="password_change" />
                             <?= @text('Require a change of password in the next sign in') ?>
                         </label>
