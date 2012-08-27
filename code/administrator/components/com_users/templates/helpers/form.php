@@ -28,7 +28,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
      *
      * @return string The HTML layout.
      */
-    public function passwcheck($config = array()) {
+    public function password($config = array()) {
 
         $config = new KConfig($config);
 
