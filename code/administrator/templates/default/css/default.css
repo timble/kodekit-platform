@@ -3068,7 +3068,7 @@ div.toolbar .btn-group a {
   margin-left: 25px;
 }
 .scopebar .scopebar-search input[type="search"] {
-  max-width: 250px;
+  max-width: 150px;
   height: 11px;
   padding: 3px;
 }
@@ -4325,8 +4325,8 @@ body,
   -webkit-flex: initial;
   -moz-flex: initial;
   flex: initial;
-  min-width: 200px;
-  max-width: 200px;
+  min-width: 180px;
+  max-width: 180px;
 }
 #window-body #window-content {
   display: -webkit-flex;
@@ -4650,4 +4650,9 @@ form[name="adminForm"] {
   -webkit-flex: none;
   -moz-flex: none;
   flex: none;
+}
+@media (max-width: 1200px) {
+  #window-inspector {
+    display: none !important;
+  }
 }

@@ -3096,7 +3096,7 @@ div.toolbar .btn-group a {
   margin-left: 25px;
 }
 .scopebar .scopebar-search input[type="search"] {
-  max-width: 250px;
+  max-width: 150px;
   height: 11px;
   padding: 3px;
 }
@@ -4325,4 +4325,9 @@ body {
 }
 .scopebar .scopebar-search {
   float: right;
+}
+@media (max-width: 1200px) {
+  #window-inspector {
+    display: none !important;
+  }
 }
