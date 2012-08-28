@@ -29,6 +29,12 @@
         </div>
     </div>
     <div class="control-group">
+        <label class="control-label" for="parent"><?= @text('Menu') ?></label>
+        <div id="parent" class="controls">
+            <?= @helper('listbox.menus', array('selected' => $page->pages_menu_id)) ?>
+        </div>
+    </div>
+    <div class="control-group">
         <label class="control-label" for="parent"><?= @text('Parent') ?></label>
         <div id="parent" class="controls">
             <?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id)) ?>
