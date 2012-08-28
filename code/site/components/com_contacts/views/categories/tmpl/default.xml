@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="CONTACT CATEGORY LIST LAYOUT">
+	<layout title="CONTACT CATEGORIES LAYOUT">
 		<message>
-			<![CDATA[CONTACT CATEGORY LIST LAYOUT DESC]]>
+			<![CDATA[CONTACT CATEGORIES LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>CONTACT CATEGORY LIST LAYOUT</name>
-		<description>CONTACT CATEGORY LIST LAYOUT DESC</description>
+		<name>CONTACT CATEGORIES LAYOUT</name>
+		<description>CONTACT CATEGORIES LAYOUT DESC</description>
 		<params>
 			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
 				<option value="0">No</option>
