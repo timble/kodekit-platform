@@ -7,7 +7,7 @@ class ComLanguagesControllerBehaviorTranslatable extends KDatabaseBehaviorAbstra
         {
             $state = $this->getModel()->getState();
             if(!isset($state->translatable)) {
-                $state->insert('translatable', 'int');
+                $state->insert('translation', 'int');
             }
         }
     }
