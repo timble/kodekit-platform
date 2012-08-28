@@ -264,18 +264,18 @@ CREATE TABLE `#__languages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__languages_items`
+-- Table structure for table `#__languages_translations`
 --
 
-CREATE TABLE `#__languages_items` (
-    `languages_item_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `#__languages_translations` (
+    `languages_translation_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `iso_code` VARCHAR(8) NOT NULL,
     `table` VARCHAR(64) NOT NULL,
     `row` INT UNSIGNED NOT NULL,
     `status` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     `original` BOOLEAN NOT NULL DEFAULT 0,
     `deleted` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_item_id`),
+    PRIMARY KEY (`languages_translation_id`),
     KEY (`iso_code`, `table`, `row`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
