@@ -3,22 +3,44 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
 {
     protected function _beforeTableSelect(KCommandContext $context)
     {
-        $application = JFactory::getApplication();
-        if($application->getCfg('multilanguage') && $context->query)
+        $application = $this->getService('application');
+        if($application->getCfg('multilanguage') && $query = $context->query)
         {
-            $languages = $application->getLanguages();
-            $active    = $languages->getActive();
-            $primary   = $languages->getPrimary();
+            $tables = $this->getService('com://admin/languages.model.tables')
+                ->enabled(true)
+                ->getList();
             
-            // Modify table in the query if active language is not the primary.
-            if($active->iso_code != $primary->iso_code)
+            if(is_string(current($query->table)))
             {
-                $query  = $context->query;
-                $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+                $table = $tables->find(array('name' => current($query->table)));
                 
-                $table = current($query->table);
-                if(is_string($table) && in_array($table, $tables->name)) {
-                    $context->query->table[key($query->table)] = strtolower($active->iso_code).'_'.$table;
+                if(count($table))
+                {
+                    $table = $table->top();
+                    
+                    // Join translation to add status to rows.
+                    if(!$query->isCountQuery() && isset($context->options->state->translation))
+                    {
+                        $query->columns(array('translation' => 'translations.status'))
+                            ->join(array('translations' => 'languages_translations'),
+                                'translations.table = :translation_table AND translations.row = tbl.'.$table->unique_column)
+                            ->bind(array('translation_table' => $table->name));
+                        
+                        if(!is_null($context->options->state->translation))
+                        {
+                            $query->where('translations.status IN :translation')
+                                ->bind(array('translation_status' => (array) $context->options->state->translation));
+                        }
+                    }
+                    
+                    $languages = $application->getLanguages();
+                    $active    = $languages->getActive();
+                    $primary   = $languages->getPrimary();
+                    
+                    // Modify table in the query if active language is not the primary.
+                    if($active->iso_code != $primary->iso_code) {
+                        $context->query->table[key($query->table)] = strtolower($active->iso_code).'_'.$table->name;
+                    }
                 }
             }
         }
