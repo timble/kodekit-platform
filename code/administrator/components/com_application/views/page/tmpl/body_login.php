@@ -13,7 +13,7 @@
 <div id="container">
     <div id="login-box" class="login">
 		<img src="media://com_application/images/nooku-server_logo.png" alt="Nooku Server logo">
-		<?= @template('message') ?>
+		<?= @template('default_message') ?>
 		<div id="section-box">
 			<ktml:variable name="component" />
 		</div>
