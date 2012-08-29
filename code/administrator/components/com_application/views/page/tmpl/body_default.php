@@ -21,12 +21,14 @@
 <div id="container">
 
     <div id="header-box">
-		<ktml:modules position="menu" />
-		<ktml:modules position="status" />
+
+        <?= @helper('menubar.render', array('menubar' => $menubar, 'attribs' => array('id' => 'menu')))?>
+        <?= @helper('toolbar.render', array('toolbar' => $toolbar, 'attribs' => array('id' => 'statusmenu')))?>
+
 	</div>
 
     <div id="tabs-box">
-		<ktml:modules position="submenu" />
+		<ktml:modules position="menubar" />
 	</div>
 
     <ktml:modules position="toolbar">
@@ -35,7 +37,7 @@
     </div>
     </ktml:modules>
 
-    <?= @template('message') ?>
+    <?= @template('default_message') ?>
 
     <div id="window-body" class="<?= @service('dispatcher')->getController()->getView()->getLayout() ?>">
 
