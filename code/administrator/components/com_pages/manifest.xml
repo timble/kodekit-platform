@@ -11,11 +11,12 @@
    	<version>0.7.0</version>
   	<description>This component provides page and menu management</description>
 
-	<administration>
-		<submenu>
-			<menu view="pages">Pages</menu>
-			<menu view="menus">Menus</menu>
-		</submenu>
-	</administration>
+	<admin>
+		<menubar>
+			<command href="view=pages">Pages</command>
+			<command href="view=menus">Menus</command>
+            <command href="view=modules">Modules</command>
+		</menubar>
+	</admin>
 
 </install>
