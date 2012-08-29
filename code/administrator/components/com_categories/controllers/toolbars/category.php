@@ -21,9 +21,9 @@ class ComCategoriesControllerToolbarCategory extends ComDefaultControllerToolbar
     {    
         parent::onAfterControllerBrowse($event);
         
-        $this->addSeparator()     
-			 ->addEnable(array('label' => 'publish'))
-			 ->addDisable(array('label' => 'unpublish'));
+        $this->addSeparator();
+		$this->addEnable(array('label' => 'publish'));
+	    $this->addDisable(array('label' => 'unpublish'));
     }  
     
     protected function _commandNew(KControllerToolbarCommand $command)
@@ -32,6 +32,6 @@ class ComCategoriesControllerToolbarCategory extends ComDefaultControllerToolbar
 		$view	= KInflector::singularize($this->getIdentifier()->name);
 		$table  = $this->getController()->getModel()->get('table');
 		
-        $command->attribs->href = JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&table='.$table );
+        $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;
     }
 }
