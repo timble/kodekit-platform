@@ -75,12 +75,22 @@ class KViewHtml extends KViewTemplate
 	 * This function force the route to be not fully qualified and not escaped
 	 *
 	 * @param	string	The query string used to create the route
-	 * @param 	boolean	If TRUE create a fully qualified route. Default TRUE.
-     * @param 	boolean	If TRUE escapes the route for xml compliance. Default TRUE.
+	 * @param 	boolean	If TRUE create a fully qualified route. Default FALSE.
+     * @param 	boolean	If TRUE escapes the route for xml compliance. Default FALSE.
 	 * @return 	string 	The route
 	 */
-	public function getRoute( $route = '', $fqr = true, $escape = true)
+	public function getRoute( $route = '', $fqr = null, $escape = null)
 	{
-		return parent::getRoute($route, false, false);
+		//If not set force to false
+        if($fqr === null) {
+            $fqr = false;
+        }
+
+        //If not set force to false
+        if($escape === null) {
+            $escape = false;
+        }
+
+        return parent::getRoute($route, $fqr, $escape);
 	}
 }
