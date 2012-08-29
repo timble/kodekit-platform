@@ -11,10 +11,10 @@
 	<version>12.2</version>
 	<description>Cache Manager</description>
 	
-	<administration>
-		<submenu>
-			<menu view="items">Items</menu>
-			<menu view="groups">Groups</menu>
-		</submenu>
-	</administration>
+	<admin>
+		<menubar>
+			<command href="view=items">Items</command>
+			<command href="view=groups">Groups</command>
+		</menubar>
+	</admin>
 </install>
