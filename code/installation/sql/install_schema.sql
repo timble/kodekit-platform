@@ -111,21 +111,13 @@ CREATE TABLE `#__categories` (
 -- Table structure for table `#__components`
 --
 
-CREATE TABLE `#__components` (
+CREATE TABLE `#__extensions_components` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
-  `link` varchar(255) NOT NULL DEFAULT '',
-  `menuid` int(11) unsigned NOT NULL DEFAULT '0',
-  `parent` int(11) unsigned NOT NULL DEFAULT '0',
-  `admin_menu_link` varchar(255) NOT NULL DEFAULT '',
-  `admin_menu_alt` varchar(255) NOT NULL DEFAULT '',
-  `option` varchar(50) NOT NULL DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `admin_menu_img` varchar(255) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `parent_option` (`parent`,`option`(32))
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -250,7 +242,7 @@ CREATE TABLE `#__core_acl_groups_aro_map` (
 --
 
 CREATE TABLE `#__languages` (
-    `languages_language_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `application` VARCHAR(50) NOT NULL,
     `name` VARCHAR(150) NOT NULL,
     `native_name` VARCHAR(150) NOT NULL,
@@ -285,40 +277,15 @@ CREATE TABLE `#__languages_translations` (
 -- Table structure for table `#__languages_tables`
 --
 
-CREATE TABLE IF NOT EXISTS `#__languages_tables` (
+CREATE TABLE `#__languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `components_component_id` INT UNSIGNED NOT NULL,
+    `extensions_component_id` INT UNSIGNED NOT NULL,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    FOREIGN KEY (`components_component_id`) REFERENCES `#__components` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB CHARSET = utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__modules`
---
-
-CREATE TABLE `#__modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` text NOT NULL,
-  `content` text NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `position` varchar(50) DEFAULT NULL,
-  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `module` varchar(50) NOT NULL,
-  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `params` text NOT NULL,
-  `application` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `published` (`published`,`access`),
-  KEY `newsfeeds` (`module`,`published`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -373,12 +340,37 @@ CREATE TABLE `#__pages_menus` (
 -- Table structure for table `#__pages_modules`
 --
 
-CREATE TABLE `#__pages_modules` (
+CREATE TABLE `#__pages_modules_pages` (
   `modules_module_id` INT NOT NULL,
   `pages_page_id` INT NOT NULL,
   PRIMARY KEY (`modules_module_id`,`pages_page_id`),
   INDEX `ix_pages_page_id` (`pages_page_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__pages_modules`
+--
+
+CREATE TABLE `#__pages_modules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` text NOT NULL,
+  `content` text NOT NULL,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `position` varchar(50) DEFAULT NULL,
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `name` varchar(50) NOT NULL,
+  `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `params` text NOT NULL,
+  `extensions_component_id` INT UNSIGNED,
+  `application` varchar(50) NOT NULL
+  PRIMARY KEY (`id`),
+  KEY `published` (`published`,`access`),
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -397,7 +389,7 @@ CREATE TABLE `#__pages` (
   `enabled` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
-  `component_id` INT UNSIGNED,
+  `extensions_component_id` INT UNSIGNED,
   `locked_by` INT UNSIGNED,
   `locked_on` DATETIME,
   `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
@@ -406,7 +398,7 @@ CREATE TABLE `#__pages` (
   CONSTRAINT `pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   CONSTRAINT `link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_enabled` (`enabled`),
-  INDEX `ix_component_id` (`component_id`),
+  INDEX `ix_extensions_component_id` (`extensions_component_id`),
   INDEX `ix_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -453,6 +445,19 @@ CREATE TABLE `#__users_sessions` (
   KEY `whosonline` (`guest`),
   KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__users_credentials`
+--
+
+CREATE TABLE `#__users_credentials` (
+  `users_user_id` bigint(20) unsigned NOT NULL,
+  `change` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`users_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -525,18 +530,6 @@ CREATE TABLE `#__files_thumbnails` (
   `filename` varchar(255) NOT NULL,
   `thumbnail` text NOT NULL,
   PRIMARY KEY (`files_thumbnail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__users_credentials`
---
-
-CREATE TABLE `#__users_credentials` (
-  `users_user_id` bigint(20) unsigned NOT NULL,
-  `change` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`users_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
