@@ -34,6 +34,14 @@ class ComPagesDispatcher extends ComDefaultDispatcher
             $this->getService('application')->redirect($url);
         }
 
+        if($view == 'modules' && !KRequest::has('get.application'))
+        {
+            $url = clone(KRequest::url());
+            $url->query['application']  = 'site';
+
+            $this->getService('application')->redirect($url);
+        }
+
         return parent::_actionDispatch($context);
     }
 }
