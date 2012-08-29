@@ -11,11 +11,11 @@
 	<version>12.2</version>
 	<description>This component provides user managemement</description>
         
-	<administration>
-		<submenu>
-			<menu view="users">Users</menu>
-			<menu view="groups">Groups</menu>
-		</submenu>
-	</administration>
+	<admin>
+		<menubar>
+			<command href="view=users">Users</command>
+			<command href="view=groups">Groups</command>
+		</menubar>
+	</admin>
 	
 </install>
