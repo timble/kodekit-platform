@@ -66,8 +66,12 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
             $classpath = $identifier->path;
             $classtype = !empty($classpath) ? array_shift($classpath) : '';
 
-            //Create the fallback path and make an exception for views
-            $path = ($classtype != 'view') ? ucfirst($classtype).KInflector::camelize(implode('_', $classpath)) : ucfirst($classtype);
+            //Create the fallback path and make an exception for views and modules
+            if(!in_array($classtype, array('view','module'))) {
+                $path = ucfirst($classtype).KInflector::camelize(implode('_', $classpath));
+            } else {
+                $path = ucfirst($classtype);
+            }
 
             /*
              * Fallback sequence : -> Named Component Specific
@@ -127,7 +131,7 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
         {
             if(count($parts))
             {
-                if($parts[0] != 'view')
+                if(!in_array($parts[0], array('view', 'module')))
                 {
                     foreach($parts as $key => $value) {
                         $parts[$key] = KInflector::pluralize($value);
