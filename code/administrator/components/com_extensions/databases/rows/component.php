@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: module.php 2627 2011-09-01 03:03:49Z johanjanssens $
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Component Database Row Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions    
  */
