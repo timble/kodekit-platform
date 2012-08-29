@@ -23,10 +23,10 @@ class ComUsersControllerToolbarUser extends ComDefaultControllerToolbarDefault
     {
         parent::onAfterControllerBrowse($event);
         
-        $this->addSeparator()
-			 ->addEnable()
-			 ->addDisable()
-			 ->addSeparator();
+        $this->addSeparator();
+		$this->addEnable();
+		$this->addDisable();
+		$this->addSeparator();
 			 
 		//if($this->getController()->canLogout()) {
 			 //$this->addLogout();
