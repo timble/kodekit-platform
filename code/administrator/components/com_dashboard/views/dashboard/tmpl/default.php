@@ -17,10 +17,8 @@
 <?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 
 <div class="sidebar">
-    <? foreach ($modules as $module) : ?>
     <div class="<?= $module->type ?>">
-    	<h3><?= $module->title ?></h3>
-    	<?= @service('mod://admin/'.substr($module->type, 4).'.html')->module($module)->display(); ?>
+    	<h3><?= @text('Logged in Users'); ?></h3>
+    	<?= @service('com://admin/users.controller.user')->layout('list')->limit(10)->loggedin(true)->display(); ?>
     </div>
-    <? endforeach ?>
 </div>
