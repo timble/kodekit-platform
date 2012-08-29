@@ -11,10 +11,10 @@
 	<version>12.2</version>
 	<description>This component provides weblinks management</description>
 	
-	<administration>
-		<submenu>
-			<menu view="weblinks">Weblinks</menu>
-			<menu view="categories">Categories</menu>
-		</submenu>
-	</administration>
+	<admin>
+		<menubar>
+			<command href="view=weblinks">Weblinks</command>
+			<command href="view=categories">Categories</command>
+		</menubar>
+	</admin>
 </install>
