@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net)
@@ -10,14 +9,13 @@
  */
 
 /**
- * Extensions Controller Default Class
+ * Extensions Controller Component Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
-class ComExtensionsControllerDefault extends ComDefaultControllerDefault
+class ComExtensionsControllerComponent extends ComDefaultControllerDefault
 { 
     protected function _initialize(KConfig $config)
     {
