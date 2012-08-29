@@ -11,11 +11,11 @@
   	<version>12.2</version>
    	<description>This component provides extension management</description>
    	
-   	<administration>
-		<submenu>
-			<menu view="modules">Modules</menu>
-			<menu view="languages">Languages</menu>
-		</submenu>
-	</administration>
+   	<admin>
+		<menubar>
+            <command href="view=components">Extensions</command>
+			<command href="view=settings">Settings</command>
+		</menubar>
+	</admin>
 	
 </install>
