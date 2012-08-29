@@ -19,14 +19,14 @@
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
- * @subpackage  Extensions
+ * @subpackage  Pages
  */
 class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
     /**
      * Modules
      *
-     * @var ComExtensionsDatabaseRowsetModules
+     * @var ComPagesDatabaseRowsetModules
      */
     protected $_modules;
 
@@ -34,7 +34,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
      * @param string Block of text to parse
-     * @return ComExtensionsTemplateFilterModule
+     * @return ComPagesTemplateFilterModule
      */
     public function write(&$text)
     {
@@ -48,7 +48,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
      * Parse <ktml:module></ktml:module> tags
      *
      * @param string Block of text to parse
-     * @@return ComExtensionsDatabaseRowsetModules The rowset object.
+     * @@return ComPagesDatabaseRowsetModules The rowset object.
      */
     public function _parseModuleTags(&$text)
     {
@@ -75,8 +75,8 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'params'     => $attributes['params'],
                     'showtitle'  => !empty($attributes['title']),
                     'title'      => $attributes['title'],
-                    'module'     => 'mod_dynamic',
-                    'identifier' => 'mod://site/default.html',
+                    'name'       => 'mod_default',
+                    'identifier' => $this->getIdentifier('com://site/default.module.default.html'),
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
@@ -142,7 +142,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     /**
      * Get modules
      *
-     * @return ComExtensionsDatabaseRowsetModules The rowset object.
+     * @return ComPagesDatabaseRowsetModules The rowset object.
      */
     public function _loadModules()
     {
@@ -151,11 +151,11 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
             $page = $this->getService('application')->getPages()->getActive();
 
             // Select enabled modules
-            $modules = $this->getService('com://admin/extensions.model.modules')
+            $modules = $this->getService('com://admin/pages.model.modules')
                 ->application('site')
                 ->page($page->id)
-                ->access(JFactory::getUser()->aid)
                 ->enabled(true)
+                ->access(JFactory::getUser()->aid)
                 ->getList();
 
             $this->_modules = $modules;
@@ -196,7 +196,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
             $module->attribs = array_merge($module->attribs, $attribs);
 
             //Render the module
-            $content = $this->getService($module->identifier)->module($module)->display();
+            $content = $this->getService($module->identifier)->data(array('module' => $module))->display();
 
             //Prepend or append the module
             if(isset($module->attribs['content']) && $module->attribs['content'] == 'prepend') {
