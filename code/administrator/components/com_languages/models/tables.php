@@ -101,7 +101,7 @@ class ComLanguagesModelTables extends ComDefaultModelDefault implements KService
         }
         
         if($state->component) {
-            $filters['components_component_id'] = $state->component;
+            $filters['extensions_component_id'] = $state->component;
         }
         
         return $filters ? $this->_list_cache->find($filters) : clone $this->_list_cache;
