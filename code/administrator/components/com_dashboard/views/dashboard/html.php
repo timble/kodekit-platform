@@ -18,22 +18,7 @@
  * @subpackage  Dashboard
  */
 
-class ComDashboardViewDashboardHtml extends ComDefaultViewHtml
+class ComDashboardViewDashboardHtml extends KViewHtml
 {
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'layout' => 'default'
-        ));
-        
-        parent::_initialize($config);
-    }
-    
-    public function display()
-	{
-		$modules = $this->getService('com://admin/extensions.model.modules')->position('cpanel')->application('admin')->enabled(true)->getList();
-		$this->assign('modules', $modules);
-        
-		return parent::display();
-	}
+
 }
