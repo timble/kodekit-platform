@@ -182,7 +182,7 @@ class KConfig implements KConfigInterface
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->_data);
+        return new RecursiveArrayIterator($this->_data);
     }
 
     /**
