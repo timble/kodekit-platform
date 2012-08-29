@@ -21,12 +21,12 @@ class ComArticlesControllerToolbarArticle extends ComDefaultControllerToolbarDef
     {    
         parent::onAfterControllerBrowse($event);
         
-        $this->addSeparator()
-             ->addPublish()
-             ->addUnpublish()
-             ->addSeparator()
-             ->addArchive()
-             ->addUnarchive();
+        $this->addSeparator();
+        $this->addPublish();
+        $this->addUnpublish();
+        $this->addSeparator();
+        $this->addArchive();
+        $this->addUnarchive();
     }
     
     protected function _commandPublish(KControllerToolbarCommand $command)
