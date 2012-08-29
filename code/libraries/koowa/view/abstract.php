@@ -15,7 +15,7 @@
  * @uses		KMixinClass
  * @uses 		KTemplate
  */
-abstract class KViewAbstract extends KObject
+abstract class KViewAbstract extends KObject implements KViewInterface
 {
 	/**
 	 * Model identifier (com://APP/COMPONENT.model.NAME)
@@ -23,14 +23,7 @@ abstract class KViewAbstract extends KObject
 	 * @var	string|object
 	 */
 	protected $_model;
-	
-	/**
-     * Layout name
-     *
-     * @var string
-     */
-    protected $_layout;
-    
+
     /**
      * The uniform resource locator
      * 
@@ -75,7 +68,6 @@ abstract class KViewAbstract extends KObject
 		$this->mimetype = $config->mimetype;
 		
 		$this->setModel($config->model);
-        $this->setLayout($config->layout);
 	}
 
     /**
@@ -92,8 +84,7 @@ abstract class KViewAbstract extends KObject
 			'model'   	=> $this->getName(),
 	    	'output'	=> '',
     		'mimetype'	=> '',
-            'layout'    => 'default',
-            'base_url'   => '',
+            'base_url'  => '',
 	  	));
 	  
         parent::_initialize($config);
@@ -186,28 +177,6 @@ abstract class KViewAbstract extends KObject
 		
 		return $this;
 	}
-	
- 	/**
-     * Get the layout.
-     *
-     * @return string The layout name
-     */
-    public function getLayout()
-    {
-        return $this->_layout;
-    }
-
-   /**
-     * Sets the layout name to use
-     *
-     * @param    string  The template name.
-     * @return   KViewAbstract
-     */
-    public function setLayout($layout)
-    {
-        $this->_layout = $layout;
-        return $this;
-    }
 
 	/**
 	 * Get a route based on a full or partial query string 
@@ -225,7 +194,7 @@ abstract class KViewAbstract extends KObject
      * @param 	boolean	If TRUE escapes the route for xml compliance. Default TRUE.
 	 * @return 	string 	The route
 	 */
-	public function getRoute( $route = '', $fqr = true, $escape = true)
+	public function getRoute( $route = '', $fqr = null, $escape = null)
 	{
 		//Parse route
 		$parts = array();
@@ -237,14 +206,8 @@ abstract class KViewAbstract extends KObject
 		}
 
 		//Add the view information to the route if it's not set
-		if(!isset($parts['view'])) 
-		{
+		if(!isset($parts['view'])) {
 			$parts['view'] = $this->getName();
-			
-		    //Add the layout information to the route if it's not set
-	        if(!isset($parts['layout'])) {
-			    $parts['layout'] = $this->getLayout();
-		    }
 		}
 		
 		//Add the format information to the route only if it's not 'html'
@@ -260,13 +223,13 @@ abstract class KViewAbstract extends KObject
 		}
 
 		//Create the route 
-		$route = KService::get('koowa:http.url', array(
-            'url'    => JRoute::_('index.php?'.http_build_query($parts)),
-            'escape' => $escape
+		$route = $this->getService('koowa:dispatcher.router.route', array(
+            'url'    => 'index.php?'.http_build_query($parts),
+            'escape' => $escape === null || $escape === true ? true : false
         ));
 		
 		//Add the host and the schema
-		if($fqr)
+		if($fqr === null || $fqr === true)
 		{
 		    $route->scheme = $this->getBaseUrl()->scheme;
 		    $route->host   = $this->getBaseUrl()->host;
