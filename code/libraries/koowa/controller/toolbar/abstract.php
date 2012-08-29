@@ -177,8 +177,7 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
      */
     public function getIterator()
     {
-        $commands = $this->getCommands();
-        return new RecursiveArrayIterator($commands);
+        return new RecursiveArrayIterator($this->getCommands());
     }
  
     /**
