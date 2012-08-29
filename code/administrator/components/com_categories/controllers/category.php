@@ -38,13 +38,12 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
         if($view instanceof KViewTemplate) 
 	    {
 	        $layout = clone $view->getIdentifier();
-	        $layout->package  = 'categories';
-	        $layout->name     = $view->getLayout();
-	        
-	        //Force re-creation of the filepath to load the category templates
-	        $layout->filepath = ''; 
- 
-	        $view->setLayout($layout);
+            $layout->name  = $view->getLayout();
+
+            $alias = clone $layout;
+            $alias->package = 'categories';
+
+	        $this->getService()->setAlias($layout, $alias);
 	    }
 	        
         return parent::_actionGet($context);
