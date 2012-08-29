@@ -3285,18 +3285,18 @@ div.toolbar .btn-group a {
 #header-box ul:nth-child(2) li:last-child a {
   border-right: 0 none;
 }
-/* submenu styling */
-#submenu {
+/* menubar styling */
+#menubar {
   list-style: none;
   margin: 0;
   padding: 0 0 0 0px;
 }
-#submenu li {
+#menubar li {
   padding: 0;
   margin: 0px 0px 0 0px;
 }
-#submenu li a,
-#submenu span.nolink {
+#menubar li a,
+#menubar span.nolink {
   font-weight: bold;
   cursor: pointer;
   padding: 0 25px;
@@ -3309,12 +3309,12 @@ div.toolbar .btn-group a {
   border-radius: 0 0;
   border-right: 1px solid #6497ef;
 }
-#submenu span.nolink {
+#menubar span.nolink {
   color: #7ba7f1;
   cursor: default;
 }
-#submenu a.active,
-#submenu span.nolink.active {
+#menubar a.active,
+#menubar span.nolink.active {
   color: #333333;
   background-color: #f9f9f9;
   background-color: #fdfdfd;
@@ -3329,8 +3329,8 @@ div.toolbar .btn-group a {
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px;
 }
-#submenu a.active:hover,
-#submenu span.nolink.active:hover {
+#menubar a.active:hover,
+#menubar span.nolink.active:hover {
   text-decoration: none !important;
 }
 /* -- General styles ------------------------------ */
@@ -4270,7 +4270,7 @@ body,
   -moz-flex: 28px 0;
   flex: 28px 0;
 }
-#tabs-box #submenu {
+#tabs-box #menubar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
