@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,12 +12,11 @@
  * Modules Database Row Class
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions    
  */
 
-class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
+class ComPagesDatabaseRowModule extends KDatabaseRowDefault
 {
 	/**
      * Whitelist for keys to get from the xml manifest
@@ -34,7 +32,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
         'version',
         'description'
     );
-	
+
 	/**
 	 * Get a value by key
 	 *
@@ -45,7 +43,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 	 */
 	public function __get($column)
 	{  
-	    if($column == 'title' && empty($this->_data['title'])) 
+	    if($column == 'title' && empty($this->_data['title']))
 	    {
             if($this->manifest instanceof SimpleXMLElement) {
                 $this->_data['title'] = $this->manifest->name;
@@ -56,7 +54,11 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 
         if($column == 'identifier' && empty($this->_data['identifier']))
         {
-            $this->_data['identifier'] = 'mod://'.$this->application.'/'.substr($this->type, 4).'.html';
+            $application = $this->application;
+            $name        = substr( $this->name, 4);
+            $package     = substr($this->component_name, 4);
+
+            $this->_data['identifier'] = $this->getIdentifier('com://'.$application.'/'.$package.'.module.'.$name.'.html');
         }
 
         if($column == 'attribs' && empty($this->_data['attribs'])) {
@@ -66,12 +68,12 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
         if($column == 'chrome' && empty($this->_data['chrome'])) {
             $this->_data['chrome'] = array();
         }
-	    
-	    if($column == 'manifest' && empty($this->_data['manifest'])) 
+
+	    if($column == 'manifest' && empty($this->_data['manifest']))
 		{
-            $path = $this->getIdentifier()->getApplication($this->application);
-		    $file = $path.'/modules/'.$this->type.'/'.$this->type.'.xml';
-            
+            $path = dirname($this->identifier->filepath);
+            $file = $path.'/'.basename($path).'.xml';
+
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
             } else {
@@ -85,9 +87,9 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
         
 	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-            $path = $this->getIdentifier()->getApplication($this->application);
-		    $file = $path.'/modules/'.$this->type.'/'.$this->type.'.xml';
-		    
+            $path = dirname($this->identifier->filepath);
+            $file = $path.'/'.basename($path).'.xml';
+
 	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'module' );
         }
 
@@ -95,7 +97,7 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
 		{
 		    if(!$this->isNew()) 
 		    {
-		        $table = $this->getService('com://admin/pages.database.table.modules');
+		        $table = $this->getService('com://admin/pages.database.table.modules_pages');
 				$query = $this->getService('koowa:database.query.select')
                     ->columns('pages_page_id')
                     ->where('modules_module_id = :id')
@@ -197,12 +199,12 @@ class ComExtensionsDatabaseRowModule extends KDatabaseRowDefault
     public function toArray()
     {
         $data = parent::toArray();
-        
+
         //Include the manifest fields
         foreach(self::$_manifest_fields as $field) {
            $data[$field] = (string) $this->$field;
         }
-        
+
         $data['title']  = (string) $this->title;
         $data['params'] = $this->params->toArray();
         return $data;
