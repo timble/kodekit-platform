@@ -43,7 +43,7 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
         }
 
         $id      = strtolower($config->id);
-        $attribs = KHelperArray::toString($config->attribs);
+        $attribs = $this->_buildAttributes($config->attribs);
         //Don't pass an empty array as options
         $options = $config->options->toArray() ? ', '.$config->options : '';
 
@@ -84,7 +84,7 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
         ));
 
         $title   = $config->translate ? JText::_($config->title) : $config->title;
-        $attribs = KHelperArray::toString($config->attribs);
+        $attribs = $this->_buildAttributes($config->attribs);
 
         return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';
     }
