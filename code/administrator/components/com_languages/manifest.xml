@@ -9,52 +9,12 @@
   	<authorUrl>www.nooku.org</authorUrl>
   	<version>12.3</version>
    	<description>This component provides translation management.</description>
-   	
-    <files folder="site/components/com_languages">
-        <folder>controllers</folder>
-        <folder>events</folder>
-        <folder>models</folder>
-        <folder>proxies</folder>
-        <folder>routers</folder>
-        <folder>views</folder>
-        <file>loader.php</file>
-        <file>metadata.xml</file>
-        <file>nooku.php</file>
-    </files>
-    
-    <administration>
-        <files folder="administrator/components/com_languages">
-            <folder>commands</folder>
-            <folder>configs</folder>
-            <folder>controllers</folder>
-            <folder>databases</folder>
-            <folder>decorators</folder>
-            <folder>elements</folder>
-            <folder>events</folder>
-            <folder>filters</folder>
-            <folder>install</folder>
-            <folder>models</folder>
-            <folder>templates</folder>
-            <folder>views</folder>
-            <file>config.xml</file>
-        </files>
-        
-        <submenu>
-            <menu view="languages">Languages</menu>
-            <menu view="tables">Components</menu>
-        </submenu>
-    </administration>
-    
-    <install>
-        <sql>
-            <file driver="mysql" charset="utf8">install/install.sql</file>
-        </sql>
-    </install>
-    <installfile>install/install.php</installfile>
-    
-    <uninstall>
-        <sql>
-            <file driver="mysql" charset="utf8">install/uninstall.sql</file>
-        </sql>
-    </uninstall>
+
+    <admin>
+        <menubar>
+            <command href="view=languages">Languages</command>
+            <command href="view=tables">Components</command>
+        </menubar>
+    </admin>
+
 </install>
