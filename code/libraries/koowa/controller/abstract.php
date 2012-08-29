@@ -17,7 +17,7 @@
  * @uses        KMixinClass
  * @uses        KCommandChain
  */
-abstract class KControllerAbstract extends KObject
+abstract class KControllerAbstract extends KObject implements KControllerInterface
 {
     /**
      * Array of class methods to call for a given action.
