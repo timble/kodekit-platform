@@ -166,11 +166,10 @@ class JComponentHelper
 		$db = &JFactory::getDBO();
 
 		$query = 'SELECT *' .
-				' FROM #__components' .
-				' WHERE parent = 0';
+				' FROM #__extensions_components';
 		$db->setQuery( $query );
 
-		if (!($components = $db->loadObjectList( 'option' ))) {
+		if (!($components = $db->loadObjectList( 'name' ))) {
 			JError::raiseWarning( 'SOME_ERROR_CODE', "Error loading Components: " . $db->getErrorMsg());
 			return false;
 		}
