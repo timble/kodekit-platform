@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id: component.php 3209 2011-11-09 20:06:21Z kotuha $
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Component Database Row Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Pages
  */
@@ -38,7 +36,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
             $component = $this->getService('com://admin/extensions.database.table.components')
                 ->select(array('option' => $query['option'], 'parent' => 0), KDatabase::FETCH_ROW);
 
-            $this->component_id = $component->id;
+            $this->extensions_component_id = $component->id;
         }
 
         return parent::save();
@@ -70,7 +68,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
                 if(!isset($this->_data['type_description']))
                 {
                     $query       = $this->link->query;
-                    $description = $this->component_name ? $this->component_name : ucfirst(substr($query['option'], 4));
+                    $description = $this->component_name ? ucfirst(substr($this->component_name, 4)) : ucfirst(substr($query['option'], 4));
 
                     if(isset($query['view'])) {
                         $description .= ' &raquo; '.JText::_(ucfirst($query['view']));
