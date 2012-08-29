@@ -22,11 +22,11 @@ class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
     {
         parent::onAfterControllerBrowse($event);
 
-        $this->addSeparator()
-             ->addPublish()
-             ->addUnpublish()
-             ->addSeparator()
-             ->addDefault();
+        $this->addSeparator();
+        $this->addPublish();
+        $this->addUnpublish();
+        $this->addSeparator();
+        $this->addDefault();
     }
 
     protected function _commandDefault(KControllerToolbarCommand $command)
@@ -73,6 +73,6 @@ class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
     protected function _commandNew(KControllerToolbarCommand $command)
     {
         $menu = $this->getController()->getModel()->menu;
-        $command->attribs->href = JRoute::_('index.php?option=com_pages&view=page&menu='.$menu);
+        $command->href = 'option=com_pages&view=page&menu='.$menu;
     }
 }
