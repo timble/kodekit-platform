@@ -10,10 +10,6 @@
 	<license>GNU GPLv3</license>
 	<version>1.0.2</version>
 	<description>Bootstrap</description>
-	<files>
-		<filename>index.php</filename>
-		<filename>templateDetails.xml</filename>
-	</files>
 	<positions>
 		<position>breadcrumb</position>
 		<position>left</position>
