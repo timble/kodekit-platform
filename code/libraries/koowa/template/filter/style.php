@@ -72,7 +72,7 @@ class KTemplateFilterStyle extends KTemplateFilterTag
 
         if(!$link)
 		{
-            $attribs = KHelperArray::toString($attribs);
+            $attribs = $this->_buildAttributes($attribs);
 
             $html  = '<style type="text/css" '.$attribs.'>'."\n";
 			$html .= trim($content);
@@ -81,7 +81,7 @@ class KTemplateFilterStyle extends KTemplateFilterTag
 		else
         {
             unset($attribs['src']);
-            $attribs = KHelperArray::toString($attribs);
+            $attribs = $this->_buildAttributes($attribs);
 
             $html = '<link type="text/css" rel="stylesheet" href="'.$link.'" '.$attribs.' />'."\n";
         }
