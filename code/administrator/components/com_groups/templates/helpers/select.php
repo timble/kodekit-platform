@@ -28,7 +28,7 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 			'core' => null
 		));
 		
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 		
 		$groups  = $this->getService('com://admin/groups.model.groups')
             ->set('core', is_null($config->core) ? null : $config->core)

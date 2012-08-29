@@ -33,24 +33,20 @@ class ComGroupsControllerGroup extends ComDefaultControllerDefault
     
     protected function _actionGet(KCommandContext $context)
     {
-        $view    = $this->getView();
-        $package = KInflector::pluralize($this->getIdentifier()->name);
-        
-        if($view instanceof KViewTemplate) 
-	    {     
-	        //Set the layout identifier
-	        $layout = clone $view->getIdentifier();
-	        $layout->package  = $package;
-	        $layout->name     = $view->getLayout();
-	        $layout->filepath = ''; 
- 
-	        $view->setLayout($layout);
-	        
-	        //Set the template identifier
-	        $template = $view->getTemplate()->getIdentifier();
-	        $template->package = $package;
-	    }
-	     
+        $view = $this->getView();
+
+        //Set the layout
+        if($view instanceof KViewTemplate)
+        {
+            $layout = clone $view->getIdentifier();
+            $layout->name  = $view->getLayout();
+
+            $alias = clone $layout;
+            $alias->package = 'groups';
+
+            $this->getService()->setAlias($layout, $alias);
+        }
+
         return parent::_actionGet($context);
     }
     

@@ -22,7 +22,7 @@ class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-		if ($this->getLayout() == 'default') 
+        if ($this->getLayout() == 'default')
 		{
 			$model = $this->getService($this->getModel()->getIdentifier());
 
