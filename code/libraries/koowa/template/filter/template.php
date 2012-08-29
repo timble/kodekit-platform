@@ -51,7 +51,7 @@ class KTemplateFilterTemplate extends KTemplateFilterAbstract implements KTempla
 			{
 			    if(is_string($match) && strpos($match, '.') === false )
 		        {
-                    $identifier = clone $this->getTemplate()->getView()->getIdentifier();
+                    $identifier = clone $this->getTemplate()->getFile();
                     $identifier->name = '';
 
 		            $text = str_replace($matches[0][$key], '$this->loadIdentifier('."'".$identifier.".".$matches[1][$key]."'", $text);
