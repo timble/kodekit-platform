@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -10,30 +9,21 @@
  */
 
 /**
- * Language Controller Executable Behavior
+ * Extensions Controller Executable Behavior
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
 class ComExtensionsControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
-{  
+{
     public function canAdd()
     {
-        if($this->getMixer()->getIdentifier()->name == 'module') {
-            return true;
-        }
-        
-        return false; 
+        return false;
     }
-    
+
     public function canDelete()
     {
-        if($this->getMixer()->getIdentifier()->name == 'module') {
-            return true;
-        }
-        
-        return false; 
+        return false;
     }
 }
