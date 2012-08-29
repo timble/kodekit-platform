@@ -23,61 +23,59 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 	 * @param	KEvent	A event object
 	 */
     public function onBeforeControllerGet(KEvent $event)
-    {   
+    {
         $event->getPublisher()->getView()->toolbar = $this;
     }
-	
+
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
 	 * @param	KEvent	A event object
 	 */
     public function onAfterControllerRead(KEvent $event)
-    { 
+    {
         $name = ucfirst($this->getController()->getIdentifier()->name);
-            
-        if($this->getController()->getModel()->getState()->isUnique()) 
-        {        
+
+        if($this->getController()->getModel()->getState()->isUnique())
+        {
             $saveable = $this->getController()->canEdit();
             $title    = 'Edit '.$name;
-        } 
-        else 
+        }
+        else
         {
             $saveable = $this->getController()->canAdd();
-            $title    = 'New '.$name;  
+            $title    = 'New '.$name;
         }
-            
+
         if($saveable)
         {
-            $this->addCommand('save')
-                 ->addCommand('apply');
+            $this->addCommand('save');
+            $this->addCommand('apply');
         }
-                   
-        $this->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));       
+
+        $this->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
     }
-      
+
     /**
 	 * Add default toolbar commands
 	 * .
 	 * @param	KEvent	A event object
 	 */
     public function onAfterControllerBrowse(KEvent $event)
-    {    
-        if($this->getController()->canAdd()) 
+    {
+        if($this->getController()->canAdd())
         {
             $identifier = $this->getController()->getIdentifier();
-            $config     = array('attribs' => array(
-                    		'href' => JRoute::_( 'index.php?option=com_'.$identifier->package.'&view='.$identifier->name)
-                          ));
-                    
+            $config     = array('href' => 'option=com_'.$identifier->package.'&view='.$identifier->name);
+
             $this->addCommand('new', $config);
         }
-            
+
         if($this->getController()->canDelete()) {
-            $this->addCommand('delete');    
+            $this->addCommand('delete');
         }
     }
-       
+
     /**
      * Enable toolbar command
      *
@@ -135,32 +133,26 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
         $option = $this->getIdentifier()->package;
         $view   = $this->getIdentifier()->name;
 
-        $command->append(array(
-            'attribs' => array(
-                'href' =>  JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&'.$query)
-            )
-        ));
+        $command->href = 'option=com_'.$option.'&view='.$view.'&'.$query;
     }
 
     /**
-     * Modal toolbar command
+     * Dialog toolbar command
      *
      * @param   object  A KControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandModal(KControllerToolbarCommand $command)
+    protected function _commandDialog(KControllerToolbarCommand $command)
     {
         $option = $this->getIdentifier()->package;
 
         $command->append(array(
             'width'   => '640',
             'height'  => '480',
-            'href'	  => ''
         ))->append(array(
             'attribs' => array(
                 'class' => array('modal'),
-                'href'  => $command->href,
-                'rel'   => '{handler: \'iframe\', size: {x: '.$command->width.', y: '.$command->height.'}}'
+                'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}',
             )
         ));
     }

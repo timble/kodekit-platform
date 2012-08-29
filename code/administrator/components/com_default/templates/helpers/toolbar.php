@@ -27,10 +27,14 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-        	'toolbar' => null
+            'toolbar' => null,
+            'attribs' => array('class' => array('toolbar'))
         ));
 
-        $html  = '<div class="toolbar" id="toolbar-'.$config->toolbar->getName().'">';
+        //Force the id
+        $config->attribs['id'] = 'toolbar-'.$config->toolbar->getName();
+
+        $html  = '<div '.$this->_buildAttributes($config->attribs).'>';
         $html .= '<div class="btn-group">';
 	    foreach ($config->toolbar->getCommands() as $command)
 	    {
@@ -58,20 +62,20 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-        	'command' => NULL
+        	'command' => array('attribs' => array('class' => array('btn', 'toolbar')))
         ));
 
         $command = $config->command;
 
-         //Add a toolbar class
-        $command->attribs->class->append(array('toolbar'));
+        //Force the id
+        $command->attribs['id'] = 'command-'.$command->id;
 
-        //Create the id
-        $id = 'toolbar-'.$command->id;
+        //Create the href
+        if(!empty($command->href)) {
+            $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
+        }
 
-		$command->attribs->class = implode(" ", KConfig::unbox($command->attribs->class));
-
-        $html  = '<a class="btn" id="'.$id.'" '.KHelperArray::toString($command->attribs).'>';
+        $html  = '<a '.$this->_buildAttributes($command->attribs).'>';
        	$html .= JText::_($command->label);
        	$html .= '</a>';
 
@@ -88,23 +92,23 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-        	'command' => NULL
+            'command' => array('attribs' => array('class' => array('btn-group')))
         ));
 
         $command = $config->command;
 
-        $html = '</div><div class="btn-group">';
+        $html = '</div><div '.$this->_buildAttributes($command->attribs).'>';
 
     	return $html;
     }
 
 	/**
-     * Render a modal button
+     * Render a dialog button
      *
      * @param   array   An optional array with configuration options
      * @return  string  Html
      */
-    public function modal($config = array())
+    public function dialog($config = array())
     {
         $config = new KConfig($config);
         $config->append(array(

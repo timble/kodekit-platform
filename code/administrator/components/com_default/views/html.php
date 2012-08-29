@@ -19,18 +19,12 @@
 class ComDefaultViewHtml extends KViewHtml
 {
     /**
-     * Initializes the configuration for the object
+     * Get the layout
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   array   Configuration settings
+     * @return string The layout name
      */
-    protected function _initialize(KConfig $config)
+    public function getLayout()
     {
-        $config->append(array(
-            'layout' => KInflector::isSingular($this->getName()) ? 'form' : 'default',
-        ));
-
-        parent::_initialize($config);
+        return empty($this->_layout) ? KInflector::isSingular($this->getName()) ? 'form' : 'default' :  $this->_layout;
     }
 }

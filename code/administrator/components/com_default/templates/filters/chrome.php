@@ -1,6 +1,6 @@
 <?php
 /**
- * @version      $Id: chrome.php 4839 2012-08-23 22:48:57Z johanjanssens $
+ * @version      $Id: chrome.php 4837 2012-08-23 22:30:11Z johanjanssens $
  * @package      Nooku_Components
  * @subpackage	 Default
  * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
@@ -11,11 +11,11 @@
 /**
  * Module Chrome Filter
  *
- * @author		Johan Janssens <johan@nooku.org>
- * @package      Nooku_Module
- * @subpackage   Default
+ * @author		 Johan Janssens <johan@nooku.org>
+ * @package      Nooku_Components
+ * @subpackage	 Default
  */
-class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class ComDefaultModuleDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
     /**
      * The chrome styles
@@ -175,24 +175,6 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
         if(isset($module->attribs['rel']) && isset($module->attribs['rel']['last'])) {
             $html .= $tabs->endPane();
         }
-
-        return $html;
-    }
-
-    protected function _styleOutline($module)
-    {
-        $html = '';
-
-        $html .= '<style>';
-        $html .= '.mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }';
-        $html .=  '.mod-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}';
-
-        $html .= '<div class="mod-preview">';
-        $html .= '<div class="mod-preview-info">'.$module->position."[".$module->style."]".'</div>';
-        $html .= '<div class="mod-preview-wrapper">';
-        $html .= $module->content;
-        $html .= '</div>';
-        $html .= '</div>';
 
         return $html;
     }

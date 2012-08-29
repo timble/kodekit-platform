@@ -43,29 +43,4 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
             return parent::keepalive($config);
         }
     }
-
-   	/**
-	 * Render a modal box
-	 *
-	 * @return string	The html output
-	 */
-	public function modal($config = array())
-	{
-		$config = new KConfig($config);
-		$config->append(array(
-			'selector' => 'a.modal',
-			'options'  => array('disableFx' => true)
- 		));
-		
-	    $html = '';
-		
-		$signature = 'modal-'.$config->selector;
-		if (!isset(self::$_loaded[$config->selector])) 
-		{
-		    $html = JHTML::_('behavior.modal', $config->selector, $config->toArray());
-		    self::$_loaded[$signature] = true;
-		}
-		
-		return $html;
-	}
 }

@@ -29,6 +29,6 @@ class ComDefaultTemplateHelperRoute extends KTemplateHelperDefault
         $component = JComponentHelper::getComponent('com_'.$this->getIdentifier()->package);
         $pages     = $this->getService('application')->getPages();
 
-        return $pages->find(array('component_id' => $component->id, 'link' => $needles));
+        return $pages->find(array('extensions_component_id' => $component->id, 'link' => $needles));
 	}
 }

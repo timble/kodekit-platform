@@ -13,6 +13,6 @@
 	<?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
 </ktml:module>
 
-<ktml:module position="submenu">
-	<?= @helper('menubar.render', array('menubar' => $menubar))?>
+<ktml:module position="menubar">
+	<?= @helper('menubar.render', array('menubar' => $menubar, 'attribs' => array('id' => 'menubar')))?>
 </ktml:module>

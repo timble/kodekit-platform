@@ -34,19 +34,19 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
-     * @return  KControllerToolbarInterface
+     * @return  KControllerToolbarCommand
      */
     public function addCommand($name, $config = array())
     {
-        parent::addCommand($name, $config);
+        $command = parent::addCommand($name, $config);
         
         $controller = $this->getController();
         
         if($controller->isEditable() && KInflector::isSingular($controller->getView()->getName())) {
-            $this->_commands[$name]->disabled = true;
+            $command->disabled = true;
         }
         
-        return $this;
+        return $command;
     }
 
     /**
@@ -60,29 +60,27 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
 	{
 	    $name     = $this->getController()->getIdentifier()->name;
 	    $package  = $this->getIdentifier()->package;
-	    $manifest = JPATH_APPLICATION.'/components/com_'.$package.'/manifest.xml';
+        $application = $this->getIdentifier()->application;
 
-	    if(file_exists($manifest))
+        $path  = $this->getIdentifier()->getApplication($application);
+	    $path .= '/components/com_'.$package.'/manifest.xml';
+
+	    if(file_exists($path))
 	    {
-	        $xml = simplexml_load_file($manifest);
+	        $xml = simplexml_load_file($path);
 	        
-	        if(isset($xml->administration->submenu)) 
+	        if(isset($xml->admin->menubar))
 	        {
-	            foreach($xml->administration->submenu->children() as $menu)
+	            foreach($xml->admin->menubar->children() as $command)
 	            {
-	                $view = (string)$menu['view'];
-	                  
-	                if(!isset($menu['href'])) {
-	                   $menu['href'] = 'index.php?option=com_'.$package.'&view='.$view;
+	                parse_str($command['href'], $href);
+	                if(!isset($command['active'])) {
+	                    $command['active'] = ($name == KInflector::singularize($href['view']));
 	                }
-	               
-	                if(!isset($menu['active'])) {
-	                    $menu['active'] = ($name == KInflector::singularize($view));
-	                }
-	                
-	                $this->addCommand(JText::_((string)$menu), array(
-	            		'href'   => JRoute::_($menu['href']),
-	            		'active' => (string) $menu['active']
+
+	                $this->addCommand(JText::_((string)$command), array(
+	            		'href'   => (string) $command['href'],
+	            		'active' => (string) $command['active']
 	                ));
 	            }
 	        }

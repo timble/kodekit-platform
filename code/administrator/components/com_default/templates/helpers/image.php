@@ -124,7 +124,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
  	    $image = JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
 
  	    $path = $config->selected ? $image : 'media://system/images/blank.png';
-  		$html = '<img '.KHelperArray::toString(array(
+  		$html = '<img '.$this->_buildAttributes(array(
   			'src'		=> $path,
   			'id'		=> $config->name.'-preview',
   			'class'		=> 'preview',

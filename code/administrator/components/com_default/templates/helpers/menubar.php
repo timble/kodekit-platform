@@ -17,23 +17,6 @@
  */
 class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
 {
-	/**
-     * Initializes the options for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param 	object 	An optional KConfig object with configuration options.
-     * @return 	void
-     */
-    protected function _initialize(KConfig $config)
-    {
-    	$config->append(array(
-    		'menubar' => null,
-        ));
-
-        parent::_initialize($config);
-    }
-
  	/**
      * Render the menubar
      *
@@ -44,16 +27,21 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-        	'menubar' => null
+        	'menubar' => null,
+            'attribs' => array(),
         ));
 
-		$html = '';
-
-        $html .= '<ul id="submenu">';
+        $html = '<ul '.$this->_buildAttributes($config->attribs).'>';
 	    foreach ($config->menubar->getCommands() as $command)
 	    {
 	        $html .= '<li>';
-            $html .= $this->command(array('command' => $command));
+            $name = $command->getName();
+
+            if(method_exists($this, $name)) {
+                $html .= $this->$name(array('command' => $command));
+            } else {
+                $html .= $this->command(array('command' => $command));
+            }
             $html .= '</li>';
         }
 
@@ -86,13 +74,15 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
              $command->attribs->class->append(array('active'));
         }
 
-        //Explode the class array
-        $command->attribs->class = implode(" ", KConfig::unbox($command->attribs->class));
+        //Create the href
+        if(!empty($command->href)) {
+            $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
+        }
 
         if ($command->disabled) {
-			$html = '<span '.KHelperArray::toString($command->attribs).'>'.JText::_($command->label).'</span>';
+			$html = '<span '.$this->_buildAttributes($command->attribs).'>'.JText::_($command->label).'</span>';
 		} else {
-			$html = '<a href="'.$command->href.'" '.KHelperArray::toString($command->attribs).'>'.JText::_($command->label).'</a>';
+			$html = '<a '.$this->_buildAttributes($command->attribs).'>'.JText::_($command->label).'</a>';
 		}
 
     	return $html;

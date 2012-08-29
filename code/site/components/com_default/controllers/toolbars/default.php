@@ -49,8 +49,8 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
             
         if($saveable)
         {
-            $this->addCommand('save')
-                 ->addCommand('apply');
+            $this->addCommand('save');
+            $this->addCommand('apply');
         }
                    
         $this->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));       
@@ -66,9 +66,7 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
         if($this->getController()->canAdd()) 
         {
             $identifier = $this->getController()->getIdentifier();
-            $config     = array('attribs' => array(
-                    		'href' => JRoute::_( 'index.php?option=com_'.$identifier->package.'&view='.$identifier->name)
-                          ));
+            $config     = array('href' => 'option=com_'.$identifier->package.'&view='.$identifier->name);
                     
             $this->addCommand('new', $config);
         }
@@ -135,32 +133,26 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
         $option = $this->getIdentifier()->package;
         $view   = $this->getIdentifier()->name;
 
-        $command->append(array(
-            'attribs' => array(
-                'href' =>  JRoute::_('index.php?option=com_'.$option.'&view='.$view.'&'.$query)
-            )
-        ));
+        $command->href = 'option=com_'.$option.'&view='.$view.'&'.$query;
     }
 
     /**
-     * Modal toolbar command
+     * Dialog toolbar command
      *
      * @param   object  A KControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandModal(KControllerToolbarCommand $command)
+    protected function _commandDialog(KControllerToolbarCommand $command)
     {
         $option = $this->getIdentifier()->package;
 
         $command->append(array(
             'width'   => '640',
             'height'  => '480',
-            'href'	  => ''
         ))->append(array(
             'attribs' => array(
                 'class' => array('modal'),
-                'href'  => $command->href,
-                'rel'   => '{handler: \'iframe\', size: {x: '.$command->width.', y: '.$command->height.'}}'
+                'rel'   => '{handler: \'url\', ajaxOptions:{method:\'get\'}}',
             )
         ));
     }
