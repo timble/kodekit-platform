@@ -14,12 +14,12 @@
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  */
-interface KControllerToolbarInterface
+interface KControllerToolbarInterface extends IteratorAggregate
 { 
 	/**
      * Get the controller object
      * 
-     * @return  KController
+     * @return  \KControllerInterface
      */
     public function getController();
 
@@ -33,7 +33,7 @@ interface KControllerToolbarInterface
     /**
      * Add a separator
      *
-     * @return  KControllerToolbarInterface
+     * @return  \KControllerToolbarInterface
      */
     public function addSeparator();
      
@@ -42,9 +42,18 @@ interface KControllerToolbarInterface
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
-     * @return  KControllerToolbarInterface
+     * @return  \KControllerToolbarCommand  The command object that was added
      */
     public function addCommand($name, $config = array());
+
+    /**
+     * Get a command by name
+     *
+     * @param string $name  The command name
+     * @param array $config An optional associative array of configuration settings
+     * @return mixed KControllerToolbarCommand if found, false otherwise.
+     */
+    public function getCommand($name, $config = array()) ;
     
  	/**
      * Get the list of commands
@@ -52,11 +61,11 @@ interface KControllerToolbarInterface
      * @return  array
      */
     public function getCommands();
- 
+
     /**
      * Reset the commands array
      *
-     * @return  KConttrollerToolbarInterface
+     * @return  \KControllerToolbarInterface
      */
     public function reset();
 }
