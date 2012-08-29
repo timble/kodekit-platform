@@ -1,9 +1,8 @@
 <?
 /**
- * @version     $Id$
- * @category	Nooku
+ * @version     $Id: default.php 4878 2012-08-24 16:20:04Z tomjanssens
  * @package     Nooku_Server
- * @subpackage  Modules
+ * @subpackage  Pages
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -16,14 +15,6 @@
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
-
-<?= @helper('behavior.modal') ?>
-<script>
-    window.addEvent('domready', function(){
-        var workaround = document.getElement('#toolbar-new a');
-        workaround.href += '&application=<?= $state->application ?>';
-    });
-</script>
 
 <ktml:module position="sidebar">
 	<?= @template('default_sidebar'); ?>
@@ -49,7 +40,7 @@
 				<th nowrap="nowrap" width="5%">
 					<?= @helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
 				</th>
-				<th nowrap="nowrap" width="10%"  class="title">
+				<th nowrap="nowrap" class="title">
 					<?= @helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
 				</th>
 			</tr>
@@ -60,7 +51,6 @@
 				<td></td>
 				<td></td>
 				<td>
-					<?= @helper('listbox.types') ?>
 				</td>
 			</tr>
 		</thead>
@@ -80,7 +70,7 @@
 					<?= @helper('grid.checkbox',array('row' => $module)) ?>
 				</td>
 				<td>
-					<a href="<?= @route('view=module&id='.$module->id.'&application='.$state->application) ?>">
+					<a href="<?= @route('view=module&id='.$module->id) ?>">
 					    <?= @escape($module->title) ?>
 					</a>
 					<? if($module->access == '1') : ?>
@@ -101,7 +91,7 @@
 					) ?>
 				</td>
 				<td>
-					<?= $module->type ? $module->type : @text( 'User' ) ?>
+					<?= @text(ucfirst($module->identifier->package)).' &raquo; '. @text(ucfirst($module->identifier->path[1])); ?>
 				</td>
 			</tr>
 		<? endforeach ?>

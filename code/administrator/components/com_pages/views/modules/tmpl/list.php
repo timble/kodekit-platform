@@ -1,9 +1,8 @@
 <?
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Modules
+ * @subpackage  Pages
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -28,13 +27,8 @@
 		<? $last = $i+1 == count($modules) ?>
 
 		<td width="50%">
-			<span <?= KHelperArray::toString(array(
-				'class' 	=> 'editlinktip hasTip',
-				'title'		=> @escape(@text($module->description)),
-				'name'		=> 'type',
-				'value'		=> $module->type
-			)) ?>>
-				<a href="<?= @route('view=module&layout=form&type='.$module->type.'&application='.$state->application) ?>">
+			<span class="editlinktip hasTip" title="<?= @escape(@text($module->description)) ?>">
+				<a href="<?= @route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_component_id) ?>">
 					<?= @text(@escape($module->title)) ?>
 				</a>
 			</span>

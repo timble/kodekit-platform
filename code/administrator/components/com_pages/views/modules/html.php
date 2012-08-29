@@ -1,23 +1,21 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
- * @subpackage  Extensions
+ * @subpackage  Pages
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * Modules HTML View Class
+ * Modules Html View Class
  *   
  * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Extensions
+ * @subpackage  Pages
  */
-class ComExtensionsViewModulesHtml extends ComDefaultViewHtml
+class ComPagesViewModulesHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
@@ -26,11 +24,8 @@ class ComExtensionsViewModulesHtml extends ComDefaultViewHtml
 		{
 		    foreach($this->getModel()->getList() as $module) 
 		    {
-		       if($module->application == 'site') {
-	                JFactory::getLanguage()->load($module->type, JPATH_ROOT.'/site' );
-	            } else {
-		            JFactory::getLanguage()->load($module->type);
-	            }
+                $path = $this->getIdentifier()->getApplication($module->application);
+                JFactory::getLanguage()->load('mod_'.$module->module->path[1], $path );
 		    }
 		} 
 
