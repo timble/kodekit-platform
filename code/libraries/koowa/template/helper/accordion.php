@@ -48,7 +48,7 @@ class KTemplateHelperAccordion extends KTemplateHelperBehavior
 		}
 
 		$id      = strtolower($config->id);
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
 		$events			= '';
 		$onActive 		= 'function(e){e.addClass(\'jpane-toggler-down\');e.removeClass(\'jpane-toggler\');}';
@@ -106,7 +106,7 @@ class KTemplateHelperAccordion extends KTemplateHelperBehavior
 		));
 
 		$title   = $config->translate ? JText::_($config->title) : $config->title;
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
 		$html = '<div class="panel"><h3 class="jpane-toggler title" '.$attribs.'><span>'.$title.'</span></h3><div class="jpane-slider content">';
 		return $html;
