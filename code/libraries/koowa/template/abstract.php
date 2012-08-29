@@ -13,15 +13,15 @@
   * @author		Johan Janssens <johan@nooku.org>
   * @package	Koowa_Template
   */
-abstract class KTemplateAbstract extends KObject
+abstract class KTemplateAbstract extends KObject implements KTemplateInterface
 { 
 	/** 
 	 * The template path
 	 * 
 	 * @var string
 	 */
-	protected $_path;
-	
+	protected $_file;
+
 	/**
 	 * The template data
 	 * 
@@ -144,16 +144,16 @@ abstract class KTemplateAbstract extends KObject
         
         parent::_initialize($config);
     }
-    
-	/**
-	 * Get the template path
-	 * 
-	 * @return	string
-	 */
-	public function getPath()
-	{
-		return $this->_path;
-	}
+
+    /**
+     * Get the template file identifier
+     *
+     * @return	KServiceIdentifier
+     */
+    public function getFile()
+    {
+        return $this->_file;
+    }
 	
 	/**
 	 * Get the template data
@@ -196,7 +196,7 @@ abstract class KTemplateAbstract extends KObject
 	}
 
 	/**
-	 * Method to set a view object attached to the controller
+	 * Method to set a view object attached to the template
 	 *
 	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
 	 * 					or valid identifier string
@@ -240,12 +240,13 @@ abstract class KTemplateAbstract extends KObject
 	 */
 	public function loadIdentifier($template, $data = array(), $process = true)
 	{
-	    //Identify the template
+        //Find the template
 	    $identifier = $this->getIdentifier($template);
-	    
-	    // Find the template 
 		$file = $this->findFile($identifier->filepath);
-	    
+
+        //Store the identifier
+        $this->_file = $identifier;
+
 		if ($file === false) {
 			throw new KTemplateException('Template "'.$identifier->name.'" not found');
 		}
@@ -266,13 +267,10 @@ abstract class KTemplateAbstract extends KObject
 	 */
 	public function loadFile($file, $data = array(), $process = true)
 	{
-		// store the path
-		$this->_path  = $file;
-		
-		// get the file contents
+		//Get the file contents
 		$contents = file_get_contents($file);
 		
-		// load the contents
+		//Load the contents
 		$this->loadString($contents, $data, $process);
 		
 		return $this;
@@ -304,7 +302,7 @@ abstract class KTemplateAbstract extends KObject
 	/**
 	 * Render the template
 	 * 
-	 * This function passes the template throught write filter chain and returns the
+	 * This function passes the template through write filter chain and returns the
 	 * result.
 	 *
 	 * @return string	The rendered data
@@ -322,7 +320,7 @@ abstract class KTemplateAbstract extends KObject
 	/**
 	 * Parse the template
 	 * 
-	 * This function passes the template throught read filter chain and returns the
+	 * This function passes the template through read filter chain and returns the
 	 * result.
 	 *
 	 * @return string	The parsed data
@@ -456,11 +454,11 @@ abstract class KTemplateAbstract extends KObject
         if($file == 'tmpl://koowa:template.stack') 
         {
             if(ini_get('display_errors')) {
-                echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_path.'</strong> on line <strong>'.$line.'</strong>';
+                echo '<strong>'.self::$_errors[$code].'</strong>: '.$message.' in <strong>'.$this->_file->filepath.'</strong> on line <strong>'.$line.'</strong>';
             }
             
             if(ini_get('log_errors')) {
-                error_log(sprintf('PHP %s:  %s in %s on line %d', self::$_errors[$code], $message, $this->_path, $line));
+                error_log(sprintf('PHP %s:  %s in %s on line %d', self::$_errors[$code], $message, $this->_file->filepath, $line));
             }
             
             return true;
