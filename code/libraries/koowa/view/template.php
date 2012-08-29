@@ -54,6 +54,13 @@ abstract class KViewTemplate extends KViewAbstract
     protected $_mediaurl;
 
     /**
+     * Layout name
+     *
+     * @var string
+     */
+    protected $_layout;
+
+    /**
      * Constructor
      *
      * @param   object  An optional KConfig object with configuration options
@@ -62,23 +69,26 @@ abstract class KViewTemplate extends KViewAbstract
     {
         parent::__construct($config);
         
-        //set the media url
+        //Set the media url
         if(!$config->media_url instanceof KHttpUrl) {
             $this->_mediaurl = KService::get('koowa:http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
         }
         
-        // set the auto assign state
+        //Set the auto assign state
         $this->_auto_assign = $config->auto_assign;
         
-        //set the data
+        //Set the data
         $this->_data = KConfig::unbox($config->data);
           
-         // user-defined escaping callback
+        //Set the user-defined escaping callback
         $this->setEscape($config->escape);
+
+        //Set the layout
+        $this->setLayout($config->layout);
          
-        // set the template object
+        //Set the template object
         $this->_template = $config->template;
 
         //Set the template filters
@@ -108,6 +118,7 @@ abstract class KViewTemplate extends KViewAbstract
         $config->append(array(
             'data'			   => array(),
             'escape'           => 'htmlspecialchars',
+            'layout'           => '',
             'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'alias', 'variable', 'template'),
             'auto_assign'      => true,
@@ -228,8 +239,52 @@ abstract class KViewTemplate extends KViewAbstract
                         
         return parent::display();
     }
+
+    /**
+     * Sets the view data
+     *
+     * @param   array The view data
+     * @return  KViewAbstract
+     */
+    public function setData(array $data)
+    {
+        $this->_data = $data;
+        return $this;
+    }
+
+    /**
+     * Get the view data
+     *
+     * @return  array   The view data
+     */
+    public function getData()
+    {
+        return $this->_data;
+    }
+
+    /**
+     * Get the layout
+     *
+     * @return string The layout name
+     */
+    public function getLayout()
+    {
+        return empty($this->_layout) ? 'default' :  $this->_layout;
+    }
+
+    /**
+     * Sets the layout name to use
+     *
+     * @param    string  The template name.
+     * @return   KViewAbstract
+     */
+    public function setLayout($layout)
+    {
+        $this->_layout = $layout;
+        return $this;
+    }
     
-     /**
+    /**
      * Sets the _escape() callback.
      *
      * @param   mixed The callback for _escape() to use.
@@ -306,6 +361,27 @@ abstract class KViewTemplate extends KViewAbstract
 	{
 	    return $this->_mediaurl;
 	}
+
+    /**
+     * Get a route based on a full or partial query string.
+     *
+     * This function adds the layout information to the route if a layout has been set
+     *
+     * @param	string	The query string used to create the route
+     * @param 	boolean	If TRUE create a fully qualified route. Default TRUE.
+     * @param 	boolean	If TRUE escapes the route for xml compliance. Default TRUE.
+     * @return 	string 	The route
+     */
+    public function getRoute( $route = '', $fqr = null, $escape = null)
+    {
+        $route = parent::getRoute($route, $fqr, $escape);
+
+        if(!isset($route->query['layout']) && !empty($this->_layout)) {
+            $route->query['layout'] = $this->getLayout();
+        }
+
+        return $route;
+    }
     
     /**
      * Execute and return the views output
