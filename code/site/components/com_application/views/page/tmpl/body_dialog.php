@@ -9,9 +9,7 @@
  */
 ?>
 
-<!DOCTYPE HTML>
-<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
-
-<?= @template('head') ?>
-<?= @template('com://site/application.view.page.body_'.JRequest::getCmd('tmpl', 'default')) ?>
-</html>
+<body id="tmpl-modal" class="<?= JRequest::getVar('option', 'cmd'); ?> contentpane">
+    <?= @template('default_message') ?>
+    <ktml:variable name="component" />
+</body>
