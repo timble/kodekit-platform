@@ -56,7 +56,7 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 
 			if(count($parts))
 			{
-			    if($parts[0] != 'view')
+                if(!in_array($parts[0], array('view', 'module')))
 			    {
 			        foreach($parts as $key => $value) {
 					    $parts[$key] = KInflector::pluralize($value);
