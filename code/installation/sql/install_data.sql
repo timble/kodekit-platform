@@ -15,23 +15,18 @@
 -- Dumping data for table `#__components`
 --
 
-INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `params`, `enabled`)
+INSERT INTO `#__components` (`id`, `name`, `link`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `params`, `enabled`)
 VALUES
-    (4, 'Web Links', 'option=com_weblinks', 0, 0, 'option=com_weblinks&view=weblinks', 'Manage Weblinks', 'com_weblinks', 0, '', 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1),
-    (5, 'Links', '', 0, 4, 'option=com_weblinks&view=weblinks', 'View existing weblinks', 'com_weblinks', 1, '', '', 1),
-    (6, 'Categories', '', 0, 4, 'option=com_weblinks&view=categories', 'Manage weblink categories', '', 2, '', '', 1),
-    (7, 'Contacts', 'option=com_contacts', 0, 0, 'option=com_contacts&view=contacts', 'Edit contact details', 'com_contacts', 0, '', 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1),
-    (8, 'Contacts', '', 0, 7, 'option=com_contacts&view=contacts', 'Edit contact details', 'com_contacts', 0, '', '', 1),
-    (9, 'Categories', '', 0, 7, 'option=com_contacts&view=categories', 'Manage contact categories', '', 2, '', 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1),
-    (19, 'Media Manager', '', 0, 0, '', 'Media Manager', 'com_files', 0, '', 'pload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1),
-    (20, 'Articles', 'option=com_articles', 0, 0, 'option=com_articles&view=articles', 'Articles', 'com_articles', 0, '',  'show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_hits=1\nfeed_summary=0\n\n', 1),
-    (25, 'Pages', '', 0, 0, '', 'Pages', 'com_pages', 0, '', '', 1),
-    (28, 'Extension Manager', '', 0, 0, '', 'Extensions', 'com_extensions', 0, '', 'template_site=bootstrap\ntemplate_administrator=default\nlanguage_site=en-GB\nlanguage_administrator=en-GB', 1),
-    (31, 'User Manager', 'option=com_users', 0, 0, '', 'Users', 'com_users', 0, '', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
-    (32, 'Cache Manager', '', 0, 0, '', 'Cache', 'com_cache', 0, '', '', 1),
-    (33, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=languages', 'Languages', 'com_languages', 0, '', '', 1),
-    (34, 'Languages', '', 0, 33, 'option=com_languages&view=languages', 'Languages', '', 3, '', '', 1),
-    (35, 'Components', '', 0, 33, 'option=com_languages&view=components', 'Components', '', 4, '', '', 1);
+    (4, 'Web Links', 'com_weblinks', 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1),
+    (7, 'Contacts', 'com_contacts', 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1),
+    (19, 'Media Manager', 'com_files', 'pload_extensions=bmp,csv,doc,epg,gif,ico,jpg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,EPG,GIF,ICO,JPG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS\nupload_maxsize=10000000\nimage_path=images\nrestrict_uploads=1\ncheck_mime=1\nimage_extensions=bmp,gif,jpg,png\nignore_extensions=\nupload_mime=image/jpeg,image/gif,image/png,image/bmp,application/x-shockwave-flash,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip\nupload_mime_illegal=text/html', 1),
+    (20, 'Articles', 'com_articles', 'show_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_hits=1\nfeed_summary=0\n\n', 1),
+    (25, 'Pages', 'com_pages', '', 1),
+    (28, 'Extension Manager', 'com_extensions', 'template_site=bootstrap\ntemplate_administrator=default\nlanguage_site=en-GB\nlanguage_administrator=en-GB', 1),
+    (31, 'User Manager', 'com_users', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
+    (32, 'Cache Manager', 'com_cache', '', 1),
+    (33, 'Languages', 'com_languages', '', 1),
+    (34, 'Search', 'com_search', '', 1)
 
 --
 -- Dumping data for table `#__languages`
@@ -46,20 +41,10 @@ VALUES
 -- Dumping data for table `#__languages_components`
 --
 
-INSERT INTO `#__languages_tables` (`components_component_id`, `name`, `unique_column`, `enabled`)
+INSERT INTO `#__languages_tables` (`extensions_component_id`, `name`, `unique_column`, `enabled`)
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
---
--- Dumping data for table `#__modules`
---
-
-INSERT INTO `#__modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `module`, `access`, `showtitle`, `params`, `application`) VALUES
-(1, 'Main Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 'site'),
-(2, 'Login', '', 3, 'login', 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, '', 'admin'),
-(10, 'Logged in Users', '', 13, 'cpanel', 0, '0000-00-00 00:00:00', 1, 'mod_logged', 2, 1, '', 'admin'),
-(12, 'Admin Pages', '', 5, 'menu', 0, '0000-00-00 00:00:00', 1, 'mod_pages', 2, 1, '', 'admin'),
-(14, 'User Status', '', 7, 'status', 0, '0000-00-00 00:00:00', 1, 'mod_status', 2, 1, '', 'admin');
 
 --
 -- Dumping data for table `#__pages_menus`
@@ -73,7 +58,7 @@ VALUES
 -- Dumping data for table `#__pages_modules`
 --
 
-INSERT INTO `#__pages_modules` (`modules_module_id`, `pages_page_id`) VALUES (1, 0);
+INSERT INTO `#__pages_modules_pages` (`modules_module_id`, `pages_page_id`) VALUES (1, 0);
 
 --
 -- Dumping data for table `#__pages_orderings`
@@ -92,10 +77,18 @@ VALUES
     (1, 1, 0);
 
 --
+-- Dumping data for table `#__pages_modules`
+--
+
+INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `name`, `access`, `showtitle`, `params`, `extensions_component_id`, `application`) VALUES
+(1, 'Main Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 25, 'site')
+
+
+--
 -- Dumping data for table `#__pages`
 --
 
-INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `enabled`, `hidden`, `home`, `component_id`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `enabled`, `hidden`, `home`, `extensions_component_id`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
     (1, 1, 'Home', 'home', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 20, 0, '0000-00-00 00:00:00', 0, 'show_featured=1\nshow_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n');
 
