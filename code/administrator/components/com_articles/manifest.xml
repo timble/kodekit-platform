@@ -11,11 +11,11 @@
    	<version>12.2</version>
   	<description>DESCCONTENT</description>
 
-	<administration>
-		<submenu>
-			<menu view="articles">Articles</menu>
-			<menu view="categories">Categories</menu>
-		</submenu>
-	</administration>
+	<admin>
+		<menubar>
+			<command href="view=articles">Articles</command>
+			<command href="view=categories">Categories</command>
+		</menubar>
+	</admin>
 
 </install>
