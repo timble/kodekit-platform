@@ -50,7 +50,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         foreach($menus as $menu)
         {
-            $options[] = $this->option(array('text' => $menu->title, $value = '', 'disable' => true));
+            $options[] = $this->option(array('text' => $menu->title, 'value' => '', 'disable' => true));
             foreach($pages->find(array('pages_menu_id' => $menu->id)) as $page)
             {
                 $options[] = $this->option(array(
@@ -108,5 +108,33 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         }
 
         return implode(PHP_EOL, $html);
+    }
+
+    public function positions($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+            'name' => 'position',
+        ));
+
+        $options = array();
+
+        $path = $this->getIdentifier()->getApplication('site');
+        $path = $path.'/templates/bootstrap/bootstrap.xml';
+
+        if (file_exists($path))
+        {
+            $xml = simplexml_load_file($path);
+            if (isset($xml->positions))
+            {
+                foreach ($xml->positions->children() as $position) {
+                    $options[] = $this->option(array('text' => (string) $position, 'value' =>  (string) $position));
+                }
+            }
+        }
+
+        $config->options = $options;
+
+        return $this->optionlist($config);
     }
 }
