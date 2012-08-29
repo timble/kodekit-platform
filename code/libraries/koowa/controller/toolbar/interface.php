@@ -15,14 +15,7 @@
  * @subpackage 	Toolbar
  */
 interface KControllerToolbarInterface extends IteratorAggregate
-{ 
-	/**
-     * Get the controller object
-     * 
-     * @return  \KControllerInterface
-     */
-    public function getController();
-
+{
     /**
      * Get the toolbar's name
      *
@@ -31,14 +24,7 @@ interface KControllerToolbarInterface extends IteratorAggregate
     public function getName();
 
     /**
-     * Add a separator
-     *
-     * @return  \KControllerToolbarInterface
-     */
-    public function addSeparator();
-     
-    /**
-     * Add a command
+     * Add a command by name
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
@@ -61,11 +47,4 @@ interface KControllerToolbarInterface extends IteratorAggregate
      * @return  array
      */
     public function getCommands();
-
-    /**
-     * Reset the commands array
-     *
-     * @return  \KControllerToolbarInterface
-     */
-    public function reset();
 }
