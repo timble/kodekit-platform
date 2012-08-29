@@ -5,8 +5,8 @@ class ComLanguagesControllerToolbarLanguage extends ComDefaultControllerToolbarD
     {    
         parent::onAfterControllerBrowse($event);
 
-        $this->addSeparator()
-            ->addEnable()
-            ->addDisable();
+        $this->addSeparator();
+        $this->addEnable();
+        $this->addDisable();
     }
 }
