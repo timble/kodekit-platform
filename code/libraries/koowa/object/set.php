@@ -17,7 +17,7 @@
  * @package     Koowa_Object
  * @see			http://www.php.net/manual/en/class.splobjectstorage.php
  */
-class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Serializable
+class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Countable, Serializable
 {
    /**
      * Object set
@@ -39,7 +39,7 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
 
         parent::__construct($config);
 
-         $this->_object_set = new ArrayObject();
+        $this->_object_set = new ArrayObject();
     }
 
   	/**
@@ -243,57 +243,6 @@ class KObjectSet extends KObject implements Iterator, ArrayAccess, Countable, Se
     public function getIterator()
     {
         return $this->_object_set->getIterator();
-    }
-
-    /**
-     * Rewind the Iterator to the first element
-     *
-     * @return  \KObjectArray
-     */
-    public function rewind()
-    {
-        reset($this->_object_set);
-        return $this;
-    }
-
-    /**
-     * Checks if current position is valid
-     *
-     * @return  boolean
-     */
-    public function valid()
-    {
-        return !is_null(key($this->_object_set));
-    }
-
-    /**
-     * Return the key of the current element
-     *
-     * @return  mixed
-     */
-    public function key()
-    {
-        return key($this->_object_set);
-    }
-
-	/**
-     * Return the current element
-     *
-     * @return  mixed
-     */
-    public function current()
-    {
-        return current($this->_object_set);
-    }
-
-	/**
-     * Move forward to next element
-     *
-     * @return  void
-     */
-    public function next()
-    {
-        return next($this->_object_set);
     }
 
 	/**
