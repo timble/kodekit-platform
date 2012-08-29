@@ -23,8 +23,8 @@ class ComContactsControllerToolbarContact extends ComDefaultControllerToolbarDef
     {    
         parent::onAfterControllerBrowse($event);
         
-        $this->addSeparator()     
-			 ->addEnable(array('label' => 'publish'))
-			 ->addDisable(array('label' => 'unpublish'));
+        $this->addSeparator();
+		$this->addEnable(array('label' => 'publish'));
+		$this->addDisable(array('label' => 'unpublish'));
     }  
 }
