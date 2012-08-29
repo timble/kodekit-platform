@@ -246,9 +246,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         );
 
         $controller = $this->getService('com://admin/application.controller.page', $config);
-        $controller->getView()
-                ->layout('page')
-                ->component($context->result);
+        $controller->getView()->component($context->result);
 
         //Render the page controller
         $data = $controller->display($context);
@@ -379,7 +377,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      */
     public function loadLanguage(KCommandContext $context)
     {
-        $languages = $this->getLanguages();
+        /*$languages = $this->getLanguages();
         $language  = null;
         
         // If a language was specified it has priority.
@@ -408,7 +406,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $languages->setActive($language);
         
         // TODO: Remove this.
-        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+        JFactory::getConfig()->setValue('config.language', $language->iso_code);*/
     }
 
     /**
