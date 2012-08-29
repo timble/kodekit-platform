@@ -57,7 +57,7 @@ class KTemplateFilterLink extends KTemplateFilterTag
      */
     protected function _renderTag($attribs = array(), $content = null)
 	{
-		$attribs = KHelperArray::toString($attribs);
+		$attribs = $this->_buildAttributes($attribs);
 
 		$html = '<link '.$attribs.'/>'."\n";
 		return $html;
