@@ -14,11 +14,11 @@ class ComLanguagesViewComponentsHtml extends ComDefaultViewHtml
     {
         $tables     = $this->getService('com://admin/languages.model.tables')->getList();
         $components = $this->getService('com://admin/extensions.model.components')
-            ->id(array_unique($tables->components_component_id))
+            ->id(array_unique($tables->extensions_component_id))
             ->getList();
         
         foreach($tables as $table) {
-            $components->find($table->components_component_id)->enabled = $table->enabled;
+            $components->find($table->extensions_component_id)->enabled = $table->enabled;
         }
         
         $this->assign('components', $components);
