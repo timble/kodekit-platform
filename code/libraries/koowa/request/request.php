@@ -231,7 +231,7 @@ class KRequest
            $GLOBALS['_'.$hash] = array(); 
         } 
         
-        $GLOBALS['_'.$hash] = KHelperArray::merge($GLOBALS['_'.$hash], $value);
+        $GLOBALS['_'.$hash] = self::_mergeArrays($GLOBALS['_'.$hash], $value);
     }
 
     /**
@@ -716,5 +716,38 @@ class KRequest
         }
 
         return $value;
+    }
+
+    /**
+     * Merge two arrays recursively
+     *
+     * Matching keys' values in the second array overwrite those in the first array, as is the
+     * case with array_merge.
+     *
+     * Parameters are passed by reference, though only for performance reasons. They're not
+     * altered by this function and the datatypes of the values in the arrays are unchanged.
+     *
+     * @param array
+     * @param array
+     * @return array    An array of values resulted from merging the arguments together.
+     */
+    protected static function _mergeArrays( array &$array1, array &$array2 )
+    {
+        $args   = func_get_args();
+        $merged = array_shift($args);
+
+        foreach($args as $array)
+        {
+            foreach ( $array as $key => &$value )
+            {
+                if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) ){
+                    $merged [$key] = self::_mergeArrays ( $merged [$key], $value );
+                } else {
+                    $merged [$key] = $value;
+                }
+            }
+        }
+
+        return $merged;
     }
 }
