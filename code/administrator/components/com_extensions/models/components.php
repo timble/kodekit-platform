@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,7 +12,6 @@
  * Components Model Class
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Extensions    
  */
@@ -24,9 +22,9 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		parent::__construct($config);
 	
 		$this->getState()
-		 	->insert('enabled', 'boolean')
-		 	->insert('parent' , 'int')
-		 	->insert('component' , 'cmd');
+		 	->insert('enabled'   , 'boolean')
+		 	->insert('component' , 'cmd')
+            ->insert('sort'      ,  array('ordering', 'name'));
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -40,10 +38,6 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		
 		if($state->component) {
 			$query->where('tbl.option = :component')->bind(array('component' => $state->component));
-		}
-	
-	    if(is_integer($state->parent)) {
-			$query->where('tbl.parent = :parent')->bind(array('parent' => $state->parent));
 		}
 
 		if(is_bool($state->enabled)) {
