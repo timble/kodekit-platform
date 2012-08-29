@@ -281,9 +281,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         );
 
         $controller = $this->getService('com://site/application.controller.page', $config);
-        $controller->getView()
-            ->layout('page')
-            ->component($context->result);
+        $controller->getView()->component($context->result);
 
         //Render the page controller
         $data = $controller->display($context);
