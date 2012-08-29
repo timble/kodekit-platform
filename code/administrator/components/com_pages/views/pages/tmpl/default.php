@@ -40,7 +40,7 @@
                     <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
                 </th>
                 <th>
-                    <?= @helper('grid.sort',  array('column' => 'component_id' , 'title' => 'Type')); ?>
+                    <?= @helper('grid.sort',  array('column' => 'extensions_component_id' , 'title' => 'Type')); ?>
                 </th>
             </tr>
         </thead>
@@ -61,7 +61,8 @@
                 <td>
                     <?
                         $link = 'type[name]='.$page->type;
-                        if($page->type == 'component') {
+                        if($page->type == 'component')
+                        {
                             $link .= '&type[option]='.$page->link->query['option'].'&type[view]='.$page->link->query['view'];
                             $link .= '&type[layout]='.(isset($page->link->query['layout']) ? $page->link->query['layout'] : 'default');
                         }
