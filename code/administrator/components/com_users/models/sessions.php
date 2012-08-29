@@ -49,7 +49,6 @@ class ComUsersModelSessions extends KModelTable
 
         $query->columns(array(
             'name'     => 'users.name',
-            'username' => 'users.username',
             'usertype' => 'users.usertype',
             'gid'      => 'users.gid',
         ));
