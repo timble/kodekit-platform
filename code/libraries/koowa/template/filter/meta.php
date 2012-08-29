@@ -56,7 +56,7 @@ class KTemplateFilterMeta extends KTemplateFilterTag
      */
     protected function _renderTag($attribs = array(), $content = null)
 	{
-		$attribs = KHelperArray::toString($attribs);
+		$attribs = $this->_buildAttributes($attribs);
 
 		$html = '<meta '.$attribs.' />'."\n";
 		return $html;
