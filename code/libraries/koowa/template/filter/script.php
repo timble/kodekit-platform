@@ -47,9 +47,9 @@ class KTemplateFilterScript extends KTemplateFilterTag
 
 		$matches = array();
 		// <script></script>
-		if(preg_match_all('#<script(?!\s+data\-inline\s*)(.*)>(.*)</script>#iU', $text, $matches))
+		if(preg_match_all('#<script(?!\s+data\-inline\s*)(.*)>(.*)</script>#siU', $text, $matches))
 		{
-			foreach($matches[2] as $key => $match)
+            foreach($matches[2] as $key => $match)
 			{
 				$attribs = $this->_parseAttributes( $matches[1][$key]);
 				$tags .= $this->_renderTag($attribs, $match);
@@ -74,7 +74,7 @@ class KTemplateFilterScript extends KTemplateFilterTag
 
 		if(!$link)
 		{
-            $attribs = KHelperArray::toString($attribs);
+            $attribs = $this->_buildAttributes($attribs);
 
             $html  = '<script type="text/javascript" '.$attribs.'>'."\n";
 			$html .= trim($content);
@@ -83,7 +83,7 @@ class KTemplateFilterScript extends KTemplateFilterTag
 		else
         {
             unset($attribs['src']);
-            $attribs = KHelperArray::toString($attribs);
+            $attribs = $this->_buildAttributes($attribs);
 
             $html = '<script type="text/javascript" src="'.$link.'" '.$attribs.'></script>'."\n";
         }
