@@ -78,7 +78,7 @@ class KTemplateStream
         $template = KService::get($identifier)->top();
 
         //Get the template path
-        $this->_path = $template->getPath();
+        $this->_path = $template->getFile()->filepath;
 
         //Get the template data
         $this->_data = $template->parse();
