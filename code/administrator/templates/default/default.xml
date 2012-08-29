@@ -10,21 +10,6 @@
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
 	<version>12.2</version>
 	<description>Administration template for Nooku Server</description>
-	<files>
-		<filename>index.php</filename>
-		<filename>css/template.css</filename>
-	</files>
-	<positions>
-		<position>menu</position>
-		<position>submenu</position>
-		<position>toolbar</position>
-		<position>title</position>
-		<position>status</position>
-		<position>icon</position>
-		<position>cp_shell</position>
-		<position>cpanel</position>
-		<position>debug</position>
-	</positions>
 	<params>
 		<param name="flexBox" type="list" default="yes" label="Flexible Box Model" description="Flexible Box Model">
 			<option value="1">Yes</option>
