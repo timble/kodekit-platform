@@ -70,7 +70,7 @@ class KService implements KServiceInterface
         }
 
         //Create the service container
-	    self::$_services    = new KServiceContainer();
+	    self::$_services = new KServiceContainer();
 
 	    //Auto-load the koowa adapter
         KServiceIdentifier::addLocator(new KServiceLocatorKoowa());
@@ -270,7 +270,7 @@ class KService implements KServiceInterface
 	{
 		$identifier = self::getIdentifier($identifier);
 
-		self::$_aliases[$alias] = $identifier;
+		self::$_aliases[(string)$alias] = $identifier;
 	}
 
 	/**
@@ -281,7 +281,7 @@ class KService implements KServiceInterface
 	 */
 	public static function getAlias($alias)
 	{
-		return isset(self::$_aliases[$alias])  ? self::$_aliases[$alias] : null;
+		return isset(self::$_aliases[(string)$alias])  ? self::$_aliases[(string)$alias] : null;
 	}
 
 	/**
