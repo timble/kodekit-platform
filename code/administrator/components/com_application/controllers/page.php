@@ -21,7 +21,8 @@ class ComApplicationControllerPage extends KControllerResource
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'view' => 'page'
+            'view'      => 'page',
+            'toolbars'  => array('menubar', $this->getIdentifier()->name),
         ));
 
         parent::_initialize($config);
