@@ -105,11 +105,11 @@ abstract class KControllerResource extends KControllerAbstract
 	/**
 	 * Get the view object attached to the controller
 	 *
-	 * This function will check if the view folder exists. If not it will throw
-	 * an exception. This is a security measure to make sure we can only explicitly
-	 * get data from views the have been physically defined.
+	 * If we are dispatching this controller this function will check if the view folder exists. If not it will throw
+     * an exception. This is a security measure to make sure we can only explicitly get data from views the have been
+     * physically defined.
 	 *
-	 * @throws  KControllerException if the view cannot be found.
+	 * @throws  KControllerException if the view cannot be found. Only when controller is being dispatched.
 	 * @return	KViewAbstract
 	 *
 	 */
@@ -127,23 +127,22 @@ abstract class KControllerResource extends KControllerAbstract
 				'model'     => $this->getModel(),
 			    'media_url' => KRequest::root().'/media',
 			    'base_url'	=> KRequest::url()->getUrl(KHttpUrl::BASE),
+                'layout'    => $this->getRequest()->layout
 			);
-			
+
 			if($this->isExecutable()) {
 			    $config['auto_assign'] = !$this->getBehavior('executable')->isReadOnly();
 			}
 
 			$this->_view = $this->getService($this->_view, $config);
 
-			//Set the layout
-			if(isset($this->getRequest()->layout)) {
-        	    $this->_view->setLayout($this->getRequest()->layout);
-        	}
-
-			//Make sure the view exists
-		    if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
-		        throw new KControllerException('View : '.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
-		    }
+			//Make sure the view exists if we are dispatching this controller
+            if($this->isDispatched())
+            {
+                if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
+                    throw new KControllerException('View : '.$this->_view->getName().' not found', KHttpResponse::NOT_FOUND);
+                }
+            }
 		}
 
 		return $this->_view;
