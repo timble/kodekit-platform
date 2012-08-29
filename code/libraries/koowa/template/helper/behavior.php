@@ -152,7 +152,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
         //Force tmpl to overlay
 		$url->query['tmpl'] = 'overlay';
 
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
         $id = 'overlay'.rand();
         if($url->fragment)
@@ -334,8 +334,8 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 			});
 		</script>";
 		
-		$html .= '<input '.KHelperArray::toString($config->attribs).' />';
-	    $html .= '<input '.KHelperArray::toString(array(
+		$html .= '<input '.$this->_buildAttributes($config->attribs).' />';
+	    $html .= '<input '.$this->_buildAttributes(array(
             'type'  => 'hidden',
             'name'  => $config->value,
             'id'    => $config->element.'-value',
@@ -390,7 +390,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
     				});});
     			</script>";
 		
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
         $html .= '<div class="input-append">';
    		$html .= '<input type="text" name="'.$config->name.'" id="'.$config->name.'" value="'.$config->date.'" '.$attribs.' />';
