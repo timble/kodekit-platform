@@ -12,6 +12,6 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 
-<?= @template('head') ?>
+<?= @template('default_head') ?>
 <?= @template('com://admin/application.view.page.body_'.JRequest::getCmd('tmpl', 'default')) ?>
 </html>
