@@ -18,11 +18,6 @@
 
 class ComApplicationViewHtml extends KViewHtml
 {
-    /**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
@@ -50,5 +45,10 @@ class ComApplicationViewHtml extends KViewHtml
         $this->direction = JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
 
         return parent::display();
+    }
+
+    public function getLayout()
+    {
+        return 'default';
     }
 }
