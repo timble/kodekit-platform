@@ -62,7 +62,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		));
 
 		$name    = $config->name;
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
 		$html = array();
 		$html[] = '<select name="'. $name .'" '. $attribs .'>';
@@ -83,7 +83,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			}
 
 			if(isset($option->attribs)) {
-				$extra .= ' '.KHelperArray::toString($option->attribs);;
+				$extra .= ' '.$this->_buildAttributes($option->attribs);;
 			}
 
 			if(!is_null($config->selected))
@@ -131,7 +131,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		));
 
 		$name    = $config->name;
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
 		$html = array();
 		foreach($config->list as $row)
@@ -171,7 +171,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		));
 
 		$name    = $config->name;
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
 		$html = array();
 		foreach($config->list as $row)
@@ -224,7 +224,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		));
 
 		$name    = $config->name;
-		$attribs = KHelperArray::toString($config->attribs);
+		$attribs = $this->_buildAttributes($config->attribs);
 
 		$html  = array();
 
