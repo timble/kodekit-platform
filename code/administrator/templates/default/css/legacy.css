@@ -3339,9 +3339,9 @@ div.toolbar .btn-group a {
   border-radius: 5px 5px 0 0;
 }
 .box-column {
-  -webkit-box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 6px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 6px;
-  box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 6px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
 }
 #panel-pages {
   display: -webkit-flex;
@@ -3872,10 +3872,10 @@ div.message {
   resize: vertical;
   width: 100%;
 }
-.com_settings #toolbar-box {
+.com_extensions #toolbar-box {
   border-bottom: 1px solid #dddddd;
 }
-.com_settings dl.tabs {
+.com_extensions dl.tabs {
   min-width: 200px;
   border-right: 1px solid #E1E1E1;
   -webkit-box-sizing: border-box;
@@ -3898,7 +3898,7 @@ div.message {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
-.com_settings dl.tabs h3 {
+.com_extensions dl.tabs h3 {
   color: #666;
   font-size: 11px;
   padding: 6px 0;
@@ -3906,7 +3906,7 @@ div.message {
   margin: 0;
   text-transform: uppercase;
 }
-.com_settings dl.tabs dt {
+.com_extensions dl.tabs dt {
   float: none !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -3915,7 +3915,7 @@ div.message {
   /* override default tabs styling */
 
 }
-.com_settings dl.tabs dt span {
+.com_extensions dl.tabs dt span {
   display: block;
   padding: 6px 0 6px 22px;
   color: #444;
@@ -3925,7 +3925,7 @@ div.message {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.com_settings dl.tabs dt span:hover {
+.com_extensions dl.tabs dt span:hover {
   color: #444;
   border-top-color: #c4dbf2;
   background-color: #c8def3;
@@ -3938,8 +3938,8 @@ div.message {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9e8f6', endColorstr='#ffafceed', GradientType=0);
   text-decoration: none;
 }
-.com_settings dl.tabs dt.open span,
-.com_settings dl.tabs dt.open span:hover {
+.com_extensions dl.tabs dt.open span,
+.com_extensions dl.tabs dt.open span:hover {
   color: #FFF;
   border-top-color: #5c9bda;
   background-color: #5594d2;
@@ -3955,7 +3955,7 @@ div.message {
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
-.com_settings .current {
+.com_extensions .current {
   padding: 0 !important;
   border: 0 none !important;
   /* override default tabs styling */
@@ -3973,7 +3973,7 @@ div.message {
   -moz-flex: 1;
   flex: 1;
 }
-.com_settings .current dd {
+.com_extensions .current dd {
   padding: 14px 20px !important;
   /* override default tabs styling */
 
@@ -3989,7 +3989,7 @@ div.message {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
-.com_settings .current dd h2 {
+.com_extensions .current dd h2 {
   border-bottom: 1px solid #EEE;
   color: #53637D;
   padding-bottom: 4px;
