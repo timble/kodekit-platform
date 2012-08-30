@@ -239,6 +239,7 @@ ALTER TABLE  `#__modules` ENGINE = INNODB;
 ALTER TABLE  `#__modules_menu` ENGINE = INNODB;
 ALTER TABLE  `#__users_sessions` ENGINE = INNODB;
 ALTER TABLE  `#__weblinks` ENGINE = INNODB;
+ALTER TABLE  `#__users` ENGINE = INNODB;
 
 # --------------------------------------------------------
 
@@ -458,12 +459,17 @@ VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
 
-CREATE TABLE `#__users_credentials` (
-  `users_user_id` bigint(20) unsigned NOT NULL,
-  `change` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`users_user_id`)
+CREATE TABLE `#__users_passwords` (
+  `users_user_email` varchar(100) NOT NULL DEFAULT '',
+  `expiration` date NOT NULL DEFAULT '0000-00-00',
+  `hash` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`users_user_email`),
+  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) SELECT `email`, '0000-00-00', `password` FROM `#__users`;
+
+ALTER TABLE `#__users` DROP COLUMN `password`;
 
 # --------------------------------------------------------
 
@@ -490,7 +496,3 @@ VALUES
     (NULL, 'Search', 'com_search', '', 1);
 SET @id = LAST_INSERT_ID();
 UPDATE `#__pages_modules` SET `extensions_component_id` = @id WHERE `name` = 'mod_search';
-
-
-
-

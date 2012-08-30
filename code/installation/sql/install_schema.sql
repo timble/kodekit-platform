@@ -65,7 +65,7 @@ CREATE TABLE `#__articles` (
   KEY `idx_state` (`state`),
   KEY `idx_createdby` (`created_by`),
   KEY `idx_catid` (`categories_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -103,7 +103,7 @@ CREATE TABLE `#__categories` (
   KEY `cat_idx` (`table`,`published`,`access`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -118,7 +118,7 @@ CREATE TABLE `#__extensions_components` (
   `params` text NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -154,7 +154,7 @@ CREATE TABLE `#__contacts` (
   `webpage` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`contacts_contact_id`),
   KEY `category` (`categories_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -190,7 +190,7 @@ CREATE TABLE `#__core_acl_aro_groups` (
   PRIMARY KEY (`id`),
   KEY `#__gacl_parent_id_aro_groups` (`parent_id`),
   KEY `#__gacl_lft_rgt_aro_groups` (`lft`,`rgt`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -318,7 +318,7 @@ CREATE TABLE `#__pages_closures` (
   CONSTRAINT `descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_level` (`level`),
   INDEX `ix_descendant_id` (`descendant_id`)
-) ENGINE = InnoDB CHARSET = utf8;
+) ENGINE=InnoDB CHARSET = utf8;
 
 -- --------------------------------------------------------
 
@@ -370,7 +370,7 @@ CREATE TABLE `#__pages_modules` (
   `application` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `published` (`published`,`access`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -412,7 +412,6 @@ CREATE TABLE `#__users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
-  `password` varchar(100) NOT NULL DEFAULT '',
   `usertype` varchar(25) NOT NULL DEFAULT '',
   `block` tinyint(4) NOT NULL DEFAULT '0',
   `sendEmail` tinyint(4) DEFAULT '0',
@@ -426,7 +425,7 @@ CREATE TABLE `#__users` (
   UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `email` (`email`),
   KEY `usertype` (`usertype`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -444,18 +443,6 @@ CREATE TABLE `#__users_sessions` (
   PRIMARY KEY (`users_session_id`(64)),
   KEY `whosonline` (`guest`),
   KEY `time` (`time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__users_credentials`
---
-
-CREATE TABLE `#__users_credentials` (
-  `users_user_id` bigint(20) unsigned NOT NULL,
-  `change` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`users_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -481,7 +468,7 @@ CREATE TABLE `#__weblinks` (
   `params` text NOT NULL,
   PRIMARY KEY (`weblinks_weblink_id`),
   KEY `category` (`categories_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- --------------------------------------------------------
@@ -530,6 +517,20 @@ CREATE TABLE `#__files_thumbnails` (
   `filename` varchar(255) NOT NULL,
   `thumbnail` text NOT NULL,
   PRIMARY KEY (`files_thumbnail_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__users_passwords`
+--
+
+CREATE TABLE `#__users_passwords` (
+  `users_user_email` varchar(100) NOT NULL DEFAULT '',
+  `expiration` date NOT NULL DEFAULT '0000-00-00',
+  `hash` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`users_user_email`),
+  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

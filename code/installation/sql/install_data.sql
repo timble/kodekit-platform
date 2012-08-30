@@ -15,7 +15,7 @@
 -- Dumping data for table `#__components`
 --
 
-INSERT INTO `#__extensions_components` (`id`, `name`, `link`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `params`, `enabled`)
+INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enabled`)
 VALUES
     (4, 'Web Links', 'com_weblinks', 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1),
     (7, 'Contacts', 'com_contacts', 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1),
@@ -126,9 +126,16 @@ VALUES
 -- Dumping data for table `#__users`
 --
 
-INSERT INTO `#__users` (`id`, `uuid`, `name`, `email`, `password`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`)
+INSERT INTO `#__users` (`id`, `uuid`, `name`, `email`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`)
 VALUES 
-    (1, UUID(), 'Administrator', 'admin@localhost.home', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
+    (1, UUID(), 'Administrator', 'admin@localhost.home', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
+
+--
+-- Dumping data for table `#__passwords`
+--
+
+INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) VALUES
+('admin@localhost.home', '0000-00-00', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3');
 
 --
 -- Dumping data for table `#__core_acl_aro`
