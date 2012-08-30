@@ -19,17 +19,43 @@
  */
 class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 {
+    protected function _initialize(KConfig $config) {
+        $config->append(array('auto_mixin' => true));
+        parent::_initialize($config);
+    }
+
     protected function _afterTableUpdate(KCommandContext $context) {
         if ($this->password_change) {
             // Force a password change on next login.
+            $this->getPassword()->expire();
+        }
+    }
 
-            $credential = $this->getCredential();
+    protected function _beforeTableInsert(KCommandContext $context) {
+        if (!$this->password) {
+            // Generate a random password
+            $params         = JComponentHelper::getParams('com_users');
+            $this->password = $this->getService('com://admin/users.helper.password')
+                ->getRandom($params->get('min_passw_len'));
+        } elseif (!$this->_passwordsMatch()) {
+            return false;
+        }
+    }
 
-            if ($credential->isNew()) {
-                $credential->id = $this->id;
+    protected function _beforeTableUpdate(KCommandContext $context) {
+        if ($this->password) {
+
+            if (!$this->_passwordsMatch()) {
+                return false;
             }
 
-            $credential->setData(array('change' => 1))->save();
+            // Update password record.
+            $password = $this->getPassword();
+            if (!$password->setData(array('password' => $this->password))->save()) {
+                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatusMessage($password->getStatusMessage);
+                return false;
+            }
         }
     }
 
@@ -37,28 +63,35 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         $data = $context->data;
 
         if ($data->getStatus() == KDatabase::STATUS_CREATED) {
-            // Create a credential row for the user.
-            $this->getService('com://admin/users.database.row.credential', array('data' => array('id' => $this->id)))->save();
-            // Same as updated.
+            // Create a password row for the user.
+            $this->getPassword()->setData(array('id' => $this->email, 'password' => $this->password))->save();
+            // Same as update.
             $this->_afterTableUpdate($context);
         }
     }
 
-    protected function _afterTableDelete(KCommandContext $context) {
-
-        $this->getCredential()->delete();
-
+    protected function _beforeTableDelete(KCommandContext $context) {
+        $this->getPassword()->delete();
     }
 
-    public function getCredential() {
+    protected function _passwordsMatch() {
+        // Check if passwords match.
+        if ($this->password != $this->password_verify) {
+            $this->setStatus(KDatabase::STATUS_FAILED);
+            $this->setStatusMessage(JText::_('Passwords don\'t match'));
+            return false;
+        }
+        return true;
+    }
 
-        $credential = null;
-        $user = $this->getMixer();
+    public function getPassword() {
+        $password = null;
+        $user     = $this->getMixer();
 
         if (!$user->isNew()) {
-            $credential = $this->getService('com://admin/users.model.credentials')->set('id', $this->id)->getItem();
+            $password = $this->getService('com://admin/users.model.password')->set('id', $this->email)->getItem();
         }
 
-        return $credential;
+        return $password;
     }
 }

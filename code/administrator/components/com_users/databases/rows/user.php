@@ -19,38 +19,6 @@
  */
 class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 {
-    /**
-     * Determines if passwords should be encrypted.
-     *
-     * @var bool True if encryption must be performed, false otherwise.
-     */
-    protected $_password_encryption;
-
-    public function __construct(KConfig $config = null) 
-    {
-        if (!$config) {
-            $config = new KConfig();
-        }
-
-        parent::__construct($config);
-
-        $this->_password_encryption = $config->password_encryption;
-    }
-
-    protected function _initialize(KConfig $config) 
-    {
-        $config->append(array(
-            'password_encryption' => true)
-        );
-
-        parent::_initialize($config);
-    }
-
-    public function setPasswordEncryption($value = true) 
-    {
-        $this->_password_encryption = (bool) $value;
-    }
-
 	public function __get($column)
     {
         //@TODO : Add mapped properties support
@@ -249,54 +217,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			}
 		}
 
-		// Check if passwords match.
-		if($this->isModified('password') && $this->password !== $this->password_verify)
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_("Passwords don't match!"));
-
-			return false;
-		}
-
-        if (!$this->isNew() && $this->password) {
-            // Check if new and old passwords are the same.
-            $helper = $this->getService('com://admin/users.helper.password');
-            // Encrypt new password using old salt.
-            $password = $helper->encrypt($this->password, $helper->getSalt($old_row->password));
-            if ($password == $old_row->password) {
-                $this->setStatus(KDatabase::STATUS_FAILED);
-                $this->setStatusMessage(JText::_("New and old passwords are the same!"));
-                return false;
-            }
-        }
-
-		// Generate a random password if empty and the record is new.
-		if($this->isNew() && !$this->password)
-		{
-			$this->password	        = $this->getService('com://admin/users.helper.password')->getRandom($params->get('min_passw_len'));
-			$this->password_verify	= $this->password;
-		}
-
-		if($this->isModified('password') && $this->password)
-		{
-			if ($this->_password_encryption) {
-                // Check the password length.
-                $min_passw_len = $params->get('min_passw_len');
-                if (strlen($this->password) < $min_passw_len) {
-                    $this->setStatus(KDatabase::STATUS_FAILED);
-                    $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $min_passw_len));
-                    return false;
-                }
-				$this->password	= $this->getService('com://admin/users.helper.password')->encrypt($this->password);
-            }
-		}
-		else
-		{
-			$this->password = $old_row->password;
-
-			unset($this->_modified['password']);
-		}
-
 		if($this->isNew()) {
 			$this->registered_on = gmdate('Y-m-d H:i:s', time());
 		}
@@ -458,7 +378,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     {
         $data = parent::toArray();
         
-        //unset($data['password']);
         unset($data['activation']);
         
         $data['params'] = $this->params->toArray();
