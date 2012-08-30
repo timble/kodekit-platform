@@ -54,7 +54,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $data = parent::_actionDelete($context);
         
         $this->getService('com://admin/users.model.sessions')
-            ->username($data->username)
+            ->email($data->email)
             ->getList()
             ->delete();
 
@@ -72,7 +72,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     public function notify(KCommandContext $context)
     {
-        if($context->result->status == KDatabase::STATUS_CREATED)
+        if($context->result->getStatus() == KDatabase::STATUS_CREATED)
         {
             // Send e-mail to the user.
             $mail_from_email    = $this->getService('application')->getCfg('mailfrom');
