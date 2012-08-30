@@ -11,7 +11,6 @@
 
 <?= @helper('behavior.mootools'); ?>
 <?= @helper('behavior.keepalive'); ?>
-<?= @helper('behavior.tooltip'); ?>
 
 <?= @helper('behavior.modal'); ?>
 
