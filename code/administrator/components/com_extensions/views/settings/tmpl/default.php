@@ -9,8 +9,6 @@
  */
 ?>
 
-<?= @helper('behavior.tooltip'); ?>
-
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" class="-koowa-form" >
