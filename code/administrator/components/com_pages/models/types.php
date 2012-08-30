@@ -25,10 +25,7 @@ class ComPagesModelTypes extends KModelAbstract
         {
             $table = $this->getService('com://admin/extensions.database.table.components');
             $query = $this->getService('koowa:database.query.select')
-                ->where('link <> :link')
-                ->where('parent = :parent')
-                ->order('name')
-                ->bind(array('link' => '', 'parent' => 0));
+                ->order('name');
 
             $components = $table->select($query);
 
@@ -36,7 +33,7 @@ class ComPagesModelTypes extends KModelAbstract
             foreach($components as $component)
             {
                 $path  = $this->getIdentifier()->getApplication('site');
-                $path .= '/components/'.$component->option.'/views';
+                $path .= '/components/'.$component->name.'/views';
 
                 if(!is_dir($path)) {
                     continue;
