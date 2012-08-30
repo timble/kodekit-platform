@@ -33,7 +33,6 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 			'name'				=> 'users',
 			'base' 				=> 'users',
 			'column_map'		=> array(
-				'users_user_id'		=> 'id',
 				'group_name'		=> 'usertype',
 				'enabled'			=> 'block',
 				'send_email'		=> 'sendEmail',
