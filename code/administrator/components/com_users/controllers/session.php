@@ -144,12 +144,12 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
 
         if($user->id)
         {
-            list($password, $salt) = explode(':', $user->password);
+            list($hash, $salt) = explode(':', $user->getPassword()->hash);
 
             $crypted = $this->getService('com://admin/users.helper.password')
                             ->getCrypted($context->data->password, $salt);
 
-            if($crypted !== $password)
+            if($crypted !== $hash)
             {
                 JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong password!'));
                 return false;

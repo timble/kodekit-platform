@@ -139,12 +139,12 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
 
         if($user->id)
         {
-            list($password, $salt) = explode(':', $user->password);
+            list($hash, $salt) = explode(':', $user->getPassword()->hash);
 
             $crypted = $this->getService('com://admin/users.helper.password')
                              ->getCrypted($context->data->password, $salt);
 
-            if($crypted !== $password)
+            if($crypted !== $hash)
             {
                 JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong password!'));
                 return false;
@@ -203,11 +203,11 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
 
     public function redirect(KCommandContext $context) {
 
-        $credential = $this->getService('com://admin/users.model.credentials')->set('id', $context->user->id)->getItem();
+        $user = $context->user;
 
-        if ($context->result !== false && $credential->change) {
+        if ($context->result !== false && $user->getPassword()->expired()) {
             // Force a password change.
-            $this->setRedirect('index.php?option=com_users&view=credential&layout=form');
+            $this->setRedirect('index.php?option=com_users&view=user&layout=password&id=' . $user->id);
         }
     }
 }
