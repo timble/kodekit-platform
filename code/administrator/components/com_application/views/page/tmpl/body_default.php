@@ -18,7 +18,13 @@
 <? endif; ?>
 
 <body id="minwidth-body" class="<?= JRequest::getVar('option', 'cmd'); ?>">
-<div id="container">
+<div id="container" class="box-row">
+	<div id="panel-pages">
+	    <?= @template('com://admin/pages.view.pages.list'); ?>
+	</div>
+	
+
+<div class="box-column">
 
     <div id="header-box">
 
@@ -58,6 +64,7 @@
         </ktml:modules>
 
     </div>
+</div>
 </div>
 <? if(KDEBUG) : ?>
 	<?= @service('com://admin/debug.controller.debug')->display(); ?>
