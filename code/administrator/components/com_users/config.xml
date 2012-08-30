@@ -26,6 +26,10 @@
    <option value="12">12</option>
    <option value="16">16</option>
   </param>
+  <param name="passw_exp" type="radio" default="0" label="Enable password expiration" description="TIPPASSWEXP">
+   <option value="1">Yes</option>
+   <option value="0">No</option>
+  </param>
   <param name="@spacer" type="spacer" default="" label="" description="" />
   <param name="recaptcha_public_key" type="text" default="" label="reCAPTCHA public key" description="TIPRECAPTCHAPUBLICKEY" />
   <param name="recaptcha_private_key" type="text" default="" label="reCAPTCHA private key" description="TIPRECAPTCHAPRIVATEKEY" />
