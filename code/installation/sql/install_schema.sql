@@ -117,7 +117,7 @@ CREATE TABLE `#__extensions_components` (
   `name` varchar(50) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -367,9 +367,9 @@ CREATE TABLE `#__pages_modules` (
   `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `params` text NOT NULL,
   `extensions_component_id` INT UNSIGNED,
-  `application` varchar(50) NOT NULL
+  `application` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `published` (`published`,`access`),
+  KEY `published` (`published`,`access`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

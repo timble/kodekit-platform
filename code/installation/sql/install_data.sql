@@ -26,7 +26,7 @@ VALUES
     (31, 'User Manager', 'com_users', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
     (32, 'Cache Manager', 'com_cache', '', 1),
     (33, 'Languages', 'com_languages', '', 1),
-    (34, 'Search', 'com_search', '', 1)
+    (34, 'Search', 'com_search', '', 1);
 
 --
 -- Dumping data for table `#__languages`
@@ -81,7 +81,7 @@ VALUES
 --
 
 INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `published`, `name`, `access`, `showtitle`, `params`, `extensions_component_id`, `application`) VALUES
-(1, 'Main Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 25, 'site')
+    (1, 'Main Menu', '', 2, 'left', 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 25, 'site');
 
 
 --
@@ -118,29 +118,33 @@ INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
 -- Dumping data for table `#__files_containers`
 --
 
-INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`) VALUES
-(NULL, 'files-files', 'Images', 'images', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}');
+INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`)
+VALUES
+    (NULL, 'files-files', 'Images', 'images', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}');
 
 --
 -- Dumping data for table `#__users`
 --
 
 INSERT INTO `#__users` (`id`, `uuid`, `name`, `email`, `password`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`)
-VALUES (1, UUID(), 'Administrator', 'admin@localhost.home', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
+VALUES 
+    (1, UUID(), 'Administrator', 'admin@localhost.home', 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
 
 --
 -- Dumping data for table `#__core_acl_aro`
 --
 
 INSERT INTO `#__core_acl_aro` (`id`, `section_value`, `value`, `order_value`, `name`, `hidden`)
-VALUES (10, 'users', '1', 0, 'Administrator', 0);
+VALUES 
+    (10, 'users', '1', 0, 'Administrator', 0);
 
 --
 -- Dumping data for table `#__core_acl_groups_aro_map`
 --
 
 INSERT INTO `#__core_acl_groups_aro_map` (`group_id`, `section_value`, `aro_id`)
-VALUES (25, '', 10);
+VALUES
+    (25, '', 10);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;
