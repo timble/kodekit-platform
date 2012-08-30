@@ -10,7 +10,6 @@
  */
 ?>
 
-<? @helper('behavior.tooltip'); ?>
 <?= @helper('behavior.validator'); ?>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
