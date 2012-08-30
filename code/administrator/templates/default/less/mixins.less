@@ -40,7 +40,11 @@
 	.box-scrollable(@scroll) when (@scroll = scrollable) { 
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
-		
+	}
+
+	.box-scrollable(@scroll) when not (@scroll = scrollable) { }
+	
+	.box-scrollable-shadow {
 		@background: #F9F9F9;
 		background:
 			/* Shadow covers */
@@ -65,6 +69,4 @@
 		/* Opera doesn't support this in the shorthand */
 		background-attachment: local, local, scroll, scroll;
 	}
-
-	.box-scrollable(@scroll) when not (@scroll = scrollable) { }
 }

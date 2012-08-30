@@ -2,17 +2,26 @@ body {
 	overflow: hidden;
 }
 
-html, body, #container { 
+html, body { 
 	width: 100%;
 	height: 100%;
+	
+	> div {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.box-row {
+	#flexbox > .box(row, 1)
+}
+
+.box-column {
+	#flexbox > .box(column, 1)
 }
 
 #minwidth-body { 
 	min-width: 960px;
-}
-
-#container {
-	#flexbox > .box(column, 1)
 }
 
 #header-box  { 
