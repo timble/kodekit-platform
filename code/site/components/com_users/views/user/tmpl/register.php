@@ -72,7 +72,7 @@
             </td>
             <td>
                 <input class="inputbox required validate-password" type="password" id="password" name="password" size="40" value="" /> *
-                <?=@helper('com://admin/users.template.helper.form.passwcheck', array('min_len' => $parameters->get('min_passw_len')));?>
+                <?=@helper('com://admin/users.template.helper.form.password', array('min_len' => $parameters->get('min_passw_len')));?>
             </td>
         </tr>
         <tr>
