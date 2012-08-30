@@ -44,15 +44,6 @@
 					<?= @helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
 				</th>
 			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>
-				</td>
-			</tr>
 		</thead>
 		<tfoot>
 			<? if ($modules) : ?>
