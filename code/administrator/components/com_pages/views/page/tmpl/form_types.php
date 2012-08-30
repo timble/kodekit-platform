@@ -16,7 +16,7 @@
         <h3><?= @text('Component') ?></h3>
         <div id="components-inner">
             <? foreach($components as $component) : ?>
-            <a data-component="<?= $component->option ?>" class="component-<?= $component->option ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->name) ?></a>
+            <a data-component="<?= $component->option ?>" class="component-<?= $component->option ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->title) ?></a>
             <? endforeach ?>
         </div>
         <h3><?= @text('Other') ?></h3>
