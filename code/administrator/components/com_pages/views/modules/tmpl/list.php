@@ -9,8 +9,6 @@
  */
 ?>
 
-<?= @helper('behavior.tooltip') ?>
-
 <table summary="Add Module">
 	<thead>
 		<tr>
