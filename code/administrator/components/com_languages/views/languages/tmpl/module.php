@@ -2,7 +2,7 @@
     <? $component = @service('com://admin/extensions.model.components')->name('com_'.$component)->getList()->top() ?>
     <? $tables = @service('com://admin/languages.model.tables')->enabled(true)->getList() ?>
     
-    <? if(count($tables->find(array('component' => $component->id)))) : ?>
+    <? if(count($tables->find(array('extensions_component_id' => $component->id)))) : ?>
         <?= @helper('behavior.mootools') ?>
         <script>
         window.addEvent('domready', function(){
