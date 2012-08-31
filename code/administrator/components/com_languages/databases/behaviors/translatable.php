@@ -13,7 +13,6 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             if(is_string(current($query->table)))
             {
                 $table = $tables->find(array('name' => current($query->table)));
-                
                 if(count($table))
                 {
                     $table     = $table->top();
@@ -22,11 +21,14 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     $primary   = $languages->getPrimary();
                     
                     // Join translation to add status to rows.
-                    if(!$query->isCountQuery() && isset($context->options->state->translation))
+                    $state = $context->options->state;
+                    if(!$query->isCountQuery() && $state && !$state->isUnique() && isset($state->translation))
                     {
                         $query->columns(array('translation' => 'translations.status'))
                             ->join(array('translations' => 'languages_translations'),
-                                'translations.iso_code = :translation_iso_code AND translations.table = :translation_table AND translations.row = tbl.'.$table->unique_column)
+                                ' AND translations.table = :translation_table'.
+                                ' AND translations.row = tbl.'.$table->unique_column.
+                                'translations.iso_code = :translation_iso_code')
                             ->bind(array(
                                 'translation_iso_code' => $active->iso_code,
                                 'translation_table' => $table->name
@@ -38,8 +40,6 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                                 ->bind(array('translation_status' => (array) $context->options->state->translation));
                         }
                     }
-                    
-                    
                     
                     // Modify table in the query if active language is not the primary.
                     if($active->iso_code != $primary->iso_code) {
