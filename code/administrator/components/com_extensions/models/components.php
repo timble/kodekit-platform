@@ -22,9 +22,9 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 		parent::__construct($config);
 	
 		$this->getState()
-		 	->insert('enabled'   , 'boolean')
-		 	->insert('component' , 'cmd')
-            ->insert('sort'      ,  array('ordering', 'name'));
+		 	->insert('enabled', 'boolean')
+		 	->insert('name', 'cmd')
+            ->insert('sort', 'tbl.name');
 	}
 	
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -36,8 +36,8 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
 			$query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
 		
-		if($state->component) {
-			$query->where('tbl.option = :component')->bind(array('component' => $state->component));
+		if($state->name) {
+			$query->where('tbl.name = :name')->bind(array('name' => $state->name));
 		}
 
 		if(is_bool($state->enabled)) {
