@@ -22,7 +22,18 @@ class ComApplicationControllerToolbarMenubar extends KControllerToolbarAbstract
         $event->caller->getView()->menubar = $this;
     }
 
-	public function getCommands()
+    public function getCommand($name, $config = array())
+    {
+        $command = parent::getCommand($name, $config);
+
+        if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
+            $command->disabled = true;
+        }
+
+        return $command;
+    }
+
+    public function getCommands()
 	{
         $user = JFactory::getUser();
 
