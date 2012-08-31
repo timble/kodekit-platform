@@ -3604,10 +3604,10 @@ div.toolbar .btn-group a {
   padding-right: 30px;
   line-height: 1em;
 }
-#header-box > ul li:not(.disabled) a {
+#header-box > ul:not(.disabled) li a {
   color: #ffffff;
 }
-#header-box > ul > li:hover:not(.disabled) {
+#header-box > ul:not(.disabled) > li:hover {
   background-color: #3457f2;
   background-image: -moz-linear-gradient(top, #4f6ef6, #0c36ec);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4f6ef6), to(#0c36ec));
@@ -3619,21 +3619,21 @@ div.toolbar .btn-group a {
   /* 2 level - normal */
 
 }
-#header-box > ul > li:hover:not(.disabled) ul {
+#header-box > ul:not(.disabled) > li:hover ul {
   /* 2 level - hover */
 
 }
-#header-box > ul > li:hover:not(.disabled) ul li {
+#header-box > ul:not(.disabled) > li:hover ul li {
   border-top: 1px solid #ffffff;
 }
-#header-box > ul > li:hover:not(.disabled) ul li a {
+#header-box > ul:not(.disabled) > li:hover ul li a {
   color: #333333;
   background-color: transparent;
   border: 0 none;
   padding-top: 0.75em;
   padding-bottom: 0.75em;
 }
-#header-box > ul > li:hover:not(.disabled) ul li:hover:not(.separator) {
+#header-box > ul:not(.disabled) > li:hover ul li:hover:not(.separator) {
   background-color: #3457f2;
   background-image: -moz-linear-gradient(top, #4f6ef6, #0c36ec);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4f6ef6), to(#0c36ec));
@@ -3646,10 +3646,10 @@ div.toolbar .btn-group a {
   /* 3 level - normal */
 
 }
-#header-box > ul > li:hover:not(.disabled) ul li:hover:not(.separator) a {
+#header-box > ul:not(.disabled) > li:hover ul li:hover:not(.separator) a {
   color: #ffffff;
 }
-#header-box > ul > li:hover:not(.disabled) ul li:hover:not(.separator) ul {
+#header-box > ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul {
   margin-top: -5px;
   z-index: 1;
   -webkit-border-radius: 0 5px 5px 5px;
@@ -3658,13 +3658,19 @@ div.toolbar .btn-group a {
   /* 3 level - hover */
 
 }
-#header-box > ul > li:hover:not(.disabled) ul li:hover:not(.separator) ul li a {
+#header-box > ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li a {
   color: #333333;
   background-color: transparent;
   border: 0 none;
 }
-#header-box > ul > li:hover:not(.disabled) ul li:hover:not(.separator) ul li:hover a {
+#header-box > ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li:hover a {
   color: #ffffff;
+}
+#header-box ul.disabled span.nolink {
+  cursor: default;
+}
+#header-box ul.disabled ul li {
+  display: none;
 }
 #header-box ul:nth-child(2) li:first-child a {
   border-left: 1px solid #555555;
