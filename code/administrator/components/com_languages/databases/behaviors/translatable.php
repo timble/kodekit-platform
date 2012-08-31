@@ -42,7 +42,10 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     $state = $context->options->state;
                     if(!$query->isCountQuery() && $state && !$state->isUnique() && isset($state->translation))
                     {
-                        $query->columns(array('translation' => 'translations.status'))
+                        $query->columns(array(
+                                'translation_status' => 'translations.status',
+                                'translation_original' => 'translations.original',
+                                'translation_deleted' => 'translations.deleted'))
                             ->join(array('translations' => 'languages_translations'),
                                 'translations.table = :translation_table'.
                                 ' AND translations.row = tbl.'.$table->unique_column.
