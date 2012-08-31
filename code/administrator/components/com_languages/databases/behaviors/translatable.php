@@ -26,9 +26,9 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     {
                         $query->columns(array('translation' => 'translations.status'))
                             ->join(array('translations' => 'languages_translations'),
-                                ' AND translations.table = :translation_table'.
+                                'translations.table = :translation_table'.
                                 ' AND translations.row = tbl.'.$table->unique_column.
-                                'translations.iso_code = :translation_iso_code')
+                                ' AND translations.iso_code = :translation_iso_code')
                             ->bind(array(
                                 'translation_iso_code' => $active->iso_code,
                                 'translation_table' => $table->name
