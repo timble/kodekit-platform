@@ -75,7 +75,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                     ));
                 
                 $query = $this->getService('koowa:database.query.insert')
-                    ->table('languages_items')
+                    ->table('languages_translations')
                     ->columns(array('iso_code', 'table', 'row', 'status', 'original'))
                     ->values($select);
                 

@@ -64,7 +64,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                     ));
                 
                 $insert = $this->getService('koowa:database.query.insert')
-                    ->table('languages_items')
+                    ->table('languages_translations')
                     ->columns(array_keys($columns))
                     ->values($select);
                 
