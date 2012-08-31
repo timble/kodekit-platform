@@ -24,7 +24,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         // Set the state
         $this->getState()
             ->insert('table'     , 'string', $this->getIdentifier()->package)
-            ->insert('parent'    , 'string')
+            ->insert('parent'    , 'int')
             ->insert('published' , 'boolean')
             ->insert('distinct'  , 'string')
             ->insert('access'    , 'int');
@@ -65,7 +65,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             $query->where('tbl.table '.(is_array($state->table) ? 'IN' : '=').' :table')->bind(array('table' => $state->table));
         }
 
-        if ($state->parent) {
+        if (is_numeric($state->parent)) {
             $query->where('tbl.parent_id '.(is_array($state->parent) ? 'IN' : '=').' :parent')->bind(array('parent' => $state->parent));
         }
 

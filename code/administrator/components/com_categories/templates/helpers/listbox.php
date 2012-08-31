@@ -61,6 +61,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             'selected'  => $config->category,
             'prompt'	=> '- Select -',
             'table'     => '',
+            'parent'    => '',
             'max_depth' => 9,
         ));
 
@@ -70,6 +71,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         $list = $this->getService('com://admin/categories.model.categories')
                      ->set('table', $config->table)
+                     ->set('parent', $config->parent)
                      ->set('sort', 'title')
                      ->getList();
 

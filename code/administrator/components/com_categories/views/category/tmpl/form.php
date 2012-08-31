@@ -76,7 +76,8 @@
 	                'selected'  => $category->parent_id,
 	                'prompt'    => '- None -',
 	                'max_depth' => 1,
-	                'table'     => 'articles'
+	                'table'     => 'articles',
+	                'parent'	=> '0'
 	            )) ?>
 	            </div>
 	        </fieldset>
