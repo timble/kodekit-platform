@@ -21,7 +21,7 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     		    $result = '
         		    <script>
                         window.addEvent(\'domready\', function() {
-                            document.getElement(\'select[name='.$config->name.']\').addEvent(\'change\', function(){
+                            document.getElement(\'select[name='.$config->name.']\').addEvent(\'change\', function() {
                                 window.location = this.value;
                             });
                         });
