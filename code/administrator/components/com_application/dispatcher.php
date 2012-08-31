@@ -471,10 +471,14 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                 ->getList();
             
             // If multilanguage is enabled, mixin the isTranslatable() method.
-            if($this->getCfg('multilingual'))
+            if($this->getCfg('multilanguage'))
             {
                 $this->getService('koowa:loader')->loadIdentifier('com://admin/languages.mixin.components');
-                $languages->mixin(new ComLanguagesMixinComponents(new KConfig()));
+                $mixin = new ComLanguagesMixinComponents(new KConfig());
+                
+                foreach($components as $component) {
+                    $component->mixin($mixin);
+                }
             }
             
             // Store the object in the application.
