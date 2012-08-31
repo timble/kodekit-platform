@@ -314,7 +314,9 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 		if(!isset($config->url)) 
 		{
 		    $identifier = $this->getIdentifier($config->identifier);
-		    $config->url = JRoute::_('index.php?option=com_'.$identifier->package.'&view='.$identifier->name.'&format=json', false);
+		    $config->url = $this->getTemplate()->getView()->getRoute(
+                'option=com_'.$identifier->package.'&view='.$identifier->name.'&format=json'
+            );
 		}
 		    
 		$html = '';
