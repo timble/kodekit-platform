@@ -97,11 +97,9 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	        //Compare request url and referrer
 	        if(!isset($referrer) || ((string) $referrer == (string) $request))
 	        {
-	            $option = 'com_'.$identifier->package;
-	            $view   = KInflector::pluralize($identifier->name);
-	            $url    = 'index.php?option='.$option.'&view='.$view;
-
-	            $referrer = $this->getService('koowa:http.url',array('url' => $url));
+	            $option   = 'com_'.$identifier->package;
+	            $view     = KInflector::pluralize($identifier->name);
+	            $referrer = $identifier->getView()->getRoute('option='.$option.'&view='.$view);
 	        }
 
 	        KRequest::set('cookie.referrer', (string) $referrer);
