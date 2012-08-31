@@ -72,7 +72,7 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         }
 
         //Create the href
-        if(!empty($command->href)) {
+        if(!empty($command->href) && !$command->disabled) {
             $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
         }
 
