@@ -55,7 +55,7 @@ if(Form && Form.Validator) {
 				<div class="control-group">
 				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
 				    <div class="controls">
-				        <?= @helper('com://admin/settings.template.helper.listbox.timezones',
+				        <?= @helper('com://admin/extensions.template.helper.listbox.timezones',
 				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'chzn-select'))) ?>
 				    </div>
 				</div>
