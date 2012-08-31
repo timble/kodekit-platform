@@ -6,29 +6,44 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     {
         $config = new KConfig($config);
 		$config->append(array(
-			'model' => 'languages',
-			'name'  => 'language',
-			'value'	=> 'iso_code',
-			'text'	=> 'name'
+			'name'      => 'language',
+		    'component' => null
 		));
 		
-		$options   = array();
-		$view      = $this->getTemplate()->getView();
-		$languages = JFactory::getApplication()->getLanguages();
-		$active    = $languages->getActive();
+		$application = $this->getService('application');
+		$components  = $application->getComponents();
 		
-		foreach($languages as $language)
+		if($components->find(array('name' => 'com_'.$config->component))->top()->isTranslatable())
 		{
-		    $route = $view->getRoute('language='.$language->slug);
-		    $options[] = $this->option(array('text' => $language->name, 'value' => $route));
-		    
-		    if($language->iso_code == $active->iso_code) {
-		        $config->selected = $route;
-		    }
+    		$options   = array();
+    		$languages = $this->getService('application')->getLanguages();
+    		$active    = $languages->getActive();
+    		
+    		foreach($languages as $language)
+    		{
+    		    $route = $this->getTemplate()->getView()->getRoute('language='.$language->slug);
+    		    $options[] = $this->option(array('text' => $language->name, 'value' => $route));
+    		    
+    		    if($language->iso_code == $active->iso_code) {
+    		        $config->selected = $route;
+    		    }
+    		}
+    
+    		$result = '
+    		    <script>
+                    window.addEvent(\'domready\', function() {
+                        document.getElement(\'select[name='.$config->name.']\').addEvent(\'change\', function(){
+                            window.location = this.value;
+                        });
+                    });
+                </script>
+    		';
+    		
+    		$config->options = $options;
+    		$result .= parent::optionlist($config);
 		}
+		else $result = '';
 		
-		$config->options = $options;
-
-		return parent::optionlist($config);
+		return $result;
     }
 }
