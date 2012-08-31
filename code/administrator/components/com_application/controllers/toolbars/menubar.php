@@ -38,6 +38,7 @@ class ComApplicationControllerToolbarMenubar extends KControllerToolbarAbstract
             $menu->addCommand('link', array('label' => 'Articles', 'href'  => 'option=com_articles&view=articles'));
             $menu->addCommand('link', array('label' => 'Web Links', 'href'  => 'option=com_weblinks&view=weblinks'));
             $menu->addCommand('link', array('label' => 'Contacts', 'href'  => 'option=com_contacts&view=contacts'));
+            $menu->addCommand('link', array('label' => 'Languages', 'href'  => 'option=com_languages&view=languages'));
         }
 
         $this->addCommand('link', array('label' => 'Files', 'href'  => 'option=com_files&view=files'));
