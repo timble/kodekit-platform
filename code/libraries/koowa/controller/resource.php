@@ -272,7 +272,7 @@ abstract class KControllerResource extends KControllerAbstract
 		if(!empty($this->_redirect))
 		{
 			$result = array(
-				'url' 		=> JRoute::_($this->_redirect, false),
+				'url' 		=> $this->_redirect,
 				'message' 	=> $this->_redirect_message,
 				'type' 		=> $this->_redirect_type,
 			);
