@@ -1,12 +1,30 @@
 <?php
 class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
 {
+    public function execute($name, KCommandContext $context)
+    {
+        $result      = true;
+        $application = $this->getService('application');
+        
+        if($application->getCfg('multilanguage'))
+        {
+            $components = $application->getComponents();
+            $component  = $this->getMixer()->getIdentifier()->package;
+            
+            if($components->find(array('name' => 'com_'.$component))->top()->isTranslatable()) {
+                $result = parent::execute($name, $context);
+            }
+        }
+        
+        return $result;
+    }
+    
     protected function _beforeTableSelect(KCommandContext $context)
     {
-        $application = $this->getService('application');
-        if($application->getCfg('multilanguage') && $query = $context->query)
+        if($query = $context->query)
         {
             $tables = $this->getService('com://admin/languages.model.tables')
+                ->reset()
                 ->enabled(true)
                 ->getList();
             
@@ -16,7 +34,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 if(count($table))
                 {
                     $table     = $table->top();
-                    $languages = $application->getLanguages();
+                    $languages = $this->getService('application')->getLanguages();
                     $active    = $languages->getActive();
                     $primary   = $languages->getPrimary();
                     
@@ -52,15 +70,14 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     
     protected function _afterTableInsert(KCommandContext $context)
     {
-        $application = JFactory::getApplication();
-        if($application->getCfg('multilanguage') && $context->affected)
+        if($context->affected)
         {
             $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
             
             // Check if table is translatable.
             if(in_array($context->table, $tables->name))
             {
-                $languages = $application->getLanguages();
+                $languages = $this->getService('application')->getLanguages();
                 $active    = $languages->getActive();
                 $primary   = $languages->getPrimary();
                 
@@ -112,35 +129,30 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-        $application = JFactory::getApplication();
-        if($application->getCfg('multilanguage'))
+        // Modify table in the query if translatable.
+        $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+        
+        if(in_array($context->table, $tables->name))
         {
-            // Modify table in the query if translatable.
-            $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+            $languages = $this->getService('application')->getLanguages();
+            $active    = $languages->getActive();
+            $primary   = $languages->getPrimary();
             
-            if(in_array($context->table, $tables->name))
-            {
-                $languages = $application->getLanguages();
-                $active    = $languages->getActive();
-                $primary   = $languages->getPrimary();
-                
-                if($active->iso_code != $primary->iso_code) {
-                    $context->query->table = strtolower($active->iso_code).'_'.$context->query->table;
-                }
+            if($active->iso_code != $primary->iso_code) {
+                $context->query->table = strtolower($active->iso_code).'_'.$context->query->table;
             }
         }
     }
     
     protected function _afterTableUpdate(KCommandContext $context)
     {
-        $application = JFactory::getApplication();
-        if($application->getCfg('multilanguage') && $context->data->getStatus() == KDatabase::STATUS_UPDATED)
+        if($context->data->getStatus() == KDatabase::STATUS_UPDATED)
         {
             $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
             
             if(in_array($context->table, $tables->name))
             {
-                $languages = $application->getLanguages();
+                $languages = $this->getService('application')->getLanguages();
                 $primary   = $languages->getPrimary();
                 $active    = $languages->getActive();
                 
@@ -200,31 +212,26 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     
     protected function _beforeTableDelete(KCommandContext $context)
     {
-        $application = JFactory::getApplication();
-        if($application->getCfg('multilanguage'))
+        // Modify table in the query if active language is not the primary.
+        $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+        
+        if(in_array($context->table, $tables->name))
         {
-            // Modify table in the query if active language is not the primary.
-            $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+            $languages = $this->getService('application')->getLanguages();
+            $active    = $languages->getActive();
+            $primary   = $languages->getPrimary();
             
-            if(in_array($context->table, $tables->name))
-            {
-                $languages = $application->getLanguages();
-                $active    = $languages->getActive();
-                $primary   = $languages->getPrimary();
-                
-                if($active->iso_code != $primary->iso_code) {
-                    $context->query->table = strtolower($active->iso_code).'_'.$context->query->table;
-                }
+            if($active->iso_code != $primary->iso_code) {
+                $context->query->table = strtolower($active->iso_code).'_'.$context->query->table;
             }
         }
     }
     
     protected function _afterTableDelete(KCommandContext $context)
     {
-        $application = JFactory::getApplication();
-        if($application->getCfg('multilanguage') && $context->data->getStatus() == KDatabase::STATUS_DELETED)
+        if($context->data->getStatus() == KDatabase::STATUS_DELETED)
         {
-            $languages = $application->getLanguages();
+            $languages = $this->getService('application')->getLanguages();
             $primary   = $languages->getPrimary();
             $active    = $languages->getActive();
             
