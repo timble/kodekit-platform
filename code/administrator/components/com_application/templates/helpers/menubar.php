@@ -32,7 +32,7 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         ));
 
         if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
-            $config->attribs->class->append(array('disbaled'));
+            $config->attribs->class->append(array('disabled'));
         }
 
         $html = '<ul '.$this->_buildAttributes($config->attribs).'>';
@@ -67,7 +67,7 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         $command = $config->command;
 
         if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
-            $command->disbaled = true;
+            $command->disabled = true;
         }
 
         //Add a nolink class if the command is disabled
