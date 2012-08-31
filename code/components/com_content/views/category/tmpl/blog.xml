@@ -8,8 +8,8 @@
 	<state>
 		<name>Category Blog Layout</name>
 		<description>CATEGORY BLOG LAYOUT DESC</description>
-		<url>
-			<param name="id" type="category" label="Category" description="Choose a category..." />
+		<url addpath="/administrator/components/com_articles/elements">
+			<param name="id" type="contentcategory" default="0" label="Category" description="Choose a category..." />
 		</url>
 		<params>
 	 		<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">

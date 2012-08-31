@@ -8,8 +8,8 @@
 	<state>
 		<name>Standard Category Layout</name>
 		<description>STANDARD CATEGORY LAYOUT DESC</description>
-		<url>
-			<param name="id" type="category" label="Category" description="Choose a category..." />
+		<url addpath="/administrator/components/com_articles/elements">
+			<param name="id" type="contentcategory" default="0" label="Category" description="Choose a category..." />
 		</url>
 		<params>
 			<param name="display_num" type="list" default="10" label="Num Links" description="Number of Items to display as links.">

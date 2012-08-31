@@ -8,8 +8,8 @@
 	<state>
 		<name>Standard Section Layout</name>
 		<description>STANDARD SECTION LAYOUT DESC</description>
-		<url>
-			<param name="id" type="section" label="Section" description="Choose a section..." />
+		<url addpath="/administrator/components/com_articles/elements">
+			<param name="id" type="section" default="0" label="Section" description="Choose a section..." />
 		</url>
 		<params>
 	 		<param name="show_description" type="radio" default="0" label="Description" description="Show/Hide the Category Description">
