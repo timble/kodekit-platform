@@ -429,7 +429,7 @@ CREATE TABLE `#__languages_translations` (
     `original` BOOLEAN NOT NULL DEFAULT 0,
     `deleted` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_translation_id`),
-    KEY (`iso_code`, `table`, `row`)
+    KEY `table_row_iso_code` (`table`, `row`, `iso_code`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
 CREATE TABLE IF NOT EXISTS `#__languages_tables` (
