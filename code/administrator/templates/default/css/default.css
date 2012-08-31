@@ -3524,7 +3524,8 @@ div.toolbar .btn-group a {
   /* This is for fixing a WebKit quirk, more info: https://nooku.assembla.com/spaces/nooku-server/tickets/159 */
 
 }
-#header-box > ul li a {
+#header-box > ul li a,
+#header-box > ul li span {
   padding: 0 18px;
   color: #626262;
   line-height: 30px;
