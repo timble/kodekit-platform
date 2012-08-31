@@ -90,10 +90,6 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 		);
 		
 		$config->append(array(
-			'layout'   => 'default',
-			//@TODO this is because KControllerResource sets this and we have no controller yet
-			'media_url' => KRequest::root().'/media',
-		))->append(array(
 			//Load CodeMirror in addition to TinyMCE
 			'codemirror'   		=> true,
 			'codemirrorOptions' => array(
