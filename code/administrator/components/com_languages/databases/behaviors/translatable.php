@@ -88,7 +88,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     'iso_code'   => $active->iso_code,
                     'table'      => $context->table,
                     'row'        => $context->data->id,
-                    'status'     => ComLanguagesDatabaseRowItem::STATUS_COMPLETED,
+                    'status'     => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED,
                     'original'   => 1
                 );
                 
@@ -118,7 +118,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     {
                         // Insert item into items table.
                         $item['iso_code'] = $language->iso_code;
-                        $item['status'] = ComLanguagesDatabaseRowItem::STATUS_MISSING;
+                        $item['status'] = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
                         $item['original'] = 0;
                         
                         $this->getService('com://admin/languages.database.row.item')
@@ -169,7 +169,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     ), KDatabase::FETCH_ROW);
                 
                 $item->setData(array(
-                    'status' => ComLanguagesDatabaseRowItem::STATUS_COMPLETED
+                    'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
                 ))->save();
                 
                 // Set the other items to outdated if they were completed before.
@@ -182,13 +182,13 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                         'iso_code' => $active->iso_code,
                         'table' => $context->table,
                         'row' => $context->data->id,
-                        'status' => ComLanguagesDatabaseRowItem::STATUS_COMPLETED
+                        'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
                     ));
                 
                 $items = $this->getService('com://admin/languages.database.table.items')
                     ->select($query);
                 
-                $items->status = ComLanguagesDatabaseRowItem::STATUS_OUTDATED;
+                $items->status = ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED;
                 $items->save();
                 
                 // Copy the item's data to all missing items.
@@ -199,7 +199,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     ->where($table->unique_column.' = :unique')
                     ->bind(array('unique' => $context->data->id));
                 
-                $query->bind(array('status' => ComLanguagesDatabaseRowItem::STATUS_MISSING));
+                $query->bind(array('status' => ComLanguagesDatabaseRowTranslation::STATUS_MISSING));
                 $items = $this->getService('com://admin/languages.database.table.items')
                     ->select($query);
                 

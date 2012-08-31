@@ -47,13 +47,13 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                         ->values($this->getService('koowa:database.query.select')->table($this->name));
                     $database->execute($query);
                     
-                    $status   = ComLanguagesDatabaseRowItem::STATUS_MISSING;
+                    $status   = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
                     $original = 0;
                             
                 }
                 else
                 {
-                    $status   = ComLanguagesDatabaseRowItem::STATUS_COMPLETED;
+                    $status   = ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED;
                     $original = 1;
                 }
                 

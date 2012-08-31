@@ -59,7 +59,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                     ->bind(array(
                         'iso_code' => $this->iso_code,
                         'table' => $table->name,
-                        'status' => ComLanguagesDatabaseRowItem::STATUS_MISSING,
+                        'status' => ComLanguagesDatabaseRowTranslation::STATUS_MISSING,
                         'original' => 0
                     ));
                 
