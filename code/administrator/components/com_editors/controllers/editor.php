@@ -19,6 +19,13 @@
  */
 class ComEditorsControllerEditor extends KControllerResource
 {
+    protected function _initialize(KConfig $config)
+    {
+        parent::_initialize($config);
+        
+        $config->append(array('request' => array('layout' => 'default')));
+    }
+    
 	public function __call($method, $args)
 	{
 	    //Check first if we are calling a mixed in method. 
