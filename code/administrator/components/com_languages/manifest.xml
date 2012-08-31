@@ -13,7 +13,7 @@
     <admin>
         <menubar>
             <command href="view=languages">Languages</command>
-            <command href="view=tables">Components</command>
+            <command href="view=components">Components</command>
         </menubar>
     </admin>
 
