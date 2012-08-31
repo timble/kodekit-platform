@@ -4043,6 +4043,9 @@ div.message {
   display: block;
   font-weight: bold;
 }
+.com_pages #layouts .view a.active {
+  background: #E8F3FB;
+}
 .com_pages #layouts .view a small {
   font-weight: normal;
   color: #333;
