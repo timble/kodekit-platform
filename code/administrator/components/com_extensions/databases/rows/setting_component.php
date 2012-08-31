@@ -36,7 +36,7 @@ class ComExtensionsDatabaseRowSetting_Component extends ComExtensionsDatabaseRow
      *
      * @param   object  An optional KConfig object with configuration options.
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
@@ -78,5 +78,15 @@ class ComExtensionsDatabaseRowSetting_Component extends ComExtensionsDatabaseRow
         }
 
         return true;
+    }
+
+    /**
+     * The setting type
+     *
+     * @return string 	The setting type
+     */
+    public function getType()
+    {
+        return 'component';
     }
 }

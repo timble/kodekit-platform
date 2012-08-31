@@ -62,4 +62,14 @@ class ComExtensionsDatabaseRowSetting_System extends ComExtensionsDatabaseRowSet
         
         return true;
     }
+
+    /**
+     * The setting type
+     *
+     * @return string 	The setting type
+     */
+    public function getType()
+    {
+        return 'system';
+    }
 }
