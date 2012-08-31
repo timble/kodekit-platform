@@ -15,7 +15,10 @@
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
-<?= @template('com://admin/languages.view.languages.module', array('component' => 'articles')) ?>
+
+<ktml:module position="toolbar" content="append">
+    <?= @helper('com://admin/languages.template.helper.listbox.languages', array('component' => 'articles')) ?>
+</ktml:module>
 
 <ktml:module position="sidebar">
     <?= @template('default_sidebar'); ?>
