@@ -16,7 +16,7 @@
         <h3><?= @text('Component') ?></h3>
         <div id="components-inner">
             <? foreach($components as $component) : ?>
-            <a data-component="<?= $component->option ?>" class="component-<?= $component->option ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->title) ?></a>
+            <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->title) ?></a>
             <? endforeach ?>
         </div>
         <h3><?= @text('Other') ?></h3>
@@ -30,12 +30,12 @@
 <div id="layouts">
     <div id="types" class="scrollable">
         <? foreach($components as $component) : ?>
-        <div data-component="<?= $component->option ?>" class="component-<?= $component->option ?>">
+        <div data-component="<?= $component->name ?>" class="component-<?= $component->name ?>">
             <? foreach($component->views as $view) : ?>
             <div class="view">
                 <h4><?= @text($view->title) ?></h4>
                 <? foreach($view->layouts as $layout) : ?>
-                <a href="<?= urldecode(@route('menu='.$state->menu.'&type[name]=component&type[option]='.$component->option.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
+                <a href="<?= urldecode(@route('menu='.$state->menu.'&type[name]=component&type[name]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
                     <?= @text($layout->title) ?>
                     <br />
                     <small><?= @text($layout->description) ?></small>
