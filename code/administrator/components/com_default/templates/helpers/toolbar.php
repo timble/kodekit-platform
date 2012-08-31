@@ -70,6 +70,11 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
         //Force the id
         $command->attribs['id'] = 'command-'.$command->id;
 
+        //Add a disabled class if the command is disabled
+        if($command->disabled) {
+            $command->attribs->class->append(array('nolink'));
+        }
+
         //Create the href
         if(!empty($command->href)) {
             $command->attribs['href'] = $this->getTemplate()->getView()->getRoute($command->href);
