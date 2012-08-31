@@ -31,7 +31,7 @@
 					<?= @helper('grid.checkbox', array('row' => $component)) ?>
 				</td>
 				<td>
-					<?= @escape($component->name) ?>
+					<?= @escape($component->title) ?>
 				</td>
 				<td align="center">
 					<?= @helper('grid.enable', array('row' => $component)) ?>   
