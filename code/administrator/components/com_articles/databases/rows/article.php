@@ -46,12 +46,12 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
         {
             if($this->category_id != 0)
             {
-                $this->_data['section_id'] = $this->getService('com://admin/categories.model.categories')
+                $this->section_id = $this->getService('com://admin/categories.model.categories')
                     ->set('id', $this->category_id)
                     ->getItem()->section_id;
 
             }
-            else $this->_data['section_id'] = 0;
+            else $this->section_id = 0;
         }
 
         //Set the introtext and the full text
