@@ -15,7 +15,7 @@
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
-<?= @template('com://admin/languages.view.languages.module') ?>
+<?= @template('com://admin/languages.view.languages.module', array('component' => 'articles')) ?>
 
 <ktml:module position="sidebar">
     <?= @template('default_sidebar'); ?>
