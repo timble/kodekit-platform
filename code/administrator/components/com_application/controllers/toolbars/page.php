@@ -26,17 +26,6 @@ class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
         $this->addCommand('logout');
     }
 
-    public function getCommand($name, $config = array())
-    {
-        $command = parent::getCommand($name, $config);
-
-        if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
-            $command->disabled = true;
-        }
-
-        return $command;
-    }
-
     protected function _commandPreview(KControllerToolbarCommand $command)
     {
         $command->append(array(
