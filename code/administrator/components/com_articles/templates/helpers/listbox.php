@@ -49,7 +49,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             ->getList();
             
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
+            $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
         if($config->uncategorised) {
@@ -76,7 +76,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
+            $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
         $options[] = $this->option(array('text' => JText::_('Uncategorised'), 'value' => 0));
