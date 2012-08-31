@@ -21,7 +21,7 @@
 </fieldset>
 
 <fieldset class="form-horizontal">
-	<legend><?= @text( 'Diognostics' ); ?></legend>
+	<legend><?= @text( 'Diagnostics' ); ?></legend>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][debug]"><?= @text( 'Application Profiling' ); ?></label>
 	    <div class="controls">
