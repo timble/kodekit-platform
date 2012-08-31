@@ -44,6 +44,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      * @var ComLanguagesDatabaseRowsetLanguages
      */
     protected $_languages;
+    
+    /**
+     * Components
+     * 
+     * @var KDatabaseRowsetDefault
+     */
+    protected $_components;
 
     /**
      * Constructor.
@@ -421,12 +428,18 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         return $router;
     }
     
+    /**
+     * Get a list of enabled languages
+     * 
+     * @return \ComLanguagesDatabaseRowsetLanguages
+     */
     public function getLanguages()
     {
         if(!$this->_languages)
         {
-            // Select enabled languages.
+            // Get enabled languages.
             $languages = $this->getService('com://admin/languages.model.languages')
+                ->reset()
                 ->enabled(true)
                 ->application('site')
                 ->getList();
@@ -440,6 +453,35 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         }
         
         return $this->_languages;
+    }
+    
+    /**
+     * Get a list of enabled components
+     * 
+     * @return \KDatabaseRowsetDefault
+     */
+    public function getComponents()
+    {
+        if(!$this->_components)
+        {
+            // Get enabled components.
+            $components = $this->getService('com://admin/extensions.model.components')
+                ->reset()
+                ->enabled(true)
+                ->getList();
+            
+            // If multilanguage is enabled, mixin the isTranslatable() method.
+            if($this->getCfg('multilingual'))
+            {
+                $this->getService('koowa:loader')->loadIdentifier('com://admin/languages.mixin.components');
+                $languages->mixin(new ComLanguagesMixinComponents(new KConfig()));
+            }
+            
+            // Store the object in the application.
+            $this->_components = $components;
+        }
+        
+        return $this->_components;
     }
 
     /**
