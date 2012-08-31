@@ -9,14 +9,14 @@
  */
 
 /**
- * Item Database Row Class
+ * Translation Database Row Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowItem extends KDatabaseRowTable
+class ComLanguagesDatabaseRowTranslation extends KDatabaseRowTable
 {
     /**
      * Status = unknown
