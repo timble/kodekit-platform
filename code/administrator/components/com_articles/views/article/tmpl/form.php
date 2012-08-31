@@ -38,7 +38,7 @@
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
         </div>
 
-        <?= @service('com://admin/editors.controller.editor')->name('text')->data(array('data' => $article->text))->display() ?>
+        <?= @service('com://admin/editors.controller.editor')->name('text')->text($article->text)->display() ?>
     </div>
     <div class="sidebar">        
         <div class="scrollable">
