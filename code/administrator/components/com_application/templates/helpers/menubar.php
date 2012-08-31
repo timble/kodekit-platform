@@ -28,8 +28,12 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         $config = new KConfig($config);
         $config->append(array(
         	'menubar' => null,
-            'attribs' => array()
+            'attribs' => array('class' => array())
         ));
+
+        if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
+            $config->attribs->class->append(array('disbaled'));
+        }
 
         $html = '<ul '.$this->_buildAttributes($config->attribs).'>';
 	    foreach ($config->menubar as $command)
@@ -61,6 +65,10 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         ));
 
         $command = $config->command;
+
+        if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
+            $command->disbaled = true;
+        }
 
         //Add a nolink class if the command is disabled
         if($command->disabled) {
