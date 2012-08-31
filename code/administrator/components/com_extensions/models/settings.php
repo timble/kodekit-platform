@@ -26,7 +26,7 @@ class ComExtensionsModelSettings extends KModelAbstract
              ->insert('name', 'cmd', null, true);        
     }
      
-    public function getItem()
+    public function getItem(array $options = array())
     {
         if(isset($this->getList()->{$this->getState()->name})) {
             $row = $this->getList()->{$this->getState()->name};
@@ -37,7 +37,7 @@ class ComExtensionsModelSettings extends KModelAbstract
         return $row;
     }
     
-    public function getList()
+    public function getList(array $options = array())
     {
         if (!isset($this->_list))
         {
@@ -48,21 +48,26 @@ class ComExtensionsModelSettings extends KModelAbstract
                         
             //Insert the component configuration settings
             $components = $this->getService('com://admin/extensions.model.components')->enabled(1)->getList();
-            
             foreach($components as $component)
             {
-                $path   = JPATH_APPLICATION.'/components/'.$component->option.'/config.xml';
+                $path  = $this->getIdentifier()->getApplication('admin');
+                $path .= '/components/'.$component->name.'/config.xml';
+
+                if(file_exists($path))
+                {
+                    $config = array(
+                        'name' => strtolower(substr($component->name, 4)),
+                        'path' => file_exists($path) ? $path : '',
+                        'id'   => $component->id,
+                        'data' => $component->params->toArray(),
+                    );
+
+                    $row = $this->getService('com://admin/extensions.database.row.setting_component', $config);
+
+                    $rowset->insert($row);
+                }
                     
-                $config = array(
-                	'name' => strtolower(substr($component->option, 4)),
-                    'path' => file_exists($path) ? $path : '',
-                    'id'   => $component->id,
-                    'data' => $component->params->toArray(),
-                );
-                
-                $row = $this->getService('com://admin/extensions.database.row.setting_component', $config);
-                
-                $rowset->insert($row);
+
             }
              
             $this->_list = $rowset;
