@@ -53,6 +53,11 @@
                 <th width="20%">
                     <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created')) ?>
                 </th>
+                <? if($translatable) : ?>
+                    <th width="40">
+                        <?= @text('Translation') ?>
+                    </th>
+                <? endif ?>
             </tr>
         </thead>
         <tfoot>
@@ -105,6 +110,15 @@
                         <?= $article->created_by_name ?>
                     </a>
                 </td>
+                <? if($translatable) : ?>
+                    <td>
+                        <?= @helper('com://admin/languages.template.helper.grid.status', array(
+                            'status'   => $article->translation_status,
+                            'original' => $article->translation_original,
+                            'deleted'  => $article->translation_deleted));
+                        ?>
+                    </td>
+                <? endif ?>
             </tr>
         <? endforeach ?>
         </tbody>
