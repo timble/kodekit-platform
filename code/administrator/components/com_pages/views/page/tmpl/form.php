@@ -35,7 +35,9 @@
             <h3><?= @text('Component') ?></h3>
             <div id="components-inner">
                 <? foreach($components as $component) : ?>
+                <? if($component->views) : ?>
                 <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->title) ?></a>
+                <? endif ?>
                 <? endforeach ?>
             </div>
             <h3><?= @text('Other') ?></h3>
@@ -49,6 +51,7 @@
     <div id="layouts">
         <div id="types" class="scrollable">
             <? foreach($components as $component) : ?>
+            <? if($component->views) : ?>
             <div data-component="<?= $component->name ?>" class="component-<?= $component->name ?>">
                 <? foreach($component->views as $view) : ?>
                 <div class="view">
@@ -63,6 +66,7 @@
                 </div>
                 <? endforeach ?>
             </div>
+            <? endif ?>
             <? endforeach ?>
         </div>
     </div>
