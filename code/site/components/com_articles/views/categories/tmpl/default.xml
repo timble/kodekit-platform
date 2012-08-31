@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-<layout title="Standard Category Layout">
+<layout title="List layout">
     <message>
-        <![CDATA[STANDARD CATEGORY LAYOUT DESC]]>
+        <![CDATA[CATEGORIES LAYOUT DESC]]>
     </message>
 </layout>
 <state>

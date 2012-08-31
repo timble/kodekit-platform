@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="Articles Table Layout">
+    <layout title="Table layout">
         <message>
             <![CDATA[ARTICLES TABLE LAYOUT DESC]]>
         </message>

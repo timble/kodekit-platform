@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Article Submission Layout">
+	<layout title="Form layout">
 		<message>
-			<![CDATA[ARTICLE SUBMISSION LAYOUT DESC]]>
+			<![CDATA[ARTICLES FORM LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Article Submission Layout</name>
-		<description>ARTICLE SUBMISSION LAYOUT DESC</description>
+		<name>Form layout</name>
+		<description>ARTICLES FORM LAYOUT DESC</description>
 		<params>
 		</params>
 	</state>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="WEBLINK STANDARD CATEGORY LAYOUT">
+	<layout title="LIST LAYOUT">
 		<message>
-			<![CDATA[WEBLINK STANDARD CATEGORY LAYOUT DESC]]>
+			<![CDATA[WEBLINKS LIST LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>WEBLINK STANDARD CATEGORY LAYOUT</name>
-		<description>WEBLINK STANDARD CATEGORY LAYOUT DESC</description>
+		<name>LIST LAYOUT</name>
+		<description>WEBLINKS LIST LAYOUT DESC</description>
 		<url addpath="/administrator/components/com_categories/elements">
 			<param name="category" type="category" table="weblinks" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>

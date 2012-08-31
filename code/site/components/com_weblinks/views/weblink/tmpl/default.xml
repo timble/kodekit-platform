@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Single Weblink Layout">
+	<layout title="Weblink Layout">
 		<message>
-			<![CDATA[This layout shows a single weblink.]]>
+			<![CDATA[WEBLINK LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
 		<name>Weblink Layout</name>
-		<description>This layout shows a single weblink.</description>
+		<description>WEBLINK LAYOUT DESC</description>
 		<params>
 		</params>
 	</state>

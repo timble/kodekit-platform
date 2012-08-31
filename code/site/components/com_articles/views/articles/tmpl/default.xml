@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="Articles List Layout">
+    <layout title="Blog layout">
         <message>
-            <![CDATA[ARTICLES LIST LAYOUT DESC]]>
+            <![CDATA[ARTICLES BLOG LAYOUT DESC]]>
         </message>
     </layout>
     <state>
-        <name>Articles List Layout</name>
-        <description>ARTICLES LIST LAYOUT DESC</description>
+        <name>Blog layout</name>
+        <description>ARTICLES BLOG LAYOUT DESC</description>
         <url addpath="/administrator/components/com_categories/elements">
             <param name="category" type="category" table="articles" label="Category" description="SELECT CATEGORY"/>
         </url>

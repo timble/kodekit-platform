@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id: default.xml 17437 2010-06-01 14:35:04Z pasamio $ -->
 <metadata>
-	<layout title="Standard Contact Layout">
+	<layout title="Contact layout">
 		<message>
-			<![CDATA[STANDARD CONTACT LAYOUT DESC]]>
+			<![CDATA[CONTACT LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
-		<name>Standard Contact Layout</name>
-		<description>STANDARD CONTACT LAYOUT DESC</description>
+		<name>Contact layout</name>
+		<description>CONTACT LAYOUT DESC</description>
 		<url addpath="/administrator/components/com_contacts/elements">
 			<param name="id" type="contact" default="" label="Select Contact" description="The contact to link to" />
 		</url>

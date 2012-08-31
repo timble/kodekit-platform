@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Contact Category Layout">
+	<layout title="Table layout">
 		<message>
-			<![CDATA[CONTACT CATEGORY LAYOUT DESC]]>
+			<![CDATA[CONTACTS TABLE LAYOUT DESC]]>
 		</message>
 	</layout>
 	<state>
