@@ -44,7 +44,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
                 
                 $database->insert($insert);
 
-                // Add items to the items table.
+                // Add items to the translations table.
                 $columns = array(
                     'iso_code' => ':iso_code',
                     'table' => ':table',

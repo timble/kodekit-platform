@@ -57,7 +57,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
                     $original = 1;
                 }
                 
-                // Add items to the items table.
+                // Add items to the translations table.
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array(
                         'iso_code' => ':iso_code',
