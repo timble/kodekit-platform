@@ -87,8 +87,6 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	 */
 	public function setReferrer()
 	{
-	    $identifier = $this->getMixer()->getIdentifier();
-
 	    if(!KRequest::has('cookie.referrer_locked'))
 	    {
 	        $request  = KRequest::url();
@@ -97,9 +95,12 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 	        //Compare request url and referrer
 	        if(!isset($referrer) || ((string) $referrer == (string) $request))
 	        {
-	            $option   = 'com_'.$identifier->package;
+                $controller = $this->getMixer();
+                $identifier = $controller->getIdentifier();
+
+                $option   = 'com_'.$identifier->package;
 	            $view     = KInflector::pluralize($identifier->name);
-	            $referrer = $identifier->getView()->getRoute('option='.$option.'&view='.$view);
+	            $referrer = $controller->getView()->getRoute('option='.$option.'&view='.$view);
 	        }
 
 	        KRequest::set('cookie.referrer', (string) $referrer);
