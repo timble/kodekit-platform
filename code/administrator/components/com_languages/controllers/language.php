@@ -1,14 +1,20 @@
 <?php
 class ComLanguagesControllerLanguage extends ComDefaultControllerDefault
 {
-    public function setModel($model)
+    public function getModel()
     {
-        parent::setModel($model);
-
-        // Clone and reset the model to avoid state changes because of the singleton model.
-        $this->_model = clone $this->getModel();
-        $this->_model->reset();
+        if(!$this->_model instanceof KModelAbstract)
+        {
+            $identifier = $this->setModel($this->_model);
+            if($identifier->package == 'languages' && $identifier->name == 'languages')
+            {
+                $model = clone $this->getService($identifier);
+                $model->reset()->set($this->getRequest());
+                
+                $this->_model = $model;
+            }
+        }
         
-        return $this->_model;
+        return parent::getModel();
     }
 }
