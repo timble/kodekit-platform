@@ -48,8 +48,15 @@ class ComLanguagesModelLanguages extends ComDefaultModelDefault implements KServ
             $this->_list_cache = $this->getTable()->select();
         }
         
-        $state  = $this->getState();
-        return $state->isUnique() ? $this->_list_cache->find($state->id) : $this->_list_cache->getRow();
+        $state = $this->getState();
+        if($state->isUnique())
+        {
+            $id = is_array($state->id) ? current($state->id) : $state->id;
+            $result = $this->_list_cache->find($id);
+        }
+        else $result = $this->_list_cache->getRow();
+        
+        return $result;
     }
     
     public function getList()
@@ -67,11 +74,11 @@ class ComLanguagesModelLanguages extends ComDefaultModelDefault implements KServ
             $offset = $state->offset;
             $total  = $this->_total;
             
-            if($offset && $total)        
+            if($offset && $total)
             {
-                if($offset >= $total) 
+                if($offset >= $total)
                 {
-                    $offset = floor(($total - 1) / $limit) * $limit;    
+                    $offset = floor(($total - 1) / $limit) * $limit;
                     $state->offset = $offset;
                 }
              }
