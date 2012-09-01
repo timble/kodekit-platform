@@ -92,7 +92,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     'original'   => 1
                 );
                 
-                // Insert item into the items table.
+                // Insert item into the translations table.
                 $this->getService('com://admin/languages.database.row.item')
                     ->setData($item)
                     ->save();
@@ -116,7 +116,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     
                     if($language->iso_code != $active->iso_code)
                     {
-                        // Insert item into items table.
+                        // Insert item into translations table.
                         $item['iso_code'] = $language->iso_code;
                         $item['status'] = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
                         $item['original'] = 0;
@@ -159,16 +159,16 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 $primary   = $languages->getPrimary();
                 $active    = $languages->getActive();
                 
-                // Update item in the items table.
+                // Update item in the translations table.
                 $table = $tables->find(array('name' => $context->table))->top();
-                $item  = $this->getService('com://admin/languages.database.table.items')
+                $translation  = $this->getService('com://admin/languages.database.table.translations')
                     ->select(array(
                         'iso_code' => $active->iso_code,
                         'table'    => $context->table,
                         'row'      => $context->data->id
                     ), KDatabase::FETCH_ROW);
                 
-                $item->setData(array(
+                $translation->setData(array(
                     'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
                 ))->save();
                 
@@ -185,13 +185,13 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                         'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
                     ));
                 
-                $items = $this->getService('com://admin/languages.database.table.items')
+                $translations = $this->getService('com://admin/languages.database.table.translations')
                     ->select($query);
                 
-                $items->status = ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED;
-                $items->save();
+                $translations->status = ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED;
+                $translations->save();
                 
-                // Copy the item's data to all missing items.
+                // Copy the item's data to all missing translations.
                 $database = $this->getTable()->getDatabase();
                 $prefix = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
                 $select = $this->getService('koowa:database.query.select')
@@ -200,12 +200,12 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     ->bind(array('unique' => $context->data->id));
                 
                 $query->bind(array('status' => ComLanguagesDatabaseRowTranslation::STATUS_MISSING));
-                $items = $this->getService('com://admin/languages.database.table.items')
+                $translations = $this->getService('com://admin/languages.database.table.translations')
                     ->select($query);
                 
-                foreach($items as $item)
+                foreach($translations as $translation)
                 {
-                    $prefix = $database->getTablePrefix().($item->iso_code != $primary->iso_code ? strtolower($item->iso_code.'_') : '');
+                    $prefix = $database->getTablePrefix().($translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code.'_') : '');
                     $query = 'REPLACE INTO '.$database->quoteIdentifier($prefix.$table->name).' '.$select;
                     $database->execute($query);
                 }
@@ -252,8 +252,8 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 }
             }
             
-            // Mark item as deleted in items table.
-            $this->getService('com://admin/languages.database.table.items')
+            // Mark item as deleted in translations table.
+            $this->getService('com://admin/languages.database.table.translations')
                 ->select(array('table' => $context->table, 'row' => $context->data->id))
                 ->setData(array('deleted' => 1))
                 ->save(); 
