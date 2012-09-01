@@ -9,13 +9,13 @@
  */
 
 /**
- * Items Model Class
+ * Translations Model Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesModelItems extends ComDefaultModelDefault
+class ComLanguagesModelTranslations extends ComDefaultModelDefault
 {
     public function __construct(KConfig $config)
     {
@@ -26,24 +26,6 @@ class ComLanguagesModelItems extends ComDefaultModelDefault
             ->insert('iso_code', 'com://admin/languages.filter.iso')
             ->insert('status', 'int')
             ->insert('deleted', 'boolean', false);
-    }
-
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
-    {
-        parent::_buildQueryColumns($query);
-        
-    	$query->columns(array(
-    		 'modified_by_name' => 'modifiers.name',
-    	     'created_by_name' => 'creators.name'
-    	));
-    }
-    
- 	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
-    {
-        parent::_buildQueryJoins($query);
-        
-        $query->join(array('modifiers' => 'users'), 'modifiers.id = tbl.modified_by');
-        $query->join(array('creators' => 'users'), 'creators.id = tbl.created_by');
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
