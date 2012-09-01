@@ -54,7 +54,7 @@
                     <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created')) ?>
                 </th>
                 <? if($translatable) : ?>
-                    <th width="40">
+                    <th width="70">
                         <?= @text('Translation') ?>
                     </th>
                 <? endif ?>
