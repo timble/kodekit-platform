@@ -75,7 +75,10 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     {
         if($context->affected)
         {
-            $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+            $tables = $this->getService('com://admin/languages.model.tables')
+                ->reset()
+                ->enabled(true)
+                ->getList();
             
             // Check if table is translatable.
             if(in_array($context->table, $tables->name))
@@ -84,7 +87,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 $active    = $languages->getActive();
                 $primary   = $languages->getPrimary();
                 
-                $item = array(
+                $translation = array(
                     'iso_code'   => $active->iso_code,
                     'table'      => $context->table,
                     'row'        => $context->data->id,
@@ -93,8 +96,8 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 );
                 
                 // Insert item into the translations table.
-                $this->getService('com://admin/languages.database.row.item')
-                    ->setData($item)
+                $this->getService('com://admin/languages.database.row.translation')
+                    ->setData($translation)
                     ->save();
                 
                 // Insert item into language specific tables.
@@ -105,7 +108,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     if($language->iso_code != $primary->iso_code)
                     {
                         $query = clone $context->query;
-                        $query->table = strtolower($language->iso_code).'_'.$query->table;
+                        $query->table(strtolower($language->iso_code).'_'.$query->table);
                         
                         if(($key = array_search($table->unique_column, $query->columns)) !== false) {
                             $query->values[0][$key] = $context->data->id;
@@ -117,12 +120,12 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                     if($language->iso_code != $active->iso_code)
                     {
                         // Insert item into translations table.
-                        $item['iso_code'] = $language->iso_code;
-                        $item['status'] = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
-                        $item['original'] = 0;
+                        $translation['iso_code'] = $language->iso_code;
+                        $translation['status']   = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
+                        $translation['original'] = 0;
                         
-                        $this->getService('com://admin/languages.database.row.item')
-                            ->setData($item)
+                        $this->getService('com://admin/languages.database.row.translation')
+                            ->setData($translation)
                             ->save();
                     }
                 }
@@ -133,7 +136,10 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     protected function _beforeTableUpdate(KCommandContext $context)
     {
         // Modify table in the query if translatable.
-        $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+        $tables = $this->getService('com://admin/languages.model.tables')
+            ->reset()
+            ->enabled(true)
+            ->getList();
         
         if(in_array($context->table, $tables->name))
         {
@@ -142,7 +148,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             $primary   = $languages->getPrimary();
             
             if($active->iso_code != $primary->iso_code) {
-                $context->query->table = strtolower($active->iso_code).'_'.$context->query->table;
+                $context->query->table(strtolower($active->iso_code).'_'.$context->query->table);
             }
         }
     }
@@ -151,7 +157,10 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     {
         if($context->data->getStatus() == KDatabase::STATUS_UPDATED)
         {
-            $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+            $tables = $this->getService('com://admin/languages.model.tables')
+                ->reset()
+                ->enabled(true)
+                ->getList();
             
             if(in_array($context->table, $tables->name))
             {
@@ -216,7 +225,10 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     protected function _beforeTableDelete(KCommandContext $context)
     {
         // Modify table in the query if active language is not the primary.
-        $tables = $this->getService('com://admin/languages.model.tables')->enabled(true)->getList();
+        $tables = $this->getService('com://admin/languages.model.tables')
+            ->reset()
+            ->enabled(true)
+            ->getList();
         
         if(in_array($context->table, $tables->name))
         {
@@ -225,7 +237,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             $primary   = $languages->getPrimary();
             
             if($active->iso_code != $primary->iso_code) {
-                $context->query->table = strtolower($active->iso_code).'_'.$context->query->table;
+                $context->query->table(strtolower($active->iso_code).'_'.$context->table);
             }
         }
     }
@@ -247,7 +259,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 if($language->iso_code != $active->iso_code)
                 {
                     $prefix = $language->iso_code != $primary->iso_code ? strtolower($language->iso_code.'_') : ''; 
-                    $query->table = $prefix.$context->table;
+                    $query->table($prefix.$context->table);
                     $database->delete($query);
                 }
             }
