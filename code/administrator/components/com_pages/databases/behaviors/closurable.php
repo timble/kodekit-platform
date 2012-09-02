@@ -107,7 +107,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         if($context->affected !== false)
         {
             $data = $context->data;
-            if((int) $data->parent_id != (int) $this->parent_id)
+            if(is_numeric($data->parent_id) && $data->parent_id != (int) end(array_values($data->parent_ids)))
             {
                 $table = $this->getTable();
                 if($data->parent_id)
@@ -129,25 +129,22 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     ->where('x.ancestor_id IS NULL')
                     ->bind(array('ancestor_id' => $data->id));
                 
-                $result = $table->getDatabase()->delete($query);
+                $table->getDatabase()->delete($query);
                 
-                if($result)
-                {
-                    $select = $this->getService('koowa:database.query.select')
-                        ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
-                        ->table(array('supertree' => $table->getRelationTable()))
-                        ->join(array('subtree' => $table->getRelationTable()), null, 'INNER')
-                        ->where('subtree.ancestor_id = :ancestor_id')
-                        ->where('supertree.descendant_id = :descendant_id')
-                        ->bind(array('ancestor_id' => $data->id, 'descendant_id' => (int) $data->parent_id));
-                        
-                    $query = $this->getService('koowa:database.query.insert')
-                        ->table($table->getRelationTable())
-                        ->columns(array('ancestor_id', 'descendant_id', 'level'))
-                        ->values($select);
+                $select = $this->getService('koowa:database.query.select')
+                    ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
+                    ->table(array('supertree' => $table->getRelationTable()))
+                    ->join(array('subtree' => $table->getRelationTable()), null, 'INNER')
+                    ->where('subtree.ancestor_id = :ancestor_id')
+                    ->where('supertree.descendant_id = :descendant_id')
+                    ->bind(array('ancestor_id' => $data->id, 'descendant_id' => (int) $data->parent_id));
                     
-                    $result = $table->getDatabase()->insert($query);
-                }
+                $query = $this->getService('koowa:database.query.insert')
+                    ->table($table->getRelationTable())
+                    ->columns(array('ancestor_id', 'descendant_id', 'level'))
+                    ->values($select);
+                
+                $result = $table->getDatabase()->insert($query);
                 
                 return $result === false ? false : true;
             }
