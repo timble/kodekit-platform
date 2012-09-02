@@ -34,7 +34,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
 
             // Set component id.
             $component = $this->getService('com://admin/extensions.database.table.components')
-                ->select(array('option' => $query['option'], 'parent' => 0), KDatabase::FETCH_ROW);
+                ->select(array('name' => $query['option']), KDatabase::FETCH_ROW);
 
             $this->extensions_component_id = $component->id;
         }

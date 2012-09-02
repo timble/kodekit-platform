@@ -19,10 +19,11 @@ Pages.Page = new Class({
 
 		this.setOptions(options);
 
-		this.togglers	= $(this.options.sidebar).getElements('a');
-		this.types		= $(this.options.panel).getChildren();
-		this.active		= this.options.active;
-		this.type       = this.options.type;
+		this.togglers  = $(this.options.sidebar).getElements('a');
+		this.types     = $(this.options.panel).getChildren();
+		this.active    = this.options.active;
+		this.type      = this.options.type;
+		this.parents   = [];
 
 		this.togglers.each(function(toggle){
 			
@@ -64,7 +65,29 @@ Pages.Page = new Class({
 		        });
 		    }.bind(this));
 		}
-
+		
+		var menu = $$('select[name=pages_menu_id]');
+		if(menu) {
+		    menu = menu.shift();
+		    menu.addEvent('change', this.updateParent.bind(this));
+		    
+		    this.parents[menu.value] = $('pages-parent').get('html');
+		}
+	},
+	
+	updateParent: function(event) {
+	    if(!(event.target.value in this.parents)) {
+	        var url = $('page-form').get('action').replace(/([?&])menu=\d+/g, '$1menu='+event.target.value).replace(/[&?]id=\d+/g, '');
+	        var req = new Request.HTML({
+	            async: false,
+	            evalScripts: false,
+	            onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript) {
+	                var response = responseElements.filter('#pages-parent').shift();
+                    this.parents[event.target.value] = response.get('html');
+                }.bind(this)
+	        }).get(url);
+	    }
+	    
+	    $('pages-parent').set('html', this.parents[event.target.value]);
 	}
-
 });

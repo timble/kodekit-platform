@@ -137,7 +137,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
                 foreach($components as $component)
                 {
                     $path  = $this->getIdentifier()->getApplication('site');
-                    $path .= '/components/'.$component->option.'/modules';
+                    $path .= '/components/'.$component->name.'/modules';
 
                     if(!is_dir($path)) {
                         continue;

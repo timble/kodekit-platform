@@ -9,7 +9,10 @@
  */
 ?>
 
+<?= @helper('behavior.keepalive') ?>
+
 <!--
+<script src="media://lib_koowa/js/koowa.js" />
 <script src="media://com_pages/js/widget.js" />
 <script src="media://com_pages/js/page.js" />
 -->
