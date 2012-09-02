@@ -107,7 +107,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         if($context->affected !== false)
         {
             $data = $context->data;
-            if(is_numeric($data->parent_id) && $data->parent_id != (int) end(array_values($data->parent_ids)))
+            if((int) $data->parent_id != (int) end(array_values($data->parent_ids)))
             {
                 $table = $this->getTable();
                 if($data->parent_id)
@@ -121,6 +121,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     }
                 }
                 
+                // Delete the outdated paths for the old location.
                 $query = $this->getService('koowa:database.query.delete')
                     ->table(array('a' => $table->getRelationTable()))
                     ->join(array('d' => $table->getRelationTable()), 'a.descendant_id = d.descendant_id', 'INNER')
@@ -131,6 +132,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 
                 $table->getDatabase()->delete($query);
                 
+                // Insert the subtree under its new location.
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
                     ->table(array('supertree' => $table->getRelationTable()))
@@ -145,6 +147,12 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     ->values($select);
                 
                 $result = $table->getDatabase()->insert($query);
+                
+                if($result !== false)
+                {
+                    $data->path = ($data->parent_id ? $parent->path.'/' : '').$data->id;
+                    $this->path = $data->path;
+                }
                 
                 return $result === false ? false : true;
             }
