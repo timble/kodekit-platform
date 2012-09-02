@@ -76,41 +76,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-		/*if(($this->isNew() || $this->isModified('username')) &&  trim($this->username) == '')
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_('Please enter a username!'));
-
-			return false;
-		}*/
-
-		/*if(($this->isNew() || $this->isModified('username')) && preg_match('#[<>"\'%;()&]#i', $this->username) || strlen(utf8_decode($this->username)) < 2)
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_('Please enter a valid username. No spaces, at least 2 characters '.
-				'and must contain <strong>only</strong> letters and numbers.'));
-
-			return false;
-		}*/
-
-	   /*if($this->isModified('username'))
-       {
-            $query = $this->getService('koowa:database.query.select')
-                ->where('username = :username')
-                ->where('id <> :id')
-                ->bind(array('username' => $this->username, 'id' => (int) $this->id));
-
-            $total = $this->getService('com://admin/users.database.table.users')->count($query);
-
-            if($total)
-            {
-                $this->setStatus(KDatabase::STATUS_FAILED);
-                $this->setStatusMessage(JText::_('This username is already in use.'));
-
-                return false;
-            }
-        }*/
-
 		if(($this->isNew() || $this->isModified('email')) && (trim($this->email) == '') || !($this->getService('koowa:filter.email')->validate($this->email)))
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
@@ -135,19 +100,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 				return false;
 			}
-		}
-
-		/*
-		 * If username field is an email it has to be the same with email field.
-		 * This removes the possibilitiy that a user can get locked out of her account
-		 * if someone else uses that username as the email field.
-		 */
-		if ($this->getService('koowa:filter.email')->validate($this->username) === true && $this->username !== $this->email)
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_('Your e-mail and username should match if you want to use an e-mail address as your username.'));
-
-			return false;
 		}
 
 		// Don't allow users to block themselves.
