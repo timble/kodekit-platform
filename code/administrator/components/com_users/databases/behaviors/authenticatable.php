@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -10,48 +9,54 @@
  */
 
 /**
- * Authenticatable database behavior class.
+ * Authenticatable Database Behavior class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Users
  */
 class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 {
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $config->append(array('auto_mixin' => true));
         parent::_initialize($config);
     }
 
-    protected function _afterTableUpdate(KCommandContext $context) {
+    protected function _afterTableUpdate(KCommandContext $context)
+    {
+        // Force a password change on next login.
         if ($this->password_change) {
-            // Force a password change on next login.
             $this->getPassword()->expire();
         }
     }
 
-    protected function _beforeTableInsert(KCommandContext $context) {
-        if (!$this->password) {
+    protected function _beforeTableInsert(KCommandContext $context)
+    {
+        if (!$this->password)
+        {
             // Generate a random password
             $params         = JComponentHelper::getParams('com_users');
             $this->password = $this->getService('com://admin/users.helper.password')
                 ->getRandom($params->get('min_passw_len'));
-        } elseif (!$this->_passwordsMatch()) {
+        }
+        elseif (!$this->_passwordsMatch()) {
             return false;
         }
     }
 
-    protected function _beforeTableUpdate(KCommandContext $context) {
-        if ($this->password) {
-
+    protected function _beforeTableUpdate(KCommandContext $context)
+    {
+        if ($this->password)
+        {
             if (!$this->_passwordsMatch()) {
                 return false;
             }
 
             // Update password record.
             $password = $this->getPassword();
-            if (!$password->setData(array('password' => $this->password))->save()) {
+            if (!$password->setData(array('password' => $this->password))->save())
+            {
                 $this->setStatus(KDatabase::STATUS_FAILED);
                 $this->setStatusMessage($password->getStatusMessage);
                 return false;
@@ -59,24 +64,32 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _afterTableInsert(KCommandContext $context) {
+    protected function _afterTableInsert(KCommandContext $context)
+    {
         $data = $context->data;
 
-        if ($data->getStatus() == KDatabase::STATUS_CREATED) {
+        if ($data->getStatus() == KDatabase::STATUS_CREATED)
+        {
             // Create a password row for the user.
-            $this->getPassword()->setData(array('id' => $this->email, 'password' => $this->password))->save();
+            $this->getPassword()
+                  ->setData(array('id' => $this->email, 'password' => $this->password))
+                  ->save();
+
             // Same as update.
             $this->_afterTableUpdate($context);
         }
     }
 
-    protected function _beforeTableDelete(KCommandContext $context) {
+    protected function _beforeTableDelete(KCommandContext $context)
+    {
         $this->getPassword()->delete();
     }
 
-    protected function _passwordsMatch() {
+    protected function _passwordsMatch()
+    {
         // Check if passwords match.
-        if ($this->password != $this->password_verify) {
+        if ($this->password != $this->password_verify)
+        {
             $this->setStatus(KDatabase::STATUS_FAILED);
             $this->setStatusMessage(JText::_('Passwords don\'t match'));
             return false;
@@ -84,7 +97,8 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         return true;
     }
 
-    public function getPassword() {
+    public function getPassword()
+    {
         $password = null;
         $user     = $this->getMixer();
 

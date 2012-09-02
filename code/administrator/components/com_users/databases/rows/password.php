@@ -1,7 +1,6 @@
 <?php
 /**
  * @version     $Id$
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -13,29 +12,32 @@
  * Password database row class.
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
- * @category   Nooku
  * @package    Nooku_Server
  * @subpackage Users
  */
 class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
 {
-    public function save() {
-
-        $user = $this->getService('com://admin/users.model.users')->set('email', $this->id)
+    public function save()
+    {
+        $user = $this->getService('com://admin/users.model.users')
+            ->set('email', $this->id)
             ->getItem();
 
         // Check if referenced user actually exists.
-        if ($user->isNew()) {
+        if ($user->isNew())
+        {
             $this->setStatus(KDatabase::STATUS_FAILED);
             $this->setStatusMessage(JText::sprintf('USER NOT FOUND', $this->id));
             return false;
         }
 
-        if ($password = $this->password) {
+        if ($password = $this->password)
+        {
             // Check the password length.
             $params        = JComponentHelper::getParams('com_users');
             $min_passw_len = $params->get('min_passw_len');
-            if (strlen($password) < $min_passw_len) {
+            if (strlen($password) < $min_passw_len)
+            {
                 $this->setStatus(KDatabase::STATUS_FAILED);
                 $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $min_passw_len));
                 return false;
@@ -43,9 +45,11 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
 
             $helper = $this->getService('com://admin/users.helper.password');
 
-            if (!$this->isNew()) {
+            if (!$this->isNew())
+            {
                 // Check if new and current hashes are the same.
-                if ($helper->encrypt($password, $helper->getSalt($this->hash)) == $this->hash) {
+                if ($helper->encrypt($password, $helper->getSalt($this->hash)) == $this->hash)
+                {
                     $this->setStatus(KDatabase::STATUS_FAILED);
                     $this->setStatusMessage(JText::_('New and old passwords are the same'));
                     return false;
