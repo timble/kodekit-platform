@@ -19,7 +19,10 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 {
     protected function _initialize(KConfig $config)
     {
-        $config->append(array('auto_mixin' => true));
+        $config->append(array(
+            'auto_mixin' => true
+        ));
+
         parent::_initialize($config);
     }
 
@@ -36,7 +39,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         if (!$this->password)
         {
             // Generate a random password
-            $params         = JComponentHelper::getParams('com_users');
+            $params         = $this->getService('application.components')->users->params;
             $this->password = $this->getService('com://admin/users.helper.password')
                 ->getRandom($params->get('min_passw_len'));
         }
