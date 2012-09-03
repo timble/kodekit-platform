@@ -83,15 +83,12 @@ class KHttpCookie extends KObject
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KDispatcherSessionAbstract
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         //Set the config values
-        foreach($config as $key => $value) {
+        foreach ($config as $key => $value) {
             $this->{$key} = $value;
         }
     }
@@ -107,12 +104,12 @@ class KHttpCookie extends KObject
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'name'      => '',
-            'value'     => null,
-            'domain'    => null,
-            'expire'    => 0,
-            'path'      => '/',
-            'secure'    => false,
+            'name' => '',
+            'value' => null,
+            'domain' => null,
+            'expire' => 0,
+            'path' => '/',
+            'secure' => false,
             'http_only' => true,
         ));
 
@@ -123,7 +120,7 @@ class KHttpCookie extends KObject
      * Set the cookie name
      *
      * @param string $name The name of the cookie
-     * @throws \InvalidArgumentException	If the cookie name is not valid or is empty
+     * @throws \InvalidArgumentException    If the cookie name is not valid or is empty
      * @return \KHttpCookie
      */
     public function setName($name)
@@ -146,18 +143,17 @@ class KHttpCookie extends KObject
      * Set the cookie expiration time
      *
      * @param integer|string|\DateTime $expire The expiration time of the cookie
-     * @throws \InvalidArgumentException	If the cookie expiration time is not valid
+     * @throws \InvalidArgumentException    If the cookie expiration time is not valid
      * @return \KHttpCookie
      */
     public function setExpire($expire)
     {
         // Convert expiration time to a Unix timestamp
-        if($expire instanceof DateTime) {
+        if ($expire instanceof DateTime) {
             $expire = $expire->format('U');
         }
 
-        if (!is_numeric($expire))
-        {
+        if (!is_numeric($expire)) {
             $expire = strtotime($expire);
 
             if ($expire === false || $expire === -1) {
@@ -176,7 +172,7 @@ class KHttpCookie extends KObject
      */
     public function isSecure()
     {
-        return (bool) $this->_secure;
+        return (bool)$this->_secure;
     }
 
     /**
@@ -186,7 +182,7 @@ class KHttpCookie extends KObject
      */
     public function isHttpOnly()
     {
-        return (bool) $this->_http_only;
+        return (bool)$this->_http_only;
     }
 
     /**
@@ -196,7 +192,7 @@ class KHttpCookie extends KObject
      */
     public function isCleared()
     {
-        return (bool) ($this->_expire < time());
+        return (bool)($this->_expire < time());
     }
 
 
@@ -209,11 +205,11 @@ class KHttpCookie extends KObject
      */
     public function __set($key, $value)
     {
-        if($key == 'name') {
+        if ($key == 'name') {
             $this->setName($value);
         }
 
-        if($key == 'expire') {
+        if ($key == 'expire') {
             $this->setExpire($value);
         }
     }
@@ -228,11 +224,11 @@ class KHttpCookie extends KObject
     {
         $result = null;
 
-        if($key == 'name') {
+        if ($key == 'name') {
             $result = $this->_name;
         }
 
-        if($key == 'expire') {
+        if ($key == 'expire') {
             $result = $this->_expire;
         }
 
@@ -246,24 +242,22 @@ class KHttpCookie extends KObject
      */
     public function __toString()
     {
-        $str = urlencode($this->name).'=';
+        $str = urlencode($this->name) . '=';
 
-        if ('' !== (string) $this->value)
-        {
+        if ('' !== (string)$this->value) {
             $str .= urlencode($this->value);
 
             if ($this->expire !== 0) {
-                $str .= '; expires='.gmdate(DateTime::COOKIE, $this->expire);
+                $str .= '; expires=' . gmdate(DateTime::COOKIE, $this->expire);
             }
-        }
-        else $str .= 'deleted; expires='.gmdate(DateTime::COOKIE, time() - 31536001);
+        } else $str .= 'deleted; expires=' . gmdate(DateTime::COOKIE, time() - 31536001);
 
         if ('/' !== $this->path) {
-            $str .= '; path='.$this->path;
+            $str .= '; path=' . $this->path;
         }
 
         if (null !== $this->domain) {
-            $str .= '; domain='.$this->domain;
+            $str .= '; domain=' . $this->domain;
         }
 
         if (true === $this->isSecure()) {
