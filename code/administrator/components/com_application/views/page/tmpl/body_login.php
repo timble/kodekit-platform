@@ -9,13 +9,13 @@
  */
 ?>
 
-<body class="<?= JRequest::getVar('option', 'cmd'); ?> login">
+<body class="<?= $option ?> login">
 <div id="container">
     <div id="login-box" class="login">
 		<img src="media://com_application/images/nooku-server_logo.png" alt="Nooku Server logo">
 		<?= @template('default_message') ?>
 		<div id="section-box">
-			<ktml:variable name="component" />
+			<ktml:variable name="content" />
 		</div>
 		<a class="return" href="<?= JURI::root(); ?>">
 			<?= JText::_('Go to site home page.'); ?>
