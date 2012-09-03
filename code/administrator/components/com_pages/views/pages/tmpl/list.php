@@ -31,13 +31,13 @@
 		    <li>
 		        <? switch($page->type) : 
 		              case 'component': ?>
-						<a href="<?= JRoute::_(preg_replace('%layout=table%', 'layout=default', $page->link).'&Itemid='.$page->id) ?>">
+						<a href="<?= @route(preg_replace('%layout=table%', 'layout=default', $page->link->getQuery()).'&Itemid='.$page->id) ?>">
 		                    <span><?= $page->title ?></span>
 		                </a>
 						<? break ?>
 						
 				    <? case 'menulink': ?>
-				        <? $page_linked = @service('application')->getPages()->find($page->link->query['Itemid']); ?>
+				        <? $page_linked = @service('application.pages')->getPage($page->link->query['Itemid']); ?>
 				        <a href="<?= $page_linked->link ?>">
 		                    <span><?= $page->title ?></span>
 		                </a>
