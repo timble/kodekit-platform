@@ -50,7 +50,7 @@ class SearchHelper
 		
 			foreach($terms AS $term) 
 			{
-				if(JString::stristr($text, $term) !== false) {
+				if(KHelperString::stristr($text, $term) !== false) {
 					return true;
 				}
 			}
