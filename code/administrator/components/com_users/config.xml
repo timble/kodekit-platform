@@ -33,10 +33,4 @@
   <param name="@spacer" type="spacer" default="" label="" description="" />
   <param name="recaptcha_public_key" type="text" default="" label="reCAPTCHA public key" description="TIPRECAPTCHAPUBLICKEY" />
   <param name="recaptcha_private_key" type="text" default="" label="reCAPTCHA private key" description="TIPRECAPTCHAPRIVATEKEY" />
-  <param name="@spacer" type="spacer" default="" label="" description="" />
-  <param name="spam_checks" type="radio" default="0" label="SPAM checks" description="TIPSPAMCHECKS">
-   <option value="1">Yes</option>
-   <option value="0">No</option>
-  </param>
- </params>
 </config>
