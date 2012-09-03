@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Koowa_Object
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @version        $Id$
+ * @package        Koowa_Object
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
@@ -40,11 +40,11 @@ class KObject implements KObjectHandlable, KObjectServiceable
     private $__service_identifier;
 
     /**
-     * The service container
+     * The service manager
      *
-     * @var KService
+     * @var KServiceManager
      */
-    private $__service_container;
+    private $__service_manager;
 
     /**
      * Constructor
@@ -52,21 +52,30 @@ class KObject implements KObjectHandlable, KObjectServiceable
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KObjectDecorator
      */
-    public function __construct( KConfig $config = null)
+    public function __construct(KConfig $config)
     {
         //Set the service container
-        if(isset($config->service_container)) {
-            $this->__service_container = $config->service_container;
+        if (isset($config->service_manager)) {
+            $this->__service_manager = $config->service_manager;
         }
 
         //Set the service identifier
-        if(isset($config->service_identifier)) {
+        if (isset($config->service_identifier)) {
             $this->__service_identifier = $config->service_identifier;
         }
 
         //Initialise the object
-        if($config) {
-            $this->_initialize($config);
+        $this->_initialize($config);
+
+        //Add the mixins
+        $mixins = (array)KConfig::unbox($config->mixins);
+
+        foreach ($mixins as $key => $value) {
+            if (is_numeric($key)) {
+                $this->mixin($value);
+            } else {
+                $this->mixin($key, $value);
+            }
         }
     }
 
@@ -80,7 +89,9 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     protected function _initialize(KConfig $config)
     {
-        //do nothing
+        $config->append(array(
+            'mixins' => array(),
+        ));
     }
 
     /**
@@ -91,22 +102,21 @@ class KObject implements KObjectHandlable, KObjectServiceable
      * @throws  KObjectException If trying to access protected or private properties
      * @return  KObject
      */
-    public function set( $property, $value = null )
+    public function set($property, $value = null)
     {
-        if(is_object($property)) {
+        if (is_object($property)) {
             $property = get_object_vars($property);
         }
 
-        if(is_array($property))
-        {
+        if (is_array($property)) {
             foreach ($property as $k => $v) {
                 $this->set($k, $v);
             }
-        }
-        else
-        {
-            if('_' == substr($property, 0, 1)) {
-                throw new KObjectException("Protected or private properties can't be set outside of object scope in ".get_class($this));
+        } else {
+            if ('_' == substr($property, 0, 1)) {
+                throw new KObjectException(
+                    "Protected or private properties can't be set outside of object scope in " . get_class($this)
+                );
             }
 
             $this->$property = $value;
@@ -118,11 +128,9 @@ class KObject implements KObjectHandlable, KObjectServiceable
     /**
      * Get the object properties
      *
-     * If no property name is given then the function will return an associative
-     * array of all properties.
-     *
-     * If the property does not exist and a  default value is specified this is
-     * returned, otherwise the function return NULL.
+     * If no property name is given then the function will return an associative array of all properties.
+     * If the property does not exist and a  default value is specified this is returned, otherwise the
+     * function return NULL.
      *
      * @param   string  $property The name of the property
      * @param   mixed   $default  The default value
@@ -132,22 +140,18 @@ class KObject implements KObjectHandlable, KObjectServiceable
     {
         $result = $default;
 
-        if(is_null($property))
-        {
-            $result  = get_object_vars($this);
+        if (is_null($property)) {
+            $result = get_object_vars($this);
 
-            foreach ($result as $key => $value)
-            {
+            foreach ($result as $key => $value) {
                 if ('_' == substr($key, 0, 1)) {
                     unset($result[$key]);
                 }
             }
-        }
-        else
-        {
+        } else {
             //PHP bug 22917 : Isset is not allowed on virtual properties
             $r = $this->$property;
-            if(isset($r)) {
+            if (isset($r)) {
                 $result = $this->$property;
             }
         }
@@ -158,22 +162,33 @@ class KObject implements KObjectHandlable, KObjectServiceable
     /**
      * Mixin an object
      *
-     * When using mixin(), the calling object inherits the methods of the mixed
-     * in objects, in a LIFO order.
+     * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @param   KMixinInterface  $object An object that implements KMinxInterface
+     * @@param   mixed    An object that implements KMixinInterface, KServiceIdentifier object
+     *                     or valid identifier string
+     * @param    array An optional associative array of configuration options
      * @return  KObject
      */
-    public function mixin(KMixinInterface $object)
+    public function mixin($mixin, $config = array())
     {
-        $methods = $object->getMixableMethods($this);
+        if (!($mixin instanceof KMixinInterface)) {
+            if (!($mixin instanceof KServiceIdentifier)) {
+                //Create the complete identifier if a partial identifier was passed
+                if (is_string($mixin) && strpos($mixin, '.') === false) {
+                    $identifier = clone $this->getIdentifier();
+                    $identifier->path = 'mixin';
+                    $identifier->name = $mixin;
+                } else $identifier = $this->getIdentifier($mixin);
+            }
 
-        foreach($methods as $method) {
-            $this->_mixed_methods[$method] = $object;
+            $mixin = new $identifier->classname(new KConfig($config));
         }
 
+        //Set the mixed methods and overwrite existing methods
+        $this->_mixed_methods = array_merge($this->_mixed_methods, $mixin->getMixableMethods($this));
+
         //Set the mixer
-        $object->setMixer($this);
+        $mixin->setMixer($this);
 
         return $this;
     }
@@ -192,9 +207,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
 
         $objects = array_values($this->_mixed_methods);
 
-        foreach($objects as $object)
-        {
-            if($object instanceof $class) {
+        foreach ($objects as $object) {
+            if ($object instanceof $class) {
                 return true;
             }
         }
@@ -205,14 +219,14 @@ class KObject implements KObjectHandlable, KObjectServiceable
     /**
      * Get a handle for this object
      *
-     * This function returns an unique identifier for the object. This id can be used as
-     * a hash key for storing objects or for identifying an object
+     * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
+     * or for identifying an object
      *
      * @return string A string that is unique
      */
     public function getHandle()
     {
-        return spl_object_hash( $this );
+        return spl_object_hash($this);
     }
 
     /**
@@ -224,12 +238,11 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     public function getMethods()
     {
-        if(!$this->__methods)
-        {
+        if (!$this->__methods) {
             $methods = array();
 
             $reflection = new ReflectionClass($this);
-            foreach($reflection->getMethods() as $method) {
+            foreach ($reflection->getMethods() as $method) {
                 $methods[] = $method->name;
             }
 
@@ -239,63 +252,64 @@ class KObject implements KObjectHandlable, KObjectServiceable
         return $this->__methods;
     }
 
-	/**
-	 * Get an instance of a class based on a class identifier only creating it
-	 * if it does not exist yet.
-	 *
-	 * @param	string|object	$identifier The class identifier or identifier object
-	 * @param	array  			$config     An optional associative array of configuration settings.
-	 * @throws	KObjectException if the service container has not been defined.
-	 * @return	object  		Return object on success, throws exception on failure
-	 * @see 	KObjectServiceable
-	 */
-	final public function getService($identifier = null, array $config = array())
-	{
-	    if(isset($identifier))
-        {
-            if(!isset($this->__service_container)) {
-                throw new KObjectException("Failed to call ".get_class($this)."::getService(). No service_container object defined.");
+    /**
+     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     *
+     * @param    string|object    $identifier The class identifier or identifier object
+     * @param    array              $config     An optional associative array of configuration settings.
+     * @throws    \RuntimeException If the service manager has not been defined.
+     * @return    object          Return object on success, throws exception on failure
+     * @see     KObjectServiceable
+     */
+    final public function getService($identifier = null, array $config = array())
+    {
+        if (isset($identifier)) {
+            if (!isset($this->__service_manager)) {
+                throw new RuntimeException(
+                    "Failed to call " . get_class($this) . "::getService(). No service_manager object defined."
+                );
             }
 
-            $result = $this->__service_container->get($identifier, $config);
-        }
-        else $result = $this->__service_container;
+            $result = $this->__service_manager->get($identifier, $config);
+        } else $result = $this->__service_manager;
 
-	    return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Gets the service identifier.
-	 *
-	 * @param	string|object	$identifier The class identifier or identifier object
-     * @throws	KObjectException if the service container has not been defined.
-	 * @return	KServiceIdentifier
-	 * @see 	KObjectServiceable
-	 */
-	final public function getIdentifier($identifier = null)
-	{
-		if(isset($identifier))
-		{
-		    if(!isset($this->__service_container)) {
-	            throw new KObjectException("Failed to call ".get_class($this)."::getIdentifier(). No service_container object defined.");
-	        }
+    /**
+     * Gets the service identifier.
+     *
+     * @param    string|object    $identifier The class identifier or identifier object
+     * @throws    \RuntimeException If the service manager has not been defined.
+     * @return    KServiceIdentifier
+     * @see     KObjectServiceable
+     */
+    final public function getIdentifier($identifier = null)
+    {
+        if (isset($identifier)) {
+            if (!isset($this->__service_manager)) {
+                throw new RuntimeException(
+                    "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
+                );
+            }
 
-		    $result = $this->__service_container->getIdentifier($identifier);
-		}
-		else  $result = $this->__service_identifier;
+            $result = $this->__service_manager->getIdentifier($identifier);
+        } else  $result = $this->__service_identifier;
 
-	    return $result;
-	}
+        return $result;
+    }
 
-	/**
+    /**
      * Preform a deep clone of the object.
      *
      * @return void
      */
     public function __clone()
     {
-        foreach($this->_mixed_methods as $method => $object) {
-            $this->_mixed_methods[$method] = clone $object;
+        foreach ($this->_mixed_methods as $method => $object) {
+            if (!$object instanceof Closure) {
+                $this->_mixed_methods[$method] = clone $object;
+            }
         }
     }
 
@@ -309,37 +323,58 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     public function __call($method, $arguments)
     {
-        if(isset($this->_mixed_methods[$method]))
-        {
-            $object = $this->_mixed_methods[$method];
+        if (isset($this->_mixed_methods[$method])) {
             $result = null;
 
-            //Switch the mixin's attached mixer
-            $object->setMixer($this);
+            if ($this->_mixed_methods[$method] instanceof Closure) {
+                $closure = $this->_mixed_methods[$method];
 
-            // Call_user_func_array is ~3 times slower than direct method calls.
-            switch(count($arguments))
-            {
-                case 0 :
-                    $result = $object->$method();
-                    break;
-                case 1 :
-                    $result = $object->$method($arguments[0]);
-                    break;
-                case 2:
-                    $result = $object->$method($arguments[0], $arguments[1]);
-                    break;
-                case 3:
-                    $result = $object->$method($arguments[0], $arguments[1], $arguments[2]);
-                    break;
-                default:
-                    // Resort to using call_user_func_array for many segments
-                    $result = call_user_func_array(array($object, $method), $arguments);
-             }
+                switch (count($arguments)) {
+                    case 0 :
+                        $result = $closure();
+                        break;
+                    case 1 :
+                        $result = $closure($arguments[0]);
+                        break;
+                    case 2 :
+                        $result = $closure($arguments[0], $arguments[1]);
+                        break;
+                    case 3 :
+                        $result = $closure($arguments[0], $arguments[1], $arguments[2]);
+                        break;
+                    default:
+                        // Resort to using call_user_func_array for many segments
+                        $result = call_user_func_array($closure, $arguments);
+                }
+            } else {
+                $object = $this->_mixed_methods[$method];
+
+                //Switch the mixin's attached mixer
+                $object->setMixer($this);
+
+                // Call_user_func_array is ~3 times slower than direct method calls.
+                switch (count($arguments)) {
+                    case 0 :
+                        $result = $object->$method();
+                        break;
+                    case 1 :
+                        $result = $object->$method($arguments[0]);
+                        break;
+                    case 2 :
+                        $result = $object->$method($arguments[0], $arguments[1]);
+                        break;
+                    case 3 :
+                        $result = $object->$method($arguments[0], $arguments[1], $arguments[2]);
+                        break;
+                    default:
+                        // Resort to using call_user_func_array for many segments
+                        $result = call_user_func_array(array($object, $method), $arguments);
+                }
+            }
 
             return $result;
         }
 
-        throw new BadMethodCallException('Call to undefined method :'.$method);
+        throw new BadMethodCallException('Call to undefined method :' . $method);
     }
 }
