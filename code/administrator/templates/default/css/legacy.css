@@ -4077,30 +4077,6 @@ div.message {
 .com_pages #parent .level5 {
   padding-left: 54px;
 }
-.com_languages .label-original {
-  background-color: #e0f5fe;
-  color: #049cdb;
-}
-.com_languages .label-completed {
-  background-color: #e3f6ec;
-  color: #297e52;
-}
-.com_languages .label-outdated {
-  background-color: #fef4e5;
-  color: #f89406;
-}
-.com_languages .label-missing {
-  background-color: #fdebeb;
-  color: #cf1010;
-}
-.com_languages .languages-flag {
-  display: inline-block;
-  background-repeat: no-repeat;
-  width: 16px;
-  height: 11px;
-  padding-right: 2px;
-  margin-top: 1px;
-}
 /*!
  * Overrides for bootstrap/forms.less
  */
@@ -4281,6 +4257,18 @@ td .validation-advice {
 .label-info {
   background-color: #e0f5fe;
   color: #049cdb;
+}
+.label-completed {
+  background-color: #e3f6ec;
+  color: #297e52;
+}
+.label-outdated {
+  background-color: #fef4e5;
+  color: #f89406;
+}
+.label-missing {
+  background-color: #fdebeb;
+  color: #cf1010;
 }
 div.chzn-container {
   font-size: 13px;
