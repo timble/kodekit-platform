@@ -260,12 +260,12 @@ VALUES
 
 INSERT INTO `#_weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `alias`, `url`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `published`, `locked_by`, `locked_on`, `ordering`, `params`)
 VALUES
-	(1, 2, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', NULL, '2005-02-14 15:19:02', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 1, 'target=0'),
+	(1, 2, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', NULL, '2005-02-14 15:19:02', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 1, ''),
 	(2, 2, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', NULL, '2004-07-07 11:33:24', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 3, ''),
 	(3, 2, 'MySQL', 'mysql', 'http://www.mysql.com', 'The database that Joomla! uses', NULL, '2004-07-07 10:18:31', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 5, ''),
-	(4, 2, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', NULL, '2005-02-14 15:19:02', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 2, 'target=0'),
-	(5, 2, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', NULL, '2005-02-14 15:19:02', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 4, 'target=0'),
-	(6, 2, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla\'s development activity. Joomla! has some star developers with serious kudos.', NULL, '2007-07-19 09:28:31', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 6, 'target=0\n\n');
+	(4, 2, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', NULL, '2005-02-14 15:19:02', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 2, ''),
+	(5, 2, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', NULL, '2005-02-14 15:19:02', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 4, ''),
+	(6, 2, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla\'s development activity. Joomla! has some star developers with serious kudos.', NULL, '2007-07-19 09:28:31', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 6, '');
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
