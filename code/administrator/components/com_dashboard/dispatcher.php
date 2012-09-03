@@ -25,6 +25,7 @@ class ComDashboardDispatcher extends ComDefaultDispatcher
         $config->append(array(
         	'controller' => 'dashboard'
         ));
+
         parent::_initialize($config);
     }
 }
