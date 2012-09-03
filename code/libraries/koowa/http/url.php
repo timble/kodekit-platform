@@ -91,19 +91,19 @@ class KHttpUrl extends KObject
      *
      * @see get()
      */
-    const SCHEME   = 1;
-    const USER     = 2;
-    const PASS     = 4;
-    const HOST     = 8;
-    const PORT     = 16;
-    const PATH     = 32;
-    const FORMAT   = 64;
-    const QUERY    = 128;
+    const SCHEME = 1;
+    const USER = 2;
+    const PASS = 4;
+    const HOST = 8;
+    const PORT = 16;
+    const PATH = 32;
+    const FORMAT = 64;
+    const QUERY = 128;
     const FRAGMENT = 256;
 
-    const AUTH     = 6;
-    const BASE     = 127;
-    const FULL     = 511;
+    const AUTH = 6;
+    const BASE = 127;
+    const FULL = 511;
 
     /**
      * The scheme [http|https|ftp|mailto|...]
@@ -184,7 +184,7 @@ class KHttpUrl extends KObject
      *
      * @var array
      */
-    protected $_encode_path = array (
+    protected $_encode_path = array(
         ' ' => '+',
         '/' => '%2F',
         '?' => '%3F',
@@ -207,11 +207,8 @@ class KHttpUrl extends KObject
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         //Set the escaping behavior
@@ -232,7 +229,7 @@ class KHttpUrl extends KObject
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'url'    => '',
+            'url' => '',
             'escape' => false
         ));
 
@@ -251,7 +248,7 @@ class KHttpUrl extends KObject
             $this->setQuery($value);
         }
 
-        if($key == 'path') {
+        if ($key == 'path') {
             $this->setPath($value);
         }
     }
@@ -265,7 +262,7 @@ class KHttpUrl extends KObject
     public function &__get($key)
     {
         if ($key == 'query') {
-           return $this->_query;
+            return $this->_query;
         }
 
         if ($key == 'path') {
@@ -286,15 +283,14 @@ class KHttpUrl extends KObject
         $url = '';
 
         //Add the scheme
-        if(($parts & self::SCHEME) && !empty($this->scheme)) {
-            $url .=  urlencode($this->scheme).'://';
+        if (($parts & self::SCHEME) && !empty($this->scheme)) {
+            $url .= urlencode($this->scheme) . '://';
         }
 
         //Add the username and password
-        if(($parts & self::USER) && !empty($this->user))
-        {
+        if (($parts & self::USER) && !empty($this->user)) {
             $url .= urlencode($this->user);
-            if(($parts & self::PASS) && !empty($this->pass)) {
+            if (($parts & self::PASS) && !empty($this->pass)) {
                 $url .= ':' . urlencode($this->pass);
             }
 
@@ -302,31 +298,29 @@ class KHttpUrl extends KObject
         }
 
         // Add the host and port, if any.
-        if(($parts & self::HOST) && !empty($this->host))
-        {
-            $url .=  urlencode($this->host);
+        if (($parts & self::HOST) && !empty($this->host)) {
+            $url .= urlencode($this->host);
 
-            if(($parts & self::PORT) && !empty($this->port)) {
-                $url .=  ':' . (int) $this->port;
+            if (($parts & self::PORT) && !empty($this->port)) {
+                $url .= ':' . (int)$this->port;
             }
         }
 
         // Add the rest of the url. we use trim() instead of empty() on string
         // elements to allow for string-zero values.
-        if(($parts & self::PATH) && !empty($this->_path))
-        {
+        if (($parts & self::PATH) && !empty($this->_path)) {
             $url .= $this->getPath();
-            if(($parts & self::FORMAT) && trim($this->format) !== '') {
+            if (($parts & self::FORMAT) && trim($this->format) !== '') {
                 $url .= '.' . urlencode($this->format);
             }
         }
 
-        if(($parts & self::QUERY) && !empty($this->_query)) {
+        if (($parts & self::QUERY) && !empty($this->_query)) {
             $url .= '?' . $this->getQuery(false, $this->_escape);
         }
 
-        if(($parts & self::FRAGMENT) && trim($this->fragment) !== '') {
-            $url .=  '#' . urlencode($this->fragment);
+        if (($parts & self::FRAGMENT) && trim($this->fragment) !== '') {
+            $url .= '#' . urlencode($this->fragment);
         }
 
         return $url;
@@ -340,8 +334,7 @@ class KHttpUrl extends KObject
      */
     public function setUrl($url)
     {
-        if(!empty($url))
-        {
+        if (!empty($url)) {
             foreach (parse_url($url) as $key => $value) {
                 $this->$key = $value;
             }
@@ -356,20 +349,26 @@ class KHttpUrl extends KObject
      * This will overwrite any previous values.
      *
      * @param   string|array  $query  The query string to use; for example `foo=bar&baz=dib`.
+     * @param   boolean       $merge  If TRUE the data in $query will be merged instead of replaced. Default FALSE.
      * @return  KHttpUrl
      */
-    public function setQuery($query)
+    public function setQuery($query, $merge = false)
     {
-        if(!is_array($query))
-        {
-            if(strpos($query, '&amp;') !== false) {
-               $query = str_replace('&amp;','&',$query);
+        $result = $query;
+        if (!is_array($query)) {
+            if (strpos($query, '&amp;') !== false) {
+                $query = str_replace('&amp;', '&', $query);
             }
 
             //Set the query vars
-            parse_str($query, $this->_query);
+            parse_str($query, $result);
         }
-        else  $this->_query = $query;
+
+        if ($merge) {
+            $this->_query = array_merge($this->_query, $result);
+        } else {
+            $this->_query = $result;
+        }
 
         return $this;
     }
@@ -377,14 +376,14 @@ class KHttpUrl extends KObject
     /**
      * Returns the query portion as a string or array
      *
-     * @param 	boolean $toArray If TRUE return an array. Default FALSE
-     * @param 	boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
+     * @param     boolean $toArray If TRUE return an array. Default FALSE
+     * @param     boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
      * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
     public function getQuery($toArray = false, $escape = false)
     {
         $result = $toArray ? $this->_query : http_build_query($this->_query, '', $escape ? '&amp;' : '&');
-		return $result;
+        return $result;
     }
 
     /**
@@ -400,12 +399,11 @@ class KHttpUrl extends KObject
      */
     public function setPath($path)
     {
-        if(is_string($path))
-        {
-            if(!empty($path)) {
+        if (is_string($path)) {
+            if (!empty($path)) {
                 $path = explode('/', $path);
             } else {
-               $path = array();
+                $path = array();
             }
         }
 
@@ -413,13 +411,11 @@ class KHttpUrl extends KObject
             $path[$key] = urldecode($val);
         }
 
-        if ($val = end($path))
-        {
+        if ($val = end($path)) {
             // find the last dot in the value
             $pos = strrpos($val, '.');
 
-            if ($pos !== false)
-            {
+            if ($pos !== false) {
                 $key = key($path);
                 $this->format = substr($val, $pos + 1);
                 $path[$key] = substr($val, 0, $pos);
@@ -433,7 +429,7 @@ class KHttpUrl extends KObject
     /**
      * Returns the path portion as a string or array
      *
-     * @param 	boolean $toArray If TRUE return an array. Default FALSE
+     * @param     boolean $toArray If TRUE return an array. Default FALSE
      * @return  string|array The path string; e.g., `path/to/site`.
      */
     public function getPath($toArray = false)
@@ -471,7 +467,7 @@ class KHttpUrl extends KObject
         $vals = array_values($this->_encode_path);
 
         $out = array();
-        foreach ((array) $spec as $elem) {
+        foreach ((array)$spec as $elem) {
             $out[] = str_replace($keys, $vals, $elem);
         }
 
