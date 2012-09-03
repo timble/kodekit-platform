@@ -31,7 +31,7 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
             'attribs' => array('class' => array())
         ));
 
-        if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
+        if($this->getService('component')->getController()->getView()->getLayout() == 'form') {
             $config->attribs->class->append(array('disabled'));
         }
 
@@ -66,7 +66,7 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
 
         $command = $config->command;
 
-        if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
+        if($this->getService('component')->getController()->getView()->getLayout() == 'form') {
             $command->disabled = true;
         }
 
