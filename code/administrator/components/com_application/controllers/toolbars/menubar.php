@@ -26,7 +26,7 @@ class ComApplicationControllerToolbarMenubar extends KControllerToolbarAbstract
     {
         $command = parent::getCommand($name, $config);
 
-        if($this->getService('dispatcher')->getController()->getView()->getLayout() == 'form') {
+        if($this->getService('component')->getController()->getView()->getLayout() == 'form') {
             $command->disabled = true;
         }
 
