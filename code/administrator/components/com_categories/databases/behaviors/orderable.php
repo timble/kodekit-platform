@@ -28,7 +28,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected $_parent_column;
 
-    public function __construct( KConfig $config = null)
+    public function __construct( KConfig $config)
     {
         $config->append(array('parent_column' => null));
         $this->_parent_column = $config->parent_column;
