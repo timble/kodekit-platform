@@ -17,7 +17,7 @@
 <style src="media://com_application/css/legacy.css" />
 <? endif; ?>
 
-<body id="minwidth-body" class="<?= JRequest::getVar('option', 'cmd'); ?>">
+<body id="minwidth-body" class="<?= $option ?>">
 <div id="container" class="box-row">
 	<div id="panel-pages">
 	    <?= @template('com://admin/pages.view.pages.list'); ?>
@@ -45,7 +45,7 @@
 
     <?= @template('default_message') ?>
 
-    <div id="window-body" class="<?= @service('dispatcher')->getController()->getView()->getLayout() ?>">
+    <div id="window-body" class="<?= @service('component')->getController()->getView()->getLayout() ?>">
 
         <ktml:modules position="sidebar">
         <div id="window-sidebar">
@@ -53,8 +53,8 @@
         </div>
         </ktml:modules>
 
-        <div id="window-content" class="<?= @service('dispatcher')->getController()->getView()->getLayout() ?> row-fluid">
-            <ktml:variable name="component" />
+        <div id="window-content" class="<?= @service('component')->getController()->getView()->getLayout() ?> row-fluid">
+            <ktml:variable name="content" />
 	    </div>
 
         <ktml:modules position="inspector">
