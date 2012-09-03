@@ -32,7 +32,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      *
      * @param KConfig $config
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
