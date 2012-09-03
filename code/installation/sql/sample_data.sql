@@ -258,13 +258,13 @@ VALUES
 -- Dumping data for table `#__weblinks`
 --
 
-INSERT INTO `#__weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `alias`, `url`, `description`, `date`, `hits`, `published`, `checked_out`, `checked_out_time`, `ordering`, `params`) VALUES
-(1, 2, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', '2005-02-14 15:19:02', 3, 1, 0, '0000-00-00 00:00:00', 1, 'target=0'),
-(2, 2, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', '2004-07-07 11:33:24', 6, 1, 0, '0000-00-00 00:00:00', 3, ''),
-(3, 2, 'MySQL', 'mysql', 'http://www.mysql.com', 'The database that Joomla! uses', '2004-07-07 10:18:31', 1, 1, 0, '0000-00-00 00:00:00', 5, ''),
-(4, 2, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', '2005-02-14 15:19:02', 11, 1, 0, '0000-00-00 00:00:00', 2, 'target=0'),
-(5, 2, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', '2005-02-14 15:19:02', 4, 1, 0, '0000-00-00 00:00:00', 4, 'target=0'),
-(6, 2, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla''s development activity. Joomla! has some star developers with serious kudos.', '2007-07-19 09:28:31', 1, 1, 0, '0000-00-00 00:00:00', 6, 'target=0\n\n');
+INSERT INTO `#__weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `alias`, `url`, `description`, `date`, `published`, `checked_out`, `checked_out_time`, `ordering`, `params`) VALUES
+(1, 2, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', '2005-02-14 15:19:02', 1, 0, '0000-00-00 00:00:00', 1, 'target=0'),
+(2, 2, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', '2004-07-07 11:33:24', 1, 0, '0000-00-00 00:00:00', 3, ''),
+(3, 2, 'MySQL', 'mysql', 'http://www.mysql.com', 'The database that Joomla! uses', '2004-07-07 10:18:31', 1, 0, '0000-00-00 00:00:00', 5, ''),
+(4, 2, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', '2005-02-14 15:19:02', 1, 0, '0000-00-00 00:00:00', 2, 'target=0'),
+(5, 2, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', '2005-02-14 15:19:02', 1, 0, '0000-00-00 00:00:00', 4, 'target=0'),
+(6, 2, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla''s development activity. Joomla! has some star developers with serious kudos.', '2007-07-19 09:28:31', 1, 0, '0000-00-00 00:00:00', 6, 'target=0\n\n');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;

@@ -186,6 +186,7 @@ ALTER TABLE `#__categories` DROP `editor`;
 ALTER TABLE `#__weblinks` DROP `sid`;
 ALTER TABLE `#__weblinks` DROP `archived`;
 ALTER TABLE `#__weblinks` DROP `approved`;
+ALTER TABLE `#__weblinks` DROP `hits`;
 
 -- Remove weblink submission links
 DELETE FROM `#__menu` WHERE `link` = 'index.php?option=com_weblinks&view=weblink&layout=form';
