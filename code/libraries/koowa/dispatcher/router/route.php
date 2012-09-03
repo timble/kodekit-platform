@@ -10,7 +10,7 @@
 /**
  * Route Class
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  * @subpackage  Router
  */
@@ -24,6 +24,9 @@ class KDispatcherRouterRoute extends KHttpUrl
      */
     public function __toString()
     {
-        return JRoute::_($this->getUrl(self::FULL));
+        //Compose the route
+        $this->getService('application')->getRouter()->build($this);
+
+        return $this->getUrl(self::FULL);
     }
 }
