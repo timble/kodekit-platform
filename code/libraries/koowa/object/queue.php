@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Koowa_Object
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @version        $Id$
+ * @package        Koowa_Object
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
@@ -17,7 +17,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Object
- * @see 		http://www.php.net/manual/en/class.splpriorityqueue.php
+ * @see         http://www.php.net/manual/en/class.splpriorityqueue.php
  */
 class KObjectQueue extends KObject implements Iterator, Countable
 {
@@ -41,14 +41,11 @@ class KObjectQueue extends KObject implements Iterator, Countable
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KObjectQueue
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-         //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
-        $this->_object_list   = new ArrayObject();
+        $this->_object_list = new ArrayObject();
         $this->_priority_list = new ArrayObject();
 
     }
@@ -58,15 +55,14 @@ class KObjectQueue extends KObject implements Iterator, Countable
      *
      * @param   KObjectHandlable  $object
      * @param   integer           $priority
-     * @return  boolean		TRUE on success FALSE on failure
+     * @return  boolean        TRUE on success FALSE on failure
      * @throws  InvalidArgumentException if the object doesn't implement KObjectHandlable
      */
-    public function enqueue( KObjectHandlable $object, $priority)
+    public function enqueue(KObjectHandlable $object, $priority)
     {
         $result = false;
 
-        if($handle = $object->getHandle())
-        {
+        if ($handle = $object->getHandle()) {
             $this->_object_list->offsetSet($handle, $object);
 
             $this->_priority_list->offsetSet($handle, $priority);
@@ -82,17 +78,15 @@ class KObjectQueue extends KObject implements Iterator, Countable
      * Removes an object from the queue
      *
      * @param   KObjectHandlable $object
-     * @return  boolean	TRUE on success FALSE on failure
+     * @return  boolean    TRUE on success FALSE on failure
      * @throws  InvalidArgumentException if the object implement KObjectHandlable
      */
-    public function dequeue( KObjectHandlable $object)
+    public function dequeue(KObjectHandlable $object)
     {
         $result = false;
 
-        if($handle = $object->getHandle())
-        {
-            if($this->_object_list->offsetExists($handle))
-            {
+        if ($handle = $object->getHandle()) {
+            if ($this->_object_list->offsetExists($handle)) {
                 $this->_object_list->offsetUnset($handle);
                 $this->_priority_list->offsetUnSet($handle);
 
@@ -113,9 +107,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
      */
     public function setPriority(KObjectHandlable $object, $priority)
     {
-        if($handle = $object->getHandle())
-        {
-            if($this->_priority_list->offsetExists($handle)) {
+        if ($handle = $object->getHandle()) {
+            if ($this->_priority_list->offsetExists($handle)) {
                 $this->_priority_list->offsetSet($handle, $priority);
                 $this->_priority_list->asort();
             }
@@ -135,9 +128,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         $result = false;
 
-        if($handle = $object->getHandle())
-        {
-            if($this->_priority_list->offsetExists($handle)) {
+        if ($handle = $object->getHandle()) {
+            if ($this->_priority_list->offsetExists($handle)) {
                 $result = $this->_priority_list->offsetGet($handle);
             }
         }
@@ -168,14 +160,14 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         $result = false;
 
-        if($handle = $object->getHandle()) {
+        if ($handle = $object->getHandle()) {
             $result = $this->_object_list->offsetExists($handle);
         }
 
         return $result;
     }
 
- 	/**
+    /**
      * Returns the number of elements in the queue
      *
      * Required by the Countable interface
@@ -187,87 +179,87 @@ class KObjectQueue extends KObject implements Iterator, Countable
         return count($this->_object_list);
     }
 
-	/**
+    /**
      * Rewind the Iterator to the top
      *
      * Required by the Iterator interface
      *
-     * @return	object KObjectQueue
+     * @return    object KObjectQueue
      */
-	public function rewind()
-	{
-		reset($this->_object_list);
-		reset($this->_priority_list);
+    public function rewind()
+    {
+        reset($this->_object_list);
+        reset($this->_priority_list);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
+    /**
      * Check whether the queue contains more object
      *
      * Required by the Iterator interface
      *
-     * @return	boolean
+     * @return    boolean
      */
-	public function valid()
-	{
-		return !is_null(key($this->_priority_list));
-	}
+    public function valid()
+    {
+        return !is_null(key($this->_priority_list));
+    }
 
-	/**
+    /**
      * Return current object index
      *
      * Required by the Iterator interface
      *
-     * @return	mixed
+     * @return    mixed
      */
-	public function key()
-	{
-		return key($this->_priority_list);
-	}
+    public function key()
+    {
+        return key($this->_priority_list);
+    }
 
-	/**
+    /**
      * Return current object pointed by the iterator
      *
      * Required by the Iterator interface
      *
-     * @return	mixed
+     * @return    mixed
      */
-	public function current()
-	{
-		return $this->_object_list[$this->key()];
-	}
+    public function current()
+    {
+        return $this->_object_list[$this->key()];
+    }
 
-	/**
+    /**
      * Move to the next object
      *
      * Required by the Iterator interface
      *
-     * @return	void
+     * @return    void
      */
-	public function next()
-	{
-		return next($this->_priority_list);
-	}
+    public function next()
+    {
+        return next($this->_priority_list);
+    }
 
-	/**
+    /**
      * Return the object from the top of the queue
      *
-     * @return	KObject or NULL is queue is empty
+     * @return    KObject or NULL is queue is empty
      */
-	public function top()
-	{
-	    $handles = array_keys((array)$this->_priority_list);
+    public function top()
+    {
+        $handles = array_keys((array)$this->_priority_list);
 
-	    $object = null;
-	    if(isset($handles[0])) {
-	        $object  = $this->_object_list[$handles[0]];
-	    }
+        $object = null;
+        if (isset($handles[0])) {
+            $object = $this->_object_list[$handles[0]];
+        }
 
-	    return $object;
-	}
+        return $object;
+    }
 
-	/**
+    /**
      * Checks whether the queue is empty
      *
      * @return boolean
@@ -277,7 +269,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
         return !count($this->_object_list);
     }
 
-	/**
+    /**
      * Preform a deep clone of the object
      *
      * @return void
@@ -286,7 +278,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         parent::__clone();
 
-        $this->_object_list   = clone $this->_object_list;
+        $this->_object_list = clone $this->_object_list;
         $this->_priority_list = clone $this->_priority_list;
     }
 }
