@@ -114,7 +114,8 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function getMethods()
     {
-        if (!$this->__methods) {
+        if (!$this->__methods)
+        {
             $methods = array();
 
             $reflection = new ReflectionClass($this);
@@ -138,7 +139,8 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function getMixableMethods(KObject $mixer = null)
     {
-        if (!$this->__mixable_methods) {
+        if (!$this->__mixable_methods)
+        {
             $methods = array();
 
             //Get all the public methods
@@ -149,7 +151,8 @@ abstract class KMixinAbstract implements KMixinInterface
 
             //Remove the base class methods
             $reflection = new ReflectionClass(__CLASS__);
-            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
+            {
                 if (isset($methods[$method->name])) {
                     unset($methods[$method->name]);
                 }
@@ -223,21 +226,15 @@ abstract class KMixinAbstract implements KMixinInterface
     public function __call($method, $arguments)
     {
         //Make sure we don't end up in a recursive loop
-        if (isset($this->_mixer) && !($this->_mixer instanceof $this)) {
+        if (isset($this->_mixer) && !($this->_mixer instanceof $this))
+        {
             // Call_user_func_array is ~3 times slower than direct method calls.
-            switch (count($arguments)) {
-                case 0 :
-                    $result = $this->_mixer->$method();
-                    break;
-                case 1 :
-                    $result = $this->_mixer->$method($arguments[0]);
-                    break;
-                case 2 :
-                    $result = $this->_mixer->$method($arguments[0], $arguments[1]);
-                    break;
-                case 3 :
-                    $result = $this->_mixer->$method($arguments[0], $arguments[1], $arguments[2]);
-                    break;
+            switch (count($arguments))
+            {
+                case 0 : $result = $this->_mixer->$method(); break;
+                case 1 : $result = $this->_mixer->$method($arguments[0]); break;
+                case 2 : $result = $this->_mixer->$method($arguments[0], $arguments[1]); break;
+                case 3 : $result = $this->_mixer->$method($arguments[0], $arguments[1], $arguments[2]); break;
                 default:
                     // Resort to using call_user_func_array for many segments
                     $result = call_user_func_array(array($this->_mixer, $method), $arguments);
