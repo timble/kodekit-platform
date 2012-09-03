@@ -26,7 +26,7 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         $article = $this->getModel()->getData();
 
         //Get the parameters of the active menu item
-        if($page = $this->getService('application')->getPages()->getActive())
+        if($page = $this->getService('application.pages')->getActive())
         {
             $menu_params = new JParameter($page->params);
             if(!$menu_params->get('page_title')) {
@@ -34,9 +34,6 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
             }
         }
         else $params->set('page_title',	$article->title);
-
-        //Set the page title
-        JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the breadcrumbs
         $pathway = $this->getService('application')->getPathway();
