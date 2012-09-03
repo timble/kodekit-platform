@@ -86,11 +86,13 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     {
         $result = true;
 
-        if (isset($this->_callbacks[$name])) {
+        if (isset($this->_callbacks[$name]))
+        {
             $callbacks = $this->_callbacks[$name];
             $params = $this->_params[$name];
 
-            foreach ($callbacks as $key => $callback) {
+            foreach ($callbacks as $key => $callback)
+            {
                 $param = $params[$key];
 
                 if (is_array($param) && is_numeric(key($param))) {
@@ -146,7 +148,8 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
         $commands = (array)$commands;
         $params = (array)KConfig::unbox($params);
 
-        foreach ($commands as $command) {
+        foreach ($commands as $command)
+        {
             $command = strtolower($command);
 
             if (!isset($this->_callbacks[$command])) {
@@ -157,10 +160,12 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
             //Don't re-register commands.
             $index = array_search($callback, $this->_callbacks[$command], true);
 
-            if ($index === false) {
+            if ($index === false)
+            {
                 $this->_callbacks[$command][] = $callback;
                 $this->_params[$command][] = $params;
-            } else {
+            }
+            else {
                 $this->_params[$command][$index] = array_merge($this->_params[$command][$index], $params);
             }
         }
@@ -179,10 +184,12 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     {
         $commands = (array)$commands;
 
-        foreach ($commands as $command) {
+        foreach ($commands as $command)
+        {
             $command = strtolower($command);
 
-            if (isset($this->_callbacks[$command])) {
+            if (isset($this->_callbacks[$command]))
+            {
                 $key = array_search($callback, $this->_callbacks[$command], true);
                 unset($this->_callbacks[$command][$key]);
                 unset($this->_params[$command][$key]);
