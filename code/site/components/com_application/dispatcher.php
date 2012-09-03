@@ -37,13 +37,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      * @var KConfig
      */
     protected $_options = null;
-    
+
     /**
-     * Pages
-     * 
-     * @var ComPagesDatabaseRowsetPages
+     * The pathway object
+     *
+     * @var object
      */
-    protected $_pages;
+    protected $_pathway = null;
 
     /**
      * Constructor.
@@ -154,7 +154,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         define( 'KDEBUG', $this->getCfg('debug') );
 
         //Set the paths
-        $params = JComponentHelper::getParams('com_files');
+        $params = $this->getService('application.components')->files->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite());
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/'.$params->get('image_path', 'images'));
@@ -173,7 +173,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     protected function _actionRoute(KCommandContext $context)
     {
         $url   = clone KRequest::url();
-        $pages = $this->getPages();
+        $pages = $this->getService('application.pages');
 
         if(KRequest::type() != 'AJAX')
         {
@@ -196,7 +196,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         {
             if($page->link_id)
             {
-                $redirect = $pages->find($page->link_id);
+                $redirect = $pages->getPage($page->link_id);
                 $this->redirect($redirect->type == 'url' ? $redirect->link_url : $redirect->route, '', '', true);
             }
             else $this->redirect($page->link_url, '', '', true);
@@ -204,8 +204,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         
         //Set the request
         $this->setRequest($url->query);
-        
-        // TODO: Remove this JRequest call.
+
+        //@TODO : Can be removed after refactor of KRequest
         JRequest::set($url->query, 'get');
     }
 
@@ -213,7 +213,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     {
         if(!($this->getCfg('offline') && JFactory::getUser()->get('guest')))
         {
-            if(!$this->getPages()->isAuthorized(JRequest::getInt('Itemid'), JFactory::getUser()->get('aid')))
+            if(!$this->getService('application.pages')->isAuthorized($this->getRequest()->Itemid, JFactory::getUser()->get('aid')))
             {
                 if (JFactory::getUser()->get('aid'))
                 {
@@ -226,7 +226,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         }
         else $this->option = 'com_users';
 
-        //@TODO : Needs to be removed
+        //@TODO : Can be removed after refactor of KRequest
         JRequest::set($this->getRequest(), 'get', false );
     }
 
@@ -245,14 +245,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
         if(!empty($component))
         {
-            //@TODO : Rework this (move into the component dispatcher)
-            // If component disabled throw error
-            /*if (!JComponentHelper::isEnabled( $component )) {
+            $name = substr( $component, 4);
+
+            if (!$this->getService('application.components')->isEnabled($name))
+            {
                 throw new KException(JText::_('Component Not Found'), KHttpResponse::NOT_FOUND);
                 return false;
-            }*/
-
-            $name = substr( $component, 4);
+            }
 
             //Load common language files
             $lang = JFactory::getLanguage()->load($component);
@@ -260,7 +259,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             //Load the component aliasses
             KLoader::loadIdentifier('com://site/'.$name.'.aliases');
 
-            $result = KService::get('com://site/'.$name.'.dispatcher')->dispatch();
+            $result = $this->getService('com://site/'.$name.'.dispatcher')->dispatch();
             return $result;
         }
         else throw new KException(JText::_('Component Not Found'), KHttpResponse::NOT_FOUND);
@@ -281,16 +280,19 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         );
 
         $controller = $this->getService('com://site/application.controller.page', $config);
-        $controller->getView()->component($context->result);
+        $controller->getView()
+            ->content($context->result)
+            ->option($this->getRequest()->option)
+            ->tmpl(KRequest::get('get.tmpl', 'cmd', 'default'));
 
         //Render the page controller
-        $data = $controller->display($context);
+        $content = $controller->display($context);
 
         //Make images paths absolute
         $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
 
-        $data = str_replace(JURI::base().'images/', $path, $data);
-        $data = str_replace(array('"images/','"/images/') , '"'.$path, $data);
+        $content = str_replace(JURI::base().'images/', $path, $content);
+        $content = str_replace(array('"images/','"/images/') , '"'.$path, $content);
 
         //Prettyprint
         /*$data = $this->getService('koowa:filter.tidy', array('options' => array(
@@ -313,9 +315,9 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         //if ($mdate = $this->getModifiedDate()) {
         //    JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
         //}
-        //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
+        //JResponse::setHeader( 'Content-Type', $this->_mime .'; charset=utf8');
 
-        JResponse::setBody($data);
+        JResponse::setBody($content);
         echo JResponse::toString($this->getCfg('gzip'));
     }
 
@@ -390,7 +392,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     public function loadSession( KCommandContext $context )
     {
         $config = array(
-            'name'     => JUtility::getHash($this->getCfg('session_name')),
+            'name'     => md5($this->getCfg('secret').$this->getCfg('session_name')),
             'lifetime' => $this->getCfg('config.lifetime', 15) * 60,
             'handler'  => 'database',
             'table'    => 'com://admin/users.database.table.sessions',
@@ -438,7 +440,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             }
             else
             {
-                $params = JComponentHelper::getParams('com_extensions');
+                $params = $this->getService('application.components')->extensions->params;
                 $language = $params->get('language_site', 'en-GB');
             }
         }
@@ -467,30 +469,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     }
 
     /**
-     * Get pages
-     *
-     * @return ComPagesDatabaseRowsetPages The rowset object.
-     */
-    public function getPages()
-    {
-        if(!$this->_pages)
-        {
-            // Select enabled pages.
-            $pages = $this->getService('com://admin/pages.model.pages')->enabled(true)->getList();
-            
-            // Mixin the pages mixin into the rowset.
-            $this->getService('koowa:loader')->loadIdentifier('com://admin/pages.mixin.pages');
-            $pages->mixin(new ComPagesMixinPages(new KConfig()));
-            
-            // Set route for pages and store the object in the application.
-            $pages->setRoute();
-            $this->_pages = $pages;
-        }
-        
-        return $this->_pages;
-    }
-
-    /**
      * Return a reference to the application JPathway object.
      *
      * @param  array	$options 	An optional associative array of configuration settings.
@@ -498,10 +476,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      */
     public function getPathway($options = array())
     {
-        jimport( 'joomla.application.pathway' );
-        $pathway = JPathway::getInstance('site', $options);
+        if(!isset($this->_pathway))
+        {
+            require_once(JPATH_APPLICATION.'/includes/pathway.php' );
+            $this->_pathway = new JPathway($options);
+        }
 
-        return $pathway;
+        return $this->_pathway;
     }
 
     /**
@@ -523,13 +504,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         {
             // Get component parameters
             if (!$option) {
-                $option = JRequest::getCmd('option');
+                $option = $this->getRequest()->option;
             }
 
-            $params[$hash] = JComponentHelper::getParams($option);
+            $params[$hash] = $this->getService('application.components')->getComponent(substr( $option, 4))->params;
 
             // Get menu parameters
-            $page = $this->getPages()->getActive();
+            $page = $this->getService('application.pages')->getActive();
 
             $title  = htmlspecialchars_decode($this->getCfg('sitename' ));
 
