@@ -20,7 +20,7 @@ abstract class ComFilesAdapterLocalAbstract extends KObject
 	 */
 	protected $_handle = null;
 
-	public function __construct(KConfig $config = null)
+	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 
