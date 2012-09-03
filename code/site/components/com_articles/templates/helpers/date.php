@@ -21,7 +21,7 @@ class ComArticlesTemplateHelperDate extends ComDefaultTemplateHelperDate
     {
         $config = new KConfig($config);
 
-        $config->append(array('parameters' => JComponentHelper::getParams('com_articles')))
+        $config->append(array('parameters' => $this->getService('application.components')->articles->params))
                ->append(array(
                     'show_create_date' => $config->parameters->get('show_create_date'),
                     'show_modify_date' => $config->parameters->get('show_modify_date')
