@@ -37,7 +37,8 @@ class KMixinToolbar extends KMixinAbstract
         //Add the toolbars
         $toolbars = (array)KConfig::unbox($config->toolbars);
 
-        foreach ($toolbars as $key => $value) {
+        foreach ($toolbars as $key => $value)
+        {
             if (is_numeric($key)) {
                 $this->attachToolbar($value);
             } else {
@@ -101,16 +102,20 @@ class KMixinToolbar extends KMixinAbstract
      */
     public function getToolbar($toolbar, $config = array())
     {
-        if (!($toolbar instanceof KServiceIdentifier)) {
+        if (!($toolbar instanceof KServiceIdentifier))
+        {
             //Create the complete identifier if a partial identifier was passed
-            if (is_string($toolbar) && strpos($toolbar, '.') === false) {
+            if (is_string($toolbar) && strpos($toolbar, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('controller', 'toolbar');
                 $identifier->name = $toolbar;
-            } else $identifier = $this->getIdentifier($toolbar);
+            }
+            else $identifier = $this->getIdentifier($toolbar);
         }
 
-        if (!isset($this->_toolbars[$identifier->name])) {
+        if (!isset($this->_toolbars[$identifier->name]))
+        {
             $config['controller'] = $this->getMixer();
             $toolbar = $this->getService($identifier, $config);
 
@@ -119,7 +124,8 @@ class KMixinToolbar extends KMixinAbstract
             }
 
             $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
-        } else $toolbar = $this->_toolbars[$identifier->name];
+        }
+        else $toolbar = $this->_toolbars[$identifier->name];
 
         return $toolbar;
     }
