@@ -30,8 +30,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
-            ->insert('trashed'   , 'int')
-            ->insert('access'    , 'int');
+            ->insert('trashed'   , 'int');
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'category_title');
     }
@@ -100,7 +99,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         }
 
         if (is_numeric($state->access)) {
-            $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
+            $query->where('tbl.access = :access')->bind(array('access' => $state->access));
         }
     }
 
