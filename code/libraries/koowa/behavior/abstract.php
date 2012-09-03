@@ -128,7 +128,8 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
     {
         $methods = $this->getMethods();
 
-        foreach ($methods as $method) {
+        foreach ($methods as $method)
+        {
             if (substr($method, 0, 7) == '_before' || substr($method, 0, 6) == '_after') {
                 return parent::getHandle();
             }
@@ -149,10 +150,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
     public function getMixableMethods(KObject $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
-        $methods['is' . ucfirst($this->getIdentifier()->name)] = function()
-        {
-            return true;
-        };
+        $methods['is' . ucfirst($this->getIdentifier()->name)] = function() { return true; };
 
         unset($methods['execute']);
         unset($methods['getIdentifier']);
@@ -174,15 +172,18 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      */
     final public function getService($identifier = null, array $config = array())
     {
-        if (isset($identifier)) {
-            if (!isset($this->__service_manager)) {
+        if (isset($identifier))
+        {
+            if (!isset($this->__service_manager))
+            {
                 throw new RuntimeException(
                     "Failed to call " . get_class($this) . "::getService(). No service_manager object defined."
                 );
             }
 
             $result = $this->__service_manager->get($identifier, $config);
-        } else $result = $this->__service_manager;
+        }
+        else $result = $this->__service_manager;
 
         return $result;
     }
@@ -197,15 +198,18 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      */
     final public function getIdentifier($identifier = null)
     {
-        if (isset($identifier)) {
-            if (!isset($this->__service_manager)) {
+        if (isset($identifier))
+        {
+            if (!isset($this->__service_manager))
+            {
                 throw new RuntimeException(
                     "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
                 );
             }
 
             $result = $this->__service_manager->getIdentifier($identifier);
-        } else  $result = $this->__service_identifier;
+        }
+        else  $result = $this->__service_identifier;
 
         return $result;
     }
