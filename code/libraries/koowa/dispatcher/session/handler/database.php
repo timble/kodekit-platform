@@ -1,17 +1,17 @@
 <?php
 /**
- * @version		$Id$
- * @package		Koowa_Dispatcher
+ * @version        $Id$
+ * @package        Koowa_Dispatcher
  * @subpackage  Session
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
  * APC Session Handler Class
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  * @subpackage  Session
  */
@@ -30,11 +30,11 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KDispatcherSessionHandlerDatabase
      */
-    public function __construct( KConfig $config = null )
+    public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
-        if(is_null($config->table)) {
+        if (is_null($config->table)) {
             throw new InvalidArgumentException('table option is required');
         }
 
@@ -68,11 +68,10 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = '';
 
-        if($this->getTable()->getDatabase()->isConnected())
-        {
+        if ($this->getTable()->getDatabase()->isConnected()) {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
-            if(!$row->isNew()) {
+            if (!$row->isNew()) {
                 $result = $row->data;
             }
         }
@@ -91,12 +90,10 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = false;
 
-        if($this->getTable()->getDatabase()->isConnected())
-        {
+        if ($this->getTable()->getDatabase()->isConnected()) {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
-            if(!$row->isNew())
-            {
+            if (!$row->isNew()) {
                 $row->time = time();
                 $row->data = $session_data;
 
@@ -117,11 +114,10 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = false;
 
-        if($this->getTable()->getDatabase()->isConnected())
-        {
+        if ($this->getTable()->getDatabase()->isConnected()) {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
-            if(!$row->isNew()) {
+            if (!$row->isNew()) {
                 $result = $row->delete();
             }
         }
@@ -139,11 +135,10 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = false;
 
-        if($this->getTable()->getDatabase()->isConnected())
-        {
+        if ($this->getTable()->getDatabase()->isConnected()) {
             $query = $this->getService('koowa:database.query.select')
-                          ->where('time < :time')
-                          ->bind(array('time' => (int) (time() - $maxlifetime)));
+                ->where('time < :time')
+                ->bind(array('time' => (int)(time() - $maxlifetime)));
 
             $result = $this->_table->select($query, KDatabase::FETCH_ROW)->delete();
         }
@@ -158,10 +153,9 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
      */
     public function getTable()
     {
-        if(!($this->_table instanceof KDatabaseTableInterface))
-        {
+        if (!($this->_table instanceof KDatabaseTableInterface)) {
             //Make sure we have a table identifier
-            if(!($this->_table instanceof KServiceIdentifier)) {
+            if (!($this->_table instanceof KServiceIdentifier)) {
                 $this->setTable($this->_table);
             }
 
@@ -174,19 +168,18 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     /**
      * Set a table object attached to the handler
      *
-     * @param	mixed	$table An object that implements KObjectServiceable, KServiceIdentifier object
-     * 					       or valid identifier string
+     * @param    mixed    $table An object that implements KObjectServiceable, KServiceIdentifier object
+     *                            or valid identifier string
      * @throws  KDispatcherSessionHandlerException  If the identifier is not a table identifier
      * @return \KDispatcherSessionHandlerDatabase
      */
     public function setTable($table)
     {
-        if(!($table instanceof KDatabaseTableInterface))
-        {
+        if (!($table instanceof KDatabaseTableInterface)) {
             $identifier = $this->getIdentifier($table);
 
-            if($identifier->path[1] != 'table') {
-                throw new DomainException('Identifier: '.$identifier.' is not a table identifier');
+            if ($identifier->path[1] != 'table') {
+                throw new DomainException('Identifier: ' . $identifier . ' is not a table identifier');
             }
 
             $table = $identifier;
