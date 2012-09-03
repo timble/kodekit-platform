@@ -82,15 +82,19 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         }
 
         // Set the identity column
-        if (!isset($config->identity_column)) {
-            foreach ($this->getColumns(true) as $column) {
+        if (!isset($config->identity_column))
+        {
+            foreach ($this->getColumns(true) as $column)
+            {
                 //Find auto increment or none-composite primary column
-                if ($column->autoinc || ($column->primary && empty($column->related))) {
+                if ($column->autoinc || ($column->primary && empty($column->related)))
+                {
                     $this->_identity_column = $column->name;
                     break;
                 }
             }
-        } else $this->_identity_column = $config->identity_column;
+        }
+        else $this->_identity_column = $config->identity_column;
 
         //Set the default column mappings
         $this->_column_map = $config->column_map ? $config->column_map->toArray() : array();
@@ -99,7 +103,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         }
 
         // Set the column filters
-        if (!empty($config->filters)) {
+        if (!empty($config->filters))
+        {
             foreach ($config->filters as $column => $filter) {
                 $this->getColumn($column, true)->filter = KConfig::unbox($filter);
             }
@@ -129,16 +134,16 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $name = $this->getIdentifier()->name;
 
         $config->append(array(
-            'database' => $this->getService('koowa:database.adapter.mysqli'),
-            'name' => empty($package) ? $name : $package . '_' . $name,
-            'column_map' => null,
-            'filters' => array(),
-            'behaviors' => array(),
-            'identity_column' => null,
-            'command_chain' => $this->getService('koowa:command.chain'),
-            'dispatch_events' => false,
-            'event_dispatcher' => null,
-            'enable_callbacks' => false,
+            'database'          => $this->getService('koowa:database.adapter.mysqli'),
+            'name'              => empty($package) ? $name : $package . '_' . $name,
+            'column_map'        => null,
+            'filters'           => array(),
+            'behaviors'         => array(),
+            'identity_column'   => null,
+            'command_chain'     => $this->getService('koowa:command.chain'),
+            'dispatch_events'   => false,
+            'event_dispatcher'  => null,
+            'enable_callbacks'  => false,
         ))->append(
             array('base' => $config->name)
         );
@@ -212,7 +217,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $keys = array();
         $columns = $this->getColumns(true);
 
-        foreach ($columns as $name => $description) {
+        foreach ($columns as $name => $description)
+        {
             if ($description->primary) {
                 $keys[$name] = $description;
             }
@@ -231,7 +237,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     {
         $result = null;
 
-        if ($this->isConnected()) {
+        if ($this->isConnected())
+        {
             try {
                 $result = $this->getDatabase()->getTableSchema($this->getBase());
             } catch (KDatabaseException $e) {
@@ -288,16 +295,21 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
 
         $result = null;
 
-        if (is_array($data)) {
+        if (is_array($data))
+        {
             $result = array();
 
-            foreach ($data as $column => $value) {
-                if (is_string($column)) {
+            foreach ($data as $column => $value)
+            {
+                if (is_string($column))
+                {
                     //Map the key
                     if (isset($map[$column])) {
                         $column = $map[$column];
                     }
-                } else {
+                }
+                else
+                {
                     //Map the value
                     if (isset($map[$value])) {
                         $value = $map[$value];
@@ -308,7 +320,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             }
         }
 
-        if (is_string($data)) {
+        if (is_string($data))
+        {
             $result = $data;
             if (isset($map[$data])) {
                 $result = $map[$data];
@@ -364,7 +377,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $result = array();
         $columns = $this->getColumns(true);
 
-        foreach ($columns as $name => $description) {
+        foreach ($columns as $name => $description)
+        {
             if ($description->unique) {
                 $result[$name] = $description;
             }
@@ -380,7 +394,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
      */
     public function getDefaults()
     {
-        if (!isset($this->_defaults)) {
+        if (!isset($this->_defaults))
+        {
             $defaults = array();
             $columns = $this->getColumns();
 
@@ -466,14 +481,16 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     public function select($query = null, $mode = KDatabase::FETCH_ROWSET, array $options = array())
     {
         //Create query object
-        if (is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query)))) {
+        if (is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
+        {
             $key = $this->getIdentityColumn();
             $query = $this->getService('koowa:database.query.select')
                 ->where($key . ' IN :' . $key)
                 ->bind(array($key => (array)$query));
         }
 
-        if (is_array($query) && !is_numeric(key($query))) {
+        if (is_array($query) && !is_numeric(key($query)))
+        {
             $columns = $this->mapColumns($query);
             $query = $this->getService('koowa:database.query.select');
 
@@ -483,7 +500,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             }
         }
 
-        if ($query instanceof KDatabaseQuerySelect) {
+        if ($query instanceof KDatabaseQuerySelect)
+        {
             if (!$query->columns) {
                 $query->columns('*');
             }
@@ -496,29 +514,36 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         //Create commandchain context
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_SELECT;
-        $context->table = $this->getBase();
-        $context->query = $query;
-        $context->mode = $mode;
-        $context->options = $options;
+        $context->table     = $this->getBase();
+        $context->query     = $query;
+        $context->mode      = $mode;
+        $context->options   = $options;
 
-        if ($this->getCommandChain()->run('before.select', $context) !== false) {
-            if ($context->query) {
+        if ($this->getCommandChain()->run('before.select', $context) !== false)
+        {
+            if ($context->query)
+            {
                 $data = $this->getDatabase()->select($context->query, $context->mode, $this->getIdentityColumn());
 
                 //Map the columns
-                if (($context->mode != KDatabase::FETCH_FIELD) || ($context->mode != KDatabase::FETCH_FIELD_LIST)) {
-                    if ($context->mode % 2) {
+                if (($context->mode != KDatabase::FETCH_FIELD) || ($context->mode != KDatabase::FETCH_FIELD_LIST))
+                {
+                    if ($context->mode % 2)
+                    {
                         foreach ($data as $key => $value) {
                             $data[$key] = $this->mapColumns($value, true);
                         }
-                    } else $data = $this->mapColumns(KConfig::unbox($data), true);
+                    }
+                    else $data = $this->mapColumns(KConfig::unbox($data), true);
                 }
             }
 
-            switch ($context->mode) {
+            switch ($context->mode)
+            {
                 case KDatabase::FETCH_ROW    :
+                {
+                    if (isset($data) && !empty($data))
                     {
-                    if (isset($data) && !empty($data)) {
                         $options['data'] = $data;
                         $options['new'] = false;
                         $options['status'] = KDatabase::STATUS_LOADED;
@@ -526,18 +551,19 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
 
                     $context->data = $this->getRow($options);
                     break;
-                    }
+                }
 
                 case KDatabase::FETCH_ROWSET :
+                {
+                    if (isset($data) && !empty($data))
                     {
-                    if (isset($data) && !empty($data)) {
                         $options['data'] = $data;
                         $options['new'] = false;
                     }
 
                     $context->data = $this->getRowset($options);
                     break;
-                    }
+                }
 
                 default :
                     $context->data = $data;
@@ -564,17 +590,20 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         }
 
         //Create query object
-        if (is_array($query) && !is_numeric(key($query))) {
+        if (is_array($query) && !is_numeric(key($query)))
+        {
             $columns = $this->mapColumns($query);
             $query = $this->getService('koowa:database.query.select');
 
-            foreach ($columns as $column => $value) {
+            foreach ($columns as $column => $value)
+            {
                 $query->where($column . ' ' . (is_array($value) ? 'IN' : '=') . ' :' . $column)
-                    ->bind(array($column => $value));
+                      ->bind(array($column => $value));
             }
         }
 
-        if ($query instanceof KDatabaseQuerySelect) {
+        if ($query instanceof KDatabaseQuerySelect)
+        {
             if (!$query->columns) {
                 $query->columns('COUNT(*)');
             }
@@ -608,7 +637,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $context->query = $query;
         $context->affected = false;
 
-        if ($this->getCommandChain()->run('before.insert', $context) !== false) {
+        if ($this->getCommandChain()->run('before.insert', $context) !== false)
+        {
             // Filter the data and remove unwanted columns.
             $data = $this->filter($context->data->getData());
             $context->query->values($this->mapColumns($data));
@@ -616,14 +646,17 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             // Execute the insert query.
             $context->affected = $this->getDatabase()->insert($context->query);
 
-            if ($context->affected !== false) {
-                if (((integer)$context->affected) > 0) {
+            if ($context->affected !== false)
+            {
+                if (((integer)$context->affected) > 0)
+                {
                     if ($this->getIdentityColumn()) {
                         $data[$this->getIdentityColumn()] = $this->getDatabase()->getInsertId();
                     }
 
                     $context->data->setData($this->mapColumns($data, true), false)->setStatus(KDatabase::STATUS_CREATED);
-                } else $context->data->setStatus(KDatabase::STATUS_FAILED);
+                }
+                else $context->data->setStatus(KDatabase::STATUS_FAILED);
             }
 
             $this->getCommandChain()->run('after.insert', $context);
@@ -647,13 +680,15 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         // Create commandchain context.
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_UPDATE;
-        $context->table = $this->getBase();
-        $context->data = $row;
-        $context->query = $query;
-        $context->affected = false;
+        $context->table     = $this->getBase();
+        $context->data      = $row;
+        $context->query     = $query;
+        $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.update', $context) !== false) {
-            foreach ($this->getPrimaryKey() as $key => $column) {
+        if ($this->getCommandChain()->run('before.update', $context) !== false)
+        {
+            foreach ($this->getPrimaryKey() as $key => $column)
+            {
                 $context->query->where($column->name . ' = :' . $key)
                     ->bind(array($key => $context->data->$key));
             }
@@ -668,7 +703,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             // Execute the update query.
             $context->affected = $this->getDatabase()->update($context->query);
 
-            if ($context->affected !== false) {
+            if ($context->affected !== false)
+            {
                 if ($context->affected) {
                     $context->data->setData($data, false)->setStatus(KDatabase::STATUS_UPDATED);
                 } else {
@@ -697,13 +733,15 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         //Create commandchain context
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_DELETE;
-        $context->table = $this->getBase();
-        $context->data = $row;
-        $context->query = $query;
-        $context->affected = false;
+        $context->table     = $this->getBase();
+        $context->data      = $row;
+        $context->query     = $query;
+        $context->affected  = false;
 
-        if ($this->getCommandChain()->run('before.delete', $context) !== false) {
-            foreach ($this->getPrimaryKey() as $key => $column) {
+        if ($this->getCommandChain()->run('before.delete', $context) !== false)
+        {
+            foreach ($this->getPrimaryKey() as $key => $column)
+            {
                 $context->query->where($column->name . ' = :' . $column->name)
                     ->bind(array($column->name => $context->data->$key));
             }
@@ -735,8 +773,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $context = $this->getCommandContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.lock', $context) !== false) {
-            if ($this->isConnected()) {
+        if ($this->getCommandChain()->run('before.lock', $context) !== false)
+        {
+            if ($this->isConnected())
+            {
                 try {
                     $context->result = $this->getDatabase()->lockTable($this->getBase(), $this->getName());
                 } catch (KDatabaseException $e) {
@@ -763,8 +803,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $context = $this->getCommandContext();
         $context->table = $this->getBase();
 
-        if ($this->getCommandChain()->run('before.unlock', $context) !== false) {
-            if ($this->isConnected()) {
+        if ($this->getCommandChain()->run('before.unlock', $context) !== false)
+        {
+            if ($this->isConnected())
+            {
                 try {
                     $context->result = $this->getDatabase()->unlockTable();
                 } catch (KDatabaseException $e) {
@@ -796,12 +838,14 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $data = array_intersect_key($data, $this->getColumns($base));
 
         // Filter data based on column type
-        foreach ($data as $key => $value) {
+        foreach ($data as $key => $value)
+        {
             $column = $this->getColumn($key, $base);
             $data[$key] = $column->filter->sanitize($value);
 
             // If NULL is allowed and default is NULL, set value to NULL in the following cases.
-            if (!$column->required && is_null($column->default)) {
+            if (!$column->required && is_null($column->default))
+            {
                 // If value is empty.
                 if (empty($data[$key])) {
                     $data[$key] = null;
@@ -835,7 +879,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         // If the method is of the form is[Bahavior] handle it.
         $parts = KInflector::explode($method);
 
-        if ($parts[0] == 'is' && isset($parts[1])) {
+        if ($parts[0] == 'is' && isset($parts[1]))
+        {
             if ($this->hasBehavior(strtolower($parts[1]))) {
                 return true;
             }
