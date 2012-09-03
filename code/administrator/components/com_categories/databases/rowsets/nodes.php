@@ -24,7 +24,7 @@ class ComCategoriesDatabaseRowsetNodes extends KDatabaseRowsetAbstract
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KDatabaseRowsetAbstract
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
