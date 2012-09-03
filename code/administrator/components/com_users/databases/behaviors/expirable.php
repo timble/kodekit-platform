@@ -15,8 +15,7 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class
-ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
+class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
 {
     /**
      * The Expiration period
@@ -34,13 +33,17 @@ ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
 
     protected function _initialize(KConfig $config)
     {
-        $config->append(array('expiration' => 6, 'auto_mixin' => true));
+        $config->append(array(
+            'expiration' => 6,
+            'auto_mixin' => true
+        ));
+
         parent::_initialize($config);
     }
 
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-        $params = JComponentHelper::getParams('com_users');
+        $params = $this->getService('application.components')->users->params;
 
         if ($this->password)
         {
@@ -50,12 +53,11 @@ ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
                 $this->expiration = '0000-00-00'; // No expiration.
             }
         }
-
     }
 
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        $params = JComponentHelper::getParams('com_users');
+        $params = $this->getService('application.components')->users->params;
 
         if ($params->get('passw_exp', 0)) {
             $this->resetExpiration(false);
