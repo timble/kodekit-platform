@@ -1,27 +1,27 @@
 <?php
 /**
- * @version 	$Id$
- * @package		Koowa_Service
- * @subpackage 	Locator
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @version     $Id$
+ * @package        Koowa_Service
+ * @subpackage     Locator
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
 /**
  * Service Abstract Locator
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
- * @subpackage 	Locator
+ * @subpackage     Locator
  */
 abstract class KServiceLocatorAbstract extends KObject implements KServiceLocatorInterface
 {
-	/**
-	 * The type
-	 *
-	 * @var string
-	 */
-	protected $_type = '';
+    /**
+     * The type
+     *
+     * @var string
+     */
+    protected $_type = '';
 
     /**
      * The class prefix sequence in FIFO order
@@ -35,11 +35,8 @@ abstract class KServiceLocatorAbstract extends KObject implements KServiceLocato
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         $this->_prefixes = KConfig::unbox($config->prefixes);
@@ -60,13 +57,13 @@ abstract class KServiceLocatorAbstract extends KObject implements KServiceLocato
         ));
     }
 
-	/**
-	 * Get the type
-	 *
-	 * @return string	Returns the type
-	 */
-	public function getType()
-	{
-		return $this->_type;
-	}
+    /**
+     * Get the type
+     *
+     * @return string    Returns the type
+     */
+    public function getType()
+    {
+        return $this->_type;
+    }
 }
