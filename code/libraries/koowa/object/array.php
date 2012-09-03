@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Koowa_Object
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @version        $Id$
+ * @package        Koowa_Object
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
@@ -19,7 +19,7 @@
  */
 class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Serializable
 {
-   /**
+    /**
      * The data for each key in the array (key => value).
      *
      * @var array
@@ -32,17 +32,14 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KObjectArray
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         $this->_data = KConfig::unbox($config->data);
     }
 
- 	/**
+    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -53,13 +50,13 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'data'  => array(),
+            'data' => array(),
         ));
 
         parent::_initialize($config);
     }
 
- 	/**
+    /**
      * Check if the offset exists
      *
      * Required by interface ArrayAccess
@@ -132,7 +129,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
         return new ArrayIterator($this->_data);
     }
 
- 	/**
+    /**
      * Serialize
      *
      * Required by interface Serializable
@@ -165,7 +162,7 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     public function __get($key)
     {
         $result = null;
-        if(isset($this->_data[$key])) {
+        if (isset($this->_data[$key])) {
             $result = $this->_data[$key];
         }
 
@@ -181,10 +178,10 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
     public function __set($key, $value)
     {
-       $this->_data[$key] = $value;
-     }
+        $this->_data[$key] = $value;
+    }
 
-	/**
+    /**
      * Test existence of a key
      *
      * @param  string  $key The key name
@@ -203,10 +200,10 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
      */
     public function __unset($key)
     {
-         unset($this->_data[$key]);
+        unset($this->_data[$key]);
     }
 
- 	/**
+    /**
      * Return an associative array of the data
      *
      * @return array
