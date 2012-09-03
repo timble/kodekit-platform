@@ -19,8 +19,10 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
 {
     public function __construct(KConfig $config)
     {
+        parent::__construct($config);
+
         // Set component default params values.
-        $params = JComponentHelper::getParams('com_articles');
+        /*$params = $this->getService('application.components')->articles->params;
         $params->def('articles_per_page', 5);
         $params->def('show_featured', 0);
         $params->def('sort_by', 'newest');
@@ -34,9 +36,7 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         $params->def('show_category_description', 1);
         $params->def('show_feed_link', 1);
         $params->def('show_headings', 1);
-        $params->def('show_date', 1);
-
-        parent::__construct($config);
+        $params->def('show_date', 1);*/
     }
 
     public function setRequest(array $request)
