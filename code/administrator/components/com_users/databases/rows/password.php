@@ -34,7 +34,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         if ($password = $this->password)
         {
             // Check the password length.
-            $params        = JComponentHelper::getParams('com_users');
+            $params        = $this->getService('application.components')->users->params;
             $min_passw_len = $params->get('min_passw_len');
             if (strlen($password) < $min_passw_len)
             {
