@@ -17,39 +17,33 @@
  */
 
 //Installation check, and check on removal of the install directory.
-if (!file_exists( JPATH_ROOT.'/configuration.php' ) || (filesize( JPATH_ROOT.'/configuration.php' ) < 10))
-{
+if (!file_exists(JPATH_ROOT . '/configuration.php') || (filesize(JPATH_ROOT . '/configuration.php') < 10)) {
     echo 'No configuration file found. Exciting...';
     exit();
 }
 
 // Joomla : setup
-require_once( JPATH_LIBRARIES.'/joomla/import.php');
-jimport( 'joomla.user.user');
-jimport( 'joomla.environment.uri' );
-jimport( 'joomla.html.html' );
-jimport( 'joomla.html.parameter' );
-jimport( 'joomla.utilities.utility' );
-jimport( 'joomla.language.language');
-jimport( 'joomla.utilities.string' );
-
-jimport( 'joomla.application.helper');
-jimport( 'joomla.application.component.helper');
+require_once(JPATH_LIBRARIES . '/joomla/import.php');
+jimport('joomla.environment.uri');
+jimport('joomla.html.html');
+jimport('joomla.html.parameter');
+jimport('joomla.utilities.utility');
+jimport('joomla.language.language');
 
 // Koowa : setup
-require_once JPATH_ROOT.'/configuration.php';
+require_once JPATH_ROOT . '/configuration.php';
 $config = new JConfig();
 
-require_once( JPATH_LIBRARIES.'/koowa/koowa.php');
+require_once(JPATH_LIBRARIES . '/koowa/koowa.php');
 Koowa::getInstance(array(
-	'cache_prefix'  => md5($config->secret).'-cache-koowa',
-	'cache_enabled' => $config->caching
-));	
+    'cache_prefix' => md5($config->secret) . '-cache-koowa',
+    'cache_enabled' => $config->caching
+));
 
 unset($config);
 
 KLoader::addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
-		
-KServiceIdentifier::setApplication('site' , JPATH_ROOT.'/site');
-KServiceIdentifier::setApplication('admin', JPATH_ROOT.'/administrator');
+
+KServiceIdentifier::setApplication('site', JPATH_ROOT . '/site');
+KServiceIdentifier::setApplication('admin', JPATH_ROOT . '/administrator');
