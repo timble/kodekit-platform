@@ -19,9 +19,9 @@
  */
 class ComUsersViewUserHtml extends ComDefaultViewHtml
 {
-
-    public function display() {
-        $this->assign('params', JComponentHelper::getParams('com_users'));
+    public function display()
+    {
+        $this->assign('params', $this->getService('application.components')->users->params);
         return parent::display();
     }
 
