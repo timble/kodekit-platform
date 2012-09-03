@@ -18,7 +18,6 @@
 <script type="text/javascript">
     Window.onDomReady(function(){
         //document.formvalidator.setHandler('passverify', function (value) { return ($('password').value == value); } );
-        $('rpoohcheck').set('value','');
     });
 </script>
 
@@ -83,26 +82,6 @@
             </td>
             <td>
                 <input class="inputbox required validate-passverify" type="password" id="password_verify" name="password_verify" size="40" value="" /> *
-            </td>
-        </tr>
-        <tr class="pooh">
-            <td height="40">
-                <label id="poohcheckmsg" for="poohcheck">
-                    <?= @text('pooh') ?>:
-                </label>
-            </td>
-            <td>
-                <input class="inputbox" type="text" id="poohcheck" name="poohcheck" size="40" value="" />
-            </td>
-        </tr>
-        <tr class="pooh">
-        	<td height="40">
-                <label id="rpoohcheckmsg" for="rpoohcheck">
-                    <?= @text('rpooh') ?>:
-                </label>
-            </td>
-            <td>
-                <input class="inputbox" type="text" id="rpoohcheck" name="rpoohcheck" size="40" value="filled" />
             </td>
         </tr>
         <tr>

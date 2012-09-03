@@ -33,9 +33,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array(
-        		'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
-        		'com://site/users.controller.behavior.user.spammable' )));
+            'behaviors' => array(
+                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'))));
     
         parent::_initialize($config);
     }
