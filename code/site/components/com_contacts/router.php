@@ -23,9 +23,9 @@ class ComContactsRouter extends ComDefaultRouter
         $segments = array();
 
         if(isset($query['Itemid'])) {
-            $page = $this->getService('application')->getPages()->find($query['Itemid']);
+            $page = $this->getService('application.pages')->getPage($query['Itemid']);
         } else {
-            $page = $this->getService('application')->getPages()->getActive();
+            $page = $this->getService('application.pages')->getActive();
         }
 
         $view = $page->link->query['view'];
@@ -59,7 +59,7 @@ class ComContactsRouter extends ComDefaultRouter
     {
         $vars = array();
 
-        $page = $this->getService('application')->getPages()->getActive();
+        $page = $this->getService('application.pages')->getActive();
 
         $view  = $page->link->query['view'];
         $count = count($segments);
