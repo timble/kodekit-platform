@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Koowa_Command
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @version        $Id$
+ * @package        Koowa_Command
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
@@ -23,10 +23,10 @@ class KCommand extends KObject implements KCommandInterface
      * Priority levels
      */
     const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH    = 2;
-    const PRIORITY_NORMAL  = 3;
-    const PRIORITY_LOW     = 4;
-    const PRIORITY_LOWEST  = 5;
+    const PRIORITY_HIGH = 2;
+    const PRIORITY_NORMAL = 3;
+    const PRIORITY_LOW = 4;
+    const PRIORITY_LOWEST = 5;
 
     /**
      * The command priority
@@ -40,11 +40,8 @@ class KCommand extends KObject implements KCommandInterface
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         $this->_priority = $config->priority;
@@ -61,7 +58,7 @@ class KCommand extends KObject implements KCommandInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_NORMAL,
+            'priority' => KCommand::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -74,25 +71,24 @@ class KCommand extends KObject implements KCommandInterface
      * @param   object      The command context
      * @return  boolean     Can return both true or false.
      */
-    public function execute( $name, KCommandContext $context)
+    public function execute($name, KCommandContext $context)
     {
         $type = '';
 
-        if($context->caller)
-        {
+        if ($context->caller) {
             $identifier = clone $context->caller->getIdentifier();
 
-            if($identifier->path) {
+            if ($identifier->path) {
                 $type = array_shift($identifier->path);
             } else {
                 $type = $identifier->name;
             }
         }
 
-        $parts  = explode('.', $name);
-        $method = !empty($type) ? '_'.$type.ucfirst(KInflector::implode($parts)) : '_'.lcfirst(KInflector::implode($parts));
+        $parts = explode('.', $name);
+        $method = !empty($type) ? '_' . $type . ucfirst(KInflector::implode($parts)) : '_' . lcfirst(KInflector::implode($parts));
 
-        if(in_array($method, $this->getMethods())) {
+        if (in_array($method, $this->getMethods())) {
             return $this->$method($context);
         }
 
