@@ -35,7 +35,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null)
+    public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
@@ -54,7 +54,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_NORMAL,
+            'priority' => KCommand::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -73,7 +73,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     /**
      * Get the template object
      *
-     * @return  object	The template object
+     * @return  object    The template object
      */
     public function getTemplate()
     {
@@ -87,16 +87,16 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      * @param   object      The command context
      * @return  boolean     Always returns TRUE
      */
-    final public function execute( $name, KCommandContext $context)
+    final public function execute($name, KCommandContext $context)
     {
         //Set the data
         $data = $context->data;
 
-        if(($name & KTemplateFilter::MODE_READ) && $this instanceof KTemplateFilterRead) {
+        if (($name & KTemplateFilter::MODE_READ) && $this instanceof KTemplateFilterRead) {
             $this->read($data);
         }
 
-        if(($name & KTemplateFilter::MODE_WRITE) && $this instanceof KTemplateFilterWrite) {
+        if (($name & KTemplateFilter::MODE_WRITE) && $this instanceof KTemplateFilterWrite) {
             $this->write($data);
         }
 
@@ -113,21 +113,19 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      * @param   string  $string String containing xml style attributes
      * @return  array   Key/Value pairs for the attributes
      */
-    protected function _parseAttributes( $string )
+    protected function _parseAttributes($string)
     {
         $result = array();
 
-        if(!empty($string))
-        {
-            $attr   = array();
+        if (!empty($string)) {
+            $attr = array();
 
-            preg_match_all( '/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
+            preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
-            if (is_array($attr))
-            {
+            if (is_array($attr)) {
                 $numPairs = count($attr[1]);
-                for($i = 0; $i < $numPairs; $i++ ) {
-                     $result[$attr[1][$i]] = $attr[2][$i];
+                for ($i = 0; $i < $numPairs; $i++) {
+                    $result[$attr[1][$i]] = $attr[2][$i];
                 }
             }
         }
@@ -145,19 +143,17 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     {
         $output = array();
 
-        if($array instanceof KConfig) {
+        if ($array instanceof KConfig) {
             $array = KConfig::unbox($array);
         }
 
-        if(is_array($array))
-        {
-            foreach($array as $key => $item)
-            {
-                if(is_array($item)) {
+        if (is_array($array)) {
+            foreach ($array as $key => $item) {
+                if (is_array($item)) {
                     $item = implode(' ', $item);
                 }
 
-                $output[] = $key.'="'.str_replace('"', '&quot;', $item).'"';
+                $output[] = $key . '="' . str_replace('"', '&quot;', $item) . '"';
             }
         }
 
