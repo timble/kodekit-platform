@@ -51,7 +51,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      * @var boolean
      */
     protected $_updatable;
-    
+
     /**
      * Set to true if slugs should be unique. If false and the slug column has
      * a unique index set this will result in an error being throw that needs
@@ -66,14 +66,13 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null)
+    public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
-        foreach($config as $key => $value) 
-        {
-            if(property_exists($this, '_'.$key)) { 
-                $this->{'_'.$key} = $value;
+        foreach ($config as $key => $value) {
+            if (property_exists($this, '_' . $key)) {
+                $this->{'_' . $key} = $value;
             }
         }
     }
@@ -89,12 +88,12 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'columns'   => array('title'),
+            'columns' => array('title'),
             'separator' => '-',
             'updatable' => true,
-            'length'    => null,
-            'unique'    => null,
-            'auto_mixin'=> true,
+            'length' => null,
+            'unique' => null,
+            'auto_mixin' => true,
         ));
 
         parent::_initialize($config);
@@ -112,8 +111,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     public function getMixableMethods(KObject $mixer = null)
     {
         $methods = array();
-        
-        if(isset($mixer->slug)) {
+
+        if (isset($mixer->slug)) {
             $methods = parent::getMixableMethods($mixer);
         }
 
@@ -131,15 +130,14 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     public function getSlug()
     {
         $result = $this->slug;
-        if(!$this->getTable()->getColumn('slug', true)->unique)
-        {
+        if (!$this->getTable()->getColumn('slug', true)->unique) {
             $column = $this->getIdentityColumn();
-            $result = $this->{$column}.$this->_separator.$this->slug;
+            $result = $this->{$column} . $this->_separator . $this->slug;
         }
 
         return $result;
     }
-    
+
     /**
      * Insert a slug
      *
@@ -152,7 +150,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableInsert(KCommandContext $context)
     {
-        if($this->_createSlug()) {
+        if ($this->_createSlug()) {
             $this->save();
         }
     }
@@ -170,7 +168,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-        if($this->_updatable) {
+        if ($this->_updatable) {
             $this->_createSlug();
         }
     }
@@ -185,17 +183,17 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         $config = array();
         $config['separator'] = $this->_separator;
 
-        if(!isset($this->_length)) {
+        if (!isset($this->_length)) {
             $config['length'] = $this->getTable()->getColumn('slug')->length;
         } else {
             $config['length'] = $this->_length;
         }
-        
+
         //Create the filter
         $filter = $this->getService('koowa:filter.slug', $config);
         return $filter;
     }
-    
+
     /**
      * Create the slug
      *
@@ -206,21 +204,17 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         //Create the slug filter
         $filter = $this->_createFilter();
 
-        if(empty($this->slug))
-        {
+        if (empty($this->slug)) {
             $slugs = array();
-            foreach($this->_columns as $column) {
+            foreach ($this->_columns as $column) {
                 $slugs[] = $filter->sanitize($this->$column);
             }
 
             $this->slug = implode($this->_separator, array_filter($slugs));
             $this->_canonicalizeSlug();
             return true;
-        }
-        else
-        {
-            if(in_array('slug', $this->getModified()))
-            {
+        } else {
+            if (in_array('slug', $this->getModified())) {
                 $this->slug = $filter->sanitize($this->slug);
                 $this->_canonicalizeSlug();
                 return true;
@@ -229,10 +223,10 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
 
         return false;
     }
-    
+
     /**
      * Make sure the slug is unique
-     * 
+     *
      * This function checks if the slug already exists and if so appends
      * a number to the slug to make it unique. The slug will get the form
      * of slug-x.
@@ -242,29 +236,28 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     protected function _canonicalizeSlug()
     {
         $table = $this->getTable();
-        
+
         //If unique is not set, use the column metadata
-        if(is_null($this->_unique)) { 
+        if (is_null($this->_unique)) {
             $this->_unique = $table->getColumn('slug', true)->unique;
         }
-    
+
         //If the slug needs to be unique and it already exist make it unqiue
-        if($this->_unique && $table->count(array('slug' => $this->slug)))
-        {   
-            $db    = $table->getDatabase();
+        if ($this->_unique && $table->count(array('slug' => $this->slug))) {
+            $db = $table->getDatabase();
             $query = $this->getService('koowa:database.query.select')
-                          ->columns('slug')
-                          ->where('slug LIKE :slug')
-                          ->bind(array('slug' => $this->slug.'-%'));
-            
+                ->columns('slug')
+                ->where('slug LIKE :slug')
+                ->bind(array('slug' => $this->slug . '-%'));
+
             $slugs = $table->select($query, KDatabase::FETCH_FIELD_LIST);
-            
+
             $i = 1;
-            while(in_array($this->slug.'-'.$i, $slugs)) {
+            while (in_array($this->slug . '-' . $i, $slugs)) {
                 $i++;
             }
-            
-            $this->slug = $this->slug.'-'.$i;
+
+            $this->slug = $this->slug . '-' . $i;
         }
     }
 }
