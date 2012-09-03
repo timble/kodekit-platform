@@ -9,7 +9,7 @@
  */
 ?>
 
-<body id="tmpl-dialog" class="<?= JRequest::getVar('option', 'cmd'); ?> contentpane">
+<body id="tmpl-dialog" class="<?= $option ?> contentpane">
     <?= @template('default_message') ?>
-    <ktml:variable name="component" />
+    <ktml:variable name="content" />
 </body>
