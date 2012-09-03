@@ -36,7 +36,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
                 $path = str_replace('.'.$suffix, '', $path);
                 $vars['format'] = $suffix;
             }
-            
+
             //Get the segments
             $segments = explode('/', $path);
         }
@@ -45,7 +45,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 	    $application = JFactory::getApplication();
 	    if($application->getCfg('multilanguage'))
 	    {
-	        $languages = $application->getLanguages();
+	        $languages = $this->getService('application.languages');
 	        
 	        // Test if the first segment of the path is a language slug.
 	        if(!empty($path) && !empty($segments[0]))
