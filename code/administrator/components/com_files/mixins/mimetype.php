@@ -30,7 +30,7 @@ class ComFilesMixinMimetype extends KObject
 	 */
 	protected $_adapters = array();
 
-	public function __construct(KConfig $config = null)
+	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 
