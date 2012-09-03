@@ -79,12 +79,14 @@ class KObjectDecorator extends KObject
             $methods = array();
             $object = $this->getObject();
 
-            if (!($object instanceof KObject)) {
+            if (!($object instanceof KObject))
+            {
                 $reflection = new ReflectionClass($object);
                 foreach ($reflection->getMethods() as $method) {
                     $methods[] = $method->name;
                 }
-            } else $methods = $object->getMethods();
+            }
+            else $methods = $object->getMethods();
 
             $this->__methods = array_merge(parent::getMethods(), $methods);
         }
@@ -176,17 +178,21 @@ class KObjectDecorator extends KObject
         $object = $this->getObject();
 
         //Check if the method exists
-        if ($object instanceof KObject) {
+        if ($object instanceof KObject)
+        {
             $methods = $object->getMethods();
             $exists = in_array($method, $methods);
-        } else $exists = method_exists($object, $method);
+        }
+        else $exists = method_exists($object, $method);
 
         //Call the method if it exists
-        if ($exists) {
+        if ($exists)
+        {
             $result = null;
 
             // Call_user_func_array is ~3 times slower than direct method calls.
-            switch (count($arguments)) {
+            switch (count($arguments))
+            {
                 case 0 :
                     $result = $object->$method();
                     break;

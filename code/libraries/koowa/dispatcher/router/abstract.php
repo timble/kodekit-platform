@@ -28,7 +28,6 @@ abstract class KDispatcherRouterAbstract extends KObject implements KDispatcherR
 	public function parse(KHttpUrl $url)
 	{
 		$this->_parseRoute($url);
-
 	 	return true;
 	}
 
@@ -42,7 +41,6 @@ abstract class KDispatcherRouterAbstract extends KObject implements KDispatcherR
 	{
 		// Build the url : mysite/route/index.php?var=x
 		$this->_buildRoute($url);
-
 		return true;
 	}
 }

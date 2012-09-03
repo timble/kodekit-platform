@@ -73,8 +73,10 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      */
     public function getTable()
     {
-        if ($this->_table !== false) {
-            if (!($this->_table instanceof KDatabaseTableAbstract)) {
+        if ($this->_table !== false)
+        {
+            if (!($this->_table instanceof KDatabaseTableAbstract))
+            {
                 //Make sure we have a table identifier
                 if (!($this->_table instanceof KServiceIdentifier)) {
                     $this->setTable($this->_table);
@@ -101,12 +103,15 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      */
     public function setTable($table)
     {
-        if (!($table instanceof KDatabaseTableAbstract)) {
-            if (is_string($table) && strpos($table, '.') === false) {
+        if (!($table instanceof KDatabaseTableAbstract))
+        {
+            if (is_string($table) && strpos($table, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('database', 'table');
                 $identifier->name = KInflector::tableize($table);
-            } else  $identifier = $this->getIdentifier($table);
+            }
+            else $identifier = $this->getIdentifier($table);
 
             if ($identifier->path[1] != 'table') {
                 throw new KDatabaseRowsetException('Identifier: ' . $identifier . ' is not a table identifier');
@@ -176,11 +181,13 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      */
     public function __call($method, $arguments)
     {
-        if ($this->isConnected() && !isset($this->_mixed_methods[$method])) {
+        if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
+        {
             $parts = KInflector::explode($method);
 
             //Check if a behavior is mixed
-            if ($parts[0] == 'is' && isset($parts[1])) {
+            if ($parts[0] == 'is' && isset($parts[1]))
+            {
                 //Lazy mix behaviors
                 $behavior = strtolower($parts[1]);
 

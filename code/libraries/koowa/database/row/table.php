@@ -71,8 +71,10 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
      */
     public function getTable()
     {
-        if ($this->_table !== false) {
-            if (!($this->_table instanceof KDatabaseTableAbstract)) {
+        if ($this->_table !== false)
+        {
+            if (!($this->_table instanceof KDatabaseTableAbstract))
+            {
                 //Make sure we have a table identifier
                 if (!($this->_table instanceof KServiceIdentifier)) {
                     $this->setTable($this->_table);
@@ -99,12 +101,15 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
      */
     public function setTable($table)
     {
-        if (!($table instanceof KDatabaseTableAbstract)) {
-            if (is_string($table) && strpos($table, '.') === false) {
+        if (!($table instanceof KDatabaseTableAbstract))
+        {
+            if (is_string($table) && strpos($table, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('database', 'table');
                 $identifier->name = KInflector::tableize($table);
-            } else  $identifier = $this->getIdentifier($table);
+            }
+            else $identifier = $this->getIdentifier($table);
 
             if ($identifier->path[1] != 'table') {
                 throw new KDatabaseRowsetException('Identifier: ' . $identifier . ' is not a table identifier');
@@ -137,13 +142,16 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     {
         $result = null;
 
-        if ($this->_new) {
-            if ($this->isConnected()) {
+        if ($this->_new)
+        {
+            if ($this->isConnected())
+            {
                 $data = $this->getTable()->filter($this->getData(true), true);
-                $row = $this->getTable()->select($data, KDatabase::FETCH_ROW);
+                $row  = $this->getTable()->select($data, KDatabase::FETCH_ROW);
 
                 // Set the data if the row was loaded successfully.
-                if (!$row->isNew()) {
+                if (!$row->isNew())
+                {
                     $this->setData($row->toArray(), false);
                     $this->_modified = array();
                     $this->_new = false;
@@ -169,16 +177,20 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     {
         $result = false;
 
-        if ($this->isConnected()) {
-            if (!$this->_new) {
+        if ($this->isConnected())
+        {
+            if (!$this->_new)
+            {
                 $result = $this->getTable()->update($this);
 
                 if ($result !== false) {
                     $this->setStatus($result > 0 ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_FAILED);
                 }
-            } else $result = $this->getTable()->insert($this);
+            }
+            else $result = $this->getTable()->insert($this);
 
-            if ($result !== false) {
+            if ($result !== false)
+            {
                 // Filter out any extra columns.
                 if (((integer)$result) > 0) {
                     $this->_modified = array();
@@ -198,7 +210,8 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     {
         $result = false;
 
-        if ($this->isConnected()) {
+        if ($this->isConnected())
+        {
             if (!$this->_new) {
                 $result = $this->getTable()->delete($this);
             }
@@ -216,7 +229,8 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     {
         $result = parent::reset();
 
-        if ($this->isConnected()) {
+        if ($this->isConnected())
+        {
             if ($this->_data = $this->getTable()->getDefaults()) {
                 $result = true;
             }
@@ -234,8 +248,9 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     {
         $result = false;
 
-        if ($this->isConnected()) {
-            $data = $this->getTable()->filter($this->getData(true), true);
+        if ($this->isConnected())
+        {
+            $data   = $this->getTable()->filter($this->getData(true), true);
             $result = $this->getTable()->count($data);
         }
 
@@ -253,7 +268,8 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
      */
     public function __unset($column)
     {
-        if ($this->isConnected()) {
+        if ($this->isConnected())
+        {
             $field = $this->getTable()->getColumn($column);
 
             if (isset($field) && $field->required) {
@@ -277,11 +293,13 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
      */
     public function __call($method, $arguments)
     {
-        if ($this->isConnected() && !isset($this->_mixed_methods[$method])) {
+        if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
+        {
             $parts = KInflector::explode($method);
 
             //Check if a behavior is mixed
-            if ($parts[0] == 'is' && isset($parts[1])) {
+            if ($parts[0] == 'is' && isset($parts[1]))
+            {
                 //Lazy mix behaviors
                 $behavior = strtolower($parts[1]);
 

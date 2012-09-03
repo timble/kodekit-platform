@@ -73,11 +73,13 @@ class KEventDispatcher extends KObject
         }
 
         $event->setName($name)
-            ->setDispatcher($this);
+              ->setDispatcher($this);
 
         //Nofity the listeners
-        if (isset($this->_listeners[$name])) {
-            foreach ($this->_listeners[$name] as $listener) {
+        if (isset($this->_listeners[$name]))
+        {
+            foreach ($this->_listeners[$name] as $listener)
+            {
                 $listener->$name($event);
 
                 if (!$event->canPropagate()) {
@@ -101,7 +103,8 @@ class KEventDispatcher extends KObject
      */
     public function addEventListener($name, KObjectHandlable $listener, $priority = KEvent::PRIORITY_NORMAL)
     {
-        if (is_object($listener)) {
+        if (is_object($listener))
+        {
             if (!isset($this->_listeners[$name])) {
                 $this->_listeners[$name] = $this->getService('koowa:object.queue');
             }
@@ -121,7 +124,8 @@ class KEventDispatcher extends KObject
      */
     public function removeEventListener($name, KObjectHandable $listener)
     {
-        if (is_object($listener)) {
+        if (is_object($listener))
+        {
             if (isset($this->_listeners[$name])) {
                 $this->_listeners[$name]->dequeue($listener);
             }
@@ -140,7 +144,8 @@ class KEventDispatcher extends KObject
     {
         $handle = $subscriber->getHandle();
 
-        if (!isset($this->_subscribers[$handle])) {
+        if (!isset($this->_subscribers[$handle]))
+        {
             $subscriptions = $subscriber->getSubscriptions();
             $priority = is_int($priority) ? $priority : $subscriber->getPriority();
 
@@ -164,7 +169,8 @@ class KEventDispatcher extends KObject
     {
         $handle = $subscriber->getHandle();
 
-        if (isset($this->_subscribers[$handle])) {
+        if (isset($this->_subscribers[$handle]))
+        {
             $subscriptions = $subscriber->getSubscriptions();
 
             foreach ($subscriptions as $subscription) {

@@ -108,12 +108,16 @@ class KObject implements KObjectHandlable, KObjectServiceable
             $property = get_object_vars($property);
         }
 
-        if (is_array($property)) {
+        if (is_array($property))
+        {
             foreach ($property as $k => $v) {
                 $this->set($k, $v);
             }
-        } else {
-            if ('_' == substr($property, 0, 1)) {
+        }
+        else
+        {
+            if ('_' == substr($property, 0, 1))
+            {
                 throw new KObjectException(
                     "Protected or private properties can't be set outside of object scope in " . get_class($this)
                 );
@@ -140,15 +144,19 @@ class KObject implements KObjectHandlable, KObjectServiceable
     {
         $result = $default;
 
-        if (is_null($property)) {
+        if (is_null($property))
+        {
             $result = get_object_vars($this);
 
-            foreach ($result as $key => $value) {
+            foreach ($result as $key => $value)
+            {
                 if ('_' == substr($key, 0, 1)) {
                     unset($result[$key]);
                 }
             }
-        } else {
+        }
+        else
+        {
             //PHP bug 22917 : Isset is not allowed on virtual properties
             $r = $this->$property;
             if (isset($r)) {
@@ -171,16 +179,18 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     public function mixin($mixin, $config = array())
     {
-        if (!($mixin instanceof KMixinInterface)) {
-            if (!($mixin instanceof KServiceIdentifier)) {
+        if (!($mixin instanceof KMixinInterface))
+        {
+            if (!($mixin instanceof KServiceIdentifier))
+            {
                 //Create the complete identifier if a partial identifier was passed
-                if (is_string($mixin) && strpos($mixin, '.') === false) {
+                if (is_string($mixin) && strpos($mixin, '.') === false)
+                {
                     $identifier = clone $this->getIdentifier();
                     $identifier->path = 'mixin';
                     $identifier->name = $mixin;
-                } else {
-                    $identifier = $this->getIdentifier($mixin);
                 }
+                else $identifier = $this->getIdentifier($mixin);
             }
 
             $mixin = new $identifier->classname(new KConfig($config));
@@ -209,7 +219,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
 
         $objects = array_values($this->_mixed_methods);
 
-        foreach ($objects as $object) {
+        foreach ($objects as $object)
+        {
             if ($object instanceof $class) {
                 return true;
             }
@@ -240,7 +251,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     public function getMethods()
     {
-        if (!$this->__methods) {
+        if (!$this->__methods)
+        {
             $methods = array();
 
             $reflection = new ReflectionClass($this);
@@ -265,15 +277,18 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     final public function getService($identifier = null, array $config = array())
     {
-        if (isset($identifier)) {
-            if (!isset($this->__service_manager)) {
+        if (isset($identifier))
+        {
+            if (!isset($this->__service_manager))
+            {
                 throw new RuntimeException(
                     "Failed to call " . get_class($this) . "::getService(). No service_manager object defined."
                 );
             }
 
             $result = $this->__service_manager->get($identifier, $config);
-        } else $result = $this->__service_manager;
+        }
+        else $result = $this->__service_manager;
 
         return $result;
     }
@@ -288,15 +303,18 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     final public function getIdentifier($identifier = null)
     {
-        if (isset($identifier)) {
-            if (!isset($this->__service_manager)) {
+        if (isset($identifier))
+        {
+            if (!isset($this->__service_manager))
+            {
                 throw new RuntimeException(
                     "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
                 );
             }
 
             $result = $this->__service_manager->getIdentifier($identifier);
-        } else  $result = $this->__service_identifier;
+        }
+        else  $result = $this->__service_identifier;
 
         return $result;
     }
@@ -308,7 +326,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     public function __clone()
     {
-        foreach ($this->_mixed_methods as $method => $object) {
+        foreach ($this->_mixed_methods as $method => $object)
+        {
             if (!$object instanceof Closure) {
                 $this->_mixed_methods[$method] = clone $object;
             }
@@ -325,10 +344,12 @@ class KObject implements KObjectHandlable, KObjectServiceable
      */
     public function __call($method, $arguments)
     {
-        if (isset($this->_mixed_methods[$method])) {
+        if (isset($this->_mixed_methods[$method]))
+        {
             $result = null;
 
-            if ($this->_mixed_methods[$method] instanceof Closure) {
+            if ($this->_mixed_methods[$method] instanceof Closure)
+            {
                 $closure = $this->_mixed_methods[$method];
 
                 switch (count($arguments)) {
@@ -348,14 +369,17 @@ class KObject implements KObjectHandlable, KObjectServiceable
                         // Resort to using call_user_func_array for many segments
                         $result = call_user_func_array($closure, $arguments);
                 }
-            } else {
+            }
+            else
+            {
                 $object = $this->_mixed_methods[$method];
 
                 //Switch the mixin's attached mixer
                 $object->setMixer($this);
 
                 // Call_user_func_array is ~3 times slower than direct method calls.
-                switch (count($arguments)) {
+                switch (count($arguments))
+                {
                     case 0 :
                         $result = $object->$method();
                         break;

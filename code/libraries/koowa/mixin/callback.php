@@ -67,7 +67,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'command_chain' => null,
+            'command_chain'     => null,
             'callback_priority' => KCommand::PRIORITY_HIGH
         ));
 

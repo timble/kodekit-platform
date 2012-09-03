@@ -111,8 +111,10 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function __destroy()
     {
-        if (!$this->getStack()->isEmpty()) {
-            if ($error = error_get_last()) {
+        if (!$this->getStack()->isEmpty())
+        {
+            if ($error = error_get_last())
+            {
                 if ($error['type'] === E_ERROR || $error['type'] === E_PARSE || $error['type'] === E_COMPILE_ERROR) {
                     while (@ob_get_clean()) ;
                     $this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
@@ -132,10 +134,10 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'stack' => $this->getService('koowa:template.stack'),
-            'view' => null,
-            'command_chain' => $this->getService('koowa:command.chain'),
-            'dispatch_events' => false,
+            'stack'            => $this->getService('koowa:template.stack'),
+            'view'             => null,
+            'command_chain'    => $this->getService('koowa:command.chain'),
+            'dispatch_events'  => false,
             'enable_callbacks' => false,
         ));
 
@@ -179,7 +181,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function getView()
     {
-        if (!$this->_view instanceof KViewAbstract) {
+        if (!$this->_view instanceof KViewAbstract)
+        {
             //Make sure we have a view identifier
             if (!($this->_view instanceof KServiceIdentifier)) {
                 $this->setView($this->_view);
@@ -201,12 +204,15 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function setView($view)
     {
-        if (!($view instanceof KViewAbstract)) {
-            if (is_string($view) && strpos($view, '.') === false) {
+        if (!($view instanceof KViewAbstract))
+        {
+            if (is_string($view) && strpos($view, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('view', $view);
                 $identifier->name = 'html';
-            } else $identifier = $this->getIdentifier($view);
+            }
+            else $identifier = $this->getIdentifier($view);
 
             if ($identifier->path[0] != 'view') {
                 throw new KTemplateException('Identifier: ' . $identifier . ' is not a view identifier');
@@ -336,13 +342,16 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     public function getFilter($filter, $config = array())
     {
         //Create the complete identifier if a partial identifier was passed
-        if (is_string($filter) && strpos($filter, '.') === false) {
+        if (is_string($filter) && strpos($filter, '.') === false)
+        {
             $identifier = clone $this->getIdentifier();
             $identifier->path = array('template', 'filter');
             $identifier->name = $filter;
-        } else $identifier = $this->getIdentifier($filter);
+        }
+        else $identifier = $this->getIdentifier($filter);
 
-        if (!isset($this->_filters[$identifier->name])) {
+        if (!isset($this->_filters[$identifier->name]))
+        {
             $filter = $this->getService($identifier, array_merge($config, array('template' => $this)));
 
             if (!($filter instanceof KTemplateFilterInterface)) {
@@ -350,7 +359,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
             }
 
             $this->_filters[$filter->getIdentifier()->name] = $filter;
-        } else $filter = $this->_filters[$identifier->name];
+        }
+        else $filter = $this->_filters[$identifier->name];
 
         return $filter;
     }
@@ -365,7 +375,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     {
         $filters = (array)KConfig::unbox($filters);
 
-        foreach ($filters as $filter) {
+        foreach ($filters as $filter)
+        {
             if (!($filter instanceof KTemplateFilterInterface)) {
                 $filter = $this->getFilter($filter);
             }
@@ -387,11 +398,13 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     public function getHelper($helper, $config = array())
     {
         //Create the complete identifier if a partial identifier was passed
-        if (is_string($helper) && strpos($helper, '.') === false) {
+        if (is_string($helper) && strpos($helper, '.') === false)
+        {
             $identifier = clone $this->getIdentifier();
             $identifier->path = array('template', 'helper');
             $identifier->name = $helper;
-        } else $identifier = $this->getIdentifier($helper);
+        }
+        else $identifier = $this->getIdentifier($helper);
 
         //Create the template helper
         $helper = $this->getService($identifier, array_merge($config, array('template' => $this)));
@@ -465,7 +478,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $path = dirname($file);
 
         // is the path based on a stream?
-        if (strpos($path, '://') === false) {
+        if (strpos($path, '://') === false)
+        {
             // not a stream, so do a realpath() to avoid directory
             // traversal attempts on the local file system.
             $path = realpath($path); // needed for substr() later

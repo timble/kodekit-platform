@@ -82,10 +82,10 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     {
         $config->append(array(
             'data' => null,
-            'new' => true,
+            'new'  => true,
             'identity_column' => null,
-            'status_message' => '',
-            'row_cloning' => true
+            'status_message'  => '',
+            'row_cloning'     => true
         ));
 
         parent::_initialize($config);
@@ -242,17 +242,22 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
             'new' => $new,
         );
 
-        if ($this->_row_cloning) {
+        if ($this->_row_cloning)
+        {
             $default = $this->getRow($options);
 
-            foreach ($rows as $k => $data) {
+            foreach ($rows as $k => $data)
+            {
                 $row = clone $default;
                 $row->setData($data, $new);
 
                 $this->insert($row);
             }
-        } else {
-            foreach ($rows as $k => $data) {
+        }
+        else
+        {
+            foreach ($rows as $k => $data)
+            {
                 $options['data'] = $data;
 
                 $row = $this->getRow($options);
@@ -315,17 +320,21 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     {
         $result = null;
 
-        if (!is_scalar($needle)) {
+        if (!is_scalar($needle))
+        {
             $result = clone $this;
 
-            foreach ($this as $i => $row) {
+            foreach ($this as $i => $row)
+            {
                 foreach ($needle as $key => $value) {
                     if (!in_array($row->{$key}, (array)$value)) {
                         $result->extract($row);
                     }
                 }
             }
-        } else {
+        }
+        else
+        {
             if (isset($this->_object_set[$needle])) {
                 $result = $this->_object_set[$needle];
             }
@@ -343,10 +352,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     {
         $result = false;
 
-        if (count($this)) {
+        if (count($this))
+        {
             $result = true;
 
-            foreach ($this as $i => $row) {
+            foreach ($this as $i => $row)
+            {
                 if (!$row->save()) {
                     // Set current row status message as rowset status message.
                     $this->setStatusMessage($row->getStatusMessage());
@@ -367,10 +378,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     {
         $result = false;
 
-        if (count($this)) {
+        if (count($this))
+        {
             $result = true;
 
-            foreach ($this as $i => $row) {
+            foreach ($this as $i => $row)
+            {
                 if (!$row->delete()) {
                     // Set current row status message as rowset status message.
                     $this->setStatusMessage($row->getStatusMessage());
@@ -437,7 +450,8 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     public function __call($method, $arguments)
     {
         //If the mixed method exists call it for all the rows
-        if (!isset($this->_mixed_methods[$method])) {
+        if (!isset($this->_mixed_methods[$method]))
+        {
             foreach ($this as $i => $row) {
                 $row->__call($method, $arguments);
             }

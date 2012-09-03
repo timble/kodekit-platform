@@ -62,7 +62,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         $result = false;
 
-        if ($handle = $object->getHandle()) {
+        if ($handle = $object->getHandle())
+        {
             $this->_object_list->offsetSet($handle, $object);
 
             $this->_priority_list->offsetSet($handle, $priority);
@@ -85,7 +86,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         $result = false;
 
-        if ($handle = $object->getHandle()) {
+        if ($handle = $object->getHandle())
+        {
             if ($this->_object_list->offsetExists($handle)) {
                 $this->_object_list->offsetUnset($handle);
                 $this->_priority_list->offsetUnSet($handle);
@@ -107,7 +109,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
      */
     public function setPriority(KObjectHandlable $object, $priority)
     {
-        if ($handle = $object->getHandle()) {
+        if ($handle = $object->getHandle())
+        {
             if ($this->_priority_list->offsetExists($handle)) {
                 $this->_priority_list->offsetSet($handle, $priority);
                 $this->_priority_list->asort();
@@ -128,7 +131,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         $result = false;
 
-        if ($handle = $object->getHandle()) {
+        if ($handle = $object->getHandle())
+        {
             if ($this->_priority_list->offsetExists($handle)) {
                 $result = $this->_priority_list->offsetGet($handle);
             }

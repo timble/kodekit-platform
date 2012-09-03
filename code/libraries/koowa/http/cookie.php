@@ -104,12 +104,12 @@ class KHttpCookie extends KObject
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'name' => '',
-            'value' => null,
-            'domain' => null,
-            'expire' => 0,
-            'path' => '/',
-            'secure' => false,
+            'name'      => '',
+            'value'     => null,
+            'domain'    => null,
+            'expire'    => 0,
+            'path'      => '/',
+            'secure'    => false,
             'http_only' => true,
         ));
 
@@ -153,7 +153,8 @@ class KHttpCookie extends KObject
             $expire = $expire->format('U');
         }
 
-        if (!is_numeric($expire)) {
+        if (!is_numeric($expire))
+        {
             $expire = strtotime($expire);
 
             if ($expire === false || $expire === -1) {
@@ -244,13 +245,15 @@ class KHttpCookie extends KObject
     {
         $str = urlencode($this->name) . '=';
 
-        if ('' !== (string)$this->value) {
+        if ('' !== (string)$this->value)
+        {
             $str .= urlencode($this->value);
 
             if ($this->expire !== 0) {
                 $str .= '; expires=' . gmdate(DateTime::COOKIE, $this->expire);
             }
-        } else $str .= 'deleted; expires=' . gmdate(DateTime::COOKIE, time() - 31536001);
+        }
+        else $str .= 'deleted; expires=' . gmdate(DateTime::COOKIE, time() - 31536001);
 
         if ('/' !== $this->path) {
             $str .= '; path=' . $this->path;

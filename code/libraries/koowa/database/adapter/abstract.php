@@ -139,15 +139,15 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'options' => array(),
-            'charset' => 'UTF-8',
-            'table_prefix' => 'jos_',
-            'table_needle' => '#__',
-            'command_chain' => $this->getService('koowa:command.chain'),
-            'dispatch_events' => true,
+            'options'          => array(),
+            'charset'          => 'UTF-8',
+            'table_prefix'     => 'jos_',
+            'table_needle'     => '#__',
+            'command_chain'    => $this->getService('koowa:command.chain'),
+            'dispatch_events'  => true,
             'event_dispatcher' => $this->getService('koowa:event.dispatcher'),
             'enable_callbacks' => false,
-            'connection' => null,
+            'connection'       => null,
         ));
 
         parent::_initialize($config);
@@ -254,9 +254,12 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
         $context->mode = $mode;
 
         // Excute the insert operation
-        if ($this->getCommandChain()->run('before.select', $context) !== false) {
-            if ($result = $this->execute($context->query, KDatabase::RESULT_USE)) {
-                switch ($context->mode) {
+        if ($this->getCommandChain()->run('before.select', $context) !== false)
+        {
+            if ($result = $this->execute($context->query, KDatabase::RESULT_USE))
+            {
+                switch ($context->mode)
+                {
                     case KDatabase::FETCH_ARRAY       :
                         $context->result = $this->_fetchArray($result);
                         break;
@@ -306,15 +309,18 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
         $context->query = $query;
 
         //Excute the insert operation
-        if ($this->getCommandChain()->run('before.insert', $context) !== false) {
+        if ($this->getCommandChain()->run('before.insert', $context) !== false)
+        {
             //Check if we have valid data to insert, if not return false
-            if ($context->query->values) {
+            if ($context->query->values)
+            {
                 //Execute the query
                 $context->result = $this->execute($context->query);
                 $context->affected = $this->_affected_rows;
 
                 $this->getCommandChain()->run('after.insert', $context);
-            } else $context->affected = false;
+            }
+            else $context->affected = false;
         }
 
         return $context->affected;
@@ -331,17 +337,20 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     {
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_UPDATE;
-        $context->query = $query;
+        $context->query     = $query;
 
         //Excute the update operation
-        if ($this->getCommandChain()->run('before.update', $context) !== false) {
-            if (!empty($context->query->values)) {
+        if ($this->getCommandChain()->run('before.update', $context) !== false)
+        {
+            if (!empty($context->query->values))
+            {
                 //Execute the query
                 $context->result = $this->execute($context->query);
                 $context->affected = $this->_affected_rows;
 
                 $this->getCommandChain()->run('after.update', $context);
-            } else $context->affected = false;
+            }
+            else $context->affected = false;
         }
 
         return $context->affected;
@@ -357,10 +366,11 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     {
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_DELETE;
-        $context->query = $query;
+        $context->query     = $query;
 
         //Excute the delete operation
-        if ($this->getCommandChain()->run('before.delete', $context) !== false) {
+        if ($this->getCommandChain()->run('before.delete', $context) !== false)
+        {
             //Execute the query
             $context->result = $this->execute($context->query);
             $context->affected = $this->_affected_rows;
@@ -468,9 +478,11 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      */
     public function quoteValue($value)
     {
-        if (is_array($value)) {
+        if (is_array($value))
+        {
             //Quote array values, not keys, then combine with commas.
-            foreach ($value as &$v) {
+            foreach ($value as &$v)
+            {
                 if (is_null($v)) {
                     $v = 'NULL';
                 } elseif (is_string($v)) {
@@ -479,7 +491,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
             }
 
             $value = implode(', ', $value);
-        } else {
+        }
+        else
+        {
             if (is_null($value)) {
                 $value = 'NULL';
             } elseif (is_string($value)) {
@@ -505,7 +519,8 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      */
     public function quoteIdentifier($spec)
     {
-        if (is_array($spec)) {
+        if (is_array($spec))
+        {
             foreach ($spec as $key => $val) {
                 $spec[$key] = $this->quoteIdentifier($val);
             }
@@ -639,12 +654,14 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
             return $name;
         }
 
-        if ($pos = strrpos($name, '.')) {
+        if ($pos = strrpos($name, '.'))
+        {
             $table = $this->_quoteIdentifier(substr($name, 0, $pos));
             $column = $this->_quoteIdentifier(substr($name, $pos + 1));
 
             $result = "$table.$column";
-        } else $result = $this->_identifier_quote . $name . $this->_identifier_quote;
+        }
+        else $result = $this->_identifier_quote . $name . $this->_identifier_quote;
 
         return $result;
     }

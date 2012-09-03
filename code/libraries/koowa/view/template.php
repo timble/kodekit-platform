@@ -116,13 +116,13 @@ abstract class KViewTemplate extends KViewAbstract
         $identifier = clone $this->getIdentifier();
 
         $config->append(array(
-            'data' => array(),
-            'escape' => 'htmlspecialchars',
-            'layout' => '',
-            'template' => $this->getName(),
+            'data'             => array(),
+            'escape'           => 'htmlspecialchars',
+            'layout'           => '',
+            'template'         => $this->getName(),
             'template_filters' => array('shorttag', 'alias', 'variable', 'template'),
-            'auto_assign' => true,
-            'media_url' => '/media',
+            'auto_assign'      => true,
+            'media_url'        => '/media',
         ));
 
         parent::_initialize($config);
@@ -225,7 +225,8 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function display()
     {
-        if (empty($this->output)) {
+        if (empty($this->output))
+        {
             $identifier = clone $this->getIdentifier();
             $identifier->name = $this->getLayout();
 
@@ -300,7 +301,8 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function getTemplate()
     {
-        if (!$this->_template instanceof KTemplateAbstract) {
+        if (!$this->_template instanceof KTemplateAbstract)
+        {
             //Make sure we have a template identifier
             if (!($this->_template instanceof KServiceIdentifier)) {
                 $this->setTemplate($this->_template);
@@ -326,12 +328,15 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function setTemplate($template)
     {
-        if (!($template instanceof KTemplateAbstract)) {
-            if (is_string($template) && strpos($template, '.') === false) {
+        if (!($template instanceof KTemplateAbstract))
+        {
+            if (is_string($template) && strpos($template, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('template');
                 $identifier->name = $template;
-            } else $identifier = $this->getIdentifier($template);
+            }
+            else $identifier = $this->getIdentifier($template);
 
             if ($identifier->path[0] != 'template') {
                 throw new KViewException('Identifier: ' . $identifier . ' is not a template identifier');
@@ -369,7 +374,8 @@ abstract class KViewTemplate extends KViewAbstract
     {
         $route = parent::getRoute($route, $fqr, $escape);
 
-        if (!isset($route->query['layout']) && !empty($this->_layout)) {
+        if (!isset($route->query['layout']) && !empty($this->_layout))
+        {
             if ($route->query['view'] == $this->getName()) {
                 $route->query['layout'] = $this->getLayout();
             }
@@ -404,7 +410,8 @@ abstract class KViewTemplate extends KViewAbstract
     public function __call($method, $args)
     {
         //If one argument is passed we assume a setter method is being called 
-        if (count($args) == 1) {
+        if (count($args) == 1)
+        {
             if (method_exists($this, 'set' . ucfirst($method))) {
                 return $this->{'set' . ucfirst($method)}($args[0]);
             } else {

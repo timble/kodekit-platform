@@ -33,55 +33,55 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     protected $_typemap = array(
 
         // numeric
-        'smallint' => 'int',
-        'int' => 'int',
-        'integer' => 'int',
-        'bigint' => 'int',
+        'smallint'  => 'int',
+        'int'       => 'int',
+        'integer'   => 'int',
+        'bigint'    => 'int',
         'mediumint' => 'int',
-        'smallint' => 'int',
-        'tinyint' => 'int',
-        'numeric' => 'numeric',
-        'dec' => 'numeric',
-        'decimal' => 'numeric',
-        'float' => 'float',
-        'double' => 'float',
-        'real' => 'float',
+        'smallint'  => 'int',
+        'tinyint'   => 'int',
+        'numeric'   => 'numeric',
+        'dec'       => 'numeric',
+        'decimal'   => 'numeric',
+        'float'     => 'float',
+        'double'    => 'float',
+        'real'      => 'float',
 
         // boolean
-        'bool' => 'boolean',
-        'boolean' => 'boolean',
+        'bool'      => 'boolean',
+        'boolean'   => 'boolean',
 
         // date & time
-        'date' => 'date',
-        'time' => 'time',
-        'datetime' => 'timestamp',
+        'date'      => 'date',
+        'time'      => 'time',
+        'datetime'  => 'timestamp',
         'timestamp' => 'int',
-        'year' => 'int',
+        'year'      => 'int',
 
         // string
         'national char' => 'string',
-        'nchar' => 'string',
-        'char' => 'string',
-        'binary' => 'string',
+        'nchar'         => 'string',
+        'char'          => 'string',
+        'binary'        => 'string',
         'national varchar' => 'string',
-        'nvarchar' => 'string',
-        'varchar' => 'string',
-        'varbinary' => 'string',
-        'text' => 'string',
-        'mediumtext' => 'string',
-        'tinytext' => 'string',
-        'longtext' => 'string',
+        'nvarchar'      => 'string',
+        'varchar'       => 'string',
+        'varbinary'     => 'string',
+        'text'          => 'string',
+        'mediumtext'    => 'string',
+        'tinytext'      => 'string',
+        'longtext'      => 'string',
 
         // blob
-        'blob' => 'raw',
-        'tinyblob' => 'raw',
-        'mediumblob' => 'raw',
-        'longtext' => 'raw',
-        'longblob' => 'raw',
+        'blob'          => 'raw',
+        'tinyblob'      => 'raw',
+        'mediumblob'    => 'raw',
+        'longtext'      => 'raw',
+        'longblob'      => 'raw',
 
         //other
-        'set' => 'string',
-        'enum' => 'string',
+        'set'   => 'string',
+        'enum'  => 'string',
     );
 
     /**
@@ -103,12 +103,12 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     {
         $config->append(array(
             'options' => array(
-                'host' => ini_get('mysqli.default_host'),
-                'username' => ini_get('mysqli.default_user'),
-                'password' => ini_get('mysqli.default_pw'),
-                'database' => '',
-                'port' => ini_get('mysqli.default_port'),
-                'socket' => ini_get('mysqli.default_socket')
+                'host'      => ini_get('mysqli.default_host'),
+                'username'  => ini_get('mysqli.default_user'),
+                'password'  => ini_get('mysqli.default_pw'),
+                'database'  => '',
+                'port'      => ini_get('mysqli.default_port'),
+                'socket'    => ini_get('mysqli.default_socket')
             )
         ));
 
@@ -159,7 +159,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      */
     public function disconnect()
     {
-        if ($this->isConnected()) {
+        if ($this->isConnected())
+        {
             $this->_connection->close();
             $this->_connection = null;
             $this->_connected = false;
@@ -202,7 +203,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      */
     public function getDatabase()
     {
-        if (!isset($this->_database)) {
+        if (!isset($this->_database))
+        {
             $query = $this->getService('koowa:database.query.select')
                 ->columns('DATABASE()');
 
@@ -237,7 +239,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      */
     public function getTableSchema($table)
     {
-        if (!isset($this->_table_schema[$table])) {
+        if (!isset($this->_table_schema[$table]))
+        {
             $this->_table_schema[$table] = $this->_fetchTableInfo($table);
 
             $this->_table_schema[$table]->indexes = $this->_fetchTableIndexes($table);
@@ -267,7 +270,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
         $context->table = $base;
         $context->query = $query;
 
-        if ($this->getCommandChain()->run('before.locktable', $context) !== false) {
+        if ($this->getCommandChain()->run('before.locktable', $context) !== false)
+        {
             $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
             $this->getCommandChain()->run('after.locktable', $context);
         }
@@ -289,7 +293,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
         $context->table = $base;
         $context->query = $query;
 
-        if ($this->getCommandChain()->run('before.unlocktable', $context) !== false) {
+        if ($this->getCommandChain()->run('before.unlocktable', $context) !== false)
+        {
             $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
             $this->getCommandChain()->run('after.unlocktable', $context);
         }
@@ -364,7 +369,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     protected function _fetchArrayList($result, $key = '')
     {
         $array = array();
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc())
+        {
             if ($key) {
                 $array[$row[$key]] = $row;
             } else {
@@ -404,7 +410,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     protected function _fetchObjectList($result, $key = '')
     {
         $array = array();
-        while ($row = $result->fetch_object()) {
+        while ($row = $result->fetch_object())
+        {
             if ($key) {
                 $array[$row->$key] = $row;
             } else {
@@ -464,8 +471,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
             ->show('FULL COLUMNS')
             ->from($table);
 
-        if ($columns = $this->select($query, KDatabase::FETCH_OBJECT_LIST)) {
-            foreach ($columns as $column) {
+        if ($columns = $this->select($query, KDatabase::FETCH_OBJECT_LIST))
+        {
+            foreach ($columns as $column)
+            {
                 //Set the table name in the raw info (MySQL doesn't add this)
                 $column->Table = $table;
 
@@ -492,7 +501,8 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
             ->show('INDEX')
             ->from($table);
 
-        if ($indexes = $this->select($query, KDatabase::FETCH_OBJECT_LIST)) {
+        if ($indexes = $this->select($query, KDatabase::FETCH_OBJECT_LIST))
+        {
             foreach ($indexes as $index) {
                 $result[$index->Key_name][$index->Seq_in_index] = $index;
             }
@@ -509,14 +519,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      */
     protected function _parseTableInfo($info)
     {
-        $table = $this->getService('koowa:database.schema.table');
-        $table->name = $info->Name;
-        $table->engine = $info->Engine;
-        $table->type = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
-        $table->length = $info->Data_length;
-        $table->autoinc = $info->Auto_increment;
-        $table->collation = $info->Collation;
-        $table->behaviors = array();
+        $table              = $this->getService('koowa:database.schema.table');
+        $table->name        = $info->Name;
+        $table->engine      = $info->Engine;
+        $table->type        = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
+        $table->length      = $info->Data_length;
+        $table->autoinc     = $info->Auto_increment;
+        $table->collation   = $info->Collation;
+        $table->behaviors   = array();
         $table->description = $info->Comment != 'VIEW' ? $info->Comment : '';
 
         return $table;
@@ -537,16 +547,16 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
         list($type, $length, $scope) = $this->_parseColumnType($info->Type);
 
         $column = $this->getService('koowa:database.schema.column');
-        $column->name = $info->Field;
-        $column->type = $type;
-        $column->length = ($length ? $length : null);
-        $column->scope = ($scope ? (int)$scope : null);
-        $column->default = $info->Default;
-        $column->required = (bool)($info->Null != 'YES');
-        $column->primary = (bool)($info->Key == 'PRI');
-        $column->unique = (bool)($info->Key == 'UNI' || $info->Key == 'PRI');
-        $column->autoinc = (bool)(strpos($info->Extra, 'auto_increment') !== false);
-        $column->filter = isset($filter[1]) ? explode(',', $filter[1]) : $this->_typemap[$type];
+        $column->name       = $info->Field;
+        $column->type       = $type;
+        $column->length     = ($length ? $length : null);
+        $column->scope      = ($scope ? (int)$scope : null);
+        $column->default    = $info->Default;
+        $column->required   = (bool)($info->Null != 'YES');
+        $column->primary    = (bool)($info->Key == 'PRI');
+        $column->unique     = (bool)($info->Key == 'UNI' || $info->Key == 'PRI');
+        $column->autoinc    = (bool)(strpos($info->Extra, 'auto_increment') !== false);
+        $column->filter     = isset($filter[1]) ? explode(',', $filter[1]) : $this->_typemap[$type];
 
         // Don't keep "size" for integers
         if (substr($type, -3) == 'int') {
@@ -554,8 +564,10 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
         }
 
         // Get the related fields if the column is primary key or part of a unqiue multi column index
-        if ($indexes = $this->_table_schema[$info->Table]->indexes) {
-            foreach ($indexes as $index) {
+        if ($indexes = $this->_table_schema[$info->Table]->indexes)
+        {
+            foreach ($indexes as $index)
+            {
                 //We only deal with composite-unique indexes
                 if (count($index) > 1 && !$index[1]->Non_unique) {
                     $fields = array();
@@ -596,12 +608,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
         $type = strtok($spec, '( ');
 
         // find the parens, if any
-        if (false !== ($pos = strpos($spec, '('))) {
+        if (false !== ($pos = strpos($spec, '(')))
+        {
             // there were parens, so there's at least a length
             // remove parens to get the size.
             $length = trim(substr(strtok($spec, ' '), $pos), '()');
 
-            if ($type != 'enum' && $type != 'set') {
+            if ($type != 'enum' && $type != 'set')
+            {
                 // A comma in the size indicates a scope.
                 $pos = strpos($length, ',');
                 if ($pos !== false) {

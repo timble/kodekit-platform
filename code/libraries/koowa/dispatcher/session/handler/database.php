@@ -68,7 +68,8 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = '';
 
-        if ($this->getTable()->getDatabase()->isConnected()) {
+        if ($this->getTable()->getDatabase()->isConnected())
+        {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
             if (!$row->isNew()) {
@@ -90,10 +91,12 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = false;
 
-        if ($this->getTable()->getDatabase()->isConnected()) {
+        if ($this->getTable()->getDatabase()->isConnected())
+        {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
-            if (!$row->isNew()) {
+            if (!$row->isNew())
+            {
                 $row->time = time();
                 $row->data = $session_data;
 
@@ -114,7 +117,8 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = false;
 
-        if ($this->getTable()->getDatabase()->isConnected()) {
+        if ($this->getTable()->getDatabase()->isConnected())
+        {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
             if (!$row->isNew()) {
@@ -135,7 +139,8 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     {
         $result = false;
 
-        if ($this->getTable()->getDatabase()->isConnected()) {
+        if ($this->getTable()->getDatabase()->isConnected())
+        {
             $query = $this->getService('koowa:database.query.select')
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
@@ -153,7 +158,8 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
      */
     public function getTable()
     {
-        if (!($this->_table instanceof KDatabaseTableInterface)) {
+        if (!($this->_table instanceof KDatabaseTableInterface))
+        {
             //Make sure we have a table identifier
             if (!($this->_table instanceof KServiceIdentifier)) {
                 $this->setTable($this->_table);
@@ -175,7 +181,8 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
      */
     public function setTable($table)
     {
-        if (!($table instanceof KDatabaseTableInterface)) {
+        if (!($table instanceof KDatabaseTableInterface))
+        {
             $identifier = $this->getIdentifier($table);
 
             if ($identifier->path[1] != 'table') {

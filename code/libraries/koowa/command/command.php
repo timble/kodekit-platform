@@ -75,7 +75,8 @@ class KCommand extends KObject implements KCommandInterface
     {
         $type = '';
 
-        if ($context->caller) {
+        if ($context->caller)
+        {
             $identifier = clone $context->caller->getIdentifier();
 
             if ($identifier->path) {

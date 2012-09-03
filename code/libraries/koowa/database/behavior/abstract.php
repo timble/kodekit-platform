@@ -28,10 +28,11 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
     public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
         $classname = $config->service_identifier->classname;
-        $instance = new $classname($config);
+        $instance  = new $classname($config);
 
         //If the behavior is auto mixed also lazy mix it into related row objects.
-        if ($config->auto_mixin) {
+        if ($config->auto_mixin)
+        {
             $identifier = clone $instance->getMixer()->getIdentifier();
             $identifier->path = array('database', 'row');
             $identifier->name = KInflector::singularize($identifier->name);

@@ -103,10 +103,10 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'data' => null,
-            'new' => true,
+            'data'   => null,
+            'new'    => true,
             'status' => null,
-            'status_message' => '',
+            'status_message'  => '',
             'identity_column' => null
         ));
 
@@ -156,13 +156,13 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
             $data = (array)$data;
         }
 
-        if ($modified) {
+        if ($modified)
+        {
             foreach ($data as $column => $value) {
                 $this->$column = $value;
             }
-        } else {
-            $this->_data = array_merge($this->_data, $data);
         }
+        else $this->_data = array_merge($this->_data, $data);
 
         return $this;
     }
@@ -209,7 +209,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         return $this->_status_message;
     }
 
-
     /**
      * Set the status message
      *
@@ -230,7 +229,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function load()
     {
         $this->_modified = array();
-
         return $this;
     }
 
@@ -245,7 +243,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function save()
     {
         $this->_modified = array();
-
         return false;
     }
 
@@ -266,7 +263,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function reset()
     {
-        $this->_data = array();
+        $this->_data     = array();
         $this->_modified = array();
 
         return true;
@@ -295,7 +292,8 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function __set($column, $value)
     {
-        if (!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew()) {
+        if (!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew())
+        {
             parent::__set($column, $value);
 
             $this->_modified[$column] = true;

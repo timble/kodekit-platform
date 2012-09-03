@@ -121,13 +121,15 @@ class KService implements KServiceInterface
         $objIdentifier = self::getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
 
-        if (!self::$_services->offsetExists($strIdentifier)) {
+        if (!self::$_services->offsetExists($strIdentifier))
+        {
             //Instantiate the identifier
             $instance = self::_instantiate($objIdentifier, $config);
 
             //Perform the mixin
             self::_mixin($strIdentifier, $instance);
-        } else $instance = self::$_services->offsetGet($strIdentifier);
+        }
+        else $instance = self::$_services->offsetGet($strIdentifier);
 
         return $instance;
     }
@@ -192,7 +194,8 @@ class KService implements KServiceInterface
         self::$_mixins[$strIdentifier][$mixin] = $mixin;
 
         //If the identifier already exists mixin the mixin
-        if (self::$_services->offsetExists($strIdentifier)) {
+        if (self::$_services->offsetExists($strIdentifier))
+        {
             $instance = self::$_services->offsetGet($strIdentifier);
             self::_mixin($strIdentifier, $instance);
         }
@@ -231,7 +234,8 @@ class KService implements KServiceInterface
      */
     public static function getIdentifier($identifier)
     {
-        if (!is_string($identifier)) {
+        if (!is_string($identifier))
+        {
             if ($identifier instanceof KObjectServiceable) {
                 $identifier = $identifier->getIdentifier();
             }
@@ -242,13 +246,15 @@ class KService implements KServiceInterface
             $identifier = self::$_aliases[$alias];
         }
 
-        if (!self::$_identifiers->offsetExists((string)$identifier)) {
+        if (!self::$_identifiers->offsetExists((string)$identifier))
+        {
             if (is_string($identifier)) {
                 $identifier = new KServiceIdentifier($identifier);
             }
 
             self::$_identifiers->offsetSet((string)$identifier, $identifier);
-        } else $identifier = self::$_identifiers->offsetGet((string)$identifier);
+        }
+        else $identifier = self::$_identifiers->offsetGet((string)$identifier);
 
         return $identifier;
     }
@@ -345,9 +351,11 @@ class KService implements KServiceInterface
      */
     protected static function _mixin($identifier, $instance)
     {
-        if (isset(self::$_mixins[$identifier]) && $instance instanceof KObject) {
+        if (isset(self::$_mixins[$identifier]) && $instance instanceof KObject)
+        {
             $mixins = self::$_mixins[$identifier];
-            foreach ($mixins as $mixin) {
+            foreach ($mixins as $mixin)
+            {
                 $mixin = self::get($mixin, array('mixer' => $instance));
                 $instance->mixin($mixin);
             }
@@ -367,8 +375,10 @@ class KService implements KServiceInterface
         $result = null;
 
         //Load the class manually using the basepath
-        if (self::get('koowa:loader')->loadClass($identifier->classname, $identifier->basepath)) {
-            if (array_key_exists('KObjectServiceable', class_implements($identifier->classname))) {
+        if (self::get('koowa:loader')->loadClass($identifier->classname, $identifier->basepath))
+        {
+            if (array_key_exists('KObjectServiceable', class_implements($identifier->classname)))
+            {
                 //Create the configuration object
                 $config = new KConfig(array_merge(self::getConfig($identifier), $config));
 

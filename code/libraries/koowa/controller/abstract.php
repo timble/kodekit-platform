@@ -129,24 +129,29 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
         }
 
         //Execute the action
-        if ($this->getCommandChain()->run('before.' . $command, $context) !== false) {
+        if ($this->getCommandChain()->run('before.' . $command, $context) !== false)
+        {
             $method = '_action' . ucfirst($command);
 
-            if (!method_exists($this, $method)) {
+            if (!method_exists($this, $method))
+            {
                 if (isset($this->_mixed_methods[$command])) {
                     $context->result = $this->_mixed_methods[$command]->execute('action.' . $command, $context);
                 } else {
                     throw new KControllerException("Can't execute '$command', method: '$method' does not exist");
                 }
-            } else  $context->result = $this->$method($context);
+            }
+            else  $context->result = $this->$method($context);
 
             $this->getCommandChain()->run('after.' . $command, $context);
         }
 
         //Handle exceptions
-        if ($context->getError() instanceof KException) {
+        if ($context->getError() instanceof KException)
+        {
             //@TODO : Move header handling into a response object
-            if ($context->headers) {
+            if ($context->headers)
+            {
                 foreach ($context->headers as $name => $value) {
                     header($name . ' : ' . $value);
                 }
@@ -166,8 +171,10 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     public function mixin(KMixinInterface $object)
     {
-        if ($object instanceof KControllerBehaviorAbstract) {
-            foreach ($object->getMethods() as $method) {
+        if ($object instanceof KControllerBehaviorAbstract)
+        {
+            foreach ($object->getMethods() as $method)
+            {
                 if (substr($method, 0, 7) == '_action') {
                     $this->_actions[] = strtolower(substr($method, 7));
                 }
@@ -186,10 +193,12 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     public function getActions()
     {
-        if (!$this->_actions) {
+        if (!$this->_actions)
+        {
             $this->_actions = array();
 
-            foreach ($this->getMethods() as $method) {
+            foreach ($this->getMethods() as $method)
+            {
                 if (substr($method, 0, 7) == '_action') {
                     $this->_actions[] = strtolower(substr($method, 7));
                 }
@@ -290,16 +299,19 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     public function __call($method, $args)
     {
         //Handle action alias method
-        if (in_array($method, $this->getActions())) {
+        if (in_array($method, $this->getActions()))
+        {
             //Get the data
             $data = !empty($args) ? $args[0] : array();
 
             //Create a context object
-            if (!($data instanceof KCommandContext)) {
+            if (!($data instanceof KCommandContext))
+            {
                 $context = $this->getCommandContext();
                 $context->data = $data;
                 $context->result = false;
-            } else $context = $data;
+            }
+            else $context = $data;
 
             //Execute the action
             return $this->execute($method, $context);
@@ -308,7 +320,8 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
         //Check if a behavior is mixed
         $parts = KInflector::explode($method);
 
-        if ($parts[0] == 'is' && isset($parts[1])) {
+        if ($parts[0] == 'is' && isset($parts[1]))
+        {
             if (!isset($this->_mixed_methods[$method])) {
                 return false;
             }

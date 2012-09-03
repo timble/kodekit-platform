@@ -49,7 +49,8 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
     {
         $result = false;
 
-        if ($handle = $object->getHandle()) {
+        if ($handle = $object->getHandle())
+        {
             $this->_object_set->offsetSet($handle, $object);
             $result = true;
         }

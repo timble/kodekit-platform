@@ -88,11 +88,11 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'columns' => array('title'),
-            'separator' => '-',
-            'updatable' => true,
-            'length' => null,
-            'unique' => null,
+            'columns'    => array('title'),
+            'separator'  => '-',
+            'updatable'  => true,
+            'length'     => null,
+            'unique'     => null,
             'auto_mixin' => true,
         ));
 
@@ -130,7 +130,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     public function getSlug()
     {
         $result = $this->slug;
-        if (!$this->getTable()->getColumn('slug', true)->unique) {
+        if (!$this->getTable()->getColumn('slug', true)->unique)
+        {
             $column = $this->getIdentityColumn();
             $result = $this->{$column} . $this->_separator . $this->slug;
         }
@@ -204,7 +205,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         //Create the slug filter
         $filter = $this->_createFilter();
 
-        if (empty($this->slug)) {
+        if (empty($this->slug))
+        {
             $slugs = array();
             foreach ($this->_columns as $column) {
                 $slugs[] = $filter->sanitize($this->$column);
@@ -213,8 +215,11 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
             $this->slug = implode($this->_separator, array_filter($slugs));
             $this->_canonicalizeSlug();
             return true;
-        } else {
-            if (in_array('slug', $this->getModified())) {
+        }
+        else
+        {
+            if (in_array('slug', $this->getModified()))
+            {
                 $this->slug = $filter->sanitize($this->slug);
                 $this->_canonicalizeSlug();
                 return true;
@@ -243,7 +248,8 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         }
 
         //If the slug needs to be unique and it already exist make it unqiue
-        if ($this->_unique && $table->count(array('slug' => $this->slug))) {
+        if ($this->_unique && $table->count(array('slug' => $this->slug)))
+        {
             $db = $table->getDatabase();
             $query = $this->getService('koowa:database.query.select')
                 ->columns('slug')

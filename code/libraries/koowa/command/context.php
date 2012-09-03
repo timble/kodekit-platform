@@ -78,7 +78,7 @@ class KCommandContext extends KConfig
      */
     public function setSubject(KObjectServiceable $subject)
     {
-        $this->_subject = $publisher;
+        $this->_subject = $subject;
         return $this;
     }
 }

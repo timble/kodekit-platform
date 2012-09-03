@@ -26,7 +26,8 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        if ($this->isDispatched() && KRequest::type() == 'HTTP') {
+        if ($this->isDispatched() && KRequest::type() == 'HTTP')
+        {
             $this->registerCallback('before.read', array($this, 'setReferrer'));
             $this->registerCallback('after.apply', array($this, 'lockReferrer'));
             $this->registerCallback('after.read', array($this, 'unlockReferrer'));
@@ -86,12 +87,14 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      */
     public function setReferrer()
     {
-        if (!KRequest::has('cookie.referrer_locked')) {
-            $request = KRequest::url();
+        if (!KRequest::has('cookie.referrer_locked'))
+        {
+            $request  = KRequest::url();
             $referrer = KRequest::referrer();
 
             //Compare request url and referrer
-            if (!isset($referrer) || ((string)$referrer == (string)$request)) {
+            if (!isset($referrer) || ((string)$referrer == (string)$request))
+            {
                 $controller = $this->getMixer();
                 $identifier = $controller->getIdentifier();
 
@@ -125,10 +128,12 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      */
     public function lockResource(KCommandContext $context)
     {
-        if ($context->result instanceof KDatabaseRowInterface) {
+        if ($context->result instanceof KDatabaseRowInterface)
+        {
             $view = $this->getView();
 
-            if ($view instanceof KViewTemplate) {
+            if ($view instanceof KViewTemplate)
+            {
                 if ($view->getLayout() == 'form' && $context->result->isLockable()) {
                     $context->result->lock();
                 }
@@ -192,16 +197,19 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
         //Create the redirect
         $url = $this->getReferrer();
 
-        if ($data instanceof KDatabaseRowAbstract) {
+        if ($data instanceof KDatabaseRowAbstract)
+        {
             $url = clone KRequest::url();
 
-            if ($this->getModel()->getState()->isUnique()) {
+            if ($this->getModel()->getState()->isUnique())
+            {
                 $states = $this->getModel()->getState()->getData(true);
 
                 foreach ($states as $key => $value) {
                     $url->query[$key] = $data->get($key);
                 }
-            } else $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn());
+            }
+            else $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn());
         }
 
         $this->setRedirect($url);

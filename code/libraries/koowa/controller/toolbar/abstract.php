@@ -136,12 +136,16 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
         $command->setToolbar($this);
 
         //Find the command function to call
-        if (method_exists($this, '_command' . ucfirst($name))) {
+        if (method_exists($this, '_command' . ucfirst($name)))
+        {
             $function = '_command' . ucfirst($name);
             $this->$function($command);
-        } else {
+        }
+        else
+        {
             //Don't set an action for GET commands
-            if (!isset($command->href)) {
+            if (!isset($command->href))
+            {
                 $command->append(array(
                     'attribs' => array(
                         'data-action' => $command->getName()
@@ -197,7 +201,8 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
     {
         $parts = KInflector::explode($method);
 
-        if ($parts[0] == 'add' && isset($parts[1])) {
+        if ($parts[0] == 'add' && isset($parts[1]))
+        {
             $config = isset($args[0]) ? $args[0] : array();
             $command = $this->addCommand(strtolower($parts[1]), $config);
             return $command;

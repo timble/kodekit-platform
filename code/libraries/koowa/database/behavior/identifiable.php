@@ -32,7 +32,8 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        foreach ($config as $key => $value) {
+        foreach ($config as $key => $value)
+        {
             if (property_exists($this, '_' . $key)) {
                 $this->{'_' . $key} = $value;
             }
@@ -88,8 +89,10 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableSelect(KCommandContext $context)
     {
-        if ($this->_auto_generate && !$this->isNew()) {
-            if (isset($this->uuid) && empty($this->uuid)) {
+        if ($this->_auto_generate && !$this->isNew())
+        {
+            if (isset($this->uuid) && empty($this->uuid))
+            {
                 $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
                 $this->uuid = $this->_uuid($hex);
 
@@ -108,7 +111,8 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        if (isset($this->uuid)) {
+        if (isset($this->uuid))
+        {
             $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
             $this->uuid = $this->_uuid($hex);
         }
@@ -135,7 +139,8 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
         }
 
         // If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
-        if (empty($pr_bits)) {
+        if (empty($pr_bits))
+        {
             $pr_bits = "";
             for ($cnt = 0; $cnt < 16; $cnt++) {
                 $pr_bits .= chr(mt_rand(0, 255));
@@ -171,5 +176,4 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
 
         return sprintf($format, $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
     }
-
 }

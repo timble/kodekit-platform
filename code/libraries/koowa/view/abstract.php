@@ -125,7 +125,8 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      */
     public function getModel()
     {
-        if (!$this->_model instanceof KModelAbstract) {
+        if (!$this->_model instanceof KModelAbstract)
+        {
             //Make sure we have a model identifier
             if (!($this->_model instanceof KServiceIdentifier)) {
                 $this->setModel($this->_model);
@@ -147,8 +148,10 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      */
     public function setModel($model)
     {
-        if (!($model instanceof KModelAbstract)) {
-            if (is_string($model) && strpos($model, '.') === false) {
+        if (!($model instanceof KModelAbstract))
+        {
+            if (is_string($model) && strpos($model, '.') === false)
+            {
                 // Model names are always plural
                 if (KInflector::isSingular($model)) {
                     $model = KInflector::pluralize($model);
@@ -157,7 +160,8 @@ abstract class KViewAbstract extends KObject implements KViewInterface
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('model');
                 $identifier->name = $model;
-            } else $identifier = $this->getIdentifier($model);
+            }
+            else $identifier = $this->getIdentifier($model);
 
             if ($identifier->path[0] != 'model') {
                 throw new KControllerException('Identifier: ' . $identifier . ' is not a model identifier');

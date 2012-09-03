@@ -36,7 +36,8 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
     {
         parent::__construct($config);
 
-        if (!$this->isSupported()) {
+        if (!$this->isSupported())
+        {
             $name = $this->getIdentifier()->name;
             throw new KDispathcherSessionHandlerException('The ' . $name . ' session handler is not available');
         }

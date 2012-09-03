@@ -91,14 +91,14 @@ class KHttpUrl extends KObject
      *
      * @see get()
      */
-    const SCHEME = 1;
-    const USER = 2;
-    const PASS = 4;
-    const HOST = 8;
-    const PORT = 16;
-    const PATH = 32;
-    const FORMAT = 64;
-    const QUERY = 128;
+    const SCHEME   = 1;
+    const USER     = 2;
+    const PASS     = 4;
+    const HOST     = 8;
+    const PORT     = 16;
+    const PATH     = 32;
+    const FORMAT   = 64;
+    const QUERY    = 128;
     const FRAGMENT = 256;
 
     const AUTH = 6;
@@ -288,7 +288,8 @@ class KHttpUrl extends KObject
         }
 
         //Add the username and password
-        if (($parts & self::USER) && !empty($this->user)) {
+        if (($parts & self::USER) && !empty($this->user))
+        {
             $url .= urlencode($this->user);
             if (($parts & self::PASS) && !empty($this->pass)) {
                 $url .= ':' . urlencode($this->pass);
@@ -298,7 +299,8 @@ class KHttpUrl extends KObject
         }
 
         // Add the host and port, if any.
-        if (($parts & self::HOST) && !empty($this->host)) {
+        if (($parts & self::HOST) && !empty($this->host))
+        {
             $url .= urlencode($this->host);
 
             if (($parts & self::PORT) && !empty($this->port)) {
@@ -308,7 +310,8 @@ class KHttpUrl extends KObject
 
         // Add the rest of the url. we use trim() instead of empty() on string
         // elements to allow for string-zero values.
-        if (($parts & self::PATH) && !empty($this->_path)) {
+        if (($parts & self::PATH) && !empty($this->_path))
+        {
             $url .= $this->getPath();
             if (($parts & self::FORMAT) && trim($this->format) !== '') {
                 $url .= '.' . urlencode($this->format);
@@ -334,7 +337,8 @@ class KHttpUrl extends KObject
      */
     public function setUrl($url)
     {
-        if (!empty($url)) {
+        if (!empty($url))
+        {
             foreach (parse_url($url) as $key => $value) {
                 $this->$key = $value;
             }
@@ -355,7 +359,8 @@ class KHttpUrl extends KObject
     public function setQuery($query, $merge = false)
     {
         $result = $query;
-        if (!is_array($query)) {
+        if (!is_array($query))
+        {
             if (strpos($query, '&amp;') !== false) {
                 $query = str_replace('&amp;', '&', $query);
             }
@@ -399,7 +404,8 @@ class KHttpUrl extends KObject
      */
     public function setPath($path)
     {
-        if (is_string($path)) {
+        if (is_string($path))
+        {
             if (!empty($path)) {
                 $path = explode('/', $path);
             } else {
@@ -411,7 +417,8 @@ class KHttpUrl extends KObject
             $path[$key] = urldecode($val);
         }
 
-        if ($val = end($path)) {
+        if ($val = end($path))
+        {
             // find the last dot in the value
             $pos = strrpos($val, '.');
 

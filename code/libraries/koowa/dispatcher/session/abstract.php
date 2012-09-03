@@ -136,22 +136,22 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'handler' => 'file',
-            'name' => 'KSESSIONID',
-            'id' => '',
-            'lifetime' => 1440,
+            'handler'   => 'file',
+            'name'      => 'KSESSIONID',
+            'id'        => '',
+            'lifetime'  => 1440,
             'namespace' => '__default',
             'options' => array(
-                'auto_start' => 0,
-                'cache_limiter' => '',
-                'use_cookies' => 1,
-                'use_only_cookies' => 1,
-                'cookie_httponly' => 1,
-                'save_handler' => 'files',
-                'use_trans_sid' => 0,
-                'entropy_file' => '/dev/urandom',
-                'entropy_length' => 128,
-                'hash_function' => 'sha256',
+                'auto_start'        => 0,
+                'cache_limiter'     => '',
+                'use_cookies'       => 1,
+                'use_only_cookies'  => 1,
+                'cookie_httponly'   => 1,
+                'save_handler'      => 'files',
+                'use_trans_sid'     => 0,
+                'entropy_file'      => '/dev/urandom',
+                'entropy_length'    => 128,
+                'hash_function'     => 'sha256',
                 'hash_bits_per_character' => 5,
             )
         ));
@@ -172,7 +172,8 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
         $valid = array_flip(self::$_valid_options);
 
         //Sets session.* ini variables.
-        foreach ($options as $key => $value) {
+        foreach ($options as $key => $value)
+        {
             if (isset($valid[$key])) {
                 ini_set('session.' . $key, $value);
             }
@@ -321,12 +322,15 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function setHandler($handler, $config = array())
     {
-        if (!($handler instanceof KDispatcherSessionHandlerInterface)) {
-            if (is_string($handler) && strpos($handler, '.') === false) {
+        if (!($handler instanceof KDispatcherSessionHandlerInterface))
+        {
+            if (is_string($handler) && strpos($handler, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('session', 'handler');
                 $identifier->name = $handler;
-            } else $identifier = $this->getIdentifier($handler);
+            }
+            else $identifier = $this->getIdentifier($handler);
 
             if ($identifier->path[1] != 'handler') {
                 throw new DomainException('Identifier: ' . $identifier . ' is not a session handler identifier');
@@ -374,7 +378,8 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function getAddress($refresh = false)
     {
-        if ($this->_address === null || $refresh) {
+        if ($this->_address === null || $refresh)
+        {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
                 $this->_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
             } else if (isset($_SERVER['REMOTE_ADDR'])) {
@@ -397,7 +402,8 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function getAgent($refresh = false)
     {
-        if ($this->_agent === null || $refresh) {
+        if ($this->_agent === null || $refresh)
+        {
             if (isset($_SERVER['HTTP_USER_AGENT'])) {
                 $this->_agent = $_SERVER['HTTP_USER_AGENT'];
             } else {
@@ -436,7 +442,8 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function start()
     {
-        if (!$this->isActive()) {
+        if (!$this->isActive())
+        {
             //Make sure we have a registered session handler
             if (!$this->getHandler()->isRegistered()) {
                 $this->getHandler()->register();
@@ -517,10 +524,12 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function destroy()
     {
-        if ($this->isActive()) {
+        if ($this->isActive())
+        {
             // In order to kill the session altogether, like to log the user out, the session id must also be unset. If
             // a cookie is used to propagate the session id (default behavior) then the session cookie must be deleted.
-            if (ini_get("session.use_cookies") && isset($_COOKIE[$this->getName()])) {
+            if (ini_get("session.use_cookies") && isset($_COOKIE[$this->getName()]))
+            {
                 $params = session_get_cookie_params();
                 setcookie($this->getName(), '', time() - 42000,
                     $params["path"],
@@ -556,7 +565,8 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     public function fork($destroy = true, $lifetime = null)
     {
-        if ($this->isActive()) {
+        if ($this->isActive())
+        {
             if ($lifetime !== null) {
                 ini_set('session.cookie_lifetime', $lifetime);
             }
@@ -669,7 +679,8 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
      */
     protected function _updateTimers()
     {
-        if (!isset($this->__timer)) {
+        if (!isset($this->__timer))
+        {
             $start = time();
 
             $timer = array(
@@ -679,7 +690,8 @@ abstract class KDispatcherSessionAbstract extends KObject implements KDispatcher
             );
 
             $timer;
-        } else $timer = $this->__timer;
+        }
+        else $timer = $this->__timer;
 
         $timer['last'] = $timer['now'];
         $timer['now'] = time();

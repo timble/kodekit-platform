@@ -101,8 +101,10 @@ abstract class KModelAbstract extends KObject implements KModelInterface
             $property = (array)KConfig::unbox($property);
         }
 
-        if (is_array($property)) {
-            foreach ($property as $key => $value) {
+        if (is_array($property))
+        {
+            foreach ($property as $key => $value)
+            {
                 if (isset($this->_state->$key) && $this->_state->$key != $value) {
                     $changed = true;
                     break;
@@ -110,7 +112,9 @@ abstract class KModelAbstract extends KObject implements KModelInterface
             }
 
             $this->_state->setData($property);
-        } else {
+        }
+        else
+        {
             if (isset($this->_state->$property) && $this->_state->$property != $value) {
                 $changed = true;
             }
@@ -118,7 +122,8 @@ abstract class KModelAbstract extends KObject implements KModelInterface
             $this->_state->$property = $value;
         }
 
-        if ($changed) {
+        if ($changed)
+        {
             $this->_list = null;
             $this->_item = null;
             $this->_total = null;
@@ -149,7 +154,9 @@ abstract class KModelAbstract extends KObject implements KModelInterface
 
         if (is_null($property)) {
             $result = $this->_state->getData();
-        } else {
+        }
+        else
+        {
             if (isset($this->_state->$property)) {
                 $result = $this->_state->$property;
             }

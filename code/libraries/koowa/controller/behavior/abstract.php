@@ -31,7 +31,8 @@ abstract class KControllerBehaviorAbstract extends KBehaviorAbstract
         $this->setMixer($context->caller);
 
         $parts = explode('.', $name);
-        if ($parts[0] == 'action') {
+        if ($parts[0] == 'action')
+        {
             $method = '_action' . ucfirst($parts[1]);
 
             if (method_exists($this, $method)) {
@@ -54,7 +55,8 @@ abstract class KControllerBehaviorAbstract extends KBehaviorAbstract
     {
         $methods = parent::getMixableMethods($mixer);
 
-        foreach ($this->getMethods() as $method) {
+        foreach ($this->getMethods() as $method)
+        {
             if (substr($method, 0, 7) == '_action') {
                 $methods[strtolower(substr($method, 7))] = $this;
             }
