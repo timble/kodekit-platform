@@ -1,17 +1,17 @@
 <?php
 /**
- * @version		$Id$
- * @package		Koowa_Dispatcher
+ * @version        $Id$
+ * @package        Koowa_Dispatcher
  * @subpackage  Session
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
  * Abstract Session Handler Class
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
@@ -32,21 +32,17 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KDispatcherSessionHandlerAbstract
      */
-    public function __construct( KConfig $config = null )
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
-        if (!$this->isSupported())
-        {
+        if (!$this->isSupported()) {
             $name = $this->getIdentifier()->name;
-            throw new KDispathcherSessionHandlerException('The '.$name.' session handler is not available');
+            throw new KDispathcherSessionHandlerException('The ' . $name . ' session handler is not available');
         }
 
         //Register the functions of this class with the PHP session handler
-        if($config->auto_register) {
+        if ($config->auto_register) {
             $this->register();
         }
     }
@@ -162,7 +158,7 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
      */
     public function isRegistered()
     {
-        if(self::$_registered === $this) {
+        if (self::$_registered === $this) {
             return true;
         }
 
