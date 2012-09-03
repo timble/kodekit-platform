@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Koowa_Object
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @version        $Id$
+ * @package        Koowa_Object
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
@@ -15,11 +15,11 @@
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
- * @see			http://www.php.net/manual/en/class.splobjectstorage.php
+ * @see            http://www.php.net/manual/en/class.splobjectstorage.php
  */
 class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Countable, Serializable
 {
-   /**
+    /**
      * Object set
      *
      * @var array
@@ -32,33 +32,29 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      * @param KConfig|null $config  An optional KConfig object with configuration options
      * @return \KObjectSet
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         $this->_object_set = new ArrayObject();
     }
 
-  	/**
+    /**
      * Inserts an object in the set
      *
      * @param   KObjectHandlable $object
-     * @return  boolean	TRUE on success FALSE on failure
+     * @return  boolean    TRUE on success FALSE on failure
      */
     public function insert(KObjectHandlable $object)
     {
         $result = false;
 
-        if($handle = $object->getHandle())
-        {
+        if ($handle = $object->getHandle()) {
             $this->_object_set->offsetSet($handle, $object);
             $result = true;
         }
 
-       return $result;
+        return $result;
     }
 
     /**
@@ -74,33 +70,33 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
     {
         $handle = $object->getHandle();
 
-        if($this->_object_set->offsetExists($handle)) {
-           $this->_object_set->offsetUnset($handle);
+        if ($this->_object_set->offsetExists($handle)) {
+            $this->_object_set->offsetUnset($handle);
         }
 
         return $this;
     }
 
-	/**
+    /**
      * Checks if the set contains a specific object
      *
      * @param   KObjectHandlable $object
      * @return  bool Returns TRUE if the object is in the set, FALSE otherwise
      */
-    public function contains( KObjectHandlable $object)
+    public function contains(KObjectHandlable $object)
     {
         return $this->_object_set->offsetExists($object->getHandle());
     }
 
-	/**
+    /**
      * Merge-in another object set
      *
      * @param   KObjectSet  $set
      * @return  KObjectQueue
      */
-    public function merge( KObjectSet $set)
+    public function merge(KObjectSet $set)
     {
-        foreach($set as $object) {
+        foreach ($set as $object) {
             $this->insert($object);
         }
 
@@ -118,7 +114,7 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function offsetExists($object)
     {
-        if(!$object instanceof KObjectHandlable) {
+        if (!$object instanceof KObjectHandlable) {
             throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
@@ -136,7 +132,7 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function offsetGet($object)
     {
-        if(!$object instanceof KObjectHandlable) {
+        if (!$object instanceof KObjectHandlable) {
             throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
@@ -155,7 +151,7 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function offsetSet($object, $data)
     {
-        if(!$object instanceof KObjectHandlable) {
+        if (!$object instanceof KObjectHandlable) {
             throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
@@ -174,7 +170,7 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      */
     public function offsetUnset($object)
     {
-        if(!$object instanceof KObjectHandlable) {
+        if (!$object instanceof KObjectHandlable) {
             throw new InvalidArgumentException('Object needs to implement KObjectHandlable');
         }
 
@@ -218,22 +214,22 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
         return $this->_object_set->count();
     }
 
-	/**
+    /**
      * Return the first object in the set
      *
-     * @return	mixed \KObject or NULL is queue is empty
+     * @return    mixed \KObject or NULL is queue is empty
      */
-	public function top()
-	{
-	    $objects = array_values($this->_object_set->getArrayCopy());
+    public function top()
+    {
+        $objects = array_values($this->_object_set->getArrayCopy());
 
-	    $object = null;
-	    if(isset($objects[0])) {
-	        $object  = $objects[0];
-	    }
+        $object = null;
+        if (isset($objects[0])) {
+            $object = $objects[0];
+        }
 
-	    return $object;
-	}
+        return $object;
+    }
 
     /**
      * Defined by IteratorAggregate
@@ -245,7 +241,7 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
         return $this->_object_set->getIterator();
     }
 
-	/**
+    /**
      * Return an associative array of the data.
      *
      * @return array
