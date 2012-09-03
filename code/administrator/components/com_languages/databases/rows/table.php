@@ -27,7 +27,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
         {
             $database  = $this->getTable()->getDatabase();
             $prefix    = $database->getTablePrefix();
-            $languages = $this->getService('application')->getLanguages();
+            $languages = $this->getService('application.languages');
             $primary   = $languages->getPrimary();
 
             foreach($languages as $language)
