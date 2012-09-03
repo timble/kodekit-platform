@@ -23,7 +23,7 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
      * @var     object
      */
     protected $_adapter;
-    
+
     /**
      * Parameters to bind.
      *
@@ -39,8 +39,6 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
      */
     public function __construct(KConfig $config)
     {
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         if ($config->adapter instanceof KDatabaseAdapterInterface) {
@@ -48,7 +46,7 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
         }
     }
 
-   /**
+    /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -84,7 +82,7 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
         $this->_adapter = $adapter;
         return $this;
     }
-    
+
     /**
      * Bind values to a corresponding named placeholders in the query.
      *
@@ -93,35 +91,35 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
      */
     public function bind(array $params)
     {
-        foreach($params as $key => $value) {
+        foreach ($params as $key => $value) {
             $this->params[$key] = $value;
         }
 
         return $this;
     }
-    
+
     /**
      * Replace parameters in the query string.
-     * 
+     *
      * @param  string $query The query string.
      * @return string The replaced string.
      */
     protected function _replaceParams($query)
     {
-       return preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParamsCallback'), $query);
+        return preg_replace_callback("/(?<!\w):\w+/", array($this, '_replaceParamsCallback'), $query);
     }
-    
+
     /**
      * Callback method for parameter replacement.
-     * 
+     *
      * @param  array  $matches Matches of preg_replace_callback.
      * @return string The replaced string.
      */
     protected function _replaceParamsCallback($matches)
     {
-        $key         = substr($matches[0], 1);
+        $key = substr($matches[0], 1);
         $replacement = $this->getAdapter()->quoteValue($this->params[$key]);
-        
-        return is_array($this->params[$key]) ? '('.$replacement.')' : $replacement;
+
+        return is_array($this->params[$key]) ? '(' . $replacement . ')' : $replacement;
     }
 }
