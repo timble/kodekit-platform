@@ -105,23 +105,13 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
 
     public function delete()
     {
-        $result = parent::delete();
-
-        $featured = $this->getService('com://admin/articles.database.row.featured')
-             ->set('id', $this->id);
+        $result   = parent::delete();
+        $featured = $this->getService('com://admin/articles.database.row.featured')->set('id', $this->id);
 
         if($featured->load()) {
             $featured->delete();
         }
 
         return $result;
-    }
-
-    public function toArray()
-    {
-        $data = parent::toArray();
-
-        $data['params'] = $this->params->toArray();
-        return $data;
     }
 }
