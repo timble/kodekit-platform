@@ -1,17 +1,17 @@
 <?php
 /**
- * @version		$Id$
+ * @version        $Id$
  * @package     Koowa_Database
  * @subpackage  Row
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link     	http://www.nooku.org
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link         http://www.nooku.org
  */
 
 /**
  * Abstract Row Class
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Row
  */
@@ -50,28 +50,25 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     protected $_new = true;
 
     /**
-	 * Name of the identity column in the rowset
-	 *
-	 * @var	string
-	 */
-	protected $_identity_column;
+     * Name of the identity column in the rowset
+     *
+     * @var    string
+     */
+    protected $_identity_column;
 
     /**
      * Constructor
      *
      * @param   object  An optional KConfig object with configuration options.
      */
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
-        //If no config is passed create it
-        if(!isset($config)) $config = new KConfig();
-
         parent::__construct($config);
 
         // Set the table indentifier
-    	if(isset($config->identity_column)) {
-			$this->_identity_column = $config->identity_column;
-		}
+        if (isset($config->identity_column)) {
+            $this->_identity_column = $config->identity_column;
+        }
 
         // Reset the row
         $this->reset();
@@ -80,17 +77,17 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         $this->_new = $config->new;
 
         // Set the row data
-        if(isset($config->data))  {
-            $this->setData((array) KConfig::unbox($config->data), $this->_new);
+        if (isset($config->data)) {
+            $this->setData((array)KConfig::unbox($config->data), $this->_new);
         }
 
         //Set the status
-        if(isset($config->status)) {
+        if (isset($config->status)) {
             $this->setStatus($config->status);
         }
 
         //Set the status message
-        if(!empty($config->status_message)) {
+        if (!empty($config->status_message)) {
             $this->setStatusMessage($config->status_message);
         }
     }
@@ -106,27 +103,27 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-             'data'             => null,
-             'new'              => true,
-             'status'           => null,
-             'status_message'   => '',
-             'identity_column'  => null
+            'data' => null,
+            'new' => true,
+            'status' => null,
+            'status_message' => '',
+            'identity_column' => null
         ));
 
         parent::_initialize($config);
     }
 
-	/**
-	 * Test the connected status of the row.
-	 *
-	 * @return	boolean	Returns TRUE by default.
-	 */
+    /**
+     * Test the connected status of the row.
+     *
+     * @return    boolean    Returns TRUE by default.
+     */
     public function isConnected()
-	{
-	    return true;
-	}
+    {
+        return true;
+    }
 
- 	/**
+    /**
      * Returns an associative array of the raw data
      *
      * @param   boolean  If TRUE, only return the modified data. Default FALSE
@@ -134,7 +131,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function getData($modified = false)
     {
-        if($modified) {
+        if ($modified) {
             $result = array_intersect_key($this->_data, $this->_modified);
         } else {
             $result = $this->_data;
@@ -151,22 +148,19 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      *                  Default TRUE
      * @return  KDatabaseRowAbstract
      */
-     public function setData( $data, $modified = true )
-     {
-        if($data instanceof KDatabaseRowInterface) {
+    public function setData($data, $modified = true)
+    {
+        if ($data instanceof KDatabaseRowInterface) {
             $data = $data->toArray();
         } else {
-            $data = (array) $data;
+            $data = (array)$data;
         }
 
-        if($modified)
-        {
-            foreach($data as $column => $value) {
+        if ($modified) {
+            foreach ($data as $column => $value) {
                 $this->$column = $value;
             }
-        }
-        else
-        {
+        } else {
             $this->_data = array_merge($this->_data, $data);
         }
 
@@ -191,14 +185,14 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function setStatus($status)
     {
-        $this->_status   = $status;
-        $this->_new      = false;
+        $this->_status = $status;
+        $this->_new = false;
 
-        if($status != KDatabase::STATUS_FAILED) {
+        if ($status != KDatabase::STATUS_FAILED) {
             $this->_modified = array();
         }
 
-        if($status == KDatabase::STATUS_DELETED) {
+        if ($status == KDatabase::STATUS_DELETED) {
             $this->_new = true;
         }
 
@@ -231,7 +225,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Load the row from the database.
      *
-     * @return object	If successfull returns the row object, otherwise NULL
+     * @return object    If successfull returns the row object, otherwise NULL
      */
     public function load()
     {
@@ -272,7 +266,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function reset()
     {
-        $this->_data     = array();
+        $this->_data = array();
         $this->_modified = array();
 
         return true;
@@ -301,8 +295,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function __set($column, $value)
     {
-        if(!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew())
-        {
+        if (!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew()) {
             parent::__set($column, $value);
 
             $this->_modified[$column] = true;
@@ -317,12 +310,12 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function __unset($column)
     {
-         parent::__unset($column);
+        parent::__unset($column);
 
-         unset($this->_modified[$column]);
+        unset($this->_modified[$column]);
     }
 
- 	/**
+    /**
      * Gets the identitiy column of the rowset
      *
      * @return string
@@ -351,7 +344,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function isModified($column)
     {
         $result = false;
-        if(isset($this->_modified[$column]) && $this->_modified[$column]) {
+        if (isset($this->_modified[$column]) && $this->_modified[$column]) {
             $result = true;
         }
 
@@ -365,35 +358,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function isNew()
     {
-        return (bool) $this->_new;
+        return (bool)$this->_new;
     }
-
-	/**
-	 * Search the mixin method map and call the method or trigger an error
-	 *
-	 * Function is also capable of checking is a behavior has been mixed succesfully
-	 * using is[Behavior] function. If the behavior exists the function will return
-	 * TRUE, otherwise FALSE.
-	 *
-	 * @param  string 	The function name
-	 * @param  array  	The function arguments
-	 * @throws BadMethodCallException 	If method could not be found
-	 * @return mixed The result of the function
-	 */
-	public function __call($method, $arguments)
-	{
-		// If the method is of the form is[Bahavior] handle it.
-		$parts = KInflector::explode($method);
-
-		if($parts[0] == 'is' && isset($parts[1]))
-		{
-			if(isset($this->_mixed_methods[$method])) {
-				return true;
-			}
-
-			return false;
-		}
-
-		return parent::__call($method, $arguments);
-	}
 }
