@@ -48,9 +48,8 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function __construct(KConfig $config)
     {
-        if(!empty($config)) {
-            $this->_initialize($config);
-        }
+        //Initialise
+        $this->_initialize($config);
 
         //Set the mixer
         $this->setMixer($config->mixer);
@@ -67,14 +66,14 @@ abstract class KMixinAbstract implements KMixinInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'mixer' =>  $this,
+            'mixer' => $this,
         ));
     }
 
-  	/**
+    /**
      * Get the mixer object
      *
-     * @return object 	The mixer object
+     * @return object     The mixer object
      */
     public function getMixer()
     {
@@ -103,7 +102,7 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function getHandle()
     {
-        return spl_object_hash( $this );
+        return spl_object_hash($this);
     }
 
     /**
@@ -115,12 +114,11 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function getMethods()
     {
-        if(!$this->__methods)
-        {
+        if (!$this->__methods) {
             $methods = array();
 
             $reflection = new ReflectionClass($this);
-            foreach($reflection->getMethods() as $method) {
+            foreach ($reflection->getMethods() as $method) {
                 $methods[] = $method->name;
             }
 
@@ -140,21 +138,19 @@ abstract class KMixinAbstract implements KMixinInterface
      */
     public function getMixableMethods(KObject $mixer = null)
     {
-        if(!$this->__mixable_methods)
-        {
+        if (!$this->__mixable_methods) {
             $methods = array();
 
             //Get all the public methods
             $reflection = new ReflectionClass($this);
             foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-                $methods[$method->name] = $method->name;
+                $methods[$method->name] = $this;
             }
 
             //Remove the base class methods
             $reflection = new ReflectionClass(__CLASS__);
-            foreach($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
-            {
-                if(isset($methods[$method->name])) {
+            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+                if (isset($methods[$method->name])) {
                     unset($methods[$method->name]);
                 }
             }
@@ -227,31 +223,29 @@ abstract class KMixinAbstract implements KMixinInterface
     public function __call($method, $arguments)
     {
         //Make sure we don't end up in a recursive loop
-        if(isset($this->_mixer) && !($this->_mixer instanceof $this))
-        {
+        if (isset($this->_mixer) && !($this->_mixer instanceof $this)) {
             // Call_user_func_array is ~3 times slower than direct method calls.
-            switch(count($arguments))
-            {
+            switch (count($arguments)) {
                 case 0 :
                     $result = $this->_mixer->$method();
                     break;
                 case 1 :
                     $result = $this->_mixer->$method($arguments[0]);
                     break;
-                case 2:
+                case 2 :
                     $result = $this->_mixer->$method($arguments[0], $arguments[1]);
                     break;
-                case 3:
+                case 3 :
                     $result = $this->_mixer->$method($arguments[0], $arguments[1], $arguments[2]);
                     break;
                 default:
                     // Resort to using call_user_func_array for many segments
                     $result = call_user_func_array(array($this->_mixer, $method), $arguments);
-             }
+            }
 
             return $result;
         }
 
-        throw new BadMethodCallException('Call to undefined method :'.$method);
+        throw new BadMethodCallException('Call to undefined method :' . $method);
     }
 }
