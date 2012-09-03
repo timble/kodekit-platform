@@ -47,7 +47,8 @@ class KMixinBehavior extends KMixinAbstract
         //Add the behaviors
         $behaviors = (array)KConfig::unbox($config->behaviors);
 
-        foreach ($behaviors as $key => $value) {
+        foreach ($behaviors as $key => $value)
+        {
             if (is_numeric($key)) {
                 $this->attachBehavior($value);
             } else {
@@ -120,16 +121,20 @@ class KMixinBehavior extends KMixinAbstract
      */
     public function getBehavior($behavior, $config = array())
     {
-        if (!($behavior instanceof KServiceIdentifier)) {
+        if (!($behavior instanceof KServiceIdentifier))
+        {
             //Create the complete identifier if a partial identifier was passed
-            if (is_string($behavior) && strpos($behavior, '.') === false) {
+            if (is_string($behavior) && strpos($behavior, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array($identifier->path[0], 'behavior');
                 $identifier->name = $behavior;
-            } else $identifier = $this->getIdentifier($behavior);
+            }
+            else $identifier = $this->getIdentifier($behavior);
         }
 
-        if (!isset($this->_behaviors[$identifier->name])) {
+        if (!isset($this->_behaviors[$identifier->name]))
+        {
             $config['mixer'] = $this->getMixer();
 
             $behavior = $this->getService($identifier, $config);
@@ -139,7 +144,8 @@ class KMixinBehavior extends KMixinAbstract
             }
 
             $this->_behaviors[$behavior->getIdentifier()->name] = $behavior;
-        } else $behavior = $this->_behaviors[$identifier->name];
+        }
+        else $behavior = $this->_behaviors[$identifier->name];
 
         return $behavior;
     }
