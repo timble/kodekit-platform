@@ -26,7 +26,8 @@ class ComContactsModelContacts extends KModelTable
 		
 		$this->getState()
 			->insert('published', 'boolean')
-			->insert('category' , 'slug');
+			->insert('category' , 'slug')
+			->insert('access', 'int');
 	}
 
 	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
@@ -60,6 +61,10 @@ class ComContactsModelContacts extends KModelTable
 
 		if ($state->search) {
 			$query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+		}
+		
+		if (is_numeric($state->access)) {
+		    $query->where('tbl.access = :access')->bind(array('access' => $state->access));
 		}
 	}
 }
