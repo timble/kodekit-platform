@@ -29,12 +29,10 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
                 'slug'       	   => 'alias',
                 'published_on'     => 'publish_up',
                 'unpublished_on'   => 'publish_down',
-                'params'		   => 'attribs'
             ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),
                 'fulltext'    => array('html', 'tidy'),
-                'params'	  => 'ini'
 		    )
         ));
 
