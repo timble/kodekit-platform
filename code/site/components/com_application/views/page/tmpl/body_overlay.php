@@ -9,6 +9,6 @@
  */
 ?>
 
-<body id="tmpl-overlay" class="<?= JRequest::getVar('option', 'cmd'); ?> contentpane">
-    <ktml:variable name="component" />
+<body id="tmpl-overlay" class="<?= $option ?> contentpane">
+    <ktml:variable name="content" />
 </body>
