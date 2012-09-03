@@ -12,6 +12,6 @@
 <?= @template('message') ?>
 <div id="frame" class="outline">
     <h1><?= @service('application')->getCfg('sitename'); ?></h1>
-    <ktml:variable name="component" />
+    <ktml:variable name="content" />
 </div>
 </body>
