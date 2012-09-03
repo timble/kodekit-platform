@@ -25,20 +25,16 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 		// Get the path
 		$path = $url->getPath();
 
-		if($app->getCfg('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
-		{
-			if($format = pathinfo($path, PATHINFO_EXTENSION))
-			{
-				$path = str_replace('.'.$format, '', $path);
-				$vars['format'] = $format;
-			}
-		}
-
-		//Remove base path
-		$path = substr_replace($path, '', 0, strlen(KRequest::root()->getPath()));
+        //Remove base path
+        $path = substr_replace($path, '', 0, strlen(KRequest::root()->getPath()));
 
 		//Remove the filename
 		$path = str_replace('index.php', '', $path);
+
+        // Set the format
+        if(!empty($url->format)) {
+            $url->query['format'] = $url->format;
+        }
 
 		//Set the route
 		$url->path = trim($path , '/');
@@ -104,14 +100,14 @@ class ComApplicationRouter extends KDispatcherRouterDefault
     protected function _parsePageRoute($url)
     {
         $route = $url->getPath();
-        $pages = $this->getService('application')->getPages();
+        $pages = $this->getService('application.pages');
 
         if(substr($route, 0, 9) != 'component')
         {
             //Need to reverse the array (highest sublevels first)
             foreach(array_reverse($pages->id) as $id)
             {
-                $page   = $pages->find($id);
+                $page   = $pages->getPage($id);
                 $length = strlen($page->route);
 
                 if($length > 0 && strpos($route.'/', $page->route.'/') === 0 && $page->type != 'pagelink')
@@ -120,7 +116,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
                     if($page->type != 'redirect')
                     {
-                        $url->query = $page->link->query;
+                        $url->setQuery($page->link->query, true);
                         $url->query['Itemid'] = $page->id;
                     }
 
@@ -216,7 +212,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
         if(!isset($url->query['Itemid']))
         {
-            $page = $this->getService('application')->getPages()->getActive();
+            $page = $this->getService('application.pages')->getActive();
             if($page) {
                 $url->query['Itemid'] = $page->id;
             }
@@ -224,8 +220,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 
         if(isset($url->query['Itemid']))
         {
-            $pages = $this->getService('application')->getPages();
-            $page  = $pages->find($url->query['Itemid']);
+            $page = $this->getService('application.pages')->getPage($url->query['Itemid']);
 
             if($page->link->query['option'] == $url->query['option']) {
                 $segments = $page->route;
