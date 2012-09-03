@@ -53,7 +53,7 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
             $container->set($config->service_identifier, $instance);
             
             //Add the factory map to allow easy access to the singleton
-            $container->setAlias('dispatcher', $config->service_identifier);
+            $container->setAlias('component', $config->service_identifier);
         }
         
         return $container->get($config->service_identifier);
@@ -91,6 +91,11 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
      */
     protected function _actionRender(KCommandContext $context)
     {
+        //Set the content type
+        //@TODO : need to be removed
+        $view  = $this->getController()->getView();
+        JResponse::setHeader( 'Content-Type', $view->mimetype .'; charset=utf8');
+
         //Sign the response with a token
         //@TODO : don't render the token if an error is thrown (check request)
         if(KRequest::method() == 'GET') {
