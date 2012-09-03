@@ -20,7 +20,7 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
 {
     protected $_table;
 
-    public function __construct(KConfig $config = null)
+    public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
