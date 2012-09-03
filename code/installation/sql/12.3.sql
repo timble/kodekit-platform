@@ -201,6 +201,15 @@ ALTER TABLE  `#__weblinks` DROP PRIMARY KEY , ADD PRIMARY KEY (  `weblinks_webli
 ALTER TABLE  `#__weblinks` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
 ALTER TABLE  `#__weblinks` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
 
+ALTER TABLE `#__weblinks` ADD `created_by` INT(11) UNSIGNED AFTER `description`;
+ALTER TABLE `#__weblinks` CHANGE  `date`  `created_on` DATETIME;
+
+ALTER TABLE `#__weblinks` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
+ALTER TABLE `#__weblinks` ADD `modified_on` DATETIME AFTER `modified_by`;
+
+ALTER TABLE `#__weblinks` CHANGE  `checked_out`  `locked_by` INT(11) UNSIGNED;
+ALTER TABLE `#__weblinks` CHANGE  `checked_out_time`  `locked_on` DATETIME;
+
 # --------------------------------------------------------
 
 -- Update schema to follow conventions

@@ -24,13 +24,11 @@ class ComWeblinksDatabaseTableWeblinks extends KDatabaseTableDefault
         $config->append(array(
         	'name'         => 'weblinks',
             'behaviors'    =>  array(
-            	'lockable', 'sluggable',
+            	'creatable', 'modifiable', 'lockable', 'sluggable',
         		'com://admin/categories.database.behavior.orderable' => array('parent_column' => 'categories_category_id'),
             ),
         	'column_map'   =>  array(
             	'enabled'   => 'published',
-             	'locked_on' => 'checked_out_time',
-              	'locked_by' => 'checked_out',
               	'slug'      => 'alias'
               ),
           	'filters' => array(
