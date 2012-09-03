@@ -26,14 +26,9 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
                 'com://admin/languages.database.behavior.translatable'
             ),
             'column_map' => array(
-                'locked_on'        => 'checked_out_time',
-                'locked_by'        => 'checked_out',
                 'slug'       	   => 'alias',
-                'created_on' 	   => 'created',
-                'modified_on'      => 'modified',
                 'published_on'     => 'publish_up',
                 'unpublished_on'   => 'publish_down',
-                'description'      => 'metadesc',
                 'params'		   => 'attribs'
             ),
             'filters' => array(

@@ -100,6 +100,12 @@ ALTER TABLE `#__articles` CHANGE `id` `articles_article_id` BIGINT(20) UNSIGNED 
 ALTER TABLE `#__articles_featured` CHANGE `content_id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `#__articles` CHANGE  `catid`  `categories_category_id` INT( 11 ) UNSIGNED NOT NULL DEFAULT  '0';
 ALTER TABLE `#__articles` DROP INDEX `idx_catid` ADD INDEX  `category` (  `categories_category_id` );
+ALTER TABLE `#__articles` CHANGE  `metadesc`  `description` TEXT;
+
+ALTER TABLE `#__articles` CHANGE  `created`  `created_on` DATETIME;
+ALTER TABLE `#__articles` CHANGE  `modified`  `modified_on` DATETIME;
+ALTER TABLE `#__articles` CHANGE  `checked_out`  `locked_by` INT(11) UNSIGNED;
+ALTER TABLE `#__articles` CHANGE  `checked_out_time`  `locked_on` DATETIME;
 
 -- Remove unused columns
 ALTER TABLE `#__articles` DROP `title_alias`;
@@ -108,8 +114,11 @@ ALTER TABLE `#__articles` DROP `images`;
 ALTER TABLE `#__articles` DROP `urls`;
 ALTER TABLE `#__articles` DROP `version`;
 ALTER TABLE `#__articles` DROP `parentid`;
-ALTER TABLE `#__articles` DROP `hits`
-ALTER TABLE `#__articles` DROP `sectionid`
+ALTER TABLE `#__articles` DROP `hits`;
+ALTER TABLE `#__articles` DROP `sectionid`;
+ALTER TABLE `#__articles` DROP `created_by_alias`;
+ALTER TABLE `#__articles` DROP `metakey`;
+ALTER TABLE `#__articles` DROP `metadata`;
 
 -- Remove unused table
 DROP TABLE #__content_rating;
