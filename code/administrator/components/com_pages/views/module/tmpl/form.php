@@ -14,8 +14,7 @@
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <script type="text/javascript">
-window.addEvent('domready', function() { 
-	<? /* @TODO @route needs to be updated to handle js contexts, using JRoute for now */ ?>
+window.addEvent('domready', function() {
 	var list		= $('ordering'),
 		position	= list.get('value'),
 		cache       = {},
