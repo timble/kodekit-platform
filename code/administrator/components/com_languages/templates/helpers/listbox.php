@@ -15,7 +15,7 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		
 		if($application->getCfg('multilanguage'))
 		{
-    		$components  = $application->getComponents();
+    		$components  = $this->getService('application.components');
     		if($components->find(array('name' => 'com_'.$config->component))->top()->isTranslatable())
     		{
     		    $result = '
@@ -29,7 +29,7 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         		';
     		    
         		$options   = array();
-        		$languages = $application->getLanguages();
+        		$languages = $$this->getService('application.languages');
         		$active    = $languages->getActive();
         		
         		foreach($languages as $language)
