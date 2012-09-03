@@ -25,7 +25,7 @@
         <div class="span9">
             <ktml:modules position="breadcrumb" />
             <section>
-                <ktml:variable name="component" />
+                <ktml:variable name="content" />
             </section>
         </div>
     </div>
