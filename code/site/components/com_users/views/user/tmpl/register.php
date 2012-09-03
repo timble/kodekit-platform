@@ -90,6 +90,5 @@
             </td>
         </tr>
     </table>
-    <?=@helper('com://site/users.template.helper.spam.timestamp');?>
     <button class="button validate" type="submit"><?= @text('Register') ?></button>
 </form>
