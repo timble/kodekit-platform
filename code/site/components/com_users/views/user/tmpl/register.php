@@ -81,7 +81,7 @@
                 </label>
             </td>
             <td>
-                <input class="inputbox required validate-passverify" type="password" id="password_verify" name="password_verify" size="40" value="" /> *
+                <input class="inputbox required validate-passverify" type="password" id="password2" name="password_verify" size="40" value="" /> *
             </td>
         </tr>
         <tr>
