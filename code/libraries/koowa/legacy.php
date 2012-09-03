@@ -7,24 +7,6 @@
 */
 
 /**
- * PHP5.3 compatibility
- */
-if(false === function_exists('lcfirst'))
-{
-    /**
-     * Make a string's first character lowercase
-     *
-     * @param string $str
-     * @return string the resulting string.
-     */
-    function lcfirst( $str )
-    {
-        $str[0] = strtolower($str[0]);
-        return (string)$str;
-    }
-}
-
-/**
  * APC 3.1.4 compatibility
  */
 if(extension_loaded('apc') && !function_exists('apc_exists'))
