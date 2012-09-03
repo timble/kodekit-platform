@@ -60,7 +60,8 @@ class KMixinEvent extends KMixinAbstract
         //Add the event handlers
         $subscribers = (array)KConfig::unbox($config->event_subscribers);
 
-        foreach ($subscribers as $key => $value) {
+        foreach ($subscribers as $key => $value)
+        {
             if (is_numeric($key)) {
                 $this->addEventSubscriber($value);
             } else {
@@ -185,25 +186,29 @@ class KMixinEvent extends KMixinAbstract
      */
     public function getEventSubscriber($subscriber, $config = array())
     {
-        if (!($subscriber instanceof KServiceIdentifier)) {
+        if (!($subscriber instanceof KServiceIdentifier))
+        {
             //Create the complete identifier if a partial identifier was passed
-            if (is_string($subscriber) && strpos($subscriber, '.') === false) {
+            if (is_string($subscriber) && strpos($subscriber, '.') === false)
+            {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('event', 'handler');
                 $identifier->name = $subscriber;
-            } else $identifier = $this->getIdentifier($subscriber);
+            }
+            else $identifier = $this->getIdentifier($subscriber);
         }
 
-        if (!isset($this->_event_subscribers[(string)$identifier])) {
+        if (!isset($this->_event_subscribers[(string)$identifier]))
+        {
             $config['event_dispatcher'] = $this->getEventDispatcher();
-
             $subscriber = $this->getService($identifier, $config);
 
             //Check the event subscriber interface
             if (!($subscriber instanceof KEventSubscriberInterface)) {
                 throw new KEventSubscriberException("Event Subscriber $identifier does not implement KEventSubscriberInterface");
             }
-        } else $subscriber = $this->_event_subscribers[(string)$identifier];
+        }
+        else $subscriber = $this->_event_subscribers[(string)$identifier];
 
         return $subscriber;
     }
