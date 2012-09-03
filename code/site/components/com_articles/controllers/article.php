@@ -39,12 +39,12 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
                     'oldest' => array('created' => 'ASC'),
                     'order'  => array('ordering' => 'ASC'));
 
-                $params = JComponentHelper::getParams('com_articles');
+                $params = $this->getService('application.components')->articles->params;
 
                 // Force some request vars based on setting parameters.
-                $request['limit']     = (int) $params->get('articles_per_page');
-                $request['featured']  = (int) $params->get('show_featured');
-                $sort_by              = $sort_by_map[$params->get('sort_by')];
+                $request['limit']     = (int) $params->get('articles_per_page', 5);
+                $request['featured']  = (int) $params->get('show_featured', 0);
+                $sort_by              = $sort_by_map[$params->get('sort_by', 'newest')];
                 $request['sort']      = key($sort_by);
                 $request['direction'] = current($sort_by);
             }
