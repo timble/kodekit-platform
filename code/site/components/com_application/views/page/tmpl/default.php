@@ -13,5 +13,5 @@
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 
 <?= @template('default_head') ?>
-<?= @template('com://site/application.view.page.body_'.JRequest::getCmd('tmpl', 'default')) ?>
+<?= @template('com://site/application.view.page.body_'.$tmpl) ?>
 </html>
