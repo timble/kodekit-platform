@@ -1,4 +1,21 @@
 <?php
+/**
+ * @version     $Id: html.php 5096 2012-08-31 21:00:10Z gergoerdosi $
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Languages Translatable Database Behavior Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ */
+
 class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
 {
     public function execute($name, KCommandContext $context)
@@ -8,7 +25,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         
         if($application->getCfg('multilanguage'))
         {
-            $components = $application->getComponents();
+            $components = $this->getService('application.components');
             $component  = $this->getMixer()->getIdentifier()->package;
             
             if($components->find(array('name' => 'com_'.$component))->top()->isTranslatable()) {
@@ -34,7 +51,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 if(count($table))
                 {
                     $table     = $table->top();
-                    $languages = $this->getService('application')->getLanguages();
+                    $languages = $this->getService('application.languages');
                     $active    = $languages->getActive();
                     $primary   = $languages->getPrimary();
                     
@@ -83,7 +100,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             // Check if table is translatable.
             if(in_array($context->table, $tables->name))
             {
-                $languages = $this->getService('application')->getLanguages();
+                $languages = $this->getService('application.languages');
                 $active    = $languages->getActive();
                 $primary   = $languages->getPrimary();
                 
@@ -164,7 +181,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             
             if(in_array($context->table, $tables->name))
             {
-                $languages = $this->getService('application')->getLanguages();
+                $languages = $this->getService('application.languages');
                 $primary   = $languages->getPrimary();
                 $active    = $languages->getActive();
                 
@@ -232,7 +249,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         
         if(in_array($context->table, $tables->name))
         {
-            $languages = $this->getService('application')->getLanguages();
+            $languages = $this->getService('application.languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
             
@@ -246,7 +263,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     {
         if($context->data->getStatus() == KDatabase::STATUS_DELETED)
         {
-            $languages = $this->getService('application')->getLanguages();
+            $languages = $this->getService('application.languages');
             $primary   = $languages->getPrimary();
             $active    = $languages->getActive();
             
