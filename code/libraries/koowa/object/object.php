@@ -178,7 +178,9 @@ class KObject implements KObjectHandlable, KObjectServiceable
                     $identifier = clone $this->getIdentifier();
                     $identifier->path = 'mixin';
                     $identifier->name = $mixin;
-                } else $identifier = $this->getIdentifier($mixin);
+                } else {
+                    $identifier = $this->getIdentifier($mixin);
+                }
             }
 
             $mixin = new $identifier->classname(new KConfig($config));
