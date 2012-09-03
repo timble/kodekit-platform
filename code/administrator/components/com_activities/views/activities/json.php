@@ -94,24 +94,13 @@ class ComActivitiesViewActivitiesJson extends KViewJson
 				    )),
 		    		'verb' => $item->action,
 	        		'object' => array(
-	        			'url' => JRoute::_($this->getService('koowa:http.url', array('url' => 'index.php'))->setQuery(array(
-				    		'option' => $item->type.'_'.$item->package,
-				    		'view'   => $item->name,
-				    		'id'     => $item->row,
-				    	))),
+	        			'url' => $this->getRoute('option='.$item->type.'_'.$item->package.'&view='.$item->name.'&id='.$item->row),
 	                ),
 			    	'target' => array(
-			    		'url' => JRoute::_($this->getService('koowa:http.url', array('url' => 'index.php'))->setQuery(array(
-				    		'option' => $item->type.'_'.$item->package,
-				    		'view'   => $item->name,
-				    	))),
+			    		'url' => $this->getRoute('option='.$item->type.'_'.$item->package.'&view='.$item->name),
 				    ),
 				    'actor' => array(
-				    	'url' => JRoute::_($this->getService('koowa:http.url', array('url' => 'index.php'))->setQuery(array(
-				    		'option' => 'com_users',
-				    		'view'   => 'user',
-				    		'id'     => $item->created_by
-				    	))),
+				    	'url' => $this->getRoute('option=com_users&view=user&id='.$item->created_by),
 					)
 			    );
 			}
