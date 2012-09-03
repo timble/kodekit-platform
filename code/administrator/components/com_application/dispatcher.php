@@ -37,20 +37,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      * @var KConfig
      */
     protected $_options = null;
-    
-    /**
-     * Languages
-     * 
-     * @var ComLanguagesDatabaseRowsetLanguages
-     */
-    protected $_languages;
-    
-    /**
-     * Components
-     * 
-     * @var KDatabaseRowsetDefault
-     */
-    protected $_components;
 
     /**
      * Constructor.
@@ -161,7 +147,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         define( 'KDEBUG', $this->getCfg('debug') );
 
         //Set the paths
-        $params = JComponentHelper::getParams('com_files');
+        $params = $this->getService('application.components')->files->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite());
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/'.$params->get('image_path', 'images'));
@@ -198,7 +184,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             $this->option = 'com_dashboard';
         }
 
-        //@TODO : Needs to be removed
+        //@TODO : Can be removed after refactor of KRequest
         JRequest::set($this->getRequest(), 'get', false );
     }
 
@@ -217,14 +203,13 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
         if(!empty($component))
         {
-            //@TODO : Rework this (move into the component dispatcher)
-            // If component disabled throw error
-            /*if (!JComponentHelper::isEnabled( $component )) {
+            $name = substr( $component, 4);
+
+            if (!$this->getService('application.components')->isEnabled($name))
+            {
                 throw new KException(JText::_('Component Not Found'), KHttpResponse::NOT_FOUND);
                 return false;
-            }*/
-
-            $name = substr( $component, 4);
+            }
 
             //Load common language files
             $lang = JFactory::getLanguage()->load($component);
@@ -232,7 +217,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             //Load the component aliasses
             KLoader::loadIdentifier('com://admin/'.$name.'.aliases');
 
-            $result = KService::get('com://admin/'.$name.'.dispatcher')->dispatch();
+            $result = $this->getService('com://admin/'.$name.'.dispatcher')->dispatch();
             return $result;
         }
         else throw new KException(JText::_('Component Not Found'), KHttpResponse::NOT_FOUND);
@@ -253,16 +238,19 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         );
 
         $controller = $this->getService('com://admin/application.controller.page', $config);
-        $controller->getView()->component($context->result);
+        $controller->getView()
+            ->content($context->result)
+            ->option($this->getRequest()->option)
+            ->tmpl(KRequest::get('get.tmpl', 'cmd', 'default'));
 
         //Render the page controller
-        $data = $controller->display($context);
+        $content = $controller->display($context);
 
         //Make images paths absolute
         $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
 
-        $data = str_replace(JURI::base().'images/', $path, $data);
-        $data = str_replace(array('../images', './images') , '"'.$path, $data);
+        $content = str_replace(JURI::base().'images/', $path, $content);
+        $content = str_replace(array('../images', './images') , '"'.$path, $content);
 
         //@TODO :Setup the response
         //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
@@ -271,7 +259,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         //}
         //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 
-        JResponse::setBody($data);
+        JResponse::setBody($content);
         echo JResponse::toString($this->getCfg('gzip'));
         exit(0);
     }
@@ -347,7 +335,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     public function loadSession( KCommandContext $context )
     {
         $config = array(
-            'name'     => JUtility::getHash($this->getCfg('session_name')),
+            'name'     => md5($this->getCfg('secret').$this->getCfg('session_name')),
             'lifetime' => $this->getCfg('config.lifetime', 15) * 60,
             'handler'  => 'database',
             'table'    => 'com://admin/users.database.table.sessions',
@@ -377,16 +365,15 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     }
 
     /**
-     * Load the application language
+     * Get the application languages.
      *
-     * @param KCommandContext $context	A command context object
-     * @return	void
+     * @return	\ComLanguagesDatabaseRowsetLanguages
      */
     public function loadLanguage(KCommandContext $context)
     {
-        /*$languages = $this->getLanguages();
-        $language  = null;
-        
+        $languages = $this->getService('application.languages');
+        $language = null;
+
         // If a language was specified it has priority.
         if($iso_code = $this->_options->language)
         {
@@ -395,7 +382,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                 $language = $result->top();
             }
         }
-        
+
         // Otherwise use user language setting.
         if(!$language && $iso_code = JFactory::getUser()->getParam('language'))
         {
@@ -404,16 +391,18 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                 $language = $result->top();
             }
         }
-        
+
         // If language still not set, use the primary.
         if(!$language) {
             $language = $languages->getPrimary();
         }
-        
+
         $languages->setActive($language);
-        
+
         // TODO: Remove this.
-        JFactory::getConfig()->setValue('config.language', $language->iso_code);*/
+        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+
+        return $this->_languages;
     }
 
     /**
@@ -426,66 +415,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     {
         $router = $this->getService('com://admin/application.router', $options);
         return $router;
-    }
-    
-    /**
-     * Get a list of enabled languages
-     * 
-     * @return \ComLanguagesDatabaseRowsetLanguages
-     */
-    public function getLanguages()
-    {
-        if(!$this->_languages)
-        {
-            // Get enabled languages.
-            $languages = $this->getService('com://admin/languages.model.languages')
-                ->reset()
-                ->enabled(true)
-                ->application('site')
-                ->getList();
-            
-            // Mixin the languages mixin into the rowset.
-            $this->getService('koowa:loader')->loadIdentifier('com://admin/languages.mixin.languages');
-            $languages->mixin(new ComLanguagesMixinLanguages(new KConfig()));
-            
-            // Store the object in the application.
-            $this->_languages = $languages;
-        }
-        
-        return $this->_languages;
-    }
-    
-    /**
-     * Get a list of enabled components
-     * 
-     * @return \KDatabaseRowsetDefault
-     */
-    public function getComponents()
-    {
-        if(!$this->_components)
-        {
-            // Get enabled components.
-            $components = $this->getService('com://admin/extensions.model.components')
-                ->reset()
-                ->enabled(true)
-                ->getList();
-            
-            // If multilanguage is enabled, mixin the isTranslatable() method.
-            if($this->getCfg('multilanguage'))
-            {
-                $this->getService('koowa:loader')->loadIdentifier('com://admin/languages.mixin.components');
-                $mixin = new ComLanguagesMixinComponents(new KConfig());
-                
-                foreach($components as $component) {
-                    $component->mixin($mixin);
-                }
-            }
-            
-            // Store the object in the application.
-            $this->_components = $components;
-        }
-        
-        return $this->_components;
     }
 
     /**
