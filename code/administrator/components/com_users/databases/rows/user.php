@@ -46,10 +46,11 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     
     public function load()
     {
-    	if ($result = parent::load()) {
-    		// Negate enabled due to enabled => block column map.
+        // Negate enabled due to enabled => block column map.
+        if ($result = parent::load()) {
     		$this->enabled = $this->enabled ? 0 : 1;
     	}
+
     	return $result;
     }
   
@@ -63,7 +64,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
         // Load component parameters.
-        $params = JComponentHelper::getParams('com_users');
+        $params = $this->getService('application.components')->users->params;
 
 		$user = JFactory::getUser();
 		
@@ -302,6 +303,15 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
 		return true;
 	}
+
+    public function reset()
+    {
+        $result = parent::reset();
+
+        $this->guest = 1;
+
+        return $result;
+    }
 
     /**
      * Check user permissions
