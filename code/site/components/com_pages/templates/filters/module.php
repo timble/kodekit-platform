@@ -148,7 +148,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     {
         if(!$this->_modules)
         {
-            $page = $this->getService('application')->getPages()->getActive();
+            $page = $this->getService('application.pages')->getActive();
 
             // Select enabled modules
             $modules = $this->getService('com://admin/pages.model.modules')
