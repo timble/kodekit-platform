@@ -1,5 +1,20 @@
 <?php
+/**
+ * @version     $Id$
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
 
+/**
+ * Languages Template Helper Listbox Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Languages
+ */
 class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
     public function languages($config = array())
@@ -10,7 +25,7 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		    'component' => null
 		));
 		
-		$result      = '';
+		$result = '';
 		
 		if($this->getService('application')->getCfg('multilanguage'))
 		{
