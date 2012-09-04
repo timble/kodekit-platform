@@ -34,13 +34,13 @@
     <li <?= $page->id == $active->id ? 'class="active"' : '' ?>>
         <? switch($page->type) : 
               case 'component': ?>
-				<a href="<?= JRoute::_($page->link.'&Itemid='.$page->id) ?>">
+				<a href="<?= @route($page->link->getQuery().'&Itemid='.$page->id) ?>">
                     <span><?= $page->title ?></span>
                 </a>
 				<? break ?>
 				
 		    <? case 'menulink': ?>
-		        <? $page_linked = @service('application')->getPages()->find($page->link->query['Itemid']); ?>
+		        <? $page_linked = @service('application.pages')->getPage($page->link->query['Itemid']); ?>
 		        <a href="<?= $page_linked->link ?>">
                     <span><?= $page->title ?></span>
                 </a>
