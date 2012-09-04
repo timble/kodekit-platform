@@ -29,7 +29,8 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
      */
     protected $_error_message;
 
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         if (is_null($config->captcha->private_key) || is_null($config->captcha->public_key)) {
@@ -39,8 +40,9 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
         $this->_config = $this->getService('com://admin/users.config.captcha')->append($config->captcha);
     }
 
-    protected function _initialize(KConfig $config) {
-        $params = JComponentHelper::getParams('com_users');
+    protected function _initialize(KConfig $config)
+    {
+        $params = $this->getService('application.components')->users->params;
 
         $config->append(array(
             'auto_mixin'        => true,
@@ -68,8 +70,8 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
      *
      * @return object The request response.
      */
-    protected function _post($data) {
-
+    protected function _post($data)
+    {
         $config = $this->_config;
 
         $content = array();
@@ -112,7 +114,8 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
      *
      * @return ReCaptcha this.
      */
-    protected function _setCaptchaErrorMessage($message) {
+    protected function _setCaptchaErrorMessage($message)
+    {
         $this->_error_message = $message;
         return $this;
     }
@@ -122,16 +125,19 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
      *
      * @return string The last error message.
      */
-    public function getCaptchaErrorMessage() {
+    public function getCaptchaErrorMessage()
+    {
         return (string) $this->_error_message;
     }
 
-    protected function _beforeControllerEdit(KCommandContext $context) {
+    protected function _beforeControllerEdit(KCommandContext $context)
+    {
         // Same as add.
         return $this->_beforeControllerAdd($context);
     }
 
-    protected function _beforeControllerAdd(KCommandContext $context) {
+    protected function _beforeControllerAdd(KCommandContext $context)
+    {
         $data = $context->data;
 
         if (!$this->verifyCaptcha($data->recaptcha_challenge_field, $data->recaptcha_response_field)) {
@@ -148,8 +154,8 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
      *
      * @return bool True if valid, false otherwise.
      */
-    public function verifyCaptcha($challenge, $answer) {
-
+    public function verifyCaptcha($challenge, $answer)
+    {
         $config = $this->_config;
 
         if (!$private_key = $config->private_key) {
@@ -160,10 +166,13 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
             throw new KControllerBehaviorException('reCAPTCHA remote ip is not set.');
         }
 
-        if (!trim((string) $challenge) || !trim((string) $answer)) {
+        if (!trim((string) $challenge) || !trim((string) $answer))
+        {
             $this->_setCaptchaErrorMessage('incorrect-captcha-sol');
             $result = false;
-        } else {
+        }
+        else
+        {
             // Prepare the POST data.
             $data = array(
                 'privatekey' => $private_key,
@@ -189,5 +198,4 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
 
         return $result;
     }
-
 }
