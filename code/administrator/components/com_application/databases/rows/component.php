@@ -36,8 +36,10 @@ class ComApplicationDatabaseRowComponent extends KDatabaseRowAbstract
     {
         if($name == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-	        $file = JPATH_APPLICATION.'/components/'.$this->option.'/config.xml';
-	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );
+            $path = $this->getIdentifier()->getApplication('admin');
+            $file = $path.'/components/'.$this->option.'/config.xml';
+
+            $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );
         }
         
         return parent::__get($name);
