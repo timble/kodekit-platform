@@ -23,11 +23,9 @@ class ComPagesDatabaseTableModules extends KDatabaseTableDefault
         $config->identity_column = 'id';
 		
         $config->append(array(
-            'behaviors'  => array('lockable', 'orderable'),
+            'behaviors'  => array('creatable', 'modifiable', 'lockable', 'orderable'),
             'column_map' => array(
                 'enabled'      => 'published',
-                'locked_on'    => 'checked_out_time',
-                'locked_by'    => 'checked_out',
                 ),
             'filters' => array(
                 'content' => array('html', 'tidy'),

@@ -320,6 +320,13 @@ ALTER TABLE `#__pages_menus` CHANGE `menutype` `slug` VARCHAR(255) AFTER `title`
 ALTER TABLE `#__pages_menus` MODIFY `title` VARCHAR(255) NOT NULL;
 ALTER TABLE `#__pages_menus` MODIFY `description` VARCHAR(255);
 
+ALTER TABLE `#__pages_modules` ADD `created_by` INT(11) UNSIGNED AFTER `position`;
+ALTER TABLE `#__pages_modules` ADD `created_on` DATETIME AFTER `created_by`;
+ALTER TABLE `#__pages_modules` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
+ALTER TABLE `#__pages_modules` ADD `modified_on` DATETIME AFTER `modified_by`;
+ALTER TABLE `#__pages_modules` CHANGE `checked_out` `locked_by` INT UNSIGNED;
+ALTER TABLE `#__pages_modules` CHANGE `checked_out_time` `locked_on` DATETIME;
+
 ALTER TABLE `#__pages_modules_pages` CHANGE `moduleid` `modules_module_id` INT UNSIGNED NOT NULL;
 ALTER TABLE `#__pages_modules_pages` CHANGE `menuid` `pages_page_id` INT UNSIGNED NOT NULL;
 
