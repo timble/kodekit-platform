@@ -31,68 +31,6 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
 	    return parent::order($config);
 	}
 
-    public function state($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'row'   => null,
-            'field' => 'state',
-        ))->append(array(
-		    'data'	=> array($config->field => $config->row->{$config->field})
-		));
-
-        switch($config->row->state)
-        {
-            case -1:
-                $image = 'disabled.png';
-                $alt   = JText::_('Archived');
-                $text  = JText::_('Unarchive Item');
-                $value = 0;
-
-                break;
-
-            case 0:
-                $image = 'publish_x.png';
-                $alt   = JText::_('Unpublished');
-                $text  = JText::_('Publish Item');
-                $value = 1;
-
-                break;
-
-            case 1:
-                $now = gmdate('U');
-
-                if($now <= strtotime($config->row->publish_on))
-                {
-                    $image = 'publish_y.png';
-                    $alt   = JText::_('Published');
-                }
-                elseif($now <= strtotime($config->row->unpublish_on) || !(int) $config->row->unpublish_on)
-                {
-                    $image = 'publish_g.png';
-                    $alt   = JText::_('Published');
-                }
-                else
-                {
-                    $image = 'publish_r.png';
-                    $alt   = JText::_('Expired');
-                }
-
-                $text  = JText::_('Unpublish Item');
-                $value = 0;
-
-                break;
-        }
- 
-        $config->data->{$config->field} = $value;
-        $data = str_replace('"', '&quot;', $config->data);
-	   
-		$html  = '<script src="media://lib_koowa/js/koowa.js" />';
-        $html .= '<img src="media://system/images/'.$image.'" border="0" alt="'.$alt.'" data-action="edit" data-data="'.$data.'" />';
-        
-        return $html;
-    }
-
     public function featured($config = array())
     {
         $config = new KConfig($config);
