@@ -28,11 +28,12 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
         if($column == 'params' && !($this->_data['params'] instanceof JParameter))
 		{
-			$xml_path	= JPATH_APPLICATION.'/components/com_users/databases/rows';
-			$xml_name	= str_replace(' ', '_', strtolower($this->group_name));
+            $path  = $this->getIdentifier()->getApplication('admin');
+            $path .= '/components/com_users/databases/rows';
+			$name	= str_replace(' ', '_', strtolower($this->group_name));
 
-			if(!file_exists($file = $xml_path.'/'.$xml_name.'.xml')) {
-				$file = $xml_path.'/user.xml';
+			if(!file_exists($file = $path.'/'.$name.'.xml')) {
+				$file = $path.'/user.xml';
 			}
 
 			$params	= new JParameter($this->_data['params']);
