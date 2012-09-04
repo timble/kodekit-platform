@@ -18,9 +18,22 @@ interface KMixinInterface extends KObjectHandlable
     /**
      * Get the methods that are available for mixin.
      *
-     * @return array An array of methods
+     * Only public methods can be mixed
+     *
+     * @param object The mixer requesting the mixable methods.
+     * @return array An array of public methods
      */
-    public function getMixableMethods();
+    public function getMixableMethods(KObject $mixer = null);
+
+    /**
+     * Mixin Notifier
+     *
+     * This function is called when the mixin is being mixed. It will get the mixer passed in.
+     *
+     * @param object $mixer The mixer object
+     * @return KMixinInterface
+     */
+    public function onMixin(KObject $mixer);
 
 	/**
      * Get the mixer object
