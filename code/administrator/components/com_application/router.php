@@ -103,7 +103,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
         if($application->getCfg('multilanguage'))
         {
 	        if(!isset($query['language'])) {
-	            $segments[] = $application->getLanguages()->getActive()->slug;
+	            $segments[] = $this->getService('application.languages')->getActive()->slug;
 	        } else {
 	            $segments[] = $query['language'];
 	        }
