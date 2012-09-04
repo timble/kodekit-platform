@@ -20,9 +20,19 @@ class ComArticlesViewArticleHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $components   = $this->getService('application.components');
-        $translatable = $components->find(array('name' => 'com_articles'))->top()->isTranslatable();
-        $this->assign('translatable', $translatable);
+        $component = $this->getService('application.components')->articles;
+        $this->assign('translatable', $component->isTranslatable());
+        
+        if($component->isTranslatable())
+        {
+            $translations = $this->getService('com://admin/languages.model.translations')
+                ->table('articles')
+                ->row($this->getModel()->getItem()->id)
+                ->getList();
+            
+            $this->assign('translations', $translations);
+            $this->assign('languages', $this->getService('application.languages'));
+        }
         
         $this->assign('user', JFactory::getUser());
         

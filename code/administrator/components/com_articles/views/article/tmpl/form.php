@@ -114,6 +114,18 @@
 	                <textarea name="description" rows="5"><?= $article->description ?></textarea>
 	            </div>
 	        </fieldset>
+	        
+	        <? if($translatable) : ?>
+    	        <fieldset>
+    	            <legend><?= @text('Translations') ?></legend>
+    	            <? foreach($languages as $language) : ?>
+    	                <?= $language->name.':' ?>
+    	                <? $translation = $translations->find(array('iso_code' => $language->iso_code)) ?>
+    	                <?= @helper('com://admin/languages.template.helper.grid.status',
+    	                    array('status' => $translation->status, 'original' => $translation->original, 'deleted' => $translation->deleted)) ?>
+    	            <? endforeach ?>
+    	        </fieldset>
+	        <? endif ?>
         </div>
     </div>
 </form>
