@@ -35,6 +35,21 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         return $result;
     }
     
+    public function getLanguages()
+    {
+        return $this->getService('application.languages');
+    }
+    
+    public function getTranslations()
+    {
+        $translations = $this->getService('com://admin/languages.model.translations')
+            ->table($this->getMixer()->getIdentifier()->package)
+            ->row($this->id)
+            ->getList();
+        
+        return $translations;
+    }
+    
     protected function _beforeTableSelect(KCommandContext $context)
     {
         if($query = $context->query)
