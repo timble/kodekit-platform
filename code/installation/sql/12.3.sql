@@ -305,8 +305,8 @@ ALTER TABLE `#__pages` DROP INDEX `componentid`;
 ALTER TABLE `#__pages` ADD INDEX `ix_enabled` (`enabled`);
 ALTER TABLE `#__pages` ADD INDEX `ix_extensions_component_id` (`extensions_component_id`);
 ALTER TABLE `#__pages` ADD INDEX `ix_home` (`home`);
-ALTER TABLE `#__pages` ADD CONSTRAINT `pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
-ALTER TABLE `#__pages` ADD CONSTRAINT `link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE;
+ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
+ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE;
 
 ALTER TABLE `#__pages_modules_pages` ADD INDEX `ix_pages_page_id` (`pages_page_id`);
 
@@ -330,8 +330,8 @@ CREATE TABLE IF NOT EXISTS `#__pages_closures` (
     `descendant_id` INT UNSIGNED NOT NULL,
     `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (`ancestor_id`, `descendant_id`),
-    CONSTRAINT `ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
-    CONSTRAINT `descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+    CONSTRAINT `#__pages_closures__ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+    CONSTRAINT `#__pages_closures__descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
     INDEX `ix_level` (`level`),
     INDEX `ix_descendant_id` (`descendant_id`)
 ) ENGINE = InnoDB CHARSET = utf8;
@@ -369,7 +369,7 @@ CREATE TABLE `#__pages_orderings` (
     `title` INT UNSIGNED NOT NULL DEFAULT 0,
     `custom` INT UNSIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (`pages_page_id`),
-    CONSTRAINT `pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+    CONSTRAINT `#__pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
     INDEX `ix_title` (`title`),
     INDEX `ix_custom` (`custom`)
 ) ENGINE = InnoDB CHARSET = utf8;
@@ -461,7 +461,7 @@ CREATE TABLE IF NOT EXISTS `#__languages_tables` (
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
+    CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB CHARSET = utf8;
 
 -- Add component to the components table
@@ -486,7 +486,7 @@ CREATE TABLE `#__users_passwords` (
   `expiration` date NOT NULL DEFAULT '0000-00-00',
   `hash` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`users_user_email`),
-  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+  CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) SELECT `email`, '0000-00-00', `password` FROM `#__users`;
