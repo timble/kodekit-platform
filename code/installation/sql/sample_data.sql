@@ -110,7 +110,7 @@ INSERT INTO `#__categories` (`categories_category_id`, `parent_id`, `title`, `al
 -- Dumping data for table `#__contacts`
 --
 
-INSERT INTO `jos_contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `image`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`, `webpage`)
+INSERT INTO `#__contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `image`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`, `webpage`)
 VALUES
 	(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'email@example.com', 1, 1, '2012-09-04 11:30:49', NULL, NULL, NULL, NULL, 1, '', 12, 0, '', '');
 
