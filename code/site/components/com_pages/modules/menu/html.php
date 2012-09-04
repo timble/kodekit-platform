@@ -22,7 +22,7 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
         $start    = $this->module->params->get('startLevel');
         $end      = $this->module->params->get('endLevel');
         $children = $this->module->params->get('showAllChildren');
-        $pages    = $this->getService('application')->getPages();
+        $pages    = $this->getService('application.pages');
 
         $this->active = $pages->getActive();
         $this->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0));
