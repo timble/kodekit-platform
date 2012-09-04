@@ -24,9 +24,6 @@
         </a>
     </div>
     <div class="scopebar-group">
-    	<a class="<?= $state->access === 0 ? 'active' : ''; ?>" href="<?= @route($state->access === 0 ? 'access=' : 'access=0' ) ?>">
-    	    <?= 'Public' ?>
-    	</a>
     	<a class="<?= $state->access === 1 ? 'active' : ''; ?>" href="<?= @route($state->access === 1 ? 'access=' : 'access=1' ) ?>">
     	    <?= 'Registered' ?>
     	</a>
