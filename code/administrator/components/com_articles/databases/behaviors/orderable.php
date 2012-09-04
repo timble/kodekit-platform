@@ -37,8 +37,8 @@ class ComArticlesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
         if ($this->getMixer()->getIdentifier()->name == 'article' && !isset($this->featured_order)) 
         {
             $query->where('categories_category_id = :category')
-                  ->where('state >= :state')
-                  ->bind(array('category' => $this->category_id, 'state' => 0));
+                  ->where('published >= :published')
+                  ->bind(array('category' => $this->category_id, 'published' => 0));
         }
     }
 }

@@ -71,8 +71,8 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     protected function _publishItems(KDate $date) {
         $query = $this->_getSelectQuery();
 
-        $query->where('publish_on <= :date')->where('state = :state')->where('publish_on <> :default')
-            ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'state' => 0));
+        $query->where('publish_on <= :date')->where('published = :published')->where('publish_on <> :default')
+            ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'published' => 0));
 
         $db = $this->getMixer()->getDatabase();
 
@@ -91,8 +91,8 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     protected function _unpublishItems(KDate $date) {
         $query = $this->_getSelectQuery();
 
-        $query->where('unpublish_on <= :date')->where('state = :state')->where('unpublish_on <> :default')
-            ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'state' => 1));
+        $query->where('unpublish_on <= :date')->where('published = :published')->where('unpublish_on <> :default')
+            ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'published' => 1));
 
         $db = $this->getMixer()->getDatabase();
 
@@ -121,15 +121,15 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      * Updates items states.
      *
      * @param     $ids   A list of items ids to be updated.
-     * @param int $state The new state value.
+     * @param int $published The new published value.
      */
-    protected function _updateState($id, $state = 0) {
+    protected function _updateState($id, $published = 0) {
         $query = $this->getService('koowa:database.query.update');
 
         $query->table($this->_table);
 
-        $query->values(array('state = :state'))->bind(array(
-            'state'   => $state));
+        $query->values(array('published = :published'))->bind(array(
+            'published'   => $published));
 
         $query->where($this->_identity_column . ' IN :id')->bind(array('id' => (array) $id));
 

@@ -95,6 +95,9 @@ UPDATE `#__modules` SET `extensions_component_id` = 20 WHERE `name` = 'mod_artic
 RENAME TABLE `#__content` TO `#__articles`;
 RENAME TABLE `#__content_frontpage` TO `#__articles_featured`;
 
+-- Migrate archived (-1) and trashed (-2) state
+UPDATE `#__articles` SET `state` = `0` WHERE `state` < 0;
+
 -- Update schema to follow conventions
 ALTER TABLE `#__articles` CHANGE `id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__articles_featured` CHANGE `content_id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
@@ -103,6 +106,7 @@ ALTER TABLE `#__articles` DROP INDEX `idx_catid` ADD INDEX  `category` (  `categ
 ALTER TABLE `#__articles` CHANGE  `metadesc`  `description` TEXT;
 ALTER TABLE `#__articles` DROP INDEX `idx_checkout`;
 
+ALTER TABLE `#__articles` CHANGE  `state`  `published` TINYINT(1);
 ALTER TABLE `#__articles` CHANGE  `created`  `created_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `modified`  `modified_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `checked_out`  `locked_by` INT(11) UNSIGNED;

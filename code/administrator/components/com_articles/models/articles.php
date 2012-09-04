@@ -26,7 +26,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $this->getState()
             ->insert('category'         , 'slug')
             ->insert('category_recurse' , 'boolean', false)
-            ->insert('state'     , 'int')
+            ->insert('published'     , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('featured'  , 'boolean')
@@ -66,13 +66,9 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         
         $state = $this->getState();
 
-        //@TODO : refactor the article state to a published column
-        if(is_numeric($state->state))
-        {
-            $query->where('tbl.state = :state')
-                ->bind(array('state' => $state->state));
-        } 
-        else $query->where('tbl.state <> :state')->bind(array('state' => -2));
+        if (is_numeric($state->published)) {
+        	$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
+        }
 
         if($state->search) {
             $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));

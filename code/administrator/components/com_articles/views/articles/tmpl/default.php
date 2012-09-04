@@ -40,7 +40,7 @@
                     <?= @helper('grid.sort', array('column' => 'title')) ?>
                 </th>
                 <th width="20">
-                    <?= @helper('grid.sort', array('column' => 'state', 'title' => 'Published')) ?>
+                    <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
                 <th width="10%">
                     <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
@@ -75,13 +75,9 @@
                 </td>
                 <td>
                 	<?if($article->getStatus() != 'deleted') : ?>
-                        <? if($article->state == -1) : ?>
-                		    <?= @escape($article->title).' [ '.@text('Archived').' ] ' ?>
-                	    <? else : ?>
-                        	<a href="<?= @route('view=article&id='.$article->id) ?>">
-                                <?= @escape($article->title) ?>
-                        	</a>
-                        <? endif ?>
+                    	<a href="<?= @route('view=article&id='.$article->id) ?>">
+                            <?= @escape($article->title) ?>
+                    	</a>
                      <? else : ?>
                      	<?= @escape($article->title); ?>
                      <? endif; ?>
@@ -95,7 +91,7 @@
                      <? endif; ?>
                 </td>
                 <td align="center">
-                    <?= @helper('grid.state', array('row' => $article, 'option' => 'com_articles', 'view' => 'article')) ?>
+                    <?= @helper('grid.enable', array('row' => $article)) ?>
                 </td>
                 <td>
                     <?= $article->category_title ?>

@@ -32,7 +32,7 @@
 </ktml:module>
 
 <form action="" method="post" id="article-form" class="-koowa-form">
-    <input type="hidden" name="state" value="0" />
+    <input type="hidden" name="enabled" value="0" />
     <input type="hidden" name="featured" value="0" />
     
     <div class="form-body">
@@ -47,9 +47,9 @@
 	        <fieldset class="form-horizontal">
 	        	<legend><?= @text('Publish') ?></legend>
 	            <div class="control-group">
-	                <label class="control-label" for="state"><?= @text('Published') ?></label>
+	                <label class="control-label" for="enabled"><?= @text('Published') ?></label>
 	                <div class="controls">
-	                    <input type="checkbox" name="state" value="1" <?= $article->state ? 'checked="checked"' : '' ?> />
+	                    <input type="checkbox" name="enabled" value="1" <?= $article->enabled ? 'checked="checked"' : '' ?> />
 	                </div>
 	            </div>
 	            <div class="control-group">
@@ -90,7 +90,7 @@
 	                <div class="control-group">
 	                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
 	                    <div class="controls">
-	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
+	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => false, 'name' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
 	                    </div>
 	                </div>
 	                <div class="control-group">
