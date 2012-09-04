@@ -15,6 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
+
 class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
 {
     public function status($config = array())
@@ -36,7 +37,7 @@ class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
         
         $text  = $config->original ? 'Original' : $statuses[$config->status];
         $class = $config->original ? 'original' : strtolower($statuses[$config->status]);
-        $class = $config->deleted ? 'deleted' : $class;
+        $class = $config->deleted  ? 'deleted'  : $class;
     
         return '<span class="label label-'.$class.'">'.JText::_($text).'</span>';
     }

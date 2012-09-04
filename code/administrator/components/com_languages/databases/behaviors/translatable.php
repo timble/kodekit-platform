@@ -9,7 +9,7 @@
  */
 
 /**
- * Languages Translatable Database Behavior Class
+ * Translatable Database Behavior Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
@@ -20,10 +20,9 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
 {
     public function execute($name, KCommandContext $context)
     {
-        $result      = true;
-        $application = $this->getService('application');
-        
-        if($application->getCfg('multilanguage'))
+        $result = true;
+
+        if($this->getService('application')->getCfg('multilanguage'))
         {
             $components = $this->getService('application.components');
             $component  = $this->getMixer()->getIdentifier()->package;

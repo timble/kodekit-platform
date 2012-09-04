@@ -15,6 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
+
 class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
 {
     public function save()
@@ -95,15 +96,15 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
     
     public function __get($column)
 	{
-    	    switch($column)
-    	    {
-    	        case 'iso_code_lang':
-    	            list($language, $country) = explode('-', $this->iso_code, 2);
-    	            return $language;
+        switch($column)
+    	{
+    	    case 'iso_code_lang':
+    	        list($language, $country) = explode('-', $this->iso_code, 2);
+    	        return $language;
     	        
-    	        case 'iso_code_country':
-    	            list($language, $country) = explode('-', $this->iso_code, 2);
-    	            return $country;
+    	    case 'iso_code_country':
+    	        list($language, $country) = explode('-', $this->iso_code, 2);
+    	        return $country;
 	    }
 	
 		return parent::__get($column);

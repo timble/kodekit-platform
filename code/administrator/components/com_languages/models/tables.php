@@ -41,7 +41,7 @@ class ComLanguagesModelTables extends ComDefaultModelDefault implements KService
     }
     
     public function getItem()
-     {
+    {
         if(!$this->_list_cache) {
             $this->_list_cache = $this->getTable()->select();
         }
