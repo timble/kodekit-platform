@@ -20,10 +20,12 @@ class ComArticlesViewArticleHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $component = $this->getService('application.components')->articles;
-        $this->assign('translatable', $component->isTranslatable());
+        $application = $this->getService('application');
+        $component   = $this->getService('application.components')->articles;
         
-        if($component->isTranslatable())
+        $this->assign('translatable', $application->getCfg('multilanguage') && $component->isTranslatable());
+        
+        if($this->translatable)
         {
             $translations = $this->getService('com://admin/languages.model.translations')
                 ->table('articles')

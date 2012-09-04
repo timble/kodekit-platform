@@ -20,8 +20,10 @@ class ComArticlesViewArticlesHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $component = $this->getService('application.components')->articles;
-        $this->assign('translatable', $component->isTranslatable());
+        $application = $this->getService('application'); 
+        $component   = $this->getService('application.components')->articles;
+        
+        $this->assign('translatable', $application->getCfg('multilanguage') && $component->isTranslatable());
         
         return parent::display();
     }
