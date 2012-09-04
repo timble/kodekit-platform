@@ -117,8 +117,8 @@ class ComSearchTemplateHelperString extends KTemplateHelperAbstract
 	        'lenght'     => 200,
 		));
 	    
-	    $textlen     = JString::strlen($config->text);
-		$lsearchword = JString::strtolower($config->term);
+	    $textlen     = KHelperString::strlen($config->text);
+		$lsearchword = KHelperString::strtolower($config->term);
 		$found       = false;
 		$pos         = 0;
 		
@@ -126,14 +126,14 @@ class ComSearchTemplateHelperString extends KTemplateHelperAbstract
 		
 		while ($found === false && $pos < $textlen) 
 		{
-			if (($wordpos = @JString::strpos($config->text, ' ', $pos + $config->lenght)) !== false) {
+			if (($wordpos = @KHelperString::strpos($config->text, ' ', $pos + $config->lenght)) !== false) {
 				$chunk_size = $wordpos - $pos;
 			} else {
 				$chunk_size = $config->lenght;
 			}
 			
-			$chunk = JString::substr($config->text, $pos, $chunk_size);
-			$found = JString::strpos(JString::strtolower($chunk), $lsearchword);
+			$chunk = KHelperString::substr($config->text, $pos, $chunk_size);
+			$found = KHelperString::strpos(JString::strtolower($chunk), $lsearchword);
 			
 			if ($found === false) {
 				$pos += $chunk_size + 1;
@@ -142,10 +142,10 @@ class ComSearchTemplateHelperString extends KTemplateHelperAbstract
 
 		if ($found == false) 
 		{
-			if (($wordpos = @JString::strpos($config->text, ' ', $config->lenght)) !== false) {
-				return JString::substr($config->text, 0, $wordpos) . '&nbsp;...';
+			if (($wordpos = @KHelperString::strpos($config->text, ' ', $config->lenght)) !== false) {
+				return KHelperString::substr($config->text, 0, $wordpos) . '&nbsp;...';
 			} else {
-				return JString::substr($config->text, 0, $config->lenght);
+				return KHelperString::substr($config->text, 0, $config->lenght);
 			}
 		}
 		else return (($pos > 0) ? '...&nbsp;' : '') . $chunk . '&nbsp;...';
