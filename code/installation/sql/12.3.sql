@@ -159,6 +159,13 @@ ALTER TABLE `#__categories` CHANGE  `section` `table` VARCHAR( 50 ) CHARACTER SE
 ALTER TABLE `#__categories` DROP `count`;
 ALTER TABLE `#__categories` CHANGE  `id`  `categories_category_id` INT( 11 ) NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `#__categories` ADD `created_by` INT(11) UNSIGNED AFTER `published`;
+ALTER TABLE `#__categories` ADD `created_on` DATETIME AFTER `created_by`;
+ALTER TABLE `#__categories` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
+ALTER TABLE `#__categories` ADD `modified_on` DATETIME AFTER `modified_by`;
+ALTER TABLE `#__categories` CHANGE `checked_out` `locked_by` INT UNSIGNED;
+ALTER TABLE `#__categories` CHANGE `checked_out_time` `locked_on` DATETIME;
+
 # --------------------------------------------------------
 
 -- Remove com_newsfeeds

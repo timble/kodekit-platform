@@ -22,13 +22,11 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
         $config->append(array(
             'name'       => 'categories',
             'behaviors'  => array(
-            	'lockable', 'sluggable', 'cascadable', 'nestable',
+            	'creatable', 'modifiable', 'lockable', 'sluggable', 'cascadable', 'nestable',
             	'orderable'  => array('parent_column' => 'parent_id'),
             ),
             'column_map' => array(
                 'enabled'      => 'published',
-                'locked_on'    => 'checked_out_time',
-                'locked_by'    => 'checked_out',
                 'slug'         => 'alias'
                 ),
             ));
