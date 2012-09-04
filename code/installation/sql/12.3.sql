@@ -237,7 +237,21 @@ ALTER TABLE  `#__contacts` DROP PRIMARY KEY , ADD PRIMARY KEY (  `contacts_conta
 ALTER TABLE  `#__contacts` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
 ALTER TABLE  `#__contacts` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
 
+ALTER TABLE `#__contacts` CHANGE  `alias`  `slug` VARCHAR(255);
+ALTER TABLE `#__contacts` CHANGE  `con_position`  `position` VARCHAR(255);
+
+ALTER TABLE `#__contacts` CHANGE  `checked_out`  `locked_by` INT(11) UNSIGNED;
+ALTER TABLE `#__contacts` CHANGE  `checked_out_time`  `locked_on` DATETIME;
+
+ALTER TABLE `#__contacts` ADD `created_by` INT(11) UNSIGNED AFTER `published`;
+ALTER TABLE `#__contacts` ADD `created_on` DATETIME AFTER `created_by`;
+
+ALTER TABLE `#__contacts` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
+ALTER TABLE `#__contacts` ADD `modified_on` DATETIME AFTER `modified_by`;
+
 ALTER TABLE `#__contacts` DROP `imagepos`;
+ALTER TABLE `#__contacts` DROP `default_con`;
+ALTER TABLE `#__contacts` DROP `user_id`;
 
 -- Update components table
 UPDATE `#__components` SET `link` = 'option=com_contacts&view=categories' WHERE `link` = 'option=com_categories&section=com_contact_details';

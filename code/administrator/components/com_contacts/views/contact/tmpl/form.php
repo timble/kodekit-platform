@@ -31,9 +31,9 @@
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Information'); ?></legend>
 				<div class="control-group">
-				    <label class="control-label" for="con_position"><?= @text( 'Position' ); ?></label>
+				    <label class="control-label" for="position"><?= @text( 'Position' ); ?></label>
 				    <div class="controls">
-				        <input type="text" name="con_position" maxlength="255" value="<?= $contact->con_position; ?>" />
+				        <input type="text" name="position" maxlength="255" value="<?= $contact->position; ?>" />
 				    </div>
 				</div>
 				<div class="control-group">

@@ -25,14 +25,11 @@ class ComContactsDatabaseTableContacts extends KDatabaseTableDefault
         $config->append(array(
             'name' => 'contacts',
             'behaviors' => array(
-            	'orderable', 'lockable', 
+            	'creatable', 'modifiable', 'orderable', 'lockable', 
                 'sluggable' => array('columns' => array('name'))
             ),
             'column_map'=> array(
                 'enabled' 	=> 'published',
-				'locked_on' => 'checked_out_time',
-				'locked_by'	=> 'checked_out',
-				'slug'		=> 'alias',
             ),
              'filters' => array(
                 'params'    => 'ini'
