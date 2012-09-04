@@ -95,18 +95,4 @@ class ComExtensionsDatabaseRowComponent extends KDatabaseRowDefault
         $data['params'] = $this->params->toArray();
         return $data;
     }
-    
-    // TODO: Temporary fix, remove this method.
-    public function __call($method, $arguments)
-    {
-        if($method == 'isTranslatable' && isset($this->_mixed_methods[$method]))
-        {
-            $object = $this->_mixed_methods[$method];
-            $object->setMixer($this);
-            
-            return $object->$method();
-        }
-        
-        return parent::__call($method, $arguments);
-    }
 }
