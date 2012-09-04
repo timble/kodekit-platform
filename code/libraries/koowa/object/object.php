@@ -199,8 +199,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
         //Set the mixed methods and overwrite existing methods
         $this->_mixed_methods = array_merge($this->_mixed_methods, $mixin->getMixableMethods($this));
 
-        //Set the mixer
-        $mixin->setMixer($this);
+        //Notify the mixin it's being mixed.
+        $mixin->onMixin($this);
 
         return $this;
     }
