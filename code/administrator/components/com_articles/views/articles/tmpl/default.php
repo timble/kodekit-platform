@@ -18,7 +18,7 @@
 
 <? if($translatable) : ?>
     <ktml:module position="toolbar" content="append">
-        <?= @helper('com://admin/languages.template.helper.listbox.languages', array('component' => 'articles')) ?>
+        <?= @helper('com://admin/languages.template.helper.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
 

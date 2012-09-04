@@ -21,8 +21,7 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     {
         $config = new KConfig($config);
 		$config->append(array(
-			'name'      => 'language',
-		    'component' => null
+			'name'      => 'language'
 		));
 		
 		$result = '';
