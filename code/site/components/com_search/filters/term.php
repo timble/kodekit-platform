@@ -32,17 +32,17 @@ class ComSearchFilterTerm extends KFilterString
         $search_ignore = array();
         
         // Limit term to 20 characters
-		if( JString::strlen( $value ) > 20 ) {
-			$value = JString::substr( $value, 0, 19 );
+		if( KHelperString::strlen( $value ) > 20 ) {
+			$value = KHelperString::substr( $value, 0, 19 );
 		}
 
 		// Term must contain a minimum of 3 characters
-		if( $value && JString::strlen( $value ) < 3 ) {
+		if( $value && KHelperString::strlen( $value ) < 3 ) {
 			$value = '';
 		}
 		
         //Filter out search terms that are too small
-		$words = explode(' ', JString::strtolower( $value ) );
+		$words = explode(' ', KHelperString::strtolower( $value ) );
 
 		foreach($words as $word ) 
 		{
