@@ -28,11 +28,9 @@ class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
         ));
     
         $statuses = array(
-            ComLanguagesDatabaseRowTranslation::STATUS_UNKNOWN   => 'Unknown',
             ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED => 'Completed',
             ComLanguagesDatabaseRowTranslation::STATUS_MISSING   => 'Missing',
-            ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED  => 'Outdated',
-            ComLanguagesDatabaseRowTranslation::STATUS_PENDING   => 'Pending'
+            ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED  => 'Outdated'
         );
         
         $text  = $config->original ? 'Original' : $statuses[$config->status];
