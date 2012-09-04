@@ -33,29 +33,6 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		return parent::_listbox($config);
     }
 
-    public function states($config = array())
-    {
-        $config = new KConfig($config);
-        $config->append(array(
-            'name'      => 'state',
-            'deselect'  => true,
-            'selected'  => $config->state,
-            'prompt'	=> '- Select -'
-        ));
-
-        if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt)));
-        }
-
-        $options[] = $this->option(array('text' => JText::_('Published'), 'value' => 1));
-        $options[] = $this->option(array('text' => JText::_('Unpublished'), 'value' => 0));
-        $options[] = $this->option(array('text' => JText::_('Archived'), 'value' => -1));
-
-        $config->options = $options;
-
-        return $this->optionlist($config);
-    }
-
     public function ordering($config = array())
     {
         $config = new KConfig($config);
