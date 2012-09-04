@@ -36,7 +36,7 @@ class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
             'relation_table' => 'pages_closures',
             'ordering_table' => 'pages_orderings',
             'behaviors'  => array(
-                'lockable', 'sluggable', 'assignable',
+                'creatable', 'modifiable', 'lockable', 'sluggable', 'assignable',
                 'com://admin/pages.database.behavior.orderable' => array('columns' => array('title', 'custom'))
             ),
             'filters' => array(

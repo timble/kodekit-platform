@@ -310,6 +310,11 @@ ALTER TABLE `#__pages` CHANGE `checked_out_time` `locked_on` DATETIME;
 ALTER TABLE `#__pages` ADD COLUMN `hidden` BOOLEAN NOT NULL DEFAULT 0 AFTER `enabled`;
 ALTER TABLE `#__pages` MODIFY `home` BOOLEAN NOT NULL DEFAULT 0 AFTER `hidden`;
 
+ALTER TABLE `#__pages` ADD `created_by` INT(11) UNSIGNED AFTER `extensions_component_id`;
+ALTER TABLE `#__pages` ADD `created_on` DATETIME AFTER `created_by`;
+ALTER TABLE `#__pages` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
+ALTER TABLE `#__pages` ADD `modified_on` DATETIME AFTER `modified_by`;
+
 ALTER TABLE `#__pages_menus` CHANGE `id` `pages_menu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__pages_menus` CHANGE `menutype` `slug` VARCHAR(255) AFTER `title`;
 ALTER TABLE `#__pages_menus` MODIFY `title` VARCHAR(255) NOT NULL;
