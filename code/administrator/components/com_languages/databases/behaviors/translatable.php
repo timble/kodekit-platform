@@ -28,7 +28,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             $components = $this->getService('application.components');
             $component  = $this->getMixer()->getIdentifier()->package;
             
-            if($components->find(array('name' => 'com_'.$component))->top()->isTranslatable()) {
+            if($components->$component->isTranslatable()) {
                 $result = parent::execute($name, $context);
             }
         }
