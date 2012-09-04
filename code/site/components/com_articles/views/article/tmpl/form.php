@@ -77,6 +77,8 @@
 </script>
 
 <form method="post" action="" class="-koowa-form">
+    <input type="hidden" name="access" value="0" />
+    
     <fieldset>
         <legend><? echo JText::_('Editor'); ?></legend>
         <table width="100%">
@@ -185,11 +187,11 @@
             <tr>
                 <td valign="top" class="key">
                     <label for="access">
-                        <?= @text('Access Level'); ?>:
+                        <?= @text('Registered'); ?>:
                     </label>
                 </td>
                 <td>
-                    <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
+                    <input type="checkbox" name="access" value="1" <?= $article->access ? 'checked="checked"' : '' ?> />
                 </td>
             </tr>
             <tr>
