@@ -503,8 +503,9 @@ ALTER TABLE `#__components` DROP `admin_menu_alt`;
 ALTER TABLE `#__components` DROP `ordering`;
 ALTER TABLE `#__components` DROP `link`;
 ALTER TABLE `#__components` CHANGE  `name`  `title` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
-ALTER TABLE `#__components` CHANGE  `option`  `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  ''
-ALTER TABLE `#__components` DROP INDEX parent_option`
+ALTER TABLE `#__components` CHANGE  `option`  `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
+ALTER TABLE `#__components` DROP INDEX parent_option`;
+ALTER TABLE `#__components` ADD UNIQUE (`name`);
 
 RENAME TABLE `#__components` TO  `#__extensions_components` ;
 
@@ -515,3 +516,10 @@ VALUES
     (NULL, 'Search', 'com_search', '', 1);
 SET @id = LAST_INSERT_ID();
 UPDATE `#__pages_modules` SET `extensions_component_id` = @id WHERE `name` = 'mod_search';
+
+# --------------------------------------------------------
+
+INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enabled`)
+VALUES
+    (NULL, 'Activities', 'com_activities', '', 1),
+    (NULL, 'Dashboard', 'com_dashboard', '', 1);
