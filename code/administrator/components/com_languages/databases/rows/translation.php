@@ -19,11 +19,6 @@
 class ComLanguagesDatabaseRowTranslation extends KDatabaseRowTable
 {
     /**
-     * Status = unknown
-     */
-    const STATUS_UNKNOWN = 0;
-
-    /**
      * Status = completed
      */
     const STATUS_COMPLETED = 1;
@@ -37,9 +32,4 @@ class ComLanguagesDatabaseRowTranslation extends KDatabaseRowTable
      * Status = outdated
      */
     const STATUS_OUTDATED = 3;
-
-    /**
-     * Status = pending
-     */
-    const STATUS_PENDING = 4;
 }
