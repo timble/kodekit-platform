@@ -23,6 +23,7 @@ class ComLanguagesModelTranslations extends ComDefaultModelDefault
         
         $this->getState()
             ->insert('table', 'cmd')
+            ->insert('row', 'int')
             ->insert('iso_code', 'com://admin/languages.filter.iso')
             ->insert('status', 'int')
             ->insert('deleted', 'boolean', false);
@@ -41,6 +42,10 @@ class ComLanguagesModelTranslations extends ComDefaultModelDefault
             
             if($state->table) {
                 $query->where('tbl.table = :table')->bind(array('table' => $state->table));
+            }
+            
+            if($state->row) {
+                $query->where('tbl.row = :row')->bind(array('row' => $state->row));
             }
             
             if($state->iso_code) {
