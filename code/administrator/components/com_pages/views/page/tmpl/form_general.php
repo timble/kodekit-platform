@@ -17,13 +17,13 @@
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="publish_up"><?= @text('Hidden') ?></label>
+        <label class="control-label" for="hidden"><?= @text('Hidden') ?></label>
         <div class="controls">
             <input type="checkbox" name="hidden" value="1" <?= $page->hidden ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="publish_up"><?= @text('Visibility') ?></label>
+        <label class="control-label" for="visibility"><?= @text('Visibility') ?></label>
         <div class="controls">
             <?= @helper('listbox.access',  array('deselect' => false)) ?>
         </div>
