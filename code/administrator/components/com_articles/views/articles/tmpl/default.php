@@ -16,7 +16,7 @@
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<? if($translatable) : ?>
+<? if($articles->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">
         <?= @helper('com://admin/languages.template.helper.listbox.languages') ?>
     </ktml:module>
@@ -108,7 +108,7 @@
                         <?= $article->created_by_name ?>
                     </a>
                 </td>
-                <? if($translatable) : ?>
+                <? if($article->isTranslatable()) : ?>
                     <td>
                         <?= @helper('com://admin/languages.template.helper.grid.status', array(
                             'status'   => $article->translation_status,

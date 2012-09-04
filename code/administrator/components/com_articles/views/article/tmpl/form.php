@@ -28,7 +28,7 @@
 
 <?= @template('com://admin/default.view.form.toolbar') ?>
 
-<? if($tranlatable) : ?>
+<? if($article->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">
         <?= @helper('com://admin/languages.template.helper.listbox.languages') ?>
     </ktml:module>
@@ -118,10 +118,11 @@
 	            </div>
 	        </fieldset>
 	        
-	        <? if($translatable) : ?>
+	        <? if($article->isTranslatable()) : ?>
     	        <fieldset>
     	            <legend><?= @text('Translations') ?></legend>
-    	            <? foreach($languages as $language) : ?>
+    	            <? $translations = $article->getTranslations() ?>
+    	            <? foreach($article->getLanguages() as $language) : ?>
     	                <?= $language->name.':' ?>
     	                <? $translation = $translations->find(array('iso_code' => $language->iso_code)) ?>
     	                <?= @helper('com://admin/languages.template.helper.grid.status',
