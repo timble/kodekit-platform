@@ -21,7 +21,7 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
 {
     public function canRead()
     {
-    	$parameters = JComponentHelper::getParams('com_users');
+    	$parameters = $this->getService('application.components')->users->params;
 
         if($parameters->get('allowUserRegistration') == '0')
         {
@@ -59,7 +59,7 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
     {
         if($this->getMixer()->getIdentifier()->name != 'session')
         {
-            $parameters = JComponentHelper::getParams('com_users');
+            $parameters = $this->getService('application.components')->users->params;
 
             if($parameters->get('allowUserRegistration') == '0') {
                 return false;
