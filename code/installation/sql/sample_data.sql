@@ -265,7 +265,7 @@ VALUES
 -- Dumping data for table `#__weblinks`
 --
 
-INSERT INTO `#_weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `alias`, `url`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `published`, `locked_by`, `locked_on`, `ordering`, `params`)
+INSERT INTO `#__weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `alias`, `url`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `published`, `locked_by`, `locked_on`, `ordering`, `params`)
 VALUES
 	(1, 2, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', NULL, '2005-02-14 15:19:02', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 1, ''),
 	(2, 2, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', NULL, '2004-07-07 11:33:24', NULL, NULL, 1, 0, '0000-00-00 00:00:00', 3, ''),
