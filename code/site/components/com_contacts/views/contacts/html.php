@@ -31,7 +31,7 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if ($page = $this->getService('application')->getPages()->getActive())
+        if ($page = $this->getService('application.pages')->getActive())
         {
             $menu_params = new JParameter( $page->params );
             if (!$menu_params->get( 'page_title')) {
