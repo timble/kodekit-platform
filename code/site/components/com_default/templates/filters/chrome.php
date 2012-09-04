@@ -29,7 +29,7 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
      *
      * @param   object  An optional KConfig object with configuration options
      */
-    public function __construct( KConfig $config = null)
+    public function __construct( KConfig $config )
     {
         parent::__construct($config);
 
