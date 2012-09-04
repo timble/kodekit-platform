@@ -12,7 +12,7 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 
 --
--- Dumping data for table `#__components`
+-- Dumping data for table `#__extensions_components`
 --
 
 INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enabled`)
@@ -26,7 +26,9 @@ VALUES
     (31, 'User Manager', 'com_users', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
     (32, 'Cache Manager', 'com_cache', '', 1),
     (33, 'Languages', 'com_languages', '', 1),
-    (34, 'Search', 'com_search', '', 1);
+    (34, 'Search', 'com_search', '', 1),
+    (35, 'Activities', 'com_activities', '', 1),
+    (36, 'Dashboard', 'com_dashboard', '', 1);
 
 --
 -- Dumping data for table `#__languages`
