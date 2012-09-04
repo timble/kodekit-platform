@@ -79,12 +79,12 @@ class ComContactsControllerMessage extends ComDefaultControllerResource
 	        $mail->setBody( $copyText );
 	
 	        $sent = $mail->Send();
-	    }*/
+	    }
 	
 	    $msg  = JText::_( 'Thank you for your e-mail');
 	    $link = JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false);
 	    
-	    $this->setRedirect($link, $msg);
+	    $this->setRedirect($link, $msg);*/
 	}
 	
 	public function _validateInput(KCommandContext $context)
