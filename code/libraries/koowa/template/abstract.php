@@ -508,7 +508,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     private function __sandbox()
     {
-        set_error_handler(array($this, 'handleError'), E_ALL);
+        set_error_handler(array($this, 'handleError'), E_ALL && ~E_STRICT);
 
         //Push the template onto the stack
         $this->getStack()->push(clone $this);
