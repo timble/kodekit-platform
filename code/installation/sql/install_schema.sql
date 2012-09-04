@@ -58,7 +58,6 @@ CREATE TABLE `#__articles` (
   `access` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`articles_article_id`),
   KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
   KEY `idx_createdby` (`created_by`),
   KEY `idx_catid` (`categories_category_id`)
