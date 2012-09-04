@@ -17,23 +17,20 @@
  */
 class ComApplicationDatabaseRowsetComponents extends KDatabaseRowsetAbstract implements KServiceInstantiatable
 {
-    public function __construct(KConfig $config )
-    {
-        parent::__construct($config);
-
-        //TODO : Inject raw data using $config->data
-        $components = $this->getService('com://admin/extensions.model.components')
-            ->enabled(true)
-            ->getList();
-
-        $this->merge($components);
-    }
-
     protected function _initialize(KConfig $config)
     {
         //Force set the identity column
         $config->identity_column = 'name';
 
+        if(!$config->data)
+        {
+            $components = $this->getService('com://admin/extensions.model.components')
+                ->enabled(true)
+                ->getList();
+            
+            $config->data = $components->getData();
+        }
+        
         parent::_initialize($config);
     }
 
