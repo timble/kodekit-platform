@@ -77,7 +77,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         if($this->_request->layout == 'register' && !$user->guest)
         {
-            $url =  'index.php?Itemid='.$this->getService('application')->getPages()->getHome()->id;
+            $url =  'index.php?Itemid='.$this->getService('application.pages')->getHome()->id;
             $msg =  JText::_('You are already registered.');
 
             $this->setRedirect($url, $msg);
@@ -89,7 +89,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     protected function _actionAdd(KCommandContext $context)
     {
-    	$parameters = JComponentHelper::getParams('com_users');
+    	$parameters = $this->getService('application.components')->users->params;
 
         if(!($group_name = $parameters->get('new_usertype'))) {
             $group_name = 'Registered';
@@ -144,10 +144,10 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $subject = sprintf(JText::_('Account details for'), $context->data->name, $config->getValue('sitename'));
         $subject = html_entity_decode($subject, ENT_QUOTES);
 
-        $parameters     = JComponentHelper::getParams('com_users');
+        $parameters     = $this->getService('application.components')->users->params;
         $site_name      = $config->getValue('sitename');
         $site_url       = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
-        $activation_url = $site_url.JRoute::_('index.php?option=com_users&view=user&activation='.$context->data->activation);
+        $activation_url = $this->getRoute('view=user&activation='.$context->data->activation, true);
         $password       = preg_replace('/[\x00-\x1F\x7F]/', '', $context->data->password);
 
         if($parameters->get('useractivation') == 1 ) {
