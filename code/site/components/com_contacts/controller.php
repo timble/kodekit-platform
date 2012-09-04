@@ -194,13 +194,15 @@ class ContactController extends JController
 	 * @access protected
 	 * @since 1.5.4
 	 */
-	function _checkText($text, $list) {
+	function _checkText($text, $list)
+    {
 		if(empty($list) || empty($text)) return true;
 		$array = explode(';', $list);
-		foreach ($array as $value) {
+		foreach ($array as $value)
+        {
 			$value = trim($value);
 			if(empty($value)) continue;
-			if ( JString::stristr($text, $value) !== false ) {
+			if ( KHelperString::stristr($text, $value) !== false ) {
 				return false;
 			}
 		}
