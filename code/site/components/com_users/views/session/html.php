@@ -34,7 +34,7 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
     
     public function getParameters()
     {
-        $active = $this->getService('application')->getPages()->getActive();
+        $active = $this->getService('application.pages')->getActive();
         $parameters = new JParameter($active->params);
 
         $parameters->def('show_page_title', 1);
@@ -45,7 +45,7 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
 
         $parameters->def('description_login', 1);
         $parameters->def('description_login_text', JText::_('LOGIN_DESCRIPTION'));
-        $parameters->def('registration', JComponentHelper::getParams('com_users')->get('allowUserRegistration'));
+        $parameters->def('registration', $this->getService('application.components')->users->params->get('allowUserRegistration'));
 
         return $parameters;
     }
