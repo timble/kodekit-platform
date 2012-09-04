@@ -11,12 +11,11 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		));
 		
 		$result      = '';
-		$application = $this->getService('application');
 		
-		if($application->getCfg('multilanguage'))
+		if($this->getService('application')->getCfg('multilanguage'))
 		{
-    		$components  = $this->getService('application.components');
-    		if($components->find(array('name' => 'com_'.$config->component))->top()->isTranslatable())
+    		$components = $this->getService('application.components');
+    		if($components->{$config->component}->isTranslatable())
     		{
     		    $result = '
         		    <script>
@@ -29,7 +28,7 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         		';
     		    
         		$options   = array();
-        		$languages = $$this->getService('application.languages');
+        		$languages = $this->getService('application.languages');
         		$active    = $languages->getActive();
         		
         		foreach($languages as $language)
