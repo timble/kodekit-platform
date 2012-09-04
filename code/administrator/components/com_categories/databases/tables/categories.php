@@ -26,8 +26,7 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
             	'orderable'  => array('parent_column' => 'parent_id'),
             ),
             'column_map' => array(
-                'enabled'      => 'published',
-                'slug'         => 'alias'
+                'enabled'      => 'published'
                 ),
             ));
 

@@ -85,7 +85,7 @@ CREATE TABLE `#__categories` (
   `categories_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
+  `slug` varchar(255) NOT NULL DEFAULT '',
   `image` varchar(255) NOT NULL DEFAULT '',
   `table` varchar(50) NOT NULL DEFAULT '',
   `description` text NOT NULL,

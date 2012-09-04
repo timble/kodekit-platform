@@ -89,7 +89,7 @@ INSERT INTO `#__articles_featured` (`articles_article_id`, `ordering`) VALUES
 -- Dumping data for table `#__categories`
 --
 
-INSERT INTO `jos_categories` (`categories_category_id`, `parent_id`, `title`, `alias`, `image`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
+INSERT INTO `#__categories` (`categories_category_id`, `parent_id`, `title`, `slug`, `image`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
 VALUES
 	(1, 34, 'Latest', 'latest-news', 'taking_notes.jpg', 'articles', 'The latest news from the Joomla! Team', 1, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 0, ''),
 	(2, 0, 'Joomla! Specific Links', 'joomla-specific-links', 'clock.jpg', 'weblinks', 'A selection of links that are all related to the Joomla! Project.', 1, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 0, ''),
@@ -106,6 +106,7 @@ VALUES
 	(34, 0, 'News', 'news', 'articles.jpg', 'articles', 'Select a news topic from the list below, then select a news article to read.', 1, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 3, 0, ''),
 	(35, 0, 'FAQs', 'faqs', 'key.jpg', 'articles', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 5, 0, ''),
 	(36, 0, 'About Joomla!', 'about-joomla', '', 'articles', '', 1, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 2, 0, '');
+
 
 
 --
@@ -131,7 +132,7 @@ VALUES
 -- Dumping data for table `#__modules`
 --
 
-INSERT INTO `jos_pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `showtitle`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `showtitle`, `params`, `extensions_component_id`, `application`)
 VALUES
 	(1, 'Main Menu', '', 2, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'menu_id=1\nmoduleclass_sfx=_menu\n', 25, 'site'),
 	(17, 'User Menu', '', 18, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menu_id=2\ncache=1', 25, 'site'),
