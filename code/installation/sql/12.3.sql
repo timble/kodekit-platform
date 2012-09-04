@@ -106,6 +106,7 @@ ALTER TABLE `#__articles` DROP INDEX `idx_catid` ADD INDEX  `category` (  `categ
 ALTER TABLE `#__articles` CHANGE  `metadesc`  `description` TEXT;
 ALTER TABLE `#__articles` DROP INDEX `idx_checkout`;
 
+ALTER TABLE `#__articles` CHANGE  `attribs`  `params` TEXT;
 ALTER TABLE `#__articles` CHANGE  `state`  `published` TINYINT(1);
 ALTER TABLE `#__articles` CHANGE  `alias`  `slug` VARCHAR(250);
 ALTER TABLE `#__articles` CHANGE  `created`  `created_on` DATETIME;

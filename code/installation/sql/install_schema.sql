@@ -52,7 +52,7 @@ CREATE TABLE `#__articles` (
   `locked_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `unpublish_on` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `attribs` text NOT NULL,
+  `params` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
   `description` text NOT NULL,
   `access` int(11) unsigned NOT NULL DEFAULT '0',
