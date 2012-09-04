@@ -64,10 +64,8 @@
 					<a href="<?= @route('view=module&id='.$module->id) ?>">
 					    <?= @escape($module->title) ?>
 					</a>
-					<? if($module->access == '1') : ?>
+					<? if($module->access) : ?>
 					    <span class="label label-important"><?= @text('Registered') ?></span>
-					<? elseif($module->access == '2') : ?>
-					    <span class="label"><?= @text('Special') ?></span>
 					<? endif; ?>
 				</td>
 				<td align="center" width="15px">

@@ -78,10 +78,8 @@
                     <? if($page->home) : ?>
                         <img src="media://system/images/star.png" alt="<?= @text('Default') ?>" />
                     <? endif ?>
-                    <? if($page->access == '1') : ?>
+                    <? if($page->access) : ?>
                         <span class="label label-important"><?= @text('Registered') ?></span>
-                    <? elseif($page->access == '2') : ?>
-                        <span class="label"><?= @text('Special') ?></span>
                     <? endif; ?>
                 </td>
                 <td align="center">

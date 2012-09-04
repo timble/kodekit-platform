@@ -20,6 +20,7 @@
 
 <form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
+	<input type="hidden" name="access" value="0" />
 	<input type="hidden" name="enabled" value="0" />
 	
 	<div class="form-body">
@@ -129,9 +130,9 @@
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for="access"><?= @text( 'Visibility' ); ?></label>
+				    <label class="control-label" for="access"><?= @text('Registered') ?></label>
 				    <div class="controls">
-				        <?= @helper('com://admin/default.template.helper.listbox.access', array('name' => 'access', 'selected' => $contact->access, 'deselect' => false)); ?>
+				        <input type="checkbox" name="access" value="1" <?= $contact->access ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 			</fieldset>

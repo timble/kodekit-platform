@@ -86,10 +86,8 @@
                      <? if($article->featured) : ?>
 	                     <span class="label label-success"><?= @text('Featured') ?></span>
                      <? endif; ?>
-                     <? if($article->access == '1') : ?>
+                     <? if($article->access) : ?>
                          <span class="label label-important"><?= @text('Registered') ?></span>
-                     <? elseif($article->access == '2') : ?>
-                         <span class="label"><?= @text('Special') ?></span>
                      <? endif; ?>
                 </td>
                 <td align="center">

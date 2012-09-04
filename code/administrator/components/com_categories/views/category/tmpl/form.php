@@ -19,6 +19,7 @@
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" class="-koowa-form" id="category-form">
+    <input type="hidden" name="access" value="0" />
     <input type="hidden" name="enabled" value="0" />
     <input type="hidden" name="table" value="<?= $state->table ?>" />
     
@@ -61,9 +62,9 @@
 	    		    </div>
 	    		</div>
 	    		<div class="control-group">
-	    		    <label class="control-label" for="access"><?= @text('Access Level') ?></label>
+	    		    <label class="control-label" for="access"><?= @text('Registered') ?></label>
 	    		    <div class="controls">
-	    		        <?= @helper('listbox.access', array('name' => 'access', 'state' => $category, 'deselect' => false)) ?>
+	    		        <input type="checkbox" name="access" value="1" <?= $category->access ? 'checked="checked"' : '' ?> />
 	    		    </div>
 	    		</div>
 	    	</fieldset>

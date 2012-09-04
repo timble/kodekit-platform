@@ -23,9 +23,9 @@
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="visibility"><?= @text('Visibility') ?></label>
+        <label class="control-label" for="access"><?= @text('Registered') ?></label>
         <div class="controls">
-            <?= @helper('listbox.access',  array('deselect' => false)) ?>
+            <input type="checkbox" name="access" value="1" <?= $page->access ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div class="control-group">

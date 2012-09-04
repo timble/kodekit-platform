@@ -30,9 +30,6 @@
     	<a class="<?= $state->access === 1 ? 'active' : ''; ?>" href="<?= @route($state->access === 1 ? 'access=' : 'access=1' ) ?>">
     	    <?= 'Registered' ?>
     	</a>
-    	<a class="<?= $state->access === 2 ? 'active' : ''; ?>" href="<?= @route($state->access === 2 ? 'access=' : 'access=2' ) ?>">
-    	    <?= 'Special' ?>
-    	</a>
     </div>
     <div class="scopebar-search">
         <?= @helper('grid.search') ?>

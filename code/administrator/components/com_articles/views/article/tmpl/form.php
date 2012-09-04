@@ -35,6 +35,7 @@
 <? endif ?>
 
 <form action="" method="post" id="article-form" class="-koowa-form">
+    <input type="hidden" name="access" value="0" />
     <input type="hidden" name="enabled" value="0" />
     <input type="hidden" name="featured" value="0" />
     
@@ -62,9 +63,9 @@
 	                </div>
 	            </div>
 	            <div class="control-group">
-	                <label class="control-label" for="access"><?= @text('Visibility') ?></label>
+	                <label class="control-label" for="access"><?= @text('Registered') ?></label>
 	                <div class="controls">
-	                    <?= @helper('listbox.access', array('selected' => $article->access, 'deselect' => false)) ?>
+	                    <input type="checkbox" name="access" value="1" <?= $article->access ? 'checked="checked"' : '' ?> />
 	                </div>
 	            </div>
 	            <div class="control-group">

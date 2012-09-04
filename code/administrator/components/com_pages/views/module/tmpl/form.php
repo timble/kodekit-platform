@@ -42,6 +42,12 @@ window.addEvent('domready', function() {
 </script>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
+	<input type="hidden" name="access" value="0" />
+	<input type="hidden" name="enabled" value="0" />
+	<input type="hidden" name="showtitle" value="0" />
+	<input type="hidden" name="name" value="<?= $module->name ?>" />
+	<input type="hidden" name="application" value="<?= $module->application ?>" />
+	
 	<div class="form-body">
 		<div class="title">
 			<input class="required" type="text" name="title" value="<?= @escape($module->title) ?>" />
@@ -118,15 +124,12 @@ window.addEvent('domready', function() {
 				    </div>
 				</div>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Visibility') ?></label>
+				    <label class="control-label" for="access"><?= @text('Registered') ?></label>
 				    <div class="controls">
-				        <?= @helper('listbox.access', array('selected' => $module->access, 'deselect' => false)) ?>
+				        <input type="checkbox" name="access" value="1" <?= $module->access ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 			</fieldset>
 		</div>
 	</div>
-
-	<input type="hidden" name="name" value="<?= $module->name ?>" />
-	<input type="hidden" name="application" value="<?= $module->application ?>" />
 </form>

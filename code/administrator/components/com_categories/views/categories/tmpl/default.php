@@ -73,6 +73,9 @@
                         <a href="<?= @route( 'view=category&id='.$category->id ); ?>">
                             <?= @escape($category->title); ?>
                          </a>
+                         <? if($category->access) : ?>
+                             <span class="label label-important"><?= @text('Registered') ?></span>
+                         <? endif; ?>
                     </td>
                     <td align="center">
                         <?= @helper( 'grid.enable' , array('row' => $category)); ?>

@@ -68,10 +68,8 @@
 				<a href="<?= @route('view=contact&id='.$contact->id); ?>">
 	   				<?= @escape($contact->name); ?>
 	   			</a>
-	   			<? if($contact->access == '1') : ?>
+	   			<? if($contact->access) : ?>
 	   			    <span class="label label-important"><?= @text('Registered') ?></span>
-	   			<? elseif($contact->access == '2') : ?>
-	   			    <span class="label"><?= @text('Special') ?></span>
 	   			<? endif; ?>
 			</td>
 			<td align="center">
