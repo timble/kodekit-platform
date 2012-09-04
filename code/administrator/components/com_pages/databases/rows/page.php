@@ -63,6 +63,11 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
             $page->home = 0;
             $page->save();
         }
+        
+        // Update child pages if menu has been changed.
+        if($this->isModified('pages_menu_id')) {
+            $this->getDescendants()->setData(array('pages_menu_id' => $this->pages_menu_id))->save();
+        }
 
         return parent::save();
     }
