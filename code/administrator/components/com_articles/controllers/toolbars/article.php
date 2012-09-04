@@ -22,50 +22,7 @@ class ComArticlesControllerToolbarArticle extends ComDefaultControllerToolbarDef
         parent::onAfterControllerBrowse($event);
         
         $this->addSeparator();
-        $this->addPublish();
-        $this->addUnpublish();
-        $this->addSeparator();
-        $this->addArchive();
-        $this->addUnarchive();
-    }
-    
-    protected function _commandPublish(KControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs'  => array(
-                'data-action' => 'edit',
-                'data-data'   => '{state:1}'
-            )
-        )); 
-    }
-    
-    protected function _commandUnpublish(KControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs'  => array(
-                'data-action' => 'edit',
-                'data-data'   => '{state:0}'
-            )
-        )); 
-    }
-    
-    protected function _commandArchive(KControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs'  => array(
-                'data-action' => 'edit',
-                'data-data'   => '{state:-1}'
-            )
-        )); 
-    }
-    
-    protected function _commandUnarchive(KControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs'  => array(
-                'data-action' => 'edit',
-                'data-data'   => '{state:0}'
-            )
-        )); 
+        $this->addEnable(array('label' => 'publish'));
+        $this->addDisable(array('label' => 'unpublish'));
     }
 }
