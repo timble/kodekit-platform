@@ -166,14 +166,18 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     /**
      * Mixin an object
      *
-     * @param   object  An object that implements KMinxInterface
+     * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
+     *
+     * @@param   mixed    An object that implements KMixinInterface, KServiceIdentifier object
+     *                     or valid identifier string
+     * @param    array An optional associative array of configuration options
      * @return  KObject
      */
-    public function mixin(KMixinInterface $object)
+    public function mixin($mixin, $config = array())
     {
-        if ($object instanceof KControllerBehaviorAbstract)
+        if ($mixin instanceof KControllerBehaviorAbstract)
         {
-            foreach ($object->getMethods() as $method)
+            foreach ($mixin->getMethods() as $method)
             {
                 if (substr($method, 0, 7) == '_action') {
                     $this->_actions[] = strtolower(substr($method, 7));
@@ -183,7 +187,7 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
             $this->_actions = array_unique(array_merge($this->_actions, array_keys($this->_action_map)));
         }
 
-        return parent::mixin($object);
+        return parent::mixin($mixin, $config);
     }
 
     /**
