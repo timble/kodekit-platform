@@ -46,8 +46,7 @@ class ComUsersControllerReset extends ComDefaultControllerResource
 
         $configuration = JFactory::getConfig();
         $site_name     = $configuration->getValue('sitename');
-        $site_url      = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
-        $url           = $site_url.JRoute::_('index.php?option=com_users&view=reset&layout=confirm');
+        $url           = $this->getRoute('view=reset&layout=confirm', true);
         $from_email    = $configuration->getValue('mailfrom');
         $from_name     = $configuration->getValue('fromname');
         $subject       = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
@@ -123,10 +122,6 @@ class ComUsersControllerReset extends ComDefaultControllerResource
 
         $user = JFactory::getUser(KRequest::get('session.com.users.id', 'int'));
 
-        JPluginHelper::importPlugin('user');
-        $dispatcher = JDispatcher::getInstance();
-        $dispatcher->trigger('onBeforeStoreUser', array($user->getProperties(), false));
-
         $this->getService('com://site/users.model.users')
              ->set('id', $user->id)
              ->getItem()
@@ -138,8 +133,6 @@ class ComUsersControllerReset extends ComDefaultControllerResource
         $user->password         = $password;
         $user->activation       = '';
         $user->password_clear   = $password_verify;
-
-        $dispatcher->trigger('onAfterStoreUser', array($user->getProperties(), false, $result));
 
         KRequest::set('session.com.users.id', null);
         KRequest::set('session.com.users.token', null);
