@@ -108,7 +108,7 @@ CREATE TABLE `#__categories` (
 --
 
 CREATE TABLE `#__extensions_components` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `params` text NOT NULL,
@@ -281,7 +281,7 @@ CREATE TABLE `#__languages_tables` (
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
+    CONSTRAINT `extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
 
 -- --------------------------------------------------------
