@@ -231,7 +231,7 @@ ALTER TABLE  `#__contacts` DROP PRIMARY KEY , ADD PRIMARY KEY (  `contacts_conta
 ALTER TABLE  `#__contacts` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
 ALTER TABLE  `#__contacts` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
 
-ALTER TABLE `jos_contacts` DROP `imagepos`;
+ALTER TABLE `#__contacts` DROP `imagepos`;
 
 -- Update components table
 UPDATE `#__components` SET `link` = 'option=com_contacts&view=categories' WHERE `link` = 'option=com_categories&section=com_contact_details';
