@@ -43,7 +43,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
         $query
-            ->join(array('user' => 'users'), 'user.id = tbl.checked_out')
+            ->join(array('user' => 'users'), 'user.id = tbl.locked_by')
             ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.modules_module_id = tbl.id')
             ->join(array('component' => 'extensions_components'), 'component.id = tbl.extensions_component_id');
 
