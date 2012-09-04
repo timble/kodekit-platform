@@ -27,9 +27,12 @@
 </script>
 
 <?= @template('com://admin/default.view.form.toolbar') ?>
-<ktml:module position="toolbar" content="append">
-    <?= @helper('com://admin/languages.template.helper.listbox.languages', array('component' => 'articles')) ?>
-</ktml:module>
+
+<? if($tranlatable) : ?>
+    <ktml:module position="toolbar" content="append">
+        <?= @helper('com://admin/languages.template.helper.listbox.languages', array('component' => 'articles')) ?>
+    </ktml:module>
+<? endif ?>
 
 <form action="" method="post" id="article-form" class="-koowa-form">
     <input type="hidden" name="enabled" value="0" />

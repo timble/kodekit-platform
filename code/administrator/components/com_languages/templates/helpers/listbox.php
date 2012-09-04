@@ -27,39 +27,32 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		
 		$result = '';
 		
-		if($this->getService('application')->getCfg('multilanguage'))
+	    $result = '
+		    <script>
+                window.addEvent(\'domready\', function() {
+                    document.getElement(\'select[name='.$config->name.']\').addEvent(\'change\', function() {
+                        window.location = this.value;
+                    });
+                });
+            </script>
+		';
+	    
+		$options   = array();
+		$languages = $this->getService('application.languages');
+		$active    = $languages->getActive();
+		
+		foreach($languages as $language)
 		{
-    		$components = $this->getService('application.components');
-    		if($components->{$config->component}->isTranslatable())
-    		{
-    		    $result = '
-        		    <script>
-                        window.addEvent(\'domready\', function() {
-                            document.getElement(\'select[name='.$config->name.']\').addEvent(\'change\', function() {
-                                window.location = this.value;
-                            });
-                        });
-                    </script>
-        		';
-    		    
-        		$options   = array();
-        		$languages = $this->getService('application.languages');
-        		$active    = $languages->getActive();
-        		
-        		foreach($languages as $language)
-        		{
-        		    $route = $this->getTemplate()->getView()->getRoute('language='.$language->slug);
-        		    $options[] = $this->option(array('text' => $language->name, 'value' => $route));
-        		    
-        		    if($language->iso_code == $active->iso_code) {
-        		        $config->selected = $route;
-        		    }
-        		}
-        		
-        		$config->options = $options;
-        		$result .= parent::optionlist($config);
-    		}
-		}	
+		    $route = $this->getTemplate()->getView()->getRoute('language='.$language->slug);
+		    $options[] = $this->option(array('text' => $language->name, 'value' => $route));
+		    
+		    if($language->iso_code == $active->iso_code) {
+		        $config->selected = $route;
+		    }
+		}
+		
+		$config->options = $options;
+		$result .= parent::optionlist($config);
 			
 		return $result;
     }

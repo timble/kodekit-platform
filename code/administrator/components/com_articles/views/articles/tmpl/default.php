@@ -16,9 +16,11 @@
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<ktml:module position="toolbar" content="append">
-    <?= @helper('com://admin/languages.template.helper.listbox.languages', array('component' => 'articles')) ?>
-</ktml:module>
+<? if($translatable) : ?>
+    <ktml:module position="toolbar" content="append">
+        <?= @helper('com://admin/languages.template.helper.listbox.languages', array('component' => 'articles')) ?>
+    </ktml:module>
+<? endif ?>
 
 <ktml:module position="sidebar">
     <?= @template('default_sidebar'); ?>
