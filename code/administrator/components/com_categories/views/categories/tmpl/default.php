@@ -46,9 +46,6 @@
                 <th width="8%" nowrap="nowrap">
                     <?= @text('Ordering') ?>
                 </th>
-                <th width="7%">
-                    <?= @helper('grid.sort',  array('title' => 'Access', 'column' => 'access')   ); ?>
-                </th>
                 <th width="5%">
                     <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count') ); ?>
                 </th>
@@ -82,9 +79,6 @@
                     </td>
                     <td class="order">
                         <?= @helper( 'grid.order' , array('row' => $category, 'total' => $category->order_total )); ?>
-                    </td>
-                    <td align="center">
-                        <?= @helper( 'grid.access' , array('row' => $category)); ?>
                     </td>
                     <td align="center">
                         <?= $category->count; ?>
