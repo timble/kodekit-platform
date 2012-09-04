@@ -152,7 +152,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
                 // Set the data if the row was loaded successfully.
                 if (!$row->isNew())
                 {
-                    $this->setData($row->toArray(), false);
+                    $this->setData($row->getData(), false);
                     $this->_modified = array();
                     $this->_new = false;
 
