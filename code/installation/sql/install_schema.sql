@@ -39,7 +39,7 @@ CREATE TABLE `#__activities_activities` (
 CREATE TABLE `#__articles` (
   `articles_article_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
+  `slug` varchar(255) NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',

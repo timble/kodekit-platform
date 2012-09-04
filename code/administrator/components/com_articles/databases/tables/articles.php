@@ -26,7 +26,6 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
                 'com://admin/languages.database.behavior.translatable'
             ),
             'column_map' => array(
-                'slug'       	   => 'alias',
                 'enabled'          => 'published'
             ),
             'filters' => array(

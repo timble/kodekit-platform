@@ -95,7 +95,7 @@ UPDATE `#__modules` SET `extensions_component_id` = 20 WHERE `name` = 'mod_artic
 RENAME TABLE `#__content` TO `#__articles`;
 RENAME TABLE `#__content_frontpage` TO `#__articles_featured`;
 
--- Migrate archived (-1) and trashed (-2) state
+-- Migrate archived and trashed states
 UPDATE `#__articles` SET `state` = `0` WHERE `state` < 0;
 
 -- Update schema to follow conventions
@@ -107,6 +107,7 @@ ALTER TABLE `#__articles` CHANGE  `metadesc`  `description` TEXT;
 ALTER TABLE `#__articles` DROP INDEX `idx_checkout`;
 
 ALTER TABLE `#__articles` CHANGE  `state`  `published` TINYINT(1);
+ALTER TABLE `#__articles` CHANGE  `alias`  `slug` VARCHAR(250);
 ALTER TABLE `#__articles` CHANGE  `created`  `created_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `modified`  `modified_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `checked_out`  `locked_by` INT(11) UNSIGNED;
