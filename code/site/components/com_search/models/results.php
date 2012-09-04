@@ -24,7 +24,7 @@ class ComSearchModelResults extends KModelAbstract
 	 * 
 	 * @param KConfig $config An optional configuration object.
 	 */
-	public function __construct(KConfig $config = null)
+	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 		
