@@ -280,7 +280,7 @@ CREATE TABLE `#__languages_tables` (
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_table_id`)
+    PRIMARY KEY (`languages_table_id`),
     FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
 
