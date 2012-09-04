@@ -566,3 +566,12 @@ INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enable
 VALUES
     (NULL, 'Activities', 'com_activities', '', 1),
     (NULL, 'Dashboard', 'com_dashboard', '', 1);
+
+# --------------------------------------------------------
+
+-- Remove access level 'special' by changing these items to unpublished registered status
+UPDATE `#__articles`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__categories`    SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__contacts`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__pages_modules` SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__pages`         SET `access` = '1', `enabled` = '0' WHERE `access` = '2';
