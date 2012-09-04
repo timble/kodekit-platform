@@ -115,12 +115,12 @@ class ComFilesModuleImageHtml extends ComDefaultModuleDefaultHtml
         $LiveSite 	= JURI::base();
 
         // if folder includes livesite info, remove
-        if ( JString::strpos($folder, $LiveSite) === 0 ) {
+        if ( KHelperString::strpos($folder, $LiveSite) === 0 ) {
             $folder = str_replace( $LiveSite, '', $folder );
         }
 
         // if folder includes absolute path, remove
-        if ( JString::strpos($folder, JPATH_ROOT) === 0 ) {
+        if ( KHelperString::strpos($folder, JPATH_ROOT) === 0 ) {
             $folder= str_replace( JPATH_BASE, '', $folder );
         }
 
