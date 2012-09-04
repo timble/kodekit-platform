@@ -53,7 +53,7 @@
                 </th>
                 <? endif; ?>
                 <th width="20%">
-                    <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created')) ?>
+                    <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created_on')) ?>
                 </th>
                 <? if($translatable) : ?>
                     <th width="70">

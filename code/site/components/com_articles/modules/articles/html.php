@@ -29,11 +29,11 @@ class ComArticlesModuleArticlesHtml extends ComDefaultModuleDefaultHtml
         {
             default:
             case 'newest':
-                $sort      = 'created';
+                $sort      = 'created_on';
                 $direction = 'DESC';
                 break;
             case 'oldest':
-                $sort      = 'created';
+                $sort      = 'created_on';
                 $direction = 'ASC';
                 break;
             case 'ordering':
