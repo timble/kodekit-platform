@@ -109,12 +109,13 @@ CREATE TABLE `#__categories` (
 --
 
 CREATE TABLE `#__extensions_components` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -276,13 +277,13 @@ CREATE TABLE `#__languages_translations` (
 
 CREATE TABLE `#__languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `extensions_component_id` INT UNSIGNED NOT NULL,
+    `extensions_component_id` INT UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_table_id`),
+    PRIMARY KEY (`languages_table_id`)
     FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
-) ENGINE = InnoDB CHARSET = utf8;
+) ENGINE=InnoDB CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -442,6 +443,20 @@ CREATE TABLE `#__users_sessions` (
   KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__users_passwords`
+--
+
+CREATE TABLE `#__users_passwords` (
+  `users_user_email` varchar(100) NOT NULL DEFAULT '',
+  `expiration` date NOT NULL DEFAULT '0000-00-00',
+  `hash` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`users_user_email`),
+  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -518,19 +533,6 @@ CREATE TABLE `#__files_thumbnails` (
   PRIMARY KEY (`files_thumbnail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `#__users_passwords`
---
-
-CREATE TABLE `#__users_passwords` (
-  `users_user_email` varchar(100) NOT NULL DEFAULT '',
-  `expiration` date NOT NULL DEFAULT '0000-00-00',
-  `hash` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`users_user_email`),
-  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;
