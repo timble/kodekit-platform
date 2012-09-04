@@ -27,8 +27,6 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
             ),
             'column_map' => array(
                 'slug'       	   => 'alias',
-                'published_on'     => 'publish_up',
-                'unpublished_on'   => 'publish_down',
             ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),

@@ -62,12 +62,12 @@ class ComArticlesTemplateHelperGrid extends KTemplateHelperGrid
             case 1:
                 $now = gmdate('U');
 
-                if($now <= strtotime($config->row->publish_up))
+                if($now <= strtotime($config->row->publish_on))
                 {
                     $image = 'publish_y.png';
                     $alt   = JText::_('Published');
                 }
-                elseif($now <= strtotime($config->row->publish_down) || !(int) $config->row->publish_down)
+                elseif($now <= strtotime($config->row->unpublish_on) || !(int) $config->row->unpublish_on)
                 {
                     $image = 'publish_g.png';
                     $alt   = JText::_('Published');

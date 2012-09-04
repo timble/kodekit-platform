@@ -164,7 +164,7 @@
             </tr>
             <tr>
                 <td class="key">
-                    <label for="publish_up">
+                    <label for="publish_on">
                         <?= @text('Start Publishing'); ?>:
                     </label>
                 </td>
@@ -174,7 +174,7 @@
             </tr>
             <tr>
                 <td class="key">
-                    <label for="publish_down">
+                    <label for="unpublish_on">
                         <?= @text('Finish Publishing'); ?>:
                     </label>
                 </td>

@@ -106,6 +106,8 @@ ALTER TABLE `#__articles` CHANGE  `created`  `created_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `modified`  `modified_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `checked_out`  `locked_by` INT(11) UNSIGNED;
 ALTER TABLE `#__articles` CHANGE  `checked_out_time`  `locked_on` DATETIME;
+ALTER TABLE `#__articles` CHANGE  `publish_up`  `publish_on` DATETIME;
+ALTER TABLE `#__articles` CHANGE  `publish_down`  `unpublish_on` DATETIME;
 
 -- Remove unused columns
 ALTER TABLE `#__articles` DROP `title_alias`;

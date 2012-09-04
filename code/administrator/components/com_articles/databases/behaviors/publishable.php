@@ -71,7 +71,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     protected function _publishItems(KDate $date) {
         $query = $this->_getSelectQuery();
 
-        $query->where('publish_up <= :date')->where('state = :state')->where('publish_up <> :default')
+        $query->where('publish_on <= :date')->where('state = :state')->where('publish_on <> :default')
             ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'state' => 0));
 
         $db = $this->getMixer()->getDatabase();
@@ -91,7 +91,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     protected function _unpublishItems(KDate $date) {
         $query = $this->_getSelectQuery();
 
-        $query->where('publish_down <= :date')->where('state = :state')->where('publish_down <> :default')
+        $query->where('unpublish_on <= :date')->where('state = :state')->where('unpublish_on <> :default')
             ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'state' => 1));
 
         $db = $this->getMixer()->getDatabase();

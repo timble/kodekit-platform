@@ -26,11 +26,11 @@ class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
         if ($article->isNew())
         {
             $date       = new KDate();
-            $publish_up = $date->format('Y-m-d H:i:s');
+            $publish_on = $date->format('Y-m-d H:i:s');
         }
-        else $publish_up = $article->publish_up;
+        else $publish_on = $article->publish_on;
 
-        $html = JHTML::_('calendar', $publish_up, 'publish_up', 'publish_up', '%Y-%m-%d %H:%M:%S',
+        $html = JHTML::_('calendar', $publish_on, 'publish_on', 'publish_on', '%Y-%m-%d %H:%M:%S',
             array(
                 'class'    => 'inputbox',
                 'size'     => '25',
@@ -45,13 +45,13 @@ class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
 
         $article = $config->row;
 
-        if ($article->isNew() || (intval($article->publish_down) == 0)) {
-            $publish_down = '';
+        if ($article->isNew() || (intval($article->unpublish_on) == 0)) {
+            $unpublish_on = '';
         } else {
-            $publish_down = $article->publish_down;
+            $unpublish_on = $article->unpublish_on;
         }
 
-        $html = JHTML::_('calendar', $publish_down, 'publish_down', 'publish_down', '%Y-%m-%d %H:%M:%S',
+        $html = JHTML::_('calendar', $unpublish_on, 'unpublish_on', 'unpublish_on', '%Y-%m-%d %H:%M:%S',
             array(
                 'class'    => 'inputbox',
                 'size'     => '25',
