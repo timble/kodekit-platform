@@ -84,7 +84,7 @@ abstract class KMixinAbstract implements KMixinInterface
      * Set the mixer object
      *
      * @param object The mixer object
-     * @return KMixinInterface
+     * @return KMixinAbstract
      */
     public function setMixer($mixer)
     {
@@ -162,6 +162,20 @@ abstract class KMixinAbstract implements KMixinInterface
         }
 
         return $this->__mixable_methods;
+    }
+
+    /**
+     * Mixin Notifier
+     *
+     * This function is called when the mixin is being mixed. It will get the mixer passed in.
+     *
+     * @param object $mixer The mixer object
+     * @return KMixinInterface
+     */
+    public function onMixin(KObject $mixer)
+    {
+        $this->setMixer($mixer);
+        return $this;
     }
 
     /**
