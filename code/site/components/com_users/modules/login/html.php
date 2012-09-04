@@ -34,7 +34,7 @@ class ComUsersModuleLoginHtml extends ComDefaultModuleDefaultHtml
         $this->usesecure     = $this->module->params->get('usesecure');   
         $this->pretext       = $this->module->params->get('pretext');
         $this->posttext      = $this->module->params->get('posttext');
-        $this->allow_registration = JComponentHelper::getParams( 'com_users' )->get('allowUserRegistration');
+        $this->allow_registration = $this->getService('application.components')->users->params->get('allowUserRegistration');
         
         // Assign vars and render view
 		$this->assign('user', JFactory::getUser());    
