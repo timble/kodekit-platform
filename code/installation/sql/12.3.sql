@@ -181,6 +181,7 @@ ALTER TABLE `#__categories` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on
 ALTER TABLE `#__categories` ADD `modified_on` DATETIME AFTER `modified_by`;
 ALTER TABLE `#__categories` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `#__categories` CHANGE `checked_out_time` `locked_on` DATETIME;
+ALTER TABLE `#__categories` DROP INDEX `idx_checkout`;
 
 # --------------------------------------------------------
 

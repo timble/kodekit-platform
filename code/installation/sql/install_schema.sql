@@ -101,8 +101,7 @@ CREATE TABLE `#__categories` (
   `params` text NOT NULL,
   PRIMARY KEY (`categories_category_id`),
   KEY `cat_idx` (`table`,`published`,`access`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`)
+  KEY `idx_access` (`access`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
