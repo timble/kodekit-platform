@@ -23,8 +23,8 @@ class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
         parent::onAfterControllerBrowse($event);
 
         $this->addSeparator();
-        $this->addPublish();
-        $this->addUnpublish();
+        $this->addEnable(array('label' => 'publish'));
+        $this->addDisable(array('label' => 'unpublish'));
         $this->addSeparator();
         $this->addDefault();
     }
@@ -49,27 +49,7 @@ class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
             )
         ));
     }
-
-    protected function _commandPublish(KControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs'  => array(
-                'data-action' => 'edit',
-                'data-data'   => '{enabled:1}'
-            )
-        ));
-    }
-
-    protected function _commandUnpublish(KControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs'  => array(
-                'data-action' => 'edit',
-                'data-data'   => '{enabled:0}'
-            )
-        ));
-    }
-
+    
     protected function _commandNew(KControllerToolbarCommand $command)
     {
         $menu = $this->getController()->getModel()->menu;

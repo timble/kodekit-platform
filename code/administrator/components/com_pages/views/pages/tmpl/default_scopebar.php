@@ -11,15 +11,15 @@
 
 <div class="scopebar">
     <div class="scopebar-group">
-            <a href="<?= @route('enabled=&deleted=&access=' ) ?>" class="<?= !is_bool($state->enabled) && !$state->deleted && is_null($state->access) ? 'active' : '' ?>">
+            <a href="<?= @route('published=&deleted=&access=' ) ?>" class="<?= !is_bool($state->published) && !$state->deleted && is_null($state->access) ? 'active' : '' ?>">
                 <?= 'All' ?>
             </a>
     </div>
     <div class="scopebar-group">
-        <a href="<?= @route('enabled=1' ) ?>" class="<?= $state->enabled === true ? 'active' : '' ?>">
+        <a href="<?= @route('published=1' ) ?>" class="<?= $state->published === true ? 'active' : '' ?>">
             <?= @text('Published') ?>
         </a>
-        <a href="<?= @route('enabled=0' ) ?>" class="<?= $state->enabled === false ? 'active' : '' ?>">
+        <a href="<?= @route('published=0' ) ?>" class="<?= $state->published === false ? 'active' : '' ?>">
             <?= @text('Unpublished') ?>
         </a>
         <a href="<?= @route( $state->deleted ? 'deleted=' : 'deleted=1' ) ?>" class="<?= $state->deleted ? 'active' : '' ?>">

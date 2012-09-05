@@ -25,7 +25,7 @@ class ComPagesModelPages extends ComPagesModelClosures
 
         $this->getState()
             ->remove('sort')->insert('sort', 'cmd', 'custom')
-            ->insert('enabled'   , 'boolean')
+            ->insert('published' , 'boolean')
             ->insert('menu'      , 'int')
             ->insert('type'      , 'cmd')
             ->insert('home'      , 'boolean')
@@ -100,8 +100,8 @@ class ComPagesModelPages extends ComPagesModelClosures
             $query->where('tbl.pages_menu_id = :menu_id')->bind(array('menu_id' => $state->menu));
         }
 
-        if(is_bool($state->enabled)) {
-            $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
+        if(is_bool($state->published)) {
+            $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
         }
 
         if(is_numeric($state->access)) {

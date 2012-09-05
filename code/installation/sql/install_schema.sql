@@ -393,7 +393,7 @@ CREATE TABLE `#__pages` (
   `link_url` TEXT,
   `link_id` INT UNSIGNED,
   `type` VARCHAR(50),
-  `enabled` BOOLEAN NOT NULL DEFAULT 0,
+  `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
   `extensions_component_id` INT UNSIGNED,
@@ -408,7 +408,7 @@ CREATE TABLE `#__pages` (
   PRIMARY KEY (`pages_page_id`),
   CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
-  INDEX `ix_enabled` (`enabled`),
+  INDEX `ix_published` (`published`),
   INDEX `ix_extensions_component_id` (`extensions_component_id`),
   INDEX `ix_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

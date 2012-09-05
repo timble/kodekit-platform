@@ -39,6 +39,9 @@ class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
                 'creatable', 'modifiable', 'lockable', 'sluggable', 'assignable',
                 'com://admin/pages.database.behavior.orderable' => array('columns' => array('title', 'custom'))
             ),
+            'column_map'=> array(
+                'enabled' 	=> 'published',
+            ),
             'filters' => array(
                 'params' => 'ini'
             )

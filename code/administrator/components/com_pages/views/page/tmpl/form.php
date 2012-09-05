@@ -31,7 +31,7 @@
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />
     <input type="hidden" name="type" value="<?= $state->type['name'] ?>" />
     <input type="hidden" name="access" value="0" />
-    <input type="hidden" name="enabled" value="0" />
+    <input type="hidden" name="published" value="0" />
     <input type="hidden" name="hidden" value="0" />
 
     <div id="components">

@@ -311,7 +311,6 @@ ALTER TABLE `#__pages` CHANGE `alias` `slug` VARCHAR(255);
 ALTER TABLE `#__pages` CHANGE `link` `link_url` TEXT;
 ALTER TABLE `#__pages` ADD COLUMN `link_id` INT UNSIGNED AFTER `link_url`;
 ALTER TABLE `#__pages` MODIFY `type` VARCHAR(50);
-ALTER TABLE `#__pages` CHANGE `published` `enabled` BOOLEAN NOT NULL DEFAULT 0;
 ALTER TABLE `#__pages` CHANGE `componentid` `extensions_component_id` INT UNSIGNED;
 ALTER TABLE `#__pages` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `#__pages` CHANGE `checked_out_time` `locked_on` DATETIME;
@@ -342,7 +341,7 @@ ALTER TABLE `#__pages` ADD COLUMN `pages_menu_id` INT UNSIGNED NOT NULL AFTER `p
 UPDATE `#__pages` AS `pages`, `#__pages_menus` AS `menus` SET `pages`.`pages_menu_id` = `menus`.`pages_menu_id` WHERE `menus`.`slug` = `pages`.`menutype`;
 
 ALTER TABLE `#__pages` DROP INDEX `componentid`;
-ALTER TABLE `#__pages` ADD INDEX `ix_enabled` (`enabled`);
+ALTER TABLE `#__pages` ADD INDEX `ix_published` (`published`);
 ALTER TABLE `#__pages` ADD INDEX `ix_extensions_component_id` (`extensions_component_id`);
 ALTER TABLE `#__pages` ADD INDEX `ix_home` (`home`);
 ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
