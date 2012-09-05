@@ -865,7 +865,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     /**
      * Search the behaviors to see if this table behaves as.
      *
-     * Function is also capable of checking is a behavior has been mixed succesfully
+     * Function is also capable of checking is a behavior has been mixed successfully
      * using is[Behavior] function. If the behavior exists the function will return
      * TRUE, otherwise FALSE.
      *
@@ -881,11 +881,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
 
         if ($parts[0] == 'is' && isset($parts[1]))
         {
-            if ($this->hasBehavior(strtolower($parts[1]))) {
-                return true;
+            if(!$this->hasBehavior(strtolower($parts[1]))) {
+                return false;
             }
-
-            return false;
         }
 
         return parent::__call($method, $arguments);
