@@ -41,12 +41,10 @@ class ComApplicationRouter extends KDispatcherRouterDefault
             $segments = explode('/', $path);
         }
         
-	    // Find language if multilanguage is enabled. 
-	    $application = JFactory::getApplication();
-	    if($application->getCfg('multilanguage'))
-	    {
-	        $languages = $this->getService('application.languages');
-	        
+	    // Find language if more languages are enabled. 
+	    $languages = $this->getService('application.languages');
+        if(count($languages) > 1)
+        {
 	        // Test if the first segment of the path is a language slug.
 	        if(!empty($path) && !empty($segments[0]))
 	        {
@@ -98,12 +96,12 @@ class ComApplicationRouter extends KDispatcherRouterDefault
         $query    = $url->query;
         $segments = array();
         
-	    // Add language slug if multilanguage is enabled.
-	    $application = JFactory::getApplication();
-        if($application->getCfg('multilanguage'))
+	    // Add language slug if more than languages are enabled.
+	    $languages = $this->getService('application.languages');
+        if(count($languages) > 1)
         {
 	        if(!isset($query['language'])) {
-	            $segments[] = $this->getService('application.languages')->getActive()->slug;
+	            $segments[] = $languages->getActive()->slug;
 	        } else {
 	            $segments[] = $query['language'];
 	        }
