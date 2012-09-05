@@ -42,7 +42,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $query->columns(array(
             'category_title'    => 'categories.title',
             'created_by_name'   => 'users.name',
-            'created_by_id'     => 'users.id',
+            'created_by_id'     => 'users.users_user_id',
             'featured_ordering' => 'featured.ordering',
         	'featured'          => 'IF(featured.articles_article_id, 1, 0)'
         ));
@@ -55,7 +55,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $state = $this->getState();
 
         $query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
-              ->join(array('users'  => 'users'), 'users.id = tbl.created_by');
+              ->join(array('users'  => 'users'), 'users.users_user_id = tbl.created_by');
 
         $query->join(array('featured' => 'articles_featured'), 'featured.articles_article_id = tbl.articles_article_id', $state->featured ? 'RIGHT' : 'LEFT');
     }

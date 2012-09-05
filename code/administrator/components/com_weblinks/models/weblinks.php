@@ -43,7 +43,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		parent::_buildQueryJoins($query);
 
 		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
-			  ->join(array('users' => 'users'), 'users.id = tbl.locked_by');
+			  ->join(array('users' => 'users'), 'users.users_user_id = tbl.locked_by');
 	}
 	
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
