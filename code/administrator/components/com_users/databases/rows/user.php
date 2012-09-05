@@ -90,7 +90,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		{
 			$query = $this->getService('koowa:database.query.select')
                 ->where('email = :email')
-                ->where('id <> :id')
+                ->where('users_user_id <> :id')
                 ->bind(array('email' => $this->email, 'id' => (int) $this->id));
 
 			$total = $this->getService('com://admin/users.database.table.users')->count($query);
@@ -277,7 +277,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		}
 
 		// Don't allow administrators to delete other administrators or super administrators.
-		if($user->gid == 24 && ($this->users_group_id == 24 || $this->users_group_id == 25))
+		if($user->users_group_id == 24 && ($this->users_group_id == 24 || $this->users_group_id == 25))
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage(JText::_("You can't delete a user with this user group level. "
