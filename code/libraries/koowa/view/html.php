@@ -43,22 +43,26 @@ class KViewHtml extends KViewTemplate
      */
     public function display()
     {
-        if (empty($this->output)) {
+        if (empty($this->output))
+        {
             $model = $this->getModel();
 
             //Auto-assign the state to the view
             $this->assign('state', $model->getState());
 
             //Auto-assign the data from the model
-            if ($this->_auto_assign) {
+            if ($this->_auto_assign)
+            {
                 //Get the view name
                 $name = $this->getName();
 
                 //Assign the data of the model to the view
-                if (KInflector::isPlural($name)) {
+                if (KInflector::isPlural($name))
+                {
                     $this->assign($name, $model->getList())
-                        ->assign('total', $model->getTotal());
-                } else $this->assign($name, $model->getItem());
+                          ->assign('total', $model->getTotal());
+                }
+                else $this->assign($name, $model->getItem());
             }
         }
 
