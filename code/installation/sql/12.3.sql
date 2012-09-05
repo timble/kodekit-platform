@@ -78,6 +78,13 @@ ALTER TABLE `#__users` CHANGE  `gid`  `users_group_id` UNSIGNED INT(10);
 ALTER TABLE `#__users` CHANGE  `registerDate`  `registered_on` DATETIME;
 ALTER TABLE `#__users` CHANGE  `lastvisitDate`  `last_visited_on` DATETIME;
 
+ALTER TABLE `#__users` ADD `created_by` INT(11) UNSIGNED AFTER `last_visited_on`;
+ALTER TABLE `#__users` ADD `created_on` DATETIME AFTER `created_by`;
+ALTER TABLE `#__users` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
+ALTER TABLE `#__users` ADD `modified_on` DATETIME AFTER `modified_by`;
+ALTER TABLE `#__users` ADD `locked_by` INT(11) UNSIGNED AFTER `modified_on`;
+ALTER TABLE `#__users` ADD `locked_on` DATETIME AFTER `locked_by`;
+
 -- Remove unused columns from #__session
 RENAME TABLE`#__session` TO  `#__users_sessions`;
 
