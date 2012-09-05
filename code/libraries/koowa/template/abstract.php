@@ -197,10 +197,10 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Method to set a view object attached to the template
      *
-     * @param    mixed    An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
-     * @throws    KDatabaseRowsetException    If the identifier is not a view identifier
-     * @return    KControllerAbstract
+     * @param mixed  An object that implements KObjectServiceable, KServiceIdentifier object
+     *               or valid identifier string
+     * @throws KDatabaseRowsetException    If the identifier is not a view identifier
+     * @return KControllerAbstract
      */
     public function setView($view)
     {
@@ -232,12 +232,12 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      * This functions only accepts full identifiers of the format
      * -  com:[//application/]component.view.[.path].name
      *
-     * @param   string     The template identifier
-     * @param    array    An associative array of data to be extracted in local template scope
-     * @param    boolean    If TRUE process the data using a tmpl stream. Default TRUE.
+     * @param   string   The template identifier
+     * @param   array    An associative array of data to be extracted in local template scope
+     * @param   boolean  If TRUE evaluate the data using a tmpl stream. Default TRUE.
      * @return KTemplateAbstract
      */
-    public function loadIdentifier($template, $data = array(), $process = true)
+    public function loadIdentifier($template, $data = array(), $evaluate = true)
     {
         //Find the template
         $identifier = $this->getIdentifier($template);
@@ -251,7 +251,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         }
 
         // Load the file
-        $this->loadFile($file, $data, $process);
+        $this->loadFile($file, $data, $evaluate);
 
         return $this;
     }
@@ -259,18 +259,18 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Load a template by path
      *
-     * @param   string     The template path
-     * @param    array    An associative array of data to be extracted in local template scope
-     * @param    boolean    If TRUE process the data using a tmpl stream. Default TRUE.
+     * @param   string   The template path
+     * @param   array    An associative array of data to be extracted in local template scope
+     * @param   boolean  If TRUE evaluate the data using a tmpl stream. Default TRUE.
      * @return KTemplateAbstract
      */
-    public function loadFile($file, $data = array(), $process = true)
+    public function loadFile($file, $data = array(), $evaluate = true)
     {
         //Get the file contents
         $contents = file_get_contents($file);
 
         //Load the contents
-        $this->loadString($contents, $data, $process);
+        $this->loadString($contents, $data, $evaluate);
 
         return $this;
     }
@@ -278,12 +278,12 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Load a template from a string
      *
-     * @param   string     The template contents
-     * @param    array    An associative array of data to be extracted in local template scope
-     * @param    boolean    If TRUE process the data using a tmpl stream. Default TRUE.
+     * @param  string   The template contents
+     * @param  array    An associative array of data to be extracted in local template scope
+     * @param  boolean  If TRUE evaluate the data using a tmpl stream. Default TRUE.
      * @return KTemplateAbstract
      */
-    public function loadString($string, $data = array(), $process = true)
+    public function loadString($string, $data = array(), $evaluate = true)
     {
         $this->_contents = $string;
 
@@ -291,7 +291,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $this->_data = array_merge((array)$this->_data, $data);
 
         // Process the data
-        if ($process == true) {
+        if ($evaluate == true) {
             $this->__sandbox();
         }
 
@@ -469,8 +469,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      * Searches for the file
      *
      * @param    string    The file path to look for.
-     * @return    mixed    The full path and file name for the target file, or FALSE
-     *                     if the file is not found
+     * @return    mixed    The full path and file name for the target file, or FALSE if the file is not found
      */
     public function findFile($file)
     {
