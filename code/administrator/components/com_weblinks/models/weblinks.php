@@ -33,8 +33,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 		parent::_buildQueryColumns($query);
 
 		$query->columns(array(
-			'category_title' => 'categories.title',
-			'editor' => 'users.name'
+			'category_title' => 'categories.title'
 	    ));
 	}
 
@@ -42,8 +41,7 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 	{
 		parent::_buildQueryJoins($query);
 
-		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
-			  ->join(array('users' => 'users'), 'users.users_user_id = tbl.locked_by');
+		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id');
 	}
 	
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
