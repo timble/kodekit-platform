@@ -20,9 +20,14 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
 {
     public function onMixin(KObject $mixer)
     {
-        $state = $mixer->getState();
-        if(!isset($state->translation)) {
-            $state->insert('translation', 'int');
+        parent::onMixin($mixer);
+        
+        if($mixer instanceof KDatabaseTableAbstract)
+        {
+            $state = $mixer->getState();
+            if(!isset($state->translation)) {
+                $state->insert('translation', 'int');
+            }
         }
         
         return $this;
