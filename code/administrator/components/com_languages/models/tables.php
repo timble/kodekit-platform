@@ -15,95 +15,45 @@
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesModelTables extends ComDefaultModelDefault implements KServiceInstantiatable
+class ComLanguagesModelTables extends ComDefaultModelDefault
 {
-    protected $_list_cache;
-    
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
+
         $this->getState()
             ->insert('enabled', 'boolean')
             ->insert('component', 'int');
     }
     
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
     {
-        if(!$container->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
-        }
+        parent::_buildQueryColumns($query);
         
-        return $container->get($config->service_identifier);
+        $query->columns(array('component_name' => 'components.name'));
     }
     
-    public function getItem()
+    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
-        if(!$this->_list_cache) {
-            $this->_list_cache = $this->getTable()->select();
-        }
+        parent::_buildQueryJoins($query);
         
-        $state  = $this->getState();
-        return $state->isUnique() ? $this->_list_cache->find($state->id) : $this->_list_cache->getRow();
+        $query->join(array('components' => 'extensions_components'), 'components.id = tbl.extensions_component_id');
     }
-    
-    public function getList()
+
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
-        if(!$this->_list_cache) {
-            $this->_list_cache = $this->getTable()->select($this->getService('koowa:database.query.select'));
-        }
-        
-        $list  = $this->_filterList();
-        $total = count($list);
-        
+        parent::_buildQueryWhere($query);
         $state = $this->getState();
-        if($limit = $state->limit)
+
+        if(!$state->isUnique())
         {
-            $offset = $state->offset;
-            $total  = $this->_total;
-            
-            if($offset && $total)        
-            {
-                if($offset >= $total) 
-                {
-                    $offset = floor(($total - 1) / $limit) * $limit;    
-                    $state->offset = $offset;
-                }
-             }
-             
-             $counter = 1;
-             foreach(clone $list as $item)
-             {
-                 if($counter <= $offset || $counter > $offset + $limit) {
-                     $list->extract($item);
-                 }
-                 
-                 $counter++;
-             }
+            if(!is_null($state->enabled)) {
+                $query->where('tbl.enabled = :enabled')->bind(array('enabled' => (int) $state->enabled));
+            }
+
+            if($state->component) {
+                $query->where('tbl.components_component_id IN :component')->bind(array('component' => (array) $state->component));
+            }
         }
-        
-        $this->_list  = $list;
-        $this->_total = count($this->_list);
-        
-        return $this->_list;
     }
-    
-    protected function _filterList()
-    {
-        $state   = $this->getState();
-        $filters = array();
-        
-        if(!is_null($state->enabled)) {
-            $filters['enabled'] = (int) $state->enabled;
-        }
-        
-        if($state->component) {
-            $filters['extensions_component_id'] = $state->component;
-        }
-        
-        return $filters ? $this->_list_cache->find($filters) : clone $this->_list_cache;
-     }
 }
