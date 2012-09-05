@@ -65,7 +65,7 @@ class JFactory
      * @return object JUser
      */
     function &getUser($id = null)
-    {
+    {        
         if (is_null($id)) {
             $session = KService::get('application.session');
             $instance = $session->user;
@@ -73,7 +73,7 @@ class JFactory
             if (!$instance instanceof ComUsersDatabaseRowUser) {
                 $instance = KService::get('com://admin/users.database.row.user');
             }
-        } else $instance = KService::get('com://admin/users.database.row.user')->id($id)->load();
+        } else $instance = KService::get('com://admin/users.database.row.user')->set('id', $id)->load();
 
         return $instance;
     }
