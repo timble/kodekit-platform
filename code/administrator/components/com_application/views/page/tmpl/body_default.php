@@ -17,38 +17,38 @@
 <style src="media://com_application/css/legacy.css" />
 <? endif; ?>
 
-<body id="minwidth-body" class="<?= $option ?>">
+<body class="<?= $option ?>">
 <div id="container" class="box-column">
-    <div id="header-box">
+    <div id="panel-header">
         <?= @helper('menubar.render', array('menubar' => $menubar, 'attribs' => array('id' => 'menu')))?>
         <?= @helper('toolbar.render', array('toolbar' => $toolbar, 'attribs' => array('id' => 'statusmenu')))?>
 	</div>
 
-    <div id="tabs-box">
+    <div id="panel-navigation">
 		<ktml:modules position="menubar" />
 	</div>
 
     <ktml:modules position="toolbar">
-    <div id="toolbar-box">
+    <div id="panel-toolbar">
         <ktml:content />
     </div>
     </ktml:modules>
 
     <?= @template('default_message') ?>
 
-    <div id="window-body" class="<?= @service('component')->getController()->getView()->getLayout() ?>">
+    <div class="box-row">
         <ktml:modules position="sidebar">
-        <div id="window-sidebar">
+        <div id="panel-sidebar">
             <ktml:content />
         </div>
         </ktml:modules>
 
-        <div id="window-content" class="<?= @service('component')->getController()->getView()->getLayout() ?> row-fluid">
+        <div id="panel-content" class="<?= @service('component')->getController()->getView()->getLayout() ?> row-fluid">
             <ktml:variable name="content" />
 	    </div>
 
         <ktml:modules position="inspector">
-            <div id="window-inspector">
+            <div id="panel-inspector">
                 <ktml:content />
             </div>
         </ktml:modules>

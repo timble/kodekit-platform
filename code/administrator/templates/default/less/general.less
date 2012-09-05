@@ -1,11 +1,10 @@
-
-
 /* -- General styles ------------------------------ */
 
 body {
 	margin: 0; padding: 0;
 	font-size: @baseFontSize;
 	background-color: #FFF;
+	min-width: 960px;
 }
 
 body, td, th { font-family: @baseFontFamily; }
@@ -88,7 +87,7 @@ a.btn {
 }
 
 /* -- overall styles ------------------------------ */
-#header-box  { 
+#panel-header  { 
 	background-color: #333;
 	border-bottom: 1px solid lighten(@navbarBackground, 10%);
 	#gradient > .vertical(@navbarBackground, darken(@navbarBackground, 15%));
@@ -97,12 +96,12 @@ a.btn {
 	position: relative; // We need this for .box-shadow
 }
 
-#tabs-box {	
+#panel-navigation {	
 	#gradient > .vertical(@tabbarBackground, darken(@tabbarBackground, 10%));
 	.box-shadow(inset rgba(0, 0, 0, .10) 0px -2px 2px);
 }
 
-#toolbar-box {
+#panel-toolbar {
 	height: 41px;
 	.box-sizing(border-box);
 	padding: 8px 0;
@@ -113,121 +112,118 @@ a.btn {
 	}
 }
 
-#window-body { 	
-	&.form {
-		border-top: 1px solid @grayLighter;
-	}
+
+#panel-sidebar,
+#panel-inspector {
+	.box-sizing(border-box);
+	background-color: #F9F9F9;
+
+	h3,
+	legend {
+		.box > .box-title();
+		line-height: 24px;
+	}	
+}
+
+#panel-inspector {
+	border-left: 1px solid @grayLighter;
 	
-	#window-sidebar,
-	#window-inspector {
-		.box-sizing(border-box);
-		background-color: #F9F9F9;
-	
-		h3,
-		legend {
-			.box > .box-title();
-			line-height: 24px;
-		}	
-	}
-	
-	#window-inspector {
-		border-left: 1px solid @grayLighter;
-		
-		#activities-list {		
-			h4 {			
-				padding: 5px;
-				margin: 0;
-				border-top: 1px solid #E8EAEC;
-				color: #666;
-				#gradient > .vertical(#f1f2f4, #F9F9F9);
-			}
-			
-			h4:first-of-type {
-				border-top: none 0px;
-			}
-			
-			.activities { 
-				margin: 0 10px 10px 10px;
-				
-				.activity 			{ 
-					padding: 7px 0;
-					border-bottom: 1px dotted @grayLighter;
-					.clearfix();
-					
-					> div {
-						width: 100% - 20px;
-						float: left;
-					}
-					
-					a {
-						line-height: 16px;
-						width: 100%;
-					}
-					
-					// Icon
-					i { 
-						margin-right: 6px;
-						margin-top: 1px;
-						vertical-align: text-bottom;
-						float: left;
-					}
-					
-					.datetime { color: @gray; }
-				}
-				.activity:last-child { border-bottom: none 0px; }
-			}
-			
-			.btn-group {
-				padding: 0 10px;
-			}
-		}
-	}
-	
-	#window-sidebar {
-		border-right: 1px solid @grayLighter;
-		
+	#activities-list {		
 		h4 {			
-			padding: 4px 0 4px 10px;
-			margin: @baseLineHeight 0 0 0;
+			padding: 5px;
+			margin: 0;
+			border-top: 1px solid #E8EAEC;
 			color: #666;
-			text-transform: uppercase;
+			#gradient > .vertical(#f1f2f4, #F9F9F9);
 		}
 		
-		h4:first-of-type {			
-			margin-top: 2px;
+		h4:first-of-type {
+			border-top: none 0px;
 		}
 		
-		nav {
-			a {
-				display: block;
-				padding: 7px 0 6px 22px;
-				color: #444;
+		.activities { 
+			margin: 0 10px 10px 10px;
 			
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
+			.activity 			{ 
+				padding: 7px 0;
+				border-bottom: 1px dotted @grayLighter;
+				.clearfix();
+				
+				> div {
+					width: 100% - 20px;
+					float: left;
+				}
+				
+				a {
+					line-height: 16px;
+					width: 100%;
+				}
+				
+				// Icon
+				i { 
+					margin-right: 6px;
+					margin-top: 1px;
+					vertical-align: text-bottom;
+					float: left;
+				}
+				
+				.datetime { color: @gray; }
 			}
-			
-			a:hover {
-				padding-top: 6px;
-				color: #444;
-				border-top: 1px solid lighten(@blueDark, 40%);
-				#gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
-				text-decoration: none;
-			}
-			
-			 a.active,
-			 a.active:hover {
-				padding-top: 6px;
-				color: #FFF;
-				border-top: 1px solid lighten(@blueDark, 15%);
-				#gradient > .vertical(lighten(@blueDark, 20%), @blueDark);
-				.box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
-				text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
-			}	
-		}	
+			.activity:last-child { border-bottom: none 0px; }
+		}
+		
+		.btn-group {
+			padding: 0 10px;
+		}
+	}
+}
+
+#panel-sidebar {
+	border-right: 1px solid @grayLighter;
+	
+	h4 {			
+		padding: 4px 0 4px 10px;
+		margin: @baseLineHeight 0 0 0;
+		color: #666;
+		text-transform: uppercase;
 	}
 	
+	h4:first-of-type {			
+		margin-top: 2px;
+	}
+	
+	nav {
+		a {
+			display: block;
+			padding: 7px 0 6px 22px;
+			color: #444;
+		
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		
+		a:hover {
+			padding-top: 6px;
+			color: #444;
+			border-top: 1px solid lighten(@blueDark, 40%);
+			#gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
+			text-decoration: none;
+		}
+		
+		 a.active,
+		 a.active:hover {
+			padding-top: 6px;
+			color: #FFF;
+			border-top: 1px solid lighten(@blueDark, 15%);
+			#gradient > .vertical(lighten(@blueDark, 20%), @blueDark);
+			.box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
+			text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+		}	
+	}	
+}
+	
+#panel-content {
 	dl.tabs {
 		float: left;
 		margin: 10px 0 0 0;
@@ -531,8 +527,10 @@ div.toolbar {
 /* @end */
 
 /* Sidebar */
-#window-content.form {
-	 .sidebar {
+#panel-content.form {
+	border-top: 1px solid @grayLighter;
+	
+	.sidebar {
 		width: 350px;
 	 
 	 	.scrollable {		
