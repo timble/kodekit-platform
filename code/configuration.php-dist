@@ -29,7 +29,6 @@ class JConfig
 	var $sitename   = 'Nooku Server';		// Name of the site
 	var $list_limit = '20';
 	var $feed_limit =  10;
-	var $multilanguage  = false;
 
 	/**
 	* -------------------------------------------------------------------------
