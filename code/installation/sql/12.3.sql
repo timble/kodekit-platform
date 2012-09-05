@@ -71,7 +71,7 @@ ALTER TABLE #__users DROP INDEX gid_block;
 ALTER TABLE  `#__users` DROP INDEX  `email` , ADD UNIQUE  `email` (  `email` );
 
 -- Update schema to follow conventions
-ALTER TABLE `#__users` CHANGE  `id`  `users_user_id` INT(11);
+ALTER TABLE `#__users` CHANGE  `id`  `users_user_id` INT(11) UNSIGNED AUTO_INCREMENT;
 ALTER TABLE `#__users` CHANGE  `block`  `enabled` TINYINT(1);
 ALTER TABLE `#__users` CHANGE  `sendEmail`  `send_email` TINYINT(1);
 ALTER TABLE `#__users` CHANGE  `gid`  `users_group_id` UNSIGNED INT(10);

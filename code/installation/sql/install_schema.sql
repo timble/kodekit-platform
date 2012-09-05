@@ -420,7 +420,7 @@ CREATE TABLE `#__pages` (
 --
 
 CREATE TABLE `#__users` (
-  `users_user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `users_user_id` int(11) UNSIGNED AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `usertype` varchar(25) NOT NULL DEFAULT '',
