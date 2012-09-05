@@ -18,19 +18,10 @@
 <? endif; ?>
 
 <body id="minwidth-body" class="<?= $option ?>">
-<div id="container" class="box-row">
-	<div id="panel-pages">
-	    <?= @template('com://admin/pages.view.pages.list'); ?>
-	</div>
-	
-
-<div class="box-column">
-
+<div id="container" class="box-column">
     <div id="header-box">
-
         <?= @helper('menubar.render', array('menubar' => $menubar, 'attribs' => array('id' => 'menu')))?>
         <?= @helper('toolbar.render', array('toolbar' => $toolbar, 'attribs' => array('id' => 'statusmenu')))?>
-
 	</div>
 
     <div id="tabs-box">
@@ -46,7 +37,6 @@
     <?= @template('default_message') ?>
 
     <div id="window-body" class="<?= @service('component')->getController()->getView()->getLayout() ?>">
-
         <ktml:modules position="sidebar">
         <div id="window-sidebar">
             <ktml:content />
@@ -62,9 +52,7 @@
                 <ktml:content />
             </div>
         </ktml:modules>
-
     </div>
-</div>
 </div>
 <? if(KDEBUG) : ?>
 	<?= @service('com://admin/debug.controller.debug')->display(); ?>
