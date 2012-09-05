@@ -53,7 +53,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 
 	    $query->columns(array(
 	    	'loggedin' => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
-	        'enabled'  => 'IF(tbl.block = 1, 0, 1)'
+	        'enabled'  => 'IF(tbl.enabled = 1, 0, 1)'
 	    ));
 	    
 	    if($state->loggedin)
@@ -92,13 +92,13 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		
 		if ($state->group)
         {
-		    $query->where('tbl.gid '.($state->group_tree ? '>=' : '=').' :group_id')
+		    $query->where('tbl.users_group_id '.($state->group_tree ? '>=' : '=').' :group_id')
                   ->bind(array('group_id' => $state->group));
 		}
         
         if (is_bool($state->enabled))
         {
-            $query->where('tbl.block = :enabled')
+            $query->where('tbl.enabled = :enabled')
                    ->bind(array('enabled' => $state->enabled ? 0 : 1));
         }
         
@@ -108,7 +108,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
         
         if (is_bool($state->visited))
         {
-            $query->where('lastvisitDate '.($state->visited ? '!=' : '=').' :last_visited_on')
+            $query->where('last_visited_on '.($state->visited ? '!=' : '=').' :last_visited_on')
                   ->bind(array('last_visited_on', '0000-00-00 00:00:00'));
         }
 

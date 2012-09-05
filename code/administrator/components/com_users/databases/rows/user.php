@@ -28,7 +28,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
         if($column == 'params' && !($this->_data['params'] instanceof JParameter))
 		{
-            $path  = $this->getIdentifier()->getApplication('admin');
+            //$path  = $this->getIdentifier()->getApplication('admin');
             $path .= '/components/com_users/databases/rows';
 			$name	= str_replace(' ', '_', strtolower($this->group_name));
 

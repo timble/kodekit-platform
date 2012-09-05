@@ -128,9 +128,9 @@ VALUES
 -- Dumping data for table `#__users`
 --
 
-INSERT INTO `#__users` (`id`, `uuid`, `name`, `email`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`)
-VALUES 
-    (1, UUID(), 'Administrator', 'admin@localhost.home', 'Super Administrator', 0, 1, 25, NOW(), '', '', '');
+INSERT INTO `#__users` (`users_user_id`, `name`, `email`, `usertype`, `enabled`, `send_email`, `users_group_id`, `registered_on`, `last_visited_on`, `activation`, `params`, `uuid`)
+VALUES
+	(1, 'Administrator', 'admin@localhost.home', 'Super Administrator', 0, 1, 25, NOW(), '', '', '', UUID());
 
 --
 -- Dumping data for table `#__passwords`

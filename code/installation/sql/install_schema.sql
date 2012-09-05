@@ -420,19 +420,19 @@ CREATE TABLE `#__pages` (
 --
 
 CREATE TABLE `#__users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `users_user_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `usertype` varchar(25) NOT NULL DEFAULT '',
-  `block` tinyint(4) NOT NULL DEFAULT '0',
-  `sendEmail` tinyint(4) DEFAULT '0',
-  `gid` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `registerDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `lastvisitDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `enabled` tinyint(1) NOT NULL DEFAULT '0',
+  `send_email` tinyint(1) DEFAULT '0',
+  `users_group_id` int(11) unsigned NOT NULL DEFAULT '1',
+  `registered_on` datetime,
+  `last_visited_on` datetime,
   `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `uuid` char(36) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`users_user_id`),
   UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `email` (`email`),
   KEY `usertype` (`usertype`)
