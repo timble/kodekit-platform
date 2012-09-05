@@ -62,7 +62,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 
 	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
-		$query->join(array('users' => 'users'), 'users.id = tbl.created_by');
+		$query->join(array('users' => 'users'), 'users.users_user_id = tbl.created_by');
 	}
 
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
