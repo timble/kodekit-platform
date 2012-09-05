@@ -303,13 +303,11 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
                 //Lazy mix behaviors
                 $behavior = strtolower($parts[1]);
 
-                if ($this->getTable()->hasBehavior($behavior))
-                {
+                if ($this->getTable()->hasBehavior($behavior)) {
                     $this->mixin($this->getTable()->getBehavior($behavior));
-                    return parent::__call($method, $arguments);
+                } else {
+                    return false;
                 }
-
-                return false;
             }
         }
 
