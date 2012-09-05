@@ -18,6 +18,29 @@
 
 class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
 {
+    protected $_tables;
+    
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+        
+        $this->_tables = $this->getService('com://admin/languages.model.tables')
+            ->enabled(true)
+            ->getList();
+    }
+    
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    {
+        if(!$container->has($config->service_identifier))
+        {
+            $classname = $config->service_identifier->classname;
+            $instance  = new $classname($config);
+            $container->set($config->service_identifier, $instance);
+        }
+
+        return $container->get($config->service_identifier);
+    }
+    
     public function onMixin(KObject $mixer)
     {
         parent::onMixin($mixer);
@@ -33,21 +56,41 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         return $this;
     }
     
-    public function execute($name, KCommandContext $context)
+    public function getHandle()
     {
-        $result = true;
-
-        if($this->getService('application')->getCfg('multilanguage'))
+        $table = $this->getMixer() instanceof KDatabaseTableAbstract ? $this->getMixer() : $this->getMixer()->getTable();
+        $needle = array(
+            'name' => $table->getBase(),
+            'component_name' => 'com_'.$table->getIdentifier()->package
+        );
+        
+        return count($this->_tables->find($needle)) ? parent::getHandle() : null;
+    }
+    
+    public function getMixableMethods(KObject $mixer = null)
+    {
+        $methods = parent::getMixableMethods($mixer);
+        
+        if(!is_null($mixer))
         {
-            $components = $this->getService('application.components');
-            $component  = $this->getMixer()->getIdentifier()->package;
+            $table  = $mixer instanceof KDatabaseTableAbstract ? $mixer : $mixer->getTable();
+            $needle = array(
+                'name' => $table->getBase(),
+                'component_name' => 'com_'.$table->getIdentifier()->package
+            );
             
-            if($components->$component->isTranslatable()) {
-                $result = parent::execute($name, $context);
+            if(!count($this->_tables->find($needle)))
+            {
+                $methods['isTranslatable'] = function() {
+                    return false;
+                };
+                
+                unset($methods['getLanguages']);
+                unset($methods['getTranslations']);
             }
         }
         
-        return $result;
+        return $methods;
     }
     
     public function getLanguages()
