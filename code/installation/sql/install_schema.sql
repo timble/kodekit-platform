@@ -481,7 +481,7 @@ CREATE TABLE `#__weblinks` (
   `weblinks_weblink_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `categories_category_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(250) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
+  `slug` varchar(255) NOT NULL DEFAULT '',
   `url` varchar(250) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',

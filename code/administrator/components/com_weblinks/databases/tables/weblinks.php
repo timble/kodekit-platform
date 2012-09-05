@@ -28,8 +28,7 @@ class ComWeblinksDatabaseTableWeblinks extends KDatabaseTableDefault
         		'com://admin/categories.database.behavior.orderable' => array('parent_column' => 'categories_category_id'),
             ),
         	'column_map'   =>  array(
-            	'enabled'   => 'published',
-              	'slug'      => 'alias'
+            	'enabled'   => 'published'
               ),
           	'filters' => array(
              	'description' => array('html', 'tidy'),

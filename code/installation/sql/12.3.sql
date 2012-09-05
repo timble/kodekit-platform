@@ -229,11 +229,13 @@ DELETE FROM `#__menu` WHERE `link` = 'index.php?option=com_weblinks&view=weblink
 UPDATE `#__components` SET `link` = 'option=com_weblinks&view=categories' WHERE `link` = 'option=com_categories&section=com_weblinks';
 
 -- Update schema to follow conventions
-ALTER TABLE  `#__weblinks` CHANGE  `id`  `weblinks_weblink_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE  `#__weblinks` DROP PRIMARY KEY , ADD PRIMARY KEY (  `weblinks_weblink_id` );
+ALTER TABLE `#__weblinks` CHANGE  `id`  `weblinks_weblink_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__weblinks` DROP PRIMARY KEY , ADD PRIMARY KEY (  `weblinks_weblink_id` );
 
-ALTER TABLE  `#__weblinks` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
-ALTER TABLE  `#__weblinks` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
+ALTER TABLE `#__weblinks` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
+ALTER TABLE `#__weblinks` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
+
+ALTER TABLE `#__weblinks` CHANGE  `alias`  `slug` VARCHAR(255);
 
 ALTER TABLE `#__weblinks` ADD `created_by` INT(11) UNSIGNED AFTER `description`;
 ALTER TABLE `#__weblinks` CHANGE  `date`  `created_on` DATETIME;
@@ -247,11 +249,11 @@ ALTER TABLE `#__weblinks` CHANGE  `checked_out_time`  `locked_on` DATETIME;
 # --------------------------------------------------------
 
 -- Update schema to follow conventions
-ALTER TABLE  `#__contacts` CHANGE  `id`  `contacts_contact_id` INT( 11 ) NOT NULL AUTO_INCREMENT;
-ALTER TABLE  `#__contacts` DROP PRIMARY KEY , ADD PRIMARY KEY (  `contacts_contact_id` );
+ALTER TABLE `#__contacts` CHANGE  `id`  `contacts_contact_id` INT( 11 ) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__contacts` DROP PRIMARY KEY , ADD PRIMARY KEY (  `contacts_contact_id` );
 
-ALTER TABLE  `#__contacts` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
-ALTER TABLE  `#__contacts` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
+ALTER TABLE `#__contacts` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
+ALTER TABLE `#__contacts` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
 
 ALTER TABLE `#__contacts` CHANGE  `alias`  `slug` VARCHAR(255);
 ALTER TABLE `#__contacts` CHANGE  `con_position`  `position` VARCHAR(255);
