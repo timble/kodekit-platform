@@ -172,8 +172,8 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
     /**
      * Search the mixin method map and call the method or forward the call to each row
      *
-     * This functions overloads KDatabaseRowsetAbstract::__call and implements a just in time mixin strategy.
-     * Available table behaviors are only mixed when needed.
+     * This function implements a just in time mixin strategy. Available table behaviors are only mixed when needed.
+     * Lazy mixing is triggered by calling KDatabaseRowTable::is[Behaviorable]();
      *
      * @param  string     $method    The function name
      * @param  array      $arguments The function arguments
@@ -191,9 +191,10 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
                 //Lazy mix behaviors
                 $behavior = strtolower($parts[1]);
 
-                if ($this->getTable()->hasBehavior($behavior)) {
+                if ($this->getTable()->hasBehavior($behavior))
+                {
                     $this->mixin($this->getTable()->getBehavior($behavior));
-                    return true;
+                    return parent::__call($method, $arguments);
                 }
 
                 return false;
