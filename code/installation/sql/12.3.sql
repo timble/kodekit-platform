@@ -38,9 +38,9 @@ UPDATE `#__modules` SET `extensions_component_id` = 28 WHERE `name` = 'mod_custo
 DROP TABLE `#__core_log_items`, `#__core_log_searches`;
 DROP TABLE `#__messages`, `#__messages_cfg`;
 DROP TABLE #__stats_agents;
-DROP TABLE #__migration_backlinks
-DROP TABLE #__groups
-DROP TABLE #__templates_menu
+DROP TABLE #__migration_backlinks;
+DROP TABLE #__groups;
+DROP TABLE #__templates_menu;
 DROP TABLE #__plugins;
 
 # --------------------------------------------------------
@@ -51,6 +51,10 @@ DELETE FROM `#__components` WHERE `option` = 'com_massmail';
 DELETE FROM `#__components` WHERE `option` = 'com_mailto';
 DELETE FROM `#__components` WHERE `option` = 'com_templates';
 DELETE FROM `#__components` WHERE `option` = 'com_messages';
+DELETE FROM `#__components` WHERE `option` = 'com_user';
+DELETE FROM `#__components` WHERE `option` = 'com_config';
+DELETE FROM `#__components` WHERE `option` = 'com_plugins';
+DELETE FROM `#__components` WHERE `option` = 'com_cpanel';
 
 # --------------------------------------------------------
 
@@ -74,7 +78,7 @@ ALTER TABLE  `#__users` DROP INDEX  `email` , ADD UNIQUE  `email` (  `email` );
 ALTER TABLE `#__users` CHANGE  `id`  `users_user_id` INT(11) UNSIGNED AUTO_INCREMENT;
 ALTER TABLE `#__users` CHANGE  `block`  `enabled` TINYINT(1);
 ALTER TABLE `#__users` CHANGE  `sendEmail`  `send_email` TINYINT(1);
-ALTER TABLE `#__users` CHANGE  `gid`  `users_group_id` UNSIGNED INT(10);
+ALTER TABLE `#__users` CHANGE  `gid`  `users_group_id` INT(10) UNSIGNED;
 ALTER TABLE `#__users` CHANGE  `registerDate`  `registered_on` DATETIME;
 ALTER TABLE `#__users` CHANGE  `lastvisitDate`  `last_visited_on` DATETIME;
 
@@ -92,9 +96,9 @@ ALTER TABLE `#__users_sessions` DROP `username`;
 ALTER TABLE `#__users_sessions` DROP `usertype`;
 ALTER TABLE `#__users_sessions` DROP `gid`;
 ALTER TABLE `#__users_sessions` CHANGE  `session_id`  `users_session_id` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
-ALTER TABLE `#__users_sessions` CHANGE  `userid`  `email` VARCHAR( 100 ) NOT NULL COMMENT  '@Filter("email")'
+ALTER TABLE `#__users_sessions` CHANGE  `userid`  `email` VARCHAR( 100 ) NOT NULL COMMENT  '@Filter("email")';
 ALTER TABLE `#__users_sessions` DROP INDEX  `userid`;
-ALTER TABLE `#__users_sessions` CHANGE  `client_id`  `application` VARCHAR( 50 ) NOT NULL
+ALTER TABLE `#__users_sessions` CHANGE  `client_id`  `application` VARCHAR( 50 ) NOT NULL;
 
 ALTER TABLE `#__users` DROP `username`;
 
@@ -110,14 +114,18 @@ UPDATE `#__modules` SET `extensions_component_id` = 20 WHERE `name` = 'mod_artic
 RENAME TABLE `#__content` TO `#__articles`;
 RENAME TABLE `#__content_frontpage` TO `#__articles_featured`;
 
--- Migrate archived and trashed states
-UPDATE `#__articles` SET `state` = `0` WHERE `state` < 0;
+-- Clean trash
+DELETE FROM `#__articles` WHERE `state` = '-2';
+
+-- Update archived articles
+UPDATE `#__articles` SET `state` = '0' WHERE `state` = '-1';
 
 -- Update schema to follow conventions
 ALTER TABLE `#__articles` CHANGE `id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__articles_featured` CHANGE `content_id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `#__articles` CHANGE  `catid`  `categories_category_id` INT( 11 ) UNSIGNED NOT NULL DEFAULT  '0';
-ALTER TABLE `#__articles` DROP INDEX `idx_catid` ADD INDEX  `category` (  `categories_category_id` );
+ALTER TABLE `#__articles` DROP INDEX `idx_catid`;
+ALTER TABLE `#__articles` ADD INDEX  `category` (  `categories_category_id` );
 ALTER TABLE `#__articles` CHANGE  `metadesc`  `description` TEXT;
 ALTER TABLE `#__articles` DROP INDEX `idx_checkout`;
 
@@ -162,9 +170,11 @@ UPDATE `#__categories` SET `section` = REPLACE(`section`,'com_','');
 
 -- Migrate date from sections to categories
 ALTER TABLE #__categories ADD old_id int(11) NOT NULL;
-INSERT INTO #__categories (parent_id, title, alias, image, `table`, description, published, checked_out, checked_out_time, ordering, access, count, params, old_id)
+
+INSERT INTO #__categories (parent_id, title, alias, image, `section`, description, published, checked_out, checked_out_time, ordering, access, count, params, old_id)
 SELECT 0, title, alias, image, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM #__sections;
-UPDATE #__categories a, #__categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0
+
+UPDATE #__categories a, #__categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
 UPDATE #__menu a, #__categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
 ALTER TABLE #__categories DROP old_id;
 DROP TABLE #__sections;
@@ -182,6 +192,11 @@ ALTER TABLE `#__categories` ADD `modified_on` DATETIME AFTER `modified_by`;
 ALTER TABLE `#__categories` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `#__categories` CHANGE `checked_out_time` `locked_on` DATETIME;
 ALTER TABLE `#__categories` DROP INDEX `idx_checkout`;
+
+-- Remove unused columns
+ALTER TABLE `#__categories` DROP `image_position`;
+ALTER TABLE `#__categories` DROP `name`;
+ALTER TABLE `#__categories` DROP `editor`;
 
 # --------------------------------------------------------
 
@@ -213,14 +228,7 @@ DELETE FROM `#__modules` WHERE `name` = 'mod_poll';
 # --------------------------------------------------------
 
 -- Remove com_installer
-DELETE FROM `#__components` WHERE `id` = 22
-
-# --------------------------------------------------------
-
--- Remove unused columns
-ALTER TABLE `#__categories` DROP `image_position`;
-ALTER TABLE `#__categories` DROP `name`;
-ALTER TABLE `#__categories` DROP `editor`;
+DELETE FROM `#__components` WHERE `id` = 22;
 
 # --------------------------------------------------------
 
@@ -232,9 +240,6 @@ ALTER TABLE `#__weblinks` DROP `hits`;
 
 -- Remove weblink submission links
 DELETE FROM `#__menu` WHERE `link` = 'index.php?option=com_weblinks&view=weblink&layout=form';
-
--- Update components table
-UPDATE `#__components` SET `link` = 'option=com_weblinks&view=categories' WHERE `link` = 'option=com_categories&section=com_weblinks';
 
 -- Update schema to follow conventions
 ALTER TABLE `#__weblinks` CHANGE  `id`  `weblinks_weblink_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
@@ -279,12 +284,10 @@ ALTER TABLE `#__contacts` DROP `imagepos`;
 ALTER TABLE `#__contacts` DROP `default_con`;
 ALTER TABLE `#__contacts` DROP `user_id`;
 
--- Update components table
-UPDATE `#__components` SET `link` = 'option=com_contacts&view=categories' WHERE `link` = 'option=com_categories&section=com_contact_details';
-
 # --------------------------------------------------------
 
 --  Upgrade menu items links
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_contact', 'com_contacts') WHERE `link` LIKE '%com_contact%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_content', 'com_articles') WHERE `link` LIKE '%com_content%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category&layout=blog', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=category&layout=blog%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=section&layout=blog', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=section&layout=blog%';
@@ -311,9 +314,7 @@ ALTER TABLE  `#__users` ENGINE = INNODB;
 
 # --------------------------------------------------------
 
--- Rename component
-UPDATE `#__components` SET `name` = 'Pages', `admin_menu_alt` = 'Pages', `option` = 'com_pages' WHERE `id` = 25;
-UPDATE `#__components` SET `admin_menu_link` = '' WHERE `admin_menu_link` = 'option=com_files';
+
 
 -- Rename tables to follow conventions
 RENAME TABLE `#__modules_menu` TO `#__pages_modules_pages`;
@@ -332,7 +333,7 @@ ALTER TABLE `#__pages` MODIFY `type` VARCHAR(50);
 ALTER TABLE `#__pages` CHANGE `componentid` `extensions_component_id` INT UNSIGNED;
 ALTER TABLE `#__pages` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `#__pages` CHANGE `checked_out_time` `locked_on` DATETIME;
-ALTER TABLE `#__pages` ADD COLUMN `hidden` BOOLEAN NOT NULL DEFAULT 0 AFTER `enabled`;
+ALTER TABLE `#__pages` ADD COLUMN `hidden` BOOLEAN NOT NULL DEFAULT 0 AFTER `published`;
 ALTER TABLE `#__pages` MODIFY `home` BOOLEAN NOT NULL DEFAULT 0 AFTER `hidden`;
 
 ALTER TABLE `#__pages` ADD `created_by` INT(11) UNSIGNED AFTER `extensions_component_id`;
@@ -367,19 +368,15 @@ ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`
 
 ALTER TABLE `#__pages_modules_pages` ADD INDEX `ix_pages_page_id` (`pages_page_id`);
 
--- Update existing data
-UPDATE `#__components` SET `admin_menu_link` = 'option=com_articles&view=articles' WHERE `admin_menu_link` = 'option=com_articles';
-UPDATE `#__components` SET `admin_menu_link` = 'option=com_contacts&view=contacts' WHERE `admin_menu_link` = 'option=com_contacts' OR `link` = 'option=com_contacts';
-UPDATE `#__components` SET `admin_menu_link` = 'option=com_weblinks&view=weblinks' WHERE `admin_menu_link` = 'option=com_weblinks' OR `link` = 'option=com_weblinks';
-
 UPDATE `#__pages_modules` SET `name` = 'mod_menu' WHERE `name` = 'mod_mainmenu';
 UPDATE `#__pages_modules` AS `modules` SET `modules`.`params` = REPLACE(`modules`.`params`, CONCAT('menutype=', SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)), CONCAT('menu_id=', (SELECT `id` FROM `#__pages_menus` AS `menus` WHERE `menus`.`slug` = SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)))) WHERE `modules`.`name` = 'mod_pages';
 
 UPDATE `#__pages` SET `params` = REPLACE(`params`, 'menu_item=', 'page_id');
-UPDATE `#__pages` SET `link_id` = SUBSTRING(`link_url`, LOCATE('Itemid=', `link`) + 7) WHERE `type` = 'menulink';
+UPDATE `#__pages` SET `link_id` = SUBSTRING(`link_url`, LOCATE('Itemid=', `link_url`) + 7) WHERE `type` = 'menulink';
 UPDATE `#__pages` SET `type` = 'pagelink' WHERE `type` = 'menulink';
 
-DELETE FROM `#__pages` WHERE `enabled` < 0;
+-- Clean trash
+DELETE FROM `#__pages` WHERE `published` < 0;
 
 -- Add relations table
 CREATE TABLE IF NOT EXISTS `#__pages_closures` (
@@ -511,20 +508,15 @@ CREATE TABLE `#__languages_translations` (
     KEY `table_row_iso_code` (`table`, `row`, `iso_code`)
 ) ENGINE = InnoDB CHARSET = utf8;
 
-CREATE TABLE IF NOT EXISTS `#__languages_tables` (
+CREATE TABLE `#__languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `extensions_component_id` INT UNSIGNED NOT NULL,
+    `extensions_component_id` INT UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
-    PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
-) ENGINE = InnoDB CHARSET = utf8;
-
--- Add component to the components table
-INSERT INTO `#__components` (`id`, `name`, `link`, `menuid`, `parent`, `admin_menu_link`, `admin_menu_alt`, `option`, `ordering`, `admin_menu_img`, `iscore`, `params`, `enabled`)
-VALUES
-    (NULL, 'Languages', 'option=com_languages', 0, 0, 'option=com_languages&view=languages', 'Languages', 'com_languages', 0, '', 0, '', 1);
+    PRIMARY KEY (`languages_table_id`)
+    # CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB CHARSET=utf8;
 
 -- Add primary languages
 INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)
@@ -564,18 +556,17 @@ ALTER TABLE `#__components` DROP `ordering`;
 ALTER TABLE `#__components` DROP `link`;
 ALTER TABLE `#__components` CHANGE  `name`  `title` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 ALTER TABLE `#__components` CHANGE  `option`  `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
-ALTER TABLE `#__components` DROP INDEX parent_option`;
+ALTER TABLE `#__components` DROP INDEX `parent_option`;
 ALTER TABLE `#__components` ADD UNIQUE (`name`);
 
-RENAME TABLE `#__components` TO  `#__extensions_components` ;
+RENAME TABLE `#__components` TO  `#__extensions_components`;
 
-# --------------------------------------------------------
-
-INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enabled`)
-VALUES
-    (NULL, 'Search', 'com_search', '', 1);
-SET @id = LAST_INSERT_ID();
-UPDATE `#__pages_modules` SET `extensions_component_id` = @id WHERE `name` = 'mod_search';
+-- Rename components
+UPDATE `#__extensions_components` SET `title` = 'Contacts', `name` = 'com_contacts' WHERE `id` = 7;
+UPDATE `#__extensions_components` SET `title` = 'Files', `name` = 'com_files' WHERE `id` = 19;
+UPDATE `#__extensions_components` SET `title` = 'Articles', `name` = 'com_articles' WHERE `id` = 20;
+UPDATE `#__extensions_components` SET `title` = 'Pages', `name` = 'com_pages' WHERE `id` = 25;
+UPDATE `#__extensions_components` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `id` = 28;
 
 # --------------------------------------------------------
 
@@ -591,4 +582,4 @@ UPDATE `#__articles`      SET `access` = '1', `published` = '0' WHERE `access` =
 UPDATE `#__categories`    SET `access` = '1', `published` = '0' WHERE `access` = '2';
 UPDATE `#__contacts`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
 UPDATE `#__pages_modules` SET `access` = '1', `published` = '0' WHERE `access` = '2';
-UPDATE `#__pages`         SET `access` = '1', `enabled` = '0' WHERE `access` = '2';
+UPDATE `#__pages`         SET `access` = '1', `published` = '0' WHERE `access` = '2';
