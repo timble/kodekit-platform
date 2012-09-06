@@ -52,7 +52,7 @@ class ComLanguagesModelTables extends ComDefaultModelDefault
             }
 
             if($state->component) {
-                $query->where('tbl.components_component_id IN :component')->bind(array('component' => (array) $state->component));
+                $query->where('tbl.extensions_component_id IN :component')->bind(array('component' => (array) $state->component));
             }
         }
     }
