@@ -23,6 +23,7 @@ class ComArticlesControllerArticle extends ComDefaultControllerDefault
     		'behaviors' => array(
     	        'com://admin/activities.controller.behavior.loggable',
     	        'com://admin/versions.controller.behavior.revisable',
+    		    'com://admin/languages.controller.behavior.translatable',
     	        //'cacheable'
     	    )
     	));
