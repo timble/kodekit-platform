@@ -16,7 +16,7 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
+class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract implements KServiceInstantiatable
 {
     protected $_tables;
     
