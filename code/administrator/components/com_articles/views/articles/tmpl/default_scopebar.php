@@ -28,18 +28,25 @@
 		    <?= 'Registered' ?>
 		</a>
 	</div>
-	<div class="scopebar-group">
+	<div class="scopebar-group <?= !$articles->isRevisable() && !$articles->isTranslatable() ? 'last' : '' ?>">
 		<a class="<?= $state->featured ? 'active' : ''; ?>" href="<?= @route( $state->featured ? 'featured=' : 'featured=1' ) ?>">
 		    <?= 'Featured' ?>
 		</a>
 	</div>
 	<? if($articles->isRevisable()) : ?>
-	<div class="scopebar-group last">
+	<div class="scopebar-group <? !$articles->isTranslatable() ? 'last' : '' ?>">
 		<a class="<?= $state->trashed ? 'active' : '' ?>" href="<?= @route( $state->trashed ? 'trashed=' : 'trashed=1' ) ?>">
 		    <?= 'Trashed' ?>
 		</a>
 	</div>
 	<? endif; ?>
+	<? if($articles->isTranslatable()) : ?>
+	<div class="scopebar-group last">
+	    <a class="<?= $state->translated === false ? 'active' : '' ?>" href="<?= @route($state->translated === false ? 'translated=' : 'translated=0' ) ?>">
+		    <?= 'Untranslated' ?>
+		</a>
+	</div>
+	<? endif ?>
 	<div class="scopebar-search">
 		<?= @helper('grid.search') ?>
 	</div>
