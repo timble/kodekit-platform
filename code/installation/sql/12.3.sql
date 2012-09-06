@@ -11,6 +11,7 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_wrapper';
 DELETE FROM `#__modules` WHERE `module` = 'mod_stats';
 DELETE FROM `#__modules` WHERE `module` = 'mod_whoisonline';
 DELETE FROM `#__modules` WHERE `module` = 'mod_sections';
+DELETE FROM `#__modules` WHERE `module` = 'mod_quickicon';
 
 -- Rename mod_random_image to mod_image
 UPDATE `#__modules` SET `module` = 'mod_image' WHERE `module` = 'mod_random_image';

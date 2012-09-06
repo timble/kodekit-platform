@@ -38,8 +38,6 @@ CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
   PRIMARY KEY (`files_thumbnail_id`)
 ) DEFAULT CHARSET=utf8;
 
-DELETE FROM `#__modules` WHERE `jos_modules`.`id` = 9
-
 
 # --------------------------------------------------------
 # com_activities schema changes
