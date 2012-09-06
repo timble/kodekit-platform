@@ -97,50 +97,44 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     {
         if($query = $context->query)
         {
-            $tables = $this->getService('com://admin/languages.model.tables')
-                ->reset()
-                ->enabled(true)
-                ->getList();
+            $languages = $this->getService('application.languages');
+            $active    = $languages->getActive();
+            $primary   = $languages->getPrimary();
             
-            if(is_string(current($query->table)))
+            // Join translation to add status to rows.
+            $state = $context->options->state;
+            if(!$query->isCountQuery() && $state && !$state->isUnique() && isset($state->translated))
             {
-                $table = $tables->find(array('name' => current($query->table)));
-                if(count($table))
+                $table = $this->_tables->find(array('name' => $context->table))->top();
+                
+                $query->columns(array(
+                        'translation_status' => 'translations.status',
+                        'translation_original' => 'translations.original',
+                        'translation_deleted' => 'translations.deleted'))
+                    ->join(array('translations' => 'languages_translations'),
+                        'translations.table = :translation_table'.
+                        ' AND translations.row = tbl.'.$table->unique_column.
+                        ' AND translations.iso_code = :translation_iso_code')
+                    ->bind(array(
+                        'translation_iso_code' => $active->iso_code,
+                        'translation_table' => $table->name
+                    ));
+                
+                if(!is_null($state->translated))
                 {
-                    $table     = $table->top();
-                    $languages = $this->getService('application.languages');
-                    $active    = $languages->getActive();
-                    $primary   = $languages->getPrimary();
+                    $status = $state->translated ? ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED : array(
+                        ComLanguagesDatabaseRowTranslation::STATUS_MISSING,
+                        ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED
+                    );
                     
-                    // Join translation to add status to rows.
-                    $state = $context->options->state;
-                    if(!$query->isCountQuery() && $state && !$state->isUnique() && isset($state->translation))
-                    {
-                        $query->columns(array(
-                                'translation_status' => 'translations.status',
-                                'translation_original' => 'translations.original',
-                                'translation_deleted' => 'translations.deleted'))
-                            ->join(array('translations' => 'languages_translations'),
-                                'translations.table = :translation_table'.
-                                ' AND translations.row = tbl.'.$table->unique_column.
-                                ' AND translations.iso_code = :translation_iso_code')
-                            ->bind(array(
-                                'translation_iso_code' => $active->iso_code,
-                                'translation_table' => $table->name
-                            ));
-                        
-                        if(!is_null($context->options->state->translation))
-                        {
-                            $query->where('translations.status IN :translation')
-                                ->bind(array('translation_status' => (array) $context->options->state->translation));
-                        }
-                    }
-                    
-                    // Modify table in the query if active language is not the primary.
-                    if($active->iso_code != $primary->iso_code) {
-                        $context->query->table[key($query->table)] = strtolower($active->iso_code).'_'.$table->name;
-                    }
+                    $query->where('translations.status IN :translation_status')
+                        ->bind(array('translation_status' => (array) $status));
                 }
+            }
+            
+            // Modify table in the query if active language is not the primary.
+            if($active->iso_code != $primary->iso_code) {
+                $context->query->table[key($query->table)] = strtolower($active->iso_code).'_'.$table->name;
             }
         }
     }
