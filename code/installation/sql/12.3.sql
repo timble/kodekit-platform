@@ -17,7 +17,6 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_archive';
 
 -- Rename mod_random_image to mod_image
 UPDATE `#__modules` SET `module` = 'mod_image' WHERE `module` = 'mod_random_image';
-UPDATE `#__modules` SET `module` = 'mod_pages' WHERE `module` = 'mod_menu';
 
 ALTER TABLE `#__modules` DROP `iscore`;
 ALTER TABLE `#__modules` DROP `control`;
