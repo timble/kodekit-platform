@@ -67,7 +67,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
                 $redirect  = JURI::base(true).'/'.$languages->getPrimary()->slug;
                 $redirect .= '/'.$path.$url->getQuery();
                 
-                $application->redirect($redirect);
+                $this->getService('application')->redirect($redirect);
             }
 	    }
 
