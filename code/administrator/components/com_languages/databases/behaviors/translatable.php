@@ -43,6 +43,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     
     public function getHandle()
     {
+        // If table is not enabled, return null to prevent enqueueing.
         $table = $this->getMixer() instanceof KDatabaseTableAbstract ? $this->getMixer() : $this->getMixer()->getTable();
         $needle = array(
             'name' => $table->getBase(),
@@ -58,6 +59,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         
         if(!is_null($mixer))
         {
+            // If table is not enabled, don't mix the methods.
             $table  = $mixer instanceof KDatabaseTableAbstract ? $mixer : $mixer->getTable();
             $needle = array(
                 'name' => $table->getBase(),
@@ -97,6 +99,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     {
         if($query = $context->query)
         {
+            $table     = $this->_tables->find(array('name' => $context->table))->top();
             $languages = $this->getService('application.languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
@@ -105,8 +108,6 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             $state = $context->options->state;
             if(!$query->isCountQuery() && $state && !$state->isUnique() && isset($state->translated))
             {
-                $table = $this->_tables->find(array('name' => $context->table))->top();
-                
                 $query->columns(array(
                         'translation_status' => 'translations.status',
                         'translation_original' => 'translations.original',
@@ -143,59 +144,50 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     {
         if($context->affected)
         {
-            $tables = $this->getService('com://admin/languages.model.tables')
-                ->reset()
-                ->enabled(true)
-                ->getList();
+            $languages = $this->getService('application.languages');
+            $active    = $languages->getActive();
+            $primary   = $languages->getPrimary();
             
-            // Check if table is translatable.
-            if(in_array($context->table, $tables->name))
+            $translation = array(
+                'iso_code'   => $active->iso_code,
+                'table'      => $context->table,
+                'row'        => $context->data->id,
+                'status'     => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED,
+                'original'   => 1
+            );
+            
+            // Insert item into the translations table.
+            $this->getService('com://admin/languages.database.row.translation')
+                ->setData($translation)
+                ->save();
+            
+            // Insert item into language specific tables.
+            $table = $this->_tables->find(array('name' => $context->table))->top();
+            
+            foreach($languages as $language)
             {
-                $languages = $this->getService('application.languages');
-                $active    = $languages->getActive();
-                $primary   = $languages->getPrimary();
-                
-                $translation = array(
-                    'iso_code'   => $active->iso_code,
-                    'table'      => $context->table,
-                    'row'        => $context->data->id,
-                    'status'     => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED,
-                    'original'   => 1
-                );
-                
-                // Insert item into the translations table.
-                $this->getService('com://admin/languages.database.row.translation')
-                    ->setData($translation)
-                    ->save();
-                
-                // Insert item into language specific tables.
-                $table = $tables->find(array('name' => $context->table))->top();
-                
-                foreach($languages as $language)
+                if($language->iso_code != $primary->iso_code)
                 {
-                    if($language->iso_code != $primary->iso_code)
-                    {
-                        $query = clone $context->query;
-                        $query->table(strtolower($language->iso_code).'_'.$query->table);
-                        
-                        if(($key = array_search($table->unique_column, $query->columns)) !== false) {
-                            $query->values[0][$key] = $context->data->id;
-                        }
-                        
-                        $this->getTable()->getDatabase()->insert($query);
+                    $query = clone $context->query;
+                    $query->table(strtolower($language->iso_code).'_'.$query->table);
+                    
+                    if(($key = array_search($table->unique_column, $query->columns)) !== false) {
+                        $query->values[0][$key] = $context->data->id;
                     }
                     
-                    if($language->iso_code != $active->iso_code)
-                    {
-                        // Insert item into translations table.
-                        $translation['iso_code'] = $language->iso_code;
-                        $translation['status']   = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
-                        $translation['original'] = 0;
-                        
-                        $this->getService('com://admin/languages.database.row.translation')
-                            ->setData($translation)
-                            ->save();
-                    }
+                    $this->getTable()->getDatabase()->insert($query);
+                }
+                
+                if($language->iso_code != $active->iso_code)
+                {
+                    // Insert item into translations table.
+                    $translation['iso_code'] = $language->iso_code;
+                    $translation['status']   = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
+                    $translation['original'] = 0;
+                    
+                    $this->getService('com://admin/languages.database.row.translation')
+                        ->setData($translation)
+                        ->save();
                 }
             }
         }
@@ -203,110 +195,81 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-        // Modify table in the query if translatable.
-        $tables = $this->getService('com://admin/languages.model.tables')
-            ->reset()
-            ->enabled(true)
-            ->getList();
+        $languages = $this->getService('application.languages');
+        $active    = $languages->getActive();
+        $primary   = $languages->getPrimary();
         
-        if(in_array($context->table, $tables->name))
-        {
-            $languages = $this->getService('application')->getLanguages();
-            $active    = $languages->getActive();
-            $primary   = $languages->getPrimary();
-            
-            if($active->iso_code != $primary->iso_code) {
-                $context->query->table(strtolower($active->iso_code).'_'.$context->query->table);
-            }
+        if($active->iso_code != $primary->iso_code) {
+            $context->query->table(strtolower($active->iso_code).'_'.$context->query->table);
         }
     }
     
     protected function _afterTableUpdate(KCommandContext $context)
     {
-        if($context->data->getStatus() == KDatabase::STATUS_UPDATED)
+        $languages = $this->getService('application.languages');
+        $primary   = $languages->getPrimary();
+        $active    = $languages->getActive();
+        
+        // Update item in the translations table.
+        $table = $this->_tables->find(array('name' => $context->table))->top();
+        $translation  = $this->getService('com://admin/languages.database.table.translations')
+            ->select(array(
+                'iso_code' => $active->iso_code,
+                'table'    => $context->table,
+                'row'      => $context->data->id
+            ), KDatabase::FETCH_ROW);
+        
+        $translation->setData(array(
+            'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
+        ))->save();
+        
+        // Set the other items to outdated if they were completed before.
+        $query = $this->getService('koowa:database.query.select')
+            ->where('iso_code <> :iso_code')
+            ->where('table = :table')
+            ->where('row = :row')
+            ->where('status = :status')
+            ->bind(array(
+                'iso_code' => $active->iso_code,
+                'table' => $context->table,
+                'row' => $context->data->id,
+                'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
+            ));
+        
+        $translations = $this->getService('com://admin/languages.database.table.translations')
+            ->select($query);
+        
+        $translations->status = ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED;
+        $translations->save();
+        
+        // Copy the item's data to all missing translations.
+        $database = $this->getTable()->getDatabase();
+        $prefix = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
+        $select = $this->getService('koowa:database.query.select')
+            ->table($prefix.$table->name)
+            ->where($table->unique_column.' = :unique')
+            ->bind(array('unique' => $context->data->id));
+        
+        $query->bind(array('status' => ComLanguagesDatabaseRowTranslation::STATUS_MISSING));
+        $translations = $this->getService('com://admin/languages.database.table.translations')
+            ->select($query);
+        
+        foreach($translations as $translation)
         {
-            $tables = $this->getService('com://admin/languages.model.tables')
-                ->reset()
-                ->enabled(true)
-                ->getList();
-            
-            if(in_array($context->table, $tables->name))
-            {
-                $languages = $this->getService('application.languages');
-                $primary   = $languages->getPrimary();
-                $active    = $languages->getActive();
-                
-                // Update item in the translations table.
-                $table = $tables->find(array('name' => $context->table))->top();
-                $translation  = $this->getService('com://admin/languages.database.table.translations')
-                    ->select(array(
-                        'iso_code' => $active->iso_code,
-                        'table'    => $context->table,
-                        'row'      => $context->data->id
-                    ), KDatabase::FETCH_ROW);
-                
-                $translation->setData(array(
-                    'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
-                ))->save();
-                
-                // Set the other items to outdated if they were completed before.
-                $query = $this->getService('koowa:database.query.select')
-                    ->where('iso_code <> :iso_code')
-                    ->where('table = :table')
-                    ->where('row = :row')
-                    ->where('status = :status')
-                    ->bind(array(
-                        'iso_code' => $active->iso_code,
-                        'table' => $context->table,
-                        'row' => $context->data->id,
-                        'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
-                    ));
-                
-                $translations = $this->getService('com://admin/languages.database.table.translations')
-                    ->select($query);
-                
-                $translations->status = ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED;
-                $translations->save();
-                
-                // Copy the item's data to all missing translations.
-                $database = $this->getTable()->getDatabase();
-                $prefix = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
-                $select = $this->getService('koowa:database.query.select')
-                    ->table($prefix.$table->name)
-                    ->where($table->unique_column.' = :unique')
-                    ->bind(array('unique' => $context->data->id));
-                
-                $query->bind(array('status' => ComLanguagesDatabaseRowTranslation::STATUS_MISSING));
-                $translations = $this->getService('com://admin/languages.database.table.translations')
-                    ->select($query);
-                
-                foreach($translations as $translation)
-                {
-                    $prefix = $database->getTablePrefix().($translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code.'_') : '');
-                    $query = 'REPLACE INTO '.$database->quoteIdentifier($prefix.$table->name).' '.$select;
-                    $database->execute($query);
-                }
-            }
+            $prefix = $database->getTablePrefix().($translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code.'_') : '');
+            $query = 'REPLACE INTO '.$database->quoteIdentifier($prefix.$table->name).' '.$select;
+            $database->execute($query);
         }
     }
     
     protected function _beforeTableDelete(KCommandContext $context)
     {
-        // Modify table in the query if active language is not the primary.
-        $tables = $this->getService('com://admin/languages.model.tables')
-            ->reset()
-            ->enabled(true)
-            ->getList();
+        $languages = $this->getService('application.languages');
+        $active    = $languages->getActive();
+        $primary   = $languages->getPrimary();
         
-        if(in_array($context->table, $tables->name))
-        {
-            $languages = $this->getService('application.languages');
-            $active    = $languages->getActive();
-            $primary   = $languages->getPrimary();
-            
-            if($active->iso_code != $primary->iso_code) {
-                $context->query->table(strtolower($active->iso_code).'_'.$context->table);
-            }
+        if($active->iso_code != $primary->iso_code) {
+            $context->query->table(strtolower($active->iso_code).'_'.$context->table);
         }
     }
     
