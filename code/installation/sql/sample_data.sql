@@ -138,7 +138,7 @@ VALUES
 	(18, 'Login Form', '', 21, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 'greeting=1\nname=0', 31, 'site'),
 	(19, 'Latest News', '', 19, 'user1', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'cache=1', 20, 'site'),
 	(25, 'Newsflash', '', 9, 'top', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\r\n', 20, 'site'),
-	(27, 'Search', '', 10, 'user4', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 'cache=1', 34, 'site'),
+	(27, 'Search', '', 10, 'user4', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 'cache=1', 15, 'site'),
 	(28, 'Random Image', '', 23, 'right', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_image', 0, 1, '', 19, 'site'),
 	(29, 'Top Menu', '', 11, 'user3', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 0, 'cache=1\nmenu_id=3\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\n', 25, 'site'),
 	(35, 'Breadcrumbs', '', 1, 'breadcrumb', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 'showHome=1\nhomeText=Home\nshowLast=1\nseparator=\ncache=0\n\n', 25, 'site'),
