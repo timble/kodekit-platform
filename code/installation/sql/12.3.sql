@@ -9,12 +9,15 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_syndicate';
 DELETE FROM `#__modules` WHERE `module` = 'mod_footer';
 DELETE FROM `#__modules` WHERE `module` = 'mod_wrapper';
 DELETE FROM `#__modules` WHERE `module` = 'mod_stats';
-DELETE FROM `#__modules` WHERE `module` = 'mod_whoisonline';
+DELETE FROM `#__modules` WHERE `module` = 'mod_whosonline';
 DELETE FROM `#__modules` WHERE `module` = 'mod_sections';
 DELETE FROM `#__modules` WHERE `module` = 'mod_quickicon';
+DELETE FROM `#__modules` WHERE `module` = 'mod_mostread';
+DELETE FROM `#__modules` WHERE `module` = 'mod_archive';
 
 -- Rename mod_random_image to mod_image
 UPDATE `#__modules` SET `module` = 'mod_image' WHERE `module` = 'mod_random_image';
+UPDATE `#__modules` SET `module` = 'mod_pages' WHERE `module` = 'mod_menu';
 
 ALTER TABLE `#__modules` DROP `iscore`;
 ALTER TABLE `#__modules` DROP `control`;
