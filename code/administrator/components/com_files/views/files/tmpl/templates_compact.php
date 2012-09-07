@@ -13,30 +13,52 @@
 [% var width = metadata.image.width,
 	height = metadata.image.height,
 	ratio= 150 / (width > height ? width : height); %]
-<ul>
-	<li class="info">
-		[%=width%] x  [%=height%] | [%=size.humanize()%]
-	</li>
-	<li class="preview">
-		<img src="" width="[%=Math.min(ratio*width, width)%]"
-			height="[%=Math.min(ratio*height, height)%]" alt="[%=name%]" border="0" />
-	</li>
-</ul>
+<div class="details">
+<div style="text-align: center">
+<img class="icon" src="" alt="[%=name%]" border="0"
+	width="[%=Math.min(ratio*width, width)%]" height="[%=Math.min(ratio*height, height)%]" />
+</div>
+<table class="table table-condensed parameters">
+	<tbody>
+		<tr>
+			<td class="detail-label"><?= @text('Name'); ?></td>
+			<td>[%=name%]</td>
+		</tr>
+		<tr>
+			<td class="detail-label"><?= @text('Dimensions'); ?></td>
+			<td>[%=width%] x [%=height%]</td>
+		</tr>
+		<tr>
+			<td class="detail-label"><?= @text('Size'); ?></td>
+			<td>[%=size.humanize()%]</td>
+		</tr>
+	</tbody>
+</table>
+</div>
 </textarea>
 
 <textarea style="display: none" id="compact_details_file">
-<ul>
-	<li class="info">
-		[%=name%] | [%=size.humanize()%]
-	</li>
-	<li class="preview extension-[%=metadata.extension%]">
-		<img src="media://com_files/images/document-64.png" width="32" height="32" alt="[%=name%]" border="0" />
-	</li>
-</ul>
+<div class="details">
+<div style="text-align: center">
+<img class="icon" src="media://com_files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
+</div>
+<table class="table table-condensed parameters">
+	<tbody>
+		<tr>
+			<td class="detail-label"><?= @text('Name'); ?></td>
+			<td>[%=name%]</td>
+		</tr>
+		<tr>
+			<td class="detail-label"><?= @text('Size'); ?></td>
+			<td>[%=size.humanize()%]</td>
+		</tr>
+	</tbody>
+</table>
+</div>
 </textarea>
 
 <textarea style="display: none" id="compact_container">
-<ul>
+<ul class="sidebar-nav">
 
 </ul>
 </textarea>

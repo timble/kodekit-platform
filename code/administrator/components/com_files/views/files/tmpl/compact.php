@@ -25,8 +25,8 @@ window.addEvent('domready', function() {
 		options = {
 			state: {
 				defaults: {
-					limit: <?= (int) $state->limit; ?>,
-					offset: <?= (int) $state->offset; ?>
+					limit: 0,
+					offset: 0
 				}
 			},
 			editor: <?= json_encode($state->editor); ?>,
@@ -95,10 +95,11 @@ window.addEvent('domready', function() {
 			<div id="files-tree-container" style="float: left">
 				<div id="files-tree"></div>
 
-				<div id="files-new-folder-modal" style="margin-top: 16px">
-					<form>
-						<input class="inputbox" type="text" id="files-new-folder-input" placeholder="<?= @text('New Folder...'); ?>" />
-						<button id="files-new-folder-create" disabled><?= @text('Create'); ?></button>
+				<div id="files-new-folder-modal">
+					<form class="form">
+						<div class="input-append">
+							<input class="span2 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" /><button id="files-new-folder-create" class="btn" disabled><?= @text('Create'); ?></button>
+				        </div>
 					</form>
 				</div>
 			</div>
@@ -125,6 +126,15 @@ window.addEvent('domready', function(){
 		var modal = window.parent.SqueezeBox, heightfix = modal.size.y;
 
 		document.id('files-compact').getParents().setStyles({padding: 0, margin: 0, overflow: 'hidden'});
+
+        //Height fixes for parent modal
+        var fixHeight = function(){
+            var newHeight = document.id('files-compact').measure(function(){return this.getSize().y;});
+            window.parent.document.id('sbox-content').getElement('iframe').set('height', newHeight);
+            modal.fx.win.start({height: newHeight});
+        };
+        document.getElements('#tabs-pane_insert dt, .upload-buttons li').addEvent('click', fixHeight);
+        fixHeight();
 	}
 });
 </script>

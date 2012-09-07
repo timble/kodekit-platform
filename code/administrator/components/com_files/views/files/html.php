@@ -33,7 +33,8 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 	        $state->limit = $this->getService('application')->getCfg('list_limit');
 	    }
 	    
-	    $this->assign('sitebase' , trim(JURI::root(), '/'));
+	    // TODO: take this out when JURI::root() returns correct results
+	    $this->assign('sitebase' , trim(str_replace('administrator/', '/', JURI::root()), '/'));
 		$this->assign('token'    , $this->getService('application.session')->getToken());
 		$this->assign('container', $this->getModel()->getState()->container);
 

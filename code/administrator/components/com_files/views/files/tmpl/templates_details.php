@@ -31,13 +31,16 @@ window.addEvent('domready', function() {
 
 <textarea style="display: none" id="details_container">
 <div class="manager">
-	<table>
+	<table class="table table-striped"  style="clear: both;">
 		<thead>
 			<tr>
-				<th width="10" ><input type="checkbox" class="-check-all" /></th>
-				<th></th>
+				<th width="10">
+                    <div class="btn-group">
+                            <input type="checkbox" class="-check-all" id="select-check-all" />
+                    </div>
+				</th>
+				<th width="32"></th>
 				<th><?= @text('Name'); ?></th>
-				<th><?= @text('Dimensions'); ?></th>
 				<th><?= @text('Size'); ?></th>
 				<th><?= @text('Last Modified'); ?></th>
 			</tr>
@@ -50,13 +53,13 @@ window.addEvent('domready', function() {
 
 <textarea style="display: none" id="details_folder">
 	<tr class="files-node files-folder">
-		<td width="10">
+		<td>
 			<input type="checkbox" class="files-select" value="" />
 		</td>
-		<td width="10">
-		    <img src="media://com_files/images/folder-16.png" width="16" height="16" alt="[%=name%]" border="0" />
+		<td>
+		    <img src="media://com_files/images/folder-64.png" height="24px" alt="[%=name%]" border="0" />
 		</td>
-		<td colspan="4">
+		<td colspan="3">
 			<a href="#" class="navigate">
 				[%=name%]
 			</a>
@@ -66,18 +69,17 @@ window.addEvent('domready', function() {
 
 <textarea style="display: none" id="details_file">
 	<tr class="files-node files-file">
-		<td width="10">
+		<td>
 			<input type="checkbox" class="files-select" value="" />
 		</td>
-		<td width="10">
-		    <img src="media://com_files/images/document-16.png" width="16" height="16" alt="[%=name%]" border="0" />
+		<td>
+		    <img src="media://com_files/images/document-64.png" height="24px" alt="[%=name%]" border="0" />
 		</td>
 		<td>
 			<a href="#" class="navigate">
 				[%=name%]
 			</a>
 		</td>
-		<td></td>
 		<td align="center">
 			[%=size.humanize()%]
 		</td>
@@ -89,11 +91,15 @@ window.addEvent('domready', function() {
 
 <textarea style="display: none" id="details_image">
 	<tr class="files-node files-image">
-		<td width="10">
+		<td>
 			<input type="checkbox" class="files-select" value="" />
 		</td>
-		<td width="10">
-		    <img src="media://com_files/images/image-16.png" width="16" height="16" alt="[%=name%]" border="0" />
+		<td>
+			[% if (typeof thumbnail === 'string') { %]
+    			<img src="[%= client_cache || Files.blank_image %]" alt="[%=name%]" border="0" class="image-thumbnail [%= client_cache ? 'loaded' : '' %]" height="24px" />
+    		[% } else { %]
+		   		<img src="media://com_files/images/image-16.png" height="24px" alt="[%=name%]" border="0" />
+		    [% } %]
 		</td>
 		<td>
 			<a href="#" class="navigate">
@@ -101,10 +107,8 @@ window.addEvent('domready', function() {
 			</a>
 		</td>
 		<td align="center">
-			[%=metadata.image.width%] x [%=metadata.image.height%]
-		</td>
-		<td align="center">
 			[%=size.humanize()%]
+			([%=metadata.image.width%] x [%=metadata.image.height%])
 		</td>
 		<td align="center">
 			[%=getModifiedDate(true)%]

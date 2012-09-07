@@ -22,9 +22,9 @@ window.addEvent('domready', function() {
 		document.id('upload-files-to').set('text', "'"+(path || <?= json_encode('root folder') ?>)+"'");
 	});
 
-	var element = jQuery('#files-upload-multi');
+	var element = jQuery('#files-upload-multi'), browse_label = Files._('Choose File');
 
-	plupload.addI18n({'Add files': Files._('Select files from your computer')});
+	plupload.addI18n({'Add files': browse_label});
 
 	//This trick enables the flash runtime to work properly when the uploader is hidden
 	var containershim = 'mushycode'+ Math.floor((Math.random()*10000000000)+1);
@@ -49,7 +49,7 @@ window.addEvent('domready', function() {
 		preinit: {
 			Init: function(){
 				if(SqueezeBox.isOpen) {
-						var heightfix = $('files-upload').measure(function(){return this.getSize().y;});
+						var heightfix = document.id('files-upload').measure(function(){return this.getSize().y;});
 						if(SqueezeBox.size.y != heightfix) SqueezeBox.fx.win.start({height: heightfix});
 				}
 			},
@@ -67,8 +67,6 @@ window.addEvent('domready', function() {
 		window.fireEvent('refresh');
 	});
 
-	
-
 	var uploader = element.pluploadQueue(),
 		//We only want to run this once
 		exposePlupload = function(uploader) {
@@ -77,7 +75,7 @@ window.addEvent('domready', function() {
 				document.id('files-upload-multi_browse').set('text', 'Add files');
 			}
 			uploader.refresh();
-			if(SqueezeBox.isOpen) SqueezeBox.resize({y: $('files-upload').measure(function(){return this.getSize().y;})}, true);
+			if(SqueezeBox.isOpen) SqueezeBox.resize({y: document.id('files-upload').measure(function(){return this.getSize().y;})}, true);
 			uploader.unbind('QueueChanged', exposePlupload);
 		};
 
@@ -87,6 +85,87 @@ window.addEvent('domready', function() {
 
 	if(uploader.features.dragdrop) {
 		document.id('files-upload').addClass('uploader-droppable');
+
+        var cancel= function(e) {
+            e.preventDefault();// required by FF + Safari
+            e.stopPropagation();
+            e.originalEvent.dataTransfer.dropEffect = 'copy'; // tells the browser what drop effect is allowed here
+        }, dragover = function(e){
+            //jQuery(this).addClass('dragover'); //This breaks safaris drag and drop, still unknown why
+        }, dragleave = function(e){
+            jQuery(this).removeClass('dragover');
+        }
+
+        function addSelectedFiles(native_files) {
+            var file, i, files = [], id, fileNames = {};
+
+            // Add the selected files to the file queue
+            for (i = 0; i < native_files.length; i++) {
+                file = native_files[i];
+
+                // Safari on Windows will add first file from dragged set multiple times
+                // @see: https://bugs.webkit.org/show_bug.cgi?id=37957
+                if (fileNames[file.name]) {
+                    continue;
+                }
+                fileNames[file.name] = true;
+
+                // Store away gears blob internally
+                id = plupload.guid();
+                plupload.html5files[id] = file;
+
+                // Expose id, name and size
+                files.push(new plupload.File(id, file.fileName || file.name, file.fileSize || file.size)); // fileName / fileSize depricated
+            }
+
+            // Trigger FilesAdded event if we added any
+            if (files.length) {
+                uploader.trigger("FilesAdded", files);
+            }
+        }
+        // Attach drop handler and grab files
+        var dropzone = jQuery('#files-uploader-computer');
+        dropzone.bind('drop', function(event){
+            event.preventDefault();
+            jQuery(this).removeClass('dragover');
+            var dataTransfer = event.originalEvent.dataTransfer;
+
+            // Add dropped files
+            if (dataTransfer && dataTransfer.files) {
+                addSelectedFiles(dataTransfer.files);
+            }
+        });
+
+        dropzone.bind('dragover', dragover);
+        dropzone.bind('dragleave', dragleave);
+        dropzone.bind('dragenter', cancel);
+        dropzone.bind('dragover', cancel);
+
+        //Prevent file drops from duplicating due to double drop events
+        jQuery('#files-upload-multi_filelist').bind('drop', function(event){
+            event.stopPropagation();
+            jQuery('#files-uploader-computer').removeClass('dragover');
+        });
+
+        // Make the file list a dropzone
+        var files_canvas = jQuery('#files-canvas');
+        files_canvas.bind('dragover', dragover); //Using dragenter caused inconsistent behavior
+        files_canvas.bind('dragleave', dragleave);
+        files_canvas.bind('dragenter', cancel);
+        files_canvas.bind('dragover', cancel);
+        files_canvas.bind('drop', function(event){
+            event.preventDefault();
+            jQuery(this).removeClass('dragover');
+            var dataTransfer = event.originalEvent.dataTransfer;
+
+            // Add dropped files
+            if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
+                addSelectedFiles(dataTransfer.files);
+
+                //@TODO the click handler is written in mootools, so we use mootools here
+                document.id('files-show-uploader').fireEvent('click', new Event);
+            }
+        });
 	} else {
 		document.id('files-upload').addClass('uploader-nodroppable');
 	}
@@ -158,6 +237,22 @@ window.addEvent('domready', function() {
 		});
 	});
 
+	if (Files.app && Files.app.container) {
+		if (Files.app.container.parameters.allowed_extensions) {
+			uploader.settings.filters = [
+			     {title: Files._('All Files'), extensions: Files.app.container.parameters.allowed_extensions.join(',')}
+			];
+		}
+		
+		if (Files.app.container.parameters.maximum_size) {
+			uploader.settings.max_file_size = Files.app.container.parameters.maximum_size;
+			var max_size = document.id('upload-max-size');
+			if (max_size) {
+				max_size.set('html', new Files.Filesize(Files.app.container.parameters.maximum_size).humanize());
+			}
+		}
+	}
+
 	Files.app.uploader = uploader;
 
 	/**
@@ -173,12 +268,14 @@ window.addEvent('domready', function() {
 			if(!uploader.files.length) {
 				document.id('files-upload').removeClass('uploader-files-queued').addClass('uploader-files-empty');
 				if(document.id('files-upload-multi_browse')) {
-					document.id('files-upload-multi_browse').set('text', 'Select files from your computer');
+					document.id('files-upload-multi_browse').set('text', browse_label);
 					uploader.bind('QueueChanged', exposePlupload);
 				}
 			}
+		} else {
+            document.id('remote-url').focus();
 		}
-		SqueezeBox.fx.win.start({height: $('files-upload').measure(function(){return this.getSize().y;})});
+		SqueezeBox.fx.win.start({height: document.id('files-upload').measure(function(){return this.getSize().y;})});
 		window.fireEvent('refresh');
 	};
 
@@ -235,12 +332,19 @@ window.addEvent('domready', function() {
 			}
 		});
 
- 	var default_filename;
- 	input.addEvent('focus', function(){
- 		this.set('placeholder', this.get('title')).removeClass('success');
- 	});
-	input.addEvent('blur', function(e) {
-		if (this.value) {
+ 	var default_filename,
+        validateInput = function(){
+            var value = this.value.trim(), host = new URI(value).get('host');
+            if(value && host && value.match(host)) {
+                submit.removeProperty('disabled');
+                return true;
+            } else {
+                submit.setProperty('disabled', 'disabled');
+                return false;
+            }
+        },
+         validateUrl = function() {
+             if (validateInput.call(this)) {
 			if (Files.app.container.parameters.maximum_size) {
 				validate.setOptions({url: Files.app.createRoute({view: 'proxy', url: this.value})}).get();
 			}
@@ -256,19 +360,20 @@ window.addEvent('domready', function() {
 			submit.set('value', submit_default).removeClass('valid');
 			setRemoteWrapMargin();
 		}
+         };
+ 	input.addEvent('focus', function(){
+ 		this.set('placeholder', this.get('title')).removeClass('success');
 	});
+	input.addEvent('blur', validateUrl);
 
-	var validateInput = function(){
-			var value = this.value.trim(), host = new URI(value).get('host');
-    		if(value && host && value.match(host)) {
-    			submit.addClass('valid').removeProperty('disabled');
-    		} else {
-    			submit.removeClass('valid').setProperty('disabled', 'disabled');
-    		}
-    	};
+
     	input.addEvent('change', validateInput);
     	if(window.addEventListener) {
     		input.addEventListener('input', validateInput);
+        input.addEventListener('paste', function(){
+            // this.value isn't updated with the value yet, so we delay our callback until it is
+            validateUrl.delay(0, this);
+        });
     	} else {
     		input.addEvent('keyup', validateInput);
     	}
@@ -280,6 +385,9 @@ window.addEvent('domready', function() {
 			_token: Files.token,
 			file: ''
 		},
+        onRequest: function(){
+            submit.setProperty('disabled', 'disabled');
+        },
 		onSuccess: function(json) {
 			if (this.status == 201 && json.status) {
 				var el = json.item;
@@ -310,6 +418,7 @@ window.addEvent('domready', function() {
 			}
 		},
 		onFailure: function(xhr) {
+            submit.removeProperty('disabled');
 			alert(Files._('An error occurred with status code: ')+xhr.status);
 		}
 	});
@@ -326,10 +435,13 @@ window.addEvent('domready', function() {
 
 	//Width fix
 	setRemoteWrapMargin();
+
+    //Remove FLOC fix
+    $('files-upload').getParent().setStyle('visibility', '');
 });
 </script>
 
-<div id="files-upload" style="clear: both" class="uploader-files-empty">
+    <div id="files-upload" style="clear: both" class="uploader-files-empty well">
 	<div style="text-align: center;">
 		<h3 style=" float: none">
 			<?= sprintf(@text('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
@@ -351,7 +463,10 @@ window.addEvent('domready', function() {
 	<div id="files-uploader-computer" class="upload-form">
 
 		<div style="clear: both"></div>
-
+            <div class="dropzone">
+                <h2><?= @text('Drag files here') ?></h2>
+            </div>
+            <h3 class="nodropzone"><?= @text('OR Select a file to upload:') ?></h3>
 		<div id="files-upload-multi"></div>
 
 	</div>
@@ -362,7 +477,7 @@ window.addEvent('domready', function() {
 				<input type="text" placeholder="<?= @text('Remote URL') ?>" title="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
 				<input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="name" />
 			</div>
-			<input type="submit" class="remote-submit" value="<?= @text('Transfer File'); ?>" />
+                <input type="submit" class="remote-submit" disabled value="<?= @text('Transfer File'); ?>" />
 			<input type="hidden" name="action" value="save" />
 		</form>
 	</div>

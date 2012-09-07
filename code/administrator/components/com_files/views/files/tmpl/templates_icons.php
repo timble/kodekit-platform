@@ -84,12 +84,13 @@
 
 <textarea style="display: none" id="icons_image">
 <div class="files-node-shadow">
-    <div class="imgOutline [%= thumbnail ? 'thumbnails' : 'nothumbnails' %] files-node files-image [%= thumbnail ? (client_cache ? 'load' : 'loading') : '' %]">
+    <div class="imgOutline [%= typeof thumbnail === 'string' ? 'thumbnails' : 'nothumbnails' %] files-node files-image [%= typeof thumbnail === 'string' ? (client_cache ? 'load' : 'loading') : '' %]">
+
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
     		<a class=" navigate" href="#" title="[%=name%]"
     	 		data-filetype="[%=filetype%]"
     	 		data-extension="[%=metadata.extension%]">
-    		[% if (thumbnail) { %]
+    		[% if (typeof thumbnail === 'string') { %]
     		    <div class="spinner"></div>
     			<img src="[%= client_cache || Files.blank_image %]" alt="[%=name%]" border="0" class="image-thumbnail [%= client_cache ? 'loaded' : '' %]" style="max-width: [%=metadata.image.width%]px" />
     		[% } %]

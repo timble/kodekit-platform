@@ -17,7 +17,7 @@
  */
 class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstract
 {
-	protected function _afterBrowse(KCommandContext $context)
+	protected function _afterControllerBrowse(KCommandContext $context)
 	{
 		if (!$this->getRequest()->thumbnails || $this->getModel()->container->parameters->thumbnails !== true) {
 			return;
@@ -30,7 +30,7 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 				$files[] = $row->name;
 			}
 		}
-
+		
 		$folder = $this->getRequest()->folder;
 		$thumbnails = $this->getService('com://admin/files.controller.thumbnail', array(
 			'request' => array(
@@ -41,7 +41,7 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 				'offset' => 0
 			)
 		))->browse();
-
+	
 		foreach ($thumbnails as $thumbnail) 
 		{
 				

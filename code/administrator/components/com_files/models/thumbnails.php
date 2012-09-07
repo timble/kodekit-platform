@@ -98,20 +98,18 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    
 		    // Need this for BC
 		    if (!empty($state->files)) {
-		    	$query->where('tbl.filename', 'IN', $state->files);
-		    }
-		    
-		    if ($state->filename) {
-		        $query->where('tbl.filename = :filename')->bind(array('filename' => $state->filename));
+		        $query->where('tbl.filename IN :files')->bind(array('files' => $state->files));
+		    } elseif ($state->filename) {
+		        $query->where('tbl.filename IN :filename')->bind(array('filename' => $state->filename));
 		    }
 		}
 	}
 	
-	protected function _buildQueryOrder(KDatabaseQuery $query)
+	protected function _buildQueryOrder(KDatabaseQuerySelect $query)
 	{
 		$sort       = $this->_state->sort;
 		$direction  = strtoupper($this->_state->direction);
-	
+		
 		if($sort) 
 		{
 			$column = $this->getTable()->mapColumns($sort);

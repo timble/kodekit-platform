@@ -86,14 +86,13 @@ window.addEvent('domready', function() {
 	});
 
     Files.createModal = function(container, button){
-        var modal = $(container);
-        modal.setStyle('display', 'none');
-        document.body.grab(modal);
+        var modal = $(container), tmp = new Element('div', {style: 'display:none'}).inject(document.body);
+        tmp.grab(modal);
     	$(button).addEvent('click', function(e) {
     		e.stop();
 
     		var handleClose = function(){
-					modal.setStyle('display', 'none').inject(document.body);
+					modal.inject(tmp);
 
 					SqueezeBox.removeEvent('close', handleClose);
 				},
@@ -109,7 +108,7 @@ window.addEvent('domready', function() {
 
 			SqueezeBox.addEvent('close', handleClose);
 			SqueezeBox.addEvent('open', handleOpen);
-			SqueezeBox.open(modal.setStyle('display', 'block'), {
+			SqueezeBox.open(modal.setStyle('display', ''), {
 				handler: 'adopt',
 				size: {x: sizes.x, y: sizes.y}
 			});
@@ -167,12 +166,12 @@ window.addEvent('domready', function() {
 			    <button id="files-batch-delete"><?= @text('Delete'); ?></button>
 			</div>
 			<h3 id="files-title"></h3>
-			<div class="files-layout-controls">
-				<button class="files-layout-switcher files-layout-switcher-icons" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
-					<?= @text('Icons'); ?>
+			<div class="files-layout-controls btn-group"  data-toggle="buttons-radio">
+				<button class="btn files-layout-switcher" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
+					<i class="icon-th"></i>
 				</button>
-				<button class="files-layout-switcher files-layout-switcher-details" data-layout="details" title="<?= @text('Show files in a list'); ?>">
-					<?= @text('Details'); ?>
+				<button class="btn files-layout-switcher" data-layout="details" title="<?= @text('Show files in a list'); ?>">
+					<i class="icon-list"></i>
 				</button>
 			</div>
 		</div>
@@ -187,10 +186,12 @@ window.addEvent('domready', function() {
 </div>
 
 <div>
-	<div id="files-new-folder-modal" class="files-modal" style="display: none">
-	<form>
-		<input class="inputbox focus" type="text" id="files-new-folder-input" size="40" placeholder="<?= @text('Enter a folder name') ?>" />
-		<button id="files-new-folder-create" disabled><?= @text('Create'); ?></button>
+	<div id="files-new-folder-modal" style="display: none">
+        <div class="com_docman">
+            <form class="files-modal">
+                    <div class="input-append">
+                        <input class="span2 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" /><button id="files-new-folder-create" class="btn btn-primary" disabled><?= @text('Create'); ?></button>
+                </div>
 	</form>
 	</div>
 </div>
