@@ -36,16 +36,13 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableInsert(KCommandContext $context)
-    {
-        if (!$this->password)
-        {
+    protected function _beforeTableInsert(KCommandContext $context) {
+        if (!$this->password) {
             // Generate a random password
             $params         = $this->getService('application.components')->users->params;
-            $this->password = $this->getService('com://admin/users.helper.password')
-                ->getRandom($params->get('password_length'));
-        }
-        elseif (!$this->_passwordsMatch()) {
+            $password       = $this->getService('com://admin/users.database.row.password');
+            $this->password = $password->getRandom($params->get('password_length'));
+        } elseif (!$this->_passwordsMatch()) {
             return false;
         }
     }

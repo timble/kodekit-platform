@@ -103,9 +103,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         if($parameters->get('useractivation') == '1')
         {
-            $password = $this->getService('com://site/users.helper.password');
-
-            $context->data->activation = $password->getHash($password->getRandom(32));
+            $password = $this->getService('com://admin/users.database.row.password');
+            $context->data->activation = $password->getRandom(32);
             $context->data->enabled = 0;
 
             $message = JText::_('REG_COMPLETE_ACTIVATE');
