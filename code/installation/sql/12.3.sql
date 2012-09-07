@@ -541,7 +541,7 @@ CREATE TABLE `#__users_passwords` (
   CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) SELECT `email`, '0000-00-00', `password` FROM `#__users`;
+INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) SELECT `email`, NULL, `password` FROM `#__users`;
 
 ALTER TABLE `#__users` DROP COLUMN `password`;
 

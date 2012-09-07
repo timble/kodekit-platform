@@ -58,6 +58,8 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 
             // Update password record.
             $password = $this->getPassword();
+            // Reset expiration date.
+            $password->resetExpiration(false);
             if (!$password->setData(array('password' => $this->password))->save())
             {
                 $this->setStatus(KDatabase::STATUS_FAILED);

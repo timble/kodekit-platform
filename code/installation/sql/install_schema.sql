@@ -469,7 +469,7 @@ CREATE TABLE `#__users_sessions` (
 
 CREATE TABLE `#__users_passwords` (
   `users_user_email` varchar(100) NOT NULL DEFAULT '',
-  `expiration` date NOT NULL DEFAULT '0000-00-00',
+  `expiration` date DEFAULT NULL,
   `hash` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`users_user_email`),
   CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
