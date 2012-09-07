@@ -207,7 +207,9 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
 
         if ($context->result !== false && $user->getPassword()->expired()) {
             // Force a password change.
-            $this->setRedirect('index.php?option=com_users&view=user&layout=password&id=' . $user->id);
+            $url = $this->getService('koowa:http.url', array('url' => 'index.php?option=com_users&view=user&layout=password&id=' . $user->id));
+            $this->getService('application')->getRouter()->build($url);
+            $this->setRedirect($url);
         }
     }
 }
