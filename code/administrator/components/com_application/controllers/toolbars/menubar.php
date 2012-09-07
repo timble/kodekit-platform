@@ -1,8 +1,8 @@
 <?php
 /**
  * @version   	$Id: menubar.php 4774 2012-08-08 22:13:02Z johanjanssens $
- * @package     Nooku_Components
- * @subpackage  Default
+ * @package     Nooku_Server
+ * @subpackage  Application
  * @copyright  	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license   	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
