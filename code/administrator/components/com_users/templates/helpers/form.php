@@ -40,7 +40,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'container_id'             => 'password-check',
             'min_score'                => 0,
             'min_score_msg'            => JText::_('Please select a stronger password'),
-            'min_len'                  => 6,
+            'length'                  => 6,
             'score_map'                => array(
                 '0' => JText::_('Please provide a password'),
                 '1' => JText::_('Very weak'),
@@ -48,8 +48,8 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
                 '3' => JText::_('Good'),
                 '4' => JText::_('Strong'),
                 '5' => JText::_('Very strong'))))->append(array(
-            'min_len_msg'          => JText::sprintf('The password must be at least %s characters long',
-                $config->min_len),
+            'length_msg'          => JText::sprintf('The password must be at least %s characters long',
+                $config->length),
         ));
 
         $options = array(
@@ -61,8 +61,8 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'score_map'           => $config->score_map->toArray(),
             'min_score'           => $config->min_score,
             'min_score_msg'       => $config->min_score_msg,
-            'min_len'             => $config->min_len,
-            'min_len_msg'         => $config->min_len_msg);
+            'length'             => $config->length,
+            'length_msg'         => $config->length_msg);
 
 
         // Add required assets

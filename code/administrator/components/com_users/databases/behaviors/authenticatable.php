@@ -43,7 +43,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
             // Generate a random password
             $params         = $this->getService('application.components')->users->params;
             $this->password = $this->getService('com://admin/users.helper.password')
-                ->getRandom($params->get('min_passw_len'));
+                ->getRandom($params->get('password_length'));
         }
         elseif (!$this->_passwordsMatch()) {
             return false;

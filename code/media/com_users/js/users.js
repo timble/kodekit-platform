@@ -72,7 +72,7 @@ var ComUsers = {
                     }
 
                     // Add mininum length constraint (if any).
-                    if (config.min_len) {
+                    if (config.length) {
                         $(config.input_id).addEvent('change', my.lenCheck);
                         $(config.container_id).getParent('form').addEvent('submit', my.lenCheck);
                         var koowa_form = $(config.container_id).getParent('.-koowa-form');
@@ -91,8 +91,8 @@ var ComUsers = {
             my.lenCheck = function () {
                 var config = my.config;
                 var password = $(config.input_id).get('value');
-                if (password.length && password.length < config.min_len) {
-                    alert(config.min_len_msg);
+                if (password.length && password.length < config.length) {
+                    alert(config.length_msg);
                     return false;
                 }
             }

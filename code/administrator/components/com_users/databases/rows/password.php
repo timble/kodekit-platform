@@ -35,11 +35,11 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         {
             // Check the password length.
             $params        = $this->getService('application.components')->users->params;
-            $min_passw_len = $params->get('min_passw_len');
-            if (strlen($password) < $min_passw_len)
+            $length = $params->get('password_length');
+            if (strlen($password) < $length)
             {
                 $this->setStatus(KDatabase::STATUS_FAILED);
-                $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $min_passw_len));
+                $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $length));
                 return false;
             }
 

@@ -66,7 +66,7 @@ if(Form && Form.Validator) {
 				    <label class="control-label" for="password"><?= @text('Password') ?></label>
 				    <div class="controls">
 				        <input id="password" type="password" name="password" maxlength="100" />
-				        <?=@helper('com://admin/users.template.helper.form.password', array('min_len' => $params->get('min_passw_len')));?>
+				        <?=@helper('com://admin/users.template.helper.form.password', array('length' => $params->get('password_length')));?>
 				    </div>
 				</div>
 				<div class="control-group">

@@ -27,7 +27,7 @@
         <div class="controls">
             <input id="password" name="password" type="password" class="required validate-password" />
             <p class="help-block"><?= @text('RESET_PASSWORD_PASSWORD1_TIP_TEXT') ?></p>
-            <?=@helper('com://admin/users.template.helper.form.passwcheck', array('min_len' => $parameters->get('min_passw_len')));?>
+            <?=@helper('com://admin/users.template.helper.form.password', array('length' => $parameters->get('password_length')));?>
         </div>
     </div>
     

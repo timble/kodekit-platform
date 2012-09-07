@@ -19,7 +19,7 @@
             <option value="0">Hide</option>
             <option value="1">Show</option>
         </param>
-        <param name="min_passw_len" type="list" default="5" label="Minimum password length" description="TIPMINPASSWLEN">
+        <param name="password_length" type="list" default="5" label="Minimum password length" description="TIPMINPASSWLEN">
             <option value="5">5</option>
             <option value="8">8</option>
             <option value="10">10</option>
