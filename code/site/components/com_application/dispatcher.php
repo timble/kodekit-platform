@@ -429,31 +429,38 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      */
     public function loadLanguage(KCommandContext $context)
     {
-        // If a language was specified it has priority otherwise use user or default language settings
-        if (!isset($language))
+        $languages = $this->getService('application.languages');
+        $language = null;
+
+        // If a language was specified it has priority.
+        if($iso_code = $this->_options->language)
         {
-            $user_language =  JFactory::getUser()->getParam( 'language' );
-
-            // Make sure that the user's language exists
-            if ( $user_language && JLanguage::exists($user_language) ) {
-                $language = $user_language;
-            }
-            else
-            {
-                $params = $this->getService('application.components')->extensions->params;
-                $language = $params->get('language_site', 'en-GB');
+            $result = $languages->find(array('iso_code' => $iso_code));
+            if(count($result) == 1) {
+                $language = $result->top();
             }
         }
 
-        // One last check to make sure we have something
-        if (!JLanguage::exists($language) ) {
-            $language = 'en-GB';
+        // Otherwise use user language setting.
+        if(!$language && $iso_code = JFactory::getUser()->getParam('language'))
+        {
+            $result = $languages->find(array('iso_code' => $iso_code));
+            if(count($result) == 1) {
+                $language = $result->top();
+            }
         }
 
-        // Check that we were given a language in the array (since by default may be blank)
-        if(isset($language)) {
-            JFactory::getConfig()->setValue('config.language', $language);
+        // If language still not set, use the primary.
+        if(!$language) {
+            $language = $languages->getPrimary();
         }
+
+        $languages->setActive($language);
+
+        // TODO: Remove this.
+        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+
+        return $this->_languages;
     }
 
     /**
