@@ -62,4 +62,13 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
 
         return parent::save();
     }
+
+    public function toArray() {
+
+        $password = parent::toArray();
+
+        unset($password['hash']);
+
+        return $password;
+    }
 }
