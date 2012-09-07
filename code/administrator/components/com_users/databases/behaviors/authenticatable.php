@@ -17,6 +17,8 @@
  */
 class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 {
+    protected $_password;
+
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
@@ -102,15 +104,17 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         return true;
     }
 
-    public function getPassword()
-    {
-        $password = null;
-        $user     = $this->getMixer();
+    public function getPassword($cached = true) {
+        if (!$this->_password || !$cached) {
+            $password = null;
+            $user     = $this->getMixer();
 
-        if (!$user->isNew()) {
-            $password = $this->getService('com://admin/users.model.password')->set('id', $this->email)->getItem();
+            if (!$user->isNew()) {
+                $password = $this->getService('com://admin/users.model.password')->set('id', $this->email)
+                    ->getItem();
+            }
+            $this->_password = $password;
         }
-
-        return $password;
+        return $this->_password;
     }
 }
