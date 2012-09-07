@@ -31,4 +31,5 @@ defined('KOOWA') or die('Restricted access');
     <div class="form-actions">
         <button class="btn validate" type="submit"><?= @text('Save') ?></button>
     </div>
+    <input type="hidden" name="action" value="save" />
 </form>
