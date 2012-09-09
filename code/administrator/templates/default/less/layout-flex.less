@@ -171,3 +171,30 @@ form[name="adminForm"] {
 		}
 	}
 }
+
+.com_files {
+	#files-app {
+		#flexbox > .box(column, 1);
+		
+		#files-canvas {
+			#flexbox > .box(column, 1);
+			
+			.view {
+				#flexbox > .box(column, 1);
+				
+				#files-grid {
+					#flexbox > .box(column, 1 0 0%, scrollable);
+					
+					div {
+						#flexbox > .box-flex(none);
+						.clearfix();
+					}
+				}
+			}
+		}
+	}
+	
+	#files-paginator-container {
+		height: 50px;
+	}
+}

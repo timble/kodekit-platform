@@ -5015,6 +5015,70 @@ form[name="adminForm"] {
   -moz-flex: none;
   flex: none;
 }
+.com_files #files-app {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_files #files-app #files-canvas {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_files #files-app #files-canvas .view {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+.com_files #files-app #files-canvas .view #files-grid {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1 0 0%;
+  -moz-flex: 1 0 0%;
+  flex: 1 0 0%;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.com_files #files-app #files-canvas .view #files-grid div {
+  -webkit-flex: none;
+  -moz-flex: none;
+  flex: none;
+  *zoom: 1;
+}
+.com_files #files-app #files-canvas .view #files-grid div:before,
+.com_files #files-app #files-canvas .view #files-grid div:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.com_files #files-app #files-canvas .view #files-grid div:after {
+  clear: both;
+}
+.com_files #files-paginator-container {
+  height: 50px;
+}
 @media (max-width: 1200px) {
   #window-inspector {
     display: none !important;
