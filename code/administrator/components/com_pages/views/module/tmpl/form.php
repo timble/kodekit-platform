@@ -11,35 +11,7 @@
 
 <?= @helper('behavior.validator') ?>
 
-<?= @template('com://admin/default.view.form.toolbar'); ?>
-
-<script type="text/javascript">
-window.addEvent('domready', function() {
-	var list		= $('ordering'),
-		position	= list.get('value'),
-		cache       = {},
-		setList     = function(data){
-		    var options = [];
-		    Hash.each(data.items, function(module){
-		    	options.include(new Element('option', {
-		    		selected: <?= json_encode($module->ordering) ?> == module.ordering,
-		    		value: module.ordering,
-		    		text: module.ordering+'::'+module.title
-		    	}));
-		    });
-		    
-		    list.empty().adopt(options);
-		},
-		request 	= new Request.JSON({
-			url: <?= json_encode((string) @route('view=modules&format=json&application='.$state->application, false, false)) ?>,
-			/* @TODO change onComplete to onSuccess, and add onFailure */
-			onComplete: function(data){
-			    cache[position] = data;
-			    setList(data);
-			}
-		});
-});
-</script>
+<?= @template('com://admin/default.view.form.toolbar') ?>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />
