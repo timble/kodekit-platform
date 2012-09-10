@@ -21,11 +21,6 @@ select {
 	max-width: 220px;
 }
 
-// Override, increase line-height
-label.radio {
-	line-height: @baseLineHeight + 6;
-}
-
 // Make textarea height behave and only resize vertically
 textarea {
 	height: auto;
@@ -43,35 +38,16 @@ textarea {
 }
 
 // Override form elements in sidebar
-#content-box > form .sidebar {
-	label {
-		font-size: @baseFontSize;
-	}
-	
+.form .sidebar {
 	.form-horizontal {
 		.control-label {
-			width: 90px;
+			width: 120px;
 		}
 		// Move over all input controls and content
 		.controls {
-			margin-left: 110px;
+			margin-left: 140px;
 		}
 	}
-}
-
-// Override width of fields in grid
-.-koowa-grid {
-	input,
-	textarea,
-	select {
-		width: auto;
-		margin-bottom: 0;
-	}
-}
-
-// New style
-fieldset {
-	max-width: 640px;
 }
 
 // New style
