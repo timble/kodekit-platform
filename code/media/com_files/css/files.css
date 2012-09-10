@@ -485,42 +485,6 @@ ul#files-tree-html ul li a {
 	padding-left: 20px;
 }
 
-#files-paginator-container {
-	background-color: #F7F7F7;
-	background-image: -webkit-gradient(linear, 0% 35%, 0% 100%, from(#f7f7f7), to(#F2F2F2));
-	background-image: -moz-linear-gradient(0% 35% 270deg, #f7f7f7, #F2F2F2);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F7F7F7', endColorstr='#F2F2F2');
-	border-top: 1px solid #E1E1E1;
-	padding: 4px;
-}
-
-#files-paginator {
-	float: right;
-}
-
-#files-paginator div.limit {
-	float: left;
-	height: 22px;
-	line-height: 22px;
-	margin: 0 5px;
-}
-#files-paginator div.limit select {
-	height: 1.8em;
-	margin-top: 0.2em;
-	font-size: 1em;
-}
-/* To avoid ugly white borders due to background images expecting a white background */
-#files-paginator .button2-right div,
-#files-paginator .button2-left div,
-#files-paginator .button2-right,
-#files-paginator .button2-left,
-#files-paginator a {
-	border-radius: 5px;
-}
-#files-paginator .button2-right div {
-	border-radius: 5px;
-}
-
 /* @group Style for the custom modal stuff */
 .files-modal {
     padding: 5px;

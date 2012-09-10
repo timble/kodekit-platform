@@ -24,61 +24,37 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
             'limit'   => 0,
         ));
 
-        $html  = '<div class="container" id="files-paginator-container">';
         $html .= '<div class="pagination" id="files-paginator">';
-        $html .= '<div class="limit">'.$this->limit($config->toArray()).'</div>';
-        $html .=  $this->_pages();
+        $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+        $html .=  $this->pages($config);
         $html .= '<div class="limit"> '.JText::_('Page').' <span class="page-current">1</span>';
         $html .= ' '.JText::_('of').' <span class="page-total">1</span></div>';
         $html .= '</div>';
-        $html .= '</div>';
 
         return $html;
     }
 
-    /**
-     * Render a list of pages links
-     *
-     * This function is overriddes the default behavior to render the links in the khepri template
-     * backend style.
-     *
-     * @param   araay   An array of page data
-     * @return  string  Html
-     */
-    protected function _pages()
+    public function pages($config = array())
     {
-    	$tpl = '<div class="button2-%s"><div class="%s"><a href="#">%s</a></div></div>';
-
-    	$html = sprintf($tpl, 'right', 'start', JText::_('First'));
-    	$html .= sprintf($tpl, 'right', 'prev', JText::_('Prev'));
-    	$html .= '<div class="button2-left"><div class="page"></div></div>';
-    	$html .= sprintf($tpl, 'left', 'next', JText::_('Next'));
-    	$html .= sprintf($tpl, 'left', 'end', JText::_('Last'));
-
-        return $html;
-    }
-
-	public function limit($config = array())
-	{
-		$config = new KConfig($config);
+        $config = new KConfigPaginator($config);
 		$config->append(array(
-			'limit'	  	=> 0,
+			'total'      => 0,
+			'display'    => 4,
+			'offset'     => 0,
+			'limit'	     => 0,
 			'attribs'	=> array(),
 		));
-
-		$html = '';
-
-		$selected = '';
-		foreach(array(10, 20, 50, 100) as $value)
-		{
-			if($value == $config->limit) {
-				$selected = $value;
-			}
-
-			$options[] = $this->option(array('text' => $value, 'value' => $value));
-		}
-
-		$html .= $this->optionlist(array('options' => $options, 'name' => 'limit', 'attribs' => $config->attribs, 'selected' => $selected));
+		
+		$html   = '<div class="btn-group start">'.$this->link($config->pages->first).'</div>';
+		$html  .= '<div class="btn-group">';
+		$html  .= '<div class="prev">'.$this->link($config->pages->prev).'</div>';
+		
+		$html  .= '<div class="page"></div>';
+		
+		$html  .= '<div class="next">'.$this->link($config->pages->next).'</div>';
+		$html  .= '</div>';
+		$html  .= '<div class="btn-group end">'.$this->link($config->pages->last).'</div>';
+		
 		return $html;
-	}
+    }
 }
