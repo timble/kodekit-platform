@@ -94,7 +94,7 @@
 	                <div class="control-group">
 	                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
 	                    <div class="controls">
-	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => false, 'name' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
+	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
 	                    </div>
 	                </div>
 	                <div class="control-group">
