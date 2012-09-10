@@ -19,8 +19,6 @@ class ComExtensionsDatabaseTableComponents extends KDatabaseTableDefault
 {
     public function  _initialize(KConfig $config) 
     {
-        $config->identity_column = 'id';
-
         $config->append(array(
             'filters'  => array('params' => 'ini')
         ));

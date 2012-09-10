@@ -37,14 +37,14 @@ class ComPagesModelModules extends ComDefaultModelDefault
     {
         parent::_buildQueryColumns($query);
 
-        $query->columns(array('component_name' => 'component.name'));
+        $query->columns(array('component_name' => 'components.name'));
     }
 
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
         $query
             ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.modules_module_id = tbl.id')
-            ->join(array('component' => 'extensions_components'), 'component.id = tbl.extensions_component_id');
+            ->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
 
         parent::_buildQueryJoins($query);
     }

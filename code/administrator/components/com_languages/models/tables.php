@@ -37,7 +37,7 @@ class ComLanguagesModelTables extends ComDefaultModelDefault
     {
         parent::_buildQueryJoins($query);
         
-        $query->join(array('components' => 'extensions_components'), 'components.id = tbl.extensions_component_id');
+        $query->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)

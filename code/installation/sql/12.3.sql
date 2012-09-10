@@ -486,6 +486,63 @@ ALTER TABLE `#__pages` DROP COLUMN `rgt`;
 
 # --------------------------------------------------------
 
+CREATE TABLE `#__users_passwords` (
+  `users_user_email` varchar(100) NOT NULL DEFAULT '',
+  `expiration` date NOT NULL DEFAULT '0000-00-00',
+  `hash` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`users_user_email`),
+  CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) SELECT `email`, NULL, `password` FROM `#__users`;
+
+ALTER TABLE `#__users` DROP COLUMN `password`;
+
+# --------------------------------------------------------
+
+DELETE FROM `#__components` WHERE `parent` > 0;
+
+ALTER TABLE `#__components` DROP `iscore`;
+ALTER TABLE `#__components` DROP `menuid`;
+ALTER TABLE `#__components` DROP `admin_menu_img`;
+ALTER TABLE `#__components` DROP `parent`;
+ALTER TABLE `#__components` DROP `admin_menu_link`;
+ALTER TABLE `#__components` DROP `admin_menu_alt`;
+ALTER TABLE `#__components` DROP `ordering`;
+ALTER TABLE `#__components` DROP `link`;
+ALTER TABLE `#__components` CHANGE `id` `extensions_component_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__components` CHANGE  `name`  `title` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
+ALTER TABLE `#__components` CHANGE  `option`  `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
+ALTER TABLE `#__components` DROP INDEX `parent_option`;
+ALTER TABLE `#__components` ADD UNIQUE (`name`);
+
+RENAME TABLE `#__components` TO  `#__extensions_components`;
+
+-- Rename components
+UPDATE `#__extensions_components` SET `title` = 'Contacts', `name` = 'com_contacts' WHERE `id` = 7;
+UPDATE `#__extensions_components` SET `title` = 'Files', `name` = 'com_files' WHERE `id` = 19;
+UPDATE `#__extensions_components` SET `title` = 'Articles', `name` = 'com_articles' WHERE `id` = 20;
+UPDATE `#__extensions_components` SET `title` = 'Pages', `name` = 'com_pages' WHERE `id` = 25;
+UPDATE `#__extensions_components` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `id` = 28;
+
+# --------------------------------------------------------
+
+INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enabled`)
+VALUES
+    (NULL, 'Activities', 'com_activities', '', 1),
+    (NULL, 'Dashboard', 'com_dashboard', '', 1);
+
+# --------------------------------------------------------
+
+-- Remove access level 'special' by changing these items to unpublished registered status
+UPDATE `#__articles`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__categories`    SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__contacts`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__pages_modules` SET `access` = '1', `published` = '0' WHERE `access` = '2';
+UPDATE `#__pages`         SET `access` = '1', `published` = '0' WHERE `access` = '2';
+
+# --------------------------------------------------------
+
 -- Add tables
 CREATE TABLE `#__languages` (
     `languages_language_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -518,7 +575,7 @@ CREATE TABLE `#__languages_tables` (
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`)
-    # CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`id`) ON DELETE CASCADE
+    # CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`extensions_component_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
 
 -- Add primary languages
@@ -532,57 +589,3 @@ INSERT INTO `#__languages_tables` (`extensions_component_id`, `name`, `unique_co
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
-
-CREATE TABLE `#__users_passwords` (
-  `users_user_email` varchar(100) NOT NULL DEFAULT '',
-  `expiration` date NOT NULL DEFAULT '0000-00-00',
-  `hash` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`users_user_email`),
-  CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) SELECT `email`, NULL, `password` FROM `#__users`;
-
-ALTER TABLE `#__users` DROP COLUMN `password`;
-
-# --------------------------------------------------------
-
-DELETE FROM `#__components` WHERE `parent` > 0;
-
-ALTER TABLE `#__components` DROP `iscore`;
-ALTER TABLE `#__components` DROP `menuid`;
-ALTER TABLE `#__components` DROP `admin_menu_img`;
-ALTER TABLE `#__components` DROP `parent`;
-ALTER TABLE `#__components` DROP `admin_menu_link`;
-ALTER TABLE `#__components` DROP `admin_menu_alt`;
-ALTER TABLE `#__components` DROP `ordering`;
-ALTER TABLE `#__components` DROP `link`;
-ALTER TABLE `#__components` CHANGE  `name`  `title` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
-ALTER TABLE `#__components` CHANGE  `option`  `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
-ALTER TABLE `#__components` DROP INDEX `parent_option`;
-ALTER TABLE `#__components` ADD UNIQUE (`name`);
-
-RENAME TABLE `#__components` TO  `#__extensions_components`;
-
--- Rename components
-UPDATE `#__extensions_components` SET `title` = 'Contacts', `name` = 'com_contacts' WHERE `id` = 7;
-UPDATE `#__extensions_components` SET `title` = 'Files', `name` = 'com_files' WHERE `id` = 19;
-UPDATE `#__extensions_components` SET `title` = 'Articles', `name` = 'com_articles' WHERE `id` = 20;
-UPDATE `#__extensions_components` SET `title` = 'Pages', `name` = 'com_pages' WHERE `id` = 25;
-UPDATE `#__extensions_components` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `id` = 28;
-
-# --------------------------------------------------------
-
-INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enabled`)
-VALUES
-    (NULL, 'Activities', 'com_activities', '', 1),
-    (NULL, 'Dashboard', 'com_dashboard', '', 1);
-
-# --------------------------------------------------------
-
--- Remove access level 'special' by changing these items to unpublished registered status
-UPDATE `#__articles`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
-UPDATE `#__categories`    SET `access` = '1', `published` = '0' WHERE `access` = '2';
-UPDATE `#__contacts`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
-UPDATE `#__pages_modules` SET `access` = '1', `published` = '0' WHERE `access` = '2';
-UPDATE `#__pages`         SET `access` = '1', `published` = '0' WHERE `access` = '2';

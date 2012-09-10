@@ -37,7 +37,7 @@ class ComPagesModelPages extends ComPagesModelClosures
     {
         parent::_buildQueryColumns($query);
 
-        $query->columns(array('component_name' => 'component.name'));
+        $query->columns(array('component_name' => 'components.name'));
 
         $table = $this->getTable();
         if($table->isOrderable() && !$query->isCountQuery())
@@ -64,7 +64,7 @@ class ComPagesModelPages extends ComPagesModelClosures
     {
         parent::_buildQueryJoins($query);
 
-        $query->join(array('component' => 'extensions_components'), 'component.id = tbl.extensions_component_id');
+        $query->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
 
         $table = $this->getTable();
         if($table->isOrderable() && !$query->isCountQuery())
