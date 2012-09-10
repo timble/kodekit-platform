@@ -142,6 +142,17 @@ ALTER TABLE `#__articles` CHANGE  `checked_out_time`  `locked_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `publish_up`  `publish_on` DATETIME;
 ALTER TABLE `#__articles` CHANGE  `publish_down`  `unpublish_on` DATETIME;
 
+UPDATE `#__articles` SET `categories_category_id` = NULL WHERE `categories_category_id` = 0;
+UPDATE `#__articles` SET `created_by` = NULL WHERE `created_by` = 0;
+UPDATE `#__articles` SET `created_on` = NULL WHERE `created_on` = '0000-00-00 00:00:00';
+UPDATE `#__articles` SET `modified_by` = NULL WHERE `modified_by` = 0;
+UPDATE `#__articles` SET `modified_on` = NULL WHERE `modified_on` = '0000-00-00 00:00:00';
+UPDATE `#__articles` SET `locked_by` = NULL WHERE `locked_by` = 0;
+UPDATE `#__articles` SET `locked_on` = NULL WHERE `locked_on` = '0000-00-00 00:00:00';
+UPDATE `#__articles` SET `publish_on` = NULL WHERE `publish_on` = '0000-00-00 00:00:00';
+UPDATE `#__articles` SET `unpublish_on` = NULL WHERE `unpublish_on` = '0000-00-00 00:00:00';
+UPDATE `#__articles` SET `description` = NULL WHERE `description` = '';
+
 -- Remove unused columns
 ALTER TABLE `#__articles` DROP `title_alias`;
 ALTER TABLE `#__articles` DROP `mask`;
