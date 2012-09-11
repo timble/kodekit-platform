@@ -23,7 +23,7 @@ class ComPagesModelMenus extends KModelTable
 
         $this->getState()
             ->insert('sort', 'cmd', 'title')
-            ->insert('application', 'word', 'site');
+            ->insert('application', 'word');
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)

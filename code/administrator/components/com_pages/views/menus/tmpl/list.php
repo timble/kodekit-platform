@@ -10,9 +10,12 @@
 ?>
 
 <nav class="scrollable">
-    <? foreach($menus as $menu) : ?>
-    <a class="<?= $state->menu == $menu->id ? 'active' : '' ?>" href="<?= @route('view=pages&menu='.$menu->id ) ?>">
-        <?= @escape($menu->title) ?> (<?= $menu->page_count; ?>)
-    </a>
+    <? foreach($applications as $application) : ?>
+        <h4><?= $application ?></h4>
+        <? foreach($menus->find(array('application' => $application)) as $menu) : ?>
+            <a class="<?= $state->menu == $menu->id ? 'active' : '' ?>" href="<?= @route('view=pages&menu='.$menu->id ) ?>">
+                <?= @escape($menu->title) ?> (<?= $menu->page_count ?>)
+            </a>
+        <? endforeach ?>
     <? endforeach ?>
 </nav>
