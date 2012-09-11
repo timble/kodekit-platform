@@ -383,7 +383,7 @@ ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`
 ALTER TABLE `#__pages_modules_pages` ADD INDEX `ix_pages_page_id` (`pages_page_id`);
 
 UPDATE `#__pages_modules` SET `name` = 'mod_menu' WHERE `name` = 'mod_mainmenu';
-UPDATE `#__pages_modules` AS `modules` SET `modules`.`params` = REPLACE(`modules`.`params`, CONCAT('menutype=', SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)), CONCAT('menu_id=', (SELECT `id` FROM `#__pages_menus` AS `menus` WHERE `menus`.`slug` = SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)))) WHERE `modules`.`name` = 'mod_menu';
+UPDATE `#__pages_modules` AS `modules` SET `modules`.`params` = REPLACE(`modules`.`params`, CONCAT('menutype=', SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)), CONCAT('menu_id=', (SELECT `pages_menu_id` FROM `#__pages_menus` AS `menus` WHERE `menus`.`slug` = SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)))) WHERE `modules`.`name` = 'mod_menu';
 
 UPDATE `#__pages` SET `params` = REPLACE(`params`, 'menu_item=', 'page_id=');
 UPDATE `#__pages` SET `link_id` = SUBSTRING(`link_url`, LOCATE('Itemid=', `link_url`) + 7) WHERE `type` = 'menulink';
@@ -501,8 +501,8 @@ CREATE TABLE `#__users_passwords` (
   `users_user_email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date NOT NULL DEFAULT '0000-00-00',
   `hash` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`users_user_email`),
-  CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+  PRIMARY KEY (`users_user_email`)
+  # CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) SELECT `email`, NULL, `password` FROM `#__users`;
@@ -530,15 +530,15 @@ ALTER TABLE `#__components` ADD UNIQUE (`name`);
 RENAME TABLE `#__components` TO  `#__extensions_components`;
 
 -- Rename components
-UPDATE `#__extensions_components` SET `title` = 'Contacts', `name` = 'com_contacts' WHERE `id` = 7;
-UPDATE `#__extensions_components` SET `title` = 'Files', `name` = 'com_files' WHERE `id` = 19;
-UPDATE `#__extensions_components` SET `title` = 'Articles', `name` = 'com_articles' WHERE `id` = 20;
-UPDATE `#__extensions_components` SET `title` = 'Pages', `name` = 'com_pages' WHERE `id` = 25;
-UPDATE `#__extensions_components` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `id` = 28;
+UPDATE `#__extensions_components` SET `title` = 'Contacts', `name` = 'com_contacts' WHERE `extensions_component_id` = 7;
+UPDATE `#__extensions_components` SET `title` = 'Files', `name` = 'com_files' WHERE `extensions_component_id` = 19;
+UPDATE `#__extensions_components` SET `title` = 'Articles', `name` = 'com_articles' WHERE `extensions_component_id` = 20;
+UPDATE `#__extensions_components` SET `title` = 'Pages', `name` = 'com_pages' WHERE `extensions_component_id` = 25;
+UPDATE `#__extensions_components` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `extensions_component_id` = 28;
 
 # --------------------------------------------------------
 
-INSERT INTO `#__extensions_components` (`id`, `title`, `name`, `params`, `enabled`)
+INSERT INTO `#__extensions_components` (`extensions_component_id`, `title`, `name`, `params`, `enabled`)
 VALUES
     (NULL, 'Activities', 'com_activities', '', 1),
     (NULL, 'Dashboard', 'com_dashboard', '', 1);
