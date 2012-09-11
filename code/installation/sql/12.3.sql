@@ -355,6 +355,8 @@ ALTER TABLE `#__pages` ADD `created_on` DATETIME AFTER `created_by`;
 ALTER TABLE `#__pages` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
 ALTER TABLE `#__pages` ADD `modified_on` DATETIME AFTER `modified_by`;
 
+ALTER TABLE `#__pages_menus` ADD `application` VARCHAR(50) NOT NULL AFTER `pages_menu_id`;
+
 ALTER TABLE `#__pages_menus` CHANGE `id` `pages_menu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__pages_menus` CHANGE `menutype` `slug` VARCHAR(255) AFTER `title`;
 ALTER TABLE `#__pages_menus` MODIFY `title` VARCHAR(255) NOT NULL;
@@ -388,6 +390,8 @@ UPDATE `#__pages_modules` AS `modules` SET `modules`.`params` = REPLACE(`modules
 UPDATE `#__pages` SET `params` = REPLACE(`params`, 'menu_item=', 'page_id=');
 UPDATE `#__pages` SET `link_id` = SUBSTRING(`link_url`, LOCATE('Itemid=', `link_url`) + 7) WHERE `type` = 'menulink';
 UPDATE `#__pages` SET `type` = 'pagelink' WHERE `type` = 'menulink';
+
+UPDATE `#__pages_menus` SET `application` = 'site' WHERE `application` = '';
 
 -- Clean trash
 DELETE FROM `#__pages` WHERE `published` < 0;
