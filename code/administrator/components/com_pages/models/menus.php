@@ -21,7 +21,9 @@ class ComPagesModelMenus extends KModelTable
     {
         parent::__construct($config);
 
-        $this->getState()->remove('sort')->insert('sort', 'cmd', 'title');
+        $this->getState()
+            ->insert('sort', 'cmd', 'title')
+            ->insert('application', 'word', 'site');
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
@@ -50,10 +52,17 @@ class ComPagesModelMenus extends KModelTable
         parent::_buildQueryWhere($query);
         $state = $this->getState();
 
-        if($state->search)
+        if(!$state->isUnique())
         {
-            $query->where('tbl.title LIKE :search')
-                ->bind(array('search' => '%'.$state->search.'%'));;
+            if($state->search)
+            {
+                $query->where('tbl.title LIKE :search')
+                    ->bind(array('search' => '%'.$state->search.'%'));;
+            }
+            
+            if($state->application) {
+                $query->where('tbl.application = :application')->bind(array('application' => $state->application));
+            }
         }
     }
 }
