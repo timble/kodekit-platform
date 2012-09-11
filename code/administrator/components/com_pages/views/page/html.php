@@ -27,8 +27,16 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
             $language->load($component->name);
         }
         
-        // Load rowset 
-        $components = $this->getService('com://admin/pages.model.types')->getList();
+        // Load components.
+        $model = $this->getModel();
+        $menu  = $this->getService('com://admin/pages.model.menus')
+            ->id($model->menu)
+            ->getItem();
+        
+        $components = $this->getService('com://admin/pages.model.types')
+            ->application($menu->application)
+            ->getList();
+        
 		$this->assign('components', $components);
 		
         // Get available and assigned modules.
@@ -39,7 +47,7 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
 
         $query = $this->getService('koowa:database.query.select')
             ->where('pages_page_id IN :id')
-            ->bind(array('id' => array((int) $this->getModel()->getItem()->id, 0)));
+            ->bind(array('id' => array((int) $model->getItem()->id, 0)));
 
         $assigned = $this->getService('com://admin/pages.database.table.modules_pages')
             ->select($query);
