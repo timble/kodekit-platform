@@ -31,14 +31,15 @@ Files.Paginator = new Class({
 		this.elements = {
 			page_total: element.getElement('span.page-total'),
 			page_current: element.getElement('span.page-current'),
-			page_start: element.getElement('div.start a'),
-			page_next: element.getElement('div.next a'),
-			page_prev: element.getElement('div.prev a'),
-			page_end: element.getElement('div.end a'),
-			page_container: element.getElement('div.page'),
+			page_start: element.getElement('a.first'),
+			page_next: element.getElement('a.next'),
+			page_prev: element.getElement('a.prev'),
+			page_end: element.getElement('a.last'),
+			page_container: element.getElement('div.pagelist'),
 			pages: {},
 			limit_box: element.getElement('select')
 		};
+		console.log(this.elements);
 		this.setValues();
 
 		this.element.addEvent('click:relay(a)', function(e) {
@@ -73,11 +74,21 @@ Files.Paginator = new Class({
 		while (i <= values.page_total) {
 
 			if (i == values.page_current) {
-				var el = new Element('span', {text: i});
+				var el = new Element('a', {
+					href: '#',
+					text: i,
+					'class': 'btn disabled',
+					'data-limit': values.limit,
+					'data-offset': (i-1)*values.limit,
+					'events': {
+						'click': function(e) { e.stop(); }
+					}
+				});
 			} else {
 				var el = new Element('a', {
 					href: '#',
 					text: i,
+					'class': 'btn',
 					'data-limit': values.limit,
 					'data-offset': (i-1)*values.limit
 				});

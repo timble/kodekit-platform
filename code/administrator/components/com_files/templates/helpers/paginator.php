@@ -45,16 +45,34 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
 			'attribs'	=> array(),
 		));
 		
-		$html   = '<div class="btn-group start">'.$this->link($config->pages->first).'</div>';
+		$html   = '<div class="btn-group">'.$this->link($config->pages->first).'</div>';
 		$html  .= '<div class="btn-group">';
-		$html  .= '<div class="prev">'.$this->link($config->pages->prev).'</div>';
-		
-		$html  .= '<div class="page"></div>';
-		
-		$html  .= '<div class="next">'.$this->link($config->pages->next).'</div>';
+		$html  .= $this->link($config->pages->prev);
 		$html  .= '</div>';
-		$html  .= '<div class="btn-group end">'.$this->link($config->pages->last).'</div>';
+		$html  .= '<div class="btn-group pagelist"></div>';
+		$html  .= '<div class="btn-group">';
+		$html  .= $this->link($config->pages->next);
+		$html  .= '</div>';
+		$html  .= '<div class="btn-group">'.$this->link($config->pages->last).'</div>';
 		
 		return $html;
     }
+    
+    public function link($config)
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+            'title'   => '',
+            'current' => false,
+            'active'  => false,
+            'offset'  => 0,
+            'limit'	  => 0,
+            'rel'	  => '',
+            'attribs'  => array(),
+        ));
+    
+        $html = '<a class="btn '.$config->rel.'" href="#">'.JText::_($config->title).'</a>';
+    
+        return $html;
+    }    
 }
