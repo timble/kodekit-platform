@@ -26,10 +26,10 @@
         </div>
         <div class="form-content">
             <label for="name"><?= @text('Slug') ?>:</label>
-            <input class="required" type="text" name="slug" size="30" maxlength="25" value="<?= $menu->slug ?>" />
+            <input type="text" name="slug" size="30" maxlength="25" value="<?= $menu->slug ?>" />
 
             <label for="description"><?= @text('Application') ?>:</label>
-            <?= @helper('com://admin/application.template.helper.listbox.applications') ?>
+            <?= @helper('com://admin/application.template.helper.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application)) ?>
             
             <label for="description"><?= @text('Description') ?>:</label>
             <textarea name="description" rows="3" placeholder="<?= @text('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>

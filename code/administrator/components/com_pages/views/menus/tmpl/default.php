@@ -20,7 +20,7 @@
 	<?= @template('default_sidebar') ?>
 </ktml:module>
 
-<form id="menus-form" action="<?= @route()?>" method="get" class="-koowa-grid">
+<form id="menus-form" action="<?= @route() ?>" method="get" class="-koowa-grid">
     <table>
         <thead>
             <tr>
