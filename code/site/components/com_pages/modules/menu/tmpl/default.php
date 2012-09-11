@@ -35,30 +35,30 @@
         <? switch($page->type) : 
               case 'component': ?>
 				<a href="<?= @route($page->link->getQuery().'&Itemid='.$page->id) ?>">
-                    <span><?= $page->title ?></span>
+                    <?= $page->title ?>
                 </a>
 				<? break ?>
 				
 		    <? case 'menulink': ?>
 		        <? $page_linked = @service('application.pages')->getPage($page->link->query['Itemid']); ?>
 		        <a href="<?= $page_linked->link ?>">
-                    <span><?= $page->title ?></span>
+                    <?= $page->title ?>
                 </a>
 				<? break ?>
 				
             <? case 'separator': ?>
-				<span class="separator"><span><?= $page->title ?></span></span>
+				<span class="separator"><?= $page->title ?></span>
 				<? break ?>
 
 			<? case 'url': ?>
 				<a href="<?= $page->link ?>">
-                    <span><?= $page->title ?></span>
+                    <?= $page->title ?>
                 </a>
 				<? break ?>
 				
 	        <? case 'redirect'?>
 	            <a href="<?= $page->route ?>">
-	                <span><?= $page->title ?></span>
+	                <?= $page->title ?>
 	            </a>
 		<? endswitch ?>
 <? endforeach ?>
