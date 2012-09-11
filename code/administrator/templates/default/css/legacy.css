@@ -3354,17 +3354,17 @@ a.btn {
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-.-koowa-grid table tfoot .pagination {
+.pagination {
   float: right;
 }
-.-koowa-grid table tfoot .pagination > div {
+.pagination > div {
   float: left;
 }
-.-koowa-grid table tfoot .pagination > div.limit {
+.pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-.-koowa-grid table tfoot .pagination > div select[name="limit"] {
+.pagination > div select[name="limit"] {
   width: 50px;
 }
 .-koowa-form {
