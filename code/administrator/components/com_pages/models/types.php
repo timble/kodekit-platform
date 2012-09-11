@@ -18,6 +18,13 @@
 class ComPagesModelTypes extends KModelAbstract
 {
     protected $_list;
+    
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+        
+        $this->getState()->insert('application', 'word');
+    }
 
     public function getList()
     {
@@ -32,7 +39,7 @@ class ComPagesModelTypes extends KModelAbstract
             // Iterate through the components.
             foreach($components as $component)
             {
-                $path  = $this->getIdentifier()->getApplication('site');
+                $path  = $this->getIdentifier()->getApplication($this->getState()->application);
                 $path .= '/components/'.$component->name.'/views';
 
                 if(!is_dir($path)) {
