@@ -16,6 +16,10 @@
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
+<ktml:module position="sidebar">
+	<?= @template('default_sidebar') ?>
+</ktml:module>
+
 <form id="menus-form" action="<?= @route()?>" method="get" class="-koowa-grid">
     <table>
         <thead>
