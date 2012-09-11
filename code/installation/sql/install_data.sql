@@ -54,7 +54,8 @@ VALUES
 
 INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`)
 VALUES
-    (1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site');
+    (1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site'),
+    (2, 'admin', 'Menubar', 'menubar', NULL);
 
 --
 -- Dumping data for table `#__pages_modules_pages`
@@ -68,7 +69,21 @@ INSERT INTO `#__pages_modules_pages` (`modules_module_id`, `pages_page_id`) VALU
 
 INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
-    (1, 2, 1);
+    (1, 2, 1),
+    (2, 2, 1),
+    (3, 5, 2),
+    (4, 1, 3),
+    (5, 4, 4),
+    (6, 7, 5),
+    (7, 3, 6),
+    (8, 1, 1),
+    (9, 6, 7),
+    (10, 1, 1),
+    (11, 2, 2),
+    (12, 1, 1),
+    (13, 4, 2),
+    (14, 2, 3),
+    (15, 3, 4);
 
 --
 -- Dumping data for table `#__pages_closures`
@@ -76,7 +91,28 @@ VALUES
 
 INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
-    (1, 1, 0);
+    (1, 1, 0),
+    (2, 2, 0),
+    (3, 3, 0),
+    (4, 4, 0),
+    (4, 12, 1),
+    (4, 13, 1),
+    (4, 14, 1),
+    (4, 15, 1),
+    (5, 5, 0),
+    (6, 6, 0),
+    (7, 7, 0),
+    (7, 8, 1),
+    (8, 8, 0),
+    (9, 9, 0),
+    (9, 10, 1),
+    (9, 11, 1),
+    (10, 10, 0),
+    (11, 11, 0),
+    (12, 12, 0),
+    (13, 13, 0),
+    (14, 14, 0),
+    (15, 15, 0);
 
 --
 -- Dumping data for table `#__pages_modules`
@@ -92,7 +128,21 @@ VALUES
 
 INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
-	(1, 1, 'Home', 'home', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_featured=1\nshow_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n');
+	(1, 1, 'Home', 'home', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_featured=1\nshow_page_title=1\npage_title=Welcome to the Frontpage\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=front\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+    (2, 2, 'Dashboard', 'dashboard', 'index.php?option=com_dashboard&view=dashboard', NULL, 'component', 1, 0, 0, 35, 1, '2012-09-11 13:22:34', NULL, NULL, NULL, NULL, 0, NULL),
+    (3, 2, 'Pages', 'pages', 'index.php?option=com_pages&view=pages', NULL, 'component', 1, 0, 0, 25, 1, '2012-09-11 13:22:56', NULL, NULL, NULL, NULL, 0, NULL),
+    (4, 2, 'Content', 'content', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, '2012-09-11 13:23:49', NULL, NULL, NULL, NULL, 0, NULL),
+    (5, 2, 'Files', 'files', 'index.php?option=com_files&view=files', NULL, 'component', 1, 0, 0, 19, 1, '2012-09-11 13:24:03', NULL, NULL, NULL, NULL, 0, NULL),
+    (6, 2, 'Users', 'users', 'index.php?option=com_users&view=users', NULL, 'component', 1, 0, 0, 31, 1, '2012-09-11 13:24:16', NULL, NULL, NULL, NULL, 0, NULL),
+    (7, 2, 'Extensions', 'extensions', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, '2012-09-11 13:24:27', NULL, NULL, NULL, NULL, 0, NULL),
+    (8, 2, 'Settings', 'settings', 'index.php?option=com_extensions&view=settings', NULL, 'component', 1, 0, 0, 28, 1, '2012-09-11 13:27:07', NULL, NULL, NULL, NULL, 0, NULL),
+    (9, 2, 'Tools', 'tools', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, '2012-09-11 13:27:31', NULL, NULL, NULL, NULL, 0, NULL),
+    (10, 2, 'Activity Logs', 'activity-logs', 'index.php?option=com_activities&view=activities', NULL, 'component', 1, 0, 0, 34, 1, '2012-09-11 13:36:48', NULL, NULL, NULL, NULL, 0, NULL),
+    (11, 2, 'Clean Cache', 'clean-cache', 'index.php?option=com_cache&view=items', NULL, 'component', 1, 0, 0, 32, 1, '2012-09-11 13:37:01', NULL, NULL, NULL, NULL, 0, NULL),
+    (12, 2, 'Articles', 'articles', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, '2012-09-11 13:37:17', NULL, NULL, NULL, NULL, 0, NULL),
+    (13, 2, 'Web Links', 'web-links', 'index.php?option=com_weblinks&view=weblinks', NULL, 'component', 1, 0, 0, 4, 1, '2012-09-11 13:37:59', NULL, NULL, NULL, NULL, 0, NULL),
+    (14, 2, 'Contacts', 'contacts', 'index.php?option=com_contacts&view=contacts', NULL, 'component', 1, 0, 0, 7, 1, '2012-09-11 13:39:28', NULL, NULL, NULL, NULL, 0, NULL),
+    (15, 2, 'Languages', 'languages', 'index.php?option=com_languages&view=languages', NULL, 'component', 1, 0, 0, 23, 1, '2012-09-11 13:39:41', NULL, NULL, NULL, NULL, 0, NULL);
 
 --
 -- Dumping data for table `#__core_acl_aro_groups`

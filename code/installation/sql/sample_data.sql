@@ -106,8 +106,6 @@ VALUES
 	(35, 0, 'FAQs', 'faqs', 'key.jpg', 'articles', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 5, 0, ''),
 	(36, 0, 'About Joomla!', 'about-joomla', '', 'articles', '', 1, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 2, 0, '');
 
-
-
 --
 -- Dumping data for table `#__contacts`
 --
@@ -122,8 +120,8 @@ VALUES
 
 INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`)
 VALUES
-    (2, 'site', 'User Menu', 'usermenu', 'A Menu for logged in Users'),
-    (3, 'site', 'Top Menu', 'topmenu', 'Top level navigation'),
+    (3, 'site', 'User Menu', 'usermenu', 'A Menu for logged in Users'),
+    (4, 'site', 'Top Menu', 'topmenu', 'Top level navigation'),
     (5, 'site', 'Example Pages', 'ExamplePages', 'Example Pages'),
     (6, 'site', 'Key Concepts', 'keyconcepts', 'This describes some critical information for new Users.');
 
@@ -133,17 +131,16 @@ VALUES
 
 INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `showtitle`, `params`, `extensions_component_id`, `application`)
 VALUES
-	(17, 'User Menu', '', 18, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menu_id=2\ncache=1', 25, 'site'),
+	(17, 'User Menu', '', 18, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menu_id=3\ncache=1', 25, 'site'),
 	(18, 'Login Form', '', 21, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 'greeting=1\nname=0', 31, 'site'),
 	(19, 'Latest News', '', 19, 'user1', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'cache=1', 20, 'site'),
 	(25, 'Newsflash', '', 9, 'top', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\r\n', 20, 'site'),
 	(27, 'Search', '', 10, 'user4', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 'cache=1', 15, 'site'),
 	(28, 'Random Image', '', 23, 'right', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_image', 0, 1, '', 19, 'site'),
-	(29, 'Top Menu', '', 11, 'user3', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 0, 'cache=1\nmenu_id=3\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\n', 25, 'site'),
+	(29, 'Top Menu', '', 11, 'user3', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 0, 'cache=1\nmenu_id=4\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\n', 25, 'site'),
 	(35, 'Breadcrumbs', '', 1, 'breadcrumb', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 'showHome=1\nhomeText=Home\nshowLast=1\nseparator=\ncache=0\n\n', 25, 'site'),
 	(39, 'Example Pages', '', 20, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=5\nmenu_style=list_flat\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 25, 'site'),
 	(40, 'Key Concepts', '', 17, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=6\nmenu_style=list\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 25, 'site');
-
 
 --
 -- Dumping data for table `#__pages_modules`
@@ -154,16 +151,12 @@ VALUES
     (17, 0),
     (18, 1),
     (19, 1),
-    (19, 2),
-    (19, 4),
-    (19, 27),
-    (19, 36),
+    (19, 16),
+    (19, 19),
     (21, 1),
     (22, 1),
-    (22, 2),
-    (22, 4),
-    (22, 27),
-    (22, 36),
+    (22, 16),
+    (22, 19),
     (25, 0),
     (27, 0),
     (29, 0),
@@ -174,11 +167,11 @@ VALUES
     (35, 0),
     (36, 0),
     (38, 1),
-    (39, 43),
-    (39, 44),
-    (39, 45),
-    (39, 46),
-    (39, 47),
+    (39, 28),
+    (39, 29),
+    (39, 30),
+    (39, 31),
+    (39, 32),
     (40, 0);
 
 --
@@ -187,27 +180,27 @@ VALUES
 
 INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
-    (2, 3, 4),
-    (20, 4, 1),
-    (24, 1, 4),
-    (27, 4, 2),
-    (28, 1, 1),
-    (29, 2, 2),
-    (30, 3, 4),
-    (34, 1, 1),
-    (37, 5, 5),
-    (38, 1, 2),
-    (40, 3, 1),
-    (41, 1, 6),
-    (43, 2, 3),
-    (44, 3, 1),
-    (45, 4, 2),
-    (46, 1, 3),
-    (47, 2, 4),
-    (48, 7, 8),
-    (50, 6, 7),
-    (51, 3, 2),
-    (52, 2, 3);
+    (16, 3, 4),
+    (17, 4, 1),
+    (18, 1, 4),
+    (19, 4, 2),
+    (20, 1, 1),
+    (21, 2, 2),
+    (22, 3, 4),
+    (23, 1, 1),
+    (24, 5, 5),
+    (25, 1, 2),
+    (26, 3, 1),
+    (27, 1, 6),
+    (28, 2, 3),
+    (29, 3, 1),
+    (30, 4, 2),
+    (31, 1, 3),
+    (32, 2, 4),
+    (33, 7, 8),
+    (34, 6, 7),
+    (35, 3, 2),
+    (36, 2, 3);
 
 --
 -- Dumping data for table `#__pages_closures`
@@ -215,28 +208,28 @@ VALUES
 
 INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
-    (2, 2, 0),
+    (16,16, 0),
+    (17, 17, 0),
+    (18, 18, 0),
+    (19, 19, 0),
     (20, 20, 0),
+    (21, 21, 0),
+    (22, 22, 0),
+    (23, 23, 0),
     (24, 24, 0),
+    (25, 25, 0),
+    (26, 26, 0),
     (27, 27, 0),
     (28, 28, 0),
     (29, 29, 0),
     (30, 30, 0),
+    (31, 31, 0),
+    (32, 32, 0),
+    (33, 33, 0),
     (34, 34, 0),
-    (37, 37, 0),
-    (38, 38, 0),
-    (40, 40, 0),
-    (41, 41, 0),
-    (43, 43, 0),
-    (44, 44, 0),
-    (45, 45, 0),
-    (46, 46, 0),
-    (47, 47, 0),
-    (48, 48, 0),
-    (50, 50, 0),
-    (51, 51, 0),
-    (52, 52, 0),
-    (27, 34, 1);
+    (35, 35, 0),
+    (36, 36, 0),
+    (19, 23, 1);
 
 --
 -- Dumping data for table `#__pages`
@@ -244,28 +237,27 @@ VALUES
 
 INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
-	(2, 1, 'Joomla! License', 'joomla-license', 'index.php?option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(20, 2, 'Your Details', 'your-details', 'index.php?option=com_user&view=user&task=edit', NULL, 'component', 1, 0, 0, 14, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, ''),
-	(24, 2, 'Logout', 'logout', 'index.php?option=com_user&view=login', NULL, 'component', 1, 0, 0, 14, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, ''),
-	(27, 1, 'Joomla! Overview', 'joomla-overview', 'index.php?option=com_articles&view=article&id=19', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(28, 3, 'About Joomla!', 'about-joomla', 'index.php?option=com_articles&view=article&id=25', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(29, 3, 'Features', 'features', 'index.php?option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(30, 3, 'The Community', 'the-community', 'index.php?option=com_articles&view=article&id=27', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(34, 1, 'What\'s New in 1.5?', 'what-is-new-in-1-5', 'index.php?option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(37, 1, 'More about Joomla!', 'more-about-joomla', 'index.php?option=com_articles&view=articles&layout=table&category=36', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\nshow_description=0\nshow_description_image=0\nshow_categories=1\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby=\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1'),
-	(38, 6, 'Content Layouts', 'content-layouts', 'index.php?option=com_articles&view=article&id=24', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(40, 6, 'Extensions', 'extensions', 'index.php?option=com_articles&view=article&id=26', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(41, 1, 'FAQ', 'faq', 'index.php?option=com_articles&view=articles&layout=table&category=35', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\nshow_description=0\nshow_description_image=0\nshow_categories=1\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby=\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1'),
-	(43, 6, 'Example Pages', 'example-pages', 'index.php?option=com_articles&view=article&id=43', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(44, 5, 'Section Blog', 'section-blog', 'index.php?option=com_articles&view=articles&category=35', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Section Blog layout (FAQ section)\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(45, 5, 'Section Table', 'section-table', 'index.php?option=com_articles&view=articles&layout=table&category=35', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Table Blog layout (FAQ section)\nshow_description=0\nshow_description_image=0\nshow_categories=1\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby=\nshow_noauth=0\nshow_title=1\nnlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(46, 5, 'Category Blog', 'categoryblog', 'index.php?option=com_articles&view=articles&category=31', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Category Blog layout (FAQs/General category)\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(47, 5, 'Category Table', 'category-table', 'index.php?option=com_articles&view=articles&layout=table&category=32', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Category Table layout (FAQs/Languages category)\nshow_headings=1\nshow_date=0\ndate_format=\nfilter=1\nfilter_type=title\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_sec=\nshow_pagination=1\nshow_pagination_limit=1\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(48, 1, 'Web Links', 'web-links', 'index.php?option=com_weblinks&view=categories', NULL, 'component', 1, 0, 0, 4, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'page_title=Weblinks\nimage=-1\nimage_align=right\nmenu_image=-1\nsecure=0\nshow_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n'),
-	(50, 1, 'The News', 'the-news', 'index.php?option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=The News\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
-	(51, 2, 'Submit an Article', 'submit-an-article', 'index.php?option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, ''),
-	(52, 2, 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', NULL, 'component', 0, 0, 0, 4, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, '');
-
+	(16, 1, 'Joomla! License', 'joomla-license', 'index.php?option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(17, 3, 'Your Details', 'your-details', 'index.php?option=com_user&view=user&task=edit', NULL, 'component', 1, 0, 0, 14, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, ''),
+	(18, 3, 'Logout', 'logout', 'index.php?option=com_user&view=login', NULL, 'component', 1, 0, 0, 14, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, ''),
+	(19, 1, 'Joomla! Overview', 'joomla-overview', 'index.php?option=com_articles&view=article&id=19', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(20, 4, 'About Joomla!', 'about-joomla', 'index.php?option=com_articles&view=article&id=25', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(21, 4, 'Features', 'features', 'index.php?option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(22, 4, 'The Community', 'the-community', 'index.php?option=com_articles&view=article&id=27', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(23, 1, 'What\'s New in 1.5?', 'what-is-new-in-1-5', 'index.php?option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(24, 1, 'More about Joomla!', 'more-about-joomla', 'index.php?option=com_articles&view=articles&layout=table&category=36', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\nshow_description=0\nshow_description_image=0\nshow_categories=1\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby=\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1'),
+	(25, 6, 'Content Layouts', 'content-layouts', 'index.php?option=com_articles&view=article&id=24', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(26, 6, 'Extensions', 'extensions', 'index.php?option=com_articles&view=article&id=26', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(27, 1, 'FAQ', 'faq', 'index.php?option=com_articles&view=articles&layout=table&category=35', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\nshow_description=0\nshow_description_image=0\nshow_categories=1\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby=\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1'),
+	(28, 6, 'Example Pages', 'example-pages', 'index.php?option=com_articles&view=article&id=43', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'menu_image=-1\nsecure=0\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(29, 5, 'Section Blog', 'section-blog', 'index.php?option=com_articles&view=articles&category=35', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Section Blog layout (FAQ section)\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(30, 5, 'Section Table', 'section-table', 'index.php?option=com_articles&view=articles&layout=table&category=35', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Table Blog layout (FAQ section)\nshow_description=0\nshow_description_image=0\nshow_categories=1\nshow_empty_categories=0\nshow_cat_num_articles=1\nshow_category_description=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby=\nshow_noauth=0\nshow_title=1\nnlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(31, 5, 'Category Blog', 'categoryblog', 'index.php?option=com_articles&view=articles&category=31', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Category Blog layout (FAQs/General category)\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(32, 5, 'Category Table', 'category-table', 'index.php?option=com_articles&view=articles&layout=table&category=32', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=Example of Category Table layout (FAQs/Languages category)\nshow_headings=1\nshow_date=0\ndate_format=\nfilter=1\nfilter_type=title\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_sec=\nshow_pagination=1\nshow_pagination_limit=1\nshow_noauth=0\nshow_title=1\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(33, 1, 'Web Links', 'web-links', 'index.php?option=com_weblinks&view=categories', NULL, 'component', 1, 0, 0, 4, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'page_title=Weblinks\nimage=-1\nimage_align=right\nmenu_image=-1\nsecure=0\nshow_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n'),
+	(34, 1, 'The News', 'the-news', 'index.php?option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 0, 'show_page_title=1\npage_title=The News\nshow_description=0\nshow_description_image=0\nnum_leading_articles=1\nnum_intro_articles=4\nnum_columns=2\nnum_links=4\nshow_title=1\npageclass_sfx=\nmenu_image=-1\nsecure=0\norderby_pri=\norderby_sec=\nshow_pagination=2\nshow_pagination_results=1\nshow_noauth=0\nlink_titles=0\nshow_intro=1\nshow_section=0\nlink_section=0\nshow_category=0\nlink_category=0\nshow_author=1\nshow_create_date=1\nshow_modify_date=1\nshow_item_navigation=0\nshow_readmore=1\nshow_vote=0\nshow_icons=1\nshow_pdf_icon=1\nshow_print_icon=1\nshow_email_icon=1\nshow_hits=1\n\n'),
+	(35, 3, 'Submit an Article', 'submit-an-article', 'index.php?option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, ''),
+	(36, 3, 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', NULL, 'component', 0, 0, 0, 4, NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, '');
 
 --
 -- Dumping data for table `#__weblinks`
