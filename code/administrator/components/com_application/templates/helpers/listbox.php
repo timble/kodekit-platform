@@ -21,6 +21,7 @@ class ComApplicationTemplateHelperListbox extends ComDefaultTemplateHelperListbo
     {
         $config = new KConfig($config);
         $config->append(array(
+            'name'     => 'application',
             'deselect' => true,
             'prompt'   => '- Select -',
         ));
