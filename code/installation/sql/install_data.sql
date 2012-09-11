@@ -52,9 +52,9 @@ VALUES
 -- Dumping data for table `#__pages_menus`
 --
 
-INSERT INTO `#__pages_menus` (`pages_menu_id`, `title`, `slug`, `description`)
+INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`)
 VALUES
-    (1, 'Main Menu', 'mainmenu', 'The main menu for the site');
+    (1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site');
 
 --
 -- Dumping data for table `#__pages_modules_pages`

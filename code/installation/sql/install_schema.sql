@@ -330,10 +330,12 @@ CREATE TABLE `#__pages_closures` (
 
 CREATE TABLE `#__pages_menus` (
   `pages_menu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `application` VARCHAR(50) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
   `description` VARCHAR(255),
-  PRIMARY KEY (`pages_menu_id`)
+  PRIMARY KEY (`pages_menu_id`),
+  INDEX `ix_application` (`application`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

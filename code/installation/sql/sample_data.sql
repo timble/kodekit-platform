@@ -120,12 +120,12 @@ VALUES
 -- Dumping data for table `#__pages_menus`
 --
 
-INSERT INTO `#__pages_menus` (`pages_menu_id`, `title`, `slug`, `description`)
+INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`)
 VALUES
-    (2, 'User Menu', 'usermenu', 'A Menu for logged in Users'),
-    (3, 'Top Menu', 'topmenu', 'Top level navigation'),
-    (5, 'Example Pages', 'ExamplePages', 'Example Pages'),
-    (6, 'Key Concepts', 'keyconcepts', 'This describes some critical information for new Users.');
+    (2, 'site', 'User Menu', 'usermenu', 'A Menu for logged in Users'),
+    (3, 'site', 'Top Menu', 'topmenu', 'Top level navigation'),
+    (5, 'site', 'Example Pages', 'ExamplePages', 'Example Pages'),
+    (6, 'site', 'Key Concepts', 'keyconcepts', 'This describes some critical information for new Users.');
 
 --
 -- Dumping data for table `#__modules`
