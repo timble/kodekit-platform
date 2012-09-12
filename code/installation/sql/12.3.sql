@@ -549,6 +549,12 @@ VALUES
 
 # --------------------------------------------------------
 
+ALTER TABLE `#__files_containers` ADD COLUMN `title` VARCHAR(250) NOT NULL AFTER `files_container_id`;
+ALTER TABLE `#__files_containers` ADD COLUMN `slug` VARCHAR(250) NOT NULL AFTER `title`;
+ALTER TABLE `#__files_containers` ADD UNIQUE (`slug`);
+
+# --------------------------------------------------------
+
 -- Remove access level 'special' by changing these items to unpublished registered status
 UPDATE `#__articles`      SET `access` = '1', `published` = '0' WHERE `access` = '2';
 UPDATE `#__categories`    SET `access` = '1', `published` = '0' WHERE `access` = '2';
