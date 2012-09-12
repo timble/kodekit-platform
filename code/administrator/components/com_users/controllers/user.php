@@ -43,7 +43,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $data = parent::_actionEdit($context);
         
         if ($context->status == KHttpResponse::RESET_CONTENT) {
-            JFactory::getUser($data->id)->bind($data->toArray());
+            JFactory::getUser($data->id)->setData($data->getData());
         }
         
         return $data;
