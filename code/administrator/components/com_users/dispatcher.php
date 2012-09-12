@@ -19,6 +19,13 @@
  */
 class ComUsersDispatcher extends ComDefaultDispatcher
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+        
+        require_once __DIR__.'/legacy.php';
+    }
+    
     protected function _initialize(KConfig $config)
     {  
         //Force the view to prevent a redirect
