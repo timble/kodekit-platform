@@ -83,7 +83,7 @@
                     <? endif; ?>
                 </td>
                 <td align="center">
-                    <?= @helper('grid.enable', array('row' => $page)) ?>
+                    <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>

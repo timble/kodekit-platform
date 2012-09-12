@@ -28,9 +28,6 @@ class ComContactsDatabaseTableContacts extends KDatabaseTableDefault
             	'creatable', 'modifiable', 'orderable', 'lockable', 
                 'sluggable' => array('columns' => array('name'))
             ),
-            'column_map'=> array(
-                'enabled' 	=> 'published',
-            ),
              'filters' => array(
                 'params'    => 'ini'
             )

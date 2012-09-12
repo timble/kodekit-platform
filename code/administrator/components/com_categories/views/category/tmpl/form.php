@@ -20,7 +20,7 @@
 
 <form action="" method="post" class="-koowa-form" id="category-form">
     <input type="hidden" name="access" value="0" />
-    <input type="hidden" name="enabled" value="0" />
+    <input type="hidden" name="published" value="0" />
     <input type="hidden" name="table" value="<?= $state->table ?>" />
     
     <div class="form-body">
@@ -56,9 +56,9 @@
 	    	<fieldset class="form-horizontal">
 	    		<legend><?= @text( 'Publish' ); ?></legend>
 	    		<div class="control-group">
-	    		    <label class="control-label" for="enabled"><?= @text('Published') ?></label>
+	    		    <label class="control-label" for="published"><?= @text('Published') ?></label>
 	    		    <div class="controls">
-	    		        <input type="checkbox" name="enabled" value="1" <?= $category->enabled ? 'checked="checked"' : '' ?> />
+	    		        <input type="checkbox" name="published" value="1" <?= $category->published ? 'checked="checked"' : '' ?> />
 	    		    </div>
 	    		</div>
 	    		<div class="control-group">

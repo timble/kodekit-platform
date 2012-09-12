@@ -21,7 +21,7 @@
 <form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
 	<input type="hidden" name="access" value="0" />
-	<input type="hidden" name="enabled" value="0" />
+	<input type="hidden" name="published" value="0" />
 	
 	<div class="form-body">
 		<div class="title">
@@ -118,9 +118,9 @@
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Publish'); ?></legend>
 				<div class="control-group">
-				    <label class="control-label" for="enabled"><?= @text( 'Published' ); ?></label>
+				    <label class="control-label" for="published"><?= @text( 'Published' ); ?></label>
 				    <div class="controls">
-				        <input type="checkbox" name="enabled" value="1" <?= $contact->enabled ? 'checked="checked"' : '' ?> />
+				        <input type="checkbox" name="published" value="1" <?= $contact->published ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">

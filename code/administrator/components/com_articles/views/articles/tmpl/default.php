@@ -91,7 +91,7 @@
                      <? endif; ?>
                 </td>
                 <td align="center">
-                    <?= @helper('grid.enable', array('row' => $article)) ?>
+                    <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
                 </td>
                 <td>
                     <?= $article->category_title ?>

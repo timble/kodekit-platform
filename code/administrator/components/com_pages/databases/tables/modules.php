@@ -24,9 +24,6 @@ class ComPagesDatabaseTableModules extends KDatabaseTableDefault
 		
         $config->append(array(
             'behaviors'  => array('creatable', 'modifiable', 'lockable', 'orderable'),
-            'column_map' => array(
-                'enabled'      => 'published',
-                ),
             'filters' => array(
                 'content' => array('html', 'tidy'),
                 'params'  => 'ini' 

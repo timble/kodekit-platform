@@ -75,7 +75,7 @@
                          <? endif; ?>
                     </td>
                     <td align="center">
-                        <?= @helper( 'grid.enable' , array('row' => $category)); ?>
+                        <?= @helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
                     </td>
                     <td class="order">
                         <?= @helper( 'grid.order' , array('row' => $category, 'total' => $category->order_total )); ?>

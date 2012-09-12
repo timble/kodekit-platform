@@ -24,10 +24,7 @@ class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
             'behaviors'  => array(
             	'creatable', 'modifiable', 'lockable', 'sluggable', 'cascadable', 'nestable',
             	'orderable'  => array('parent_column' => 'parent_id'),
-            ),
-            'column_map' => array(
-                'enabled'      => 'published'
-                ),
+            )
             ));
 
         parent::_initialize($config);

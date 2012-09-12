@@ -69,7 +69,7 @@
 					<? endif; ?>
 				</td>
 				<td align="center" width="15px">
-					<?= @helper('grid.enable', array('row' => $module)) ?>
+					<?= @helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
 				</td>
 				<td class="order">
 					<?= @helper('grid.order', array('row'=> $module))?>

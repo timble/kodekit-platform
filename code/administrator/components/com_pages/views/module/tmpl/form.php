@@ -15,7 +15,7 @@
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />
-	<input type="hidden" name="enabled" value="0" />
+	<input type="hidden" name="published" value="0" />
 	<input type="hidden" name="showtitle" value="0" />
 	<input type="hidden" name="name" value="<?= $module->name ?>" />
 	<input type="hidden" name="application" value="<?= $module->application ?>" />
@@ -78,9 +78,9 @@
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Publish') ?></legend>
 				<div class="control-group">
-				    <label class="control-label" for="enabled"><?= @text('Published') ?></label>
+				    <label class="control-label" for="published"><?= @text('Published') ?></label>
 				    <div class="controls">
-				        <input type="checkbox" name="enabled" value="1" <?= $module->enabled ? 'checked="checked"' : '' ?> />
+				        <input type="checkbox" name="published" value="1" <?= $module->published ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">

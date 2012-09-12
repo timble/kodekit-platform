@@ -25,9 +25,6 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
             	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', 'revisable', 'publishable',
                 'com://admin/languages.database.behavior.translatable'
             ),
-            'column_map' => array(
-                'enabled'          => 'published'
-            ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),
                 'fulltext'    => array('html', 'tidy'),

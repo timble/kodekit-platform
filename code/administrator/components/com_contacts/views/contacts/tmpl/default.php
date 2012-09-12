@@ -73,7 +73,7 @@
 	   			<? endif; ?>
 			</td>
 			<td align="center">
-				<?= @helper('grid.enable', array('row' => $contact)); ?>
+				<?= @helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
             </td>
             <td>
                 <?= $contact->category_title ?>
