@@ -64,7 +64,7 @@
 				<a href="<?= @route( 'view=weblink&id='. $weblink->id ); ?>"><?= @escape($weblink->title); ?></a>
 			</td>
 			<td align="center">
-				<?= @helper('grid.enable', array('row' => $weblink)) ?>
+				<?= @helper('grid.enable', array('row' => $weblink, 'field' => 'published')) ?>
 			</td>
 			<td>
 			    <?= $weblink->category_title ?>

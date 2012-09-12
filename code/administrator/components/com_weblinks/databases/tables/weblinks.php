@@ -27,9 +27,6 @@ class ComWeblinksDatabaseTableWeblinks extends KDatabaseTableDefault
             	'creatable', 'modifiable', 'lockable', 'sluggable',
         		'com://admin/categories.database.behavior.orderable' => array('parent_column' => 'categories_category_id'),
             ),
-        	'column_map'   =>  array(
-            	'enabled'   => 'published'
-              ),
           	'filters' => array(
              	'description' => array('html', 'tidy'),
                	'url'         => array('url'),

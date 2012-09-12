@@ -20,7 +20,7 @@
 -->
 <form action="" method="post" id="weblink-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $weblink->id ?>" />
-	<input type="hidden" name="enabled" value="0" />
+	<input type="hidden" name="published" value="0" />
 	
 	<div class="form-body">
 		<div class="title">
@@ -50,9 +50,9 @@
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Publish' ); ?></legend>
 				<div class="control-group">
-				    <label class="control-label" for=""><?= @text( 'Published' ) ?></label>
+				    <label class="control-label" for="published"><?= @text( 'Published' ) ?></label>
 				    <div class="controls">
-				        <input type="checkbox" name="enabled" value="1" <?= $weblink->enabled ? 'checked="checked"' : '' ?> />
+				        <input type="checkbox" name="published" value="1" <?= $weblink->published ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">
