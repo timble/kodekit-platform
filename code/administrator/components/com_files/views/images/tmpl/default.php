@@ -42,7 +42,7 @@ window.addEvent('domready', function() {
 	};
 	var insertImage = function() {
 		var image = getImageString();
-		window.parent.jInsertEditorText(image, Files.app.editor);
+		window.parent.Editors.get(Files.app.editor).insertText(image);
 	};
 
 	document.id('insert-image').addEvent('click', function(e) {
