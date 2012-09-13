@@ -16,6 +16,10 @@
 		<param name="link" type="text" default="" label="Link" description="PARAMLINK" />
 		<param name="width" type="text" default="" label="Width (px)" description="PARAMWIDTHPX" />
 		<param name="height" type="text" default="" label="Height (px)" description="PARAMHEIGHTPX" />
+		<param name="show_title" type="radio" default="0" label="Show the module title" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 	</params>
 	<params group="advanced">
 		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">

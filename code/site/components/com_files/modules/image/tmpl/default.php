@@ -9,12 +9,14 @@
  */
 ?>
 
-<div align="center">
-    <? if ($link) : ?>
-    <a href="<?= $link; ?>" target="_self">
-    <? endif; ?>
-	    <?= JHTML::_('image', $image->folder.'/'.$image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
-    <? if ($link) : ?>
-    </a>
-    <? endif; ?>
-</div>
+<? if($show_title) : ?>
+<h3><?= $module->title ?></h3>
+<? endif ?>
+
+<? if ($link) : ?>
+<a href="<?= $link; ?>" target="_self">
+<? endif; ?>
+    <?= JHTML::_('image', $image->folder.'/'.$image->name, $image->name, array('width' => $image->width, 'height' => $image->height)); ?>
+<? if ($link) : ?>
+</a>
+<? endif; ?>

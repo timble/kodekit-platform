@@ -24,6 +24,8 @@ class ComFilesModuleImageHtml extends ComDefaultModuleDefaultHtml
 
         $folder	= $this-getFolder($this->module->params);
         $images	= $this->getImages($this->module->params, $folder);
+        
+        $this->assign('show_title', $this->module->params->get('show_title', false));
 
         if (count($images))
         {
