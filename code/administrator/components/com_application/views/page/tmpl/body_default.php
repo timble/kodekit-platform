@@ -20,7 +20,7 @@
 <body class="<?= $option ?>">
 <div id="container" class="box-column">
     <div id="panel-header">
-        <?= @helper('menubar.render', array('menubar' => $menubar, 'attribs' => array('id' => 'menu')))?>
+        <?= @helper('menubar.render', array('attribs' => array('id' => 'menu')))?>
         <?= @helper('toolbar.render', array('toolbar' => $toolbar, 'attribs' => array('id' => 'statusmenu')))?>
 	</div>
 
