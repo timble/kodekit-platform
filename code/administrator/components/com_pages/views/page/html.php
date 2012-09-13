@@ -41,7 +41,7 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
 		
         // Get available and assigned modules.
         $available = $this->getService('com://admin/pages.model.modules')
-            ->enabled(true)
+            ->published(true)
             ->application('site')
             ->getList();
 

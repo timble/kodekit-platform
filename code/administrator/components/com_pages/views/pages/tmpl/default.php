@@ -34,7 +34,7 @@
                     <?= @helper('grid.sort', array('column' => 'title')); ?>
                 </th>
                 <th width="5">
-                    <?= @helper('grid.sort', array('column' => 'enabled' , 'title' => 'Published')); ?>
+                    <?= @helper('grid.sort', array('column' => 'published' , 'title' => 'Published')); ?>
                 </th>
                 <th width="80">
                     <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>

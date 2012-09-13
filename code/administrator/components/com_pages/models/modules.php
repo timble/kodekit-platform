@@ -26,7 +26,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
             ->insert('application', 'cmd', 'site')
             ->insert('component'  , 'int')
             ->insert('sort'  	  , 'cmd', array('position'))
-            ->insert('enabled'	  , 'boolean')
+            ->insert('published'  , 'boolean')
             ->insert('position'   , 'cmd')
             ->insert('installed'  , 'boolean', false)
             ->insert('access'     , 'int')
@@ -61,8 +61,8 @@ class ComPagesModelModules extends ComDefaultModelDefault
             $query->where('tbl.position = :position')->bind(array('position' => $state->position));
         }
 
-        if(is_bool($state->enabled)) {
-            $query->where('tbl.published = :enabled')->bind(array('enabled' => (int) $state->enabled));
+        if(is_bool($state->published)) {
+            $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
         }
 
         if($state->application) {
@@ -74,7 +74,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
         }
 
         if (is_numeric($state->access)) {
-            $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
+            $query->where('tbl.access = :access')->bind(array('access' => $state->access));
         }
 
         if (is_numeric($state->page)) {

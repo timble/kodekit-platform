@@ -46,7 +46,7 @@ class ComPagesDatabaseTableModules extends KDatabaseTableDefault
 		$defaults = parent::getDefaults();
 		
 		$defaults['position']		= 'left';
-		$defaults['enabled']		= 1;
+		$defaults['published']		= 1;
 		$defaults['description']	= '';
 	     
 		return $defaults;

@@ -32,7 +32,7 @@
 					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
 				</th>
 				<th nowrap="nowrap" width="7%">
-					<?= @helper('grid.sort', array('column' => 'enabled' , 'title' => 'Published')) ?>
+					<?= @helper('grid.sort', array('column' => 'published' , 'title' => 'Published')) ?>
 				</th>
 				<th width="80" nowrap="nowrap">
 					<?= @helper('grid.sort', array('column' => 'ordering' , 'title' => 'Order')) ?>
