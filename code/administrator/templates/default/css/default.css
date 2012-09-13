@@ -3507,7 +3507,8 @@ a.btn {
   border-right: 1px solid #555555;
   white-space: nowrap;
 }
-#panel-header ul li a:hover {
+#panel-header ul li a:hover,
+#panel-header ul li span:hover {
   cursor: default;
 }
 #panel-header ul li ul {
