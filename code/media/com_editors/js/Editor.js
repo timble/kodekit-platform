@@ -213,9 +213,9 @@ var Editors = new Hash,
 		});	
 		
 		this.getEditor().addCommand('image', function() {
-			SqueezeBox.open((Editor.baseurl ? Editor.baseurl : '')+'?option=com_files&container=files-files&view=images&tmpl=component&e_name='+this.identifier, {handler: 'iframe', size: {x: 570, y: 400}});
+			SqueezeBox.open((Editor.baseurl ? Editor.baseurl : '')+'?option=com_files&container=files-files&view=images&tmpl=dialog&e_name='+this.identifier, {handler: 'iframe', size: {x: 770, y: 500}});
 		}.bind(this));
-		
+
 		this.getEditor().addButton('readmore', {
 			title : 'Read more…',
 			image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/more.gif',
