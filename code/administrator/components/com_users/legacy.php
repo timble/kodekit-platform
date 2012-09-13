@@ -15,6 +15,12 @@
  * @link        https://github.com/ircmaxell/password_compat
  */
 
+if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+	trigger_error("The Password Compatibility Library requires PHP >= 5.3.7", E_USER_WARNING);
+	// Prevent defining the functions
+	return;
+}
+
 defined('PASSWORD_BCRYPT') or define('PASSWORD_BCRYPT', 1);
 
 defined('PASSWORD_DEFAULT') or define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
@@ -95,7 +101,7 @@ if (!function_exists('password_hash')) {
 
 		$ret = crypt($password, $hash);
 
-		if (!is_string($ret) || strlen($ret) < 13) {
+		if (!is_string($ret) || strlen($ret) <= 13) {
 			return false;
 		}
 
@@ -180,7 +186,7 @@ if (!function_exists('password_verify')) {
 			return false;
 		}
 		$ret = crypt($password, $hash);
-		if (!is_string($ret) || strlen($ret) != strlen($hash)) {
+		if (!is_string($ret) || strlen($ret) != strlen($hash) || strlen($ret) <= 13) {
 			return false;
 		}
 
