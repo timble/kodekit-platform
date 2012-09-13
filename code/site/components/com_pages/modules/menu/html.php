@@ -34,6 +34,8 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
             }
         }
         
+        $this->assign('show_title', $this->module->params->get('show_title', false));
+        
         return parent::display();
     }
 }

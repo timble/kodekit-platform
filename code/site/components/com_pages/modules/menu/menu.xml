@@ -11,6 +11,10 @@
     <description>This module will display a menu</description>
 	<params addpath="/administrator/components/com_pages/elements">
 		<param name="page_id" type="menu" default="" label="Menu" description="" />
+		<param name="show_title" type="radio" default="0" label="Show the module title" description="">
+			<option value="0">No</option>
+			<option value="1">Yes</option>
+		</param>
 		<param name="menu_style" type="list" default="list" label="Menu Style" description="The menu style">
 			<option value="list">List</option>
 		</param>
