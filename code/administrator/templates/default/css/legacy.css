@@ -3475,8 +3475,8 @@ a.btn {
   height: 18px;
 }
 /* ---- Basic menu styles ------------------- */
-#panel-header ul#menu,
-#panel-header #menu li,
+#panel-header ul.nav,
+#panel-header ul.nav li,
 #panel-header ul#statusmenu,
 #panel-header #statusmenu li {
   margin: 0;
@@ -3514,21 +3514,21 @@ a.btn {
   visibility: visible;
   left: 100%;
 }
-#panel-header ul#menu {
+#panel-header ul.nav {
   position: relative;
   z-index: 100;
 }
 /* ---- Menu layout -------------------------- */
-#panel-header > ul {
+#panel-header ul {
   /* 1 level - hover */
 
 }
-#panel-header > ul li {
+#panel-header ul li {
   /* This is for fixing a WebKit quirk, more info: https://nooku.assembla.com/spaces/nooku-server/tickets/159 */
 
 }
-#panel-header > ul li a,
-#panel-header > ul li span {
+#panel-header ul li a,
+#panel-header ul li span {
   padding: 0 18px;
   color: #626262;
   line-height: 30px;
@@ -3539,10 +3539,10 @@ a.btn {
   background-image: none !important;
   border-right: 1px solid #555555;
 }
-#panel-header > ul li a:hover {
+#panel-header ul li a:hover {
   cursor: default;
 }
-#panel-header > ul li ul {
+#panel-header ul li ul {
   -webkit-box-shadow: rgba(0, 0, 0, .4) 0px 8px 13px, rgba(0, 0, 0, .3) 0 0 1px;
   -moz-box-shadow: rgba(0, 0, 0, .4) 0px 8px 13px, rgba(0, 0, 0, .3) 0 0 1px;
   box-shadow: rgba(0, 0, 0, .4) 0px 8px 13px, rgba(0, 0, 0, .3) 0 0 1px;
@@ -3552,37 +3552,37 @@ a.btn {
   background-color: #ffffff;
   padding: 4px 0;
 }
-#panel-header > ul li ul li.separator {
+#panel-header ul li ul li.separator {
   background: #DDE1E6;
   height: 1px;
   margin: 4px 0 !important;
 }
-#panel-header > ul li ul li.node {
+#panel-header ul li ul li.node {
   background: transparent url(../images/arrow-right.png) no-repeat 95% 50%;
 }
-#panel-header > ul li ul li.node > a {
+#panel-header ul li ul li.node > a {
   background-image: url(../images/arrow-right-active.png) !important;
   background-repeat: no-repeat;
   background-position: 195% 50%;
 }
-#panel-header > ul li ul li.node:hover > a {
+#panel-header ul li ul li.node:hover > a {
   background-position: 95% 50%;
 }
-#panel-header > ul li ul li {
+#panel-header ul li ul li {
   border: 0;
   display: block;
   float: none;
   width: 100%;
 }
-#panel-header > ul li ul li a {
+#panel-header ul li ul li a {
   padding-left: 15px;
   padding-right: 30px;
   line-height: 1em;
 }
-#panel-header > ul:not(.disabled) li a {
+#panel-header ul:not(.disabled) li a {
   color: #ffffff;
 }
-#panel-header > ul:not(.disabled) > li:hover {
+#panel-header ul:not(.disabled) > li:hover {
   background-color: #3457f2;
   background-image: -moz-linear-gradient(top, #4f6ef6, #0c36ec);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4f6ef6), to(#0c36ec));
@@ -3594,21 +3594,21 @@ a.btn {
   /* 2 level - normal */
 
 }
-#panel-header > ul:not(.disabled) > li:hover ul {
+#panel-header ul:not(.disabled) > li:hover ul {
   /* 2 level - hover */
 
 }
-#panel-header > ul:not(.disabled) > li:hover ul li {
+#panel-header ul:not(.disabled) > li:hover ul li {
   border-top: 1px solid #ffffff;
 }
-#panel-header > ul:not(.disabled) > li:hover ul li a {
+#panel-header ul:not(.disabled) > li:hover ul li a {
   color: #333333;
   background-color: transparent;
   border: 0 none;
   padding-top: 0.75em;
   padding-bottom: 0.75em;
 }
-#panel-header > ul:not(.disabled) > li:hover ul li:hover:not(.separator) {
+#panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) {
   background-color: #3457f2;
   background-image: -moz-linear-gradient(top, #4f6ef6, #0c36ec);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4f6ef6), to(#0c36ec));
@@ -3621,10 +3621,10 @@ a.btn {
   /* 3 level - normal */
 
 }
-#panel-header > ul:not(.disabled) > li:hover ul li:hover:not(.separator) a {
+#panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) a {
   color: #ffffff;
 }
-#panel-header > ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul {
+#panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul {
   margin-top: -5px;
   z-index: 1;
   -webkit-border-radius: 0 5px 5px 5px;
@@ -3633,12 +3633,12 @@ a.btn {
   /* 3 level - hover */
 
 }
-#panel-header > ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li a {
+#panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li a {
   color: #333333;
   background-color: transparent;
   border: 0 none;
 }
-#panel-header > ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li:hover a {
+#panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li:hover a {
   color: #ffffff;
 }
 #panel-header ul.disabled span.nolink {

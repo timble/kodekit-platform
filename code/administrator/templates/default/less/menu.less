@@ -2,7 +2,7 @@
 
 #panel-header {
 	// Reset
-	ul#menu, #menu li, ul#statusmenu, #statusmenu li { margin: 0; padding: 0; list-style: none; }
+	ul.nav, ul.nav li, ul#statusmenu, #statusmenu li { margin: 0; padding: 0; list-style: none; }
 	
 	li    { float:left; position:relative; display: inline; }
 	li a  { display:block; white-space: nowrap; font-weight: bold; }
@@ -15,7 +15,7 @@
 	li:hover ul li ul			{ visibility: hidden;  }
 	li:hover li:hover ul		{ visibility: visible;  left: 100%; }
 	
-	ul#menu {
+	ul.nav {
 		position:relative; z-index: 100;
 	}
 }
@@ -24,7 +24,7 @@
 /* ---- Menu layout -------------------------- */
 
 #panel-header {
-	> ul {
+	ul {
 		li {
 			a,
 			span {
