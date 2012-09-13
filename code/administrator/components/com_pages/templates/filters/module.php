@@ -73,7 +73,6 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'content'    => $matches[2][$key],
                     'position'   => $attributes['position'],
                     'params'     => $attributes['params'],
-                    'showtitle'  => !empty($attributes['title']),
                     'title'      => $attributes['title'],
                     'name'       => 'mod_default',
                     'identifier' => $this->getIdentifier('com://admin/default.module.default.html'),
