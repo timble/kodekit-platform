@@ -372,7 +372,6 @@ CREATE TABLE `#__pages_modules` (
   `published` tinyint(1) NOT NULL DEFAULT '0',
   `name` varchar(50) NOT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `params` text NOT NULL,
   `extensions_component_id` INT UNSIGNED,
   `application` varchar(50) NOT NULL,

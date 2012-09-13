@@ -129,18 +129,18 @@ VALUES
 -- Dumping data for table `#__modules`
 --
 
-INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `showtitle`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
-	(17, 'User Menu', '', 18, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, 'menu_id=3\ncache=1', 25, 'site'),
-	(18, 'Login Form', '', 21, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 1, 'greeting=1\nname=0', 31, 'site'),
-	(19, 'Latest News', '', 19, 'user1', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'cache=1', 20, 'site'),
-	(25, 'Newsflash', '', 9, 'top', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 1, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\r\n', 20, 'site'),
-	(27, 'Search', '', 10, 'user4', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 0, 'cache=1', 15, 'site'),
-	(28, 'Random Image', '', 23, 'right', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_image', 0, 1, '', 19, 'site'),
-	(29, 'Top Menu', '', 11, 'user3', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 0, 'cache=1\nmenu_id=4\nmenu_style=list_flat\nmenu_images=n\nmenu_images_align=left\nexpand_menu=n\nclass_sfx=-nav\n', 25, 'site'),
-	(35, 'Breadcrumbs', '', 1, 'breadcrumb', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 1, 'showHome=1\nhomeText=Home\nshowLast=1\nseparator=\ncache=0\n\n', 25, 'site'),
-	(39, 'Example Pages', '', 20, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=5\nmenu_style=list_flat\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 25, 'site'),
-	(40, 'Key Concepts', '', 17, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 1, 'cache=1\nclass_sfx=\nmenu_id=6\nmenu_style=list\nstartLevel=0\nendLevel=0\nshowAllChildren=0\nfull_active_id=0\nmenu_images=0\nmenu_images_align=0\nexpand_menu=0\nactivate_parent=0\nspacer=\nend_spacer=\n\n', 25, 'site');
+	(17, 'User Menu', '', 18, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1', 25, 'site'),
+	(18, 'Login Form', '', 21, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
+	(19, 'Latest News', '', 19, 'user1', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_title=1', 20, 'site'),
+	(25, 'Newsflash', '', 9, 'top', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\nshow_title=1\r\n', 20, 'site'),
+	(27, 'Search', '', 10, 'user4', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, '', 15, 'site'),
+	(28, 'Random Image', '', 23, 'right', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_image', 0, '', 19, 'site'),
+	(29, 'Top Menu', '', 11, 'user3', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 'menu_id=4\nshow_title=0\nexpand_menu=n\n', 25, 'site'),
+	(35, 'Breadcrumbs', '', 1, 'breadcrumb', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1\n\n', 25, 'site'),
+	(39, 'Example Pages', '', 20, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 'menu_id=5\nshow_title=1', 25, 'site'),
+	(40, 'Key Concepts', '', 17, 'left', NULL, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 'menu_id=6\nshow_title=1\n', 25, 'site');
 
 --
 -- Dumping data for table `#__pages_modules`
