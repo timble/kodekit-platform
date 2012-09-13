@@ -35,7 +35,7 @@ UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_mainm
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_breadcrumbs';
 UPDATE `#__modules` SET `extensions_component_id` = 28 WHERE `name` = 'mod_custom';
 
-UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_breadcrumbs', 'mod_image', 'mod_login', 'mod_menu');  
+UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_image', 'mod_login', 'mod_menu');  
 ALTER TABLE `#__modules` DROP `showtitle`;
 
 # --------------------------------------------------------
