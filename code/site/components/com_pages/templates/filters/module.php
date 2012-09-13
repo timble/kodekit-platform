@@ -155,7 +155,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                 ->application('site')
                 ->page($page->id)
                 ->published(true)
-                ->access(JFactory::getUser()->aid)
+                ->access((int) JFactory::getUser()->aid)
                 ->getList();
 
             $this->_modules = $modules;
