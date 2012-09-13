@@ -24,7 +24,7 @@ class ComApplicationViewHtml extends KViewHtml
 
         //@TODO : Remove this once media is in the resources/media folder
         $this->getTemplate()->getFilter('alias')->addAlias(
-            array($this->_mediaurl.'/com_application/' => (string) KRequest::base().'site/templates/'.$this->getService('application')->getTemplate().'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
+            array($this->_mediaurl.'/com_application/' => (string) KRequest::base().'/site/templates/'.$this->getService('application')->getTemplate().'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
     }
 
