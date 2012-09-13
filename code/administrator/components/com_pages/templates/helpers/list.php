@@ -14,8 +14,10 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
         $first      = true;
         $last_depth = 0;
         
-        $attribs     = $this->_buildAttributes($config->attribs);
-        $application = $this->getService('application')->getIdentifier()->application;
+        $disabled = $this->getService('component')->getController()->getView()->getLayout() == 'form';
+        if($disabled) {
+            $config->append(array('attribs' => array('class' => array('disabled'))));
+        }
         
         foreach($config->pages as $page)
         {
@@ -27,7 +29,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
         
             if($depth > $last_depth)
             {
-                $result .= $first ? '<ul '.$attribs.'>' : '<ul>';
+                $result .= $first ? '<ul '.$this->_buildAttributes($config->attribs).'>' : '<ul>';
                 
                 $last_depth = $depth;
                 $first      = false;
@@ -47,33 +49,33 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
             switch($page->type)
             {
                 case 'component':
-                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->link->getQuery().($application == 'site' ? '&Itemid='.$page->id : ''), 'escape' => true));
-    				$result .= '<a href="'.(string) $link.'">';
+                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->link->getQuery(), 'escape' => true));
+    				$result .= $disabled ? '<span class="nolink">' : '<a href="'.(string) $link.'">';
                     $result .= $page->title;
-                    $result .= '</a>';
+                    $result .= $disabled ? '</span>' : '</a>';
     				break;
     				
     		    case 'menulink':
     		        $page_linked = $this->getService('application.pages')->getPage($page->link->query['Itemid']);
-    		        $result .= '<a href="'.$page_linked->link.'">';
+    		        $result .= $disabled ? '<span class="nolink">' : '<a href="'.$page_linked->link.'">';
                     $result .= $page->title;
-                    $result .= '</a>';
+                    $result .= $disabled ? '</span>' : '</a>';
     				break;
     				
                 case 'separator':
-    				$result .= '<span class="separator">'.$page->title.'</span>';
+    				$result .= '<span class="separator '.($disabled ? 'nolink' : '').'">'.$page->title.'</span>';
     				break;
     
     			case 'url':
-    				$result .= '<a href="'.$page->link.'">';
+    				$result .= $disabled ? '<span class="nolink">' : '<a href="'.$page->link.'">';
                     $result .= $page->title;
-                    $result .= '</a>';
+                    $result .= $disabled ? '</span>' : '</a>';
     				break;
     				
     	        case 'redirect':
-    	            $result .= '<a href="'.$page->route.'">';
+    	            $result .= $disabled ? '<span class="nolink">' : '<a href="'.$page->route.'">';
     	            $result .= $page->title;
-    	            $result .= '</a>';
+    	            $result .= $disabled ? '</span>' : '</a>';
             }
         }
         
