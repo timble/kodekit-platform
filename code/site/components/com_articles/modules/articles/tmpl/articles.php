@@ -9,14 +9,16 @@
  */
 ?>
 
-<div class="mod_articles">
-    <?php foreach ($articles as $article): ?>
-    <?php echo @helper('com://site/articles.template.helper.article.render',
-        array(
-            'row'              => $article,
-            'show_create_date' => false,
-            'show_modify_date' => false,
-            'show_images'      => false,
-            'title_heading'    => 3));?>
-    <?php endforeach; ?>
-</div>
+<? if($show_title) : ?>
+<h3><?= $module->title ?></h3>
+<? endif ?>
+
+<?php foreach ($articles as $article): ?>
+<?php echo @helper('com://site/articles.template.helper.article.render',
+    array(
+        'row'              => $article,
+        'show_create_date' => false,
+        'show_modify_date' => false,
+        'show_images'      => false,
+        'title_heading'    => 3));?>
+<?php endforeach; ?>

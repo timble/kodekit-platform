@@ -21,6 +21,10 @@
             <option value="oldest">OLDEST FIRST</option>
             <option value="order">ORDERING</option>
         </param>
+        <param name="show_title" type="radio" default="0" label="Show the module title" description="">
+        	<option value="0">No</option>
+        	<option value="1">Yes</option>
+        </param>
         <param name="@spacer" type="spacer" default="" label="" description="" />
         <param name="show_featured" type="radio" default="0" label="SHOW FEATURED ARTICLES" description="SHOW_FEATURED_ARTICLES_DESC">
             <option value="1">Yes</option>

@@ -9,7 +9,11 @@
  */
 ?>
 
-<ul class="mod_articles">
+<? if($show_title) : ?>
+<h3><?= $module->title ?></h3>
+<? endif ?>
+
+<ul>
     <?php foreach ($articles as $article): ?>
     <li class="mod_articles">
         <?php echo @helper('com://site/articles.template.helper.article.link',
