@@ -13,4 +13,4 @@
 <h3><?= $module->title ?></h3>
 <? endif ?>
 
-<?= @helper('com://admin/pages.template.helper.list.pages', array('pages' => $pages, 'active' => $active)) ?>
+<?= @helper('com://site/pages.template.helper.list.pages', array('pages' => $pages, 'active' => $active)) ?>
