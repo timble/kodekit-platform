@@ -9,4 +9,4 @@
  */
 ?>
 
-<?= @helper('com://admin/pages.template.helper.list.pages', array('pages' => $pages)) ?>
+<?= @helper('com://admin/pages.template.helper.list.pages', array('pages' => $pages, 'active' => $active)) ?>
