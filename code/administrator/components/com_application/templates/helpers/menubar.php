@@ -27,7 +27,6 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-        	'menubar' => null,
             'attribs' => array('class' => array())
         ));
         
@@ -42,7 +41,7 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         if(count($menu))
         {
             $pages  = $this->getService('application.pages')->find(array('pages_menu_id' => $menu->top()->id));
-            $result = $this->getService('com://admin/pages.template.helper.list')->pages(array('pages' => $pages));
+            $result = $this->getService('com://admin/pages.template.helper.list')->pages(array('pages' => $pages, 'attribs' => $config->attribs));
         }   
 
         return $result;
