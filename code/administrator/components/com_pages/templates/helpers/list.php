@@ -5,14 +5,17 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
     {
         $config = new KConfig($config);
         $config->append(array(
-            'pages'  => array(),
-            'active' => null
+            'pages'   => array(),
+            'active'  => null,
+            'attribs' => array('class' => array('nav'))
         ));
         
+        $result     = '';
+        $first      = true;
+        $last_depth = 0;
+        
+        $attribs     = $this->_buildAttributes($config->attribs);
         $application = $this->getService('application')->getIdentifier()->application;
-        $result      = '';
-        $first       = true;
-        $last_depth  = 0;
         
         foreach($config->pages as $page)
         {
@@ -24,7 +27,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
         
             if($depth > $last_depth)
             {
-                $result .= '<ul '.($first ? 'class="nav"' : '').'>';
+                $result .= $first ? '<ul '.$attribs.'>' : '<ul>';
                 
                 $last_depth = $depth;
                 $first      = false;
