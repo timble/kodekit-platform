@@ -78,7 +78,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
         }
 
         if (is_numeric($state->page)) {
-            $query->where('module_menu.pages_page_id = :page OR module_menu.pages_page_id = 0')->bind(array('page' => $state->page));
+            $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($state->page, 0)));
         }
 
         parent::_buildQueryWhere($query);
