@@ -3447,10 +3447,8 @@ a.btn {
   height: 18px;
 }
 /* ---- Basic menu styles ------------------- */
-#panel-header ul.nav,
-#panel-header ul.nav li,
-#panel-header ul#statusmenu,
-#panel-header #statusmenu li {
+#panel-header ul,
+#panel-header li {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -3459,11 +3457,6 @@ a.btn {
   float: left;
   position: relative;
   display: inline;
-}
-#panel-header li a {
-  display: block;
-  white-space: nowrap;
-  font-weight: bold;
 }
 #panel-header li li {
   clear: both;
@@ -3501,15 +3494,18 @@ a.btn {
 }
 #panel-header ul li a,
 #panel-header ul li span {
+  display: block;
   padding: 0 18px;
   color: #626262;
   line-height: 30px;
   vertical-align: middle;
   font-size: 12px;
   text-decoration: none;
+  font-weight: bold;
   background-repeat: no-repeat;
   background-image: none !important;
   border-right: 1px solid #555555;
+  white-space: nowrap;
 }
 #panel-header ul li a:hover {
   cursor: default;
@@ -3523,11 +3519,6 @@ a.btn {
   border-radius: 0 0 4px 4px;
   background-color: #ffffff;
   padding: 4px 0;
-}
-#panel-header ul li ul li.separator {
-  background: #DDE1E6;
-  height: 1px;
-  margin: 4px 0 !important;
 }
 #panel-header ul li ul li.node {
   background: transparent url(../images/arrow-right.png) no-repeat 95% 50%;
@@ -3551,10 +3542,16 @@ a.btn {
   padding-right: 30px;
   line-height: 1em;
 }
-#panel-header ul:not(.disabled) li a {
+#panel-header ul:not(.disabled) li a,
+#panel-header ul:not(.disabled) li span {
   color: #ffffff;
 }
 #panel-header ul:not(.disabled) > li:hover {
+  /* 2 level - normal */
+
+}
+#panel-header ul:not(.disabled) > li:hover a,
+#panel-header ul:not(.disabled) > li:hover span {
   background-color: #3457f2;
   background-image: -moz-linear-gradient(top, #4f6ef6, #0c36ec);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4f6ef6), to(#0c36ec));
@@ -3563,8 +3560,6 @@ a.btn {
   background-image: linear-gradient(to bottom, #4f6ef6, #0c36ec);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff4f6ef6', endColorstr='#ff0c36ec', GradientType=0);
-  /* 2 level - normal */
-
 }
 #panel-header ul:not(.disabled) > li:hover ul {
   /* 2 level - hover */

@@ -2,18 +2,17 @@
 
 #panel-header {
 	// Reset
-	ul.nav, ul.nav li, ul#statusmenu, #statusmenu li { margin: 0; padding: 0; list-style: none; }
+	ul, li { margin: 0; padding: 0; list-style: none; }
 	
 	li    { float:left; position:relative; display: inline; }
-	li a  { display:block; white-space: nowrap; font-weight: bold; }
 	li li { clear: both; }
 	li ul { visibility: hidden; position:absolute; }
 	
 	li li ul {  top: 0; left: 0; }
 	
 	li:hover ul				{ visibility: visible; }
-	li:hover ul li ul			{ visibility: hidden;  }
-	li:hover li:hover ul		{ visibility: visible;  left: 100%; }
+	li:hover ul li ul		{ visibility: hidden;  }
+	li:hover li:hover ul	{ visibility: visible;  left: 100%; }
 	
 	ul.nav {
 		position:relative; z-index: 100;
@@ -26,15 +25,17 @@
 #panel-header {
 	ul {
 		li {
-			a,
-			span {
+			a, span {
+				display:block; 
 				padding: 0 18px;
 				color: lighten(@navbarBackground, 5%);
 				line-height: @baseLineHeight + 18px; vertical-align: middle;
 				font-size: @baseFontSize + 1; text-decoration: none;
+				font-weight: bold;
 				background-repeat: no-repeat;
 				background-image: none !important;
 				border-right: 1px solid @navbarBackground;
+				white-space: nowrap;
 			}
 			
 			/* This is for fixing a WebKit quirk, more info: https://nooku.assembla.com/spaces/nooku-server/tickets/159 */
@@ -45,8 +46,6 @@
 				.border-radius(0 0 4px 4px);
 				background-color: @navbarBackgroundDropdown;
 				padding: 4px 0;
-				
-				li.separator { background: #DDE1E6; height: 1px; margin: 4px 0 !important; }
 				
 				li.node { background: transparent url(../images/arrow-right.png) no-repeat 95% 50%; }
 				li.node > a { background-image: url(../images/arrow-right-active.png)!important; background-repeat: no-repeat; background-position: 195% 50%; }
@@ -67,11 +66,17 @@
 			}
 		}
 		
-		&:not(.disabled) li a { color: @navbarLinkColorHighlight; }
+		&:not(.disabled) li {
+			a, span {
+				color: @navbarLinkColorHighlight;
+			}
+		}
 		
 		/* 1 level - hover */
 		&:not(.disabled) > li:hover { 
-			#gradient > .vertical(@navbarBackgroundHighlight, darken(@navbarBackgroundHighlight, 15%));
+			a, span {
+				#gradient > .vertical(@navbarBackgroundHighlight, darken(@navbarBackgroundHighlight, 15%));
+			}
 			
 			/* 2 level - normal */
 			ul { 
@@ -136,7 +141,6 @@
 		vertical-align: middle;
 		color: @tabbarLinkColor;
 		display: block;
-		//background: darken(@tabbarBackground, 20%);
 		.border-radius(0 0);
 		border-right: 1px solid @tabbarBackground;
 	}
