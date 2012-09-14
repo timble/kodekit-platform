@@ -178,8 +178,10 @@ window.addEvent('domready', function() {
 		<div class="view">
 			<div id="files-grid"></div>
 		</div>
-		<?= @helper('paginator.pagination') ?>
-
+		<div id="files-paginator">
+			<?= @helper('paginator.pagination') ?>
+		</div>
+		
 		<?= @template('uploader');?>
 	</div>
 	<div style="clear: both"></div>
