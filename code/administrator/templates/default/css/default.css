@@ -4020,6 +4020,13 @@ div.message {
 .com_pages #pages-parent .level5 {
   padding-left: 54px;
 }
+.com_files #files-paginator {
+  padding-top: 5px;
+  background-color: #F1F1F1;
+  border-top: 1px solid #d8d8d8;
+  color: #333;
+  z-index: 1000;
+}
 /*!
  * Overrides for bootstrap/forms.less
  */
@@ -4938,8 +4945,8 @@ form[name="adminForm"] {
 .com_files #files-app #files-canvas .view #files-grid div:after {
   clear: both;
 }
-.com_files #files-paginator-container {
-  height: 50px;
+.com_files #files-paginator {
+  height: 26px;
 }
 @media (max-width: 1200px) {
   #panel-inspector {
