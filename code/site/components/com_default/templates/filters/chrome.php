@@ -115,11 +115,7 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
         $html = '';
         if (!empty ($module->content))
         {
-            $html .= '<div class="module">';
-            if ($module->showtitle) {
-                $html .= '<h3>'.$module->title.'</h3>';
-            }
-
+            $html .= '<div class="module '.$module->name.'">';
             $html .= $module->content;
             $html .= '</div>';
         }
