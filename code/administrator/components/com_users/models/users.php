@@ -52,8 +52,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	    $state = $this->getState();
 
 	    $query->columns(array(
-	    	'loggedin' => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
-	        'enabled'  => 'IF(tbl.enabled = 1, 0, 1)'
+	    	'loggedin' => 'IF(session.users_session_id IS NOT NULL, 1, 0)'
 	    ));
 	    
 	    if($state->loggedin)
@@ -99,7 +98,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
         if (is_bool($state->enabled))
         {
             $query->where('tbl.enabled = :enabled')
-                   ->bind(array('enabled' => $state->enabled ? 0 : 1));
+                   ->bind(array('enabled' => $state->enabled));
         }
         
         if ($state->loggedin === false) {

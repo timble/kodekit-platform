@@ -44,17 +44,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
     	return parent::__get($column);
     }
-    
-    public function load()
-    {
-        // Negate enabled due to enabled => block column map.
-        if ($result = parent::load()) {
-    		$this->enabled = $this->enabled ? 0 : 1;
-    	}
 
-    	return $result;
-    }
-  
 	public function save()
 	{
 		// Load the old row if editing an existing user.
@@ -195,11 +185,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			if(!$this->isNew() && $this->_data['params'] == $old_row->params->toString()) {
 				unset($this->_modified['params']);
 			}
-		}
-
-		// Need to reverse the value of 'enabled', because the mapped column is 'block'.
-		if($this->isNew() || $this->isModified('enabled')) {
-			$this->enabled = $this->enabled ? 0 : 1;
 		}
 		
 		// Get modified columns for further use.

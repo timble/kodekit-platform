@@ -83,6 +83,7 @@ ALTER TABLE  `#__users` DROP INDEX  `email` , ADD UNIQUE  `email` (  `email` );
 -- Update schema to follow conventions
 ALTER TABLE `#__users` CHANGE  `id`  `users_user_id` INT(11) UNSIGNED AUTO_INCREMENT;
 ALTER TABLE `#__users` CHANGE  `block`  `enabled` TINYINT(1);
+UPDATE `#__users` SET `enabled` = IF(`enabled`, 0, 1);
 ALTER TABLE `#__users` CHANGE  `sendEmail`  `send_email` TINYINT(1);
 ALTER TABLE `#__users` CHANGE  `gid`  `users_group_id` INT(10) UNSIGNED;
 ALTER TABLE `#__users` CHANGE  `registerDate`  `registered_on` DATETIME;
