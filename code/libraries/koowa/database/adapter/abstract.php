@@ -80,6 +80,13 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * @var KConfig
      */
     protected $_options = null;
+    
+    /**
+     * Character set used for connection
+     * 
+     * @var string
+     */
+    protected $_charset;
 
     /**
      * Constructor.
@@ -99,7 +106,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
 
         // Set the default charset. http://dev.mysql.com/doc/refman/5.1/en/charset-connection.html
         if (!empty($config->charset)) {
-            //$this->setCharset($config->charset);
+            $this->setCharset($config->charset);
         }
 
         // Set the table prefix
@@ -216,6 +223,29 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     public function setConnection($resource)
     {
         $this->_connection = $resource;
+        return $this;
+    }
+    
+    /**
+     * Get character set
+     * 
+     * @return string
+     */
+    public function getCharset()
+    {
+        return $this->_charset;
+    }
+    
+    /**
+     * Set character set
+     * 
+     * @param string $charset The character set.
+     * @return KDatabaseAdapterAbstract
+     */
+    public function setCharset($charset)
+    {
+        $this->_charset = $charset;
+        
         return $this;
     }
 
