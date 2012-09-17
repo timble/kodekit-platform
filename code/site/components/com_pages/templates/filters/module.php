@@ -177,10 +177,8 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
         foreach($modules as $module)
         {
             //Set the chrome styles
-            if(isset($attribs['chrome']))
-            {
+            if(isset($attribs['chrome'])) {
                 $module->chrome  = explode(' ', $attribs['chrome']);
-                unset($attribs['chrome']);
             }
 
             //Set the module attributes
