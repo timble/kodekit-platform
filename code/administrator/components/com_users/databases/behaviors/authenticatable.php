@@ -42,8 +42,6 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
             $params         = $this->getService('application.components')->users->params;
             $password       = $this->getService('com://admin/users.database.row.password');
             $this->password = $password->getRandom($params->get('password_length'));
-        } elseif (!$this->_passwordsMatch()) {
-            return false;
         }
     }
 
@@ -51,14 +49,8 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
     {
         if ($this->password)
         {
-            if (!$this->_passwordsMatch()) {
-                return false;
-            }
-
             // Update password record.
             $password = $this->getPassword();
-            // Reset expiration date.
-            $password->resetExpiration(false);
             if (!$password->setData(array('password' => $this->password))->save())
             {
                 $this->setStatus(KDatabase::STATUS_FAILED);
@@ -89,25 +81,13 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         $this->getPassword()->delete();
     }
 
-    protected function _passwordsMatch()
-    {
-        // Check if passwords match.
-        if ($this->password != $this->password_verify)
-        {
-            $this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::_('Passwords don\'t match'));
-            return false;
-        }
-        return true;
-    }
-
     public function getPassword($cached = true) {
         if (!$this->_password || !$cached) {
             $password = null;
             $user     = $this->getMixer();
 
             if (!$user->isNew()) {
-                $password = $this->getService('com://admin/users.model.password')->set('id', $this->email)
+                $password = $this->getService('com://admin/users.model.password')->set('email', $this->email)
                     ->getItem();
             }
             $this->_password = $password;
