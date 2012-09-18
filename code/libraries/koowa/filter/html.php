@@ -24,35 +24,35 @@ class KFilterHtml extends KFilterAbstract
      *
      * @var array
      */
-    protected $_tagsArray = array();
+    protected $_tagsArray;
 
     /**
      * List of user-defined attributes
      *
      * @var array
      */
-    protected $_attrArray = array();
+    protected $_attrArray;
 
     /**
      * If false, use whiteList method, if true use blackList method
      *
      * @var boolean
      */
-    protected $_tagsMethod = true;
+    protected $_tagsMethod;
 
     /**
      * If false, use whiteList method, if true use blackList method
      *
      * @var boolean
      */
-    protected $_attrMethod = true;
+    protected $_attrMethod;
 
     /**
      * If true, only auto clean essentials, if false allow clean blacklisted tags/attr
      *
      * @var boolean
      */
-    protected $_xssAuto = true;
+    protected $_xssAuto;
 
 
     protected $_tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
@@ -69,12 +69,12 @@ class KFilterHtml extends KFilterAbstract
 
         // List of user-defined tags
         if(isset($config->tag_list)) {
-            $this->_tagsArray = array_map('strtolower', (array) $config->tag_list);
+            $this->_tagsArray = array_map('strtolower', (array) KConfig::unbox($config->tag_list));
         }
 
         // List of user-defined attributes
         if(isset($config->attribute_list)) {
-            $this->_attrArray = array_map('strtolower', (array) $config->attribute_list);
+            $this->_attrArray = array_map('strtolower', (array) KConfig::unbox($config->attribute_list));
         }
 
         // WhiteList method = 0, BlackList method = 1
@@ -91,6 +91,27 @@ class KFilterHtml extends KFilterAbstract
         if(isset($config->xss_auto)) {
             $this->_xssAuto = $config->xss_auto;
         }
+    }
+
+    /**
+     * Initializes the config for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'tags_list'      => array(),
+            'attrib_list'    => array(),
+            'tags_method'    => true,
+            'attribs_method' => true,
+            'xss_auto'       => true,
+        ));
+
+        parent::_initialize($config);
     }
 
     /**
