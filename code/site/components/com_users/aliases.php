@@ -26,4 +26,4 @@ KService::setAlias('com://site/users.database.row.session' , 'com://admin/users.
 KService::setAlias('com://site/users.database.table.groups', 'com://admin/users.database.table.groups');
 KService::setAlias('com://site/users.database.table.users' , 'com://admin/users.database.table.users');
 KService::setAlias('com://site/users.helper.password'      , 'com://admin/users.helper.password');
-KService::setAlias('com://site/users.model.credentials'    , 'com://admin/users.model.credentials');
+KService::setAlias('com://site/users.model.passwords'      , 'com://admin/users.model.passwords');
