@@ -32,13 +32,13 @@ class ComArticlesTemplateHelperDate extends ComDefaultTemplateHelperDate
         $html = array();
 
         if ($config->show_create_date) {
-            $html[] = $this->format(array('date'=> $article->created_on, 'format' => JText::_('DATE_FORMAT_LC2')));
+            $html[] = $this->format(array('date'=> $article->created_on, 'format' => JText::_('DATE_FORMAT_LC5')));
         }
 
         if ($config->get('show_modify_date') && ($modified_on = $article->modified_on) && (intval($modified_on) != 0))
         {
             $html[] = JText::sprintf('LAST_UPDATED2',
-                $this->format(array('date' => $article->modified_on, 'format' => JText::_('DATE_FORMAT_LC2'))));
+                $this->format(array('date' => $article->modified_on, 'format' => JText::_('DATE_FORMAT_LC5'))));
         }
 
         return implode(' ', $html);

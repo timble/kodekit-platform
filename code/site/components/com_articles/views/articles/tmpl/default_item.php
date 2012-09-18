@@ -21,7 +21,7 @@
     <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a></h1>
 
     <p class="timestamp">
-        <?= @helper('date.timestamp', array('row' => $article)); ?>
+        <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
     </p>
 
     <? if ($article->fulltext && $params->get('show_readmore')) : ?>

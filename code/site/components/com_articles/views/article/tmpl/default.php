@@ -22,7 +22,7 @@
     <h1><?= $article->title ?></h1>
 
     <p class="timestamp">
-        <?= @helper('date.timestamp', array('row' => $article)); ?>
+        <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
     </p>
     
     <?= $article->introtext . $article->fulltext ?>
