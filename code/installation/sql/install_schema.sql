@@ -467,15 +467,16 @@ CREATE TABLE `#__users_sessions` (
 --
 -- Table structure for table `#__users_passwords`
 --
-
 CREATE TABLE `#__users_passwords` (
+  `users_password_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `users_user_email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date DEFAULT NULL,
   `hash` varchar(100) NOT NULL DEFAULT '',
-  PRIMARY KEY (`users_user_email`),
-  CONSTRAINT `#__users_passwords__users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+  `reset` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`users_password_id`),
+  UNIQUE KEY `users_user_email` (`users_user_email`),
+  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 -- --------------------------------------------------------
 

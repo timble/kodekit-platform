@@ -259,8 +259,8 @@ VALUES
 -- Dumping data for table `#__passwords`
 --
 
-INSERT INTO `#__users_passwords` (`users_user_email`, `expiration`, `hash`) VALUES
-('admin@localhost.home', NULL, 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3');
+INSERT INTO `#__users_passwords` (`users_password_id`, `users_user_email`, `expiration`, `hash`, `reset`) VALUES
+(NULL, 'admin@localhost.home', NULL, 'e290e05761fc8cc389b3455c9f542a12:1DCv4IYMFTrxblCfGwUulyTXYeKqQCh3', '');
 
 --
 -- Dumping data for table `#__core_acl_aro`
