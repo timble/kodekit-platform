@@ -19,13 +19,13 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
 {
     public function save() {
         $user = $this->getService('com://admin/users.model.users')
-            ->set('email', $this->id)
+            ->set('email', $this->email)
             ->getItem();
 
         // Check if referenced user actually exists.
         if ($user->isNew()) {
             $this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::sprintf('USER NOT FOUND', $this->id));
+            $this->setStatusMessage(JText::sprintf('USER NOT FOUND', $this->email));
             return false;
         }
 
@@ -48,8 +48,14 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
                 }
             }
 
+            // Reset expiration date.
+            $this->resetExpiration(false);
+
             // Create hash.
             $this->hash = $this->getHash($password);
+
+            // Unset plain text password for allowing subsequent save calls.
+            unset($this->password);
         }
 
         return parent::save();
@@ -117,13 +123,21 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
     /**
      * Salt getter.
      *
+     * @param string An optional hash containing the salt.
+     *
      * @return string The password salt, null if no hash is found.
      */
-    public function getSalt() {
+    public function getSalt($hash = null) {
         $result = null;
-        if ($hash = $this->hash) {
+
+        if (is_null($hash)) {
+            $hash = $this->hash;
+        }
+
+        if ($hash) {
             $result = substr(strrchr($hash, ':'), 1);
         }
+
         return $result;
     }
 
