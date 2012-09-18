@@ -32,7 +32,7 @@
 		
 		<ul style="margin-top: 14px;">
 			<li>
-				<a href="<?= @route( 'option=com_users&view=reset' ); ?>">
+				<a href="<?= @route( 'option=com_users&view=password&layout=token' ); ?>">
 				<?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a>
 			</li>
 			<?php
