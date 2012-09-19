@@ -91,21 +91,21 @@ INSERT INTO `#__articles_featured` (`articles_article_id`, `ordering`) VALUES
 
 INSERT INTO `#__categories` (`categories_category_id`, `parent_id`, `title`, `slug`, `image`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
 VALUES
-	(1, 34, 'Latest', 'latest-news', 'taking_notes.jpg', 'articles', 'The latest news from the Joomla! Team', 1, 1, NULL, NULL, NULL, 0, 'NULL', 1, 0, ''),
-	(2, 0, 'Joomla! Specific Links', 'joomla-specific-links', 'clock.jpg', 'weblinks', 'A selection of links that are all related to the Joomla! Project.', 1, 1, NULL, NULL, NULL, 0, 'NULL', 1, 0, ''),
-	(3, 34, 'Newsflash', 'newsflash', '', 'articles', '', 1, 1, NULL, NULL, NULL, 0, 'NULL', 2, 0, ''),
-	(12, 0, 'Contacts', 'contacts', '', 'contacts', 'Contact Details for this Web site', 1, 1, NULL, NULL, NULL, 0, 'NULL', 0, 0, ''),
-	(19, 0, 'Other Resources', 'other-resources', '', 'weblinks', '', 1, 1, NULL, NULL, NULL, 0, 'NULL', 2, 0, ''),
-	(25, 36, 'The Project', 'the-project', '', 'articles', 'General facts about Joomla!<br />', 1, 1, NULL, NULL, NULL, 65, '2007-06-28 14:50:15', 1, 0, ''),
-	(27, 35, 'New to Joomla!', 'new-to-joomla', '', 'articles', 'Questions for new users of Joomla!', 1, 1, NULL, NULL, NULL, 0, 'NULL', 3, 0, ''),
-	(28, 35, 'Current Users', 'current-users', '', 'articles', 'Questions that users migrating to Joomla! 1.5 are likely to raise<br />', 1, 1, NULL, NULL, NULL, 0, 'NULL', 2, 0, ''),
-	(29, 36, 'The CMS', 'the-cms', '', 'articles', 'Information about the software behind Joomla!<br />', 1, 1, NULL, NULL, NULL, 0, 'NULL', 2, 0, ''),
-	(30, 36, 'The Community', 'the-community', '', 'articles', 'About the millions of Joomla! users and Web sites<br />', 1, 1, NULL, NULL, NULL, 0, 'NULL', 3, 0, ''),
-	(31, 35, 'General', 'general', '', 'articles', 'General questions about the Joomla! CMS', 1, 1, NULL, NULL, NULL, 0, 'NULL', 1, 0, ''),
-	(32, 35, 'Languages', 'languages', '', 'articles', 'Questions related to localisation and languages', 1, 1, NULL, NULL, NULL, 0, 'NULL', 4, 0, ''),
-	(34, 0, 'News', 'news', 'articles.jpg', 'articles', 'Select a news topic from the list below, then select a news article to read.', 1, 1, NULL, NULL, NULL, 0, 'NULL', 3, 0, ''),
-	(35, 0, 'FAQs', 'faqs', 'key.jpg', 'articles', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 1, NULL, NULL, NULL, 0, 'NULL', 5, 0, ''),
-	(36, 0, 'About Joomla!', 'about-joomla', '', 'articles', '', 1, 1, NULL, NULL, NULL, 0, 'NULL', 2, 0, '');
+	(1, 34, 'Latest', 'latest-news', 'taking_notes.jpg', 'articles', 'The latest news from the Joomla! Team', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
+	(2, 0, 'Joomla! Specific Links', 'joomla-specific-links', 'clock.jpg', 'weblinks', 'A selection of links that are all related to the Joomla! Project.', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
+	(3, 34, 'Newsflash', 'newsflash', '', 'articles', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, ''),
+	(12, 0, 'Contacts', 'contacts', '', 'contacts', 'Contact Details for this Web site', 1, 1, NULL, NULL, NULL, NULL, NULL, 0, 0, ''),
+	(19, 0, 'Other Resources', 'other-resources', '', 'weblinks', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, ''),
+	(25, 36, 'The Project', 'the-project', '', 'articles', 'General facts about Joomla!', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
+	(27, 35, 'New to Joomla!', 'new-to-joomla', '', 'articles', 'Questions for new users of Joomla!', 1, 1, NULL, NULL, NULL, NULL, NULL, 3, 0, ''),
+	(28, 35, 'Current Users', 'current-users', '', 'articles', 'Questions that users migrating to Joomla! 1.5 are likely to raise', 1, 1, NULL, NULL, NULL, NULL, 'NULL', 2, 0, ''),
+	(29, 36, 'The CMS', 'the-cms', '', 'articles', 'Information about the software behind Joomla!', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, ''),
+	(30, 36, 'The Community', 'the-community', '', 'articles', 'About the millions of Joomla! users and Web sites', 1, 1, NULL, NULL, NULL, NULL, NULL, 3, 0, ''),
+	(31, 35, 'General', 'general', '', 'articles', 'General questions about the Joomla! CMS', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
+	(32, 35, 'Languages', 'languages', '', 'articles', 'Questions related to localisation and languages', 1, 1, NULL, NULL, NULL, NULL, NULL, 4, 0, ''),
+	(34, 0, 'News', 'news', 'articles.jpg', 'articles', 'Select a news topic from the list below, then select a news article to read.', 1, 1, NULL, NULL, NULL, NULL, NULL, 3, 0, ''),
+	(35, 0, 'FAQs', 'faqs', 'key.jpg', 'articles', 'From the list below choose one of our FAQs topics, then select an FAQ to read. If you have a question which is not in this section, please contact us.', 1, 1, NULL, NULL, NULL, NULL, NULL, 5, 0, ''),
+	(36, 0, 'About Joomla!', 'about-joomla', '', 'articles', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, '');
 
 --
 -- Dumping data for table `#__contacts`
