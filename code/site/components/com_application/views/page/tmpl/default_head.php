@@ -25,6 +25,8 @@
 <style src="media://com_application/css/system.css"  />
 <style src="media://com_application/css/general.css"  />
 <style src="media://com_application/css/default.css" />
+<style src="media://com_application/css/print.css" media="print" />
 
 <script src="media://lib_koowa/js/mootools.js" />
+
 </head>
