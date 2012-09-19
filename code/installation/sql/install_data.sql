@@ -51,11 +51,12 @@ VALUES
 --
 -- Dumping data for table `#__pages_menus`
 --
-
-INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`)
+    
+INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
 VALUES
-    (1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site'),
-    (2, 'admin', 'Menubar', 'menubar', NULL);
+	(1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site', 1, 'NULL', NULL, NULL, NULL, NULL),
+	(2, 'admin', 'Menubar', 'menubar', 1, NULL, 'NULL', NULL, NULL, NULL, NULL);
+
 
 --
 -- Dumping data for table `#__pages_modules_pages`
