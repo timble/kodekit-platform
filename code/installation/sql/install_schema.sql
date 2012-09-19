@@ -329,13 +329,19 @@ CREATE TABLE `#__pages_closures` (
 --
 
 CREATE TABLE `#__pages_menus` (
-  `pages_menu_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `application` VARCHAR(50) NOT NULL,
-  `title` VARCHAR(255) NOT NULL,
-  `slug` VARCHAR(255),
-  `description` VARCHAR(255),
+  `pages_menu_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `application` varchar(50) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_by` int(10) unsigned DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `modified_by` int(10) unsigned DEFAULT NULL,
+  `modified_on` datetime DEFAULT NULL,
+  `locked_by` int(10) unsigned DEFAULT NULL,
+  `locked_on` datetime DEFAULT NULL,
   PRIMARY KEY (`pages_menu_id`),
-  INDEX `ix_application` (`application`)
+  KEY `ix_application` (`application`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

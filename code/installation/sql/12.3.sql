@@ -374,6 +374,13 @@ ALTER TABLE `#__pages_menus` CHANGE `menutype` `slug` VARCHAR(255) AFTER `title`
 ALTER TABLE `#__pages_menus` MODIFY `title` VARCHAR(255) NOT NULL;
 ALTER TABLE `#__pages_menus` MODIFY `description` VARCHAR(255);
 
+ALTER TABLE `#__pages_menus` ADD `created_by` INT UNSIGNED AFTER `description`;
+ALTER TABLE `#__pages_menus` ADD `created_on` DATETIME AFTER `created_by`;
+ALTER TABLE `#__pages_menus` ADD `modified_by` INT UNSIGNED AFTER `created_on`;
+ALTER TABLE `#__pages_menus` ADD `modified_on` DATETIME AFTER `modified_by`;
+ALTER TABLE `#__pages_menus` ADD `locked_by` INT UNSIGNED AFTER `modified_on`;
+ALTER TABLE `#__pages_menus` ADD `locked_on` DATETIME AFTER `locked_by`;
+
 ALTER TABLE `#__pages_modules` ADD `created_by` INT(11) UNSIGNED AFTER `position`;
 ALTER TABLE `#__pages_modules` ADD `created_on` DATETIME AFTER `created_by`;
 ALTER TABLE `#__pages_modules` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
