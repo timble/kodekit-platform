@@ -38,6 +38,14 @@ UPDATE `#__modules` SET `extensions_component_id` = 28 WHERE `name` = 'mod_custo
 UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_image', 'mod_login', 'mod_menu');  
 ALTER TABLE `#__modules` DROP `showtitle`;
 
+UPDATE `#__modules` SET `params` = REPLACE(`params`, 'showAllChildren=', 'show_children=') WHERE `name` = 'mod_menu';
+UPDATE `#__modules` SET `params` = REPLACE(`params`, 'endLevel=', 'end_level=') WHERE `name` = 'mod_menu';
+UPDATE `#__modules` SET `params` = REPLACE(`params`, 'startLevel=', 'start_level=') WHERE `name` = 'mod_menu';
+
+UPDATE `#__modules` SET `params` = REPLACE(`params`, CONCAT('end_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'end_level=', -1), '\n', 1)), CONCAT('end_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'start_level=', -1), '\n', 1) + 1)) WHERE `name` = 'mod_menu' AND `params` LIKE '%show_children=0%' AND `params` LIKE '%expand_menu=0%';
+UPDATE `#__modules` SET `params` = REPLACE(`params`, 'show_children=1', 'show_children=always') WHERE `name` = 'mod_menu';
+UPDATE `#__modules` SET `params` = REPLACE(`params`, 'show_children=0', 'show_children=active') WHERE `name` = 'mod_menu';
+
 # --------------------------------------------------------
 
 -- Remove tables
