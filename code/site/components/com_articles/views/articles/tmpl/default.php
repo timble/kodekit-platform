@@ -18,6 +18,6 @@
 <? endforeach; ?>
 
 <? if(count($articles) != $total) : ?>
-    <?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false)); ?>
+    <?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
 <? endif; ?>
 
