@@ -14,7 +14,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
         $first      = true;
         $last_depth = 0;
         
-        foreach($config->pages as $page)
+        foreach(clone $config->pages as $page)
         {
             $depth = substr_count($page->path, '/');
             
@@ -40,7 +40,28 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
                 $result .= '</li>';
             }
             
-            $result .= '<li '.($config->active && $page->id == $config->active->id ? 'class="active"' : '').'>';
+            $classes = array();
+            if($config->active)
+            {
+                if(in_array($page->id, array_merge($config->active->parent_ids, (array) $config->active->id))) {
+                    $classes[] = 'active';
+                }
+                
+                if($page->id == $config->active->id) {
+                    $classes[] = 'current';
+                }
+                
+                foreach($config->pages as $value)
+                {
+                    if(strpos($value->path, $page->path.'/') === 0)
+                    {
+                        $classes[] = 'parent';
+                        break;
+                    }
+                }
+            }
+            
+            $result .= '<li '.($classes ? 'class="'.implode(' ', $classes).'"' : '').'>';
             switch($page->type)
             {
                 case 'component':
