@@ -21,7 +21,7 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
     {
         $start    = $this->module->params->get('start_level') + 1;
         $end      = $this->module->params->get('end_evel') + 1;
-        $children = $this->module->params->get('show_children');
+        $children = $this->module->params->get('show_children', 'active');
         $pages    = $this->getService('application.pages');
 
         $this->active = $pages->getActive();
@@ -32,13 +32,20 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
             $extract = false;
             
             // Extract if level is lower than start or higher than end.
-            if($page->level < $start || ($end && $page->level > $end)) {
+            if($page->level < $start || ($end > $start && $page->level > $end)) {
                 $extract = true;
             }
             
             // Extract if show_children = active and page is not child of active.
-            if(!$extract && $children == 'active' && $page->level == $this->active->level + 1 && strpos($page->path, $this->active->path) === 0) {
-                $extract = true;
+            if(!$extract && $page->level > $start && $children == 'active')
+            {
+                if($page->level > $this->active->level + 1) {
+                    $extract = true;
+                }
+                
+                if(!$extract && strpos($page->path, $this->active->path) !== 0) {
+                    $extract = true;
+                }
             } 
             
             if($extract) {
