@@ -19,8 +19,8 @@
 			<option value="list">List</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="startLevel" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
-		<param name="endLevel" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />
+		<param name="start_level" type="text" default="0" size="5" label="Start Level" description="PARAMSTARTLEVEL" />
+		<param name="end_level" type="text" default="0" size="5" label="End Level" description="PARAMSTOPLEVEL" />
 		<param name="show_children" type="radio" default="active" label="Always show submenu items" description="PARAMSHOWSUBMENUITEMS">
 			<option value="active">When parent is active</option>
 			<option value="always">Always</option>
