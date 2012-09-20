@@ -54,8 +54,8 @@ VALUES
     
 INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
 VALUES
-	(1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site', 1, 'NULL', NULL, NULL, NULL, NULL),
-	(2, 'admin', 'Menubar', 'menubar', 1, NULL, 'NULL', NULL, NULL, NULL, NULL);
+	(1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site', 1, NULL, NULL, NULL, NULL, NULL),
+	(2, 'admin', 'Menubar', 'menubar', '1', 1, NULL, NULL, NULL, NULL, NULL);
 
 
 --
@@ -185,7 +185,7 @@ VALUES
 
 INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
-	(1, 1, 'Home', 'home', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 20, 1, NULL, NULL, NULL, NULL, 'NULL', 0, 'show_featured=1'),
+	(1, 1, 'Home', 'home', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_featured=1'),
 	(2, 2, 'Dashboard', 'dashboard', 'index.php?option=com_dashboard&view=dashboard', NULL, 'component', 1, 0, 0, 35, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(3, 2, 'Pages', 'pages', 'index.php?option=com_pages&view=pages', NULL, 'component', 1, 0, 0, 25, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(4, 2, 'Content', 'content', NULL, NULL, 'separator', 1, 0, 0, NULL, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),

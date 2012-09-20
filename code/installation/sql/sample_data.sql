@@ -121,28 +121,25 @@ VALUES
 
 INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
 VALUES
-	(3, 'site', 'User Menu', 'usermenu', 'A Menu for logged in Users', 1, 'NULL', NULL, NULL, NULL, NULL),
-	(4, 'site', 'Top Menu', 'topmenu', 'Top level navigation', 1, 'NULL', NULL, NULL, NULL, NULL),
-	(5, 'site', 'Example Pages', 'ExamplePages', 'Example Pages', 1, 'NULL', NULL, NULL, NULL, NULL),
-	(6, 'site', 'Key Concepts', 'keyconcepts', 'This describes some critical information for new Users.', 1, 'NULL', NULL, NULL, NULL, NULL);
+	(3, 'site', 'User Menu', 'usermenu', 'A Menu for logged in Users', 1, NULL, NULL, NULL, NULL, NULL),
+	(4, 'site', 'Top Menu', 'topmenu', 'Top level navigation', 1, NULL, NULL, NULL, NULL, NULL);
+
 
 
 --
--- Dumping data for table `#__modules`
+-- Dumping data for table `#__pages_modules`
 --
 
-INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `jos_pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
-	(17, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 25, 'site'),
-	(18, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
-	(19, 'Latest News', '', 19, 'user1', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_articles', 0, 'show_title=1', 20, 'site'),
-	(25, 'Newsflash', '', 9, 'top', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_articles', 0, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\nshow_title=1\r\n', 20, 'site'),
-	(27, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_search', 0, '', 15, 'site'),
-	(28, 'Random Image', '', 23, 'right', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_image', 0, '', 19, 'site'),
-	(29, 'Top Menu', '', 11, 'user3', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=4\nshow_title=0\nclass=nav', 25, 'site'),
-	(35, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 25, 'site'),
-	(39, 'Example Pages', '', 20, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=5\nshow_title=1\nclass=nav nav-list', 25, 'site'),
-	(40, 'Key Concepts', '', 17, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=6\nshow_title=1\nclass=nav nav-list', 25, 'site');
+	(17, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 25, 'site'),
+	(18, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
+	(19, 'Latest News', '', 19, 'user1', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_title=1', 20, 'site'),
+	(25, 'Newsflash', '', 9, 'top', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\nshow_title=1\r\n', 20, 'site'),
+	(27, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, '', 15, 'site'),
+	(28, 'Random Image', '', 23, 'right', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_image', 0, '', 19, 'site'),
+	(29, 'Top Menu', '', 11, 'user3', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 'menu_id=4\nshow_title=0\nclass=nav', 25, 'site'),
+	(35, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 25, 'site');
 
 --
 -- Dumping data for table `#__pages_modules`
@@ -150,31 +147,32 @@ VALUES
 
 INSERT INTO `#__pages_modules_pages` (`modules_module_id`, `pages_page_id`)
 VALUES
-    (17, 0),
-    (18, 1),
-    (19, 1),
-    (19, 31),
-    (19, 34),
-    (21, 1),
-    (22, 1),
-    (22, 31),
-    (22, 34),
-    (25, 0),
-    (27, 0),
-    (29, 0),
-    (30, 0),
-    (32, 0),
-    (33, 0),
-    (34, 0),
-    (35, 0),
-    (36, 0),
-    (38, 1),
-    (39, 43),
-    (39, 44),
-    (39, 45),
-    (39, 46),
-    (39, 47),
-    (40, 0);
+	(17, 0),
+	(18, 1),
+	(19, 1),
+	(19, 31),
+	(19, 34),
+	(21, 1),
+	(22, 1),
+	(22, 31),
+	(22, 34),
+	(25, 0),
+	(27, 0),
+	(29, 0),
+	(30, 0),
+	(32, 0),
+	(33, 0),
+	(34, 0),
+	(35, 0),
+	(36, 0),
+	(38, 1),
+	(39, 43),
+	(39, 44),
+	(39, 45),
+	(39, 46),
+	(39, 47),
+	(40, 0);
+
 
 --
 -- Dumping data for table `#__pages_orderings`
@@ -182,27 +180,27 @@ VALUES
 
 INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
-    (31, 3, 4),
-    (32, 4, 1),
-    (33, 1, 4),
-    (34, 4, 2),
-    (35, 1, 1),
-    (36, 2, 2),
-    (37, 3, 4),
-    (38, 1, 1),
-    (39, 5, 5),
-    (40, 1, 2),
-    (41, 3, 1),
-    (42, 1, 6),
-    (43, 2, 3),
-    (44, 3, 1),
-    (45, 4, 2),
-    (46, 1, 3),
-    (47, 2, 4),
-    (48, 7, 8),
-    (49, 6, 7),
-    (50, 3, 2),
-    (51, 2, 3);
+	(31, 6, 6),
+	(32, 4, 1),
+	(33, 1, 4),
+	(34, 7, 2),
+	(35, 1, 1),
+	(36, 2, 2),
+	(37, 3, 4),
+	(38, 1, 1),
+	(39, 8, 7),
+	(40, 1, 4),
+	(41, 3, 3),
+	(42, 4, 8),
+	(43, 2, 5),
+	(44, 3, 4),
+	(45, 4, 3),
+	(46, 1, 1),
+	(47, 2, 2),
+	(48, 10, 10),
+	(49, 9, 9),
+	(50, 3, 2),
+	(51, 2, 3);
 
 --
 -- Dumping data for table `#__pages_closures`
@@ -210,28 +208,32 @@ VALUES
 
 INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
-    (31, 31, 0),
-    (32, 32, 0),
-    (33, 33, 0),
-    (34, 34, 0),
-    (34, 38, 1),
-    (35, 35, 0),
-    (36, 36, 0),
-    (37, 37, 0),
-    (38, 38, 0),
-    (39, 39, 0),
-    (40, 40, 0),
-    (41, 41, 0),
-    (42, 42, 0),
-    (43, 43, 0),
-    (44, 44, 0),
-    (45, 45, 0),
-    (46, 46, 0),
-    (47, 47, 0),
-    (48, 48, 0),
-    (49, 49, 0),
-    (50, 50, 0),
-    (51, 51, 0);
+	(31, 31, 0),
+	(32, 32, 0),
+	(33, 33, 0),
+	(34, 34, 0),
+	(34, 38, 1),
+	(35, 35, 0),
+	(36, 36, 0),
+	(37, 37, 0),
+	(38, 38, 0),
+	(39, 39, 0),
+	(40, 40, 0),
+	(41, 41, 0),
+	(42, 42, 0),
+	(43, 43, 0),
+	(43, 44, 1),
+	(43, 45, 1),
+	(43, 46, 1),
+	(43, 47, 1),
+	(44, 44, 0),
+	(45, 45, 0),
+	(46, 46, 0),
+	(47, 47, 0),
+	(48, 48, 0),
+	(49, 49, 0),
+	(50, 50, 0),
+	(51, 51, 0);
 
 --
 -- Dumping data for table `#__pages`
@@ -248,18 +250,19 @@ VALUES
 	(37, 4, 'The Community', 'the-community', 'index.php?option=com_articles&view=article&id=27', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(38, 1, 'What\'s New in 1.5?', 'what-is-new-in-1-5', 'index.php?option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(39, 1, 'More about Joomla!', 'more-about-joomla', 'index.php?option=com_articles&view=articles&layout=table&category=36', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(40, 6, 'Content Layouts', 'content-layouts', 'index.php?option=com_articles&view=article&id=24', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(41, 6, 'Extensions', 'extensions', 'index.php?option=com_articles&view=article&id=26', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(40, 1, 'Content Layouts', 'content-layouts', 'index.php?option=com_articles&view=article', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(41, 1, 'Extensions', 'extensions', 'index.php?option=com_articles&view=article', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(42, 1, 'FAQ', 'faq', 'index.php?option=com_articles&view=articles&layout=table&category=35', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(43, 6, 'Example Pages', 'example-pages', 'index.php?option=com_articles&view=article&id=43', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(44, 5, 'Section Blog', 'section-blog', 'index.php?option=com_articles&view=articles&category=35', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(45, 5, 'Section Table', 'section-table', 'index.php?option=com_articles&view=articles&layout=table&category=35', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(46, 5, 'Category Blog', 'categoryblog', 'index.php?option=com_articles&view=articles&category=31', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(47, 5, 'Category Table', 'category-table', 'index.php?option=com_articles&view=articles&layout=table&category=32', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(43, 1, 'Example Pages', 'example-pages', 'index.php?option=com_articles&view=article', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(44, 1, 'Section Blog', 'section-blog', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(45, 1, 'Section Table', 'section-table', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(46, 1, 'Category Blog', 'categoryblog', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(47, 1, 'Category Table', 'category-table', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(48, 1, 'Web Links', 'web-links', 'index.php?option=com_weblinks&view=categories', NULL, 'component', 1, 0, 0, 4, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(49, 1, 'The News', 'the-news', 'index.php?option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(50, 3, 'Submit an Article', 'submit-an-article', 'index.php?option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(51, 3, 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', NULL, 'component', 0, 0, 0, 4, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+
 
 
 --
