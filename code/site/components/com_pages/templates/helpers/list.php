@@ -24,7 +24,15 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
         
             if($depth > $last_depth)
             {
-                $result .= $first ? '<ul '.$this->_buildAttributes($config->attribs).'>' : '<ul>';
+                if($first) {
+                	$result .= '<ul '.$this->_buildAttributes($config->attribs).'>';
+                	
+                	if($config->title) {
+                		$result .= '<li class="nav-header">'.$config->title.'</li>';
+                	}
+                } else {
+                	$result .= '<ul>';
+                }
                 
                 $last_depth = $depth;
                 $first      = false;
@@ -61,6 +69,10 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
                 }
             }
             
+            if($page->type == 'separator') {
+            	$classes[] = 'nav-header';
+            }
+            
             $result .= '<li '.($classes ? 'class="'.implode(' ', $classes).'"' : '').'>';
             switch($page->type)
             {
@@ -79,7 +91,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
     				break;
     				
                 case 'separator':
-    				$result .= '<span class="separator">'.$page->title.'</span>';
+    				$result .= $page->title;
     				break;
     
     			case 'url':

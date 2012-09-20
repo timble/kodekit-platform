@@ -177,7 +177,7 @@ VALUES
 
 INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
-	(1, 'Main Menu', '', 2, 'left', NULL, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=1\nshow_title=1', 25, 'site');
+	(1, 'Main Menu', '', 2, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=1\nclass=nav nav-list', 25, 'site');
 
 --
 -- Dumping data for table `#__pages`

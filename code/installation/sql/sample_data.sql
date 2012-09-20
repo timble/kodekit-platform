@@ -133,16 +133,16 @@ VALUES
 
 INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
-	(17, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1', 25, 'site'),
+	(17, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 25, 'site'),
 	(18, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
 	(19, 'Latest News', '', 19, 'user1', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_articles', 0, 'show_title=1', 20, 'site'),
 	(25, 'Newsflash', '', 9, 'top', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_articles', 0, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\nshow_title=1\r\n', 20, 'site'),
 	(27, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_search', 0, '', 15, 'site'),
 	(28, 'Random Image', '', 23, 'right', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_image', 0, '', 19, 'site'),
-	(29, 'Top Menu', '', 11, 'user3', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=4\nshow_title=0\n', 25, 'site'),
-	(35, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1\n\n', 25, 'site'),
-	(39, 'Example Pages', '', 20, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=5\nshow_title=1', 25, 'site'),
-	(40, 'Key Concepts', '', 17, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=6\nshow_title=1\n', 25, 'site');
+	(29, 'Top Menu', '', 11, 'user3', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=4\nshow_title=0\nclass=nav', 25, 'site'),
+	(35, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 25, 'site'),
+	(39, 'Example Pages', '', 20, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=5\nshow_title=1\nclass=nav nav-list', 25, 'site'),
+	(40, 'Key Concepts', '', 17, 'left', 1, NULL, NULL, NULL, 0, 'NULL', 1, 'mod_menu', 0, 'menu_id=6\nshow_title=1\nclass=nav nav-list', 25, 'site');
 
 --
 -- Dumping data for table `#__pages_modules`

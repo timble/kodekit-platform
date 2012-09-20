@@ -9,8 +9,6 @@
  */
 ?>
 
-<? if($show_title) : ?>
-<h3><?= $module->title ?></h3>
-<? endif ?>
+<? $title = $show_title ? $module->title : null; ?>
 
-<?= @helper('com://site/pages.template.helper.list.pages', array('pages' => $pages, 'active' => $active)) ?>
+<?= @helper('com://site/pages.template.helper.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>
