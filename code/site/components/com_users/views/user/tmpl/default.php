@@ -10,8 +10,8 @@
  */
 ?>
 
-<? if($parameters->def('show_page_title', 1)) : ?>
-<h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>
-<? endif ?>
+<div class="page-header">
+    <h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>
+</div>
 
 <p><?= nl2br(@escape($parameters->get('welcome_desc', @text('WELCOME_DESC')))) ?></p>

@@ -9,9 +9,9 @@
  */
 ?>
 
-<? if ($params->get('show_page_title')): ?>
-    <h1 class="page-header"><?php echo @escape($params->get('page_title')); ?></h1>
-<? endif; ?>
+<div class="page-header">
+    <h1><?php echo @escape($params->get('page_title')); ?></h1>
+</div>
 
 <div class="clearfix">
 <? if ($params->get('show_description') && $category->description): ?>

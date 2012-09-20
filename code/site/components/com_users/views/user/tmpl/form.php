@@ -19,9 +19,9 @@
 <form action="" method="post" name="userform" autocomplete="off" class="form-validate form-horizontal">
     <input type="hidden" name="action" value="save" />
 
-    <? if($parameters->def('show_page_title', 1)) : ?>
-    <h1><?= @escape($parameters->get('page_title')) ?></h1>
-    <? endif ?>
+    <div class="page-header">
+        <h1><?= @escape($parameters->get('page_title')) ?></h1>
+    </div>
     
     <div class="control-group">
         <label class="control-label" for="username"><?= @text('Username') ?></label>

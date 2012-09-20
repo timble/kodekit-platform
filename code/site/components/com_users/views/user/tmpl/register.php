@@ -28,9 +28,9 @@
 <form action="" method="post" id="josForm" name="josForm" class="form-validate">
     <input type="hidden" name="action" value="save" />
 
-    <? if($parameters->def('show_page_title', 1)) : ?>
-        <div><?= @escape($parameters->get('page_title')) ?></div>
-    <? endif ?>
+    <div class="page-header">
+        <h1><?= @escape($parameters->get('page_title')) ?></h1>
+    </div>
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
         <tr>

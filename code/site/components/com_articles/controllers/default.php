@@ -29,7 +29,6 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         $params->def('show_readmore', 1);
         $params->def('show_description', 0);
         $params->def('show_description_image', 0);
-        $params->def('show_page_title', 1);
         $params->def('date_format', JText::_('DATE_FORMAT_LC2'));
         $params->def('show_empty_categories', 0);
         $params->def('show_cat_num_articles', 1);

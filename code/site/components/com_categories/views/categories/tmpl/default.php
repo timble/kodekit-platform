@@ -9,9 +9,9 @@
  */
 ?>
 
-<? if ( $params->def( 'show_page_title', 1 ) ) : ?>
-<h1><?= @escape($params->get('page_title')); ?></h1>
-<? endif; ?>
+<div class="page-header">
+    <h1><?= @escape($params->get('page_title')); ?></h1>
+</div>
 
 <? foreach($categories as $category) : ?>
 <h2>

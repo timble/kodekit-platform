@@ -10,11 +10,9 @@
  */
 ?>
 
-<? if ($params->get( 'show_page_title', 1 )) : ?>
-<h1>
-	<?= $params->get( 'page_title', @text( 'Search' ) );?>
-</h1>
-<? endif; ?>
+<div class="page-header">
+    <h1><?= $params->get( 'page_title', @text( 'Search' ) );?></h1>
+</div>
 
 <?= @template('com://site/search.view.results.default_form');?>
 

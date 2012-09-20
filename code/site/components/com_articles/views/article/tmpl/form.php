@@ -20,13 +20,9 @@
     <?= @helper('com://admin/default.template.helper.toolbar.render', array('toolbar' => $toolbar));?>
 </div>
 
-<div class="clear_both"></div>
-
-<? if ($params->get('show_page_title')) : ?>
-<h1>
-    <?= @escape($params->get('page_title')); ?>
-</h1>
-<? endif; ?>
+<div class="page-header">
+    <h1><?= @escape($params->get('page_title')); ?></h1>
+</div>
 
 <script type="text/javascript">
     window.addEvent('domready', function () {

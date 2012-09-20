@@ -37,8 +37,6 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
         $active = $this->getService('application.pages')->getActive();
         $parameters = new JParameter($active->params);
 
-        $parameters->def('show_page_title', 1);
-
         if(!$parameters->get('page_title')) {
             $parameters->set('page_title', JText::_('Login'));
         }

@@ -9,9 +9,9 @@
  */
 ?>
 
-<? if ( $params->def( 'show_page_title', 1 ) ) : ?>
-<h1><?= @escape($params->get('page_title')); ?></h1>
-<? endif; ?>
+<div class="page-header">
+    <h1><?= @escape($params->get('page_title')); ?></h1>
+</div>
 
 <? if ($params->get('show_description_image') && $section->image): ?>
 <? if (isset($section->image)) : ?>

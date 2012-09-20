@@ -15,9 +15,9 @@
 -->
 <?= @helper('behavior.keepalive'); ?>
 
-<? if($parameters->get('show_page_title', 1)) : ?>
-<h1 class="page-header"><?= @escape($parameters->get('page_title')) ?></h1>
-<? endif ?>
+<div class="page-header">
+    <h1><?= @escape($parameters->get('page_title')) ?></h1>
+</div>
 
 <form action="" method="post" id="com-form-login" class="form-horizontal">
     <? if($parameters->get('show_login_title')) : ?>
