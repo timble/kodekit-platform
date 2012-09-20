@@ -9,18 +9,21 @@
  */
 ?>
 
-<header class="navbar navbar-fixed-top">
-    <div class="navbar-inner container">
-        <nav>
+<header class="container">
+    <div class="navbar">
+        <nav class="navbar-inner">
+            <a class="brand" href="#">Nooku Server</a>
             <ktml:modules position="user3" />
         </nav>
     </div>
 </header>
 
-<div style="padding-top: 60px;" class="container">
+<div class="container">
     <div class="row">
         <aside class="sidebar span3">
-            <ktml:modules position="left" chrome="wrapped" />
+            <div class="well" style="padding: 8px 0;">
+            	<ktml:modules position="left" chrome="wrapped" />
+            </div>
         </aside>
         <div class="span9">
             <ktml:modules position="breadcrumb" />

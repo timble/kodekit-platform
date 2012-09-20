@@ -4882,6 +4882,9 @@ a.badge:hover {
 html {
   overflow-y: scroll;
 }
+body {
+  margin-top: 20px;
+}
 h1 {
   font-size: 21px;
 }
@@ -4892,13 +4895,10 @@ h3 {
   font-size: 16px;
 }
 .page-header .timestamp {
-  margin-bottom: 0;
-}
-.page-header .timestamp .created {
-  font-weight: bold;
-}
-.page-header .timestamp .modified {
-  font-style: italic;
+  margin-top: -10px;
+  color: #999;
+  font-size: 12px;
+  display: block;
 }
 .readmore a {
   display: inline-block;
@@ -5008,4 +5008,7 @@ h3 {
 }
 .sidebar .mod_mainmenu.well h3 {
   padding: 4px 12px;
+}
+section article {
+  margin-bottom: 40px;
 }

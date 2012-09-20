@@ -18,12 +18,11 @@
 <? endif; ?>
 
 <article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
-    <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a></h1>
-
-    <p class="timestamp">
+    <div class="page-header">
+        <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a></h1>
         <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
-    </p>
-
+    </div>
+    
     <? if ($article->fulltext && $params->get('show_readmore')) : ?>
         <?= $article->introtext; ?>
         <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>

@@ -13,17 +13,14 @@
 <div class="edit-article">
     <a href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
         <?= @text('Edit') ?>
-     </a>
-    </div>
+    </a>
+</div>
 <? endif; ?>
 
 <article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
-
-    <h1><?= $article->title ?></h1>
-
-    <p class="timestamp">
-        <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
-    </p>
-    
+    <div class="page-header">
+	    <h1><?= $article->title ?></h1>
+	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+	</div>
     <?= $article->introtext . $article->fulltext ?>
 </article>

@@ -2,7 +2,11 @@
 @import "../../../../libraries/bootstrap/less/bootstrap.less";
 
 html {
-	overflow-y: scroll
+	overflow-y: scroll;
+}
+
+body {
+	margin-top: @gridGutterWidth;
 }
 
 // HEADINGS
@@ -13,15 +17,10 @@ h3 { font-size: 16px; }
 
 .page-header {
 	.timestamp {
-		margin-bottom: 0;
-		
-		.created {
-			font-weight: bold;
-		}
-		
-		.modified {
-			font-style: italic;
-		}
+		margin-top: -10px;
+		color: #999;
+		font-size: 12px;
+		display: block;
 	}
 }
 
@@ -39,4 +38,8 @@ h3 { font-size: 16px; }
 			padding: 4px 12px;
 		}
 	}
+}
+
+section article {
+	margin-bottom: @gridGutterWidth * 2;
 }
