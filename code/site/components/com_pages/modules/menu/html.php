@@ -43,9 +43,15 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
                     $extract = true;
                 }
                 
-                if(!$extract && strpos($page->path, $this->active->path) !== 0) {
-                    $extract = true;
-                }
+                if(!$extract) {
+	    			// Create a merged array from $page->path and $this->active->path
+	                $paths = array_merge(explode("/", $page->path), explode("/", $this->active->path));
+		            
+		            // Extract if array has no duplicated values
+		            if (count($paths) === count(array_unique($paths))) {
+	                    $extract = true;
+	                }
+	            }
             } 
             
             if($extract) {
