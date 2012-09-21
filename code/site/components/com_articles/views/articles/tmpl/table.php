@@ -23,12 +23,11 @@
 <? endif; ?>
 </div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
-    <? if ($params->get('show_headings')): ?>
+<table class="table table-striped">
     <thead>
     <tr>
         <th>
-            <?= @text('Item Title'); ?>
+            <?= @text('Title'); ?>
         </th>
         <? if ($params->get('show_create_date')): ?>
         <th>
@@ -37,14 +36,13 @@
         <? endif; ?>
     </tr>
     </thead>
-    <? endif; ?>
     <? foreach ($articles as $article): ?>
     <tr>
         <td>
             <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a>
         </td>
         <? if ($params->get('show_create_date')) : ?>
-        <td>
+        <td nowrap="nowrap">
             <?= @helper('date.format', array('date'   => $article->created)); ?>
         </td>
         <? endif; ?>

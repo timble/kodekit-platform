@@ -34,7 +34,6 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         $params->def('show_cat_num_articles', 1);
         $params->def('show_category_description', 1);
         $params->def('show_feed_link', 1);
-        $params->def('show_headings', 1);
         $params->def('show_date', 1);*/
     }
 

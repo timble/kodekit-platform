@@ -34,11 +34,6 @@
                 <option value="0">Hide</option>
                 <option value="1">Show</option>
             </param>
-            <param name="show_headings" type="radio" default="1" label="Table Headings"
-                   description="TABLE HEADINGS DESC">
-                <option value="0">Hide</option>
-                <option value="1">Show</option>
-            </param>
             <param name="show_date" type="list" default="1" label="Date Column" description="DATE COLUMN DESC">
                 <option value="0">Hide</option>
                 <option value="1">Show</option>
