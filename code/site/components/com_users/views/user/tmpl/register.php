@@ -12,7 +12,6 @@
 
 <?=@helper('behavior.mootools');?>
 
-<style src="media://com_users/css/site.css" />
 <script src="media://lib_koowa/js/koowa.js" />
 
 <script type="text/javascript">
@@ -25,70 +24,48 @@
         $this->display('message');
 <? endif; ?>
 
-<form action="" method="post" id="josForm" name="josForm" class="form-validate">
+<form action="" method="post" id="josForm" name="josForm" class="form-validate form-horizontal">
     <input type="hidden" name="action" value="save" />
 
     <div class="page-header">
         <h1><?= @escape($parameters->get('page_title')) ?></h1>
     </div>
-
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="contentpane">
-        <tr>
-            <td width="30%" height="40">
-                <label id="namemsg" for="name">
-                    <?= @text('Name') ?>:
-                </label>
-            </td>
-            <td>
-                <input type="text" name="name" id="name" size="40" value="<?= @escape($user->name) ?>" class="inputbox required" maxlength="50" /> *
-            </td>
-        </tr>
-        <tr>
-            <td height="40">
-                <label id="usernamemsg" for="username">
-                    <?= @text('User name') ?>:
-                </label>
-            </td>
-            <td>
-                <input type="text" id="username" name="username" size="40" value="<?= @escape($user->username) ?>" class="inputbox required validate-username" maxlength="25" /> *
-            </td>
-        </tr>
-        <tr>
-            <td height="40">
-                <label id="emailmsg" for="email">
-                    <?= @text('Email') ?>:
-                </label>
-            </td>
-            <td>
-                <input type="text" id="email" name="email" size="40" value="<?= @escape($user->email) ?>" class="inputbox required validate-email" maxlength="100" /> *
-            </td>
-        </tr>
-        <tr>
-            <td height="40">
-                <label id="pwmsg" for="password">
-                    <?= @text('Password') ?>:
-                </label>
-            </td>
-            <td>
-                <input class="inputbox required validate-password" type="password" id="password" name="password" size="40" value="" /> *
-                <?=@helper('com://admin/users.template.helper.form.password', array('length' => $parameters->get('password_length')));?>
-            </td>
-        </tr>
-        <tr>
-            <td height="40">
-                <label id="pw2msg" for="password2">
-                    <?= @text('Verify Password') ?>:
-                </label>
-            </td>
-            <td>
-                <input class="inputbox required validate-passverify" type="password" id="password2" name="password_verify" size="40" value="" /> *
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" height="40">
-                <?= @text('REGISTER_REQUIRED') ?>
-            </td>
-        </tr>
-    </table>
-    <button class="button validate" type="submit"><?= @text('Register') ?></button>
+    
+    <div class="control-group">
+        <label class="control-label" for="name">
+            <?= @text('Name') ?>:
+        </label>
+        <div class="controls">
+            <input type="text" name="name" value="<?= @escape($user->name) ?>" class="required" maxlength="50" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="email">
+            <?= @text('Email') ?>:
+        </label>
+        <div class="controls">
+            <input type="text" name="email" value="<?= @escape($user->email) ?>" class="required validate-email" maxlength="100" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="">
+            <?= @text('Password') ?>:
+        </label>
+        <div class="controls">
+            <input class="inputbox required validate-password" type="password" name="password" value="" />
+            <?=@helper('com://admin/users.template.helper.form.password', array('length' => $parameters->get('password_length')));?>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="">
+            <?= @text('Verify Password') ?>:
+        </label>
+        <div class="controls">
+            <input class="required validate-passverify" type="password" id="password2" name="password_verify"  value="" />
+        </div>
+    </div>
+    
+    <div class="form-actions">
+        <button class="btn btn-primary validate" type="submit"><?= @text('Register') ?></button>
+    </div>
 </form>
