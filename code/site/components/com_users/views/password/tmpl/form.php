@@ -9,24 +9,28 @@
  */
 defined('KOOWA') or die('Restricted access');
 ?>
-<h1><?=@text('Change your password');?></h1>
+
+<div class="page-header">
+    <h1><?=@text('Change your password');?></h1>
+</div>
+
 <form action="" method="post" class="-koowa-form form-horizontal">
     <div class="control-group">
         <label class="control-label" for="password"><?= @text('Password') ?></label>
 
         <div class="controls">
-            <input class="inputbox" type="password" id="password" name="password" value="" size="40"/>
+            <input type="password" id="password" name="password" value=""/>
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="password"><?= @text('Verify Password') ?></label>
 
         <div class="controls">
-            <input class="inputbox" type="password" id="password_verify" name="password_verify" size="40"/>
+            <input type="password" id="password_verify" name="password_verify"/>
         </div>
     </div>
     <div class="form-actions">
-        <button class="btn validate" type="submit"><?= @text('Save') ?></button>
+        <button class="btn btn-primary validate" type="submit"><?= @text('Save') ?></button>
     </div>
     <? if (isset($token)): ?>
     <input type="hidden" name="token" value="<?=$token;?>"/>

@@ -10,7 +10,10 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
-<h1><?=@text('Password reset request');?></h1>
+<div class="page-header">
+    <h1><?=@text('Password reset request');?></h1>
+</div>
+
 <p><?= @text('RESET_PASSWORD_REQUEST_DESCRIPTION');?></p>
 <form action="" method="post" class="-koowa-form form-horizontal">
     <div class="control-group">
@@ -20,10 +23,8 @@ defined('KOOWA') or die('Restricted access');
             <input type="text" id="email" name="email" placeholder="E-mail"/>
         </div>
     </div>
-    <div class="control-group">
-        <div class="controls">
-            <button type="submit" class="btn"><?=@text('Submit');?></button>
-        </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary"><?=@text('Submit');?></button>
     </div>
     <input type="hidden" name="action" value="token"/>
 </form>

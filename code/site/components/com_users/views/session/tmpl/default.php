@@ -20,39 +20,32 @@
 </div>
 
 <form action="" method="post" id="com-form-login" class="form-horizontal">
-    <? if($parameters->get('show_login_title')) : ?>
-    <p><?= $parameters->get('header_login') ?></p>
-    <? endif ?>
-    <? if($parameters->get('description_login')) : ?>
+    <? if($parameters->get('description_login_text')) : ?>
     <p><?= $parameters->get('description_login_text' ) ?></p>
     <? endif ?>
     
     <div class="control-group">
         <label class="control-label" for="username"><?= @text('Username') ?></label>
         <div class="controls">
-            <input name="username" id="username" type="text" class="inputbox" alt="username" size="18" />
+            <input name="username" type="text" alt="username" />
         </div>
     </div>
     
     <div class="control-group">
         <label class="control-label" for="password"><?= @text('Password') ?></label>
         <div class="controls">
-            <input type="password" id="password" name="password" class="inputbox" size="18" alt="password" />
+            <input type="password" name="password" alt="password" />
         </div>
     </div>
     
     <div class="form-actions">
-        <button type="submit" class="validate btn"><?= @text('Submit') ?></button>
+        <button type="submit" class="validate btn btn-primary"><?= @text('Login') ?></button>
     </div>
 
     <ul>
         <li>
             <a href="<?= @route('view=reset') ?>">
             <?= @text('FORGOT_YOUR_PASSWORD') ?></a>
-        </li>
-        <li>
-            <a href="<?= @route('view=remind') ?>">
-            <?= @text('FORGOT_YOUR_USERNAME') ?></a>
         </li>
         <? if($parameters->get('registration')) : ?>
         <li>

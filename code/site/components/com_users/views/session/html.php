@@ -41,7 +41,6 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
             $parameters->set('page_title', JText::_('Login'));
         }
 
-        $parameters->def('description_login', 1);
         $parameters->def('description_login_text', JText::_('LOGIN_DESCRIPTION'));
         $parameters->def('registration', $this->getService('application.components')->users->params->get('allowUserRegistration'));
 
