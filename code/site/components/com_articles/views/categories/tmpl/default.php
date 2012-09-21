@@ -8,23 +8,3 @@
  * @link		http://www.nooku.org
  */
 ?>
-
-<? foreach($categories as $category) : ?>
-	<div class="page-header">
-	    <h1>
-		    <a href="<?= @helper('route.category', array('row' => $category)) ?>">
-			    <?= @escape($category->title);?>
-		    </a>
-	    </h1>
-	</div>
-	
-	<? if (isset($category->image)) : ?>
-		<?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
-	<? endif; ?>
-	
-	<p>
-	    <?= $category->description;?>
-	</p>
-<? endforeach; ?>
-
-

@@ -27,7 +27,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             ->insert('parent'    , 'int')
             ->insert('published' , 'boolean')
             ->insert('distinct'  , 'string')
-            ->insert('access'    , 'int');
+            ->insert('access'    , 'int')
+            ->insert('category'  , 'int');
     }
 
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
@@ -67,6 +68,10 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
 
         if (is_numeric($state->parent)) {
             $query->where('tbl.parent_id '.(is_array($state->parent) ? 'IN' : '=').' :parent')->bind(array('parent' => $state->parent));
+        }
+        
+        if (is_numeric($state->category)) {
+            $query->where('tbl.parent_id '.(is_array($state->category) ? 'IN' : '=').' :parent')->bind(array('parent' => $state->category));
         }
 
         if (is_bool($state->published))

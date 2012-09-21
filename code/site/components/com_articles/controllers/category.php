@@ -16,13 +16,7 @@
  * @subpackage Articles
  */
 
-class ComArticlesControllerCategory extends ComArticlesControllerDefault
-{
-    public function setRequest(array $request)
-    {
-        // Only return published items.
-        $request['published'] = 1;
+class ComArticlesControllerCategory extends ComCategoriesControllerCategory
+{    
 
-        return parent::setRequest($request);
-    }
 }

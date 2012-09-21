@@ -15,13 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComArticlesViewCategoriesHtml extends ComDefaultViewHtml
+class ComArticlesViewCategoriesHtml extends ComCategoriesViewCategoriesHtml
 {
-	public function display()
-	{
-		$params = $this->getService('application')->getParams();
-		$this->assign('params', $params);
 
-		return parent::display();
-	}
 }
