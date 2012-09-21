@@ -9,15 +9,26 @@
  */
 ?>
 
+<? foreach($categories as $category) : ?>
+<article>
 <div class="page-header">
-    <h1><?= @escape($params->get('page_title')); ?></h1>
+    <h1>
+        <a href="<?= @helper('route.category', array('row' => $category)) ?>">
+        	<?= @escape($category->title);?>
+        </a>
+    </h1>
 </div>
 
-<? foreach($categories as $category) : ?>
-<h2>
-	<a href="<?= @helper('route.category', array('row' => $category)) ?>" class="category">
-		<?= @escape($category->title);?>
-	</a>
-</h2>
-<p><?= $category->description;?></p>
+<div class="clearfix">
+	<? if ($category->description) : ?>
+	<p><?= $category->description; ?></p>
+	<? endif; ?>
+	
+	<? if (isset($category->image)) : ?>
+		<img class="thumbnail" align="right" src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
+	<? endif; ?>
+</div>
+
+<a href="<?= @helper('route.category', array('row' => $category)) ?>"><?= @text('Read more') ?></a>
+</article>
 <? endforeach; ?>
