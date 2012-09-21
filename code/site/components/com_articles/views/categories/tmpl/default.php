@@ -9,26 +9,19 @@
  */
 ?>
 
-<div class="page-header">
-    <h1><?= @escape($params->get('page_title')); ?></h1>
-</div>
-
-<? if ($params->get('show_description_image') && $section->image): ?>
-<? if (isset($section->image)) : ?>
-    <img src="<?= $section->image->path ?>" height="<?= $section->image->height ?>" width="<?= $section->image->width ?>" />
-    <? endif; ?>
-<? endif; ?>
-
-<? if ($params->get('show_description') && $section->description): ?>
-    <?= $section->description; ?>
-<? endif; ?>
-
 <? foreach($categories as $category) : ?>
-	<h2>
-		<a href="<?= @helper('route.category', array('row' => $category)) ?>" class="category">
-			<?= @escape($category->title);?>
-		</a>
-	</h2>
+	<div class="page-header">
+	    <h1>
+		    <a href="<?= @helper('route.category', array('row' => $category)) ?>">
+			    <?= @escape($category->title);?>
+		    </a>
+	    </h1>
+	</div>
+	
+	<? if (isset($category->image)) : ?>
+		<?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
+	<? endif; ?>
+	
 	<p>
 	    <?= $category->description;?>
 	</p>
