@@ -5,10 +5,6 @@
 		<description>Component Parameters</description>
 		<params>
 			<param name="page_title" type="text" size="30" default="" label="Page Title" description="PAGE TITLE DESC" />
-			<param name="show_page_title" type="radio" default="1" label="Show Page Title" description="SHOW/HIDE THE PAGE TITLE">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
 		</params>
 		<advanced />
 	</state>
