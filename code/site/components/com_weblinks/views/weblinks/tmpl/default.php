@@ -17,15 +17,15 @@
     <h1><?= @escape($params->get('page_title')); ?></h1>
 </div>
 
-<? if(!empty($category->image) || !empty($category->description)) : ?>
+<? if($category->image || $category->description) : ?>
 <div class="clearfix well">
-	<? if (!empty($category->image)) : ?>
-		<?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
-	<? endif; ?>
-	
-	<? if (!empty($category->description)) : ?>
-	<p class="lead"><?= $category->description; ?></p>
-	<? endif ?>
+    <? if ($category->image) : ?>
+    <?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
+    <? endif; ?>
+    
+    <? if ($category->description) : ?>
+    <?= $category->description; ?>
+    <? endif ?>
 </div>
 <? endif; ?>
 
