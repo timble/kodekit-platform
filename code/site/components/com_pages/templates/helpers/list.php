@@ -24,14 +24,10 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
         
             if($depth > $last_depth)
             {
-                if($first) {
-                	$result .= '<ul '.$this->_buildAttributes($config->attribs).'>';
-                	
-                	if($config->title) {
-                		$result .= '<li class="nav-header">'.$config->title.'</li>';
-                	}
-                } else {
-                	$result .= '<ul>';
+                $result .= '<ul '.$this->_buildAttributes($config->attribs).'>';
+                
+                if($first && $config->title) {
+                	$result .= '<li class="nav-header">'.$config->title.'</li>';
                 }
                 
                 $last_depth = $depth;
