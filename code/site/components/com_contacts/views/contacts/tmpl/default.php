@@ -17,35 +17,38 @@
 	<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 <? endif; ?>
 
-<h1><?= @escape($params->get('page_title')); ?></h1>
-
-<div class="clearfix">
-<? if ($category->image) : ?>
-    <?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
-<? endif; ?>
-    
-<?= $category->description; ?>
+<div class="page-header">
+    <h1><?= @escape($params->get('page_title')); ?></h1>
 </div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+<? if ($category->image || $category->description) : ?>
+<div class="well clearfix">
+    <? if ($category->image) : ?>
+    <?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
+    <? endif; ?>
+    <?= $category->description; ?>
+</div>
+<? endif; ?>
+
+<table class="table table-striped">
     <thead>
         <tr>
-            <th height="20">
-                <?= @text( 'Name' ); ?>
+            <th width="100%">
+                <?= @text('Name'); ?>
         	</th>
-            <? if ( $params->get( 'show_position' ) ) : ?>
-            <th height="20">
-                <?= @text( 'Position' ); ?>
+            <? if ($params->get('show_position')) : ?>
+            <th>
+                <?= @text('Position'); ?>
             </th>
             <? endif; ?>
-            <? if ( $params->get( 'show_email' ) ) : ?>
-            <th height="20" width="20%">
-                <?= @text( 'Email' ); ?>
+            <? if ($params->get('show_email')) : ?>
+            <th>
+                <?= @text('Email'); ?>
         	</th>
             <? endif; ?>
-            <? if ( $params->get( 'show_telephone' ) ) : ?>
-        	<th height="20" width="15%">
-                <?= @text( 'Phone' ); ?>
+            <? if ($params->get('show_telephone')) : ?>
+        	<th>
+                <?= @text('Phone'); ?>
         	</th>
         	<? endif; ?>
         </tr>
