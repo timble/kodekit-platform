@@ -17,13 +17,13 @@
     <h1><?= @escape($params->get('page_title')); ?></h1>
 </div>
 
-<? if(isset($category->image) || $category->description) : ?>
+<? if(!empty($category->image) || !empty($category->description)) : ?>
 <div class="clearfix well">
-	<? if (isset($category->image)) : ?>
+	<? if (!empty($category->image)) : ?>
 		<?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
 	<? endif; ?>
 	
-	<? if ($category->description) : ?>
+	<? if (!empty($category->description)) : ?>
 	<p class="lead"><?= $category->description; ?></p>
 	<? endif ?>
 </div>
