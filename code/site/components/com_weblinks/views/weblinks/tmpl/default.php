@@ -17,13 +17,17 @@
     <h1><?= @escape($params->get('page_title')); ?></h1>
 </div>
 
-<div class="clearfix">
-	<?= $category->description; ?>
-	
+<? if(isset($category->image) || $category->description) : ?>
+<div class="clearfix well">
 	<? if (isset($category->image)) : ?>
 		<img class="thumbnail" align="right" src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
 	<? endif; ?>
+	
+	<? if ($category->description) : ?>
+	<p class="lead"><?= $category->description; ?></p>
+	<? endif ?>
 </div>
+<? endif; ?>
 
 <?= @template('default_items'); ?>
 
