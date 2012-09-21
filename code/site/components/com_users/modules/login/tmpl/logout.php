@@ -16,6 +16,6 @@
     <?= JText::sprintf( 'HINAME', $user->name ); ?>
 	
 	<div class="form-actions">
-		<input type="submit" name="Submit" class="btn" value="<?= @text( 'BUTTON_LOGOUT'); ?>" />
+		<input type="submit" name="Submit" class="btn" value="<?= @text('Sign out'); ?>" />
 	</div>
 </form>
