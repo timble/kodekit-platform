@@ -20,12 +20,12 @@
 </div>
 
 <div class="clearfix">
-	<? if ($category->description) : ?>
-	<p><?= $category->description; ?></p>
+	<? if (isset($category->image)) : ?>
+		<?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
 	<? endif; ?>
 	
-	<? if (isset($category->image)) : ?>
-		<img class="thumbnail" align="right" src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
+	<? if ($category->description) : ?>
+	<p><?= $category->description; ?></p>
 	<? endif; ?>
 </div>
 

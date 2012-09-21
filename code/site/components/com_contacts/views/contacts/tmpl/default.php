@@ -21,7 +21,7 @@
 
 <div class="clearfix">
 <? if ($category->image) : ?>
-    <img class="thumbnail" src="<?= $category->image->path ?>" align="right" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
+    <?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
 <? endif; ?>
     
 <?= $category->description; ?>

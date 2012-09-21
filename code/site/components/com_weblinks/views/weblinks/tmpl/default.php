@@ -20,7 +20,7 @@
 <? if(isset($category->image) || $category->description) : ?>
 <div class="clearfix well">
 	<? if (isset($category->image)) : ?>
-		<img class="thumbnail" align="right" src="<?= $category->image->path ?>" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
+		<?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
 	<? endif; ?>
 	
 	<? if ($category->description) : ?>
