@@ -199,8 +199,7 @@ VALUES
 	(47, 2, 2),
 	(48, 10, 10),
 	(49, 9, 9),
-	(50, 3, 2),
-	(51, 2, 3);
+	(50, 3, 2);
 
 --
 -- Dumping data for table `#__pages_closures`
@@ -232,8 +231,7 @@ VALUES
 	(47, 47, 0),
 	(48, 48, 0),
 	(49, 49, 0),
-	(50, 50, 0),
-	(51, 51, 0);
+	(50, 50, 0);
 
 --
 -- Dumping data for table `#__pages`
@@ -250,18 +248,17 @@ VALUES
 	(37, 4, 'The Community', 'the-community', 'index.php?option=com_articles&view=article&id=27', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(38, 1, 'What\'s New in 1.5?', 'what-is-new-in-1-5', 'index.php?option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(39, 1, 'More about Joomla!', 'more-about-joomla', 'index.php?option=com_articles&view=articles&layout=table&category=36', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(40, 1, 'Content Layouts', 'content-layouts', 'index.php?option=com_articles&view=article', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(41, 1, 'Extensions', 'extensions', 'index.php?option=com_articles&view=article', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(40, 1, 'Content Layouts', 'content-layouts', 'index.php?option=com_articles&view=article&id=24', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(41, 1, 'Extensions', 'extensions', 'index.php?option=com_articles&view=article&id=26', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(42, 1, 'FAQ', 'faq', 'index.php?option=com_articles&view=articles&layout=table&category=35', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(43, 1, 'Example Pages', 'example-pages', 'index.php?option=com_articles&view=article', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(43, 1, 'Example Pages', 'example-pages', 'index.php?option=com_articles&view=article&id=43', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(44, 1, 'Section Blog', 'section-blog', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(45, 1, 'Section Table', 'section-table', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(46, 1, 'Category Blog', 'categoryblog', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(47, 1, 'Category Table', 'category-table', 'index.php?option=com_articles&view=articles', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(48, 1, 'Web Links', 'web-links', 'index.php?option=com_weblinks&view=categories', NULL, 'component', 1, 0, 0, 4, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(49, 1, 'The News', 'the-news', 'index.php?option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(50, 3, 'Submit an Article', 'submit-an-article', 'index.php?option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
-	(51, 3, 'Submit a Web Link', 'submit-a-web-link', 'index.php?option=com_weblinks&view=weblink&layout=form', NULL, 'component', 0, 0, 0, 4, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+	(50, 3, 'Submit an Article', 'submit-an-article', 'index.php?option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL);
 
 
 
