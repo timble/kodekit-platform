@@ -11,8 +11,9 @@
 ?>
 
 <form action="<?= @route('option=com_users&view=session'); ?>" method="post" name="login" id="form-login" >
-
-	<?= $pretext ?>
+	<? if($show_title) : ?>
+	<h3>Test</h3>
+	<? endif ?>
 	
 	<fieldset class="input">
 	<div class="control-group">
@@ -46,6 +47,4 @@
 		</ul>
 	</div>
 	</fieldset>
-
-	<?= $posttext ?>
 </form>

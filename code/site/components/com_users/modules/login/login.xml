@@ -14,17 +14,6 @@
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
 			<option value="0">Never</option>
 		</param>
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="pretext" type="textarea" cols="30" rows="5" default="" label="Pre-text" description="PARAMPRETEXT" />
-		<param name="posttext" type="textarea" cols="30" rows="5" label="Post-text" description="PARAMPOSTTEXT" />
-		<param name="greeting" type="radio" default="1" label="Greeting" description="Show/Hide the simple greeting text">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="name" type="list" default="0" label="Name/Username">
-			<option value="0">Username</option>
-			<option value="1">Name</option>
-		</param>
 		<param name="usesecure" type="radio" default="0" label="Encrypt Login Form" description="Submit encrypted login data (requires SSL)">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

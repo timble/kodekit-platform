@@ -12,15 +12,9 @@
 
 <form action="<?= @route('option=com_users&view=session&id='.@service('application.session')->getId()) ?>" method="post" name="login" id="form-login">
 	<input type="hidden" name="action" value="delete" />
-    <? if ($show_greeting) : ?>
-	<div>
-	    <? if ($name) : ?>
-		    <?= JText::sprintf( 'HINAME', $user->name ); ?>
-	    <? else : ?>
-		    <?= JText::sprintf( 'HINAME', $user->username ); ?>
-	    <? endif; ?>
-	</div>
-    <? endif; ?>
+    
+    <?= JText::sprintf( 'HINAME', $user->name ); ?>
+	
 	<div class="form-actions">
 		<input type="submit" name="Submit" class="btn" value="<?= @text( 'BUTTON_LOGOUT'); ?>" />
 	</div>

@@ -29,11 +29,9 @@ class ComUsersModuleLoginHtml extends ComDefaultModuleDefaultHtml
     
     public function display()
     { 
-        $this->show_greeting = $this->module->params->get('greeting', 1);
         $this->name          = $this->module->params->get('name');  
         $this->usesecure     = $this->module->params->get('usesecure');   
-        $this->pretext       = $this->module->params->get('pretext');
-        $this->posttext      = $this->module->params->get('posttext');
+        $this->show_title    = $this->module->params->get('show_title', false);
         $this->allow_registration = $this->getService('application.components')->users->params->get('allowUserRegistration');
         
         // Assign vars and render view
