@@ -5021,3 +5021,16 @@ section article {
   padding-left: 30px;
   padding-right: 30px;
 }
+.module.mod_login form {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.module.mod_login form input {
+  width: 90%;
+}
+.module.mod_login form .form-actions {
+  padding: 10px 0;
+}
+.module.mod_login form .form-actions .btn {
+  width: auto;
+}
