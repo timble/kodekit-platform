@@ -456,14 +456,14 @@ DROP PROCEDURE #__convert_adjacency_to_closure;
 
 -- Add orderings table
 CREATE TABLE `#__pages_orderings` (
-    `pages_page_id` INT UNSIGNED NOT NULL,
-    `title` INT UNSIGNED NOT NULL DEFAULT 0,
-    `custom` INT UNSIGNED NOT NULL DEFAULT 0,
-    PRIMARY KEY (`pages_page_id`),
-    CONSTRAINT `#__pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
-    INDEX `ix_title` (`title`),
-    INDEX `ix_custom` (`custom`)
-) ENGINE = InnoDB CHARSET = utf8;
+  `pages_page_id` int(11) unsigned NOT NULL,
+  `title` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
+  `custom` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
+  PRIMARY KEY (`pages_page_id`),
+  KEY `ix_title` (`title`),
+  KEY `ix_custom` (`custom`),
+  CONSTRAINT `#__pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Populate id and custom columns
 INSERT INTO `#__pages_orderings` (`pages_page_id`, `custom`) SELECT `pages_page_id`, `ordering` AS `custom` FROM `#__pages`;

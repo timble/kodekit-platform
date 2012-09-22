@@ -302,7 +302,7 @@ CREATE TABLE `#__pages_orderings` (
   PRIMARY KEY (`pages_page_id`),
   KEY `ix_title` (`title`),
   KEY `ix_custom` (`custom`),
-  CONSTRAINT `ns_pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `ns_pages` (`pages_page_id`) ON DELETE CASCADE
+  CONSTRAINT `#__pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
