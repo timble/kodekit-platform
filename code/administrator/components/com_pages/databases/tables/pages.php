@@ -18,26 +18,17 @@
 
 class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
 {
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-
-        if(empty($config->ordering_table)) {
-            throw new KDatabaseTableException('Ordering table cannot be empty');
-        }
-
-        $this->setOrderingTable($config->ordering_table);
-    }
-
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
             'name' => 'pages',
             'relation_table' => 'pages_closures',
-            'ordering_table' => 'pages_orderings',
             'behaviors'  => array(
                 'creatable', 'modifiable', 'lockable', 'sluggable', 'assignable',
-                'com://admin/pages.database.behavior.orderable' => array('columns' => array('title', 'custom'))
+                'com://admin/pages.database.behavior.orderable' => array(
+                    'table' => 'pages_orderings',
+                    'columns' => array('title', 'custom')
+                )
             ),
             'filters' => array(
                 'params' => 'ini'
@@ -45,16 +36,5 @@ class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
         ));
 
         parent::_initialize($config);
-    }
-
-    public function getOrderingTable()
-    {
-        return $this->_ordering_table;
-    }
-
-    public function setOrderingTable($table)
-    {
-        $this->_ordering_table = $table;
-        return $this;
     }
 }

@@ -19,14 +19,20 @@
  */
 class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 {
+    protected $_table;
+    
     protected $_columns = array();
     
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
         
+        if($config->table) {
+            $this->_table = $config->table;
+        }
+        
         if($config->columns) {
-            $this->setColumns(KConfig::unbox($config->columns));
+            $this->_columns = KConfig::unbox($config->columns);
         }
     }
     
@@ -35,20 +41,40 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         $config->append(array(
             'priority'   => KCommand::PRIORITY_LOWEST,
             'auto_mixin' => true,
+            'table'      => null,
             'columns'    => array()
         ));
 
         parent::_initialize($config);
     }
     
-    public function setColumns(array $columns = array())
+    protected function _beforeTableSelect(KCommandContext $context)
     {
-        $this->_columns = array_unique(array_merge($this->_columns, $columns));
-    }
-    
-    public function getColumns()
-    {
-        return $this->_columns;
+        $query = $context->query;
+        $state = $context->options->state;
+        
+        if(!$query->isCountQuery() && $state && !$state->isUnique() && in_array($state->sort, $this->_columns))
+        {
+            $query->columns(array('ordering_path' => 'GROUP_CONCAT(ordering_crumbs.'.$state->sort.' ORDER BY crumbs.level DESC  SEPARATOR \'/\')'))
+                ->join(array('ordering_crumbs' => $this->_table), 'crumbs.ancestor_id = ordering_crumbs.'.$this->getIdentityColumn(), 'INNER');
+            
+            // This one is to display the custom ordering in backend.
+            if($state->sort == 'custom')
+            {
+                $query->columns(array('ordering' => 'orderings.custom'))
+                    ->join(array('orderings' => $this->_table), 'tbl.'.$this->getIdentityColumn().' = orderings.'.$this->getIdentityColumn());
+            }
+            
+            // Replace short column with ordering path.
+            foreach($query->order as &$order)
+            {
+                if($order['column'] == $state->sort)
+                {
+                    $order['column'] = 'ordering_path';
+                    break;
+                }
+            }
+        }
     }
     
     protected function _afterTableInsert(KCommandContext $context)
@@ -82,7 +108,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
             
             // Get orderings.
             $identifier = $this->getTable()->getIdentifier();
-            $identifier->name = substr($this->getTable()->getOrderingTable(), strlen($identifier->package) + 1);
+            $identifier->name = substr($this->_table, strlen($identifier->package) + 1);
             
             $table = $this->getService($identifier);
             $orderings = $table->select(count($siblings) ? $siblings->id : null, KDatabase::FETCH_ROWSET);
@@ -177,14 +203,5 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         }
         
         return $list;
-    }
-    
-    public function getMixableMethods(KObject $mixer = null)
-    {
-        $methods = parent::getMixableMethods($mixer);
-        unset($methods['setColumns']);
-        unset($methods['getColumns']);
-
-        return $methods;
     }
 }

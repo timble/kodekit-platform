@@ -113,8 +113,8 @@ class ComPagesModelClosures extends ComDefaultModelDefault
         parent::_buildQueryHaving($query);
     }
 
-    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    /*protected function _buildQueryOrder(KDatabaseQuerySelect $query)
     {
         $query->order('path', 'ASC');
-    }
+    }*/
 }
