@@ -27,32 +27,27 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
         $this->active = $pages->getActive();
         $this->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0));
 
-        foreach($pages as $page)
+        foreach(clone $this->pages as $page)
         {
             $extract = false;
             
-            // Extract if level is lower than start or higher than end.
-            if($page->level < $start || ($end > $start && $page->level > $end)) {
+            // Extract if level is lower than start.
+            if($page->level < $start) {
                 $extract = true;
             }
             
-            // Extract if show_children = active and page is not child of active.
-            if(!$extract && $page->level > $start && $children == 'active')
+            // Extract if level is higher than end.
+            if(!$extract && $end > $start && $page->level > $end) {
+                $extract = true;
+            }
+            
+            // Extract if path is not in the active branch.
+            if(!$extract && $children == 'active' && $page->level > 1)
             {
-                if($page->level > $this->active->level + 1) {
+                if(implode('/', $page->parent_ids) != implode('/', array_slice(explode('/', $this->active->path), 0, count($page->parent_ids)))) {
                     $extract = true;
                 }
-                
-                if(!$extract) {
-	    			// Create a merged array from $page->path and $this->active->path
-	                $paths = array_merge(explode("/", $page->path), explode("/", $this->active->path));
-		            
-		            // Extract if array has no duplicated values
-		            if (count($paths) === count(array_unique($paths))) {
-	                    $extract = true;
-	                }
-	            }
-            } 
+            }
             
             if($extract) {
                 $this->pages->extract($page);
