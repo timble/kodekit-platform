@@ -130,7 +130,7 @@ VALUES
 -- Dumping data for table `#__pages_modules`
 --
 
-INSERT INTO `jos_pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
 	(17, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 25, 'site'),
 	(18, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
