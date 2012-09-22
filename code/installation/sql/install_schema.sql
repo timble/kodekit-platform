@@ -296,13 +296,13 @@ CREATE TABLE `#__languages_tables` (
 --
 
 CREATE TABLE `#__pages_orderings` (
-  `pages_page_id` INT UNSIGNED NOT NULL,
-  `title` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
-  `custom` SMALLINT UNSIGNED NOT NULL DEFAULT 0,
+  `pages_page_id` int(11) unsigned NOT NULL,
+  `title` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
+  `custom` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
   PRIMARY KEY (`pages_page_id`),
-  CONSTRAINT `#__pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
-  INDEX `ix_title` (`title`),
-  INDEX `ix_custom` (`custom`)
+  KEY `ix_title` (`title`),
+  KEY `ix_custom` (`custom`),
+  CONSTRAINT `ns_pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `ns_pages` (`pages_page_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
