@@ -19,8 +19,8 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
 {
     public function display()
     {
-        $start    = $this->module->params->get('start_level') + 1;
-        $end      = $this->module->params->get('end_evel') + 1;
+        $start    = $this->module->params->get('start_level');
+        $end      = $this->module->params->get('end_evel');
         $children = $this->module->params->get('show_children', 'active');
         $pages    = $this->getService('application.pages');
 

@@ -45,6 +45,8 @@ UPDATE `#__modules` SET `params` = REPLACE(`params`, 'startLevel=', 'start_level
 UPDATE `#__modules` SET `params` = REPLACE(`params`, CONCAT('end_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'end_level=', -1), '\n', 1)), CONCAT('end_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'start_level=', -1), '\n', 1) + 1)) WHERE `name` = 'mod_menu' AND `params` LIKE '%show_children=0%' AND `params` LIKE '%expand_menu=0%';
 UPDATE `#__modules` SET `params` = REPLACE(`params`, 'show_children=1', 'show_children=always') WHERE `name` = 'mod_menu';
 UPDATE `#__modules` SET `params` = REPLACE(`params`, 'show_children=0', 'show_children=active') WHERE `name` = 'mod_menu';
+UPDATE `#__modules` SET `params` = REPLACE(`params`, CONCAT('start_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'start_level=', -1), '\n', 1)), CONCAT('start_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'start_level=', -1), '\n', 1) + 1)) WHERE `name` = 'mod_menu' AND `params` LIKE '%start_level=%';
+UPDATE `#__modules` SET `params` = REPLACE(`params`, CONCAT('end_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'end_level=', -1), '\n', 1)), CONCAT('end_level=', SUBSTRING_INDEX(SUBSTRING_INDEX(`params`, 'end_level=', -1), '\n', 1) + 1)) WHERE `name` = 'mod_menu' AND `params` LIKE '%end_level=%';
 
 # --------------------------------------------------------
 
