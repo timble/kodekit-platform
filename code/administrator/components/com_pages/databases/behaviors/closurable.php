@@ -9,7 +9,7 @@
  */
 
 /**
- * Assignable Database Behavior Class
+ * Closurable Database Behavior Class
  *
  * This behavior is used for saving and deleting relations. The reason for using a separate behavior is to make sure that
  * other behaviors like orderable can use methods like getAncestors, getParent.
@@ -20,14 +20,56 @@
  */
 class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
 {
+    protected $_table;
+    
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+        
+        if($config->table) {
+            $this->_table = $config->table;
+        }
+    }
+    
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
             'priority'   => KCommand::PRIORITY_HIGHEST,
-            'auto_mixin' => true
+            'auto_mixin' => true,
+            'table'      => null
         ));
 
         parent::_initialize($config);
+    }
+    
+    protected function _beforeTableSelect(KCommandContext $context)
+    {
+        $query     = $context->query;
+        $state     = $context->options->state;
+        $id_column = $this->getIdentityColumn();
+        
+        $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
+            ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
+            ->join(array('crumbs' => $this->_table), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
+            ->group('tbl.'.$id_column);
+        
+        if($state)
+        {
+            if($state->parent_id)
+            {
+                $query->where('crumbs.ancestor_id IN :parent_id')
+                    ->where('tbl.'.$id_column.' NOT IN :parent_id')
+                    ->bind(array('parent_id' => $state->parent_id));
+    
+                if(!is_null($state->level)) {
+                    $query->where('crumbs.level IN :level')->bind(array('level' => (array) $state->level));
+                }
+            }
+            
+            if(!$state->parent_id && !is_null($state->level)) {
+                $query->having('level IN :level')->bind(array('level' => (array) $state->level));
+            }
+        }
     }
     
     /**
@@ -51,7 +93,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     ->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
                     ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
                     ->table(array('tbl' => $table->getName()))
-                    ->join(array('crumbs' => $table->getRelationTable()), 'crumbs.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
+                    ->join(array('crumbs' => $this->_table), 'crumbs.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
                     ->where('tbl.'.$table->getIdentityColumn().' = :parent_id')
                     ->group('tbl.'.$table->getIdentityColumn())
                     ->order('path', 'ASC')
@@ -67,7 +109,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             
             // Insert the self relation.
             $query = $this->getService('koowa:database.query.insert')
-                ->table($table->getRelationTable())
+                ->table($this->_table)
                 ->columns(array('ancestor_id', 'descendant_id', 'level'))
                 ->values(array($data->id, $data->id, 0));
             
@@ -78,12 +120,12 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             {
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('ancestor_id', $data->id, 'level + 1'))
-                    ->table($table->getRelationTable())
+                    ->table($this->_table)
                     ->where('descendant_id = :descendant_id')
                     ->bind(array('descendant_id' => $data->parent_id));
                 
                 $query = $this->getService('koowa:database.query.insert')
-                    ->table($table->getRelationTable())
+                    ->table($this->_table)
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
                 
@@ -123,9 +165,9 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 
                 // Delete the outdated paths for the old location.
                 $query = $this->getService('koowa:database.query.delete')
-                    ->table(array('a' => $table->getRelationTable()))
-                    ->join(array('d' => $table->getRelationTable()), 'a.descendant_id = d.descendant_id', 'INNER')
-                    ->join(array('x' => $table->getRelationTable()), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
+                    ->table(array('a' => $this->_table))
+                    ->join(array('d' => $this->_table), 'a.descendant_id = d.descendant_id', 'INNER')
+                    ->join(array('x' => $this->_table), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
                     ->where('d.ancestor_id = :ancestor_id')
                     ->where('x.ancestor_id IS NULL')
                     ->bind(array('ancestor_id' => $data->id));
@@ -135,14 +177,14 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 // Insert the subtree under its new location.
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
-                    ->table(array('supertree' => $table->getRelationTable()))
-                    ->join(array('subtree' => $table->getRelationTable()), null, 'INNER')
+                    ->table(array('supertree' => $this->_table))
+                    ->join(array('subtree' => $this->_table), null, 'INNER')
                     ->where('subtree.ancestor_id = :ancestor_id')
                     ->where('supertree.descendant_id = :descendant_id')
                     ->bind(array('ancestor_id' => $data->id, 'descendant_id' => (int) $data->parent_id));
                     
                 $query = $this->getService('koowa:database.query.insert')
-                    ->table($table->getRelationTable())
+                    ->table($this->_table)
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
                 

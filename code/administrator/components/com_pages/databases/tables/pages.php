@@ -16,7 +16,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
+class ComPagesDatabaseTablePages extends KDatabaseTableDefault
 {
     protected function _initialize(KConfig $config)
     {
@@ -28,6 +28,9 @@ class ComPagesDatabaseTablePages extends ComPagesDatabaseTableClosures
                 'com://admin/pages.database.behavior.orderable' => array(
                     'table' => 'pages_orderings',
                     'columns' => array('title', 'custom')
+                ),
+                'com://admin/pages.database.behavior.closurable' => array(
+                    'table' => 'pages_closures'
                 )
             ),
             'filters' => array(
