@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesModelPages extends ComPagesModelClosures
+class ComPagesModelPages extends ComDefaultModelDefault
 {
     protected $_page_xml;
 
