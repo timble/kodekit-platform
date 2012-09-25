@@ -255,6 +255,19 @@ INSERT INTO `#__users` (`users_user_id`, `name`, `email`, `usertype`, `enabled`,
 VALUES
 	(1, 'Administrator', 'admin@localhost.home', 'Super Administrator', 1, 1, 25, '', '', NULL, NULL, NULL, NULL, NOW(), '', '', '', UUID());
 
+--
+-- Dumping data for table `#__users_groups`
+--
+
+INSERT INTO `#__users_groups` (`users_group_id`, `name`, `type`)
+VALUES
+    (18, 'Registered', 'system'),
+    (19, 'Author', 'system'),
+    (20, 'Editor', 'system'),
+    (21, 'Publisher', 'system'),
+    (23, 'Manager', 'system'),
+    (24, 'Administrator', 'system'),
+    (25, 'Super Administrator', 'system');
 
 --
 -- Dumping data for table `#__passwords`
