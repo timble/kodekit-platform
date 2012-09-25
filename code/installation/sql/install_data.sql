@@ -251,9 +251,9 @@ VALUES
 -- Dumping data for table `#__users`
 --
 
-INSERT INTO `#__users` (`users_user_id`, `name`, `email`, `usertype`, `enabled`, `send_email`, `users_group_id`, `registered_on`, `last_visited_on`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `activation`, `params`, `uuid`)
+INSERT INTO `#__users` (`users_user_id`, `name`, `email`, `enabled`, `send_email`, `users_group_id`, `registered_on`, `last_visited_on`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `activation`, `params`, `uuid`)
 VALUES
-	(1, 'Administrator', 'admin@localhost.home', 'Super Administrator', 1, 1, 25, '', '', NULL, NULL, NULL, NULL, NOW(), '', '', '', UUID());
+	(1, 'Administrator', 'admin@localhost.home', 1, 1, 25, '', '', NULL, NULL, NULL, NULL, NOW(), '', '', '', UUID());
 
 --
 -- Dumping data for table `#__users_groups`
