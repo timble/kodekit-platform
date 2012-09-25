@@ -16,7 +16,7 @@
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
-<? if( $state->section == 'com_articles') : ?>
+<? if($state->table == 'articles') : ?>
 <ktml:module position="sidebar">
     <?= @template('default_sidebar'); ?>
 </ktml:module>
