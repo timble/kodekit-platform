@@ -211,17 +211,16 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
     protected function _actionAuthorize(KCommandContext $context)
     {
-        if(!($this->getCfg('offline') && JFactory::getUser()->get('guest')))
+        $user = JFactory::getUser();
+        if(!($this->getCfg('offline') && $user->guest))
         {
-            if(!$this->getService('application.pages')->isAuthorized($this->getRequest()->Itemid, JFactory::getUser()->get('aid')))
+            if(!$this->getService('application.pages')->isAuthorized($this->getRequest()->Itemid, $user->users_group_id))
             {
-                if (JFactory::getUser()->get('aid'))
-                {
+                if($user->guest) {
+                    $this->option = 'com_users';
+                } else {
                     throw new KException(JText::_('ALERTNOTAUTH'), KHttpResponse::FORBIDDEN);
-                    return;
-
                 }
-                else $this->option = 'com_users';
             }
         }
         else $this->option = 'com_users';
