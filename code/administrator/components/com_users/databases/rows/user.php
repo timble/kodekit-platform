@@ -54,9 +54,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 				->select($this->id, KDatabase::FETCH_ROW);
 		}
 
-        // Load component parameters.
-        $params = $this->getService('application.components')->users->params;
-
 		$user = JFactory::getUser();
 		
 		// Validate received data.
@@ -165,15 +162,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			$this->registered_on = gmdate('Y-m-d H:i:s', time());
 		}
 
-		// TODO: This shouldn't be executed on every save.
-		$query = $this->getService('koowa:database.query.select')
-            ->columns('name')
-            ->where('id = :id')
-            ->bind(array('id' => $this->users_group_id));
-
-		$this->group_name = $this->getService('com://admin/users.database.table.groups')
-            ->select($query, KDatabase::FETCH_FIELD);
-
 		// Set parameters.
 		if($this->isModified('params'))
 		{
@@ -187,65 +175,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			}
 		}
 		
-		// Get modified columns for further use.
-		$modified = $this->getModified();
-
-		if(!parent::save()) {
-			return false;
-		}
-
-		// Syncronize ACL.
-		if($this->getStatus() == KDatabase::STATUS_CREATED)
-		{
-            $aro = $this->getService('com://admin/groups.database.row.aro')
-                ->setData(array(
-            		'section_value' => 'users',
-            		'value' => $this->id,
-            		'name' => $this->name
-                ));
-            // Load an existing row if any.
-            $aro->load();
-            $aro->save();
-            
-            $arosgroup = $this->getService('com://admin/groups.database.row.arosgroup')
-                ->setData(array(
-                    'group_id' => $this->users_group_id,
-                    'aro_id'   => $aro->id
-                ));
-            // Load an existing row if any.
-            $arosgroup->load();
-            $arosgroup->save();
-		}
-		else
-		{
-            if(array_search('name', $modified) !== false || array_search('users_group_id', $modified) !== false) 
-            {
-                $aro = $this->getService('com://admin/groups.database.table.aros')
-                    ->select(array('value' => $this->id), KDatabase::FETCH_ROW);
-
-                if(array_search('name', $modified) !== false)
-                {
-                    $aro->name = $this->name;
-                    $aro->save();
-                }
-
-                if(array_search('users_group_id', $modified) !== false) 
-                {
-                    $this->getService('com://admin/groups.database.table.arosgroups')
-                        ->select(array('aro_id' => $aro->id), KDatabase::FETCH_ROW)
-                        ->delete();
-                    
-                    $this->getService('com://admin/groups.database.table.arosgroups')
-                         ->select(null, KDatabase::FETCH_ROW)
-                         ->setData(array(
-                            'group_id' => $this->users_group_id,
-                            'aro_id'   => $aro->id
-                         ))->save();
-                }
-            }
-		}
-
-		return true;
+		return parent::save();
 	}
 
 	public function delete()
@@ -271,23 +201,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-		if(!parent::delete()) {
-			return false;
-		}
-
-        // Syncronize ACL.
-		if($this->_status == KDatabase::STATUS_DELETED)
-		{
-            $aro = $this->getService('com://admin/groups.database.table.aros')
-                         ->select(array('value' => $this->id), KDatabase::FETCH_ROW);
-            $aro->delete();
-         
-            $this->getService('com://admin/groups.database.table.arosgroups')
-                 ->select(array('aro_id' => $aro->id), KDatabase::FETCH_ROW)
-                 ->delete();
-		}
-
-		return true;
+		return parent::delete();
 	}
 
     public function reset()
