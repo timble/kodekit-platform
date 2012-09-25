@@ -22,7 +22,6 @@ class ComPagesDatabaseTablePages extends KDatabaseTableDefault
     {
         $config->append(array(
             'name' => 'pages',
-            'relation_table' => 'pages_closures',
             'behaviors'  => array(
                 'creatable', 'modifiable', 'lockable', 'sluggable', 'assignable',
                 'com://admin/pages.database.behavior.orderable' => array(
