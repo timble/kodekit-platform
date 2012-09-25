@@ -27,7 +27,7 @@
 		<td width="50%">
 			<span class="editlinktip hasTip" title="<?= @escape(@text($module->description)) ?>">
 				<a href="<?= @route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_component_id) ?>">
-					<?= @text(@escape($module->title)) ?>
+					<?= @text(@escape($module->name)) ?>
 				</a>
 			</span>
 		</td>
