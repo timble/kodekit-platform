@@ -11,9 +11,9 @@
 
 <header class="container">
     <div class="navbar">
-        <nav class="navbar-inner">
-            <a class="brand" href="#">Nooku Server</a>
+        <nav class="navbar-inner">           
             <ktml:modules position="user3" />
+            </div>
         </nav>
     </div>
 </header>
@@ -27,8 +27,8 @@
         </aside>
         <div class="span9">
             <ktml:modules position="breadcrumb" />
-            <section>
-                <ktml:variable name="content" />
+            <section>               
+                <ktml:variable name="content" />               
             </section>
         </div>
     </div>

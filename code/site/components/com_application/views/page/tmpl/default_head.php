@@ -13,7 +13,7 @@
 <base href="<?= KRequest::url(); ?>" />
 <title><?= @escape(@service('application')->getCfg('sitename' )). ' - ' .@text( 'Administration')  ?></title>
 <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
-<meta content="chrome=1" http-equiv="X-UA-Compatible" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <ktml:meta />
 <ktml:link />
@@ -27,6 +27,6 @@
 <style src="media://com_application/css/default.css" />
 <style src="media://com_application/css/print.css" media="print" />
 
-<script src="media://lib_koowa/js/mootools.js" />
+
 
 </head>
