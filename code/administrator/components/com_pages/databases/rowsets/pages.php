@@ -59,33 +59,4 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
         }
         else return parent::find($needle);
     }
-
-    public function __call($method, $arguments)
-    {
-        // Call these methods directly on the rowset.
-        $methods = array('setRoute', 'setActive', 'getActive', 'getHome', 'isAuthorized');
-        if(in_array($method, $methods) && isset($this->_mixed_methods[$method]))
-        {
-            $object = $this->_mixed_methods[$method];
-            $result = null;
-
-            $object->setMixer($this);
-
-            switch(count($arguments))
-            {
-                case 0:
-                    $result = $object->$method();
-                    break;
-                case 1:
-                    $result = $object->$method($arguments[0]);
-                    break;
-                case 2:
-                    $result = $object->$method($arguments[0], $arguments[1]);
-                    break;
-             }
-        }
-        else $result = parent::__call($method, $arguments);
-
-        return $result;
-    }
 }
