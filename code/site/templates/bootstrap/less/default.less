@@ -1,5 +1,6 @@
 //  Load Bootstrap
 @import "../../../../libraries/bootstrap/less/bootstrap.less";
+@import "../../../../libraries/bootstrap/less/responsive.less";
 
 html {
 	overflow-y: scroll;
@@ -42,6 +43,10 @@ h3 { font-size: 16px; }
 
 section article {
 	margin-bottom: @gridGutterWidth * 2;
+	
+	.page-header {
+		margin-bottom: 14px;
+	}
 }
 
 /* Extend Bootstrap to optimise nested navigation */
