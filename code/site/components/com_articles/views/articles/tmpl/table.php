@@ -26,7 +26,7 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>
+        <th width="100%">
             <?= @text('Title'); ?>
         </th>
         <? if ($params->get('show_create_date')): ?>
