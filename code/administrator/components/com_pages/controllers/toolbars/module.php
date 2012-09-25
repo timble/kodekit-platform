@@ -29,6 +29,6 @@ class ComPagesControllerToolbarModule extends ComDefaultControllerToolbarDefault
     protected function _commandNew(KControllerToolbarCommand &$command)
     {
         $command = $this->getCommand('dialog', array('label' => 'new'));
-        $command->href = 'option=com_extensions&view=modules&layout=list&installed=1&tmpl=dialog';
+        $command->href = 'option=com_pages&view=modules&layout=list&installed=1&tmpl=dialog';
     }
 }
