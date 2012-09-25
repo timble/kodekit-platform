@@ -3057,7 +3057,7 @@ a.btn {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
-  min-widthth: 180px;
+  min-width: 180px;
   max-width: 180px;
   border-right: 1px solid #dddddd;
   background-color: #dddddd;
@@ -3353,6 +3353,12 @@ a.btn {
 }
 .-koowa-grid table tfoot td {
   text-align: center;
+}
+.-koowa-grid .array-separator span:after {
+  content: " &";
+}
+.-koowa-grid .array-separator span:last-of-type:after {
+  content: "";
 }
 .pagination {
   float: right;

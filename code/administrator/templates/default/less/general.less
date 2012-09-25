@@ -126,7 +126,7 @@ a.btn {
 #panel-pages {	
 	#flexbox > .box(column, 1);
 	
-	min-widthth: 180px;
+	min-width: 180px;
 	max-width: 180px;
 	
 	border-right: 1px solid @grayLighter;
@@ -376,6 +376,11 @@ a.btn {
 			tr 	{ text-align: center;  color: #333;  }
 			td	{ text-align: center; }
 		}
+	}
+	
+	.array-separator {
+		span:after { content: " &"; }
+		span:last-of-type:after { content: ""; }
 	}
 }
 
