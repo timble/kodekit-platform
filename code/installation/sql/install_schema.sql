@@ -429,7 +429,6 @@ CREATE TABLE `#__users` (
   `users_user_id` int(11) UNSIGNED AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
-  `usertype` varchar(25) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
   `send_email` tinyint(1) DEFAULT '0',
   `users_group_id` int(11) unsigned NOT NULL DEFAULT '1',
@@ -448,6 +447,20 @@ CREATE TABLE `#__users` (
   UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `email` (`email`),
   KEY `usertype` (`usertype`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__users_groups`
+--
+
+CREATE TABLE `#__users_groups` (
+  `users_group_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` enum('system','custom') NOT NULL DEFAULT 'custom',
+  PRIMARY KEY (`users_group_id`),
+  KEY `type_name` (`type`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
