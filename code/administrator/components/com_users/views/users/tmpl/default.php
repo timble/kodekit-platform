@@ -18,7 +18,7 @@
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
 <ktml:module position="sidebar">
-	<?= @template('default_sidebar', array('groups' => $groups)); ?>
+	<?= @template('default_sidebar') ?>
 </ktml:module>
 
 <ktml:module position="inspector">

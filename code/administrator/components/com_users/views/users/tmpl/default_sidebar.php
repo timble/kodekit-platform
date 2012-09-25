@@ -10,14 +10,6 @@
  */
 ?>
 
-<h3><?= @text('Groups') ?></h3>
-<nav class="scrollable">
-	<a class="<?= !is_numeric($state->group) ? 'active' : ''; ?>" href="<?= @route('group=' ) ?>">
-	    <?= @text('All users'); ?>
-	</a>
-	<? foreach($groups as $group) : ?>
-    <a <?= $state->group == $group->id ? 'class="active"' : '' ?> style="padding-left: <?= ($group->depth * 15) + 22 ?>px" href="<?= @route('group='.$group->id) ?>">
-        <?= $group->name ?>
-    </a>
-	<? endforeach ?>
-</nav>
+
+<h3><?= @text('Groups')?></h3>
+<?= @template('com://admin/users.view.groups.list', array('groups' => $groups)) ?>
