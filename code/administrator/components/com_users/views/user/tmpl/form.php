@@ -131,7 +131,7 @@ if(Form && Form.Validator) {
 				<legend><?= @text('Group') ?></legend>
 				<div class="control-group">
 				    <div class="controls">
-				        <?= @helper('com://admin/groups.template.helper.select.groups', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
+				        <?= @helper('listbox.groups', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
 				    </div>
 				</div>
 			</fieldset>
