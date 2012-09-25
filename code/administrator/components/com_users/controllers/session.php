@@ -167,35 +167,16 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         if($context->user instanceof ComUsersDatabaseRowUser)
         {
             $options = array();
-            $options['group'] = 'Public Backend';
 
             //If the user is blocked, redirect with an error
-            if (!$context->user->enabled) {
+            if (!$context->user->enabled)
+            {
                 JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
-                return false;
-            }
-
-            //Check if the users group has access
-            $acl   = JFactory::getACL();
-            $group = $acl->getAroGroup($context->user->id);
-
-            if(!$acl->is_group_child_of( $group->name, $options['group'])) {
-                JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_ACCESS'));
                 return false;
             }
 
             //Mark the user as logged in
             $context->user->guest = 0;
-            $context->user->aid   = 1;
-
-            // Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-            if ($acl->is_group_child_of($group->name, 'Registered')      ||
-                $acl->is_group_child_of($group->name, 'Public Backend')) {
-                $context->user->aid = 2;
-            }
-
-            //Set the group based on the ACL group name
-            $context->user->group_name = $group->name;
 
             return true;
         }
