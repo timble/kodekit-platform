@@ -9,6 +9,11 @@
  */
 ?>
 
+<!--
+<script src="media://lib_koowa/js/koowa.js" />
+<style src="media://lib_koowa/css/koowa.css" />
+-->
+
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" class="-koowa-form" >
