@@ -445,8 +445,7 @@ CREATE TABLE `#__users` (
   `uuid` char(36) NOT NULL,
   PRIMARY KEY (`users_user_id`),
   UNIQUE KEY `uuid` (`uuid`),
-  UNIQUE KEY `email` (`email`),
-  KEY `usertype` (`usertype`)
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
