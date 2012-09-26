@@ -9,10 +9,10 @@
  */
 ?>
 
-<table summary="Add Module">
+<table summary="Add Module" class="table">
 	<thead>
 		<tr>
-			<th colspan="4">
+			<th colspan="2">
 				<?= @text('Select module') ?>
 			</th>
 		</tr>
