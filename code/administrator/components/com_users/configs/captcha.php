@@ -48,7 +48,31 @@ class ComUsersConfigCaptcha extends KConfig implements KServiceInstantiatable, K
             $this->__service_identifier = $config->service_identifier;
         }
 
+        unset($config->service_container);
+        unset($config->service_identifier);
+
+        $this->_initialize($config);
+
         parent::__construct($config);
+    }
+
+    protected function _initialize(KConfig $config) {
+        $params = $this->getService('application.components')->users->params;
+
+        $config->append(array(
+            'options'           => array(
+                'theme' => 'clean',
+                'lang'  => 'en'),
+            'private_key'       => $params->get('recaptcha_private_key', null),
+            'public_key'        => $params->get('recaptcha_public_key', null),
+            'api_server'        => 'http://www.google.com/recaptcha/api',
+            'api_secure_server' => 'https://www.google.com/recaptcha/api',
+            'remote_ip'         => KRequest::get('server.REMOTE_ADDR', 'ip'),
+            'verify_server'     => array(
+                'host' => 'www.google.com',
+                'path' => '/recaptcha/api/verify',
+                'port' => 80)));
+        parent::_initialize($config);
     }
 
     /**
@@ -77,7 +101,7 @@ class ComUsersConfigCaptcha extends KConfig implements KServiceInstantiatable, K
      * @return	object  		Return object on success, throws exception on failure
      * @see 	KObjectServiceable
      */
-    final public function getService($identifier = null, array $config = array())
+    final public function getService($identifier, array $config = array())
     {
         if(isset($identifier))
         {
