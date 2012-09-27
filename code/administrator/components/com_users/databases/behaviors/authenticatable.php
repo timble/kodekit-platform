@@ -68,7 +68,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         {
             // Create a password row for the user.
             $this->getPassword()
-                  ->setData(array('id' => $this->email, 'password' => $this->password))
+                  ->setData(array('email' => $this->email, 'password' => $this->password))
                   ->save();
 
             // Same as update.
