@@ -44,7 +44,7 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
     {
         $config->append(array(
             'auto_mixin'        => true,
-            'captcha_config' => 'com://admin/users.config.captcha'));
+            'captcha_config' => 'com://site/users.config.captcha'));
         parent::_initialize($config);
     }
 

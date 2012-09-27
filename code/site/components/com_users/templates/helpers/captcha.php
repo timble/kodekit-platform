@@ -32,7 +32,7 @@ class ComUsersTemplateHelperCaptcha extends KTemplateHelperDefault
         $config = new KConfig($config);
 
         $config->append(array(
-            'captcha_config' => 'com://admin/users.config.captcha',
+            'captcha_config' => 'com://site/users.config.captcha',
             'error'          => '',
             'ssl'            => false));
 
