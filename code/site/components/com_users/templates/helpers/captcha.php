@@ -31,13 +31,20 @@ class ComUsersTemplateHelperCaptcha extends KTemplateHelperDefault
 
         $config = new KConfig($config);
 
+        $params = $this->getService('application.components')->users->params;
+
         $config->append(array(
-            'captcha_config' => 'com://site/users.config.captcha',
+            'captcha'        => array(
+                'public_key'        => $params->get('recaptcha_public_key', null),
+                'api_server'        => 'http://www.google.com/recaptcha/api',
+                'api_secure_server' => 'https://www.google.com/recaptcha/api',
+                'options'           => array(
+                    'theme' => 'clean',
+                    'lang'  => 'en')),
             'error'          => '',
             'ssl'            => false));
 
-        // Get captcha configuration object.
-        $captcha = $this->getService($config->captcha_config);
+        $captcha = $config->captcha;
 
         if (!$public_key = $captcha->public_key) {
             throw new KTemplateHelperException('The reCaptcha public key is not set.');

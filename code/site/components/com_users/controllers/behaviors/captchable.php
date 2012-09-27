@@ -33,18 +33,25 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        if (is_null($config->captcha->private_key) || is_null($config->captcha->public_key)) {
-            throw new KControllerBehaviorException('Public and/or private key(s) missing');
+        if (is_null($config->captcha->private_key)) {
+            throw new KControllerBehaviorException('Private key is missing');
         }
 
-        $this->_config = $this->getService($config->captcha_config);
+        $this->_config = $config->captcha;
     }
 
-    protected function _initialize(KConfig $config)
-    {
+    protected function _initialize(KConfig $config) {
+        $params = $this->getService('application.components')->users->params;
+
         $config->append(array(
             'auto_mixin'        => true,
-            'captcha_config' => 'com://site/users.config.captcha'));
+            'captcha'           => array(
+                'private_key'       => $params->get('recaptcha_private_key', null),
+                'remote_ip'         => KRequest::get('server.REMOTE_ADDR', 'ip'),
+                'verify_server'     => array(
+                    'host' => 'www.google.com',
+                    'path' => '/recaptcha/api/verify',
+                    'port' => 80))));
         parent::_initialize($config);
     }
 
