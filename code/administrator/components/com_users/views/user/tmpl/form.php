@@ -14,21 +14,6 @@
 <style src="media://lib_koowa/css/koowa.css" />
 
 <?= @helper('behavior.validator') ?>
-<? /* @TODO move this into a separate JS file */ ?>
-<script>
-if(Form && Form.Validator) {
-    Form.Validator.add('validate-match', {
-		errorMsg: function(element, props){
-			return Form.Validator.getMsg('match').substitute({matchName: props.matchName || document.id(props.matchInput).get('name')});
-		},
-		test: function(element, props){
-			var eleVal = element.get('value');
-			var matchVal = document.id(props.matchInput) && document.id(props.matchInput).get('value');
-			return matchVal ? eleVal == matchVal : true;
-		}
-	});
-}
-</script>
 
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
