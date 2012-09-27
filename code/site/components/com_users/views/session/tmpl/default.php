@@ -44,12 +44,12 @@
 
     <ul>
         <li>
-            <a href="<?= @route('view=reset') ?>">
+            <a href="<?= @route('view=password&layout=token') ?>">
             <?= @text('FORGOT_YOUR_PASSWORD') ?></a>
         </li>
         <? if($parameters->get('registration')) : ?>
         <li>
-            <a href="<?= @route('view=user&layout=register') ?>">
+            <a href="<?= @route('view=user&layout=form') ?>">
                 <?= @text('REGISTER') ?></a>
         </li>
         <? endif ?>

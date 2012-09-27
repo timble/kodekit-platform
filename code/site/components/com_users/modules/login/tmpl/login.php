@@ -35,7 +35,7 @@
 		<input type="submit" name="Submit" class="btn" value="<?= @text('Sign in') ?>" />
 		<?php if ($allow_registration) : ?>
 			<?= @text('or') ?>
-			<a href="<?= @route( 'option=com_users&view=user&layout=register' ); ?>"><?= @text('Sign up'); ?></a>
+			<a href="<?= @route( 'option=com_users&view=user&layout=form' ); ?>"><?= @text('Sign up'); ?></a>
 		<?php endif; ?>
 	</div>
 	</fieldset>

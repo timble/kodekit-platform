@@ -10,75 +10,59 @@
  */
 ?>
 
-<script>
-    Window.onDomReady(function(){
-        document.formvalidator.setHandler('passverify', function (value) { return ($('password').value == value); } );
-    });
-</script>
+<?=@helper('behavior.mootools');?>
+<?=@helper('behavior.validator');?>
 
-<form action="" method="post" name="userform" autocomplete="off" class="form-validate form-horizontal">
-    <input type="hidden" name="action" value="save" />
+<script src="media://lib_koowa/js/koowa.js"/>
+<script src="media://com_users/js/users.js" />
 
+<form action="" method="post" autocomplete="off" class="-koowa-form form-horizontal">
     <div class="page-header">
         <h1><?= @escape($parameters->get('page_title')) ?></h1>
     </div>
-    
+
     <div class="control-group">
-        <label class="control-label" for="username"><?= @text('Username') ?></label>
+        <label class="control-label" for="name"><?= @text('Your Name') ?></label>
         <div class="controls">
-            <span class="uneditable-input"><?= $user->username ?></span>
+            <input class="inputbox required" type="text" id="name" name="name" value="<?= @escape($user->name) ?>" size="100" />
         </div>
     </div>
     
     <div class="control-group">
-        <label class="control-label" for="password"><?= @text('Your Name') ?></label>
+        <label class="control-label" for="email"><?= @text('Email') ?></label>
         <div class="controls">
-            <input class="inputbox required" type="text" id="name" name="name" value="<?= @escape($user->name) ?>" size="40" />
+            <input class="inputbox required validate-email" type="text" id="email" name="email" value="<?= @escape($user->email) ?>" size="100" />
         </div>
     </div>
     
-    <div class="control-group">
-        <label class="control-label" for="password"><?= @text('Email') ?></label>
-        <div class="controls">
-            <input class="inputbox required validate-email" type="text" id="email" name="email" value="<?= @escape($user->email) ?>" size="40" />
-        </div>
-    </div>
-    
-    <? if($user->password) : ?>
     <div class="control-group">
         <label class="control-label" for="password"><?= @text('Password') ?></label>
         <div class="controls">
-            <input class="inputbox validate-password" type="password" id="password" name="password" value="" size="40" />
+            <input class="inputbox" type="password" id="password" name="password" value="" size="40" />
+            <?=@helper('com://admin/users.template.helper.form.password');?>
         </div>
     </div>
     
     <div class="control-group">
-        <label class="control-label" for="password"><?= @text('Verify Password') ?></label>
+        <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
         <div class="controls">
-            <input class="inputbox validate-passverify" type="password" id="password_verify" name="password_verify" size="40" />
+            <input class="inputbox validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" size="40" />
         </div>
     </div>
-    <? endif ?>
-    
-    <div class="control-group">
-        <label class="control-label" for="password"><?= @text('Timezone') ?></label>
-        <div class="controls">
-            <?= @helper('com://admin/settings.template.helper.listbox.timezones',
-                array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true)) ?>
-        </div>
-    </div>
-    
-    <div class="control-group">
-        <label class="control-label" for="password"><?= @text('Username') ?></label>
-        <div class="controls">
-            <input type="password" id="password" name="password" class="inputbox" size="18" alt="password" />
-        </div>
-    </div>
-    
 
-    <?= $user->params->render() ?>
-    
+    <? if(!$user->isNew()): ?>
+    <div class="control-group">
+        <label class="control-label"><?=@text('Timezone');?></label>
+        <div class="controls">
+            <?= @helper('com://admin/extensions.template.helper.listbox.timezones',
+                array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true));?>
+        </div>
+    </div>
+    <? endif;?>
+
+    <input type="hidden" name="action" value="save" />
+
     <div class="form-actions">
-        <button class="btn validate" type="submit" onclick="submitbutton( this.form );return false;"><?= @text('Save') ?></button>
+        <button class="btn btn-primary validate" type="submit"><?= @text('Save') ?></button>
     </div>
 </form>
