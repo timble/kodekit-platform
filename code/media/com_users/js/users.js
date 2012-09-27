@@ -101,5 +101,26 @@ var ComUsers = {
 
             return my;
         }
+    },
+
+    Validators:{
+        passwordLength:function () {
+            if (Form && Form.Validator) {
+                Form.Validator.add('passwordLength', {
+                    errorMsg:function (element, props) {
+                        return Form.Validator.getMsg('minLength').substitute({minLength:props.passwordLength, length:element.get('value').length});
+                    },
+                    test:function (element, props) {
+                        var result = true;
+                        var value = element.get('value');
+                        // Only check if a password is set.
+                        if (value.length) {
+                            result = value.length >= props.passwordLength;
+                        }
+                        return result;
+                    }
+                });
+            }
+        }
     }
 }
