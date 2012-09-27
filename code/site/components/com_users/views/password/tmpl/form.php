@@ -10,6 +10,11 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
+<?=@helper('behavior.mootools');?>
+<?=@helper('behavior.validator');?>
+
+<script src="media://lib_koowa/js/koowa.js"/>
+
 <div class="page-header">
     <h1><?=@text('Change your password');?></h1>
 </div>
@@ -20,13 +25,14 @@ defined('KOOWA') or die('Restricted access');
 
         <div class="controls">
             <input type="password" id="password" name="password" value=""/>
+            <?=@helper('com://admin/users.template.helper.form.password');?>
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="password"><?= @text('Verify Password') ?></label>
 
         <div class="controls">
-            <input type="password" id="password_verify" name="password_verify"/>
+            <input class="validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify"/>
         </div>
     </div>
     <div class="form-actions">
