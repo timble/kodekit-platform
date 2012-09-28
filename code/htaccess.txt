@@ -27,7 +27,7 @@ RewriteEngine On
 
 ########## Begin - Rewrite rules to block out some common exploits
 ## If you experience problems on your site block out the operations listed below
-## This attempts to block the most common type of exploit `attempts` to Joomla!
+## This attempts to block the most common type of exploit `attempts`
 #
 ## Deny access to extension xml files (uncomment out to activate)
 #<Files ~ "\.xml$">
@@ -53,7 +53,7 @@ RewriteRule ^(.*)$ index.php [F,L]
 
 #  Uncomment following line if your webserver's URL
 #  is not directly related to physical file paths.
-#  Update Your Joomla! Directory (just / for root)
+#  Update your site directory (just / for root)
 
 #RewriteBase /
 
