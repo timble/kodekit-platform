@@ -73,7 +73,7 @@
 					</a>
 				</td>
 				<td align="center">
-					<img src="media://system/images/<?= $user->loggedin ? 'tick.png' : 'publish_x.png' ?>" border="0" />
+					<img src="media://lib_koowa/images/<?= $user->loggedin ? 'tick.png' : 'publish_x.png' ?>" border="0" />
 				</td>
 				<td align="center">
 					<?= @helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
