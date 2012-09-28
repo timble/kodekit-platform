@@ -118,42 +118,6 @@ class plgSystemKoowa extends PlgKoowaDefault
 	    	}
 	    }
 	}
-	
-	/**
-	 * On after route event handler
-	 * 
-	 * @return void
-	 */
-	public function onAfterControllerRoute(KEvent $event)
-	{      
-	    /*
-	     * Special handling for AJAX requests
-	     * 
-	     * If the format is AJAX and the format is 'html' or the tmpl is empty we re-create 
-	     * a 'raw' document rendered and force it's type to the active format
-	     */
-        if(KRequest::type() == 'AJAX') 
-        {
-        	if(KRequest::get('get.format', 'cmd', 'html') != 'html' || KRequest::get('get.tmpl', 'cmd') === '')
-        	{
-        		$format = JRequest::getWord('format', 'html');
-        	
-        		JRequest::setVar('format', 'raw');   //force format to raw
-        		
-        		$document =& JFactory::getDocument();
-        		$document = null;
-        		JFactory::getDocument()->setType($format);
-        		
-        		
-        		JRequest::setVar('format', $format); //revert format to original
-        	}
-        }
-        
-        //Set the request format
-        if(!KRequest::has('request.format')) {
-            KRequest::set('request.format', KRequest::format());
-        }
-	}
 
 	/**
 	 * Basic authentication support
@@ -165,7 +129,7 @@ class plgSystemKoowa extends PlgKoowaDefault
 	 */
 	protected function _authenticateUser()
 	{
-	    /*if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW'))
+	    if(KRequest::has('server.PHP_AUTH_USER') && KRequest::has('server.PHP_AUTH_PW'))
 	    {
 	        $credentials = array(
 	            'username' => KRequest::get('server.PHP_AUTH_USER', 'url'),
@@ -182,7 +146,7 @@ class plgSystemKoowa extends PlgKoowaDefault
 	        KRequest::set('request._token', JUtility::getToken());
 	        
 	        return true;
-	    }*/
+	    }
 	    
 	    return false;
 	}
