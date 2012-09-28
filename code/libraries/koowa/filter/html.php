@@ -73,8 +73,8 @@ class KFilterHtml extends KFilterAbstract
         }
 
         // List of user-defined attributes
-        if(isset($config->attribute_list)) {
-            $this->_attrArray = array_map('strtolower', (array) KConfig::unbox($config->attribute_list));
+        if(isset($config->attrib_list)) {
+            $this->_attrArray = array_map('strtolower', (array) KConfig::unbox($config->attrib_list));
         }
 
         // WhiteList method = 0, BlackList method = 1
@@ -83,8 +83,8 @@ class KFilterHtml extends KFilterAbstract
         }
 
         // WhiteList method = 0, BlackList method = 1
-        if(isset($config->attribute_method)) {
-            $this->_attrMethod = $config->attribute_method;
+        if(isset($config->attrib_method)) {
+            $this->_attrMethod = $config->attrib_method;
         }
 
         //If false, only auto clean essentials, if true allow clean blacklisted tags/attr
@@ -104,11 +104,11 @@ class KFilterHtml extends KFilterAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'tags_list'      => array(),
-            'attrib_list'    => array(),
-            'tags_method'    => true,
-            'attribs_method' => true,
-            'xss_auto'       => true,
+            'tag_list'      => array(),
+            'tag_method'    => true,
+            'attrib_list'   => array(),
+            'attrib_method' => true,
+            'xss_auto'      => true,
         ));
 
         parent::_initialize($config);
