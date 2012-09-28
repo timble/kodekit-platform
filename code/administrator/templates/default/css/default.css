@@ -3177,16 +3177,8 @@ a.btn {
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
-.-koowa-grid {
-  margin: 0;
-  /* bootstrap override */
-
-  /** Scopebar styles **/
-
-  /** Table styles **/
-
-}
-.-koowa-grid .scopebar {
+/** Scopebar styles **/
+.scopebar {
   padding: 3px 10px 3px;
   background-color: #eeeeee;
   background-image: -moz-linear-gradient(top, #f2f2f2, #e9e9e9);
@@ -3199,17 +3191,17 @@ a.btn {
   border-bottom: 1px solid #dddddd;
   border-top: 1px solid #dddddd;
 }
-.-koowa-grid .scopebar .scopebar-group {
+.scopebar .scopebar-group {
   border-right: 1px solid #BBB;
   padding-top: 3px;
   padding-right: 10px;
   margin-right: 10px;
 }
-.-koowa-grid .scopebar .scopebar-group.last {
+.scopebar .scopebar-group.last {
   border-right: 0 none;
   margin-right: 0;
 }
-.-koowa-grid .scopebar .scopebar-group a {
+.scopebar .scopebar-group a {
   margin: 0 2px;
   padding: 2px 7px;
   font-weight: bold;
@@ -3217,8 +3209,8 @@ a.btn {
   text-transform: capitalize;
   text-shadow: rgba(255, 255, 255, 0.75) 0 1px 0;
 }
-.-koowa-grid .scopebar .scopebar-group a:hover,
-.-koowa-grid .scopebar .scopebar-group a.active {
+.scopebar .scopebar-group a:hover,
+.scopebar .scopebar-group a.active {
   text-decoration: none;
   background: #A0A0A0;
   color: #FFF;
@@ -3227,25 +3219,32 @@ a.btn {
   border-radius: 10px;
   text-shadow: rgba(0, 0, 0, 0.35) 0 1px 0;
 }
-.-koowa-grid .scopebar .scopebar-group a.active,
-.-koowa-grid .scopebar .scopebar-group a:active {
+.scopebar .scopebar-group a.active,
+.scopebar .scopebar-group a:active {
   -webkit-box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
   -moz-box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
   box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
 }
-.-koowa-grid .scopebar .scopebar-group a:active {
+.scopebar .scopebar-group a:active {
   background: gray;
 }
-.-koowa-grid .scopebar .scopebar-search {
+.scopebar .scopebar-search {
   margin-left: 25px;
 }
-.-koowa-grid .scopebar .scopebar-search input[type="search"] {
+.scopebar .scopebar-search input[type="search"] {
   max-width: 150px;
   height: 11px;
   padding: 3px;
 }
-.-koowa-grid .scopebar .scopebar-search button {
+.scopebar .scopebar-search button {
   display: none;
+}
+.-koowa-grid {
+  margin: 0;
+  /* bootstrap override */
+
+  /** Table styles **/
+
 }
 .-koowa-grid table {
   width: 100%;
@@ -3797,10 +3796,10 @@ div.message {
 .com_users .form #password-check.score5 {
   color: #399800;
 }
-.com_dashboard #window-body #window-content > div:first-child {
+.com_dashboard #panel-content > div:first-child {
   border-right: 1px solid #dddddd;
 }
-.com_dashboard #window-body #window-content .sidebar {
+.com_dashboard #panel-content .sidebar {
   width: 400px;
   padding: 20px;
 }
@@ -4830,7 +4829,7 @@ form[name="adminForm"] {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
-.com_dashboard #window-body #panel-content {
+.com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4841,7 +4840,7 @@ form[name="adminForm"] {
   -moz-flex: 1;
   flex: 1;
 }
-.com_dashboard #window-body #panel-content > div:first-child {
+.com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4852,7 +4851,7 @@ form[name="adminForm"] {
   -moz-flex: 1;
   flex: 1;
 }
-.com_dashboard #window-body #panel-content > div:first-child > div {
+.com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4863,7 +4862,7 @@ form[name="adminForm"] {
   -moz-flex: 1;
   flex: 1;
 }
-.com_dashboard #window-body #panel-content > div:first-child > div #activities-list {
+.com_dashboard #panel-content > div:first-child > div #activities-list {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4874,7 +4873,7 @@ form[name="adminForm"] {
   -moz-flex: 1;
   flex: 1;
 }
-.com_dashboard #window-body #panel-content > div:first-child > div #activities-list .activities {
+.com_dashboard #panel-content > div:first-child > div #activities-list .activities {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4887,7 +4886,7 @@ form[name="adminForm"] {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 }
-.com_dashboard #window-body #panel-content > div:first-child > div #activities-list .activities * {
+.com_dashboard #panel-content > div:first-child > div #activities-list .activities * {
   -webkit-flex: none;
   -moz-flex: none;
   flex: none;
