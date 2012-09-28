@@ -14,7 +14,7 @@
 
 <?= @helper('behavior.modal'); ?>
 
-<style src="media://system/css/mootree.css" />
+<style src="media://lib_koowa/css/mootree.css" />
 <style src="media://com_files/css/files.css" />
 <script src="media://com_files/js/delegation.js" />
 <script src="media://com_files/js/uri.js" />
@@ -24,7 +24,7 @@
 <script src="media://com_files/js/ejs/ejs.js" />
 
 <script src="media://lib_koowa/js/koowa.js" />
-<script src="media://system/js/mootree.js" />
+<script src="media://lib_koowa/js/mootree.js" />
 <script src="media://com_files/js/spin.min.js" />
 
 <script src="media://com_files/js/files.utilities.js" />
