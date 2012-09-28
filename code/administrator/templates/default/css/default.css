@@ -4554,9 +4554,11 @@ body > div {
   -webkit-flex-direction: row;
   -moz-box-orient: row;
   box-orient: row;
-  -webkit-flex: 30px 0;
-  -moz-flex: 30px 0;
-  flex: 30px 0;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
+  min-height: 30px;
+  max-height: 30px;
 }
 #panel-header #menu {
   display: -webkit-flex;
