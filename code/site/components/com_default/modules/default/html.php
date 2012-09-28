@@ -35,8 +35,6 @@ class ComDefaultModuleDefaultHtml extends KViewHtml
         parent::_initialize($config);
     }
 
-
-
     /**
      * Renders and echo's the views output
      *
