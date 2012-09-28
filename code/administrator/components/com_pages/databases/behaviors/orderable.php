@@ -52,7 +52,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
     {
         $query = $context->query;
         $state = $context->options->state;
-        
+
         if(!$query->isCountQuery() && $state && !$state->isUnique() && in_array($state->sort, $this->_columns))
         {
             $query->columns(array('ordering_path' => 'GROUP_CONCAT(ordering_crumbs.'.$state->sort.' ORDER BY crumbs.level DESC  SEPARATOR \'/\')'))
@@ -107,7 +107,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
             $siblings = $data->getSiblings();
             
             // Get orderings.
-            $identifier = $this->getTable()->getIdentifier();
+            $identifier = clone $this->getTable()->getIdentifier();
             $identifier->name = substr($this->_table, strlen($identifier->package) + 1);
             
             $table = $this->getService($identifier);
