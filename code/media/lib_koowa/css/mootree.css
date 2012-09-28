@@ -1,0 +1,42 @@
+.mooTree_node {
+	white-space: nowrap;
+	padding: 2px 5px 2px 0px;
+	overflow: hidden; text-overflow: ellipsis;
+	border-top: 1px solid #F9F9F9;
+}
+
+.mooTree_node:hover	{ 
+	color: #444;
+	border-top-color: #c3dcf4;
+	background-color: #cee1f4;
+	background-image: -webkit-gradient(linear, 0% 25%, 0% 100%, from(#cee1f4), to(#b2cde8));
+	background-image: -moz-linear-gradient(0% 25% 270deg,#cee1f4, #b2cde8);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cee1f4', endColorstr='#b2cde8');
+	text-decoration: none;
+}
+
+.mooTree_text {
+	padding-top: 3px;
+	height: 15px;
+	cursor: pointer;
+    text-indent: 5px;
+}
+
+.mooTree_img {
+	float: left;
+	width: 18px;
+	height: 18px;
+	overflow: hidden;
+}
+
+.mooTree_selected,
+.mooTree_selected:hover {  
+	color: #FFF;
+	border-top-color: #72A8DF;
+	background-color: #6EA6DE;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#72A8DF), to(#2B75BF));
+	background-image: -moz-linear-gradient(0% 0% 270deg,#72A8DF, #2B75BF);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
+	box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+	text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+}
