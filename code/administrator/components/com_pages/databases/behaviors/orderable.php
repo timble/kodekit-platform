@@ -50,19 +50,20 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
     
     protected function _beforeTableSelect(KCommandContext $context)
     {
-        $query = $context->query;
-        $state = $context->options->state;
+        $query     = $context->query;
+        $state     = $context->options->state;
+        $id_column = $context->caller->getIdentityColumn();
 
         if(!$query->isCountQuery() && $state && !$state->isUnique() && in_array($state->sort, $this->_columns))
         {
             $query->columns(array('ordering_path' => 'GROUP_CONCAT(ordering_crumbs.'.$state->sort.' ORDER BY crumbs.level DESC  SEPARATOR \'/\')'))
-                ->join(array('ordering_crumbs' => $this->_table), 'crumbs.ancestor_id = ordering_crumbs.'.$this->getIdentityColumn(), 'INNER');
+                ->join(array('ordering_crumbs' => $this->_table), 'crumbs.ancestor_id = ordering_crumbs.'.$id_column, 'INNER');
             
             // This one is to display the custom ordering in backend.
             if($state->sort == 'custom')
             {
                 $query->columns(array('ordering' => 'orderings.custom'))
-                    ->join(array('orderings' => $this->_table), 'tbl.'.$this->getIdentityColumn().' = orderings.'.$this->getIdentityColumn());
+                    ->join(array('orderings' => $this->_table), 'tbl.'.$id_column.' = orderings.'.$id_column);
             }
             
             // Replace short column with ordering path.
