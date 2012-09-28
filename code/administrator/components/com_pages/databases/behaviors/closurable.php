@@ -46,7 +46,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         $query     = $context->query;
         $state     = $context->options->state;
-        $id_column = $this->getIdentityColumn();
+        $id_column = $context->caller->getIdentityColumn();
         
         $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
             ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
