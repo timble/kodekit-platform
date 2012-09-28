@@ -70,7 +70,7 @@
 				</td>
                 <td align="center">
                     <? if($language->primary): ?>
-                        <img src="media://system/images/star.png" alt="<?= @text( 'Primary Language' ) ?>" />
+                        <img src="media://lib_koowa/images/star.png" alt="<?= @text( 'Primary Language' ) ?>" />
                     <? endif ?>
                 </td>
 				<td align="center">
