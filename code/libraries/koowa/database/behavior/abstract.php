@@ -78,6 +78,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
 
         $mixer->getTable()->getCommandChain()->disable();
         $mixer->save();
+        $mixer->getTable()->getCommandChain()->enable();
 
         return $this->_mixer;
     }
@@ -97,6 +98,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
 
         $mixer->getTable()->getCommandChain()->disable();
         $mixer->delete();
+        $mixer->getTable()->getCommandChain()->enable();
 
         return $this->_mixer;
     }
