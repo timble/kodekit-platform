@@ -293,22 +293,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $content = str_replace(JURI::base().'images/', $path, $content);
         $content = str_replace(array('"images/','"/images/') , '"'.$path, $content);
 
-        //Prettyprint
-        /*$data = $this->getService('koowa:filter.tidy', array('options' => array(
-            'clean'          => false,
-            'drop-proprietary-attributes' => false,
-            'show-body-only' => false,
-            'bare'           => false,
-            'word-2000'      => false,
-            'indent'         => true,
-            'vertical-space' => true,
-
-        )))->sanitize($data);*/
-
-        //Spaceless
-        //$data = trim(preg_replace('/>\s+</', '><', $data));
-
-
         //@TODO :Setup the response
         //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
         //if ($mdate = $this->getModifiedDate()) {
