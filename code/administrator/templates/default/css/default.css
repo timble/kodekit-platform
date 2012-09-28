@@ -4516,13 +4516,29 @@ body {
 }
 html,
 body {
-  width: 100%;
-  height: 100%;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-box-orient: row;
+  box-orient: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  min-height: 100%;
 }
-html > div,
-body > div {
-  width: 100%;
-  height: 100%;
+html #container,
+body #container {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  min-height: 100%;
 }
 .box-row {
   display: -webkit-flex;
@@ -4534,17 +4550,7 @@ body > div {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
-}
-.box-column {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
+  min-height: 100%;
 }
 #panel-header {
   display: -webkit-flex;
@@ -4622,9 +4628,9 @@ body > div {
   -webkit-flex-direction: column;
   -moz-box-orient: column;
   box-orient: column;
-  -webkit-flex: initial;
-  -moz-flex: initial;
-  flex: initial;
+  -webkit-flex: none;
+  -moz-flex: none;
+  flex: none;
   min-width: 180px;
   max-width: 180px;
 }
@@ -4638,6 +4644,7 @@ body > div {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  min-height: 100%;
 }
 #panel-content .-koowa-form {
   display: -webkit-flex;
@@ -4649,6 +4656,7 @@ body > div {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  min-height: 100%;
 }
 #panel-content .-koowa-form .form-body {
   display: -webkit-flex;
@@ -4660,16 +4668,18 @@ body > div {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  min-height: 100%;
 }
 #panel-content .-koowa-form .form-body .title {
   height: 36px;
 }
-#panel-content .-koowa-form .form-body .form-content {
+#panel-content .-koowa-form .form-content {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  min-height: 100%;
 }
 #panel-content .-koowa-form .sidebar {
   display: -webkit-flex;
@@ -4683,22 +4693,12 @@ body > div {
   flex: initial;
 }
 .scrollable {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
-  -webkit-flex: 1 0 0%;
-  -moz-flex: 1 0 0%;
-  flex: 1 0 0%;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-}
-.scrollable * {
-  -webkit-flex: none;
-  -moz-flex: none;
-  flex: none;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  min-height: 100%;
 }
 .editor-wrap,
 .editor-container,
@@ -4743,19 +4743,6 @@ table.mceLayout > tbody > tr td.mceIframeContainer {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
-}
-form[name="adminForm"] {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-box-orient: horizontal;
-  box-orient: horizontal;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 /* @group Scope Bar */
 .scopebar {
@@ -4804,9 +4791,9 @@ form[name="adminForm"] {
   -webkit-flex-direction: column;
   -moz-box-orient: column;
   box-orient: column;
-  -webkit-flex: initial;
-  -moz-flex: initial;
-  flex: initial;
+  -webkit-flex: none;
+  -moz-flex: none;
+  flex: none;
 }
 .com_pages #main {
   display: -webkit-flex;
@@ -4828,6 +4815,7 @@ form[name="adminForm"] {
   flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  min-height: 100%;
 }
 .com_dashboard #panel-content {
   display: -webkit-flex;
@@ -4874,17 +4862,12 @@ form[name="adminForm"] {
   flex: 1;
 }
 .com_dashboard #panel-content > div:first-child > div #activities-list .activities {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
-  -webkit-flex: 1 0 0%;
-  -moz-flex: 1 0 0%;
-  flex: 1 0 0%;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  min-height: 100%;
 }
 .com_dashboard #panel-content > div:first-child > div #activities-list .activities * {
   -webkit-flex: none;
@@ -4925,17 +4908,12 @@ form[name="adminForm"] {
   flex: 1;
 }
 .com_files #files-app #files-canvas .view #files-grid {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
-  -webkit-flex: 1 0 0%;
-  -moz-flex: 1 0 0%;
-  flex: 1 0 0%;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  min-height: 100%;
 }
 .com_files #files-app #files-canvas .view #files-grid div {
   -webkit-flex: none;
@@ -4954,6 +4932,14 @@ form[name="adminForm"] {
 }
 .com_files #files-paginator {
   height: 26px;
+}
+.com_files #files-tree {
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  min-height: 100%;
 }
 @media (max-width: 1200px) {
   #panel-inspector {
