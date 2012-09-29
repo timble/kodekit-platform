@@ -44,30 +44,32 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     
     protected function _beforeTableSelect(KCommandContext $context)
     {
-        $query     = $context->query;
-        $state     = $context->options->state;
-        $id_column = $context->caller->getIdentityColumn();
-        
-        $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
-            ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
-            ->join(array('crumbs' => $this->_table), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
-            ->group('tbl.'.$id_column);
-        
-        if($state)
+        if($query = $context->query)
         {
-            if($state->parent_id)
-            {
-                $query->where('crumbs.ancestor_id IN :parent_id')
-                    ->where('tbl.'.$id_column.' NOT IN :parent_id')
-                    ->bind(array('parent_id' => $state->parent_id));
-    
-                if(!is_null($state->level)) {
-                    $query->where('crumbs.level IN :level')->bind(array('level' => (array) $state->level));
-                }
-            }
+            $state     = $context->options->state;
+            $id_column = $context->caller->getIdentityColumn();
             
-            if(!$state->parent_id && !is_null($state->level)) {
-                $query->having('level IN :level')->bind(array('level' => (array) $state->level));
+            $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
+                ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
+                ->join(array('crumbs' => $this->_table), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
+                ->group('tbl.'.$id_column);
+            
+            if($state)
+            {
+                if($state->parent_id)
+                {
+                    $query->where('crumbs.ancestor_id IN :parent_id')
+                        ->where('tbl.'.$id_column.' NOT IN :parent_id')
+                        ->bind(array('parent_id' => $state->parent_id));
+        
+                    if(!is_null($state->level)) {
+                        $query->where('crumbs.level IN :level')->bind(array('level' => (array) $state->level));
+                    }
+                }
+                
+                if(!$state->parent_id && !is_null($state->level)) {
+                    $query->having('level IN :level')->bind(array('level' => (array) $state->level));
+                }
             }
         }
     }
