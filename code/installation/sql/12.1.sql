@@ -56,3 +56,22 @@ CREATE TABLE IF NOT EXISTS `#__activities_activities` (
 	`created_by` INT(11) NOT NULL DEFAULT '0',
 	PRIMARY KEY(`activities_activity_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# --------------------------------------------------------
+
+-- Remove tables
+DROP TABLE `#__core_log_items`;
+DROP TABLE `#__core_log_searches`;
+DROP TABLE `#__messages`;
+DROP TABLE `#__messages_cfg`;
+DROP TABLE `#__stats_agents`;
+DROP TABLE `#__migration_backlinks`;
+DROP TABLE `#__templates_menu`;
+DROP TABLE `#__content_rating`;
+DROP TABLE `#__bannerclient`;
+DROP TABLE `#__bannertrack`;
+
+-- Remove com_poll
+DELETE FROM `#__components` WHERE `option` = 'com_poll';
+DROP TABLE  `#__polls`, `#__poll_data`, `#__poll_date`, `#__poll_menu`;
+DELETE FROM `#__modules` WHERE `name` = 'mod_poll';
