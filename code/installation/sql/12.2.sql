@@ -3,4 +3,6 @@
 ALTER TABLE `#__session` ENGINE InnoDB;
 
 -- Add UUID field required by identifiable behahvior
-ALTER TABLE `#__users` ADD `uuid` CHAR(36) NOT NULL AFTER `id`, ADD UNIQUE (`uuid`);
+ALTER TABLE `#__users` ADD `uuid` CHAR(36) NOT NULL AFTER `id`;
+UPDATE `#__users` SET `uuid` = UUID() WHERE `uuid` = '';
+ALTER TABLE `#__users` ADD UNIQUE (`uuid`);

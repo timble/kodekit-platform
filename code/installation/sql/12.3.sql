@@ -82,9 +82,6 @@ UPDATE `#__users` SET `params` = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE
 ALTER TABLE #__users DROP INDEX idx_name;
 ALTER TABLE #__users DROP INDEX gid_block;
 
--- Update indexes
-ALTER TABLE  `#__users` DROP INDEX  `email` , ADD UNIQUE  `email` (  `email` );
-
 -- Update schema to follow conventions
 ALTER TABLE `#__users` CHANGE  `id`  `users_user_id` INT(11) UNSIGNED AUTO_INCREMENT;
 ALTER TABLE `#__users` CHANGE  `block`  `enabled` TINYINT(1);
@@ -479,7 +476,7 @@ ALTER TABLE `#__pages` DROP INDEX `componentid`;
 ALTER TABLE `#__pages` ADD INDEX `ix_published` (`published`);
 ALTER TABLE `#__pages` ADD INDEX `ix_extensions_component_id` (`extensions_component_id`);
 ALTER TABLE `#__pages` ADD INDEX `ix_home` (`home`);
-ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
+#ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
 ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE;
 
 ALTER TABLE `#__pages_modules_pages` ADD INDEX `ix_pages_page_id` (`pages_page_id`);

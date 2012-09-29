@@ -79,5 +79,8 @@ DROP TABLE  `#__polls`, `#__poll_data`, `#__poll_date`, `#__poll_menu`;
 DELETE FROM `#__modules` WHERE `module` = 'mod_poll';
 
 -- Make sure email and username are unique fields
-ALTER TABLE  `#__users` DROP INDEX `email`, ADD UNIQUE `email` (`email`);
-ALTER TABLE  `#__users` DROP INDEX `username`, ADD UNIQUE `username` (`username`);
+ALTER TABLE `#__users` DROP INDEX `email`;
+ALTER TABLE `#__users` ADD UNIQUE `email` (`email`);
+ALTER TABLE `#__users` DROP INDEX `username`;
+ALTER TABLE `#__users` ADD UNIQUE `username` (`username`);
+
