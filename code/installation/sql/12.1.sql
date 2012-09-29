@@ -74,4 +74,4 @@ DROP TABLE `#__bannertrack`;
 -- Remove com_poll
 DELETE FROM `#__components` WHERE `option` = 'com_poll';
 DROP TABLE  `#__polls`, `#__poll_data`, `#__poll_date`, `#__poll_menu`;
-DELETE FROM `#__modules` WHERE `name` = 'mod_poll';
+DELETE FROM `#__modules` WHERE `module` = 'mod_poll';
