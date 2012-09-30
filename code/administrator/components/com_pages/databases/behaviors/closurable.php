@@ -85,23 +85,12 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         if($context->affected !== false)
         {
             $data  = $context->data;
-            $table = $this->getTable();
+            $table = $context->caller;
             
             // Set path and level for the current row.
             if($data->parent_id)
             {
-                $query = $this->getService('koowa:database.query.select')
-                    ->columns('tbl.*')
-                    ->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
-                    ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
-                    ->table(array('tbl' => $table->getName()))
-                    ->join(array('crumbs' => $this->_table), 'crumbs.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
-                    ->where('tbl.'.$table->getIdentityColumn().' = :parent_id')
-                    ->group('tbl.'.$table->getIdentityColumn())
-                    ->order('path', 'ASC')
-                    ->bind(array('parent_id' => $data->parent_id));
-                
-                $parent = $table->select($query, KDatabase::FETCH_ROW);
+                $parent = $table->select($data->parant_id, KDatabase::FETCH_ROW);
                 
                 if(!$parent->isNew()) {
                     $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
@@ -166,13 +155,24 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 }
                 
                 // Delete the outdated paths for the old location.
-                $query = $this->getService('koowa:database.query.delete')
-                    ->table(array('a' => $this->_table))
-                    ->join(array('d' => $this->_table), 'a.descendant_id = d.descendant_id', 'INNER')
-                    ->join(array('x' => $this->_table), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
-                    ->where('d.ancestor_id = :ancestor_id')
-                    ->where('x.ancestor_id IS NULL')
+                $query_descendant = $this->getService('koowa:database.query.select')
+                    ->columns('descendant_id')
+                    ->table($this->_table)
+                    ->where('ancestor_id = :ancestor_id')
                     ->bind(array('ancestor_id' => $data->id));
+                
+                $query_ancestor = $this->getService('koowa:database.query.select')
+                    ->columns('ancestor_id')
+                    ->table($this->_table)
+                    ->where('descendant_id = :descendant_id')
+                    ->where('ancestor_id != descdendant_id')
+                    ->bind(array('descendant_id' => $data->id));
+                 
+                $query = $this->getService('koowa:database.query.delete')
+                    ->table($this->_table)
+                    ->where('descendant_id IN :descendant_id')
+                    ->where('ancestor_id IN :ancestor_id')
+                    ->bind(array('descendant_id' => $query_descendant, 'ancestor_id' => $query_ancestor));
                 
                 $table->getDatabase()->delete($query);
                 
@@ -180,7 +180,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
                     ->table(array('supertree' => $this->_table))
-                    ->join(array('subtree' => $this->_table), null, 'INNER')
+                    ->join(array('subtree' => $this->_table), null, 'CROSS')
                     ->where('subtree.ancestor_id = :ancestor_id')
                     ->where('supertree.descendant_id = :descendant_id')
                     ->bind(array('ancestor_id' => $data->id, 'descendant_id' => (int) $data->parent_id));
