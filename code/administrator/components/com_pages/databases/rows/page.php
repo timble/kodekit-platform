@@ -16,7 +16,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KServiceInstantiatable
+class ComPagesDatabaseRowPage extends KDatabaseRowTable implements KServiceInstantiatable
 {
     protected $_page_xml;
 
@@ -87,27 +87,19 @@ class ComPagesDatabaseRowPage extends ComPagesDatabaseRowClosure implements KSer
         {
             $table = $this->getTable();
             $query = $this->getService('koowa:database.query.select')
-                ->columns('tbl.*')
-                ->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
-                ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
-                ->table(array('tbl' => $table->getName()))
-
-                ->join(array('crumbs' => $table->getRelationTable()), 'crumbs.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
-
                 ->where('tbl.'.$table->getIdentityColumn().' <> :id')
                 ->where('tbl.pages_menu_id = :pages_menu_id')
-                ->group('tbl.'.$table->getIdentityColumn())
                 ->having('level = :level')
-                ->order('path', 'ASC')
                 ->bind(array(
                     'id' => $this->id,
                     'pages_menu_id' => $this->pages_menu_id,
                     'level' => $this->level));
 
-            if(count($this->parent_ids))
+            $parent_ids = $this->getParentIds();
+            if($parent_ids)
             {
-                $query->join(array('relations' => $table->getRelationTable()), 'relations.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
-                    ->where('relations.ancestor_id = :parent_id')
+                $query->join(array('closures' => $table->getRelationTable()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
+                    ->where('closures.ancestor_id = :parent_id')
                     ->bind(array('parent_id' => $this->parent_id));
             }
 
