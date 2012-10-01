@@ -24,10 +24,10 @@ class ComPagesDatabaseTablePages extends KDatabaseTableDefault
             'name' => 'pages',
             'behaviors'  => array(
                 'creatable', 'modifiable', 'lockable', 'sluggable', 'assignable',
-                'com://admin/pages.database.behavior.orderable' => array(
+                /*'com://admin/pages.database.behavior.orderable' => array(
                     'table' => 'pages_orderings',
                     'columns' => array('title', 'custom')
-                ),
+                ),*/
                 'com://admin/pages.database.behavior.closurable' => array(
                     'table' => 'pages_closures'
                 )
