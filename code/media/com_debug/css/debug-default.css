@@ -1,11 +1,11 @@
 #debug {
-	height: 300px;
+	height: 250px !important;
 	overflow: hidden;
 	border-top: 2px solid #AAA;
 	position: relative;
 }
 
-#debug .current { overflow: auto !important; -webkit-box-flex: 1; height: 260px; } /* scroll inside the tabs */
+#debug .current { overflow: auto !important; -webkit-flex: 1; height: 260px; } /* scroll inside the tabs */
 
 /* @group JS related */
 #tabs-debug::after {
