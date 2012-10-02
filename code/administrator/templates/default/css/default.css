@@ -4519,9 +4519,9 @@ body {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-box-orient: row;
-  box-orient: row;
+  -webkit-flex-direction: column;
+  -moz-box-orient: column;
+  box-orient: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;

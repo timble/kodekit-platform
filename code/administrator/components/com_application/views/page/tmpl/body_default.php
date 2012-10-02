@@ -18,7 +18,7 @@
 <? endif; ?>
 
 <body class="<?= $option ?>">
-<div id="container" class="box-column">
+<div id="container">
     <div id="panel-header">
         <div id="menu">
         	<?= @helper('menubar.render')?>
