@@ -25,9 +25,9 @@
     <? endif ?>
     
     <div class="control-group">
-        <label class="control-label" for="username"><?= @text('Username') ?></label>
+        <label class="control-label" for="email"><?= @text('E-mail') ?></label>
         <div class="controls">
-            <input name="username" type="text" alt="username" />
+            <input name="email" type="text" alt="email" />
         </div>
     </div>
     
@@ -35,23 +35,17 @@
         <label class="control-label" for="password"><?= @text('Password') ?></label>
         <div class="controls">
             <input type="password" name="password" alt="password" />
+            <span class="help-block">
+                <small><a href="<?= @route('view=password&layout=token') ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
+            </span>
         </div>
     </div>
     
     <div class="form-actions">
-        <button type="submit" class="validate btn btn-primary"><?= @text('Login') ?></button>
-    </div>
-
-    <ul>
-        <li>
-            <a href="<?= @route('view=password&layout=token') ?>">
-            <?= @text('FORGOT_YOUR_PASSWORD') ?></a>
-        </li>
+        <button type="submit" class="validate btn btn-primary"><?= @text('Sign in') ?></button>
         <? if($parameters->get('registration')) : ?>
-        <li>
-            <a href="<?= @route('view=user&layout=form') ?>">
-                <?= @text('REGISTER') ?></a>
-        </li>
-        <? endif ?>
-    </ul>
+        	<?= @text('or') ?>
+        	<a href="<?= @route('view=user&layout=form') ?>"><?= @text('Sign up'); ?></a>
+        <?php endif; ?>
+    </div>
 </form>
