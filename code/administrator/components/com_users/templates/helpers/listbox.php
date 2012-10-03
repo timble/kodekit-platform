@@ -19,32 +19,19 @@
  */
 class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
-    public function groups($config = array())
+    public function groups( $config = array())
     {
-        $config = new KConfig($config);
-        $config->append(array(
-			'name'     => 'group',
-            'deselect' => false
-		));
-        
-        $options = array();
-        if($config->deselect) {
-            $options[] = $this->option(array('text' => $config->prompt, 'value' => ''));
-        }
-        
-        $groups = $this->getService('com://admin/users.model.groups')->getList();
-        foreach(array('system', 'custom') as $type)
-        {
-            $options[] = $this->option(array('text' => JText::_($type), 'group' => true));
-            
-            foreach($groups->find(array('type' => $type)) as $group) {
-                $options[] = $this->option(array('text' => $group->name, 'value' => $group->id));
-            }
-        }
-        
-        $config->options = $options;
-        
-        return parent::optionlist($config);
+    	$config = new KConfig($config);
+    	$config->append(array(
+    		'model' 	=> 'groups',
+    		'value'		=> 'id',
+    		'text'		=> 'name',
+    		'filter'	=> array(
+    			'type'      => 'group'
+    		)
+    	));
+    
+    	return parent::_listbox($config);
     }
     
     public function roles( $config = array())
