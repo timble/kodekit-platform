@@ -472,6 +472,8 @@ VALUES
 ALTER TABLE `#__pages` ADD COLUMN `pages_menu_id` INT UNSIGNED NOT NULL AFTER `pages_page_id`;
 UPDATE `#__pages` AS `pages`, `#__pages_menus` AS `menus` SET `pages`.`pages_menu_id` = `menus`.`pages_menu_id` WHERE `menus`.`slug` = `pages`.`menutype`;
 
+ALTER TABLE `#__pages` ADD COLUMN `users_group_id` INT UNSIGNED AFTER `pages_menu_id`;
+
 ALTER TABLE `#__pages` DROP INDEX `componentid`;
 ALTER TABLE `#__pages` ADD INDEX `ix_published` (`published`);
 ALTER TABLE `#__pages` ADD INDEX `ix_extensions_component_id` (`extensions_component_id`);
