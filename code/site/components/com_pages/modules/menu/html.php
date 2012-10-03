@@ -19,13 +19,25 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
 {
     public function display()
     {
+        $user     = JFactory::getUser();
+        
         $start    = $this->module->params->get('start_level');
         $end      = $this->module->params->get('end_level');
         $children = $this->module->params->get('show_children', 'active');
         $pages    = $this->getService('application.pages');
+        
+        $groups = array();
+        
+        // Prevent groups from being loaded when no user is logged in
+        if($user->id) {
+        	$groups = $this->getService('com://admin/users.model.groups_users')->user($user->id)->getList()->users_group_id;
+        }
+        
+        // If we do not add an empty element to the array public pages will be filtered out
+        $groups[] .= '';
 
         $this->active = $pages->getActive();
-        $this->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0));
+        $this->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
 
         foreach(clone $this->pages as $page)
         {
