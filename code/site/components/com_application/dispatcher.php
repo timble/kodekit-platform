@@ -214,7 +214,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $user = JFactory::getUser();
         if(!($this->getCfg('offline') && $user->guest))
         {
-            if(!$this->getService('application.pages')->isAuthorized($this->getRequest()->Itemid, $user->users_group_id))
+            if(!$this->getService('application.pages')->isAuthorized($this->getRequest()->Itemid, $user))
             {
                 if($user->guest) {
                     $this->option = 'com_users';

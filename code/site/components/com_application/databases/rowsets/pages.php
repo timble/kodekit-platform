@@ -96,18 +96,24 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
     {
         return $this->_active;
     }
-
-    public function isAuthorized($id, $group = null)
+    
+    public function isAuthorized($id, $user = null)
     {
         $result = true;
         $page   = $this->find($id);
         
         if($page->users_group_id)
         {
-            if(in_array($group, array(18, 19, 20, 21, 23, 24, 25, 26))) {
-                $result = $page->users_group_id <= $group;
-            } else {
-                $result = $page->users_group_id == $group;
+            $users = $this->getService('com://admin/users.model.groups_users')
+                ->group($page->users_group_id)
+                ->getList()->users_user_id;
+            
+            if(!in_array($user->id, $users)) {
+                $result = false;
+            }
+            
+            if(in_array($user->users_group_id, array(21, 23, 24, 25))) {
+                $result = true;
             }
         }
         
