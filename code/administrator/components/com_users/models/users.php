@@ -78,7 +78,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	    $state = $this->getState();
 	    
         $query->join(array('session' => 'users_sessions'), 'tbl.email = session.email', $state->loggedin ? 'RIGHT' : 'LEFT');
-        $query->join(array('role' => 'users_groups'), 'role.users_group_id = tbl.users_group_id');
+        $query->join(array('role' => 'users_roles'), 'role.users_role_id = tbl.users_role_id');
         $query->join(array('group' => 'users_groups_users'), 'group.users_user_id = tbl.users_user_id');
 	}
 
@@ -101,7 +101,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		
 		if ($state->role)
 		{
-		    $query->where('tbl.users_group_id '.($state->group_tree ? '>=' : '=').' :role_id')
+		    $query->where('tbl.users_role_id '.($state->group_tree ? '>=' : '=').' :role_id')
 		          ->bind(array('role_id' => $state->role));
 		}
         

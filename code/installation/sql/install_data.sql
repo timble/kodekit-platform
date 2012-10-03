@@ -259,15 +259,15 @@ VALUES
 -- Dumping data for table `#__users_groups`
 --
 
-INSERT INTO `#__users_groups` (`users_group_id`, `name`, `type`)
+INSERT INTO `#__users_roles` (`users_role_id`, `name`, `description`)
 VALUES
-    (18, 'Registered', 'role'),
-    (19, 'Author', 'role'),
-    (20, 'Editor', 'role'),
-    (21, 'Publisher', 'role'),
-    (23, 'Manager', 'role'),
-    (24, 'Administrator', 'role'),
-    (25, 'Super Administrator', 'role');
+    (18, 'Registered', ''),
+    (19, 'Author', ''),
+    (20, 'Editor', ''),
+    (21, 'Publisher', ''),
+    (23, 'Manager', ''),
+    (24, 'Administrator', ''),
+    (25, 'Super Administrator', '');
 
 --
 -- Dumping data for table `#__passwords`

@@ -23,6 +23,10 @@ class ComUsersViewUsersHtml extends ComDefaultViewHtml
 	{
 	    $groups = $this->getService('com://admin/users.model.groups')->getList();
 		$this->assign('groups', $groups);
+		
+		$roles = $this->getService('com://admin/users.model.roles')->getList();
+		$this->assign('roles', $roles);
+		
 		$this->assign('groups_users', $this->getService('com://admin/users.model.groups_users')->set('type', 'custom')->getList());
 
 		return parent::display();

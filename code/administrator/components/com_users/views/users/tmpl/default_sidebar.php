@@ -10,4 +10,27 @@
  */
 ?>
 
-<?= @template('com://admin/users.view.groups.list', array('groups' => $groups)) ?>
+<h3><?= @text('Roles') ?></h3>
+<nav class="scrollable">
+	<a class="<?= is_null($state->role) ? 'active' : ''; ?>" href="<?= @route('role=') ?>">
+	    <?= @text('All roles') ?>
+	</a>
+	<? foreach($roles as $role) : ?>
+        <a <?= $state->role == $role->id ? 'class="active"' : '' ?> href="<?= @route('role='.$role->id) ?>">
+            <?= $role->name ?>
+        </a>
+	<? endforeach ?>
+</nav>
+
+<h3><?= @text('Groups') ?></h3>
+<nav class="scrollable">
+	<a class="<?= is_null($state->group) ? 'active' : ''; ?>" href="<?= @route('group=') ?>">
+	    <?= @text('All groups') ?>
+	</a>
+	
+	<? foreach($groups as $group) : ?>
+        <a <?= $state->group == $group->id ? 'class="active"' : '' ?> href="<?= @route('group='.$group->id) ?>">
+            <?= $group->name ?>
+        </a>
+	<? endforeach ?>
+</nav>

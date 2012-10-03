@@ -104,20 +104,29 @@ ALTER TABLE `#__users` DROP `usertype`;
 CREATE TABLE `#__users_groups` (
   `users_group_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `type` enum('system','custom') NOT NULL DEFAULT 'custom',
+  `description`text NOT NULL,
   PRIMARY KEY (`users_group_id`),
-  KEY `type_name` (`type`, `name`)
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__users_groups` (`users_group_id`, `name`, `type`)
+-- Add users_roles table
+CREATE TABLE `#__users_roles` (
+  `users_role_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description`text NOT NULL,
+  PRIMARY KEY (`users_role_id`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__users_roles` (`users_role_id`, `name`, `desciption`)
 VALUES
-    (18, 'Registered', 'system'),
-    (19, 'Author', 'system'),
-    (20, 'Editor', 'system'),
-    (21, 'Publisher', 'system'),
-    (23, 'Manager', 'system'),
-    (24, 'Administrator', 'system'),
-    (25, 'Super Administrator', 'system');
+    (18, 'Registered', ''),
+    (19, 'Author', ''),
+    (20, 'Editor', ''),
+    (21, 'Publisher', ''),
+    (23, 'Manager', ''),
+    (24, 'Administrator', ''),
+    (25, 'Super Administrator', '');
 
 -- Remove unused columns from #__session
 RENAME TABLE`#__session` TO  `#__users_sessions`;

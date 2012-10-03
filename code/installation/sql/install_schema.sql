@@ -452,15 +452,29 @@ CREATE TABLE `#__users` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__users_roles`
+--
+
+CREATE TABLE `#__users_roles` (
+  `users_role_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`users_role_id`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__users_groups`
 --
 
 CREATE TABLE `#__users_groups` (
   `users_group_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `type` enum('role','group') NOT NULL DEFAULT 'group',
+  `description` text NOT NULL,
   PRIMARY KEY (`users_group_id`),
-  KEY `type_name` (`type`, `name`)
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
