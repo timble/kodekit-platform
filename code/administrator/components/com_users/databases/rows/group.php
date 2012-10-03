@@ -21,7 +21,7 @@ class ComUsersDatabaseRowGroup extends KDatabaseRowDefault
 	    	}
 	    	
 	    	// Get all 'groups_users' records for the selected group
-	    	foreach ($this->getService('com://admin/users.model.groups_users')->users_group_id($this->id)->getList() as $key => $value) {		
+	    	foreach ($this->getService('com://admin/users.model.groups_users')->group($this->id)->getList() as $key => $value) {		
 	    		
 	    		// Remove all users that are no longer selected
 	    		if (!in_array($value->users_user_id, $this->users)) {	    			    
@@ -43,7 +43,7 @@ class ComUsersDatabaseRowGroup extends KDatabaseRowDefault
     public function delete()
     {   	    	
     	// Remove records from groups_users
-    	foreach ($this->getService('com://admin/users.model.groups_users')->users_group_id($this->id)->getList() as $value) {		
+    	foreach ($this->getService('com://admin/users.model.groups_users')->group($this->id)->getList() as $value) {		
     		$group_user = $this->getService('com://admin/users.database.row.groups_users');
     		
     		$group_user->users_group_id	= $this->id;

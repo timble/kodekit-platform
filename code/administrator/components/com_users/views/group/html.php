@@ -22,17 +22,8 @@ class ComUsersViewGroupHtml extends ComDefaultViewHtml
     public function display()
     {
         $group = $this->getModel()->getItem();
-        $users = array();
-        
-        if($group->id){
-        	$groups_users = $this->getService('com://admin/users.model.groups_users')->users_group_id($group->id)->getList();
-        	
-        	foreach ($groups_users as $key => $value) {
-        		$users[] = $value->users_user_id;
-        	}
-        }
-        
-        $this->assign('users', $users);
+                
+        $this->assign('users', $this->getService('com://admin/users.model.groups_users')->group($group->id)->getList()->users_user_id);
         
         return parent::display();
     }
