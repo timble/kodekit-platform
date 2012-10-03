@@ -10,6 +10,4 @@
  */
 ?>
 
-
-<h3><?= @text('Groups')?></h3>
 <?= @template('com://admin/users.view.groups.list', array('groups' => $groups)) ?>

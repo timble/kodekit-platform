@@ -47,6 +47,21 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         return parent::optionlist($config);
     }
     
+    public function roles( $config = array())
+    {
+    	$config = new KConfig($config);
+    	$config->append(array(
+    		'model' 	=> 'groups',
+    		'value'		=> 'id',
+    		'text'		=> 'name',
+    		'filter'	=> array(
+    			'type'      => 'system'
+    		)
+    	));
+    
+    	return parent::_listbox($config);
+    }
+    
     public function users($config = array())
     {
         $config = new KConfig($config);

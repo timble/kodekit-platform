@@ -23,5 +23,15 @@
         <div class="title">
             <input class="required" type="text" name="name" maxlength="255" value="<?= $group->name ?>" placeholder="<?= @text('Group name') ?>" />
         </div>
+        <div class="form-content">
+    		<fieldset>
+    			<legend><?= @text('Users') ?></legend>
+    			<div class="control-group">
+    			    <div class="controls">
+    			        <?= @helper('select.users', array('selected' => $users, 'name' => 'users')) ?>
+    			    </div>
+    			</div>
+    		</fieldset>
+        </div>
     </div>
 </form>

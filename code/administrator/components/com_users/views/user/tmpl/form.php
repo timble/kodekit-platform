@@ -113,10 +113,10 @@
 				<? endif; ?>
 			</fieldset>
 			<fieldset>
-				<legend><?= @text('Group') ?></legend>
+				<legend><?= @text('Role') ?></legend>
 				<div class="control-group">
 				    <div class="controls">
-				        <?= @helper('listbox.groups', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
+				        <?= @helper('listbox.roles', array('selected' => $user->id ? $user->users_group_id : 18, 'name' => 'users_group_id', 'attribs' => array('class' => 'required'))) ?>
 				    </div>
 				</div>
 			</fieldset>

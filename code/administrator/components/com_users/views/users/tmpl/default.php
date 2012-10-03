@@ -43,7 +43,10 @@
 					<?= @helper('grid.sort',  array('title' => 'Enabled', 'column' => 'enabled')) ?>
 				</th>
 				<th width="15%">
-					<?= @helper('grid.sort',  array('title' => 'Group', 'column' => 'group_name')) ?>
+					<?= @helper('grid.sort',  array('title' => 'Role', 'column' => 'role_name')) ?>
+				</th>
+				<th width="15%">
+					<?= @text('Group') ?>
 				</th>
 				<th width="15%">
 					<?= @helper('grid.sort',  array('title' => 'E-Mail', 'column' => 'email')) ?>
@@ -79,7 +82,12 @@
 					<?= @helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>
 				</td>
 				<td>
-					<?= @escape($user->group_name) ?>
+					<?= @escape($user->role_name) ?>
+				</td>
+				<td class="array-separator">
+					<? foreach($groups_users->find(array('users_user_id' => $user->id)) as $group) : ?>
+						<span><?= $group->group_name ?></span>
+					<? endforeach; ?>
 				</td>
 				<td>
 					<?= @escape($user->email) ?>

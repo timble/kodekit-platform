@@ -22,6 +22,17 @@ class ComUsersModelGroups extends ComDefaultModelDefault
         parent::__construct($config);
         
         $this->getState()
-            ->insert('sort', 'cmd', array('type', 'name'));
+            ->insert('sort', 'cmd', array('type', 'name'))
+            ->insert('type' , 'string');
     }
+    
+    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	{
+	    parent::_buildQueryWhere($query);
+		$state = $this->getState();
+		
+		if ($state->type) {
+			$query->where('tbl.type = :type')->bind(array('type' => $state->type));
+		}
+	}
 }

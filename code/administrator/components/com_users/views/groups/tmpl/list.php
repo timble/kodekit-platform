@@ -8,21 +8,25 @@
  * @link        http://www.nooku.org
  */
 ?>
-
+<h3><?= @text('Roles') ?></h3>
 <nav class="scrollable">
-	<a class="<?= !is_null($state->group) ? 'active' : ''; ?>" href="<?= @route('group=') ?>">
+	<a class="<?= is_null($state->role) ? 'active' : ''; ?>" href="<?= @route('role=') ?>">
+	    <?= @text('All roles') ?>
+	</a>
+	<? foreach($groups->find(array('type' => 'role')) as $role) : ?>
+        <a <?= $state->role == $role->id ? 'class="active"' : '' ?> href="<?= @route('role='.$role->id) ?>">
+            <?= $role->name ?>
+        </a>
+	<? endforeach ?>
+</nav>
+
+<h3><?= @text('Groups') ?></h3>
+<nav class="scrollable">
+	<a class="<?= is_null($state->group) ? 'active' : ''; ?>" href="<?= @route('group=') ?>">
 	    <?= @text('All groups') ?>
 	</a>
 	
-	<h4><?= @text('System') ?></h4>
-	<? foreach($groups->find(array('type' => 'system')) as $group) : ?>
-        <a <?= $state->group == $group->id ? 'class="active"' : '' ?> href="<?= @route('group='.$group->id) ?>">
-            <?= $group->name ?>
-        </a>
-	<? endforeach ?>
-	
-	<h4><?= @text('Custom') ?></h4>
-	<? foreach($groups->find(array('type' => 'custom')) as $group) : ?>
+	<? foreach($groups->find(array('type' => 'group')) as $group) : ?>
         <a <?= $state->group == $group->id ? 'class="active"' : '' ?> href="<?= @route('group='.$group->id) ?>">
             <?= $group->name ?>
         </a>

@@ -261,13 +261,13 @@ VALUES
 
 INSERT INTO `#__users_groups` (`users_group_id`, `name`, `type`)
 VALUES
-    (18, 'Registered', 'system'),
-    (19, 'Author', 'system'),
-    (20, 'Editor', 'system'),
-    (21, 'Publisher', 'system'),
-    (23, 'Manager', 'system'),
-    (24, 'Administrator', 'system'),
-    (25, 'Super Administrator', 'system');
+    (18, 'Registered', 'role'),
+    (19, 'Author', 'role'),
+    (20, 'Editor', 'role'),
+    (21, 'Publisher', 'role'),
+    (23, 'Manager', 'role'),
+    (24, 'Administrator', 'role'),
+    (25, 'Super Administrator', 'role');
 
 --
 -- Dumping data for table `#__passwords`

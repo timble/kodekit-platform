@@ -42,18 +42,12 @@
             <? foreach($groups as $group) : ?>
                 <tr>
                     <td align="center">
-                        <? if($group->type == 'custom') : ?>
-                            <?= @helper('grid.checkbox', array('row' => $group)) ?>
-                        <? endif ?>
+                        <?= @helper('grid.checkbox', array('row' => $group)) ?>
                     </td>
                     <td>
-                        <? if($group->type == 'custom') : ?>
-	                        <a href="<?= @route('view=group&id='.$group->id) ?>">
-	                            <?= @escape($group->name) ?>
-	                        </a>
-                        <? else : ?>
+                        <a href="<?= @route('view=group&id='.$group->id) ?>">
                             <?= @escape($group->name) ?>
-                        <? endif ?>
+                        </a>
                     </td>
                 </tr>
             <? endforeach ?>

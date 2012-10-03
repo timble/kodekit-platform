@@ -33,7 +33,8 @@ class ComUsersModelUsers extends ComDefaultModelDefault
             ->insert('email'      , 'email', null, true)
             ->insert('username'   , 'alnum', null, true)
             ->insert('group'      , 'int')
-            ->insert('group_name' , 'string')
+            ->insert('role'       , 'int')
+            ->insert('role_name'  , 'string')
             ->insert('group_tree' , 'boolean', false)
             ->insert('enabled'    , 'boolean')
             ->insert('visited'    , 'boolean')
@@ -52,7 +53,8 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	    $state = $this->getState();
 
 	    $query->columns(array(
-	    	'loggedin' => 'IF(session.users_session_id IS NOT NULL, 1, 0)'
+	    	'loggedin'  => 'IF(session.users_session_id IS NOT NULL, 1, 0)',
+	    	'role_name' => 'role.name'
 	    ));
 	    
 	    if($state->loggedin)
@@ -60,7 +62,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	        $query->columns(array(
 	        	'loggedin_application' => 'session.application',
 	        	'loggedin_on'          => 'session.time',
-	        	'loggedin_session_id'  => 'session.users_session_id',
+	        	'loggedin_session_id'  => 'session.users_session_id'
 	        ));
 	    }
 	}
@@ -76,6 +78,8 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	    $state = $this->getState();
 	    
         $query->join(array('session' => 'users_sessions'), 'tbl.email = session.email', $state->loggedin ? 'RIGHT' : 'LEFT');
+        $query->join(array('role' => 'users_groups'), 'role.users_group_id = tbl.users_group_id');
+        $query->join(array('group' => 'users_groups_users'), 'group.users_user_id = tbl.users_user_id');
 	}
 
 	/**
@@ -91,8 +95,14 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		
 		if ($state->group)
         {
-		    $query->where('tbl.users_group_id '.($state->group_tree ? '>=' : '=').' :group_id')
+		    $query->where('group.users_group_id = :group_id')
                   ->bind(array('group_id' => $state->group));
+		}
+		
+		if ($state->role)
+		{
+		    $query->where('tbl.users_group_id '.($state->group_tree ? '>=' : '=').' :role_id')
+		          ->bind(array('role_id' => $state->role));
 		}
         
         if (is_bool($state->enabled))
