@@ -10,13 +10,16 @@ class ComUsersDatabaseRowGroup extends KDatabaseRowDefault
 
 	    	// Save selected users to 'groups_users'
 	    	foreach ($this->users as $key => $value) {
-	    		$group_user = $this->getService('com://admin/users.database.row.groups_users');
 	    		
-	    		$group_user->users_group_id	= $this->id;
-	    		$group_user->users_user_id 	= $value;
-	    		
-	    		if(!$group_user->load()) {
-	    			$group_user->save();
+	    		if($value) {
+	    			$group_user = $this->getService('com://admin/users.database.row.groups_users');
+	    			
+	    			$group_user->users_group_id	= $this->id;
+	    			$group_user->users_user_id 	= $value;
+	    			
+	    			if(!$group_user->load()) {
+	    				$group_user->save();
+	    			}
 	    		}
 	    	}
 	    	
