@@ -29,6 +29,12 @@
         </div>
     </div>
     <div class="control-group">
+        <label class="control-label" for="access"><?= @text('Group') ?></label>
+        <div class="controls">
+            <?= @helper('com://admin/users.template.helper.listbox.groups', array('selected' => $page->users_group_id, 'name' => 'users_group_id')) ?>
+        </div>
+    </div>
+    <div class="control-group">
         <label class="control-label" for="parent"><?= @text('Menu') ?></label>
         <div id="parent" class="controls">
             <?= @helper('listbox.menus', array('selected' => $page->pages_menu_id)) ?>
