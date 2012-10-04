@@ -10,22 +10,25 @@
  */
 ?>
 
-<form action="<?= @route('option=com_users&view=session'); ?>" method="post" name="login" id="form-login" >
+<?=@helper('behavior.mootools')?>
+<?=@helper('behavior.validator')?>
+
+<form action="<?= @route('option=com_users&view=session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
 	<? if($show_title) : ?>
 	<h3><?= $module->title ?></h3>
 	<? endif ?>
 	
 	<fieldset class="input">
 	<div class="control-group">
-		<label class="control-label" for="modlgn_username"><?= @text('Email') ?>:</label>
+		<label class="control-label" for="modlgn_email"><?= @text('Email') ?>:</label>
 		<div class="controls">
-			<input type="text" name="email" />
+			<input id="modlgn_email" class="required validate-email" type="text" name="email" />
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="modlgn_passwd"><?= @text('Password') ?>:</label>
 		<div class="controls">
-			<input type="password" name="password" />
+			<input id="modlgn_passwd" class="required" type="password" name="password" />
 			<span class="help-block">
 			    <small><a href="<?= @route( 'option=com_users&view=password&layout=token' ); ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
 			</span>
