@@ -40,17 +40,13 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'container_id'             => 'password-check',
             'min_score'                => 0,
             'min_score_msg'            => JText::_('Please select a stronger password'),
-            'length'                  => 6,
             'score_map'                => array(
                 '0' => JText::_('Please provide a password'),
                 '1' => JText::_('Very weak'),
                 '2' => JText::_('Weak'),
                 '3' => JText::_('Good'),
                 '4' => JText::_('Strong'),
-                '5' => JText::_('Very strong'))))->append(array(
-            'length_msg'          => JText::sprintf('The password must be at least %s characters long',
-                $config->length),
-        ));
+                '5' => JText::_('Very strong'))));
 
         $options = array(
             'class'               => $config->class,
@@ -60,15 +56,13 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
             'container_id'        => $config->container_id,
             'score_map'           => $config->score_map->toArray(),
             'min_score'           => $config->min_score,
-            'min_score_msg'       => $config->min_score_msg,
-            'length'             => $config->length,
-            'length_msg'         => $config->length_msg);
+            'min_score_msg'       => $config->min_score_msg);
 
 
         // Add required assets
         $html = '<script src="media://com_users/js/users.js" />';
 
-        $html .= '<span id="' . $config->container_id . '" class="'.$config->class.'">' . $config->score_map[0] . '</span>';
+        $html .= '<span id="' . $config->container_id . '" class="' . $config->class . '">' . $config->score_map[0] . '</span>';
 
         // Async load of zxcvbn
         $zxcvbn_url = 'media://com_users/js/libs/zxcvbn/zxcvbn.js';
