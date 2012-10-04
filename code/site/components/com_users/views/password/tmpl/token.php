@@ -10,6 +10,9 @@
 defined('KOOWA') or die('Restricted access');
 ?>
 
+<?=@helper('behavior.mootools')?>
+<?=@helper('behavior.validator')?>
+
 <div class="page-header">
     <h1><?=@text('Password reset request');?></h1>
 </div>
@@ -20,7 +23,7 @@ defined('KOOWA') or die('Restricted access');
         <label class="control-label" for="email"><?= @text('E-mail') ?></label>
 
         <div class="controls">
-            <input type="text" id="email" name="email" placeholder="E-mail"/>
+            <input class="required validate-email" type="text" id="email" name="email" placeholder="E-mail"/>
         </div>
     </div>
     <div class="form-actions">
