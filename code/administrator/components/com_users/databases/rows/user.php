@@ -100,11 +100,11 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 			return false;
 		}
 
-	    // Don't allow to save a user without a group.
-        if(($this->isNew() || $this->isModified('users_group_id')) && !$this->users_group_id)
+	    // Don't allow to save a user without a role.
+        if(($this->isNew() || $this->isModified('users_role_id')) && !$this->users_role_id)
         {
             $this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::_("You can't create a user without a user group."));
+            $this->setStatusMessage(JText::_("User must have a role."));
 
             return false;
         }
