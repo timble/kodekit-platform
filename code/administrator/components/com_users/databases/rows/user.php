@@ -23,7 +23,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     {
         //@TODO : Add mapped properties support
         if($column == 'gid') {
-           $column = 'users_group_id';
+           $column = 'users_role_id';
         }
 
         if($column == 'params' && !($this->_data['params'] instanceof JParameter))

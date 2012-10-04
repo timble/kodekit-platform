@@ -429,26 +429,28 @@ CREATE TABLE `#__pages` (
 --
 
 CREATE TABLE `#__users` (
-  `users_user_id` int(11) UNSIGNED AUTO_INCREMENT,
+  `users_user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
   `send_email` tinyint(1) DEFAULT '0',
-  `users_group_id` int(11) unsigned NOT NULL DEFAULT '1',
-  `registered_on` datetime,
-  `last_visited_on` datetime,
-  `created_by` INT UNSIGNED,
-  `created_on` DATETIME,
-  `modified_by` INT UNSIGNED,
-  `modified_on` DATETIME,
-  `locked_by` INT UNSIGNED,
-  `locked_on` DATETIME,
+  `users_role_id` int(11) unsigned NOT NULL DEFAULT '18',
+  `registered_on` datetime DEFAULT NULL,
+  `last_visited_on` datetime DEFAULT NULL,
+  `created_by` int(10) unsigned DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `modified_by` int(10) unsigned DEFAULT NULL,
+  `modified_on` datetime DEFAULT NULL,
+  `locked_by` int(10) unsigned DEFAULT NULL,
+  `locked_on` datetime DEFAULT NULL,
   `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `uuid` char(36) NOT NULL,
   PRIMARY KEY (`users_user_id`),
   UNIQUE KEY `uuid` (`uuid`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email` (`email`),
+  KEY `users_role_id` (`users_role_id`),
+  CONSTRAINT `users_user_role` FOREIGN KEY (`users_role_id`) REFERENCES `#__users_roles` (`users_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

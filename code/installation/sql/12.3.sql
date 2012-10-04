@@ -87,7 +87,8 @@ ALTER TABLE `#__users` CHANGE  `id`  `users_user_id` INT(11) UNSIGNED AUTO_INCRE
 ALTER TABLE `#__users` CHANGE  `block`  `enabled` TINYINT(1);
 UPDATE `#__users` SET `enabled` = IF(`enabled`, 0, 1);
 ALTER TABLE `#__users` CHANGE  `sendEmail`  `send_email` TINYINT(1);
-ALTER TABLE `#__users` CHANGE  `gid`  `users_group_id` INT(10) UNSIGNED;
+ALTER TABLE `#__users` CHANGE  `gid`  `users_role_id` INT(11) UNSIGNED NOT NULL DEFAULT '18';
+ALTER TABLE `#__users` ADD CONSTRAINT `users_user_role` FOREIGN KEY (`users_role_id`) REFERENCES `#__users_roles` (`users_role_id`);
 ALTER TABLE `#__users` CHANGE  `registerDate`  `registered_on` DATETIME;
 ALTER TABLE `#__users` CHANGE  `lastvisitDate`  `last_visited_on` DATETIME;
 
