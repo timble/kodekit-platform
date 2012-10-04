@@ -483,7 +483,7 @@ CREATE TABLE `#__users_groups` (
 -- Table structure for table `#__users_groups_users`
 --
 
-CREATE TABLE `#_users_groups_users` (
+CREATE TABLE `#__users_groups_users` (
   `users_group_id` int(11) unsigned NOT NULL,
   `users_user_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`users_group_id`,`users_user_id`)
