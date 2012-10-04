@@ -10,16 +10,15 @@
  */
 ?>
 
-<!--
-<script src="media://lib_koowa/js/koowa.js" />
--->
-<?= @helper('behavior.keepalive'); ?>
+<?=@helper('behavior.mootools')?>
+<?=@helper('behavior.keepalive')?>
+<?=@helper('behavior.validator')?>
 
 <div class="page-header">
     <h1><?= @escape($parameters->get('page_title')) ?></h1>
 </div>
 
-<form action="" method="post" id="com-form-login" class="form-horizontal">
+<form action="" method="post" id="com-form-login" class="-koowa-form form-horizontal">
     <? if($parameters->get('description_login_text')) : ?>
     <p><?= $parameters->get('description_login_text' ) ?></p>
     <? endif ?>
@@ -27,14 +26,14 @@
     <div class="control-group">
         <label class="control-label" for="email"><?= @text('E-mail') ?></label>
         <div class="controls">
-            <input name="email" type="text" alt="email" />
+            <input id="email" class="required validate-email" name="email" type="text" alt="email" />
         </div>
     </div>
     
     <div class="control-group">
         <label class="control-label" for="password"><?= @text('Password') ?></label>
         <div class="controls">
-            <input type="password" name="password" alt="password" />
+            <input id="password" class="required" type="password" name="password" alt="password" />
             <span class="help-block">
                 <small><a href="<?= @route('view=password&layout=token') ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
             </span>
