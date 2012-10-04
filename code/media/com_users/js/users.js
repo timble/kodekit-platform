@@ -103,23 +103,36 @@ var ComUsers = {
         }
     },
 
-    Validators:{
-        passwordLength:function () {
-            if (Form && Form.Validator) {
-                Form.Validator.add('passwordLength', {
-                    errorMsg:function (element, props) {
-                        return Form.Validator.getMsg('minLength').substitute({minLength:props.passwordLength, length:element.get('value').length});
-                    },
-                    test:function (element, props) {
-                        var result = true;
-                        var value = element.get('value');
-                        // Only check if a password is set.
-                        if (value.length) {
-                            result = value.length >= props.passwordLength;
+    Form:{
+
+        addValidator:function (validator) {
+            // Check if validator exists.
+            if (typeof ComUsers.Form.Validators[validator] == 'function') {
+                ComUsers.Form.Validators[validator].call();
+            } else {
+                alert('Validator: ' + validator + ' not found.');
+            }
+        },
+
+        Validators:{
+
+            passwordLength:function () {
+                if (Form && Form.Validator) {
+                    Form.Validator.add('passwordLength', {
+                        errorMsg:function (element, props) {
+                            return Form.Validator.getMsg('minLength').substitute({minLength:props.passwordLength, length:element.get('value').length});
+                        },
+                        test:function (element, props) {
+                            var result = true;
+                            var value = element.get('value');
+                            // Only check if a password is set.
+                            if (value.length) {
+                                result = value.length >= props.passwordLength;
+                            }
+                            return result;
                         }
-                        return result;
-                    }
-                });
+                    });
+                }
             }
         }
     }

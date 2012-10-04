@@ -24,7 +24,7 @@ defined('KOOWA') or die('Restricted access');
         <label class="control-label" for="password"><?= @text('Password') ?></label>
 
         <div class="controls">
-            <input type="password" id="password" name="password" value=""/>
+            <input class="minLength:<?=$parameters->get('password_length', 6);?>" type="password" id="password" name="password" value=""/>
             <?=@helper('com://admin/users.template.helper.form.password');?>
         </div>
     </div>
