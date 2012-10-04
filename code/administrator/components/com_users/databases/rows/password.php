@@ -17,6 +17,13 @@
  */
 class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
 {
+    public function __construct(KConfig $config) {
+        parent::__construct($config);
+
+        // TODO Remove when PHP 5.5 becomes a requirement.
+        KLoader::loadFile(JPATH_ROOT . '/administrator/components/com_users/legacy.php');
+    }
+
     public function save() {
         $user = $this->getService('com://admin/users.model.users')
             ->set('email', $this->email)
@@ -59,18 +66,6 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         }
 
         return parent::save();
-    }
-
-    /**
-     * Returns the encrypted password.
-     *
-     * @param  string  The plain text password.
-     * @param  string  The salt to use to encrypt the password.
-     *
-     * @return string  The encrypted password.
-     */
-    public function getCrypted($password, $salt = '') {
-        return md5($password . $salt);
     }
 
     /**
@@ -120,40 +115,8 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         return $return;
     }
 
-    /**
-     * Salt getter.
-     *
-     * @param string An optional hash containing the salt.
-     *
-     * @return string The password salt, null if no hash is found.
-     */
-    public function getSalt($hash = null) {
-        $result = null;
-
-        if (is_null($hash)) {
-            $hash = $this->hash;
-        }
-
-        if ($hash) {
-            $result = substr(strrchr($hash, ':'), 1);
-        }
-
-        return $result;
-    }
-
-    /**
-     * Hash getter.
-     *
-     * @param string The password.
-     * @param string The salt.
-     *
-     * @return string The hash.
-     */
-    public function getHash($password, $salt = null) {
-        if (is_null($salt)) {
-            $salt = $this->getRandom(32);
-        }
-        return $this->getCrypted($password, $salt) . ':' . $salt;
+    public function getHash($password) {
+        return password_hash($password, PASSWORD_BCRYPT);
     }
 
     /**
@@ -166,11 +129,20 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
     public function verify($password) {
         $result = false;
 
-        if ($salt = $this->getSalt()) {
-            if ($this->getHash($password, $salt) == $this->hash) {
+        // TODO Automatically migrates MD5 hashes from verified passwords to BCrypt. To be removed at some point.
+        $info = password_get_info($this->hash);
+        if ($info['algoName'] != 'bcrypt') {
+            $salt = substr(strrchr($this->hash, ':'), 1);
+            if (($this->hash == md5($password . $salt) . ':' . $salt) && !$this->isNew()) {
+                // Valid password on existing record. Migrate to BCrypt.
+                $this->hash = $this->getHash($password);
+                $this->save();
                 $result = true;
             }
+        } else {
+            $result = password_verify($password, $this->hash);
         }
+
         return $result;
     }
 
