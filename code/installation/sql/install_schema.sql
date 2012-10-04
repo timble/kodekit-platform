@@ -394,7 +394,7 @@ CREATE TABLE `#__pages_modules` (
 CREATE TABLE `#__pages` (
   `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
-  `users_groups_id` INT UNSIGNED NOT NULL,
+  `users_group_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
   `link_url` TEXT,
