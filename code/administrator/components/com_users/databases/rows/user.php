@@ -19,6 +19,11 @@
  */
 class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 {
+    /**
+     * @var ComUsersDatabaseRowRole User role object.
+     */
+    protected $_role;
+
 	public function __get($column)
     {
         //@TODO : Add mapped properties support
@@ -30,7 +35,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		{
             //$path  = $this->getIdentifier()->getApplication('admin');
             $path   = '/components/com_users/databases/rows';
-			$name	= str_replace(' ', '_', strtolower($this->group_name));
+			$name	= str_replace(' ', '_', strtolower($this->getRole()->name));
 
 			if(!file_exists($file = $path.'/'.$name.'.xml')) {
 				$file = $path.'/user.xml';
@@ -45,7 +50,19 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     	return parent::__get($column);
     }
 
-	public function save()
+    /**
+     * User role getter.
+     *
+     * @return ComUsersDatabaseRowRole The user's role object.
+     */
+    public function getRole() {
+        if (!$this->_role) {
+            $this->_role = $this->getService('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
+        }
+        return $this->_role;
+    }
+
+    public function save()
 	{
 		// Load the old row if editing an existing user.
 		if(!$this->isNew())
@@ -174,9 +191,23 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 				unset($this->_modified['params']);
 			}
 		}
-		
+
+        if ($this->isModified('users_role_id')) {
+            // Clear role cache
+            $this->_role = null;
+        }
+
 		return parent::save();
 	}
+
+    public function load() {
+        $result = parent::load();
+        if ($result) {
+            // Clear role cache
+            $this->_role = null;
+        }
+        return $result;
+    }
 
 	public function delete()
 	{
@@ -209,6 +240,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         $result = parent::reset();
 
         $this->guest = 1;
+        $this->_role = null;
 
         return $result;
     }
@@ -226,7 +258,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
      */
     public function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
     {
-        $value	= $this->group_name;
+        $value	= $this->getRole()->name;
 
         return JFactory::getACL()->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
     }
