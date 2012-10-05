@@ -17,6 +17,13 @@
  */
 class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAbstract
 {
+    public function __construct(KConfig $config) {
+        parent::__construct($config);
+
+        // TODO Remove when PHP 5.5 becomes a requirement.
+        KLoader::loadFile(JPATH_ROOT . '/administrator/components/com_users/legacy.php');
+    }
+
     protected function _beforeControllerRead(KCommandContext $context) {
         $request = $this->getRequest();
 
@@ -69,9 +76,7 @@ class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAb
         $result   = false;
         $password = $this->getModel()->getItem();
 
-        if ($password->reset && ($password->reset == $password->getHash($token,
-            $password->getSalt($password->reset)))
-        ) {
+        if ($password->reset && (password_verify($token, $password->reset))) {
             $result = true;
         }
         return $result;
@@ -104,9 +109,8 @@ class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAb
         $password = $user->getPassword();
 
         $token = $password->getRandom(32);
-        $salt  = $password->getRandom(32);
 
-        $password->reset = $password->getCrypted($token, $salt) . ':' . $salt;
+        $password->reset = $password->getHash($token);
         $password->save();
 
         $config     = JFactory::getConfig();
