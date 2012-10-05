@@ -57,7 +57,10 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
      */
     public function getRole() {
         if (!$this->_role) {
-            $this->_role = $this->getService('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
+            // TODO Temporarily using KService::get since User object is not yet properly set on session when
+            // getting it with JFactory::getUser.
+            $this->_role = KService::get('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
+            //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
         }
         return $this->_role;
     }
