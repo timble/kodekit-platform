@@ -48,9 +48,7 @@ class ComUsersModelSessions extends KModelTable
         parent::_buildQueryColumns($query);
 
         $query->columns(array(
-            'name'     => 'users.name',
-            'usertype' => 'users.usertype',
-            'gid'      => 'users.gid',
+            'name'     => 'users.name'
         ));
     }
 
@@ -86,7 +84,7 @@ class ComUsersModelSessions extends KModelTable
 
         if ($state->email)
         {
-            $query->where('email IN :email')
+            $query->where('tbl.email IN :email')
                   ->bind(array('email' => (array) $state->email));
         }
     }
