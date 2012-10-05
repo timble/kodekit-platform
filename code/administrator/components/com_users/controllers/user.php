@@ -87,9 +87,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
                 $mail_from_name     = $user->name;
             }
 
+            $site_url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $mail_site_name, KRequest::root(),
-                $context->result->username, $context->result->password);
+            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $mail_site_name, $site_url,
+                $context->result->email, $context->result->password);
 
             JUtility::sendMail($mail_from_email, $mail_from_name, $context->result->email, $subject, $message);
         }
