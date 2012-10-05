@@ -32,9 +32,6 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 		$config->append(array(
 			'name'				=> 'users',
 			'base' 				=> 'users',
-			'column_map'		=> array(
-				'group_name'		=> 'usertype'
-			),
 			'behaviors' => array('modifiable', 'lockable', 'identifiable', 'authenticatable')
 		));
 		
