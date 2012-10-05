@@ -39,7 +39,7 @@
             <? endif; ?>
         </td>
         <td>
-            <?= $user->group_name;?>
+            <?= $user->role_name;?>
         </td>
         <td>
             <?= $user->loggedin_application; ?>
