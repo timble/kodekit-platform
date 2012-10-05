@@ -123,24 +123,35 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
      * Tests the current hash against a provided password.
      *
      * @param string $password The password to test.
+     * @param string $hash An optional hash to compare to. If no hash is provided, the currest password hash
+     * will be used instead.
      *
      * @return bool True if password matches the current hash, false otherwise.
      */
-    public function verify($password) {
+    public function verify($password, $hash = null) {
         $result = false;
 
-        // TODO Automatically migrates MD5 hashes from verified passwords to BCrypt. To be removed at some point.
-        $info = password_get_info($this->hash);
-        if ($info['algoName'] != 'bcrypt') {
-            $salt = substr(strrchr($this->hash, ':'), 1);
-            if (($this->hash == md5($password . $salt) . ':' . $salt) && !$this->isNew()) {
-                // Valid password on existing record. Migrate to BCrypt.
-                $this->hash = $this->getHash($password);
-                $this->save();
-                $result = true;
+        if (is_null($hash)) {
+            // Use current password hash instead.
+            $hash = $this->hash;
+
+            // TODO Automatically migrates MD5 hashes from verified passwords to BCrypt. To be removed at some point.
+            if (!$this->isNew()) {
+                $info = password_get_info($this->hash);
+                if ($info['algoName'] != 'bcrypt') {
+                    $salt = substr(strrchr($this->hash, ':'), 1);
+                    if (($this->hash === md5($password . $salt) . ':' . $salt)) {
+                        // Valid password on existing record. Migrate to BCrypt.
+                        $this->hash = $this->getHash($password);
+                        $this->save();
+                        $result = true;
+                    }
+                }
             }
-        } else {
-            $result = password_verify($password, $this->hash);
+        }
+
+        if (!$result) {
+            $result = password_verify($password, $hash);
         }
 
         return $result;

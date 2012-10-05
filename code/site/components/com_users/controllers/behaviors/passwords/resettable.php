@@ -76,7 +76,7 @@ class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAb
         $result   = false;
         $password = $this->getModel()->getItem();
 
-        if ($password->reset && (password_verify($token, $password->reset))) {
+        if ($password->reset && ($password->verify($token, $password->reset))) {
             $result = true;
         }
         return $result;
