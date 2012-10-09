@@ -265,12 +265,12 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Use for SELECT and anything that returns rows.
      *
      * @param    KDatabaseQuerySelect The query object.
-     * @param   integer    The fetch mode. Controls how the result will be returned to the caller. This
+     * @param   integer    The fetch mode. Controls how the result will be returned to the subject. This
      *                     value must be one of the KDatabase::FETCH_* constants.
-     * @param     string     The column name of the index to use.
+     * @param   string     The column name of the index to use.
      * @throws  InvalidArgumentException If the query is not an instance of KDatabaseQuerySelect or KDatabaseQueryShow
      * @return  mixed     The return value of this function on success depends on the fetch type.
-     *                     In all cases, FALSE is returned on failure.
+     *                    In all cases, FALSE is returned on failure.
      */
     public function select(KDatabaseQueryInterface $query, $mode = KDatabase::FETCH_ARRAY_LIST, $key = '')
     {
@@ -278,7 +278,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
             throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryShow');
         }
 
-        $context = $this->getCommandContext();
+        $context        = $this->getCommandContext();
         $context->query = $query;
         $context->operation = KDatabase::OPERATION_SELECT;
         $context->mode = $mode;
