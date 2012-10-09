@@ -46,8 +46,6 @@ Files.App = new Class({
 		},
 		router: {
 			defaults: {
-				option: 'com_files',
-				view: 'files',
 				format: 'json'
 			}
 		},
@@ -492,7 +490,9 @@ Files.App = new Class({
 			delete query.format;
 		}
 
-		return '?'+new Hash(query).filter(function(value, key) {
+		var isAdmin = document.URL.replace(Files.sitebase, '').substr(0, 14) == '/administrator' ? true : false;
+		
+		return (isAdmin ? '/administrator' : '') + '/files/?'+new Hash(query).filter(function(value, key) {
 			return typeof value !== 'function';
 		}).toQueryString();
 	}
