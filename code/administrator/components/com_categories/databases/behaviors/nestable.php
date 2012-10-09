@@ -42,7 +42,7 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
     {
         if($context->query instanceof KDatabaseQuerySelect && $context->mode == KDatabase::FETCH_ROWSET)
         {
-            $this->_table = $context->caller;
+            $this->_table = $context->getSubject();
 
             $this->_table->getDatabase()
                          ->getCommandChain()
