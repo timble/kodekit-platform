@@ -10,8 +10,7 @@
 /**
  * Event Class
  *
- * You can call the method stopPropagation() to abort the execution of
- * further listeners in your event listener.
+ * You can call the method stopPropagation() to abort the execution of further listeners in your event listener.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Event
@@ -42,14 +41,14 @@ class KEvent extends KConfig
     protected $_name;
     
     /**
-     * Publsiher that published this event
+     * Target of the event
      *
-     * @var array
+     * @var KObjectServiceable
      */
-    protected $_publisher;
+    protected $_target;
     
     /**
-     * Dispatcher that dispatched this event
+     * Dispatcher of the event
      * 
      * @var KEventDispatcher 
      */
@@ -78,24 +77,24 @@ class KEvent extends KConfig
     }
     
     /**
-     * Get the event publisher
+     * Get the event target
      *
-     * @return object	The event publisher
+     * @return object	The event target
      */
-    public function getPublisher()
+    public function getTarget()
     {
-        return $this->_publisher;
+        return $this->_target;
     }
     
     /**
-     * Set the event publisher
+     * Set the event target
      *
-     * @param object	The event publisher
+     * @param object	The event target
      * @return KEvent
      */
-    public function setPublisher(KObjectServiceable $publisher)
+    public function setTarget(KObjectServiceable $target)
     {
-        $this->_publisher = $publisher;
+        $this->_target = $target;
         return $this;
     }
     
