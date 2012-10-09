@@ -53,7 +53,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         if($query = $context->query)
         {
             $state     = $context->options->state;
-            $id_column = $context->caller->getIdentityColumn();
+            $id_column = $context->getSubject()->getIdentityColumn();
     
             if(!$query->isCountQuery() && $state && !$state->isUnique() && in_array($state->sort, $this->_columns))
             {
