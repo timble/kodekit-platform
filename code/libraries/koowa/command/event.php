@@ -72,9 +72,9 @@ class KCommandEvent extends KCommand
     {
         $type = '';
 
-        if ($context->caller)
+        if ($context->getSubject())
         {
-            $identifier = clone $context->caller->getIdentifier();
+            $identifier = clone $context->getSubject()->getIdentifier();
 
             if ($identifier->path) {
                 $type = array_shift($identifier->path);
@@ -87,7 +87,7 @@ class KCommandEvent extends KCommand
         $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . KInflector::implode($parts);
 
         $event = new KEvent(clone($context));
-        $event->setPublisher($context->caller);
+        $event->setTarget($context->getSubject());
 
         $this->_event_dispatcher->dispatchEvent($name, $event);
 
