@@ -38,7 +38,6 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		if ($this->getCommandChain()->run('before.save', $context) !== false)
 		{
 			$context->result = $this->_adapter->write(!empty($this->contents) ? $this->contents : $this->file);
-
 			$this->getCommandChain()->run('after.save', $context);
         }
 
