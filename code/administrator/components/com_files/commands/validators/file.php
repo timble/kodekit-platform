@@ -19,7 +19,7 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 {
 	protected function _databaseBeforeSave(KCommandContext $context)
 	{
-		$row = $context->caller;
+		$row = $context->getSubject();
 
 		if (is_string($row->file) && !is_uploaded_file($row->file))
 		{
