@@ -42,7 +42,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     public function activate(KCommandContext $context)
     {
     	$row = $context->result;
-    	$activation = $context->caller->getModel()->get('activation');
+    	$activation = $context->getSubject()->getModel()->get('activation');
     	
     	if (!empty($activation)) 
     	{
@@ -127,7 +127,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     public function redirect(KCommandContext $context)
     {
-        $item = $context->caller->getModel()->getItem();
+        $item = $context->getSubject()->getModel()->getItem();
 
         if ($item->getStatus() != KDatabase::STATUS_FAILED) {
             $this->setRedirect(KRequest::referrer(), JText::_('Modifications have been saved.'), 'message');
