@@ -112,7 +112,7 @@ class ComDebugEventProfiler extends KEventDispatcher
         	'message' => $name,
             'time'    => $this->getElapsedTime(),
             'memory'  => $this->getMemory(),
-            'caller'  => $event->getPublisher()->getIdentifier()
+            'target'  => $event->getTarget()->getIdentifier()
         );  
         
         return parent::dispatchEvent($name, $event);
