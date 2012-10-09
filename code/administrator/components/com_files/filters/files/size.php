@@ -22,7 +22,7 @@ class ComFilesFilterFileSize extends KFilterAbstract
 
 	protected function _validate($context)
 	{
-		$row = $context->caller;
+		$row = $context->getSubject();
 		$max = $row->container->parameters->maximum_size;
 
 		if ($max)
