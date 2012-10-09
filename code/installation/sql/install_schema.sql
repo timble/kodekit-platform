@@ -19,6 +19,7 @@
 
 CREATE TABLE `#__activities_activities` (
     `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
     `application` VARCHAR(10) NOT NULL DEFAULT '',
     `type` VARCHAR(3) NOT NULL DEFAULT '',
     `package` VARCHAR(50) NOT NULL DEFAULT '',
