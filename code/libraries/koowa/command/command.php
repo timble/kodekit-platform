@@ -23,10 +23,10 @@ class KCommand extends KObject implements KCommandInterface
      * Priority levels
      */
     const PRIORITY_HIGHEST = 1;
-    const PRIORITY_HIGH = 2;
-    const PRIORITY_NORMAL = 3;
-    const PRIORITY_LOW = 4;
-    const PRIORITY_LOWEST = 5;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
 
     /**
      * The command priority
@@ -34,6 +34,13 @@ class KCommand extends KObject implements KCommandInterface
      * @var integer
      */
     protected $_priority;
+
+    /**
+     * Subject of the command
+     *
+     * @var KObjectServiceable
+     */
+    protected $_subject;
 
     /**
      * Constructor.
@@ -45,6 +52,7 @@ class KCommand extends KObject implements KCommandInterface
         parent::__construct($config);
 
         $this->_priority = $config->priority;
+        $this->_subject  = null;
     }
 
     /**
@@ -75,9 +83,9 @@ class KCommand extends KObject implements KCommandInterface
     {
         $type = '';
 
-        if ($context->caller)
+        if ($context->getSubject())
         {
-            $identifier = clone $context->caller->getIdentifier();
+            $identifier = clone $context->getSubject()->getIdentifier();
 
             if ($identifier->path) {
                 $type = array_shift($identifier->path);
@@ -104,5 +112,27 @@ class KCommand extends KObject implements KCommandInterface
     public function getPriority()
     {
         return $this->_priority;
+    }
+
+    /**
+     * Get the command subject
+     *
+     * @return object	The event target
+     */
+    public function getSubject()
+    {
+        return $this->_subject;
+    }
+
+    /**
+     * Set the command subject
+     *
+     * @param object	The command subject
+     * @return KCommand
+     */
+    public function setSubject(KObjectServiceable $subject)
+    {
+        $this->_subject = $subject;
+        return $this;
     }
 }
