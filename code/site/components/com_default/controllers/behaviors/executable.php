@@ -101,7 +101,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
     protected function _authenticateRequest(KCommandContext $context)
     {
         //Check the token
-        if($context->caller->isDispatched())
+        if($context->getSubject()->isDispatched())
         {
             $method = KRequest::method();
 
