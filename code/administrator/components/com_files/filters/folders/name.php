@@ -22,7 +22,7 @@ class ComFilesFilterFolderName extends KFilterAbstract
 
 	protected function _validate($context)
 	{
-		$value = $context->caller->name;
+		$value = $context->getSubject()->name;
 
 		if (strpos($value, '/') !== false) {
 			$context->setError(JText::_('Folder names cannot contain slashes'));
