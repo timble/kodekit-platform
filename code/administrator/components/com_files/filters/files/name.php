@@ -22,7 +22,7 @@ class ComFilesFilterFileName extends KFilterAbstract
 
 	protected function _validate($context)
 	{
-		$value = $this->_sanitize($context->caller->name);
+		$value = $this->_sanitize($context->getSubject()->name);
 
 		if ($value == '') {
 			$context->setError(JText::_('Invalid file name'));
