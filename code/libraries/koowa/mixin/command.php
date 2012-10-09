@@ -91,15 +91,14 @@ class KMixinCommand extends KMixinAbstract
     /**
      * Get the command chain context
      * 
-     * This functions inserts a 'caller' variable in the context which contains
-     * the mixer object.
+     * This functions sets the command subject as the mixer in the context
      *
      * @return  KCommandContext
      */
     public function getCommandContext()
     {
         $context = $this->_command_chain->getContext();
-        $context->caller = $this->_mixer;
+        $context->setSubject($this->_mixer);
         
         return $context;
     }
