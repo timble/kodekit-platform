@@ -81,7 +81,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 		        {
 		            if ($matches[1] == 1 || isset($query->params[substr($matches[1], 1)]) && $query->params[substr($matches[1], 1)] == 1) 
 		            {
-    		            $table = $context->caller;
+    		            $table = $context->getSubject();
 
           			    $revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $query);
 
