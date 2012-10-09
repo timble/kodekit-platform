@@ -212,7 +212,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         if($query = $context->query)
         {
             $state     = $context->options->state;
-            $id_column = $context->caller->getIdentityColumn();
+            $id_column = $context->getSubject()->getIdentityColumn();
 
             $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
                 ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
@@ -252,7 +252,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         if($context->affected !== false)
         {
             $data  = $context->data;
-            $table = $context->caller;
+            $table = $context->getSubject();
             
             // Set path and level for the current row.
             if($data->parent_id)
@@ -377,7 +377,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         if($context->affected !== false)
         {
-            $table = $context->caller;
+            $table = $context->getSubject();
             
             $query_descendants = $this->getService('koowa:database.query.select')
                 ->columns($table->getIdentityColumn())
