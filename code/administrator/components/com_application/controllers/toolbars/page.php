@@ -19,7 +19,7 @@ class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
 {
     public function onBeforeControllerGet(KEvent $event)
     {
-        $event->caller->getView()->toolbar = $this;
+        $event->getTarget()->getView()->toolbar = $this;
 
         $this->addCommand('preview');
         $this->addCommand('profile');
