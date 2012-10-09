@@ -19,7 +19,7 @@ class ComApplicationControllerToolbarMenubar extends KControllerToolbarAbstract
 {
     public function onBeforeControllerGet(KEvent $event)
     {   
-        $event->caller->getView()->menubar = $this;
+        $event->getTarget()->getView()->menubar = $this;
     }
 
     public function getCommand($name, $config = array())
