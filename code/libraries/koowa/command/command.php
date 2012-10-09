@@ -36,13 +36,6 @@ class KCommand extends KObject implements KCommandInterface
     protected $_priority;
 
     /**
-     * Subject of the command
-     *
-     * @var KObjectServiceable
-     */
-    protected $_subject;
-
-    /**
      * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options
@@ -52,7 +45,6 @@ class KCommand extends KObject implements KCommandInterface
         parent::__construct($config);
 
         $this->_priority = $config->priority;
-        $this->_subject  = null;
     }
 
     /**
@@ -112,27 +104,5 @@ class KCommand extends KObject implements KCommandInterface
     public function getPriority()
     {
         return $this->_priority;
-    }
-
-    /**
-     * Get the command subject
-     *
-     * @return object	The event target
-     */
-    public function getSubject()
-    {
-        return $this->_subject;
-    }
-
-    /**
-     * Set the command subject
-     *
-     * @param object	The command subject
-     * @return KCommand
-     */
-    public function setSubject(KObjectServiceable $subject)
-    {
-        $this->_subject = $subject;
-        return $this;
     }
 }
