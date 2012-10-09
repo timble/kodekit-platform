@@ -76,7 +76,7 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
 
                     if(!empty($status))
                     {
-                         $identifier = $context->caller->getIdentifier();
+                         $identifier = $context->getSubject()->getIdentifier();
 
                          $log = array(
                             'action'	  => $context->action,
