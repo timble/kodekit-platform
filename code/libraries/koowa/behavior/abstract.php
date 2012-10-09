@@ -102,7 +102,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      */
     public function execute($name, KCommandContext $context)
     {
-        $identifier = clone $context->caller->getIdentifier();
+        $identifier = clone $context->getSubject()->getIdentifier();
         $type = array_pop($identifier->path);
 
         $parts = explode('.', $name);
