@@ -83,13 +83,13 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'command_chain' => $this->getService('koowa:command.chain'),
-            'dispatch_events' => true,
-            'event_dispatcher' => $this->getService('koowa:event.dispatcher'),
-            'enable_callbacks' => true,
-            'dispatched' => false,
-            'request' => null,
-            'behaviors' => array(),
+            'command_chain'     => $this->getService('koowa:command.chain'),
+            'dispatch_events'   => true,
+            'event_dispatcher'  => $this->getService('koowa:event.dispatcher'),
+            'enable_callbacks'  => true,
+            'dispatched'        => false,
+            'request'           => null,
+            'behaviors'         => array(),
         ));
 
         parent::_initialize($config);
@@ -109,7 +109,7 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string      The action to execute
-     * @param   object        A command context object
+     * @param   object      A command context object
      * @return  mixed|false The value returned by the called method, false in error case.
      * @throws  KControllerException
      */
@@ -118,8 +118,8 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
         $action = strtolower($action);
 
         //Update the context
-        $context->action = $action;
-        $context->caller = $this;
+        $context->action  = $action;
+        $context->setSubject($this);
 
         //Find the mapped action
         if (isset($this->_action_map[$action])) {
