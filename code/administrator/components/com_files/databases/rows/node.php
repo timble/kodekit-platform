@@ -85,7 +85,6 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		if ($this->getCommandChain()->run('before.move', $context) !== false)
 		{
 			$context->result = $this->_adapter->move($this->destination_fullpath);
-
 			$this->getCommandChain()->run('after.move', $context);
         }
 
