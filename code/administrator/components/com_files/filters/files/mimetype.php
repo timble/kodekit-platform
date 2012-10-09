@@ -22,14 +22,15 @@ class ComFilesFilterFileMimetype extends KFilterAbstract
 
 	protected function _validate($context)
 	{
-		$row = $context->caller;
+		$row = $context->getSubject();
 		$mimetypes = KConfig::unbox($row->container->parameters->allowed_mimetypes);
 
 		if (is_array($mimetypes))
 		{
 			$mimetype = $row->mimetype;
 
-			if (empty($mimetype)) {
+			if (empty($mimetype))
+            {
 				if (is_uploaded_file($row->file) && $row->isImage()) {
 					$info = getimagesize($row->file);
 					$mimetype = $info ? $info['mime'] : false;
