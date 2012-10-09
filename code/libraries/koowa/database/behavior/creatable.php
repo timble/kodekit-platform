@@ -50,7 +50,7 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
             $this->created_by  = (int) JFactory::getUser()->get('id');
         }
 
-        if(isset($this->created_on) && (empty($this->created_on) || $this->created_on == $context->caller->getDefault('created_on'))) {
+        if(isset($this->created_on) && (empty($this->created_on) || $this->created_on == $context->getSubject()->getDefault('created_on'))) {
             $this->created_on  = gmdate('Y-m-d H:i:s');
         }
     }
