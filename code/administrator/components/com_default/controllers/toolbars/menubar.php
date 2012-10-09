@@ -24,7 +24,7 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
 	 */
     public function onBeforeControllerGet(KEvent $event)
     {   
-        $event->caller->getView()->menubar = $this;
+        $event->getTarget()->getView()->menubar = $this;
     }
  	
  	/**
