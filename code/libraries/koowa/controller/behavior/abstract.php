@@ -28,7 +28,7 @@ abstract class KControllerBehaviorAbstract extends KBehaviorAbstract
      */
     public function execute($name, KCommandContext $context)
     {
-        $this->setMixer($context->caller);
+        $this->setMixer($context->getSubject());
 
         $parts = explode('.', $name);
         if ($parts[0] == 'action')
