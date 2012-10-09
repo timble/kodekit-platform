@@ -57,7 +57,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-        $this->_table = $context->caller;
+        $this->_table = $context->getSubject();
         if(isset($this->ordering))
         {
             if (isset($this->order))
@@ -85,7 +85,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _afterTableUpdate(KCommandContext $context)
     {
-        $this->_table = $context->caller;
+        $this->_table = $context->getSubject();
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
         {
             $this->_parent = $this->old_parent;
@@ -101,13 +101,13 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected function _beforeTableSelect(KCommandContext $context)
     {
-        $this->_table = $context->caller;
+        $this->_table = $context->getSubject();
         if($parent_column = $this->_parent_column)
         {
             $query = $context->query;
             if(!is_null($query) && !$query->isCountQuery())
             {
-                $table = $context->caller;
+                $table = $context->getSubject();
                 $parent_column = $table->mapColumns($parent_column);
 
                 $subquery = $this->getService('koowa:database.query.select')
