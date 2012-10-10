@@ -81,6 +81,9 @@
                     <? if($page->access) : ?>
                         <span class="label label-important"><?= @text('Registered') ?></span>
                     <? endif; ?>
+                    <? if($page->hidden) : ?>
+                        <span class="label label-info"><?= @text('Hidden') ?></span>
+                    <? endif; ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>

@@ -31,6 +31,11 @@
     	    <?= 'Registered' ?>
     	</a>
     </div>
+    <div class="scopebar-group">
+    	<a class="<?= $state->hidden === 1 ? 'active' : ''; ?>" href="<?= @route($state->hidden === 1 ? 'hidden=' : 'hidden=1' ) ?>">
+    	    <?= 'Hidden' ?>
+    	</a>
+    </div>
     <div class="scopebar-search">
         <?= @helper('grid.search') ?>
     </div>
