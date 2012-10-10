@@ -39,7 +39,8 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
                     'oldest' => array('created_on' => 'ASC'),
                     'order'  => array('ordering' => 'ASC'));
 
-                $params = $this->getService('application.components')->articles->params;
+                // Get the parameters
+                $params = $this->getService('application')->getParams();
 
                 // Force some request vars based on setting parameters.
                 $request['limit']     = (int) $params->get('articles_per_page', 10);

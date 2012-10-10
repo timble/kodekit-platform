@@ -22,7 +22,7 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         parent::__construct($config);
 
         // Set component default params values.
-        /*$params = $this->getService('application.components')->articles->params;
+        /*$params = $this->getService('application')->getParams();
         $params->def('articles_per_page', 5);
         $params->def('show_featured', 0);
         $params->def('sort_by', 'newest');
