@@ -46,7 +46,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         }
 
         $menus = $this->getService('com://admin/pages.model.menus')->getList();
-        $pages = $this->getService('com://admin/pages.model.pages')->enabled(true)->getList();
+        $pages = $this->getService('com://admin/pages.model.pages')->published(true)->getList();
 
         foreach($menus as $menu)
         {
