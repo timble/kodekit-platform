@@ -42,7 +42,7 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
                 $params = $this->getService('application.components')->articles->params;
 
                 // Force some request vars based on setting parameters.
-                $request['limit']     = (int) $params->get('articles_per_page', 5);
+                $request['limit']     = (int) $params->get('articles_per_page', 10);
                 $request['featured']  = (int) $params->get('show_featured', 0);
                 $sort_by              = $sort_by_map[$params->get('sort_by', 'newest')];
                 $request['sort']      = key($sort_by);

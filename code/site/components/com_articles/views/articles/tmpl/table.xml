@@ -12,7 +12,7 @@
             <param name="category" type="category" table="articles" label="Category" description="SELECT CATEGORY"/>
         </url>
         <params>
-            <param name="articles_per_page" type="text" default="5" label="Articles per page"
+            <param name="articles_per_page" type="text" default="10" label="Articles per page"
                    description="ARTICLES PER PAGE DESC"/>
             <param name="show_featured" type="radio" default="0" label="Show featured articles"
                    description="SHOW FEATURED ARTICLES DESC">
