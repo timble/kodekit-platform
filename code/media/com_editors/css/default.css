@@ -1,9 +1,0 @@
-.-koowa-box .editor-wrap,
-.-koowa-box .editor-container {
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-box-flex: 1;
-	display: -moz-box;
-	-moz-box-orient: vertical;
-	-moz-box-flex: 1;
-}
