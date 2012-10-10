@@ -20,7 +20,7 @@
 </div>
 
 <div class="clearfix">
-	<? if (isset($category->image)) : ?>
+	<? if ($category->image) : ?>
 		<?= @helper('com://site/categories.template.helper.string.image', array('row' => $category)) ?>
 	<? endif; ?>
 	
