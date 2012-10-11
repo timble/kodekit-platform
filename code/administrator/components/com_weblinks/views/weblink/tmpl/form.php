@@ -65,13 +65,13 @@
 	        <fieldset class="categories group">
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
-	                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
-	                'name'      => 'categories_category_id',
-	                'selected'  => $weblink->categories_category_id,
-	                'attribs'   => array('class' => 'chzn-select'),
-	                'deselect'  => false,
-	                'table'     => 'weblinks'
-	            )) ?>
+	                <?= @helper('listbox.radiolist', array(
+	                		'list'     => @service('com://admin/categories.model.categories')->sort('title')->table('weblinks')->getList(),
+	                		'selected' => $weblink->categories_category_id,
+	                		'name'     => 'categories_category_id',
+	                        'text'     => 'title',
+	                	));
+	                ?>
 	            </div>
 	        </fieldset>
         </div>
