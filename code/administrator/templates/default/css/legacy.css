@@ -3052,8 +3052,8 @@ a.btn {
   display: -moz-flex;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
@@ -3873,8 +3873,8 @@ div.message {
   display: -moz-flex;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
   -webkit-flex: 0;
   -moz-flex: 0;
   flex: 0;
@@ -3950,8 +3950,8 @@ div.message {
   display: -moz-flex;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
@@ -3964,8 +3964,8 @@ div.message {
   display: -moz-flex;
   display: flex;
   -webkit-flex-direction: column;
-  -moz-box-orient: column;
-  box-orient: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
   -webkit-flex: 1 0 0%;
   -moz-flex: 1 0 0%;
   flex: 1 0 0%;
