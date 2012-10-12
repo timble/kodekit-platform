@@ -101,6 +101,8 @@ ALTER TABLE `#__users` ADD `locked_on` DATETIME AFTER `locked_by`;
 
 ALTER TABLE `#__users` DROP `usertype`;
 
+ALTER TABLE `#__users` MODIFY `enabled` tinyint(1) NOT NULL DEFAULT '1';
+
 -- Add users_groups table
 CREATE TABLE `#__users_groups` (
   `users_group_id` int(11) unsigned NOT NULL AUTO_INCREMENT,

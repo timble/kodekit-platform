@@ -433,7 +433,7 @@ CREATE TABLE `#__users` (
   `users_user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
-  `enabled` tinyint(1) NOT NULL DEFAULT '0',
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `send_email` tinyint(1) DEFAULT '0',
   `users_role_id` int(11) unsigned NOT NULL DEFAULT '18',
   `registered_on` datetime DEFAULT NULL,
