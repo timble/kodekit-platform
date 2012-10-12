@@ -23,7 +23,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.add'   , array($this, 'notify'));
+        $this->registerCallback(array('after.add', 'after.edit')  , array($this, 'notify'));
         $this->registerCallback(array('after.save', 'after.apply'), array($this, 'redirect'));
     }
     
@@ -72,7 +72,10 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
     public function notify(KCommandContext $context)
     {
-        if($context->result->getStatus() == KDatabase::STATUS_CREATED)
+        $user = $context->result;
+        $token = $user->token;
+
+        if($user->getStatus() != KDatabase::STATUS_FAILED && $token)
         {
             // Send e-mail to the user.
             $mail_from_email    = $this->getService('application')->getCfg('mailfrom');
@@ -81,17 +84,25 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
             if($mail_from_email == '' || $mail_from_name == '')
             {
-                $user = JFactory::getUser();
+                $logged_user = JFactory::getUser();
 
-                $mail_from_email    = $user->email;
-                $mail_from_name     = $user->name;
+                $mail_from_email    = $logged_user->email;
+                $mail_from_name     = $logged_user->name;
             }
 
-            $site_url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+            $password = $user->getPassword();
+
+            /*$url        = $this->getService('koowa:http.url',
+                array('url' => "index.php?option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
+            $this->getService('com://site/application.router')->build($url);*/
+            // TODO Hardcoding URL since AFAIK currently there's  no other way to build a frontend route from here,
+            // Due to namespacing problems the backend router will always be returned. This will get fixed
+            // when introducing PHP 5.3 namespacing.
+            $url = "/users/password?layout=form&id={$password->id}&token={$token}";
+            $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
 
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $mail_site_name, $site_url,
-                $context->result->email, $context->result->password);
+            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $mail_site_name, $url);
 
             JUtility::sendMail($mail_from_email, $mail_from_name, $context->result->email, $subject, $message);
         }

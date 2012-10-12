@@ -108,10 +108,7 @@ class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAb
 
         $password = $user->getPassword();
 
-        $token = $password->getRandom(32);
-
-        $password->reset = $password->getHash($token);
-        $password->save();
+        $token = $password->setReset();
 
         $config     = JFactory::getConfig();
         $site_name  = $config->getValue('sitename');

@@ -30,9 +30,15 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 
     protected function _afterTableUpdate(KCommandContext $context)
     {
-        // Force a password change on next login.
         if ($this->password_change) {
+            // Force a password change on next login.
             $this->getPassword()->expire();
+        }
+
+        if ($this->password_reset) {
+            // Set the user password for reset and keep a copy of the token on the context
+            // data, a.k.a. resulting user row.
+            $context->data->token = $this->getPassword()->setReset();
         }
     }
 
@@ -41,7 +47,9 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
             // Generate a random password
             $params         = $this->getService('application.components')->users->params;
             $password       = $this->getService('com://admin/users.database.row.password');
-            $this->password = $password->getRandom($params->get('password_length'));
+            $this->password = $password->getRandom($params->get('password_length', 6));
+            // Set the password row for reset
+            $this->password_reset = true;
         }
     }
 
@@ -51,12 +59,17 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         {
             // Update password record.
             $password = $this->getPassword();
+            // TODO Need to keep a copy (workaround) of the current mixer. Otherwise it gets replaced on
+            // password save when performing user validation http://cl.ly/0Q1a0H3D2l38.
+            $mixer = clone $this->getMixer();
             if (!$password->setData(array('password' => $this->password))->save())
             {
                 $this->setStatus(KDatabase::STATUS_FAILED);
-                $this->setStatusMessage($password->getStatusMessage);
+                $this->setStatusMessage($password->getStatusMessage());
                 return false;
             }
+            // TODO Set mixer (see TODO statement above)
+            $this->setMixer($mixer);
         }
     }
 
@@ -66,10 +79,16 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 
         if ($data->getStatus() == KDatabase::STATUS_CREATED)
         {
+            // TODO Need to keep a copy (workaround) of the current mixer. Otherwise it gets replaced on
+            // password save when performing user validation http://cl.ly/0Q1a0H3D2l38.
+            $mixer = clone $this->getMixer();
             // Create a password row for the user.
             $this->getPassword()
                   ->setData(array('email' => $this->email, 'password' => $this->password))
                   ->save();
+
+            // TODO Set mixer (see TODO statement above)
+            $this->setMixer($mixer);
 
             // Same as update.
             $this->_afterTableUpdate($context);

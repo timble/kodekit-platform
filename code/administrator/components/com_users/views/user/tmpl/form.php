@@ -67,6 +67,7 @@
 				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify" maxlength="100" />
 				    </div>
 				</div>
+                <? if (!$user->isNew()): ?>
 				<div class="control-group">
 				    <div class="controls">
 				        <label class="checkbox" for="password_change">
@@ -75,6 +76,7 @@
 				        </label>
 				    </div>
 				</div>
+                <? endif; ?>
 			</fieldset>
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Language') ?></legend>

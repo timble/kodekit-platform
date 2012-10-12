@@ -39,7 +39,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         if ($password = $this->password) {
             // Check the password length.
             $params = $this->getService('application.components')->users->params;
-            $length = $params->get('password_length');
+            $length = $params->get('password_length', 5);
             if (strlen($password) < $length) {
                 $this->setStatus(KDatabase::STATUS_FAILED);
                 $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $length));
@@ -123,8 +123,8 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
      * Tests the current hash against a provided password.
      *
      * @param string $password The password to test.
-     * @param string $hash An optional hash to compare to. If no hash is provided, the currest password hash
-     * will be used instead.
+     * @param string $hash     An optional hash to compare to. If no hash is provided, the current password hash
+     *                         will be used instead.
      *
      * @return bool True if password matches the current hash, false otherwise.
      */
@@ -156,6 +156,22 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
 
         return $result;
     }
+
+    /**
+     *  Sets the password for reset.
+     *
+     * @return mixed The plain text reset token, null if row is new.
+     */
+    public function setReset() {
+        $token = null;
+        if (!$this->isNew()) {
+            $token       = $this->getRandom(32);
+            $this->reset = $this->getHash($token);
+            $this->save();
+        }
+        return $token;
+    }
+
 
     public function toArray() {
 

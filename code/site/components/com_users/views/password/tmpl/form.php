@@ -16,7 +16,7 @@ defined('KOOWA') or die('Restricted access');
 <script src="media://lib_koowa/js/koowa.js"/>
 
 <div class="page-header">
-    <h1><?=@text('Change your password');?></h1>
+    <h1><?=@text('Set your password');?></h1>
 </div>
 
 <form action="" method="post" class="-koowa-form form-horizontal">
