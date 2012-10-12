@@ -19,14 +19,6 @@
  */
 class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 {
-	public function __construct(KConfig $config)
-	{
-	    parent::__construct($config);
-
-	    $this->getColumn('users_group_id')->default = 0;
-	    $this->getColumn('enabled')->default = 1;
-	}
-
     protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
