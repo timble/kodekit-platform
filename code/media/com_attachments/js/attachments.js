@@ -9,7 +9,16 @@ Attachments.Upload = new Class({
 			extensions : options.extensions
 		});
 		
-		this.options.list.getChildren()[0].getChildren()[0].addEvent('change', this.onFileSelect.bind(this));
+		var fileElement = this.options.list.getChildren()[0].getChildren()[0];
+		if(fileElement)
+		{
+			fileElement.addEvent('change', this.onFileSelect.bind(this));
+			fileElement.getParent('form').setProperties({
+					'enctype': 'multipart/form-data',
+					'encoding': 'multipart/form-data'// IE
+				}
+			);
+		}
 	},
 	
 	onFileSelect: function(event){
