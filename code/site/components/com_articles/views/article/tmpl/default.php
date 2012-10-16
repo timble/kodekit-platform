@@ -8,17 +8,13 @@
  * @link           http://www.nooku.org
  */
 ?>
-
-<? if ($article->editable) : ?>
-<div class="edit-article">
-    <a href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
-        <?= @text('Edit') ?>
-    </a>
-</div>
-<? endif; ?>
-
 <article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
+	    <? if ($article->editable) : ?>
+	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
+	        <i class="icon-edit"></i>
+	    </a>
+	    <? endif; ?>
 	    <h1><?= $article->title ?></h1>
 	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
 	</div>
