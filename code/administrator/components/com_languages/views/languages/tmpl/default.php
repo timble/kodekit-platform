@@ -66,7 +66,7 @@
 					<?= $language->native_name ?>
 				</td>
 				<td align="center">
-					<a  href="<?= @route('view=language&id='.$language->id) ?>"><?= $language->iso_code ?></a>
+					<?= $language->iso_code ?>
 				</td>
                 <td align="center">
                     <? if($language->primary): ?>

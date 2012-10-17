@@ -20,7 +20,7 @@
             <?= @text('Enabled') ?>
         </a>
         <a href="<?= @route('enabled=0') ?>" class="<?= $state->enabled === false ? 'active' : '' ?>">
-            <?= @text('Unpublished') ?>
+            <?= @text('Disabled') ?>
         </a>
     </div>
     <div class="scopebar-search">
