@@ -18,7 +18,7 @@
 		<?= @text('Uncategorised') ?>
 	</a>
 	<? foreach($categories as $category) : ?>
-	<a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
+	<a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id.'&category_recurse=1' ) ?>">
 		<?= @escape($category->title) ?>
 	</a>
 	<? if($category->hasChildren()) : ?>
