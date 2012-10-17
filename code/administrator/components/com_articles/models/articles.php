@@ -74,15 +74,19 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
 
-        if($state->category)
+        if(is_numeric($state->category))
         {
-            $query->where('tbl.categories_category_id IN :category' );
-
-            if($state->category_recurse === true) {
-                $query->where('categories.parent_id IN :category', 'OR');
+            if($state->category) {
+            	$query->where('tbl.categories_category_id IN :category' );
+            	
+	            if($state->category_recurse === true) {
+	                $query->where('categories.parent_id IN :category', 'OR');
+	            }
+	
+	            $query->bind(array('category' => (array) $state->category));
+            } else {
+                $query->where('tbl.categories_category_id IS NULL');	
             }
-
-            $query->bind(array('category' => (array) $state->category));
         }
 
         if($state->created_by) 
