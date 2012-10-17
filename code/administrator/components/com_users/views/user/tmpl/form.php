@@ -125,7 +125,13 @@
 				<legend><?= @text('Role') ?></legend>
 				<div class="control-group">
 				    <div class="controls">
-				        <?= @helper('listbox.roles', array('selected' => $user->id ? $user->users_role_id : 18, 'name' => 'users_role_id', 'attribs' => array('class' => 'required'))) ?>
+				        <?= @helper('listbox.radiolist', array(
+				        		'list'     => @service('com://admin/users.model.roles')->sort('id')->getList(),
+				        		'selected' => $user->users_role_id,
+				        		'name'     => 'users_role_id',
+				                'text'     => 'name',
+				        	));
+				        ?>
 				    </div>
 				</div>
 			</fieldset>
