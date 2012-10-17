@@ -9,7 +9,7 @@
  */
 
 /**
- * Article Executable Controller Behavior Class
+ * Executable Controller Behavior Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package    Nooku_Server
@@ -17,29 +17,27 @@
  */
 class ComArticlesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {
-    public function canRead()
-    {
-        if($this->getMixer()->getIdentifier()->name != 'article')
-        {
-            $result  = true;
+    public function canRead() {
+        if ($this->getMixer()->getIdentifier()->name == 'article') {
             $article = $this->getModel()->getItem();
 
-            if (!$article->isNew())
-            {
-                //If user doesn't have access to it, deny access.
+            if (!$article->isNew()) {
                 if ($article->access > JFactory::getUser()->get('aid', 0)) {
+                    //If user doesn't have access to it, deny access.
                     $result = false;
-                }
-
-                // Users can read their own articles regardless of the state
-                if ($article->created_by == JFactory::getUser()->id) {
+                } elseif ($article->created_by == JFactory::getUser()->id) {
+                    // Users can read their own articles regardless of the state
+                    $result = true;
+                } elseif ($article->published == 0 && !$this->canEdit()) {
+                    // Only published articles can be read. An exception is made for editors and above.
+                    $result = false;
+                } else {
                     $result = true;
                 }
-
-                // Only published articles can be read. An exception is made for editors and above.
-                if ($article->state == 0 && !$this->canEdit()) {
-                    $result = false;
-                }
+                // Set article editable status.
+                $article->editable = $this->canEdit();
+            } else {
+                $result = $this->canAdd();
             }
 
             return $result;
