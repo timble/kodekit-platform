@@ -4718,6 +4718,10 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
+table.mceLayout,
+table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
+  height: auto !important;
+}
 .CodeMirror {
   display: -webkit-flex;
   display: -moz-flex;
