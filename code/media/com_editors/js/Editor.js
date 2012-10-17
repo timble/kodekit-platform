@@ -27,7 +27,8 @@ var Editors = new Hash,
 		visible: true,
 		toggle: false,
 		cookie: new Hash.Cookie('nooku-editor', {duration: 7}),
-		
+		autoheight: false,
+
 		tinyMCE: false,
 
 		codemirror: false,
@@ -133,6 +134,16 @@ var Editors = new Hash,
 			//Stores an editor reference, and prevents from setting up the html multiple times
 			this.editor = $(editor);
 
+            if(this.options.autoheight) {
+                console.log('editor', settings, this.editor.getParent().getDimensions().height, this.editor.getOffsets(), this.editor.getOffsets(this.editor.parent));
+                console.log(this.editor.getParent().getPosition().y - this.editor.getPosition().y);
+                var height = this.editor.getParent().getSize().y,
+                    offset = this.editor.getPosition().y - this.editor.getParent().getPosition().y;
+
+                this.settings.height = height - offset;
+                console.log(this.settings.height, this.editor.getAllNext());
+            }
+
 			var self = this;
 			settings.setup =  function(ed) {
 				ed.onBeforeRenderUI.add(function(ed) {
@@ -205,6 +216,23 @@ var Editors = new Hash,
 							])
 					])
 			]);
+
+        //Correct editor height after adding a toolbar
+        console.warn(this.wrap.getElement('.editor-toolbar').getComputedSize().totalHeight);
+
+        /*this.getEditor().settings.height -= 22;/*this.wrap.getElement('.editor-toolbar').getComputedSize({
+            mode: 'vertical',
+            styles: ['padding', 'border', 'margin']
+        }).totalHeight;
+        console.log(this.wrap.getElement('.editor-toolbar').getComputedSize({
+            mode: 'vertical',
+            styles: ['padding', 'border', 'margin']
+        }), this.wrap.getElement('.editor-toolbar').getComputedSize({
+            mode: 'vertical'
+        }));
+        //*/
+        //console.log(this.wrap.getElement('.editor-toolbar').getDimensions().height, this);
+        //this.settings.height -= this.wrap.getElement('.editor-toolbar').getDimensions().height;
 		
 		this.getEditor().addButton('image', {
 			title : 'Image',
@@ -217,7 +245,7 @@ var Editors = new Hash,
 		}.bind(this));
 
 		this.getEditor().addButton('readmore', {
-			title : 'Read moreÉ',
+			title : 'Read moreï¿½',
 			image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/more.gif',
 			cmd : 'Readmore'
 		});	
@@ -248,22 +276,25 @@ var Editors = new Hash,
 				image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/toolbars.gif',
 				cmd : 'Advanced'
 			});	
-			
+
+            var toolbarHeight;
 			this.getEditor().addCommand('Advanced', function(cookie) {
 				var cm = this.controlManager, tbId = this.getParam('adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = this.getContentAreaContainer().firstChild;
 
 				if ( 'undefined' == id )
 					return;
 
+                if(!toolbarHeight) toolbarHeight = tinymce.DOM.getSize(id).h;
+
 				if ( tinymce.DOM.isHidden(id) ) {
 					cm.setActive('advanced', 1);
-					tinymce.DOM.show(id);	
-					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight - 28);
+					tinymce.DOM.show(id);
+					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight - toolbarHeight);
 					cookie.set('advanced', 1);
 				} else {
 					cm.setActive('advanced', 0);
 					tinymce.DOM.hide(id);
-					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
+					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + toolbarHeight);
 					cookie.set('advanced', 0);
 				}
 			}.pass(this.options.cookie, this.getEditor()));
@@ -276,7 +307,7 @@ var Editors = new Hash,
 				this.getEditor().onInit.add(function(ed) {
 					var cm = ed.controlManager, tbId = ed.getParam('adv_toolbar', 'toolbar2'),  id = cm.get(tbId).id, ifr = ed.getContentAreaContainer().firstChild;
 					tinymce.DOM.hide(id);
-					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + 28);
+					tinymce.DOM.setStyle(ifr, 'height', ifr.clientHeight + toolbarHeight);
 				}.bind(this));
 			}
 		}
