@@ -135,12 +135,11 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
             // Use current password hash instead.
             $hash = $this->hash;
 
-            // TODO Automatically migrates MD5 hashes from verified passwords to BCrypt. To be removed at some point.
             if (!$this->isNew()) {
-                $info = password_get_info($this->hash);
-                if ($info['algoName'] != 'bcrypt') {
-                    $salt = substr(strrchr($this->hash, ':'), 1);
-                    if (($this->hash === md5($password . $salt) . ':' . $salt)) {
+                // Check for MD5 hashes.
+                if (strpos($hash,'$') === false) {
+                    $parts = explode(':', $hash);
+                    if ($parts[0] === md5($password . @$parts[1])) {
                         // Valid password on existing record. Migrate to BCrypt.
                         $this->hash = $this->getHash($password);
                         $this->save();
