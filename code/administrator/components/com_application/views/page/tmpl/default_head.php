@@ -30,35 +30,6 @@
 	<style src="media://com_application/css/default.css" />
 	<? else : ?>
     <script src="media://com_application/js/sidebar.js" />
-    <script>
-        window.addEvent('domready', function(){
-            if(document.id('panel-sidebar') && document.id('panel-content')) {
-                new Koowa.Sidebar({
-                    sidebar: '#panel-sidebar',
-                    observe: '#panel-content',
-                    target: '.scrollable',
-                    minHeight: 40,
-                    scrollToActive: true
-                });
-            }
-            if(document.id('panel-inspector') && document.id('panel-content')) {
-                new Koowa.Sidebar({
-                    sidebar: '#panel-inspector',
-                    observe: '#panel-content',
-                    target: '.scrollable',
-                    minHeight: 40
-                });
-            }
-            if(document.getElement('#panel-content .sidebar') && document.getElement('#panel-content .form-body')) {
-                new Koowa.Sidebar({
-                    sidebar: '#panel-content .sidebar',
-                    observe: '#panel-content .form-body',
-                    target: '.scrollable',
-                    setObserveHeight: true
-                });
-            }
-        });
-    </script>
 	<style src="media://com_application/css/legacy.css" />
 	<? endif; ?>
 	
