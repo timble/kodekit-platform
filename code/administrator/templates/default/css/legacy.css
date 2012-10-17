@@ -4548,7 +4548,6 @@ body {
 }
 #container {
   *zoom: 1;
-  height: 100%;
 }
 #container:before,
 #container:after {
