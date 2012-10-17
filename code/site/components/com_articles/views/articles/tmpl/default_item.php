@@ -9,7 +9,7 @@
  */
 ?>
 
-<article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
+<article>
     <div class="page-header">
         <? if ($article->editable) : ?>
         <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
@@ -18,6 +18,12 @@
         <? endif; ?>
         <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a></h1>
         <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
+        <? if (!$article->published) : ?>
+        <span class="label label-info"><?= @text('Unpublished') ?></span>
+        <? endif ?>
+        <? if ($article->access) : ?>
+        <span class="label label-important"><?= @text('Registered') ?></span>
+        <? endif ?>
     </div>
     
     <? if ($article->fulltext && $params->get('show_readmore')) : ?>
