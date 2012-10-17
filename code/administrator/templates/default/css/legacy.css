@@ -4621,6 +4621,18 @@ body {
   float: left;
   width: 74.99997%;
 }
+#panel-content.form form .form-body .title {
+  *zoom: 1;
+}
+#panel-content.form form .form-body .title:before,
+#panel-content.form form .form-body .title:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+#panel-content.form form .form-body .title:after {
+  clear: both;
+}
 #panel-content.form form .sidebar {
   float: left;
   width: 24.99999%;
