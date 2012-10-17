@@ -86,7 +86,7 @@
 				<div class="control-group">
 				    <label class="control-label" for=""><?= @text('Position') ?></label>
 				    <div class="controls">
-                        <?= @helper('listbox.positions', array('application' => $state->application, 'deselect' => false)) ?>
+                        <?= @helper('listbox.positions', array('name' => 'position', 'selected' => $module->position, 'application' => $state->application, 'deselect' => false)) ?>
 				    </div>
 				</div>
 				<div class="control-group">
