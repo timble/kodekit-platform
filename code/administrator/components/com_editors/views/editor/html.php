@@ -73,8 +73,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'document_base_url'						=> KRequest::root(),
 			'theme_advanced_toolbar_location'		=> 'top',
 			'theme_advanced_toolbar_align'			=> 'left',
-			'theme_advanced_source_editor_height'	=> '550',
-			'height' 								=> '550',
+			'theme_advanced_source_editor_height'	=> '400',
+			'height' 								=> '400',
 			'width'									=> '100%',
 			//'theme_advanced_source_editor_width'	=> $html_width,
 			'theme_advanced_statusbar_location'		=> 'bottom',
@@ -116,6 +116,7 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 				'html'		=> JText::_('HTML'),
 				'visual'	=> JText::_('Visual')
 			),
+            'autoheight' => true,
 			'codemirror' => $this->codemirror,
 			'codemirrorOptions' => $this->codemirrorOptions,
 			'toggle' => $this->toggle
