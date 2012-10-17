@@ -17,8 +17,13 @@
  */
 class ComFilesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-	public function getCommands()
-	{
-		return array();
-	}
+    public function onBeforeControllerGet(KEvent $event)
+    {     
+        parent::onBeforeControllerGet($event);
+        
+        $this->addCommand('upload');
+        $this->addNew(array('label' => 'New Folder'));
+        
+        $this->addDelete();
+    }
 }

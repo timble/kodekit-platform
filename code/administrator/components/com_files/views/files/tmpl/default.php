@@ -39,7 +39,7 @@ window.addEvent('domready', function() {
 	//@TODO hide the uploader in a modal, make it pretty
 	var tmp = new Element('div', {style: 'display:none'}).inject(document.body);
 	$('files-upload').inject(tmp);
-	$('files-show-uploader').addEvent('click', function(e){
+	$('command-upload').addEvent('click', function(e){
 		e.stop();
 
 		var handleClose = function(){
@@ -130,7 +130,7 @@ window.addEvent('domready', function() {
     	}
     };
 
-    Files.createModal('files-new-folder-modal', 'files-new-folder-toolbar');
+    Files.createModal('files-new-folder-modal', 'command-new');
 
     var switchers = $$('.files-layout-switcher');
 
@@ -160,11 +160,6 @@ window.addEvent('domready', function() {
 
 	<div id="files-canvas">
 	    <div class="path" style="height: 24px;">
-	        <div class="files-toolbar-controls">
-	        	<button id="files-show-uploader"><?= @text('Upload'); ?></button>
-			    <button id="files-new-folder-toolbar"><?= @text('New Folder'); ?></button>
-			    <button id="files-batch-delete"><?= @text('Delete'); ?></button>
-			</div>
 			<h3 id="files-title"></h3>
 			<div class="files-layout-controls btn-group"  data-toggle="buttons-radio">
 				<button class="btn files-layout-switcher" data-layout="icons" title="<?= @text('Show files as icons'); ?>">

@@ -541,8 +541,7 @@ ul#files-tree-html ul li a {
 .path {
     position: relative;
 }
-.files-layout-controls,
-.files-toolbar-controls {
+.files-layout-controls {
     position: absolute;
     top: 10px;
     height: 24px;
@@ -551,9 +550,6 @@ ul#files-tree-html ul li a {
     right: 10px;
     width: 67px;
 }
-.files-toolbar-controls {
-    left: 10px;
-}
 #files-title {
     text-align: center;
     margin: 0;
@@ -561,7 +557,6 @@ ul#files-tree-html ul li a {
     font-size: 16px;
     line-height: 24px;
 }
-#files-canvas .files-toolbar-controls button,
 #files-canvas button.files-layout-switcher {
     background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0.1)), to(hsla(0, 0%, 30%, 0.1)));
     background-image: -moz-linear-gradient(top, hsla(0, 0%, 100%, 0.1), hsla(0, 0%, 30%, 0.1));
@@ -617,7 +612,6 @@ ul#files-tree-html ul li a {
         border-left-color: hsla(0, 0%, 0%, 0.15);
         margin-left: -4px;
 }
-#files-canvas .files-toolbar-controls button:active,
 #files-canvas button.files-layout-switcher.active, #files-canvas button.files-layout-switcher:active {
         box-shadow: hsla(0, 0%, 100%, 0.8) 0 1px,
                     hsla(0, 0%, 0%, 0.3) 0px 1px 3px inset,

@@ -163,7 +163,7 @@ window.addEvent('domready', function() {
                 addSelectedFiles(dataTransfer.files);
 
                 //@TODO the click handler is written in mootools, so we use mootools here
-                document.id('files-show-uploader').fireEvent('click', new Event);
+                document.id('command-upload').fireEvent('click', new Event);
             }
         });
 	} else {

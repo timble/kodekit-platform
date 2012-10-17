@@ -35,7 +35,7 @@ Files.App = new Class({
 		},
 		grid: {
 			element: 'files-grid',
-			batch_delete: '#files-batch-delete',
+			batch_delete: '#command-delete',
 			icon_size: 150
 		},
 		paginator: {
