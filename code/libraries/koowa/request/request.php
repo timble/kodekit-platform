@@ -578,8 +578,9 @@ class KRequest
             $token = self::get('server.HTTP_X_TOKEN', 'md5');
         }
 
-        if(self::has('request._token')) {
-            $token = self::get('request._token', 'md5');
+        $key = strtolower($_SERVER['REQUEST_METHOD']).'._token';
+        if(self::has($key)) {
+            $token = self::get($key, 'md5');
         }
 
         return $token;
