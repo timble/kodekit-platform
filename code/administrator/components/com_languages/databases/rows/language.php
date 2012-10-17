@@ -75,38 +75,4 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
         
         return $result;
     }
-    
-    public function __set($column, $value)
-    {
-        switch($column)
-        {
-            case 'iso_code_lang':
-                list($language, $country) = explode('-', $this->iso_code, 2);
-                $this->iso_code = $value.'-'.$country;
-                return;
-                
-            case 'iso_code_country':
-                list($language, $country) = explode('-', $this->iso_code, 2);
-                $this->iso_code = $language.'-'.$value;
-                return;
-        }
-        
-        parent::__set($column, $value);
-    }
-    
-    public function __get($column)
-	{
-        switch($column)
-    	{
-    	    case 'iso_code_lang':
-    	        list($language, $country) = explode('-', $this->iso_code, 2);
-    	        return $language;
-    	        
-    	    case 'iso_code_country':
-    	        list($language, $country) = explode('-', $this->iso_code, 2);
-    	        return $country;
-	    }
-	
-		return parent::__get($column);
-	}
 }
