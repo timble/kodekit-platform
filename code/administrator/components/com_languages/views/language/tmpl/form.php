@@ -16,7 +16,10 @@
 
 <?= @template('com://admin/default.view.form.toolbar') ?>
 
-<form action="" method="post" id="language-form" class="-koowa-form">
+<form action="" method="post" class="-koowa-form">
+    <input type="hidden" name="enabled" value="0" />
+    <input type="hidden" name="primary" value="0" />
+    
     <div class="form-content">
         <div class="grid_8">
     		<fieldset class="form-horizontal">
@@ -43,6 +46,18 @@
     			    <label class="control-label"><?= @text('ISO Code') ?></label>
     			    <div class="controls">
     			        <input type="text" name="iso_code" type="text" value="<?= $language->iso_code ?>" />
+    			    </div>
+    			</div>
+    			<div class="control-group">
+    			    <label class="control-label" for="enabled"><?= @text('Enabled') ?></label>
+    			    <div class="controls">
+    			        <input type="checkbox" name="enabled" value="1" <?= $language->enabled ? 'checked="checked"' : '' ?> />
+    			    </div>
+    			</div>
+    			<div class="control-group">
+    			    <label class="control-label" for="primary"><?= @text('Primary') ?></label>
+    			    <div class="controls">
+    			        <input type="checkbox" name="primary" value="1" <?= $language->primary ? 'checked="checked"' : '' ?> />
     			    </div>
     			</div>
     		</fieldset>
