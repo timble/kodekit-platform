@@ -26,9 +26,6 @@ Koowa.Sidebar = new Class({
         this.observe = this.options.observe ? document.getElement(this.options.observe) : this.sidebar.getNext();
 
         if(this.options.setObserveHeight) {
-
-            console.log(this.observe, this.observe.getPosition().y, window.getHeight(), window.getHeight() - this.observe.getPosition().y);
-
             this.observe.setStyle('height', window.getHeight() - this.observe.getPosition().y);
             this.observe.setStyle('overflow', 'hidden');
         }
@@ -65,6 +62,11 @@ Koowa.Sidebar = new Class({
 
     setHeight: function(){
 
+        if(this.options.setObserveHeight) {
+            this.observe.setStyle('height', window.getHeight() - this.observe.getPosition().y);
+            console.log(window.getHeight());
+        }
+
         //This offset we can't assume never changes
         var offset = 0;
         if(this.siblings) {
@@ -96,7 +98,8 @@ window.addEvent('domready', function(){
             observe: '#panel-content',
             target: '.scrollable',
             minHeight: 40,
-            scrollToActive: true
+            scrollToActive: true,
+            setObserveHeight: true
         });
     }
     if(document.id('panel-inspector') && document.id('panel-content')) {
