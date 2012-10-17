@@ -25,7 +25,7 @@
 	<script src="media://lib_koowa/js/mootools.js" />
 	<script src="media://com_application/js/application.js" />
 
-	<? if(false) : ?>
+	<? if(true) : ?>
 	<script src="media://com_application/js/chromatable.js" />
 	<style src="media://com_application/css/default.css" />
 	<? else : ?>
