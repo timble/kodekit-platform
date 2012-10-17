@@ -21,9 +21,16 @@
     <ktml:script />
 
     <link href="media://com_application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	
+	<script src="media://lib_koowa/js/mootools.js" />
+	<script src="media://com_application/js/application.js" />
 
+	<? if(true) : ?>
+	<script src="media://com_application/js/chromatable.js" />
+	<style src="media://com_application/css/default.css" />
+	<? else : ?>
+	<style src="media://com_application/css/legacy.css" />
+	<? endif; ?>
+	
     <style src="media://com_application/css/system.css"  />
-    <style src="media://com_application/css/default.css" />
-
-    <script src="media://lib_koowa/js/mootools.js" />
 </head>

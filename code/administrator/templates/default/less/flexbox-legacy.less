@@ -22,6 +22,14 @@ body {
 	}
 }
 
+#panel-header {
+	.clearfix();
+}
+
+#panel-navigation {
+	.clearfix();
+}
+
 #panel-sidebar,
 #panel-inspector {
 	width: 2 * 8.33333%;
@@ -55,11 +63,15 @@ body {
 			float: left;
 			width: 3 * 8.33333%;
 			padding: 0;
+			
+			overflow: auto;
 		}
 	}
 }
 
 .scopebar {
+	.clearfix();
+	
 	.scopebar-group {
 		float: left;
 	}

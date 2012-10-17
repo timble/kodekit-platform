@@ -4565,6 +4565,30 @@ body {
 #menubar li {
   float: left;
 }
+#panel-header {
+  *zoom: 1;
+}
+#panel-header:before,
+#panel-header:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+#panel-header:after {
+  clear: both;
+}
+#panel-navigation {
+  *zoom: 1;
+}
+#panel-navigation:before,
+#panel-navigation:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+#panel-navigation:after {
+  clear: both;
+}
 #panel-sidebar,
 #panel-inspector {
   width: 16.66666%;
@@ -4602,6 +4626,19 @@ body {
   float: left;
   width: 24.99999%;
   padding: 0;
+  overflow: auto;
+}
+.scopebar {
+  *zoom: 1;
+}
+.scopebar:before,
+.scopebar:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.scopebar:after {
+  clear: both;
 }
 .scopebar .scopebar-group {
   float: left;

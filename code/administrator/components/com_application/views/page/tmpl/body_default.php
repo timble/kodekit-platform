@@ -9,14 +9,6 @@
  */
 ?>
 
-<script src="media://com_application/js/application.js" />
-
-<? /*if($params->get('flexBox', '1')) :*/ if(true) : ?>
-<script src="media://com_application/js/chromatable.js" />
-<? else : ?>
-<style src="media://com_application/css/legacy.css" />
-<? endif; ?>
-
 <body class="<?= $option ?>">
 <div id="container">
     <div id="panel-header">
