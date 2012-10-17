@@ -8,7 +8,7 @@
  * @link           http://www.nooku.org
  */
 ?>
-<article <?= !$article->state ? 'class="article-unpublished"' : '' ?>>
+<article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
 	    <? if ($article->editable) : ?>
 	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">

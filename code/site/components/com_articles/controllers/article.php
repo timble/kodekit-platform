@@ -52,7 +52,7 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
 
             // Allow editors (and above) to view unpublished items on lists.
             if (!$this->canEdit()) {
-                $request['state'] = 1;
+                $request['published'] = 1;
             }
 
             //Always show child category articles
@@ -66,7 +66,7 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
     {
         //Force article to unpublished if you cannot edit
         if (!$this->canEdit()) {
-            $context->data->state = 0;
+            $context->data->published = 0;
         }
 
         return parent::_actionAdd($context);

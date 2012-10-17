@@ -61,7 +61,7 @@ class ComArticlesModuleArticlesHtml extends ComDefaultModuleDefaultHtml
         $articles = $this->getService('com://admin/articles.model.articles')
             ->set(array(
             'aid'       => $aid,
-            'state'     => 1,
+            'published'     => 1,
             'limit'     => $this->module->params->get('count', 5),
             'sort'      => $sort,
             'direction' => $direction,
