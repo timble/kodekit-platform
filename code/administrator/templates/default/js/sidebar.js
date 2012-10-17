@@ -11,7 +11,7 @@ Koowa.Sidebar = new Class({
         affix: false, //If Bootstrap's Affix plugin is loaded, this option will make the sidebar scroll with the view
         minHeight: 200,
         scrollToActive: false,
-        setObserveHeight: true
+        setObserveHeight: false
     },
 
     initialize: function(options){
@@ -25,8 +25,12 @@ Koowa.Sidebar = new Class({
 
         this.observe = this.options.observe ? document.getElement(this.options.observe) : this.sidebar.getNext();
 
-        if(this.setObserveHeight) {
-            console.log(this.observe.getPosition().y);
+        if(this.options.setObserveHeight) {
+
+            console.log(this.observe, this.observe.getPosition().y, window.getHeight(), window.getHeight() - this.observe.getPosition().y);
+
+            this.observe.setStyle('height', window.getHeight() - this.observe.getPosition().y);
+            this.observe.setStyle('overflow', 'hidden');
         }
 
         //Setup the inner container
@@ -34,6 +38,9 @@ Koowa.Sidebar = new Class({
 
         //This offset we can assume is static, so we only calculate it once
         this.offset = this.target.getPosition().y - this.observe.getPosition().y;
+
+        //Take measures against padding
+        this.offset += this.target.getStyle('padding-top').toInt() + this.target.getStyle('padding-bottom').toInt();
 
         //Check if the height is sufficient
         if(this.options.affix) this.options.affix = this.observe.getDimensions().height > window.getHeight();
