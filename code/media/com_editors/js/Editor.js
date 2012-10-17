@@ -135,13 +135,24 @@ var Editors = new Hash,
 			this.editor = $(editor);
 
             if(this.options.autoheight) {
-                console.log('editor', settings, this.editor.getParent().getDimensions().height, this.editor.getOffsets(), this.editor.getOffsets(this.editor.parent));
-                console.log(this.editor.getParent().getPosition().y - this.editor.getPosition().y);
-                var height = this.editor.getParent().getSize().y,
-                    offset = this.editor.getPosition().y - this.editor.getParent().getPosition().y;
+                var parent = this.editor.getParent(),
+                    height = parent.getSize().y,
+                    offset = (this.editor.getPosition().y - parent.getPosition().y) + 22,
+                    iframeHeight;
 
+                // the 22 offset is for the .editor-toolbar
                 this.settings.height = height - offset;
-                console.log(this.settings.height, this.editor.getAllNext());
+
+                //@TODO fix in css
+                document.html.setStyle('overflow', 'hidden');
+
+                window.addEvent('resize', function(){
+                    var newHeight = parent.getSize().y, relativeHeight = height - newHeight;
+                    if(!iframeHeight) iframeHeight = tinymce.DOM.getStyle(editor + '_ifr', 'height').toInt();
+
+                    tinymce.DOM.setStyle(tinymce.DOM.get(editor + '_ifr'), 'height', (iframeHeight - relativeHeight) + 'px');
+                    tinymce.DOM.setStyle(tinymce.DOM.get(editor + '_tbl'), 'height', (newHeight - offset) + 'px');
+                }.bind(this));
             }
 
 			var self = this;
@@ -160,11 +171,14 @@ var Editors = new Hash,
 					};
 					ed.onChange.add(isDirty);
 					ed.onKeyUp.add(isDirty);
+
+
 				});
 				//TinyMCE often performs formatting on the content on init, so need to make sure that's set as the default value
 				ed.onInit.add(function(ed){
 					self.startContent = ed.getContent({format : 'raw', no_events : 1});
 				});
+
 			}
 
 			//When toggle is active, do not initialize TinyMCE until it's requested
@@ -217,24 +231,7 @@ var Editors = new Hash,
 					])
 			]);
 
-        //Correct editor height after adding a toolbar
-        console.warn(this.wrap.getElement('.editor-toolbar').getComputedSize().totalHeight);
-
-        /*this.getEditor().settings.height -= 22;/*this.wrap.getElement('.editor-toolbar').getComputedSize({
-            mode: 'vertical',
-            styles: ['padding', 'border', 'margin']
-        }).totalHeight;
-        console.log(this.wrap.getElement('.editor-toolbar').getComputedSize({
-            mode: 'vertical',
-            styles: ['padding', 'border', 'margin']
-        }), this.wrap.getElement('.editor-toolbar').getComputedSize({
-            mode: 'vertical'
-        }));
-        //*/
-        //console.log(this.wrap.getElement('.editor-toolbar').getDimensions().height, this);
-        //this.settings.height -= this.wrap.getElement('.editor-toolbar').getDimensions().height;
-		
-		this.getEditor().addButton('image', {
+        this.getEditor().addButton('image', {
 			title : 'Image',
 			image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/image.png',
 			cmd : 'image'
