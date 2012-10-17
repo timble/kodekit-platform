@@ -7345,11 +7345,13 @@ h2 {
 h3 {
   font-size: 16px;
 }
+.page-header h1 {
+  line-height: 21px;
+  margin-bottom: 0;
+}
 .page-header .timestamp {
-  margin-top: -10px;
   color: #999;
   font-size: 12px;
-  display: block;
 }
 .readmore a {
   display: inline-block;
