@@ -18,7 +18,6 @@
 
 class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 {
-	public $adapter = 'local';
 	/**
 	 * A reference to the container configuration
 	 *
@@ -41,13 +40,19 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 			return $result;
 		}
 		else if ($column == 'relative_path') {
-			return $this->getRelativePath();
+		    return $this->getRelativePath();
 		}
 		else if ($column == 'path_value') {
 			return $this->_data['path'];
 		}
 		else if ($column == 'parameters' && !is_object($this->_data['parameters'])) {
 			return $this->getParameters();
+		} else if ($column == 'adapter') {
+		    if (strpos($this->_data['path'], '://') !== false) {
+		        return substr($this->_data['path'], 0, strpos($this->_data['path'], '://'));
+		    } else {
+		        return 'local';
+		    }
 		}
 
 		return parent::__get($column);
@@ -55,9 +60,13 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 
 	public function getRelativePath()
 	{
-		$path = $this->path;
-		$root = str_replace('\\', '/', JPATH_ROOT);
-		return str_replace($root.'/', '', $path);
+	    if ($this->adapter === 'local') {
+	        $path = $this->path;
+	        $root = str_replace('\\', '/', JPATH_ROOT);
+	        return str_replace($root.'/', '', $path);
+	    }
+	    
+	    return null;
 	}
 
 	public function getParameters()
@@ -94,6 +103,6 @@ class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
 
 	public function getAdapter($type, array $config = array())
 	{
-		return $this->getService('com://admin/files.adapter.'.$this->adapter.'.'.$type, $config);
+	    return $this->getService('com://admin/files.adapter.'.$this->adapter.'.'.$type, $config);
 	}
 }
