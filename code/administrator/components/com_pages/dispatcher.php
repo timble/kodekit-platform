@@ -31,7 +31,8 @@ class ComPagesDispatcher extends ComDefaultDispatcher
             $url->query['view'] = $view;
             $url->query['menu'] = $page->pages_menu_id;
 
-            $this->getService('application')->redirect($url);
+            $context->response->setRedirect($url);
+            return false;
         }
 
         if($view == 'modules' && !KRequest::has('get.application'))
@@ -39,7 +40,8 @@ class ComPagesDispatcher extends ComDefaultDispatcher
             $url = clone(KRequest::url());
             $url->query['application']  = 'site';
 
-            $this->getService('application')->redirect($url);
+            $context->response->setRedirect($url);
+            return false;
         }
 
         return parent::_actionDispatch($context);
