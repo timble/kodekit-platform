@@ -25,13 +25,13 @@
     </tr>
     <tr>
         <td width="39%" align="center">
-            <? if(KDEBUG) : ?>
+            <? if(ini_get('display_errors')) : ?>
             <p><?= (string) $error ?></p>
             <? else : ?>
             <p><?= KHttpResponse::getMessage($error->getCode()) ?></p>
             <? endif ?>
             <p>
-                <? if(KDEBUG) : ?>
+                <? if(ini_get('display_errors')) : ?>
                 <?= @template('default_backtrace'); ?>
                 <? endif; ?>
             </p>
