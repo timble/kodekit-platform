@@ -68,9 +68,9 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			//'convert_newlines_to_brs'				=> false,
 			
 			'invalid_elements'						=> 'script,applet,iframe',
-			'relative_urls'							=> true,
-			'remove_script_host'					=> false,
-			'document_base_url'						=> KRequest::root(),
+			'relative_urls'							=> false,
+			'remove_script_host'					=> true,
+			'document_base_url'						=>  KRequest::root().'/sites/'.$this->getService('application')->getSite(),
 			'theme_advanced_toolbar_location'		=> 'top',
 			'theme_advanced_toolbar_align'			=> 'left',
 			'theme_advanced_source_editor_height'	=> '400',
