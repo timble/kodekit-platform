@@ -17,7 +17,7 @@
 <?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 
 <div class="sidebar">
-    <div class="<?= $module->type ?>">
+    <div class="mod_users">
     	<h3><?= @text('Logged in Users'); ?></h3>
     	<?= @service('com://admin/users.controller.user')->layout('list')->limit(10)->loggedin(true)->display(); ?>
     </div>
