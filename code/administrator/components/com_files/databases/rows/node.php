@@ -33,7 +33,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		$config->append(array(
 			'command_chain'     => $this->getService('koowa:command.chain'),
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getService('koowa:event.dispatcher'),
+			'event_dispatcher'  => $this->getService('koowa:event.dispatcher.default'),
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));
