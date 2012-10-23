@@ -76,11 +76,11 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
             //Check if the action exists
             if(!in_array($action, $context->getSubject()->getActions()))
             {
-                $context->setError(new KControllerException(
-            		'Action '.ucfirst($action).' Not Implemented', KHttpResponse::NOT_IMPLEMENTED
-                ));
+                $context->response->setStatus(
+                    KHttpResponse::NOT_IMPLEMENTED, 'Action '.ucfirst($action).' Not Implemented'
+                );
 
-                $context->header = array('Allow' =>  $context->getSubject()->execute('options', $context));
+                $context->response->headers->set('Allow', $context->getSubject()->execute('options', $context));
                 return false;
             }
 
@@ -93,11 +93,11 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
 		        {
 		            if($context->action != 'options')
 		            {
-		                $context->setError(new KControllerException(
-		        			'Action '.ucfirst($action).' Not Allowed', KHttpResponse::METHOD_NOT_ALLOWED
-		                ));
+		                $context->response->setStatus(
+                            KHttpResponse::METHOD_NOT_ALLOWED, 'Action '.ucfirst($action).' Not Allowed'
+		                );
 
-		                $context->header = array('Allow' =>  $context->getSubject()->execute('options', $context));
+                        $context->response->headers->set('Allow', $context->getSubject()->execute('options', $context));
 		            }
 
 		            return false;
