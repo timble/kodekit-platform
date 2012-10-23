@@ -45,7 +45,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         parent::__construct($config);
 
-        $this->_object_list = new ArrayObject();
+        $this->_object_list   = new ArrayObject();
         $this->_priority_list = new ArrayObject();
 
     }
@@ -88,7 +88,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
 
         if ($handle = $object->getHandle())
         {
-            if ($this->_object_list->offsetExists($handle)) {
+            if ($this->_object_list->offsetExists($handle))
+            {
                 $this->_object_list->offsetUnset($handle);
                 $this->_priority_list->offsetUnSet($handle);
 
@@ -111,7 +112,8 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         if ($handle = $object->getHandle())
         {
-            if ($this->_priority_list->offsetExists($handle)) {
+            if ($this->_priority_list->offsetExists($handle))
+            {
                 $this->_priority_list->offsetSet($handle, $priority);
                 $this->_priority_list->asort();
             }
@@ -282,7 +284,7 @@ class KObjectQueue extends KObject implements Iterator, Countable
     {
         parent::__clone();
 
-        $this->_object_list = clone $this->_object_list;
+        $this->_object_list   = clone $this->_object_list;
         $this->_priority_list = clone $this->_priority_list;
     }
 }
