@@ -82,7 +82,7 @@ abstract class KControllerService extends KControllerResource
 	    $name = ucfirst($this->getView()->getName());
 
 		if($this->getModel()->getState()->isUnique() && $data->isNew()) {
-		    $context->setError(new KControllerException($name.' Not Found', KHttpResponse::NOT_FOUND));
+		    $context->response->setStatus(KHttpResponse::NOT_FOUND, $name.' Not Found');
 		}
 
 		return $data;
@@ -104,12 +104,12 @@ abstract class KControllerService extends KControllerResource
 
 	        //Only set the reset content status if the action explicitly succeeded
 	        if($data->save() === true) {
-		        $context->status = KHttpResponse::RESET_CONTENT;
+		        $context->response->setStatus(KHttpResponse::RESET_CONTENT);
 		    } else {
-		        $context->status = KHttpResponse::NO_CONTENT;
+		        $context->response->setStatus(KHttpResponse::NO_CONTENT);
 		    }
 		}
-		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
+		else $context->response->setStatus(KHttpResponse::NOT_FOUND);
 
 		return $data;
 	}
@@ -132,14 +132,13 @@ abstract class KControllerService extends KControllerResource
 		    if($data->save() === false)
 		    {
 			    $error = $data->getStatusMessage();
-		        $context->setError(new KControllerException(
-		           $error ? $error : 'Add Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-		        ));
-
+		        $context->response->setStatus(
+                    KHttpResponse::INTERNAL_SERVER_ERROR, $error ? $error : 'Add Action Failed'
+                );
 		    }
-		    else $context->status = KHttpResponse::CREATED;
+		    else $context->response->setStatus(KHttpResponse::CREATED);
 		}
-		else $context->setError(new KControllerException('Resource Already Exists', KHttpResponse::BAD_REQUEST));
+		else $context->setStatus(KHttpResponse::BAD_REQUEST, 'Resource Already Exists');
 
 		return $data;
 	}
@@ -162,13 +161,13 @@ abstract class KControllerService extends KControllerResource
 	        if($data->delete() === false)
 	        {
 			    $error = $data->getStatusMessage();
-                $context->setError(new KControllerException(
-		            $error ? $error : 'Delete Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-		        ));
+                $context->response->setStatus(
+                    KHttpResponse::INTERNAL_SERVER_ERROR, $error ? $error : 'Delete Action Failed'
+                );
 		    }
-		    else $context->status = KHttpResponse::NO_CONTENT;
+		    else $context->response->setStatus(KHttpResponse::NO_CONTENT);
 		}
-		else  $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
+		else  $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Resource Not Found');
 
 		return $data;
 	}
@@ -179,8 +178,8 @@ abstract class KControllerService extends KControllerResource
 	 * This function translates a GET request into a read or browse action. If the view name is
 	 * singular a read action will be executed, if plural a browse action will be executed.
 	 *
-	 * If the result of the read or browse action is not a row or rowset object the fucntion will
-	 * passthrough the result, request the attached view to render itself.
+	 * If the result of the read or browse action is not a row or rowset object the function will
+	 * pass through the result, otherwise it will request the attached view to render itself.
 	 *
 	 * @param	KCommandContext	A command context object
 	 * @return 	string|false 	The rendered output of the view or FALSE if something went wrong
@@ -251,7 +250,7 @@ abstract class KControllerService extends KControllerResource
 
             $data = parent::execute($action, $context);
 	    }
-	    else $context->setError(new KControllerException(ucfirst('Resource not found', KHttpResponse::BAD_REQUEST)));
+	    else $context->response->setStatus(KHttpResponse::BAD_REQUEST, 'Resource not found');
 
 	    return $data;
 	}
