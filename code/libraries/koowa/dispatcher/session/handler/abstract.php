@@ -1,11 +1,11 @@
 <?php
 /**
- * @version        $Id$
- * @package        Koowa_Dispatcher
+ * @version     $Id$
+ * @package     Koowa_Dispatcher
  * @subpackage  Session
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
@@ -39,7 +39,7 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
         if (!$this->isSupported())
         {
             $name = $this->getIdentifier()->name;
-            throw new KDispathcherSessionHandlerException('The ' . $name . ' session handler is not available');
+            throw new KDispatcherSessionHandlerException('The ' . $name . ' session handler is not available');
         }
 
         //Register the functions of this class with the PHP session handler
