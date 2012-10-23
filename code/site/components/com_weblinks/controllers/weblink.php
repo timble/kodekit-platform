@@ -33,7 +33,7 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
 		if ($this->_request->format == 'html')
 		{           
 			if ($weblink->url) {
-                $this->getService('application')->redirect($weblink->url);
+                $context->response->setRedirect($weblink->url);
 			}
 
 			return true;
