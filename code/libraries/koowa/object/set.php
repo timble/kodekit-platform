@@ -65,7 +65,7 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      * literal keys won't be touched.
      *
      * @param   KObjectHandlable $object
-     * @return  KObjectQueue
+     * @return  KObjectSet
      */
     public function extract(KObjectHandlable $object)
     {
@@ -93,7 +93,7 @@ class KObjectSet extends KObject implements IteratorAggregate, ArrayAccess, Coun
      * Merge-in another object set
      *
      * @param   KObjectSet  $set
-     * @return  KObjectQueue
+     * @return  KObjectSet
      */
     public function merge(KObjectSet $set)
     {
