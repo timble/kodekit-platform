@@ -17,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugEventProfiler extends KEventDispatcher
+class ComDebugEventProfiler extends KEventDispatcherAbstract
 {
    /**
     * The start time
