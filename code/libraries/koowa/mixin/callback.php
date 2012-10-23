@@ -138,23 +138,24 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
      * context of the command chain and passed along. If they are passed as an indexed array they
      * will be passed to the callback directly.
      *
-     * @param      string|array    The command name to register the callback for or an array of command names
-     * @param     callback        The callback function to register
+     * @param   string|array    The command name to register the callback for or an array of command names
+     * @param   callback        The callback function to register
      * @param   array|object    An associative array of config parameters or a KConfig object
      * @return  KObject    The mixer object
      */
     public function registerCallback($commands, $callback, $params = array())
     {
         $commands = (array)$commands;
-        $params = (array)KConfig::unbox($params);
+        $params   = (array)KConfig::unbox($params);
 
         foreach ($commands as $command)
         {
             $command = strtolower($command);
 
-            if (!isset($this->_callbacks[$command])) {
+            if (!isset($this->_callbacks[$command]))
+            {
                 $this->_callbacks[$command] = array();
-                $this->_params[$command] = array();
+                $this->_params[$command]    = array();
             }
 
             //Don't re-register commands.
@@ -165,9 +166,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
                 $this->_callbacks[$command][] = $callback;
                 $this->_params[$command][] = $params;
             }
-            else {
-                $this->_params[$command][$index] = array_merge($this->_params[$command][$index], $params);
-            }
+            else $this->_params[$command][$index] = array_merge($this->_params[$command][$index], $params);
         }
 
         return $this->_mixer;
@@ -176,8 +175,8 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     /**
      * Unregister a callback function
      *
-     * @param      string|array    The method name to unregister the callback from or an array of method names
-     * @param     callback        The callback function to unregister
+     * @param   string|array    The method name to unregister the callback from or an array of method names
+     * @param   callback        The callback function to unregister
      * @return  KObject The mixer object
      */
     public function unregisterCallback($commands, $callback)
