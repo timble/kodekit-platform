@@ -16,22 +16,19 @@
  * @subpackage  Default
  */
 class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstantiatable
-{ 
- 	/**
-     * Initializes the options for the object
+{
+    /**
+     * Constructor.
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   object  An optional KConfig object with configuration options.
-     * @return  void
+     * @param 	object 	An optional KConfig object with configuration options.
      */
-    protected function _initialize(KConfig $config)
+    public function __construct(KConfig $config)
     {
-        parent::_initialize($config);
-        
-        //Force the controller to the information found in the request
-        if($config->request->view) {
-            $config->controller = $config->request->view;
+        parent::__construct($config);
+
+        //Sign GET request with a cookie token
+        if(KRequest::method() == 'GET') {
+            $this->registerCallback('after.dispatch' , array($this, 'signResponse'));
         }
     }
     
@@ -58,6 +55,28 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         
         return $container->get($config->service_identifier);
     }
+
+    /**
+     * Sign the response with a token
+     *
+     * @param	KCommandContext	A command context object
+     */
+    public function signResponse(KCommandContext $context)
+    {
+        if(!$context->response->isError())
+        {
+            $token = $this->getService('application.session')->getToken();
+
+            $context->response->headers->addCookie($this->getService('koowa:http.cookie', array(
+                'name'   => '_token',
+                'value'  => $token,
+                'domain' => KRequest::base()->getUrl(KHttpUrl::HOST),
+                'path'   => JURI::base(true)
+            )));
+
+            $context->response->headers->set('X-Token', $token);
+        }
+    }
       
     /**
      * Dispatch the controller and redirect
@@ -80,33 +99,10 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
             $url = clone(KRequest::url());
             $url->query['view'] = $this->getController()->getView()->getName();
 
-            $this->getService('application')->redirect($url);
+            $context->response->setRedirect($url);
+            return false;
         }
        
         return parent::_actionDispatch($context);
-    }
-    
-    /**
-     * Push the controller data into the document
-     * 
-     * This function divert the standard behavior and will push specific controller data
-     * into the document
-     *
-     * @return  KDispatcherDefault
-     */
-    protected function _actionRender(KCommandContext $context)
-    {
-        //Set the content type
-        //@TODO : need to be removed
-        $view  = $this->getController()->getView();
-        JResponse::setHeader( 'Content-Type', $view->mimetype .'; charset=utf8');
-
-        //Sign the response with a token
-        //@TODO : don't render the token if an error is thrown (check request)
-        if(KRequest::method() == 'GET') {
-            setcookie('_token', $this->getService('application.session')->getToken(), 0, JURI::base(true));
-        }
-        
-        return parent::_actionRender($context);
     }
 }
