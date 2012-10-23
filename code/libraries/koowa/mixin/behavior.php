@@ -132,6 +132,7 @@ class KMixinBehavior extends KMixinAbstract
             }
             else $identifier = $this->getIdentifier($behavior);
         }
+        else $identifier = $behavior;
 
         if (!isset($this->_behaviors[$identifier->name]))
         {
