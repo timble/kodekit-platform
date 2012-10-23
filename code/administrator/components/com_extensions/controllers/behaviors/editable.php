@@ -28,25 +28,21 @@ class ComExtensionsControllerBehaviorEditable extends KControllerBehaviorEditabl
 	{
 		$data = $context->getSubject()->execute('edit', $context);
 	    
-		$this->setRedirect($this->getReferrer());
-		
+		$context->response->setRedirect($this->getReferrer($context));
 		return $data;
 	}
     
 	protected function _actionCancel(KCommandContext $context)
 	{
-		$this->setRedirect($this->getReferrer());
-	
+        $context->response->setRedirect($this->getReferrer($context));
 		return;
 	}
 
 	protected function _actionApply(KCommandContext $context)
 	{
 		$data = $context->getSubject()->execute('edit', $context);
-		
-		$url  = clone KRequest::url();
-		$this->setRedirect($url);
-		
+
+        $context->response->setRedirect(clone KRequest::url());
 		return $data;
 	}
 }
