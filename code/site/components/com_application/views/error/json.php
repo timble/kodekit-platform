@@ -20,7 +20,7 @@ class ComApplicationViewErrorJson extends KViewJson
 {
     public function display()
     {
-        if(KDEBUG) {
+        if(ini_get('display_errors')) { {
             $message = (string) $this->error;
         } else {
             $message = KHttpResponse::getMessage($this->error->getCode());
@@ -31,7 +31,7 @@ class ComApplicationViewErrorJson extends KViewJson
             'code'    => $this->error->getCode()
         );
 
-        if(KDEBUG)
+        if(ini_get('display_errors')) {
         {
             $properties['data'] = array(
                 'file'	    => $this->error->getFile(),
