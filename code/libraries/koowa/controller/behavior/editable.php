@@ -28,48 +28,53 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
 
         if ($this->isDispatched() && KRequest::type() == 'HTTP')
         {
-            $this->registerCallback('before.read', array($this, 'setReferrer'));
-            $this->registerCallback('after.apply', array($this, 'lockReferrer'));
-            $this->registerCallback('after.read', array($this, 'unlockReferrer'));
-            $this->registerCallback('after.save', array($this, 'unsetReferrer'));
+            $this->registerCallback('before.read' , array($this, 'setReferrer'));
+            $this->registerCallback('after.apply' , array($this, 'lockReferrer'));
+            $this->registerCallback('after.read'  , array($this, 'unlockReferrer'));
+            $this->registerCallback('after.save'  , array($this, 'unsetReferrer'));
             $this->registerCallback('after.cancel', array($this, 'unsetReferrer'));
         }
 
-        $this->registerCallback('after.read', array($this, 'lockResource'));
-        $this->registerCallback('after.save', array($this, 'unlockResource'));
+        $this->registerCallback('after.read'  , array($this, 'lockResource'));
+        $this->registerCallback('after.save'  , array($this, 'unlockResource'));
         $this->registerCallback('after.cancel', array($this, 'unlockResource'));
-
-        //Set the default redirect.
-        $this->setRedirect(KRequest::referrer());
     }
 
     /**
      * Lock the referrer from updates
      *
+     * @param    KCommandContext    A command context object
      * @return void
      */
-    public function lockReferrer()
+    public function lockReferrer(KCommandContext $context)
     {
-        KRequest::set('cookie.referrer_locked', true);
+        $cookie = new KHttpCookie(array(
+            'name'  => 'referrer_locked',
+            'value' => true,
+            'path'  => (string) KRequest::base()
+        ));
+
+        $context->response->headers->addCookie($cookie);
     }
 
     /**
      * Unlock the referrer for updates
      *
+     * @param    KCommandContext    A command context object
      * @return void
      */
-    public function unlockReferrer()
+    public function unlockReferrer(KCommandContext $context)
     {
-        KRequest::set('cookie.referrer_locked', null);
+        $context->response->headers->clearCookie('referrer', KRequest::base());
     }
-
 
     /**
      * Get the referrer
      *
+     * @param    KCommandContext    A command context object
      * @return KHttpUrl    A KHttpUrl object.
      */
-    public function getReferrer()
+    public function getReferrer(KCommandContext $context)
     {
         $identifier = $this->getMixer()->getIdentifier();
 
@@ -83,9 +88,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     /**
      * Set the referrer
      *
+     * @param    KCommandContext    A command context object
      * @return void
      */
-    public function setReferrer()
+    public function setReferrer(KCommandContext $context)
     {
         if (!KRequest::has('cookie.referrer_locked'))
         {
@@ -103,7 +109,14 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
                 $referrer = $controller->getView()->getRoute('option=' . $option . '&view=' . $view, true, false);
             }
 
-            KRequest::set('cookie.referrer', (string)$referrer);
+            //Add the referrer cookie
+            $cookie = new KHttpCookie(array(
+                'name'  => 'referrer',
+                'value' => (string) $referrer,
+                'path'  => (string) KRequest::base()
+            ));
+
+            $context->response->headers->addCookie($cookie);
         }
     }
 
@@ -112,10 +125,9 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      *
      * @return void
      */
-    public function unsetReferrer()
+    public function unsetReferrer(KCommandContext $context)
     {
-        $identifier = $this->getMixer()->getIdentifier();
-        KRequest::set('cookie.referrer', null);
+        $context->response->headers->clearCookie('referrer', KRequest::base());
     }
 
     /**
@@ -172,7 +184,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
         $data = $context->getSubject()->execute($action, $context);
 
         //Create the redirect
-        $this->setRedirect($this->getReferrer());
+        $context->response->setRedirect($this->getReferrer($context));
 
         return $data;
     }
@@ -195,7 +207,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
         $data = $context->getSubject()->execute($action, $context);
 
         //Create the redirect
-        $url = $this->getReferrer();
+        $url = $this->getReferrer($context);
 
         if ($data instanceof KDatabaseRowAbstract)
         {
@@ -212,7 +224,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
             else $url->query[$data->getIdentityColumn()] = $data->get($data->getIdentityColumn());
         }
 
-        $this->setRedirect($url);
+        $context->response->setRedirect($url);
 
         return $data;
     }
@@ -228,7 +240,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     protected function _actionCancel(KCommandContext $context)
     {
         //Create the redirect
-        $this->setRedirect($this->getReferrer());
+        $context->response->setRedirect($this->getReferrer($context));
 
         $data = $context->getSubject()->execute('read', $context);
 
