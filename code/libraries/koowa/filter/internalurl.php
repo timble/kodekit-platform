@@ -32,7 +32,7 @@ class KFilterInternalurl extends KFilterAbstract
             return false;
         }
 
-        if(stripos($value, (string)  KRequest::url()->getUrl(KHttpUrl::AUTH)) !== 0) {
+        if(stripos($value, (string)  KRequest::url()->getUrl(KHttpUrl::AUTHORITY)) !== 0) {
             return false;
         }
 
