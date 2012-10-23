@@ -16,7 +16,22 @@
  * @subpackage  Default
  */
 class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstantiatable
-{ 
+{
+    /**
+     * Constructor.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        //Sign GET request with a cookie token
+        if(KRequest::method() == 'GET') {
+            $this->registerCallback('after.dispatch' , array($this, 'signResponse'));
+        }
+    }
+
     /**
      * Initializes the options for the object
      *
@@ -58,6 +73,28 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         
         return $container->get($config->service_identifier);
     }
+
+    /**
+     * Sign the response with a token
+     *
+     * @param	KCommandContext	A command context object
+     */
+    public function signResponse(KCommandContext $context)
+    {
+        if(!$context->response->isError())
+        {
+            $token = $this->getService('application.session')->getToken();
+
+            $context->response->headers->addCookie($this->getService('koowa:http.cookie', array(
+                'name'   => '_token',
+                'value'  => $token,
+                'domain' => KRequest::base()->getUrl(KHttpUrl::HOST),
+                'path'   => JURI::base(true)
+            )));
+
+            $context->response->headers->set('X-Token', $token);
+        }
+    }
     
     /**
      * Dispatch the controller and redirect
@@ -77,31 +114,11 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
         //Redirect if no view information can be found in the request
         if(!$this->getRequest()->view) 
         {
-            $route    = $this->getController()->getView()->getRoute();
-            $this->getService('application')->redirect($route);
+            $route = $this->getController()->getView()->getRoute();
+            $context->response->setRedirect($route);
+            return false;
         }
-       
-        return parent::_actionDispatch($context);
-    }
-    
-    /**
-     * Set the mimetype of the document and hide the menu if required
-     *
-     * @return  KDispatcherDefault
-     */
-    protected function _actionRender(KCommandContext $context)
-    {
-        //Set the content type
-        //@TODO : need to be removed
-        $view  = $this->getController()->getView();
-        JResponse::setHeader( 'Content-Type', $view->mimetype .'; charset=utf8');
 
-        //Sign the response with a token
-        //@TODO : don't render the token if an error is thrown (check request)
-        if(KRequest::method() == 'GET') {
-            setcookie('_token', $this->getService('application.session')->getToken(), 0, JURI::base(true));
-        }
-   
-        return parent::_actionRender($context);
+        return parent::_actionDispatch($context);
     }
 }
