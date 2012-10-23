@@ -47,12 +47,14 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     {
         parent::__construct($config);
 
+        //Register the default error handler
+        $this->getService('application.debug')->addEventListener('onError', array($this, 'error'));
+
+        //Set callbacks
         $this->registerCallback('before.run', array($this, 'loadConfig'));
         $this->registerCallback('before.run', array($this, 'loadSession'));
         $this->registerCallback('before.run', array($this, 'loadLanguage'));
 
-        //Set exception handler
-        set_exception_handler(array($this, 'error'));
 
         // Set the connection options
         $this->_options = $config->options;
@@ -121,27 +123,9 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $this->registerCallback('after.run'      , array($this, 'route'));
         $this->registerCallback('after.route'    , array($this, 'authorize'));
         $this->registerCallback('after.authorize', array($this, 'dispatch'));
-        $this->registerCallback('after.dispatch' , array($this, 'render'));
 
         //Set the site error reporting
-        $error_reporting = $this->getCfg('error_reporting');
-        if ($error_reporting > 0)
-        {
-            //Development mode
-            if($error_reporting == 1)
-            {
-                error_reporting( E_ALL | E_STRICT | ~E_DEPRECATED );
-                ini_set( 'display_errors', 1 );
-
-            }
-
-            //Production mode
-            if($error_reporting == 2)
-            {
-                error_reporting( E_ERROR | E_WARNING | E_PARSE );
-                ini_set( 'display_errors', 0 );
-            }
-        }
+        $this->getService('application.debug')->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the site debug mode
         define( 'KDEBUG', $this->getCfg('debug') );
@@ -196,43 +180,48 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      * component does not exist an exception is thrown
      *
      * @param KCommandContext $context	A command context object
-     * @throws KException	When the commponent can not be found
      */
     protected function _actionDispatch(KCommandContext $context)
     {
-        $component = $this->option;
-
-        if(!empty($component))
+        if(!$context->response->isRedirect())
         {
-            $name = substr( $component, 4);
+            $component = $this->option;
 
-            if (!$this->getService('application.components')->isEnabled($name))
+            if(!empty($component))
             {
-                throw new KException(JText::_('Component Not Found'), KHttpResponse::NOT_FOUND);
-                return false;
+                $name = substr( $component, 4);
+
+                if (!$this->getService('application.components')->isEnabled($name)) {
+                    return $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Component Not Found');
+                }
+
+                //Load common language files
+                $lang = JFactory::getLanguage()->load($component);
+
+                //Load the component aliasses
+                KLoader::loadIdentifier('com://admin/'.$name.'.aliases');
+
+                $this->getService('com://admin/'.$name.'.dispatcher')->dispatch($context);
+
+                if(!$context->response->isRedirect()){
+                    $this->forward($context);
+                }
             }
-
-            //Load common language files
-            $lang = JFactory::getLanguage()->load($component);
-
-            //Load the component aliasses
-            KLoader::loadIdentifier('com://admin/'.$name.'.aliases');
-
-            $result = $this->getService('com://admin/'.$name.'.dispatcher')->dispatch();
-            return $result;
+            else $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Component Not Found');
         }
-        else throw new KException(JText::_('Component Not Found'), KHttpResponse::NOT_FOUND);
+
+        $this->send($context);
     }
 
     /**
      * Render the page
      *
-     * Rendering is the process of pushing the document buffers into the template placeholders, retrieving data from the
-     * document and pushing it into the JResponse buffer.
+     * Rendering is the process of pushing the document buffers into the template placeholders, retrieving
+     * data from the document and pushing it into the response buffer.
      *
      * @param KCommandContext $context	A command context object
      */
-    protected function _actionRender(KCommandContext $context)
+    protected function _actionForward(KCommandContext $context)
     {
         $config = array(
             'request' => $this->getRequest(),
@@ -240,9 +229,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
         $controller = $this->getService('com://admin/application.controller.page', $config);
         $controller->getView()
-            ->content($context->result)
-            ->option($this->getRequest()->option)
-            ->tmpl(KRequest::get('get.tmpl', 'cmd', 'default'));
+                   ->option($this->getRequest()->option)
+                   ->tmpl(KRequest::get('get.tmpl', 'cmd', 'default'));
 
         //Render the page controller
         $content = $controller->display($context);
@@ -253,48 +241,34 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
         $content = str_replace(JURI::base().'images/', $path, $content);
         $content = str_replace(array('../images', './images') , '"'.$path, $content);
 
-        //@TODO :Setup the response
-        //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
-        //if ($mdate = $this->getModifiedDate()) {
-        //    JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
-        //}
-        //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
-
-        JResponse::setBody($content);
-        echo JResponse::toString($this->getCfg('gzip'));
-        exit(0);
+        $context->response->setContent($content);
     }
 
     /**
-     * Render the error
+     * Error handler
      *
-     * We're wrapping it in a try catch block to avoid exceptions thrown inside the handler. Exceptions thrown in the
-     * handler leads to debugging nightmare.
-     *
-     * @link http://www.php.net/manual/en/function.set-exception-handler.php#88082
      * @param KCommandContext $context	A command context object
      */
     protected function _actionError(KCommandContext $context)
     {
-        try
-        {
-            $data = $this->getService('com://admin/application.controller.error')
-                ->format(KRequest::format() ? KRequest::format() : 'html')
-                ->display($context);
-        }
-        catch (Exception $e) {
-            $data = get_class($e)." thrown within the exception handler. Message: ".$e->getMessage()." on line ".$e->getLine();
-        }
+        $content = $this->getService('com://admin/application.controller.error')
+                        ->format(KRequest::format() ? KRequest::format() : 'html')
+                        ->display($context->data);
 
-        //@TODO :Setup the response
-        //JResponse::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' );
-        //if ($mdate = $this->getModifiedDate()) {
-        //    JResponse::setHeader( 'Last-Modified', $mdate /* gmdate( 'D, d M Y H:i:s', time() + 900 ) . ' GMT' */ );
-        //}
-        //JResponse::setHeader( 'Content-Type', $this->_mime .  '; charset=' . $this->_charset);
+        $context->response->setContent($content);
+        $context->response->setStatus($context->data->getCode(), $context->data->getMessage());
 
-        JResponse::setBody($data);
-        echo JResponse::toString();
+        $this->send($context);
+    }
+
+    /**
+     * Send the response to the client
+     *
+     * @param KCommandContext $context	A command context object
+     */
+    protected function _actionSend(KCommandContext $context)
+    {
+        $context->response->send();
         exit(0);
     }
 
@@ -326,9 +300,9 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     /**
      * Load the user session or create a new one
      *
-     * Old sessions are flushed based on the configuration value for the cookie lifetime. If an existing session, then
-     * the last access time is updated. If a new session, a session id is generated and a record is created in the
-     * #__users_sessions table.
+     * Old sessions are flushed based on the configuration value for the cookie lifetime. If an existing session,
+     * then the last access time is updated. If a new session, a session id is generated and a record is created
+     * in the #__users_sessions table.
      *
      * @param KCommandContext $context	A command context object
      * @return	void
@@ -448,80 +422,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     public function getTemplate()
     {
         return 'default';
-    }
-
-    /**
-     * Redirect to another URL.
-     *
-     * Optionally enqueues a message in the system message queue (which will be displayed
-     * the next time a page is loaded) using the enqueueMessage method. If the headers have
-     * not been sent the redirect will be accomplished using a "301 Moved Permanently" or "303 See Other"
-     * code in the header pointing to the new location depending upon the moved flag. If the headers
-     * have already been sent this will be accomplished using a JavaScript statement.
-     *
-     * @param	string	$url	The URL to redirect to. Can only be http/https URL
-     * @param	string	$msg	An optional message to display on redirect.
-     * @param	string  $msgType An optional message type.
-     * @param	boolean	True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
-     * @return	none; calls exit().
-     */
-    function redirect( $url, $msg = '', $msgType = 'message', $moved = false )
-    {
-        // check for relative internal links
-        if (preg_match( '#^index[2]?.php#', $url )) {
-            $url = JURI::base() . $url;
-        }
-
-        // Strip out any line breaks
-        $url = preg_split("/[\r\n]/", $url);
-        $url = $url[0];
-
-        // If we don't start with a http we need to fix this before we proceed
-        // We could validly start with something else (e.g. ftp), though this would
-        // be unlikely and isn't supported by this API
-        if(!preg_match( '#^http#i', $url ))
-        {
-            $uri = JURI::getInstance();
-            $prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
-
-            if($url[0] == '/')
-            {
-                // we just need the prefix since we have a path relative to the root
-                $url = $prefix . $url;
-            }
-            else
-            {
-                // its relative to where we are now, so lets add that
-                $parts = explode('/', $uri->toString(Array('path')));
-                array_pop($parts);
-                $path = implode('/',$parts).'/';
-                $url = $prefix . $path . $url;
-            }
-        }
-
-
-        // If the message exists, enqueue it
-        if (trim( $msg )) {
-            $this->enqueueMessage($msg, $msgType);
-        }
-
-        // Persist messages if they exist
-        if (count($this->_messageQueue))
-        {
-            $session = JFactory::getSession();
-            $session->set('application.queue', $this->_messageQueue);
-        }
-
-        // If the headers have been sent, then we cannot send an additional location header
-        // so we will output a javascript redirect statement.
-        if (headers_sent()) {
-            echo "<script>document.location.href='$url';</script>\n";
-        } else {
-            header($moved ? KRequest::protocol().' 301 Moved Permanently' : KRequest::protocol().' 303 See other');
-            header('Location: '.$url);
-        }
-
-        exit(0);
     }
 
     /**
