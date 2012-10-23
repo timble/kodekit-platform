@@ -33,12 +33,6 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 
 		//Set the controller
 		$this->_controller = $config->controller;
-
-		if(KRequest::method() != 'GET') {
-			$this->registerCallback('after.dispatch' , array($this, 'forward'));
-	  	}
-
-	    $this->registerCallback('after.dispatch', array($this, 'render'));
 	}
 
     /**
@@ -123,6 +117,23 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		return $this;
 	}
 
+    /**
+     * Get the command chain context
+     *
+     * This functions sets the command subject as the mixer in the context
+     *
+     * @return  KCommandContext
+     */
+    public function getCommandContext()
+    {
+        $context = $this->getCommandChain()->getContext();
+        $context->setSubject($this);
+
+        $context->response = $this->getService('koowa:dispatcher.response.default');
+
+        return $context;
+    }
+
 	/**
 	 * Dispatch the controller
 	 *
@@ -140,57 +151,5 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	    $result = $this->getController()->execute($action, $context);
 
         return $result;
-	}
-
-	/**
-	 * Forward after a post request
-	 *
-	 * Either do a redirect or a execute a browse or read action in the controller
-	 * depending on the request method and type
-	 *
-	 * @return mixed
-	 */
-	protected function _actionForward(KCommandContext $context)
-	{
-		if (KRequest::type() == 'HTTP')
-		{
-			if($redirect = $this->getController()->getRedirect()) {
-                $this->getService('application')->redirect($redirect['url'], $redirect['message'], $redirect['type']);
-			}
-		}
-
-		if(KRequest::type() == 'AJAX')
-		{
-			$context->result = $this->getController()->execute('display', $context);
-			return $context->result;
-		}
-	}
-
-	/**
-	 * Push the controller data into the document
-	 *
-	 * This function divert the standard behavior and will push specific controller data
-	 * into the document
-	 *
-	 * @return	mixed
-	 */
-	protected function _actionRender(KCommandContext $context)
-	{
-	    //Headers
-	    if($context->headers)
-	    {
-	        foreach($context->headers as $name => $value) {
-	            header($name.' : '.$value);
-	        }
-	    }
-
-	    //Status
-        if($context->status) {
-           header(KHttpResponse::getHeader($context->status, KRequest::protocol()));
-        }
-
-	    if(is_string($context->result)) {
-		     return $context->result;
-		}
 	}
 }
