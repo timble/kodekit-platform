@@ -48,6 +48,13 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     protected $_request = null;
 
     /**
+     * The response object
+     *
+     * @var KControllerResponseInterface
+     */
+    protected $_response = null;
+
+    /**
      * Constructor.
      *
      * @param   object  An optional KConfig object with configuration options.
@@ -70,6 +77,9 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
 
         //Set the request
         $this->setRequest((array)KConfig::unbox($config->request));
+
+        //Set the response
+        $this->_response = $config->response;
     }
 
     /**
@@ -85,10 +95,11 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
         $config->append(array(
             'command_chain'     => $this->getService('koowa:command.chain'),
             'dispatch_events'   => true,
-            'event_dispatcher'  => $this->getService('koowa:event.dispatcher'),
+            'event_dispatcher'  => $this->getService('koowa:event.dispatcher.default'),
             'enable_callbacks'  => true,
             'dispatched'        => false,
             'request'           => null,
+            'response'          => $this->getService('koowa:controller.response.default'),
             'behaviors'         => array(),
         ));
 
@@ -143,21 +154,16 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
             }
             else  $context->result = $this->$method($context);
 
-            $this->getCommandChain()->run('after.' . $command, $context);
-        }
-
-        //Handle exceptions
-        if ($context->getError() instanceof KException)
-        {
-            //@TODO : Move header handling into a response object
-            if ($context->headers)
+            //Handle errors
+            if ($context->response->isError())
             {
-                foreach ($context->headers as $name => $value) {
-                    header($name . ' : ' . $value);
-                }
+                $code    = $context->response->getStatusCode();
+                $message = $context->response->getStatusMessage();
+
+                throw new KControllerException($message, $code);
             }
 
-            throw $context->getError();
+            $this->getCommandChain()->run('after.' . $command, $context);
         }
 
         return $context->result;
@@ -312,8 +318,9 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
             if (!($data instanceof KCommandContext))
             {
                 $context = $this->getCommandContext();
-                $context->data = $data;
-                $context->result = false;
+                $context->response = $this->_response;
+                $context->data     = $data;
+                $context->result   = false;
             }
             else $context = $data;
 
