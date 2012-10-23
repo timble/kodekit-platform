@@ -28,10 +28,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
 
         //Authorize the user before adding
         $this->registerCallback('before.add' , array($this, 'authorize'));
-        $this->registerCallback('after.add', array($this, 'redirect'));
-
-        //Set the default redirect.
-        $this->setRedirect(KRequest::referrer());
+        $this->registerCallback('after.add'  , array($this, 'redirect'));
     }
 
     protected function _initialize(KConfig $config)
@@ -53,7 +50,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         }
 
         //Set the status
-        $context->status = KHttpResponse::UNAUTHORIZED;
+        $context->response->setStatus(KHttpResponse::UNAUTHORIZED);
 
         return parent::_actionGet($context);
     }
@@ -178,15 +175,18 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
        return false;
     }
 
-    public function redirect(KCommandContext $context) {
-
-        if ($context->result !== false) {
+    public function redirect(KCommandContext $context)
+    {
+        if ($context->result !== false)
+        {
             $password = $context->user->getPassword();
-            if ($password->expired()) {
-                $url = $this->getService('koowa:http.url',
-                    array('url' => 'index.php?option=com_users&view=password&layout=form&id=' . $password->id));
+            if ($password->expired())
+            {
+                $url = 'index.php?option=com_users&view=password&layout=form&id=' . $password->id;
+                $url = $this->getService('koowa:http.url', array('url' => $url));
+
                 $this->getService('application')->getRouter()->build($url);
-                $this->setRedirect($url);
+                $context->response->setRedirect($url);
             }
         }
     }
