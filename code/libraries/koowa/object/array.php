@@ -17,7 +17,7 @@
  * @category    Koowa
  * @package     Koowa_Object
  */
-class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Serializable
+class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Serializable, Countable
 {
     /**
      * The data for each key in the array (key => value).
@@ -151,6 +151,18 @@ class KObjectArray extends KObject implements IteratorAggregate, ArrayAccess, Se
     public function unserialize($data)
     {
         $this->_data = unserialize($data);
+    }
+
+    /**
+     * Returns the number of items
+     *
+     * Required by interface Countable
+     *
+     * @return int The number of items
+     */
+    public function count()
+    {
+        return count($this->_data);
     }
 
     /**
