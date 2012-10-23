@@ -355,6 +355,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             'handler'  => 'database',
             'table'    => 'com://admin/users.database.table.sessions',
             'options'  => array(
+                'cookie_path'   => (string) KRequest::base(),
                 'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
             )
         );
