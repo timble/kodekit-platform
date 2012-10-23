@@ -36,9 +36,6 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
                 $this->registerCallback('after.delete' , array($this, 'lockReferrer'));
             }
         }
-
-        //Set the default redirect.
-        $this->setRedirect(KRequest::referrer());
     }
 
     protected function _initialize(KConfig $config)
@@ -58,7 +55,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         KRequest::set('get.tmpl', 'login');
 
         //Set the status
-        $context->status = KHttpResponse::UNAUTHORIZED;
+        //$context->response->setStatus(KHttpResponse::UNAUTHORIZED);
 
         return parent::_actionGet($context);
     }
@@ -91,6 +88,9 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
             $session->site = $this->getService('application')->getSite();
         }
 
+        //Redirect to caller
+        $context->response->setRedirect(KRequest::referrer());
+
         return $data;
     }
 
@@ -109,6 +109,9 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
                 $this->getService('application.session')->destroy();
             }
         }
+
+        //Redirect to caller
+        $context->response->setRedirect(KRequest::referrer());
 
         return $data;
     }
