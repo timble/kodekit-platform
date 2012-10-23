@@ -104,7 +104,7 @@ class KEvent extends KConfig
      * @param EventDispatcher $dispatcher
      * @return KEvent
      */
-    public function setDispatcher(KEventDispatcher $dispatcher)
+    public function setDispatcher(KEventDispatcherInterface $dispatcher)
     {
         $this->_dispatcher = $dispatcher;
         return $this;
