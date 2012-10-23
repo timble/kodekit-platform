@@ -62,13 +62,14 @@ class ComApplicationRouter extends KDispatcherRouterDefault
 	        }
 	        
 		    // Redirect if language wasn't found.
-            if(empty($path) || !isset($vars['language']))
+            //@TODO : Move redirect out of the dispatcher
+            /*if(empty($path) || !isset($vars['language']))
             {
                 $redirect  = JURI::base(true).'/'.$languages->getPrimary()->slug;
                 $redirect .= '/'.$path.$url->getQuery();
                 
                 $this->getService('application')->redirect($redirect);
-            }
+            }*/
 	    }
 
         if(!empty($path))
