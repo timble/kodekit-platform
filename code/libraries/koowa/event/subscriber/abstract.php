@@ -88,7 +88,7 @@ abstract class KEventSubscriberAbstract extends KObject implements KEventSubscri
             foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) 
             {
                 if(substr($method->name, 0, 2) == 'on') {
-                    $subscriptions[] = $method->name;   
+                    $subscriptions[$method->name] = array($this, $method->name);
                 }
             }
             
