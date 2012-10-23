@@ -16,50 +16,12 @@
 class KCommandContext extends KConfig
 {
     /**
-     * Error
-     *
-     * @var string
-     */
-    protected $_error;
-    
-    /**
      * The command subject
      *
      * @var  object
      */
     protected $_subject;
-    
-    /**
-     * Set the error
-     *
-     * @return  KCommandContext
-     */
-    public function setError($error) 
-    {
-        $this->_error = $error;
-        return $this;
-    }
-    
-    /**
-     * Get the error
-     *
-     * @return  string  The error
-     */
-    public function getError() 
-    {
-        return $this->_error;
-    }
 
-    /**
-     * Check if we have an error
-     *
-     * @return  boolean  True if an error is set, otherwise false
-     */
-    public function hasError()
-    {
-        return (bool) $this->_error;
-    }
-    
     /**
     * Get the command subject 
     *     
