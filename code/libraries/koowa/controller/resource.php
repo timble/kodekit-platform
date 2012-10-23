@@ -17,27 +17,6 @@
 abstract class KControllerResource extends KControllerAbstract
 {
 	/**
-	 * URL for redirection.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect = null;
-
-	/**
-	 * Redirect message.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect_message = null;
-
-	/**
-	 * Redirect message type.
-	 *
-	 * @var	string
-	 */
-	protected $_redirect_type = 'message';
-
-	/**
 	 * View object or identifier (com://APP/COMPONENT.view.NAME.FORMAT)
 	 *
 	 * @var	string|object
@@ -243,54 +222,27 @@ abstract class KControllerResource extends KControllerAbstract
 	}
 
 	/**
-	 * Set a URL for browser redirection.
-	 *
-	 * @param	string URL to redirect to.
-	 * @param	string	Message to display on redirect. Optional, defaults to
-	 * 			value set internally by controller, if any.
-	 * @param	string	Message type. Optional, defaults to 'message'.
-	 * @return	KControllerAbstract
-	 */
-	public function setRedirect( $url, $msg = null, $type = 'message' )
-	{
-		$this->_redirect   		 = $url;
-		$this->_redirect_message = $msg;
-		$this->_redirect_type	 = $type;
-
-		return $this;
-	}
-
-	/**
-	 * Returns an array with the redirect url, the message and the message type
-	 *
-	 * @return array	Named array containing url, message and messageType, or null if no redirect was set
-	 */
-	public function getRedirect()
-	{
-		$result = array();
-
-		if(!empty($this->_redirect))
-		{
-			$result = array(
-				'url' 		=> $this->_redirect,
-				'message' 	=> $this->_redirect_message,
-				'type' 		=> $this->_redirect_type,
-			);
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Specialised display function.
+     *
+     * This function will also set the rendered output in the response.
 	 *
 	 * @param	KCommandContext	A command context object
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
 	protected function _actionGet(KCommandContext $context)
 	{
-	    $result = $this->getView()->display();
-	    return $result;
+	    $view    = $this->getView();
+        $content = $view->display();
+
+        //Set the content in the response
+        if($this->isDispatched())
+        {
+            $context->response
+                    ->setContent($content)
+                    ->setContentType($view->mimetype);
+        }
+
+	    return $content;
 	}
 
 	/**
