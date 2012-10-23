@@ -21,10 +21,7 @@ class ComApplicationControllerError extends KControllerResource
     protected function _actionGet(KCommandContext $context)
     {
         //Set the error in the view
-        $this->getView()->error = KConfig::unbox($context->data);
-
-        //Set the status code
-        header('Status: '.$context->data->getMessage(), true, (int) $context->data->getCode());
+        $this->getView()->error = $context->data;
 
         //Make sure the buffers are cleared
         while(@ob_get_clean());
