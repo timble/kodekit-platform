@@ -76,7 +76,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         //Add the session to the session store
         $data = parent::_actionAdd($context);
 
-        if(!$context->hasError())
+        if(!$context->response->isError())
         {
             //Set the session data
             $session->user = $context->user;
