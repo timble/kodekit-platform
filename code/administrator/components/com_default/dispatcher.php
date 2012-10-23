@@ -88,7 +88,6 @@ class ComDefaultDispatcher extends KDispatcherDefault implements KServiceInstant
             $context->response->headers->addCookie($this->getService('koowa:http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
-                'domain' => KRequest::base()->getUrl(KHttpUrl::HOST),
                 'path'   => JURI::base(true)
             )));
 
