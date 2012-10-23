@@ -20,7 +20,7 @@ class ComApplicationViewErrorJson extends KViewJson
 {
     public function display()
     {
-        if(ini_get('display_errors')) { {
+        if(ini_get('display_errors')) {
             $message = (string) $this->error;
         } else {
             $message = KHttpResponse::getMessage($this->error->getCode());
