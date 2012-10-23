@@ -56,19 +56,4 @@ interface KExceptionInterface
 	 * @return string
 	 */
     public function getTraceAsString();
-
-    /**
-	 * Format the exception for display
-	 *
-	 * @return string
-	 */
-    public function __toString();
-
-    /**
-	 * Constructor
-	 *
-	 * @param string  The exception message
-	 * @param integer The exception code
-	 */
-    public function __construct($message = null, $code = 0);
 }
