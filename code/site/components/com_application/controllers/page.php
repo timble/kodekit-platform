@@ -26,4 +26,10 @@ class ComApplicationControllerPage extends KControllerResource
 
         parent::_initialize($config);
     }
+
+    protected function _actionGet(KCommandContext $context)
+    {
+        $this->getView()->content = $context->response->getContent();
+        return parent::_actionGet($context);
+    }
 }
