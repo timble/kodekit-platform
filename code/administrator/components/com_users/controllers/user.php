@@ -42,7 +42,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $data = parent::_actionEdit($context);
         
-        if ($context->status == KHttpResponse::RESET_CONTENT) {
+        if ($context->response->getStatusCode() == KHttpResponse::RESET_CONTENT) {
             JFactory::getUser($data->id)->setData($data->getData());
         }
         
@@ -61,12 +61,15 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         return $data;
     }
 
-    public function redirect(KCommandContext $context) {
-
+    public function redirect(KCommandContext $context)
+    {
         $result = $context->result;
 
-        if ($result && $result->getStatus() == KDatabase::STATUS_FAILED) {
-            $this->setRedirect(KRequest::referrer(), JText::_($result->getStatusMessage()), 'error');
+        if ($result && $result->getStatus() == KDatabase::STATUS_FAILED)
+        {
+            $context->response->setRedirect(KRequest::referrer());
+            //@TODO : Set message in session
+            //$this->setRedirect(KRequest::referrer(), JText::_($result->getStatusMessage()), 'error');
         }
     }
 
