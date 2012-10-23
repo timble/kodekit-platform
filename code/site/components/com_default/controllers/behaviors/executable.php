@@ -33,10 +33,7 @@ class ComDefaultControllerBehaviorExecutable extends KControllerBehaviorExecutab
         {
             if(!$this->_authenticateRequest($context))
             {
-                $context->setError(new KControllerException(
-                	'Invalid token or session time-out', KHttpResponse::FORBIDDEN
-                ));
-
+                $context->response->setStatus(KHttpResponse::FORBIDDEN, 'Invalid token or session time-out');
                 return false;
             }
         }
