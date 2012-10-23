@@ -51,7 +51,6 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
         $cookie = $this->getService('koowa:http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
-            'domain' => KRequest::base()->getUrl(KHttpUrl::HOST),
             'path'   => (string) KRequest::base()
         ));
 
@@ -114,7 +113,6 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
             $cookie = $this->getService('koowa:http.cookie', array(
                 'name'   => 'referrer',
                 'value'  => (string) $referrer,
-                'domain' => KRequest::base()->getUrl(KHttpUrl::HOST),
                 'path'   => (string) KRequest::base()
             ));
 
