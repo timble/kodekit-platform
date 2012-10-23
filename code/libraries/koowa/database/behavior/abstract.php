@@ -49,9 +49,9 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string      The command name
-     * @param     object       The command context
-     * @return     boolean        Can return both true or false.
+     * @param     string    The command name
+     * @param     object    The command context
+     * @return    boolean   Can return both true or false.
      */
     public function execute($name, KCommandContext $context)
     {
