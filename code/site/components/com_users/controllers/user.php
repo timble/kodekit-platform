@@ -51,12 +51,17 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 	    		$row->activation = '';
 	    		$row->enabled = 1;
 
-	    		if ($row->save()) {
-	    			return $this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
+	    		if ($row->save())
+                {
+                    $context->response->setRedirect(JURI::root());
+                    //@TODO : Set message in session
+                    //$this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
 	    		}
     		}
 
-    		return $this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
+            $context->response->setRedirect(JURI::root());
+            //@TODO : Set message in session
+            //$this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
     	}
     }
     
@@ -80,7 +85,9 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             $url =  'index.php?Itemid='.$this->getService('application.pages')->getHome()->id;
             $msg =  JText::_('You are already registered.');
 
-            $this->setRedirect($url, $msg);
+            $context->response->setRedirect($url);
+            //@TODO : Set message in session
+            //$this->setRedirect($url, $msg);
             return false;
         }
 
@@ -118,7 +125,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $data = parent::_actionEdit($context);
         
-        if ($context->status == KHttpResponse::RESET_CONTENT) {
+        if ($context->response->getStatusCode() == KHttpResponse::RESET_CONTENT) {
             JFactory::getUser()->setData($data->getData());
         }
         
@@ -129,10 +136,17 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $item = $context->getSubject()->getModel()->getItem();
 
-        if ($item->getStatus() != KDatabase::STATUS_FAILED) {
-            $this->setRedirect(KRequest::referrer(), JText::_('Modifications have been saved.'), 'message');
-        } else {
-            $this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
+        if ($item->getStatus() != KDatabase::STATUS_FAILED)
+        {
+            $context->response->setRedirect(KRequest::referrer());
+            //@TODO : Set message in session
+            //$this->setRedirect(KRequest::referrer(), JText::_('Modifications have been saved.'), 'message');
+        }
+        else
+        {
+            $context->response->setRedirect(KRequest::referrer());
+            //@TODO : Set message in session
+            //$this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
         }
     }
 
