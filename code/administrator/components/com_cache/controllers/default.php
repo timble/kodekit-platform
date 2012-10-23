@@ -23,13 +23,14 @@ class ComCacheControllerDefault extends ComDefaultControllerDefault
     protected function _actionPurge(KCommandContext $context)
     {
         //Purge the cache
+        //@TODO : Set message in session
         if(JFactory::getCache('')->gc()) {
-            $this->_redirect_message = JText::_( 'Expired items have been purged' );
+            //$this->_redirect_message = JText::_( 'Expired items have been purged' );
         } else {
-           $this->_redirect_message = JText::_('Error purging expired items');
+           //$this->_redirect_message = JText::_('Error purging expired items');
         }
-          
-		$this->_redirect = KRequest::url();    
+
+        $context->response->setRedirect(KRequest::url());
         return true;
     }
     
