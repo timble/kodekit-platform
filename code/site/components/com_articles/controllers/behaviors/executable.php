@@ -9,7 +9,7 @@
  */
 
 /**
- * Executable Controller Behavior Class
+ * Article Executable Controller Behavior Class
  *
  * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package    Nooku_Server
@@ -17,28 +17,36 @@
  */
 class ComArticlesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {
-    public function canRead() {
-        if ($this->getMixer()->getIdentifier()->name == 'article') {
+    public function canRead(KCommandContext $context)
+    {
+        if($this->getMixer()->getIdentifier()->name != 'article')
+        {
+            $result  = true;
             $article = $this->getModel()->getItem();
 
-            if (!$article->isNew()) {
-                if ($article->access > JFactory::getUser()->get('aid', 0)) {
+            if (!$article->isNew())
+            {
+                if ($article->access > JFactory::getUser()->get('aid', 0))
+                {
                     //If user doesn't have access to it, deny access.
                     $result = false;
-                } elseif ($article->created_by == JFactory::getUser()->id) {
+                }
+                elseif ($article->created_by == JFactory::getUser()->id)
+                {
                     // Users can read their own articles regardless of the state
                     $result = true;
-                } elseif ($article->published == 0 && !$this->canEdit()) {
+                }
+                elseif ($article->published == 0 && !$this->canEdit())
+                {
                     // Only published articles can be read. An exception is made for editors and above.
                     $result = false;
-                } else {
-                    $result = true;
                 }
+                else $result = true;
+
                 // Set article editable status.
                 $article->editable = $this->canEdit();
-            } else {
-                $result = $this->canAdd();
             }
+            else $result = $this->canAdd();
 
             return $result;
         }
