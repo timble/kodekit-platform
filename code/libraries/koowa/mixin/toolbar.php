@@ -113,6 +113,7 @@ class KMixinToolbar extends KMixinAbstract
             }
             else $identifier = $this->getIdentifier($toolbar);
         }
+        else $identifier = $toolbar;
 
         if (!isset($this->_toolbars[$identifier->name]))
         {
