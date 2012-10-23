@@ -41,9 +41,9 @@
 <fieldset class="form-horizontal">
 	<legend><?= @text( 'Errors' ); ?></legend>
 	<div class="control-group">
-	    <label class="control-label" for="settings[system][error_reporting]"><?= @text( 'Error Reporting' ); ?></label>
+	    <label class="control-label" for="settings[system][debug_mode]"><?= @text( 'Debug mode' ); ?></label>
 	    <div class="controls">
-	        <?= @helper('listbox.error_reportings', array('name' => 'settings[system][error_reporting]', 'selected' => $settings->error_reporting)); ?>
+	        <?= @helper('listbox.error_reportings', array('name' => 'settings[system][debug_mode]', 'selected' => $settings->debug_mode)); ?>
 	        <p class="help-block"><?= @text( 'TIPERRORREPORTING' ); ?></p>
 	    </div>
 	</div>
