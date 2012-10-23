@@ -22,7 +22,7 @@
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Profiles', 'attribs' => array( 'class' => 'timeline'))); ?>
-	<?/*= @template('default_profiles');*/ ?>
+	<?= @template('default_profiles'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Queries', 'attribs' => array( 'class' => 'storage'))); ?>
@@ -30,7 +30,7 @@
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Resources', 'attribs' => array( 'class' => 'resources'))); ?>
-	<?/*= @template('default_resources');*/ ?>
+	<?= @template('default_resources'); ?>
 <?= @helper('tabs.endPanel'); ?>
 
 <?= @helper('tabs.startPanel', array('title' => 'Strings', 'attribs' => array( 'class' => 'audits'))); ?>
