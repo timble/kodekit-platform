@@ -46,7 +46,7 @@ class JConfig
 	/* Server Settings */
 	var $secret          = 'FBVtggIk5lAzEU9H'; 	//Change this to something more secure
 	var $gzip            = '0';
-	var $error_reporting = '-1';
+	var $debug_mode      = '0'; //use system defaults
 	var $timezone        = 'UTC';
 
 	/* Session settings */
