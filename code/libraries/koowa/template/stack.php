@@ -10,8 +10,8 @@
  /**
   * Template Stack Class
   * 
-  * The stack is implemented as a signleton. After instantiation the object can
-  * be accessed using koowa:template.stack identifier.
+  * The stack is implemented as a singleton. After instantiation the object can be accessed using koowa:template.stack
+  * identifier.
   * 
   * @author     Johan Janssens <johan@nooku.org>
   * @package    Koowa_Template
@@ -33,7 +33,7 @@ class KTemplateStack extends KObjectStack implements KServiceInstantiatable
             //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $container->set('koowa:template.stack', $instance);
         }
         
         return $container->get($config->service_identifier);
