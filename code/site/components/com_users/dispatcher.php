@@ -42,6 +42,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
             if($this->getRequest()->view == 'session')
             {
                 $menu = $this->getService('application.pages')->getHome();
+                //@TODO : Fix the redirect
                 //$this->getService('application')->redirect('index.php?Itemid='.$menu->id, 'You are already logged in!');
             }
         }
@@ -52,6 +53,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
             if($this->getRequest()->view == 'session')
             {
                 $menu = $this->getService('application.pages')->getHome();
+                //@TODO : Fix the redirect
                 //$this->getService('application')->redirect('index.php?Itemid='.$menu->id, 'You are already logged out!');
             }
         } 
