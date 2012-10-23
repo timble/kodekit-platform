@@ -24,7 +24,7 @@ class ComDebugEventSubscriberApplication extends KEventSubscriberAbstract
 	    if($this->getService('application')->getCfg('debug'))
 	    {
 	        //Replace the event dispatcher
-	        $this->getService()->setAlias('koowa:event.dispatcher', 'com://admin/debug.event.profiler');
+	        $this->getService()->setAlias('koowa:event.dispatcher.default', 'com://admin/debug.event.profiler');
 	          
 	        //Add the database tracer
 	        $this->getService('application.database')->addEventSubscriber('com://admin/debug.event.subscriber.database');
