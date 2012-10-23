@@ -22,7 +22,8 @@
   	<tbody>
   		<? foreach ( $events as $event ) : ?>
   		<tr>  
-			<td class="-koowa-sortable"><?= $event['target'] ?></div>
+			<td class="-koowa-sortable"><?= $event['target'] ?></td>
+			<td class="-koowa-sortable"><?= $event['target'] ?></td>
             <td class="-koowa-sortable"><?= $event['message'] ?></td>
             <td class="-koowa-sortable" data-comparable="<?= $event['time'] ?>"><?= sprintf('%.3f', $event['time']).' seconds' ?></td>
             <td class="-koowa-sortable"><?= $event['memory'] ?></td>
