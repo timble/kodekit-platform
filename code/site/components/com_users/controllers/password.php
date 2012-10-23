@@ -17,13 +17,15 @@
  */
 class ComUsersControllerPassword extends ComDefaultControllerDefault
 {
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         $this->registerCallback('after.save', array($this, 'redirect'));
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $config->append(array(
             'behaviors' => array(
                 'com://site/users.controller.behavior.password.executable',
@@ -31,13 +33,21 @@ class ComUsersControllerPassword extends ComDefaultControllerDefault
         parent::_initialize($config);
     }
 
-    public function redirect(KCommandContext $context) {
+    public function redirect(KCommandContext $context)
+    {
         $password = $context->result;
 
-        if ($password->getStatus() == KDatabase::STATUS_FAILED) {
-            $this->setRedirect(KRequest::referrer(), $password->getStatusMessage(), 'error');
-        } else {
-            $this->setRedirect($this->getService('application.pages')->getHome()->url, 'PASSWORD_SUCCESSFULLY_SAVED');
+        if ($password->getStatus() == KDatabase::STATUS_FAILED)
+        {
+            $context->response->setRedirect(KRequest::referrer());
+            //@TODO : Set message in session
+            //$this->setRedirect(KRequest::referrer(), $password->getStatusMessage(), 'error');
+        }
+        else
+        {
+            $context->response->setRedirect($this->getService('application.pages')->getHome()->url);
+            //@TODO : Set message in session
+            //$this->setRedirect($this->getService('application.pages')->getHome()->url, 'PASSWORD_SUCCESSFULLY_SAVED');
         }
     }
 }
