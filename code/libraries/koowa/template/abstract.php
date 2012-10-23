@@ -58,23 +58,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected $_stack;
 
     /**
-     * Template errors
-     *
-     * @var array
-     */
-    private static $_errors = array(
-        1 => 'Fatal Error',
-        2 => 'Warning',
-        4 => 'Parse Error',
-        8 => 'Notice',
-        64 => 'Compile Error',
-        256 => 'User Error',
-        512 => 'User Warning',
-        2048 => 'Strict',
-        4096 => 'Recoverable Error'
-    );
-
-    /**
      * Constructor
      *
      * Prevent creating instances of this class by making the contructor private
@@ -94,33 +77,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         //Register the template stream wrapper
         KTemplateStream::register();
 
-        //Set shutdown function to handle sandbox errors
-        register_shutdown_function(array($this, '__destroy'));
-
         // Mixin a command chain
         $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
-    }
-
-    /**
-     * Destructor
-     *
-     * Hanlde sandbox shutdown. Clean all output buffers and display the latest error
-     * if an error is found.
-     *
-     * @return bool
-     */
-    public function __destroy()
-    {
-        if (!$this->getStack()->isEmpty())
-        {
-            if ($error = error_get_last())
-            {
-                if ($error['type'] === E_ERROR || $error['type'] === E_PARSE || $error['type'] === E_COMPILE_ERROR) {
-                    while (@ob_get_clean()) ;
-                    $this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
-                }
-            }
-        }
     }
 
     /**
@@ -234,7 +192,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @param   string   The template identifier
      * @param   array    An associative array of data to be extracted in local template scope
-     * @param   boolean  If TRUE evaluate the data using a tmpl stream. Default TRUE.
+     * @param   boolean  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @return KTemplateAbstract
      */
     public function loadIdentifier($template, $data = array(), $evaluate = true)
@@ -246,7 +204,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         //Store the identifier
         $this->_file = $identifier;
 
-        if ($file === false) {
+        if ($identifier->filepath === false) {
             throw new KTemplateException('Template "' . $identifier->name . '" not found');
         }
 
@@ -261,7 +219,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @param   string   The template path
      * @param   array    An associative array of data to be extracted in local template scope
-     * @param   boolean  If TRUE evaluate the data using a tmpl stream. Default TRUE.
+     * @param   boolean  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @return KTemplateAbstract
      */
     public function loadFile($file, $data = array(), $evaluate = true)
@@ -420,8 +378,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Load a template helper
      *
-     * This functions accepts a partial identifier, in the form of helper.function. If a partial
-     * identifier is passed a full identifier will be created using the template identifier.
+     * This functions accepts a partial identifier, in the form of helper.function. If a partial identifier is passed a
+     * full identifier will be created using the template identifier.
      *
      * @param    string    Name of the helper, dot separated including the helper function to call
      * @param    array    An optional associative array of configuration settings
@@ -441,28 +399,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         }
 
         return $helper->$function($config);
-    }
-
-    /**
-     * Handle template errors
-     *
-     * @return bool
-     */
-    public function handleError($code, $message, $file = '', $line = 0, $context = array())
-    {
-        if ($file == 'tmpl://koowa:template.stack') {
-            $file = $this->getFile()->filepath;
-        }
-
-        if (ini_get('display_errors')) {
-            echo '<strong>' . self::$_errors[$code] . '</strong>: ' . $message . ' in <strong>' . $file . '</strong> on line <strong>' . $line . '</strong>';
-        }
-
-        if (ini_get('log_errors')) {
-            error_log(sprintf('PHP %s:  %s in %s on line %d', self::$_errors[$code], $message, $file, $line));
-        }
-
-        return true;
     }
 
     /**
@@ -499,16 +435,14 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Process the template using a simple sandbox
      *
-     * This function passes the template through the read filter chain before letting
-     * the PHP parser executed it. The result is buffered.
+     * This function passes the template through the read filter chain before letting the PHP parser executed it.
+     * The result is buffered.
      *
      * @param  boolean     If TRUE apply write filters. Default FALSE.
      * @return KTemplateAbstract
      */
     private function __sandbox()
     {
-        set_error_handler(array($this, 'handleError'), E_ALL && ~E_STRICT);
-
         //Push the template onto the stack
         $this->getStack()->push(clone $this);
 
@@ -517,12 +451,11 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
 
         // Capturing output into a buffer
         ob_start();
-        include 'tmpl://' . $this->getStack()->getIdentifier();
+        include 'tmpl://'.$this->getFile()->filepath;
         $this->_contents = ob_get_clean();
 
         //Remove the template from the template stack
         $this->getStack()->pop();
-        restore_error_handler();
 
         return $this;
     }
