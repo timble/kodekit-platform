@@ -101,9 +101,10 @@ class KHttpUrl extends KObject
     const QUERY    = 128;
     const FRAGMENT = 256;
 
-    const AUTH = 6;
-    const BASE = 127;
-    const FULL = 511;
+    const USERINFO  = 6;     //User info
+    const AUTHORITY = 31;    //Authority
+    const BASE      = 127;   //Hierarchical part
+    const FULL      = 511;   //Complete url
 
     /**
      * The scheme [http|https|ftp|mailto|...]
