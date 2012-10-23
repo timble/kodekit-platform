@@ -28,11 +28,8 @@ class ComDebugViewDebugHtml extends ComDefaultViewHtml
         //Remove the template includes
         $includes = get_included_files();
         
-        foreach($includes as $key => $value)
-        {
-            if($value == 'tmpl://koowa:template.stack') {
-                unset($includes[$key]);
-            }
+        foreach($includes as $key => $value) {
+            $includes = str_replace('tmpl://', '', $includes);
         }
 	    
 	    $this->assign('memory'   , $profiler->getMemory())
