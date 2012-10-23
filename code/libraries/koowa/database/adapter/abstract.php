@@ -152,7 +152,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
             'table_needle'     => '#__',
             'command_chain'    => $this->getService('koowa:command.chain'),
             'dispatch_events'  => true,
-            'event_dispatcher' => $this->getService('koowa:event.dispatcher'),
+            'event_dispatcher' => $this->getService('koowa:event.dispatcher.default'),
             'enable_callbacks' => false,
             'connection'       => null,
         ));
