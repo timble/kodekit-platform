@@ -60,14 +60,18 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 			if($data->copy() === false)
 			{
 				$error = $data->getStatusMessage();
-				$context->setError(new KControllerException(
-				   $error ? $error : 'Copy Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-				));
-
+                $context->response->setStatus(
+                    KHttpResponse::INTERNAL_SERVER_ERROR, $error ? $error : 'Copy Action Failed'
+                );
 			}
-			else $context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;
+			else
+            {
+                $context->reponse->setStatus(
+                    $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT
+                );
+            }
 		}
-		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
+		else $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Resource Not Found');
 
 		return $data;
 	}
@@ -84,14 +88,19 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 			if($data->move() === false)
 			{
 				$error = $data->getStatusMessage();
-				$context->setError(new KControllerException(
-				   $error ? $error : 'Move Action Failed', KHttpResponse::INTERNAL_SERVER_ERROR
-				));
+				$context->response->setStatus(
+                    KHttpResponse::INTERNAL_SERVER_ERROR, $error ? $error : 'Move Action Failed'
+				);
 
 			}
-			else $context->status = $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT;
+			else
+            {
+                $context->response->setStatus(
+                    $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT
+                );
+            }
 		}
-		else $context->setError(new KControllerException('Resource Not Found', KHttpResponse::NOT_FOUND));
+		else $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Resource Not Found');
 
 		return $data;
 	}
