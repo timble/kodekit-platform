@@ -71,6 +71,6 @@ class KControllerBehaviorDiscoverable extends KControllerBehaviorAbstract
            }
         }
 
-        $context->headers = array('Allow' => $result);
+        $context->response->headers->set('Allow', $result);
 	}
 }
