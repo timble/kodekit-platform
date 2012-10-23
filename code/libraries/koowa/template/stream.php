@@ -71,11 +71,8 @@ class KTemplateStream
      */
     public function stream_open($path)
     {
-        //Get the view script source
-        $identifier = str_replace('tmpl://', '', $path);
-
         //Get the template object from the template stack and parse it
-        $template = KService::get($identifier)->top();
+        $template = KService::get('koowa:template.stack')->top();
 
         //Get the template path
         $this->_path = $template->getFile()->filepath;
