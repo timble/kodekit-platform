@@ -35,7 +35,7 @@ class KHttpResponseHeaders extends KHttpMessageHeaders
      */
     public function addCookie(KHttpCookie $cookie)
     {
-        $this->_cookies[$cookie->domain][$cookie->path][$cookie->name] = $cookie;
+        $this->_cookies[$cookie->domain][(string) $cookie->path][$cookie->name] = $cookie;
     }
 
     /**
