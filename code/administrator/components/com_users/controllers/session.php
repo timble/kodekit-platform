@@ -81,7 +81,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         //Add the session to the session store
         $data = parent::_actionAdd($context);
 
-        if(!$context->hasError())
+        if(!$context->response->isError())
         {
             //Set the session data
             $session->user = $context->user;
@@ -102,7 +102,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         //Remove the session from the session store
         $data = parent::_actionDelete($context);
 
-        if(!$context->hasError())
+        if(!$context->response->isError())
         {
             // Destroy the php session for this user if we are logging out ourselves
             if(JFactory::getUser()->email == $data->email) {
