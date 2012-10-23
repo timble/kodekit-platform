@@ -435,8 +435,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Process the template using a simple sandbox
      *
-     * This function passes the template through the read filter chain before letting the PHP parser executed it.
-     * The result is buffered.
+     * This function passes the template through the read filter chain before letting the PHP parser
+     * executed it. The result is buffered.
      *
      * @param  boolean     If TRUE apply write filters. Default FALSE.
      * @return KTemplateAbstract
