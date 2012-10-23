@@ -46,7 +46,7 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
         parent::__construct($config);
 
         $this->_token_value = $config->token_value;
-        $this->_token_name = $config->token_name;
+        $this->_token_name  = $config->token_name;
     }
 
     /**
@@ -61,7 +61,7 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     {
         $config->append(array(
             'token_value' => '',
-            'token_name' => '_token',
+            'token_name'  => '_token',
         ));
 
         parent::_initialize($config);
@@ -109,12 +109,14 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     public function write(&$text)
     {
         // All: Add the action if left empty
-        if (preg_match_all('#<\s*form.*?action=""#im', $text, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('#<\s*form.*?action=""#im', $text, $matches, PREG_SET_ORDER))
+        {
             $view = $this->getTemplate()->getView();
             $state = $view->getModel()->getState();
             $action = $view->getRoute(http_build_query($state->getData($state->isUnique())));
 
-            foreach ($matches as $match) {
+            foreach ($matches as $match)
+            {
                 $str = str_replace('action=""', 'action="' . $action . '"', $match[0]);
                 $text = str_replace($match[0], $str, $text);
             }
@@ -124,7 +126,8 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
         $matches = array();
         preg_match_all('/(<form.*method="post".*>)/i', $text, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $match) {
+        foreach ($matches as $match)
+        {
             $input = PHP_EOL . '<input type="hidden" name="' . $this->_tokenName() . '" value="' . $this->_tokenValue() . '" />';
             $text = str_replace($match[0], $match[0] . $input, $text, $count);
         }
@@ -133,15 +136,18 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
         $matches = array();
         preg_match_all('#(<\s*?form\s+?.*?class=(?:\'|")[^\'"]*?-koowa-grid.*?(?:\'|").*?)#im', $text, $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $match) {
+        foreach ($matches as $match)
+        {
             $input = ' data-token-name="' . $this->_tokenName() . '" data-token-value="' . $this->_tokenValue() . '"';
             $text = str_replace($match[0], $match[0] . $input, $text, $count);
         }
 
         // GET : Add query params
         $matches = array();
-        if (preg_match_all('#<form.*action=".*\?(.*)".*method="get".*>#iU', $text, $matches)) {
-            foreach ($matches[1] as $key => $query) {
+        if (preg_match_all('#<form.*action=".*\?(.*)".*method="get".*>#iU', $text, $matches))
+        {
+            foreach ($matches[1] as $key => $query)
+            {
                 parse_str(str_replace('&amp;', '&', $query), $query);
 
                 $input = $this->_renderQuery($query);
@@ -162,11 +168,14 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     protected function _renderQuery($query, $key = '')
     {
         $input = '';
-        foreach ($query as $name => $value) {
+        foreach ($query as $name => $value)
+        {
             $name = $key ? $key . '[' . $name . ']' : $name;
             if (is_array($value)) {
                 $input .= $this->_renderQuery($value, $name);
-            } else $input .= PHP_EOL . '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
+            } else {
+                $input .= PHP_EOL . '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
+            }
         }
 
         return $input;
