@@ -20,7 +20,7 @@
     <div id="outline">
         <div id="errorboxoutline">
             <div id="errorboxheader">
-            <? if(KDEBUG) : ?>
+            <? if(ini_get('display_errors')) : ?>
                 <?= (string) $error ?>
             <? else : ?>
                 <?= KHttpResponse::getMessage($error->getCode()) ?>
@@ -46,7 +46,7 @@
                 <div id="techinfo">
                     <p><?= $error->getMessage(); ?></p>
                     <p>
-                        <? if(KDEBUG) : ?>
+                        <? if(ini_get('display_errors')) : ?>
                         <?= @template('default_backtrace'); ?>
                         <? endif; ?>
                     </p>
