@@ -42,8 +42,6 @@ Koowa.Sidebar = new Class({
         //Check if the height is sufficient
         if(this.options.affix) this.options.affix = this.observe.getDimensions().height > window.getHeight();
 
-        this.setHeight();
-
         if(this.options.affix && this.observe.getDimensions().height) {
             jQuery(this.sidebar).css('left', this.sidebar.getCoordinates().left).affix({
                 offset: {
@@ -58,13 +56,14 @@ Koowa.Sidebar = new Class({
         }
 
         window.addEvent('resize', this.setHeight.bind(this));
+
+        window.fireEvent('resize');
     },
 
     setHeight: function(){
 
         if(this.options.setObserveHeight) {
             this.observe.setStyle('height', window.getHeight() - this.observe.getPosition().y);
-            console.log(window.getHeight());
         }
 
         //This offset we can't assume never changes
