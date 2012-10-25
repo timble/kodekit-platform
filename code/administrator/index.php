@@ -19,10 +19,7 @@ define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once(JPATH_APPLICATION.'/includes/framework.php' );
-
-//Nooku Server identification information
-header('X-Nooku-Server: version='.Koowa::VERSION);
+require_once(JPATH_APPLICATION.'/bootstrap.php' );
 
 KLoader::loadIdentifier('com://admin/application.aliases');
 KService::get('com://admin/application.dispatcher')->run();
