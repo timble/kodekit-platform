@@ -186,10 +186,10 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      *
      * In templates, use @route()
      *
-     * @param    string    The query string used to create the route
-     * @param     boolean    If TRUE create a fully qualified route. Default TRUE.
-     * @param     boolean    If TRUE escapes the route for xml compliance. Default TRUE.
-     * @return     string     The route
+     * @param   string    The query string used to create the route
+     * @param   boolean   If TRUE create a fully qualified route. Default TRUE.
+     * @param   boolean   If TRUE escapes the route for xml compliance. Default TRUE.
+     * @return  string    The route
      */
     public function getRoute($route = '', $fqr = null, $escape = null)
     {
@@ -220,14 +220,15 @@ abstract class KViewAbstract extends KObject implements KViewInterface
 
         //Create the route
         $route = $this->getService('koowa:dispatcher.router.route', array(
-            'url' => 'index.php?' . http_build_query($parts),
+            'url'    => 'index.php?' . http_build_query($parts),
             'escape' => $escape === null || $escape === true ? true : false
         ));
 
         //Add the host and the schema
-        if ($fqr === null || $fqr === true) {
+        if ($fqr === null || $fqr === true)
+        {
             $route->scheme = $this->getBaseUrl()->scheme;
-            $route->host = $this->getBaseUrl()->host;
+            $route->host   = $this->getBaseUrl()->host;
         }
 
         return $route;
