@@ -25,16 +25,15 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
         $end      = $this->module->params->get('end_level');
         $children = $this->module->params->get('show_children', 'active');
         $pages    = $this->getService('application.pages');
-        
-        $groups = array();
-        
-        // Prevent groups from being loaded when no user is logged in
+
         if($user->id) {
         	$groups = $this->getService('com://admin/users.model.groups_users')->user($user->id)->getList()->users_group_id;
+        } else {
+            $groups = array();
         }
-        
-        // If we do not add an empty element to the array public pages will be filtered out
-        $groups[] .= '';
+
+        // Make sure that pages without an assigned group are also included.
+        $groups[] = 0;
 
         $this->active = $pages->getActive();
         $this->pages  = $pages->find(array('pages_menu_id' => $this->module->params->get('menu_id'), 'hidden' => 0, 'users_group_id' => $groups));
