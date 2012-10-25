@@ -3946,31 +3946,13 @@ div.message {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 .com_extensions .current dd {
   padding: 14px 20px !important;
   /* override default tabs styling */
 
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex: 1 0 0%;
-  -moz-flex: 1 0 0%;
-  flex: 1 0 0%;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 .com_extensions .current dd h2 {
   border-bottom: 1px solid #EEE;
