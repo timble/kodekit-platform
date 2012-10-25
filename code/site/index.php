@@ -18,7 +18,7 @@ define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once(JPATH_APPLICATION.'/includes/framework.php' );
+require_once(JPATH_APPLICATION.'/bootstrap.php' );
 
 //Nooku Server identification information
 header('X-Nooku-Server: version='.Koowa::VERSION);
