@@ -44,9 +44,6 @@
                 <th width="20">
                     <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
-                <th width="10%">
-                    <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
-                </th>
                 <? if($state->category) : ?>
                 <th width="7%">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => ($state->featured == true) ? 'featured_ordering' : 'ordering')) ?>
@@ -92,9 +89,6 @@
                 </td>
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
-                </td>
-                <td>
-                    <?= $article->category_title ?>
                 </td>
                 <? if($state->category) : ?>
                 <td align="center">

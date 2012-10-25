@@ -39,12 +39,11 @@
 			<th width="5%" nowrap="nowrap">
 				<?= @helper('grid.sort', array('column' => 'published')) ?>
 			</th>
-			<th>
-			    <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
-			</th>
+			<? if($state->category) : ?>
 			<th width="8%" nowrap="nowrap">
 				<?= @helper('grid.sort', array('column' => 'ordering')) ?>
 			</th>
+			<? endif ?>
 		</tr>
 	</thead>
 	<tfoot>
@@ -66,12 +65,11 @@
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $weblink, 'field' => 'published')) ?>
 			</td>
-			<td>
-			    <?= $weblink->category_title ?>
-			</td>
+			<? if($state->category) : ?>
 			<td class="order">
 				<?= @helper('grid.order', array('row' => $weblink, 'total' => $total)); ?>
 			</td>
+			<? endif ?>
 		</tr>
 		<? endforeach; ?>
 	</tbody>

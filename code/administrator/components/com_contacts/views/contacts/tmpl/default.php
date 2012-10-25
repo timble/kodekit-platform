@@ -39,9 +39,6 @@
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'published')); ?>
 			 </th>
-			 <th>
-			     <?= @helper('grid.sort', array('column' => 'category_title', 'title' => 'Category')) ?>
-			 </th>
 			<? if($state->category) : ?>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'ordering')); ?>
@@ -74,9 +71,6 @@
 			</td>
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
-            </td>
-            <td>
-                <?= $contact->category_title ?>
             </td>
 			<? if($state->category) : ?>
 			<td align="center">
