@@ -42,7 +42,7 @@ class KHttpResponseHeaders extends KHttpMessageHeaders
      * Removes a cookie from the array, but does not unset it in the browser
      *
      * @param string $name
-     * @param string $path
+     * @param mixed  $path
      * @param string $domain
      */
     public function removeCookie($name, $path = '/', $domain = null)
@@ -50,6 +50,9 @@ class KHttpResponseHeaders extends KHttpMessageHeaders
         if (null === $path) {
             $path = '/';
         }
+
+        //Force to string to allow passing objects
+        $path = (string) $path;
 
         unset($this->_cookies[$domain][$path][$name]);
 
