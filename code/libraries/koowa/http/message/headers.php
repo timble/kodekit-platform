@@ -93,10 +93,8 @@ class KHttpMessageHeaders extends KObjectArray
     {
         $key = strtr(strtolower($key), '_', '-');
 
-        $values = array_values((array) $values);
-
         if (true === $replace || !isset($this[$key])) {
-            $this->_data[$key] = $values;
+            $this->_data[$key] = (array) $values;
         } else {
             $this->_data[$key] = array_merge($this->_data[$key], $values);
         }
@@ -201,18 +199,30 @@ class KHttpMessageHeaders extends KObjectArray
      */
     public function __toString()
     {
-        $max     = max(array_map('strlen', array_keys($this->_data))) + 1;
+        $headers = $this->_data;
         $content = '';
 
-        ksort($this->_data);
+        ksort($headers);
 
-        foreach ($this->_data as $name => $values)
+        foreach ($headers as $name => $values)
         {
-            $name = implode('-', array_map('ucfirst', explode('-', $name)));
-            foreach ($values as $value) {
-                $content .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
+            $name    = implode('-', array_map('ucfirst', explode('-', $name)));
+            $results = array();
+
+            foreach ($values as $key => $value)
+            {
+                if(is_numeric($key)) {
+                    $results[] = $value;
+                } else {
+                    $results[] = $key.'='.$value;
+                }
+
+                $value = implode($results, '; ');
             }
+
+            $content .= sprintf("%s %s\r\n", $name.':', $value);
         }
+
 
         return $content;
     }
