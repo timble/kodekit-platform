@@ -32,12 +32,10 @@ abstract class KControllerResponseAbstract extends KHttpResponse implements KCon
         header(sprintf('HTTP/%s %d %s', $this->getVersion(), $this->getStatusCode(), $this->getStatusMessage()));
 
         //Send the other headers
-        foreach ($this->headers as $name => $values)
-        {
-            $name = implode('-', array_map('ucfirst', explode('-', $name)));
-            foreach ($values as $value) {
-                header($name.': '.$value, false);
-            }
+        $headers = explode("\r\n", trim((string) $this->headers));
+
+        foreach ($headers as $header) {
+            header($header, false);
         }
 
         //Send the cookies
@@ -74,6 +72,9 @@ abstract class KControllerResponseAbstract extends KHttpResponse implements KCon
         if (in_array($this->_status_code, array(204, 304))) {
             $this->setContent(null);
         }
+
+        //Add the version header
+        $this->headers->set('X-Koowa', array('version' => Koowa::VERSION));
 
         // Fix Content-Length
         if ($this->headers->has('Transfer-Encoding')) {
