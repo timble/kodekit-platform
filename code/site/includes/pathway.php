@@ -44,10 +44,13 @@ class JPathway extends KObject
         $this->_pathway = array();
         $pages = KService::get('application.pages');
 
-        if ($active = $pages->getActive()) {
+        if ($active = $pages->getActive())
+        {
             $home = $pages->getHome();
-            if (is_object($home) && ($active->id != $home->id)) {
-                foreach (explode('/', $active->path) as $id) {
+            if (is_object($home) && ($active->id != $home->id))
+            {
+                foreach (explode('/', $active->path) as $id)
+                {
                     $page = $pages->getPage($id);
                     $url = '';
                     switch ($page->type) {
@@ -59,7 +62,12 @@ class JPathway extends KObject
                             $url = null;
                             break;
                         default      :
-                            $url = JRoute::_($page->link . '&Itemid=' . $page->id);
+                            {
+                                $url = $page->link;
+                                $url->query['Itemid'] = $page->id;
+
+                                $url = KService::get('application')->getRouter()->build($url);
+                            }
                     }
 
                     $this->addItem($page->title, $url);
