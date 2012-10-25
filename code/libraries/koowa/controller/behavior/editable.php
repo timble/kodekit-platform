@@ -51,7 +51,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
         $cookie = $this->getService('koowa:http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
-            'path'   => (string) KRequest::base()
+            'path'   => KRequest::base()
         ));
 
         $context->response->headers->addCookie($cookie);
@@ -65,7 +65,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      */
     public function unlockReferrer(KCommandContext $context)
     {
-        $context->response->headers->clearCookie('referrer', KRequest::base());
+        $context->response->headers->clearCookie('referrer_locked', KRequest::base());
     }
 
     /**
@@ -112,8 +112,8 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
             //Add the referrer cookie
             $cookie = $this->getService('koowa:http.cookie', array(
                 'name'   => 'referrer',
-                'value'  => (string) $referrer,
-                'path'   => (string) KRequest::base()
+                'value'  => $referrer,
+                'path'   => KRequest::base()
             ));
 
             $context->response->headers->addCookie($cookie);
