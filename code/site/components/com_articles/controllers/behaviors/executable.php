@@ -17,7 +17,7 @@
  */
 class ComArticlesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
 {
-    public function canRead(KCommandContext $context)
+    public function canRead()
     {
         if($this->getMixer()->getIdentifier()->name != 'article')
         {
