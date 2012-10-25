@@ -165,8 +165,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             //Redirect to the default menu item if the route is empty
             if(empty($route))
             {
-                $url  = JRoute::_($home->link.'&Itemid='.$pages->getHome()->id);
-                return $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
+                $url  = JRoute::_($pages->getHome()->link.'&Itemid='.$pages->getHome()->id);
+                return $context->response->setRedirect(JURI::base().$url, KHttpResponse::MOVED_PERMANENTLY);
             }
         }
 
