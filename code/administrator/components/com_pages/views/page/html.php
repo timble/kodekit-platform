@@ -46,7 +46,7 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
             ->getList();
 
         $query = $this->getService('koowa:database.query.select')
-            ->where('pages_page_id IN :id')
+            ->where('tbl.pages_page_id IN :id')
             ->bind(array('id' => array((int) $model->getItem()->id, 0)));
 
         $assigned = $this->getService('com://admin/pages.database.table.modules_pages')

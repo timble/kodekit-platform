@@ -80,7 +80,7 @@
         <div class="title">
             <input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
             <?= @text('Visitors can access this page at'); ?>
-            <?= dirname(JURI::base()) ?>/<input type="text" name="slug" placeholder="<?= @text('Alias') ?>" value="<?= $page->slug ?>" maxlength="255" />
+            <?= dirname(JURI::base()) ?>/<input type="text" name="slug" placeholder="<?= @text('Slug') ?>" value="<?= $page->slug ?>" maxlength="255" />
         </div>
         <?= @helper('tabs.startPane', array('id' => 'pane_1')); ?>
             <?= @helper('tabs.startPanel', array('title' => 'General')); ?>
