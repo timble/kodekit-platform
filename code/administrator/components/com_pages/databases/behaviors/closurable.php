@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
+class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorOrderableInterface
 {
     /**
      * The closure table name
@@ -90,12 +90,6 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
      */
     public function getClosureTable()
     {
-        if(!isset($this->_table) && ($this->getMixer() instanceof KDatabaseRowTable || $this->getMixer() instanceof KDatabaseRowsetTable))
-        {
-            $name = $this->getIdentifier()->name;
-            $this->_table = $this->getTable()->getBehavior($name)->getClosureTable();
-        }
-        
         return $this->_table;
     }
     
@@ -109,7 +103,6 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         
         $table = $this->getTable();
         $query = $this->getService('koowa:database.query.select')
-            
             ->join(array('closures' => $this->getClosureTable()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('tbl.'.$table->getIdentityColumn().' <> :id')
             ->having('COUNT(`crumbs`.`ancestor_id`) = :level')
@@ -323,41 +316,30 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 }
                 
                 // Delete the outdated paths for the old location.
-                $query_descendant = $this->getService('koowa:database.query.select')
-                    ->columns('descendant_id')
-                    ->table($this->getClosureTable())
-                    ->where('ancestor_id = :ancestor_id')
-                    ->bind(array('ancestor_id' => $data->id));
-                
-                $query_ancestor = $this->getService('koowa:database.query.select')
-                    ->columns('ancestor_id')
-                    ->table($this->getClosureTable())
-                    ->where('descendant_id = :descendant_id')
-                    ->where('ancestor_id != descdendant_id')
-                    ->bind(array('descendant_id' => $data->id));
-                 
                 $query = $this->getService('koowa:database.query.delete')
-                    ->table($this->getClosureTable())
-                    ->where('descendant_id IN :descendant_id')
-                    ->where('ancestor_id IN :ancestor_id')
-                    ->bind(array('descendant_id' => $query_descendant, 'ancestor_id' => $query_ancestor));
-                
+                    ->table(array('a' => $this->_table))
+                    ->join(array('d' => $this->_table), 'a.descendant_id = d.descendant_id', 'INNER')
+                    ->join(array('x' => $this->_table), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
+                    ->where('d.ancestor_id = :ancestor_id')
+                    ->where('x.ancestor_id IS NULL')
+                    ->bind(array('ancestor_id' => $data->id));
+
                 $table->getDatabase()->delete($query);
-                
+
                 // Insert the subtree under its new location.
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
                     ->table(array('supertree' => $this->_table))
-                    ->join(array('subtree' => $this->_table), null, 'CROSS')
+                    ->join(array('subtree' => $this->_table), null, 'INNER')
                     ->where('subtree.ancestor_id = :ancestor_id')
                     ->where('supertree.descendant_id = :descendant_id')
                     ->bind(array('ancestor_id' => $data->id, 'descendant_id' => (int) $data->parent_id));
-                    
+
                 $query = $this->getService('koowa:database.query.insert')
-                    ->table($this->getClosureTable())
+                    ->table($this->_table)
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
-                
+
                 $table->getDatabase()->insert($query);
                 
                 $data->path = ($data->parent_id ? $parent->path.'/' : '').$data->id;
@@ -373,27 +355,25 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
      * @param  KCommandContext $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _afterTableDelete(KCommandContext $context)
+    protected function _beforeTableDelete(KCommandContext $context)
     {
-        if($context->affected !== false)
-        {
-            $table = $context->getSubject();
-            
-            $query_descendants = $this->getService('koowa:database.query.select')
-                ->columns($table->getIdentityColumn())
-                ->table($table->getName())
-                ->join(array('closures' => $table->getClosureTable()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
-                ->where('closures.ancestor_id = :id')
-                ->where($table->getIdentityColumn().' <> :id')
-                ->bind(array('id' => $context->data->id));
-            
-            $query = $this->getService('koowa:database.query.delete')
-                ->table($table->getName())
-                ->where($table->getIdentityColumn().' IN :descendants')
-                ->bind(array('descendants' => $query_descendants));
-
-            $table->getDatabase()->delete($query);
-        }
+        $table         = $context->getSubject();
+        $id_column     = $table->getIdentityColumn();
+        $closure_table = $table->getClosureTable();
+        
+        $select = $this->getService('koowa:database.query.select')
+            ->columns('descendant_id')
+            ->table($closure_table)
+            ->where('ancestor_id = :id')
+            ->where('descendant_id <> :id')
+            ->bind(array('id' => $context->data->id));
+        
+        $query = $this->getService('koowa:database.query.delete')
+            ->table($table->getBase())
+            ->where($id_column.' IN :id')
+            ->bind(array('id' => $select));
+        
+        $table->getDatabase()->delete($query);
         
         return true;
     }
