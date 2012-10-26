@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorOrderableInterface
+class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
 {
     /**
      * The closure table name
