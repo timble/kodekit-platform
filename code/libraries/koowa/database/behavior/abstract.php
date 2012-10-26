@@ -37,7 +37,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
             $identifier->path = array('database', 'row');
             $identifier->name = KInflector::singularize($identifier->name);
 
-            $container->addMixin($identifier, (string)$instance->getIdentifier());
+            $container->addMixin($identifier, $instance);
         }
 
         return $instance;

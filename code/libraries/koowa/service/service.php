@@ -191,7 +191,7 @@ class KService implements KServiceInterface
         }
 
         //Prevent mixins from being added twice
-        self::$_mixins[$strIdentifier][$mixin] = $mixin;
+        self::$_mixins[$strIdentifier][(string) self::getIdentifier($mixin)] = $mixin;
 
         //If the identifier already exists mixin the mixin
         if (self::$_services->offsetExists($strIdentifier))
@@ -356,7 +356,10 @@ class KService implements KServiceInterface
             $mixins = self::$_mixins[$identifier];
             foreach ($mixins as $mixin)
             {
-                $mixin = self::get($mixin, array('mixer' => $instance));
+                if(!$mixin instanceof KMixinInterface) {
+                    $mixin = self::get($mixin, array('mixer' => $instance));
+                }
+
                 $instance->mixin($mixin);
             }
         }
