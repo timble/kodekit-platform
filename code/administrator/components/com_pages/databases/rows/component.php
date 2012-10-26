@@ -59,7 +59,7 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
         return $this->_component_xml;
     }
 
-    public function __get($name)
+    /*public function __get($name)
     {
         switch($name)
         {
@@ -188,5 +188,5 @@ class ComPagesDatabaseRowComponent extends ComPagesDatabaseRowPage
         }
 
         return parent::__get($name);
-   }
+   }*/
 }
