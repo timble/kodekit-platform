@@ -24,7 +24,7 @@ class ComPagesModelPages extends ComDefaultModelDefault
         parent::__construct($config);
 
         $this->getState()
-            ->remove('sort')->insert('sort', 'cmd', 'path')
+            ->remove('sort')->insert('sort', 'cmd', 'custom')
             ->insert('published' , 'boolean')
             ->insert('menu'      , 'int')
             ->insert('type'      , 'cmd')
