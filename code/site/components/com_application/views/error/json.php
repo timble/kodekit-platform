@@ -31,7 +31,7 @@ class ComApplicationViewErrorJson extends KViewJson
             'code'    => $this->error->getCode()
         );
 
-        if(ini_get('display_errors')) {
+        if(ini_get('display_errors'))
         {
             $properties['data'] = array(
                 'file'	    => $this->error->getFile(),
