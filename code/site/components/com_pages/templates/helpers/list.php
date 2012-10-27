@@ -47,7 +47,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
             $classes = array();
             if($config->active)
             {
-                if(in_array($page->id, array_merge($config->active->parent_ids, (array) $config->active->id))) {
+                if(in_array($page->id, array_merge($config->active->getParentIds(), (array) $config->active->id))) {
                     $classes[] = 'active';
                 }
                 
