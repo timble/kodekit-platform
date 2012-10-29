@@ -150,14 +150,16 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
             $page = $this->getService('application.pages')->getActive();
 
             // Select published modules
-            $modules = $this->getService('com://admin/pages.model.modules')
+            $model = $this->getService('com://admin/pages.model.modules')
                 ->application('site')
-                ->page($page->id)
                 ->published(true)
-                ->access((int) JFactory::getUser()->aid)
-                ->getList();
+                ->access((int) JFactory::getUser()->aid);
 
-            $this->_modules = $modules;
+            if (!is_null($page)) {
+                $model->page($page->id);
+            }
+
+            $this->_modules = $model->getList();
         }
 
         return $this->_modules;

@@ -55,7 +55,7 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
             // Extract if path is not in the active branch.
             if(!$extract && $children == 'active' && $page->level > 1)
             {
-                if(implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $this->active->path), 0, count($page->parent_ids)))) {
+                if(!is_null($this->active) && (implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $this->active->path), 0, count($page->parent_ids))))) {
                     $extract = true;
                 }
             }
