@@ -29,7 +29,6 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		parent::__construct($config);
 
         $this->getState()
-        	->insert('activation' , 'md5', null, true)
             ->insert('email'      , 'email', null, true)
             ->insert('username'   , 'alnum', null, true)
             ->insert('group'      , 'int')
