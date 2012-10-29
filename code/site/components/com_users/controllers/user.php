@@ -25,46 +25,19 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
 
         $this->registerCallback('before.edit', array($this, 'sanitizeData'))
              ->registerCallback('before.add' , array($this, 'sanitizeData'))
-             ->registerCallback('after.add'  , array($this, 'notify'))
-             ->registerCallback('after.save' , array($this, 'redirect'))
-             ->registerCallback('after.read' , array($this, 'activate'));
+             ->registerCallback('after.add'  , array($this, 'notify'));
 	}
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
-                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'))));
-    
+                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
+                'com://site/users.controller.behavior.activateable')));
+
         parent::_initialize($config);
     }
 
-    public function activate(KCommandContext $context)
-    {
-    	$row = $context->result;
-    	$activation = $context->getSubject()->getModel()->get('activation');
-    	
-    	if (!empty($activation)) 
-    	{
-    		if ($row->id && $row->activation === $activation) 
-    		{
-	    		$row->activation = '';
-	    		$row->enabled = 1;
-
-	    		if ($row->save())
-                {
-                    $context->response->setRedirect(JURI::root());
-                    //@TODO : Set message in session
-                    //$this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_COMPLETE'), 'message');
-	    		}
-    		}
-
-            $context->response->setRedirect(JURI::root());
-            //@TODO : Set message in session
-            //$this->getService('application')->redirect(JURI::root(), JText::_('REG_ACTIVATE_NOT_FOUND'), 'error');
-    	}
-    }
-    
     public function getRequest()
     {
         $request = parent::getRequest();
@@ -94,29 +67,10 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         return parent::_actionGet($context);
     }
 
-    protected function _actionAdd(KCommandContext $context)
-    {
-    	$parameters = $this->getService('application.components')->users->params;
+    protected function _actionAdd(KCommandContext $context) {
 
-        if(!($group_name = $parameters->get('new_usertype'))) {
-            $group_name = 'Registered';
-        }
-
-        $context->data->id             = 0;
-        $context->data->group_name     = $group_name;
-        $context->data->users_group_id = JFactory::getAcl()->get_group_id('', $group_name, 'ARO');
-        
-        $context->data->registered_on  = gmdate('Y-m-d H:i:s');
-
-        if($parameters->get('useractivation') == '1')
-        {
-            $password = $this->getService('com://admin/users.database.row.password');
-            $context->data->activation = $password->getRandom(32);
-            $context->data->enabled = 0;
-
-            $message = JText::_('REG_COMPLETE_ACTIVATE');
-        }
-        else $message = JText::_('REG_COMPLETE');
+        $params = $this->getService('application.components')->users->params;
+        $context->data->users_role_id = $params->get('new_usertype', 18);
 
         return parent::_actionAdd($context);
     }
@@ -132,71 +86,23 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         return $data;
     }
 
-    public function redirect(KCommandContext $context)
-    {
-        $item = $context->getSubject()->getModel()->getItem();
-
-        if ($item->getStatus() != KDatabase::STATUS_FAILED)
-        {
-            $context->response->setRedirect(KRequest::referrer());
-            //@TODO : Set message in session
-            //$this->setRedirect(KRequest::referrer(), JText::_('Modifications have been saved.'), 'message');
-        }
-        else
-        {
-            $context->response->setRedirect(KRequest::referrer());
-            //@TODO : Set message in session
-            //$this->setRedirect(KRequest::referrer(), $item->getStatusMessage(), 'error');
-        }
-    }
-
     public function notify(KCommandContext $context)
     {
-        $config = JFactory::getConfig();
+        $user = $context->result;
 
-        $subject = sprintf(JText::_('Account details for'), $context->data->name, $config->getValue('sitename'));
-        $subject = html_entity_decode($subject, ENT_QUOTES);
+        if ($user->getStatus() == KDatabase::STATUS_CREATED && $user->activation) {
 
-        $parameters     = $this->getService('application.components')->users->params;
-        $site_name      = $config->getValue('sitename');
-        $site_url       = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
-        $activation_url = $this->getRoute('view=user&activation='.$context->data->activation, true);
-        $password       = preg_replace('/[\x00-\x1F\x7F]/', '', $context->data->password);
+            $url       = $this->getService('koowa:http.url',
+                array('url' => "index.php?option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
+            $this->getService('application')->getRouter()->build($url);
+            $site_url       = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+            $activation_url = $site_url . '/' . $url;
 
-        if($parameters->get('useractivation') == 1 ) {
-            $message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $context->data->name, $site_name, $activation_url, $site_url, $context->data->username, $password);
-        } else {
-            $message = sprintf(JText::_('SEND_MSG'), $context->data->name, $site_name, $site_url);
-        }
+            $subject = JText::_('User Account Activation');
+            $message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
+                $this->getService('application')->getCfg('sitename'), $activation_url, $site_url);
 
-        $message = html_entity_decode($message, ENT_QUOTES);
-
-        $super_administrators = $this->getService('com://site/users.model.users')
-            ->set('group', 25)
-            ->set('limit', 0)
-            ->getList();
-
-        $from_email = $config->getValue('mailfrom');
-        $from_name  = $config->getValue('fromname');
-
-        if(!$from_email || !$from_name )
-        {
-            $from_email = $super_administrators[0]->email;
-            $from_name  = $super_administrators[0]->name;
-        }
-
-        JUtility::sendMail($from_email, $from_name, $context->data->email, $subject, $message);
-
-        //Send email to super administrators
-        foreach($super_administrators as $super_administrator)
-        {
-            if($super_administrator->send_mail)
-            {
-                $message = sprintf(JText::_('SEND_MSG_ADMIN'), $context->data->name, $site_name, $context->data->name, $context->data->email, $context->data->username);
-                $message = html_entity_decode($message, ENT_QUOTES);
-
-                JUtility::sendMail($from_email, $from_name, $super_administrator->email, $subject, $message);
-            }
+            $user->notify(array('subject' => $subject, 'message' => $message));
         }
     }
 
