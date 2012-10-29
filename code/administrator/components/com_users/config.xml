@@ -6,10 +6,10 @@
             <option value="1">Yes</option>
         </param>
         <param name="new_usertype" type="list" default="Registered" label="New User Registration Type" description="TIPNEWUSERTYPE">
-            <option value="Registered">Registered</option>
-            <option value="Author">Author</option>
-            <option value="Editor">Editor</option>
-            <option value="Publisher">Publisher</option>
+            <option value="18">Registered</option>
+            <option value="19">Author</option>
+            <option value="20">Editor</option>
+            <option value="21">Publisher</option>
         </param>
         <param name="useractivation" type="radio" default="1" label="New User Account Activation" description="TIPIFYESUSERMAILEDLINK">
             <option value="0">No</option>
