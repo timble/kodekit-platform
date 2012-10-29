@@ -282,6 +282,30 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     }
 
     /**
+     * Sends a notification to the user.
+     *
+     * @param array $config Optional configuration array.
+     *
+     * @return bool
+     */
+    public function notify($config = array()) {
+
+        $config = new KConfig($config);
+
+        $application = $this->getService('application');
+        $user        = JFactory::getUser();
+
+        $config->append(array(
+            'subject' => '',
+            'message' => '',
+            'from_email' => $application->getCfg('mailfrom'),
+            'from_name'  => $application->getCfg('fromname')))
+            ->append(array('from_email' => $user->email, 'from_name' => $user->name));
+
+        return JUtility::sendMail($config->from_email, $config->from_name, $this->email, $config->subject, $config->message);
+    }
+
+    /**
      * Method to get a parameter value
      *
      * Provided for compatibility with JUser
