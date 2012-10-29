@@ -78,36 +78,26 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $user = $context->result;
         $token = $user->token;
 
-        if($user->getStatus() != KDatabase::STATUS_FAILED && $token)
+        if(($user->getStatus() != KDatabase::STATUS_FAILED) && $token)
         {
-            // Send e-mail to the user.
-            $mail_from_email    = $this->getService('application')->getCfg('mailfrom');
-            $mail_from_name     = $this->getService('application')->getCfg('fromname');
-            $mail_site_name     = $this->getService('application')->getCfg('sitename');
-
-            if($mail_from_email == '' || $mail_from_name == '')
-            {
-                $logged_user = JFactory::getUser();
-
-                $mail_from_email    = $logged_user->email;
-                $mail_from_name     = $logged_user->name;
-            }
-
             $password = $user->getPassword();
+            $application = $this->getService('application');
 
-            /*$url        = $this->getService('koowa:http.url',
+            /*
+            $url        = $this->getService('koowa:http.url',
                 array('url' => "index.php?option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
-            $this->getService('com://site/application.router')->build($url);*/
-            // TODO Hardcoding URL since AFAIK currently there's  no other way to build a frontend route from here,
+            $this->getService('com://site/application.router')->build($url);
+            */
+            // TODO Hardcoding URL since AFAIK currently there's  no other way to build a frontend route from here.
             // Due to namespacing problems the backend router will always be returned. This will get fixed
             // when introducing PHP 5.3 namespacing.
-            $url = "/users/password?layout=form&id={$password->id}&token={$token}";
+            $url = "/component/users/password?layout=form&id={$password->id}&token={$token}";
             $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
 
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $mail_site_name, $url);
+            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $url);
 
-            JUtility::sendMail($mail_from_email, $mail_from_name, $context->result->email, $subject, $message);
+           $user->notify(array('subject' => $subject, 'message' => $message));
         }
     }
 }
