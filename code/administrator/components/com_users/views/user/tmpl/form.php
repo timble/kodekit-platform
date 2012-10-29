@@ -102,11 +102,7 @@
 				<div class="control-group">
 				    <label class="control-label"><?= @text('Register Date') ?></label>
 				    <div class="controls">
-				        <? if($user->last_visited_on == '0000-00-00 00:00:00') : ?>
-				        	<?= @text('Never') ?>
-				        <? else : ?>
-				        	<?= @helper('date.format', array('date' => $user->registered_on, 'format' => 'Y-m-d H:i:s')) ?>
-				        <? endif ?>
+				        <?= @helper('date.format', array('date' => $user->created_on, 'format' => 'Y-m-d H:i:s')) ?>
 				    </div>
 				</div>
 				<div class="control-group">
