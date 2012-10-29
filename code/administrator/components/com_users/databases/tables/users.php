@@ -24,7 +24,7 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
 		$config->append(array(
 			'name'				=> 'users',
 			'base' 				=> 'users',
-			'behaviors' => array('modifiable', 'lockable', 'identifiable', 'authenticatable')
+			'behaviors' => array('modifiable', 'creatable', 'lockable', 'identifiable', 'authenticatable')
 		));
 		
 		parent::_initialize($config);
