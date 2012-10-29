@@ -436,7 +436,6 @@ CREATE TABLE `#__users` (
   `enabled` tinyint(1) NOT NULL DEFAULT '1',
   `send_email` tinyint(1) DEFAULT '0',
   `users_role_id` int(11) unsigned NOT NULL DEFAULT '18',
-  `registered_on` datetime DEFAULT NULL,
   `last_visited_on` datetime DEFAULT NULL,
   `created_by` int(10) unsigned DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,

@@ -286,7 +286,6 @@ UPDATE `#__articles` SET `created_on` = now();
 UPDATE `#__pages` SET `created_on` = now();
 UPDATE `#__pages_menus` SET `created_on` = now();
 UPDATE `#__pages_modules` SET `created_on` = now();
-UPDATE `#__users` SET `registered_on` = now();
 UPDATE `#__users` SET `created_on` = now();
 UPDATE `#__weblinks` SET `created_on` = now();
 

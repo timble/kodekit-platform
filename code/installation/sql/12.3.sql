@@ -100,6 +100,7 @@ ALTER TABLE `#__users` ADD `locked_by` INT(11) UNSIGNED AFTER `modified_on`;
 ALTER TABLE `#__users` ADD `locked_on` DATETIME AFTER `locked_by`;
 
 ALTER TABLE `#__users` DROP `usertype`;
+ALTER TABLE `#__users` DROP `registered_on`;
 
 ALTER TABLE `#__users` MODIFY `enabled` tinyint(1) NOT NULL DEFAULT '1';
 
