@@ -24,12 +24,11 @@
 	
 	<script src="media://lib_koowa/js/mootools.js" />
 	<script src="media://com_application/js/application.js" />
+    <script src="media://com_application/js/chromatable.js" />
 
 	<? if(true) : ?>
-	<script src="media://com_application/js/chromatable.js" />
 	<style src="media://com_application/css/default.css" />
 	<? else : ?>
-    <script src="media://com_application/js/chromatable.js" />
     <script src="media://com_application/js/sidebar.js" />
 	<style src="media://com_application/css/legacy.css" />
 	<? endif; ?>
