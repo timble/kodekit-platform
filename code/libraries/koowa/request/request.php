@@ -354,16 +354,15 @@ class KRequest
     {
         if(!isset(self::$_referrer))
         {
-            if($referrer = KRequest::get('server.HTTP_REFERER', 'url'))
-            {
+            if($referrer = KRequest::get('server.HTTP_REFERER', 'url')) {
                 self::$_referrer = KService::get('koowa:http.url', array('url' => $referrer));
+            }
+        }
 
-                if($isInternal)
-                {
-                    if(!KService::get('koowa:filter.internalurl')->validate((string)self::$_referrer)) {
-                        return null;
-                    }
-                }
+        if($isInternal)
+        {
+            if(!KService::get('koowa:filter.internalurl')->validate((string) self::$_referrer)) {
+                return null;
             }
         }
 
