@@ -485,7 +485,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         {
             $key = $this->getIdentityColumn();
             $query = $this->getService('koowa:database.query.select')
-                ->where($key . ' IN :' . $key)
+                ->where('tbl.'.$key . ' IN :' . $key)
                 ->bind(array($key => (array)$query));
         }
 
@@ -495,7 +495,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             $query = $this->getService('koowa:database.query.select');
 
             foreach ($columns as $column => $value) {
-                $query->where($column . ' ' . (is_array($value) ? 'IN' : '=') . ' :' . $column)
+                $query->where('tbl.'.$column . ' ' . (is_array($value) ? 'IN' : '=') . ' :' . $column)
                     ->bind(array($column => $value));
             }
         }

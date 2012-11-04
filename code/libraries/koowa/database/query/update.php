@@ -18,35 +18,42 @@
 class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
 {
     /**
-     * The table name.
+     * The table name
      *
      * @var string
      */
     public $table;
+    
+    /**
+     * The join clause
+     *
+     * @var array
+     */
+    public $join = array();
 
     /**
-     * Data of the set clause.
+     * Data of the set clause
      *
      * @var array
      */
     public $values = array();
 
     /**
-     * Data of the where clause.
+     * Data of the where clause
      *
      * @var array
      */
     public $where = array();
 
     /**
-     * Data of the order clause.
+     * Data of the order clause
      *
      * @var array
      */
     public $order = array();
 
     /**
-     * The number of rows that can be updated.
+     * The number of rows that can be updated
      *
      * @var integer
      */
@@ -60,7 +67,34 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      */
     public function table($table)
     {
-        $this->table = $table;
+        $this->table = (array) $table;
+
+        return $this;
+    }
+    
+    /**
+     * Build the join clause
+     *
+     * @param string|array $table      The table name to join to.
+     * @param string       $condition  The join condition statement.
+     * @param string       $type       The type of join.
+     * @return \KDatabaseQueryUpdate
+     */
+    public function join($table, $condition = null, $type = 'LEFT')
+    {
+        settype($table, 'array');
+
+        $data = array(
+            'table'     => current($table),
+            'condition' => $condition,
+            'type'      => $type
+        );
+
+        if (is_string(key($table))) {
+            $this->join[key($table)] = $data;
+        } else {
+            $this->join[] = $data;
+        }
 
         return $this;
     }
@@ -135,10 +169,37 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
     {
         $adapter = $this->getAdapter();
         $prefix  = $adapter->getTablePrefix();
-        $query   = 'UPDATE';
+        $query   = 'UPDATE ';
 
         if($this->table) {
-            $query .= ' '.$adapter->quoteIdentifier($prefix.$this->table);
+            $query .= $adapter->quoteIdentifier($prefix.current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+        }
+        
+        if($this->join)
+        {
+            $joins = array();
+            foreach($this->join as $alias => $join)
+            {
+                $tmp = '';
+
+                if($join['type']) {
+                    $tmp .= ' '.$join['type'];
+                }
+
+                if($join['table'] instanceof KDatabaseQuerySelect) {
+                    $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
+                } else {
+                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                }
+
+                if($join['condition']) {
+                    $tmp .= ' ON ('.$adapter->quoteIdentifier($join['condition']).')';
+                }
+
+                $joins[] = $tmp;
+            }
+
+            $query .= implode('', $joins);
         }
 
         if($this->values)
