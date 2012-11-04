@@ -712,7 +712,7 @@ provides: [Meio.Autocomplete]
 		},
 		
 		render: function(){
-			var node = new Element('div', {'class': this.options.classes.container});
+			var node = new Element('div', {'class': this.options.classes.container, style: 'top:0;left:0;height:0'});
 			if (node.bgiframe) node.bgiframe({top: 0, left: 0});
 			this.list = new Element('ul').inject(node);
 			$(document.body).grab(node);
