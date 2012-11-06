@@ -33,7 +33,7 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
             $module = $this->getModel()->getItem();
 
             $path = $this->getIdentifier()->getApplication($module->application);
-            JFactory::getLanguage()->load($module->name, $path );
+            JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path);
         }
 
         return parent::display();
