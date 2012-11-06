@@ -25,7 +25,7 @@ class ComPagesViewModulesHtml extends ComDefaultViewHtml
 		    foreach($this->getModel()->getList() as $module) 
 		    {
                 $path = $this->getIdentifier()->getApplication($module->application);
-                JFactory::getLanguage()->load('mod_'.$module->module->path[1], $path );
+                JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
 		} 
 
