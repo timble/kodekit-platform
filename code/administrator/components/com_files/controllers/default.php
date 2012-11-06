@@ -112,10 +112,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 	{
 		if ($this->getIdentifier()->name == 'image' || ($this->getIdentifier()->name == 'file' && $this->getRequest()->format == 'html'))
 		{
-			//Load the language file for HMVC requests who are not routed through the dispatcher
-			if(!$this->isDispatched()) {
-				JFactory::getLanguage()->load('com_'.$this->getIdentifier()->package);
-			}
+            JFactory::getLanguage()->load($this->getIdentifier()->package);
 
 			$result = $this->getView()->display();
 			return $result;
