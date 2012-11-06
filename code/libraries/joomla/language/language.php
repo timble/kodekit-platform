@@ -285,21 +285,20 @@ class JLanguage extends JObject
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	1.5
 	 */
-	function load( $extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false )
+	function load( $extension = 'application', $file = '', $basePath = JPATH_BASE, $lang = null, $reload = false )
 	{
 		if ( ! $lang ) {
 			$lang = $this->_lang;
 		}
 		
 	    if ( !strlen( $extension ) ) {
-			$extension = 'joomla';
+			$extension = 'capplication';
 		}
-		
-		$path = JLanguage::getLanguagePath( $basePath, $lang);
 
-		$filename = ( $extension == 'joomla' ) ?  $lang : $lang . '.' . $extension ;
-		$filename = $path.DS.$filename.'.ini';
-		
+        $basePath .= '/components/com_'.$extension;
+		$path      = JLanguage::getLanguagePath( $basePath, $lang);
+        $filename  = $file ? $path.'/'.$lang.'.'.$file.'.ini' : $path.'/'.$lang.'.ini';
+
 	    $result = true;
 		if (!isset( $this->_paths[$extension][$filename] ) || $reload )
 		{
@@ -670,10 +669,10 @@ class JLanguage extends JObject
 	 */
 	function getLanguagePath($basePath = JPATH_BASE, $language = null )
 	{
-		$dir = $basePath.DS.'language';
-		if (!empty($language)) {
+		$dir = $basePath.'/resources/language';
+		/*if (!empty($language)) {
 			$dir .= DS.$language;
-		}
+		}*/
 		return $dir;
 	}
 
@@ -691,7 +690,7 @@ class JLanguage extends JObject
 	{
 		$previous			= $this->_lang;
 		$this->_lang		= $lang;
-		$this->_metadata	= $this->getMetadata($this->_lang);
+		//$this->_metadata	= $this->getMetadata($this->_lang);
 
 		//set locale based on the language tag
 		//TODO : add function to display locale setting in configuration
