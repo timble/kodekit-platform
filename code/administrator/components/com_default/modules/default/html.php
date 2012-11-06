@@ -42,9 +42,6 @@ class ComDefaultModuleDefaultHtml extends KViewHtml
      */
     public function display()
     {
-        //Load the language files.
-        JFactory::getLanguage()->load('mod_'.$this->getName());
-
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome)) {
             $this->getTemplate()->attachFilter('chrome', array('styles' => $this->module->chrome));
