@@ -239,9 +239,6 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                     return $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Component Not Found');
                 }
 
-                //Load common language files
-                $lang = JFactory::getLanguage()->load($component);
-
                 //Load the component aliasses
                 KLoader::loadIdentifier('com://site/'.$name.'.aliases');
 
