@@ -317,9 +317,8 @@ class JLanguage extends JObject
 			    if($strings === false )
 			    {
 				    // No strings, which probably means that the language file does not exist
-				    $path		= JLanguage::getLanguagePath( $basePath, $this->_default);
-				    $filename	= ( $extension == 'joomla' ) ?  $this->_default : $this->_default . '.' . $extension ;
-				    $filename	= $path.DS.$filename.'.ini';
+                    $path      = JLanguage::getLanguagePath( $basePath, $lang);
+                    $filename  = $file ? $path.'/'.$this->_default.'.'.$file.'.ini' : $path.'/'.$this->_default.'.ini';
 
 				    $strings = $this->_load( $filename, $extension, false );
 				    
