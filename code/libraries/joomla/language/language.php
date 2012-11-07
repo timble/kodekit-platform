@@ -292,7 +292,7 @@ class JLanguage extends JObject
 		}
 		
 	    if ( !strlen( $extension ) ) {
-			$extension = 'capplication';
+			$extension = 'application';
 		}
 
         $basePath .= '/components/com_'.$extension;
