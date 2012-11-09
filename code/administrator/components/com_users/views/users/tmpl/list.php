@@ -30,13 +30,9 @@
     <?php foreach ($users as $user) : ?>
     <tr>
         <td>
-            <? if (JFactory::getUser()->authorize( 'com_users', 'manage' )) : ?>
             <a href="<?=  @route('option=com_users&view=user&id='. $user->id); ?>" title="<?= @text( 'Edit User' ) ?>">
                 <?= $user->name; ?>
             </a>
-            <? else : ?>
-            <?= $user->name; ?>
-            <? endif; ?>
         </td>
         <td>
             <?= $user->role_name;?>
