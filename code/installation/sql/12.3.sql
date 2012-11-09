@@ -686,10 +686,13 @@ VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
 
+ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `#__users` (`users_user_id`) ON DELETE CASCADE;
+ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `#__users_groups` (`users_group_id`) ON DELETE CASCADE;
+
 # --------------------------------------------------------
 
 DROP TABLE  `#__core_acl_aro` ,
 `#__core_acl_aro_groups` ,
 `#__core_acl_aro_map` ,
 `#__core_acl_aro_sections` ,
-`#__core_acl_groups_aro_map` ;
+`#__core_acl_groups_aro_map`;

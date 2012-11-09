@@ -411,7 +411,9 @@ CREATE TABLE `#__users_groups` (
 CREATE TABLE `#__users_groups_users` (
   `users_group_id` int(11) unsigned NOT NULL,
   `users_user_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`users_group_id`,`users_user_id`)
+  PRIMARY KEY (`users_group_id`,`users_user_id`),
+  CONSTRAINT `#__users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `#__users` (`users_user_id`) ON DELETE CASCADE,
+  CONSTRAINT `#__users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `#__users_groups` (`users_group_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -439,13 +441,13 @@ CREATE TABLE `#__users_sessions` (
 --
 CREATE TABLE `#__users_passwords` (
   `users_password_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `users_user_email` varchar(100) NOT NULL DEFAULT '',
+  `email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date DEFAULT NULL,
   `hash` varchar(100) NOT NULL DEFAULT '',
   `reset` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`users_password_id`),
-  UNIQUE KEY `users_user_email` (`users_user_email`),
-  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+  UNIQUE KEY `email` (`email`),
+  CONSTRAINT `#__users_password__email` FOREIGN KEY (`email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
