@@ -37,10 +37,15 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
             $data->getPassword()->expire();
         }
 
-        if ($data->password_reset) {
+        if ($context->password_reset) {
             // Set the user password for reset and keep a copy of the token on the context
             // data, a.k.a. resulting user row.
             $data->token = $data->getPassword()->setReset();
+        }
+
+        if ($data->getStatus() == KDatabase::STATUS_UPDATED) {
+            // Reset the password object.
+            $this->_password = null;
         }
     }
 
@@ -53,7 +58,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
             $password       = $this->getService('com://admin/users.database.row.password');
             $data->password = $password->getRandom($params->get('password_length', 6));
             // Set the password row for reset
-            $data->password_reset = true;
+            $context->password_reset = true;
         }
     }
 
@@ -96,8 +101,8 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         $context->data->getPassword()->delete();
     }
 
-    public function getPassword($cached = true) {
-        if (!$this->_password || !$cached) {
+    public function getPassword() {
+        if (!$this->_password) {
             $password = null;
             $user     = $this->getMixer();
 
