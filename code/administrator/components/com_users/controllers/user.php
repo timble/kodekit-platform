@@ -23,54 +23,40 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback(array('after.add', 'after.edit')  , array($this, 'notify'));
-        $this->registerCallback(array('after.save', 'after.apply'), array($this, 'redirect'));
+        $this->registerCallback('after.add' , array($this, 'notify'));
+        $this->registerCallback('after.edit', array($this, 'reset'));
     }
     
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array(
-        		'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name')
-            ),
+            'behaviors' => array(
+                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
+                'com://admin/users.controller.behavior.user.executable'
+            )
         ));
 
         parent::_initialize($config);
     }
 
-    protected function _actionEdit(KCommandContext $context)
+    public function reset(KCommandContext $context)
     {
-        $data = parent::_actionEdit($context);
-        
         if ($context->response->getStatusCode() == KHttpResponse::RESET_CONTENT) {
-            JFactory::getUser($data->id)->setData($data->getData());
+            $user = $context->result;
+            JFactory::getUser($user->id)->setData($user->getData());
         }
-        
-        return $data;
     }
 
     protected function _actionDelete(KCommandContext $context)
     {
         $data = parent::_actionDelete($context);
-        
+
         $this->getService('com://admin/users.model.sessions')
             ->email($data->email)
             ->getList()
             ->delete();
 
         return $data;
-    }
-
-    public function redirect(KCommandContext $context)
-    {
-        $result = $context->result;
-
-        if ($result && $result->getStatus() == KDatabase::STATUS_FAILED)
-        {
-            $context->response->setRedirect(KRequest::referrer());
-            //@TODO : Set message in session
-            //$this->setRedirect(KRequest::referrer(), JText::_($result->getStatusMessage()), 'error');
-        }
     }
 
     public function notify(KCommandContext $context)
