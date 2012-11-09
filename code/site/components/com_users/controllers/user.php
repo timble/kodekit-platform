@@ -23,9 +23,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback('before.edit', array($this, 'sanitizeData'))
-             ->registerCallback('before.add' , array($this, 'sanitizeData'))
-             ->registerCallback('after.add'  , array($this, 'notify'));
+        $this->registerCallback(array('before.edit', 'before.add'), array($this, 'sanitizeData'))
+            ->registerCallback('after.add', array($this, 'notify'));
 	}
     
     protected function _initialize(KConfig $config)
@@ -70,7 +69,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     protected function _actionAdd(KCommandContext $context) {
 
         $params = $this->getService('application.components')->users->params;
-        $context->data->users_role_id = $params->get('new_usertype', 18);
+        $context->data->role_id = $params->get('new_usertype', 18);
 
         return parent::_actionAdd($context);
     }
@@ -109,12 +108,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     public function sanitizeData(KCommandContext $context)
     {
         // Unset some variables because of security reasons.
-        foreach(array('enabled', 'group_id', 'group_name', 'registered_on', 'activation') as $variable) {
-            unset($context->data->{$variable});
-        }
-
-        // @TODO: Remove this foreach when we drop legacy.
-        foreach(array('gid', 'block', 'usertype', 'registerDate') as $variable) {
+        foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
             unset($context->data->{$variable});
         }
     }
