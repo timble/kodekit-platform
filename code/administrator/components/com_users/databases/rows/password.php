@@ -17,38 +17,45 @@
  */
 class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
 {
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         // TODO Remove when PHP 5.5 becomes a requirement.
         KLoader::loadFile(JPATH_ROOT . '/administrator/components/com_users/legacy.php');
     }
 
-    public function save() {
+    public function save()
+    {
         $user = $this->getService('com://admin/users.model.users')
             ->set('email', $this->email)
             ->getItem();
 
         // Check if referenced user actually exists.
-        if ($user->isNew()) {
+        if ($user->isNew())
+        {
             $this->setStatus(KDatabase::STATUS_FAILED);
             $this->setStatusMessage(JText::sprintf('USER NOT FOUND', $this->email));
             return false;
         }
 
-        if ($password = $this->password) {
+        if ($password = $this->password)
+        {
             // Check the password length.
             $params = $this->getService('application.components')->users->params;
             $length = $params->get('password_length', 5);
-            if (strlen($password) < $length) {
+            if (strlen($password) < $length)
+            {
                 $this->setStatus(KDatabase::STATUS_FAILED);
                 $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $length));
                 return false;
             }
 
-            if (!$this->isNew()) {
+            if (!$this->isNew())
+            {
                 // Check if new and current hashes are the same.
-                if ($this->verify($password)) {
+                if ($this->verify($password))
+                {
                     $this->setStatus(KDatabase::STATUS_FAILED);
                     $this->setStatusMessage(JText::_('New and old passwords are the same'));
                     return false;
@@ -75,28 +82,34 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
      *
      * @return string The generated password.
      */
-    public function getRandom($length = 8) {
+    public function getRandom($length = 8)
+    {
         $bytes  = '';
         $return = '';
 
-        if (function_exists('openssl_random_pseudo_bytes') && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
+        if (function_exists('openssl_random_pseudo_bytes') && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN'))
+        {
             $bytes = openssl_random_pseudo_bytes($length + 1);
         }
 
-        if ($bytes === '' && @is_readable('/dev/urandom') && ($handle = @fopen('/dev/urandom', 'rb')) !== false) {
+        if ($bytes === '' && @is_readable('/dev/urandom') && ($handle = @fopen('/dev/urandom', 'rb')) !== false)
+        {
             $bytes = fread($handle, $length + 1);
             fclose($handle);
         }
 
-        if (strlen($bytes) < $length + 1) {
+        if (strlen($bytes) < $length + 1)
+        {
             $bytes        = '';
             $random_state = microtime();
 
-            if (function_exists('getmypid')) {
+            if (function_exists('getmypid'))
+            {
                 $random_state .= getmypid();
             }
 
-            for ($i = 0; $i < $length + 1; $i += 16) {
+            for ($i = 0; $i < $length + 1; $i += 16)
+            {
                 $random_state = md5(microtime() . $random_state);
                 $bytes .= md5($random_state, true);
             }
@@ -107,7 +120,8 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         $salt  = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         $shift = ord($bytes[0]);
 
-        for ($i = 1; $i <= $length; ++$i) {
+        for ($i = 1; $i <= $length; ++$i)
+        {
             $return .= $salt[($shift + ord($bytes[$i])) % strlen($salt)];
             $shift += ord($bytes[$i]);
         }
@@ -115,7 +129,8 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         return $return;
     }
 
-    public function getHash($password) {
+    public function getHash($password)
+    {
         return password_hash($password, PASSWORD_BCRYPT);
     }
 
@@ -128,18 +143,23 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
      *
      * @return bool True if password matches the current hash, false otherwise.
      */
-    public function verify($password, $hash = null) {
+    public function verify($password, $hash = null)
+    {
         $result = false;
 
-        if (is_null($hash)) {
+        if (is_null($hash))
+        {
             // Use current password hash instead.
             $hash = $this->hash;
 
-            if (!$this->isNew()) {
+            if (!$this->isNew())
+            {
                 // Check for MD5 hashes.
-                if (strpos($hash,'$') === false) {
+                if (strpos($hash, '$') === false)
+                {
                     $parts = explode(':', $hash);
-                    if ($parts[0] === md5($password . @$parts[1])) {
+                    if ($parts[0] === md5($password . @$parts[1]))
+                    {
                         // Valid password on existing record. Migrate to BCrypt.
                         $this->hash = $this->getHash($password);
                         $this->save();
@@ -149,7 +169,8 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
             }
         }
 
-        if (!$result) {
+        if (!$result)
+        {
             $result = password_verify($password, $hash);
         }
 
@@ -161,9 +182,11 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
      *
      * @return mixed The plain text reset token, null if row is new.
      */
-    public function setReset() {
+    public function setReset()
+    {
         $token = null;
-        if (!$this->isNew()) {
+        if (!$this->isNew())
+        {
             $token       = $this->getRandom(32);
             $this->reset = $this->getHash($token);
             $this->save();
@@ -172,7 +195,8 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
     }
 
 
-    public function toArray() {
+    public function toArray()
+    {
 
         $password = parent::toArray();
 
