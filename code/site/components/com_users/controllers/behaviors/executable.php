@@ -74,13 +74,13 @@ class ComUsersControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
     {
         if($this->getMixer()->getIdentifier()->name == 'session')
         {
-            //Allow logging out ourselves
+            // Allow logging out ourselves
             if($this->getModel()->getState()->id == JFactory::getSession()->getId()) {
                 return true;
             }
 
-            //Only administrator can logout other users
-            if(JFactory::getUser()->gid > 24) {
+            // Only administrator can logout other users
+            if(JFactory::getUser()->role_id > 24) {
                 return true;
             }
 
