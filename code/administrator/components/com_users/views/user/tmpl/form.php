@@ -89,7 +89,7 @@
 				<div class="control-group">
 				    <label class="control-label" for="enabled"><?= @text('Enable User') ?></label>
 				    <div class="controls">
-				        <input type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
+				        <input <?=JFactory::getUser()->id == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">
@@ -123,8 +123,8 @@
 				    <div class="controls">
 				        <?= @helper('listbox.radiolist', array(
 				        		'list'     => @service('com://admin/users.model.roles')->sort('id')->getList(),
-				        		'selected' => $user->users_role_id,
-				        		'name'     => 'users_role_id',
+				        		'selected' => $user->role_id,
+				        		'name'     => 'role_id',
 				                'text'     => 'name',
 				        	));
 				        ?>
