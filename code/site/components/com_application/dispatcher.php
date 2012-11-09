@@ -170,7 +170,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
 
                 $this->getRouter()->build($url);
 
-                return $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
+                $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
+                $this->send($context);
             }
         }
 
@@ -187,7 +188,8 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
             }
             else $url = $page->link_url;
 
-            return $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
+            $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
+            $this->send($context);
         }
         
         //Set the request
