@@ -42,8 +42,9 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
     {
         $config->append(array(
             'behaviors' => array(
-                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name')
-            ),
+                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
+                'com://admin/users.controller.behavior.session.executable'
+            )
         ));
 
         parent::_initialize($config);
