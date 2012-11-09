@@ -112,7 +112,7 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
                 $result = false;
             }
             
-            if(in_array($user->users_group_id, array(21, 23, 24, 25))) {
+            if(in_array($user->group_id, array(21, 23, 24, 25))) {
                 $result = true;
             }
         }

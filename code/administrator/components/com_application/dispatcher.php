@@ -161,7 +161,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     protected function _actionAuthorize(KCommandContext $context)
     {
         $user = JFactory::getUser();
-        if(!in_array($user->users_role_id, array(23, 24, 25))) {
+        if(!in_array($user->role_id, array(23, 24, 25))) {
             $this->option = 'com_users';
         }
 
