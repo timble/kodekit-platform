@@ -34,45 +34,6 @@ class ComApplicationControllerToolbarMenubar extends KControllerToolbarAbstract
         return $command;
     }
 
-    public function getCommands()
-	{
-        $user = JFactory::getUser();
 
-        $this->addCommand('link', array('label' => 'Dashboard', 'href'  => 'option=com_dashboard&view=dashboard'));
-
-        if($user->authorize('com_menus', 'manage')) {
-            $this->addCommand('link', array('label' => 'Pages', 'href'  => 'option=com_pages&view=pages'));
-        }
-
-        if($user->authorize('com_components', 'manage'))
-        {
-            $menu = $this->addCommand('menu', array('label' => 'Content'));
-            $menu->addCommand('link', array('label' => 'Articles', 'href'  => 'option=com_articles&view=articles'));
-            $menu->addCommand('link', array('label' => 'Web Links', 'href'  => 'option=com_weblinks&view=weblinks'));
-            $menu->addCommand('link', array('label' => 'Contacts', 'href'  => 'option=com_contacts&view=contacts'));
-            $menu->addCommand('link', array('label' => 'Languages', 'href'  => 'option=com_languages&view=languages'));
-        }
-
-        $this->addCommand('link', array('label' => 'Files', 'href'  => 'option=com_files&view=files'));
-
-        if($user->authorize('com_users', 'manage')) {
-            $this->addCommand('link', array('label' => 'Users', 'href'  => 'option=com_users&view=users'));
-        }
-
-        if($user->authorize('com_settings', 'manage'))
-        {
-            $menu = $this->addCommand('menu', array('label' => 'Extensions'));
-            $menu->addCommand('link', array('label' => 'Settings', 'href'  => 'option=com_extensions&view=settings'));
-        }
-
-        if($user->authorize('com_settings', 'manage'))
-        {
-            $menu = $this->addCommand('menu', array('label' => 'Tools'));
-            $menu->addCommand('link', array('label' => 'Activity Logs','href'  => 'option=com_activities&view=activities'));
-            $menu->addCommand('link', array('label' => 'Clean Cache', 'href'  => 'option=com_cache&view=items'));
-        }
-	
-	    return parent::getCommands();   
-	}
 }
 
