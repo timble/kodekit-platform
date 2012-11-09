@@ -685,3 +685,11 @@ INSERT INTO `#__languages_tables` (`extensions_component_id`, `name`, `unique_co
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
+
+# --------------------------------------------------------
+
+DROP TABLE  `#__core_acl_aro` ,
+`#__core_acl_aro_groups` ,
+`#__core_acl_aro_map` ,
+`#__core_acl_aro_sections` ,
+`#__core_acl_groups_aro_map` ;

@@ -216,29 +216,6 @@ VALUES
 	(29, 2, NULL, 'Items', 'items', 'index.php?option=com_cache&view=items', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(30, 2, NULL, 'Groups', 'groups', 'index.php?option=com_cache&view=groups', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
-
---
--- Dumping data for table `#__core_acl_aro_groups`
---
-
-INSERT INTO `#__core_acl_aro_groups` VALUES (17,0,'ROOT',1,22,'ROOT');
-INSERT INTO `#__core_acl_aro_groups` VALUES (28,17,'USERS',2,21,'USERS');
-INSERT INTO `#__core_acl_aro_groups` VALUES (29,28,'Public Frontend',3,12,'Public Frontend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (18,29,'Registered',4,11,'Registered');
-INSERT INTO `#__core_acl_aro_groups` VALUES (19,18,'Author',5,10,'Author');
-INSERT INTO `#__core_acl_aro_groups` VALUES (20,19,'Editor',6,9,'Editor');
-INSERT INTO `#__core_acl_aro_groups` VALUES (21,20,'Publisher',7,8,'Publisher');
-INSERT INTO `#__core_acl_aro_groups` VALUES (30,28,'Public Backend',13,20,'Public Backend');
-INSERT INTO `#__core_acl_aro_groups` VALUES (23,30,'Manager',14,19,'Manager');
-INSERT INTO `#__core_acl_aro_groups` VALUES (24,23,'Administrator',15,18,'Administrator');
-INSERT INTO `#__core_acl_aro_groups` VALUES (25,24,'Super Administrator',16,17,'Super Administrator');
-
---
--- Dumping data for table `#__core_acl_aro_sections`
---
-
-INSERT INTO `#__core_acl_aro_sections` VALUES (10,'users',1,'Users',0);
-
 --
 -- Dumping data for table `#__files_containers`
 --
@@ -276,21 +253,6 @@ VALUES
 INSERT INTO `#__users_passwords` (`users_password_id`, `users_user_email`, `expiration`, `hash`, `reset`) VALUES
 (NULL, 'admin@localhost.home', NULL, '$2y$10$UT7uLipGnbJbTcjZ6D.OAeVByFn.2ZpPmd.thZ5e5xHLwKXAxdvNG', '');
 
---
--- Dumping data for table `#__core_acl_aro`
---
-
-INSERT INTO `#__core_acl_aro` (`id`, `section_value`, `value`, `order_value`, `name`, `hidden`)
-VALUES 
-    (10, 'users', '1', 0, 'Administrator', 0);
-
---
--- Dumping data for table `#__core_acl_groups_aro_map`
---
-
-INSERT INTO `#__core_acl_groups_aro_map` (`group_id`, `section_value`, `aro_id`)
-VALUES
-    (25, '', 10);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;
