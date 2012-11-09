@@ -24,36 +24,39 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
      */
     protected $_role;
 
-	public function __get($column)
+    public function __get($column)
     {
         //@TODO : Add mapped properties support
-        if($column == 'gid') {
-           $column = 'users_role_id';
+        if ($column == 'gid')
+        {
+            $column = 'role_id';
         }
 
-        if($column == 'params' && !($this->_data['params'] instanceof JParameter))
-		{
-            //$path  = $this->getIdentifier()->getApplication('admin');
-            $path   = '/components/com_users/databases/rows';
-			$name	= str_replace(' ', '_', strtolower($this->getRole()->name));
+        if ($column == 'params' && !($this->_data['params'] instanceof JParameter))
+        {
 
-			if(!file_exists($file = $path.'/'.$name.'.xml')) {
-				$file = $path.'/user.xml';
-			}
+            $path = JPATH_APPLICATION . '/components/com_users/databases/rows';
+            $name = str_replace(' ', '_', strtolower((string) $this->getRole()->name));
+            $file = $path . '/' . $name . '.xml';
 
-			$params	= new JParameter($this->_data['params']);
-			$params->loadSetupFile($file);
+            if (!file_exists($file))
+            {
+                $file = $path . '/user.xml';
+            }
 
-			$this->_data['params'] = $params;
-		}
+            $params = new JParameter($this->_data['params']);
+            $params->loadSetupFile($file);
 
-    	return parent::__get($column);
+            $this->_data['params'] = $params;
+        }
+
+        return parent::__get($column);
     }
 
     /**
      * User role getter.
      *
-     * @return ComUsersDatabaseRowRole The user's role object.
+     * @return ComUsersDatabaseRowRole The user's role row object.
      */
     public function getRole()
     {
@@ -61,149 +64,94 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         {
             //@TODO : Temporarily using KService::get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
-            $this->_role = KService::get('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
-            //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
+            $this->_role = KService::get('com://admin/users.model.roles')->id($this->role_id)->getItem();
+            //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->role_id)->getItem();
         }
         return $this->_role;
     }
 
     public function save()
-	{
-		// Load the old row if editing an existing user.
-		if(!$this->isNew())
-		{
-			$old_row = $this->getService('com://admin/users.database.table.users')
-				->select($this->id, KDatabase::FETCH_ROW);
-		}
-
-		$user = JFactory::getUser();
-		
-		// Validate received data.
-		if(($this->isNew() || $this->isModified('name')) && trim($this->name) == '')
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_('Please enter a name!'));
-
-			return false;
-		}
-
-		if(($this->isNew() || $this->isModified('email')) && (trim($this->email) == '') || !($this->getService('koowa:filter.email')->validate($this->email)))
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_('Please enter a valid e-mail address.'));
-
-			return false;
-		}
-
-		if($this->isModified('email'))
-		{
-			$query = $this->getService('koowa:database.query.select')
-                ->where('email = :email')
-                ->where('users_user_id <> :id')
-                ->bind(array('email' => $this->email, 'id' => (int) $this->id));
-
-			$total = $this->getService('com://admin/users.database.table.users')->count($query);
-
-			if($total)
-			{
-				$this->setStatus(KDatabase::STATUS_FAILED);
-				$this->setStatusMessage(JText::_('This e-mail address is already registered.'));
-
-				return false;
-			}
-		}
-
-		// Don't allow users to block themselves.
-		if($this->isModified('enabled') && !$this->isNew() && $user->id == $this->id && !$this->enabled)
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_("You can't block yourself!"));
-
-			return false;
-		}
-
-	    // Don't allow to save a user without a role.
-        if(($this->isNew() || $this->isModified('users_role_id')) && !$this->users_role_id)
+    {
+        // Validate name
+        if ($this->isModified('name') && trim($this->name) == '')
         {
             $this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::_("User must have a role."));
-
+            $this->setStatusMessage(JText::_('Please enter a name'));
             return false;
         }
 
-		// Don't allow users below super administrator to edit a super administrator.
-		if(!$this->isNew() && $this->isModified('users_group_id') && $old_row->users_group_id == 25 && $user->gid != 25)
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_("You can't edit a super administrator account."));
+        if ($this->isModified('email'))
+        {
+            // Validate E-mail
+            if (!$this->getService('koowa:filter.email')->validate($this->email))
+            {
+                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatusMessage(JText::_('Please enter a valid E-mail address'));
+                return false;
+            }
 
-			return false;
-		}
+            // Check if E-mail address is not already being used
+            $query = $this->getService('koowa:database.query.select')
+                ->where('email = :email')
+                ->where('users_user_id <> :id')
+                ->bind(array('email' => $this->email, 'id' => $this->id));
 
-		// Don't allow users below super administrator to create an administrators.
-		if($this->isModified('users_group_id') && $this->users_group_id == 24 && !($user->gid == 25 || ($user->id == $this->id && $user->gid == 24)))
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_("You can't create a user with this user group level. "
-				."Only super administrators have this ability."));
+            if ($this->getService('com://admin/users.database.table.users')->count($query))
+            {
+                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatusMessage(JText::_('The provided E-mail address is already registered'));
+                return false;
+            }
+        }
 
-			return false;
-		}
+        // Check if the attached role exists
+        if ($this->isModified('role_id') && $this->getRole()->isNew())
+        {
+            $this->setStatus(KDatabase::STATUS_FAILED);
+            $this->setStatusMessage('Invalid role');
+            return false;
+        }
 
-		// Don't allow users below super administrator to create a super administrator.
-		if($this->isModified('users_group_id') && $this->users_group_id == 25 && $user->gid != 25)
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_("You can't create a user with this user group level. "
-				."Only super administrators have this ability."));
+        // Set parameters.
+        if ($this->isModified('params'))
+        {
+            $params = new JParameter('');
+            $params->bind($this->_data['params']);
+            $this->params = $params->toString();
+            /*if(!$this->isNew() && $this->_data['params'] == $current->params->toString()) {
+                unset($this->_modified['params']);
+            }*/
+        }
 
-			return false;
-		}
-
-		// Don't allow users to change the user level of the last active super administrator.
-		if(isset($this->_modifid['users_group_id']) && $old_row->users_group_id != 25)
-		{
-			$query = $this->getService('koowa:database.query.select')
-                ->where('users_group_id = :users_group_id')
-                ->where('enabled = :enabled')
-                ->bind(array('users_group_id' => 25, 'enabled' => 1));
-
-			$total = $this->getService('com://admin/users.database.table.users')->count($query);
-
-			if($total <= 1)
-			{
-				$this->setStatus(KDatabase::STATUS_FAILED);
-				$this->setStatusMessage(JText::_("You can't change this user's group because ".
-					"the user is the only active super administrator for your site."));
-
-				return false;
-			}
-		}
-
-		if($this->isNew()) {
-			$this->registered_on = gmdate('Y-m-d H:i:s', time());
-		}
-
-		// Set parameters.
-		if($this->isModified('params'))
-		{
-			$params	= new JParameter('');
-			$params->bind($this->_data['params']);
-
-			$this->params = $params->toString();
-
-			if(!$this->isNew() && $this->_data['params'] == $old_row->params->toString()) {
-				unset($this->_modified['params']);
-			}
-		}
-
-        if ($this->isModified('users_role_id')) {
+        if ($this->isModified('role_id'))
+        {
             // Clear role cache
             $this->_role = null;
         }
 
-		return parent::save();
-	}
+        if (!$this->isNew())
+        {
+            // Load the current user row for checks.
+            $current = $this->getService('com://admin/users.database.table.users')
+                ->select($this->id, KDatabase::FETCH_ROW);
+
+            // There must be at least one enabled super administrator
+            if (($this->isModified('role_id') || ($this->isModified('enabled') && !$this->enabled)) && $current->role_id == 25)
+            {
+                $query = $this->getService('koowa:database.query.select')->where('enabled = :enabled')
+                    ->where('users_role_id = :role_id')->bind(array('enabled' => 1, 'role_id' => 25));
+
+                if ($this->getService('com://admin/users.database.table.users')->count($query) <= 1)
+                {
+                    $this->setStatus(KDatabase::STATUS_FAILED);
+                    $this->setStatusMessage('There must be at least one enabled super administrator');
+                    return false;
+                }
+            }
+        }
+
+        return parent::save();
+    }
 
     public function load()
     {
@@ -215,44 +163,19 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         return $result;
     }
 
-	public function delete()
-	{
-		$user = JFactory::getUser();
-
-		// Don't allow users to delete themselves.
-		if($user->id == $this->id)
-		{
-			$this->_status			= KDatabase::STATUS_FAILED;
-			$this->_status_message	= JText::_("You can't delete yourself!");
-
-			return false;
-		}
-
-		// Don't allow administrators to delete other administrators or super administrators.
-		if($user->users_group_id == 24 && ($this->users_group_id == 24 || $this->users_group_id == 25))
-		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage(JText::_("You can't delete a user with this user group level. "
-				."Only super administrators have this ability."));
-
-			return false;
-		}
-
-		return parent::delete();
-	}
-
     public function reset()
     {
         $result = parent::reset();
 
-        $this->guest = 1;
+        // Clear role cache
         $this->_role = null;
+        $this->guest = 1;
 
         return $result;
     }
 
 	/**
-     * Return an associative array of the data.
+     * Return an associative array containing the user data.
      *
      * @return array
      */
@@ -261,13 +184,13 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         $data = parent::toArray();
         
         unset($data['activation']);
-        
         $data['params'] = $this->params->toArray();
+
         return $data;
     }
 
     /**
-     * Sends a notification to the user.
+     * Sends a notification E-mail to the user.
      *
      * @param array $config Optional configuration array.
      *
