@@ -19,10 +19,13 @@
  */
 class ComUsersDatabaseRowSession extends KDatabaseRowDefault
 {
+    const LOGGED_IN  = 'logged in';
+    const LOGGED_OUT = 'logged out';
+
     public function delete()
     {
         if($result = parent::delete()) {
-            $this->setStatus('logged out');
+            $this->setStatus(self::LOGGED_OUT);
         }
 
         return $result;
@@ -45,7 +48,7 @@ class ComUsersDatabaseRowSession extends KDatabaseRowDefault
             $row->last_visited_on = gmdate('Y-m-d H:i:s');
             $row->save();
 
-            $this->setStatus('logged in');
+            $this->setStatus(self::LOGGED_IN);
         }
 
         return $result;
