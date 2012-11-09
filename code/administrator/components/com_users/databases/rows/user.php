@@ -55,9 +55,11 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
      *
      * @return ComUsersDatabaseRowRole The user's role object.
      */
-    public function getRole() {
-        if (!$this->_role) {
-            // TODO Temporarily using KService::get since User object is not yet properly set on session when
+    public function getRole()
+    {
+        if (!$this->_role)
+        {
+            //@TODO : Temporarily using KService::get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
             $this->_role = KService::get('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
             //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->users_role_id)->getItem();
@@ -203,7 +205,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 		return parent::save();
 	}
 
-    public function load() {
+    public function load()
+    {
         $result = parent::load();
         if ($result) {
             // Clear role cache
@@ -248,24 +251,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         return $result;
     }
 
-    /**
-     * Check user permissions
-     *
-     * @param	string	$acoSection	The ACO section value
-     * @param	string	$aco		The ACO value
-     * @param	string	$axoSection	The AXO section value	[optional]
-     * @param	string	$axo		The AXO value			[optional]
-     * @return	boolean	True if authorize
-     *
-     * @deprecated since 12.3, will be removed from 13.2
-     */
-    public function authorize( $acoSection, $aco, $axoSection = null, $axo = null )
-    {
-        $value	= $this->getRole()->name;
-
-        return JFactory::getACL()->acl_check( $acoSection, $aco,	'users', $value, $axoSection, $axo );
-    }
-	
 	/**
      * Return an associative array of the data.
      *
