@@ -29,11 +29,8 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 		parent::__construct($config);
 
         $this->getState()
-            ->insert('email'      , 'email', null, true)
-            ->insert('username'   , 'alnum', null, true)
             ->insert('group'      , 'int')
             ->insert('role'       , 'int')
-            ->insert('role_name'  , 'string')
             ->insert('group_tree' , 'boolean', false)
             ->insert('enabled'    , 'boolean')
             ->insert('visited'    , 'boolean')
@@ -90,6 +87,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
+
         $state = $this->getState();
 		
 		if ($state->group)
