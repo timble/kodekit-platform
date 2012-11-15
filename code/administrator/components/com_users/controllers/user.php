@@ -77,7 +77,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             // TODO Hardcoding URL since AFAIK currently there's  no other way to build a frontend route from here.
             // Due to namespacing problems the backend router will always be returned. This will get fixed
             // when introducing PHP 5.3 namespacing.
-            $url = "/component/users/password?layout=form&id={$password->id}&token={$token}";
+            $url = "/component/users/password?layout=form&uuid={$password->uuid}&token={$token}";
             $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
 
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');

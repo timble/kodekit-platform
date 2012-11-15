@@ -128,7 +128,7 @@ class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAb
         $site_name  = $application->getCfg('sitename');
 
         $url        = $this->getService('koowa:http.url',
-            array('url' => "index.php?option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
+            array('url' => "index.php?option=com_users&view=password&layout=form&uuid={$password->uuid}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
         $url     = $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
         $subject = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
@@ -143,7 +143,7 @@ class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAb
         }
         else
         {
-            $context->response->setRedirect($this->getService('application.pages')->getHome()->url);
+            $context->response->setRedirect($this->getService('application.pages')->getHome()->link_url);
             //@TODO : Set message in session
             //$this->setRedirect($this->getService('application.pages')->getHome()->url, JText::_('CONFIRMATION_EMAIL_SENT'));
             $result = true;
