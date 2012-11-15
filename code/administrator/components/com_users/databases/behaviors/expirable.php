@@ -61,7 +61,7 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
      */
     public function resetExpiration($autosave = true) {
         if ($this->_expirable) {
-            $this->expiration = date('Y-m-d', time() + $this->_expiration * 30 * 24 * 60 * 60);
+            $this->expiration = gmdate('Y-m-d', time() + $this->_expiration * 30 * 24 * 60 * 60);
         } else {
             $this->expiration = null;
         }
