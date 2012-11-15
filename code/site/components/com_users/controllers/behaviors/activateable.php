@@ -75,7 +75,9 @@ class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
             //$this->setRedirect($url, $msg);
             $result = true;
         } else {
-            $context->setError(new KControllerBehaviorException('Unable to activate user'));
+            $error = $item->getStatusMessage();
+            $context->response->setStatus(KHttpResponse::INTERNAL_SERVER_ERROR,
+                $error ? $error : 'Unable to activate user');
             $result = false;
         }
 
