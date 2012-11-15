@@ -439,14 +439,17 @@ CREATE TABLE `#__users_sessions` (
 --
 -- Table structure for table `#__users_passwords`
 --
+
 CREATE TABLE `#__users_passwords` (
   `users_password_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date DEFAULT NULL,
   `hash` varchar(100) NOT NULL DEFAULT '',
   `reset` varchar(100) NOT NULL DEFAULT '',
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`users_password_id`),
   UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `uuid` (`uuid`),
   CONSTRAINT `#__users_password__email` FOREIGN KEY (`email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

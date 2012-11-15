@@ -250,8 +250,8 @@ VALUES
 -- Dumping data for table `#__passwords`
 --
 
-INSERT INTO `#__users_passwords` (`users_password_id`, `email`, `expiration`, `hash`, `reset`) VALUES
-(NULL, 'admin@localhost', NULL, '$2y$10$UT7uLipGnbJbTcjZ6D.OAeVByFn.2ZpPmd.thZ5e5xHLwKXAxdvNG', '');
+INSERT INTO `#__users_passwords` (`users_password_id`, `email`, `expiration`, `hash`, `reset`, `uuid`) VALUES
+(NULL, 'admin@localhost', NULL, '$2y$10$UT7uLipGnbJbTcjZ6D.OAeVByFn.2ZpPmd.thZ5e5xHLwKXAxdvNG', '', UUID());
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

@@ -615,16 +615,18 @@ ALTER TABLE `#__pages` DROP COLUMN `rgt`;
 
 CREATE TABLE `#__users_passwords` (
   `users_password_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `users_user_email` varchar(100) NOT NULL DEFAULT '',
+  `email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date DEFAULT NULL,
   `hash` varchar(100) NOT NULL DEFAULT '',
   `reset` varchar(100) NOT NULL DEFAULT '',
+  `uuid` char(36) NOT NULL,
   PRIMARY KEY (`users_password_id`),
-  UNIQUE KEY `users_user_email` (`users_user_email`),
-  CONSTRAINT `users_user_email` FOREIGN KEY (`users_user_email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `uuid` (`uuid`),
+  CONSTRAINT `#__users_password__email` FOREIGN KEY (`email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__users_passwords` (`users_password_id`, `users_user_email`, `expiration`, `hash`, `reset`) SELECT NULL, `email`, NULL, `password`, '' FROM `#__users`;
+INSERT INTO `#__users_passwords` (`users_password_id`, `email`, `expiration`, `hash`, `reset`, `uuid`) SELECT NULL, `email`, NULL, `password`, '', UUID() FROM `#__users`;
 
 ALTER TABLE `#__users` DROP COLUMN `password`;
 
