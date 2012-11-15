@@ -124,18 +124,17 @@ class ComUsersControllerBehaviorPasswordResettable extends KControllerBehaviorAb
         $password = $user->getPassword();
         $token    = $password->setReset();
 
-        $config     = JFactory::getConfig();
-        $site_name  = $config->getValue('sitename');
-        $from_email = $config->getValue('mailfrom');
-        $from_name  = $config->getValue('fromname');
+        $application     = $this->getService('application');
+        $site_name  = $application->getCfg('sitename');
+
         $url        = $this->getService('koowa:http.url',
             array('url' => "index.php?option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
         $url     = $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
         $subject = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-        $body    = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+        $message    = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
 
-        if (!JUtility::sendMail($from_email, $from_name, $user->email, $subject, $body))
+        if (!$user->notify(array('subject' => $subject, 'message' => $message)))
         {
             $context->response->setRedirect(KRequest::referrer());
             //@TODO : Set message in session
