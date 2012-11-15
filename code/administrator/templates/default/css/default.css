@@ -118,7 +118,7 @@ textarea {
   clear: both;
 }
 .hide-text {
-  font: a;
+  font: 0/0 a;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
@@ -2919,23 +2919,17 @@ hr {
   border-top: 1px solid #dddddd;
   border-bottom: 1px solid #ffffff;
 }
-a:link {
+a {
   color: #0b55c4;
+}
+a:link {
   text-decoration: none;
 }
 a:visited {
-  color: #0b55c4;
   text-decoration: none;
 }
 a:hover {
-  color: #07367c;
   text-decoration: underline;
-}
-.btn,
-a.btn {
-  color: #333;
-  font-weight: bold;
-  border: 1px solid #BBB;
 }
 .ellipsis {
   overflow: hidden;
@@ -3018,6 +3012,12 @@ a.btn {
 #panel-toolbar .btn-group a {
   min-width: 50px;
   padding: 4px 12px;
+}
+#panel-toolbar .btn,
+#panel-toolbar a.btn {
+  color: #333;
+  font-weight: bold;
+  border: 1px solid #BBB;
 }
 #panel-pages {
   display: -webkit-flex;

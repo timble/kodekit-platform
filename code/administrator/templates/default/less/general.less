@@ -44,16 +44,13 @@ hr {
   border-bottom: 1px solid @white;
 }
 
-a:link    { color: @linkColor; text-decoration: none; }
-a:visited { color: @linkColor; text-decoration: none; }
-a:hover   { color: @linkColorHover; text-decoration: underline; }
-
-.btn,
-a.btn {
-	color: #333; // bootstrap override
-	font-weight: bold;  // bootstrap override
-	border: 1px solid #BBB;  // bootstrap override
+a {
+	color: @linkColor;
 }
+
+a:link    { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover   { text-decoration: underline; }
 
 .ellipsis {
 	overflow: hidden;
@@ -120,6 +117,13 @@ a.btn {
 			min-width: 50px;
 			padding: 4px 12px;
 		 }
+	}
+	
+	.btn,
+	a.btn {
+		color: #333; // bootstrap override
+		font-weight: bold;  // bootstrap override
+		border: 1px solid #BBB;  // bootstrap override
 	}
 }
 
