@@ -36,7 +36,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
     {
         if($context->data->getStatus() == KDatabase::STATUS_DELETED)
         {
-            $this->getService('com://admin/pages.database.table.modules')
+            $this->getService('com://admin/pages.database.table.modules_pages')
                 ->select(array('pages_page_id' => $context->data->id))
                 ->delete();
         }
