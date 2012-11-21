@@ -37,7 +37,7 @@
     <div class="control-group">
         <label class="control-label" for="parent"><?= @text('Menu') ?></label>
         <div id="parent" class="controls">
-            <?= @helper('listbox.menus', array('selected' => $page->pages_menu_id)) ?>
+            <?= @helper('listbox.menus', array('selected' => $state->menu)) ?>
         </div>
     </div>
     <div class="control-group">
