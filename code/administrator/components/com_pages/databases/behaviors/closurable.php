@@ -107,6 +107,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         
         $table = $this->getTable();
         $query = $this->getService('koowa:database.query.select')
+            ->columns('tbl.*')
             ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('tbl.'.$table->getIdentityColumn().' <> :id')
             ->having('COUNT(`crumbs`.`ancestor_id`) = :level')
@@ -166,6 +167,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         $table = $this->getTable();
         $query = $this->getService('koowa:database.query.select')
+            ->columns('tbl.*')
             ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('closures.ancestor_id = :id')
             ->where('tbl.'.$table->getIdentityColumn().' <> :id')
