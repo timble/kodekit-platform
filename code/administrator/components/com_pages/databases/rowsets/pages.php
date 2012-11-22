@@ -54,9 +54,9 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
                     }
                 }
             }
-
-            return $result;
         }
-        else return parent::find($needle);
+        else $result = parent::find($needle);
+
+        return $result;
     }
 }
