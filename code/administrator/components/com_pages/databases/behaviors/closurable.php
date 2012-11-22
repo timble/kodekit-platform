@@ -84,12 +84,16 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     }
     
     /**
-     * Get closure table name
+     * Get closure table object
      * 
-     * @return string
+     * @return KDatabaseTableAbstract
      */
     public function getClosureTable()
     {
+        if(!$this->_table instanceof KDatabaseTableAbstract) {
+            $this->_table = $this->getService($this->_table);
+        }
+
         return $this->_table;
     }
     
@@ -103,7 +107,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         
         $table = $this->getTable();
         $query = $this->getService('koowa:database.query.select')
-            ->join(array('closures' => $this->getClosureTable()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
+            ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('tbl.'.$table->getIdentityColumn().' <> :id')
             ->having('COUNT(`crumbs`.`ancestor_id`) = :level')
             ->bind(array('id' => $this->id, 'level' => $this->level));
@@ -162,7 +166,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         $table = $this->getTable();
         $query = $this->getService('koowa:database.query.select')
-            ->join(array('closures' => $this->getClosureTable()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
+            ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('closures.ancestor_id = :id')
             ->where('tbl.'.$table->getIdentityColumn().' <> :id')
             ->bind(array('id' => $this->id));
@@ -209,7 +213,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
 
             $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
                 ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
-                ->join(array('crumbs' => $this->getClosureTable()), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
+                ->join(array('crumbs' => $this->getClosureTable()->getName()), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
                 ->group('tbl.'.$id_column);
             
             if($state)
@@ -260,7 +264,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             
             // Insert the self relation.
             $query = $this->getService('koowa:database.query.insert')
-                ->table($this->getClosureTable())
+                ->table($this->getClosureTable()->getBase())
                 ->columns(array('ancestor_id', 'descendant_id', 'level'))
                 ->values(array($data->id, $data->id, 0));
             
@@ -271,12 +275,12 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             {
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('ancestor_id', $data->id, 'level + 1'))
-                    ->table($this->getClosureTable())
+                    ->table($this->getClosureTable()->getName())
                     ->where('descendant_id = :descendant_id')
                     ->bind(array('descendant_id' => $data->getParentId()));
                 
                 $query = $this->getService('koowa:database.query.insert')
-                    ->table($this->getClosureTable())
+                    ->table($this->getClosureTable()->getBase())
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
                 
@@ -359,11 +363,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         $table         = $context->getSubject();
         $id_column     = $table->getIdentityColumn();
-        $closure_table = $table->getClosureTable();
-        
+
         $select = $this->getService('koowa:database.query.select')
             ->columns('descendant_id')
-            ->table($closure_table)
+            ->table($table->getClosureTable()->getName())
             ->where('ancestor_id = :id')
             ->where('descendant_id <> :id')
             ->bind(array('id' => $context->data->id));
