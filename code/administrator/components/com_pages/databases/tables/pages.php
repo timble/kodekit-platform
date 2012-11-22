@@ -30,7 +30,7 @@ class ComPagesDatabaseTablePages extends KDatabaseTableDefault
                     'columns'  => array('title', 'custom')
                 ),
                 'com://admin/pages.database.behavior.closurable' => array(
-                    'table' => 'pages_closures'
+                    'table' => 'com://admin/pages.database.table.closures'
                 )
             ),
             'filters' => array(
