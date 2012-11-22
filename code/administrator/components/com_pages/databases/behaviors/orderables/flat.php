@@ -27,14 +27,14 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			
 			$this->_buildQueryWhere($query);
 
-			if($data->order < 0) 
+			if($data->order < 0)
 			{
 			    $query->values('ordering = ordering + 1')
 			        ->where('ordering >= :new')
 			        ->where('ordering < :old')
 			        ->bind(array('new' => $new, 'old' => $old));
 			} 
-			else 
+			else
 			{
 			    $query->values('ordering = ordering - 1')
 			        ->where('ordering > :old')
@@ -50,14 +50,14 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
     protected function _afterTableUpdate(KCommandContext $context)
     {
         if($context->affected === false) {
-            $this->_reorder();
+            $this->_reorder($context);
         }
     }
     
     protected function _afterTableDelete(KCommandContext $context)
     {
         if($context->affected) {
-            $this->_reorder();
+            $this->_reorder($context);
         }
     }
     
@@ -68,14 +68,14 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 	    }
     }
     
-    protected function _reorder()
+    protected function _reorder(KCommandContext $context)
     {
         $table = $context->getSubject();
-        $table->getDatabase()->execute('SET @order = 0');
-        
+        $table->getDatabase()->execute('SET @index = 0');
+
         $query = $this->getService('koowa:database.query.update')
             ->table($table->getBase())
-            ->values('ordering = (@order := @order + 1)')
+            ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');
         
         $this->_buildQueryWhere($query);
