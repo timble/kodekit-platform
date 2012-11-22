@@ -31,7 +31,7 @@ class ComPagesModelPages extends ComDefaultModelDefault
             ->insert('home'      , 'boolean')
             ->insert('trashed'   , 'int')
             ->insert('access'    , 'int')
-            ->insert('hidden'    , 'int');
+            ->insert('hidden'    , 'boolean');
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
@@ -69,8 +69,8 @@ class ComPagesModelPages extends ComDefaultModelDefault
             $query->where('tbl.access = :access')->bind(array('access' => $state->access));
         }
         
-        if(is_numeric($state->hidden)) {
-            $query->where('tbl.hidden = :hidden')->bind(array('hidden' => $state->hidden));
+        if(is_bool($state->hidden)) {
+            $query->where('tbl.hidden = :hidden')->bind(array('hidden' => (int) $state->hidden));
         }
 
         //if(is_numeric($state->trashed)) {
