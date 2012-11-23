@@ -189,4 +189,21 @@ class ComPagesDatabaseRowPageComponent extends ComPagesDatabaseRowPageAbstract
 
         return $this->_component_xml;
     }
+
+    public function getPageXml()
+    {
+        if(!isset($this->_page_xml))
+        {
+            $xml  = JFactory::getXMLParser('simple');
+            $path = $this->getIdentifier()->getApplication('site').'/components/'.$this->_type['option'].'/views/'.$this->_type['view'].'/tmpl/'.$this->_type['layout'].'.xml';
+
+            if(file_exists($path)) {
+                $xml->loadFile($path);
+            }
+
+            $this->_page_xml = $xml;
+        }
+
+        return $this->_page_xml;
+    }
 }
