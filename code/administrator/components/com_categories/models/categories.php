@@ -27,7 +27,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             ->insert('parent'    , 'int')
             ->insert('published' , 'boolean')
             ->insert('distinct'  , 'string')
-            ->insert('access'    , 'int')
+            ->insert('access'    , 'boolean')
             ->insert('category'  , 'int');
     }
 
@@ -56,6 +56,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
+        parent::_buildQueryWhere($query);
+        
         $state = $this->getState();
 
         if($state->search) {
@@ -86,11 +88,9 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             $query->bind(array('published' => (int) $state->published));
         }
 
-        if (is_integer($state->access)) {
-            $query->where('tbl.access <= :access')->bind(array('access' => (int) $state->access));
+        if (is_bool($state->access)) {
+            $query->where('tbl.access = :access')->bind(array('access' => (int) $state->access));
         }
-
-        parent::_buildQueryWhere($query);
     }
 
     protected function _buildQueryGroup(KDatabaseQuerySelect $query)

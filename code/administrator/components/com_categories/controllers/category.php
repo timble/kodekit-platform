@@ -52,7 +52,6 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
     public function getRequest()
 	{
 		$this->_request['table']  = $this->getIdentifier()->package;
-        $this->_request['access'] = JFactory::getUser()->get('aid', '0');
 
 	    return $this->_request;
 	}
