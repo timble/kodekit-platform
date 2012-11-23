@@ -66,7 +66,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => -1));
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => 0));
         }
 
         $list = $this->getService('com://admin/categories.model.categories')
