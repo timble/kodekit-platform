@@ -21,12 +21,6 @@
 				<th class="title">
 				    <?= @helper('grid.sort', array('title' => 'Title', 'column' => 'title')) ?>
 				</th>
-				<th width="7%">
-					<?= @helper('grid.sort', array('title' => 'Access', 'column' => 'access')) ?>
-				</th>
-				<th class="title" width="15%" nowrap="nowrap">
-					<?= @helper('grid.sort', array('title' => 'Category', 'column' => 'category_title')) ?>
-				</th>
 				<th align="center" width="10">
 					<?= @helper('grid.sort', array('title' => 'Date', 'column' => 'created_on')) ?>
 				</th>
@@ -36,15 +30,11 @@
 				    <?= @helper('grid.search') ?>
 				</td>
 				<td></td>
-				<td>
-					<?= @helper('listbox.categories', array('selected' => $state->category, 'attribs' => array('id' => 'articles-form-category'))) ?>
-				</td>
-				<td></td>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="5">
+				<td colspan="2">
 					<?= @helper('paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
@@ -56,12 +46,6 @@
 					<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?= $article->id ?>', '<?= str_replace(array("'", "\""), array("\\'", ""), $article->title); ?>', '<?php echo KRequest::get('get.object', 'cmd'); ?>');">
 					    <?= @escape($article->title) ?>
 					</a>
-				</td>
-				<td align="center">
-				    <?= $article->group_name ?>
-                </td>
-				<td>
-					<?= $article->category_id ? $article->category_title : @text('Uncategorised') ?>
 				</td>
 				<td nowrap="nowrap">
 					<?= @helper('date.humanize', array('date' => $article->created_on)) ?>

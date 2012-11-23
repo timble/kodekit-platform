@@ -42,7 +42,7 @@ class JElementArticle extends JElement
         }";
         $doc->addScriptDeclaration($js);
 
-        $link = 'index.php?option=com_articles&view=articles&layout=element&tmpl=component&object='.$name;
+        $link = JRoute::_('index.php?option=com_articles&view=articles&layout=element&tmpl=overlay&object='.$name);
 
         JHTML::_('behavior.modal', 'a.modal');
         $html = "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
