@@ -40,7 +40,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         if ($context->password_reset) {
             // Set the user password for reset and keep a copy of the token on the context
             // data, a.k.a. resulting user row.
-            $data->token = $data->getPassword()->setReset();
+            $data->reset = $data->getPassword()->setReset();
         }
 
         if ($data->getStatus() == KDatabase::STATUS_UPDATED) {
@@ -88,7 +88,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         {
             // Create a password row for the user.
             $data->getPassword()
-                  ->setData(array('email' => $data->email, 'password' => $data->password))
+                  ->setData(array('id' => $data->email, 'password' => $data->password))
                   ->save();
 
             // Same as update.
@@ -107,7 +107,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
             $user     = $this->getMixer();
 
             if (!$user->isNew()) {
-                $password = $this->getService('com://admin/users.model.password')->set('email', $this->email)
+                $password = $this->getService('com://admin/users.model.password')->set('id', $this->email)
                     ->getItem();
             }
             $this->_password = $password;
