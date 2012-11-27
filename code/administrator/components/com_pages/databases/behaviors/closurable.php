@@ -201,7 +201,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     }
     
     /**
-     * Add level and path columns to the query.
+     * Add level and path columns to the query
      * 
      * @param  KCommandContext $context A command context object.
      * @return boolean True on success, false on failure.
@@ -210,34 +210,30 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         if($query = $context->query)
         {
-            $state     = $context->options->state;
-            $id_column = $context->getSubject()->getIdentityColumn();
+            $state         = $context->options->state;
+            $id_column     = $context->getSubject()->getIdentityColumn();
+            $closure_table = $context->getSubject()->getClosureTable();
 
             $query->columns(array('level' => 'COUNT(crumbs.ancestor_id)'))
                 ->columns(array('path' => 'GROUP_CONCAT(crumbs.ancestor_id ORDER BY crumbs.level DESC SEPARATOR \'/\')'))
-                ->join(array('crumbs' => $this->getClosureTable()->getName()), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
+                ->join(array('crumbs' => $closure_table->getName()), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
                 ->group('tbl.'.$id_column);
             
             if($state)
             {
-                if($state->parent_id)
+                if($state->parent)
                 {
-                    $query->where('crumbs.ancestor_id IN :parent_id')
-                        ->where('tbl.'.$id_column.' NOT IN :parent_id')
-                        ->bind(array('parent_id' => $state->parent_id));
-        
-                    if(!is_null($state->level)) {
-                        $query->where('crumbs.level IN :level')->bind(array('level' => (array) $state->level));
-                    }
+                    $query->join(array('closures' => $closure_table->getName()), 'closures.descendant_id = tbl.'.$id_column)
+                        ->where('closures.ancestor_id = :parent')
+                        ->where('tbl.'.$id_column.' <> :parent')
+                        ->bind(array('parent' => $state->parent));
                 }
-                
-                if(!$state->parent_id && !is_null($state->level)) {
-                    $query->having('level IN :level')->bind(array('level' => (array) $state->level));
+
+                if($state->level) {
+                    $query->having('level = :level')->bind(array('level' => $state->level));
                 }
             }
         }
-
-        return true;
     }
     
     /**
@@ -253,17 +249,6 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             $data  = $context->data;
             $table = $context->getSubject();
             
-            // Set path and level for the current row.
-            if($data->parent_id)
-            {
-                $parent = $table->select($data->parent_id, KDatabase::FETCH_ROW);
-                
-                if(!$parent->isNew()) {
-                    $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
-                }
-            }
-            else $data->setData(array('level' => 1, 'path' => $data->id), false);
-            
             // Insert the self relation.
             $query = $this->getService('koowa:database.query.insert')
                 ->table($this->getClosureTable()->getBase())
@@ -271,15 +256,19 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 ->values(array($data->id, $data->id, 0));
             
             $table->getDatabase()->insert($query);
-            
-            // Insert child relations.
+
+            // Set path and level for the current row.
             if($data->parent_id)
             {
+                $parent = $table->select($data->parent_id, KDatabase::FETCH_ROW);
+                $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
+
+                // Insert child relations.
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('ancestor_id', $data->id, 'level + 1'))
                     ->table($this->getClosureTable()->getName())
                     ->where('descendant_id = :descendant_id')
-                    ->bind(array('descendant_id' => $data->getParentId()));
+                    ->bind(array('descendant_id' => $parent->id));
                 
                 $query = $this->getService('koowa:database.query.insert')
                     ->table($this->getClosureTable()->getBase())
@@ -288,9 +277,8 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 
                 $table->getDatabase()->insert($query);
             }
+            else $data->setData(array('level' => 1, 'path' => $data->id), false);
         }
-        
-        return true;
     }
     
     /**
@@ -308,7 +296,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             $data = $context->data;
             if((int) $data->parent_id != (int) $data->getParentId())
             {
-                $table = $this->getTable();
+                $table = $context->getSubject();
                 
                 if($data->parent_id)
                 {

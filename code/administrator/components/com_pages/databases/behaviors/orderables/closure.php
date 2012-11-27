@@ -49,8 +49,8 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         
         $query = $this->getService('koowa:database.query.select')
             ->table(array('tbl' => $table->getName()))
-            ->join(array('crumbs' => $table->getClosureTable()), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
-            ->join(array('closures' => $table->getClosureTable()), 'closures.descendant_id = tbl.'.$id_column, 'INNER')
+            ->join(array('crumbs' => $table->getClosureTable()->getName()), 'crumbs.descendant_id = tbl.'.$id_column, 'INNER')
+            ->join(array('closures' => $table->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$id_column, 'INNER')
             
             ->group('tbl.'.$id_column)
             ->having('COUNT(`crumbs`.`ancestor_id`) = :level')
@@ -76,28 +76,30 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         if(($query = $context->query) && $context->getSubject()->isClosurable())
         {
             $state          = $context->options->state;
-            $table          = $context->getSubject();
-            $id_column      = $table->getIdentityColumn();
-            $ordering_table = $table->getOrderingTable()->getName();
+            $id_column      = $context->getSubject()->getIdentityColumn();
+            $ordering_table = $context->getSubject()->getOrderingTable();
 
-            if(!$query->isCountQuery() && $state && !$state->isUnique() && in_array($state->sort, $this->_columns))
+            // Calculate ordering_path only if querying a list and it's sorted by an ordering column.
+            if(!$query->isCountQuery() && $state && !$state->isUnique())
             {
-                $query->columns(array('ordering_path' => 'GROUP_CONCAT(ordering_crumbs.'.$state->sort.' ORDER BY crumbs.level DESC  SEPARATOR \'/\')'))
-                    ->join(array('ordering_crumbs' => $ordering_table), 'crumbs.ancestor_id = ordering_crumbs.'.$id_column, 'INNER');
-                
-                // Replace sort column with ordering path.
-                foreach($query->order as &$order)
+                if(in_array($state->sort, $this->_columns))
                 {
-                    if($order['column'] == $state->sort)
+                    $query->columns(array('ordering_path' => 'GROUP_CONCAT(ordering_crumbs.'.$state->sort.' ORDER BY crumbs.level DESC  SEPARATOR \'/\')'))
+                        ->join(array('ordering_crumbs' => $ordering_table->getName()), 'crumbs.ancestor_id = ordering_crumbs.'.$id_column, 'INNER');
+
+                    // Replace sort column with ordering path.
+                    foreach($query->order as &$order)
                     {
-                        $order['column'] = 'ordering_path';
-                        break;
+                        if($order['column'] == $state->sort)
+                        {
+                            $order['column'] = 'ordering_path';
+                            break;
+                        }
                     }
                 }
+
+                $query->columns(array('ordering' => 'CAST(SUBSTRING_INDEX(GROUP_CONCAT(ordering_crumbs.custom ORDER BY crumbs.level DESC  SEPARATOR \'/\'), \'/\', -1) AS UNSIGNED)'));
             }
-            
-            $query->columns(array('ordering' => 'orderings.custom'))
-                ->join(array('orderings' => $ordering_table), 'tbl.'.$id_column.' = orderings.'.$id_column);
         }
     }
     
