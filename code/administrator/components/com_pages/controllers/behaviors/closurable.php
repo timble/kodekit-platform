@@ -25,8 +25,8 @@ class ComPagesControllerBehaviorClosurable extends KDatabaseBehaviorAbstract
         {
             $state = $model->getState();
             
-            if(!isset($state->parent_id)) {
-                $state->insert('parent_id', 'int');
+            if(!isset($state->parent)) {
+                $state->insert('parent', 'int');
             }
             
             if(!isset($state->level)) {
