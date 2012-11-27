@@ -28,14 +28,14 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
     public function save()
     {
         $user = $this->getService('com://admin/users.model.users')
-            ->set('email', $this->email)
+            ->set('email', $this->id)
             ->getItem();
 
         // Check if referenced user actually exists.
         if ($user->isNew())
         {
             $this->setStatus(KDatabase::STATUS_FAILED);
-            $this->setStatusMessage(JText::sprintf('USER NOT FOUND', $this->email));
+            $this->setStatusMessage(JText::sprintf('USER NOT FOUND', $this->id));
             return false;
         }
 
