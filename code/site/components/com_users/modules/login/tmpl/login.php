@@ -30,7 +30,7 @@
 		<div class="controls">
 			<input id="modlgn_passwd" class="required" type="password" name="password" />
 			<span class="help-block">
-			    <small><a href="<?= @route( 'option=com_users&view=password&layout=token' ); ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
+			    <small><a href="<?= @route( 'option=com_users&view=user&layout=reset' ); ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
 			</span>
 		</div>
 	</div>
