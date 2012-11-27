@@ -179,10 +179,10 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
     {
         if ($context->result !== false)
         {
-            $password = $context->user->getPassword();
-            if ($password->expired())
+            $user = $context->user;
+            if ($user->getPassword()->expired())
             {
-                $url = 'index.php?option=com_users&view=password&layout=form&id=' . $password->id;
+                $url = 'index.php?option=com_users&view=user&layout=password&id=' . $user->id;
                 $url = $this->getService('koowa:http.url', array('url' => $url));
 
                 $this->getService('application')->getRouter()->build($url);
