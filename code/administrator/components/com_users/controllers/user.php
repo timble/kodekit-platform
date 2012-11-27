@@ -62,11 +62,10 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     public function notify(KCommandContext $context)
     {
         $user = $context->result;
-        $token = $user->token;
+        $reset = $user->reset;
 
-        if(($user->getStatus() != KDatabase::STATUS_FAILED) && $token)
+        if(($user->getStatus() != KDatabase::STATUS_FAILED) && $reset)
         {
-            $password = $user->getPassword();
             $application = $this->getService('application');
 
             /*
@@ -74,10 +73,9 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
                 array('url' => "index.php?option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
             $this->getService('com://site/application.router')->build($url);
             */
-            // TODO Hardcoding URL since AFAIK currently there's  no other way to build a frontend route from here.
-            // Due to namespacing problems the backend router will always be returned. This will get fixed
-            // when introducing PHP 5.3 namespacing.
-            $url = "/component/users/password?layout=form&uuid={$password->uuid}&token={$token}";
+            // TODO Hardcoding URL since AFAIK currently there's no other way to build a frontend route from here.
+            // Due to namespacing problems the backend router will always be returned.
+            $url = "/component/users/user?layout=password&uuid={$user->uuid}&reset={$reset}";
             $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
 
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
