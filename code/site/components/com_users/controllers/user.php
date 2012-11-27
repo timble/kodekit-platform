@@ -31,8 +31,9 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $config->append(array(
             'behaviors' => array(
+                'resettable',
                 'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
-                'com://site/users.controller.behavior.activateable')));
+                'activateable')));
 
         parent::_initialize($config);
     }
