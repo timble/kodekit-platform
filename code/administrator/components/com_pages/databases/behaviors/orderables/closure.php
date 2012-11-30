@@ -4,6 +4,8 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
     protected $_table;
     
     protected $_columns = array();
+
+    protected $_old_row;
     
     public function __construct(KConfig $config)
     {
@@ -54,7 +56,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
             
             ->group('tbl.'.$id_column)
             ->having('COUNT(`crumbs`.`ancestor_id`) = :level')
-            ->bind(array('id' => $data->id, 'level' => $data->level));
+            ->bind(array('level' => $data->level));
         
         if($data->level > 1) {
             $query->where('closures.ancestor_id = :ancestor_id')->bind(array('ancestor_id' => $data->getParentId()));
@@ -103,33 +105,23 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         $data = $context->data;
         if($data->getStatus() != KDatabase::STATUS_FAILED)
         {
-            $table     = $context->getSubject();
-            $id_column = $table->getIdentityColumn();
-            
             // Insert empty row into ordering table.
-            $row = $table->getOrderingTable()->getRow();
-            $row->id = $data->id;
+            $table = $context->getSubject();
+            $row   = $table->getOrderingTable()->getRow()->setData(array('id' => $data->id));
             $table->getOrderingTable()->insert($row);
             
             // Iterate through the columns and update values.
-            foreach($this->_columns as $column)
-            {
-                if($column == 'custom')
-                {
-                    $query = $this->_buildQuery($context)
-                        ->columns('orderings.custom')
-                        ->join(array('orderings' => $table->getOrderingTable()->getName()), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
-                        ->order('orderings.custom', 'DESC')
-                        ->limit(1);
-                    
-                    $max = (int) $table->getDatabase()->select($query, KDatabase::FETCH_FIELD);
-                    
-                    $row = $table->getOrderingTable()->select($data->id, KDatabase::FETCH_ROW);
-                    $row->custom = $max + 1;
-                    $row->save();
-                }
-                else $this->_reorder($context, $column);
+            foreach($this->_columns as $column) {
+                call_user_func(array($this, '_reorder'.ucfirst($column)), $context, $column);
             }
+        }
+    }
+
+    protected function _beforeTableUpdate(KCommandContext $context)
+    {
+        $data = $context->data;
+        if($data->isModified('parent_id')) {
+            $this->_old_row = $context->getSubject()->select($data->id, KDatabase::FETCH_ROW);
         }
     }
     
@@ -138,49 +130,8 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         $data = $context->data;
         if($data->getStatus() != KDatabase::STATUS_FAILED)
         {
-            foreach($this->_columns as $column)
-            {
-                if($column == 'custom')
-                {
-                    if($data->order)
-                    {
-                        $table          = $context->getSubject();
-                        $id_column      = $table->getIdentityColumn();
-                        $ordering_table = $table->getOrderingTable()->getBase();
-
-                        $old = (int) $data->ordering;
-                        $new = $data->ordering + $data->order;
-                        $new = $new <= 0 ? 1 : $new;
-
-                        $select = $this->_buildQuery($context)
-                            ->columns('orderings.custom')
-                            ->columns('tbl.'.$id_column)
-                            ->join(array('orderings' => $ordering_table), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
-                            ->order('index', 'ASC');
-
-                        if($data->order < 0)
-                        {
-                            $select->columns(array('index' => 'IF(orderings.custom >= :new AND orderings.custom < :old, orderings.custom + 1, '.
-                                'IF(orderings.'.$id_column.' = :id, :new, orderings.custom))'));
-                        }
-                        else
-                        {
-                            $select->columns(array('index' => 'IF(orderings.custom > :old AND orderings.custom <= :new, orderings.custom - 1, '.
-                                'IF(orderings.'.$id_column.' = :id, :new, orderings.custom))'));
-                        }
-
-                        $select->bind(array('new' => $new, 'old' => $old, 'id' => $data->id));
-
-                        $update = $this->getService('koowa:database.query.update')
-                            ->table(array('tbl' => $ordering_table))
-                            ->join(array('ordering' => $select), 'tbl.'.$id_column.' = ordering.'.$id_column)
-                            ->values('tbl.'.$column.' = ordering.index')
-                            ->where('tbl.'.$id_column.' = ordering.'.$id_column);
-
-                        $table->getDatabase()->update($update);
-                    }
-                }
-                else $this->_reorder($context, $column);
+            foreach($this->_columns as $column) {
+                call_user_func(array($this, '_reorder'.ucfirst($column)), $context, $column);
             }
         }
     }
@@ -189,37 +140,13 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
     {       
         if($context->data->getStatus() != KDatabase::STATUS_FAILED)
         {
-            foreach($this->_columns as $column)
-            {
-                if($column == 'custom')
-                {
-                    $table          = $context->getSubject();
-                    $id_column      = $table->getIdentityColumn();
-                    $ordering_table = $table->getOrderingTable()->getBase();
-                    
-                    $table->getDatabase()->execute('SET @index := 0');
-                    
-                    $select = $this->_buildQuery($context)
-                        ->columns(array('index' => '@index := @index + 1')) 
-        			    ->columns('orderings.custom')
-        			    ->columns('tbl.'.$id_column)
-        			    ->join(array('orderings' => $ordering_table), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
-        			    ->order('index', 'ASC');
-                    
-                    $update = $this->getService('koowa:database.query.update')
-                        ->table(array('tbl' => $ordering_table))
-                        ->join(array('ordering' => $select), 'tbl.'.$id_column.' = ordering.'.$id_column)
-                        ->values('tbl.'.$column.' = ordering.index')
-                        ->where('tbl.'.$id_column.' = ordering.'.$id_column);
-
-                    $table->getDatabase()->update($update);   			
-                }
-                else $this->_reorder($context, $column);
+            foreach($this->_columns as $column) {
+                call_user_func(array($this, '_reorder'.ucfirst($column)), $context, $column);
             }
         }
     }
     
-    protected function _reorder(KCommandContext $context, $column)
+    protected function _reorderDefault(KCommandContext $context, $column)
     {
         $table     = $context->getSubject();
         $id_column = $table->getIdentityColumn();
@@ -245,5 +172,97 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
             ->where('tbl.'.$id_column.' = ordering.'.$id_column);
 
         $table->getDatabase()->update($update);
+    }
+
+    protected function _reorderCustom(KCommandContext $context, $column)
+    {
+        $table     = $context->getSubject();
+        $id_column = $table->getIdentityColumn();
+
+        switch($context->operation)
+        {
+            case KDatabase::OPERATION_INSERT:
+            {
+                $data  = $context->data;
+                $query = $this->_buildQuery($context)
+                    ->columns('orderings.custom')
+                    ->join(array('orderings' => $table->getOrderingTable()->getName()), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
+                    ->order('orderings.custom', 'DESC')
+                    ->limit(1);
+
+                $max = (int) $table->getDatabase()->select($query, KDatabase::FETCH_FIELD);
+                $table->getOrderingTable()->select($data->id, KDatabase::FETCH_ROW)
+                    ->setData(array('custom' => $max + 1))->save();
+            } break;
+
+            case KDatabase::OPERATION_UPDATE:
+            {
+                $data = $context->data;
+                if($data->order)
+                {
+                    $old = (int) $data->ordering;
+                    $new = $data->ordering + $data->order;
+                    $new = $new <= 0 ? 1 : $new;
+
+                    $select = $this->_buildQuery($context)
+                        ->columns('orderings.custom')
+                        ->columns('tbl.'.$id_column)
+                        ->join(array('orderings' => $table->getOrderingTable()->getBase()), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
+                        ->order('index', 'ASC');
+
+                    if($data->order < 0)
+                    {
+                        $select->columns(array('index' => 'IF(orderings.custom >= :new AND orderings.custom < :old, orderings.custom + 1, '.
+                            'IF(orderings.'.$id_column.' = :id, :new, orderings.custom))'));
+                    }
+                    else
+                    {
+                        $select->columns(array('index' => 'IF(orderings.custom > :old AND orderings.custom <= :new, orderings.custom - 1, '.
+                            'IF(orderings.'.$id_column.' = :id, :new, orderings.custom))'));
+                    }
+
+                    $select->bind(array('new' => $new, 'old' => $old, 'id' => $data->id));
+
+                    $update = $this->getService('koowa:database.query.update')
+                        ->table(array('tbl' => $table->getOrderingTable()->getBase()))
+                        ->join(array('ordering' => $select), 'tbl.'.$id_column.' = ordering.'.$id_column)
+                        ->values('tbl.'.$column.' = ordering.index')
+                        ->where('tbl.'.$id_column.' = ordering.'.$id_column);
+
+                    $table->getDatabase()->update($update);
+                }
+            } break;
+
+            case KDatabase::OPERATION_DELETE:
+            {
+                $table->getDatabase()->execute('SET @index := 0');
+
+                $select = $this->_buildQuery($context)
+                    ->columns(array('index' => '@index := @index + 1'))
+                    ->columns('orderings.custom')
+                    ->columns('tbl.'.$id_column)
+                    ->join(array('orderings' => $table->getOrderingTable()->getBase()), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
+                    ->order('index', 'ASC');
+
+                $update = $this->getService('koowa:database.query.update')
+                    ->table(array('tbl' => $table->getOrderingTable()->getBase()))
+                    ->join(array('ordering' => $select), 'tbl.'.$id_column.' = ordering.'.$id_column)
+                    ->values('tbl.'.$column.' = ordering.index')
+                    ->where('tbl.'.$id_column.' = ordering.'.$id_column);
+
+                $table->getDatabase()->update($update);
+            } break;
+        }
+    }
+
+    public function __call($name, $arguments)
+    {
+        if(strpos($name, '_reorder') === 0) {
+            $result = $this->_reorderDefault($arguments[0], $arguments[1]);
+        } else {
+            $result = parent::__call($name, $arguments);
+        }
+
+        return $result;
     }
 }
