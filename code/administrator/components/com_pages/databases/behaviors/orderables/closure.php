@@ -41,7 +41,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         return $this->_table;
     }
     
-    protected function _buildQuerySelect(KCommandContext $context)
+    protected function _buildQuery(KCommandContext $context)
     {
         $data      = $context->data;
         $table     = $context->getSubject();
@@ -59,16 +59,11 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         if($data->level > 1) {
             $query->where('closures.ancestor_id = :ancestor_id')->bind(array('ancestor_id' => $data->getParentId()));
         }
-        
+
         // Custom
         $query->where('tbl.pages_menu_id = :pages_menu_id')->bind(array('pages_menu_id' => $data->pages_menu_id));
-        
+
         return $query;
-    }
-    
-    protected function _buildQueryUpdate(KCommandContext $context)
-    {
-        $query = $this->getService('koowa:database.query.update');
     }
     
     protected function _beforeTableSelect(KCommandContext $context)
@@ -121,7 +116,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
             {
                 if($column == 'custom')
                 {
-                    $query = $this->_buildQuerySelect($context)
+                    $query = $this->_buildQuery($context)
                         ->columns('orderings.custom')
                         ->join(array('orderings' => $table->getOrderingTable()->getName()), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
                         ->order('orderings.custom', 'DESC')
@@ -157,7 +152,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                         $new = $data->ordering + $data->order;
                         $new = $new <= 0 ? 1 : $new;
 
-                        $select = $this->_buildQuerySelect($context)
+                        $select = $this->_buildQuery($context)
                             ->columns('orderings.custom')
                             ->columns('tbl.'.$id_column)
                             ->join(array('orderings' => $ordering_table), 'tbl.'.$id_column.' = orderings.'.$id_column, 'INNER')
@@ -204,7 +199,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                     
                     $table->getDatabase()->execute('SET @index := 0');
                     
-                    $select = $this->_buildQuerySelect($context)
+                    $select = $this->_buildQuery($context)
                         ->columns(array('index' => '@index := @index + 1')) 
         			    ->columns('orderings.custom')
         			    ->columns('tbl.'.$id_column)
@@ -232,7 +227,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         // Create a select query which returns an ordered list of rows.
         $table->getDatabase()->execute('SET @index := 0');
         
-        $sub_select = $this->_buildQuerySelect($context)
+        $sub_select = $this->_buildQuery($context)
             ->columns('tbl.'.$column)
             ->columns('tbl.'.$id_column)
             ->order('tbl.'.$column, 'ASC');
