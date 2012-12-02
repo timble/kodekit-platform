@@ -149,11 +149,18 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         $table = $this->getTable();
         
-        if($this->level > 1) {
-            $result = $table->select($this->getParentIds());
-        } else {
-            $result = $table->getRowset();
+        if($this->level > 1)
+        {
+            $query = $this->getService('koowa:database.query.select')
+                ->columns('tbl.*')
+                ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.ancestor_id = tbl.'.$table->getIdentityColumn(), 'INNER')
+                ->where('closures.descendant_id = :id')
+                ->where('closures.ancestor_id <> :id')
+                ->bind(array('id' => $this->id));
+
+            $result = $table->select($query);
         }
+        else $result = $table->getRowset();
         
         return $result;
     }
