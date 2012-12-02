@@ -43,8 +43,9 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         return $this->_table;
     }
     
-    protected function _buildQuery(KDatabaseTableInterface $table, KDatabaseRowInterface $row)
+    protected function _buildQuery(KDatabaseRowInterface $row)
     {
+        $table = $row->getTable();
         $query = $this->getService('koowa:database.query.select')
             ->table(array('tbl' => $table->getName()))
             ->join(array('crumbs' => $table->getClosureTable()->getName()), 'crumbs.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
@@ -156,7 +157,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         // Create a select query which returns an ordered list of rows.
         $table->getDatabase()->execute('SET @index := 0');
         
-        $sub_select = $this->_buildQuery($table, $row)
+        $sub_select = $this->_buildQuery($row)
             ->columns('tbl.'.$column)
             ->columns('tbl.'.$table->getIdentityColumn())
             ->order('tbl.'.$column, 'ASC');
@@ -184,7 +185,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         {
             case KDatabase::OPERATION_INSERT:
             {
-                $query = $this->_buildQuery($table, $row)
+                $query = $this->_buildQuery($row)
                     ->columns('orderings.custom')
                     ->join(array('orderings' => $table->getOrderingTable()->getName()), 'tbl.'.$table->getIdentityColumn().' = orderings.'.$table->getIdentityColumn(), 'INNER')
                     ->order('orderings.custom', 'DESC')
@@ -203,7 +204,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                     $new = $row->ordering + $row->order;
                     $new = $new <= 0 ? 1 : $new;
 
-                    $select = $this->_buildQuery($table, $row)
+                    $select = $this->_buildQuery($row)
                         ->columns('orderings.custom')
                         ->columns('tbl.'.$table->getIdentityColumn())
                         ->join(array('orderings' => $table->getOrderingTable()->getBase()), 'tbl.'.$table->getIdentityColumn().' = orderings.'.$table->getIdentityColumn(), 'INNER')
@@ -236,7 +237,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
             {
                 $table->getDatabase()->execute('SET @index := 0');
 
-                $select = $this->_buildQuery($table, $row)
+                $select = $this->_buildQuery($row)
                     ->columns(array('index' => '@index := @index + 1'))
                     ->columns('orderings.custom')
                     ->columns('tbl.'.$table->getIdentityColumn())
