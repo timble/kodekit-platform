@@ -300,15 +300,15 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         if($context->affected !== false)
         {
-            $data = $context->data;
-            if((int) $data->parent_id != (int) $data->getParentId())
+            $row = $context->data;
+            if((int) $row->parent_id != (int) $row->getParentId())
             {
-                $table = $context->getSubject();
+                $table = $row->getTable();
                 
-                if($data->parent_id)
+                if($row->parent_id)
                 {
-                    $parent = $table->select((int) $data->parent_id, KDatabase::FETCH_ROW);
-                    if($parent->isDescendantOf($data))
+                    $parent = $table->select((int) $row->parent_id, KDatabase::FETCH_ROW);
+                    if($parent->isDescendantOf($row))
                     {
                         $this->setStatusMessage(JText::_('You cannot move a node under one of its descendants'));
                         $this->setStatus(KDatabase::STATUS_FAILED);
@@ -318,32 +318,32 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 
                 // Delete the outdated paths for the old location.
                 $query = $this->getService('koowa:database.query.delete')
-                    ->table(array('a' => $this->_table))
-                    ->join(array('d' => $this->_table), 'a.descendant_id = d.descendant_id', 'INNER')
-                    ->join(array('x' => $this->_table), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
+                    ->table(array('a' => $this->getClosureTable()->getBase()))
+                    ->join(array('d' => $this->getClosureTable()->getBase()), 'a.descendant_id = d.descendant_id', 'INNER')
+                    ->join(array('x' => $this->getClosureTable()->getBase()), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
                     ->where('d.ancestor_id = :ancestor_id')
                     ->where('x.ancestor_id IS NULL')
-                    ->bind(array('ancestor_id' => $data->id));
+                    ->bind(array('ancestor_id' => $row->id));
 
                 $table->getDatabase()->delete($query);
 
                 // Insert the subtree under its new location.
                 $select = $this->getService('koowa:database.query.select')
                     ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
-                    ->table(array('supertree' => $this->_table))
-                    ->join(array('subtree' => $this->_table), null, 'INNER')
+                    ->table(array('supertree' => $this->getClosureTable()->getName()))
+                    ->join(array('subtree' => $this->getClosureTable()->getName()), null, 'INNER')
                     ->where('subtree.ancestor_id = :ancestor_id')
                     ->where('supertree.descendant_id = :descendant_id')
-                    ->bind(array('ancestor_id' => $data->id, 'descendant_id' => (int) $data->parent_id));
+                    ->bind(array('ancestor_id' => $row->id, 'descendant_id' => (int) $row->parent_id));
 
                 $query = $this->getService('koowa:database.query.insert')
-                    ->table($this->_table)
+                    ->table($this->getClosureTable()->getBase())
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
 
                 $table->getDatabase()->insert($query);
                 
-                $data->path = ($data->parent_id ? $parent->path.'/' : '').$data->id;
+                $row->path = ($row->parent_id ? $parent->path.'/' : '').$row->id;
             }
         }
         
