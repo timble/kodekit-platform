@@ -1,5 +1,5 @@
 <?php
-class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorOrderableAbstract/* implements ComPagesDatabaseBehaviorOrderableInterface*/
+class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorOrderableAbstract implements ComPagesDatabaseBehaviorOrderableInterface
 {
     protected $_columns = array();
 

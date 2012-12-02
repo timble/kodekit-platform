@@ -1,12 +1,12 @@
 <?php
-class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableAbstract/* implements ComPagesDatabaseBehaviorOrderableInterface*/
+class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableAbstract implements ComPagesDatabaseBehaviorOrderableInterface
 {
     protected function _beforeTableInsert(KCommandContext $context)
     {
         $query = $this->getService('koowa:database.query.select')
             ->columns('MAX(ordering)');
         
-        $this->_buildQueryWhere($query);
+        $this->_buildQuery($query);
         
         $max = (int) $context->getSubject()->select($query, KDatabase::FETCH_FIELD);
         $context->data->ordering = $max + 1;
@@ -14,20 +14,20 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
     
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-        $data = $context->data;
-        if($data->order)
+        $row = $context->data;
+        if($row->order)
         {        
-			$old = (int) $data->ordering;
-			$new = $data->ordering + $data->order;
+			$old = (int) $row->ordering;
+			$new = $row->ordering + $row->order;
 			$new = $new <= 0 ? 1 : $new;
 
 			$table = $context->getSubject();
 			$query = $this->getService('koowa:database.query.update')
 			    ->table($table->getBase());
 			
-			$this->_buildQueryWhere($query);
+			$this->_buildQuery($query);
 
-			if($data->order < 0)
+			if($row->order < 0)
 			{
 			    $query->values('ordering = ordering + 1')
 			        ->where('ordering >= :new')
@@ -43,7 +43,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			}
 			
 			$table->getDatabase()->update($query);
-			$data->ordering = $new;
+			$row->ordering = $new;
         }
     }
     
@@ -61,7 +61,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         }
     }
     
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQuery(KDatabaseQuerySelect $query)
     {
         if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate) {
 	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate');
@@ -78,7 +78,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');
         
-        $this->_buildQueryWhere($query);
+        $this->_buildQuery($query);
         
         $table->getDatabase()->update($query);
     }
