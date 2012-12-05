@@ -24,14 +24,15 @@ class ComPagesModelPages extends ComDefaultModelDefault
         parent::__construct($config);
 
         $this->getState()
-            ->remove('sort')->insert('sort', 'cmd', 'custom')
-            ->insert('published' , 'boolean')
-            ->insert('menu'      , 'int')
-            ->insert('type'      , 'cmd')
-            ->insert('home'      , 'boolean')
-            ->insert('trashed'   , 'int')
-            ->insert('access'    , 'int')
-            ->insert('hidden'    , 'boolean');
+            ->insert('sort'       , 'cmd', 'custom')
+            ->insert('published'  , 'boolean')
+            ->insert('menu'       , 'int')
+            ->insert('type'       , 'cmd')
+            ->insert('home'       , 'boolean')
+            ->insert('trashed'    , 'int')
+            ->insert('access'     , 'int')
+            ->insert('hidden'     , 'boolean')
+            ->insert('application', 'word');
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
@@ -46,6 +47,11 @@ class ComPagesModelPages extends ComDefaultModelDefault
         parent::_buildQueryJoins($query);
 
         $query->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
+
+        $state = $this->getState();
+        if($state->application) {
+            $query->join(array('menus' => 'pages_menus'), 'menus.pages_menu_id = tbl.pages_menu_id', 'RIGHT');
+        }
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -83,6 +89,10 @@ class ComPagesModelPages extends ComDefaultModelDefault
 
         if($state->search) {
             $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+        }
+
+        if($state->application) {
+            $query->where('menus.application = :application')->bind(array('application' => $state->application));
         }
     }
 }
