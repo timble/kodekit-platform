@@ -20,18 +20,25 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
 {
     public function display()
     {
+        $module = $this->getModel()->getItem();
+
         if($this->getLayout() == 'modal')
         {
-            $this->menu      = $this->getService('com://admin/pages.model.menus')->sort('title')->getList();
-            $this->pages     = $this->getService('com://admin/pages.model.pages')->getList();
-            $this->modules   = $this->getService('com://admin/extensions.model.modules')->application('site')->getList();
-            $this->relations = $this->getService($this->getModel()->getIdentifier())->module($this->getModel()->module)->getList();
+            $menus = $this->getService('com://admin/pages.model.menus')->sort('title')->getList();
+            $this->assign('menus', $menus);
+
+            $pages = $this->getService('com://admin/pages.model.pages')->application('site')->getList();
+            $this->assign('pages', $pages);
+
+            $modules = $this->getService('com://admin/pages.model.modules')->application('site')->getList();
+            $this->assign('modules', $modules);
+
+            $relations = $this->getService('com://admin/pages.model.modules_pages')->modules_module_id($module->id)->getList();
+            $this->assign('relations', $relations);
         }
 
         if($this->getLayout() == 'form')
         {
-            $module = $this->getModel()->getItem();
-
             $path = $this->getIdentifier()->getApplication($module->application);
             JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path);
         }

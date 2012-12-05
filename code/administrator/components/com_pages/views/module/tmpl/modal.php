@@ -14,11 +14,11 @@
 <script>
 window.addEvent('domready', (function() {
     new Pages.Module({
-        'module': <?= $state->module ?>,
+        'module': <?= $state->id ?>,
         'page': <?= $state->page ?>,
         'form': document.forms['module-pages'],
-        'parent_input_current': window.parent.document.getElement('#pages-modules input[name="modules[<?= $state->module ?>][current]"]'),
-        'parent_input_others': window.parent.document.getElement('#pages-modules input[name="modules[<?= $state->module ?>][others]"]')
+        'parent_input_current': window.parent.document.getElement('#pages-modules input[name="modules[<?= $state->id ?>][current]"]'),
+        'parent_input_others': window.parent.document.getElement('#pages-modules input[name="modules[<?= $state->id ?>][others]"]')
     });
 }));
 </script>
