@@ -16,7 +16,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowPage extends KDatabaseRowTable/* implements KServiceInstantiatable*/
+class ComPagesDatabaseRowPage extends KDatabaseRowTable
 {
     protected $_strategy;
 
@@ -52,40 +52,6 @@ class ComPagesDatabaseRowPage extends KDatabaseRowTable/* implements KServiceIns
         $this->getStrategy()->save();
         
         return parent::save();
-    }
-
-    /**
-     * Returns the siblings of the row
-     *
-     * @return KDatabaseRowAbstract
-     */
-    public function getSiblings()
-    {
-        if($this->id)
-        {
-            $table = $this->getTable();
-            $query = $this->getService('koowa:database.query.select')
-                ->where('tbl.'.$table->getIdentityColumn().' <> :id')
-                ->where('tbl.pages_menu_id = :pages_menu_id')
-                ->having('level = :level')
-                ->bind(array(
-                    'id' => $this->id,
-                    'pages_menu_id' => $this->pages_menu_id,
-                    'level' => $this->level));
-
-            $parent_ids = $this->getParentIds();
-            if($parent_ids)
-            {
-                $query->join(array('closures' => $table->getRelationTable()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
-                    ->where('closures.ancestor_id = :parent_id')
-                    ->bind(array('parent_id' => $this->parent_id));
-            }
-
-            $result = $this->getTable()->select($query, KDatabase::FETCH_ROWSET);
-        }
-        else $result = null;
-
-        return $result;
     }
 
     public function __get($key)
