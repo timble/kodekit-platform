@@ -7477,6 +7477,75 @@ a.badge:hover {
     overflow: visible !important;
   }
 }
+/* Forms validation message */
+.validation-advice {
+  clear: both;
+  font-size: 11px;
+  color: #7e5501;
+  float: left;
+  position: relative;
+  margin-top: 15px;
+  overflow: visible!important;
+  top: -10px;
+  left: 1px;
+  padding: 6px 10px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  text-shadow: white 0 1px 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  background-color: #ffeeaf;
+  background-image: -moz-linear-gradient(top, #fff3c5, #ffe78f);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff3c5), to(#ffe78f));
+  background-image: -webkit-linear-gradient(top, #fff3c5, #ffe78f);
+  background-image: -o-linear-gradient(top, #fff3c5, #ffe78f);
+  background-image: linear-gradient(to bottom, #fff3c5, #ffe78f);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffff3c5', endColorstr='#ffffe78f', GradientType=0);
+  -webkit-box-shadow: hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+  -moz-box-shadow: hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+  box-shadow: hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset;
+}
+.validation-advice::before,
+.validation-advice::after {
+  content: '▾';
+  font-family: Arial;
+  color: #fff3c5;
+  -webkit-transform: rotate(180deg);
+  display: block;
+  position: absolute;
+}
+.validation-advice::before {
+  text-shadow: white 0 1px 0;
+  top: -22px;
+  z-index: 1;
+  font-size: 36px;
+  left: 10px;
+}
+.validation-advice::after {
+  content: '▾';
+  color: rgba(102, 82, 0, 0.4);
+  text-shadow: rgba(0, 0, 0, 0.1) 0 2px 7px;
+  top: -24px;
+  font-size: 38px;
+  left: 9px;
+}
+.validation-failed,
+.required,
+input[class*=validate],
+select[class*=validate] {
+  float: left;
+}
+td .validation-advice {
+  margin-top: 5px;
+  top: 0px;
+  float: left;
+}
 html {
   overflow-y: scroll;
 }
@@ -7652,4 +7721,19 @@ section article .page-header {
 }
 .module.mod_login form .form-actions .btn {
   width: auto;
+}
+#password-check.score1 {
+  color: #FF0000;
+}
+#password-check.score2 {
+  color: #FF5F5F;
+}
+#password-check.score3 {
+  color: #56E500;
+}
+#password-check.score4 {
+  color: #4DCD00;
+}
+#password-check.score5 {
+  color: #399800;
 }
