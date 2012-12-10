@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationEventDispatcherDebug extends KEventDispatcherError
+class ComApplicationEventDispatcherDebug extends KEventDispatcherError implements KServiceInstantiatable
 {
     /**
      * Debug modes
