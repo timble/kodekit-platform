@@ -52,22 +52,21 @@ class JPathway extends KObject
                 foreach (explode('/', $active->path) as $id)
                 {
                     $page = $pages->getPage($id);
-                    $url = '';
                     switch ($page->type) {
-                        case 'pagelink' :
+                        case 'pagelink':
                         case 'url' :
                             $url = $page->link;
                             break;
-                        case 'separator' :
+                        case 'separator':
                             $url = null;
                             break;
-                        default      :
-                            {
-                                $url = $page->link;
-                                $url->query['Itemid'] = $page->id;
+                        default:
+                        {
+                            $url = clone $page->link;
+                            $url->query['Itemid'] = $page->id;
 
-                                $url = KService::get('application')->getRouter()->build($url);
-                            }
+                            $url = KService::get('application')->getRouter()->build($url);
+                        } break;
                     }
 
                     $this->addItem($page->title, $url);
