@@ -97,26 +97,26 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         return $this->_active;
     }
     
-    public function isAuthorized($id, $user = null)
+    public function isAuthorized($id, KDatabaseRowInterface $user)
     {
         $result = true;
         $page   = $this->find($id);
-        
-        if($page->users_group_id)
+
+        if($page->access)
         {
-            $users = $this->getService('com://admin/users.model.groups_users')
-                ->group($page->users_group_id)
-                ->getList()->users_user_id;
-            
-            if(!in_array($user->id, $users)) {
-                $result = false;
+            // Return false if page has access set, but user is a guest.
+            if(!$user->guest)
+            {
+                // Return false if page has group set, but user is not in that group.
+                if($page->users_group_id && !in_array($user->group_id, array(21, 23, 24, 25))
+                    && !in_array($page->users_group_id, $user->getGroups()))
+                {
+                    $result = false;
+                }
             }
-            
-            if(in_array($user->group_id, array(21, 23, 24, 25))) {
-                $result = true;
-            }
+            else $result = false;
         }
-        
+
         return $result;
     }
 }
