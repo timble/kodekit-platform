@@ -19,18 +19,11 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
 {
     public function display()
     {
-        $user     = JFactory::getUser();
-        
         $start    = $this->module->params->get('start_level');
         $end      = $this->module->params->get('end_level');
         $children = $this->module->params->get('show_children', 'active');
         $pages    = $this->getService('application.pages');
-
-        if($user->id) {
-        	$groups = $this->getService('com://admin/users.model.groups_users')->user($user->id)->getList()->users_group_id;
-        } else {
-            $groups = array();
-        }
+        $groups   = JFactory::getUser()->getGroups();
 
         // Make sure that pages without an assigned group are also included.
         $groups[] = 0;
