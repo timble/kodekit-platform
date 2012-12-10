@@ -24,6 +24,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
      */
     protected $_role;
 
+    protected $_groups;
+
     public function __get($column)
     {
         //@TODO : Add mapped properties support
@@ -68,6 +70,21 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
             //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->role_id)->getItem();
         }
         return $this->_role;
+    }
+
+    public function getGroups()
+    {
+        if(is_null($this->_groups))
+        {
+            if(!$this->guest)
+            {
+                $this->_groups = KService::get('com://admin/users.database.table.groups_users')
+                    ->select(array('users_user_id' => $this->id), KDatabase::FETCH_FIELD_LIST);
+            }
+            else $this->_groups = array();
+        }
+
+        return $this->_groups;
     }
 
     public function save()
