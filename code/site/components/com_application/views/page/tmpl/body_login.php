@@ -9,7 +9,7 @@
  */
 ?>
 <body>
-<?= @template('message') ?>
+<?= @template('default_message') ?>
 <div id="frame" class="outline">
     <h1><?= @service('application')->getCfg('sitename'); ?></h1>
     <ktml:variable name="content" />
