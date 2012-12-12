@@ -39,20 +39,16 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
             )
         ));
 
-        parent::_initialize($config);
-    }
-
-    protected function _actionGet(KCommandContext $context)
-    {
-        //Force the application template
-        if ($this->getService('application')->getCfg('offline') && JFactory::getUser()->get('guest')) {
-            KRequest::set('get.tmpl', 'login');
+        if(KRequest::method() == 'GET')
+        {
+            $config->request = array(
+                'option' => $config->request->option,
+                'view'   => $config->request->view,
+                'format' => $config->request->format
+            );
         }
 
-        //Set the status
-        $context->response->setStatus(KHttpResponse::UNAUTHORIZED);
-
-        return parent::_actionGet($context);
+        parent::_initialize($config);
     }
 
     protected function _actionAdd(KCommandContext $context)
@@ -188,6 +184,7 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
                 $this->getService('application')->getRouter()->build($url);
                 $context->response->setRedirect($url);
             }
+            else $context->response->setRedirect(KRequest::referrer());
         }
     }
 }
