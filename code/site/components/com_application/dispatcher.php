@@ -481,7 +481,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
                                 break;
 
                             default:
-                                $url = clone $page->link;
+                                $url = $page->link;
                                 $url->query['Itemid'] = $page->id;
                                 $url = $this->getRouter()->build($url);
                                 break;
