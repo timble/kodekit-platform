@@ -26,19 +26,31 @@ class ComPagesDatabaseRowPagePagelink extends ComPagesDatabaseRowPageAbstract
         parent::_initialize($config);
     }
 
-    public function setProperty($property)
+    public function __get($name)
     {
-        switch($property)
+        if($this->hasProperty($name))
         {
-            case 'type_description':
-                $this->type_description = JText::_('Page Link');
-                break;
+            switch($name)
+            {
+                case 'type_description':
+                {
+                    $description = JText::_('Page Link');
 
-            case 'type_title':
-                $this->type_title = JText::_('Page Link');
-                break;
+                    $this->type_description = $description;
+                    $result = $description;
+                } break;
+
+                case 'type_title':
+                {
+                    $title = JText::_('Page Link');
+
+                    $this->type_title = $title;
+                    $result = $title;
+                } break;
+            }
         }
+        else $result = parent::__get($name);
 
-        return parent::setProperty($property);
+        return $result;
     }
 }

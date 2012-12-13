@@ -54,13 +54,15 @@ class ComPagesDatabaseRowPage extends KDatabaseRowTable
         return parent::save();
     }
 
-    public function __get($key)
+    public function __get($name)
     {
         $strategy = $this->getStrategy();
-        if(!isset($this->$key) && $strategy->hasProperty($key)) {
-            $strategy->setProperty($key);
+        if(!isset($this->$name) && $strategy->hasProperty($name)) {
+            $result = $strategy->$name;
+        } else {
+            $result = parent::__get($name);
         }
 
-        return parent::__get($key);
+        return $result;
     }
 }

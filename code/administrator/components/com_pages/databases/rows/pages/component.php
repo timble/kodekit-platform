@@ -39,117 +39,6 @@ class ComPagesDatabaseRowPageComponent extends ComPagesDatabaseRowPageAbstract
         parent::_initialize($config);
     }
     
-    public function setProperty($property)
-    {
-        switch($property)
-        {
-            case 'type_description':
-            {
-                $query       = $this->link->query;
-                $description = $this->component_name ? ucfirst(substr($this->component_name, 4)) : ucfirst(substr($query['option'], 4));
-
-                if(isset($query['view'])) {
-                    $description .= ' &raquo; '.JText::_(ucfirst($query['view']));
-                }
-
-                if(isset($query['layout'])) {
-                    $description .= ' / '.JText::_(ucfirst($query['layout']));
-                }
-
-                $this->type_description = $description;
-
-            } break;
-
-            case 'type_title':
-                $this->type_title = JText::_('Component');
-                break;
-
-            case 'link':
-                $this->link = $this->getService('koowa:http.url', array('url' => $this->link_url));
-                break;
-
-            case 'params_page':
-            {
-                $file = dirname($this->getIdentifier()->filepath).'/component.xml';
-                
-                $xml = JFactory::getXMLParser('simple');
-                $xml->loadFile($file);
-
-                $params = new JParameter($this->params);
-                $params->setXML($xml->document->getElementByPath('state/params'));
-
-                $this->params_page = $params;
-
-            } break;
-
-            case 'params_component':
-            {
-                // TODO: Clean this up.
-                $params = new JParameter($this->params);
-                $xml = $this->getComponentXml();
-
-                // If hide is set, don't show the component configuration.
-                $menu = $xml->document->attributes('menu');
-
-                if(isset($menu) && $menu == 'hide') {
-                    return null;
-                }
-
-                // Don't show hidden elements.
-                if (isset($xml->document->params[0]->param))
-                {
-                    // Collect hidden elements.
-                    $hidden = array();
-
-                    for($i = 0, $n = count($xml->document->params[0]->param); $i < $n; $i++)
-                    {
-                        if($xml->document->params[0]->param[$i]->attributes('menu') == 'hide') {
-                            $hidden[] = $xml->document->params[0]->param[$i];
-                        }
-                        elseif($xml->document->params[0]->param[$i]->attributes('type') == 'radio'
-                            || $xml->document->params[0]->param[$i]->attributes('type') == 'list')
-                        {
-                            $xml->document->params[0]->param[$i]->addAttribute('default', '');
-                            $xml->document->params[0]->param[$i]->addAttribute('type', 'list');
-                            $child = $xml->document->params[0]->param[$i]->addChild('option', array('value' => ''));
-                            $child->setData('Use Global');
-                        }
-                    }
-
-                    // Remove hidden elements.
-                    for($i = 0, $n = count($hidden); $i < $n; $i++) {
-                        $xml->document->params[0]->removeChild($hidden[$i]);
-                    }
-                }
-
-                $params->setXML($xml->document->params[0]);
-
-                $this->params_component = $params;
-
-            } break;
-
-            case 'params_url':
-            {
-                $state  = $this->getPageXml()->document->getElementByPath('state');
-                $params = new JParameter(null);
-
-                if($state instanceof JSimpleXMLElement)
-                {
-                    $params->setXML($state->getElementByPath('url'));
-
-                    if($this->link_url) {
-                        $params->loadArray($this->link->query);
-                    }
-                }
-
-                $this->params_url = $params;
-
-            } break;
-        }
-        
-        return parent::setProperty($property);
-    }
-    
     public function save()
     {
         if($this->isModified('link_url'))
@@ -205,5 +94,124 @@ class ComPagesDatabaseRowPageComponent extends ComPagesDatabaseRowPageAbstract
         }
 
         return $this->_page_xml;
+    }
+
+    public function __get($name)
+    {
+        if($this->hasProperty($name))
+        {
+            switch($name)
+            {
+                case 'type_description':
+                {
+                    $query       = $this->link->query;
+                    $description = $this->component_name ? ucfirst(substr($this->component_name, 4)) : ucfirst(substr($query['option'], 4));
+
+                    if(isset($query['view'])) {
+                        $description .= ' &raquo; '.JText::_(ucfirst($query['view']));
+                    }
+
+                    if(isset($query['layout'])) {
+                        $description .= ' / '.JText::_(ucfirst($query['layout']));
+                    }
+
+                    $this->type_description = $description;
+                    $result = $description;
+                } break;
+
+                case 'type_title':
+                {
+                    $title = JText::_('Component');
+
+                    $this->type_title = $title;
+                    $result = $title;
+                } break;
+
+                case 'link':
+                    $result = $this->getService('koowa:http.url', array('url' => $this->link_url));
+                    break;
+
+                case 'params_page':
+                {
+                    $file = dirname($this->getIdentifier()->filepath).'/component.xml';
+
+                    $xml = JFactory::getXMLParser('simple');
+                    $xml->loadFile($file);
+
+                    $params = new JParameter($this->params);
+                    $params->setXML($xml->document->getElementByPath('state/params'));
+
+                    $this->params_page = $params;
+                    $result = $params;
+                } break;
+
+                case 'params_component':
+                {
+                    // TODO: Clean this up.
+                    $params = new JParameter($this->params);
+                    $xml = $this->getComponentXml();
+
+                    // If hide is set, don't show the component configuration.
+                    $menu = $xml->document->attributes('menu');
+
+                    if(isset($menu) && $menu == 'hide') {
+                        return null;
+                    }
+
+                    // Don't show hidden elements.
+                    if (isset($xml->document->params[0]->param))
+                    {
+                        // Collect hidden elements.
+                        $hidden = array();
+
+                        for($i = 0, $n = count($xml->document->params[0]->param); $i < $n; $i++)
+                        {
+                            if($xml->document->params[0]->param[$i]->attributes('menu') == 'hide') {
+                                $hidden[] = $xml->document->params[0]->param[$i];
+                            }
+                            elseif($xml->document->params[0]->param[$i]->attributes('type') == 'radio'
+                                || $xml->document->params[0]->param[$i]->attributes('type') == 'list')
+                            {
+                                $xml->document->params[0]->param[$i]->addAttribute('default', '');
+                                $xml->document->params[0]->param[$i]->addAttribute('type', 'list');
+                                $child = $xml->document->params[0]->param[$i]->addChild('option', array('value' => ''));
+                                $child->setData('Use Global');
+                            }
+                        }
+
+                        // Remove hidden elements.
+                        for($i = 0, $n = count($hidden); $i < $n; $i++) {
+                            $xml->document->params[0]->removeChild($hidden[$i]);
+                        }
+                    }
+
+                    $params->setXML($xml->document->params[0]);
+
+                    $this->params_component = $params;
+                    $result = $params;
+                } break;
+
+                case 'params_url':
+                {
+                    $state  = $this->getPageXml()->document->getElementByPath('state');
+                    $params = new JParameter(null);
+
+                    if($state instanceof JSimpleXMLElement)
+                    {
+                        $params->setXML($state->getElementByPath('url'));
+
+                        if($this->link_url) {
+                            $params->loadArray($this->link->query);
+                        }
+                    }
+
+                    $this->params_url = $params;
+                    $result = $params;
+                } break;
+            }
+        }
+        else $result = parent::__get($name);
+
+        return $result;
     }
 }

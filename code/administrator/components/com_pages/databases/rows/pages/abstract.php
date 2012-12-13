@@ -44,38 +44,6 @@ abstract class ComPagesDatabaseRowPageAbstract extends KObjectDecorator implemen
         return in_array($property, $this->_properties);
     }
     
-    public function setProperty($property)
-    {
-        switch($property)
-        {
-            case 'params_advanced':
-            {
-                $params = new JParameter($this->params);
-                $state  = $this->getPageXml()->document->getElementByPath('state');
-
-                if($state instanceof JSimpleXMLElement) {
-                    $params->setXML($state->getElementByPath('advanced'));
-                }
-
-                $this->params_advanced = $params;
-                
-            } break;
-            
-            case 'params_state':
-            {
-                $params = new JParameter($this->params);
-                $state  = $this->getPageXml()->document->getElementByPath('state');
-
-                if($state instanceof JSimpleXMLElement) {
-                    $params->setXML($state->getElementByPath('params'));
-                }
-
-                $this->params_state = $params;
-                    
-            } break;
-        }
-    }
-    
     public function save()
     {
         // Set home.
@@ -113,5 +81,43 @@ abstract class ComPagesDatabaseRowPageAbstract extends KObjectDecorator implemen
         }
 
         return $this->_page_xml;
+    }
+
+    public function __get($name)
+    {
+        if($this->hasProperty($name))
+        {
+            switch($name)
+            {
+                case 'params_advanced':
+                {
+                    $params = new JParameter($this->params);
+                    $state  = $this->getPageXml()->document->getElementByPath('state');
+
+                    if($state instanceof JSimpleXMLElement) {
+                        $params->setXML($state->getElementByPath('advanced'));
+                    }
+
+                    $this->params_advanced = $params;
+                    $result = $params;
+                } break;
+
+                case 'params_state':
+                {
+                    $params = new JParameter($this->params);
+                    $state  = $this->getPageXml()->document->getElementByPath('state');
+
+                    if($state instanceof JSimpleXMLElement) {
+                        $params->setXML($state->getElementByPath('params'));
+                    }
+
+                    $this->params_state = $params;
+                    $result = $params;
+                } break;
+            }
+        }
+        else $result = parent::__get($name);
+
+        return $result;
     }
 }

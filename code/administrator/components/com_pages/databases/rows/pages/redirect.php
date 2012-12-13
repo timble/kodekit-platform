@@ -26,22 +26,6 @@ class ComPagesDatabaseRowPageRedirect extends ComPagesDatabaseRowPageAbstract
         parent::_initialize($config);
     }
 
-    public function setProperty($property)
-    {
-        switch($property)
-        {
-            case 'type_description':
-                $this->type_description = JText::_('Redirect');
-                break;
-
-            case 'type_title':
-                $this->type_title = JText::_('Redirect');
-                break;
-        }
-
-        return parent::setProperty($property);
-    }
-
     public function save()
     {
         if($this->link_type) {
@@ -49,5 +33,33 @@ class ComPagesDatabaseRowPageRedirect extends ComPagesDatabaseRowPageAbstract
         }
 
         return parent::save();
+    }
+
+    public function __get($name)
+    {
+        if($this->hasProperty($name))
+        {
+            switch($name)
+            {
+                case 'type_description':
+                {
+                    $description = JText::_('Redirect');
+
+                    $this->type_description = $description;
+                    $result = $description;
+                } break;
+
+                case 'type_title':
+                {
+                    $title = JText::_('Redirect');
+
+                    $this->type_title = $title;
+                    $result = $title;
+                } break;
+            }
+        }
+        else $result = parent::__get($name);
+
+        return $result;
     }
 }

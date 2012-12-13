@@ -19,7 +19,5 @@ interface ComPagesDatabaseRowPageInterface
 {
     public function hasProperty($property);
 
-    public function setProperty($property);
-
     public function save();
 }
