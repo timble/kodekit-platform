@@ -43,7 +43,7 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
      *
      * @var object
      */
-    protected $_pathway = null;
+    protected $_pathway;
 
     /**
      * Constructor.
@@ -447,17 +447,52 @@ class ComApplicationDispatcher extends KControllerAbstract implements KServiceIn
     }
 
     /**
-     * Return a reference to the application JPathway object.
+     * Return a reference to the application pathway object
      *
-     * @param  array	$options 	An optional associative array of configuration settings.
-     * @return object JPathway.
+     * @return object ComApplicationConfigPathway
      */
-    public function getPathway($options = array())
+    public function getPathway()
     {
         if(!isset($this->_pathway))
         {
-            require_once(JPATH_APPLICATION.'/includes/pathway.php' );
-            $this->_pathway = new JPathway($options);
+            // TODO: Find out why loader tries to load the admin class.
+            KLoader::loadFile(__DIR__.'/configs/pathway.php');
+
+            $pathway = new ComApplicationConfigPathway();
+            $pages   = $this->getService('application.pages');
+
+            if($active = $pages->getActive())
+            {
+                $home = $pages->getHome();
+                if($active->id != $home->id)
+                {
+                    foreach(explode('/', $active->path) as $id)
+                    {
+                        $page = $pages->getPage($id);
+                        switch($page->type)
+                        {
+                            case 'pagelink':
+                            case 'url' :
+                                $url = $page->link;
+                                break;
+
+                            case 'separator':
+                                $url = null;
+                                break;
+
+                            default:
+                                $url = clone $page->link;
+                                $url->query['Itemid'] = $page->id;
+                                $url = $this->getRouter()->build($url);
+                                break;
+                        }
+
+                        $pathway->addItem($page->title, $url);
+                    }
+                }
+            }
+
+            $this->_pathway = $pathway;
         }
 
         return $this->_pathway;
