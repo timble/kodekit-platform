@@ -10,18 +10,17 @@
 ?>
 
 <ul class="breadcrumb">
-
-	<? for ($i = 0; $i < count($list); $i ++) : ?>
+	<? foreach($list as $item) : ?>
 		<? // If not the last item in the breadcrumbs add the separator ?>
-		<? if ($i < count($list) - 1) : ?>
-			<? if(!empty($list[$i]->link)) : ?>
-				<li><?= '<a href="'.$list[$i]->link.'" class="pathway">'.$list[$i]->name.'</a>'; ?></li>
+        <? if($item !== end($list)) : ?>
+			<? if(!empty($item->link)) : ?>
+				<li><a href="<?= $item->link ?>" class="pathway"><?= @escape($item->name) ?></a></li>
 			<? else : ?>
-				<li><?= $list[$i]->name; ?></li>
-			<? endif; ?>
+				<li><?= @escape($item->name) ?></li>
+			<? endif ?>
 			<span class="divider">/</span>
-		<? elseif ($module->params->get('showLast', 1)) : // when $i == $count -1 and 'showLast' is true ?>
-		    <li><?=  $list[$i]->name; ?></li>
-		<? endif; ?>
-	<? endfor; ?>
+		<? elseif($module->params->get('showLast', 1)) : ?>
+		    <li><?= @escape($item->name) ?></li>
+		<? endif ?>
+	<? endforeach ?>
 </ul>
