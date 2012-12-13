@@ -20,39 +20,22 @@ class ComPagesModuleBreadcrumbsHtml extends ComDefaultModuleDefaultHtml
 {
     public function display()
     {
-        // Get the breadcrumb
-        $this->assign('list'  , $this->getList($this->module->params));
+        $list   = (array) $this->getService('application')->getPathway()->items;
+        $params = $this->module->params;
 
-        return parent::display();
-    }
-
-    function getList($params)
-    {
-        // Get the PathWay object from the application
-        $pathway = JFactory::getApplication()->getPathway();
-        $items   = $pathway->getPathWay();
-
-        $count = count($items);
-        for ($i = 0; $i < $count; $i ++)
-        {
-            $items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name));
-
-            if($items[$i]->link) {
-                $items[$i]->link = $items[$i]->link;
-            }
-        }
-
-        if ($params->get('showHome', 1))
+        if($params->get('showHome', 1))
         {
             $item = new stdClass();
             $item->name = $params->get('homeText', JText::_('Home'));
 
-            $default = $this->getService('application.pages')->getHome();
-            $item->link = $this->getRoute($default->link->getQuery().'&Itemid='.$default->id);
+            $home = $this->getService('application.pages')->getHome();
+            $item->link = $this->getRoute($home->link->getQuery().'&Itemid='.$home->id);
 
-            array_unshift($items, $item);
+            array_unshift($list, $item);
         }
 
-        return $items;
+        $this->assign('list', $list);
+
+        return parent::display();
     }
 } 
