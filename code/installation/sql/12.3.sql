@@ -619,7 +619,7 @@ CREATE TABLE `#__users_passwords` (
   `hash` varchar(100) NOT NULL DEFAULT '',
   `reset` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`email`),
-  CONSTRAINT `#__users_password__email` FOREIGN KEY (`email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE
+  CONSTRAINT `#__users_password__email` FOREIGN KEY (`email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__users_passwords` (`email`, `expiration`, `hash`, `reset`) SELECT `email`, NULL, `password`, '' FROM `#__users`;
