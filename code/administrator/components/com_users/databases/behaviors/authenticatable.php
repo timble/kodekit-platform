@@ -17,8 +17,6 @@
  */
 class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 {
-    protected $_password;
-
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
@@ -49,14 +47,17 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableInsert(KCommandContext $context) {
+    protected function _beforeTableInsert(KCommandContext $context)
+    {
         $data = $context->data;
 
-        if (!$data->password) {
+        if(!$data->password)
+        {
             // Generate a random password
             $params         = $this->getService('application.components')->users->params;
             $password       = $this->getService('com://admin/users.database.row.password');
             $data->password = $password->getRandom($params->get('password_length', 6));
+
             // Set the password row for reset
             $context->password_reset = true;
         }
@@ -66,7 +67,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
     {
         $data = $context->data;
 
-        if ($data->password)
+        if($data->password)
         {
             // Update password record.
             $password = $data->getPassword();
@@ -96,22 +97,16 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableDelete(KCommandContext $context)
+    public function getPassword()
     {
-        $context->data->getPassword()->delete();
-    }
+        $password = null;
 
-    public function getPassword() {
-        if (!$this->_password) {
-            $password = null;
-            $user     = $this->getMixer();
-
-            if (!$user->isNew()) {
-                $password = $this->getService('com://admin/users.model.password')->set('id', $this->email)
-                    ->getItem();
-            }
-            $this->_password = $password;
+        if(!$this->isNew())
+        {
+            $password = $this->getService('com://admin/users.database.table.passwords')
+                ->select(array('id' => $this->email), KDatabase::FETCH_ROW);
         }
-        return $this->_password;
+
+        return $password;
     }
 }
