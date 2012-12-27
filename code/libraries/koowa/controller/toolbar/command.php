@@ -133,7 +133,7 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
      */
     public function getIterator()
     {
-        return new RecursiveArrayIterator($this->getCommands());
+        return new \RecursiveArrayIterator($this->getCommands());
     }
 
     /**
