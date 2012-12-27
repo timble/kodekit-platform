@@ -138,11 +138,11 @@ interface KDatabaseAdapterInterface
 	 * Use and other queries that don't return rows
 	 *
 	 * @param  string 	The query to run. Data inside the query should be properly escaped. 
-	 * @param  integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
+	 * @param  integer 	The result made, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
      * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
      * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
      * 					unless you free the result first.
-	 * @throws KDatabaseAdapterException
+	 * @throws \RuntimeException If the query could not be executed
 	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object. 
 	 * 					For other successful queries  return TRUE. 
 	 */
