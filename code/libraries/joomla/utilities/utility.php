@@ -123,12 +123,12 @@ class JUtility
 	{
 		$user		= JFactory::getUser();
 		$session	= JFactory::getSession();
-		
+
 		//If the session is not active start it
 		/*if($session->getState() != 'active')
         {
 			$session->start();
-			
+
 		    jimport('joomla.database.table');
 			$storage = & JTable::getInstance('session');
 			$storage->purge($session->getExpire());
@@ -147,7 +147,7 @@ class JUtility
 				}
 			}
 		}*/
-		
+
 		$hash = JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
 		return $hash;
 	}
@@ -177,31 +177,5 @@ class JUtility
 			}
 		}
 		return $retarray;
-	}
-
-	/**
-	 * Method to determine if the host OS is  Windows
-	 *
-	 * @return	true if Windows OS
-	 * @since	1.5
-	 * @static
-	 */
-	function isWinOS() {
-		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-	}
-
-	/**
-	 * Method to dump the structure of a variable for debugging purposes
-	 *
-	 * @param	mixed	A variable
-	 * @param	boolean	True to ensure all characters are htmlsafe
-	 * @return	string
-	 * @since	1.5
-	 * @static
-	 */
-	function dump( &$var, $htmlSafe = true )
-	{
-		$result = var_export( $var, true );
-		return '<pre>'.( $htmlSafe ? htmlspecialchars( $result ) : $result).'</pre>';
 	}
 }
