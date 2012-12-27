@@ -65,8 +65,8 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
     /**
      * Saves the row or rowset in the database.
      *
-     * This function specialises the KDatabaseRow or KDatabaseRowset save function and auto-disables the tables command
-     * chain to prevent recursive looping.
+     * This function specialises the KDatabaseRow or KDatabaseRowset save function and auto-disables the tables
+     * command chain to prevent recursive looping.
      *
      * @return KDatabaseRowAbstract or KDatabaseRowsetAbstract
      * @see KDatabaseRow::save or KDatabaseRowset::save
