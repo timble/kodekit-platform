@@ -14,7 +14,7 @@
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  */
-interface KControllerToolbarInterface extends IteratorAggregate
+interface KControllerToolbarInterface extends \IteratorAggregate
 {
     /**
      * Get the toolbar's name
