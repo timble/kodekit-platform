@@ -17,7 +17,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Router
  */
-class KDispatcherRouterDefault extends KDispatcherRouterAbstract implements KServiceInstantiatable
+class KDispatcherRouterDefault extends KObject implements KDispatcherRouterInterface, KServiceInstantiatable
 {
     /**
      * Force creation of a singleton
@@ -38,5 +38,30 @@ class KDispatcherRouterDefault extends KDispatcherRouterAbstract implements KSer
         }
 
         return $container->get($config->service_identifier);
+    }
+
+    /**
+     * Function to convert a route to an internal URI
+     *
+     * @param   KHttpUrl  $url  The url.
+     * @return  boolean
+     */
+    public function parse(KHttpUrl $url)
+    {
+        $this->_parseRoute($url);
+        return true;
+    }
+
+    /**
+     * Function to convert an internal URI to a route
+     *
+     * @param	KhttpUrl   $url	The internal URL
+     * @return	boolean
+     */
+    public function build(KHttpUrl $url)
+    {
+        // Build the url : mysite/route/index.php?var=x
+        $this->_buildRoute($url);
+        return true;
     }
 }
