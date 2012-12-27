@@ -18,31 +18,31 @@
 class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 {
 	/**
-	 * Load the model state from the request
+	 * Load the model state from the request and persist it.
 	 *
-	 * This functions merges the request information with any model state information
-	 * that was saved in the session and returns the result.
+	 * This functions merges the request information with any model state information that was saved in the session
+     * and returns the result.
 	 *
-	 * @param 	KCommandContext		The active command context
+	 * @param 	KCommandContext $context The active command context
 	 * @return 	void
 	 */
 	protected function _beforeControllerBrowse(KCommandContext $context)
 	{
 		// Built the session identifier based on the action
 		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
-		$state       = KRequest::get('session.'.$identifier, 'raw', array());
+		$state       = $context->user->session->get($identifier, array());
 
 		//Append the data to the request object
-		$this->getRequest()->append($state);
+		$context->request->query->add($state);
 
 		//Push the request in the model
-		$this->getModel()->set($this->getRequest());
+		$this->getModel()->set($context->request->query->toArray());
 	}
 
 	/**
-	 * Saves the model state in the session
+	 * Saves the model state in the session.
 	 *
-	 * @param 	KCommandContext		The active command context
+	 * @param 	KCommandContext $context The active command context
 	 * @return 	void
 	 */
 	protected function _afterControllerBrowse(KCommandContext $context)
@@ -51,20 +51,20 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 		$state  = $model->getState();
 		
 	    $vars = array();
-	    foreach($state->toArray(false) as $var) 
+	    foreach($state->getStates() as $var)
 	    {
 	        if(!$var->unique) {
 	            $vars[$var->name] = $var->value;
-	        }  
+	        }
 	    }
-	    
+
 		// Built the session identifier based on the action
 		$identifier  = $model->getIdentifier().'.'.$context->action;
 
-		//Prevent unused state information from being persisted
-		KRequest::set('session.'.$identifier, null);
+        //Prevent unused state information from being persisted
+        $context->user->session->remove($identifier);
 
-		//Set the state in the session
-		KRequest::set('session.'.$identifier, $vars);
+        //Set the state in the session
+        $context->user->session->set($identifier, $vars);
 	}
 }
