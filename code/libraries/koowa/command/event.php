@@ -38,7 +38,7 @@ class KCommandEvent extends KCommand
         parent::__construct($config);
 
         if (is_null($config->event_dispatcher)) {
-            throw new KMixinException('event_dispatcher [KEventDispatcher] option is required');
+            throw new \InvalidArgumentException('event_dispatcher [KEventDispatcherInterface] config option is required');
         }
 
         $this->_event_dispatcher = $config->event_dispatcher;
@@ -59,6 +59,29 @@ class KCommandEvent extends KCommand
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Get the event dispatcher
+     *
+     * @return  KEventDispatcher
+     */
+    public function getEventDispatcher()
+    {
+        if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+        {
+            $this->_event_dispatcher = $this->getService($this->_event_dispatcher);
+
+            //Make sure the request implements KControllerRequestInterface
+            if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement KEventDispatcherInterface'
+                );
+            }
+        }
+
+        return $this->_event_dispatcher;
     }
 
     /**
@@ -89,7 +112,7 @@ class KCommandEvent extends KCommand
         $event = new KEvent(clone($context));
         $event->setTarget($context->getSubject());
 
-        $this->_event_dispatcher->dispatchEvent($name, $event);
+        $this->getEventDispatcher()->dispatchEvent($name, $event);
 
         return true;
     }
