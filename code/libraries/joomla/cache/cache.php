@@ -68,7 +68,7 @@ class JCache extends JObject
 		if(isset($options['cachebase'])) {
 			$this->_options['cachebase'] = $options['cachebase'];
 		} else {
-			$this->_options['cachebase'] = JPATH_CACHE;
+			$this->_options['cachebase'] = JPATH_ROOT.'/cache';
 		}
 
 		if(isset($options['defaultgroup'])) {
@@ -87,11 +87,6 @@ class JCache extends JObject
 			$this->_options['storage'] = $options['storage'];
 		} else {
 			$this->_options['storage'] = 'file';
-		}
-
-		//Fix to detect if template positions are enabled...
-		if(JRequest::getCMD('tpl',0)) {
-			$this->_options['caching'] = false;
 		}
 	}
 
