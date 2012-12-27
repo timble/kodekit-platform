@@ -17,7 +17,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
  */
-class KCommandChain extends KObjectQueue
+class KCommandChain extends KObjectQueue implements KCommandChainInterface
 {
     /**
      * Enabled status of the chain
@@ -52,7 +52,7 @@ class KCommandChain extends KObjectQueue
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KCommandChain
+     * @return KCommandChain
      */
     public function __construct(KConfig $config)
     {
@@ -93,13 +93,13 @@ class KCommandChain extends KObjectQueue
      * @param   integer             $priority The command priority, usually between 1 (high priority) and 5 (lowest),
      *                                        default is 3. If no priority is set, the command priority will be used
      *                                        instead.
-     * @return \KCommandChain
-     * @throws InvalidArgumentException if the object doesn't implement KCommandInterface
+     * @return KCommandChain
+     * @throws \InvalidArgumentException if the object doesn't implement KCommandInterface
      */
     public function enqueue(KObjectHandlable $command, $priority = null)
     {
         if (!$command instanceof KCommandInterface) {
-            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+            throw new \InvalidArgumentException('Command needs to implement KCommandInterface');
         }
 
         $priority = is_int($priority) ? $priority : $command->getPriority();
@@ -111,12 +111,12 @@ class KCommandChain extends KObjectQueue
      *
      * @param   KCommandInterface $command
      * @return  boolean    TRUE on success FALSE on failure
-     * @throws  InvalidArgumentException if the object implement KCommandInterface
+     * @throws  \InvalidArgumentException if the object implement KCommandInterface
      */
     public function dequeue(KObjectHandlable $command)
     {
         if (!$command instanceof KCommandInterface) {
-            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+            throw new \InvalidArgumentException('Command needs to implement KCommandInterface');
         }
 
         return parent::dequeue($command);
@@ -127,12 +127,12 @@ class KCommandChain extends KObjectQueue
      *
      * @param  KCommandInterface $object
      * @return bool
-     * @throws  InvalidArgumentException if the object implement KCommandInterface
+     * @throws  \InvalidArgumentException if the object implement KCommandInterface
      */
     public function contains(KObjectHandlable $command)
     {
         if (!$command instanceof KCommandInterface) {
-            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+            throw new \InvalidArgumentException('Command needs to implement KCommandInterface');
         }
 
         return parent::contains($command);
@@ -195,13 +195,13 @@ class KCommandChain extends KObjectQueue
      *
      * @param KCommandInterface $command
      * @param integer           $priority
-     * @return \KCommandChain
-     * @throws InvalidArgumentException if the object doesn't implement KCommandInterface
+     * @return KCommandChain
+     * @throws \InvalidArgumentException if the object doesn't implement KCommandInterface
      */
     public function setPriority(KObjectHandlable $command, $priority)
     {
         if (!$command instanceof KCommandInterface) {
-            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+            throw new \InvalidArgumentException('Command needs to implement KCommandInterface');
         }
 
         return parent::setPriority($cmd, $priority);
@@ -212,12 +212,12 @@ class KCommandChain extends KObjectQueue
      *
      * @param  KCommandInterface $object
      * @return integer The command priority
-     * @throws InvalidArgumentException if the object doesn't implement KCommandInterface
+     * @throws \InvalidArgumentException if the object doesn't implement KCommandInterface
      */
     public function getPriority(KObjectHandlable $command)
     {
         if (!$command instanceof KCommandInterface) {
-            throw new InvalidArgumentException('Command needs to implement KCommandInterface');
+            throw new \InvalidArgumentException('Command needs to implement KCommandInterface');
         }
 
         return parent::getPriority($command);
