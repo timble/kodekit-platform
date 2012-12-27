@@ -13,7 +13,7 @@
  * @author  	Gergo Erdosi <gergo@timble.net>
  * @package     Koowa_Date
  */
-class KDate extends DateTime implements KDateInterface
+class KDate extends \DateTime implements KDateInterface
 {
     /**
      * Constructor.
@@ -26,8 +26,8 @@ class KDate extends DateTime implements KDateInterface
         
         $this->_initialize($config);
         
-        if (!($config->timezone instanceof DateTimeZone)) {
-            $config->timezone = new DateTimeZone($config->timezone);
+        if (!($config->timezone instanceof \DateTimeZone)) {
+            $config->timezone = new \DateTimeZone($config->timezone);
         }
         
         parent::__construct($config->date, $config->timezone);
