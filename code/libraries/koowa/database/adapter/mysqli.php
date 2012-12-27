@@ -118,7 +118,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     /**
      * Connect to the db
      *
-     * @throws KDatabaseAdapterException
+     * @throws \RuntimeException If no connection could be established
      * @return KDatabaseAdapterMysqli
      */
     public function connect()
@@ -137,7 +137,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
         error_reporting($oldErrorReporting);
 
         if (mysqli_connect_errno()) {
-            throw new KDatabaseAdapterException('Connect failed: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error(), mysqli_connect_errno());
+            throw new \RuntimeException('Connect failed: (' . mysqli_connect_errno() . ') ' . mysqli_connect_error(), mysqli_connect_errno());
         }
 
         // If supported, request real datatypes from MySQL instead of returning everything as a string.
@@ -186,12 +186,12 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
      *
      * @param     resource     The connection resource
      * @return  KDatabaseAdapterAbstract
-     * @throws  KDatabaseAdapterException If the resource is not an MySQLi instance
+     * @throws  \InvalidArgumentException If the resource is not an MySQLi instance
      */
     public function setConnection($resource)
     {
         if (!($resource instanceof MySQLi)) {
-            throw new KDatabaseAdapterException('Not a MySQLi connection');
+            throw new \InvalidArgumentException('Not a MySQLi connection');
         }
 
         $this->_connection = $resource;
@@ -219,14 +219,14 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
     /**
      * Set the database name
      *
-     * @param     string     The database name
-     * @throws  KDatabaseAdapterException
+     * @param   string     The database name
+     * @throws  \RuntimeException If the database could not be set
      * @return  KDatabaseAdapterAbstract
      */
     public function setDatabase($database)
     {
         if (!$this->_connection->select_db($database)) {
-            throw new KDatabaseAdapterException('Could not connect with database : ' . $database);
+            throw new \RuntimeException('Could not connect with database : ' . $database);
         }
 
         $this->_database = $database;
@@ -453,7 +453,6 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
             ->bind(array('like' => $table));
 
         if ($info = $this->select($query, KDatabase::FETCH_OBJECT)) {
-            //Parse the table raw schema data
             $result = $this->_parseTableInfo($info);
         }
 
@@ -479,10 +478,7 @@ class KDatabaseAdapterMysqli extends KDatabaseAdapterAbstract
             {
                 //Set the table name in the raw info (MySQL doesn't add this)
                 $column->Table = $table;
-
-                //Parse the column raw schema data
                 $column = $this->_parseColumnInfo($column, $table);
-
                 $result[$column->name] = $column;
             }
         }
