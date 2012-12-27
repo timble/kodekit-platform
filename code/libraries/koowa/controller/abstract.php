@@ -20,18 +20,39 @@
 abstract class KControllerAbstract extends KObject implements KControllerInterface
 {
     /**
-     * Array of class methods to call for a given action.
+     * The controller actions
+     *
+     * @var array
+     */
+    protected $_actions = array();
+
+    /**
+     * Array of controller methods to call for a given action.
      *
      * @var array
      */
     protected $_action_map = array();
 
     /**
-     * The class actions
+     * Response object or identifier (com://APP/COMPONENT.controller.response)
      *
-     * @var array
+     * @var	string|object
      */
-    protected $_actions = array();
+    protected $_response;
+
+    /**
+     * Request object or identifier (com://APP/COMPONENT.controller.request)
+     *
+     * @var	string|object
+     */
+    protected $_request;
+
+    /**
+     * User object or identifier (com://APP/COMPONENT.controller.session)
+     *
+     * @var	string|object
+     */
+    protected $_user;
 
     /**
      * Has the controller been dispatched
@@ -40,19 +61,12 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     protected $_dispatched;
 
-    /**
-     * The request information
-     *
-     * @var array
-     */
-    protected $_request = null;
-
-    /**
-     * The response object
-     *
-     * @var KControllerResponseInterface
-     */
-    protected $_response = null;
+    //Status codes
+    const STATUS_SUCCESS   = KHttpResponse::OK;
+    const STATUS_CREATED   = KHttpResponse::CREATED;
+    const STATUS_ACCEPTED  = KHttpResponse::ACCEPTED;
+    const STATUS_UNCHANGED = KHttpResponse::NO_CONTENT;
+    const STATUS_RESET     = KHttpResponse::RESET_CONTENT;
 
     /**
      * Constructor.
@@ -62,6 +76,15 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
+
+        // Set the model identifier
+        $this->_request = $config->request;
+
+        // Set the view identifier
+        $this->_response = $config->response;
+
+        // Set the user identifier
+        $this->_user = $config->user;
 
         //Set the dispatched state
         $this->_dispatched = $config->dispatched;
@@ -74,12 +97,6 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
 
         // Mixin the behavior interface
         $this->mixin(new KMixinBehavior($config));
-
-        //Set the request
-        $this->setRequest((array)KConfig::unbox($config->request));
-
-        //Set the response
-        $this->_response = $config->response;
     }
 
     /**
@@ -93,13 +110,14 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'command_chain'     => $this->getService('koowa:command.chain'),
+            'command_chain'     => 'koowa:command.chain',
             'dispatch_events'   => true,
-            'event_dispatcher'  => $this->getService('koowa:event.dispatcher.default'),
+            'event_dispatcher'  => 'koowa:event.dispatcher.default',
             'enable_callbacks'  => true,
             'dispatched'        => false,
-            'request'           => null,
-            'response'          => $this->getService('koowa:controller.response.default'),
+            'request'           => 'koowa:controller.request',
+            'response'          => 'koowa:controller.response',
+            'user'              => 'koowa:controller.user',
             'behaviors'         => array(),
         ));
 
@@ -121,8 +139,8 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      *
      * @param   string      The action to execute
      * @param   object      A command context object
+     * @throws  KControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
-     * @throws  KControllerException
      */
     public function execute($action, KCommandContext $context)
     {
@@ -149,19 +167,10 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
                 if (isset($this->_mixed_methods[$command])) {
                     $context->result = $this->_mixed_methods[$command]->execute('action.' . $command, $context);
                 } else {
-                    throw new KControllerException("Can't execute '$command', method: '$method' does not exist");
+                    throw new KControllerActionNotImplemented("Can't execute '$command', method: '$method' does not exist");
                 }
             }
             else  $context->result = $this->$method($context);
-
-            //Handle errors
-            if ($context->response->isError())
-            {
-                $code    = $context->response->getStatusCode();
-                $message = $context->response->getStatusMessage();
-
-                throw new KControllerException($message, $code);
-            }
 
             $this->getCommandChain()->run('after.' . $command, $context);
         }
@@ -221,29 +230,128 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     }
 
     /**
-     * Get the request information
+     * Set the request object
      *
-     * @return KConfig    A KConfig object with request information
+     * @param KControllerRequestInterface $request A request object
+     * @return KControllerAbstract
+     */
+    public function setRequest(KControllerRequestInterface $request)
+    {
+        $this->_request = $request;
+        return $this;
+    }
+
+    /**
+     * Get the request object
+     *
+     * @throws	\UnexpectedValueException	If the request doesn't implement the KControllerRequestInterface
+     * @return KControllerRequestInterface
      */
     public function getRequest()
     {
+        if(!$this->_request instanceof KControllerRequestInterface)
+        {
+            $this->_request = $this->getService($this->_request);
+
+            if(!$this->_request instanceof KControllerRequestInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Request: '.get_class($this->_request).' does not implement KControllerRequestInterface'
+                );
+            }
+        }
+
         return $this->_request;
     }
 
     /**
-     * Set the request information
+     * Set the response object
      *
-     * @param array    An associative array of request information
+     * @param KControllerResponseInterface $request A request object
      * @return KControllerAbstract
      */
-    public function setRequest(array $request)
+    public function setResponse(KControllerResponseInterface $response)
     {
-        $this->_request = new KConfig();
-        foreach ($request as $key => $value) {
-            $this->$key = $value;
+        $this->_response = $response;
+        return $this;
+    }
+
+    /**
+     * Get the response object
+     *
+     * @throws	\UnexpectedValueException	If the response doesn't implement the KControllerResponseInterface
+     * @return KControllerResponseInterface
+     */
+    public function getResponse()
+    {
+        if(!$this->_response instanceof KControllerResponseInterface)
+        {
+            $this->_response = $this->getService($this->_response);
+
+            if(!$this->_response instanceof KControllerResponseInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Response: '.get_class($this->_response).' does not implement KControllerResponseInterface'
+                );
+            }
         }
 
+        return $this->_response;
+    }
+
+    /**
+     * Set the user object
+     *
+     * @param KControllerUserInterface $user A request object
+     * @return KControllerUser
+     */
+    public function setUser(KControllerUserInterface $user)
+    {
+        $this->_user = $user;
         return $this;
+    }
+
+    /**
+     * Get the user object
+     *
+     * @throws	\UnexpectedValueException	If the user doesn't implement the KControllerUserInterface
+     * @return KControllerUserInterface
+     */
+    public function getUser()
+    {
+        if(!$this->_user instanceof KControllerUserInterface)
+        {
+            $this->_user = $this->getService($this->_user);
+
+            if(!$this->_user instanceof KControllerUserInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'User: '.get_class($this->_user).' does not implement KControllerUserInterface'
+                );
+            }
+        }
+
+        return $this->_user;
+    }
+
+    /**
+     * Get the command chain context
+     *
+     * Overrides KMixinCommand::getCommandContext() to insert the request and response objects into the controller
+     * command context.
+     *
+     * @return  KCommandContext
+     * @see KMixinCommand::getCommandContext
+     */
+    public function getCommandContext()
+    {
+        $context = parent::getCommandContext();
+
+        $context->request  = $this->getRequest();
+        $context->response = $this->getResponse();
+        $context->user     = $this->getUser();
+
+        return $context;
     }
 
     /**
@@ -269,38 +377,10 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     }
 
     /**
-     * Set a request properties
-     *
-     * @param      string     The property name.
-     * @param     mixed     The property value.
-     */
-    public function __set($property, $value)
-    {
-        $this->_request->$property = $value;
-    }
-
-    /**
-     * Get a request property
-     *
-     * @param      string     The property name.
-     * @return     string     The property value.
-     */
-    public function __get($property)
-    {
-        $result = null;
-        if (isset($this->_request->$property)) {
-            $result = $this->_request->$property;
-        }
-
-        return $result;
-    }
-
-    /**
      * Execute a controller action by it's name.
      *
-     * Function is also capable of checking is a behavior has been mixed succesfully
-     * using is[Behavior] function. If the behavior exists the function will return
-     * TRUE, otherwise FALSE.
+     * Function is also capable of checking is a behavior has been mixed successfully using is[Behavior]
+     * function. If the behavior exists the function will return TRUE, otherwise FALSE.
      *
      * @param   string  Method name
      * @param   array   Array containing all the arguments for the original call
@@ -318,9 +398,16 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
             if (!($data instanceof KCommandContext))
             {
                 $context = $this->getCommandContext();
-                $context->response = $this->_response;
-                $context->data     = $data;
-                $context->result   = false;
+
+                //Store the parameters in the context
+                $context->param = $data;
+
+                //Automatic set the data in the request if an associative array is passed
+                if(is_array($data) && !is_numeric(key($data))) {
+                    $context->request->data->add($data);
+                }
+
+                $context->result = false;
             }
             else $context = $data;
 
