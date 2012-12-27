@@ -17,20 +17,13 @@
  */
 interface KControllerInterface
 {
-	/**
-     * Has the controller been dispatched
-     * 
-     * @return  boolean	Returns true if the controller has been dispatched
-     */
-    public function isDispatched();
-
     /**
      * Execute an action by triggering a method in the derived class.
      *
-     * @param   string      The action to execute
-     * @param   object		A command context object
+     * @param   string     $action  The action to execute
+     * @param   object	   $context  A command context object
+     * @throws  KControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
-     * @throws  KControllerException
      */
     public function execute($action, KCommandContext $context);
 
@@ -40,21 +33,51 @@ interface KControllerInterface
      * @return  array Array[i] of action names.
      */
     public function getActions();
-    
-	/**
-	 * Get the request information
-	 *
-	 * @return KConfig	A KConfig object with request information
-	 */
-	public function getRequest();
 
-	/**
-	 * Set the request information
-	 *
-	 * @param array	An associative array of request information
-	 * @return KControllerAbstract
-	 */
-	public function setRequest(array $request);
+    /**
+     * Set the request object
+     *
+     * @param KControllerRequestInterface $request A request object
+     * @return KControllerAbstract
+     */
+    public function setRequest(KControllerRequestInterface $request);
+
+    /**
+     * Get the request object
+     *
+     * @return KControllerRequestInterface
+     */
+    public function getRequest();
+
+    /**
+     * Set the response object
+     *
+     * @param KControllerResponseInterface $request A request object
+     * @return KControllerAbstract
+     */
+    public function setResponse(KControllerResponseInterface $response);
+
+    /**
+     * Get the response object
+     *
+     * @return KControllerResponseInterface
+     */
+    public function getResponse();
+
+    /**
+     * Set the user object
+     *
+     * @param KControllerUserInterface $user A request object
+     * @return KControllerUser
+     */
+    public function setUser(KControllerUserInterface $user);
+
+    /**
+     * Get the user object
+     *
+     * @return KControllerUserInterface
+     */
+    public function getUser();
 
     /**
      * Register (map) an action to a method in the class.
@@ -65,4 +88,11 @@ interface KControllerInterface
      * @return  KControllerAbstract
      */
     public function registerActionAlias($alias, $action);
+
+    /**
+     * Has the controller been dispatched
+     *
+     * @return  boolean	Returns true if the controller has been dispatched
+     */
+    public function isDispatched();
 }
