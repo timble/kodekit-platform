@@ -13,7 +13,7 @@
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-class KControllerDefault extends KControllerService
+class KControllerDefault extends KControllerModel
 {
 
 }
