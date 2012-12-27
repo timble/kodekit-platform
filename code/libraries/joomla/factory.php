@@ -49,7 +49,7 @@ class JFactory
      */
     function &getSession($options = array())
     {
-        $instance = KService::get('application.session');
+        $instance = KService::get('user')->getSession();
         return $instance;
     }
 
@@ -67,7 +67,7 @@ class JFactory
     function &getUser($id = null)
     {        
         if (is_null($id)) {
-            $session = KService::get('application.session');
+            $session = KService::get('user')->getSession();
             $instance = $session->user;
 
             if (!$instance instanceof ComUsersDatabaseRowUser) {
@@ -130,26 +130,6 @@ class JFactory
     }
 
     /**
-     * Get a document object
-     *
-     * Returns a reference to the global {@link JDocument} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @return object JDocument
-     */
-    function &getDocument()
-    {
-        static $instance;
-
-        if (!is_object($instance)) {
-            $instance = JFactory::_createDocument();
-        }
-
-        return $instance;
-    }
-
-    /**
      * Get a cache object
      *
      * Returns a reference to the global {@link JCache} object
@@ -176,7 +156,7 @@ class JFactory
             'lifetime' => $conf->getValue('config.cachetime') * 60, // minutes to seconds
             'language' => $conf->getValue('config.language'),
             'storage' => $storage,
-            'site' => JFactory::getSession()->get('site')
+            'site' => self::getApplication()->getSite()
         );
 
         jimport('joomla.cache.cache');
@@ -184,50 +164,6 @@ class JFactory
         $cache =& JCache::getInstance($handler, $options);
         $cache->setCaching($conf->getValue('config.caching'));
         return $cache;
-    }
-
-    /**
-     * Get an authorization object
-     *
-     * Returns a reference to the global {@link JAuthorization} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @return object JAuthorization
-     */
-    function &getACL()
-    {
-        static $instance;
-
-        if (!is_object($instance)) {
-            $instance = JFactory::_createACL();
-        }
-
-        return $instance;
-    }
-
-    /**
-     * Get a database object
-     *
-     * Returns a reference to the global {@link JDatabase} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @return object JDatabase
-     */
-    function &getDBO()
-    {
-        static $instance;
-
-        if (!is_object($instance)) {
-            //get the debug configuration setting
-            $conf =& JFactory::getConfig();
-            $debug = $conf->getValue('config.debug');
-
-            $instance = JFactory::_createDBO();
-            $instance->debug($debug);
-        }
-
-        return $instance;
     }
 
     /**
@@ -250,92 +186,6 @@ class JFactory
         $copy = clone($instance);
 
         return $copy;
-    }
-
-    /**
-     * Get an parsed XML Feed Source
-     *
-     * @access public
-     * @param string     Url for feed source
-     * @param int       Time to cache feed
-     *
-     * @return mixed SimplePie parsed object on success, false on failure
-     * @since: Nooku Server 0.7
-     */
-    function getFeedParser($url, $cache_time = null)
-    {
-        jimport('simplepie.simplepie');
-
-        $simplepie = new SimplePie();
-        $simplepie->set_feed_url($url);
-
-        $cache_path = JFactory::getConfig()->getValue('config.cache_path', JPATH_ROOT . DS . 'cache');
-        if (is_writable($cache_path) && JFactory::getConfig()->getValue('config.caching')) {
-            if (is_null($cache_time)) {
-                $cache_time = JFactory::getConfig()->getValue('config.caching') * 60;
-            }
-
-            $simplepie->set_cache_duration($cache_time);
-            $simplepie->set_cache_location($cache_path);
-        } else $simplepie->enable_cache(false);
-
-        $simplepie->force_feed(true);
-        $simplepie->handle_content_type();
-
-        if ($simplepie->init()) {
-            return $simplepie;
-        }
-
-        JError::raiseWarning('SOME_ERROR_CODE', JText::_('ERROR LOADING FEED DATA'));
-        return false;
-    }
-
-    /**
-     * Get an XML document
-     *
-     * @access public
-     * @param string The type of xml parser needed 'RSS' or 'Simple'
-     * @param array:
-     *         string  ['rssUrl'] the rss url to parse when using "RSS"
-     *         string    ['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
-     * @return object Parsed XML document object
-     */
-    function &getXMLParser($type = 'Simple', $options = array())
-    {
-        $doc = null;
-
-        switch (strtolower($type)) {
-            case 'rss' :
-            case 'atom' :
-                {
-                if (!is_null($options['rssUrl'])) {
-                    $url = $options['rssUrl'];
-                    $time = isset($options['cache_time']) ? $options['cache_time'] : null;
-
-                    $doc = self::getFeedParser($options['rssUrl'], $time);
-                }
-                }
-                break;
-
-            case 'simple' :
-                {
-                jimport('joomla.utilities.simplexml');
-                $doc = new JSimpleXML();
-                }
-                break;
-
-            case 'dom':
-                {
-                JError::raiseWarning('SOME_ERROR_CODE', JText::_('DOMIT library has been removed'));
-                $doc = null;
-                }
-                break;
-
-            default :
-                $doc = null;
-        }
-
-        return $doc;
     }
 
     /**
@@ -408,69 +258,6 @@ class JFactory
     }
 
     /**
-     * Create an ACL object
-     *
-     * @access private
-     * @return object JAuthorization
-     * @since 1.5
-     */
-    function &_createACL()
-    {
-        //TODO :: take the authorization class out of the application package
-        jimport('joomla.user.authorization');
-
-        $db =& JFactory::getDBO();
-
-        $options = array(
-            'db' => &$db,
-            'db_table_prefix' => $db->getPrefix() . 'core_acl_',
-            'debug' => 0
-        );
-        $acl = new JAuthorization($options);
-
-        return $acl;
-    }
-
-    /**
-     * Create an database object
-     *
-     * @access private
-     * @return object JDatabase
-     * @since 1.5
-     */
-    function &_createDBO()
-    {
-        jimport('joomla.database.database');
-        jimport('joomla.database.table');
-
-        $conf =& JFactory::getConfig();
-
-        $host = $conf->getValue('config.host');
-        $user = $conf->getValue('config.user');
-        $password = $conf->getValue('config.password');
-        $database = $conf->getValue('config.db');
-        $prefix = $conf->getValue('config.dbprefix');
-        $driver = $conf->getValue('config.dbtype');
-        $debug = $conf->getValue('config.debug');
-
-        $options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
-
-        $db =& JDatabase::getInstance($options);
-
-        if (JError::isError($db)) {
-            header(KRequest::protocol() . ' 500 Internal Server Error');
-            jexit('Database Error: ' . $db->toString());
-        }
-
-        if ($db->getErrorNum() > 0) {
-            JError::raiseError(500, 'JDatabase::getInstance: Could not connect to database <br />' . 'joomla.library:' . $db->getErrorNum() . ' - ' . $db->getErrorMsg());
-        }
-
-        $db->debug($debug);
-        return $db;
-    }
-
-    /**
      * Create a mailer object
      *
      * @access private
@@ -533,34 +320,5 @@ class JFactory
         $lang->setDebug($conf->getValue('config.debug_lang'));
 
         return $lang;
-    }
-
-    /**
-     * Create a document object
-     *
-     * @access private
-     * @return object JDocument
-     * @since 1.5
-     */
-    function &_createDocument()
-    {
-        jimport('joomla.document.document');
-
-        $lang =& JFactory::getLanguage();
-
-        //Keep backwards compatibility with Joomla! 1.0
-        $raw = JRequest::getBool('no_html');
-        $type = JRequest::getWord('format', $raw ? 'raw' : 'html');
-
-        $attributes = array(
-            'charset' => 'utf-8',
-            'lineend' => 'unix',
-            'tab' => '  ',
-            'language' => $lang->getTag(),
-            'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
-        );
-
-        $doc =& JDocument::getInstance($type, $attributes);
-        return $doc;
     }
 }
