@@ -2,6 +2,7 @@
 /**
  * @version     $Id: interface.php 1366 2009-11-28 01:34:00Z johan $
  * @package     Koowa_Command
+ * @subpackage  Context
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -12,8 +13,9 @@
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
+ * @subpackage  Context
  */
-class KCommandContext extends KConfig
+class KCommandContext extends KConfig implements KCommandContextInterface
 {
     /**
      * The command subject
@@ -33,11 +35,11 @@ class KCommandContext extends KConfig
     }
     
     /**
-     * Set the command subject
-     *
-     * @param object	The command subject
-     * @return KEvent
-     */
+ * Set the command subject
+ *
+ * @param KObjectServiceable $subject The command subject
+ * @return KCommandContext
+ */
     public function setSubject(KObjectServiceable $subject)
     {
         $this->_subject = $subject;
