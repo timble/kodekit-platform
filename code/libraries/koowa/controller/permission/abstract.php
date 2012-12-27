@@ -2,40 +2,21 @@
 /**
  * @version		$Id$
  * @package		Koowa_Controller
- * @subpackage	Command
+ * @subpackage	Permission
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
 
 /**
- * Controller Executable Behavior Class
+ * Abstract Controller Permission Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
- * @subpackage	Behavior
+ * @subpackage	Permission
  */
-class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
+abstract class KControllerPermissionAbstract extends KControllerBehaviorAbstract implements KControllerPermissionInterface
 {
-	/**
-	 * The read-only state of the behavior
-	 *
-	 * @var boolean
-	 */
-	protected $_readonly;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options
-	 */
-	public function __construct( KConfig $config)
-	{
-		parent::__construct($config);
-
-		$this->_readonly = (bool) $config->readonly;
-	}
-
     /**
      * Initializes the default configuration for the object
      *
@@ -48,7 +29,6 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
     {
         $config->append(array(
             'priority'   => KCommand::PRIORITY_HIGH,
-            'readonly'   => false,
             'auto_mixin' => true
         ));
 
@@ -58,12 +38,13 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
 	/**
      * Command handler
      *
-     * Only handles before.action commands to check ACL rules.
+     * Only handles before.action commands to check authorization rules.
      *
-     * @param   string      The command name
-     * @param   object      The command context
+     * @param   string $name     The command name
+     * @param   object $context  The command context
+     * @throws  KControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
+     * @throws  KControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
      * @return  boolean     Can return both true or false.
-     * @throws  KControllerException
      */
     public function execute( $name, KCommandContext $context)
     {
@@ -73,32 +54,18 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
         {
             $action = $parts[1];
 
-            //Check if the action exists
-            if(!in_array($action, $context->getSubject()->getActions()))
-            {
-                $context->response->setStatus(
-                    KHttpResponse::NOT_IMPLEMENTED, 'Action '.ucfirst($action).' Not Implemented'
-                );
-
-                $context->response->headers->set('Allow', $context->getSubject()->execute('options', $context));
-                return false;
-            }
-
-            //Check if the action can be executed
+            //Check if the action is allowed
             $method = 'can'.ucfirst($action);
 
             if(method_exists($this, $method))
             {
 		        if($this->$method() === false)
 		        {
-		            if($context->action != 'options')
-		            {
-		                $context->response->setStatus(
-                            KHttpResponse::METHOD_NOT_ALLOWED, 'Action '.ucfirst($action).' Not Allowed'
-		                );
-
-                        $context->response->headers->set('Allow', $context->getSubject()->execute('options', $context));
-		            }
+                    if($context->user->isAuthentic()) {
+                        throw new KControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
+                    } else {
+                        throw new KControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
+                    }
 
 		            return false;
 		        }
@@ -122,74 +89,93 @@ class KControllerBehaviorExecutable extends KControllerBehaviorAbstract
     }
 
     /**
-     * Set the readonly state of the behavior
+     * Generic authorize handler for controller render actions
      *
-     * @param boolean
-     * @return KControllerBehaviorExecutable
+     * Default implementation checks of the controller has a render action handler defined.
+     *
+     * @return  boolean     Can return both true or false.
      */
-    public function setReadOnly($readonly)
+    public function canRender()
     {
-         $this->_readonly = (bool) $readonly;
-         return $this;
-    }
+        $actions = $this->getActions();
+        $actions = array_flip($actions);
 
-    /**
-     * Get the readonly state of the behavior
-     *
-     * @return boolean
-     */
-    public function isReadOnly()
-    {
-        return $this->_readonly;
+        return isset($actions['render']);
+        return true;
     }
 
 	/**
      * Generic authorize handler for controller browse actions
      *
+     * Default implementation checks of the controller has a browse action handler defined.
+     *
      * @return  boolean     Can return both true or false.
      */
     public function canBrowse()
     {
-        return true;
+        $actions = $this->getActions();
+        $actions = array_flip($actions);
+
+        return isset($actions['browse']);
     }
 
 	/**
      * Generic authorize handler for controller read actions
      *
+     * Default implementation checks of the controller has a read action handler defined.
+     *
      * @return  boolean     Can return both true or false.
      */
     public function canRead()
     {
-        return true;
+        $actions = $this->getActions();
+        $actions = array_flip($actions);
+
+        return isset($actions['read']);
     }
 
 	/**
      * Generic authorize handler for controller edit actions
      *
+     * Default implementation checks of the controller has an edit action handler defined.
+     *
      * @return  boolean     Can return both true or false.
      */
     public function canEdit()
     {
-        return !$this->_readonly;
+        $actions = $this->getActions();
+        $actions = array_flip($actions);
+
+        return isset($actions['edit']);
     }
 
  	/**
      * Generic authorize handler for controller add actions
      *
+     * Default implementation checks of the controller has an add action handler defined.
+     *
      * @return  boolean     Can return both true or false.
      */
     public function canAdd()
     {
-        return !$this->_readonly;
+        $actions = $this->getActions();
+        $actions = array_flip($actions);
+
+        return isset($actions['add']);
     }
 
  	/**
      * Generic authorize handler for controller delete actions
      *
+     * Default implementation checks of the controller has a delete action handler defined.
+     *
      * @return  boolean     Can return both true or false.
      */
     public function canDelete()
     {
-         return !$this->_readonly;
+        $actions = $this->getActions();
+        $actions = array_flip($actions);
+
+        return isset($actions['delete']);
     }
 }
