@@ -64,12 +64,50 @@ class KConfig implements KConfigInterface
         return $result;
     }
 
+    /**
+     * Set a configuration item
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set($name, $value)
+    {
+        if (is_array($value)) {
+            $this->_data[$name] = new self($value);
+        } else {
+            $this->_data[$name] = $value;
+        }
+    }
+
+    /**
+     * Check if a configuration item exists
+     *
+     * @param  	string 	$name The configuration item name.
+     * @return  boolean
+     */
+    public function has($name)
+    {
+        return isset($this->_data[$name]);
+    }
+
+    /**
+     * Remove a configuration item
+     *
+     * @param   string $name The configuration item name.
+     * @return  KModelStateInterface
+     */
+    public function remove( $name )
+    {
+        unset($this->_data[$name]);
+    }
+
 	/**
      * Unbox a KConfig object
      *
      * If the data being passed is an instance of KConfig the data will be transformed to an associative array.
      *
-     * @param  KConfig|mxied $name
+     * @param  KConfig|mxied $data
      * @return array|mixed
      */
     public static function unbox($data)
@@ -127,62 +165,13 @@ class KConfig implements KConfigInterface
     }
 
     /**
-     * Retrieve a configuration element
-     *
-     * @param string $name
-     * @return mixed
-     */
-    public function __get($name)
-    {
-        return $this->get($name);
-    }
-
-    /**
-     * Set a configuration element
-     *
-     * @param  string $name
-     * @param  mixed  $value
-     * @return void
-     */
-    public function __set($name, $value)
-    {
-        if (is_array($value)) {
-            $this->_data[$name] = new self($value);
-        } else {
-            $this->_data[$name] = $value;
-        }
-    }
-
-    /**
-     * Test existence of a configuration element
-     *
-     * @param string $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return isset($this->_data[$name]);
-    }
-
-    /**
-     * Unset a configuration element
-     *
-     * @param  string $name
-     * @return void
-     */
-    public function __unset($name)
-    {
-        unset($this->_data[$name]);
-    }
-
-    /**
      * Get a new iterator
      *
      * @return  ArrayIterator
      */
     public function getIterator()
     {
-        return new RecursiveArrayIterator($this->_data);
+        return new \RecursiveArrayIterator($this->_data);
     }
 
     /**
@@ -290,9 +279,54 @@ class KConfig implements KConfigInterface
      *
      * @return string
      */
-    public function toJson()
+    public function toString()
     {
         return json_encode($this->toArray());
+    }
+
+    /**
+     * Retrieve a configuration element
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    /**
+     * Set a configuration element
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        $this->set($name, $value);
+    }
+
+    /**
+     * Test existence of a configuration element
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return $this->has($name);
+    }
+
+    /**
+     * Unset a configuration element
+     *
+     * @param  string $name
+     * @return void
+     */
+    public function __unset($name)
+    {
+        $this->remove($name);
     }
 
  	/**
@@ -305,7 +339,7 @@ class KConfig implements KConfigInterface
         $array = array();
         foreach ($this->_data as $key => $value)
         {
-            if ($value instanceof KConfig || $value instanceof stdClass) {
+            if ($value instanceof KConfig || $value instanceof \stdClass) {
                 $array[$key] = clone $value;
             } else {
                 $array[$key] = $value;
@@ -322,6 +356,6 @@ class KConfig implements KConfigInterface
      */
     public function __toString()
     {
-        return $this->toJson();
+        return $this->toString();
     }
 }

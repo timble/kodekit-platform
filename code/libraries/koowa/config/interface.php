@@ -15,7 +15,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-interface KConfigInterface extends IteratorAggregate, ArrayAccess, Countable
+interface KConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
 {
     /**
      * Retrieve a configuration item and return $default if there is no element set.
@@ -27,9 +27,34 @@ interface KConfigInterface extends IteratorAggregate, ArrayAccess, Countable
     public function get($name, $default = null);
 
     /**
+     * Set a configuration item
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set($name, $value);
+
+    /**
+     * Check if a configuration item exists
+     *
+     * @param  	string 	$name The configuration item name.
+     * @return  boolean
+     */
+    public function has($name);
+
+    /**
+     * Remove a configuration item
+     *
+     * @param   string $name The configuration item name.
+     * @return  KModelStateInterface
+     */
+    public function remove( $name );
+
+    /**
      * Append values
      *
-     * This funciton only adds keys that don't exist and it filters out any duplicate values
+     * This function only adds keys that don't exist and it filters out any duplicate values
      *
      * @param  mixed    A value of an or array of values to be appended
      * @return KConfig
@@ -37,12 +62,12 @@ interface KConfigInterface extends IteratorAggregate, ArrayAccess, Countable
     public function append($config);
 
     /**
-     * Return the data
+     * Unbox a KConfig object
      *
-     * If the data being passed is an instance of KConfig the data will be transformed
-     * to an associative array.
+     * If the data being passed is an instance of KConfig the data will be transformed to an associative array.
      *
-     * @return array|scalar
+     * @param  KConfig|mxied $data
+     * @return array|mixed
      */
     public static function unbox($data);
 
@@ -58,5 +83,5 @@ interface KConfigInterface extends IteratorAggregate, ArrayAccess, Countable
      *
      * @return string   returns the data encoded to JSON
      */
-    public function toJson();
+    public function toString();
 }
