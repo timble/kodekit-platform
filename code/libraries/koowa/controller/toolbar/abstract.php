@@ -40,8 +40,18 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
     {
         parent::__construct($config);
 
-        if (is_null($config->controller)) {
-            throw new KMixinException('controller [KController] option is required');
+        if (is_null($config->controller))
+        {
+            throw new \InvalidArgumentException(
+                'controller [KControllerInterface] config option is required'
+            );
+        }
+
+        if(!$config->controller instanceof KControllerInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Controller: '.get_class($config->controller).' does not implement KControllerInterface'
+            );
         }
 
         //Create the commands array
@@ -174,7 +184,7 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
      */
     public function getIterator()
     {
-        return new RecursiveArrayIterator($this->getCommands());
+        return new \RecursiveArrayIterator($this->getCommands());
     }
 
     /**
