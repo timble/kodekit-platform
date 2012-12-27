@@ -17,7 +17,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Router
  */
-class KDispatcherRouterDefault extends KObject implements KDispatcherRouterInterface, KServiceInstantiatable
+class KDispatcherRouter extends KObject implements KDispatcherRouterInterface, KServiceInstantiatable
 {
     /**
      * Force creation of a singleton
