@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @package     Koowa_Dispatcher
+ * @package     Koowa_User
  * @subpackage  Session
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -9,13 +9,13 @@
  */
 
 /**
- * APC Session Handler Class
+ * Database User Session Handler Class
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @author      Johan Janssens <johan@nooku.org>
+ * @package     Koowa_Controller
  * @subpackage  Session
  */
-class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstract
+class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
 {
     /**
      * Table object or identifier
@@ -28,14 +28,14 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDispatcherSessionHandlerDatabase
+     * @return KUserSessionHandlerDatabase
      */
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
         if (is_null($config->table)) {
-            throw new InvalidArgumentException('table option is required');
+            throw new \InvalidArgumentException('table option is required');
         }
 
         $this->_table = $config->table;
@@ -154,6 +154,7 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     /**
      * Get a table object, create it if it does not exist.
      *
+     * @throws UnexpectedValueException  If the table object doesn't implement KDatabaseTableInterface
      * @return KDatabaseTableInterface
      */
     public function getTable()
@@ -166,6 +167,13 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
             }
 
             $this->_table = $this->getService($this->_table);
+
+            if (!($this->_table instanceof KDatabaseTableInterface))
+            {
+                throw new \UnexpectedValueException(
+                    'Table: ' . get_class($this->_table) . ' doed not implement KDatabaseTableInterface'
+                );
+            }
         }
 
         return $this->_table;
@@ -174,26 +182,13 @@ class KDispatcherSessionHandlerDatabase extends KDispatcherSessionHandlerAbstrac
     /**
      * Set a table object attached to the handler
      *
-     * @param    mixed    $table An object that implements KObjectServiceable, KServiceIdentifier object
-     *                            or valid identifier string
-     * @throws  KDispatcherSessionHandlerException  If the identifier is not a table identifier
-     * @return \KDispatcherSessionHandlerDatabase
+     * @param   mixed   $table An object that implements KObjectServiceable, KServiceIdentifier object
+     *                         or valid identifier string
+     * @return KUserSessionHandlerDatabase
      */
     public function setTable($table)
     {
-        if (!($table instanceof KDatabaseTableInterface))
-        {
-            $identifier = $this->getIdentifier($table);
-
-            if ($identifier->path[1] != 'table') {
-                throw new DomainException('Identifier: ' . $identifier . ' is not a table identifier');
-            }
-
-            $table = $identifier;
-        }
-
-        $this->_table = $identifier;
-
+        $this->_table = $table;
         return $this;
     }
 }
