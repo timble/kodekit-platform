@@ -17,11 +17,13 @@
  */
 class ComArticlesControllerSection extends ComArticlesControllerDefault
 {
-    public function setRequest(array $request)
+    public function getRequest()
     {
-        // Only return published items.
-        $request['published'] = 1;
+        $request = parent::getRequest();
 
-        return parent::setRequest($request);
+        // Only return published items.
+        $request->query->published = 1;
+
+        return $request;
     }
 }
