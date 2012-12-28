@@ -23,9 +23,9 @@ class ComExtensionsViewSettingsJson extends KViewJson
         $model = $this->getModel();
 
         if(KInflector::isPlural($this->getName())) {
-            $data = array('settings' => $model->getList()->toArray());
+            $data = array('settings' => $model->getRowset()->toArray());
         } else {
-            $data = $model->getItem()->toArray();
+            $data = $model->getRow()->toArray();
         }
 
         $this->output = $data;
