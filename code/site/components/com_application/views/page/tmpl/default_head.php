@@ -10,7 +10,7 @@
 ?>
 
 <head>
-<base href="<?= KRequest::url(); ?>" />
+<base href="<?= @service('request')->getUrl(); ?>" />
 <title><?= @escape(@service('application')->getCfg('sitename' )). ' - ' .@text( 'Administration')  ?></title>
 <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
