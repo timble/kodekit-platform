@@ -17,17 +17,17 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowGroup extends KDatabaseRowDefault
+class ComUsersDatabaseRowGroup extends KDatabaseRowTable
 {   
     public function save()
     {
-    	
     	$result = parent::save();
 
-        if ($this->users) {
-
+        if ($this->users)
+        {
             // Add new users to group
-            foreach ($this->users as $user) {
+            foreach ($this->users as $user)
+            {
                 $group_user = $this->getService('com://admin/users.database.row.groups_users');
 
                 $group_user->group_id = $this->id;
@@ -39,8 +39,8 @@ class ComUsersDatabaseRowGroup extends KDatabaseRowDefault
             }
 
             // Remove users no longer attached to group
-            foreach ($this->getService('com://admin/users.model.groups_users')->group_id($this->id)
-                ->getList() as $group_user) {
+            foreach ($this->getService('com://admin/users.model.groups_users')->group_id($this->id)->getRowset() as $group_user)
+            {
                 // Remove all users that are no longer selected
                 if (!in_array($group_user->user_id, $this->users)) {
                     $group_user->delete();
