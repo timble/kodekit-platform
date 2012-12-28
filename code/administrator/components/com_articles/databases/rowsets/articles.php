@@ -15,7 +15,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesDatabaseRowsetArticles extends KDatabaseRowsetDefault
+class ComArticlesDatabaseRowsetArticles extends KDatabaseRowsetTable
 {
 
 }
