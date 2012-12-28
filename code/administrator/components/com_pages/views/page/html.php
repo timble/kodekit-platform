@@ -22,22 +22,20 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
     {
         // Load languages.
         $language   = JFactory::getLanguage();
-        $components = $this->getService('com://admin/extensions.model.components')->getList();
-        $admin_path = $this->getIdentifier()->getApplication('admin');
 
-        foreach($components as $component) {
-            $language->load(substr($component->name, 4), null, $admin_path);
+        foreach($this->getService('com://admin/extensions.model.components')->getRowset() as $component) {
+            $language->load($component->name);
         }
         
         // Load components.
         $model = $this->getModel();
         $menu  = $this->getService('com://admin/pages.model.menus')
             ->id($model->menu)
-            ->getItem();
+            ->getRow();
         
         $components = $this->getService('com://admin/pages.model.types')
             ->application($menu->application)
-            ->getList();
+            ->getRowset();
         
 		$this->assign('components', $components);
 		
@@ -45,11 +43,11 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
         $available = $this->getService('com://admin/pages.model.modules')
             ->published(true)
             ->application('site')
-            ->getList();
+            ->getRowset();
 
         $query = $this->getService('koowa:database.query.select')
             ->where('tbl.pages_page_id IN :id')
-            ->bind(array('id' => array((int) $model->getItem()->id, 0)));
+            ->bind(array('id' => array((int) $model->getRow()->id, 0)));
 
         $assigned = $this->getService('com://admin/pages.database.table.modules_pages')
             ->select($query);
