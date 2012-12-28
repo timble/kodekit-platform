@@ -38,16 +38,16 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
      *
      * @return KDatabaseRow
      */
-    public function getItem()
+    public function getRow()
     {
-        if (!isset($this->_item))
+        if (!isset($this->_row))
         {
             if ($this->_state->revision > 1) {
-                $this->_item = $this->getRevision();
+                $this->_row = $this->getRevision();
             }
         }
 
-        return parent::getItem();
+        return parent::getRow();
     }
 
     /**
@@ -57,7 +57,7 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
      */
     public function getRevision()
     {
-        $revisions = $this->getList();
+        $revisions = $this->getRowset();
         $data      = array();
 
         foreach ($revisions as $row)
