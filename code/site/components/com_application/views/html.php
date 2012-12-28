@@ -43,6 +43,7 @@ class ComApplicationViewHtml extends KViewHtml
         //Set the language information
         $this->language  = JFactory::getLanguage()->getTag();
         $this->direction = JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
+        $this->component = $this->getService('application')->getController()->getIdentifier()->package;
 
         return parent::display();
     }
