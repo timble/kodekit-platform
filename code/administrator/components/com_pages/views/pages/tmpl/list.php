@@ -53,7 +53,7 @@
 		                </a>
 						<? break ?>
 						
-			        <? case 'redirect'?>
+			        <? case 'redirect': ?>
 			            <a href="<?= $page->route ?>">
 			                <span><?= $page->title ?></span>
 			            </a>
