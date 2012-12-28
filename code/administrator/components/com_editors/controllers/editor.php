@@ -1,9 +1,9 @@
 <?php
 /**
-* @version		$Id$
+* @version		$Id: editor.php 1778 2012-08-31 17:09:41Z gergoerdosi $
 * @category		Nooku
 * @package    	Nooku_Server
-* @subpackage  	Editors
+* @subpackage  	Wysiwyg
 * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
 * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
 * @link			http://www.nooku.org
@@ -17,28 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Editor
  */
-class ComEditorsControllerEditor extends KControllerResource
+class ComWysiwygControllerEditor extends KControllerView
 {
-    protected function _initialize(KConfig $config)
-    {
-        parent::_initialize($config);
-        
-        $config->append(array('request' => array('layout' => 'default')));
-    }
-    
-	public function __call($method, $args)
-	{
-	    //Check first if we are calling a mixed in method. 
-	    //This prevents the model being loaded durig object instantiation. 
-		if(!isset($this->_mixed_methods[$method]) && $method != 'display') 
-        {
-            //Check if the method is a state property
-			$view = $this->getView();
-			$view->$method($args[0]);
-	
-			return $this;
-        }
-		
-		return parent::__call($method, $args);
-	}
+
 }

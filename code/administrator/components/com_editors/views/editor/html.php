@@ -3,7 +3,7 @@
 * @version		$Id: categories.php 3542 2012-04-02 18:27:01Z johanjanssens $
 * @category		Nooku
 * @package    	Nooku_Server
-* @subpackage  	Editors
+* @subpackage  	Wysiwyg
 * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
 * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
 * @link			http://www.nooku.org
@@ -15,9 +15,9 @@
  * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @category 	Nooku
  * @package     Nooku_Server
- * @subpackage  Editor
+ * @subpackage  Wysiwyg
  */
-class ComEditorsViewEditorHtml extends ComDefaultViewHtml
+class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 {
     protected $_editor_settings;
     
@@ -94,13 +94,13 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 			'codemirror'   		=> true,
 			'codemirrorOptions' => array(
 				'stylesheet' => array(
-					$config->media_url.'/com_editors/codemirror/lib/codemirror.css',
-				  	/*$config->media_url.'/com_editors/codemirror/css/xmlcolors.css', 
-				  	$config->media_url.'/com_editors/codemirror/css/jscolors.css', 
-				  	$config->media_url.'/com_editors/codemirror/css/csscolors.css',
-				  	$config->media_url.'/com_editors/css/codemirror.css'*/
+					$config->media_url.'/com_wywisyg/codemirror/lib/codemirror.css',
+				  	/*$config->media_url.'/com_wysiwyg/codemirror/css/xmlcolors.css',
+				  	$config->media_url.'/com_wysiwyg/codemirror/css/jscolors.css',
+				  	$config->media_url.'/com_wysiwyg/codemirror/css/csscolors.css',
+				  	$config->media_url.'/com_wysiwyg/css/codemirror.css'*/
 				),
-				'path' => $config->media_url.'/com_editors/codemirror/'
+				'path' => $config->media_url.'/com_wysiwyg/codemirror/'
 			),
 
 			'editor_settings' => $settings
@@ -116,10 +116,10 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 				'html'		=> JText::_('HTML'),
 				'visual'	=> JText::_('Visual')
 			),
-            'autoheight' => true,
-			'codemirror' => $this->codemirror,
+            'autoheight'        => true,
+			'codemirror'        => $this->codemirror,
 			'codemirrorOptions' => $this->codemirrorOptions,
-			'toggle' => $this->toggle
+			'toggle'            => $this->toggle
 		));
 
 		//@TODO cleanup
@@ -129,8 +129,8 @@ class ComEditorsViewEditorHtml extends ComDefaultViewHtml
 		
 		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
-		$this->assign('options' , KConfig::unbox($options));
-		$this->assign('settings', $this->getEditorSettings());
+		$this->assign('options'   , KConfig::unbox($options));
+		$this->assign('settings'  , $this->getEditorSettings());
 		$this->assign('codemirror', $this->codemirror);
 
 		return parent::display();
