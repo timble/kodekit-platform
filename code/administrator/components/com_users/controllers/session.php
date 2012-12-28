@@ -24,13 +24,13 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         parent::__construct($config);
 
         //Only authenticate POST requests
-        $this->registerCallback('before.post' , array($this, 'authenticate'));
+        $this->registerCallback('before.add' , array($this, 'authenticate'));
 
         //Authorize the user before adding
         $this->registerCallback('before.add' , array($this, 'authorize'));
 
         //Lock the referrer to prevent it from being overridden for read requests
-        if ($this->isDispatched() && KRequest::type() == 'HTTP')
+        if ($this->isDispatched() && !$this->getRequest()->isAjax())
         {
             if($this->isEditable()) {
                 $this->registerCallback('after.delete' , array($this, 'lockReferrer'));
@@ -43,148 +43,128 @@ class ComUsersControllerSession extends ComDefaultControllerDefault
         $config->append(array(
             'behaviors' => array(
                 'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
-                'com://admin/users.controller.behavior.session.executable'
             )
         ));
 
         parent::_initialize($config);
     }
 
-    protected function _actionGet(KCommandContext $context)
-    {
-        //Force the application template
-        KRequest::set('get.tmpl', 'login');
-
-        //Set the status
-        //$context->response->setStatus(KHttpResponse::UNAUTHORIZED);
-
-        return parent::_actionGet($context);
-    }
-
-    protected function _actionAdd(KCommandContext $context)
-    {
-        //Start the session (if not started already)
-        $session = $this->getService('application.session')->start();
-
-        //Insert the session into the database
-        if($session->isActive())
-        {
-            //Prepare the data
-            $context->data->id    = $session->getId();
-            $context->data->name  = $context->user->name;
-            $context->data->guest = $context->user->guest;
-            $context->data->email = $context->user->email;
-            $context->data->data  = '';
-            $context->data->time  = time();
-            $context->data->application = $this->getIdentifier()->application;
-        }
-
-        //Add the session to the session store
-        $data = parent::_actionAdd($context);
-
-        if(!$context->response->isError())
-        {
-            //Set the session data
-            $session->user = $context->user;
-            $session->site = $this->getService('application')->getSite();
-        }
-
-        //Redirect to caller
-        $context->response->setRedirect(KRequest::referrer());
-
-        return $data;
-    }
-
-    protected function _actionDelete(KCommandContext $context)
-    {
-        //Force logout from site and administrator
-        $this->application = array_keys($this->getIdentifier()->getApplications());
-
-        //Remove the session from the session store
-        $data = parent::_actionDelete($context);
-
-        if(!$context->response->isError())
-        {
-            // Destroy the php session for this user if we are logging out ourselves
-            if(JFactory::getUser()->email == $data->email) {
-                $this->getService('application.session')->destroy();
-            }
-        }
-
-        //Redirect to caller
-        $context->response->setRedirect(KRequest::referrer());
-
-        return $data;
-    }
-
-    protected function _actionFork(KCommandContext $context)
-    {
-        //Fork the session to prevent session fixation issues
-        $session = $this->getService('application.session')->fork();
-
-        //Re-Load the user
-        $user = $this->getService('com://admin/users.database.row.user')
-                      ->set('email', $session->user->email)
-                      ->load();
-
-        //Store the user in the context
-        $context->user = $user;
-
-        //Re-authorize the user and add a session entity
-        $result = $this->execute('add', $context);
-
-        return $result;
-    }
-
-    protected function _actionAuthenticate(KCommandContext $context)
+    public function authenticate(KCommandContext $context)
     {
         //Load the user
-        $user = $this->getService('com://admin/users.database.row.user')
-                     ->set('email', $context->data->email)
-                     ->load();
+        $email = $context->request->data->get('email', 'email');
 
-        //Store the user in the context
-        $context->user = $user;
-
-        if($user->id)
+        if(isset($email))
         {
-            $password = $user->getPassword();
+            $user = $this->getService('com://admin/users.model.users')->email($email)->getRow();
 
-            if(!$password->verify($context->data->password))
+            //Authenticate the user
+            if($user->id)
             {
-                JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong password!'));
-                return false;
+                $password = $user->getPassword();
+
+                if(!$password->verify($context->request->data->get('password', 'string'))) {
+                    throw new KControllerExceptionUnauthorized('Wrong password');
+                }
             }
+
+            //Set user data in context
+            $data = array(
+                'id'         => $user->id,
+                'email'      => $user->email,
+                'name'       => $user->name,
+                'role'       => $user->role_id,
+                'groups'     => $user->getGroups(),
+                'password'   => $user->getPassword()->password,
+                'salt'       => $user->getPassword()->salt,
+                'authentic'  => true,
+                'enabled'    => $user->enabled,
+                'attributes' => $user->params->toArray(),
+            );
+
+            $context->user->fromArray($data);
         }
-        else
-        {
-            JError::raiseWarning('SOME_ERROR_CODE', JText::_('Wrong email!'));
-            return false;
-        }
+        else throw new KControllerExceptionUnauthorized('Wrong email');
 
         return true;
     }
 
-    protected function _actionAuthorize(KCommandContext $context)
+    public function authorize(KCommandContext $context)
     {
         //Make sure we have a valid user object
-        if($context->user instanceof ComUsersDatabaseRowUser)
+        if($context->user instanceof KUserInterface)
         {
             $options = array();
 
             //If the user is blocked, redirect with an error
-            if (!$context->user->enabled)
-            {
-                JError::raiseWarning('SOME_ERROR_CODE', JText::_('E_NOLOGIN_BLOCKED'));
-                return false;
+            if (!$context->user->isEnabled()) {
+                throw new KControllerExceptionForbidden('Account disabled');
             }
-
-            //Mark the user as logged in
-            $context->user->guest = 0;
 
             return true;
         }
 
         return false;
+    }
+
+    protected function _actionAdd(KCommandContext $context)
+    {
+        //Start the session (if not started already)
+        $session = $context->user->session->start();
+
+        //Insert the session into the database
+        if($session->isActive())
+        {
+            //Fork the session to prevent session fixation issues
+            $session->fork();
+
+            //Prepare the data
+            $data = array(
+                'id'          => $session->getId(),
+                'guest'       => !$context->user->isAuthentic(),
+                'email'       => $context->user->getEmail(),
+                'data'        => '',
+                'time'        => time(),
+                'application' => $this->getIdentifier()->application,
+                'name'        => $context->user->getName()
+            );
+
+            $context->request->data->add($data);
+        }
+
+        //Add the session to the session store
+        $entity = parent::_actionAdd($context);
+
+        //Set the session data
+        if(!$context->response->isError()) {
+            $session->site = $this->getService('application')->getSite();
+        }
+
+        //Redirect to caller
+        $context->response->setRedirect($context->request->getReferrer());
+
+        return $entity;
+    }
+
+    protected function _actionDelete(KCommandContext $context)
+    {
+        //Force logout from site and administrator
+        $context->request->query->application = array_keys($this->getIdentifier()->getApplications());
+
+        //Remove the session from the session store
+        $entity = parent::_actionDelete($context);
+
+        if(!$context->response->isError())
+        {
+            // Destroy the php session for this user if we are logging out ourselves
+            if($context->user->getEmail() == $entity->email) {
+                $context->user->session->destroy();
+            }
+        }
+
+        //Redirect to caller
+        $context->response->setRedirect($context->request->getReferrer());
+
+        return $entity;
     }
 }
