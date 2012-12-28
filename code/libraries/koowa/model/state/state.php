@@ -2,25 +2,51 @@
 /**
  * @version		$Id$
  * @package		Koowa_Model
+ * @subpackage  State
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
 
 /**
- * State Config Class
+ * Model State Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @category	Koowa
- * @package     Koowa_Config
+ * @package     Koowa_Model
+ * @subpackage  State
  */
-class KConfigState extends KConfig
+class KModelState extends KConfig implements KModelStateInterface
 {
-	/**
+    /**
+     * Insert a new state
+     *
+     * @param   string   $name     The name of the state
+     * @param   mixed    $filter   Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
+     * @param   mixed    $default  The default value of the state
+     * @param   boolean  $unique   TRUE if the state uniquely identifies an entity, FALSE otherwise. Default FALSE.
+     * @param   array    $required Array of required states to determine if the state is unique. Only applicable if the
+     *                             state is unqiue.
+     * @return  KModelState
+     */
+    public function insert($name, $filter, $default = null, $unique = false, $required = array())
+    {
+        $state = new \stdClass();
+        $state->name     = $name;
+        $state->filter   = $filter;
+        $state->value    = $default;
+        $state->unique   = $unique;
+        $state->required = $required;
+        $state->default  = $default;
+        $this->_data[$name] = $state;
+
+        return $this;
+    }
+
+    /**
      * Retrieve a configuration item and return $default if there is no element set.
      *
-     * @param string
-     * @param mixed
+     * @param string $name      The state name
+     * @param mixed  $default   The state default value if no state can be found
      * @return mixed
      */
     public function get($name, $default = null)
@@ -36,59 +62,40 @@ class KConfigState extends KConfig
     /**
      * Set state value
      *
-     * @param  	string 	The user-specified state name.
-     * @param  	mixed  	The user-specified state value.
-     * @return 	void
+     * @param  	string 	$name The state name.
+     * @param  	mixed  	$value The state value.
+     * @return 	KModelState
      */
-    public function __set($name, $value)
-    {
-    	if(isset($this->_data[$name])) {
-    		$this->_data[$name]->value = $value;
-    	}
-    }
-
-    /**
-     * Unset a state value
-     *
-     * @param   string  The column key.
-     * @return  void
-     */
-    public function __unset($name)
+    public function set($name, $value)
     {
         if(isset($this->_data[$name])) {
-            $this->_data[$name]->value = $this->_data[$name]->default;
+            $this->_data[$name]->value = $value;
         }
-    }
-
-    /**
-     * Insert a new state
-     *
-     * @param   string      The name of the state
-     * @param   mixed       Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
-     * @param   mixed       The default value of the state
-     * @param   boolean     TRUE if the state uniquely indetifies an enitity, FALSE otherwise. Default FALSE.
-     * @param   array       Array of required states to determine if the state is unique. Only applicable if the state is unqiue.
-     * @return  KConfigState
-     */
-    public function insert($name, $filter, $default = null, $unique = false, $required = array())
-    {
-        $state = new stdClass();
-        $state->name     = $name;
-        $state->filter   = $filter;
-        $state->value    = $default;
-        $state->unique   = $unique;
-        $state->required = $required;
-        $state->default  = $default;
-        $this->_data[$name] = $state;
 
         return $this;
     }
 
     /**
+     * Check if a state exists
+     *
+     * @param  	string 	$name The state name.
+     * @return  boolean
+     */
+    public function has($name)
+    {
+        $result = false;
+        if(isset($this->_data[$name])) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    /**
      * Remove an existing state
      *
-     * @param   string      The name of the state
-     * @return  KConfigState
+     * @param   string $name The name of the state
+     * @return  KModelState
      */
     public function remove( $name )
     {
@@ -100,7 +107,7 @@ class KConfigState extends KConfig
      * Reset all state data and revert to the default state
      *
      * @param   boolean If TRUE use defaults when resetting. Default is TRUE
-     * @return KConfigState
+     * @return KModelState
      */
     public function reset($default = true)
     {
@@ -111,16 +118,16 @@ class KConfigState extends KConfig
         return $this;
     }
 
-     /**
+    /**
      * Set the state data
      *
-     * This function will only filter values if we have a value. If the value
-     * is an empty string it will be filtered to NULL.
+     * This function will only filter values if we have a value. If the value is an empty string it will be filtered
+     * to NULL.
      *
-     * @param   array|object    An associative array of state values by name
-     * @return  KConfigState
+     * @param   array An associative array of state values by name
+     * @return  KModelState
      */
-    public function setData(array $data)
+    public function fromArray(array $data)
     {
         // Filter data
         foreach($data as $key => $value)
@@ -158,7 +165,7 @@ class KConfigState extends KConfig
      * @param   boolean If TRUE only retrieve unique state values, default FALSE
      * @return  array   An associative array of state values by name
      */
-    public function getData($unique = false)
+    public function toArray($unique = false)
     {
         $data = array();
 
@@ -168,7 +175,7 @@ class KConfigState extends KConfig
             {
                 //Only return unique data
                 if($unique)
-                 {
+                {
                     //Unique values cannot be null or an empty string
                     if($state->unique && $this->_validate($state))
                     {
@@ -202,6 +209,17 @@ class KConfigState extends KConfig
         return $data;
     }
 
+	/**
+     * Return an associative array of the states.
+     *
+     * @param bool 	If TRUE return only as associative array of the state values. Default is TRUE.
+     * @return array
+     */
+    public function getStates()
+    {
+        return $this->_data;
+    }
+
     /**
      * Check if the state information is unique
      *
@@ -212,7 +230,7 @@ class KConfigState extends KConfig
         $unique = false;
 
         //Get the unique states
-        $states = $this->getData(true);
+        $states = $this->toArray(true);
 
         if(!empty($states))
         {
@@ -240,33 +258,13 @@ class KConfigState extends KConfig
      */
     public function isEmpty(array $exclude = array())
     {
-        $states = $this->getData();
+        $states = $this->toArray();
 
         foreach($exclude as $state) {
             unset($states[$state]);
         }
 
         return (bool) (count($states) == 0);
-    }
-
-	/**
-     * Return an associative array of the states.
-     *
-     * @param bool 	If TRUE return only as associative array of the state values. Default is TRUE.
-     * @return array
-     */
-    public function toArray($values = true)
-    {
-        if($values)
-        {
-            $result = array();
-            foreach($this->_data as $state) {
-                $result[$state->name] = $state->value;
-            }
-        }
-        else $result = $this->_data;
-
-        return $result;
     }
 
 	/**
