@@ -110,13 +110,13 @@ class KHttpResponseHeaders extends KHttpMessageHeaders
      *
      * @return string The headers
      */
-    public function __toString()
+    public function toString()
     {
         $cookies = '';
         foreach ($this->getCookies() as $cookie) {
             $cookies .= 'Set-Cookie: '.$cookie."\r\n";
         }
 
-        return parent::__toString().$cookies;
+        return parent::toString().$cookies;
     }
 }
