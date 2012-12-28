@@ -26,7 +26,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         
         $this->_tables = $this->getService('com://admin/languages.model.tables')
             ->enabled(true)
-            ->getList();
+            ->getRowset();
     }
     
     public static function getInstance(KConfigInterface $config, KServiceInterface $container)
@@ -90,7 +90,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         $translations = $this->getService('com://admin/languages.model.translations')
             ->table($this->getMixer()->getIdentifier()->package)
             ->row($this->id)
-            ->getList();
+            ->getRowset();
         
         return $translations;
     }
