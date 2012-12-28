@@ -23,8 +23,8 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback(array('before.edit', 'before.add'), array($this, 'sanitizeData'))
-            ->registerCallback('after.add', array($this, 'notify'));
+        $this->registerCallback(array('before.edit', 'before.add'), array($this, 'sanitizeRequest'))
+             ->registerCallback('after.add', array($this, 'notify'));
 	}
     
     protected function _initialize(KConfig $config)
@@ -42,48 +42,42 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
     {
         $request = parent::getRequest();
 
-        if($request->layout == 'form') {
-            $request->id = JFactory::getUser()->id;
+        if($request->query->get('layout', 'alpha') == 'form') {
+            $request->id = $this->getUser()->getId();
         }
 
         return $request;
     }
 
-    public function _actionGet(KCommandContext $context)
+    public function _actionRender(KCommandContext $context)
     {
-        $user = JFactory::getUser();
-
-        if($this->_request->layout == 'register' && !$user->guest)
+        if($context->request->query-get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
             $url =  'index.php?Itemid='.$this->getService('application.pages')->getHome()->id;
-            $msg =  JText::_('You are already registered.');
-
-            $context->response->setRedirect($url);
-            //@TODO : Set message in session
-            //$this->setRedirect($url, $msg);
+            $context->response->setRedirect($url, 'You are already registered');
             return false;
         }
 
-        return parent::_actionGet($context);
+        return parent::_actionRender($context);
     }
 
     protected function _actionAdd(KCommandContext $context) {
 
         $params = $this->getService('application.components')->users->params;
-        $context->data->role_id = $params->get('new_usertype', 18);
+        $context->request->data->role_id = $params->get('new_usertype', 18);
 
         return parent::_actionAdd($context);
     }
     
     protected function _actionEdit(KCommandContext $context)
     {
-        $data = parent::_actionEdit($context);
+        $entity = parent::_actionEdit($context);
         
-        if ($context->response->getStatusCode() == KHttpResponse::RESET_CONTENT) {
-            JFactory::getUser()->setData($data->getData());
+        if ($context->getSubject()->getStatus() == self::STATUS_RESET) {
+            $this->getService('user')->setData($entity->getData());
         }
         
-        return $data;
+        return $entity;
     }
 
     public function notify(KCommandContext $context)
@@ -95,7 +89,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             $url       = $this->getService('koowa:http.url',
                 array('url' => "index.php?option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
             $this->getService('application')->getRouter()->build($url);
-            $site_url       = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+            $site_url       = $context->request->getUrl()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
             $activation_url = $site_url . '/' . $url;
 
             $subject = JText::_('User Account Activation');
@@ -106,11 +100,11 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         }
     }
 
-    public function sanitizeData(KCommandContext $context)
+    public function sanitizeRequest(KCommandContext $context)
     {
         // Unset some variables because of security reasons.
         foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
-            unset($context->data->{$variable});
+            $context->request->data->remove($variable);
         }
     }
 }
