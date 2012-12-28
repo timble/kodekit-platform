@@ -34,83 +34,73 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 	public function getRequest()
 	{
 		$request = parent::getRequest();
-		// "e_name" is needed to be compatible with com_content of Joomla
-		if ($request->e_name) {
-			$request->editor = $request->e_name;
-		}
 
 		// "config" state is only used in HMVC requests and passed to the JS application
 		if ($this->isDispatched()) {
-			unset($request->config);
+			unset($request->query->config);
 		}
 
-		
 		return $request;
 	}
 
 	protected function _actionCopy(KCommandContext $context)
 	{
-		$data = $this->getModel()->getItem();
+		$entity = $this->getModel()->getRow();
 
-		if(!$data->isNew())
+		if(!$entity->isNew())
 		{
-			$data->setData(KConfig::unbox($context->data));
+			$entity->setData(KConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
-			if($data->copy() === false)
+			if($entity->copy() === false)
 			{
-				$error = $data->getStatusMessage();
-                $context->response->setStatus(
-                    KHttpResponse::INTERNAL_SERVER_ERROR, $error ? $error : 'Copy Action Failed'
-                );
+				$error = $entity->getStatusMessage();
+                throw new KControllerExceptionActionFailed($error ? $error : 'Copy Action Failed');
 			}
 			else
             {
-                $context->reponse->setStatus(
-                    $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT
+                $context->response->setStatus(
+                    $entity->getStatus() === KDatabase::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
                 );
             }
 		}
-		else $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Resource Not Found');
+		else throw new KControllerExceptionNotFound('Resource Not Found');
 
-		return $data;
+		return $entity;
 	}
 
 	protected function _actionMove(KCommandContext $context)
 	{
-		$data = $this->getModel()->getItem();
+		$entity = $this->getModel()->getRow();
 
-		if(!$data->isNew())
+		if(!$entity->isNew())
 		{
-			$data->setData(KConfig::unbox($context->data));
+			$entity->setData(KConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
-			if($data->move() === false)
+			if($entity->move() === false)
 			{
-				$error = $data->getStatusMessage();
-				$context->response->setStatus(
-                    KHttpResponse::INTERNAL_SERVER_ERROR, $error ? $error : 'Move Action Failed'
-				);
-
+				$error = $entity->getStatusMessage();
+                throw new KControllerExceptionActionFailed($error ? $error : 'Move Action Failed');
 			}
 			else
             {
                 $context->response->setStatus(
-                    $data->getStatus() === KDatabase::STATUS_CREATED ? KHttpResponse::CREATED : KHttpResponse::NO_CONTENT
+                    $entity->getStatus() === KDatabase::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
                 );
             }
 		}
-		else $context->response->setStatus(KHttpResponse::NOT_FOUND, 'Resource Not Found');
+		else throw new KControllerExceptionNotFound('Resource Not Found');
 
-		return $data;
+		return $entity;
 	}
 
 	/**
 	 * Overridden method to be able to use it with both resource and service controllers
 	 */
-	protected function _actionGet(KCommandContext $context)
+	protected function _actionRender(KCommandContext $context)
 	{
-		if ($this->getIdentifier()->name == 'image' || ($this->getIdentifier()->name == 'file' && $this->getRequest()->format == 'html'))
+		if ($this->getIdentifier()->name == 'image' || ($this->getIdentifier()->name == 'file' && $context->request->getFormat() == 'html'))
 		{
             JFactory::getLanguage()->load($this->getIdentifier()->package);
 
@@ -118,8 +108,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 			return $result;
 		}
 
-		return parent::_actionGet($context);
-
+		return parent::_actionRender($context);
 	}
 	
 	/**
@@ -146,7 +135,7 @@ class ComFilesControllerDefault extends ComDefaultControllerDefault
 	        $this->limit = $limit;
 	    }
 	
-	    $data = $this->getModel()->getList();
-		return $data;
+	    $entity = $this->getModel()->getRowset();
+		return $entity;
 	}
 }
