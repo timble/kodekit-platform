@@ -16,23 +16,8 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Exception
  */
-class KExceptionError extends ErrorException implements KExceptionInterface
+class KExceptionError extends \ErrorException implements KExceptionInterface
 {
-    /**
-     * Constructor
-     *
-     * @param string  The exception message
-     * @param integer The exception code
-     */
-    public function __construct($message, $code, $severity, $filename, $lineno)
-    {
-        if (!$message) {
-            throw new $this('Unknown '. get_class($this));
-        }
-
-        parent::__construct($message, $code, $severity, $filename, $lineno);
-    }
-
     /**
      * Format the exception for display
      *
