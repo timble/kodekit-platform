@@ -16,7 +16,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowsetPages extends KDatabaseRowsetDefault
+class ComPagesDatabaseRowsetPages extends KDatabaseRowsetTable
 {
     protected function _initialize(KConfig $config)
     {
