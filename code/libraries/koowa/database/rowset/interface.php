@@ -15,9 +15,26 @@
  * @package     Koowa_Database
  * @subpackage  Rowset
  */
-interface KDatabaseRowsetInterface
+interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Countable, \Serializable
 {
-	/**
+    /**
+     * Retrieve an array of column values
+     *
+     * @param   string  $column The column name.
+     * @return  array   An array of all the column values
+     */
+    public function get($column);
+
+    /**
+     * Set the value of all the columns
+     *
+     * @param   string  $column The column name.
+     * @param   mixed   $value The value for the property.
+     * @return  void
+     */
+    public function set($column, $value);
+
+    /**
      * Returns all data as an array.
      *
      * @param  boolean $modified If TRUE, only return the modified data. Default FALSE
@@ -42,7 +59,7 @@ interface KDatabaseRowsetInterface
      * @return \KDatabaseRowsetInterface
      * @see __construct
      */
-    public function addData(array $data, $new = true);
+    public function addRow(array $data, $new = true);
 
     /**
      * Returns the status message
@@ -118,6 +135,13 @@ interface KDatabaseRowsetInterface
      * @return \KDatabaseRowsetInterface
      */
     public function extract(KObjectHandlable $row);
+
+    /**
+     * Return an associative array of the data.
+     *
+     * @return array
+     */
+    public function toArray();
 
     /**
 	 * Test the connected status of the rowset.
