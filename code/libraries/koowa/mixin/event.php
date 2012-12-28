@@ -46,7 +46,7 @@ class KMixinEvent extends KMixinAbstract
         parent::__construct($config);
 
         if (is_null($config->event_dispatcher)) {
-            throw new KMixinException('event_dispatcher [KEventDispatcher] option is required');
+            throw new InvalidArgumentException('event_dispatcher [KEventDispatcherInterface] config option is required');
         }
 
         //Set the event dispatcher
@@ -96,6 +96,19 @@ class KMixinEvent extends KMixinAbstract
      */
     public function getEventDispatcher()
     {
+        if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+        {
+            $this->_event_dispatcher = $this->getService($this->_event_dispatcher);
+
+            //Make sure the request implements KControllerRequestInterface
+            if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement KEventDispatcherInterface'
+                );
+            }
+        }
+
         return $this->_event_dispatcher;
     }
 
@@ -123,7 +136,7 @@ class KMixinEvent extends KMixinAbstract
      */
     public function addEventListener($event, $listener, $priority = KEvent::PRIORITY_NORMAL)
     {
-        $this->_event_dispatcher->addEventListener($event, $listener, $priority);
+        $this->getEventDispatcher()->addEventListener($event, $listener, $priority);
         return $this->getMixer();
     }
 
@@ -136,7 +149,7 @@ class KMixinEvent extends KMixinAbstract
      */
     public function removeEventListener($event, $listener)
     {
-        $this->_event_dispatcher->removeEventListener($event, $listener);
+        $this->getEventDispatcher()->removeEventListener($event, $listener);
         return $this->getMixer();
     }
 
@@ -157,7 +170,7 @@ class KMixinEvent extends KMixinAbstract
         }
 
         $priority = is_int($priority) ? $priority : $subscriber->getPriority();
-        $this->_event_dispatcher->addEventSubscriber($subscriber, $priority);
+        $this->getEventDispatcher()->addEventSubscriber($subscriber, $priority);
 
         return $this;
     }
@@ -175,7 +188,7 @@ class KMixinEvent extends KMixinAbstract
             $subscriber = $this->getEventSubscriber($subscriber);
         }
 
-        $this->_event_dispatcher->removeEventSubscriber($subscriber);
+        $this->getEventDispatcher()->removeEventSubscriber($subscriber);
         return $this->getMixer();
     }
 
@@ -209,8 +222,11 @@ class KMixinEvent extends KMixinAbstract
             $subscriber = $this->getService($identifier, $config);
 
             //Check the event subscriber interface
-            if (!($subscriber instanceof KEventSubscriberInterface)) {
-                throw new DomainException("Event Subscriber $identifier does not implement KEventSubscriberInterface");
+            if (!($subscriber instanceof KEventSubscriberInterface))
+            {
+                throw new \UnexpectedValueException(
+                    "Event Subscriber $identifier does not implement KEventSubscriberInterface"
+                );
             }
         }
         else $subscriber = $this->_event_subscribers[(string)$identifier];
