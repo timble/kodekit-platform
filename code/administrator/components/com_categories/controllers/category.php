@@ -30,7 +30,7 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
         $config->toolbars = array('menubar', 'com://admin/categories.controller.toolbar.category');
     }
     
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionRender(KCommandContext $context)
     {
         $view = $this->getView();
         
@@ -46,13 +46,16 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
 	        $this->getService()->setAlias($layout, $alias);
 	    }
 	        
-        return parent::_actionGet($context);
+        return parent::_actionRender($context);
     }
     
     public function getRequest()
 	{
-		$this->_request['table']  = $this->getIdentifier()->package;
+		$request = parent::getRequest();
 
-	    return $this->_request;
+        $request->query->table  = $this->getIdentifier()->package;
+        $request->query->access = $this->getUser()->isAuthentic();
+
+	    return $request;
 	}
 }
