@@ -93,8 +93,8 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
     public function __toString()
     {
         $adapter = $this->getAdapter();
-        $prefix = $adapter->getTablePrefix();
-        $query = 'INSERT';
+        $prefix  = $adapter->getTablePrefix();
+        $query   = 'INSERT';
 
         if($this->table) {
             $query .= ' INTO '.$adapter->quoteIdentifier($prefix.$this->table);
