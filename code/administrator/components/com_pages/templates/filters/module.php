@@ -79,7 +79,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
-                $this->_loadModules()->addData(array($values), false);
+                $this->_loadModules()->addRow(array($values), false);
             }
 
             //Remove the <khtml:module></khtml:module> tags
