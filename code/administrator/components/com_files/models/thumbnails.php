@@ -34,15 +34,15 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'state' => new ComFilesConfigState()
+			'state' => new ComFilesModelState()
 		));
 		
 		parent::_initialize($config);
 	}
 
-	public function getItem()
+	public function getRow()
 	{
-		$item = parent::getItem();
+		$item = parent::getRow();
 
 		if ($item) {
 			$item->source = $this->getState()->source;
