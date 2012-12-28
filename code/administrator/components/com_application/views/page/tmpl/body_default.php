@@ -9,7 +9,7 @@
  */
 ?>
 
-<body class="<?= $option ?>">
+<body class="com_<?= $component ?>">
 <div id="container">
     <div id="panel-header">
         <div id="menu">
@@ -49,7 +49,7 @@
     </div>
 </div>
 <? if(KDEBUG) : ?>
-	<?= @service('com://admin/debug.controller.debug')->display(); ?>
+	<?= @service('com://admin/debug.controller.debug'); ?>
 <? endif; ?>
 	
 <script data-inline src="media://com_application/js/chosen.mootools.1.2.js" /></script>
