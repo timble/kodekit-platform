@@ -29,7 +29,7 @@ class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 			$this->assign('packages', $model
 				->distinct(true)
 				->column('package')
-				->getList()
+				->getRowset()
 			);
 		} 
 		
