@@ -16,7 +16,7 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
+class ComLanguagesDatabaseRowLanguage extends KDatabaseRowTable
 {
     public function save()
     {
@@ -25,7 +25,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowDefault
         
         if($this->getStatus() == KDatabase::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
-            $tables   = $this->getService('com://admin/languages.model.tables')->getList();
+            $tables   = $this->getService('com://admin/languages.model.tables')->getRowset();
             $database = $this->getTable()->getDatabase();
             $prefix   = $database->getTablePrefix();
             
