@@ -82,7 +82,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 
                 try {
                     $this->_table = $this->getService($this->_table);
-                } catch (KDatabaseTableException $e) {
+                } catch (RuntimeException $e) {
                     $this->_table = false;
                 }
             }
@@ -95,9 +95,9 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
      * Method to set a table object attached to the rowset
      *
      * @param    mixed    An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
-     * @throws    KDatabaseRowException    If the identifier is not a table identifier
-     * @return    KDatabaseRowsetAbstract
+     *                    or valid identifier string
+     * @throws  \UnexpectedValueException    If the identifier is not a table identifier
+     * @return  KDatabaseRowsetAbstract
      */
     public function setTable($table)
     {
@@ -112,7 +112,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
             else $identifier = $this->getIdentifier($table);
 
             if ($identifier->path[1] != 'table') {
-                throw new KDatabaseRowsetException('Identifier: ' . $identifier . ' is not a table identifier');
+                throw new \UnexpectedValueException('Identifier: ' . $identifier . ' is not a table identifier');
             }
 
             $table = $identifier;
@@ -121,16 +121,6 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
         $this->_table = $table;
 
         return $this;
-    }
-
-    /**
-     * Test the connected status of the row.
-     *
-     * @return    boolean    Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
-     */
-    public function isConnected()
-    {
-        return (bool)$this->getTable();
     }
 
     /**
@@ -223,17 +213,14 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     /**
      * Reset the row data using the defaults
      *
-     * @return boolean    If successfull return TRUE, otherwise FALSE
+     * @return KDatabaseRowTable
      */
     public function reset()
     {
         $result = parent::reset();
 
-        if ($this->isConnected())
-        {
-            if ($this->_data = $this->getTable()->getDefaults()) {
-                $result = true;
-            }
+        if ($this->isConnected()) {
+            $this->_data = $this->getTable()->getDefaults();
         }
 
         return $result;
@@ -255,6 +242,16 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
         }
 
         return $result;
+    }
+
+    /**
+     * Test the connected status of the row.
+     *
+     * @return    boolean    Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
+     */
+    public function isConnected()
+    {
+        return (bool)$this->getTable();
     }
 
     /**
