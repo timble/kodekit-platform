@@ -85,7 +85,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		    'filter' 	=> array('sort' => $config->text),
 		));
 
-		$list = $this->getService($config->identifier)->set($config->filter)->getList();
+		$list = $this->getService($config->identifier)->set($config->filter)->getRowset();
 
 		//Get the list of items
  	    $items = $list->get($config->value);
