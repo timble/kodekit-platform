@@ -38,7 +38,7 @@ class KMixinCommand extends KMixinAbstract
         parent::__construct($config);
         
         if(is_null($config->command_chain)) {
-			throw new KMixinException('command_chain [KCommandChain] option is required');
+			throw new \InvalidArgumentException('command_chain [KCommandChainInterface] config option is required');
 		}
             
         //Create a command chain object 
@@ -48,21 +48,27 @@ class KMixinCommand extends KMixinAbstract
         $config->mixer = $this->_mixer;
         
         //Mixin the callback mixer if callbacks have been enabled
-        if($config->enable_callbacks) {
-            $this->_mixer->mixin(new KMixinCallback($config));
+        if($config->enable_callbacks)
+        {
+            $callback = new KMixinCallback($config);
+
+            //Mixin the callback mixin
+            $this->_mixer->mixin($callback);
+
+            //Enqueue the command in the mixer's command chain
+            $this->getCommandChain()->enqueue($callback, $config->callback_priority);
         }
         
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) 
         { 
             $this->_mixer->mixin(new KMixinEvent($config));
-            
-            //@TODO : Add KCommandChain::getCommand()     
-            $event = $this->_command_chain->getService('koowa:command.event', array(
-            	'event_dispatcher' => $config->event_dispatcher
+
+            $command = $this->_command_chain->getService('koowa:command.event', array(
+            	'event_dispatcher' => $this->getEventDispatcher()
             ));
-            
-            $this->_command_chain->enqueue($event, $config->event_priority);
+
+            $this->getCommandChain()->enqueue($command, $config->event_priority);
         }
     }
     
@@ -110,6 +116,19 @@ class KMixinCommand extends KMixinAbstract
      */
     public function getCommandChain()
     {
+        if(!$this->_command_chain instanceof KCommandChainInterface)
+        {
+            $this->_command_chain = $this->getService($this->_command_chain);
+
+            //Make sure the request implements KControllerRequestInterface
+            if(!$this->_command_chain instanceof KCommandChainInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'CommandChain: '.get_class($this->_command_chain).' does not implement KCommandChainInterface'
+                );
+            }
+        }
+
         return $this->_command_chain;
     }
     
@@ -119,7 +138,7 @@ class KMixinCommand extends KMixinAbstract
      * @param   object 	A command chain object
      * @return  KObject The mixer object
      */
-    public function setCommandChain(KCommandChain $chain)
+    public function setCommandChain(KCommandChainInterface $chain)
     {
         $this->_command_chain = $chain;
         return $this->_mixer;
