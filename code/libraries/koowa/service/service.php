@@ -83,6 +83,7 @@ class KService implements KServiceInterface
      */
     final private function __clone()
     {
+
     }
 
     /**
@@ -153,7 +154,7 @@ class KService implements KServiceInterface
      * Check if the object instance exists based on the identifier
      *
      * @param    mixed    An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
+     *                    or valid identifier string
      * @return boolean Returns TRUE on success or FALSE on failure.
      */
     public static function has($identifier)
@@ -163,7 +164,7 @@ class KService implements KServiceInterface
             $strIdentifier = (string)$objIdentifier;
             $result = (bool)self::$_services->offsetExists($strIdentifier);
 
-        } catch (KServiceIdentifierException $e) {
+        } catch (\InvalidArgumentException $e) {
             $result = false;
         }
 
@@ -370,8 +371,10 @@ class KService implements KServiceInterface
      *
      * @param   object    A KServiceIdentifier object
      * @param   array   An optional associative array of configuration settings.
+     * @throws	KServiceInvalidService	            If the object doesn't implement the KObjectServiceable
+     * @throws  KServiceExceptionNotFound           If service cannot be loaded
+     * @throws  KServiceExceptionNotInstantiated    If service cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
-     * @throws  KServiceException
      */
     protected static function _instantiate(KServiceIdentifier $identifier, array $config = array())
     {
@@ -380,28 +383,33 @@ class KService implements KServiceInterface
         //Load the class manually using the basepath
         if (self::get('koowa:loader')->loadClass($identifier->classname, $identifier->basepath))
         {
-            if (array_key_exists('KObjectServiceable', class_implements($identifier->classname)))
+            if (!array_key_exists('KObjectServiceable', class_implements($identifier->classname)))
             {
-                //Create the configuration object
-                $config = new KConfig(array_merge(self::getConfig($identifier), $config));
+                throw new KServiceExceptionInvalidService(
+                    'Object: '.$identifier->classname.' does not implement KObjectServiceable'
+                );
+            }
 
-                //Set the service container and identifier
-                $config->service_manager = self::getInstance();
-                $config->service_identifier = $identifier;
+            //Create the configuration object
+            $config = new KConfig(array_merge(self::getConfig($identifier), $config));
 
-                // If the class has an instantiate method call it
-                if (array_key_exists('KServiceInstantiatable', class_implements($identifier->classname))) {
-                    $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
-                } else {
-                    $result = new $identifier->classname($config);
-                }
+            //Set the service container and identifier
+            $config->service_manager = self::getInstance();
+            $config->service_identifier = $identifier;
+
+            // If the class has an instantiate method call it
+            if (array_key_exists('KServiceInstantiatable', class_implements($identifier->classname))) {
+                $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
+            } else {
+                $result = new $identifier->classname($config);
+            }
+
+            //Thrown an error if no object was instantiated
+            if (!is_object($result)) {
+                throw new KServiceExceptionNotInstantiated('Cannot instantiate service object: ' . $identifier->classname);
             }
         }
-
-        //Thrown an error if no object was instantiated
-        if (!is_object($result)) {
-            throw new KServiceException('Cannot instantiate object from identifier : ' . $identifier);
-        }
+        else throw new KServiceExceptionNotFound('Cannot load service identifier: '. $identifier);
 
         return $result;
     }
