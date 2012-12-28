@@ -449,10 +449,10 @@ class KHttpUrl extends KObject
     /**
      * Return a string representation of this url.
      *
-     * @see    get()
+     * @see    getUrl()
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         return $this->getUrl(self::FULL);
     }
@@ -480,5 +480,15 @@ class KHttpUrl extends KObject
         }
 
         return implode('/', $out);
+    }
+
+    /**
+     * Allow PHP casting of this object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
     }
 }
