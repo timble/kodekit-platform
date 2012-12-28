@@ -57,16 +57,16 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
     {
         if(in_array($name, $this->_actions))
         {
-            $data = $context->result;
+            $entity = $context->result;
 
-            if($data instanceof KDatabaseRowAbstract || $data instanceof KDatabaseRowsetAbstract )
+            if($entity instanceof KDatabaseRowInterface || $entity instanceof KDatabaseRowsetInterface )
             {
                 $rowset = array();
 
-                if ($data instanceof KDatabaseRowAbstract) {
-                    $rowset[] = $data;
+                if ($entity instanceof KDatabaseRowInterface) {
+                    $rowset[] = $entity;
                 } else {
-                    $rowset = $data;
+                    $rowset = $entity;
                 }
 
                 foreach ($rowset as $row)
@@ -89,6 +89,8 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
 
                         if (!empty($row->created_by)) {
                             $log['created_by'] = $row->created_by;
+                        } else {
+                            $log['created_by'] = $context->user->getId();
                         }
 
                         if (is_array($this->_title_column))
@@ -111,9 +113,9 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
                         }
 
                         $log['row'] = $row->id;
-                        
-                        $log['ip'] = KRequest::get('server.REMOTE_ADDR', 'raw');
-                        
+                        $log['ip']  = $context->request->getAddress();
+
+
                         $this->getService('com://admin/activities.database.row.activity', array('data' => $log))->save();
                     }
                 }
