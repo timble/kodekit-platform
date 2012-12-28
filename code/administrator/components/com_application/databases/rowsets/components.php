@@ -26,7 +26,7 @@ class ComApplicationDatabaseRowsetComponents extends KDatabaseRowsetAbstract imp
         {
             $components = $this->getService('com://admin/extensions.model.components')
                 ->enabled(true)
-                ->getList();
+                ->getRowset();
             
             $config->data = $components->getData();
         }
