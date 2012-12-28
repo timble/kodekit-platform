@@ -151,7 +151,6 @@ class KRequest
      * @param   string              Variable identifier, prefixed by hash name eg post.foo.bar
      * @param   mixed               Filter(s), can be a KFilter object, a filter name, an array of filter names or a filter identifier
      * @param   mixed               Default value when the variable doesn't exist
-     * @throws  KRequestException   When an invalid filter was passed
      * @return  mixed               The sanitized data
      */
     public static function get($identifier, $filter, $default = null)
@@ -217,7 +216,7 @@ class KRequest
             }
  
             if(!setcookie($name, $value)) {
-                throw new KRequestException("Couldn't set cookie, headers already sent.");
+                throw new RuntimeException("Couldn't set cookie, headers already sent.");
             }
         }
 
