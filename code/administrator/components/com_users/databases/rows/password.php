@@ -15,7 +15,7 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
+class ComUsersDatabaseRowPassword extends KDatabaseRowTable
 {
     public function __construct(KConfig $config)
     {
@@ -29,7 +29,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
     {
         $user = $this->getService('com://admin/users.model.users')
             ->set('email', $this->id)
-            ->getItem();
+            ->getRow();
 
         // Check if referenced user actually exists.
         if ($user->isNew())
@@ -44,6 +44,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
             // Check the password length.
             $params = $this->getService('application.components')->users->params;
             $length = $params->get('password_length', 5);
+
             if (strlen($password) < $length)
             {
                 $this->setStatus(KDatabase::STATUS_FAILED);
@@ -87,8 +88,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
         $bytes  = '';
         $return = '';
 
-        if (function_exists('openssl_random_pseudo_bytes') && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN'))
-        {
+        if (function_exists('openssl_random_pseudo_bytes') && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
             $bytes = openssl_random_pseudo_bytes($length + 1);
         }
 
@@ -103,8 +103,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
             $bytes        = '';
             $random_state = microtime();
 
-            if (function_exists('getmypid'))
-            {
+            if (function_exists('getmypid')){
                 $random_state .= getmypid();
             }
 
@@ -169,8 +168,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
             }
         }
 
-        if (!$result)
-        {
+        if (!$result) {
             $result = password_verify($password, $hash);
         }
 
@@ -191,15 +189,14 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowDefault
             $this->reset = $this->getHash($token);
             $this->save();
         }
+
         return $token;
     }
 
 
     public function toArray()
     {
-
         $password = parent::toArray();
-
         unset($password['hash']);
 
         return $password;
