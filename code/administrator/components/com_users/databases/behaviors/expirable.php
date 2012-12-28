@@ -18,23 +18,29 @@
 class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
 {
     /**
-     * @var string The Expiration period
+     * The Expiration period
+     *
+     * @var string
      */
     protected $_expiration;
 
     /**
-     * @var boolean Determines if an expiration date should be set for the row.
+     * Determines if an expiration date should be set for the row.
+     *
+     * @var boolean
      */
     protected $_expirable;
 
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         $this->_expiration = $config->expiration;
         $this->_expirable     = $config->expirable;
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $params = $this->getService('application.components')->users->params;
 
         $config->append(array(
@@ -46,7 +52,8 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeTableInsert(KCommandContext $context) {
+    protected function _beforeTableInsert(KCommandContext $context)
+    {
         if ($this->_expirable) {
             $this->resetExpiration(false);
         }
@@ -56,10 +63,10 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
      * Resets the expiration date.
      *
      * @param bool $autosave If true the mixer will be automatically saved.
-     *
      * @return  bool|object True if mixer was successfully stored, false otherwise, the mixer if no autosave.
      */
-    public function resetExpiration($autosave = true) {
+    public function resetExpiration($autosave = true)
+    {
         if ($this->_expirable) {
             $this->expiration = gmdate('Y-m-d', time() + $this->_expiration * 30 * 24 * 60 * 60);
         } else {
@@ -71,6 +78,7 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
         } else {
             $result = $this->getMixer();
         }
+
         return $result;
     }
 
@@ -78,16 +86,18 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
      * Sets the row as expired.
      *
      * @param bool $autosave If true the mixer will be automatically saved.
-     *
      * @return  bool|object True if mixer was successfully stored, false otherwise, the mixer if no autosave.
      */
-    public function expire($autosave = true) {
+    public function expire($autosave = true)
+    {
         $this->expiration = date('Y-m-d');
+
         if ($autosave) {
             $this->save();
         } else {
             $result = $this->getMixer();
         }
+
         return $result;
     }
 
@@ -96,7 +106,8 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
      *
      * @return bool|null true if expired, false if not yet expired, null otherwise.
      */
-    public function expired() {
+    public function expired()
+    {
         $result = true;
 
         if (empty($this->expiration)) {
