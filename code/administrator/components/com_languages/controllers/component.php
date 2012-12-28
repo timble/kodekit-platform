@@ -16,17 +16,16 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesControllerComponent extends ComDefaultControllerResource
+class ComLanguagesControllerComponent extends ComDefaultControllerView
 {
     protected function _actionEdit(KCommandContext $context)
     {
-        $request = $this->getRequest();
-        if($id = KConfig::unbox($request->id))
+        if($context->request->data->has('id'))
         {
             $this->getService('com://admin/languages.model.tables')
-                ->component($id)
-                ->getList()
-                ->setData(array('enabled' => (int) $context->data->enabled))
+                ->component($context->request->data->get('id', 'int'))
+                ->getRowset()
+                ->setData(array('enabled' => $context->request->data->get('enabled', 'int')))
                 ->save();
         }
     }
