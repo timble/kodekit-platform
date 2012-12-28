@@ -13,8 +13,8 @@
 	->container('files-files')
 	->layout('compact')
 	->types(array('image'))
-	->editor($state->editor)
-	->display(); ?>
+	->editor($state->editor);
+?>
 
 <script>
 window.addEvent('domready', function() {
