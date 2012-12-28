@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @package		Koowa_Dispatcher
+ * @package		Koowa_User
  * @subpackage  Session
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -9,33 +9,41 @@
  */
 
 /**
- * Abstract Session Class
+ * User Session Interface
  *
  * Provides access to session-state values as well as session-level settings and lifetime management methods.
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @package     Koowa_User
  * @subpackage  Session
  */
-interface KDispatcherSessionInterface extends IteratorAggregate, Countable
+interface KUserSessionInterface
 {
-    /**
-     * Set the session life time
-     *
-     * This specifies the number of seconds after which data will be seen as 'garbage' and potentially cleaned up.
-     * Garbage collection may occur during session start.
-     *
-     * @param integer $lifetime The session lifetime in seconds
-     * @return \KDispatcherSessionInterface
-     */
-    public function setLifetime($lifetime);
-
     /**
      * Get the session life time
      *
      * @return integer The session life time in seconds
      */
     public function getLifetime();
+
+    /**
+     * Set the session life time
+     *
+     * This specifies the number of seconds after which data will expire. An expired session will be destroyed
+     * automatically during session start.
+     *
+     * @param integer $lifetime The session lifetime in seconds
+     * @return KUserSessionContainerMetadata
+     */
+    public function setLifetime($lifetime);
+
+    /**
+     * Get the session token, if a token isn't set yet one will be generated.
+     *
+     * @param   boolean $refresh If true, a new token to be created
+     * @return  string  The session token
+     */
+    public function getToken($refresh = false);
 
     /**
      * Get the session id
@@ -48,8 +56,8 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      * Set the session id
      *
      * @param string $session_id
-     * @throws LogicException	When changing the id of an active session
-     * @return \KDispatcherSessionInterface
+     * @throws \LogicException	When changing the id of an active session
+     * @return KUserSessionInterface
      */
     public function setId($session_id);
 
@@ -64,80 +72,54 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      * Set the session name
      *
      * @param  string $name
-     * @throws LogicException	When changing the name of an active session
-     * @return \KDispatcherSessionInterface
+     * @throws \LogicException	When changing the name of an active session
+     * @return KUserSessionInterface
      */
     public function setName($name);
 
     /**
-     * Set the session namespace
-     *
-     * This specifies namespace that is used when storing or retrieving data from the session. The namespace prevents
-     * session conflicts when the session is shared.
-     *
-     * @param string $namespace The session namespace
-     * @return \KDispatcherSessionInterface
-     */
-    public function setNamespace($namespace);
-
-    /**
-     * Get the session namespace
-     *
-     * @return string The session namespace
-     */
-    public function getNamespace();
-
-    /**
      * Method to set a session handler object
      *
-     * @param mixed $hanlder An object that implements KObjectServiceable, KServiceIdentifier object
-     * 					     or valid identifier string
+     * @param mixed $handler An object that implements KObjectServiceable, KServiceIdentifier object
+     *                       or valid identifier string
      * @param array $config An optional associative array of configuration settings
-     * @throws \DomainException	If the identifier is not a session handler identifier
-     * @return \KDispatcherSessionInterface
+     * @return KUserSession
      */
     public function setHandler($handler, $config = array());
 
     /**
      * Get the session handler object
      *
-     * @return \KDispatcherSessionHandlerInterface
+     * @throws \UnexpectedValueException    If the identifier is not a session handler identifier
+     * @return KUserSessionHandlerInterface
      */
     public function getHandler();
 
     /**
-     * Get the session token, if a token isn't set yet one will be generated.
+     * Check if a container exists
      *
-     * @param   boolean $refresh If true, a new token to be created
-     * @return  string  The session token
+     * @param   string  $name  The name of the behavior
+     * @return  boolean TRUE if the behavior exists, FALSE otherwise
      */
-    public function getToken($refresh = false);
+    public function hasContainer($name);
 
     /**
-     * Get the session ip address
+     * Get the session attribute container object
      *
-     * The IP address from which the user. Stored when the session is started or regenerated.
+     * If the container does not exist a container will be created on the fly.
      *
-     * @param   boolean $refresh If true, the address will be updated based on the current request
-     * @return  string  The session ip address
+     * @param   mixed $name An object that implements KObjectServiceable, KServiceIdentifier object
+     *                      or valid identifier string
+     * @throws \UnexpectedValueException    If the identifier is not a session container identifier
+     * @return KUserSessionContainerInterface
      */
-    public function getAddress($refresh = false);
-
-    /**
-     * Get the session user agent
-     *
-     * Contents of the User-Agent: header, if there is one. Stored when the session is started or regenerated.
-     *
-     * @param   boolean $refresh If true, the agent will be updated based on the current request
-     * @return  string  The session user agent
-     */
-    public function getAgent($refresh = false);
+    public function getContainer($name);
 
     /**
      * Starts the session storage and load the session data into memory
      *
      * @see  session_start()
-     * @return \KDispatcherSessionInterface
+     * @return \KUserSessionInterface
      * @throws \RuntimeException If something goes wrong starting the session.
      */
     public function start();
@@ -153,7 +135,7 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      * variables are done.
      *
      * @see  session_write_close()
-     * @return \KDispatcherSessionInterface
+     * @return KUserSessionInterface
      */
     public function close();
 
@@ -161,7 +143,7 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      * Clear all session data in memory.
      *
      * @see session_unset()
-     * @return \KDispatcherSessionInterface
+     * @return KUserSessionInterface
      */
     public function clear();
 
@@ -174,7 +156,7 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      *
      * @see session_unset()
      * @see session_destroy()
-     * @return \KDispatcherSessionInterface
+     * @return KUserSessionInterface
      */
     public function destroy();
 
@@ -189,8 +171,42 @@ interface KDispatcherSessionInterface extends IteratorAggregate, Countable
      *                          settings unchanged, 0 sets the cookie to expire with browser session. Time is in seconds,
      *                          and is not a Unix timestamp.
      * @see  session_regenerate_id()
-     * @return \KDispatcherSessionInterface
-     * @throws \KDispatcherSessionException If an error occurs while regenerating this storage
+     * @return KUserSessionInterface
+     * @throws \RuntimeException If an error occurs while regenerating this storage
      */
     public function fork($destroy = false, $lifetime = null);
+
+    /**
+     * Get a session attribute
+     *
+     * @param   string  Attribute identifier, eg .foo.bar
+     * @param   mixed   Default value when the attribute doesn't exist
+     * @return  mixed   The value
+     */
+    public function get($identifier, $default = null);
+
+    /**
+     * Set a session attribute
+     *
+     * @param   mixed   Attribute identifier, eg foo.bar
+     * @param   mixed   Attribute value
+     * @return KUser
+     */
+    public function set($identifier, $value);
+
+    /**
+     * Check if a session attribute exists
+     *
+     * @param   string  Attribute identifier, eg foo.bar
+     * @return  boolean
+     */
+    public function has($identifier);
+
+    /**
+     * Removes an session attribute
+     *
+     * @param string $identifier Attribute identifier, eg foo.bar
+     * @return KUserSession
+     */
+    public function remove($identifier);
 }
