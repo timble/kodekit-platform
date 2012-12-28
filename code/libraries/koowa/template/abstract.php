@@ -157,8 +157,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @param mixed  An object that implements KObjectServiceable, KServiceIdentifier object
      *               or valid identifier string
-     * @throws KDatabaseRowsetException    If the identifier is not a view identifier
-     * @return KControllerAbstract
+     * @throws \UnexpectedValueException    If the identifier is not a view identifier
+     * @return KTemplateAbstract
      */
     public function setView($view)
     {
@@ -173,7 +173,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
             else $identifier = $this->getIdentifier($view);
 
             if ($identifier->path[0] != 'view') {
-                throw new KTemplateException('Identifier: ' . $identifier . ' is not a view identifier');
+                throw new \UnexpectedValueException('Identifier: ' . $identifier . ' is not a view identifier');
             }
 
             $view = $identifier;
@@ -193,6 +193,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      * @param   string   The template identifier
      * @param   array    An associative array of data to be extracted in local template scope
      * @param   boolean  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
+     * @throws \InvalidArgumentException If the template could not be found
      * @return KTemplateAbstract
      */
     public function loadIdentifier($template, $data = array(), $evaluate = true)
@@ -205,7 +206,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $this->_file = $identifier;
 
         if ($identifier->filepath === false) {
-            throw new KTemplateException('Template "' . $identifier->name . '" not found');
+            throw new \InvalidArgumentException('Template "' . $identifier->name . '" not found');
         }
 
         // Load the file
@@ -312,8 +313,11 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         {
             $filter = $this->getService($identifier, array_merge($config, array('template' => $this)));
 
-            if (!($filter instanceof KTemplateFilterInterface)) {
-                throw new KTemplateException("Template filter $identifier does not implement KTemplateFilterInterface");
+            if (!($filter instanceof KTemplateFilterInterface))
+            {
+                throw new \UnexpectedValueException(
+                    "Template filter $identifier does not implement KTemplateFilterInterface"
+                );
             }
 
             $this->_filters[$filter->getIdentifier()->name] = $filter;
@@ -368,8 +372,11 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $helper = $this->getService($identifier, array_merge($config, array('template' => $this)));
 
         //Check the helper interface
-        if (!($helper instanceof KTemplateHelperInterface)) {
-            throw new KTemplateHelperException("Template helper $identifier does not implement KTemplateHelperInterface");
+        if (!($helper instanceof KTemplateHelperInterface))
+        {
+            throw new \UnexpectedValueException(
+                "Template helper $identifier does not implement KTemplateHelperInterface"
+            );
         }
 
         return $helper;
@@ -383,19 +390,20 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @param    string    Name of the helper, dot separated including the helper function to call
      * @param    array    An optional associative array of configuration settings
-     * @return     string    Helper output
+     * @return   string    Helper output
+     * @throws   \BadMethodCallException If the helper function cannot be called.
      */
     public function renderHelper($identifier, $config = array())
     {
         //Get the function to call based on the $identifier
-        $parts = explode('.', $identifier);
+        $parts    = explode('.', $identifier);
         $function = array_pop($parts);
 
         $helper = $this->getHelper(implode('.', $parts), $config);
 
         //Call the helper function
         if (!is_callable(array($helper, $function))) {
-            throw new KTemplateHelperException(get_class($helper) . '::' . $function . ' not supported.');
+            throw new \BadMethodCallException(get_class($helper) . '::' . $function . ' not supported.');
         }
 
         return $helper->$function($config);
