@@ -20,19 +20,6 @@
 
 require "mysql"
 
-# Add and enable site
-template "#{node['nginx']['dir']}/sites-available/#{node['nooku-server']['nginx_site']}" do
-  source "nginx-site.erb"
-  owner "root"
-  group "root"
-  mode 00644
-  notifies :reload, "service[nginx]"
-end
-
-nginx_site node['nooku-server']['nginx_site'] do
-  enable true
-end
-
 # Create configuration file
 unless File.exist?("#{node['nooku-server']['dir']}/source/code/configuration.php")
   template "#{node['nooku-server']['dir']}/source/code/configuration.php" do

@@ -1,7 +1,7 @@
 #
 # Author:: Gergo Erdosi (<gergo@timble.net>)
-# Cookbook Name:: nooku-server
-# Attribute:: default
+# Cookbook Name:: nginx
+# Attribute:: nooku-server
 #
 # Copyright 2012, Timble CVBA and Contributors.
 #
@@ -18,10 +18,7 @@
 # limitations under the License.
 #
 
-default['nooku-server']['dir'] = "/var/www/nooku-server"
+include_attribute 'nginx'
 
-default['nooku-server']['db']['database'] = "nooku-server"
-default['nooku-server']['db']['prefix'] = "ns_"
-default['nooku-server']['db']['host'] = "127.0.0.1"
-default['nooku-server']['db']['password'] = "root"
-default['nooku-server']['db']['user'] = "root"
+default['nginx']['nooku-server']['site_name'] = "nooku-server"
+default['nginx']['nooku-server']['site_dir'] = "/var/www/nooku-server"

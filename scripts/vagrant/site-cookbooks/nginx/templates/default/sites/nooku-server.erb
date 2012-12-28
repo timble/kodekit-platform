@@ -2,11 +2,11 @@ server {
   listen   80;
   server_name  localhost;
 
-  root   /var/www/<%= node['nooku-server']['nginx_site'] %>/public;
+  root   <%= node['nginx']['nooku-server']['site_dir'] %>/public;
   index  index.php index.html index.htm;
 
-  access_log  /var/log/nginx/<%= node['nooku-server']['nginx_site'] %>.access.log;
-  error_log   /var/log/nginx/<%= node['nooku-server']['nginx_site'] %>.error.log;
+  access_log  /var/log/nginx/<%= node['nginx']['nooku-server']['site_name'] %>.access.log;
+  error_log   /var/log/nginx/<%= node['nginx']['nooku-server']['site_name'] %>.error.log;
 
   location = /favicon.ico {
     log_not_found off;
