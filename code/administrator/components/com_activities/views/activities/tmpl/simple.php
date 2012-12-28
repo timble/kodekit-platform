@@ -10,7 +10,7 @@
  */
 ?>
 
-<? $activities = @service('com://admin/activities.model.activities')->package($package)->name($name)->limit('10')->getList() ?>
+<? $activities = @service('com://admin/activities.model.activities')->package($package)->name($name)->limit('10')->getRowset() ?>
 
 <h3><?= @text('Recent Activities')?></h3>
 <div class="scrollable">
