@@ -19,34 +19,6 @@
 class KViewJson extends KViewAbstract
 {
     /**
-     * The padding for JSONP
-     *
-     * @var string
-     */
-    protected $_padding;
-
-    /**
-     * Constructor
-     *
-     * @param   object  An optional KConfig object with configuration options
-     */
-    public function __construct(KConfig $config)
-    {
-        parent::__construct($config);
-
-        //Padding can explicitly be turned off by setting to FALSE
-        if (empty($config->padding) && $config->padding !== false) {
-            $state = $this->getModel()->getState();
-
-            if (isset($state->callback) && (strlen($state->callback) > 0)) {
-                $config->padding = $state->callback;
-            }
-        }
-
-        $this->_padding = $config->padding;
-    }
-
-    /**
      * Initializes the config for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
@@ -57,7 +29,6 @@ class KViewJson extends KViewAbstract
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'padding' => '',
             'version' => '1.0'
         ))->append(array(
             'mimetype' => 'application/json; version=' . $config->version,
@@ -80,16 +51,18 @@ class KViewJson extends KViewAbstract
     public function display()
     {
         if (empty($this->output)) {
-            $this->output = KInflector::isPlural($this->getName()) ? $this->_getList() : $this->_getItem();
+            $this->output = KInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
         }
 
-        if (!is_string($this->output)) {
-            $this->output = json_encode($this->output);
-        }
+        if (!is_string($this->output))
+        {
+            // Root should be JSON object, not array
+            if (is_array($this->output) && 0 === count($this->output)) {
+                $this->output = new \ArrayObject();
+            }
 
-        //Handle JSONP
-        if (!empty($this->_padding)) {
-            $this->output = $this->_padding . '(' . $this->output . ');';
+            // Encode <, >, ', &, and " for RFC4627-compliant JSON, which may also be embedded into HTML.
+            $this->output = json_encode($this->output, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         }
 
         return parent::display();
@@ -100,7 +73,7 @@ class KViewJson extends KViewAbstract
      *
      * @return array     The array with data to be encoded to json
      */
-    protected function _getList()
+    protected function _getRowset()
     {
         //Get the model
         $model = $this->getModel();
@@ -119,7 +92,8 @@ class KViewJson extends KViewAbstract
         ));
 
         $vars = array();
-        foreach ($state->toArray(false) as $var) {
+        foreach ($state->getStates() as $var)
+        {
             if (!$var->unique) {
                 $vars[] = $var->name;
             }
@@ -139,10 +113,13 @@ class KViewJson extends KViewAbstract
             'queries' => array()
         );
 
-        if ($list = $model->getList()) {
+        if ($list = $model->getRowset())
+        {
             $vars = array();
-            foreach ($state->toArray(false) as $var) {
-                if ($var->unique) {
+            foreach ($state->getStates() as $var)
+            {
+                if ($var->unique)
+                {
                     $vars[] = $var->name;
                     $vars = array_merge($vars, $var->required);
                 }
@@ -191,7 +168,7 @@ class KViewJson extends KViewAbstract
      *
      * @return array     The array with data to be encoded to json
      */
-    protected function _getItem()
+    protected function _getRow()
     {
         //Get the model
         $model = $this->getModel();
@@ -203,8 +180,10 @@ class KViewJson extends KViewAbstract
         $state = $model->getState();
 
         $vars = array();
-        foreach ($state->toArray(false) as $var) {
-            if ($var->unique) {
+        foreach ($state->getStates() as $var)
+        {
+            if ($var->unique)
+            {
                 $vars[] = $var->name;
                 $vars = array_merge($vars, $var->required);
             }
@@ -212,7 +191,7 @@ class KViewJson extends KViewAbstract
 
         $data = array(
             'version' => '1.0',
-            'href' => (string)$route->setQuery($state->getData(true)),
+            'href' => (string)$route->setQuery($state->toArray(true)),
             'url' => array(
                 'type' => 'application/json',
                 'template' => (string)$route->getUrl(KHttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
@@ -220,7 +199,7 @@ class KViewJson extends KViewAbstract
             'item' => array()
         );
 
-        if ($item = $model->getItem()) {
+        if ($item = $model->getRow()) {
             $data = array_merge($data, array(
                 'item' => $item->toArray()
             ));
