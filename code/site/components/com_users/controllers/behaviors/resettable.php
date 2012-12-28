@@ -27,16 +27,17 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
 
     protected function _beforeControllerRead(KCommandContext $context)
     {
-        $request = $this->getRequest();
-
-        if ($reset = $request->reset) {
-            if ($this->_tokenValid($reset)) {
-                // Push the token to the view.
-                $this->getView()->reset = $reset;
-            } else {
+        if ($token = $context->request->query->get('token', 'cmd'))
+        {
+            if ($this->_tokenValid($token))
+            {
+                $this->getView()->token = $token; // Push the token to the view.
+            }
+            else
+            {
                 $context->response->setRedirect($this->getService('application.pages')->getHome->url);
                 //@TODO : Set message in session
-                //$this->setRedirect($this->getService('application.pages')->getHome->url, JText::_('INVALID_TOKEN'),'error');
+                //$context->response->setRedirect($this->getService('application.pages')->getHome->url, JText::_('INVALID_TOKEN'),'error');
                 return false;
             }
         }
@@ -44,13 +45,18 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
 
     protected function _beforeControllerReset(KCommandContext $context)
     {
-        $result = true;
+        $password = $this->getModel()->getRow();
 
-        if (!$this->_tokenValid($context->data->reset))
+        if ($this->_tokenValid($context->request->data->get('token', 'string')))
+        {
+            $context->password = $password;
+            $result  = true;
+        }
+        else
         {
             $context->response->setRedirect($this->getService('application.pages')->getHome->url);
             //@TODO : Set message in session
-            //$this->setRedirect($this->getService('application.pages')->getHome->url, JText::_('INVALID_TOKEN'),'error');
+            //$context->response->setRedirect($this->getService('application.pages')->getHome->url, JText::_('INVALID_TOKEN'),'error');
 
             $result = false;
         }
@@ -60,31 +66,32 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
 
     protected function _actionReset(KCommandContext $context)
     {
-        $password = $this->getModel()->getItem()->getPassword();
+        $password = $context->password;
 
-        $password->password = $context->data->password;
+        $password->password = $context->request->data->get('password', 'string');
         $password->reset    = '';
         $password->save();
 
         if ($password->getStatus() == KDatabase::STATUS_FAILED)
         {
-            $context->response->setRedirect(KRequest::referrer());
+            $context->response->setRedirect($context->request->getReferrer());
             //@TODO : Set message in session
-            //$this->setRedirect(KRequest::referrer(), $password->getStatusMessage(), 'error');
+            //$context->response->setRedirect($context->request->getReferrer(), $password->getStatusMessage(), 'error');
             $result = false;
-        } else {
-            $context->response->setRedirect($this->getService('application.pages')->getHome()->url);
-            //@TODO : Set message in session
-            //$this->setRedirect($this->getService('application.pages')->getHome()->url,JText::_('PASSWORD_RESET_SUCCESS'));
+        }
+        else
+        {
+            $context->response->setRedirect($this->getService('application.pages')->getHome()->url, JText::_('PASSWORD_RESET_SUCCESS'));
             $result = true;
         }
+
         return $result;
     }
 
     protected function _tokenValid($token)
     {
         $result   = false;
-        $password = $this->getModel()->getItem()->getPassword();
+        $password = $this->getModel()->getRow();
 
         if ($password->reset && ($password->verify($token, $password->reset))) {
             $result = true;
@@ -95,23 +102,22 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
 
     protected function _beforeControllerToken(KCommandContext $context)
     {
-        $data = $context->data;
-
         $user = $this->getService('com://site/users.model.users')
-            ->set('email', $data->email)
-            ->getItem();
+            ->set('email', $context->request->data->get('email', 'email'))
+            ->getRow();
 
         if ($user->isNew() || !$user->enabled)
         {
-            $context->response->setRedirect(KRequest::referrer());
+            $context->response->setRedirect($context->request->getReferrer());
             //@TODO : Set message in session
-            //$this->setRedirect(KRequest::referrer(), JText::_('COULD_NOT_FIND_USER'), 'error');
+            //$context->reponse->setRedirect($context->request->getReferrer(), JText::_('COULD_NOT_FIND_USER'), 'error');
             $result = false;
-        } else {
+        }
+        else
+        {
             $context->user = $user;
             $result        = true;
         }
-
 
         return $result;
     }
@@ -120,30 +126,30 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
     {
         $user     = $context->user;
         $password = $user->getPassword();
-        $reset    = $password->setReset();
+        $token    = $password->setReset();
 
-        $application     = $this->getService('application');
-        $site_name  = $application->getCfg('sitename');
-
+        $config     = JFactory::getConfig();
+        $site_name  = $config->getValue('sitename');
+        $from_email = $config->getValue('mailfrom');
+        $from_name  = $config->getValue('fromname');
         $url        = $this->getService('koowa:http.url',
-            array('url' => "index.php?option=com_users&view=user&layout=password&uuid={$user->uuid}&reset={$reset}"));
+            array('url' => "index.php?option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
-        $url     = $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
-        $subject = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-        $message    = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+        $url     = $url = $context->request->getUrl()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
 
-        if (!$user->notify(array('subject' => $subject, 'message' => $message)))
+        $subject = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
+        $body    = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+
+        if (!JUtility::sendMail($from_email, $from_name, $user->email, $subject, $body))
         {
-            $context->response->setRedirect(KRequest::referrer());
+            $context->response->setRedirect($context->request->getReferrer());
             //@TODO : Set message in session
-            //$this->setRedirect(KRequest::referrer(), JText::_('ERROR_SENDING_CONFIRMATION_EMAIL'), 'error');
+            //$context->response->setRedirect($context->request->getReferrer(), JText::_('ERROR_SENDING_CONFIRMATION_EMAIL'), 'error');
             $result = false;
         }
         else
         {
-            $context->response->setRedirect($this->getService('application.pages')->getHome()->link_url);
-            //@TODO : Set message in session
-            //$this->setRedirect($this->getService('application.pages')->getHome()->url, JText::_('CONFIRMATION_EMAIL_SENT'));
+            $context->response->setRedirect($this->getService('application.pages')->getHome()->url, JText::_('CONFIRMATION_EMAIL_SENT'));
             $result = true;
         }
 
