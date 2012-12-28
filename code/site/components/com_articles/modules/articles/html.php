@@ -55,20 +55,19 @@ class ComArticlesModuleArticlesHtml extends ComDefaultModuleDefaultHtml
         }
 
         // Get access id.
-        $user = JFactory::getUser();
-        $aid  = $user->get('aid', 0);
+        $user = $this->getService('user');
 
         $articles = $this->getService('com://admin/articles.model.articles')
             ->set(array(
-            'aid'       => $aid,
-            'published'     => 1,
+            'access'    => $user->isAuthentic(),
+            'published' => 1,
             'limit'     => $this->module->params->get('count', 5),
             'sort'      => $sort,
             'direction' => $direction,
             'section'   => $section,
             'category'  => $category,
             'featured'  => $this->module->params->get('show_featured', false)))
-            ->getList();
+            ->getRowset();
 
         $this->assign('articles', $articles);
         $this->assign('show_title', $this->module->params->get('show_title', false));
