@@ -35,7 +35,7 @@ class ComDefaultModuleWidgetHtml extends ComDefaultModuleDefaultHtml
         $identifier = 'com://site/'.$package.'.controller.'.$view;
 
         //Render the component
-        $html = $this->getService($identifier, array('request' => $parts))->display();
+        $html = $this->getService($identifier, array('request' => $parts))->render();
 
         return $html;
     }
