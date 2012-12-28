@@ -11,15 +11,16 @@
 /**
  * Proxy Controller Class
  *
- * Used to perform cross origin HEAD request calls on resources to see if they exist, and if exists then also pass the Content-length header
+ * Used to perform cross origin HEAD request calls on resources to see if they exist, and if exists then also pass
+ * the Content-length header
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
-  * @package     Nooku_Components
+ * @package     Nooku_Components
  * @subpackage  Files
  */
  class ComFilesControllerProxy extends ComFilesControllerDefault
 {
-	public function _actionGet(KCommandContext $context)
+	public function _actionRender(KCommandContext $context)
 	{
 		$data = array(
 			'url' => $this->_request->url, 
@@ -27,8 +28,7 @@
 		);
 
 		if (!function_exists('curl_init')) {
-			$context->response->setStatus(KHttpResponse::INTERNAL_SERVER_ERROR, 'Curl library does not exist');
-			return;
+            throw new \RuntimeException('Curl library does not exist');
 		}
 
 		$ch = curl_init();
@@ -45,18 +45,17 @@
 		$response = curl_exec($ch);
 
 		if (curl_errno($ch)) {
-			$context->response->setStatus(KHttpResponse::INTERNAL_SERVER_ERROR, 'Curl Error: '.curl_error($ch));
-			return;
+            throw new \RuntimeException('Curl Error: '.curl_error($ch));
 		}
 
 		$info = curl_getinfo($ch);
 		if (isset($info['http_code']) && $info['http_code'] != 200) {
-			$context->response->setStatus(KHttpResponse::INTERNAL_SERVER_ERROR, $data['url'].' Not Found', $info['http_code']);
+            throw new \RuntimeException($data['url'].' Not Found', $info['http_code']);
 		}
+
 		if (isset($info['download_content_length'])) {
 			$data['content-length'] = $info['download_content_length'];
 		}
-
 
 		curl_close($ch);
 
