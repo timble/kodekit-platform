@@ -18,8 +18,7 @@ class KMixinBehavior extends KMixinAbstract
     /**
      * List of behaviors
      *
-     * Associative array of behaviors, where key holds the behavior identifier string
-     * and the value is an identifier object.
+     * The key holds the behavior name and the value the behavior object
      *
      * @var    array
      */
@@ -89,6 +88,9 @@ class KMixinBehavior extends KMixinAbstract
             $behavior = $this->getBehavior($behavior, $config);
         }
 
+        //Force set the mixer
+        $behavior->setMixer($this->_mixer);
+
         //Enqueue the behavior
         $this->getCommandChain()->enqueue($behavior);
 
@@ -115,8 +117,9 @@ class KMixinBehavior extends KMixinAbstract
      * Get a behavior by identifier
      *
      * @param   mixed    An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
-     * @param    array An optional associative array of configuration settings
+     *                   or valid identifier string
+     * @param   array   An optional associative array of configuration settings
+     * @throws \UnexpectedValueException    If the behavior does not implement the KBehaviorInterface
      * @return KControllerBehaviorAbstract
      */
     public function getBehavior($behavior, $config = array())
@@ -141,7 +144,7 @@ class KMixinBehavior extends KMixinAbstract
             $behavior = $this->getService($identifier, $config);
 
             if (!($behavior instanceof KBehaviorInterface)) {
-                throw new KBehaviorException("Behavior $identifier does not implement KBehaviorInterface");
+                throw new \UnexpectedValueException("Behavior $identifier does not implement KBehaviorInterface");
             }
 
             $this->_behaviors[$behavior->getIdentifier()->name] = $behavior;
