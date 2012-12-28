@@ -49,9 +49,7 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
             $pathway->addItem($article->title, '');
         }
 
-        $this->assign('params'  , $params);
-        $this->assign('user'  , JFactory::getUser());
-
+        $this->assign('params', $params);
         return parent::display();
     }
 
@@ -61,7 +59,7 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         $category = $this->getService('com://site/articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
-                         ->getItem();
+                         ->getRow();
 
         return $category;
     }
