@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsControllerMessage extends ComDefaultControllerResource
+class ComContactsControllerMessage extends ComDefaultControllerView
 { 
     protected function _actionSend(KCommandContext $context)
 	{
@@ -44,7 +44,7 @@ class ComContactsControllerMessage extends ComDefaultControllerResource
 	        return false;
 	    }
 	
-	    $contact = $this->getService('com://site/contacts.model.contacts')->set('id', $id)->getItem();
+	    $contact = $this->getService('com://site/contacts.model.contacts')->set('id', $id)->getRow();
 	
 	    $params = $mainframe->getParams('com_contact');
 	    
