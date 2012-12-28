@@ -52,7 +52,7 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
         $category = $this->getService('com://site/articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
-                         ->getItem();
+                         ->getRow();
 
         return $category;
     }
