@@ -18,13 +18,20 @@
 interface KHttpMessageInterface
 {
     /**
-     * Set the headers container
+     * Set the header parameters
      *
-     * @see    getHeaders()
-     * @param  KHttpMessageHeaders $headers
+     * @param  array $headers
      * @return KHttpMessageInterface
      */
-    public function setHeaders(KHttpMessageHeaders $headers);
+    public function setHeaders($parameters);
+
+    /**
+     * Get the headers container
+     *
+     * @param  array $headers
+     * @return KHttpMessageHeaders
+     */
+    public function getHeaders();
 
     /**
      * Sets the HTTP protocol version (1.0 or 1.1).
@@ -55,4 +62,26 @@ interface KHttpMessageInterface
      * @return mixed
      */
     public function getContent();
+
+    /**
+     * Sets the message content type
+     *
+     * @param string $type Content type
+     * @return KHttpMessage
+     */
+    public function setContentType($type);
+
+    /**
+     * Retrieves the message content type
+     *
+     * @return string Character set
+     */
+    public function getContentType();
+
+    /**
+     * Render the message as a string
+     *
+     * @return string
+     */
+    public function toString();
 }
