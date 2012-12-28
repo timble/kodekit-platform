@@ -22,30 +22,19 @@ class ComUsersDispatcher extends ComDefaultDispatcher
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
-        
-        require_once __DIR__.'/legacy.php';
-    }
-    
-    protected function _initialize(KConfig $config)
-    {  
-        //Force the view to prevent a redirect
-        if(JFactory::getUser()->guest && KRequest::method() == KHttpRequest::GET) {  
-            $config->request = array('view' => 'session');
-        } 
-        
-        parent::_initialize($config);
+
+        //@TODO Remove when PHP 5.5 becomes a requirement.
+        KLoader::loadFile(JPATH_ROOT.'/administrator/components/com_users/legacy.php');
     }
     
     protected function _actionDispatch(KCommandContext $context)
 	{        	
-        if(!JFactory::getUser()->guest) 
+        if($context->user->isAuthentic())
         {  
             //Redirect if user is already logged in
-            if($this->getRequest()->view == 'session')
+            if($context->request->query->get('view', 'alpha') == 'session')
             {
-                //@TODO : Set message in session
-                //$this->getService('application')->redirect('index.php', 'You are already logged in!');
-                //$context->response->setRedirect('index.php');
+                $context->response->setRedirect('index.php', 'You are already logged in!');
                 return false;
             }
         }
