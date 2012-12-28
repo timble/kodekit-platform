@@ -18,9 +18,9 @@
 
 class ComFilesModelFiles extends ComFilesModelNodes
 {
-    public function getList()
+    public function getRowset()
     {
-        if (!isset($this->_list))
+        if (!isset($this->_rowset))
         {
             $state = $this->_state;
 
@@ -31,8 +31,9 @@ class ComFilesModelFiles extends ComFilesModelNodes
         		'map'     => array($this, 'iteratorMap'),
                 'sort'    => $state->sort
         	));
+
         	if ($files === false) {
-        		throw new KModelException('Invalid folder');
+        		throw new UnexpectedValueException('Invalid folder');
         	}
 
             $this->_total = count($files);
@@ -53,12 +54,12 @@ class ComFilesModelFiles extends ComFilesModelNodes
                 );
             }
 
-            $this->_list = $this->getRowset(array(
+            $this->_rowset = $this->getRowset(array(
                 'data' => $data
             ));
         }
 
-        return parent::getList();
+        return parent::getRowset();
     }
 
 	public function iteratorMap($path)
