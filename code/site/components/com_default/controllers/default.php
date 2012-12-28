@@ -15,7 +15,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerDefault extends KControllerService
+class ComDefaultControllerDefault extends KControllerModel
 {
 	/**
 	 * The limit information
@@ -56,15 +56,13 @@ class ComDefaultControllerDefault extends KControllerService
     /**
      * Display action
      *
-     * If the controller was not dispatched manually load the langauges files
-     *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionRender(KCommandContext $context)
     {
         JFactory::getLanguage()->load($this->getIdentifier()->package);
-        return parent::_actionGet($context);
+        return parent::_actionRender($context);
     }
 
 	/**
