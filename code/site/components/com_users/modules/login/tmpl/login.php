@@ -17,7 +17,7 @@
 	<? if($show_title) : ?>
 	<h3><?= $module->title ?></h3>
 	<? endif ?>
-	
+
 	<fieldset class="input">
 	<div class="control-group">
 		<label class="control-label" for="modlgn_email"><?= @text('Email') ?>:</label>
