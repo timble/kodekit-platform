@@ -36,12 +36,12 @@ class ComDefaultTemplateDefault extends ComDefaultTemplateAbstract
         if(KInflector::isPlural($view->getName()))
         {
             if($state = $view->getModel()->getState()) {
-                $params = array_merge( $state->getData(), $params);
+                $params = array_merge( $state->toArray(), $params);
             }
         }
         else
         {
-            if($item = $view->getModel()->getItem()) {
+            if($item = $view->getModel()->getRow()) {
                 $params = array_merge( $item->getData(), $params);
             }
         }
