@@ -26,13 +26,15 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
         parent::_initialize($config);
     }
 
-    public function setRequest(array $request)
+    public function getRequest()
     {
-        $view = isset($request['view']) ? $request['view'] : null;
+        $request = parent::getRequest();
+
+        $view = $request->query->get('view', 'cmd', null);
 
         if ($view && KInflector::isPlural($view))
         {
-            if ($request['format'] != 'json')
+            if ($request->getFormat() != 'json')
             {
                 $sort_by_map = array(
                     'newest' => array('created_on' => 'DESC'),
@@ -43,30 +45,31 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
                 $params = $this->getService('application')->getParams();
 
                 // Force some request vars based on setting parameters.
-                $request['limit']     = (int) $params->get('articles_per_page', 10);
-                $request['featured']  = (int) $params->get('show_featured', 0);
-                $sort_by              = $sort_by_map[$params->get('sort_by', 'newest')];
-                $request['sort']      = key($sort_by);
-                $request['direction'] = current($sort_by);
+                $request->query->limit     = (int) $params->get('articles_per_page', 10);
+                $request->query->featured  = (int) $params->get('show_featured', 0);
+
+                $sort_by = $sort_by_map[$params->get('sort_by', 'newest')];
+                $request->query->sort = key($sort_by);
+                $request->direction   = current($sort_by);
             }
 
             // Allow editors (and above) to view unpublished items on lists.
             if (!$this->canEdit()) {
-                $request['published'] = 1;
+                $request->query->published = 1;
             }
 
             //Always show child category articles
-            $request['category_recurse'] = true;
+            $request->query->category_recurse = true;
         }
 
-        return parent::setRequest($request);
+        return $request;
     }
 
     protected function _actionAdd(KCommandContext $context)
     {
         //Force article to unpublished if you cannot edit
         if (!$this->canEdit()) {
-            $context->data->published = 0;
+            $context->request->data->set('published', 0);
         }
 
         return parent::_actionAdd($context);
