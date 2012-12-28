@@ -20,7 +20,7 @@
         <td><strong><?= @text('Line') ?></strong></td>
     </tr>
     <? $j = 1; ?>
-    <? $trace = $error->getTrace() ?>
+    <? $trace = $exception->getTrace() ?>
     <? for( $i = count( $trace ) - 1; $i >= 0 ; $i-- ) : ?>
     <tr>
         <td><?= $j ?></td>

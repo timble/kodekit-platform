@@ -13,22 +13,22 @@
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
     <link rel="stylesheet" href="media://com_application/css/error.css" type="text/css" />
-    <title><?= @text('Error').': '.$error->getCode(); ?></title>
+    <title><?= @text('Error').': '.$exception->getCode(); ?></title>
 </head>
 <body>
 <table width="550" align="center" class="outline">
     <tr>
         <td align="center">
             <h1>
-                <?= $error->getCode() ?> - <?= @text('An error has occurred') ?>
+                <?= $exception->getCode() ?> - <?= @text('An error has occurred') ?>
         </td>
     </tr>
     <tr>
         <td width="39%" align="center">
             <? if(ini_get('display_errors')) : ?>
-            <p><?= (string) $error ?></p>
+            <p><?= (string) $exception ?></p>
             <? else : ?>
-            <p><?= KHttpResponse::getMessage($error->getCode()) ?></p>
+            <p><?= KHttpResponse::getMessage($exception->getCode()) ?></p>
             <? endif ?>
             <p>
                 <? if(ini_get('display_errors')) : ?>
