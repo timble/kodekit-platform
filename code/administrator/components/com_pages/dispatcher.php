@@ -20,14 +20,14 @@ class ComPagesDispatcher extends ComDefaultDispatcher
 {
     protected function _actionDispatch(KCommandContext $context)
     {
-        $view = KRequest::get('get.view', 'cmd', $this->_controller);
+        $view = $context->request->query->get('view', 'cmd', $this->_controller);
 
-        if($view == 'pages' && !KRequest::has('get.menu'))
+        if($view == 'pages' && !$context->request->query->has('menu'))
         {
             $page = $this->getService('com://admin/pages.database.table.pages')
-                ->select(array('home' => 1), KDatabase::FETCH_ROW);
+                          ->select(array('home' => 1), KDatabase::FETCH_ROW);
 
-            $url = clone(KRequest::url());
+            $url = clone($context->request->getUrl());
             $url->query['view'] = $view;
             $url->query['menu'] = $page->pages_menu_id;
 
@@ -35,9 +35,9 @@ class ComPagesDispatcher extends ComDefaultDispatcher
             return false;
         }
 
-        if($view == 'modules' && !KRequest::has('get.application'))
+        if($view == 'modules' && !$context->request->query->has('application'))
         {
-            $url = clone(KRequest::url());
+            $url = clone($context->request->getUrl());
             $url->query['application']  = 'site';
 
             $context->response->setRedirect($url);
