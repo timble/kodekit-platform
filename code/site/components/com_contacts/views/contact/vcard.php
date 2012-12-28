@@ -19,7 +19,7 @@ class ComContactsViewContactVcard extends KViewVcard
 {
     public function display()
     {
-        $contact = $this->getModel()->getItem();
+        $contact = $this->getModel()->getRow();
        
         if(!empty($contact->email_to)) {
             $this->setEmail($contact->email_to);
