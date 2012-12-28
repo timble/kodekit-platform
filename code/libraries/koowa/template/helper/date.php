@@ -40,11 +40,11 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
             try 
             {
                 $date = new KDate(array('date' => $config->date, 'timezone' => 'UTC'));
-                $date->setTimezone(new DateTimeZone($config->timezone));
+                $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 $return = $date->format($config->format);
             } 
-            catch(Exception $e) {}
+            catch(\Exception $e) {}
         }
 
         return $return;
@@ -72,7 +72,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
         {
             $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
             $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
-            $now     = new DateTime();
+            $now     = new \DateTime();
 
             try 
             {
@@ -127,7 +127,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                 } 
                 else $result = JText::_('Now');
             } 
-            catch(Exception $e) {}
+            catch(\Exception $e) {}
         }
 
         return $result;
