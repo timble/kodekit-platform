@@ -15,7 +15,7 @@
  * @package     Koowa_Http
  * @subpackage  Response
  */
-interface KHttpResponseInterface
+interface KHttpResponseInterface extends KHttpMessageInterface
 {
     /**
      * Set HTTP status code and (optionally) message
@@ -97,7 +97,7 @@ interface KHttpResponseInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29
      *
      * @param \DateTime $date A \DateTime instance
-     * @return Response
+     * @return KHttpResponseInterface
      */
     public function setLastModified(\DateTime $date = null);
 
