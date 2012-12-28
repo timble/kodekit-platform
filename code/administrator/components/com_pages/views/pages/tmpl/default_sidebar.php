@@ -10,4 +10,4 @@
 ?>
 
 <h3><?= @text('Menus') ?></h3>
-<?= @template('com://admin/pages.view.menus.list', array('state' => $state, 'menus' => @service('com://admin/pages.model.menus')->getList())); ?>
+<?= @template('com://admin/pages.view.menus.list', array('state' => $state, 'menus' => @service('com://admin/pages.model.menus')->getRowset())); ?>
