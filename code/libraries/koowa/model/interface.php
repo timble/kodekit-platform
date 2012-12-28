@@ -17,11 +17,30 @@
 interface KModelInterface
 {
     /**
-     * Test the connected status of the model.
+     * Set the model state properties
      *
-     * @return    boolean    Returns TRUE by default.
+     * This function only acts on state properties it will reset (unsets) the $_rowset, $_row and $_total model
+     * properties when a state changes.
+     *
+     * @param   string|array|object  $name  The name of the property, an associative array or an object
+     * @param   mixed                $value The value of the property
+     * @return  KModelAbstract
      */
-    public function isConnected();
+    public function set($name, $value = null);
+
+    /**
+     * Get the model state properties
+     *
+     * If no state name is given then the function will return an associative array of all properties.
+     *
+     * If the property does not exist and a  default value is specified this is returned, otherwise the function return
+     * NULL.
+     *
+     * @param   string  $name   The name of the property
+     * @param   mixed   $default The default value
+     * @return  mixed   The value of the property, an associative array or NULL
+     */
+    public function get($name = null, $default = null);
 
     /**
      * Reset all cached data and reset the model state to it's default
@@ -32,9 +51,17 @@ interface KModelInterface
     public function reset($default = true);
 
     /**
+     * Set the model state object
+     *
+     * @param KModelState $state A model state object
+     * @return  KModelInterface
+     */
+    public function setState(KModelState $state);
+
+    /**
      * Method to get state object
      *
-     * @return  object  The state object
+     * @return  KModelState  The model state object
      */
     public function getState();
 
@@ -43,14 +70,14 @@ interface KModelInterface
      *
      * @return  KDatabaseRowInterface
      */
-    public function getItem();
+    public function getRow();
 
     /**
      * Get a list of items
      *
      * @return  KDatabaseRowsetInterface
      */
-    public function getList();
+    public function getRowset();
 
     /**
      * Get the total amount of items
@@ -62,7 +89,7 @@ interface KModelInterface
     /**
      * Get the model data
      *
-     * If the model state is unique this function will call getItem(), otherwise it will call getList().
+     * If the model state is unique this function will call getRow(), otherwise it will call getRowset().
      *
      * @return KDatabaseRowsetInterface or KDatabaseRowInterface
      */
