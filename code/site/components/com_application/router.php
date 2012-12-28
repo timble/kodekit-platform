@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationRouter extends KDispatcherRouterDefault
+class ComApplicationRouter extends KDispatcherRouter
 {
     public function parse(KHttpUrl $url)
 	{
@@ -240,7 +240,7 @@ class ComApplicationRouter extends KDispatcherRouterDefault
         $segments = array();
 
         $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != KRequest::url()->getUrl(KHttpUrl::HOST)) {
+        if($site != 'default' && $site != $this->getRequest()->getUrl()->getUrl(KHttpUrl::HOST)) {
             $segments[] = $site;
         }
 
