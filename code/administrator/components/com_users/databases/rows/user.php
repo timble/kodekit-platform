@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowUser extends KDatabaseRowDefault
+class ComUsersDatabaseRowUser extends KDatabaseRowTable
 {
     /**
      * @var ComUsersDatabaseRowRole User role object.
@@ -28,21 +28,13 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
     public function __get($column)
     {
-        //@TODO : Add mapped properties support
-        if ($column == 'gid')
+        if ($column == 'params' && !$this->_data['params'] instanceof JParameter)
         {
-            $column = 'role_id';
-        }
-
-        if ($column == 'params' && !($this->_data['params'] instanceof JParameter))
-        {
-
             $path = JPATH_APPLICATION . '/components/com_users/databases/rows';
             $name = str_replace(' ', '_', strtolower((string) $this->getRole()->name));
             $file = $path . '/' . $name . '.xml';
 
-            if (!file_exists($file))
-            {
+            if (!file_exists($file)) {
                 $file = $path . '/user.xml';
             }
 
@@ -66,8 +58,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         {
             //@TODO : Temporarily using KService::get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
-            $this->_role = KService::get('com://admin/users.model.roles')->id($this->role_id)->getItem();
-            //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->role_id)->getItem();
+            $this->_role = KService::get('com://admin/users.model.roles')->id($this->role_id)->getRow();
+            //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->role_id)->getRow();
         }
         return $this->_role;
     }
@@ -173,10 +165,12 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
     public function load()
     {
         $result = parent::load();
+
+        // Clear role cache
         if ($result) {
-            // Clear role cache
             $this->_role = null;
         }
+
         return $result;
     }
 
@@ -186,7 +180,10 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
 
         // Clear role cache
         $this->_role = null;
-        $this->guest = 1;
+
+        //Set defaults
+        $this->guest  = 1;
+        $this->params = '';
 
         return $result;
     }
@@ -218,63 +215,15 @@ class ComUsersDatabaseRowUser extends KDatabaseRowDefault
         $config = new KConfig($config);
 
         $application = $this->getService('application');
-        $user        = JFactory::getUser();
+        $user        = $this->getService('user');
 
         $config->append(array(
             'subject' => '',
             'message' => '',
             'from_email' => $application->getCfg('mailfrom'),
             'from_name'  => $application->getCfg('fromname')))
-            ->append(array('from_email' => $user->email, 'from_name' => $user->name));
+            ->append(array('from_email' => $user->getEmail(), 'from_name' => $user->getName()));
 
         return JUtility::sendMail($config->from_email, $config->from_name, $this->email, $config->subject, $config->message);
-    }
-
-    /**
-     * Method to get a parameter value
-     *
-     * Provided for compatibility with JUser
-     *
-     * @param 	string 	$key 		Parameter key
-     * @param 	mixed	$default	Parameter default value
-     * @return	mixed				The value or the default if it did not exist
-     *
-     * @deprecated since 12.3, will be removed from 13.2
-     */
-    public function getParam( $key, $default = null )
-    {
-        return $this->params->get( $key, $default );
-    }
-
-    /**
-     * Method to set a parameter
-     *
-     * Provided for compatibility with JUser
-     *
-     * @param 	string 	$key 	Parameter key
-     * @param 	mixed	$value	Parameter value
-     * @return	mixed			Set parameter value
-     *
-     * @deprecated since 12.3, will be removed from 13.2
-     */
-    function setParam( $key, $value )
-    {
-        return $this->_params->set( $key, $value );
-    }
-
-    /**
-     * Method to set a default parameter if it does not exist
-     *
-     * Provided for compatibility with JUser
-     *
-     * @param 	string 	$key 	Parameter key
-     * @param 	mixed	$value	Parameter value
-     * @return	mixed			Set parameter value
-     *
-     * @deprecated since 12.3, will be removed from 13.2
-     */
-    function defParam( $key, $value )
-    {
-        return $this->_params->def( $key, $value );
     }
 }
