@@ -15,7 +15,7 @@
   * @author     Johan Janssens <johan@nooku.org>
   * @package    Koowa_Object
   */
-class KObjectStack extends KObject implements Countable
+class KObjectStack extends KObject implements \Countable
 { 
     /**
      * The object container
@@ -27,8 +27,8 @@ class KObjectStack extends KObject implements Countable
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KObjectStack
+     * @param KConfig $config  An optional KConfig object with configuration options
+     * @return KObjectStack
      */
     public function __construct(KConfig $config) 
     { 
@@ -50,14 +50,14 @@ class KObjectStack extends KObject implements Countable
     /**
      * Pushes an element at the end of the stack
      *
-     * @param   KObject $object
-     * @return \KObjectStack
-     * @throws  InvalidArgumentException if the object doesn't extend from KObject
+     * @param  KObject $object
+     * @throws \InvalidArgumentException if the object doesn't extend from KObject
+     * @return KObjectStack
      */
     public function push($object)
     {
         if(!$object instanceof KObject) {
-            throw new InvalidArgumentException('Object needs to extend from KObject');
+            throw new \InvalidArgumentException('Object needs to extend from KObject');
         }
 
         $this->_object_stack[] = $object;
