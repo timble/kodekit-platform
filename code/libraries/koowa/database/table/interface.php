@@ -68,7 +68,6 @@ interface KDatabaseTableInterface
      * Gets the schema of the table
      *
      * @return  object|null Returns a KDatabaseSchemaTable object or NULL if the table doesn't exists
-     * @throws  KDatabaseTableException
      */
     public function getSchema();
 
@@ -86,7 +85,6 @@ interface KDatabaseTableInterface
      *
      * @param   boolean  If TRUE, get the column information from the base table. Default is FALSE.
      * @return  array    Associative array of KDatabaseSchemaColumn objects
-     * @throws  KDatabaseTableException
      */
     public function getColumns($base = false);
 
