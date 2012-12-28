@@ -64,10 +64,10 @@ class KViewRss extends KViewTemplate
 			    //Assign the data of the model to the view
 			    if(KInflector::isPlural($name))
 			    {
-				    $this->assign($name, 	$model->getList())
+				    $this->assign($name, 	$model->getRowset())
 					     ->assign('total',	$model->getTotal());
 			    }
-			    else $this->assign($name, $model->getItem());
+			    else $this->assign($name, $model->getRow());
 		    }
 		}
 
