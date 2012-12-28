@@ -29,14 +29,14 @@ class ComFilesDispatcher extends ComDefaultDispatcher
         catch (KControllerException $e) {
             $this->_handleException($e);
         }
-        catch (KModelException $e) {
+        catch (UnexpectedValueException $e) {
             $this->_handleException($e);
         }
     }
 
     protected function _handleException(Exception $e) 
     {
-    	if (KRequest::get('get.format', 'cmd') == 'json') 
+    	if ($this->getRequest()->getFormat() == 'json')
         {
     		$obj = new stdClass;
     		$obj->status = false;
@@ -44,9 +44,9 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     		$obj->code   = $e->getCode();
 
     		// Plupload do not pass the error to our application if the status code is not 200
-    		$code = KRequest::get('get.plupload', 'int') ? 200 : $e->getCode();
+    		$code = $this->getRequest()->query->get('plupload', 'int') ? 200 : $e->getCode();
 
-    		header($code.' '.str_replace("\n", ' ', $e->getMessage()), true, $code);
+            $this->getResponse()->setStatus($code, $e->getMessage());
 
     		echo json_encode($obj);
     		exit(0);
