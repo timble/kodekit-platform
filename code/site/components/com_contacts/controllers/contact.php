@@ -19,9 +19,11 @@ class ComContactsControllerContact extends ComDefaultControllerDefault
 {
     public function getRequest()
 	{
+		$request = parent::getRequest();
+
 		//Display only published items
-		$this->_request->enabled = 1;
+		$request->query->enabled = 1;
 		
-		return parent::getRequest();
+		return $request;
 	}
 }
