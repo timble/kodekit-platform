@@ -66,7 +66,7 @@
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
 	                <?= @helper('listbox.radiolist', array(
-	                		'list'     => @service('com://admin/categories.model.categories')->sort('title')->table('weblinks')->getList(),
+	                		'list'     => @service('com://admin/categories.model.categories')->sort('title')->table('weblinks')->getRowset(),
 	                		'selected' => $weblink->categories_category_id,
 	                		'name'     => 'categories_category_id',
 	                        'text'     => 'title',
