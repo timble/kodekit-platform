@@ -17,7 +17,7 @@
  */
 class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
 {
-    public function onBeforeControllerGet(KEvent $event)
+    public function onBeforeControllerRender(KEvent $event)
     {
         $event->getTarget()->getView()->toolbar = $this;
 
@@ -39,18 +39,19 @@ class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
 
     protected function _commandProfile(KControllerToolbarCommand $command)
     {
-        $command->href = 'option=com_users&view=user&id='.JFactory::getUser()->id;
+        $command->href = 'option=com_users&view=user&id='.$this->getController()->getUser()->getId();
     }
 
     protected function _commandLogout(KControllerToolbarCommand $command)
     {
-        $session = $this->getService('application.session');
+        $controller = $this->getController();
+        $session    = $controller->getUser()->getSession();
 
         $url = 'option=com_users&view=session&id='.$session->getId();
-        $url = $this->getController()->getView()->getRoute($url);
+        $url = $controller->getView()->getRoute($url);
 
         //Form configuration
-        $config = "{method:'post', url:'".$url."', params:{action:'delete', _token:'".$session->getToken()."'}}";
+        $config = "{method:'post', url:'".$url."', params:{_action:'delete', _token:'".$session->getToken()."'}}";
 
         $command->append(array(
             'attribs' => array(
@@ -60,8 +61,5 @@ class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
         ));
 
         $command->href = '#';
-
-
-
     }
 }
