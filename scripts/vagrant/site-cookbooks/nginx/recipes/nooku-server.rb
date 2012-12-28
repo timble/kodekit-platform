@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-template "#{node['nginx']['dir']}/sites-available/#{node['nginx']['nooku-server']['site_name']}" do
+template "#{node['nginx']['dir']}/sites-available/#{node['nginx']['nooku-server']['site']}" do
   source "sites/nooku-server.erb"
   owner "root"
   group "root"
@@ -26,6 +26,6 @@ template "#{node['nginx']['dir']}/sites-available/#{node['nginx']['nooku-server'
   notifies :reload, "service[nginx]"
 end
 
-nginx_site node['nginx']['nooku-server']['site_name'] do
+nginx_site node['nginx']['nooku-server']['site'] do
   enable true
 end

@@ -20,5 +20,5 @@
 
 include_attribute 'nginx'
 
-default['nginx']['nooku-server']['site_name'] = "nooku-server"
-default['nginx']['nooku-server']['site_dir'] = "/var/www/nooku-server"
+default['nginx']['nooku-server']['site'] = "nooku-server"
+default['nginx']['nooku-server']['dir'] = "/var/www/nooku-server"
