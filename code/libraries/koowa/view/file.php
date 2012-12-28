@@ -102,7 +102,7 @@ class KViewFile extends KViewAbstract
     public function display()
     {
         if (empty($this->path) && empty($this->output)) {
-        	throw new KViewException('No output or path supplied');
+        	throw new \UnexpectedValueException('No output or path supplied');
         }
 
     	// For a certain unmentionable browser
@@ -129,7 +129,7 @@ class KViewFile extends KViewAbstract
     	{ 
     		// File body is passed as string
     		if (empty($this->filename)) {
-    			throw new KViewException('No filename supplied');
+    			throw new \UnexpectedValueException('No filename supplied');
     		}
     	} 
     	elseif (!empty($this->path)) 
@@ -148,7 +148,7 @@ class KViewFile extends KViewAbstract
         }
         
     	if (!method_exists($this, $transport)) {
-    	    throw new KViewException('Transport method :'.$this->transport.'not found');
+    	    throw new \RuntimeException('Transport method :'.$this->transport.'not found');
     	}
     	
     	return $this->$transport();
@@ -160,7 +160,7 @@ class KViewFile extends KViewAbstract
         $this->filesize = $this->path ? filesize($this->path) : strlen($this->output);
     
         if (!$this->filesize) {
-            throw new KViewException('Cannot read file');
+            throw new \RuntimeException('Cannot read file');
         }
     
         $this->start_point = 0;
@@ -183,7 +183,7 @@ class KViewFile extends KViewAbstract
             }
     
             if ($this->start_point > $this->filesize) {
-                throw new KViewException('Invalid start point given in range header');
+                throw new \OutOfRangeException('Invalid start point given in range header');
             }
     
             header('HTTP/1.0 206 Partial Content');
@@ -204,7 +204,7 @@ class KViewFile extends KViewAbstract
         else $this->file = fopen($this->path, 'rb');
     
         if ($this->file === false) {
-            throw new KViewException('Cannot open file');
+            throw new \RuntimeException('Cannot open file');
         }
     
         $buffer     = '';
@@ -227,7 +227,7 @@ class KViewFile extends KViewAbstract
             //get data chunk
             $buffer = fread($this->file, $chunk_size);
             if (!$buffer) {
-                throw new KViewException('Could not read file');
+                throw new \RuntimeException('Could not read file');
             }
     
             echo $buffer;
@@ -246,7 +246,7 @@ class KViewFile extends KViewAbstract
     protected function _transportApache()
     {
         if (empty($this->path)) {
-            throw new KViewException('File path is missing');
+            throw new \UnexpectedValueException('File path is missing');
         }
     
         $this->_setHeaders();
@@ -256,7 +256,7 @@ class KViewFile extends KViewAbstract
     protected function _transportNginx()
     {
         if (empty($this->path)) {
-            throw new KViewException('File path is missing');
+            throw new \UnexpectedValueException('File path is missing');
         }
     
         $this->_setHeaders();
@@ -267,7 +267,7 @@ class KViewFile extends KViewAbstract
     protected function _transportLighttpd()
     {
         if (empty($this->path)) {
-            throw new KViewException('File path is missing');
+            throw new \UnexpectedValueException('File path is missing');
         }
     
         $this->_setHeaders();
