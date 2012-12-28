@@ -26,7 +26,7 @@ class JElementArticle extends JElement
         {
             $title = KService::get('com://admin/articles.model.articles')
                 ->id($value)
-                ->getItem()
+                ->getRow()
                 ->title;
         }
         else $title = JText::_('Select an Article');
