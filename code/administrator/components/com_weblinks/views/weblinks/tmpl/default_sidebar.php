@@ -11,4 +11,4 @@
 ?>
 
 <h3><?= @text('Categories') ?></h3>
-<?= @template('com://admin/categories.view.categories.list', array('categories' => @service('com://admin/weblinks.model.categories')->sort('title')->table('weblinks')->getList())); ?>
+<?= @template('com://admin/categories.view.categories.list', array('categories' => @service('com://admin/weblinks.model.categories')->sort('title')->table('weblinks')->getRowset())); ?>
