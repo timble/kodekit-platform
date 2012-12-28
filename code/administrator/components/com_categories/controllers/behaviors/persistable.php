@@ -30,13 +30,13 @@ class ComCategoriesControllerBehaviorPersistable extends KControllerBehaviorPers
 	{
 		 // Built the session identifier based on the action
         $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->get('table');
-        $state       = KRequest::get('session.'.$identifier, 'raw', array());
+        $state       = $context->user->get($identifier);
 
-        //Append the data to the request object
-        $this->getRequest()->append($state);
+        //Add the data to the request query object
+        $context->request->add($state);
 
-        //Push the request in the model
-        $this->getModel()->set($this->getRequest());
+        //Push the request query data in the model
+        $this->getModel()->set($context->request->query->toArray());
 	}
 	
 	/**
@@ -48,12 +48,12 @@ class ComCategoriesControllerBehaviorPersistable extends KControllerBehaviorPers
 	protected function _afterControllerBrowse(KCommandContext $context)
 	{
 		$model  = $this->getModel();
-        $state  = $model->get();
+        $state  = $model->getState();
 
         // Built the session identifier based on the action
         $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->get('table');
         
-        //Set the state in the session
-        KRequest::set('session.'.$identifier, $state);
+        //Set the state in the user session
+        $context->user->set($identifier, $state->toArray());
 	}
 }
