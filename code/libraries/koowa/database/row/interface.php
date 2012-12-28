@@ -15,9 +15,47 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-interface KDatabaseRowInterface
+interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
 {
-	/**
+    /**
+     * Set row field value
+     *
+     * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
+     * If the row is new the value will be (re)set and marked as modified
+     *
+     * @param   string  The column name.
+     * @param   mixed   The value for the property.
+     * @return  KDatabaseRowInterface
+     */
+    public function set($column, $value);
+
+    /**
+     * Get row field value
+     *
+     * @param   string  The column name.
+     * @return  KDatabaseRowInterface
+     */
+    public function get($column);
+
+    /**
+     * Returns an associative array of the raw data
+     *
+     * @param   boolean  If TRUE, only return the modified data. Default FALSE
+     * @return  array
+     */
+    public function getData($modified = false);
+
+    /**
+     * Set the row data
+     *
+     * @param   mixed   Either and associative array, an object or a KDatabaseRow
+     * @param   boolean If TRUE, update the modified information for each column being set.
+     *                  Default TRUE
+     * @return  KDatabaseRowInterface
+     */
+    public function setData( $data, $modified = true );
+
+    /**
      * Returns the status of this row.
      *
      * @return string The status value.
@@ -47,6 +85,13 @@ interface KDatabaseRowInterface
      */
     public function setStatusMessage($message);
 
+    /**
+     * Get a list of columns that have been modified
+     *
+     * @return array    An array of column names that have been modified
+     */
+    public function getModified();
+
 	/**
      * Load the row from the database.
      *
@@ -74,7 +119,7 @@ interface KDatabaseRowInterface
     /**
      * Count the rows in the database based on the data in the row
      *
-     * @return KDatabaseRowAbstract
+     * @return integer
      */
     public function count();
 
@@ -85,30 +130,12 @@ interface KDatabaseRowInterface
      */
     public function reset();
 
-   /**
-    * Returns an associative array of the raw data
-    *
-    * @param   boolean  If TRUE, only return the modified data. Default FALSE
-    * @return  array
-    */
-    public function getData($modified = false);
-
     /**
-     * Set the row data
+     * Checks if the row is new or not
      *
-     * @param   mixed   Either and associative array, an object or a KDatabaseRow
-     * @param   boolean If TRUE, update the modified information for each column being set.
-     *                  Default TRUE
-     * @return  KDatabaseRowInterface
+     * @return bool
      */
-     public function setData( $data, $modified = true );
-
-    /**
-     * Get a list of columns that have been modified
-     *
-     * @return array    An array of column names that have been modified
-     */
-    public function getModified();
+    public function isNew();
 
     /**
      * Check if a column has been modified
@@ -117,13 +144,6 @@ interface KDatabaseRowInterface
      * @return  boolean
      */
     public function isModified($column);
-
-    /**
-     * Checks if the row is new or not
-     *
-     * @return bool
-     */
-    public function isNew();
 
 	/**
 	 * Test the connected status of the row.
