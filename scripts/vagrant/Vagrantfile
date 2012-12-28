@@ -2,34 +2,39 @@
 # vi: set ft=ruby :
 
 Vagrant::Config.run do |config|
-  config.vm.box = "precise64"
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  config.vm.host_name = "development"
-  config.vm.network :hostonly, "192.168.50.10"
+  config.vm.box = 'precise64'
+  config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
+  config.vm.host_name = 'development'
+  config.vm.network :hostonly, '192.168.50.10'
 
-  config.vm.share_folder "source", "/var/www/nooku-server/source", "../.."
-  config.vm.provision :shell, :inline => "cd /var/www/nooku-server && ln -s source/code public"
+  config.vm.share_folder 'source', '/var/www/nooku-server/source', '../..'
+  config.vm.provision :shell, :inline => 'cd /var/www/nooku-server && ln -s source/code public'
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = "cookbooks"
+    chef.cookbooks_path = %w( cookbooks site-cookbooks )
 
-    chef.add_recipe "apt"
-    chef.add_recipe "nginx"
-    chef.add_recipe "mysql::server"
-    chef.add_recipe "mysql::ruby"
-    chef.add_recipe "php"
-    chef.add_recipe "nooku-server"
+    chef.add_recipe 'apt'
+    chef.add_recipe 'nginx'
+    chef.add_recipe 'mysql::server'
+    chef.add_recipe 'mysql::ruby'
+    chef.add_recipe 'php'
+    chef.add_recipe 'nooku-server'
 
     chef.json = {
-      :mysql => {
-        :bind_address => "0.0.0.0",
-        :allow_remote_root => true,
-        :server_root_password => "root",
-        :server_repl_password => "root",
-        :server_debian_password => "root"
-      },
       :nginx => {
         :default_site_enabled => false
+      },
+      :mysql => {
+        :bind_address => '0.0.0.0',
+        :allow_remote_root => true,
+        :server_root_password => 'root',
+        :server_repl_password => 'root',
+        :server_debian_password => 'root'
+      },
+      :php => {
+        :directives => {
+          :display_errors => 'On'
+        }
       }
     }
   end

@@ -20,36 +20,6 @@
 
 require "mysql"
 
-# Install PHP-FPM
-package "php5-fpm" do
-  action :upgrade
-end
-
-service "php5-fpm" do
-  action [:enable, :start]
-end
-
-# Modify PHP settings
-ruby_block "php_settings" do
-  block do
-    content = File.read("/etc/php5/fpm/pool.d/www.conf")
-    content = content.gsub(";php_flag[display_errors] = off", "php_flag[display_errors] = on")
-    content = content.gsub(";php_admin_flag[log_errors] = on", "php_admin_flag[log_errors] = on")
-
-    File.open("/etc/php5/fpm/pool.d/www.conf", "w") { |file| file.puts content }
-  end
-  action :create
-  notifies :restart, "service[php5-fpm]"
-end
-
-# Install PHP modules
-%w( php-apc php5-curl php5-gd php5-mysql ).each do |pkg|
-  package pkg do
-    action :upgrade
-    notifies :restart, "service[php5-fpm]"
-  end
-end
-
 # Add and enable site
 template "#{node['nginx']['dir']}/sites-available/#{node['nooku-server']['nginx_site']}" do
   source "nginx-site.erb"
