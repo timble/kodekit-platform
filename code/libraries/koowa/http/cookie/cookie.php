@@ -13,7 +13,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */
-class KHttpCookie extends KObject
+class KHttpCookie extends KObject implements KHttpCookieInterface
 {
     /**
      * The name of the cookie
@@ -121,18 +121,18 @@ class KHttpCookie extends KObject
      *
      * @param string $name The name of the cookie
      * @throws \InvalidArgumentException    If the cookie name is not valid or is empty
-     * @return \KHttpCookie
+     * @return KHttpCookie
      */
     public function setName($name)
     {
         //Check for invalid cookie name (from PHP source code)
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
-            throw new InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
+            throw new \InvalidArgumentException(sprintf('The cookie name "%s" contains invalid characters.', $name));
         }
 
         //Check for empty cookie name
         if (empty($name)) {
-            throw new InvalidArgumentException('The cookie name cannot be empty.');
+            throw new \InvalidArgumentException('The cookie name cannot be empty.');
         }
 
         $this->_name = $name;
@@ -144,7 +144,7 @@ class KHttpCookie extends KObject
      *
      * @param integer|string|\DateTime $expire The expiration time of the cookie
      * @throws \InvalidArgumentException    If the cookie expiration time is not valid
-     * @return \KHttpCookie
+     * @return KHttpCookie
      */
     public function setExpire($expire)
     {
@@ -158,7 +158,7 @@ class KHttpCookie extends KObject
             $expire = strtotime($expire);
 
             if ($expire === false || $expire === -1) {
-                throw new InvalidArgumentException('The cookie expiration time is not valid.');
+                throw new \InvalidArgumentException('The cookie expiration time is not valid.');
             }
         }
 
@@ -196,6 +196,43 @@ class KHttpCookie extends KObject
         return (bool)($this->_expire < time());
     }
 
+    /**
+     * Return a string representation of the cookie
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        $str = urlencode($this->name) . '=';
+
+        if ('' !== (string)$this->value)
+        {
+            $str .= urlencode($this->value);
+
+            if ($this->expire !== 0) {
+                $str .= '; expires=' . gmdate(\DateTime::COOKIE, $this->expire);
+            }
+        }
+        else $str .= 'deleted; expires=' . gmdate(\DateTime::COOKIE, time() - 31536001);
+
+        if ('/' !== $this->path) {
+            $str .= '; path=' . $this->path;
+        }
+
+        if (null !== $this->domain) {
+            $str .= '; domain=' . $this->domain;
+        }
+
+        if (true === $this->isSecure()) {
+            $str .= '; secure';
+        }
+
+        if (true === $this->isHttpOnly()) {
+            $str .= '; httponly';
+        }
+
+        return $str;
+    }
 
     /**
      * Set a cookie attribute by key
@@ -237,40 +274,12 @@ class KHttpCookie extends KObject
     }
 
     /**
-     * Return a string representation of the cookie
+     * Allow PHP casting of this object
      *
      * @return string
      */
     public function __toString()
     {
-        $str = urlencode($this->name) . '=';
-
-        if ('' !== (string)$this->value)
-        {
-            $str .= urlencode($this->value);
-
-            if ($this->expire !== 0) {
-                $str .= '; expires=' . gmdate(DateTime::COOKIE, $this->expire);
-            }
-        }
-        else $str .= 'deleted; expires=' . gmdate(DateTime::COOKIE, time() - 31536001);
-
-        if ('/' !== $this->path) {
-            $str .= '; path=' . $this->path;
-        }
-
-        if (null !== $this->domain) {
-            $str .= '; domain=' . $this->domain;
-        }
-
-        if (true === $this->isSecure()) {
-            $str .= '; secure';
-        }
-
-        if (true === $this->isHttpOnly()) {
-            $str .= '; httponly';
-        }
-
-        return $str;
+        return $this->toString();
     }
 }
