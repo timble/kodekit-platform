@@ -9,7 +9,7 @@
  */
 ?>
 
-<body id="tmpl-modal" class="<?= $option ?> contentpane">
+<body id="tmpl-modal" class="com_<?= $component ?> contentpane">
     <?= @template('default_message') ?>
     <ktml:variable name="content" />
 </body>
