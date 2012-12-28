@@ -29,20 +29,20 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         $config->append(array(
             'attribs' => array('class' => array())
         ));
-        
+
         $result = '';
-        
+
         $menus = $this->getService('com://admin/pages.model.menus')
             ->application('admin')
-            ->getList();
-        
+            ->getRowset();
+
         $menu = $menus->find(array('slug' => 'menubar'));
-        
+
         if(count($menu))
         {
             $pages  = $this->getService('application.pages')->find(array('pages_menu_id' => $menu->top()->id));
             $result = $this->getService('com://admin/pages.template.helper.list')->pages(array('pages' => $pages, 'attribs' => $config->attribs));
-        }   
+        }
 
         return $result;
     }
