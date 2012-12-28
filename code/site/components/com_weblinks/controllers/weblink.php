@@ -19,10 +19,12 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
 {
     public function getRequest()
 	{
+		$request = parent::getRequest();
+
 		//Display only published items
-		$this->_request->published = 1;
+		$request->query->published = 1;
 		
-		return parent::getRequest();
+		return $request;
 	}
 	
 	public function _actionRead(KCommandContext $context)
@@ -33,7 +35,7 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerDefault
 		if ($this->_request->format == 'html')
 		{           
 			if ($weblink->url) {
-                $context->response->setRedirect($weblink->url);
+                $context->reponse->setRedirect($weblink->url);
 			}
 
 			return true;
