@@ -42,9 +42,9 @@ class ComSearchModelResults extends KModelAbstract
 	 * 
 	 * @return Array The search results.
 	 */
-	public function getList()
+	public function getRowset()
 	{
-		if(empty($this->_list)) 
+		if(empty($this->_rowset))
 		{	
 			$state = $this->getState();
 			$data  = array();
@@ -75,10 +75,10 @@ class ComSearchModelResults extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
             
-			$this->_list = $this->getService('com://site/search.database.rowset.results', array('data' => $data));
+			$this->_rowset = $this->getService('com://site/search.database.rowset.results', array('data' => $data));
 		}
 		
-		return $this->_list;
+		return $this->_rowset;
 	}
 	
 	/**
@@ -89,8 +89,8 @@ class ComSearchModelResults extends KModelAbstract
 	public function getTotal()
 	{
 		// No caching. Recalculate the total.
-	    if(empty($this->_list)) {
-			$this->getList();
+	    if(empty($this->_rowset)) {
+			$this->getRowset();
 		}
 		
 		return $this->_total;
