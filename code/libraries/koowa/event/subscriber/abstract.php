@@ -54,7 +54,7 @@ abstract class KEventSubscriberAbstract extends KObject implements KEventSubscri
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-    		'priority' => KCommand::PRIORITY_NORMAL 
+    		'priority' => KEvent::PRIORITY_NORMAL
         ));
 
         parent::_initialize($config);
@@ -84,7 +84,7 @@ abstract class KEventSubscriberAbstract extends KObject implements KEventSubscri
             $subscriptions  = array();
             
             //Get all the public methods
-            $reflection = new ReflectionClass($this);
+            $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) 
             {
                 if(substr($method->name, 0, 2) == 'on') {
