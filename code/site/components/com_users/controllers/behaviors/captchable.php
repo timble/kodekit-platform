@@ -34,24 +34,27 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
         parent::__construct($config);
 
         if (is_null($config->captcha->private_key)) {
-            throw new KControllerBehaviorException('Private key is missing');
+            throw new InvalidArgumentException('Private key is missing');
         }
 
         $this->_config = $config->captcha;
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $params = $this->getService('application.components')->users->params;
 
         $config->append(array(
             'auto_mixin'        => true,
             'captcha'           => array(
                 'private_key'       => $params->get('recaptcha_private_key', null),
-                'remote_ip'         => KRequest::get('server.REMOTE_ADDR', 'ip'),
+                'remote_ip'         => $this->getRequest()->getAddress(),
                 'verify_server'     => array(
                     'host' => 'www.google.com',
                     'path' => '/recaptcha/api/verify',
-                    'port' => 80))));
+                    'port' => 80))
+        ));
+
         parent::_initialize($config);
     }
 
@@ -82,7 +85,7 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
 
         $fs = @fsockopen($config->verify_server->host, $config->verify_server->port, $errno, $errstr, 10);
         if ($fs === false) {
-            throw new KControllerBehaviorException('Could not open socket.');
+            throw new \RuntimeException('Could not open socket.');
         }
 
         fwrite($fs, $request);
@@ -130,10 +133,11 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
 
     protected function _beforeControllerAdd(KCommandContext $context)
     {
-        $data = $context->data;
+        $challenge = $context->request->data->get('recaptcha_challenge_field', 'string');
+        $answer    = $context->request->data->get('recaptcha_response_field', 'string');
 
-        if (!$this->verifyCaptcha($data->recaptcha_challenge_field, $data->recaptcha_response_field)) {
-            // Prevent the action from happening.
+        // Prevent the action from happening.
+        if (!$this->verifyCaptcha($challenge, $answer)) {
             return false;
         }
     }
@@ -151,11 +155,11 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
         $config = $this->_config;
 
         if (!$private_key = $config->private_key) {
-            throw new KControllerBehaviorException('reCAPTCHA private key is not set.');
+            throw new UnexpectedValueException('reCAPTCHA private key is not set.');
         }
 
         if (!$remote_ip = $config->remote_ip) {
-            throw new KControllerBehaviorException('reCAPTCHA remote ip is not set.');
+            throw new UnexpectedValueException('reCAPTCHA remote ip is not set.');
         }
 
         if (!trim((string) $challenge) || !trim((string) $answer))
