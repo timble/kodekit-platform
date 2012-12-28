@@ -16,7 +16,7 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
+class ComLanguagesControllerPermissionDefault extends ComDefaultControllerPermissionDefault
 {
     public function canEdit()
     {
