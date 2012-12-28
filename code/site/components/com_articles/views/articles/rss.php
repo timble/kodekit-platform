@@ -32,7 +32,7 @@ class ComArticlesViewArticlesRss extends KViewRss
         $category = $this->getService('com://site/articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
-                         ->getItem();
+                         ->getRow();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
