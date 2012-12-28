@@ -9,23 +9,25 @@
  */
 
 /**
- * Error Controller Class
+ * Exception Controller Class
  *   
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Application
  */
  
-class ComApplicationControllerError extends KControllerResource
+class ComApplicationControllerException extends KControllerView
 {
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionRender(KCommandContext $context)
     {
-        //Set the error in the view
-        $this->getView()->error = $context->data;
-
         //Make sure the buffers are cleared
         while(@ob_get_clean());
 
-        return parent::_actionGet($context);
+        $result = parent::_actionRender($context);
+
+        $exception = $this->getView()->exception;
+        $context->response->setStatus($exception->getCode(), $exception->getMessage());
+
+        return $result;
     }
 }
