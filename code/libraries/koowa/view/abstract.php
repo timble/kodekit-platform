@@ -56,12 +56,12 @@ abstract class KViewAbstract extends KObject implements KViewInterface
 
         //set the base url
         if (!$config->base_url instanceof KHttpUrl) {
-            $this->_baseurl = KService::get('koowa:http.url', array('url' => $config->base_url));
+            $this->_baseurl = $this->getService('koowa:http.url', array('url' => $config->base_url));
         } else {
             $this->_baseurl = $config->base_url;
         }
 
-        $this->output = $config->output;
+        $this->output   = $config->output;
         $this->mimetype = $config->mimetype;
 
         $this->setModel($config->model);
@@ -78,8 +78,8 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'model' => $this->getName(),
-            'output' => '',
+            'model'    => $this->getName(),
+            'output'   => '',
             'mimetype' => '',
             'base_url' => '',
         ));
@@ -119,53 +119,55 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     }
 
     /**
-     * Get the model object attached to the contoller
+     * Get the model object attached to the view
      *
-     * @return    KModelAbstract
+     * @throws	\UnexpectedValueException	If the model doesn't implement the KModelInterface
+     * @return	KModelAbstract
      */
     public function getModel()
     {
-        if (!$this->_model instanceof KModelAbstract)
+        if(!$this->_model instanceof KModelAbstract)
         {
-            //Make sure we have a model identifier
-            if (!($this->_model instanceof KServiceIdentifier)) {
+            if(!($this->_model instanceof KServiceIdentifier)) {
                 $this->setModel($this->_model);
             }
 
             $this->_model = $this->getService($this->_model);
+
+            if(!$this->_model instanceof KModelInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Model: '.get_class($this->_model).' does not implement KModelInterface'
+                );
+            }
         }
 
         return $this->_model;
     }
 
     /**
-     * Method to set a model object attached to the view
+     * Method to set a model object attached to the controller
      *
-     * @param    mixed    An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
-     * @throws    KViewException    If the identifier is not a table identifier
-     * @return    KViewAbstract
+     * @param	mixed	$model An object that implements KObjectServiceable, KServiceIdentifier object
+     * 					       or valid identifier string
+     * @return	KViewAbstract
      */
     public function setModel($model)
     {
-        if (!($model instanceof KModelAbstract))
+        if(!($model instanceof KModelInterface))
         {
-            if (is_string($model) && strpos($model, '.') === false)
+            if(is_string($model) && strpos($model, '.') === false )
             {
                 // Model names are always plural
-                if (KInflector::isSingular($model)) {
+                if(KInflector::isSingular($model)) {
                     $model = KInflector::pluralize($model);
                 }
 
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('model');
-                $identifier->name = $model;
+                $identifier			= clone $this->getIdentifier();
+                $identifier->path	= array('model');
+                $identifier->name	= $model;
             }
             else $identifier = $this->getIdentifier($model);
-
-            if ($identifier->path[0] != 'model') {
-                throw new KControllerException('Identifier: ' . $identifier . ' is not a model identifier');
-            }
 
             $model = $identifier;
         }
@@ -213,7 +215,8 @@ abstract class KViewAbstract extends KObject implements KViewInterface
         }
 
         //Add the model state only for routes to the same view
-        if ($parts['view'] == $this->getName()) {
+        if ($parts['view'] == $this->getName())
+        {
             $state = $this->getModel()->getState()->toArray();
             $parts = array_merge($state, $parts);
         }
