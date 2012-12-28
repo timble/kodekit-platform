@@ -22,7 +22,7 @@ class KModelTable extends KModelAbstract
      *
      * @var string|object
      */
-    protected $_table = false;
+    protected $_table;
     
     /**
      * Constructor
@@ -41,17 +41,11 @@ class KModelTable extends KModelAbstract
             ->insert('offset'   , 'int')
             ->insert('sort'     , 'cmd')
             ->insert('direction', 'word', 'asc')
-            ->insert('search'   , 'string')
-            // callback state for JSONP, needs to be filtered as cmd to prevent XSS
-            ->insert('callback' , 'cmd');
+            ->insert('search'   , 'string');
 
-        //Try getting a table object
-        if($this->isConnected())
-        {
-            // Set the dynamic states based on the unique table keys
-            foreach($this->getTable()->getUniqueColumns() as $key => $column) {
-                $this->getState()->insert($key, $column->filter, null, true, $this->getTable()->mapColumns($column->related, true));
-            }
+        // Set the dynamic states based on the unique table keys
+        foreach($this->getTable()->getUniqueColumns() as $key => $column) {
+            $this->getState()->insert($key, $column->filter, null, true, $this->getTable()->mapColumns($column->related, true));
         }
     }
 
@@ -95,29 +89,19 @@ class KModelTable extends KModelAbstract
     
     /**
      * Method to get a table object
-     * 
-     * Function catches KDatabaseTableExceptions that are thrown for tables that 
-     * don't exist. If no table object can be created the function will return FALSE.
      *
-     * @return KDatabaseTableAbstract
+     * @return KDatabaseTableInterface
      */
     public function getTable()
     {
-        if($this->_table !== false)
-        {
-            if(!($this->_table instanceof KDatabaseTableAbstract))
-		    {      
-		        //Make sure we have a table identifier
-		        if(!($this->_table instanceof KServiceIdentifier)) {
-		            $this->setTable($this->_table);
-			    }
-		        
-		        try {
-		            $this->_table = $this->getService($this->_table);
-                } catch (KDatabaseTableException $e) {
-                    $this->_table = false;
-                }
+        if(!($this->_table instanceof KDatabaseTableAbstract))
+		{
+            //Make sure we have a table identifier
+            if(!($this->_table instanceof KServiceIdentifier)) {
+                $this->setTable($this->_table);
             }
+
+            $this->_table = $this->getService($this->_table);
         }
 
         return $this->_table;
@@ -126,9 +110,9 @@ class KModelTable extends KModelAbstract
     /**
      * Method to set a table object attached to the model
      *
-     * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
-	 * 					or valid identifier string
-     * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
+     * @param	mixed	$table An object that implements KObjectServiceable, KServiceIdentifier object
+	 * 					       or valid identifier string
+     * @throws  \UnexpectedValueException   If the identifier is not a table identifier
      * @return  KModelTable
      */
     public function setTable($table)
@@ -144,7 +128,7 @@ class KModelTable extends KModelAbstract
 		    else  $identifier = $this->getIdentifier($table);
 		    
 			if($identifier->path[1] != 'table') {
-				throw new KDatabaseRowsetException('Identifier: '.$identifier.' is not a table identifier');
+				throw new \UnexpectedValueException('Identifier: '.$identifier.' is not a table identifier');
 			}
 
 			$table = $identifier;
@@ -153,16 +137,6 @@ class KModelTable extends KModelAbstract
 		$this->_table = $table;
 
 		return $this;
-	}
-    
-	/**
-	 * Test the connected status of the row.
-	 *
-	 * @return	boolean	Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
-	 */
-    public function isConnected()
-	{
-	    return (bool) $this->getTable();
 	}
 
     /**
@@ -173,68 +147,62 @@ class KModelTable extends KModelAbstract
      *
      * @return KDatabaseRow
      */
-    public function getItem()
+    public function getRow()
     {
-        if(!isset($this->_item))
+        if(!isset($this->_row))
         {
-            if($this->isConnected())
-            {
-                $query = null;
-                $state = $this->getState();
-                
-                if($state->isUnique())
-                {
-                    $query = $this->getService('koowa:database.query.select');
+            $query = null;
+            $state = $this->getState();
 
-                    $this->_buildQueryColumns($query);
-                    $this->_buildQueryTable($query);
-                    $this->_buildQueryJoins($query);
-                    $this->_buildQueryWhere($query);
-                    $this->_buildQueryGroup($query);
-                    $this->_buildQueryHaving($query);   
-                }
-                
-                $this->_item = $this->getTable()->select($query, KDatabase::FETCH_ROW, array('state' => $state));
+            if($state->isUnique())
+            {
+                $query = $this->getService('koowa:database.query.select');
+
+                $this->_buildQueryColumns($query);
+                $this->_buildQueryTable($query);
+                $this->_buildQueryJoins($query);
+                $this->_buildQueryWhere($query);
+                $this->_buildQueryGroup($query);
+                $this->_buildQueryHaving($query);
             }
+
+            $this->_row = $this->getTable()->select($query, KDatabase::FETCH_ROW, array('state' => $state));
         }
 
-        return $this->_item;
+        return $this->_row;
     }
 
     /**
-     * Get a list of items which represnts a  table rowset
+     * Get a list of items which represents a  table rowset
      *
      * @return KDatabaseRowset
      */
-    public function getList()
+    public function getRowset()
     {
         // Get the data if it doesn't already exist
-        if (!isset($this->_list))
+        if (!isset($this->_rowset))
         {
-            if($this->isConnected())
+            $query = null;
+            $state = $this->getState();
+
+            if(!$state->isEmpty())
             {
-                $query = null;
-                $state = $this->getState();
-                
-                if(!$state->isEmpty())
-                {
-                    $query = $this->getService('koowa:database.query.select');
-                
-                    $this->_buildQueryColumns($query);
-                    $this->_buildQueryTable($query);
-                    $this->_buildQueryJoins($query);
-                    $this->_buildQueryWhere($query);
-                    $this->_buildQueryGroup($query);
-                    $this->_buildQueryHaving($query);
-                    $this->_buildQueryOrder($query);
-                    $this->_buildQueryLimit($query);
-                }
-        
-                $this->_list = $this->getTable()->select($query, KDatabase::FETCH_ROWSET, array('state' => $state));
+                $query = $this->getService('koowa:database.query.select');
+
+                $this->_buildQueryColumns($query);
+                $this->_buildQueryTable($query);
+                $this->_buildQueryJoins($query);
+                $this->_buildQueryWhere($query);
+                $this->_buildQueryGroup($query);
+                $this->_buildQueryHaving($query);
+                $this->_buildQueryOrder($query);
+                $this->_buildQueryLimit($query);
             }
+
+            $this->_rowset = $this->getTable()->select($query, KDatabase::FETCH_ROWSET, array('state' => $state));
         }
 
-        return $this->_list;
+        return $this->_rowset;
     }
     
     /**
@@ -247,18 +215,15 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_total))
         {
-            if($this->isConnected())
-            {
-                $query = $this->getService('koowa:database.query.select');
-                $query->columns('COUNT(*)');
-                
-                $this->_buildQueryTable($query);
-                $this->_buildQueryJoins($query);
-                $this->_buildQueryWhere($query);
+            $query = $this->getService('koowa:database.query.select');
+            $query->columns('COUNT(*)');
 
-                $total = $this->getTable()->count($query);
-                $this->_total = $total;
-            }
+            $this->_buildQueryTable($query);
+            $this->_buildQueryJoins($query);
+            $this->_buildQueryWhere($query);
+
+            $total = $this->getTable()->count($query);
+            $this->_total = $total;
         }
 
         return $this->_total;
@@ -295,7 +260,7 @@ class KModelTable extends KModelAbstract
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
         //Get only the unique states
-        $states = $this->getState()->getData(true);
+        $states = $this->getState()->toArray(true);
         
         if(!empty($states))
         {
