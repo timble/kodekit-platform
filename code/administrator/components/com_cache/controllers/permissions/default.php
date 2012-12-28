@@ -10,14 +10,14 @@
  */
 
 /**
- * Cache Controller Executable Behavior
+ * Default Controller Permissions Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
+class ComCacheControllerPermissionDefault extends ComDefaultControllerPermissionDefault
 {  
     public function canAdd()
     {
