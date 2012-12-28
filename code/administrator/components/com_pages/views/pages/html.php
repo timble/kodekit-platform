@@ -22,7 +22,7 @@ class ComPagesViewPagesHtml extends ComDefaultViewHtml
         $applications = array_keys($this->getIdentifier()->getApplications());
         $this->assign('applications', $applications);
         
-        $menus = $this->getService('com://admin/pages.model.menus')->getList();
+        $menus = $this->getService('com://admin/pages.model.menus')->getRowset();
         $this->assign('menus', $menus);
         
         return parent::display();
