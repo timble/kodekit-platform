@@ -18,8 +18,7 @@ class KMixinToolbar extends KMixinAbstract
     /**
      * List of toolbars
      *
-     * Associative array of toolbars, where key holds the toolbar identifier string
-     * and the value is an identifier object.
+     * The key holds the behavior name and the value the behavior object
      *
      * @var    array
      */
@@ -68,8 +67,8 @@ class KMixinToolbar extends KMixinAbstract
      * Add one or more toolbars
      *
      * @param   mixed    An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
-     * @return  KObject    The mixer object
+     *                   or valid identifier string
+     * @return  KObject  The mixer object
      */
     public function attachToolbar($toolbar, $config = array(), $priority = KEvent::PRIORITY_NORMAL)
     {
@@ -121,7 +120,7 @@ class KMixinToolbar extends KMixinAbstract
             $toolbar = $this->getService($identifier, $config);
 
             if (!($toolbar instanceof KControllerToolbarInterface)) {
-                throw new KControllerToolbarException("Controller toolbar $identifier does not implement KControllerToolbarInterface");
+                throw new \UnexpectedValueException("Controller toolbar $identifier does not implement KControllerToolbarInterface");
             }
 
             $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
@@ -134,7 +133,7 @@ class KMixinToolbar extends KMixinAbstract
     /**
      * Gets the toolbars
      *
-     * @return array    An asscociate array of toolbars, keys are the toolbar names
+     * @return array  An asscociate array of toolbars, keys are the toolbar names
      */
     public function getToolbars()
     {
