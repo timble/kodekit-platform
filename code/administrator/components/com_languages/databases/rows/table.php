@@ -16,7 +16,7 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowTable extends KDatabaseRowDefault
+class ComLanguagesDatabaseRowTable extends KDatabaseRowTable
 {
     public function save()
     {
