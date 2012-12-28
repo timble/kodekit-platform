@@ -67,6 +67,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
      * Object constructor
      *
      * @param   object  An optional KConfig object with configuration options.
+     * @throrws \RuntimeException If the table does not exist.
      */
     public function __construct(KConfig $config)
     {
@@ -78,7 +79,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
 
         //Check if the table exists
         if (!$info = $this->getSchema()) {
-            throw new KDatabaseTableException('Table ' . $this->_name . ' does not exist');
+            throw new \RuntimeException('Table ' . $this->_name . ' does not exist');
         }
 
         // Set the identity column
@@ -210,7 +211,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     /**
      * Gets the primary key(s) of the table
      *
-     * @return array    An asscociate array of fields defined in the primary key
+     * @return array    An associate array of fields defined in the primary key
      */
     public function getPrimaryKey()
     {
@@ -231,19 +232,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
      * Gets the schema of the table
      *
      * @return  object|null Returns a KDatabaseSchemaTable object or NULL if the table doesn't exists
-     * @throws  KDatabaseTableException
      */
     public function getSchema()
     {
         $result = null;
 
-        if ($this->isConnected())
-        {
-            try {
-                $result = $this->getDatabase()->getTableSchema($this->getBase());
-            } catch (KDatabaseException $e) {
-                throw new KDatabaseTableException($e->getMessage());
-            }
+        if ($this->isConnected()){
+            $result = $this->getDatabase()->getTableSchema($this->getBase());
         }
 
         return $result;
@@ -267,7 +262,6 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
      *
      * @param   boolean  If TRUE, get the column information from the base table. Default is FALSE.
      * @return  array    Associative array of KDatabaseSchemaColumn objects
-     * @throws  KDatabaseTableException
      */
     public function getColumns($base = false)
     {
@@ -353,14 +347,14 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
      *
      * @param string $column The name of the identity column
      * @throws \DomainException If the column is not unique
-     * @return \KDatabaseTableAbstract
+     * @return KDatabaseTableAbstract
      */
     public function setIdentityColumn($column)
     {
         $columns = $this->getUniqueColumns();
 
         if (!isset($columns[$column])) {
-            throw new DomainException('Column ' . $column . 'is not unique');
+            throw new \DomainException('Column ' . $column . 'is not unique');
         }
 
         $this->_identity_column = $column;
@@ -494,9 +488,10 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
             $columns = $this->mapColumns($query);
             $query = $this->getService('koowa:database.query.select');
 
-            foreach ($columns as $column => $value) {
+            foreach ($columns as $column => $value)
+            {
                 $query->where('tbl.'.$column . ' ' . (is_array($value) ? 'IN' : '=') . ' :' . $column)
-                    ->bind(array($column => $value));
+                      ->bind(array($column => $value));
             }
         }
 
@@ -627,7 +622,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     {
         // Create query object.
         $query = $this->getService('koowa:database.query.insert')
-            ->table($this->getBase());
+                      ->table($this->getBase());
 
         //Create commandchain context
         $context = $this->getCommandContext();
@@ -675,7 +670,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     {
         // Create query object.
         $query = $this->getService('koowa:database.query.update')
-            ->table($this->getBase());
+                      ->table($this->getBase());
 
         // Create commandchain context.
         $context = $this->getCommandContext();
@@ -728,7 +723,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     {
         // Create query object.
         $query = $this->getService('koowa:database.query.delete')
-            ->table($this->getBase());
+                      ->table($this->getBase());
 
         //Create commandchain context
         $context = $this->getCommandContext();
@@ -775,13 +770,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
 
         if ($this->getCommandChain()->run('before.lock', $context) !== false)
         {
-            if ($this->isConnected())
-            {
-                try {
-                    $context->result = $this->getDatabase()->lockTable($this->getBase(), $this->getName());
-                } catch (KDatabaseException $e) {
-                    throw new KDatabaseTableException($e->getMessage());
-                }
+            if ($this->isConnected()) {
+                $context->result = $this->getDatabase()->lockTable($this->getBase(), $this->getName());
             }
 
             $this->getCommandChain()->run('after.lock', $context);
@@ -805,13 +795,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
 
         if ($this->getCommandChain()->run('before.unlock', $context) !== false)
         {
-            if ($this->isConnected())
-            {
-                try {
-                    $context->result = $this->getDatabase()->unlockTable();
-                } catch (KDatabaseException $e) {
-                    throw new KDatabaseTableException($e->getMessage());
-                }
+            if ($this->isConnected()) {
+                $context->result = $this->getDatabase()->unlockTable();
             }
 
             $this->getCommandChain()->run('after.unlock', $context);
