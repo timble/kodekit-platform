@@ -31,7 +31,7 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 				$row->contents = $file->contents;
 
 			} catch (ComFilesDatabaseRowUrlException $e) {
-				throw new KControllerException($e->getMessage(), $e->getCode());
+				throw new \RuntimeException($e->getMessage(), $e->getCode());
 			}
 
 			if (empty($row->name))
