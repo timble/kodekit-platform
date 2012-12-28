@@ -36,7 +36,7 @@
 
         <? if($category->image) : ?>
         <image>
-            <url><?= KRequest::url()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->getUrl(KHttpUrl::BASE) ?></url>
+            <url><?= @service('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->getUrl(KHttpUrl::BASE) ?></url>
             <title><?= @escape($category->title) ?></title>
             <link><?= @route() ?></link>
             <width><?= $category->image->width ?></width>
