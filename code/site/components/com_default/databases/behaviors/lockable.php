@@ -29,7 +29,7 @@ class ComDefaultDatabaseBehaviorLockable extends KDatabaseBehaviorLockable
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'lifetime'   =>  JFactory::getSession()->getExpire()
+            'lifetime'   =>  $this->getUser()->getSession()->getLifetime()
         ));
 
         parent::_initialize($config);
