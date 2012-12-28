@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowSession extends KDatabaseRowDefault
+class ComUsersDatabaseRowSession extends KDatabaseRowTable
 {
     const LOGGED_IN  = 'logged in';
     const LOGGED_OUT = 'logged out';
@@ -33,22 +33,26 @@ class ComUsersDatabaseRowSession extends KDatabaseRowDefault
 
     public function save()
     {
+        $result = false;
+
         //@TODO : Implement automatic schema validation
-        if(empty($this->id)) {
-            return false;
-        }
-
-        if($result = parent::save())
+        if(!empty($this->id))
         {
-            // Hit the user last visit field
-            $row = KService::get('com://admin/users.database.row.user')
-                        ->setData(array('email' => $this->email))
-                        ->load();
+            if($result = parent::save())
+            {
+                // Hit the user last visit field
+                $row = $this->getService('com://admin/users.database.row.user')
+                            ->setData(array('email' => $this->email))
+                            ->load();
 
-            $row->last_visited_on = gmdate('Y-m-d H:i:s');
-            $row->save();
+                if($row)
+                {
+                    $row->last_visited_on = gmdate('Y-m-d H:i:s');
+                    $row->save();
 
-            $this->setStatus(self::LOGGED_IN);
+                    $this->setStatus(self::LOGGED_IN);
+                }
+            }
         }
 
         return $result;
