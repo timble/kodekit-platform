@@ -48,7 +48,7 @@ ruby_block "db_install" do
       dbh.set_server_option Mysql::OPTION_MULTI_STATEMENTS_ON
 
       %w( install_schema install_data sample_data ).each do |file|
-        content = File.read("#{node['nooku-server']['dir']}/source/code/installation/sql/#{file}.sql")
+        content = File.read("#{node['nooku-server']['dir']}/installation/sql/#{file}.sql")
         content = content.gsub("#__", node['nooku-server']['db']['prefix'])
 
         dbh.query(content)
