@@ -19,8 +19,8 @@ interface KObjectHandlable
 	/**
 	 * Get the object handle
 	 *
-	 * This function returns an unique identifier for the object. This id can be used as
-	 * a hash key for storing objects or for identifying an object
+	 * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
+     * or for identifying an object
 	 *
 	 * @return string A string that is unique, or NULL
 	 */
