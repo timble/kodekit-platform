@@ -13,7 +13,7 @@
  * @category    Koowa
  * @package     Koowa_Loader
  */
-class KLoaderRegistry extends ArrayObject
+class KLoaderRegistry extends \ArrayObject
 {
  	/**
  	 * Cache
