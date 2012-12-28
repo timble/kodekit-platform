@@ -27,7 +27,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
      */
     public function keepalive($config = array())
     {
-        $session = $this->getService('application.session');
+        $session = $this->getService('user')->getSession();
         if($session->isActive())
         {
             //Get the config session lifetime
