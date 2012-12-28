@@ -18,11 +18,11 @@
 
 class ComFilesViewJson extends KViewJson
 {
-    protected function _getItem()
+    protected function _getRow()
     {
-        $row = $this->getModel()->getItem();
+        $row = $this->getModel()->getRow();
 
-        $output = parent::_getItem();
+        $output = parent::_getRow();
 
         $status = $row->getStatus() !== KDatabase::STATUS_FAILED;
 		$output['status'] = $status;
