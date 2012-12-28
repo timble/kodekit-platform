@@ -71,7 +71,7 @@ abstract class KViewTemplate extends KViewAbstract
 
         //Set the media url
         if (!$config->media_url instanceof KHttpUrl) {
-            $this->_mediaurl = KService::get('koowa:http.url', array('url' => $config->media_url));
+            $this->_mediaurl = $this->getService('koowa:http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
         }
@@ -158,12 +158,11 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Assigns variables to the view script via differing strategies.
      *
-     * This method is overloaded; you can assign all the properties of
-     * an object, an associative array, or a single value by name.
+     * This method is overloaded; you can assign all the properties of an object, an associative array,
+     * or a single value by name.
      *
-     * You are not allowed to set variables that begin with an underscore;
-     * these are either private properties for KView or private variables
-     * within the template script itself.
+     * You are not allowed to set variables that begin with an underscore; these are either private
+     * properties for KView or private variables within the template script itself.
      *
      * <code>
      * $view = new KViewDefault();
@@ -188,7 +187,7 @@ abstract class KViewTemplate extends KViewAbstract
      *
      * </code>
      *
-     * @return KViewAbstract
+     * @return KViewTemplate
      */
     public function assign()
     {
@@ -197,11 +196,24 @@ abstract class KViewTemplate extends KViewAbstract
         $arg1 = @func_get_arg(1);
 
         // assign by object or array
-        if (is_object($arg0) || is_array($arg0)) {
-            $this->set($arg0);
-        } // assign by string name and mixed value.
-        elseif (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1) {
-            $this->set($arg0, $arg1);
+        if (is_object($arg0) || is_array($arg0))
+        {
+            if (is_object($arg0)) {
+                $arg0 = get_object_vars($arg0);
+            }
+
+            if (is_array($arg0))
+            {
+                foreach ($arg0 as $k => $v) {
+                    $this->$k = $v;
+                }
+            }
+        }
+        else
+        {
+            if (is_string($arg0) && func_num_args() > 1) {
+                $this->$arg0 = $arg1;
+            }
         }
 
         return $this;
@@ -295,9 +307,10 @@ abstract class KViewTemplate extends KViewAbstract
     }
 
     /**
-     * Get the identifier for the template with the same name
+     * Get the template object attached to the view
      *
-     * @return  KTemplate
+     *  @throws	\UnexpectedValueException	If the template doesn't implement the KTemplateInterface
+     * @return  KTemplateInterface
      */
     public function getTemplate()
     {
@@ -313,6 +326,13 @@ abstract class KViewTemplate extends KViewAbstract
             );
 
             $this->_template = $this->getService($this->_template, $options);
+
+            if(!$this->_template instanceof KTemplateInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Template: '.get_class($this->_template).' does not implement KTemplateInterface'
+                );
+            }
         }
 
         return $this->_template;
@@ -323,7 +343,7 @@ abstract class KViewTemplate extends KViewAbstract
      *
      * @param   mixed   An object that implements KObjectServiceable, an object that
      *                  implements KServiceIdentifierInterface or valid identifier string
-     * @throws  KDatabaseRowsetException    If the identifier is not a table identifier
+     * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  KViewAbstract
      */
     public function setTemplate($template)
@@ -338,9 +358,6 @@ abstract class KViewTemplate extends KViewAbstract
             }
             else $identifier = $this->getIdentifier($template);
 
-            if ($identifier->path[0] != 'template') {
-                throw new KViewException('Identifier: ' . $identifier . ' is not a template identifier');
-            }
 
             $template = $identifier;
         }
@@ -395,9 +412,8 @@ abstract class KViewTemplate extends KViewAbstract
     }
 
     /**
-     * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view
-     * by using the variable name as the method name. If the method name is a setter method the
-     * setter will be called instead.
+     * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view by using the variable
+     * name as the method name. If the method name is a setter method the setter will be called instead.
      *
      * For example : $view->layout('foo')->title('name')->display().
      *
@@ -415,7 +431,7 @@ abstract class KViewTemplate extends KViewAbstract
             if (method_exists($this, 'set' . ucfirst($method))) {
                 return $this->{'set' . ucfirst($method)}($args[0]);
             } else {
-                return $this->set($method, $args[0]);
+                return $this->$method = $args[0];
             }
         }
 
