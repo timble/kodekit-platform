@@ -23,7 +23,7 @@ class ComApplicationDatabaseRowComponent extends KDatabaseRowAbstract
         $tables = $this->getService('com://admin/languages.model.tables')
             ->reset()
             ->enabled(true)
-            ->getList();
+            ->getRowset();
         
         if(count($tables->find(array('extensions_component_id' => $this->id)))) {
             $result = true;
