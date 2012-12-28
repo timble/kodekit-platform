@@ -1,0 +1,52 @@
+<?php
+class JConfig
+{
+	/* Site Settings */
+	var $offline    = '0';
+	var $sitename   = 'Nooku Server';
+	var $list_limit = '20';
+	var $feed_limit =  10;
+
+	/* Database Settings */
+	var $host = '<%= node['nooku-server']['db']['host'] %>';
+	var $user = '<%= node['nooku-server']['db']['user'] %>';
+	var $password = '<%= node['nooku-server']['db']['password'] %>';
+	var $db = '<%= node['nooku-server']['db']['database'] %>';
+	var $dbprefix = '<%= node['nooku-server']['db']['prefix'] %>';
+
+	/* Server Settings */
+	var $secret          = 'FBVtggIk5lAzEU9H';
+	var $gzip            = '0';
+	var $debug_mode      = '0';
+	var $timezone        = 'UTC';
+
+	/* Session settings */
+	var $lifetime          = '15';
+
+	/* Mail Settings */
+	var $mailer = 'mail';
+	var $mailfrom = '';
+	var $fromname = '';
+	var $sendmail = '/usr/sbin/sendmail';
+	var $smtpauth = '0';
+	var $smtpuser = '';
+	var $smtppass = '';
+	var $smtphost = 'localhost';
+
+	/* Cache Settings */
+	var $caching       = '0';
+	var $cachetime     = '15';
+	var $cache_handler = 'file';
+
+	/* Debug Settings */
+	var $debug      = '0';
+	var $debug_db 	= '0';
+	var $debug_lang = '0';
+
+	/* SEO Settings */
+	var $sef_rewrite = '0';
+	var $sef_suffix  = '';
+
+	/* Template Settings */
+	var $template = 'bootstrap';
+}
