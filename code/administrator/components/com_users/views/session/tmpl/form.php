@@ -38,8 +38,5 @@
        </div>
    </div>
    <? endif ?>
-   <? if($error = JError::getError(true)) : ?>
-   	<p id="login-error-message"><?= $error->get('message') ?></p>
-   <? endif ?>
    <input type="submit" class="btn btn-large btn-block" value="<?= @text('Login') ?>" />
 </form>
