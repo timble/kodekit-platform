@@ -27,7 +27,7 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         //TODO : Inject raw data using $config->data
         $pages = $this->getService('com://admin/pages.model.pages')
             ->published(true)
-            ->getList();
+            ->getRowset();
 
         $this->merge($pages);
 
@@ -96,8 +96,8 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
     {
         return $this->_active;
     }
-    
-    public function isAuthorized($id, KDatabaseRowInterface $user)
+
+    public function isAuthorized($id, KUserInterface $user)
     {
         $result = true;
         $page   = $this->find($id);
@@ -105,10 +105,10 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         if($page->access)
         {
             // Return false if page has access set, but user is a guest.
-            if(!$user->guest)
+            if($user->isAuthentic())
             {
                 // Return false if page has group set, but user is not in that group.
-                if($page->users_group_id && !in_array($user->group_id, array(21, 23, 24, 25))
+                if($page->users_group_id && !in_array($user->getRole(), array(21, 23, 24, 25))
                     && !in_array($page->users_group_id, $user->getGroups()))
                 {
                     $result = false;
