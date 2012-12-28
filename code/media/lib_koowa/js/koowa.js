@@ -490,7 +490,7 @@ Koowa.Controller.Grid = new Class({
                 method:'post',
                 url: this.options.url+(idQuery ? append+idQuery : ''),
                 params: $merge({
-                    action: action
+                    _action: action
                 }, data)
             };
         new Koowa.Form(options).submit();
@@ -513,7 +513,7 @@ Koowa.Controller.Form = new Class({
             return false;
         }
 
-        this.form.adopt(new Element('input', {name: 'action', type: 'hidden', value: action}));
+        this.form.adopt(new Element('input', {name: '_action', type: 'hidden', value: action}));
         this.form.submit();
     }
 
