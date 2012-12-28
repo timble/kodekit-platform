@@ -43,7 +43,7 @@ class ComCategoriesDatabaseRowsetNodes extends KDatabaseRowsetAbstract
 	 * @return  \KDatabaseRowsetAbstract
 	 * @see __construct
      */
-	public function addData(array $list, $new = true)
+	public function addRow(array $list, $new = true)
     {
     	foreach($list as $k => $row)
 		{
