@@ -15,7 +15,7 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
+class ComFilesControllerPermissionDefault extends ComDefaultControllerPermissionDefault
 {
 	protected static $_group_map = array(
 		4 => 18,
@@ -32,7 +32,7 @@ class ComFilesControllerBehaviorExecutable extends ComDefaultControllerBehaviorE
     		$minimum = $this->getMixer()->getModel()->container->parameters->allowed_media_usergroup;
     		$minimum = isset(self::$_group_map[$minimum]) ? self::$_group_map[$minimum] : 18;
 
-    		$result = JFactory::getUser()->get('gid') >= $minimum;
+    		$result = $this->getUser()->getRole() >= $minimum;
 		}*/
 
 		return $result;
