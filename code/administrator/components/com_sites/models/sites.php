@@ -46,9 +46,9 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
         return $container->get($config->service_identifier);
     }
     
-    public function getList()
+    public function getRowset()
     { 
-        if(!isset($this->_list))
+        if(!isset($this->_rowset))
         {
             $state = $this->getState();
             $data = array();
@@ -83,16 +83,16 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
                 $data = array_slice($data, $state->offset, $state->limit);
             }
                         
-            $this->_list = $this->getService('com://admin/sites.database.rowset.sites', array('data' => $data));
+            $this->_rowset = $this->getService('com://admin/sites.database.rowset.sites', array('data' => $data));
         }
         
-        return $this->_list;
+        return $this->_rowset;
     }
     
     public function getTotal()
     {
         if(!isset($this->_total)) {
-            $this->getList();
+            $this->getRowset();
         }
         
         return $this->_total;
