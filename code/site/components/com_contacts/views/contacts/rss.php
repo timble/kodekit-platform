@@ -32,7 +32,7 @@ class ComContactsViewContactsRss extends KViewRss
         $category = $this->getService('com://site/contacts.model.categories')
                          ->table('contacts')
                          ->id($this->getModel()->getState()->category)
-                         ->getItem();
+                         ->getRow();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
