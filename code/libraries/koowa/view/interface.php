@@ -48,7 +48,7 @@ interface KViewInterface
 	 *
 	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
 	 * 					or valid identifier string
-	 * @throws	KViewException	If the identifier is not a table identifier
+	 * @throws	\UnexpectedValueException	If the identifier is not a model identifier
 	 * @return	KViewAbstract
 	 */
     public function setModel($model);
