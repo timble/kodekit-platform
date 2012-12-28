@@ -12,31 +12,7 @@ Vagrant::Config.run do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = %w( cookbooks site-cookbooks )
-
-    chef.add_recipe 'apt'
-    chef.add_recipe 'nginx'
-    chef.add_recipe 'nginx::nooku-server'
-    chef.add_recipe 'mysql::server'
-    chef.add_recipe 'mysql::ruby'
-    chef.add_recipe 'php'
-    chef.add_recipe 'nooku-server'
-
-    chef.json = {
-      :nginx => {
-        :default_site_enabled => false
-      },
-      :mysql => {
-        :bind_address => '0.0.0.0',
-        :allow_remote_root => true,
-        :server_root_password => 'root',
-        :server_repl_password => 'root',
-        :server_debian_password => 'root'
-      },
-      :php => {
-        :directives => {
-          :display_errors => 'On'
-        }
-      }
-    }
+    chef.roles_path = 'roles'
+    chef.add_role 'default'
   end
 end
