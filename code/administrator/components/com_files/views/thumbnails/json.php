@@ -17,9 +17,9 @@
  */
 class ComFilesViewThumbnailsJson extends ComFilesViewJson
 {
-    protected function _getList()
+    protected function _getRowset()
     {
-        $list = $this->getModel()->getList();
+        $list = $this->getModel()->getRowset();
         $results = array();
         foreach ($list as $item) 
         {
@@ -28,7 +28,7 @@ class ComFilesViewThumbnailsJson extends ComFilesViewJson
         }
         ksort($results);
 
-    	$output = parent::_getList();
+    	$output = parent::_getRowset();
         $output['items'] = $results;
         $output['total'] = count($list);
 
