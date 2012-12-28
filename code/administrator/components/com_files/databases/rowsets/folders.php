@@ -41,16 +41,15 @@ class ComFilesDatabaseRowsetFolders extends ComFilesDatabaseRowsetNodes
 	/**
      * Adds the rows as an hierachical tree of nodes.
      *
-     * This function requires each row to contain a an enumerated 'path' array containing the node
-     * id's from root to the node. If no path exists or the path is empty the row will be added to
-     * the root node.
+     * This function requires each row to contain a an enumerated 'path' array containing the node id's from root to
+     * the node. If no path exists or the path is empty the row will be added to the root node.
      *
 	 * @param  array  	An associative array of row data to be inserted.
 	 * @param  boolean	If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
 	 * @return  KDatabaseRowsetAbstract
 	 * @see __construct
      */
-	public function addData(array $list, $new = true)
+	public function addRow(array $list, $new = true)
     {
     	foreach($list as $k => $row)
 		{
