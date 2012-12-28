@@ -9,6 +9,6 @@
  */
 ?>
 
-<body id="tmpl-overlay" class="<?= $option ?> contentpane">
+<body id="tmpl-overlay" class="com_<?= $component ?> contentpane">
     <ktml:variable name="content" />
 </body>
