@@ -18,7 +18,7 @@
  * @subpackage  Contacts   
  */
 
-class ComContactsDatabaseRowContact extends KDatabaseRowDefault
+class ComContactsDatabaseRowContact extends KDatabaseRowTable
 {
 	public function __get($column)
 	{
