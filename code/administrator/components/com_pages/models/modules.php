@@ -85,29 +85,29 @@ class ComPagesModelModules extends ComDefaultModelDefault
     }
 
     /**
-     * Method to get a item object which represents a table row
+     * Method to get an object which represents a table row
      *
-     * If the model state is unique a row is fetched from the database based on the state.
-     * If not, an empty row is be returned instead.
+     * If the model state is unique a row is fetched from the database based on the state. If not, an empty row is be
+     * returned instead.
      *
      * This method is customized in order to set the default module type on new rows.
      *
      * @return KDatabaseRow
      */
-    public function getItem()
+    public function getRow()
     {
-        if (!isset($this->_item))
+        if (!isset($this->_row))
         {
-            $this->_item = parent::getItem();
+            $this->_item = parent::getRow();
 
-            if($this->_item->isNew() && $this->getState()->type)
+            if($this->_row->isNew() && $this->getState()->type)
             {
-                $this->_item->application = $this->getState()->application;
-                $this->_item->type        = $this->getState()->type;
+                $this->_row->application = $this->getState()->application;
+                $this->_row->type        = $this->getState()->type;
             }
         }
 
-        return $this->_item;
+        return $this->_row;
     }
 
     /**
@@ -118,9 +118,9 @@ class ComPagesModelModules extends ComDefaultModelDefault
      *
      * @return KDatabaseRowsetInterface
      */
-    public function getList()
+    public function getRowset()
     {
-        if(!isset($this->_list))
+        if(!isset($this->_rowset))
         {
             $state = $this->getState();
 
@@ -173,11 +173,11 @@ class ComPagesModelModules extends ComDefaultModelDefault
                     $modules = array_reverse($modules);
                 }
 
-                $this->_list = $this->getTable()->getRowset()->addData($modules);
+                $this->_rowset = $this->getTable()->getRowset()->addRow($modules);
 
-            } else $this->_list = parent::getList();
+            } else $this->_rowset = parent::getRowset();
         }
 
-        return $this->_list;
+        return $this->_rowset;
     }
 }
