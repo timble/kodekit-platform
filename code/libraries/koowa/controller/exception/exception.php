@@ -15,4 +15,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-interface KControllerException {}
+interface KControllerException extends KExceptionInterface {}
