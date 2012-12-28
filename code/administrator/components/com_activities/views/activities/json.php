@@ -26,7 +26,7 @@ class ComActivitiesViewActivitiesJson extends KViewJson
 	 *
 	 * @return array 	The array with data to be encoded to json
 	 */
-	protected function _getList()
+	protected function _getRowset()
 	{
 		//Get the model
 	    $model = $this->getModel();
@@ -45,7 +45,7 @@ class ComActivitiesViewActivitiesJson extends KViewJson
         ));
 
 	    $vars = array();
-	    foreach($state->toArray(false) as $var)
+	    foreach($state->getStates() as $var)
 	    {
 	        if(!$var->unique) {
 	            $vars[] = $var->name;
@@ -66,10 +66,10 @@ class ComActivitiesViewActivitiesJson extends KViewJson
 			'queries'  => array()
 		);
 
-		if($list = $model->getList())
+		if($list = $model->getRowset())
 		{
 		    $vars = array();
-	        foreach($state->toArray(false) as $var)
+	        foreach($state->getStates() as $var)
 	        {
 	            if($var->unique)
 	            {
@@ -82,7 +82,7 @@ class ComActivitiesViewActivitiesJson extends KViewJson
 			foreach($list as $item)
 			{
 			    $id = array(
-			    	'tag:'.KRequest::get('server.HTTP_HOST', 'string'),
+			    	'tag:'.$this->getService('request')->getUrl()->getUrl(KHttpUrl::BASE),
 			    	'id:'.$item->id
 				);
 
