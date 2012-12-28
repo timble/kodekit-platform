@@ -151,7 +151,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
                 if($data)
                 {
                     $rel_current->reset();
-                    $rel_current->addData($data)->save();
+                    $rel_current->addRow($data)->save();
                 }
             }
         }
