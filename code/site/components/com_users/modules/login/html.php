@@ -21,7 +21,7 @@ class ComUsersModuleLoginHtml extends ComDefaultModuleDefaultHtml
     protected function _initialize(KConfig $config)
     { 
         $config->append(array(
-            'layout' => JFactory::getUser()->guest ? 'login' : 'logout'
+            'layout' => $this->getService('user')->isAuthentic() ? 'logout' : 'login'
         ));
         
         parent::_initialize($config);
@@ -29,14 +29,11 @@ class ComUsersModuleLoginHtml extends ComDefaultModuleDefaultHtml
     
     public function display()
     { 
-        $this->name          = $this->module->params->get('name');  
-        $this->usesecure     = $this->module->params->get('usesecure');   
+        $this->name          = $this->module->params->get('name');
+        $this->usesecure     = $this->module->params->get('usesecure');
         $this->show_title    = $this->module->params->get('show_title', false);
         $this->allow_registration = $this->getService('application.components')->users->params->get('allowUserRegistration');
-        
-        // Assign vars and render view
-		$this->assign('user', JFactory::getUser());    
-          
+
         return parent::display();
     }
 } 
