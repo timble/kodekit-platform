@@ -1,18 +1,17 @@
 <?php
 /**
- * @version        $Id$
- * @package        Koowa_Object
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * @version     $Id$
+ * @package     Koowa_Object
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 /**
  * An Object Decorator Class
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @uses         KObject
+ * @author  Johan Janssens <johan@nooku.org>
+ * @package Koowa_Object
  */
 class KObjectDecorator extends KObject
 {
@@ -34,7 +33,7 @@ class KObjectDecorator extends KObject
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KObjectDecorator
+     * @return KObjectDecorator
      */
     public function __construct(KConfig $config)
     {
@@ -56,8 +55,8 @@ class KObjectDecorator extends KObject
     /**
      * Set the decorated object
      *
-     * @param     object $object
-     * @return     \KObjectDecorator
+     * @param   object $object
+     * @return  KObjectDecorator
      */
     public function setObject($object)
     {
@@ -68,20 +67,21 @@ class KObjectDecorator extends KObject
     /**
      * Get a list of all the available methods
      *
-     * This function returns an array of all the methods, both native and mixed.
-     * It will also return the methods exposed by the decorated object.
+     * This function returns an array of all the methods, both native and mixed. It will also return the methods
+     * exposed by the decorated object.
      *
      * @return array An array
      */
     public function getMethods()
     {
-        if (!$this->__methods) {
+        if (!$this->__methods)
+        {
             $methods = array();
             $object = $this->getObject();
 
             if (!($object instanceof KObject))
             {
-                $reflection = new ReflectionClass($object);
+                $reflection = new \ReflectionClass($object);
                 foreach ($reflection->getMethods() as $method) {
                     $methods[] = $method->name;
                 }
@@ -95,10 +95,10 @@ class KObjectDecorator extends KObject
     }
 
     /**
-     * Checks if the decorated object or one of it's mixins inherits from a class.
+     * Checks if the decorated object or one of it's mixin's inherits from a class.
      *
-     * @param     string|object     $class  The class to check
-     * @return     boolean  Returns TRUE if the object inherits from the class
+     * @param   string|object $class  The class to check
+     * @return  boolean  Returns TRUE if the object inherits from the class
      */
     public function inherits($class)
     {
