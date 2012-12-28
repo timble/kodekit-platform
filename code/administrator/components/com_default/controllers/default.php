@@ -16,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerDefault extends KControllerService
+class ComDefaultControllerDefault extends KControllerModel
 {
 	/**
 	 * The limit information
@@ -36,9 +36,15 @@ class ComDefaultControllerDefault extends KControllerService
 
 		$this->_limit = $config->limit;
 
-		if($config->persistable && $this->isDispatched()) {
-			$this->attachBehavior('persistable');
-		}
+        /*
+         * Disable controller persistency on non-HTTP requests, e.g. AJAX, and requests containing
+         * the tmpl variable set to component, e.g. requests using modal boxes. This avoids
+         * changing the model state session variable of the requested model, which is often
+         * undesirable under these circumstances.
+         */
+		if($this->isDispatched() && $config->persistable && !$this->getRequest()->isAjax()) {
+            $this->attachBehavior('persistable');
+        }
 	}
 
 	/**
@@ -51,15 +57,8 @@ class ComDefaultControllerDefault extends KControllerService
      */
     protected function _initialize(KConfig $config)
     {
-    	/*
-         * Disable controller persistency on non-HTTP requests, e.g. AJAX, and requests containing
-         * the tmpl variable set to component, e.g. requests using modal boxes. This avoids
-         * changing the model state session variable of the requested model, which is often
-         * undesirable under these circumstances.
-         */
-
         $config->append(array(
-    		'persistable' => (KRequest::type() == 'HTTP' && KRequest::get('get.tmpl','cmd') != 'component'),
+            'persistable' => true,
             'toolbars'    => array('menubar', $this->getIdentifier()->name),
             'limit'       => array('max' => 100, 'default' => $this->getService('application')->getCfg('list_limit'))
         ));
@@ -83,7 +82,7 @@ class ComDefaultControllerDefault extends KControllerService
         //Add the notice if the row is locked
         if(isset($row))
         {
-            if(!isset($this->_request->layout) && $row->isLockable() && $row->locked()) {
+            if($row->isLockable() && $row->locked()) {
                 $this->getService('application')->enqueueMessage($row->lockMessage(), 'notice');
             }
         }
@@ -94,8 +93,7 @@ class ComDefaultControllerDefault extends KControllerService
 	/**
      * Browse action
      *
-     * Use the application default limit if no limit exists in the model and limit the
-     * limit to a maximum.
+     * Use the application default limit if no limit exists in the model and limit the limit to a maximum.
      *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
@@ -123,17 +121,14 @@ class ComDefaultControllerDefault extends KControllerService
     }
 
     /**
-     * Display action
-     *
-     * This function will load the language files of the component if the controller was
-     * not dispatched.
+     * Render action
      *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionRender(KCommandContext $context)
     {
         JFactory::getLanguage()->load($this->getIdentifier()->package);
-        return parent::_actionGet($context);
+        return parent::_actionRender($context);
     }
 }
