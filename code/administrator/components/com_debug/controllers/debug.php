@@ -16,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugControllerDebug extends ComDefaultControllerResource
+class ComDebugControllerDebug extends ComDefaultControllerView
 {
     protected function _initialize(KConfig $config) 
     {
