@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationRouter extends KDispatcherRouterDefault
+class ComApplicationRouter extends KDispatcherRouter
 {
     public function parse(KHttpUrl $url)
 	{
