@@ -14,8 +14,9 @@
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
+ * @link        http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
  */
-class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterface
+class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
 {
     /**
      * The response status code
@@ -90,7 +91,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
      *
      * @var array
      */
-    protected static $_status_messages = array(
+    public static $status_messages = array(
 
         // [Successful 2xx]
         200 => 'OK',  
@@ -140,7 +141,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KHttpResponse
+     * @return KHttpResponse
      */
     public function __construct(KConfig $config)
     {
@@ -148,9 +149,9 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
 
         $this->setContent($config->content);
         $this->setContentType($config->content_type);
-        $this->setStatus($config->status_code);
+        $this->setStatus($config->status_code, $config->status_message);
 
-        if (!$this->headers->has('Date')) {
+        if (!$this->_headers->has('Date')) {
             $this->setDate(new \DateTime(null, new \DateTimeZone('UTC')));
         }
     }
@@ -166,14 +167,28 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'content'      => '',
-            'content_type' => 'text/html',
-            'status_code'  => '200',
-            'headers'      => $this->getService('koowa:http.response.headers')
+            'content'        => '',
+            'content_type'   => 'text/html',
+            'status_code'    => '200',
+            'status_message' => null,
+            'headers'        => array()
         ));
 
         parent::_initialize($config);
     }
+
+    /**
+     * Set the header parameters
+     *
+     * @param  array $headers
+     * @return KHttpResponse
+     */
+    public function setHeaders($headers)
+    {
+        $this->_headers = $this->getService('koowa:http.response.headers', array('headers' => $headers));
+        return $this;
+    }
+
 
     /**
      * Set HTTP status code and (optionally) message
@@ -185,13 +200,12 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
      */
     public function setStatus($code, $message = null)
     {
-        if (!is_numeric($code) || !isset(self::$_status_messages[$code]))
+        if (!is_numeric($code) || !isset(self::$status_messages[$code]))
         {
             $code = is_scalar($code) ? $code : gettype($code);
-            throw new InvalidArgumentException(sprintf(
-                'Invalid status code provided: "%s"',
-                $code
-            ));
+            throw new \InvalidArgumentException(
+                sprintf('Invalid status code provided: "%s"', $code)
+            );
         }
 
         $this->_status_code    = (int) $code;
@@ -219,7 +233,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
         $code = $this->getStatusCode();
 
         if (isset($this->_status_message)) {
-            $message = self::$_status_messages[$code];
+            $message = self::$status_messages[$code];
         } else {
             $message = $this->_status_message;
         }
@@ -238,7 +252,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
     public function setContentType($type)
     {
         $this->_content_type = $type;
-        $this->headers->set('Content-Type', array($type, 'charset' => 'utf-8'));
+        $this->_headers->set('Content-Type', array($type, 'charset' => 'utf-8'));
 
         return $this;
     }
@@ -256,54 +270,6 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
     }
 
     /**
-     * Sets a redirect
-     *
-     * @see http://tools.ietf.org/html/rfc2616#section-10.3
-     *
-     * @param string $url     The redirect location
-     * @param  integer $code  The redirect status code
-     * @throws InvalidArgumentException
-     * @throws UnexpectedValueException
-     * @return KHttpResponse
-     */
-    public function setRedirect($location, $code = KHttpResponse::SEE_OTHER)
-    {
-        if (empty($location)) {
-            throw new \InvalidArgumentException('Cannot redirect to an empty URL.');
-        }
-
-        if (300 >= $code && $code < 400) {
-            throw new \InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $code));
-        }
-
-        if (!is_string($location) && !is_numeric($location) && !is_callable(array($location, '__toString'))) {
-            throw new \UnexpectedValueException(
-                'The Response location must be a string or object implementing __toString(), "'.gettype($location).'" given.'
-            );
-        }
-
-        $this->setContent(sprintf(
-            '<!DOCTYPE html>
-                <html>
-                    <head>
-                        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                        <meta http-equiv="refresh" content="1;url=%1$s" />
-                        <title>Redirecting to %1$s</title>
-                    </head>
-                    <body>
-                        Redirecting to <a href="%1$s">%1$s</a>.
-                    </body>
-                </html>'
-            , htmlspecialchars($location, ENT_QUOTES, 'UTF-8')
-         ));
-
-        $this->setStatus($code);
-        $this->headers->set('Location', (string) $location);
-
-        return $this;
-    }
-
-    /**
      * Returns the Date header as a DateTime instance.
      *
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.18
@@ -315,9 +281,9 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
     {
         $date = new \DateTime();
 
-        if ($this->headers->has('Date'))
+        if ($this->_headers->has('Date'))
         {
-            $value = $this->headers->get('Date');
+            $value = $this->_headers->get('Date');
 
             if (false === $date = \DateTime::createFromFormat(DATE_RFC2822, $value)) {
                 throw new \RuntimeException(sprintf('The Last-Modified HTTP header is not parseable (%s).', $value));
@@ -338,7 +304,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
     public function setDate(\DateTime $date)
     {
         $date->setTimezone(new \DateTimeZone('UTC'));
-        $this->headers->set('Date', $date->format('D, d M Y H:i:s').' GMT');
+        $this->_headers->set('Date', $date->format('D, d M Y H:i:s').' GMT');
 
         return $this;
     }
@@ -354,9 +320,9 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
     {
         $date = null;
 
-        if ($this->headers->has('Last-Modified'))
+        if ($this->_headers->has('Last-Modified'))
         {
-           $value = $this->headers->get('Last-Modified');
+           $value = $this->_headers->get('Last-Modified');
 
             if (false === $date = \DateTime::createFromFormat(DATE_RFC2822, $value)) {
                 throw new \RuntimeException(sprintf('The Last-Modified HTTP header is not parseable (%s).', $value));
@@ -382,9 +348,9 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
         {
             $date = clone $date;
             $date->setTimezone(new \DateTimeZone('UTC'));
-            $this->headers->set('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
+            $this->_headers->set('Last-Modified', $date->format('D, d M Y H:i:s').' GMT');
         }
-        else $this->headers->remove('Last-Modified');
+        else $this->_headers->remove('Last-Modified');
 
         return $this;
     }
@@ -400,9 +366,9 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
     {
         $date = null;
 
-        if ($this->headers->has('Expires'))
+        if ($this->_headers->has('Expires'))
         {
-            $value = $this->headers->get('Expires');
+            $value = $this->_headers->get('Expires');
 
             if (false === $date = \DateTime::createFromFormat(DATE_RFC2822, $value)) {
                 throw new \RuntimeException(sprintf('The Expires HTTP header is not parseable (%s).', $value));
@@ -428,9 +394,9 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
         {
             $date = clone $date;
             $date->setTimezone(new \DateTimeZone('UTC'));
-            $this->headers->set('Expires', $date->format('D, d M Y H:i:s').' GMT');
+            $this->_headers->set('Expires', $date->format('D, d M Y H:i:s').' GMT');
 
-        } else $this->headers->remove('Expires');
+        } else $this->_headers->remove('Expires');
 
         return $this;
     }
@@ -444,7 +410,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
      */
     public function getEtag()
     {
-        return $this->headers->get('ETag');
+        return $this->_headers->get('ETag');
     }
 
     /**
@@ -464,9 +430,9 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
                 $etag = '"'.$etag.'"';
             }
 
-            $this->headers->set('ETag', (true === $weak ? 'W/' : '').$etag);
+            $this->_headers->set('ETag', (true === $weak ? 'W/' : '').$etag);
         }
-        else  $this->headers->remove('Etag');
+        else  $this->_headers->remove('Etag');
 
         return $this;
     }
@@ -479,7 +445,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
      */
     public function getAge()
     {
-        if ($age = $this->headers->get('Age')) {
+        if ($age = $this->_headers->get('Age')) {
             return $age;
         }
 
@@ -554,7 +520,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
      */
     public function isValidateable()
     {
-        return $this->headers->has('Last-Modified') || $this->headers->has('ETag');
+        return $this->_headers->has('Last-Modified') || $this->_headers->has('ETag');
     }
 
     /**
@@ -572,7 +538,7 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
             return false;
         }
 
-        $cache_control = (array) $this->headers->get('Cache-Control', null, false);
+        $cache_control = (array) $this->_headers->get('Cache-Control', null, false);
         if (isset($cache_control['no-store']) || isset($cache_control['no-cache'])) {
             return false;
         }
@@ -603,12 +569,12 @@ class KHttpResponse extends KHttpMessageAbstract implements KHttpResponseInterfa
      *
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         $status = sprintf('HTTP/%s %d %s', $this->getVersion(), $this->getStatusCode(), $this->getStatusMessage());
 
         $str  = trim($status) . "\r\n";
-        $str .= $this->headers;
+        $str .= $this->getHeaders();
         $str .= "\r\n";
         $str .= $this->getContent();
         return $str;
