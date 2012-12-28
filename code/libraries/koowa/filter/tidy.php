@@ -119,7 +119,7 @@ class KFilterTidy extends KFilterAbstract
         if(class_exists('Tidy'))
         {
             if (!$this->_tidy) {
-                $this->_tidy = new Tidy();
+                $this->_tidy = new \Tidy();
             }
 
             $this->_tidy->parseString($string, $this->_options, $this->_encoding);
