@@ -20,7 +20,7 @@ class ComExtensionsViewSettingsHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $settings = $this->getModel()->getList();
+        $settings = $this->getModel()->getRowset();
         
         foreach($settings as $setting) 
         {
