@@ -14,7 +14,7 @@
  * @package     Koowa_Dispatcher
  */
 
-class KDispatcherDefault extends KDispatcherAbstract
+class KDispatcherDefault extends KDispatcherComponent
 {
 
 }
