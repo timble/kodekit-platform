@@ -144,13 +144,13 @@ abstract class KMixinAbstract implements KMixinInterface
             $methods = array();
 
             //Get all the public methods
-            $reflection = new ReflectionClass($this);
+            $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
                 $methods[$method->name] = $this;
             }
 
             //Remove the base class methods
-            $reflection = new ReflectionClass(__CLASS__);
+            $reflection = new \ReflectionClass(__CLASS__);
             foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
             {
                 if (isset($methods[$method->name])) {
@@ -234,7 +234,7 @@ abstract class KMixinAbstract implements KMixinInterface
      *
      * @param  string   The function name
      * @param  array    The function arguments
-     * @throws BadMethodCallException   If method could not be found
+     * @throws \BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
     public function __call($method, $arguments)
@@ -257,6 +257,6 @@ abstract class KMixinAbstract implements KMixinInterface
             return $result;
         }
 
-        throw new BadMethodCallException('Call to undefined method :' . $method);
+        throw new \BadMethodCallException('Call to undefined method :' . $method);
     }
 }
