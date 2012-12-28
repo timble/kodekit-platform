@@ -23,9 +23,8 @@ class ComUsersTemplateHelperSelect extends KTemplateHelperSelect
     {
     	$config = new KConfig($config);
     	$config->append(array(
-    		'list'      => $this->getService('com://admin/users.model.users')->set('sort', 'name')->getList(),
+    		'list'      => $this->getService('com://admin/users.model.users')->set('sort', 'name')->getRowset(),
     		'text'		=> 'name'
-    		
     	));
     
     	return $this->checklist($config);
