@@ -48,8 +48,11 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 */
 	public function _buildQueryWhere($query)
 	{
-	    if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate) {
-	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate');
+	    if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate)
+        {
+	        throw new \InvalidArgumentException(
+                'Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate'
+            );
 	    }
 	}
 
@@ -60,7 +63,6 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 *
 	 * @param	integer	Amount to move up or down
 	 * @return 	KDatabaseRowAbstract
-	 * @throws 	KDatabaseBehaviorException
 	 */
 	public function order($change)
 	{
