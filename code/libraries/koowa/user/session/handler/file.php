@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @package     Koowa_Dispatcher
+ * @package     Koowa_User
  * @subpackage  Session
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -9,22 +9,22 @@
  */
 
 /**
- * File Session Handler Class
+ * User File Session Handler Class
  *
  * Native session handler using PHP's built in file storage.
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @author      Johan Janssens <johan@nooku.org>
+ * @package     Koowa_User
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-class KDispatcherSessionHandlerFile extends KDispatcherSessionHandlerAbstract
+class KUserSessionHandlerFile extends KUserSessionHandlerAbstract
 {
     /**
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDispatcherSessionHandlerAbstract
+     * @return KUserSessionHandlerFile
      */
     public function __construct(KConfig $config)
     {
