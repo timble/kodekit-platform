@@ -10,8 +10,8 @@
 /**
  * Service Identifier
  *
- * Wraps identifiers of the form [application::]type.package.[.path].name
- * in an object, providing public accessors and methods for derived formats.
+ * Wraps identifiers of the form [application::]type.package.[.path].name in an object, providing public accessors
+ * and methods for derived formats.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
@@ -99,19 +99,19 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     /**
      * Constructor
      *
-     * @param   string   Identifier string or object in [application::]type.package.[.path].name format
-     * @throws  KServiceIdentifierException if the identfier is not valid
+     * @param   string   $identifier Identifier string or object in [application::]type.package.[.path].name format
+     * @throws  KServiceExceptionInvalidIdentifier If the identifier is not valid
      */
     public function __construct($identifier)
     {
         //Check if the identifier is valid
         if(strpos($identifier, ':') === FALSE) {
-            throw new KServiceIdentifierException('Malformed identifier : '.$identifier);
+            throw new KServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
         }
 
         //Get the parts
         if(false === $parts = parse_url($identifier)) {
-            throw new KServiceIdentifierException('Malformed identifier : '.$identifier);
+            throw new KServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
         }
 
         // Set the type
@@ -235,6 +235,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
      *
      * @param   string  The virtual property to set.
      * @param   string  Set the virtual property to this value.
+     * @throws \DomainException If the application or type are unknown
      */
     public function __set($property, $value)
     {
@@ -252,7 +253,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
             if($property == 'application')
             {
                if(!isset(self::$_applications[$value])) {
-                    throw new KServiceIdentifierException('Unknow application : '.$value);
+                    throw new \DomainException('Unknow application : '.$value);
                }
 
                $this->_basepath = self::$_applications[$value];
@@ -263,7 +264,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
             {
                 //Check the type
                 if(!isset(self::$_locators[$value]))  {
-                    throw new KServiceIdentifierException('Unknow type : '.$value);
+                    throw new \DomainException('Unknow type : '.$value);
                 }
             }
 
@@ -278,8 +279,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     }
 
     /**
-     * Implements access to virtual properties by reference so that it appears to be
-     * a public property.
+     * Implements access to virtual properties by reference so that it appears to be a public property.
      *
      * @param   string  The virtual property to return.
      * @return  array   The value of the virtual property.
@@ -316,7 +316,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
      *
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         if($this->_identifier == '')
         {
@@ -344,5 +344,15 @@ class KServiceIdentifier implements KServiceIdentifierInterface
         }
 
         return $this->_identifier;
+    }
+
+    /**
+     * Allow PHP casting of this object
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
     }
 }
