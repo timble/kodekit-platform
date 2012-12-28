@@ -13,7 +13,7 @@
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
     <link rel="stylesheet" href="media://com_application/css/error.css" type="text/css" />
-    <title><?= @text('Error').': '.$error->getCode(); ?></title>
+    <title><?= @text('Error').': '.$exception->getCode(); ?></title>
 </head>
 <body>
 <div align="center">
@@ -21,9 +21,9 @@
         <div id="errorboxoutline">
             <div id="errorboxheader">
             <? if(ini_get('display_errors')) : ?>
-                <?= (string) $error ?>
+                <?= (string) $exception ?>
             <? else : ?>
-                <?= KHttpResponse::getMessage($error->getCode()) ?>
+                <?= KHttpResponse::getMessage($exception->getCode()) ?>
             <? endif ?>
             </div>
             <div id="errorboxbody">
@@ -44,7 +44,7 @@
                 </p>
                 <p><?= @text('If difficulties persist, please contact the system administrator of this site.'); ?></p>
                 <div id="techinfo">
-                    <p><?= $error->getMessage(); ?></p>
+                    <p><?= $exception->getMessage(); ?></p>
                     <p>
                         <? if(ini_get('display_errors')) : ?>
                         <?= @template('default_backtrace'); ?>
