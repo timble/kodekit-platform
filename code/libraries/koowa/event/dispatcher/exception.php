@@ -15,7 +15,7 @@
  * @package     Koowa_Event
  * @subpackage 	Dispatcher
  */
-class KEventDispatcherError extends KEventDispatcherAbstract
+class KEventDispatcherException extends KEventDispatcherAbstract
 {
     /**
      * The error level.
@@ -98,7 +98,7 @@ class KEventDispatcherError extends KEventDispatcherAbstract
     {
         $self = $this; //Cannot use $this as a lexical variable in PHP 5.3
         $previous = set_exception_handler(function($exception) use ($self) {
-            $self->dispatchEvent('onError', array('exception' => $exception));
+            $self->dispatchException('onException', array('exception' => $exception));
         });
 
         return $previous;
@@ -122,8 +122,8 @@ class KEventDispatcherError extends KEventDispatcherAbstract
 
             if (error_reporting() & $level && $error_level & $level)
             {
-                $exception = new \KExceptionError($message, 500, $level, $file, $line);
-                $self->dispatchEvent('onError', array(
+                $exception = new KExceptionError($message, 500, $level, $file, $line);
+                $self->dispatchException('onException', array(
                     'exception' => $exception,
                     'context'   => $context
                 ));
@@ -153,30 +153,30 @@ class KEventDispatcherError extends KEventDispatcherAbstract
 
             if (error_reporting() & $level && $error_level & $level)
             {
-                $exception = new \KExceptionError($error['message'], 500, $level, $error['file'], $error['line']);
-                $self->dispatchEvent('onError', array('exception' => $exception));
+                $exception = new KExceptionError($error['message'], 500, $level, $error['file'], $error['line']);
+                $self->dispatchException('onException', array('exception' => $exception));
             }
         });
     }
 
     /**
-     * Dispatches an event by dispatching arguments to all listeners that handle the event.
+     * Dispatches an exception by dispatching arguments to all listeners that handle the event.
      *
-     * Function will avoid a recursive loop when an exception is thrown during even dispatching and output a generic
-     * error instead.
+     * Function will avoid a recursive loop when an exception is thrown during even dispatching
+     * and output a generic exception instead.
      *
      * @link    http://www.php.net/manual/en/function.set-exception-handler.php#88082
      * @param   string  The event name
      * @param   object|array   An array, a KConfig or a KEvent object
-     * @return  KEvent
+     * @return  KEventException
      */
-    public function dispatchEvent($name, $event = array())
+    public function dispatchException($name, $event = array())
     {
         try
         {
             //Make sure we have an event object
-            if (!$event instanceof KEventError) {
-                $event = new KEventError($event);
+            if (!$event instanceof KEventException) {
+                $event = new KEventException($event);
             }
 
             parent::dispatchEvent($name, $event);
