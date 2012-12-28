@@ -29,7 +29,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDatabaseRowsetTable
+     * @return KDatabaseRowsetTable
      */
     public function __construct(KConfig $config)
     {
@@ -42,7 +42,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 
         // Insert the data, if exists
         if (!empty($config->data)) {
-            $this->addData($config->data->toArray(), $config->new);
+            $this->addRow($config->data->toArray(), $config->new);
         }
     }
 
@@ -69,7 +69,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      * Function catches KDatabaseTableExceptions that are thrown for tables that
      * don't exist. If no table object can be created the function will return FALSE.
      *
-     * @return \KDatabaseTableAbstract
+     * @return KDatabaseTableAbstract
      */
     public function getTable()
     {
@@ -84,7 +84,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 
                 try {
                     $this->_table = $this->getService($this->_table);
-                } catch (KDatabaseTableException $e) {
+                } catch (\RuntimeException $e) {
                     $this->_table = false;
                 }
             }
@@ -97,9 +97,9 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      * Method to set a table object attached to the rowset
      *
      * @param    mixed    $table  An object that implements KObjectServiceable, KServiceIdentifier object or valid
-     *                          identifier string
-     * @throws    KDatabaseRowsetException If the identifier is not a table identifier
-     * @return    \KDatabaseRowsetAbstract
+     *                            identifier string
+     * @throws  \UnexpectedValueException If the identifier is not a table identifier
+     * @return  KDatabaseRowsetAbstract
      */
     public function setTable($table)
     {
@@ -114,7 +114,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
             else $identifier = $this->getIdentifier($table);
 
             if ($identifier->path[1] != 'table') {
-                throw new KDatabaseRowsetException('Identifier: ' . $identifier . ' is not a table identifier');
+                throw new \UnexpectedValueException('Identifier: ' . $identifier . ' is not a table identifier');
             }
 
             $table = $identifier;
@@ -140,13 +140,13 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      *
      * @param  array  $data  An associative array of row data to be inserted.
      * @param  boole  $new   If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return  \KDatabaseRowsetAbstract
+     * @return  KDatabaseRowsetAbstract
      * @see __construct
      */
-    public function addData(array $data, $new = true)
+    public function addRow(array $data, $new = true)
     {
         if ($this->isConnected()) {
-            parent::addData($data, $new);
+            parent::addRow($data, $new);
         }
 
         return $this;
@@ -156,7 +156,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      * Get an empty row
      *
      * @param    array $options An optional associative array of configuration settings.
-     * @return    \KDatabaseRowAbstract
+     * @return    KDatabaseRowAbstract
      */
     public function getRow(array $options = array())
     {
