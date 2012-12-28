@@ -61,7 +61,7 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
         $category = $this->getService('com://site/contacts.model.categories')
                          ->table('contacts')
                          ->id($this->getModel()->getState()->category)
-                         ->getItem();
+                         ->getRow();
 
         return $category;
     }
