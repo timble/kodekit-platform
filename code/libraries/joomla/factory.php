@@ -189,6 +189,34 @@ class JFactory
     }
 
     /**
+     * Get an XML document
+     *
+     * @access public
+     * @param string The type of xml parser needed 'RSS' or 'Simple'
+     * @param array:
+     *         string  ['rssUrl'] the rss url to parse when using "RSS"
+     *         string    ['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
+     * @return object Parsed XML document object
+     */
+    function &getXMLParser($type = 'Simple', $options = array())
+    {
+        $doc = null;
+
+        switch (strtolower($type))
+        {
+            case 'simple' :
+                jimport('joomla.utilities.simplexml');
+                $doc = new JSimpleXML();
+                break;
+
+            default :
+                $doc = null;
+        }
+
+        return $doc;
+    }
+
+    /**
      * Return a reference to the {@link JURI} object
      *
      * @access public
