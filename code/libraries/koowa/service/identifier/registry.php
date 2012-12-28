@@ -14,7 +14,7 @@
  * @package     Koowa_Service
  * @subpackage  Identifier
  */
-class KServiceIdentifierRegistry extends ArrayObject
+class KServiceIdentifierRegistry extends \ArrayObject
 {
  	/**
  	 * Cache
