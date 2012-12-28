@@ -1,15 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Aug 01, 2012 at 12:32 AM
--- Server version: 5.5.24
--- PHP Version: 5.3.12
-
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40101 SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00';
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
 --
 -- Dumping data for table `#__extensions_components`
@@ -51,7 +42,7 @@ VALUES
 --
 -- Dumping data for table `#__pages_menus`
 --
-    
+
 INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
 VALUES
 	(1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site', 1, NULL, NULL, NULL, NULL, NULL),
@@ -254,6 +245,6 @@ INSERT INTO `#__users_passwords` (`email`, `expiration`, `hash`, `reset`) VALUES
 ('admin@localhost.home', NULL, '$2y$10$UT7uLipGnbJbTcjZ6D.OAeVByFn.2ZpPmd.thZ5e5xHLwKXAxdvNG', '');
 
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+SET SQL_MODE=@OLD_SQL_MODE;
+SET TIME_ZONE=@OLD_TIME_ZONE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

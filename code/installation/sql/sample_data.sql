@@ -1,19 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 3.5.1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Aug 01, 2012 at 12:42 AM
--- Server version: 5.5.24
--- PHP Version: 5.3.12
-
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40101 SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-
---
--- Database: `migrate`
---
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
+SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00';
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
 --
 -- Dumping data for table `#__articles`
@@ -290,6 +277,6 @@ UPDATE `#__users` SET `created_on` = now();
 UPDATE `#__weblinks` SET `created_on` = now();
 
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40101 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+SET SQL_MODE=@OLD_SQL_MODE;
+SET TIME_ZONE=@OLD_TIME_ZONE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
