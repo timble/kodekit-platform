@@ -16,7 +16,7 @@
  * @subpackage  Articles
  */
 
-class ComArticlesDatabaseRowArticle extends KDatabaseRowDefault
+class ComArticlesDatabaseRowArticle extends KDatabaseRowTable
 {
     public function __get($column)
     {
