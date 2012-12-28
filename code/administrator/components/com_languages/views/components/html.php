@@ -29,10 +29,10 @@ class ComLanguagesViewComponentsHtml extends ComDefaultViewHtml
     
     public function display()
     {
-        $tables     = $this->getService('com://admin/languages.model.tables')->getList();
+        $tables     = $this->getService('com://admin/languages.model.tables')->getRowset();
         $components = $this->getService('com://admin/extensions.model.components')
             ->id(array_unique($tables->extensions_component_id))
-            ->getList();
+            ->getRowset();
         
         foreach($tables as $table) {
             $components->find($table->extensions_component_id)->enabled = $table->enabled;
