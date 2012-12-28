@@ -39,6 +39,20 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     {
         parent::__construct($config);
 
+        /*if (is_null($config->template))
+        {
+            throw new InvalidArgumentException(
+                'template [KTemplateInterface] config option is required'
+            );
+        }
+
+        if(!$config->template instanceof KTemplateInterface)
+        {
+            throw new UnexpectedValueException(
+                'Template: '.get_class($config->template).' does not implement KTemplateInterface'
+            );
+        }*/
+
         $this->_priority = $config->priority;
         $this->_template = $config->template;
     }
@@ -54,6 +68,7 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+            'template' => null,
             'priority' => KCommand::PRIORITY_NORMAL,
         ));
 

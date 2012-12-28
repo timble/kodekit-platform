@@ -27,15 +27,27 @@ abstract class KTemplateHelperAbstract extends KObject implements KTemplateHelpe
 	/**
 	 * Constructor
 	 *
-	 * Prevent creating instances of this class by making the contructor private
-	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
 	public function __construct(KConfig $config)
 	{
 		parent::__construct($config);
 
-		// Set the template indentifier
+        /*if (is_null($config->template))
+        {
+            throw new InvalidArgumentException(
+                'template [KTemplateInterface] config option is required'
+            );
+        }
+
+        if(!$config->template instanceof KTemplateInterface)
+        {
+            throw new UnexpectedValueException(
+                'Template: '.get_class($config->template).' does not implement KTemplateInterface'
+            );
+        }*/
+
+		// Set the template object
     	$this->_template = $config->template;
 	}
 
