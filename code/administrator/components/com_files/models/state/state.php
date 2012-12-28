@@ -8,16 +8,19 @@
  * @link        http://www.nooku.org
  */
 
-class ComFilesConfigState extends KConfigState
+class ComFilesModelState extends KModelState
 {
 	/**
 	 * Needed to make sure form filter does not add config to the form action
 	 */
-	public function getData($unique = false)
+	public function toArray($unique = false)
 	{
-		$data = parent::getData($unique);
-		
+		$data = parent::toArray($unique);
 		unset($data['config']);
+
+        if (!empty($data['container']) && $data['container'] instanceof KDatabaseRowInterface) {
+            $data['container'] = $data['container']->slug;
+        }
 		
 		return $data;
 	}
@@ -28,10 +31,10 @@ class ComFilesConfigState extends KConfigState
 
         if ($name === 'container' && is_string($result))
         {
-            $result = KService::get('com://admin/files.model.containers')->slug($result)->getItem();
+            $result = KService::get('com://admin/files.model.containers')->slug($result)->getRow();
 
 	        if (!is_object($result) || $result->isNew()) {
-	            throw new KModelException('Invalid container');
+	            throw new UnexpectedValueException('Invalid container');
 	        }
 
 	        $this->_data['container']->value = $result;
@@ -39,14 +42,4 @@ class ComFilesConfigState extends KConfigState
 
         return $result;
   	}
-  	
-    public function toArray($values = true)
-    {
-    	$array = parent::toArray($values);
-    	if (!empty($array['container']) && $array['container'] instanceof KDatabaseRowInterface) {
-    		$array['container'] = $array['container']->slug;
-    	}
-
-        return $array;
-    }
 }
