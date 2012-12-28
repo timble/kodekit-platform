@@ -24,7 +24,7 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         //TODO : Inject raw data using $config->data
         $pages = $this->getService('com://admin/pages.model.pages')
             ->published(true)
-            ->getList();
+            ->getRowset();
 
         $this->merge($pages);
     }
