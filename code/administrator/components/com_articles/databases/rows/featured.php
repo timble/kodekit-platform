@@ -16,7 +16,7 @@
  * @subpackage  Articles
  */
 
-class ComArticlesDatabaseRowFeatured extends KDatabaseRowDefault
+class ComArticlesDatabaseRowFeatured extends KDatabaseRowTable
 {
     protected function _initialize(KConfig $config)
     {
