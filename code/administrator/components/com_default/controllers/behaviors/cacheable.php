@@ -30,7 +30,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void	
 	 */
-	protected function _beforeControllerGet(KCommandContext $context)
+	protected function _beforeControllerRender(KCommandContext $context)
 	{ 
 	    $view   = $this->getView();
 	    $cache  = JFactory::getCache($this->_getGroup(), 'output');
@@ -59,7 +59,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * @param   KCommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterControllerGet(KCommandContext $context)
+	protected function _afterControllerRender(KCommandContext $context)
 	{
 	    if(empty($this->_output))
 	    {
