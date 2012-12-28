@@ -24,8 +24,8 @@ class KHttpMessageHeaders extends KObjectArray
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KObjectArray
+     * @param KConfig $config  An optional KConfig object with configuration options
+     * @return KObjectArray
      */
     public function __construct(KConfig $config)
     {
@@ -52,6 +52,16 @@ class KHttpMessageHeaders extends KObjectArray
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Returns the headers.
+     *
+     * @return array An array of headers
+     */
+    public function all()
+    {
+        return $this->toArray();
     }
 
     /**
@@ -87,17 +97,37 @@ class KHttpMessageHeaders extends KObjectArray
      *
      * @param string       $key     The key
      * @param string|array $values  The value or an array of values
-     * @param Boolean      $replace Whether to replace the actual value of not (true by default)
+     * @param boolean      $replace Whether to replace the actual value of not (true by default)
+     * @return KHttpMessageHeaders
      */
     public function set($key, $values, $replace = true)
     {
         $key = strtr(strtolower($key), '_', '-');
 
-        if (true === $replace || !isset($this[$key])) {
+        if ($replace === true || !isset($this[$key])) {
             $this->_data[$key] = (array) $values;
         } else {
             $this->_data[$key] = array_merge($this->_data[$key], $values);
         }
+
+        return $this;
+    }
+
+    /**
+     * Adds new headers the current HTTP headers set.
+     *
+     * This function will not add headers that already exist.
+     *
+     * @param array $headers An array of HTTP headers
+     * @return KHttpMessageHeaders
+     */
+    public function add(array $headers)
+    {
+        foreach ($headers as $key => $values) {
+            $this->set($key, $values, false);
+        }
+
+        return $this;
     }
 
     /**
@@ -124,14 +154,62 @@ class KHttpMessageHeaders extends KObjectArray
     }
 
     /**
-     * Removes a header.
+     * Removes a header nu name
      *
      * @param string $key The HTTP header name
+     * @return KHttpMessageHeaders
      */
     public function remove($key)
     {
         $key = strtr(strtolower($key), '_', '-');
         unset($this->_data[$key]);
+        return $this;
+    }
+
+    /**
+     * Clear the current HTTP headers
+     *
+     * @return KHttpMessageHeaders
+     */
+    public function clear()
+    {
+        $this->_data = array();
+        return $this;
+    }
+
+    /**
+     * Returns the headers as a string.
+     *
+     * @return string
+     */
+    public function toString()
+    {
+        $headers = $this->_data;
+        $content = '';
+
+        ksort($headers);
+
+        foreach ($headers as $name => $values)
+        {
+            $name    = implode('-', array_map('ucfirst', explode('-', $name)));
+            $results = array();
+
+            foreach ($values as $key => $value)
+            {
+                if(is_numeric($key)) {
+                    $results[] = $value;
+                } else {
+                    $results[] = $key.'='.$value;
+                }
+
+                $value = implode($results, '; ');
+            }
+
+            $content .= sprintf("%s %s\r\n", $name.':', $value);
+        }
+
+
+        return $content;
     }
 
     /**
@@ -193,37 +271,12 @@ class KHttpMessageHeaders extends KObjectArray
     }
 
     /**
-     * Returns the headers as a string.
+     * Allow PHP casting of this object
      *
-     * @return string The headers
+     * @return string
      */
     public function __toString()
     {
-        $headers = $this->_data;
-        $content = '';
-
-        ksort($headers);
-
-        foreach ($headers as $name => $values)
-        {
-            $name    = implode('-', array_map('ucfirst', explode('-', $name)));
-            $results = array();
-
-            foreach ($values as $key => $value)
-            {
-                if(is_numeric($key)) {
-                    $results[] = $value;
-                } else {
-                    $results[] = $key.'='.$value;
-                }
-
-                $value = implode($results, '; ');
-            }
-
-            $content .= sprintf("%s %s\r\n", $name.':', $value);
-        }
-
-
-        return $content;
+        return $this->toString();
     }
 }
