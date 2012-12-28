@@ -32,31 +32,31 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
         $config->append(array(
             'behaviors' => array(
                 'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
-                'com://admin/users.controller.behavior.user.executable'
             )
         ));
 
         parent::_initialize($config);
     }
 
+    protected function _actionDelete(KCommandContext $context)
+    {
+        $entity = parent::_actionDelete($context);
+
+        $this->getService('com://admin/users.model.sessions')
+            ->email($entity->email)
+            ->getRowset()
+            ->delete();
+
+        return $entity;
+    }
+
     public function reset(KCommandContext $context)
     {
-        if ($context->response->getStatusCode() == KHttpResponse::RESET_CONTENT) {
+        if ($context->getSubject()->getStatus() == self::STATUS_RESET)
+        {
             $user = $context->result;
             JFactory::getUser($user->id)->setData($user->getData());
         }
-    }
-
-    protected function _actionDelete(KCommandContext $context)
-    {
-        $data = parent::_actionDelete($context);
-
-        $this->getService('com://admin/users.model.sessions')
-            ->email($data->email)
-            ->getList()
-            ->delete();
-
-        return $data;
     }
 
     public function notify(KCommandContext $context)
@@ -76,7 +76,7 @@ class ComUsersControllerUser extends ComDefaultControllerDefault
             // TODO Hardcoding URL since AFAIK currently there's no other way to build a frontend route from here.
             // Due to namespacing problems the backend router will always be returned.
             $url = "/component/users/user?layout=password&uuid={$user->uuid}&reset={$reset}";
-            $url = KRequest::url()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
+            $url = $context->request->getUrl()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
 
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
             $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $url);
