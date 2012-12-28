@@ -10,10 +10,10 @@
  */
 ?>
 
-<form action="<?= @route('option=com_users&view=session&id='.@service('application.session')->getId()) ?>" method="post" name="login" id="form-login">
+<form action="<?= @route('option=com_users&view=session&id='.@service('session')->getId()) ?>" method="post" name="login" id="form-login">
 	<input type="hidden" name="action" value="delete" />
     
-    <?= JText::sprintf( 'HINAME', $user->name ); ?>
+    <?= JText::sprintf( 'HINAME', @service('user')->name ); ?>
 	
 	<div class="form-actions">
 		<input type="submit" name="Submit" class="btn" value="<?= @text('Sign out'); ?>" />
