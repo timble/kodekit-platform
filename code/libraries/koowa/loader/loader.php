@@ -143,7 +143,7 @@ class KLoader
      *
      * @param string    The class name
      * @param string    The basepath
-     * @return boolean  Returns TRUE on success throws exception on failure
+     * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
     public function loadClass($class, $basepath = null)
     {
@@ -174,7 +174,7 @@ class KLoader
      * Load a class based on an identifier
      *
      * @param string|object The identifier or identifier object
-     * @return boolean      Returns TRUE on success throws exception on failure
+     * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
      */
     public function loadIdentifier($identifier)
     {
@@ -196,30 +196,19 @@ class KLoader
      * Load a class based on a path
      *
      * @param string	The file path
-     * @return boolean  Returns TRUE on success throws exception on failure
+     * @return boolean  Returns TRUE if the file could be loaded, otherwise returns FALSE.
      */
     public function loadFile($path)
     {
         $result = false;
 
-        /*
-         * Don't re-include files and stat the file if it exists
-         * realpath is needed to resolve symbolic links
-         */
+        //Don't re-include files and stat the file if it exists.
+        //Realpath is needed to resolve symbolic links.
         if (!in_array(realpath($path), get_included_files()) && file_exists($path))
         {
-            $mask = E_ALL ^ E_WARNING;
-            if (defined('E_DEPRECATED')) {
-                $mask = $mask ^ E_DEPRECATED;
-            }
-
-            $old = error_reporting($mask);
-            $included = include $path;
-            error_reporting($old);
-
-            if ($included) {
+            if($included = include $path) {
                 $result = true;
-            }
+            };
         }
 
         return $result;
@@ -230,7 +219,7 @@ class KLoader
      *
      * @param string	The class name
      * @param string    The basepath
-     * @return string   Returns canonicalized absolute pathname
+     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
     public function findPath($class, $basepath = null)
     {
