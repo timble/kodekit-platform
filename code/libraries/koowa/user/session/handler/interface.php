@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @package		Koowa_Dispatcher
+ * @package		Koowa_User
  * @subpackage  Session
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -9,14 +9,14 @@
  */
 
 /**
- * Session Handler Interface
+ * User Session Handler Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @package     Koowa_User
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-interface KDispatcherSessionHandlerInterface
+interface KUserSessionHandlerInterface
 {
     /**
      * Initialize the session handler backend
@@ -79,5 +79,5 @@ interface KDispatcherSessionHandlerInterface
      *
      * @return boolean  True on success, false otherwise
      */
-    public static function isSupported();
+    public function isSupported();
 }
