@@ -48,7 +48,7 @@ interface KTemplateInterface
 	 *
 	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
 	 * 					or valid identifier string
-	 * @throws	KTemplateException	If the identifier is not a view identifier
+	 * @throws	\UnexpectedValueException	If the identifier is not a view identifier
 	 * @return	KTemplateInterface
 	 */
 	public function setView($view);
