@@ -45,15 +45,8 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     {
         parent::__construct($config);
 
-        if (is_null($config->command_chain)) {
-            throw new KMixinException('command_chain [KCommandChain] option is required');
-        }
-
         //Set the command priority
         $this->_priority = $config->callback_priority;
-
-        //Enqueue the command in the mixer's command chain
-        $config->command_chain->enqueue($this);
     }
 
     /**
@@ -67,7 +60,6 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'command_chain'     => null,
             'callback_priority' => KCommand::PRIORITY_HIGH
         ));
 
