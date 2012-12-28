@@ -26,7 +26,7 @@ class KViewHtml extends KViewTemplate
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'mimetype' => 'text/html',
+            'mimetype'         => 'text/html',
             'template_filters' => array('form'),
         ));
 
@@ -36,10 +36,10 @@ class KViewHtml extends KViewTemplate
     /**
      * Return the views output
      *
-     * This function will auto assign the model data to the view if the auto_assign
-     * property is set to TRUE.
+     * This function will always assign the model state to the template. Model data will only be assigned if the
+     * auto_assign property is set to TRUE.
      *
-     * @return string     The output of the view
+     * @return string The output of the view
      */
     public function display()
     {
@@ -59,10 +59,10 @@ class KViewHtml extends KViewTemplate
                 //Assign the data of the model to the view
                 if (KInflector::isPlural($name))
                 {
-                    $this->assign($name, $model->getList())
+                    $this->assign($name   , $model->getRowset())
                           ->assign('total', $model->getTotal());
                 }
-                else $this->assign($name, $model->getItem());
+                else $this->assign($name, $model->getRow());
             }
         }
 
