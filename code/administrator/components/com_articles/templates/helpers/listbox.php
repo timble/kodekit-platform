@@ -38,7 +38,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config = new KConfig($config);
 
         if (!$config->row instanceof ComArticlesDatabaseRowArticle) {
-            throw new KTemplateHelperException('The row is missing.');
+            throw new InvalidArgumentException('The row is missing.');
         }
 
         $article = $config->row;
@@ -53,7 +53,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         $list = $this->getService('com://admin/articles.model.articles')
                      ->set($config->filter)
-                     ->getList();
+                     ->getRowset();
 
         foreach ($list as $item)
         {
