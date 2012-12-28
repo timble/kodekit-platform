@@ -16,7 +16,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowContainer extends KDatabaseRowDefault
+class ComFilesDatabaseRowContainer extends KDatabaseRowTable
 {
 	/**
 	 * A reference to the container configuration
