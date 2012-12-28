@@ -30,19 +30,18 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
     {
         $data = $context->data;
 
+        // Force a password change on next login.
         if ($data->password_change) {
-            // Force a password change on next login.
             $data->getPassword()->expire();
         }
 
+        // Set the user password for reset and keep a copy of the token on the context
         if ($context->password_reset) {
-            // Set the user password for reset and keep a copy of the token on the context
-            // data, a.k.a. resulting user row.
             $data->reset = $data->getPassword()->setReset();
         }
 
+        // Reset the password object.
         if ($data->getStatus() == KDatabase::STATUS_UPDATED) {
-            // Reset the password object.
             $this->_password = null;
         }
     }
@@ -104,7 +103,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         if(!$this->isNew())
         {
             $password = $this->getService('com://admin/users.database.table.passwords')
-                ->select(array('id' => $this->email), KDatabase::FETCH_ROW);
+                              ->select(array('id' => $this->email), KDatabase::FETCH_ROW);
         }
 
         return $password;
