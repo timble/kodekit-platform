@@ -35,7 +35,7 @@
 </div>
 
 <? if(KDEBUG) : ?>
-    <?= @service('com://admin/debug.controller.debug')->display(); ?>
+    <?= @service('com://admin/debug.controller.debug'); ?>
 <? endif; ?>
 
 </body>
