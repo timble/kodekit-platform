@@ -14,7 +14,6 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KRequest
  * @uses        KConfig
  */
 class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
