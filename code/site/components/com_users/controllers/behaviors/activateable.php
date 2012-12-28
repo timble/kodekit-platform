@@ -18,19 +18,27 @@
 class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
 {
     /**
-     * @var mixed bool Determines whether new created items need activation or not.
+     * Determines whether new created items need activation or not.
+     *
+     * @var mixed bool
      */
     protected $_enable;
 
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         $this->_enable = $config->enable;
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $parameters = $this->getService('application.components')->users->params;
-        $config->append(array('enable' => $parameters->get('useractivation', '1')));
+
+        $config->append(array(
+            'enable' => $parameters->get('useractivation', '1')
+        ));
+
         parent::_initialize($config);
     }
 
@@ -39,57 +47,52 @@ class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
      *
      * @param KCommandContext The command context.
      */
-    protected function _afterControllerRead(KCommandContext $context) {
-        $request = $this->getRequest();
-        $item    = $context->result;
-        if (($activation = $request->activation) && $item->activation) {
+    protected function _afterControllerRead(KCommandContext $context)
+    {
+        $item = $context->result;
+
+        if ($activation = $context->request->query->get('activation', 'cmd') && $item->activation) {
             $this->activate(array('activation' => $activation));
         }
     }
 
-    protected function _beforeControllerActivate(KCommandContext $context) {
-        $activation = $context->data->activation;
-        $item       = $this->getModel()->getItem();
+    protected function _beforeControllerActivate(KCommandContext $context)
+    {
+        $activation = $context->request->data->get('activation', 'string');
+        $item       = $this->getModel()->getRow();
 
-        if ($activation !== $item->activation) {
-            $msg = JText::_('Wrong activation token');
-            $url = KRequest::root();
-
-            $context->response->setRedirect($url);
-            //@TODO : Set message in session
-            //$this->setRedirect($url, $msg);
-
+        if ($activation !== $item->activation)
+        {
+            $context->response->setRedirect(KRequest::root(), 'Wrong activation token');
             return false;
         }
     }
 
-    protected function _actionActivate(KCommandContext $context) {
-        $item             = $this->getModel()->getItem();
+    protected function _actionActivate(KCommandContext $context)
+    {
+        $item             = $this->getModel()->getRow();
         $item->activation = '';
         $item->enabled    = 1;
-        if ($item->save()) {
-            $msg = JText::_('Activation successfully completed');
+
+        if ($item->save())
+        {
             $url = $this->getService('application.pages')->home->link;
-            $context->response->setRedirect($url);
-            //@TODO : Set message in session
-            //$this->setRedirect($url, $msg);
+            $context->response->setRedirect($url, 'Activation successfully completed');
             $result = true;
-        } else {
-            $error = $item->getStatusMessage();
-            $context->response->setStatus(KHttpResponse::INTERNAL_SERVER_ERROR,
-                $error ? $error : 'Unable to activate user');
-            $result = false;
         }
+        else throw new KControllerExceptionActionFailed('Unable to activate user');
 
         return $result;
     }
 
-    protected function _beforeControllerAdd(KCommandContext $context) {
-        if ($this->_enable) {
-            // Set activation on new records.
-            $password                  = $this->getService('com://admin/users.database.row.password');
-            $context->data->activation = $password->getRandom(32);
-            $context->data->enabled    = 0;
+    protected function _beforeControllerAdd(KCommandContext $context)
+    {
+        // Set activation on new records.
+        if ($this->_enable)
+        {
+            $password = $this->getService('com://admin/users.database.row.password');
+            $context->request->data->activation = $password->getRandom(32);
+            $context->request->data->enabled    = 0;
         }
     }
 }
