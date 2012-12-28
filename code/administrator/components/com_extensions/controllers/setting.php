@@ -32,7 +32,7 @@ class ComExtensionsControllerSetting extends ComDefaultControllerDefault
         $name = ucfirst($this->getView()->getName());
 
         if(!$this->getModel()->getState()->isUnique()) {
-            $context->response->setStatus(KHttpResponse::NOT_FOUND, $name.' Not Found');
+            throw new KControllerExceptionNotFound($name.' Not Found');
         }
 
         return parent::_actionRead($context);
