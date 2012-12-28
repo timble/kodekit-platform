@@ -35,9 +35,9 @@ class ComCacheModelItems extends KModelAbstract
             ->insert('search'   , 'string');
 	}
 	
-    public function getList()
+    public function getRowset()
     { 
-        if(!isset($this->_list))
+        if(!isset($this->_rowset))
         {
             //Get the keys
             $data = $this->_getData();
@@ -79,16 +79,16 @@ class ComCacheModelItems extends KModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		    
-		    $this->_list = $this->getService('com://admin/cache.database.rowset.items', array('data' => $data));
+		    $this->_rowset = $this->getService('com://admin/cache.database.rowset.items', array('data' => $data));
         }
         
-        return $this->_list;
+        return $this->_rowset;
     }
     
     public function getTotal()
     {
         if(!isset($this->_total)) {
-            $this->getList();
+            $this->getRowset();
         }
         
         return $this->_total;
