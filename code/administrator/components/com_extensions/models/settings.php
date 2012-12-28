@@ -26,20 +26,20 @@ class ComExtensionsModelSettings extends KModelAbstract
              ->insert('name', 'cmd', null, true);        
     }
      
-    public function getItem(array $options = array())
+    public function getRow()
     {
-        if(isset($this->getList()->{$this->getState()->name})) {
-            $row = $this->getList()->{$this->getState()->name};
+        if(isset($this->getRowset()->{$this->getState()->name})) {
+            $row = $this->getRowset()->{$this->getState()->name};
         } else {
-            $row = $this->getList()->getRow();
+            $row = $this->getRowset()->getRow();
         }
         
         return $row;
     }
     
-    public function getList(array $options = array())
+    public function getRowset()
     {
-        if (!isset($this->_list))
+        if (!isset($this->_rowset))
         {
             $rowset = $this->getService('com://admin/extensions.database.rowset.settings');
             
@@ -47,7 +47,7 @@ class ComExtensionsModelSettings extends KModelAbstract
             $rowset->insert($this->getService('com://admin/extensions.database.row.setting_system'));
                         
             //Insert the component configuration settings
-            $components = $this->getService('com://admin/extensions.model.components')->enabled(1)->getList();
+            $components = $this->getService('com://admin/extensions.model.components')->enabled(1)->getRowset();
             foreach($components as $component)
             {
                 $path  = $this->getIdentifier()->getApplication('admin');
@@ -66,13 +66,11 @@ class ComExtensionsModelSettings extends KModelAbstract
 
                     $rowset->insert($row);
                 }
-                    
-
             }
              
-            $this->_list = $rowset;
+            $this->_rowset = $rowset;
         }
 
-        return $this->_list;    
+        return $this->_rowset;
     }
 }  
