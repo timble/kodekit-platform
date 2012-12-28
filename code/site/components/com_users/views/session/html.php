@@ -26,7 +26,7 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
         $this->getService('application')->getPathway()->addItem($title);
         JFactory::getDocument()->setTitle($title);
         
-        $this->user       = JFactory::getUser();
+        $this->user       = $this->getService('user');;
         $this->parameters = $this->getParameters();
 
         return parent::display();
