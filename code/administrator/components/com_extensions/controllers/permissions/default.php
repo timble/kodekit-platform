@@ -9,13 +9,13 @@
  */
 
 /**
- * Extensions Controller Executable Behavior
+ * Default Controller Permissions Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
-class ComExtensionsControllerBehaviorExecutable extends ComDefaultControllerBehaviorExecutable
+class ComExtensionsControllerPermissionDefault extends ComDefaultControllerPermissionDefault
 {
     public function canAdd()
     {
