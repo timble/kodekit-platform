@@ -37,11 +37,13 @@ class ComArticlesControllerDefault extends ComDefaultControllerDefault
         $params->def('show_date', 1);*/
     }
 
-    public function setRequest(array $request)
+    public function getRequest()
     {
-        // Filter rowsets based on current logged user's permissions.
-        $request['access'] = JFactory::getUser()->get('aid', 0);
+        $request = parent::getRequest();
 
-        return parent::setRequest($request);
+        // Filter rowsets based on current logged user's permissions.
+        $request->query->access = $this->getUser()->isAuthentic();
+
+        return $request;
     }
 }
