@@ -28,6 +28,7 @@ class ComDefaultModuleDefaultHtml extends KViewHtml
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+            'model'      => 'com://admin/default.model.module',
             'media_url'  => KRequest::root() . '/media',
             'data'	     => array()
         ));
