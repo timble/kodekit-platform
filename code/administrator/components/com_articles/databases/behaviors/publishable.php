@@ -38,20 +38,22 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      */
     protected $_identity_column;
 
-    public function __construct(KConfig $config) {
+    public function __construct(KConfig $config)
+    {
         parent::__construct($config);
 
         $this->_table           = $config->table;
         $this->_identity_column = $config->identity_column;
     }
 
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $config->append(array('table'=> 'articles', 'identity_column' => 'articles_article_id'));
         parent::_initialize($config);
     }
 
-    protected function _beforeTableSelect(KCommandContext $context) {
-
+    protected function _beforeTableSelect(KCommandContext $context)
+    {
         if (!$this->_uptodate) {
 
             $date = new KDate(array('timezone' => 'GMT'));
@@ -68,7 +70,8 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      *
      * @param KDate $date The date on which items should be published.
      */
-    protected function _publishItems(KDate $date) {
+    protected function _publishItems(KDate $date)
+    {
         $query = $this->_getSelectQuery();
 
         $query->where('publish_on <= :date')->where('published = :published')->where('publish_on <> :default')
@@ -88,7 +91,8 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      *
      * @param KDate $date The date on which items should be un-published.
      */
-    protected function _unpublishItems(KDate $date) {
+    protected function _unpublishItems(KDate $date)
+    {
         $query = $this->_getSelectQuery();
 
         $query->where('unpublish_on <= :date')->where('published = :published')->where('unpublish_on <> :default')
@@ -108,7 +112,8 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      *
      * @return object A select query object.
      */
-    protected function _getSelectQuery() {
+    protected function _getSelectQuery()
+    {
         $query = $this->getService('koowa:database.query.select');
 
         $query->table(array($this->_table));
@@ -123,7 +128,8 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      * @param     $ids   A list of items ids to be updated.
      * @param int $published The new published value.
      */
-    protected function _updateState($id, $published = 0) {
+    protected function _updateState($id, $published = 0)
+    {
         $query = $this->getService('koowa:database.query.update');
 
         $query->table($this->_table);
