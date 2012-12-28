@@ -22,7 +22,7 @@ class ComPagesViewModulesHtml extends ComDefaultViewHtml
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
 		{
-		    foreach($this->getModel()->getList() as $module) 
+		    foreach($this->getModel()->getRowset() as $module)
 		    {
                 $path = $this->getIdentifier()->getApplication($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
