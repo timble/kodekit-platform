@@ -9,7 +9,7 @@
  */
 ?>
 
-<body class="<?= $option ?> login">
+<body class="com_<?= $component ?> login">
 <div id="container">
     <div id="login-box" class="login">
 		<img src="media://com_application/images/nooku-server_logo.png" alt="Nooku Server logo">
