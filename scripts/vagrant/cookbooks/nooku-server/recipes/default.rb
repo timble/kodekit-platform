@@ -21,11 +21,10 @@
 require "mysql"
 
 # Create configuration file
-unless File.exist?("#{node['nooku-server']['dir']}/source/code/configuration.php")
-  template "#{node['nooku-server']['dir']}/source/code/configuration.php" do
-    source "configuration.erb"
-    mode 00644
-  end
+template "#{node['nooku-server']['dir']}/configuration.php" do
+  source "configuration.erb"
+  mode 00644
+  action :create_if_missing
 end
 
 # Create database

@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-default['nooku-server']['dir'] = "/var/www/nooku-server"
+default['nooku-server']['dir'] = "/var/www/nooku-server/source/code"
 
 default['nooku-server']['db']['database'] = "nooku-server"
 default['nooku-server']['db']['prefix'] = "ns_"
