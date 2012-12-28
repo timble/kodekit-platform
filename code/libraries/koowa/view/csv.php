@@ -68,7 +68,7 @@ class KViewCsv extends KViewFile
 	{
 		$rows    = '';
 	    $columns = array();
-		$rowset  = $this->getModel()->getList();
+		$rowset  = $this->getModel()->getRowset();
 
 		// Get the columns
 		foreach($rowset as $row)
