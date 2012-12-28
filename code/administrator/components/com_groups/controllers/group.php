@@ -31,7 +31,7 @@ class ComGroupsControllerGroup extends ComDefaultControllerDefault
         $config->toolbars = array('menubar', 'com://admin/groups.controller.toolbar.group');
     }
     
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionRender(KCommandContext $context)
     {
         $view = $this->getView();
 
@@ -47,7 +47,7 @@ class ComGroupsControllerGroup extends ComDefaultControllerDefault
             $this->getService()->setAlias($layout, $alias);
         }
 
-        return parent::_actionGet($context);
+        return parent::_actionRender($context);
     }
     
     public function setModel($model)
