@@ -10,8 +10,6 @@
 /**
  * Object class
  *
- * Provides getters and setters, mixin, object handles
- *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Object
@@ -49,8 +47,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KObjectDecorator
+     * @param KConfig  $config  An optional KConfig object with configuration options
+     * @return KObject
      */
     public function __construct(KConfig $config)
     {
@@ -70,7 +68,8 @@ class KObject implements KObjectHandlable, KObjectServiceable
         //Add the mixins
         $mixins = (array)KConfig::unbox($config->mixins);
 
-        foreach ($mixins as $key => $value) {
+        foreach ($mixins as $key => $value)
+        {
             if (is_numeric($key)) {
                 $this->mixin($value);
             } else {
@@ -92,79 +91,6 @@ class KObject implements KObjectHandlable, KObjectServiceable
         $config->append(array(
             'mixins' => array(),
         ));
-    }
-
-    /**
-     * Set the object properties
-     *
-     * @param   string|array|object $property The name of the property, an associative array or an object
-     * @param   mixed               $value    The value of the property
-     * @throws  KObjectException If trying to access protected or private properties
-     * @return  KObject
-     */
-    public function set($property, $value = null)
-    {
-        if (is_object($property)) {
-            $property = get_object_vars($property);
-        }
-
-        if (is_array($property))
-        {
-            foreach ($property as $k => $v) {
-                $this->set($k, $v);
-            }
-        }
-        else
-        {
-            if ('_' == substr($property, 0, 1))
-            {
-                throw new KObjectException(
-                    "Protected or private properties can't be set outside of object scope in " . get_class($this)
-                );
-            }
-
-            $this->$property = $value;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the object properties
-     *
-     * If no property name is given then the function will return an associative array of all properties.
-     * If the property does not exist and a  default value is specified this is returned, otherwise the
-     * function return NULL.
-     *
-     * @param   string  $property The name of the property
-     * @param   mixed   $default  The default value
-     * @return  mixed   The value of the property, an associative array or NULL
-     */
-    public function get($property = null, $default = null)
-    {
-        $result = $default;
-
-        if (is_null($property))
-        {
-            $result = get_object_vars($this);
-
-            foreach ($result as $key => $value)
-            {
-                if ('_' == substr($key, 0, 1)) {
-                    unset($result[$key]);
-                }
-            }
-        }
-        else
-        {
-            //PHP bug 22917 : Isset is not allowed on virtual properties
-            $r = $this->$property;
-            if (isset($r)) {
-                $result = $this->$property;
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -255,7 +181,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
         {
             $methods = array();
 
-            $reflection = new ReflectionClass($this);
+            $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods() as $method) {
                 $methods[] = $method->name;
             }
@@ -266,14 +192,15 @@ class KObject implements KObjectHandlable, KObjectServiceable
         return $this->__methods;
     }
 
+
     /**
      * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
      *
      * @param    string|object    $identifier The class identifier or identifier object
-     * @param    array              $config     An optional associative array of configuration settings.
-     * @throws    \RuntimeException If the service manager has not been defined.
-     * @return    object          Return object on success, throws exception on failure
-     * @see     KObjectServiceable
+     * @param    array            $config     An optional associative array of configuration settings.
+     * @throws   \RuntimeException If the service manager has not been defined.
+     * @return   object            Return object on success, throws exception on failure
+     * @see      KObjectServiceable
      */
     final public function getService($identifier = null, array $config = array())
     {
@@ -281,7 +208,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
         {
             if (!isset($this->__service_manager))
             {
-                throw new RuntimeException(
+                throw new \RuntimeException(
                     "Failed to call " . get_class($this) . "::getService(). No service_manager object defined."
                 );
             }
@@ -296,9 +223,9 @@ class KObject implements KObjectHandlable, KObjectServiceable
     /**
      * Gets the service identifier.
      *
-     * @param    string|object    $identifier The class identifier or identifier object
-     * @throws    \RuntimeException If the service manager has not been defined.
-     * @return    KServiceIdentifier
+     * @param   string|object    $identifier The class identifier or identifier object
+     * @throws  \RuntimeException If the service manager has not been defined.
+     * @return  KServiceIdentifier
      * @see     KObjectServiceable
      */
     final public function getIdentifier($identifier = null)
@@ -307,7 +234,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
         {
             if (!isset($this->__service_manager))
             {
-                throw new RuntimeException(
+                throw new \RuntimeException(
                     "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
                 );
             }
@@ -401,6 +328,6 @@ class KObject implements KObjectHandlable, KObjectServiceable
             return $result;
         }
 
-        throw new BadMethodCallException('Call to undefined method :' . $method);
+        throw new \BadMethodCallException('Call to undefined method :' . $method);
     }
 }
