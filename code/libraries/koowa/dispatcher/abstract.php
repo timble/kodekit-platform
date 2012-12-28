@@ -47,22 +47,95 @@ abstract class KDispatcherAbstract extends KControllerAbstract
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
-    		'request'	 => KRequest::get('get', 'string'),
-        ))->append(array (
-            'request' 	 => array('format' => KRequest::format() ? KRequest::format() : 'html')
-        ));
+            'request'    => 'koowa:dispatcher.request',
+            'response'   => 'koowa:dispatcher.response',
+            'user'       => 'koowa:dispatcher.user',
+         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Get the request object
+     *
+     * @throws	\UnexpectedValueException	If the request doesn't implement the KDispatcherRequestInterface
+     * @return KDispatcherRequest
+     */
+    public function getRequest()
+    {
+        if(!$this->_request instanceof KDispatcherRequestInterface)
+        {
+            $this->_request = parent::getRequest();
+
+            if(!$this->_request instanceof KDispatcherRequestInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Request: '.get_class($this->_request).' does not implement KDispatcherRequestInterface'
+                );
+            }
+        }
+
+        return $this->_request;
+    }
+
+    /**
+     * Get the response object
+     *
+     * @throws	\UnexpectedValueException	If the response doesn't implement the KDispatcherResponseInterface
+     * @return KDispatcherResponse
+     */
+    public function getResponse()
+    {
+        if(!$this->_response instanceof KDispatcherResponseInterface)
+        {
+            $this->_response = parent::getResponse();
+
+            //Set the request in the response
+            $this->_response->setRequest($this->getRequest());
+
+            if(!$this->_response instanceof KDispatcherResponseInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Response: '.get_class($this->_response).' does not implement KDispatcherResponseInterface'
+                );
+            }
+        }
+
+        return $this->_response;
+    }
+
+    /**
+     * Get the user object
+     *
+     * @throws	\UnexpectedValueException	If the user doesn't implement the KDispatcherUserInterface
+     * @return KDispatcherUserInterface
+     */
+    public function getUser()
+    {
+        if(!$this->_user instanceof KDispatcherUserInterface)
+        {
+            $this->_user = parent::getUser();
+
+            if(!$this->_user instanceof KDispatcherUserInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'User: '.get_class($this->_user).' does not implement KDispatcherUserInterface'
+                );
+            }
+        }
+
+        return $this->_user;
     }
 
 	/**
 	 * Method to get a controller object
 	 *
+     * @throws	\UnexpectedValueException	If the controller doesn't implement the KControllerInterface
 	 * @return	KControllerAbstract
 	 */
 	public function getController()
 	{
-		if(!($this->_controller instanceof KControllerAbstract))
+        if(!($this->_controller instanceof KControllerInterface))
 		{
 		    //Make sure we have a controller identifier
 		    if(!($this->_controller instanceof KServiceIdentifier)) {
@@ -70,11 +143,21 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			}
 
 		    $config = array(
-        		'request' 	   => $this->_request,
-			    'dispatched'   => true
+        		'request' 	 => $this->getRequest(),
+                'response'   => $this->getResponse(),
+                'user'       => $this->getUser(),
+			    'dispatched' => true
         	);
 
 			$this->_controller = $this->getService($this->_controller, $config);
+
+            //Make sure the controller implements KControllerInterface
+            if(!$this->_controller instanceof KControllerInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Controller: '.get_class($this->_controller).' does not implement KControllerInterface'
+                );
+            }
 		}
 
 		return $this->_controller;
@@ -83,14 +166,13 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 	/**
 	 * Method to set a controller object attached to the dispatcher
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
-	 * 					or valid identifier string
-	 * @throws	KDispatcherException	If the identifier is not a controller identifier
+	 * @param	mixed	$controller An object that implements KControllerInterface, KServiceIdentifier object
+	 * 					            or valid identifier string
 	 * @return	KDispatcherAbstract
 	 */
-	public function setController($controller)
+	public function setController($controller, $config = array())
 	{
-		if(!($controller instanceof KControllerAbstract))
+		if(!($controller instanceof KControllerInterface))
 		{
 			if(is_string($controller) && strpos($controller, '.') === false )
 		    {
@@ -105,9 +187,8 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 			}
 		    else $identifier = $this->getIdentifier($controller);
 
-			if($identifier->path[0] != 'controller') {
-				throw new KDispatcherException('Identifier: '.$identifier.' is not a controller identifier');
-			}
+            //Set the configuration
+            $this->getService()->setConfig($identifier, $config);
 
 			$controller = $identifier;
 		}
@@ -115,41 +196,5 @@ abstract class KDispatcherAbstract extends KControllerAbstract
 		$this->_controller = $controller;
 
 		return $this;
-	}
-
-    /**
-     * Get the command chain context
-     *
-     * This functions sets the command subject as the mixer in the context
-     *
-     * @return  KCommandContext
-     */
-    public function getCommandContext()
-    {
-        $context = $this->getCommandChain()->getContext();
-        $context->setSubject($this);
-
-        $context->response = $this->getService('koowa:dispatcher.response.default');
-
-        return $context;
-    }
-
-	/**
-	 * Dispatch the controller
-	 *
-	 * @param   object		A command context object
-	 * @return	mixed
-	 */
-	protected function _actionDispatch(KCommandContext $context)
-	{
-	    $action = KRequest::get('post.action', 'cmd', strtolower(KRequest::method()));
-
-	    if(KRequest::method() != KHttpRequest::GET) {
-            $context->data = KRequest::get(strtolower(KRequest::method()), 'raw');;
-        }
-
-	    $result = $this->getController()->execute($action, $context);
-
-        return $result;
 	}
 }
