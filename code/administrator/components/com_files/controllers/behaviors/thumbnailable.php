@@ -19,7 +19,7 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 {
 	protected function _afterControllerBrowse(KCommandContext $context)
 	{
-		if (!$this->getRequest()->thumbnails || $this->getModel()->container->parameters->thumbnails !== true) {
+		if (!$context->request->query->get('thumbnails', 'cmd') || $this->getModel()->container->parameters->thumbnails !== true) {
 			return;
 		}
 
@@ -31,7 +31,7 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 			}
 		}
 		
-		$folder = $this->getRequest()->folder;
+		$folder = $context->request->query->get('folder', 'cmd');
 		$thumbnails = $this->getService('com://admin/files.controller.thumbnail', array(
 			'request' => array(
 				'container' => $this->getModel()->container,
@@ -44,7 +44,6 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 	
 		foreach ($thumbnails as $thumbnail) 
 		{
-				
 			if ($row = $context->result->find($thumbnail->filename)) {
 				$row->thumbnail = $thumbnail->thumbnail;
 			}
