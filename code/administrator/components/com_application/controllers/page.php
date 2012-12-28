@@ -16,21 +16,23 @@
  * @subpackage  Application
  */
  
-class ComApplicationControllerPage extends KControllerResource
+class ComApplicationControllerPage extends ComDefaultControllerView
 {
-    protected function _initialize(KConfig $config)
+    protected function _actionRender(KCommandContext $context)
     {
-        $config->append(array(
-            'view'      => 'page',
-            'toolbars'  => array('menubar', $this->getIdentifier()->name),
-        ));
+        //Assign variables to the view
+        $this->getView()->content  = $context->response->getContent();
 
-        parent::_initialize($config);
-    }
+        $content = parent::_actionRender($context);
 
-    protected function _actionGet(KCommandContext $context)
-    {
-        $this->getView()->content = $context->response->getContent();
-        return parent::_actionGet($context);
+        //Make images paths absolute
+        $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
+
+        $content = str_replace(JURI::base().'images/', $path, $content);
+        $content = str_replace(array('../images', './images') , '"'.$path, $content);
+
+        $context->response->setContent($content);
+
+        return $content;
     }
 }
