@@ -180,7 +180,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 	{
 		$thumb = $this->getService('com://admin/files.model.thumbnails')
 			->source($this)
-			->getItem();
+			->getRow();
 
 		$result = $thumb->delete();
 
