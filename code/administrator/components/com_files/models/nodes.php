@@ -18,11 +18,11 @@
 
 class ComFilesModelNodes extends ComFilesModelDefault
 {
-    public function getItem()
+    public function getRow()
     {
-        if (!isset($this->_item))
+        if (!isset($this->_row))
         {
-            $this->_item = $this->getRow(array(
+            $this->_row = $this->getTable()->getRow(array(
                 'data' => array(
             		'container' => $this->_state->container,
                     'folder' 	=> $this->_state->folder,
@@ -31,24 +31,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
             ));
         }
 
-        return parent::getItem();
-    }
-
-    public function getRow(array $options = array())
-    {
-        $identifier         = clone $this->getIdentifier();
-        $identifier->path   = array('database', 'row');
-        $identifier->name   = KInflector::singularize($this->getIdentifier()->name);
-
-        return $this->getService($identifier, $options);
-    }
-
-    public function getRowset(array $options = array())
-    {
-        $identifier         = clone $this->getIdentifier();
-        $identifier->path   = array('database', 'rowset');
-
-        return $this->getService($identifier, $options);
+        return parent::getRow();
     }
 
     protected function _getPath()
@@ -64,9 +47,9 @@ class ComFilesModelNodes extends ComFilesModelDefault
         return $path;
     }
 
-	public function getList()
+	public function getRowset()
 	{
-		if (!isset($this->_list))
+		if (!isset($this->_rowset))
 		{
 			$state = $this->_state;
 			$type = !empty($state->types) ? (array) $state->types : array();
@@ -81,8 +64,8 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders_model = $this->getService('com://admin/files.model.folders')->set($state->getData());
-				$folders = $folders_model->getList();
+				$folders_model = $this->getService('com://admin/files.model.folders')->set($state->toArray());
+				$folders = $folders_model->getRowset();
 
 				foreach ($folders as $folder)
 				{
@@ -99,10 +82,10 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
-				$data = $state->getData();
+				$data = $state->toArray();
 				$data['offset'] = $offset_left < 0 ? 0 : $offset_left;
 				$files_model = $this->getService('com://admin/files.model.files')->set($data);
-				$files = $files_model->getList();
+				$files = $files_model->getRowset();
 
 				foreach ($files as $file)
 				{
@@ -118,9 +101,9 @@ class ComFilesModelNodes extends ComFilesModelDefault
 
 			$this->_total = $total;
 
-			$this->_list = $list;
+			$this->_rowset = $list;
 		}
 
-		return parent::getList();
+		return parent::getRowset();
 	}
 }
