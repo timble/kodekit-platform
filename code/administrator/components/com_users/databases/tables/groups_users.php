@@ -17,8 +17,12 @@
  */
 class ComUsersDatabaseTableGroups_users extends KDatabaseTableDefault
 {
-    protected function _initialize(KConfig $config) {
-        $config->append(array('column_map' => array('group_id' => 'users_group_id', 'user_id' => 'users_user_id')));
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'column_map' => array('group_id' => 'users_group_id', 'user_id' => 'users_user_id'))
+        );
+
         parent::_initialize($config);
     }
 }
