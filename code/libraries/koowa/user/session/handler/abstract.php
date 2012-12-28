@@ -1,7 +1,7 @@
 <?php
 /**
  * @version     $Id$
- * @package     Koowa_Dispatcher
+ * @package     Koowa_User
  * @subpackage  Session
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -11,12 +11,12 @@
 /**
  * Abstract Session Handler Class
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Dispatcher
+ * @author      Johan Janssens <johan@nooku.org>
+ * @package     Koowa_User
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDispatcherSessionHandlerInterface
+abstract class KUserSessionHandlerAbstract extends KObject implements KUserSessionHandlerInterface
 {
     /**
      * The handler that was registered
@@ -30,7 +30,8 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
      * Constructor
      *
      * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDispatcherSessionHandlerAbstract
+     * @throws \RuntimeException If the session handler is not available
+     * @return KUserSessionHandlerAbstract
      */
     public function __construct(KConfig $config)
     {
@@ -39,7 +40,7 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
         if (!$this->isSupported())
         {
             $name = $this->getIdentifier()->name;
-            throw new KDispatcherSessionHandlerException('The ' . $name . ' session handler is not available');
+            throw new \RuntimeException('The ' . $name . ' session handler is not available');
         }
 
         //Register the functions of this class with the PHP session handler
@@ -171,7 +172,7 @@ abstract class KDispatcherSessionHandlerAbstract extends KObject implements KDis
      *
      * @return  boolean  True on success, false otherwise
      */
-    public static function isSupported()
+    public function isSupported()
     {
         return true;
     }
