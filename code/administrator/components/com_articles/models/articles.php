@@ -76,7 +76,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         if(is_numeric($state->category))
         {
-            if($state->category) {
+            if($state->category)
+            {
             	$query->where('tbl.categories_category_id IN :category' );
             	
 	            if($state->category_recurse === true) {
@@ -84,9 +85,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 	            }
 	
 	            $query->bind(array('category' => (array) $state->category));
-            } else {
-                $query->where('tbl.categories_category_id IS NULL');	
             }
+            else $query->where('tbl.categories_category_id IS NULL');
         }
 
         if($state->created_by) 
