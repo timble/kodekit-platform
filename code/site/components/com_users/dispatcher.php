@@ -20,26 +20,26 @@
 class ComUsersDispatcher extends ComDefaultDispatcher
 {
     protected function _initialize(KConfig $config)
-    {  
+    {
+        parent::_initialize($config);
+
         //Force the view to prevent a redirect
-        if(JFactory::getUser()->guest && KRequest::method() == KHttpRequest::GET) 
+        if($this->getUser()->isAuthentic() && $this->getRequest()->isGet())
         {  
-            $view = KRequest::get('get.view', 'cmd');
+            $view = $this->getRequest()->get('view', 'alpha');
             
 		    if(!in_array($view, array('session', 'remind', 'reset', 'user'))) {
-                $config->request = array('view' => 'session');
+                $this->getRequest()->query->set('view', 'session');
             }
-        } 
-        
-        parent::_initialize($config);
+        }
     }
 	
     protected function _actionDispatch(KCommandContext $context)
 	{        	
-        if(!JFactory::getUser()->guest) 
+        if($context->user->isAuthentic())
         {  
             //Redirect if user is already logged in
-            if($this->getRequest()->view == 'session')
+            if($context->request->query->get('view', 'alpha') == 'session')
             {
                 $menu = $this->getService('application.pages')->getHome();
                 //@TODO : Fix the redirect
@@ -47,10 +47,10 @@ class ComUsersDispatcher extends ComDefaultDispatcher
             }
         }
 
-        if(JFactory::getUser()->guest) 
+        if(!$context->user->isAuthentic())
         {  
             //Redirect if user is already logged in
-            if($this->getRequest()->view == 'session')
+            if($context->request->query->get('view', 'alpha') == 'session')
             {
                 $menu = $this->getService('application.pages')->getHome();
                 //@TODO : Fix the redirect
