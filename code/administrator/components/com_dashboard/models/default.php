@@ -10,7 +10,7 @@
  */
 
 /**
- * Dashboard Model
+ * Default Dashboard Model
  *   
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @category 	Nooku
@@ -18,7 +18,7 @@
  * @subpackage  Dashboard
  */
  
-class ComDashboardModelDashboards extends KModelAbstract
+class ComDashboardModelDefault extends KModelAbstract
 {
     
 }
