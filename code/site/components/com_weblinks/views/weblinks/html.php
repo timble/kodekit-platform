@@ -60,7 +60,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
         $category = $this->getService('com://site/weblinks.model.categories')
             ->table('weblinks')
             ->id($this->getModel()->getState()->category)
-            ->getItem();
+            ->getRow();
 
         return $category;
     }
