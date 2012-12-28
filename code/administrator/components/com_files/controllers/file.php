@@ -35,11 +35,11 @@ class ComFilesControllerFile extends ComFilesControllerDefault
 
 	public function addFile(KCommandContext $context)
 	{
-		if (empty($context->data->file) && KRequest::has('files.file.tmp_name'))
+		if (empty($context->request->data->file) && KRequest::has('files.file.tmp_name'))
 		{
-			$context->data->file = KRequest::get('files.file.tmp_name', 'raw');
-			if (empty($context->data->name)) {
-				$context->data->name = KRequest::get('files.file.name', 'raw');
+			$context->request->data->file = KRequest::get('files.file.tmp_name', 'raw');
+			if (empty($context->request->data->name)) {
+				$context->request->data->name = KRequest::get('files.file.name', 'raw');
 			}
 
 		}
