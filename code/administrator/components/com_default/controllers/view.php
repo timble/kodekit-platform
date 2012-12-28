@@ -15,7 +15,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerResource extends KControllerResource
+class ComDefaultControllerView extends KControllerView
 {
     /**
      * Constructor.
@@ -25,23 +25,21 @@ class ComDefaultControllerResource extends KControllerResource
     protected function  _initialize(KConfig $config)
   	{
 		$config->append(array(
-		    'toolbars'   => array('menubar', $this->getIdentifier()->name),
+		    'toolbars'  => array('menubar', $this->getIdentifier()->name),
 		));
 
       	parent::_initialize($config);
   	}
 
     /**
-     * Display action
-     *
-     * If the controller was not dispatched manually load the langauges files
+     * Render action
      *
      * @param   KCommandContext A command context object
      * @return  KDatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionRender(KCommandContext $context)
     {
         JFactory::getLanguage()->load($this->getIdentifier()->package);
-        return parent::_actionGet($context);
+        return parent::_actionRender($context);
     }
 }
