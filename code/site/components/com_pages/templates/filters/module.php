@@ -79,7 +79,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
-                $this->_loadModules()->addData(array($values), false);
+                $this->_loadModules()->addRow(array($values), false);
             }
 
             //Remove the <khtml:module></khtml:module> tags
@@ -153,13 +153,13 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
             $model = $this->getService('com://admin/pages.model.modules')
                 ->application('site')
                 ->published(true)
-                ->access((int) JFactory::getUser()->aid);
+                ->access((int) $this->getService('user')->isAuthentic());
 
             if (!is_null($page)) {
                 $model->page($page->id);
             }
 
-            $this->_modules = $model->getList();
+            $this->_modules = $model->getRowset();
         }
 
         return $this->_modules;
