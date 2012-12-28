@@ -17,7 +17,8 @@
  */
 class ComUsersDatabaseTablePasswords extends KDatabaseTableDefault
 {
-    protected function _initialize(KConfig $config) {
+    protected function _initialize(KConfig $config)
+    {
         $config->append(array('behaviors' => array('expirable')));
         parent::_initialize($config);
     }
