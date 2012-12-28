@@ -21,9 +21,9 @@ class ComUsersViewGroupHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $group = $this->getModel()->getItem();
+        $group = $this->getModel()->getRow();
 
-        $this->assign('users', $this->getService('com://admin/users.model.groups_users')->group_id($group->id)->getList()->user_id);
+        $this->assign('users', $this->getService('com://admin/users.model.groups_users')->group_id($group->id)->getRowset()->user_id);
         
         return parent::display();
     }
