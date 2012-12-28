@@ -17,7 +17,7 @@
  */
 class ComPagesModelTypes extends KModelAbstract
 {
-    protected $_list;
+    protected $_rowset;
     
     public function __construct(KConfig $config)
     {
@@ -26,9 +26,9 @@ class ComPagesModelTypes extends KModelAbstract
         $this->getState()->insert('application', 'word');
     }
 
-    public function getList()
+    public function getRowset()
     {
-        if(!isset($this->_list))
+        if(!isset($this->_rowset))
         {
             $table = $this->getService('com://admin/extensions.database.table.components');
             $query = $this->getService('koowa:database.query.select')
@@ -92,9 +92,9 @@ class ComPagesModelTypes extends KModelAbstract
                 $component->views = $views;
             }
 
-            $this->_list = $components;
+            $this->_rowset = $components;
         }
 
-        return $this->_list;
+        return $this->_rowset;
     }
 }
