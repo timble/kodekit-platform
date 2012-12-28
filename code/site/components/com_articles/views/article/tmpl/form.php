@@ -33,7 +33,7 @@
     	        <input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<? echo @escape($article->title); ?>"/>
     	    </div>
     	</div>
-        <?= @service('com://admin/editors.controller.editor')->name('text')->text($article->text)->display() ?>
+        <?= @service('com://admin/wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </fieldset>
     <fieldset>
         <legend><?= @text('Publishing'); ?></legend>
@@ -70,7 +70,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= @text('Category'); ?></label>
             <div class="controls">
-                <?= @template('com://admin/articles.view.article.form_categories', array('categories' =>  @service('com://site/articles.model.categories')->sort('title')->table('articles')->getList(), 'article' => $article)) ?>
+                <?= @template('com://admin/articles.view.article.form_categories', array('categories' =>  @service('com://site/articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
             </div>
         </div>
     </fieldset>
