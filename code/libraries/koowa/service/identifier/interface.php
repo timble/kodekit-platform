@@ -24,5 +24,5 @@ interface KServiceIdentifierInterface extends Serializable
      *
      * @return string
      */
-    public function __toString();
+    public function toString();
 }
