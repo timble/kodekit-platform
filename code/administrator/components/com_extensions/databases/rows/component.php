@@ -16,7 +16,7 @@
  * @subpackage  Extensions    
  */
 
-class ComExtensionsDatabaseRowComponent extends KDatabaseRowDefault
+class ComExtensionsDatabaseRowComponent extends KDatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest
