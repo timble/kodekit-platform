@@ -32,7 +32,7 @@ class ComWeblinksViewWeblinksRss extends KViewRss
         $category = $this->getService('com://site/weblinks.model.categories')
                          ->table('weblinks')
                          ->id($this->getModel()->getState()->category)
-                         ->getItem();
+                         ->getRow();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
