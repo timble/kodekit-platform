@@ -18,7 +18,7 @@
  * @package    	Nooku_Components
  * @subpackage 	Versions
  */
-class ComVersionsDatabaseRowRevision extends KDatabaseRowDefault
+class ComVersionsDatabaseRowRevision extends KDatabaseRowTable
 {
 	public function __get($column)
     {
