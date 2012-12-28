@@ -28,7 +28,7 @@ class ComApplicationDatabaseRowsetLanguages extends KDatabaseRowsetAbstract impl
         $components = $this->getService('com://admin/languages.model.languages')
             ->enabled(true)
             ->application('site')
-            ->getList();
+            ->getRowset();
 
         $this->merge($components);
     }
