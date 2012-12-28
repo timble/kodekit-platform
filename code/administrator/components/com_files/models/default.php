@@ -28,8 +28,6 @@ class ComFilesModelDefault extends KModelAbstract
             ->insert('sort'     , 'cmd')
             ->insert('direction', 'word', 'asc')
             ->insert('search'   , 'string')
-            // callback state for JSONP, needs to be filtered as cmd to prevent XSS
-            ->insert('callback' , 'cmd')
 
 			->insert('container', 'com://admin/files.filter.container', null)
 			->insert('folder'	, 'com://admin/files.filter.path', '')
@@ -37,14 +35,14 @@ class ComFilesModelDefault extends KModelAbstract
 
 			->insert('types'	, 'cmd', '')
 			->insert('editor'   , 'string', '') // used in modal windows
-			->insert('config'   , 'json', '') // used to pass options to the JS application in HMVC
+			->insert('config'   , 'json', '')   // used to pass options to the JS application in HMVC
 			;
 	}
 
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'state' => new ComFilesConfigState()
+			'state' => new ComFilesModelState()
 		));
 
 		parent::_initialize($config);
