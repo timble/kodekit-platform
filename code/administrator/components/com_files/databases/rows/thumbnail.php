@@ -15,7 +15,7 @@
   * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesDatabaseRowThumbnail extends KDatabaseRowDefault
+class ComFilesDatabaseRowThumbnail extends KDatabaseRowTable
 {
     protected $_thumbnail_size;
 
