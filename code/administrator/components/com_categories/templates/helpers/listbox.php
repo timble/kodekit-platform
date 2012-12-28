@@ -36,7 +36,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $app        = $this->getIdentifier()->application;
         $identifier = 'com://'.$app.'/'.$config->package.'.model.'.($config->model ? $config->model : KInflector::pluralize($config->package));
 
-        $list = $this->getService($identifier)->set($config->filter)->getList();
+        $list = $this->getService($identifier)->set($config->filter)->getRowset();
 
         $options = array();
         foreach($list as $item) {
@@ -73,7 +73,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                      ->set('table', $config->table)
                      ->set('parent', $config->parent)
                      ->set('sort', 'title')
-                     ->getList();
+                     ->getRowset();
 
         $iterator = new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST);
         foreach($iterator as $item)
