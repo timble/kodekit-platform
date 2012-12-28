@@ -43,8 +43,7 @@
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
         </div>
-
-        <?= @service('com://admin/editors.controller.editor')->name('text')->text($article->text)->display() ?>
+        <?= @service('com://admin/wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar">        
         <div class="scrollable">
@@ -94,7 +93,7 @@
 	                <div class="control-group">
 	                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
 	                    <div class="controls">
-	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : $user->id)) ?>
+	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
 	                    </div>
 	                </div>
 	                <div class="control-group">
@@ -109,7 +108,7 @@
 	        <fieldset class="categories group">
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
-	            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getList(), 'article' => $article)) ?>
+	            <?= @template('form_categories', array('categories' =>  @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
 	            </div>
 	        </fieldset>
 	        <fieldset>
