@@ -26,7 +26,7 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
         parent::_initialize($config);
     }
     
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionRender(KCommandContext $context)
     {
         $view = $this->getView();
 
@@ -42,15 +42,17 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefau
             $this->getService()->setAlias($layout, $alias);
         }
 
-        return parent::_actionGet($context);
+        return parent::_actionRender($context);
     }
     
     public function getRequest()
 	{
-		$this->_request['table']     = $this->getIdentifier()->package;
-        $this->_request['access']    = JFactory::getUser()->get('aid', '0');
-        $this->_request['published'] = 1;
+		$request = parent::getRequest();
 
-	    return $this->_request;
+        $request->query->table     = $this->getIdentifier()->package;
+        $request->query->access    = $this->getUser()->isAuthentic();
+        $request->query->published = 1;
+
+	    return $request;
 	}
 }
