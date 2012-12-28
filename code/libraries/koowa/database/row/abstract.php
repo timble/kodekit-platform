@@ -114,13 +114,38 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     }
 
     /**
-     * Test the connected status of the row.
+     * Set row field value
      *
-     * @return    boolean    Returns TRUE by default.
+     * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
+     * If the row is new the value will be (re)set and marked as modified
+     *
+     * @param   string  The column name.
+     * @param   mixed   The value for the property.
+     * @return  KDatabaseRowAbstract
      */
-    public function isConnected()
+    public function set($column, $value)
     {
-        return true;
+        if (!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew())
+        {
+            parent::set($column, $value);
+            $this->_modified[$column] = true;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove a row field
+     *
+     * @param   string  The column name.
+     * @return  KDatabaseRowAbstract
+     */
+    public function remove($column)
+    {
+        parent::remove($column);
+        unset($this->_modified[$column]);
+
+        return $this;
     }
 
     /**
@@ -222,98 +247,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     }
 
     /**
-     * Load the row from the database.
-     *
-     * @return object    If successfull returns the row object, otherwise NULL
-     */
-    public function load()
-    {
-        $this->_modified = array();
-        return $this;
-    }
-
-    /**
-     * Saves the row to the database.
-     *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
-     *
-     * @return boolean  If successfull return TRUE, otherwise FALSE
-     */
-    public function save()
-    {
-        $this->_modified = array();
-        return false;
-    }
-
-    /**
-     * Deletes the row form the database.
-     *
-     * @return boolean  If successfull return TRUE, otherwise FALSE
-     */
-    public function delete()
-    {
-        return false;
-    }
-
-    /**
-     * Resets to the default properties
-     *
-     * @return boolean  If successfull return TRUE, otherwise FALSE
-     */
-    public function reset()
-    {
-        $this->_data     = array();
-        $this->_modified = array();
-
-        return true;
-    }
-
-    /**
-     * Count the rows in the database based on the data in the row
-     *
-     * @return integer
-     */
-    public function count()
-    {
-        return false;
-    }
-
-    /**
-     * Set row field value
-     *
-     * If the value is the same as the current value and the row is loaded from the database
-     * the value will not be reset. If the row is new the value will be (re)set and marked
-     * as modified
-     *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
-     * @return  void
-     */
-    public function __set($column, $value)
-    {
-        if (!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew())
-        {
-            parent::__set($column, $value);
-
-            $this->_modified[$column] = true;
-        }
-    }
-
-    /**
-     * Unset a row field
-     *
-     * @param   string  The column name.
-     * @return  void
-     */
-    public function __unset($column)
-    {
-        parent::__unset($column);
-
-        unset($this->_modified[$column]);
-    }
-
-    /**
      * Gets the identitiy column of the rowset
      *
      * @return string
@@ -334,6 +267,74 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     }
 
     /**
+     * Load the row from the database.
+     *
+     * @return object    If successful returns the row object, otherwise NULL
+     */
+    public function load()
+    {
+        $this->_modified = array();
+        return $this;
+    }
+
+    /**
+     * Saves the row to the database.
+     *
+     * This performs an intelligent insert/update and reloads the properties
+     * with fresh data from the table on success.
+     *
+     * @return boolean  If successful return TRUE, otherwise FALSE
+     */
+    public function save()
+    {
+        $this->_modified = array();
+        return false;
+    }
+
+    /**
+     * Deletes the row form the database.
+     *
+     * @return boolean  If successful return TRUE, otherwise FALSE
+     */
+    public function delete()
+    {
+        return false;
+    }
+
+    /**
+     * Resets to the default properties
+     *
+     * @return KDatabaseRowInterface
+     */
+    public function reset()
+    {
+        $this->_data     = array();
+        $this->_modified = array();
+
+        return $this;
+    }
+
+    /**
+     * Count the rows in the database based on the data in the row
+     *
+     * @return integer
+     */
+    public function count()
+    {
+        return false;
+    }
+
+    /**
+     * Checks if the row is new or not
+     *
+     * @return bool
+     */
+    public function isNew()
+    {
+        return (bool)$this->_new;
+    }
+
+    /**
      * Check if a column has been modified
      *
      * @param   string  The column name.
@@ -350,12 +351,12 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     }
 
     /**
-     * Checks if the row is new or not
+     * Test the connected status of the row.
      *
-     * @return bool
+     * @return    boolean    Returns TRUE by default.
      */
-    public function isNew()
+    public function isConnected()
     {
-        return (bool)$this->_new;
+        return true;
     }
 }
