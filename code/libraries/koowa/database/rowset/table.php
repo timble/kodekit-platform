@@ -19,7 +19,7 @@
 class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
 {
     /**
-     * Table object or identifier (com://APP/COMPONENT.table.NAME)
+     * Table object or identifier
      *
      * @var    string|object
      */
