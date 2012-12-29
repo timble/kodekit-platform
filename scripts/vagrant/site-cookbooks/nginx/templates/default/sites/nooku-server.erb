@@ -2,7 +2,7 @@ server {
   listen   80;
   server_name  localhost;
 
-  root   <%= node['nginx']['nooku-server']['site'] %>/public;
+  root   <%= node['nginx']['nooku-server']['dir'] %>/public;
   index  index.php index.html index.htm;
 
   access_log  /var/log/nginx/<%= node['nginx']['nooku-server']['site'] %>.access.log;
