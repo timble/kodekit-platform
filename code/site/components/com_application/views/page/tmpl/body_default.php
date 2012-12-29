@@ -13,7 +13,6 @@
     <div class="navbar">
         <nav class="navbar-inner">           
             <ktml:modules position="user3" />
-            </div>
         </nav>
     </div>
 </header>
