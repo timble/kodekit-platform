@@ -254,6 +254,53 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     }
 
     /**
+     * Locks a table
+     *
+     * @param   string $table  The name of the table.
+     * @return  boolean  TRUE on success, FALSE otherwise.
+     */
+    public function lock($table)
+    {
+        $query = 'LOCK TABLES '.$this->quoteIdentifier($this->getTableNeedle().$table).' WRITE';
+
+        // Create command chain context.
+        $context = $this->getCommandContext();
+        $context->table = $table;
+        $context->query = $query;
+
+        if($this->getCommandChain()->run('before.lock', $context) !== false)
+        {
+            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
+            $this->getCommandChain()->run('after.lock', $context);
+        }
+
+        return $context->result;
+    }
+
+    /**
+     * Unlocks tables
+     *
+     * @return  boolean  TRUE on success, FALSE otherwise.
+     */
+    public function unlock()
+    {
+        $query = 'UNLOCK TABLES';
+
+        // Create command chain context.
+        $context = $this->getCommandContext();
+        $context->table = null;
+        $context->query = $query;
+
+        if($this->getCommandChain()->run('before.unlock', $context) !== false)
+        {
+            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
+            $this->getCommandChain()->run('after.unlock', $context);
+        }
+
+        return $context->result;
+    }
+
+    /**
      * Set the connection
      *
      * @param   $connection  The connection object.
@@ -325,53 +372,6 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
         }
 
         return $this->_table_schema[$table];
-    }
-
-    /**
-     * Locks a table
-     *
-     * @param   string $table  The name of the table.
-     * @return  boolean  TRUE on success, FALSE otherwise.
-     */
-    public function lock($table)
-    {
-        $query = 'LOCK TABLES '.$this->quoteIdentifier($this->getTableNeedle().$table).' WRITE';
-
-        // Create command chain context.
-        $context = $this->getCommandContext();
-        $context->table = $table;
-        $context->query = $query;
-
-        if($this->getCommandChain()->run('before.lock', $context) !== false)
-        {
-            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
-            $this->getCommandChain()->run('after.lock', $context);
-        }
-
-        return $context->result;
-    }
-
-    /**
-     * Unlocks tables
-     *
-     * @return  boolean  TRUE on success, FALSE otherwise.
-     */
-    public function unlock()
-    {
-        $query = 'UNLOCK TABLES';
-
-        // Create command chain context.
-        $context = $this->getCommandContext();
-        $context->table = null;
-        $context->query = $query;
-
-        if($this->getCommandChain()->run('before.unlock', $context) !== false)
-        {
-            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
-            $this->getCommandChain()->run('after.unlock', $context);
-        }
-
-        return $context->result;
     }
 
     /**
