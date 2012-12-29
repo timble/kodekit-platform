@@ -16,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseAdapterMysqli extends KDatabaseAdapterMysqli implements KServiceInstantiatable
+class ComApplicationDatabaseAdapterMysql extends KDatabaseAdapterMysql implements KServiceInstantiatable
 {
     /**
 	 * The cache object
