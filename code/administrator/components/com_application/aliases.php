@@ -16,8 +16,9 @@
  * @subpackage  Application
  */
 
+KService::setAlias('application'           , 'com://admin/application.dispatcher.default');
 KService::setAlias('application.components', 'com://admin/application.database.rowset.components');
 KService::setAlias('application.languages' , 'com://admin/application.database.rowset.languages');
 KService::setAlias('application.pages'     , 'com://admin/application.database.rowset.pages');
 
-KService::setAlias('koowa:database.adapter.mysqli', 'com://admin/application.database.adapter.mysqli');
+KService::setAlias('koowa:database.adapter.mysql', 'com://admin/application.database.adapter.mysql');
