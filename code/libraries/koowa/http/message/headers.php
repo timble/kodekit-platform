@@ -107,7 +107,7 @@ class KHttpMessageHeaders extends KObjectArray
         if ($replace === true || !isset($this[$key])) {
             $this->_data[$key] = (array) $values;
         } else {
-            $this->_data[$key] = array_merge($this->_data[$key], $values);
+            $this->_data[$key] = array_merge($this->_data[$key], (array) $values);
         }
 
         return $this;
