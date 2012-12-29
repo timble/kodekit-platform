@@ -10,12 +10,8 @@
 ?>
 
 <? $group = isset($group) ? $group : '_default' ?>
-<fieldset class="form-horizontal">
-	<? if($html = $params->render('params', $group)) : ?>
-		<?= $html ?>
-	<? else : ?>
-		<div style="text-align: center; padding: 5px;">
-			<?= @text('There are no parameters for this item') ?>
-		</div>
-	<? endif ?>
-</fieldset>
+<? if($html = $params->render('params', $group)) : ?>
+	<?= $html ?>
+<? else : ?>
+	<?= @text('There are no parameters for this item') ?>
+<? endif ?>

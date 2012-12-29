@@ -42,24 +42,25 @@
 				</div>
 			</fieldset>
 			
-			<?= @helper('tabs.startPane') ?>
-				<?= @helper('tabs.startPanel', array('id' => 'default', 'title' => 'Default Parameters')) ?>
-					<?= @template('form_accordion', array('params' => $module->params)) ?>
-				<?= @helper('tabs.endPanel') ?>				
-				
-				<? if($module->params->getNumParams('advanced')) : ?>
-				<?= @helper('tabs.startPanel', array('id' => 'advanced', 'title' => 'Advanced Parameters')) ?>
-				<?= @template('form_accordion', array('params' => $module->params, 'group' => 'advanced')) ?>
-				<?= @helper('tabs.endPanel') ?>
-				<? endif ?>
-				
-				<? if($module->params->getNumParams('other')) : ?>
-				<?= @helper('tabs.startPanel', array('id' => 'other', 'title' => 'Other Parameters')) ?>
-				<?= @template('form_accordion', array('params' => $module->params, 'group' => 'other')) ?>
-				<?= @helper('tabs.endPanel') ?>
-				<? endif ?>
-			<?= @helper('tabs.endPane') ?>
+			<fieldset class="form-horizontal">
+				<legend><?= @text( 'Default Parameters' ); ?></legend>
+				<?= @template('form_parameters', array('params' => $module->params)) ?>
+			</fieldset>
 						
+			<? if($module->params->getNumParams('advanced')) : ?>
+			<fieldset class="form-horizontal">
+				<legend><?= @text( 'Advanced Parameters' ); ?></legend>
+				<?= @template('form_parameters', array('params' => $module->params, 'group' => 'advanced')) ?>
+			</fieldset>
+			<? endif ?>
+			
+			<? if($module->params->getNumParams('other')) : ?>
+			<fieldset class="form-horizontal">
+				<legend><?= @text( 'Other Parameters' ); ?></legend>
+				<?= @template('form_parameters', array('params' => $module->params, 'group' => 'other')) ?>
+			</fieldset>
+			<? endif ?>
+
 			<? if($module->name == 'mod_custom') : ?>
 			<fieldset>
 				<legend><?= @text('Custom Output') ?></legend>
