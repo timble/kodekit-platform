@@ -224,36 +224,6 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     }
 
     /**
-     * Executes queries
-     *
-     * @param  string  $query  The query to run. Data inside the query should be properly escaped.
-     * @param  integer $mode   The result mode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
-     *                         depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you
-     *                         use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync
-     *                         unless you free the result first.
-     *
-     * @throws \RuntimeException If the query could not be executed
-     * @return object|boolean  For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
-     *                         For other successful queries return TRUE.
-     */
-    public function execute($query, $mode = KDatabase::RESULT_STORE)
-    {
-        $dbh    = $this->getConnection();
-        $result = $dbh->query((string) $query, $mode);
-
-        if($result === false)
-        {
-            $error = $dbh->errorInfo();
-            throw new \RuntimeException($error[2].' of the following query: '.$query, $error[1]);
-        }
-
-        $this->_affected_rows = $result->rowCount();
-        $this->_insert_id     = $dbh->lastInsertId();
-
-        return $result;
-    }
-
-    /**
      * Locks a table
      *
      * @param   string $table  The name of the table.
@@ -298,6 +268,36 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
         }
 
         return $context->result;
+    }
+
+    /**
+     * Executes queries
+     *
+     * @param  string  $query  The query to run. Data inside the query should be properly escaped.
+     * @param  integer $mode   The result mode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
+     *                         depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you
+     *                         use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync
+     *                         unless you free the result first.
+     *
+     * @throws \RuntimeException If the query could not be executed
+     * @return object|boolean  For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
+     *                         For other successful queries return TRUE.
+     */
+    public function execute($query, $mode = KDatabase::RESULT_STORE)
+    {
+        $dbh    = $this->getConnection();
+        $result = $dbh->query((string) $query, $mode);
+
+        if($result === false)
+        {
+            $error = $dbh->errorInfo();
+            throw new \RuntimeException($error[2].' of the following query: '.$query, $error[1]);
+        }
+
+        $this->_affected_rows = $result->rowCount();
+        $this->_insert_id     = $dbh->lastInsertId();
+
+        return $result;
     }
 
     /**
