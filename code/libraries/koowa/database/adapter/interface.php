@@ -30,7 +30,6 @@ interface KDatabaseAdapterInterface
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function reconnect();
-	
 
 	/**
 	 * Disconnect from db
@@ -38,63 +37,43 @@ interface KDatabaseAdapterInterface
 	 * @return  KDatabaseAdapterAbstract
 	 */
 	public function disconnect();
-	
-	/**
-	 * Get the connection
-	 *
-	 * Provides access to the underlying database connection. Useful for when
-	 * you need to call a proprietary method such as postgresql's lo_* methods
-	 *
-	 * @return resource
-	 */
-	public function getConnection();
 
-	/**
-	 * Set the connection
-	 *
-	 * @param 	resource 	The connection resource
-	 * @return  KDatabaseAdapterAbstract
-	 */
-	public function setConnection($resource);
-	
-	/**
-	 * Determines if the connection to the server is active.
-	 *
-	 * @return      boolean
-	 */
-	public function isConnected();
-
-	/**
-	 * Get the insert id of the last insert operation
-	 *
-	 * @return mixed The id of the last inserted row(s)
-	 */
- 	public function getInsertId();
-
-	/**
-	 * Retrieves the column schema information about the given table
-	 *
-	 * @param 	string 	A table name 
-	 * @return	KDatabaseSchemaTable
-	 */
-	public function getTableSchema($table);
-	
     /**
-     * Lock a table.
-     * 
-     * @param  string  Base name of the table.
-     * @param  string  Real name of the table.
-     * @return boolean True on success, false otherwise.
+     * Turns off autocommit mode
+     *
+     * @return  boolean  Returns TRUE on success or FALSE on failure.
      */
-    public function lockTable($base, $name);
-    
+    public function begin();
+
     /**
-     * Unlock a table.
-     * 
-     * @return boolean True on success, false otherwise.
+     * Commits a transaction
+     *
+     * @return  boolean  Returns TRUE on success or FALSE on failure.
      */
-    public function unlockTable();
-	
+    public function commit();
+
+    /**
+     * Rolls back a transaction
+     *
+     * @return  boolean  Returns TRUE on success or FALSE on failure.
+     */
+    public function rollback();
+
+    /**
+     * Lock a table
+     *
+     * @param   string $table  The name of the table.
+     * @return  boolean  TRUE on success, FALSE otherwise.
+     */
+    public function lock($table);
+
+    /**
+     * Unlock tables
+     *
+     * @return  boolean  TRUE on success, FALSE otherwise.
+     */
+    public function unlock();
+
 	/**
      * Preform a select query.
      * 
@@ -147,6 +126,39 @@ interface KDatabaseAdapterInterface
 	 * 					For other successful queries  return TRUE. 
 	 */
 	public function execute($sql, $mode = KDatabase::RESULT_STORE );
+
+    /**
+     * Get the connection
+     *
+     * Provides access to the underlying database connection. Useful for when
+     * you need to call a proprietary method such as postgresql's lo_* methods
+     *
+     * @return resource
+     */
+    public function getConnection();
+
+    /**
+     * Set the connection
+     *
+     * @param 	resource 	The connection resource
+     * @return  KDatabaseAdapterAbstract
+     */
+    public function setConnection($resource);
+
+    /**
+     * Get the insert id of the last insert operation
+     *
+     * @return mixed The id of the last inserted row(s)
+     */
+    public function getInsertId();
+
+    /**
+     * Retrieves the column schema information about the given table
+     *
+     * @param 	string 	A table name
+     * @return	KDatabaseSchemaTable
+     */
+    public function getTableSchema($table);
 
 	/**
 	 * Set the table prefix
@@ -206,4 +218,18 @@ interface KDatabaseAdapterInterface
      * @return string|array The quoted identifier name (or array of names).
      */
     public function quoteIdentifier($spec);
+
+    /**
+     * Determines if the connection to the server is active.
+     *
+     * @return      boolean
+     */
+    public function isConnected();
+
+    /**
+     * Checks if inside a transaction
+     *
+     * @return  boolean  Returns TRUE if a transaction is currently active, and FALSE if not.
+     */
+    public function inTransaction();
 }

@@ -135,7 +135,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $name = $this->getIdentifier()->name;
 
         $config->append(array(
-            'database'          => $this->getService('koowa:database.adapter.mysqli'),
+            'database'          => $this->getService('koowa:database.adapter.mysql'),
             'name'              => empty($package) ? $name : $package . '_' . $name,
             'column_map'        => null,
             'filters'           => array(),
@@ -518,7 +518,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         {
             if ($context->query)
             {
-                $data = $this->getDatabase()->select($context->query, $context->mode, $this->getIdentityColumn());
+                if($context->mode == KDatabase::FETCH_ARRAY_LIST || $context->mode == KDatabase::FETCH_OBJECT_LIST) {
+                    $key = $this->getIdentityColumn();
+                } else {
+                    $key = null;
+                }
+
+                $data = $this->getDatabase()->select($context->query, $context->mode, $key);
 
                 //Map the columns
                 if (($context->mode != KDatabase::FETCH_FIELD) && ($context->mode != KDatabase::FETCH_FIELD_LIST))
@@ -764,14 +770,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     {
         $result = null;
 
-        // Create commandchain context.
         $context = $this->getCommandContext();
         $context->table = $this->getBase();
 
         if ($this->getCommandChain()->run('before.lock', $context) !== false)
         {
             if ($this->isConnected()) {
-                $context->result = $this->getDatabase()->lockTable($this->getBase(), $this->getName());
+                $context->result = $this->getDatabase()->lock($this->getBase());
             }
 
             $this->getCommandChain()->run('after.lock', $context);
@@ -789,14 +794,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     {
         $result = null;
 
-        // Create commandchain context.
         $context = $this->getCommandContext();
         $context->table = $this->getBase();
 
         if ($this->getCommandChain()->run('before.unlock', $context) !== false)
         {
             if ($this->isConnected()) {
-                $context->result = $this->getDatabase()->unlockTable();
+                $context->result = $this->getDatabase()->unlock();
             }
 
             $this->getCommandChain()->run('after.unlock', $context);

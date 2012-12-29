@@ -57,7 +57,7 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'adapter' => KService::get('koowa:database.adapter.mysqli')
+            'adapter' => KService::get('koowa:database.adapter.mysql')
         ));
     }
 
