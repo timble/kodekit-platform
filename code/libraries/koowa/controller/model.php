@@ -52,7 +52,6 @@ abstract class KControllerModel extends KControllerView
     	$config->append(array(
     		'behaviors'  => array('lockable'),
             'model'	     => $this->getIdentifier()->name,
-            'view'       => null
         ));
 
         parent::_initialize($config);
@@ -65,27 +64,31 @@ abstract class KControllerModel extends KControllerView
      */
     public function getView()
     {
-        if(!isset($this->_view))
+        if(!$this->_view instanceof KViewInterface)
         {
-            $view = $this->getIdentifier()->name;
+            if(!$this->getRequest()->query->has('view'))
+            {
+                $view = $this->getIdentifier()->name;
 
-            if($this->getModel()->getState()->isUnique()) {
-                $view = KInflector::singularize($view);
-            } else {
-                $view = KInflector::pluralize($view);
+                if($this->getModel()->getState()->isUnique()) {
+                    $view = KInflector::singularize($view);
+                } else {
+                    $view = KInflector::pluralize($view);
+                }
             }
+            else $view = $this->getRequest()->query->get('view', 'cmd');
 
-            //Create the view object
-            $this->_view = $view;
+            //Set the view
+            $this->setView($view);
+
+            //Get the view
+            $view = parent::getView();
+
+            //Set the model in the view
+            $view->setModel($this->getModel());
         }
 
-        //Get the view
-        $view = parent::getView();
-
-        //Set the model in the view
-        $view->setModel($this->getModel());
-
-        return $view;
+        return parent::getView();
     }
 
     /**
@@ -289,7 +292,7 @@ abstract class KControllerModel extends KControllerView
      * Supports a simple form Fluent Interfaces. Allows you to set the request properties by using the request property
      * name as the method name.
      *
-     * For example : $controller->view('name')->limit(10)->browse();
+     * For example : $controller->limit(10)->browse();
      *
      * @param	string	Method name
      * @param	array	Array containing all the arguments for the original call
