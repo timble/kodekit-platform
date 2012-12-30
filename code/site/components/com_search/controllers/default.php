@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Search
  */
-class ComSearchControllerDefault extends ComDefaultControllerDefault
+class ComSearchControllerDefault extends ComDefaultControllerModel
 {
 	protected function _initialize(KConfig $config)
 	{
