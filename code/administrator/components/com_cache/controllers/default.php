@@ -18,7 +18,7 @@
  * @subpackage  Cache
  */
  
-class ComCacheControllerDefault extends ComDefaultControllerDefault 
+class ComCacheControllerDefault extends ComDefaultControllerModel
 { 
     protected function _actionPurge(KCommandContext $context)
     {
