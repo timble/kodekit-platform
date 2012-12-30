@@ -44,7 +44,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected $_filters = array();
 
     /**
-     * View object or identifier (com://APP/COMPONENT.view.NAME.FORMAT)
+     * View object or identifier
      *
      * @var    string|object
      */
@@ -60,7 +60,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Constructor
      *
-     * Prevent creating instances of this class by making the contructor private
+     * Prevent creating instances of this class by making the constructor private
      *
      * @param     object     An optional KConfig object with configuration options
      */
@@ -139,7 +139,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function getView()
     {
-        if (!$this->_view instanceof KViewAbstract)
+        if (!$this->_view instanceof KViewInterface)
         {
             //Make sure we have a view identifier
             if (!($this->_view instanceof KServiceIdentifier)) {
@@ -162,7 +162,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function setView($view)
     {
-        if (!($view instanceof KViewAbstract))
+        if (!($view instanceof KViewInterface))
         {
             if (is_string($view) && strpos($view, '.') === false)
             {
