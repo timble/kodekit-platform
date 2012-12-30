@@ -24,7 +24,7 @@ class ComApplicationViewHtml extends KViewHtml
 
         //@TODO : Remove this once media is in the resources/media folder
         $this->getTemplate()->getFilter('alias')->addAlias(
-            array($this->_mediaurl.'/com_application/' => (string) KRequest::base().'/site/templates/'.$this->getService('application')->getTemplate().'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
+            array($this->_mediaurl.'/com_application/' => (string) KRequest::base().'/templates/'.$this->getService('application')->getTemplate().'/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
     }
 
@@ -43,7 +43,10 @@ class ComApplicationViewHtml extends KViewHtml
         //Set the language information
         $this->language  = JFactory::getLanguage()->getTag();
         $this->direction = JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
+
+        //Set the component and layout information
         $this->component = $this->getService('application')->getController()->getIdentifier()->package;
+        $this->layout    = $this->getService('component')->getController()->getView()->getLayout();
 
         return parent::display();
     }
