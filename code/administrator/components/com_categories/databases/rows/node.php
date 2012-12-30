@@ -19,14 +19,14 @@
 class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
 {
     /**
-     * Nodes object or identifier (com://APP/COMPONENT.rowset.NAME)
+     * Nodes object or identifier
      *
      * @var string|object
      */
     protected $_children = null;
 
     /**
-     * Node object or identifier (com://APP/COMPONENT.rowset.NAME)
+     * Node object or identifier
      *
      * @var string|object
      */
