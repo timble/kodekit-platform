@@ -18,7 +18,7 @@
 abstract class KViewAbstract extends KObject implements KViewInterface
 {
     /**
-     * Model identifier (com://APP/COMPONENT.model.NAME)
+     * Model object or identifier
      *
      * @var    string|object
      */
