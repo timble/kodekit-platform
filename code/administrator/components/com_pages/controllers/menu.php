@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesControllerMenu extends ComDefaultControllerDefault
+class ComPagesControllerMenu extends ComDefaultControllerModel
 {
     protected function _initialize(KConfig $config)
     {
