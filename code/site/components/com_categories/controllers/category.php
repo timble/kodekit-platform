@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-abstract class ComCategoriesControllerCategory extends ComDefaultControllerDefault
+abstract class ComCategoriesControllerCategory extends ComDefaultControllerModel
 { 
     protected function _initialize(KConfig $config)
     {
