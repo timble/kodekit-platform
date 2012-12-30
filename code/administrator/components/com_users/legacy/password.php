@@ -7,14 +7,15 @@
  * @copyright 2012 The Authors
  */
 
-if (version_compare(PHP_VERSION, '5.3.7', '<')) {
+if (version_compare(PHP_VERSION, '5.3.7', '<'))
+{
 	trigger_error("The Password Compatibility Library requires PHP >= 5.3.7", E_USER_WARNING);
 	// Prevent defining the functions
 	return;
 }
 
-if (!defined('PASSWORD_BCRYPT')) {
-
+if (!defined('PASSWORD_BCRYPT'))
+{
 	define('PASSWORD_BCRYPT', 1);
 	define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
 
@@ -27,20 +28,25 @@ if (!defined('PASSWORD_BCRYPT')) {
 	 *
 	 * @returns string|false The hashed password, or false on error.
 	 */
-	function password_hash($password, $algo, array $options = array()) {
+	function password_hash($password, $algo, array $options = array())
+    {
 		if (!function_exists('crypt')) {
 			trigger_error("Crypt must be loaded for password_hash to function", E_USER_WARNING);
 			return null;
 		}
+
 		if (!is_string($password)) {
 			trigger_error("password_hash(): Password must be a string", E_USER_WARNING);
 			return null;
 		}
+
 		if (!is_int($algo)) {
 			trigger_error("password_hash() expects parameter 2 to be long, " . gettype($algo) . " given", E_USER_WARNING);
 			return null;
 		}
-		switch ($algo) {
+
+		switch ($algo)
+        {
 			case PASSWORD_BCRYPT:
 				// Note that this is a C constant, but not exposed to PHP, so we don't define it here.
 				$cost = 10;
@@ -58,7 +64,9 @@ if (!defined('PASSWORD_BCRYPT')) {
 				trigger_error(sprintf("password_hash(): Unknown password hashing algorithm: %s", $algo), E_USER_WARNING);
 				return null;
 		}
-		if (isset($options['salt'])) {
+
+		if (isset($options['salt']))
+        {
 			switch (gettype($options['salt'])) {
 				case 'NULL':
 				case 'boolean':
@@ -78,13 +86,17 @@ if (!defined('PASSWORD_BCRYPT')) {
 					trigger_error('password_hash(): Non-string salt parameter supplied', E_USER_WARNING);
 					return null;
 			}
+
 			if (strlen($salt) < $required_salt_len) {
 				trigger_error(sprintf("password_hash(): Provided salt is too short: %d expecting %d", strlen($salt), $required_salt_len), E_USER_WARNING);
 				return null;
 			} elseif (0 == preg_match('#^[a-zA-Z0-9./]+$#D', $salt)) {
 				$salt = str_replace('+', '.', base64_encode($salt));
 			}
-		} else {
+
+		}
+        else
+        {
 			$buffer = '';
 			$raw_length = (int) ($required_salt_len * 3 / 4 + 1);
 			$buffer_valid = false;
@@ -94,12 +106,14 @@ if (!defined('PASSWORD_BCRYPT')) {
 					$buffer_valid = true;
 				}
 			}
+
 			if (!$buffer_valid && function_exists('openssl_random_pseudo_bytes')) {
 				$buffer = openssl_random_pseudo_bytes($raw_length);
 				if ($buffer) {
 					$buffer_valid = true;
 				}
 			}
+
 			if (!$buffer_valid && file_exists('/dev/urandom')) {
 				$f = @fopen('/dev/urandom', 'r');
 				if ($f) {
@@ -114,6 +128,7 @@ if (!defined('PASSWORD_BCRYPT')) {
 					}
 				}
 			}
+
 			if (!$buffer_valid || strlen($buffer) < $raw_length) {
 				$bl = strlen($buffer);
 				for ($i = 0; $i < $raw_length; $i++) {
@@ -125,12 +140,10 @@ if (!defined('PASSWORD_BCRYPT')) {
 				}
 			}
 			$salt = str_replace('+', '.', base64_encode($buffer));
-
 		}
+
 		$salt = substr($salt, 0, $required_salt_len);
-
 		$hash = $hash_format . $salt;
-
 		$ret = crypt($password, $hash);
 
 		if (!is_string($ret) || strlen($ret) <= 13) {
@@ -156,7 +169,8 @@ if (!defined('PASSWORD_BCRYPT')) {
 	 *
 	 * @return array The array of information about the hash.
 	 */
-	function password_get_info($hash) {
+	function password_get_info($hash)
+    {
 		$return = array(
 			'algo' => 0,
 			'algoName' => 'unknown',
@@ -182,12 +196,15 @@ if (!defined('PASSWORD_BCRYPT')) {
 	 *
 	 * @return boolean True if the password needs to be rehashed.
 	 */
-	function password_needs_rehash($hash, $algo, array $options = array()) {
+	function password_needs_rehash($hash, $algo, array $options = array())
+    {
 		$info = password_get_info($hash);
 		if ($info['algo'] != $algo) {
 			return true;
 		}
-		switch ($algo) {
+
+		switch ($algo)
+        {
 			case PASSWORD_BCRYPT:
 				$cost = isset($options['cost']) ? $options['cost'] : 10;
 				if ($cost != $info['options']['cost']) {
@@ -206,11 +223,13 @@ if (!defined('PASSWORD_BCRYPT')) {
 	 *
 	 * @return boolean If the password matches the hash
 	 */
-    function password_verify($password, $hash) {
+    function password_verify($password, $hash)
+    {
 		if (!function_exists('crypt')) {
 			trigger_error("Crypt must be loaded for password_verify to function", E_USER_WARNING);
 			return false;
 		}
+
 		$ret = crypt($password, $hash);
 		if (!is_string($ret) || strlen($ret) != strlen($hash) || strlen($ret) <= 13) {
 			return false;
