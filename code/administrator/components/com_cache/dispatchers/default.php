@@ -18,7 +18,7 @@
  * @subpackage  Cache
  */
  
-class ComCacheDispatcher extends ComDefaultDispatcher
+class ComCacheDispatcherDefault extends ComDefaultDispatcherDefault
 {
     protected function _initialize(KConfig $config)
     {
