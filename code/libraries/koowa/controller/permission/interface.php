@@ -18,44 +18,10 @@
 interface KControllerPermissionInterface
 {
     /**
-     * Authorization handler for controller render actions
+     * Check if an action can be executed
      *
-     * @return  boolean  Can return both true or false.
+     * @param   string  Action name
+     * @return  boolean True if the action can be executed, otherwise FALSE.
      */
-    public function canRender();
-
-	/**
-     * Authorization handler for controller browse actions
-     *
-     * @return  boolean Can return both true or false.
-     */
-    public function canBrowse();
-
-	/**
-     * Authorization handler for controller read actions
-     *
-     * @return  boolean Can return both true or false.
-     */
-    public function canRead();
-
-	/**
-     * Authorization handler for controller edit actions
-     *
-     * @return  boolean Can return both true or false.
-     */
-    public function canEdit();
-
- 	/**
-     * Authorization handler for controller add actions
-     *
-     * @return  boolean Can return both true or false.
-     */
-    public function canAdd();
-
- 	/**
-     * Authorization handler for controller delete actions
-     *
-     * @return  boolean Can return both true or false.
-     */
-    public function canDelete();
+    public function isPermitted($action);
 }
