@@ -16,7 +16,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesControllerModule extends ComDefaultControllerDefault
+class ComPagesControllerModule extends ComDefaultControllerModel
 {
 	public function __construct(KConfig $config)
 	{
