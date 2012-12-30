@@ -142,18 +142,13 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
 	 */
 	protected function _actionDispatch(KCommandContext $context)
 	{
-        $method = strtolower($context->request->getMethod());
-
-        if(!in_array($method, $this->getActions())) {
-            throw new KDispatcherExceptionActionNotImplemented('Action: '.$method.' not implemented');
-        }
-
         //Load the component aliases
         $component   = $this->getController()->getIdentifier()->package;
         $application = $this->getController()->getIdentifier()->application;
         $this->getService('koowa:loader')->loadIdentifier('com://'.$application.'/'.$component.'.aliases');
 
         //Execute the component method
+        $method = strtolower($context->request->getMethod());
 	    $result = $this->execute($method, $context);
 
         return $result;
@@ -263,49 +258,42 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      */
     protected function _actionOptions(KCommandContext $context)
     {
-        $controller = $this->getController();
-        $methods    = array();
-
-        //Remove GET actions
-        $actions = array_diff($controller->getActions(), array('browse', 'read', 'render'));
-
-        //Authorize the action
-        foreach($actions as $key => $action)
-        {
-            //Check if the action can be executed
-            try {
-                $controller->getBehavior('permission')->execute('before.'.$action, $context);
-            } catch(KControllerException $e) {
-                unset($actions[$key]);
-            }
-
-        }
-
-        //Sort the action alphabetically.
-        sort($actions);
+        $methods = array();
 
         //Retrieve HTTP methods
-        foreach(array('get', 'put', 'delete', 'post', 'options') as $method)
+        $actions = array_diff($this->getActions(), array('dispatch'));
+
+        foreach($actions as $key => $action)
         {
-            if(in_array($method, $actions)) {
-                $methods[strtoupper($method)] = $method;
+            if($this->isPermitted($action)) {
+                $methods[$action] = $action;
             }
         }
 
         //Retrieve POST actions
         if(in_array('post', $methods))
         {
-            $actions = array_diff($actions, array('get', 'put', 'delete', 'post', 'options'));
-            $methods['POST'] = array_diff($actions, $methods);
+            $actions = array_diff($this->getController()->getActions(), array('browse', 'read', 'render'));
+
+            foreach($actions as $key => $action)
+            {
+                if(!$this->getController()->isPermitted($action)) {
+                    unset($actions[$key]);
+                }
+            }
+
+            sort($actions);
+
+            $methods['post'] = array_diff($actions, $methods);
         }
 
         //Render to string
-        $result = implode(', ', array_keys($methods));
-
+        $result = '';
         foreach($methods as $method => $actions)
         {
+            $result .= strtoupper($method). ' ';
             if(is_array($actions) && !empty($actions)) {
-                $result = str_replace($method, $method.' ['.implode(', ', $actions).']', $result);
+                $result .= '['.implode(', ', $actions).'] ';
             }
         }
 
