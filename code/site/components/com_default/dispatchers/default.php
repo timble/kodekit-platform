@@ -15,7 +15,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcher extends KDispatcherComponent
+class ComDefaultDispatcherDefault extends KDispatcherComponent
 {
     /**
      * Dispatch the controller and redirect
