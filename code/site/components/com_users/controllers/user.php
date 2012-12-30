@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerUser extends ComDefaultControllerDefault
+class ComUsersControllerUser extends ComDefaultControllerModel
 {
     public function __construct(KConfig $config)
     {
