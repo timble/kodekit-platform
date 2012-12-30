@@ -100,10 +100,11 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
     {
         $password = null;
 
-        if(!$this->isNew())
+        if (!$this->isNew())
         {
-            $password = $this->getService('com://admin/users.database.table.passwords')
-                              ->select(array('id' => $this->email), KDatabase::FETCH_ROW);
+            $password = $this->getService('com://admin/users.database.row.password')
+                ->set('users_user_email', $this->email)
+                ->load();
         }
 
         return $password;
