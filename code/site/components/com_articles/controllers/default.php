@@ -15,7 +15,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerDefault extends ComDefaultControllerDefault
+class ComArticlesControllerDefault extends ComDefaultControllerModel
 {
     public function __construct(KConfig $config)
     {
