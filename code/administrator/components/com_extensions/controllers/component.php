@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Extensions
  */
-class ComExtensionsControllerComponent extends ComDefaultControllerDefault
+class ComExtensionsControllerComponent extends ComDefaultControllerModel
 { 
     protected function _initialize(KConfig $config)
     {
