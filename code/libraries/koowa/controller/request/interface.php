@@ -21,7 +21,7 @@ interface KControllerRequestInterface extends KHttpRequestInterface
      * Set the request query
      *
      * @param  array $query
-     * @return KControllerResponseInterface
+     * @return KControllerRequestInterface
      */
     public function setQuery($query);
 
@@ -36,7 +36,7 @@ interface KControllerRequestInterface extends KHttpRequestInterface
      * Set the request data
      *
      * @param  array $data
-     * @return KControllerResponseInterface
+     * @return KControllerRequestInterface
      */
     public function setData($data);
 
@@ -46,6 +46,14 @@ interface KControllerRequestInterface extends KHttpRequestInterface
      * @return KHttpMessageParameters
      */
     public function getData();
+
+    /**
+     * Set the request format
+     *
+     * @param $format
+     * @return KControllerRequestInterface
+     */
+    public function setFormat($format);
 
     /**
      * Return the request format
