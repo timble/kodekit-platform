@@ -34,21 +34,21 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     protected $_action_map = array();
 
     /**
-     * Response object or identifier (com://APP/COMPONENT.controller.response)
+     * Response object or identifier
      *
      * @var	string|object
      */
     protected $_response;
 
     /**
-     * Request object or identifier (com://APP/COMPONENT.controller.request)
+     * Request object or identifier
      *
      * @var	string|object
      */
     protected $_request;
 
     /**
-     * User object or identifier (com://APP/COMPONENT.controller.session)
+     * User object or identifier
      *
      * @var	string|object
      */
@@ -76,6 +76,9 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
+
+        //Force load the controller actions
+        $this->_actions = $this->getActions();
 
         // Set the model identifier
         $this->_request = $config->request;
@@ -109,6 +112,10 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     protected function _initialize(KConfig $config)
     {
+        //Create permission identifier
+        $permission       = clone $this->getIdentifier();
+        $permission->path = array($permission->path[0], 'permission');
+
         $config->append(array(
             'command_chain'     => 'koowa:command.chain',
             'dispatch_events'   => true,
@@ -118,7 +125,7 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
             'request'           => 'koowa:controller.request',
             'response'          => 'koowa:controller.response',
             'user'              => 'koowa:controller.user',
-            'behaviors'         => array(),
+            'behaviors'         => array($permission),
         ));
 
         parent::_initialize($config);
@@ -167,7 +174,7 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
                 if (isset($this->_mixed_methods[$command])) {
                     $context->result = $this->_mixed_methods[$command]->execute('action.' . $command, $context);
                 } else {
-                    throw new KControllerActionNotImplemented("Can't execute '$command', method: '$method' does not exist");
+                    throw new KControllerExceptionNotImplemented("Can't execute '$command', method: '$method' does not exist");
                 }
             }
             else  $context->result = $this->$method($context);
@@ -347,9 +354,9 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
     {
         $context = parent::getCommandContext();
 
-        $context->request  = $this->getRequest();
-        $context->response = $this->getResponse();
-        $context->user     = $this->getUser();
+        $context->request    = $this->getRequest();
+        $context->response   = $this->getResponse();
+        $context->user       = $this->getUser();
 
         return $context;
     }
