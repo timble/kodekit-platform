@@ -17,18 +17,18 @@
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersDispatcher extends ComDefaultDispatcher
+class ComUsersDispatcherDefault extends ComDefaultDispatcherDefault
 {
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
         //@TODO Remove when PHP 5.5 becomes a requirement.
-        KLoader::loadFile(JPATH_ROOT.'/administrator/components/com_users/legacy.php');
+        KLoader::loadFile(JPATH_ROOT.'/administrator/components/com_users/legacy/password.php');
     }
     
     protected function _actionDispatch(KCommandContext $context)
-	{        	
+	{
         if($context->user->isAuthentic())
         {  
             //Redirect if user is already logged in
