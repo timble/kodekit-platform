@@ -37,7 +37,7 @@
         </div>
         </ktml:modules>
 
-        <div id="panel-content" class="<?= @service('component')->getController()->getView()->getLayout() ?> row-fluid">
+        <div id="panel-content" class="<?= $layout ?> row-fluid">
             <ktml:variable name="content" />
 	    </div>
 
@@ -48,7 +48,7 @@
         </ktml:modules>
     </div>
 </div>
-<? if(KDEBUG) : ?>
+<? if(@service('application')->getCfg('debug')) : ?>
 	<?= @service('com://admin/debug.controller.debug'); ?>
 <? endif; ?>
 	
