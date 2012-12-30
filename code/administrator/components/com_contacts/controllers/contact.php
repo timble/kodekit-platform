@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComContactsControllerContact extends ComDefaultControllerDefault
+class ComContactsControllerContact extends ComDefaultControllerModel
 { 
     protected function _initialize(KConfig $config)
     {
