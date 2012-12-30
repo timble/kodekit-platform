@@ -17,7 +17,7 @@
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersDispatcher extends ComDefaultDispatcher
+class ComUsersDispatcherDefault extends ComDefaultDispatcherDefault
 {
     protected function _initialize(KConfig $config)
     {
