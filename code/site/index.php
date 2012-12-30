@@ -24,4 +24,4 @@ require_once(JPATH_APPLICATION.'/bootstrap.php' );
 header('X-Nooku-Server: version='.Koowa::VERSION);
 
 KLoader::loadIdentifier('com://site/application.aliases');
-KService::get('com://site/application.dispatcher')->run();
+KService::get('application')->run();
