@@ -1,21 +1,21 @@
 <?php
 /**
  * @version		$Id$
- * @package		Koowa_Controller
- * @subpackage	Command
+ * @package		Koowa_Dispatcher
+ * @subpackage	Behavior
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
 
 /**
- * Persistable Controller Behavior Class
+ * Persistable Dispatcher Behavior Class
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Controller
+ * @package     Koowa_Dispatcher
  * @subpackage	Behavior
  */
-class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
+class KDispatcherBehaviorPersistable extends KControllerBehaviorAbstract
 {
 	/**
 	 * Load the model state from the request and persist it.
@@ -28,15 +28,17 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	 */
 	protected function _beforeControllerBrowse(KCommandContext $context)
 	{
+		$model = $this->getController()->getModel();
+
 		// Built the session identifier based on the action
-		$identifier  = $this->getModel()->getIdentifier().'.'.$context->action;
+		$identifier  = $model->getIdentifier().'.'.$context->action;
 		$state       = $context->user->session->get($identifier, array());
 
 		//Append the data to the request object
 		$context->request->query->add($state);
 
 		//Push the request in the model
-		$this->getModel()->set($context->request->query->toArray());
+		$model->set($context->request->query->toArray());
 	}
 
 	/**
@@ -47,9 +49,9 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	 */
 	protected function _afterControllerBrowse(KCommandContext $context)
 	{
-		$model  = $this->getModel();
+        $model  = $this->getController()->getModel();
 		$state  = $model->getState();
-		
+
 	    $vars = array();
 	    foreach($state->getStates() as $var)
 	    {
@@ -59,7 +61,7 @@ class KControllerBehaviorPersistable extends KControllerBehaviorAbstract
 	    }
 
 		// Built the session identifier based on the action
-		$identifier  = $model->getIdentifier().'.'.$context->action;
+		$identifier = $model->getIdentifier().'.'.$context->action;
 
         //Prevent unused state information from being persisted
         $context->user->session->remove($identifier);
