@@ -16,7 +16,7 @@
 abstract class KControllerModel extends KControllerView
 {
     /**
-     * Model object or identifier (com://APP/COMPONENT.model.NAME)
+     * Model object or identifier
      *
      * @var	string|object
      */
@@ -33,6 +33,10 @@ abstract class KControllerModel extends KControllerView
 
         // Set the model identifier
         $this->_model = $config->model;
+
+        if($this->isDispatched()) {
+            $this->attachBehavior('editable');
+        }
     }
 
     /**
@@ -46,7 +50,7 @@ abstract class KControllerModel extends KControllerView
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-    		'behaviors'  => array('lockable', 'editable'),
+    		'behaviors'  => array('lockable'),
             'model'	     => $this->getIdentifier()->name,
             'view'       => null
         ));
@@ -92,17 +96,18 @@ abstract class KControllerModel extends KControllerView
      */
     public function getModel()
     {
-        if(!$this->_model instanceof KModelAbstract)
+        if(!$this->_model instanceof KModelInterface)
         {
             if(!($this->_model instanceof KServiceIdentifier)) {
                 $this->setModel($this->_model);
             }
 
-            //Create the model
-            $state = $this->getRequest()->query->toArray();
-            $this->_model = $this->getService($this->_model)->set($state);
+            $this->_model = $this->getService($this->_model);
 
-            //Make sure the model implements KModelInterface
+            //Inject the request into the model state
+            $state = $this->getRequest()->query->toArray();
+            $this->_model->set($state);
+
             if(!$this->_model instanceof KModelInterface)
             {
                 throw new \UnexpectedValueException(
