@@ -17,7 +17,7 @@
 abstract class KControllerView extends KControllerAbstract
 {
 	/**
-	 * View object or identifier (com://APP/COMPONENT.view.NAME.FORMAT)
+	 * View object or identifier
 	 *
 	 * @var	string|object
 	 */
@@ -33,7 +33,7 @@ abstract class KControllerView extends KControllerAbstract
 		parent::__construct($config);
 
         //Force the view to the information found in the request
-        $this->_view = $this->getRequest()->query->get('view', 'cmd', $config->view);
+        $this->_view = $config->view;
 
 		// Mixin the toolbar
 		if($config->dispatch_events) {
@@ -51,12 +51,8 @@ abstract class KControllerView extends KControllerAbstract
      */
     protected function _initialize(KConfig $config)
     {
-        $permission = clone $this->getIdentifier();
-        $permission->path = array('controller', 'permission');
-
         $config->append(array(
-            'behaviors' => array($permission),
-            'view'      => $this->getIdentifier()->name,
+            'view' => $this->getIdentifier()->name,
         ));
 
         parent::_initialize($config);
@@ -171,7 +167,7 @@ abstract class KControllerView extends KControllerAbstract
 	 * Supports a simple form Fluent Interfaces. Allows you to set the request properties by using the request property
      * name as the method name.
 	 *
-	 * For example : $controller->view('name')->format('html')->render();
+	 * For example : $controller->layout('name')->format('html')->render();
 	 *
 	 * @param	string	Method name
 	 * @param	array	Array containing all the arguments for the original call
@@ -182,14 +178,9 @@ abstract class KControllerView extends KControllerAbstract
 	public function __call($method, $args)
 	{
 		//Check for layout, view or format property
-        if(in_array($method, array('layout', 'view', 'format')))
+        if(in_array($method, array('layout', 'format')))
         {
             $this->getRequest()->query->set($method, $args[0]);
-
-            if($method == 'view') {
-                $this->setView($args[0]);
-            }
-
             return $this;
         }
 
