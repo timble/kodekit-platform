@@ -75,12 +75,12 @@ class KMixinBehavior extends KMixinAbstract
     }
 
     /**
-     * Add one or more behaviors to the object
+     * Add a behavior
      *
-     * @param   mixed    An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
-     * @param    array An optional associative array of configuration settings
-     * @return  KObject    The mixer object
+     * @param   mixed $behavior   An object that implements KObjectServiceable, KServiceIdentifier object
+     *                            or valid identifier string
+     * @param   array $config    An optional associative array of configuration settings
+     * @return  KObject The mixer object
      */
     public function attachBehavior($behavior, $config = array())
     {
