@@ -16,7 +16,7 @@
  * @subpackage  Settings
  */
 
-class ComExtensionsControllerSetting extends ComDefaultControllerDefault
+class ComExtensionsControllerSetting extends ComDefaultControllerModel
 {
     protected function _initialize(KConfig $config)
     {
