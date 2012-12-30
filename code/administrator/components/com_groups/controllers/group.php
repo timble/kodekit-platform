@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Groups
  */
-class ComGroupsControllerGroup extends ComDefaultControllerDefault
+class ComGroupsControllerGroup extends ComDefaultControllerModel
 { 
     protected function _initialize(KConfig $config)
     {
