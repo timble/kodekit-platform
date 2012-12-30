@@ -16,7 +16,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDispatcher extends ComDefaultDispatcher
+class ComFilesDispatcherDefault extends ComDefaultDispatcherDefault
 {
     /**
      * Overloaded execute function to handle exceptions in JSON requests
@@ -53,21 +53,4 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     	}
     	else throw $e;
     }
-    
-	/**
-	 * Overloaded to comply with FancyUpload. It doesn't let us pass AJAX headers so this is needed.
-	 */
-	/*public function _actionForward(KCommandContext $context)
-	{
-		if ($context->result->getStatus() != KDatabase::STATUS_DELETED)
-        {
-			if(KRequest::type() == 'FLASH' || KRequest::format() == 'json') {
-				$context->result = $this->getController()->execute('display', $context);
-			} else {
-				parent::_actionForward($context);
-			}
-		}
-
-		return $context->result;
-	}*/
 }
