@@ -13,10 +13,10 @@
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-abstract class KDispatcherAbstract extends KControllerAbstract
+abstract class KDispatcherAbstract extends KControllerAbstract implements KDispatcherInterface
 {
 	/**
-	 * Controller object or identifier (com://APP/COMPONENT.controller.NAME)
+	 * Controller object or identifier
 	 *
 	 * @var	string|object
 	 */
