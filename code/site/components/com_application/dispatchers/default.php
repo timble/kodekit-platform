@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDispatcher extends KDispatcherApplication
+class ComApplicationDispatcherDefault extends KDispatcherApplication
 {
     /**
      * The site identifier.
@@ -60,7 +60,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
         );
 
         //Set callbacks
-        $this->registerCallback('before.dispatch', array($this, 'authorize'));
+        $this->registerCallback('before.dispatch', array($this, 'authorizeRequest'));
 
         $this->registerCallback('before.run', array($this, 'loadConfig'));
         $this->registerCallback('before.run', array($this, 'loadSession'));
@@ -109,7 +109,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
      *
      * @param KCommandContext $context	A command context object
      */
-    public function authorize(KCommandContext $context)
+    public function authorizeRequest(KCommandContext $context)
     {
         $user = $context->user;
 
@@ -138,9 +138,6 @@ class ComApplicationDispatcher extends KDispatcherApplication
     {
         //Set the site error reporting
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
-
-        //Set the site debug mode
-        define( 'KDEBUG', $this->getCfg('debug') );
 
         //Set the paths
         $params = $this->getService('application.components')->files->params;
@@ -188,7 +185,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
 
         //Parse the route
         $this->getRouter()->parse($url);
-        
+
         // Redirect if page type is redirect.
         if(($page = $pages->getActive()) && $page->type == 'redirect')
         {
@@ -202,24 +199,18 @@ class ComApplicationDispatcher extends KDispatcherApplication
             $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
             $this->send($context);
         }
-        
+
         //Set the request
         $context->request->query->add($url->query);
 
         //Set the controller to dispatch
-        $component = substr( $context->request->query->get('option', 'cmd'), 4);
-
-        if(!empty($component))
+        if($context->request->query->has('option'))
         {
-            if (!$this->getService('application.components')->isEnabled($component)) {
-                throw new KControllerExceptionNotFound('Component Not Enabled');
-            }
-
-            $this->setController('com://site/'.$component.'.dispatcher');
+            $component = substr( $context->request->query->get('option', 'cmd'), 4);
+            $this->setComponent($component);
         }
-        else throw new KControllerExceptionNotFound('Component Not Found');
 
-        //Authorize the request
+        //Dispatch the request
         $this->dispatch();
     }
 
@@ -230,7 +221,14 @@ class ComApplicationDispatcher extends KDispatcherApplication
      */
     protected function _actionDispatch(KCommandContext $context)
     {
-        $this->getController()->dispatch($context);
+        $component = $this->getController()->getIdentifier()->package;
+
+        if (!$this->getService('application.components')->isEnabled($component)) {
+            throw new KControllerExceptionNotFound('Component Not Enabled');
+        }
+
+        //Dispatch the controller
+        parent::_actionDispatch($context);
 
         //Render the page
         if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
@@ -243,7 +241,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
         }
 
         //Send the response
-        $this->send();
+        $this->send($context);
     }
 
     /**
@@ -269,7 +267,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
             ->render(array('exception' => $context->param->getException()));
 
         //Send the response
-        $this->send();
+        $this->send($context);
     }
 
     /**
