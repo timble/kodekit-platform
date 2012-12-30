@@ -24,13 +24,7 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canRender()
     {
-        $result = false;
-
-        if(parent::canRender()) {
-            $result = $this->getUser()->getRole() > 22;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 22;
     }
 
 
@@ -41,13 +35,7 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canRead()
     {
-        $result = false;
-
-        if(parent::canRead()) {
-            $result = $this->getUser()->getRole() > 22;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 22;
     }
 
     /**
@@ -57,13 +45,7 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canBrowse()
     {
-        $result = false;
-
-        if(parent::canBrowse()) {
-            $result = $this->getUser()->getRole() > 22;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 22;
     }
 
     /**
@@ -73,13 +55,7 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canAdd()
     {
-        $result = false;
-
-        if(parent::canAdd()) {
-            $result = $this->getUser()->getRole() > 22;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 22;
     }
 
   	/**
@@ -89,13 +65,7 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canEdit()
     {
-        $result = false;
-
-        if(parent::canEdit()) {
-            $result = $this->getUser()->getRole() > 22;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 22;
     }
 
     /**
@@ -105,12 +75,6 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canDelete()
     {
-        $result = false;
-
-        if(parent::canDelete()) {
-            $result = $this->getUser()->getRole() > 22;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 22;
     }
 }
