@@ -124,42 +124,6 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     }
 
     /**
-     * Lock callback
-     *
-     * Only lock if the context contains a row object and the view layout is 'form'.
-     *
-     * @param     KCommandContext        The active command context
-     * @return void
-     */
-    public function lockResource(KCommandContext $context)
-    {
-        if ($context->result instanceof KDatabaseRowInterface)
-        {
-            $view = $this->getView();
-
-            if ($view instanceof KViewTemplate)
-            {
-                if ($view->getLayout() == 'form' && $context->result->isLockable()) {
-                    $context->result->lock();
-                }
-            }
-        }
-    }
-
-    /**
-     * Unlock callback
-     *
-     * @param     KCommandContext        The active command context
-     * @return void
-     */
-    public function unlockResource(KCommandContext $context)
-    {
-        if ($context->result instanceof KDatabaseRowInterface && $context->result->isLockable()) {
-            $context->result->unlock();
-        }
-    }
-
-    /**
      * Save action
      *
      * This function wraps around the edit or add action. If the model state is unique a edit action will be
@@ -200,7 +164,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
         //Create the redirect
         $url = $this->getReferrer($context);
 
-        if ($entity instanceof KDatabaseRowAbstract)
+        if ($entity instanceof KDatabaseRowInterface)
         {
             $url = clone $context->request->getUrl();
 
