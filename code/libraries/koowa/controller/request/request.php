@@ -126,6 +126,18 @@ class KControllerRequest extends KHttpRequest implements KControllerRequestInter
     }
 
     /**
+     * Set the request format
+     *
+     * @param $format
+     * @return KControllerRequest
+     */
+    public function setFormat($format)
+    {
+        $this->_query->set('format', $format);
+        return $this;
+    }
+
+    /**
      * Implement a virtual 'headers', 'query' and 'data class property to return their respective objects.
      *
      * @param   string $name  The property name.
