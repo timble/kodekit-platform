@@ -149,7 +149,7 @@ class KHttpCookie extends KObject implements KHttpCookieInterface
     public function setExpire($expire)
     {
         // Convert expiration time to a Unix timestamp
-        if ($expire instanceof DateTime) {
+        if ($expire instanceof \DateTime) {
             $expire = $expire->format('U');
         }
 
