@@ -54,22 +54,16 @@ abstract class KControllerPermissionAbstract extends KControllerBehaviorAbstract
         {
             $action = $parts[1];
 
-            //Check if the action is allowed
-            $method = 'can'.ucfirst($action);
+            if($this->isPermitted($action) === false)
+		    {
+                if($context->user->isAuthentic()) {
+                    throw new KControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
+                } else {
+                    throw new KControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
+                }
 
-            if(method_exists($this, $method))
-            {
-		        if($this->$method() === false)
-		        {
-                    if($context->user->isAuthentic()) {
-                        throw new KControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
-                    } else {
-                        throw new KControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
-                    }
-
-		            return false;
-		        }
-            }
+		        return false;
+		    }
         }
 
         return true;
@@ -89,93 +83,25 @@ abstract class KControllerPermissionAbstract extends KControllerBehaviorAbstract
     }
 
     /**
-     * Generic authorize handler for controller render actions
+     * Check if an action can be executed
      *
-     * Default implementation checks of the controller has a render action handler defined.
-     *
-     * @return  boolean     Can return both true or false.
+     * @param   string  Action name
+     * @return  boolean True if the action can be executed, otherwise FALSE.
      */
-    public function canRender()
+    public function isPermitted($action)
     {
-        $actions = $this->getActions();
-        $actions = array_flip($actions);
+        //Check if the action is allowed
+        $method = 'can'.ucfirst($action);
 
-        return isset($actions['render']);
-        return true;
-    }
+        if(!method_exists($this, $method))
+        {
+            $actions = $this->getActions();
+            $actions = array_flip($actions);
 
-	/**
-     * Generic authorize handler for controller browse actions
-     *
-     * Default implementation checks of the controller has a browse action handler defined.
-     *
-     * @return  boolean     Can return both true or false.
-     */
-    public function canBrowse()
-    {
-        $actions = $this->getActions();
-        $actions = array_flip($actions);
+            $result = isset($actions[$action]);
+        }
+        else $result = $this->$method();
 
-        return isset($actions['browse']);
-    }
-
-	/**
-     * Generic authorize handler for controller read actions
-     *
-     * Default implementation checks of the controller has a read action handler defined.
-     *
-     * @return  boolean     Can return both true or false.
-     */
-    public function canRead()
-    {
-        $actions = $this->getActions();
-        $actions = array_flip($actions);
-
-        return isset($actions['read']);
-    }
-
-	/**
-     * Generic authorize handler for controller edit actions
-     *
-     * Default implementation checks of the controller has an edit action handler defined.
-     *
-     * @return  boolean     Can return both true or false.
-     */
-    public function canEdit()
-    {
-        $actions = $this->getActions();
-        $actions = array_flip($actions);
-
-        return isset($actions['edit']);
-    }
-
- 	/**
-     * Generic authorize handler for controller add actions
-     *
-     * Default implementation checks of the controller has an add action handler defined.
-     *
-     * @return  boolean     Can return both true or false.
-     */
-    public function canAdd()
-    {
-        $actions = $this->getActions();
-        $actions = array_flip($actions);
-
-        return isset($actions['add']);
-    }
-
- 	/**
-     * Generic authorize handler for controller delete actions
-     *
-     * Default implementation checks of the controller has a delete action handler defined.
-     *
-     * @return  boolean     Can return both true or false.
-     */
-    public function canDelete()
-    {
-        $actions = $this->getActions();
-        $actions = array_flip($actions);
-
-        return isset($actions['delete']);
+        return $result;
     }
 }
