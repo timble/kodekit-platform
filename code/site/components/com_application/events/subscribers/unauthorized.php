@@ -35,7 +35,7 @@ class ComApplicationEventSubscriberUnauthorized extends KEventSubscriberAbstract
             if($application->getRequest()->getFormat() == 'html')
             {
                 $application->getRequest()->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
-                $application->setController('com://admin/users.dispatcher')->dispatch();
+                $application->setController('users')->dispatch();
 
                 $event->stopPropagation();
             }
