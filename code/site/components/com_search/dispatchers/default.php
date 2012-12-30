@@ -17,7 +17,7 @@
  * @package     Nooku_Server
  * @subpackage  Search
  */
-class ComSearchDispatcher extends KDispatcherDefault
+class ComSearchDispatcherDefault extends KDispatcherComponent
 { 
     protected function _initialize(KConfig $config)
     {  
