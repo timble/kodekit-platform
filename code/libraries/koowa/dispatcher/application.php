@@ -15,17 +15,18 @@
  */
 class KDispatcherApplication extends KDispatcherAbstract implements KServiceInstantiatable
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
-	 */
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
+    /**
+     * Constructor.
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
 
-
-	}
+        //Set the component
+        $this->setComponent($config->component);
+    }
 
     /**
      * Initializes the options for the object
@@ -38,7 +39,7 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
     protected function _initialize(KConfig $config)
     {
     	$config->append(array(
-        	'controller' => $this->getIdentifier()->package,
+        	'component' => $this->getIdentifier()->package,
          ));
 
         parent::_initialize($config);
@@ -68,6 +69,54 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
         return $container->get('application');
     }
 
+    /**
+     * Method to get a dispatcher object
+     *
+     * @throws	\UnexpectedValueException	If the controller doesn't implement the KControllerInterface
+     * @return	KControllerAbstract
+     */
+    public function getComponent()
+    {
+        if(!($this->_controller instanceof KDispatcherInterface))
+        {
+            $this->_controller = $this->getController();
+
+            if(!$this->_controller instanceof KDispatcherInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Dispatcher: '.get_class($this->_controller).' does not implement KDispatcherInterface'
+                );
+            }
+        }
+
+        return $this->_controller;
+    }
+
+    /**
+     * Method to set a dispatcher object
+     *
+     * @param	mixed	$component  An object that implements KControllerInterface, KServiceIdentifier object
+     * 					            or valid identifier string
+     * @return	KDispatcherAbstract
+     */
+    public function setComponent($component, $config = array())
+    {
+        if(!($component instanceof KDispatcherInterface))
+        {
+            if(is_string($component) && strpos($component, '.') === false )
+            {
+                $identifier			 = clone $this->getIdentifier();
+                $identifier->package = $component;
+            }
+            else $identifier = $this->getIdentifier($component);
+
+            $component = $identifier;
+        }
+
+        $this->setController($component, $config);
+
+        return $this;
+    }
 
     /**
      * Dispatch the request
@@ -76,10 +125,7 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
      */
     protected function _actionDispatch(KCommandContext $context)
     {
-        $this->getController()->dispatch($context);
-
-        //Send the response
-        $this->send();
+        $this->getComponent()->dispatch($context);
     }
 
     /**
@@ -87,7 +133,7 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
      *
      * @param KCommandContext $context	A command context object
      */
-    protected function _actionSend(KCommandContext $context)
+    public function _actionSend(KCommandContext $context)
     {
         $context->response->send();
         exit(0);
