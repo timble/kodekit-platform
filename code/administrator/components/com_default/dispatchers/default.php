@@ -15,17 +15,33 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcher extends KDispatcherComponent
+class ComDefaultDispatcherDefault extends KDispatcherComponent
 {
+    /**
+     * Constructor
+     *
+     * @param 	object 	An optional KConfig object with configuration options.
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        /*
+         * Disable controller persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
+         * variable of the requested model, which is often undesirable under these circumstances.
+         */
+        if($this->getRequest()->isGet() && !$this->getRequest()->isAjax()) {
+            $this->attachBehavior('persistable');
+        }
+    }
+
     /**
      * Dispatch the controller
      * 
      * Redirect if no view information can be found in the request.
      * 
-     * @param   string      The view to dispatch. If null, it will default to retrieve the controller information
-     *                      from the request or default to the component name if no controller info can be found.
-     *
-     * @return  KDispatcherDefault
+     * @param   KCommandContext	$context A command context object
+     * @return	mixed
      */
     protected function _actionDispatch(KCommandContext $context)
     {
