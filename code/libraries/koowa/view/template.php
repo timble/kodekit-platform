@@ -19,7 +19,7 @@
 abstract class KViewTemplate extends KViewAbstract
 {
     /**
-     * Template identifier (com://APP/COMPONENT.template.NAME)
+     * Template object or identifier
      *
      * @var string|object
      */
