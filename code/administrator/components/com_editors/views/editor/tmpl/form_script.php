@@ -18,7 +18,7 @@
     <script src="media://com_wysiwyg/js/Fx.Toggle.js" />
 <? endif ?>
 
-<script src="media://com_wysiwyg/tinymce/tiny_mce<?= KDEBUG ? '_src.js' : '.js' ?>" />
+<script src="media://com_wysiwyg/tinymce/tiny_mce<?= @service('application')->getCfg('debug') ? '_src.js' : '.js' ?>" />
 <script src="media://com_wysiwyg/js/Editor.js" />
 
 <? if($codemirror) : ?>
