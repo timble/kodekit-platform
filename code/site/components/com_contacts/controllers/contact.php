@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsControllerContact extends ComDefaultControllerDefault
+class ComContactsControllerContact extends ComDefaultControllerModel
 {
     public function getRequest()
 	{
