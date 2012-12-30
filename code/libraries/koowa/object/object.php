@@ -255,7 +255,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
     {
         foreach ($this->_mixed_methods as $method => $object)
         {
-            if (!$object instanceof Closure) {
+            if (!$object instanceof \Closure) {
                 $this->_mixed_methods[$method] = clone $object;
             }
         }
@@ -266,7 +266,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
      *
      * @param  string $method    The function name
      * @param  array  $arguments The function arguments
-     * @throws BadMethodCallException   If method could not be found
+     * @throws \BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
     public function __call($method, $arguments)
@@ -275,7 +275,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
         {
             $result = null;
 
-            if ($this->_mixed_methods[$method] instanceof Closure)
+            if ($this->_mixed_methods[$method] instanceof \Closure)
             {
                 $closure = $this->_mixed_methods[$method];
 
