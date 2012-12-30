@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<? if(KDEBUG) : ?>
+<? if(@service('application')->getCfg('debug')) : ?>
     <?= @service('com://admin/debug.controller.debug'); ?>
 <? endif; ?>
 
