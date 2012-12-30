@@ -66,20 +66,23 @@ abstract class KControllerModel extends KControllerView
     {
         if(!$this->_view instanceof KViewInterface)
         {
-            if(!$this->getRequest()->query->has('view'))
+            if(!$this->_view instanceof KServiceIdentifier)
             {
-                $view = $this->getIdentifier()->name;
+                if(!$this->getRequest()->query->has('view'))
+                {
+                    $view = $this->getIdentifier()->name;
 
-                if($this->getModel()->getState()->isUnique()) {
-                    $view = KInflector::singularize($view);
-                } else {
-                    $view = KInflector::pluralize($view);
+                    if($this->getModel()->getState()->isUnique()) {
+                        $view = KInflector::singularize($view);
+                    } else {
+                        $view = KInflector::pluralize($view);
+                    }
                 }
-            }
-            else $view = $this->getRequest()->query->get('view', 'cmd');
+                else $view = $this->getRequest()->query->get('view', 'cmd');
 
-            //Set the view
-            $this->setView($view);
+                //Set the view
+                $this->setView($view);
+            }
 
             //Get the view
             $view = parent::getView();
