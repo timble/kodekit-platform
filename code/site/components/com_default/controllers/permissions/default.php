@@ -24,13 +24,7 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canAdd()
     {
-        $result = false;
-
-        if(parent::canAdd()) {
-            $result = $this->getUser()->getRole() > 18;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 18;
     }
 
     /**
@@ -40,13 +34,7 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canEdit()
     {
-        $result = false;
-
-        if(parent::canEdit()) {
-            $result = $this->getUser()->getRole() > 19;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 19;
     }
 
     /**
@@ -56,12 +44,6 @@ class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
      */
     public function canDelete()
     {
-        $result = false;
-
-        if(parent::canDelete()) {
-            $result = $this->getUser()->getRole() > 20;
-        }
-
-        return $result;
+        return $this->getUser()->getRole() > 20;
     }
 }
