@@ -1,0 +1,83 @@
+table.adminlist tbody.sortable tr td.handle, 
+table.adminlist tbody tr td.handle,
+.sortable .handle,
+.ghost .handle {
+	background-image: url(../images/drag.png);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	cursor: move;
+	vertical-align: middle;
+	width: 20px;
+}
+
+/*Width fix*/
+tbody.sortable td.handle::before {
+	content: '.';
+	color: transparent;
+	display: block;
+	width: inherit;
+}
+tbody.sortable > td.handle:first-child::before {
+	padding: 0;
+	padding-left: inherit;
+}
+tbody.sortable > td.handle:last-child::before {
+	padding: 0;
+	padding-right: inherit;
+}
+
+th.handle {
+	background-image: none;
+}
+table.adminlist tbody.sortable tr.error td.handle, 
+table.adminlist tbody tr.error td.handle,
+.sortable.error .handle,
+.ghost.error .handle,
+.error td.handle {
+	background-image: url(../images/error.png);
+}
+table.adminlist tbody.sortable tr.saving td.handle, 
+table.adminlist tbody tr.saving td.handle,
+.sortable.saving .handle,
+.ghost.saving .handle,
+.saving td.handle {
+	background-image: url(../images/16/spinner.gif);
+}
+
+body table.ninja-list tbody tr.selected td.handle, 
+body table.ninja-list tbody tr.selected:hover > td.handle,
+body table.ninja-list:hover tbody tr.selected:hover > td.handle {
+	background-image: url(../images/drag_active.png);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+
+body table.ninja-list tbody.selected-single tr.selected td.handle, 
+body table.ninja-list tbody.selected-single tr.selected:hover > td.handle,
+body table.ninja-list:hover tbody.selected-single tr.selected:hover > td.handle {
+	background-image: url(../images/drag_active.png), -webkit-gradient(linear, left top, left bottom, from(#2c8bdc), to(#0e67ca));
+	background-image: url(../images/drag_active.png), -moz-linear-gradient(top, #2c8bdc, #0e67ca);
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+}
+
+body table.ninja-list tbody.selected-single tr.selected.saving td.handle, 
+body table.ninja-list tbody.selected-single tr.selected.saving:hover > td.handle,
+body table.ninja-list:hover tbody.selected-single tr.selected.saving:hover > td.handle {
+	background-image: url(../images/16/spinner_active.gif), -webkit-gradient(linear, left top, left bottom, from(#2c8bdc), to(#0e67ca));
+	background-image: url(../images/16/spinner_active.gif), -moz-linear-gradient(top, #2c8bdc, #0e67ca);
+}
+
+
+body table.ninja-list tbody tr.selected.saving td.handle, 
+body table.ninja-list tbody tr.selected.saving:hover > td.handle,
+body table.ninja-list:hover tbody tr.selected.saving:hover > td.handle {
+	background-image: url(../images/16/spinner_active_alternate.gif);
+}
+
+body table.ninja-list tbody.selected-single tr.selected.error td.handle, 
+body table.ninja-list tbody.selected-single tr.selected.error:hover > td.handle,
+body table.ninja-list:hover tbody.selected-single tr.selected.error:hover > td.handle {
+	background-image: url(../images/error.png), -webkit-gradient(linear, left top, left bottom, from(#2c8bdc), to(#0e67ca));
+	background-image: url(../images/error.png), -moz-linear-gradient(top, #2c8bdc, #0e67ca);
+}
