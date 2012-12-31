@@ -66,10 +66,10 @@
                 </td>
             </tr>
         </tfoot>
-        <tbody>
+        <tbody<? if($state->category) : ?> class="sortables"<? endif ?>>
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>"  >
-                <td align="center">
+                <td align="center" class="handle">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
                 <td>
