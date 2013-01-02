@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
- */
+ */		
 ?>
 
 <?= @template('initialize');?>
@@ -29,7 +29,7 @@ window.addEvent('domready', function() {
 				theme: 'media://com_files/images/mootree.png'
 			},
 			types: <?= json_encode($state->types); ?>,
-			container: <?= json_encode($container ? $container->slug : null); ?>,
+			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,
 			thumbnails: <?= json_encode($container ? $container->parameters->thumbnails : true); ?>
 		};
 	options = $extend(options, config);
