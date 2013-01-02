@@ -12,7 +12,10 @@
 <header class="container">
     <div class="navbar">
         <nav class="navbar-inner">           
+            <div>
             <ktml:modules position="user3" />
+            </div>
+            <ktml:modules position="user4" />
         </nav>
     </div>
 </header>
