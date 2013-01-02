@@ -31,7 +31,7 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 			}
 		}
 		
-		$folder = $context->request->query->get('folder', 'cmd');
+		$folder = $context->request->query->get('folder', 'com://admin/files.filter.path');
 		$thumbnails = $this->getService('com://admin/files.controller.thumbnail', array(
 			'request' => $this->getService('koowa:controller.request', array(
 				'query' => array(
