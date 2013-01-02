@@ -22,10 +22,10 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 	{
 		$config->append(array(
 			'persistable' => false,
-			'request' => array(
-				'container' => 'files-files'
-			),
-			'limit' => array('max' => 1000)
+			'limit' => array('max' => 1000),
+			'request' => $this->getService('koowa:controller.request', array(
+				'query' => array('container' => 'files-files')
+			))
 		));
 
 		parent::_initialize($config);
@@ -104,8 +104,22 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 		{
             JFactory::getLanguage()->load($this->getIdentifier()->package);
 
-			$result = $this->getView()->display();
-			return $result;
+			$view = $this->getView();
+
+	        //Push the params in the view
+	        foreach($context->param as $name => $value) {
+	            $view->assign($name, $value);
+	        }
+	
+	        //Render the view
+	        $content = $view->display();
+	
+	        //Set the data in the response
+	        $context->response
+	                ->setContent($content)
+	                ->setContentType($view->mimetype);
+	
+		    return $content;
 		}
 
 		return parent::_actionRender($context);
