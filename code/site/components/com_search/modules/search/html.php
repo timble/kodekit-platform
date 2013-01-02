@@ -19,12 +19,9 @@ class ComSearchModuleSearchHtml extends ComDefaultModuleDefaultHtml
 {
 	public function display()
 	{
-		$this->assign('button'         , $this->module->params->get('button', ''));
-		$this->assign('button_pos'     , $this->module->params->get('button_pos', 'left'));
-		$this->assign('button_text'    , $this->module->params->get('button_text', JText::_('Search')));
-		$this->assign('width'          , intval($this->module->params->get('width', 20)));
-		$this->assign('maxlength'      , $this->module->params->get('width') > 20 ? $this->module->params->get('width') : 20);
-		$this->assign('text'           , $this->module->params->get('text', JText::_('search...')));
+		$this->assign('form_class'     , $this->module->params->get('form_class'));
+		$this->assign('input_class'    , $this->module->params->get('input_class'));
+		$this->assign('placeholder'    , $this->module->params->get('placeholder', JText::_('search')));
 
 		return parent::display();
 	}

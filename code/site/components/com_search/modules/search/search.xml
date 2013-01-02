@@ -11,23 +11,8 @@
 	<version>12.3</version>
 	<description>This module will display a search box</description>
 	<params>
-		<param name="width" type="text" default="20" label="Box Width" description="Size of the search text box in characters" />
-		<param name="text" type="text" default="" label="Text" description="PARAMTEXT" />
-		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="button" type="radio" default="" label="Search Button" description="Display a Search Button">
-			<option value="">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="button_pos" type="list" default="right" label="Button Position" description="Position of the button relative to the search box">
-			<option value="right">Right</option>
-			<option value="left">Left</option>
-			<option value="top">Top</option>
-			<option value="bottom">Bottom</option>
-		</param>
-		<param name="imagebutton" type="radio" default="" label="Search button as image" description="Use an image as button">
-			<option value="">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="button_text" type="text" default="" label="Button Text" description="PARAMBUTTONTEXT" />
+		<param name="form_class" type="text" default="" label="Form class" description="HTML class of the form element" />
+		<param name="input_class" type="text" default="" label="Input class" description="HTML class of the input field" />
+		<param name="placeholder" type="text" default="" label="Placeholder" description="Placeholder of the input field" />
 	</params>
 </install>
