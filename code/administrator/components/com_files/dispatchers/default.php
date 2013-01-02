@@ -43,7 +43,7 @@ class ComFilesDispatcherDefault extends ComDefaultDispatcherDefault
     		$obj->error  = $e->getMessage();
     		$obj->code   = $e->getCode();
 
-    		// Plupload do not pass the error to our application if the status code is not 200
+    		// Plupload does not pass the error to our application if the status code is not 200
     		$code = $this->getRequest()->query->get('plupload', 'int') ? 200 : $e->getCode();
 
             $this->getResponse()->setStatus($code, $e->getMessage());
