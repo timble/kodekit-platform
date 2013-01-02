@@ -28,7 +28,9 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowTable
 
     protected function _initialize(KConfig $config)
     {
-		if (!$config->thumbnail_size) {
+    	$size = KConfig::unbox($config->thumbnail_size);
+    	
+		if (empty($size)) {
 			$config->thumbnail_size = array('x' => 200, 'y' => 150);
 		}
 
