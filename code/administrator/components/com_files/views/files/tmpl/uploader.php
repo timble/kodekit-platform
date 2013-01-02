@@ -40,7 +40,7 @@ window.addEvent('domready', function() {
 		flash_swf_url: 'media://com_files/plupload/plupload.flash.swf',
 		urlstream_upload: true, // required for flash
 		multipart_params: {
-			action: 'add',
+			_action: 'add',
 			_token: Files.token
 		},
 		headers: {
@@ -381,7 +381,7 @@ window.addEvent('domready', function() {
 	var request = new Request.JSON({
 		url: Files.app.createRoute({view: 'file', folder: Files.app.getPath()}),
 		data: {
-			action: 'add',
+			_action: 'add',
 			_token: Files.token,
 			file: ''
 		},
@@ -478,7 +478,7 @@ window.addEvent('domready', function() {
 				<input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="name" />
 			</div>
                 <input type="submit" class="remote-submit" disabled value="<?= @text('Transfer File'); ?>" />
-			<input type="hidden" name="action" value="save" />
+			<input type="hidden" name="_action" value="save" />
 		</form>
 	</div>
 </div>
