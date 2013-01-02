@@ -80,7 +80,7 @@ Files.File = new Class({
 				url: Files.app.createRoute({view: 'file', folder: that.folder, name: that.name}),
 				method: 'post',
 				data: {
-					'action': 'delete',
+					'_action': 'delete',
 					'_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
@@ -189,7 +189,7 @@ Files.Folder = new Class({
 				url: Files.app.createRoute({view: 'folder', name: that.name, folder: Files.app.getPath()}),
 				method: 'post',
 				data: {
-					'action': 'add',
+					'_action': 'add',
 					'_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
@@ -222,7 +222,7 @@ Files.Folder = new Class({
 				url: Files.app.createRoute({view: 'folder', folder: Files.app.getPath(), name: that.name}),
 				method: 'post',
 				data: {
-					'action': 'delete',
+					'_action': 'delete',
 					'_token': Files.token
 				},
 				onSuccess: function(response, responseText) {
