@@ -39,7 +39,7 @@ Files.Paginator = new Class({
 			pages: {},
 			limit_box: element.getElement('select')
 		};
-		console.log(this.elements);
+
 		this.setValues();
 
 		this.element.addEvent('click:relay(a)', function(e) {
