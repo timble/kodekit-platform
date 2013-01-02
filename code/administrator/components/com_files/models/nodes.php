@@ -18,11 +18,28 @@
 
 class ComFilesModelNodes extends ComFilesModelDefault
 {
+	public function createRow(array $options = array())
+	{
+		$identifier         = clone $this->getIdentifier();
+		$identifier->path   = array('database', 'row');
+		$identifier->name   = KInflector::singularize($this->getIdentifier()->name);
+	
+		return $this->getService($identifier, $options);
+	}
+	
+	public function createRowset(array $options = array())
+	{
+		$identifier         = clone $this->getIdentifier();
+		$identifier->path   = array('database', 'rowset');
+	
+		return $this->getService($identifier, $options);
+	}
+	
     public function getRow()
     {
         if (!isset($this->_row))
         {
-            $this->_row = $this->getTable()->getRow(array(
+            $this->_row = $this->createRow(array(
                 'data' => array(
             		'container' => $this->_state->container,
                     'folder' 	=> $this->_state->folder,

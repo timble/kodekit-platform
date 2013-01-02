@@ -71,7 +71,7 @@ class ComFilesModelFolders extends ComFilesModelNodes
 				);
 			}
 
-			$this->_rowset = $this->getRowset()->addRow($results);
+			$this->_rowset = $this->createRowset()->addRow($results);
 		}
 
 		return parent::getRowset();

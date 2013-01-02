@@ -54,7 +54,7 @@ class ComFilesModelFiles extends ComFilesModelNodes
                 );
             }
 
-            $this->_rowset = $this->getRowset(array(
+            $this->_rowset = $this->createRowset(array(
                 'data' => $data
             ));
         }
