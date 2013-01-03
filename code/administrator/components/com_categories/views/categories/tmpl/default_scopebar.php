@@ -23,6 +23,11 @@
             <?= @text('Unpublished') ?>
         </a>
     </div>
+    <div class="scopebar-group">
+    	<a class="<?= $state->access === true ? 'active' : ''; ?>" href="<?= @route($state->access === true ? 'access=' : 'access=1' ) ?>">
+    	    <?= 'Registered' ?>
+    	</a>
+    </div>
     <div class="scopebar-search">
         <?= @helper('grid.search') ?>
     </div>
