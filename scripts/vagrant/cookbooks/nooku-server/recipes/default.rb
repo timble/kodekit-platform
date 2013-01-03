@@ -32,7 +32,7 @@ ruby_block "db_create" do
   block do
     begin
       dbh = Mysql.new("localhost", "root", node['nooku-server']['db']['password'])
-      dbh.query("CREATE DATABASE `#{node['nooku-server']['db']['database']}`")
+      dbh.query("CREATE DATABASE IF NOT EXISTS `#{node['nooku-server']['db']['database']}`")
     ensure
       dbh.close if dbh
     end
@@ -47,13 +47,16 @@ ruby_block "db_install" do
       dbh = Mysql.new("localhost", "root", node['nooku-server']['db']['password'], node['nooku-server']['db']['database'])
       dbh.set_server_option Mysql::OPTION_MULTI_STATEMENTS_ON
 
-      %w( install_schema install_data sample_data ).each do |file|
-        content = File.read("#{node['nooku-server']['dir']}/installation/sql/#{file}.sql")
-        content = content.gsub("#__", node['nooku-server']['db']['prefix'])
+      tables = dbh.query('SHOW TABLES')
+      unless tables.num_rows > 0
+        %w( install_schema install_data sample_data ).each do |file|
+          content = File.read("#{node['nooku-server']['dir']}/installation/sql/#{file}.sql")
+          content = content.gsub("#__", node['nooku-server']['db']['prefix'])
 
-        dbh.query(content)
-        while dbh.next_result
-          dbh.store_result rescue nil
+          dbh.query(content)
+          while dbh.next_result
+            dbh.store_result rescue nil
+          end
         end
       end
     ensure
