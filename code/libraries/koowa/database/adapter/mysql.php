@@ -614,11 +614,17 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      */
     protected function _fetchFieldList($result, $key = 0)
     {
-        $return = $result->fetchColumn((int) $key);
+        $array = array();
+
+        while ($value = $result->fetchColumn((int) $key)) {
+            $array[] = $value;
+        }
+
         $result = null;
 
-        return $return;
+        return $array;
     }
+
 
     /**
      * Fetches the first row of a result set as an associative array
