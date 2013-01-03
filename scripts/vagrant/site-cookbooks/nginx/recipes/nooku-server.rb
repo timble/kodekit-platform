@@ -23,7 +23,7 @@ bash "create_symlink" do
   group 'root'
   cwd node['nginx']['nooku-server']['dir']
   code <<-EOH
-    ln -s source/code public
+    test -L public || ln -s source/code public
   EOH
 end
 
