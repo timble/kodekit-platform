@@ -54,7 +54,6 @@ abstract class ComCategoriesControllerCategory extends ComDefaultControllerModel
 		$request = parent::getRequest();
 
         $request->query->table  = $this->getIdentifier()->package;
-        $request->query->access = $this->getUser()->isAuthentic();
 
 	    return $request;
 	}
