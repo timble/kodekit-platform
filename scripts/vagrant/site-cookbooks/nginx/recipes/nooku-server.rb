@@ -18,12 +18,21 @@
 # limitations under the License.
 #
 
+bash "create_symlink" do
+  user 'root'
+  group 'root'
+  cwd node['nginx']['nooku-server']['dir']
+  code <<-EOH
+    ln -s source/code public
+  EOH
+end
+
 template "#{node['nginx']['dir']}/sites-available/#{node['nginx']['nooku-server']['site']}" do
-  source "sites/nooku-server.erb"
-  owner "root"
-  group "root"
+  source 'sites/nooku-server.erb'
+  owner 'root'
+  group 'root'
   mode 00644
-  notifies :reload, "service[nginx]"
+  notifies :reload, 'service[nginx]'
 end
 
 nginx_site node['nginx']['nooku-server']['site'] do
