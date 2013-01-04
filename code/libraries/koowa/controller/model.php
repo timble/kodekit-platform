@@ -212,7 +212,7 @@ abstract class KControllerModel extends KControllerView
 	 *
 	 * @param	KCommandContext	$context A command context object
      * @throws  KControllerExceptionNotFound   If the resource could not be found
-	 * @return 	KDatabaseRowsetInterface A rowset object containing the updated rows
+	 * @return 	KDatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
 	protected function _actionEdit(KCommandContext $context)
 	{
@@ -268,13 +268,19 @@ abstract class KControllerModel extends KControllerView
 	 *
 	 * @param	KCommandContext	$context A command context object
      * @throws  KControllerExceptionActionFailed 	If the delete action failed on the data entity
-	 * @return 	KDatabaseRowsetInterface A rowset object containing the deleted rows
+	 * @return 	KDatabaseRow(set)Interface A row(set) object containing the deleted row(s)
 	 */
 	protected function _actionDelete(KCommandContext $context)
 	{
 	    $entity = $this->getModel()->getData();
 
-		if(count($entity))
+        if($entity instanceof KDatabaseRowsetInterface)  {
+            $count = count($entity);
+        } else {
+            $count = (int) !$entity->isNew();;
+        }
+
+		if($count)
 	    {
             $entity->setData($context->request->data->toArray());
 
