@@ -51,8 +51,6 @@ class ComFilesDispatcherDefault extends ComDefaultDispatcherDefault
 
     protected function _handleException(Exception $e) 
     {
-    	throw $e;
-    	
     	if ($this->getRequest()->getFormat() == 'json')
         {
     		$obj = new stdClass;
