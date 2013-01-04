@@ -211,4 +211,9 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 
         return $data;
     }
+
+    public function isLockable()
+    {
+    	return false;
+    }
 }
