@@ -53,7 +53,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
                         'url'		=> '?format=json',
                         'data'	=> array(
                             '_token'	=> JUtility::getToken(),
-                            'action'	=> 'edit'
+                            '_action'	=> 'edit'
                         ),
                         'key'		=> 'order',
                         'offset'	=> 'relative'
