@@ -18,6 +18,21 @@
 
 class ComFilesDispatcherDefault extends ComDefaultDispatcherDefault
 {
+	public function __construct(KConfig $config)
+	{
+		parent::__construct($config);
+	
+		// Return JSON response when possible
+		$this->registerCallback('after.post' , array($this, 'renderResponse'));
+	}
+	
+	public function renderResponse(KCommandContext $context) 
+	{
+		if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
+			$this->getController()->execute('render', $context);
+		}
+	}
+	
     /**
      * Overloaded execute function to handle exceptions in JSON requests
      */
@@ -36,6 +51,8 @@ class ComFilesDispatcherDefault extends ComDefaultDispatcherDefault
 
     protected function _handleException(Exception $e) 
     {
+    	throw $e;
+    	
     	if ($this->getRequest()->getFormat() == 'json')
         {
     		$obj = new stdClass;

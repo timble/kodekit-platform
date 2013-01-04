@@ -21,7 +21,7 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
     {
     	// Clone to make cacheable work since we change model states
         $model = clone $this->getModel();
-  
+
     	// Save state data for later
         $state_data = $model->getState()->toArray();
         
