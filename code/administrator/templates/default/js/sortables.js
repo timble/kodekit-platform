@@ -198,7 +198,7 @@ Drag.Sortable.Adapter.Cookie = new Class({
 
 Drag.Sortable.Adapter.Request = new Class({
 
-	Extends: Request,
+	Extends: Request.JSON,
 
 	options: {
 		url: window.location.pathname + window.location.search,

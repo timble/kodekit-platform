@@ -50,7 +50,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
                 'adapter'	=> array(
                     'type'		=> 'koowa',
                     'options'	=> array(
-                        'url'		=> '?option='.$config->option.'&view='.$config->view.'&format=json',
+                        'url'		=> '?format=json',
                         'data'	=> array(
                             '_token'	=> JUtility::getToken(),
                             'action'	=> 'edit'
@@ -73,7 +73,8 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 				<script>
 				(function(){
 					var sortable = function() {
-						$$('".$config->selector."').sortable(".json_encode($options).");
+						var test = $$('".$config->selector."').sortable(".json_encode($options).");
+						console.log($$('".$config->selector."'), test);
 					};
 					window.addEvents({domready: sortable, request: sortable});
 				})();
