@@ -41,7 +41,7 @@ table.adminlist tbody tr.saving td.handle,
 .sortable.saving .handle,
 .ghost.saving .handle,
 .saving td.handle {
-	background-image: url(../images/16/spinner.gif);
+	background-image: url(../images/spinner.gif);
 }
 
 body table.ninja-list tbody tr.selected td.handle, 
@@ -64,15 +64,15 @@ body table.ninja-list:hover tbody.selected-single tr.selected:hover > td.handle 
 body table.ninja-list tbody.selected-single tr.selected.saving td.handle, 
 body table.ninja-list tbody.selected-single tr.selected.saving:hover > td.handle,
 body table.ninja-list:hover tbody.selected-single tr.selected.saving:hover > td.handle {
-	background-image: url(../images/16/spinner_active.gif), -webkit-gradient(linear, left top, left bottom, from(#2c8bdc), to(#0e67ca));
-	background-image: url(../images/16/spinner_active.gif), -moz-linear-gradient(top, #2c8bdc, #0e67ca);
+	background-image: url(../images/spinner_active.gif), -webkit-gradient(linear, left top, left bottom, from(#2c8bdc), to(#0e67ca));
+	background-image: url(../images/spinner_active.gif), -moz-linear-gradient(top, #2c8bdc, #0e67ca);
 }
 
 
 body table.ninja-list tbody tr.selected.saving td.handle, 
 body table.ninja-list tbody tr.selected.saving:hover > td.handle,
 body table.ninja-list:hover tbody tr.selected.saving:hover > td.handle {
-	background-image: url(../images/16/spinner_active_alternate.gif);
+	background-image: url(../images/spinner_active_alternate.gif);
 }
 
 body table.ninja-list tbody.selected-single tr.selected.error td.handle, 

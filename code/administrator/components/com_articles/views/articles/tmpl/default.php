@@ -72,7 +72,7 @@
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
                 <? if($state->category) : ?><td class="handle"></td><? endif ?>
-                <td align="center" class="handle">
+                <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
                 <td>

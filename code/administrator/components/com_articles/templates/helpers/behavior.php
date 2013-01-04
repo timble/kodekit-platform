@@ -70,6 +70,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
             $options = !empty($config->options) ? $config->options->toArray() : array();
             $html .= "
                 <script src=\"/administrator/templates/default/js/sortables.js\" />
+                <style src=\"/administrator/templates/default/css/sortables.css\" />
 				<script>
 				(function(){
 					var sortable = function() {
