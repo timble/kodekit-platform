@@ -1,7 +1,7 @@
 #
 # Author:: Gergo Erdosi (<gergo@timble.net>)
-# Cookbook Name:: server
-# Recipe:: nginx
+# Cookbook Name:: nginx-custom
+# Attribute:: default
 #
 # Copyright 2012, Timble CVBA and Contributors.
 #
@@ -18,23 +18,5 @@
 # limitations under the License.
 #
 
-bash 'create_symlink' do
-  user 'root'
-  group 'root'
-  cwd node['server']['nginx']['nooku-server']['dir']
-  code <<-EOH
-    [ -L public ] || ln -s source/code public
-  EOH
-end
-
-template "#{node['server']['nginx']['dir']}/sites-available/#{node['server']['nginx']['nooku-server']['site']}" do
-  source 'sites/nooku-server.erb'
-  owner 'root'
-  group 'root'
-  mode 00644
-  notifies :reload, 'service[nginx]'
-end
-
-nginx_site node['server']['nginx']['nooku-server']['site'] do
-  enable true
-end
+default['nginx']['site']['dir'] = '/var/www'
+default['nginx']['site']['list'] = %w( nooku-server )

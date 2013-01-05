@@ -1,7 +1,7 @@
 #
 # Author:: Gergo Erdosi (<gergo@timble.net>)
-# Cookbook Name:: server
-# Recipe:: php
+# Cookbook Name:: php-custom
+# Attribute:: default
 #
 # Copyright 2012, Timble CVBA and Contributors.
 #
@@ -18,30 +18,5 @@
 # limitations under the License.
 #
 
-# Install PHP packages
-pkgs = %w( php-apc php5-curl php5-gd php5-imagick php5-mcrypt php5-mysql )
-pkgs.each do |pkg|
-  package pkg do
-    action :install
-  end
-end
-
-# Install PHP-FPM
-package "php5-fpm" do
-  action :install
-end
-
-service "php5-fpm" do
-  action [:enable, :start]
-end
-
-template "#{node['php']['fpm_conf_dir']}/php.ini" do
-  source "php.ini.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-end
-
-service "php5-fpm" do
-  action :restart
-end
+default['php']['fpm_conf_dir'] = '/etc/php5/fpm'
+default['php']['xdebug']['directives'] = {}

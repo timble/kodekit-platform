@@ -4,11 +4,11 @@ description 'Default server for Nooku Server development.'
 run_list %w(
   recipe[apt]
   recipe[nginx]
-  recipe[server::nginx]
+  recipe[nginx-custom]
   recipe[mysql::server]
   recipe[mysql::ruby]
   recipe[php]
-  recipe[server::php]
+  recipe[php-custom]
   recipe[nooku-server]
 )
 
@@ -26,12 +26,13 @@ override_attributes(
   :php => {
     :directives => {
       :display_errors => 'On'
-    }
-  },
-  :server => {
-    :php => {
+    },
+    :xdebug => {
       :directives => {
-        :display_errors => 'On'
+        :remote_autostart => 1,
+        :remote_enable => 1,
+        :remote_host => '192.168.50.10',
+        :remote_port => 9001
       }
     }
   }
