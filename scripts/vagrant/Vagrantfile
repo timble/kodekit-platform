@@ -9,7 +9,7 @@ Vagrant::Config.run do |config|
   config.vm.share_folder 'source', '/var/www/nooku-server/source', '../..'
 
   config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = %w( cookbooks site-cookbooks )
+    chef.cookbooks_path = 'cookbooks'
     chef.roles_path = 'roles'
     chef.add_role 'default'
   end

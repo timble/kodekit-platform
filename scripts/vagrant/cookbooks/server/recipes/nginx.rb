@@ -1,7 +1,7 @@
 #
 # Author:: Gergo Erdosi (<gergo@timble.net>)
-# Cookbook Name:: nginx
-# Recipe:: nooku-server
+# Cookbook Name:: server
+# Recipe:: nginx
 #
 # Copyright 2012, Timble CVBA and Contributors.
 #
@@ -18,16 +18,16 @@
 # limitations under the License.
 #
 
-bash "create_symlink" do
+bash 'create_symlink' do
   user 'root'
   group 'root'
-  cwd node['nginx']['nooku-server']['dir']
+  cwd node['server']['nginx']['nooku-server']['dir']
   code <<-EOH
-    test -L public || ln -s source/code public
+    [ -L public ] || ln -s source/code public
   EOH
 end
 
-template "#{node['nginx']['dir']}/sites-available/#{node['nginx']['nooku-server']['site']}" do
+template "#{node['server']['nginx']['dir']}/sites-available/#{node['server']['nginx']['nooku-server']['site']}" do
   source 'sites/nooku-server.erb'
   owner 'root'
   group 'root'
@@ -35,6 +35,6 @@ template "#{node['nginx']['dir']}/sites-available/#{node['nginx']['nooku-server'
   notifies :reload, 'service[nginx]'
 end
 
-nginx_site node['nginx']['nooku-server']['site'] do
+nginx_site node['server']['nginx']['nooku-server']['site'] do
   enable true
 end

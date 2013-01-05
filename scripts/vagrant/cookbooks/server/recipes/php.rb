@@ -1,7 +1,7 @@
 #
 # Author:: Gergo Erdosi (<gergo@timble.net>)
-# Cookbook Name:: php
-# Recipe:: package
+# Cookbook Name:: server
+# Recipe:: php
 #
 # Copyright 2012, Timble CVBA and Contributors.
 #
@@ -18,21 +18,12 @@
 # limitations under the License.
 #
 
-# Install base and additional PHP packages
-pkgs = %w( php5-cgi php5 php5-dev php5-cli php-pear )
-pkgs += %w( php-apc php5-curl php5-gd php5-imagick php5-mcrypt php5-mysql )
-
+# Install PHP packages
+pkgs = %w( php-apc php5-curl php5-gd php5-imagick php5-mcrypt php5-mysql )
 pkgs.each do |pkg|
   package pkg do
     action :install
   end
-end
-
-template "#{node['php']['conf_dir']}/php.ini" do
-  source "php.ini.erb"
-  owner "root"
-  group "root"
-  mode "0644"
 end
 
 # Install PHP-FPM

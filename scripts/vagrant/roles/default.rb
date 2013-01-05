@@ -4,10 +4,11 @@ description 'Default server for Nooku Server development.'
 run_list %w(
   recipe[apt]
   recipe[nginx]
-  recipe[nginx::nooku-server]
+  recipe[server::nginx]
   recipe[mysql::server]
   recipe[mysql::ruby]
   recipe[php]
+  recipe[server::php]
   recipe[nooku-server]
 )
 
@@ -25,6 +26,13 @@ override_attributes(
   :php => {
     :directives => {
       :display_errors => 'On'
+    }
+  },
+  :server => {
+    :php => {
+      :directives => {
+        :display_errors => 'On'
+      }
     }
   }
 )
