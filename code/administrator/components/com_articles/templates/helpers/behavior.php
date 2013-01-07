@@ -52,7 +52,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
                     'options'	=> array(
                         'url'		=> '?format=json',
                         'data'	=> array(
-                            '_token'	=> JUtility::getToken(),
+                            '_token'	=> $this->getService('user')->getSession()->getToken(),
                             '_action'	=> 'edit'
                         ),
                         'key'		=> 'order',
@@ -74,7 +74,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 				<script>
 				(function(){
 					var sortable = function() {
-						var test = $$('".$config->selector."').sortable(".json_encode($options).");
+						var options = test = $$('".$config->selector."').sortable(".json_encode($options).");
 						console.log($$('".$config->selector."'), test);
 					};
 					window.addEvents({domready: sortable, request: sortable});
