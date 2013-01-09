@@ -18,8 +18,7 @@
 abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRowInterface
 {
     /**
-     * Tracks columns where data has been updated. Allows more specific
-     * save operations.
+     * Tracks columns where data has been updated. Allows more specific save operations.
      *
      * @var array
      */
@@ -312,16 +311,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         $this->_modified = array();
 
         return $this;
-    }
-
-    /**
-     * Count the rows in the database based on the data in the row
-     *
-     * @return integer
-     */
-    public function count()
-    {
-        return false;
     }
 
     /**
