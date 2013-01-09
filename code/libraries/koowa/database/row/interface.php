@@ -117,13 +117,6 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
     public function delete();
 
     /**
-     * Count the rows in the database based on the data in the row
-     *
-     * @return integer
-     */
-    public function count();
-
-    /**
      * Resets to the default properties
      *
      * @return KDatabaseRowInterface
