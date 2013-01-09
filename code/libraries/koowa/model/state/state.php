@@ -212,7 +212,6 @@ class KModelState extends KConfig implements KModelStateInterface
 	/**
      * Return an associative array of the states.
      *
-     * @param bool 	If TRUE return only as associative array of the state values. Default is TRUE.
      * @return array
      */
     public function getStates()
