@@ -227,24 +227,6 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     }
 
     /**
-     * Count the rows in the database based on the data in the row
-     *
-     * @return integer
-     */
-    public function count()
-    {
-        $result = false;
-
-        if ($this->isConnected())
-        {
-            $data   = $this->getTable()->filter($this->getData(true), true);
-            $result = $this->getTable()->count($data);
-        }
-
-        return $result;
-    }
-
-    /**
      * Test the connected status of the row.
      *
      * @return    boolean    Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
