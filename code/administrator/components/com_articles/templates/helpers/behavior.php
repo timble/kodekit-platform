@@ -74,8 +74,7 @@ class ComArticlesTemplateHelperBehavior extends ComDefaultTemplateHelperBehavior
 				<script>
 				(function(){
 					var sortable = function() {
-						var options = test = $$('".$config->selector."').sortable(".json_encode($options).");
-						console.log($$('".$config->selector."'), test);
+						$$('".$config->selector."').sortable(".json_encode($options).");
 					};
 					window.addEvents({domready: sortable, request: sortable});
 				})();
