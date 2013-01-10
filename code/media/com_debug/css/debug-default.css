@@ -1,0 +1,101 @@
+#debug {
+	height: 250px !important;
+	overflow: hidden;
+	border-top: 2px solid #AAA;
+	position: relative;
+}
+
+#debug .current { overflow: auto !important; -webkit-flex: 1; height: 260px; } /* scroll inside the tabs */
+
+/* @group JS related */
+#tabs-debug::after {
+        content: 'type the letter "d" to toggle the debug bar';
+        margin-top: 13px;
+        position: absolute;
+        right: 30px;
+}
+/* @end */
+
+/* @group Tabs */
+#debug dl.tabs {
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+    background-color: #E6E6E6;
+    border-bottom: 1px solid #ccc;
+}
+#debug dl.tabs dt {
+    padding: 4px 0;
+    float: left;
+    -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E6E6E6), to(#E6E6E6), color-stop(.6,#E6E6E6)) 100% / 0px 1px 0 1px stretch stretch;
+    color: #666;
+    font-weight: bold;
+    font-size: 110%;
+}
+#debug dl.tabs dt.open {
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E5E5E5), to(#E5E5E5), color-stop(.6,#C0C0C0));
+    -webkit-border-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E0E0E0), to(#E0E0E0), color-stop(.6,#7E7E7E)) 100% / 0px 1px 0 1px stretch stretch;
+    color: #222;
+}
+#debug dl.tabs dt span {
+    padding: 0px 12px;
+    height: 32px;
+    padding-left: 45px;
+    background-position: 10px 0px; background-repeat: no-repeat;
+    display: table-cell; vertical-align: middle;
+}
+#debug dl.tabs dt:active span {
+    background-position: 10px bottom;
+}
+#debug div.current {
+    padding: 0;
+    background-color: #FFF;
+    /* Why is the negative margin needed to clear the 2px whitespace? */
+    margin-top: -2px;
+}
+#debug div.current dd {
+    padding: 0;
+    margin: 0;
+}
+#debug div.current h4 {
+    padding: 0 10px;
+}
+/* @group Close button */
+#debug .close {
+    position: absolute;
+    top: 13px;
+    left: 6px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-image: url(../images/close.png);
+}
+#debug .close:hover {
+    background-position: -14px 0;
+}
+#debug .close:active {
+    background-position: -28px 0;
+}
+
+#debug #tabs-debug :first-child {
+    margin-left: 26px;
+}
+/* @end */
+/* @end */
+
+/* @group Icons */
+#debug #tabs-debug .audits span            { background-image: url(../images/icon-32-audits.png); }
+#debug #tabs-debug .console span           { background-image: url(../images/icon-32-console.png); }
+#debug #tabs-debug .elements span          { background-image: url(../images/icon-32-elements.png); }
+#debug #tabs-debug .profiles span          { background-image: url(../images/icon-32-profiles.png); }
+#debug #tabs-debug .resources span         { background-image: url(../images/icon-32-resources.png); }
+#debug #tabs-debug .scripts span           { background-image: url(../images/icon-32-scripts.png); }
+#debug #tabs-debug .storage span           { background-image: url(../images/icon-32-storage.png); }
+#debug #tabs-debug .timeline span          { background-image: url(../images/icon-32-timeline.png); }
+/* @end */
+
+/* @group horizontal scrollbar fix */
+#debug .prettyprint {
+    white-space: pre-line;
+}
+/* @end */

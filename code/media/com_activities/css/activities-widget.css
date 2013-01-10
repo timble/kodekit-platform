@@ -1,0 +1,6 @@
+#activities-activities-widget { padding: 0 5px 0 15px; }
+#activities-activities-widget .log { padding: 3px 0; }
+ 
+ #activities-activities-widget .log a {
+ 	display: block;
+ }

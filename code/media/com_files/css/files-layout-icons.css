@@ -1,0 +1,221 @@
+/**
+ * @version     $Id$
+ * @package     Nooku_Components
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+#files-grid {
+    min-height: 120px;
+    overflow: hidden;
+}
+
+#files-grid > div {
+    padding: 10px;
+}
+
+.files-node-shadow {
+float: left;
+    text-align: center;
+}
+div.imgOutline {
+    cursor: pointer;
+    display: inline-block;
+	border: 1px;
+
+	padding: 11px;
+	margin: 5px;
+	border: 1px solid hsl(0, 0%, 90%);
+	border-radius: 3px;
+	-webkit-transition: opacity 150ms ease-out;
+}
+#files-grid .loading {
+    opacity: 0.6;
+}
+
+#files-grid .loaded {
+    opacity: 1;
+}
+div.imgOutline img {
+    opacity: 0;
+    -webkit-transition: opacity 150ms ease-out;
+}
+div.imgOutline img.loaded {
+    opacity: 1;
+}
+div.imgOutline .ellipsis {
+    max-width: 200px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: 17px;
+}
+div.imgOutline.selected {
+    color: white;
+    border-color: hsl(210, 63%, 66%);
+    border-color: hsla(0, 0%, 0%, .1);
+    background-color: hsl(210, 63%, 65%);
+    background-clip: border-box;
+    background-origin: border-box;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#72A8DF), to(#2B75BF));
+    background-image: -moz-linear-gradient(0% 0% 270deg,#72A8DF, #2B75BF);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#72A8DF', endColorstr='#2B75BF');
+    box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+    text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
+}
+
+div.imgTotal {
+    position: relative;
+    margin: 0 0 8px 0;
+    overflow: hidden;
+    width: 200px;
+    height: 150px;
+    background-color: whiteSmoke;
+    background: white -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background: white -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1) 100%);
+    background: white -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background: white -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background: white radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2) 100%);
+    background-repeat: no-repeat;
+}
+div.imgOutline.selected div.imgTotal {
+    background-image: -moz-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: -webkit-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: -o-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: -ms-radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+    background-image: radial-gradient(center center, ellipse closest-corner, rgba(255, 255, 255, 0.2), hsla(210, 100%, 50%, 0.2) 100%);
+}
+
+div.imgTotal a.navigate {
+    display: block;
+    background: no-repeat center center;
+    position: relative;
+    overflow: hidden;
+    width: inherit;
+    height: inherit;
+}
+div.imgTotal a.navigate::after {
+    -moz-box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
+    box-shadow: 0 0 1px rgba(0, 0, 0, .20) inset;
+    content: '';
+    height: inherit;
+    display: block;
+    position: absolute;
+    top: 0;
+    width: inherit;
+}
+div.imgOutline.selected div.imgTotal a.navigate::after {
+    -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
+}
+div.imgTotal a.navigate img {
+    width: 100%;
+}
+.files-folder div.imgTotal a.navigate {
+    background-image: url(../images/folder-64.png);
+}
+.files-file div.imgTotal a.navigate,
+.files-image.nothumbnails div.imgTotal a.navigate {
+    background-image: url(../images/document-64.png);
+}
+.files-image.thumbnails div.imgTotal a.navigate {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    background: url(../images/checker.png) repeat left top white;
+}
+
+div.imgBorder {
+	height: 72px;
+	vertical-align: middle;
+	width: 88px;
+	overflow: hidden;
+}
+
+div.imgBorder a {
+	height: 72px;
+	width: 88px;
+	display: block;
+}
+
+div.imgBorder a:hover {
+	height: 72px;
+	width: 88px;
+	background-color: #f0f0f0;
+	color : #FF6600;
+}
+
+.imgBorderHover {
+	background: #FFFFCC;
+	cursor: hand;
+}
+
+div.controls {
+	text-align: center;
+	height: 20px;
+	line-height: 20px;
+	background: #f9fcf9;
+	border-top: 1px solid #ddd;
+}
+
+div.controls input {
+	vertical-align: middle;
+}
+
+div.controls img {
+	vertical-align: middle;
+}
+
+div.controls:hover {
+	display: block;
+}
+
+div.imginfoBorder {
+	background: #f9f9f9;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	display: block;
+	height: 15px;
+	vertical-align: middle;
+	text-align: center;
+	overflow: hidden;
+	padding: 0 8px;
+}
+
+div.imgBorder a {
+	cursor: pointer;
+}
+
+.buttonHover {
+	border: 1px solid;
+	border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+	cursor: hand;
+	background: #FFFFCC;
+}
+
+.buttonOut {
+	border: 0px;
+}
+
+.imgCaption {
+	font-size: 9pt;
+	text-align: center;
+}
+
+.dirField {
+	font-size: 9pt;
+	width:110px;
+}
+
+div.image {
+	padding-top: 10px;
+}
+
+.imgBorder a.navigate {
+-webkit-animation-duration: 2s;
+-webkit-animation-iteration-count: infinite;
+}
