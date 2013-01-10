@@ -1,0 +1,121 @@
+/**
+ * @version     $Id: dispatcher.php 1481 2012-02-10 01:46:24Z johanjanssens $
+ * @package     Nooku_Components
+ * @subpackage  Activities
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+#sidebar h3 {
+	background: #eaeaea;
+}
+
+td.activities-timeago,
+table.adminlist tbody tr:nth-child(even) td.activities-timeago {
+	height: auto;
+	text-align: left;	
+	font-weight: bold;
+	background-color: #ededed;
+	border-bottom: 1px solid #dddddd;
+}
+
+.activities-time {
+	font-weight: bold;
+}
+
+.activities-action {
+	font-weight: bold;
+}
+
+.activities-item,
+table.adminlist thead th.-activities-item {
+	text-align: left;
+}
+
+.activities-deleted {
+	text-decoration: line-through;
+}
+
+.activities-filter{
+	margin: 20px 0 0 0;
+}
+
+.activities-filter h4 {
+	padding: 5px 0 10px 0;
+	margin: 0;
+	clear: both;
+}
+
+#sidebar fieldset{
+	margin: 10px 0 0 0;
+	padding: 0 10px;
+	border: none;
+}
+
+.activities-calendar > * {
+	float:left;
+}
+
+.activities-buttons {
+	margin: 10px 0 0 0;
+}
+
+.activities-buttons .btn { 
+	min-width: 50px;
+	line-height: 18px;
+	display: block;
+	float: left;
+	text-align: center;
+	color: #666;
+	white-space: nowrap;
+	padding: 2px 12px;
+	margin: 0px;
+	cursor: pointer;
+	color: #333;
+	font-weight: bold;
+	font-size: 1em;
+	opacity: 1;
+	border: 0 none;
+	border-top: 1px solid #BBB;
+	border-bottom: 1px solid #BBB;
+	background-color: #F9F9F9;
+	background-image: -webkit-gradient(linear, 0% 30%, 0% 55%, from(#F9F9F9), to(#E3E3E3));
+	background-image: -moz-linear-gradient(0% 35% 270deg,#F9F9F9, #E3E3E3);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F9F9F9', endColorstr='#E3E3E3');
+	-webkit-user-select: none;
+ }
+ 
+.activities-buttons .btn:first-child { 
+ 	-webkit-border-top-left-radius: 4px;
+ 	-moz-border-radius-topleft: 4px;
+ 	border-top-left-radius: 4px;
+ 	-webkit-border-bottom-left-radius: 4px;
+ 	-moz-border-radius-bottomleft: 4px;
+ 	border-bottom-left-radius: 4px;
+ 	border-top: 1px solid #BBB;
+ 	border-bottom: 1px solid #BBB;
+ 	border-left: 1px solid #BBB;
+ 	border-right: 1px solid #CCC;
+ }
+ 
+.activities-buttons .btn:last-child { 
+ 	-webkit-border-top-right-radius: 4px;
+ 	-moz-border-radius-topright: 4px;
+ 	border-top-right-radius: 4px;
+ 	-webkit-border-bottom-right-radius: 4px;
+ 	-moz-border-radius-bottomright: 4px;
+ 	border-bottom-right-radius: 4px;
+ 	border-top: 1px solid #BBB;
+ 	border-bottom: 1px solid #BBB;
+ 	border-right: 1px solid #BBB;
+ }
+ 
+.activities-buttons .btn:hover {
+ 	border-color: #999;
+ 	-webkit-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+ 	-moz-box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px;
+ 	box-shadow: hsla(0, 0%, 55%, 0.8) 0px 0px 2px; 
+ 	text-decoration: none;
+ 	color: #333;
+ }

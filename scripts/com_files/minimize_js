@@ -1,0 +1,8 @@
+#!/bin/bash
+
+JS_PATH=../../code/media/com_files/js
+FILE_LIST="spin.min.js files.utilities.js files.state.js files.template.js files.grid.js files.tree.js files.row.js files.paginator.js files.app.js"
+OUTPUT_FILE=files.min.js
+
+cd $JS_PATH
+cat $FILE_LIST | uglifyjs -o $OUTPUT_FILE 
