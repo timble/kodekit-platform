@@ -32,4 +32,10 @@ class ComFilesViewJson extends KViewJson
 
         return $output;
     }
+
+    /* @TODO this is a temporary fix for an exception throw in com_application for getLayout() not being defined */
+    public function getLayout()
+    {
+        return 'default';
+    }
 }
