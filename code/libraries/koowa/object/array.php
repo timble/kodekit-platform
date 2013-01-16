@@ -68,9 +68,9 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
         $result = null;
         if (isset($this->_data[$key])) {
             $result = $this->_data[$key];
-        } else {
-            throw new \InvalidArgumentException('Not a valid key in this array: '. $key);
-        }
+        } //else {
+            //throw new \InvalidArgumentException('Not a valid key in this array: '. $key);
+        //}
 
         return $result;
     }
