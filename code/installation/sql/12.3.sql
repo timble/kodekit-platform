@@ -122,7 +122,7 @@ CREATE TABLE `#__users_roles` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__users_roles` (`users_role_id`, `name`, `desciption`)
+INSERT INTO `#__users_roles` (`users_role_id`, `name`, `description`)
 VALUES
     (18, 'Registered', ''),
     (19, 'Author', ''),
@@ -683,6 +683,13 @@ INSERT INTO `#__languages_tables` (`extensions_component_id`, `name`, `unique_co
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
+
+CREATE TABLE `#__users_groups_users` (
+  `users_group_id` int(11) unsigned NOT NULL,
+  `users_user_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`users_group_id`,`users_user_id`),
+  KEY `jos_users_groups_users__users_user_id` (`users_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `#__users` (`users_user_id`) ON DELETE CASCADE;
 ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `#__users_groups` (`users_group_id`) ON DELETE CASCADE;
