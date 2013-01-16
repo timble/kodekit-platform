@@ -9,3 +9,5 @@
 .idea/workspace.xml
 code/configuration.php
 scripts/vagrant/.vagrant
+
+.htaccess
