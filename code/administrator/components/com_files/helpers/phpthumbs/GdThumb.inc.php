@@ -564,7 +564,7 @@ class GdThumb extends ThumbBase
 	 */
 	public function show ($rawData = false)
 	{
-		if (headers_sent())
+		if (headers_sent() && $rawData)
 		{
 			throw new RuntimeException('Cannot show image, headers have already been sent');
 		}
