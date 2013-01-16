@@ -94,7 +94,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 			'codemirror'   		=> true,
 			'codemirrorOptions' => array(
 				'stylesheet' => array(
-					$config->media_url.'/com_wywisyg/codemirror/lib/codemirror.css',
+					$config->media_url.'/com_wysiwyg/codemirror/lib/codemirror.css',
 				  	/*$config->media_url.'/com_wysiwyg/codemirror/css/xmlcolors.css',
 				  	$config->media_url.'/com_wysiwyg/codemirror/css/jscolors.css',
 				  	$config->media_url.'/com_wysiwyg/codemirror/css/csscolors.css',
