@@ -15,9 +15,13 @@
 Files.sitebase = '<?= $sitebase; ?>';
 Files.token = '<?= $token; ?>';
 
+//Preloading breadcrumbs icon
+(new Image).src = "media://com_files/images/arrow.png";
+
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
 		options = {
+            title: false,
 			state: {
 				defaults: {
 					limit: <?= (int) $state->limit; ?>,
