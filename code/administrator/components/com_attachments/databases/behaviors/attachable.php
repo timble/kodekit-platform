@@ -7,6 +7,6 @@ class ComAttachmentsDatabaseBehaviorAttachable extends KDatabaseBehaviorAbstract
 		return $this->getService('com://admin/attachments.model.attachments')
 				->row($this->id)
 				->table($this->getTable()->getBase())
-				->getList();
+				->getRowset();
 	}
 }

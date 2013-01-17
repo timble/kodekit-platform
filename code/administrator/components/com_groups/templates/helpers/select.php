@@ -32,7 +32,7 @@ class ComGroupsTemplateHelperSelect extends KTemplateHelperSelect
 		
 		$groups  = $this->getService('com://admin/groups.model.groups')
             ->set('core', is_null($config->core) ? null : $config->core)
-		    ->getList();
+		    ->getRowset();
 		
 		if($config->exclude instanceof KDatabaseRowInterface && $config->exclude->id) 
 		{

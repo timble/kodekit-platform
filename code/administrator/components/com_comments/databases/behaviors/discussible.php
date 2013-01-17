@@ -11,7 +11,7 @@ class ComCommentsDatabaseBehaviorDiscussible extends KDatabaseBehaviorAbstract
 		$comments = $this->getService('com://admin/comments.model.comments')
 					->row($this->id)
 					->table($this->getTable()->getName())
-					->getList();
+					->getRowset();
 
 		return $comments;
 	}
