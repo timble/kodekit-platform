@@ -74,7 +74,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
 
-        if(is_numeric($state->category))
+        if(is_numeric($state->category) || $state->category)
         {
             if($state->category)
             {

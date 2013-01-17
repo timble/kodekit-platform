@@ -403,7 +403,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         if(!isset($this->_pathway))
         {
             // TODO: Find out why loader tries to load the admin class.
-            KLoader::loadFile(__DIR__.'/configs/pathway.php');
+            KLoader::loadFile(dirname(__DIR__).'/configs/pathway.php');
 
             $pathway = new ComApplicationConfigPathway();
             $pages   = $this->getService('application.pages');

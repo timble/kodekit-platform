@@ -90,7 +90,7 @@ class ComDefaultControllerModel extends KControllerModel
                 $limit = $this->_limit->max;
             }
 
-            $this->limit = $limit;
+            $this->getModel()->set('limit', $limit);
         }
 
         return parent::_actionBrowse($context);

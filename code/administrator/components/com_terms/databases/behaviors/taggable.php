@@ -29,7 +29,7 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 		$tags = $this->getService('com://admin/terms.model.terms')
 					->row($this->id)
 					->table($this->getTable()->getName())
-					->getList();
+					->getRowset();
 
 		return $tags;
 	}
