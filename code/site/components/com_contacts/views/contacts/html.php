@@ -41,7 +41,7 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
         else $params->set('page_title',	$category->title);
 
         //Set the page title
-        JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
+        //JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the pathway
         if($page->link->query['view'] == 'categories' ) {
