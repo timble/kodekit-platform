@@ -214,7 +214,7 @@ class PhpThumb
 		{
 			while (false !== ($file = readdir($handle)))
 			{
-				if ($file == '.' || $file == '..' || $file == '.svn')
+				if (substr($file, -4) !== '.php')
 				{
 					continue;
 				}

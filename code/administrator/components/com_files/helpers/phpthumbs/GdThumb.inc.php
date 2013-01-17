@@ -568,7 +568,7 @@ class GdThumb extends ThumbBase
 		{
 			throw new RuntimeException('Cannot show image, headers have already been sent');
 		}
-        
+
 		switch ($this->format)
 		{
 			case 'GIF':
