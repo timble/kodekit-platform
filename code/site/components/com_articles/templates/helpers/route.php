@@ -55,12 +55,13 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
         $category = $config->row;
 
         $needles = array(
-            array('view' => 'articles', 'category' => $category->id)
+            array('view' => 'category', 'id' => $category->id),
+            array('view' => 'section' , 'id' => $category->section),
         );
 
         $route = array(
             'view'      => 'articles',
-            'id'  => $category->getSlug(),
+            'category'  => $category->getSlug(),
             'layout'    => $config->layout
         );
 
