@@ -32,12 +32,6 @@ class ComArticlesRouter extends ComDefaultRouter
 
         if($view == 'categories')
         {
-            if(isset($query['category']))
-            {
-                $segments[] = $query['category'];
-                unset($query['category']);
-            }
-
             if(isset($query['id'])) {
                 $segments[] = $query['id'];
             }
