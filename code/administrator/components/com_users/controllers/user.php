@@ -52,7 +52,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
 
     public function reset(KCommandContext $context)
     {
-        if ($context->getSubject()->getStatus() == self::STATUS_RESET)
+        if ($context->response->getStatusCode() == self::STATUS_RESET)
         {
             $user = $context->result;
             JFactory::getUser($user->id)->setData($user->getData());
