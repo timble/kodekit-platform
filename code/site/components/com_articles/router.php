@@ -34,8 +34,9 @@ class ComArticlesRouter extends ComDefaultRouter
         {
             if(isset($query['category']))
             {
-                $segments[] = $query['category'];
-                unset($query['category']);
+                if($query['category'] != $page->link->query['category']) {
+                    $segments[] = $query['category'];
+                }
             }
 
             if(isset($query['id'])) {
