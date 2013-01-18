@@ -39,11 +39,6 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         if ($context->password_reset) {
             $data->reset = $data->getPassword()->setReset();
         }
-
-        // Reset the password object.
-        if ($data->getStatus() == KDatabase::STATUS_UPDATED) {
-            $this->_password = null;
-        }
     }
 
     protected function _beforeTableInsert(KCommandContext $context)
@@ -103,8 +98,8 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         if (!$this->isNew())
         {
             $password = $this->getService('com://admin/users.database.row.password')
-                ->set('users_user_email', $this->email)
-                ->load();
+                ->set('id', $this->email);
+            $password->load();
         }
 
         return $password;
