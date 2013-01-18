@@ -332,6 +332,8 @@ ALTER TABLE `#__contacts` DROP `user_id`;
 
 --  Upgrade menu items links
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_contact', 'com_contacts') WHERE `link` LIKE '%com_contact%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'catid', 'category') WHERE `link` LIKE '%com_contact%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category', 'view=contacts') WHERE `link` LIKE '%com_contact%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_content', 'com_articles') WHERE `link` LIKE '%com_content%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category&layout=blog', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=category&layout=blog%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=section&layout=blog', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=section&layout=blog%';
