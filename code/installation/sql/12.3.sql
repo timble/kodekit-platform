@@ -33,9 +33,9 @@ UPDATE `#__modules` SET `extensions_component_id` = 19 WHERE `name` = 'mod_image
 UPDATE `#__modules` SET `extensions_component_id` = 31 WHERE `name` = 'mod_login';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_mainmenu';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_breadcrumbs';
-UPDATE `#__modules` SET `extensions_component_id` = 28 WHERE `name` = 'mod_custom';
+UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_custom';
 
-UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_image', 'mod_login', 'mod_menu');  
+UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_image', 'mod_login', 'mod_menu', 'mod_custom', 'mod_lastestnews');  
 ALTER TABLE `#__modules` DROP `showtitle`;
 
 UPDATE `#__modules` SET `params` = REPLACE(`params`, 'showAllChildren=', 'show_children=') WHERE `name` = 'mod_menu';
