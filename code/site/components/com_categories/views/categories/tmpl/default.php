@@ -13,7 +13,7 @@
 <article>
 <div class="page-header">
     <h1>
-        <a href="<?= @helper('route.category', array('row' => $category)) ?>">
+        <a href="<?= @helper('route.category', array('row' => $category, 'layout' => 'table')) ?>">
         	<?= @escape($category->title);?>
         </a>
     </h1>
@@ -29,6 +29,6 @@
 	<? endif; ?>
 </div>
 
-<a href="<?= @helper('route.category', array('row' => $category)) ?>"><?= @text('Read more') ?></a>
+<a href="<?= @helper('route.category', array('row' => $category, 'layout' => 'table')) ?>"><?= @text('Read more') ?></a>
 </article>
 <? endforeach; ?>
