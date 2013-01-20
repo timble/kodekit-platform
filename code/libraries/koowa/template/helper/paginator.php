@@ -26,7 +26,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	 */
 	public function pagination($config = array())
 	{
-	    $config = new KConfigPaginator($config);
+	    $config = new KModelPaginator($config);
 		$config->append(array(
 		    'total'      => 0,
             'display'    => 4,
@@ -34,7 +34,8 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
             'limit'      => 0,
 		    'attribs'	 => array(),
 		    'show_limit' => true,
-		    'show_count' => true
+		    'show_count' => true,
+            'page_rows'  => array(10, 20, 50, 100)
 		));
 	
 		$html = '';
@@ -64,19 +65,20 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		$config = new KConfig($config);
 		$config->append(array(
 			'limit'	  	=> 0,
+            'page_rows' => array(10, 20, 50, 100),
 			'attribs'	=> array(),
 		));
 		
 		$html = '';
 		
 		$selected = '';
-		foreach(array(10 => 10, 20 => 20, 50 => 50, 100 => 100) as $value => $text)
+		foreach($config->page_rows as $limit)
 		{
-			if($value == $config->limit) {
-				$selected = $value;
+			if($limit == $config->limit) {
+				$selected = $limit;
 			}
 
-			$options[] = $this->option(array('text' => $text, 'value' => $value));
+			$options[] = $this->option(array('text' => $limit, 'value' => $limit));
 		}
 
 		$html .= $this->optionlist(array('options' => $options, 'name' => 'limit', 'attribs' => $config->attribs, 'selected' => $selected));
@@ -91,7 +93,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	 */
 	public function pages($config = array())
 	{
-	    $config = new KConfigPaginator($config);
+	    $config = new KModelPaginator($config);
 		$config->append(array(
 			'total'      => 0,
 			'display'    => 4,

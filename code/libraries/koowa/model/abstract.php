@@ -240,6 +240,22 @@ abstract class KModelAbstract extends KObject implements KModelInterface
     }
 
     /**
+     * Get the model paginator object
+     *
+     * @return  KModelPaginator  The model paginator object
+     */
+    public function getPaginator()
+    {
+        $paginator = new KModelPaginator(array(
+            'offset' => (int) $this->offset,
+            'limit'  => (int) $this->limit,
+            'total'  => (int) $this->getTotal(),
+        ));
+
+        return $paginator;
+    }
+
+    /**
      * Get a model state by name
      *
      * @param   string  $key The key name.

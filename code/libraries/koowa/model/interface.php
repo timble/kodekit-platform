@@ -94,4 +94,11 @@ interface KModelInterface
      * @return KDatabaseRowsetInterface or KDatabaseRowInterface
      */
     public function getData();
+
+    /**
+     * Get the model paginator object
+     *
+     * @return  KModelPaginator  The model paginator object
+     */
+    public function getPaginator();
 }
