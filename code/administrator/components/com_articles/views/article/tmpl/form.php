@@ -37,7 +37,6 @@
 <form action="" method="post" id="article-form" class="-koowa-form">
     <input type="hidden" name="access" value="0" />
     <input type="hidden" name="published" value="0" />
-    <input type="hidden" name="featured" value="0" />
     
     <div class="form-body">
         <div class="title">
@@ -53,12 +52,6 @@
 	                <label class="control-label" for="published"><?= @text('Published') ?></label>
 	                <div class="controls">
 	                    <input type="checkbox" name="published" value="1" <?= $article->published ? 'checked="checked"' : '' ?> />
-	                </div>
-	            </div>
-	            <div class="control-group">
-	                <label class="control-label" for="featured"><?= @text('Featured') ?></label>
-	                <div class="controls">
-	                    <input type="checkbox" name="featured" value="1" <?= $article->featured ? 'checked="checked"' : '' ?> />
 	                </div>
 	            </div>
 	            <div class="control-group">

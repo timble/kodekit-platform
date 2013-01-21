@@ -198,7 +198,6 @@ if($numbers['articles'])
         $row->introtext = $generator->sentences(pick_random(range(1, 3)));
         $row->fulltext = $generator->sentences(pick_random(range(0, 5)));
         $row->published = (int) (rand(0, 20) > 0);
-        $row->featured = pick_random(array_merge(array_fill(0, 5, 0), array(1)));
         $row->categories_category_id = pick_random($categories['articles']);
 
         $created = new DateTime('@'.rand($date_min->format('U'), $date_max->format('U')));
