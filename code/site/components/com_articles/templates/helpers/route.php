@@ -49,7 +49,7 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
     {
         $config   = new KConfig($config);
         $config->append(array(
-            'layout' => null
+            'layout' => 'table'
         ));
 
         $category = $config->row;
