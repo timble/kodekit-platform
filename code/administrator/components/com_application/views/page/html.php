@@ -45,6 +45,11 @@ class ComApplicationViewPageHtml extends ComApplicationViewHtml
         }
         else  $this->messages = array();
 
+
+        //Set the component and layout information
+        $this->component = $this->getService('application')->getController()->getIdentifier()->package;
+        $this->layout    = $this->getService('component')->getController()->getView()->getLayout();
+
         return parent::display();
     }
 }
