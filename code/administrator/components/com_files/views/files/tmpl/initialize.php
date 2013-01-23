@@ -34,6 +34,7 @@
 <script src="media://com_files/js/files.tree.js" />
 <script src="media://com_files/js/files.row.js" />
 <script src="media://com_files/js/files.paginator.js" />
+<script src="media://com_files/js/files.pathway.js" />
 
 <script src="media://com_files/js/files.app.js" />
 <script>
