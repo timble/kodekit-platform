@@ -39,7 +39,7 @@ class ComContactsViewContactHtml extends ComDefaultViewHtml
         else $params->set('page_title',	$contact->name);
 
         //Set the page title
-        JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
+        //JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the breadcrumbs
         $pathway =$this->getService('application')->getPathway();

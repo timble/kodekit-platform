@@ -240,7 +240,7 @@ class ComApplicationRouter extends KDispatcherRouter
         $segments = array();
 
         $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getRequest()->getUrl()->getUrl(KHttpUrl::HOST)) {
+        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->getUrl(KHttpUrl::HOST)) {
             $segments[] = $site;
         }
 

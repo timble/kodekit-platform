@@ -183,7 +183,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
 
         //Set defaults
         $this->guest  = 1;
-        $this->params = '';
+        //$this->params = '';
 
         return $result;
     }

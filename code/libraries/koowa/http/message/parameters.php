@@ -118,7 +118,7 @@ class KHttpMessageParameters extends KObjectArray
                     return is_array($value) ? array_map($stripslashes, $value) : stripslashes($value);
                 };
 
-                $result = array_map($stripslashes, $result);
+                $result = is_array($result) ? array_map($stripslashes, $result) : stripslashes($result);
             }
 
             // Filter the data

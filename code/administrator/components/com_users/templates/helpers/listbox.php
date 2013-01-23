@@ -49,4 +49,23 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 		
 		return parent::_render($config);
     }
+
+    public function languages($config = array())
+    {
+        $config = new KConfig($config);
+
+        $config->append(array(
+            'value'      => 'iso_code',
+            'text'       => 'name',
+            'identifier' => 'com://admin/languages.model.languages',
+            'filter'     => array('application' => 'site', 'enabled' => 1)));
+
+        $listbox = parent::_listbox($config);
+
+        if (!$config->size) {
+            $listbox = str_replace('size="1"', '', $listbox);
+        }
+
+        return $listbox;
+    }
 }

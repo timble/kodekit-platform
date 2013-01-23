@@ -37,7 +37,7 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
 
     public function pages($config = array())
     {
-        $config = new KConfigPaginator($config);
+        $config = new KModelPaginator($config);
 		$config->append(array(
 			'total'      => 0,
 			'display'    => 4,

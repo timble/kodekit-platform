@@ -49,14 +49,14 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
     {
         $config   = new KConfig($config);
         $config->append(array(
-            'layout' => null
+            'layout' => 'table'
         ));
 
         $category = $config->row;
 
         $needles = array(
-            array('view' => 'category', 'id' => $category->id),
-            array('view' => 'section' , 'id' => $category->section),
+            array('view' => 'category'   , 'id' => $category->id),
+            array('view' => 'categories' , 'id' => $category->section),
         );
 
         $route = array(

@@ -26,10 +26,6 @@
         	<option value="1">Yes</option>
         </param>
         <param name="@spacer" type="spacer" default="" label="" description="" />
-        <param name="show_featured" type="radio" default="0" label="SHOW FEATURED ARTICLES" description="SHOW_FEATURED_ARTICLES_DESC">
-            <option value="1">Yes</option>
-            <option value="0">No</option>
-        </param>
         <param name="section" type="text" default="" label="SECTION" description="SECTION_DESC" />
         <param name="category" type="text" default="" label="CATEGORY" description="CATEGORY_DESC" />
     </params>

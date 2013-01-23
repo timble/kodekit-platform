@@ -471,7 +471,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
                 throw new \RuntimeException('Session could not be started');
             }
 
-            //Re-load the session attributes containers
+            //Re-load the session containers
             foreach($this->_containers as $container) {
                 $container->loadSession();
             }
@@ -517,6 +517,15 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     public function clear()
     {
         session_unset();
+
+        //Clear out the session data
+        $_SESSION = array();
+
+        //Re-load the session containers
+        foreach($this->_containers as $container) {
+            $container->loadSession();
+        }
+
         return $this;
     }
 

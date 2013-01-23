@@ -84,12 +84,8 @@ class KViewJson extends KViewAbstract
         //Get the model state
         $state = $model->getState();
 
-        //Get the paginator
-        $paginator = new KConfigPaginator(array(
-            'offset' => (int)$model->offset,
-            'limit' => (int)$model->limit,
-            'total' => (int)$model->getTotal(),
-        ));
+        //Get the model paginator
+        $paginator = $model->getPaginator();
 
         $vars = array();
         foreach ($state->getStates() as $var)

@@ -33,9 +33,9 @@ UPDATE `#__modules` SET `extensions_component_id` = 19 WHERE `name` = 'mod_image
 UPDATE `#__modules` SET `extensions_component_id` = 31 WHERE `name` = 'mod_login';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_mainmenu';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_breadcrumbs';
-UPDATE `#__modules` SET `extensions_component_id` = 28 WHERE `name` = 'mod_custom';
+UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_custom';
 
-UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_image', 'mod_login', 'mod_menu');  
+UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_image', 'mod_login', 'mod_menu', 'mod_custom', 'mod_lastestnews');  
 ALTER TABLE `#__modules` DROP `showtitle`;
 
 UPDATE `#__modules` SET `params` = REPLACE(`params`, 'showAllChildren=', 'show_children=') WHERE `name` = 'mod_menu';
@@ -150,12 +150,12 @@ ALTER TABLE `#__users` DROP `username`;
 -- Upgrade modules rows
 UPDATE `#__modules` SET `name` = 'mod_articles', `params` = CONCAT_WS('\n', 'show_content=1', `params`) WHERE `name` = 'mod_newsflash';
 UPDATE `#__modules` SET `name` = 'mod_articles' WHERE `name` = 'mod_latestnews';
-UPDATE `#__modules` SET `params` = REPLACE(REPLACE(REPLACE(REPLACE(`params`, 'catid', 'category'), 'secid', 'section'), 'show_front', 'show_featured'), 'items', 'count') WHERE `name` = 'mod_articles';
+UPDATE `#__modules` SET `params` = REPLACE(REPLACE(REPLACE(`params`, 'catid', 'category'), 'secid', 'section'), 'items', 'count') WHERE `name` = 'mod_articles';
 UPDATE `#__modules` SET `extensions_component_id` = 20 WHERE `name` = 'mod_articles';
 
 -- Rename tables to follow conventions
 RENAME TABLE `#__content` TO `#__articles`;
-RENAME TABLE `#__content_frontpage` TO `#__articles_featured`;
+DROP TABLE #__content_frontpage;
 
 -- Clean trash
 DELETE FROM `#__articles` WHERE `state` = '-2';
@@ -165,7 +165,6 @@ UPDATE `#__articles` SET `state` = '0' WHERE `state` = '-1';
 
 -- Update schema to follow conventions
 ALTER TABLE `#__articles` CHANGE `id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `#__articles_featured` CHANGE `content_id` `articles_article_id` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `#__articles` CHANGE  `catid`  `categories_category_id` INT( 11 ) UNSIGNED NOT NULL DEFAULT  '0';
 ALTER TABLE `#__articles` DROP INDEX `idx_catid`;
 ALTER TABLE `#__articles` ADD INDEX  `category` (  `categories_category_id` );
@@ -227,6 +226,7 @@ SELECT 0, title, alias, image, 'articles', description, published, checked_out, 
 
 UPDATE #__categories a, #__categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
 UPDATE #__menu a, #__categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'id=', 'category=') WHERE `link` LIKE '%com_articles&view=categories%';
 ALTER TABLE #__categories DROP old_id;
 DROP TABLE #__sections;
 
@@ -332,6 +332,8 @@ ALTER TABLE `#__contacts` DROP `user_id`;
 
 --  Upgrade menu items links
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_contact', 'com_contacts') WHERE `link` LIKE '%com_contact%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'catid', 'category') WHERE `link` LIKE '%com_contact%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category', 'view=contacts') WHERE `link` LIKE '%com_contact%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'com_content', 'com_articles') WHERE `link` LIKE '%com_content%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category&layout=blog', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=category&layout=blog%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=section&layout=blog', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=section&layout=blog%';
@@ -339,12 +341,11 @@ UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category', 'view=articles&la
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=section', 'view=categories') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=section%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'id=', 'category=') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=articles%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, '&layout=blog', '') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=articles%';
-UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=frontpage', 'view=articles'), `params` = CONCAT_WS('\n', 'show_featured=1', `params`) WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=frontpage%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=frontpage', 'view=articles');
 
 # --------------------------------------------------------
 
 ALTER TABLE `#__articles` ENGINE = INNODB;
-ALTER TABLE `#__articles_featured` ENGINE = INNODB;
 ALTER TABLE `#__categories` ENGINE = INNODB;
 ALTER TABLE `#__components` ENGINE = INNODB;
 ALTER TABLE `#__contacts` ENGINE = INNODB;

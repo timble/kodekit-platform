@@ -27,7 +27,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
      */
     public function pagination($config = array())
     { 
-        $config = new KConfigPaginator($config);
+        $config = new KModelPaginator($config);
         $config->append(array(
             'total'      => 0,
             'display'    => 4,
@@ -61,7 +61,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
      */
     public function pages($config = array())
     {
-        $config = new KConfigPaginator($config);
+        $config = new KModelPaginator($config);
 		$config->append(array(
 			'total'      => 0,
 			'display'    => 4,

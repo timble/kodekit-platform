@@ -19,10 +19,10 @@ class KDispatcherRouterRoute extends KHttpUrl
     /**
      * Return a string representation of this url.
      *
-     * @see    get()
+     * @see    getUrl()
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         $route = clone $this;
         $this->getService('application')->getRouter()->build($route);

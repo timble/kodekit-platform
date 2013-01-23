@@ -27,9 +27,10 @@ class ComApplicationControllerPage extends ComDefaultControllerView
 
         //Make images paths absolute
         $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
+        $site = $this->getService('application')->getSite();
 
         $content = str_replace(JURI::base().'images/', $path, $content);
-        $content = str_replace(array('"images/','"/images/') , '"'.$path, $content);
+        $content = str_replace(array('"images/','"/images/', '"sites/'.$site.'/images') , '"'.$path, $content);
 
         $context->response->setContent($content);
 

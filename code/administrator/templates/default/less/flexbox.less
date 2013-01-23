@@ -3,8 +3,7 @@ body {
 }
 
 html, body { 
-	#flexbox > .box(column, 1);
-	min-height: 100%;
+	height: 100%;
 	
 	#container {
 		#flexbox > .box(column, 1);
@@ -45,14 +44,20 @@ html, body {
 
 #panel-sidebar,
 #panel-inspector {
-	#flexbox > .box(column, none);
-	min-width: 180px;
-	max-width: 180px;
+	#flexbox > .box(column, 1 1 15%);
+	
+	h3 {
+		width: 100%;
+	}
 }
 
 #panel-content { 
-	#flexbox > .box(column, 1);
+	#flexbox > .box(column, 1 1 70%);
 	min-height: 100%;
+	
+	.-koowa-grid {
+		width: 100%;
+	}
 	
 	.-koowa-form {
 		#flexbox > .box(row, 1);
@@ -109,10 +114,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 	}
 }
 
-.-koowa-grid {
-	#flexbox > .box(column, 1);
-}
-
 /* @group Scope Bar */
 .scopebar { 
 	#flexbox > .box(row, 0);
@@ -120,7 +121,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 
 	.scopebar-search {
 		#flexbox > .box(horizontal, 1);
-		#flexbox > .box-pack(end);
 		#flexbox > .box-justify-content(flex-end);
 
 		input {

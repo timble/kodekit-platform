@@ -25,7 +25,7 @@
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
-	<input type="hidden" name="enabled" value="0" />
+	<input type="hidden" name="enabled" value="<?= $this->getService('user')->getId() == $user->id ? 1 : 0 ?>" />
 	<input type="hidden" name="send_email" value="0" />
 	
 	<div class="form-content row-fluid">

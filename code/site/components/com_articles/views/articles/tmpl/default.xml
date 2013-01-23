@@ -14,11 +14,6 @@
         <params>
             <param name="articles_per_page" type="text" default="5" label="Articles per page"
                    description="ARTICLES PER PAGE DESC"/>
-            <param name="show_featured" type="radio" default="0" label="Show featured articles"
-                   description="SHOW FEATURED ARTICLES DESC">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
-            </param>
             <param name="sort_by" type="list" default="newest" label="Sort by" description="SORT BY DESC">
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>

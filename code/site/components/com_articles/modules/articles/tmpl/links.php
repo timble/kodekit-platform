@@ -15,12 +15,8 @@
 
 <ul>
     <?php foreach ($articles as $article): ?>
-    <li class="mod_articles">
-        <?php echo @helper('com://site/articles.template.helper.article.link',
-        array(
-            'row'     => $article,
-            'text'    => @escape($article->title),
-            'attribs' => array('class' => 'mod_articles')));?>
+    <li>
+        <a href="<?php echo @helper('com://site/articles.template.helper.route.article', array('row' => $article)) ?>"><?php echo @escape($article->title) ?></a>
     </li>
     <?php endforeach; ?>
 </ul>

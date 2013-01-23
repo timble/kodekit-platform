@@ -40,7 +40,7 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
 
         if($page->link->query['view'] == 'categories')
         {
-            $category = $article->getCategory();
+            $category = $this->getCategory();
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($article->title, '');
         }

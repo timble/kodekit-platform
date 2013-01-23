@@ -22,7 +22,7 @@ class JElementLanguages extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$user = $this->getService('user');
+		$user = KService::get('user');
 
 		/*
 		 * @TODO: change to acl_check method
@@ -31,12 +31,11 @@ class JElementLanguages extends JElement
 			return JText::_('No Access');
 		}
 
-		$client = $node->attributes('client');
-
 		jimport('joomla.language.helper');
-		$languages = JLanguageHelper::createLanguageList($value, JPATH_ROOT.'/'.$client, true);
-		array_unshift($languages, JHTML::_('select.option', '', '- '.JText::_('Select Language').' -'));
 
-		return JHTML::_('select.genericlist',  $languages, ''.$control_name.'['.$name.']', 'class="chzn-select"', 'value', 'text', $value, $control_name.$name );
-	}
+        return KService::get('com://admin/users.template.helper.listbox')->languages(array(
+            'selected'    => $value,
+            'application' => $node->attributes('client'),
+            'name'        => $control_name . '[' . $name . ']'));
+    }
 }

@@ -13,6 +13,7 @@
     <h1><?php echo @escape($params->get('page_title')); ?></h1>
 </div>
 
+<? if($params->get('show_description') && $category->description && $params->get('show_description_image') && $category->image) : ?>
 <div class="clearfix">
 <? if ($params->get('show_description') && $category->description): ?>
     <?= $category->description; ?>
@@ -22,6 +23,7 @@
     <img class="thumbnail" src="<?= $category->image->path ?>" align="right" height="<?= $category->image->height ?>" width="<?= $category->image->width ?>" />
 <? endif; ?>
 </div>
+<? endif ?>
 
 <table class="table table-striped">
     <thead>
