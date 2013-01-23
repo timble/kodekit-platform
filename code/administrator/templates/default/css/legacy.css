@@ -2979,6 +2979,30 @@ table th[class*="span"],
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+.breadcrumb {
+  padding: 8px 15px;
+  margin: 0 0 12px;
+  list-style: none;
+  background-color: #f5f5f5;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+.breadcrumb > li {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+
+  *zoom: 1;
+  text-shadow: 0 1px 0 #ffffff;
+}
+.breadcrumb > li > .divider {
+  padding: 0 5px;
+  color: #ccc;
+}
+.breadcrumb > .active {
+  color: #999999;
+}
 #flexbox .box-scrollable-shadow {
   background: /* Shadow covers */
  -webkit-linear-gradient(#f9f9f9 30%, #f9f9f9), -webkit-linear-gradient(#f9f9f9, #f9f9f9 70%) 0 100%, /* Shadows */
