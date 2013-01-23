@@ -4,10 +4,6 @@
 @import '../../../libraries/bootstrap/less/variables.less';
 @import '../../../libraries/bootstrap/less/mixins.less';
 
-//@TODO We need to reuse code from here, but the outputted code is unnecessary so we wrap it for now
-.noconflict {
-@import '../../../libraries/bootstrap/less/buttons.less';
-}
 .linear-gradient (@from: hsla(0, 0%, 100%, 0.5), @to: hsla(0, 0%, 0%, 0.5)) {
 
   @fromAlphaFromFloat: ~`Math.round(parseFloat("@{from}".split(',')[3])*255)`;
@@ -87,7 +83,7 @@
             th:first-child {
                 padding: 0;
 
-                .noconflict .btn.dropdown-toggle {
+                .btn.dropdown-toggle {
                     .buttonBackground(hsl(0, 0%, 95%), hsl(0, 0%, 90%));
                 }
             }
@@ -382,7 +378,7 @@ li.plupload_droptext {
 
 #files-upload {
     button {
-      & .noconflict .btn();
+      //@TODO rename buttons in the markup to use .btn
     }
 }
 
@@ -713,11 +709,11 @@ div#upload-queue-wrapper {
     .plupload_start,
     .plupload_clear,
     .plupload_add {
-      .noconflict .btn();
+      //@TODO rename buttons in the markup to use .btn
     }
 
     .plupload_start {
-      .noconflict .btn-primary();
+        //@TODO rename buttons in the markup to use .plupload_start.btn.btn-primary
         &.plupload_disabled {
           cursor: default;
           background-color: darken(@white, 10%);
@@ -783,7 +779,7 @@ div#upload-queue-wrapper {
     visibility: hidden;
 }
 #files-uploader-web .remote-submit {
-  .noconflict .btn();
+    //@TODO rename buttons in the markup to use .btn
 
     position: absolute;
     right: 2px;
@@ -801,7 +797,7 @@ div#upload-queue-wrapper {
     position: absolute;
 }
 #files-uploader-web .remote-submit.valid {
-  .noconflict .btn-primary();
+   //@TODO rename buttons in the markup to use .btn-primary
 }
 #files-uploader-web form {
     position: relative;
@@ -1289,3 +1285,36 @@ div.current input, div.current textarea, div.current select {
 }
 
 /* @end */
+
+///* @group Breadcrumb customization */
+.breadcrumb-resizable {
+  overflow: hidden;
+  margin: 0;
+  padding: 2.5px 0px;
+
+  li {
+    overflow: hidden;
+    .user-select(none);
+    cursor: pointer;
+
+  //For later
+  //-webkit-mask: -webkit-linear-gradient(right, rgba(0, 0, 0, 0), black 10px);
+
+    &.active {
+      cursor: default;
+    }
+
+    span {
+      padding: 0 2px 0 0;
+    }
+
+    &.overflow-ellipsis {
+      text-overflow: ellipsis;
+    }
+
+    &:active {
+      color: @grayLight;
+    }
+  }
+}
+///* @end */

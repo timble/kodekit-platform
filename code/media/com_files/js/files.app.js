@@ -25,6 +25,9 @@ Files.App = new Class({
 		container: null,
 		active: null,
 		title: 'files-title',
+		pathway: {
+			element: 'files-pathway'
+		},
 		state: {
 			defaults: {}
 		},
@@ -65,6 +68,7 @@ Files.App = new Class({
 		onAfterNavigate: function(path) {
 			if (path !== undefined) {
 				this.setTitle(this.folder.name || this.container.title);
+                jQuery('#upload-files-to, .upload-files-to').text(this.container.title+(path ? '/'+path : ''));
 	        }
 		}
 	},
@@ -73,10 +77,11 @@ Files.App = new Class({
 		this.setOptions(options);
 
 		if (this.options.persistent && this.options.container) {
-			var container = typeof this.options.contianer === 'string' ? this.options.container : this.options.container.slug;
+			var container = typeof this.options.container === 'string' ? this.options.container : this.options.container.slug;
 			this.cookie = 'com.files.container.'+container;
 		}
 
+		this.setPathway();
 		this.setState();
 		this.setHistory();
 		this.setGrid();
@@ -466,6 +471,45 @@ Files.App = new Class({
             this._cached_grid_width = this.grid.root.element.getSize().x;
         }
     },
+    setPathway: function() {
+    	this.fireEvent('beforeSetPathway');
+
+		var opts = this.options.pathway;
+
+		this.pathway = new Files.Pathway(opts.element, opts);
+
+		var that = this,
+			pathway = this.pathway;
+		that.addEvent('afterSetTitle', function(title) {
+			if (!pathway.element) {
+				return;
+			}
+		    pathway.list.empty();
+		
+		    pathway.element.setStyle('visibility', 'hidden');
+		    
+			var root = pathway.wrap(' '+that.container.title, '', false, that).grab(new Element('i', {'class': 'icon-hdd'}), 'top'),
+		        path = '';
+		    
+			pathway.list.adopt(root);
+
+	        var folders = that.getPath().split('/');
+	        
+		    folders.each(function(title){
+		        if(title.trim()) {
+		            path += path ? '/'+title : title;
+		            pathway.list.adopt(pathway.wrap(title, path, true, that));
+		        }
+		    });
+		    
+		    pathway.list.getLast().addClass('active');
+		
+		    pathway.element.setStyle('visibility', 'visible');
+
+		});
+
+		this.fireEvent('afterSetPathway');
+	},
 	setTitle: function(title) {
 		this.fireEvent('beforeSetTitle', {title: title});
 
