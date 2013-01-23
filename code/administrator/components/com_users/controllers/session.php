@@ -68,6 +68,9 @@ class ComUsersControllerSession extends ComDefaultControllerModel
                 }
             }
 
+            //Start the session (if not started already)
+            $context->user->session->start();
+
             //Set user data in context
             $data = array(
                 'id'         => $user->id,
@@ -91,54 +94,45 @@ class ComUsersControllerSession extends ComDefaultControllerModel
 
     public function authorize(KCommandContext $context)
     {
-        //Make sure we have a valid user object
-        if($context->user instanceof KUserInterface)
-        {
-            $options = array();
-
-            //If the user is blocked, redirect with an error
-            if (!$context->user->isEnabled()) {
-                throw new KControllerExceptionForbidden('Account disabled');
-            }
-
-            return true;
+        //If the user is blocked, redirect with an error
+        if (!$context->user->isEnabled()) {
+            throw new KControllerExceptionForbidden('Account disabled');
         }
 
-        return false;
+        return true;
     }
 
     protected function _actionAdd(KCommandContext $context)
     {
         //Start the session (if not started already)
-        $session = $context->user->session->start();
+        $session = $context->user->session;
 
         //Insert the session into the database
-        if($session->isActive())
-        {
-            //Fork the session to prevent session fixation issues
-            $session->fork();
-
-            //Prepare the data
-            $data = array(
-                'id'          => $session->getId(),
-                'guest'       => !$context->user->isAuthentic(),
-                'email'       => $context->user->getEmail(),
-                'data'        => '',
-                'time'        => time(),
-                'application' => $this->getIdentifier()->application,
-                'name'        => $context->user->getName()
-            );
-
-            $context->request->data->add($data);
+        if(!$session->isActive()) {
+            throw new KControllerExceptionActionFailed('Session could not be stored. No active session');
         }
 
-        //Add the session to the session store
+        //Fork the session to prevent session fixation issues
+        $session->fork();
+
+        //Prepare the data
+        $data = array(
+            'id'          => $session->getId(),
+            'guest'       => !$context->user->isAuthentic(),
+            'email'       => $context->user->getEmail(),
+            'data'        => '',
+            'time'        => time(),
+            'application' => $this->getIdentifier()->application,
+            'name'        => $context->user->getName()
+        );
+
+        $context->request->data->add($data);
+
+        //Store the session
         $entity = parent::_actionAdd($context);
 
         //Set the session data
-        if(!$context->response->isError()) {
-            $session->site = $this->getService('application')->getSite();
-        }
+        $session->site = $this->getService('application')->getSite();
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());
