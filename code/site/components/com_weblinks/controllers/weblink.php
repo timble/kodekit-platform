@@ -32,10 +32,10 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerModel
         $weblink = parent::_actionRead($context);
 
 		// Redirect the user if the request doesn't include layout=form
-		if ($this->_request->format == 'html')
+		if ($context->request->getFormat() == 'html')
 		{           
 			if ($weblink->url) {
-                $context->reponse->setRedirect($weblink->url);
+                $context->response->setRedirect($weblink->url);
 			}
 
 			return true;

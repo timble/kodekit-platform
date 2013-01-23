@@ -48,7 +48,7 @@
                 </th>
                 <? if($state->category) : ?>
                 <th width="7%">
-                    <?= @helper('grid.sort', array('title' => 'Order', 'column' => ($state->featured == true) ? 'featured_ordering' : 'ordering')) ?>
+                    <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
                 </th>
                 <? endif; ?>
                 <th width="20%">
@@ -82,9 +82,6 @@
                     	</a>
                      <? else : ?>
                      	<?= @escape($article->title); ?>
-                     <? endif; ?>
-                     <? if($article->featured) : ?>
-	                     <span class="label label-success"><?= @text('Featured') ?></span>
                      <? endif; ?>
                      <? if($article->access) : ?>
                          <span class="label label-important"><?= @text('Registered') ?></span>

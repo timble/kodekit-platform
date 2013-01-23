@@ -65,8 +65,7 @@ class ComArticlesModuleArticlesHtml extends ComDefaultModuleDefaultHtml
             'sort'      => $sort,
             'direction' => $direction,
             'section'   => $section,
-            'category'  => $category,
-            'featured'  => $this->module->params->get('show_featured', false)))
+            'category'  => $category))
             ->getRowset();
 
         $this->assign('articles', $articles);

@@ -11,7 +11,7 @@
 
 <div class="scopebar">
 	<div class="scopebar-group">
-		<a class="<?= is_null($state->published) && is_null($state->access) && is_null($state->featured) && is_null($state->trashed) ? 'active' : ''; ?>" href="<?= @route('published=&access=&featured=&trashed=' ) ?>">
+		<a class="<?= is_null($state->published) && is_null($state->access) && is_null($state->trashed) ? 'active' : ''; ?>" href="<?= @route('published=&access=&trashed=' ) ?>">
 		    <?= 'All' ?>
 		</a>
 	</div>
@@ -26,11 +26,6 @@
 	<div class="scopebar-group">
 		<a class="<?= $state->access === 1 ? 'active' : ''; ?>" href="<?= @route($state->access === 1 ? 'access=' : 'access=1' ) ?>">
 		    <?= 'Registered' ?>
-		</a>
-	</div>
-	<div class="scopebar-group <?= !$articles->isRevisable() && !$articles->isTranslatable() ? 'last' : '' ?>">
-		<a class="<?= $state->featured ? 'active' : ''; ?>" href="<?= @route( $state->featured ? 'featured=' : 'featured=1' ) ?>">
-		    <?= 'Featured' ?>
 		</a>
 	</div>
 	<? if($articles->isRevisable()) : ?>

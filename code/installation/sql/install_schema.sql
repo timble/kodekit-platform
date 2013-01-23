@@ -60,18 +60,6 @@ CREATE TABLE `#__articles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__articles_featured`
---
-
-CREATE TABLE `#__articles_featured` (
-  `articles_article_id` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`articles_article_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__categories`
 --
 

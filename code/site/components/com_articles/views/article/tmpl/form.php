@@ -22,7 +22,6 @@
 
 <form method="post" action="" class="-koowa-form form-horizontal">
     <input type="hidden" name="published" value="0" />
-    <input type="hidden" name="featured" value="0" />
     <input type="hidden" name="access" value="0" />
     
     <fieldset>
@@ -41,12 +40,6 @@
             <label class="control-label" for="title"><?= @text('Published'); ?></label>
             <div class="controls">
                 <input type="checkbox" name="published" value="1" <?= $article->published ? 'checked="checked"' : '' ?> />
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="featured"><?= @text('Featured'); ?></label>
-            <div class="controls">
-                <input type="checkbox" name="featured" value="1" <?= $article->featured ? 'checked="checked"' : '' ?> />
             </div>
         </div>
         <div class="control-group">

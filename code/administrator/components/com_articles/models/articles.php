@@ -29,7 +29,6 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('published'     , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
-            ->insert('featured'  , 'boolean')
             ->insert('trashed'   , 'int');
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'category_title');
@@ -42,9 +41,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $query->columns(array(
             'category_title'    => 'categories.title',
             'created_by_name'   => 'users.name',
-            'created_by_id'     => 'users.users_user_id',
-            'featured_ordering' => 'featured.ordering',
-        	'featured'          => 'IF(featured.articles_article_id, 1, 0)'
+            'created_by_id'     => 'users.users_user_id'
         ));
     }
 
@@ -56,8 +53,6 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         $query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
               ->join(array('users'  => 'users'), 'users.users_user_id = tbl.created_by');
-
-        $query->join(array('featured' => 'articles_featured'), 'featured.articles_article_id = tbl.articles_article_id', $state->featured ? 'RIGHT' : 'LEFT');
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
@@ -109,28 +104,16 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         $direction = strtoupper($state->direction);
 
-        if (is_bool($state->featured) && $state->featured == true)
+        if ($state->sort == 'ordering')
         {
-            if ($state->sort != 'ordering')
-            {
-                $query->order($this->getState()->sort, $direction)
-                    ->order('featured_ordering', 'ASC');
-            }
-            else $query->order('featured_ordering',  $direction);
+            $query->order('category_title', 'ASC')
+                  ->order('ordering', $direction);
         }
         else
         {
-            if ($state->sort == 'ordering')
-            {
-                $query->order('category_title', 'ASC')
-                      ->order('ordering', $direction);
-            }
-            else
-            {
-                $query->order($state->sort, $direction)
-                      ->order('category_title', 'ASC')
-                      ->order('ordering', 'ASC');
-            }
+            $query->order($state->sort, $direction)
+                  ->order('category_title', 'ASC')
+                  ->order('ordering', 'ASC');
         }
     }
 }
