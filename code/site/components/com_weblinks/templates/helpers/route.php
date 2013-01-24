@@ -33,7 +33,7 @@ class ComWeblinksTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'article',
-            'id'       => $weblink->getSlug(),
+            'id'       => $weblink->slug,
             'layout'   => $config->layout,
             'category' => $config->category
         );
@@ -60,14 +60,14 @@ class ComWeblinksTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'weblinks',
-            'category' => $category->getSlug(),
+            'category' => $category->slug,
             'layout'   => $config->layout
         );
 
         if($page = $this->_findPage($needles))
         {
-            if(isset($page->link->query['layout'])) {
-                $route['layout'] = $page->link->query['layout'];
+            if(isset($page->getLink()->query['layout'])) {
+                $route['layout'] = $page->getLink()->query['layout'];
             }
 
             $route['Itemid'] = $page->id;

@@ -33,7 +33,7 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'article',
-            'id'       => $article->getSlug(),
+            'id'       => $article->slug,
             'layout'   => $config->layout,
             'category' => $config->category,
         );
@@ -61,14 +61,14 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'      => 'articles',
-            'category'  => $category->getSlug(),
+            'category'  => $category->slug,
             'layout'    => $config->layout
         );
 
         if($item = $this->_findPage($needles))
         {
-            if(isset($item->link->query['layout'])) {
-                $route['layout'] = $item->link->query['layout'];
+            if(isset($item->getLink()->query['layout'])) {
+                $route['layout'] = $item->ink->query['layout'];
             }
 
             $route['Itemid'] = $item->id;

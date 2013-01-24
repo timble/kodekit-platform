@@ -51,7 +51,7 @@
             <dc:creator><?= $article->created_by_name ?></dc:creator>
             <guid isPermaLink="false"><?= @helper('route.article', array('row' => $article)) ?> ?></guid>
             <description><![CDATA[<?= $article->introtext . $article->fulltext ?>]]></description>
-            <category domain="<?/*= @route('view=category&id='.$category->getSlug())*/ ?>">
+            <category domain="<?/*= @route('view=category&id='.$category->slug)*/ ?>">
                 <![CDATA[<? $article->category_title ?>]]>
             </category>
             <pubDate><?= @helper('date.format', array('date' => $article->published_on, 'format' => KDate::RSS)) ?></pubDate>

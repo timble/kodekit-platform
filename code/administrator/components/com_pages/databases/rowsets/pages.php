@@ -42,7 +42,7 @@ class ComPagesDatabaseRowsetPages extends KDatabaseRowsetTable
                     $result = $page;
                     foreach($parts as $key => $value)
                     {
-                        if(!(isset($page->link->query[$key]) && $page->link->query[$key] == $value))
+                        if(!(isset($page->getLink()->query[$key]) && $page->getLink()->query[$key] == $value))
                         {
                             $result = null;
                             break;

@@ -73,15 +73,15 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
             switch($page->type)
             {
                 case 'component':
-                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->link->getQuery().'&Itemid='.$page->id, 'escape' => true));
+                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->getLink()->getQuery().'&Itemid='.$page->id, 'escape' => true));
     				$result .= '<a href="'.(string) $link.'">';
                     $result .= $page->title;
                     $result .= '</a>';
     				break;
     				
     		    case 'menulink':
-    		        $page_linked = $this->getService('application.pages')->getPage($page->link->query['Itemid']);
-    		        $result .= '<a href="'.$page_linked->link.'">';
+    		        $page_linked = $this->getService('application.pages')->getPage($page->getLink()->query['Itemid']);
+    		        $result .= '<a href="'.$page_linked->getLink().'">';
                     $result .= $page->title;
                     $result .= '</a>';
     				break;
@@ -91,7 +91,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
     				break;
     
     			case 'url':
-    				$result .= '<a href="'.$page->link.'">';
+    				$result .= '<a href="'.$page->getLink().'">';
                     $result .= $page->title;
                     $result .= '</a>';
     				break;
