@@ -34,18 +34,18 @@
         options: {
             element: 'files-pathway',
         },
-        initialize: function(element, options) {
-
+        initialize: function(options) {
+            this.setOptions(options);
             this.options.element = element;
         },
-        setList: function(title, path, icon, app){
+        setList: function(data){
 
             if (!this.element) {
 
                 this.element = this.options.element;
             }
 
-
+            
         }
     });
 
