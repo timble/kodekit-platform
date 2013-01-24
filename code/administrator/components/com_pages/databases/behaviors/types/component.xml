@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<state>
+		<name>Component</name>
+		<description>Component Parameters</description>
+		<params>
+			<param name="page_title" type="text" size="30" default="" label="Page Title" description="PAGE TITLE DESC" />
+		</params>
+		<advanced />
+	</state>
+</metadata>
