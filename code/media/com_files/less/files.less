@@ -1305,3 +1305,48 @@ div.current input, div.current textarea, div.current select {
   }
 }
 ///* @end */
+
+// MooTree styling
+.mooTree_node {
+  padding: 3px 0 3px 10px;
+  color: #444;
+  border-top: 1px solid #F9F9F9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.mooTree_node:hover {
+  color: #444;
+  border-top-color: lighten(@btnPrimaryBackground, 20%);
+  #gradient > .vertical(lighten(@btnPrimaryBackground, 25%), lighten(@btnPrimaryBackground, 15%));
+  text-decoration: none;
+}
+
+.mooTree_text {
+  padding-top: 3px;
+  height: 15px;
+  cursor: pointer;
+  text-indent: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mooTree_img {
+  float: left;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.mooTree_selected,
+.mooTree_selected:hover{
+  color: #FFF;
+  border-top-color: spin(@btnPrimaryBackground, 5%);
+  #gradient > .vertical(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
+  .box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
+  text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+
+}
