@@ -18,51 +18,98 @@
 
 class ComPagesDatabaseRowPage extends KDatabaseRowTable
 {
-    protected $_strategy;
-
-    public function __construct(KConfig $config)
+    public function setProperty($column, $value, $modified)
     {
-        parent::__construct($config);
-
-        if($config->strategy)
-        {
-            $identifier = clone $this->getIdentifier();
-            $identifier->path = array('database', 'row', $identifier->name);
-            $identifier->name = $config->strategy;
-            
-            $this->setStrategy($this->getService($identifier, KConfig::unbox($config)));
-            $this->getStrategy()->setObject($this);
+        if($modified && $this->_data[$column] != $value) {
+            $this->_modified[$column] = true;
         }
-    }
-    
-    public function getStrategy()
-    {
-        return $this->_strategy;
-    }
-    
-    public function setStrategy(ComPagesDatabaseRowPageInterface $strategy)
-    {
-        $this->_strategy = $strategy;
-        
+
+        $this->set($column, $value);
+
         return $this;
     }
-    
-    public function save()
-    {
-        $this->getStrategy()->save();
-        
-        return parent::save();
-    }
 
-    public function __get($name)
+    public function set($column, $value)
     {
-        $strategy = $this->getStrategy();
-        if(!isset($this->$name) && $strategy->hasProperty($name)) {
-            $result = $strategy->$name;
-        } else {
-            $result = parent::__get($name);
+        // If type has changed, set the corresponding behavior.
+        if($column == 'type' && $this->type != $value && is_object($this->_table))
+        {
+            $identifier = clone $this->getIdentifier();
+            $identifier->path = array('database', 'behavior');
+            $identifier->name = 'typable';
+
+            $table = $this->getTable();
+
+            // Detach the old behavior.
+            if(isset($this->type))
+            {
+                if($table->hasBehavior('typable'))
+                {
+                    $behavior = $table->getBehavior($identifier);
+                    $table->detachBehavior($behavior);
+                }
+
+                $this->unmixin($identifier);
+            }
+
+            // Attach the new behavior.
+            $table->attachBehavior($identifier, array('strategy' => $value, 'mixer' => $this));
+            $this->mixin($table->getBehavior($identifier));
         }
 
-        return $result;
+        $this->_data[$column] = $value;
+
+        return $this;
+    }
+
+    public function setData($data, $modified = true)
+    {
+        if($data instanceof KDatabaseRowInterface) {
+            $data = $data->toArray();
+        } else {
+            $data = (array) $data;
+        }
+
+        foreach($data as $column => $value) {
+            $this->setProperty($column, $value, $modified);
+        }
+
+        return $this;
+    }
+
+    public function unmixin($mixin)
+    {
+        switch($mixin)
+        {
+            case ($mixin instanceof KServiceIdentifier):
+                $identifier = $mixin;
+                break;
+
+            case ($mixin instanceof KMixinInterface):
+                $identifier = $mixin->getIdentifier();
+                break;
+
+            default:
+                // Create the complete identifier if a partial identifier was passed.
+                if(is_string($mixin) && strpos($mixin, '.') === false)
+                {
+                    $identifier = clone $this->getIdentifier();
+                    $identifier->path = 'mixin';
+                    $identifier->name = $mixin;
+                }
+                else $identifier = $this->getIdentifier($mixin);
+        }
+
+        $identifier = (string) $identifier;
+
+        // Unset the mixed methods.
+        foreach($this->_mixed_methods as $method => $object)
+        {
+            if((string) $object->getIdentifier() == $identifier) {
+                unset($this->_mixed_methods[$method]);
+            }
+        }
+
+        return $this;
     }
 }
