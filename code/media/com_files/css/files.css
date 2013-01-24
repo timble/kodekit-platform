@@ -162,6 +162,7 @@ table th.file-count{text-align:right;padding-right:20px;}
 #files-compact .parameters .detail-label{text-align:right;color:gray;}
 #files-app #files-grid{min-height:120px;overflow:hidden;}
 #files-app #files-grid>div{padding:10px;}
+#files-app .spinner{padding:0px!important;}
 #files-app .files-node-shadow{float:left;text-align:center;}
 #files-app div.imgOutline{cursor:pointer;display:inline-block;border:1px;padding:11px;margin:5px;border:1px solid #e6e6e6;border-radius:3px;-webkit-transition:opacity 150ms ease-out;-moz-transition:opacity 150ms ease-out;-o-transition:opacity 150ms ease-out;transition:opacity 150ms ease-out;}
 #files-app #files-grid .loading{opacity:0.6;}
