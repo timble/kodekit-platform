@@ -322,20 +322,20 @@ window.addEvent('domready', function() {
 				var length = response['content-length'].toInt(10);
 				if(length && length < Files.app.container.parameters.maximum_size) {
 					var size = new Files.Filesize(length).humanize();
-					submit.addClass('valid').set('value', submit_default+' ('+size+')');
+					submit.addClass('btn-primary').set('value', submit_default+' ('+size+')');
 					setRemoteWrapMargin();
 				} else {
-					submit.removeClass('valid');
+					submit.removeClass('btn-primary');
 				}
 
 			},
 			onFailure: function(xhr){
 				var response = JSON.decode(xhr.responseText, true);
 				if (response.code && parseInt(response.code/100, 10) == 4) {
-					submit.removeClass('valid');
+					submit.removeClass('btn-primary');
 				}
 				else {
-					submit.addClass('valid');
+					submit.addClass('btn-primary');
 				}
 			}
 		});
@@ -357,7 +357,7 @@ window.addEvent('domready', function() {
 				validate.setOptions({url: Files.app.createRoute({view: 'proxy', url: this.value})}).get();
 			}
 			else {
-				submit.addClass('valid');
+				submit.addClass('btn-primary');
 			}
 
 			if(!filename.get('value') || filename.get('value') == default_filename) {
@@ -365,7 +365,7 @@ window.addEvent('domready', function() {
 				filename.set('value', default_filename);
 			}
 		} else {
-			submit.set('value', submit_default).removeClass('valid');
+			submit.set('value', submit_default).removeClass('btn-primary');
 			setRemoteWrapMargin();
 		}
          };
@@ -416,7 +416,7 @@ window.addEvent('domready', function() {
 					}
 				}
 				Files.app.fireEvent('uploadFile', [row]);
-				submit.removeClass('valid').set('value', submit_default);
+				submit.removeClass('btn-primary').set('value', submit_default);
 				setRemoteWrapMargin();
 				form.reset();
 				input.set('placeholder', Files._('Uploaded successfully!')).addClass('success');
@@ -485,7 +485,7 @@ window.addEvent('domready', function() {
 				<input type="text" placeholder="<?= @text('Remote URL') ?>" title="<?= @text('Remote URL') ?>" id="remote-url" name="file" size="50" />
 				<input type="text" placeholder="<?= @text('File name') ?>" id="remote-name" name="name" />
 			</div>
-                <input type="submit" class="remote-submit" disabled value="<?= @text('Transfer File'); ?>" />
+                <input type="submit" class="remote-submit btn" disabled value="<?= @text('Transfer File'); ?>" />
 			<input type="hidden" name="_action" value="save" />
 		</form>
         </div>
