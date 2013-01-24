@@ -103,6 +103,22 @@ class KMixinBehavior extends KMixinAbstract
     }
 
     /**
+     * Detach a behavior
+     *
+     * @param KBehaviorInterface $behavior A behavior object.
+     * @return KObject The mixer object.
+     */
+    public function detachBehavior(KBehaviorInterface $behavior)
+    {
+        $behavior->setMixer($this->_mixer);
+
+        $this->getCommandChain()->dequeue($behavior);
+        $this->unmixin($behavior);
+
+        return $this->_mixer;
+    }
+
+    /**
      * Check if a behavior exists
      *
      * @param     string    The name of the behavior
