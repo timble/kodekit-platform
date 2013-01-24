@@ -13,7 +13,7 @@
 
         var index = width - offset, sizes = buffer[index] || buffer.max, last = list.getChildren().length - 1;
 
-        list.getChildren().each(function(folder, index, siblings){
+        list.getChildren().each(function(folder, index){
             if(index > 0 && index < last) {
                 folder.setStyle('width', sizes[index].value);
                 if(sizes[index].value <= 48) {
@@ -47,25 +47,25 @@
             }
 
             this.element.getParent().setStyle('position', 'relative');
-            var self = this, pathway = document.id('files-title'), offset = 0;
+            var pathway = this.element;
             pathway.setStyles({
                 'overflow': 'visible',
                 'text-overflow': 'ellipsis',
                 'white-space': 'nowrap',
                 bottom: 0,
                 top: 0,
-                left: pathway.getPrevious().getSize().x + 18,
+                left: 18,
                 right: pathway.getNext().getSize().x + 18,
                 'position': 'absolute'
             });
             pathway.empty();
-            var list = new Element('ul', {'class': 'breadcrumb breadcrumb-resizable'}), wrap = function(title, path, icon){
+            var list = new Element('ul', {'class': 'breadcrumb breadcrumb-resizable'}), wrap = function(app, title, path, icon){
                 result = new Element('li', {
                     text: title,
                     title: title,
                     events: {
                         click: function(){
-                            self.navigate(path);
+                            app.navigate(path);
                         }
                     }
                 });
@@ -74,13 +74,13 @@
                 }
                 return result;
             };
-            var root = wrap(' '+app.container.title, '', false).grab(new Element('i', {'class': 'icon-hdd'}), 'top');
+            var root = wrap(app, ' '+app.container.title, '', false).grab(new Element('i', {'class': 'icon-hdd'}), 'top');
             list.adopt(root);
             var folders = app.getPath().split('/'), path = '';
             folders.each(function(title){
                 if(title.trim()) {
                     path += path ? '/'+title : title;
-                    list.adopt(wrap(title, path, true));
+                    list.adopt(wrap(app, title, path, true));
                 }
             });
             list.getLast().addClass('active');
