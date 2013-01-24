@@ -40,20 +40,20 @@ window.addEvent('domready', function() {
 
 	Files.app = new Files.App(options);
 
-	//@TODO hide the uploader in a modal, make it pretty
+	//@TODO hide the uploader in a modal, make code pretty
 	var tmp = new Element('div', {style: 'display:none'}).inject(document.body);
-	$('files-upload').inject(tmp);
+	$('files-upload').getParent().inject(tmp).setStyle('visibility', '');
 	$('command-upload').addEvent('click', function(e){
 		e.stop();
 
 		var handleClose = function(){
-			$('files-upload').inject(tmp);
+			$('files-upload').getParent().inject(tmp);
 			SqueezeBox.removeEvent('close', handleClose);
 		};
 		SqueezeBox.addEvent('close', handleClose);
-		SqueezeBox.open($('files-upload'), {
+		SqueezeBox.open($('files-upload').getParent(), {
 			handler: 'adopt',
-			size: {x: 700, y: $('files-upload').measure(function(){return this.getSize().y;})}
+			size: {x: 700, y: $('files-upload').getParent().measure(function(){return this.getSize().y;})}
 		});
 	});
 
@@ -188,11 +188,18 @@ window.addEvent('domready', function() {
 
 <div>
 	<div id="files-new-folder-modal" style="display: none">
-        <div class="com_docman">
-            <form class="files-modal">
-                    <div class="input-append">
-                        <input class="span2 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" /><button id="files-new-folder-create" class="btn btn-primary" disabled><?= @text('Create'); ?></button>
+        <div>
+            <form class="files-modal well">
+                <div style="text-align: center;">
+                    <h3 style=" float: none">
+                        <?= str_replace('%folder%', '<span class="upload-files-to"></span>', @text('Create a new folder in %folder%')) ?>
+                    </h3>
                 </div>
-	</form>
-	</div>
+                <div class="input-append">
+                    <input class="span5 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" />
+                    <button id="files-new-folder-create" class="btn btn-primary" disabled><?= @text('Create'); ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
