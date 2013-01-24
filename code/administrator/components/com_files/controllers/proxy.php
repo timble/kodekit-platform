@@ -22,8 +22,9 @@
 {
 	public function _actionRender(KCommandContext $context)
 	{
+        $query = $this->_request->getUrl()->query;
 		$data = array(
-			'url' => $this->_request->url, 
+			'url' => $query['url'],
 			'content-length' => false
 		);
 
@@ -59,6 +60,7 @@
 
 		curl_close($ch);
 
-		return json_encode($data);
+        //@TODO NO NO NO BAD! But using return fails atm
+		die(json_encode($data));
 	}
 }
