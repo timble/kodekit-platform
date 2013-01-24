@@ -118,6 +118,7 @@ class KObject implements KObjectHandlable, KObjectServiceable
                 }
                 else $identifier = $this->getIdentifier($mixin);
             }
+            else $identifier = $mixin;
 
             $mixin = new $identifier->classname(new KConfig($config));
         }
