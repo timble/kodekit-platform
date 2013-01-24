@@ -49,6 +49,7 @@
 									'<div class="plupload_buttons">' +
 										'<button class="plupload_add">' + _('Add files') + '</button>' +
 										'<button class="plupload_start">' + _('Start upload') + '</button>' +
+                                        '<button class="plupload_clear">' + _('Clear queue') + '</button>' +
 									'</div>' +
 								'</div>' +
 								'<div class="plupload_file_action"></div>' +
