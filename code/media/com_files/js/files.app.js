@@ -113,6 +113,13 @@ Files.App = new Class({
 	},
 	setState: function() {
 		this.fireEvent('beforeSetState');
+		
+		if (this.cookie) {
+            var limit = Cookie.read(this.cookie+'.state.limit');
+            if (limit) {
+                this.options.state.defaults.limit = limit;
+            }
+        }
 
 		var opts = this.options.state;
 		this.state = new Files.State(opts);
@@ -298,6 +305,10 @@ Files.App = new Class({
 				this.navigate();
 			}.bind(this),
 			'onChangeLimit': function(limit) {
+				if (this.cookie) {
+                	Cookie.write(this.cookie+'.state.limit', limit);
+            	}
+				
 				this.state.set('limit', limit);
 				this.state.set('offset', 0);
 

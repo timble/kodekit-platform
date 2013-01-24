@@ -131,31 +131,35 @@ Files.Grid = new Class({
 				e.stop();
 
 				var file_count = 0,
+					files = []
 					folder_count = 0,
+					folders = [],
 					checkboxes = this.container.getElements('input[type=checkbox]:checked.files-select')
 					.filter(function(el) {
 						if (el.checked) {
+							var box = el.getParent('.files-node-shadow') || el.getParent('.files-node'),
+								name = box.retrieve('row').name;
+							
 							if (el.getParent('.files-node').hasClass('files-folder')) {
 								folder_count++;
+								folders.push(name)
 							} else {
 								file_count++;
+								files.push(name);
 							}
 							return true;
 						}
 					});
 
-				var str = [];
-				if (folder_count) {
-					str.push(folder_count+' folder'+(folder_count > 1 ? 's' : ''));
-				}
+				var message = Files._("You selected following folders and files to be deleted. Are you sure?");
+				$each(folders, function(folder) {
+					message += '\n'+folder;
+				});
+				$each(files, function(file) {
+					message += '\n'+file;
+				});
 
-				if (file_count) {
-					str.push(file_count+' file'+(file_count > 1 ? 's' : ''));
-				}
-
-				str = str.join(' and ');
-
-				if (!checkboxes.length || !confirm('There '+(checkboxes.length > 1 ? 'are' : 'is')+' '+str+' to be deleted. Are you sure?')) {
+				if (!checkboxes.length || !confirm(message)) {
 					return false;
 				}
 
