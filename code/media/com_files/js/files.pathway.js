@@ -31,21 +31,111 @@
 
     Files.Pathway = new Class({
         Implements: [Options],
+        element: false,
         options: {
             element: 'files-pathway',
+            offset: 18
         },
         initialize: function(options) {
             this.setOptions(options);
-            this.options.element = element;
         },
-        setList: function(data){
+        setPath: function(app){
 
             if (!this.element) {
 
-                this.element = this.options.element;
+                this.element = document.id(this.options.element);
             }
 
-            
+            this.element.getParent().setStyle('position', 'relative');
+            var self = this, pathway = document.id('files-title'), offset = 0;
+            pathway.setStyles({
+                'overflow': 'visible',
+                'text-overflow': 'ellipsis',
+                'white-space': 'nowrap',
+                bottom: 0,
+                top: 0,
+                left: pathway.getPrevious().getSize().x + 18,
+                right: pathway.getNext().getSize().x + 18,
+                'position': 'absolute'
+            });
+            pathway.empty();
+            var list = new Element('ul', {'class': 'breadcrumb breadcrumb-resizable'}), wrap = function(title, path, icon){
+                result = new Element('li', {
+                    text: title,
+                    title: title,
+                    events: {
+                        click: function(){
+                            self.navigate(path);
+                        }
+                    }
+                });
+                if(icon) {
+                    result.grab(new Element('span', {'class': 'divider', html: '<img src="media://com_files/images/arrow.png" width=8 height=19 />'}), 'top');
+                }
+                return result;
+            };
+            var root = wrap(' '+app.container.title, '', false).grab(new Element('i', {'class': 'icon-hdd'}), 'top');
+            list.adopt(root);
+            var folders = app.getPath().split('/'), path = '';
+            folders.each(function(title){
+                if(title.trim()) {
+                    path += path ? '/'+title : title;
+                    list.adopt(wrap(title, path, true));
+                }
+            });
+            list.getLast().addClass('active');
+
+            pathway.setStyle('visibility', 'hidden');
+            pathway.adopt(list);
+
+            //Whenever the path changes, the buffer used in the resize handler is outdated, so have to be reattached
+            if(this.pathway) {
+                window.removeEvent('resize', this.pathway);
+
+                this.pathway = false;
+            }
+
+            if(list.getChildren().length > 2) {
+
+                var widths = {}, ceil = 0, offset = list.getFirst().getSize().x + list.getLast().getSize().x;
+                list.getChildren().each(function(item, i){
+                    if(item.match(':first-child') || item.match(':last-child')) return;
+                    var x = item.getSize().x;
+                    widths[i] = {key: i, value: x};
+                    ceil += x;
+                });
+
+                //Create resize buffer
+                var buffer = {}, queue = ceil;
+                buffer[ceil] = buffer.max = widths;
+                while(queue > 0) {
+                    --queue;
+
+                    var max = {key: null, value: 0}, sizelist = {};
+                    for (var key in widths){
+                        if (widths.hasOwnProperty(key)) {
+                            var item = widths[key];
+                            if(item.value > max.value) max = item;
+                            sizelist[key] = {key: item.key, value: item.value};
+                        }
+                    }
+                    --sizelist[max.key].value;
+
+                    buffer[queue] = sizelist;
+                    widths = sizelist;
+                }
+
+                updatePathway(list, pathway, buffer, pathway.getSize().x, offset);
+                pathway.setStyle('visibility', 'visible');
+
+                this.pathway = function(){
+                    updatePathway(list, pathway, buffer, pathway.getSize().x, offset)
+                };
+                window.addEvent('resize', this.pathway);
+
+            } else {
+                pathway.setStyle('visibility', 'visible');
+            }
         }
     });
 

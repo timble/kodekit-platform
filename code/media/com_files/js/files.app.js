@@ -486,7 +486,7 @@ Files.App = new Class({
     	this.fireEvent('beforeSetPathway');
 
 		var pathway = new Files.Pathway(this.options.pathway);
-		this.addEvent('afterSetTitle', pathway.setList.bind(pathway, this));
+		this.addEvent('afterSetTitle', pathway.setPath.bind(pathway, this));
 
 		this.fireEvent('afterSetPathway');
 	},
