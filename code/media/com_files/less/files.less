@@ -139,7 +139,7 @@
         }
 
         .selected td {
-            background: @btnPrimaryBackground;
+            background: @btnPrimaryBackgroundHighlight;
 
             &, & a {
                 color: white;
@@ -149,8 +149,8 @@
         .path {
             .clearfix();
             border-bottom: 1px solid #D9D9D9;
-            background-color: #eeeeee;
-            #gradient > .vertical(#FAFAFA, #F5F5F5);
+            background-color: @grayLighter;
+            #gradient > .vertical(#f7f7f7, #F2F2F2);
             height: 24px;
             overflow: visible;
 
@@ -172,6 +172,8 @@
                 }
                 
                 .divider {
+                    display: inline-block;
+                    height: 18px;
                 	background: url(../../com_files/images/arrow.png) no-repeat 0 0;
                 }
             }
@@ -1286,11 +1288,16 @@ div.current input, div.current textarea, div.current select {
   overflow: hidden;
   margin: 0;
   padding: 2.5px 0px;
+  line-height: 18px;
 
   li {
-    overflow: hidden;
+    max-height: 14px;
+    display: inline-block;
+    overflow: visible;
     .user-select(none);
     cursor: pointer;
+    vertical-align: top;
+
 
   //For later
   //-webkit-mask: -webkit-linear-gradient(right, rgba(0, 0, 0, 0), black 10px);
