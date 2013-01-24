@@ -16,7 +16,7 @@
 #files-app #files-grid tbody tr.files-node td:nth-child(1){padding-left:10px;}
 #files-app #files-canvas{border-top:1px solid #dddddd;}#files-app #files-canvas .spinner{display:none;}
 #files-app #files-canvas .thumbnails{margin-left:0px;}
-#files-app #files-canvas .selected td{background:#0b55c4;}#files-app #files-canvas .selected td,#files-app #files-canvas .selected td a{color:white;}
+#files-app #files-canvas .selected td{background:#3396ff;}#files-app #files-canvas .selected td,#files-app #files-canvas .selected td a{color:white;}
 #files-app #files-canvas .path{*zoom:1;border-bottom:1px solid #D9D9D9;background-color:#eeeeee;background-color:#f8f8f8;background-image:-moz-linear-gradient(top, #fafafa, #f5f5f5);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#fafafa), to(#f5f5f5));background-image:-webkit-linear-gradient(top, #fafafa, #f5f5f5);background-image:-o-linear-gradient(top, #fafafa, #f5f5f5);background-image:linear-gradient(to bottom, #fafafa, #f5f5f5);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#fff5f5f5', GradientType=0);height:24px;overflow:visible;padding:4px 8px;padding:0 0 0 8px;}#files-app #files-canvas .path:before,#files-app #files-canvas .path:after{display:table;content:"";line-height:0;}
 #files-app #files-canvas .path:after{clear:both;}
 #files-app #files-canvas .path #files-pathway{color:#333;text-shadow:white 0 1px 0;float:left;font-size:13px;font-weight:bold;line-height:25px;margin:0;}#files-app #files-canvas .path #files-pathway .breadcrumb{background-color:inherit;}
