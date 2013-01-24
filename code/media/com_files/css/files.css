@@ -123,6 +123,8 @@ div#upload-queue-wrapper{background-color:#CCC;border-radius:5px;}
 #files-uploader-web .remote-submit{position:absolute;right:2px;top:2px;bottom:2px;margin:0;-webkit-border-radius:0px;-moz-border-radius:0px;border-radius:0px;-webkit-border-top-right-radius:2px;-moz-border-radius-topright:2px;border-top-right-radius:2px;-webkit-border-bottom-right-radius:2px;-moz-border-radius-bottomright:2px;border-bottom-right-radius:2px;overflow:hidden;display:inline-block;height:22px;}
 #files-uploader-web input.remote-submit:focus{position:absolute;}
 #files-uploader-web form{position:relative;}
+#files-new-folder-input{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;height:12px;width:380px;}
+#files-new-folder-create{padding-top:4px;}
 .files-preview{display:inline-block;overflow:hidden;padding:10px;}.files-preview .preview,.files-preview .details,.files-preview ul{display:block;float:left;}
 .files-preview ul{clear:left;list-style:none;padding:0;margin-bottom:0;}
 .files-preview .name{max-width:400px;text-overflow:ellipsis;overflow:hidden;white-space:pre;}
