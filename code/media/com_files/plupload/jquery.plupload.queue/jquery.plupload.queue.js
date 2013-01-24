@@ -47,9 +47,9 @@
 							'<div class="plupload_filelist_footer">' +
 								'<div class="plupload_file_name">' +
 									'<div class="plupload_buttons">' +
-										'<button class="plupload_add">' + _('Add files') + '</button>' +
-										'<button class="plupload_start">' + _('Start upload') + '</button>' +
-                                        '<button class="plupload_clear">' + _('Clear queue') + '</button>' +
+										'<button class="plupload_add btn">' + _('Add files') + '</button>' +
+										'<button class="plupload_start btn btn-primary">' + _('Start upload') + '</button>' +
+                                        '<button class="plupload_clear btn">' + _('Clear queue') + '</button>' +
 									'</div>' +
 								'</div>' +
 								'<div class="plupload_file_action"></div>' +
