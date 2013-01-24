@@ -87,6 +87,9 @@
                     .buttonBackground(hsl(0, 0%, 95%), hsl(0, 0%, 90%));
                 }
             }
+            th:nth-child(3) {
+              padding-left: 0px;
+            }
         }
         tbody tr.files-node {
         //Image column @TODO implement class hooks instead of using nth-child selectors
@@ -95,6 +98,10 @@
                 img {
                     height: auto!important;
                     width: 32px;
+                    max-width: 100%;
+                    height: auto;
+                    vertical-align: middle;
+                    border: 0;
                 }
             }
             td:nth-child(3) {
@@ -1349,4 +1356,73 @@ div.current input, div.current textarea, div.current select {
   .box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
   text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
 
+}
+
+// Bootstrap table overrides for list
+#files-grid {
+  .table {
+    margin-top: 0px;
+    margin-bottom: 0px; // Bootstap override
+    color: #616161;
+
+    td {
+      vertical-align: middle; // Bootstrap override
+
+    // Override select boxes in tables
+      select {
+        width: auto;
+        line-height: 20px;
+        height: 20px;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    th, td {
+      white-space: nowrap;
+    }
+
+    thead {
+      background-color: @grayLighter;
+
+      th {
+        padding: 4px 8px;
+        line-height: 17px;
+      }
+
+      td {
+        background-color: lighten(@grayLighter, 3%);
+      }
+    }
+
+    tbody {
+      &.selected-single tr.selected td {
+        border-top-color: spin(@btnPrimaryBackground, 5%);
+        #gradient > .vertical(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
+        .box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
+        text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+      }
+      &.selected-multiple tr.selected td {
+        background: @btnPrimaryBackground;
+      }
+
+      tr {
+        td {
+          a {
+            font-size: 1.1em;
+          }
+          small {
+            display: block;
+            margin-top: -2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
+        &.selected td, &.selected td a, &.selected td small, &.selected td span {
+          color: white!important;
+        }
+      }
+    }
+  }
 }
