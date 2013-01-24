@@ -2185,17 +2185,17 @@ input[type="button"].btn-block {
 .btn-primary {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #0b3cc4;
-  background-image: -moz-linear-gradient(top, #0b55c4, #0b17c4);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0b55c4), to(#0b17c4));
-  background-image: -webkit-linear-gradient(top, #0b55c4, #0b17c4);
-  background-image: -o-linear-gradient(top, #0b55c4, #0b17c4);
-  background-image: linear-gradient(to bottom, #0b55c4, #0b17c4);
+  background-color: #337bff;
+  background-image: -moz-linear-gradient(top, #3396ff, #3352ff);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3396ff), to(#3352ff));
+  background-image: -webkit-linear-gradient(top, #3396ff, #3352ff);
+  background-image: -o-linear-gradient(top, #3396ff, #3352ff);
+  background-image: linear-gradient(to bottom, #3396ff, #3352ff);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0b55c4', endColorstr='#ff0b17c4', GradientType=0);
-  border-color: #0b17c4 #0b17c4 #070f7c;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3396ff', endColorstr='#ff3352ff', GradientType=0);
+  border-color: #3352ff #3352ff #0023e5;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #0b17c4;
+  *background-color: #3352ff;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
@@ -2206,12 +2206,12 @@ input[type="button"].btn-block {
 .btn-primary.disabled,
 .btn-primary[disabled] {
   color: #ffffff;
-  background-color: #0b17c4;
-  *background-color: #0a14ac;
+  background-color: #3352ff;
+  *background-color: #193cff;
 }
 .btn-primary:active,
 .btn-primary.active {
-  background-color: #081294 \9;
+  background-color: #0027ff \9;
 }
 .btn-warning {
   color: #ffffff;
@@ -2551,7 +2551,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #e6e6e6;
 }
 .btn-group.open .btn-primary.dropdown-toggle {
-  background-color: #0b17c4;
+  background-color: #3352ff;
 }
 .btn-group.open .btn-warning.dropdown-toggle {
   background-color: #f89406;
