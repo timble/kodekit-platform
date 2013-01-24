@@ -34,7 +34,7 @@
         element: false,
         options: {
             element: 'files-pathway',
-            offset: 18
+            offset: 8
         },
         initialize: function(options) {
             this.setOptions(options);
@@ -54,27 +54,28 @@
                 'white-space': 'nowrap',
                 bottom: 0,
                 top: 0,
-                left: 18,
-                right: pathway.getNext().getSize().x + 18,
+                left: this.options.offset,
+                right: pathway.getNext().getSize().x + this.options.offset,
                 'position': 'absolute'
             });
             pathway.empty();
             var list = new Element('ul', {'class': 'breadcrumb breadcrumb-resizable'}), wrap = function(app, title, path, icon){
-                result = new Element('li', {
-                    text: title,
-                    title: title,
-                    events: {
-                        click: function(){
-                            app.navigate(path);
+                var result = new Element('li', {
+                        title: title,
+                        events: {
+                            click: function(){
+                                app.navigate(path);
+                            }
                         }
-                    }
-                });
+                    }),
+                    link = new Element('span', {text: title});
+                result.grab(link);
                 if(icon) {
-                    result.grab(new Element('span', {'class': 'divider', html: '<img src="media://com_files/images/arrow.png" width=8 height=19 />'}), 'top');
+                    link.grab(new Element('span', {'class': 'divider'}), 'top');
                 }
                 return result;
             };
-            var root = wrap(app, ' '+app.container.title, '', false).grab(new Element('i', {'class': 'icon-hdd'}), 'top');
+            var root = wrap(app, ' '+app.container.title, '', false).getElement('span').grab(new Element('i', {'class': 'icon-hdd'}), 'top').getParent();
             list.adopt(root);
             var folders = app.getPath().split('/'), path = '';
             folders.each(function(title){

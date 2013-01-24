@@ -198,10 +198,13 @@ table th.file-count{text-align:right;padding-right:20px;}
 #sbox-content{overflow:hidden;}
 #sbox-window{-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px;}#sbox-window .well{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;}
 .uploader-flash-container object,.uploader-flash-container embed{display:block !important;visibility:visible!important;}
-.breadcrumb-resizable{overflow:hidden;margin:0;padding:2.5px 0px;line-height:18px;}.breadcrumb-resizable li{max-height:14px;display:inline-block;overflow:visible;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none;cursor:pointer;vertical-align:top;padding:0 2px;}.breadcrumb-resizable li.active{cursor:default;}
-.breadcrumb-resizable li span{padding:0 2px 0 0;}
+.breadcrumb-resizable{overflow:hidden;margin:0;padding:2.5px 0px;line-height:18px;}.breadcrumb-resizable li{max-height:23px;display:inline-block;overflow:hidden;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;-o-user-select:none;user-select:none;cursor:pointer;padding:0;}.breadcrumb-resizable li span{display:inline-block;overflow:visible;vertical-align:top;padding:0 2px;}
+.breadcrumb-resizable li.active{cursor:default;}
+.breadcrumb-resizable li span.divider{padding:0 2px 0 0;}
 .breadcrumb-resizable li.overflow-ellipsis{text-overflow:ellipsis;}
 .breadcrumb-resizable li:active{color:#999999;}
+.breadcrumb-resizable li:first-child span{padding-left:0px;}
+.breadcrumb-resizable li:last-child span{padding-right:0px;}
 .mooTree_node{padding:3px 0 3px 10px;color:#444;border-top:1px solid #F9F9F9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;}
 .mooTree_node:hover{color:#444;border-top-color:#c4dbf2;background-color:#c8def3;background-image:-moz-linear-gradient(top, #d9e8f6, #afceed);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#d9e8f6), to(#afceed));background-image:-webkit-linear-gradient(top, #d9e8f6, #afceed);background-image:-o-linear-gradient(top, #d9e8f6, #afceed);background-image:linear-gradient(to bottom, #d9e8f6, #afceed);background-repeat:repeat-x;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9e8f6', endColorstr='#ffafceed', GradientType=0);text-decoration:none;}
 .mooTree_text{padding-top:3px;height:15px;cursor:pointer;text-indent:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
