@@ -93,6 +93,9 @@ Files.Tree = new Class({
 						type: 'folder'
 					}
 				});
+
+                node.div.main.setAttribute('title', node.div.text.innerText);
+
 				if (item.children) {
 					$each(item.children, function(item) {
 						insertNode(item, node);
@@ -116,7 +119,7 @@ Files.Tree = new Class({
 				if (Files.app && Files.app.active) {
 					that.selectPath(Files.app.active);
 				}
-
+                that.onAdopt(that.options.div, that.root);
 			}
 		}).send();
 	},
