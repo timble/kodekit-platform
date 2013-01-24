@@ -18,10 +18,6 @@
 jQuery.noConflict();
 
 window.addEvent('domready', function() {
-	Files.app.addEvent('afterNavigate', function(path, type) {
-		document.id('upload-files-to').set('text', "'"+(path || <?= json_encode('root folder') ?>)+"'");
-	});
-
 	var element = jQuery('#files-upload-multi'), browse_label = Files._('Choose File');
 
 	plupload.addI18n({'Add files': browse_label});
@@ -441,6 +437,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
+<div style="visibility: hidden">
     <div id="files-upload" style="clear: both" class="uploader-files-empty well">
 	<div style="text-align: center;">
 		<h3 style=" float: none">
@@ -480,5 +477,6 @@ window.addEvent('domready', function() {
                 <input type="submit" class="remote-submit" disabled value="<?= @text('Transfer File'); ?>" />
 			<input type="hidden" name="_action" value="save" />
 		</form>
+        </div>
 	</div>
 </div>
