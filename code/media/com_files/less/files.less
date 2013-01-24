@@ -3,6 +3,7 @@
 /* We are using btn mixins from bootstrap */
 @import '../../../libraries/bootstrap/less/variables.less';
 @import '../../../libraries/bootstrap/less/mixins.less';
+@import '../../../administrator/templates/default/less/variables.less';
 
 .linear-gradient (@from: hsla(0, 0%, 100%, 0.5), @to: hsla(0, 0%, 0%, 0.5)) {
 
@@ -148,7 +149,7 @@
         .path {
             .clearfix();
             border-bottom: 1px solid #D9D9D9;
-            background-color: @grayLighter;
+            background-color: #eeeeee;
             #gradient > .vertical(#FAFAFA, #F5F5F5);
             height: 24px;
             overflow: visible;
@@ -1383,7 +1384,7 @@ div.current input, div.current textarea, div.current select {
     }
 
     thead {
-      background-color: @grayLighter;
+      background-color: #eeeeee;
 
       th {
         padding: 4px 8px;
@@ -1391,7 +1392,7 @@ div.current input, div.current textarea, div.current select {
       }
 
       td {
-        background-color: lighten(@grayLighter, 3%);
+        background-color: lighten(#eeeeee, 3%);
       }
     }
 
