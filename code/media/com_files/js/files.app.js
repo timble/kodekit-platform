@@ -485,13 +485,12 @@ Files.App = new Class({
     setPathway: function() {
     	this.fireEvent('beforeSetPathway');
 
-		var opts = this.options.pathway;
+		var pathway = new Files.Pathway(this.options.pathway);
 
-		this.pathway = new Files.Pathway(opts.element, opts);
 
-		var that = this,
-			pathway = this.pathway;
+		var that = this;
 		that.addEvent('afterSetTitle', function(title) {
+
 			if (!pathway.element) {
 				return;
 			}
@@ -514,7 +513,8 @@ Files.App = new Class({
 		    });
 		    
 		    pathway.list.getLast().addClass('active');
-		
+            pathway.setupElements();
+		    pathway.attachEvents();
 		    pathway.element.setStyle('visibility', 'visible');
 
 		});
