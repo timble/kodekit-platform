@@ -14,7 +14,11 @@
 <script src="media://com_files/js/files.compact.js" />
 
 <style src="media://com_files/css/files.css" />
-<style src="media://com_files/css/files-compact.css" />
+<style>
+    #files-compact #details {
+        height: 388px \0/; /* IE needs this */
+    }
+</style>
 
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
@@ -131,7 +135,7 @@ window.addEvent('domready', function(){
         var fixHeight = function(){
             var newHeight = document.id('files-compact').measure(function(){return this.getSize().y;});
             window.parent.document.id('sbox-content').getElement('iframe').set('height', newHeight);
-            modal.fx.win.start({height: newHeight});
+            modal.fx.win.set({height: newHeight});
         };
         document.getElements('#tabs-pane_insert dt, .upload-buttons li').addEvent('click', fixHeight);
         fixHeight();

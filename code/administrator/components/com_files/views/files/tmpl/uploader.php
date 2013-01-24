@@ -46,7 +46,7 @@ window.addEvent('domready', function() {
 			Init: function(){
 				if(SqueezeBox.isOpen) {
 						var heightfix = document.id('files-upload').measure(function(){return this.getSize().y;});
-						if(SqueezeBox.size.y != heightfix) SqueezeBox.fx.win.start({height: heightfix});
+						if(SqueezeBox.size.y != heightfix) SqueezeBox.fx.win.set({height: heightfix});
 				}
 			},
 			Error: function(up, args){
@@ -73,6 +73,8 @@ window.addEvent('domready', function() {
 			uploader.refresh();
 			if(SqueezeBox.isOpen) SqueezeBox.resize({y: document.id('files-upload').measure(function(){return this.getSize().y;})}, true);
 			uploader.unbind('QueueChanged', exposePlupload);
+            //@TODO investigate better event name convention
+            window.fireEvent('QueueChanged');
 		};
 
 		window.addEvent('refresh', function(){
@@ -166,7 +168,15 @@ window.addEvent('domready', function() {
 		document.id('files-upload').addClass('uploader-nodroppable');
 	}
 
-	uploader.bind('QueueChanged', exposePlupload);
+    if(uploader.features.dragdrop) {
+        uploader.bind('QueueChanged', exposePlupload);
+    } else {
+        document.id('files-upload').setStyle('position', 'auto').addClass('uploader-files-queued').removeClass('uploader-files-empty');
+        if(document.id('files-upload-multi_browse')) {
+            document.id('files-upload-multi_browse').set('text', 'Add files');
+        }
+        uploader.refresh();
+    }
 
 	uploader.bind('BeforeUpload', function(uploader, file) {
 		// set directory in the request
@@ -226,11 +236,13 @@ window.addEvent('domready', function() {
 	$$('.plupload_clear').addEvent('click', function(e) {
 		e.stop();
 
-		// need to work on a clone, otherwise iterator gets confused after elements are removed
-		var files = uploader.files.slice(0);
-		files.each(function(file) {
-			uploader.removeFile(file);
-		});
+        if(confirm(<?= json_encode(@text('Are you sure you want to clear the upload queue? This cannot be undone!')) ?>)) {
+            // need to work on a clone, otherwise iterator gets confused after elements are removed
+            var files = uploader.files.slice(0);
+            files.each(function(file) {
+                uploader.removeFile(file);
+            });
+        }
 	});
 
 	if (Files.app && Files.app.container) {
@@ -261,7 +273,7 @@ window.addEvent('domready', function() {
 		// Plupload needs to be refreshed if it was hidden
 		if (type == 'computer') {
 			var uploader = jQuery('#files-upload-multi').pluploadQueue();
-			if(!uploader.files.length) {
+			if(!uploader.files.length && !uploader.features.dragdrop) {
 				document.id('files-upload').removeClass('uploader-files-queued').addClass('uploader-files-empty');
 				if(document.id('files-upload-multi_browse')) {
 					document.id('files-upload-multi_browse').set('text', browse_label);
@@ -271,7 +283,7 @@ window.addEvent('domready', function() {
 		} else {
             document.id('remote-url').focus();
 		}
-		SqueezeBox.fx.win.start({height: document.id('files-upload').measure(function(){return this.getSize().y;})});
+        SqueezeBox.fx.win.set({height: document.id('files-upload').measure(function(){return this.getSize().y;})});
 		window.fireEvent('refresh');
 	};
 
@@ -433,7 +445,7 @@ window.addEvent('domready', function() {
 	setRemoteWrapMargin();
 
     //Remove FLOC fix
-    $('files-upload').getParent().setStyle('visibility', '');
+    document.id('files-upload').getParent().setStyle('visibility', '');
 });
 </script>
 
@@ -451,8 +463,7 @@ window.addEvent('domready', function() {
 			<li><a class="upload-form-toggle target-computer active" href="#computer"><?= @text('Computer'); ?></a></li>
 			<li><a class="upload-form-toggle target-web" href="#web"><?= @text('Web'); ?></a></li>
 			<li id="upload-max">
-				<?= @text('Each file should be smaller than'); ?>
-				<span id="upload-max-size"></span>
+                <?= str_replace('%size%', '<span id="upload-max-size"></span>',  @text('Each file should be smaller than %size%')) ?>
 			</li>
 		</ul>
 	</div>
