@@ -486,38 +486,7 @@ Files.App = new Class({
     	this.fireEvent('beforeSetPathway');
 
 		var pathway = new Files.Pathway(this.options.pathway);
-
-
-		var that = this;
-		that.addEvent('afterSetTitle', function(title) {
-
-			if (!pathway.element) {
-				return;
-			}
-		    pathway.list.empty();
-		
-		    pathway.element.setStyle('visibility', 'hidden');
-		    
-			var root = pathway.wrap(' '+that.container.title, '', false, that).grab(new Element('i', {'class': 'icon-hdd'}), 'top'),
-		        path = '';
-		    
-			pathway.list.adopt(root);
-
-	        var folders = that.getPath().split('/');
-	        
-		    folders.each(function(title){
-		        if(title.trim()) {
-		            path += path ? '/'+title : title;
-		            pathway.list.adopt(pathway.wrap(title, path, true, that));
-		        }
-		    });
-		    
-		    pathway.list.getLast().addClass('active');
-            pathway.setupElements();
-		    pathway.attachEvents();
-		    pathway.element.setStyle('visibility', 'visible');
-
-		});
+		this.addEvent('afterSetTitle', pathway.setList.bind(pathway, this));
 
 		this.fireEvent('afterSetPathway');
 	},
