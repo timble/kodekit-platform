@@ -21,10 +21,7 @@ class ComApplicationViewPageHtml extends ComApplicationViewHtml
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'template_filters' => array(
-                'expire',
-                'com://site/pages.template.filter.module'
-            ),
+            'template_filters' => array('expire','module'),
         ));
 
         parent::_initialize($config);
