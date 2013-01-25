@@ -26,9 +26,45 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     /**
      * Modules
      *
-     * @var ComPagesDatabaseRowsetModules
+     * @var KDatabaseRowsetInterface
      */
     protected $_modules;
+
+    /**
+     * Constructor.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     */
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        if (is_null($config->modules))
+        {
+            throw new InvalidArgumentException(
+                'modules [KDatabaseRowsetInterface] config option is required'
+            );
+        }
+
+        $this->setModules($config->modules);
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   object  An optional KConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(KConfig $config)
+    {
+        $config->append(array(
+            'modules' => null,
+        ));
+
+        parent::_initialize($config);
+    }
 
     /**
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
@@ -45,10 +81,29 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     }
 
     /**
+     * Set the modules
+     *
+     * @param KDatabaseRowsetInterface $modules
+     */
+    public function setModules(KDatabaseRowsetInterface $modules)
+    {
+        $this->_modules = $modules;
+    }
+
+    /**
+     * Get the modules
+     *
+     * @return KDatabaseRowsetInterfaces
+     */
+    public function getModules()
+    {
+        return $this->_modules;
+    }
+
+    /**
      * Parse <ktml:module></ktml:module> tags
      *
      * @param string Block of text to parse
-     * @@return ComPagesDatabaseRowsetModules The rowset object.
      */
     public function _parseModuleTags(&$text)
     {
@@ -79,7 +134,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
-                $this->_loadModules()->addRow(array($values), false);
+                $this->getModules()->addRow(array($values), false);
             }
 
             //Remove the <khtml:module></khtml:module> tags
@@ -91,7 +146,6 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
      * @param string Block of text to parse
-     * @return ComPagesTemplateFilterModule
      */
     public function _parseModulesTags(&$text)
     {
@@ -107,7 +161,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                 $position    = $matches[1][$i];
                 $attribs     = $this->_parseAttributes( $matches[2][$i] );
 
-                $modules = $this->_loadModules()->find(array('position' => $position));
+                $modules = $this->getModules()->find(array('position' => $position));
                 $replace[$i] = $this->_renderModules($modules, $attribs);
             }
 
@@ -126,7 +180,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                 $position    = $matches[1][$i];
                 $attribs     = $this->_parseAttributes( $matches[2][$i] );
 
-                $modules = $this->_loadModules()->find(array('position' => $position));
+                $modules = $this->getModules()->find(array('position' => $position));
                 $replace[$i] = $this->_renderModules($modules, $attribs);
 
                 if(!empty($replace[$i])) {
@@ -136,33 +190,6 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
 
             $text = str_replace($matches[0], $replace, $text);
         }
-    }
-
-    /**
-     * Get modules
-     *
-     * @return ComPagesDatabaseRowsetModules The rowset object.
-     */
-    public function _loadModules()
-    {
-        if(!$this->_modules)
-        {
-            $page = $this->getService('application.pages')->getActive();
-
-            // Select published modules
-            $model = $this->getService('com://admin/pages.model.modules')
-                ->application('site')
-                ->published(true)
-                ->access((int) $this->getService('user')->isAuthentic());
-
-            if (!is_null($page)) {
-                $model->page($page->id);
-            }
-
-            $this->_modules = $model->getRowset();
-        }
-
-        return $this->_modules;
     }
 
     /**
