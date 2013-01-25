@@ -47,9 +47,7 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
 
     protected function _initialize(KConfig $config)
     {
-        //Force set the identity column
         $config->identity_column = 'id';
-
         parent::_initialize($config);
     }
 
