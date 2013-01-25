@@ -20,5 +20,6 @@ KService::setAlias('application'           , 'com://site/application.dispatcher.
 KService::setAlias('application.components', 'com://admin/application.database.rowset.components');
 KService::setAlias('application.languages' , 'com://admin/application.database.rowset.languages');
 KService::setAlias('application.pages'     , 'com://site/application.database.rowset.pages');
+KService::setAlias('application.modules'   , 'com://site/application.database.rowset.modules');
 
 KService::setAlias('koowa:database.adapter.mysql', 'com://admin/application.database.adapter.mysql');
