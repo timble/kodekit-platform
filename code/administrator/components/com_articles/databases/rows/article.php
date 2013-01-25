@@ -53,9 +53,6 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowTable
             return false;
         }
 
-        $modified = $this->_modified;
-        $result   = parent::save();
-
-        return $result;
+        return parent::save();
     }
 }
