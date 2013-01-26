@@ -56,7 +56,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	{
 		$methods = array();
 
-		if(isset($mixer->locked_by) && isset($mixer->locked_on)) {
+		if($mixer instanceof KDatabaseRowInterface && ($mixer->has('locked_by') || $mixer->has('locked_on'))) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 
