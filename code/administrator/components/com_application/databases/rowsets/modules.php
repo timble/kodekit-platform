@@ -36,4 +36,3 @@ class ComApplicationDatabaseRowsetModules extends KDatabaseRowsetAbstract implem
         return $container->get($config->service_identifier);
     }
 }
-}
