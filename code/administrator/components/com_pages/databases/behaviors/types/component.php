@@ -1,37 +1,19 @@
 <?php
-class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
+class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorTypeAbstract
 {
-    protected $_type_description;
-
     protected $_type_title;
 
-    protected $_page_params;
+    protected $_xml = array();
 
-    protected $_component_params;
-
-    protected $_url_params;
-
-    protected $_page_xml;
-
-    public function getTypeDescription()
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
-        if(!isset($this->_description))
-        {
-            $query       = $this->getLink()->query;
-            $description = $this->component_name ? ucfirst(substr($this->component_name, 4)) : ucfirst(substr($query['option'], 4));
+        $instance = parent::getInstance($config, $container);
 
-            if(isset($query['view'])) {
-                $description .= ' &raquo; '.JText::_(ucfirst($query['view']));
-            }
-
-            if(isset($query['layout'])) {
-                $description .= ' / '.JText::_(ucfirst($query['layout']));
-            }
-
-            $this->_type_description = $description;
+        if(!$container->has($config->service_identifier)) {
+            $container->set($config->service_identifier, $instance);
         }
 
-        return $this->_type_description;
+        return $container->get($config->service_identifier);
     }
 
     public function getTypeTitle()
@@ -43,6 +25,22 @@ class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
         return $this->_type_title;
     }
 
+    public function getTypeDescription()
+    {
+        $query       = $this->getLink()->query;
+        $description = $this->component_name ? ucfirst(substr($this->component_name, 4)) : ucfirst(substr($query['option'], 4));
+
+        if(isset($query['view'])) {
+            $description .= ' &raquo; '.JText::_(ucfirst($query['view']));
+        }
+
+        if(isset($query['layout'])) {
+            $description .= ' / '.JText::_(ucfirst($query['layout']));
+        }
+
+        return $description;
+    }
+
     public function getLink()
     {
         $link = $this->getService('koowa:http.url', array('url' => $this->link_url));
@@ -50,9 +48,14 @@ class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
         return $link;
     }
 
-    public function getPageParams()
+    public function getParams($group)
     {
-        if(!isset($this->_page_params))
+        return $this->{'_get'.ucfirst($group).'Params'}();
+    }
+
+    protected function _getPageParams()
+    {
+        if(!isset($this->params['page']))
         {
             $file = __DIR__.'/component.xml';
 
@@ -62,15 +65,15 @@ class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
             $params = new JParameter($this->params);
             $params->setXML($xml->document->getElementByPath('state/params'));
 
-            $this->_page_params = $params;
+            $this->params['page'] = $params;
         }
 
-        return $this->_page_params;
+        return $this->params['page'];
     }
 
-    public function getComponentParams()
+    protected function _getComponentParams()
     {
-        if(!isset($this->_component_params))
+        if(!isset($this->params['component']))
         {
             // TODO: Clean this up.
             $params = new JParameter($this->params);
@@ -111,15 +114,15 @@ class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
             }
 
             $params->setXML($xml->document->params[0]);
-            $this->_component_params = $params;
+            $this->params['component'] = $params;
         }
 
-        return $this->_component_params;
+        return $this->params['component'];
     }
 
-    public function getUrlParams()
+    protected function _getUrlParams()
     {
-        if(!isset($this->_url_params))
+        if(!isset($this->params['url']))
         {
             $state  = $this->_getPageXml()->document->getElementByPath('state');
             $params = new JParameter(null);
@@ -133,16 +136,15 @@ class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
                 }
             }
 
-            $this->_url_params = $params;
+            $this->params['url'] = $params;
         }
 
-        return $this->_url_params;
+        return $this->params['url'];
     }
 
     protected function _getComponentXml()
     {
-        if(!isset($this->_component_xml))
-        {
+        if(!isset($this->_xml['component'][$this->_type['option']])) {
             $xml  = JFactory::getXMLParser('simple');
             $path = $this->getIdentifier()->getApplication('admin').'/components/'.$this->_type['option'].'/config.xml';
 
@@ -150,15 +152,15 @@ class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
                 $xml->loadFile($path);
             }
 
-            $this->_component_xml = $xml;
+            $this->_xml['component'][$this->_type['option']] = $xml;
         }
 
-        return $this->_component_xml;
+        return $this->_xml['component'][$this->_type['option']];
     }
 
     protected  function _getPageXml()
     {
-        if(!isset($this->_page_xml))
+        if(!isset($this->_xml['page'][$this->_type['option']][$this->_type['view']]))
         {
             $xml  = JFactory::getXMLParser('simple');
             $path = $this->getIdentifier()->getApplication('site').'/components/'.$this->_type['option'].'/views/'.$this->_type['view'].'/tmpl/'.$this->_type['layout'].'.xml';
@@ -167,10 +169,10 @@ class ComPagesDatabaseBehaviorTypeComponent extends KDatabaseBehaviorAbstract
                 $xml->loadFile($path);
             }
 
-            $this->_page_xml = $xml;
+            $this->_xml['page'][$this->_type['option']][$this->_type['view']] = $xml;
         }
 
-        return $this->_page_xml;
+        return $this->_xml['page'][$this->_type['option']][$this->_type['view']];
     }
 
     protected function _setLinkBeforeSave(KCommandContext $context)

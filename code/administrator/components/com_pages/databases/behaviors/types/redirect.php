@@ -1,17 +1,19 @@
 <?php
-class ComPagesDatabaseBehaviorTypeRedirect extends KDatabaseBehaviorAbstract
+class ComPagesDatabaseBehaviorTypeRedirect extends ComPagesDatabaseBehaviorTypeAbstract
 {
-    protected $_type_description;
-
     protected $_type_title;
 
-    public function getTypeDescription()
+    protected $_type_description;
+
+    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
-        if(!isset($this->_type_description)) {
-            $this->_type_description = JText::_('Redirect');
+        $instance = parent::getInstance($config, $container);
+
+        if(!$container->has($config->service_identifier)) {
+            $container->set($config->service_identifier, $instance);
         }
 
-        return $this->_type_description;
+        return $container->get($config->service_identifier);
     }
 
     public function getTypeTitle()
@@ -23,11 +25,19 @@ class ComPagesDatabaseBehaviorTypeRedirect extends KDatabaseBehaviorAbstract
         return $this->_type_title;
     }
 
+    public function getTypeDescription()
+    {
+        if(!isset($this->_type_description)) {
+            $this->_type_description = JText::_('Redirect');
+        }
+
+        return $this->_type_description;
+    }
+
     protected function _setLinkBeforeSave(KCommandContext $context)
     {
-        $data = $context->data;
-        if($data->link_type) {
-            $data->link_type == 'id' ? $data->link_url = null : $data->link_id = null;
+        if($this->link_type) {
+            $this->link_type == 'id' ? $this->link_url = null : $this->link_id = null;
         }
     }
 
