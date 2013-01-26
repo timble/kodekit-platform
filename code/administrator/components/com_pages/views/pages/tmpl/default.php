@@ -92,7 +92,7 @@
                     <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>
                 </td>
                 <td>
-                    <?= $page->type_description ?>
+                    <?= $page->getTypeDescription() ?>
                 </td>
             </tr>
             <? endforeach; ?>
