@@ -62,7 +62,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * Prevent creating instances of this class by making the constructor private
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param KCofnig $config   An optional KConfig object with configuration options
      */
     public function __construct(KConfig $config)
     {
@@ -86,8 +86,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options.
-     * @return     void
+     * @param  KConfig $config  An optional KConfig object with configuration options.
+     * @return void
      */
     protected function _initialize(KConfig $config)
     {
@@ -105,7 +105,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get the template file identifier
      *
-     * @return    KServiceIdentifier
+     * @return  KServiceIdentifier
      */
     public function getFile()
     {
@@ -115,7 +115,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get the template data
      *
-     * @return    mixed
+     * @return  mixed
      */
     public function getData()
     {
@@ -125,7 +125,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get the template object stack
      *
-     * @return     KTemplateStack
+     * @return  KTemplateStack
      */
     public function getStack()
     {
@@ -135,7 +135,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get the view object attached to the template
      *
-     * @return    KViewAbstract
+     * @return  KViewInterface
      */
     public function getView()
     {
@@ -155,8 +155,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Method to set a view object attached to the template
      *
-     * @param mixed  An object that implements KObjectServiceable, KServiceIdentifier object
-     *               or valid identifier string
+     * @param mixed  $view An object that implements KObjectServiceable, KServiceIdentifier object
+     *                     or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a view identifier
      * @return KTemplateAbstract
      */
@@ -190,9 +190,9 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      * This functions only accepts full identifiers of the format
      * -  com:[//application/]component.view.[.path].name
      *
-     * @param   string   The template identifier
-     * @param   array    An associative array of data to be extracted in local template scope
-     * @param   boolean  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
+     * @param   string   $template  The template identifier
+     * @param   array    $data      An associative array of data to be extracted in local template scope
+     * @param   boolean  $evaluate  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @throws \InvalidArgumentException If the template could not be found
      * @return KTemplateAbstract
      */
@@ -218,9 +218,9 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Load a template by path
      *
-     * @param   string   The template path
-     * @param   array    An associative array of data to be extracted in local template scope
-     * @param   boolean  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
+     * @param   string  $file     The template path
+     * @param   array   $data     An associative array of data to be extracted in local template scope
+     * @param   boolean $evaluate If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @return KTemplateAbstract
      */
     public function loadFile($file, $data = array(), $evaluate = true)
@@ -237,9 +237,9 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Load a template from a string
      *
-     * @param  string   The template contents
-     * @param  array    An associative array of data to be extracted in local template scope
-     * @param  boolean  If TRUE evaluate the data using a tmpl stream. Default TRUE.
+     * @param  string   $string     The template contents
+     * @param  array    $data       An associative array of data to be extracted in local template scope
+     * @param  boolean  $evaluate   If TRUE evaluate the data using a tmpl stream. Default TRUE.
      * @return KTemplateAbstract
      */
     public function loadString($string, $data = array(), $evaluate = true)
@@ -260,8 +260,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Render the template
      *
-     * This function passes the template through write filter chain and returns the
-     * result.
+     * This function passes the template through write filter chain and returns the result.
      *
      * @return string    The rendered data
      */
@@ -278,8 +277,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Parse the template
      *
-     * This function passes the template through read filter chain and returns the
-     * result.
+     * This function passes the template through read filter chain and returns the result.
      *
      * @return string    The parsed data
      */
@@ -296,6 +294,9 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get a filter by identifier
      *
+     * @param   mixed    $filter    An object that implements KObjectServiceable, KServiceIdentifier object
+                                    or valid identifier string
+     * @param   array    $config    An optional associative array of configuration settings
      * @return KTemplateFilterInterface
      */
     public function getFilter($filter, $config = array())
@@ -330,8 +331,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Attach one or more filters for template transformation
      *
-     * @param array     Array of one or more behaviors to add.
-     * @return KTemplate
+     * @param array $filters Array of one or more behaviors to add.
+     * @return KTemplateAbstract
      */
     public function attachFilter($filters)
     {
@@ -353,9 +354,9 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get a template helper
      *
-     * @param    mixed    KServiceIdentifierInterface
-     * @param    array    An optional associative array of configuration settings
-     * @return     KTemplateHelperInterface
+     * @param    mixed    $helper KServiceIdentifierInterface
+     * @param    array    $config An optional associative array of configuration settings
+     * @return  KTemplateHelperInterface
      */
     public function getHelper($helper, $config = array())
     {
@@ -388,32 +389,32 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      * This functions accepts a partial identifier, in the form of helper.function. If a partial identifier is passed a
      * full identifier will be created using the template identifier.
      *
-     * @param    string    Name of the helper, dot separated including the helper function to call
-     * @param    array    An optional associative array of configuration settings
-     * @return   string    Helper output
+     * @param    string   $identifier Name of the helper, dot separated including the helper function to call
+     * @param    array    $params     An optional associative array of functions parameters to be passed to the helper
+     * @return   string   Helper output
      * @throws   \BadMethodCallException If the helper function cannot be called.
      */
-    public function renderHelper($identifier, $config = array())
+    public function renderHelper($identifier, $params = array())
     {
         //Get the function to call based on the $identifier
         $parts    = explode('.', $identifier);
         $function = array_pop($parts);
 
-        $helper = $this->getHelper(implode('.', $parts), $config);
+        $helper = $this->getHelper(implode('.', $parts), $params);
 
         //Call the helper function
         if (!is_callable(array($helper, $function))) {
             throw new \BadMethodCallException(get_class($helper) . '::' . $function . ' not supported.');
         }
 
-        return $helper->$function($config);
+        return $helper->$function($params);
     }
 
     /**
      * Searches for the file
      *
-     * @param    string    The file path to look for.
-     * @return    mixed    The full path and file name for the target file, or FALSE if the file is not found
+     * @param   string  $file The file path to look for.
+     * @return  mixed   The full path and file name for the target file, or FALSE if the file is not found
      */
     public function findFile($file)
     {
@@ -443,10 +444,9 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Process the template using a simple sandbox
      *
-     * This function passes the template through the read filter chain before letting the PHP parser
-     * executed it. The result is buffered.
+     * This function passes the template through the read filter chain before letting the PHP parser executed it.
+     * The result is buffered.
      *
-     * @param  boolean     If TRUE apply write filters. Default FALSE.
      * @return KTemplateAbstract
      */
     private function __sandbox()
@@ -471,9 +471,11 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Renders the template and returns the result
      *
-     * @return     string
+     * This function will catch any exceptions thrown and return the exception message
+     *
+     * @return string
      */
-    public function __toString()
+    public function toString()
     {
         try {
             $result = $this->_contents;
@@ -482,5 +484,15 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Allow PHP casting of this object
+     *
+     * @return  string
+     */
+    public function __toString()
+    {
+        return $this->toString();
     }
 }
