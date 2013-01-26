@@ -23,7 +23,7 @@ class ComPagesDatabaseTablePages extends KDatabaseTableDefault
         $config->append(array(
             'name' => 'pages',
             'behaviors'  => array(
-                'creatable', /*'modifiable',*/ 'lockable', 'sluggable', 'assignable', 'typable'
+                'creatable', /*'modifiable',*/ 'lockable', 'sluggable', 'assignable', 'typable',
                 'com://admin/pages.database.behavior.orderable' => array(
                     'strategy' => 'closure',
                     'table'    => 'com://admin/pages.database.table.orderings',
