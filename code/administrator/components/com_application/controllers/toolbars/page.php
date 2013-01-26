@@ -59,7 +59,5 @@ class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
                 'data-action' => 'delete',
             )
         ));
-
-        $command->href = '#';
     }
 }
