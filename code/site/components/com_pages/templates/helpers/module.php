@@ -19,9 +19,9 @@
 class ComPagesTemplateHelperModule extends KTemplateHelperAbstract
 {
     /**
-     * Modules
+     * Database rowset or identifier
      *
-     * @var KDatabaseRowsetInterface
+     * @var	string|object
      */
     protected $_modules;
 
@@ -34,14 +34,7 @@ class ComPagesTemplateHelperModule extends KTemplateHelperAbstract
     {
         parent::__construct($config);
 
-        if (is_null($config->modules))
-        {
-            throw new InvalidArgumentException(
-                'modules [KDatabaseRowsetInterface] config option is required'
-            );
-        }
-
-        $this->setModules($config->modules);
+        $this->_modules = $config->modules;
     }
 
     /**
@@ -62,43 +55,46 @@ class ComPagesTemplateHelperModule extends KTemplateHelperAbstract
     }
 
     /**
-     * Set the modules
-     *
-     * @param KDatabaseRowsetInterface $modules
-     */
-    public function setModules(KDatabaseRowsetInterface $modules)
-    {
-        $this->_modules = $modules;
-    }
-
-    /**
      * Get the modules
      *
-     * @return KDatabaseRowsetInterfaces
+     * @throws	\UnexpectedValueException	If the request doesn't implement the KDatabaseRowsetInterface
+     * @return KDatabaseRowsetInterface
      */
     public function getModules()
     {
+        if(!$this->_modules instanceof KDatabaseRowsetInterface)
+        {
+            $this->_modules = $this->getService($this->_modules);
+
+            if(!$this->_modules instanceof KDatabaseRowsetInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Modules: '.get_class($this->_modules).' does not implement KDatabaseRowsetInterface'
+                );
+            }
+        }
+
         return $this->_modules;
     }
 
     /**
      * Count the modules based on a condition of positions
      *
-     * @param array $config
+     * @param  array|string $config
      * @return integer Returns the result of the evaluated condition
      */
     public function count($config = array())
     {
-        $config = new KConfig($config);
-        $config->append(array(
-            'condition' => ''
-        ));
+        //Condition is passed as a string
+        if(is_string($config)) {
+            $config = array('condition' => $config);
+        }
 
         $result = 0;
-        if(!empty($config->condition))
+        if(isset($config['condition']) && !empty($config['condition']))
         {
             $operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-            $words = preg_split('# ' . $operators . ' #', $config->condition, null, PREG_SPLIT_DELIM_CAPTURE);
+            $words = preg_split('# ' . $operators . ' #', $config['condition'], null, PREG_SPLIT_DELIM_CAPTURE);
             for ($i = 0, $n = count($words); $i < $n; $i += 2)
             {
                 // Odd parts (modules)

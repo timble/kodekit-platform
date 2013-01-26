@@ -24,9 +24,9 @@
 class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KTemplateFilterWrite
 {
     /**
-     * Modules
+     * Database rowset or identifier
      *
-     * @var KDatabaseRowsetInterface
+     * @var	string|object
      */
     protected $_modules;
 
@@ -39,14 +39,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     {
         parent::__construct($config);
 
-        if (is_null($config->modules))
-        {
-            throw new InvalidArgumentException(
-                'modules [KDatabaseRowsetInterface] config option is required'
-            );
-        }
-
-        $this->setModules($config->modules);
+        $this->_modules = $config->modules;
     }
 
     /**
@@ -67,22 +60,25 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     }
 
     /**
-     * Set the modules
-     *
-     * @param KDatabaseRowsetInterface $modules
-     */
-    public function setModules(KDatabaseRowsetInterface $modules)
-    {
-        $this->_modules = $modules;
-    }
-
-    /**
      * Get the modules
      *
+     * @throws	\UnexpectedValueException	If the request doesn't implement the KDatabaseRowsetInterface
      * @return KDatabaseRowsetInterface
      */
     public function getModules()
     {
+        if(!$this->_modules instanceof KDatabaseRowsetInterface)
+        {
+            $this->_modules = $this->getService($this->_modules);
+
+            if(!$this->_modules instanceof KDatabaseRowsetInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Modules: '.get_class($this->_modules).' does not implement KDatabaseRowsetInterface'
+                );
+            }
+        }
+
         return $this->_modules;
     }
 

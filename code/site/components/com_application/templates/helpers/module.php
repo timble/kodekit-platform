@@ -21,7 +21,7 @@ class ComApplicationTemplateHelperModule extends ComPagesTemplateHelperModule
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'modules' => $this->getService('application.modules'),
+            'modules' => 'application.modules',
         ));
 
         parent::_initialize($config);
