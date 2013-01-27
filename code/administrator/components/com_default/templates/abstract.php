@@ -27,7 +27,7 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	/**
 	 * Constructor
 	 *
-	 * Prevent creating instances of this class by making the contructor private
+	 * Prevent creating instances of this class by making the constructor private
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
@@ -105,13 +105,13 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	/**
 	 * Parse the template
 	 *
-	 * This function implements a caching mechanism when reading the template. If
-	 * the tempplate cannot be found in the cache it will be filtered and stored in
-	 * the cache. Otherwise it will be loaded from the cache and returned directly.
+	 * This function implements a caching mechanism when reading the template. If the tempplate cannot be found in the
+     * cache it will be filtered and stored in the cache. Otherwise it will be loaded from the cache and returned
+     * directly.
 	 *
 	 * @return string	The filtered data
 	 */
-	public function parse()
+	protected function _parse()
 	{
 	    if(isset($this->_cache))
 	    {
@@ -119,7 +119,7 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 
 	        if (!$template = $this->_cache->get($identifier))
 	        {
-	            $template = parent::parse();
+	            $template = parent::_parse();
 
 	            //Store the object in the cache
 		   	    $this->_cache->store($template, $identifier);
@@ -128,6 +128,6 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	        return $template;
 	    }
 
-	    return parent::parse();
+	    return parent::_parse();
 	}
 }

@@ -8,7 +8,7 @@
  */
 
  /**
-  * Abstract stream wrapper to convert markup of mostly-PHP templates into PHP prior to include().
+  * Stream wrapper to convert markup of mostly-PHP templates into PHP prior to include().
   *
   * Based in large part on the example at
   * http://www.php.net/manual/en/function.stream-wrapper-register.php
@@ -75,10 +75,10 @@ class KTemplateStream
         $template = KService::get('koowa:template.stack')->top();
 
         //Get the template path
-        $this->_path = $template->getFile()->filepath;
+        $this->_path = $template->getPath();
 
         //Get the template data
-        $this->_data = $template->parse();
+        $this->_data = $template->getContents();
 
        // file_get_contents() won't update PHP's stat cache, so performing
        // another stat() on it will hit the filesystem again. Since the file

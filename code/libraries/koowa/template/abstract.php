@@ -20,7 +20,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @var string
      */
-    protected $_file;
+    protected $_path;
 
     /**
      * The template data
@@ -62,13 +62,13 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * Prevent creating instances of this class by making the constructor private
      *
-     * @param KCofnig $config   An optional KConfig object with configuration options
+     * @param KConfig $config   An optional KConfig object with configuration options
      */
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
-        // Set the view indentifier
+        // Set the view identifier
         $this->_view = $config->view;
 
         // Set the template stack object
@@ -103,13 +103,13 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Get the template file identifier
+     * Get the template path
      *
-     * @return  KServiceIdentifier
+     * @return  string
      */
-    public function getFile()
+    public function getPath()
     {
-        return $this->_file;
+        return $this->_path;
     }
 
     /**
@@ -130,6 +130,16 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     public function getStack()
     {
         return $this->_stack;
+    }
+
+    /**
+     * Get the template contents
+     *
+     * @return  string
+     */
+    public function getContents()
+    {
+        return $this->_contents;
     }
 
     /**
@@ -192,25 +202,20 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @param   string   $template  The template identifier
      * @param   array    $data      An associative array of data to be extracted in local template scope
-     * @param   boolean  $evaluate  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @throws \InvalidArgumentException If the template could not be found
      * @return KTemplateAbstract
      */
-    public function loadIdentifier($template, $data = array(), $evaluate = true)
+    public function loadIdentifier($template, $data = array())
     {
         //Find the template
         $identifier = $this->getIdentifier($template);
-        $file = $this->findFile($identifier->filepath);
-
-        //Store the identifier
-        $this->_file = $identifier;
 
         if ($identifier->filepath === false) {
             throw new \InvalidArgumentException('Template "' . $identifier->name . '" not found');
         }
 
         // Load the file
-        $this->loadFile($file, $data, $evaluate);
+        $this->loadFile($identifier->filepath, $data);
 
         return $this;
     }
@@ -220,16 +225,21 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @param   string  $file     The template path
      * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @param   boolean $evaluate If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @return KTemplateAbstract
      */
-    public function loadFile($file, $data = array(), $evaluate = true)
+    public function loadFile($path, $data = array())
     {
+        //Store the original path
+        $this->_path = $path;
+
+        //Find the file
+        $file = $this->findFile($path);
+
         //Get the file contents
         $contents = file_get_contents($file);
 
         //Load the contents
-        $this->loadString($contents, $data, $evaluate);
+        $this->loadString($contents, $data);
 
         return $this;
     }
@@ -239,19 +249,18 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @param  string   $string     The template contents
      * @param  array    $data       An associative array of data to be extracted in local template scope
-     * @param  boolean  $evaluate   If TRUE evaluate the data using a tmpl stream. Default TRUE.
      * @return KTemplateAbstract
      */
-    public function loadString($string, $data = array(), $evaluate = true)
+    public function loadString($string, $data = array())
     {
         $this->_contents = $string;
 
         // Merge the data
         $this->_data = array_merge((array)$this->_data, $data);
 
-        // Process the data
-        if ($evaluate == true) {
-            $this->__sandbox();
+        // Process inline templates
+        if(!$this->getStack()->isEmpty()) {
+            $this->render();
         }
 
         return $this;
@@ -260,35 +269,22 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Render the template
      *
-     * This function passes the template through write filter chain and returns the result.
-     *
      * @return string    The rendered data
      */
     public function render()
     {
-        $context = $this->getCommandContext();
-        $context->data = $this->_contents;
+        //Parse the template
+        $this->_contents = $this->_parse();
 
-        $result = $this->getCommandChain()->run(KTemplateFilter::MODE_WRITE, $context);
+        //Evaluate the template
+        $this->_contents = $this->_evaluate();
 
-        return $context->data;
-    }
+        //Render the template
+        if($this->getStack()->isEmpty()) {
+            $this->_contents = $this->_render();
+        }
 
-    /**
-     * Parse the template
-     *
-     * This function passes the template through read filter chain and returns the result.
-     *
-     * @return string    The parsed data
-     */
-    public function parse()
-    {
-        $context = $this->getCommandContext();
-        $context->data = $this->_contents;
-
-        $result = $this->getCommandChain()->run(KTemplateFilter::MODE_READ, $context);
-
-        return $context->data;
+        return $this->_contents;
     }
 
     /**
@@ -442,14 +438,31 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Process the template using a simple sandbox
+     * Parse the template
      *
-     * This function passes the template through the read filter chain before letting the PHP parser executed it.
-     * The result is buffered.
+     * This function passes the template through read filter chain and returns the result.
      *
-     * @return KTemplateAbstract
+     * @return string The parsed data
      */
-    private function __sandbox()
+    protected function _parse()
+    {
+        $context = $this->getCommandContext();
+        $context->data = $this->getContents();
+
+        $this->getCommandChain()->run(KTemplateFilter::MODE_READ, $context);
+
+        return $context->data;
+    }
+
+    /**
+     * Evaluate the template using a simple sandbox
+     *
+     * This function uses the tmpl:// stream to be able to include the template and have php evaluate it
+     *
+     * @return The evaluated data
+     * @see KTemplateStream
+     */
+    private function _evaluate()
     {
         //Push the template onto the stack
         $this->getStack()->push(clone $this);
@@ -459,40 +472,40 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
 
         // Capturing output into a buffer
         ob_start();
-        include 'tmpl://'.$this->getFile()->filepath;
-        $this->_contents = ob_get_clean();
+        include 'tmpl://'.$this->getPath();
+        $result = ob_get_clean();
 
         //Remove the template from the template stack
         $this->getStack()->pop();
-
-        return $this;
-    }
-
-    /**
-     * Renders the template and returns the result
-     *
-     * This function will catch any exceptions thrown and return the exception message
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        try {
-            $result = $this->_contents;
-        } catch (Exception $e) {
-            $result = $e->getMessage();
-        }
 
         return $result;
     }
 
     /**
-     * Allow PHP casting of this object
+     * Render the template
+     *
+     * This function passes the template through write filter chain and returns the result.
+     *
+     * @return string  The rendered data
+     */
+    protected function _render()
+    {
+        $context = $this->getCommandContext();
+        $context->data = $this->getContents();
+
+        $this->getCommandChain()->run(KTemplateFilter::MODE_WRITE, $context);
+
+        return $context->data;
+    }
+
+    /**
+     * Returns the template contents
      *
      * @return  string
+     * @see getContents()
      */
     public function __toString()
     {
-        return $this->toString();
+        return $this->getContents();
     }
 }

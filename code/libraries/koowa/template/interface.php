@@ -18,9 +18,9 @@ interface KTemplateInterface
     /**
      * Get the template file identifier
      *
-     * @return	KServiceIdentifier
+     * @return	string
      */
-    public function getFile();
+    public function getPath();
 	
 	/**
 	 * Get the template data
@@ -35,6 +35,13 @@ interface KTemplateInterface
      * @return  KTemplateStack
      */
 	public function getStack();
+
+    /**
+     * Get the template contents
+     *
+     * @return  string
+     */
+    public function getContents();
 
     /**
      * Get the view object attached to the template
@@ -61,31 +68,28 @@ interface KTemplateInterface
      *
      * @param   string   $template  The template identifier
      * @param   array    $data      An associative array of data to be extracted in local template scope
-     * @param   boolean  $evaluate  If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @throws \InvalidArgumentException If the template could not be found
      * @return KTemplateAbstract
      */
-	public function loadIdentifier($template, $data = array(), $process = true);
+	public function loadIdentifier($template, $data = array());
 
     /**
      * Load a template by path
      *
      * @param   string  $file     The template path
      * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @param   boolean $evaluate If TRUE evaluate the data using a tmpl:// stream. Default TRUE.
      * @return KTemplateAbstract
      */
-	public function loadFile($file, $data = array(), $process = true);
+	public function loadFile($file, $data = array());
 
     /**
      * Load a template from a string
      *
      * @param  string   $string     The template contents
      * @param  array    $data       An associative array of data to be extracted in local template scope
-     * @param  boolean  $evaluate   If TRUE evaluate the data using a tmpl stream. Default TRUE.
      * @return KTemplateAbstract
      */
-	public function loadString($string, $data = array(), $process = true);
+	public function loadString($string, $data = array());
 
     /**
      * Render the template
@@ -95,15 +99,6 @@ interface KTemplateInterface
      * @return string    The rendered data
      */
 	public function render();
-
-    /**
-     * Parse the template
-     *
-     * This function passes the template through read filter chain and returns the result.
-     *
-     * @return string    The parsed data
-     */
-	public function parse();
 
     /**
      * Get a filter by identifier
@@ -152,13 +147,4 @@ interface KTemplateInterface
      * @return  mixed   The full path and file name for the target file, or FALSE if the file is not found
      */
     public function findFile($file);
-
-    /**
-     * Renders the template and returns the result
-     *
-     * This function will catch any exceptions thrown and return the exception message
-     *
-     * @return string
-     */
-    public function toString();
 }

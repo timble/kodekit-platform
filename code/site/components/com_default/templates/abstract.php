@@ -27,7 +27,7 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	/**
 	 * Constructor
 	 *
-	 * Prevent creating instances of this class by making the contructor private
+	 * Prevent creating instances of this class by making the constructor private
 	 *
 	 * @param 	object 	An optional KConfig object with configuration options
 	 */
@@ -43,8 +43,8 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	/**
 	 * Load a template by path -- first look in the templates folder for an override
 	 *
-	 * This function tries to get the template from the cache. If it cannot be found
-	 * the template file will be loaded from the file system.
+	 * This function tries to get the template from the cache. If it cannot be found the template file will be loaded
+     * from the file system.
 	 *
 	 * @param   string 	The template path
 	 * @param	array	An associative array of data to be extracted in local template scope
@@ -72,12 +72,10 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	/**
 	 * Searches for the file
 	 *
-	 * This function first tries to find a template override, if no override exists
-	 * it will try to find the default template
+	 * This function first tries to find a template override, if no override exists it will try to find the default template
 	 *
 	 * @param	string	The file path to look for.
-	 * @return	mixed	The full path and file name for the target file, or FALSE
-	 * 					if the file is not found
+	 * @return	mixed	The full path and file name for the target file, or FALSE if the file is not found
 	 */
 	public function findFile($path)
 	{
@@ -104,13 +102,13 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	/**
 	 * Parse the template
 	 *
-	 * This function implements a caching mechanism when reading the template. If
-	 * the tempplate cannot be found in the cache it will be filtered and stored in
-	 * the cache. Otherwise it will be loaded from the cache and returned directly.
+	 * This function implements a caching mechanism when reading the template. If the tempplate cannot be found in the
+     * cache it will be filtered and stored in the cache. Otherwise it will be loaded from the cache and returned
+     * directly.
 	 *
 	 * @return string	The filtered data
 	 */
-	public function parse()
+	protected function _parse()
 	{
 	    if(isset($this->_cache))
 	    {
@@ -118,7 +116,7 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 
 	        if (!$template = $this->_cache->get($identifier))
 	        {
-	            $template = parent::parse();
+	            $template = parent::_parse();
 
 	            //Store the object in the cache
 		   	    $this->_cache->store($template, $identifier);
@@ -127,6 +125,6 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	        return $template;
 	    }
 
-	    return parent::parse();
+	    return parent::_parse();
 	}
 }
