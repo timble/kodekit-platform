@@ -75,7 +75,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $this->_stack = $config->stack;
 
         //Register the template stream wrapper
-        KTemplateStream::register();
+        KTemplateStream::register($this->_stack);
 
         // Mixin a command chain
         $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
@@ -145,46 +145,50 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get the view object attached to the template
      *
+     * @throws	\UnexpectedValueException	If the views doesn't implement the KViewInterface
      * @return  KViewInterface
      */
     public function getView()
     {
-        if (!$this->_view instanceof KViewInterface)
+        if(!$this->_view instanceof KViewInterface)
         {
             //Make sure we have a view identifier
-            if (!($this->_view instanceof KServiceIdentifier)) {
+            if(!($this->_view instanceof KServiceIdentifier)) {
                 $this->setView($this->_view);
             }
 
             $this->_view = $this->getService($this->_view);
+
+            //Make sure the view implements KViewInterface
+            if(!$this->_view instanceof KViewInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'View: '.get_class($this->_view).' does not implement KViewInterface'
+                );
+            }
         }
 
         return $this->_view;
     }
 
     /**
-     * Method to set a view object attached to the template
+     * Method to set a view object attached to the controller
      *
-     * @param mixed  $view An object that implements KObjectServiceable, KServiceIdentifier object
-     *                     or valid identifier string
-     * @throws \UnexpectedValueException    If the identifier is not a view identifier
+     * @param	mixed	$view An object that implements KObjectServiceable, KServiceIdentifier object
+     * 					      or valid identifier string
      * @return KTemplateAbstract
      */
     public function setView($view)
     {
-        if (!($view instanceof KViewInterface))
+        if(!($view instanceof KViewInterface))
         {
-            if (is_string($view) && strpos($view, '.') === false)
+            if(is_string($view) && strpos($view, '.') === false )
             {
-                $identifier = clone $this->getIdentifier();
-                $identifier->path = array('view', $view);
+                $identifier			= clone $this->getIdentifier();
+                $identifier->path	= array('view', $view);
                 $identifier->name = 'html';
             }
             else $identifier = $this->getIdentifier($view);
-
-            if ($identifier->path[0] != 'view') {
-                throw new \UnexpectedValueException('Identifier: ' . $identifier . ' is not a view identifier');
-            }
 
             $view = $identifier;
         }
@@ -269,7 +273,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Render the template
      *
-     * @return string    The rendered data
+     * @param  array   $data  An associative array of data to be extracted in local template scope
+     * @return string  The rendered data
      */
     public function render()
     {
@@ -281,7 +286,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
 
         //Render the template
         if($this->getStack()->isEmpty()) {
-            $this->_contents = $this->_render();
+            $this->_contents = $this->_process();
         }
 
         return $this->_contents;
@@ -438,7 +443,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Parse the template
+     * Parse and compile the template to PHP code
      *
      * This function passes the template through read filter chain and returns the result.
      *
@@ -462,7 +467,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      * @return The evaluated data
      * @see KTemplateStream
      */
-    private function _evaluate()
+    protected function _evaluate()
     {
         //Push the template onto the stack
         $this->getStack()->push(clone $this);
@@ -482,13 +487,13 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Render the template
+     * Process the template
      *
      * This function passes the template through write filter chain and returns the result.
      *
      * @return string  The rendered data
      */
-    protected function _render()
+    protected function _process()
     {
         $context = $this->getCommandContext();
         $context->data = $this->getContents();
