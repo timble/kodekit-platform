@@ -26,7 +26,7 @@ class ComApplicationControllerException extends KControllerView
         $result = parent::_actionRender($context);
 
         $exception = $this->getView()->exception;
-        $context->response->setStatus($exception->getCode(), $exception->getMessage());
+        $context->response->setStatus($exception->getCode() == 0 ? '500' : $exception->getCode() , $exception->getMessage());
 
         return $result;
     }
