@@ -126,6 +126,23 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
         return $params;
     }
 
+    protected function _getLayoutParams()
+    {
+        $state  = $this->_getPageXml()->document->getElementByPath('state');
+        $params = new JParameter(null);
+
+        if($state instanceof JSimpleXMLElement)
+        {
+            $params->setXML($state->getElementByPath('params'));
+
+            if($this->link_url) {
+                $params->loadArray($this->getLink()->query);
+            }
+        }
+
+        return $params;
+    }
+
     protected function _getComponentXml()
     {
         $xml  = JFactory::getXMLParser('simple');
