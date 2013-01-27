@@ -128,7 +128,7 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
      */
     public function setUrl($url)
     {
-        if (!$url instanceof KHttpUrl || !is_string($url)) {
+        if (!$url instanceof KHttpUrlInterface || !is_string($url)) {
             throw new \InvalidArgumentException('Url must be an instance of KHttpUrl or a string');
         }
 

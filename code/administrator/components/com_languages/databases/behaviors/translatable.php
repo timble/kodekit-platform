@@ -44,7 +44,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     public function getHandle()
     {
         // If table is not enabled, return null to prevent enqueueing.
-        $table = $this->getMixer() instanceof KDatabaseTableAbstract ? $this->getMixer() : $this->getMixer()->getTable();
+        $table = $this->getMixer() instanceof KDatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
         $needle = array(
             'name' => $table->getBase(),
             'component_name' => 'com_'.$table->getIdentifier()->package
@@ -60,7 +60,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         if(!is_null($mixer))
         {
             // If table is not enabled, don't mix the methods.
-            $table  = $mixer instanceof KDatabaseTableAbstract ? $mixer : $mixer->getTable();
+            $table  = $mixer instanceof KDatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name' => $table->getBase(),
                 'component_name' => 'com_'.$table->getIdentifier()->package

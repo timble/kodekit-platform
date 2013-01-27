@@ -40,7 +40,7 @@ class KEventDispatcherException extends KEventDispatcherAbstract
         }
 
         if($config->catch_core_errors) {
-            $this->registerShutdownHandler();
+            //$this->registerShutdownHandler();
         }
 
         if($config->catch_exceptions) {

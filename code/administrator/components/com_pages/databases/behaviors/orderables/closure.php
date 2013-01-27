@@ -34,9 +34,9 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
     
     public function getOrderingTable()
     {
-        if(!$this->_table instanceof KDatabaseTableAbstract)
+        if(!$this->_table instanceof KDatabaseTableInterface)
         {
-            $table = $this->getMixer() instanceof KDatabaseTableAbstract ? $this : $this->getTable();
+            $table = $this->getMixer() instanceof KDatabaseTableInterface ? $this : $this->getTable();
             $this->_table = $this->getService($this->_table, array('identity_column' => $table->getIdentityColumn()));
         }
         

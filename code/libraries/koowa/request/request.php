@@ -465,7 +465,7 @@ class KRequest
     {
         if(!is_null($path))
         {
-            if(!$path instanceof KhttpUrl) {
+            if(!$path instanceof KhttpUrlInterface) {
                 $path = KService::get('koowa:http.url', array('url' => $path));
             }
 

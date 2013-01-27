@@ -94,7 +94,7 @@ class KModelTable extends KModelAbstract
      */
     public function getTable()
     {
-        if(!($this->_table instanceof KDatabaseTableAbstract))
+        if(!($this->_table instanceof KDatabaseTableInterface))
 		{
             //Make sure we have a table identifier
             if(!($this->_table instanceof KServiceIdentifier)) {
@@ -117,7 +117,7 @@ class KModelTable extends KModelAbstract
      */
     public function setTable($table)
 	{
-		if(!($table instanceof KDatabaseTableAbstract))
+		if(!($table instanceof KDatabaseTableInterface))
 		{
 			if(is_string($table) && strpos($table, '.') === false ) 
 		    {

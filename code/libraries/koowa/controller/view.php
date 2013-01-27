@@ -117,7 +117,7 @@ abstract class KControllerView extends KControllerAbstract
 	 */
 	public function setView($view)
 	{
-		if(!($view instanceof KViewAbstract))
+		if(!($view instanceof KViewInterface))
 		{
 			if(is_string($view) && strpos($view, '.') === false )
 		    {

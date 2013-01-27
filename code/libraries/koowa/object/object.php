@@ -14,7 +14,7 @@
  * @category    Koowa
  * @package     Koowa_Object
  */
-class KObject implements KObjectHandlable, KObjectServiceable, KObjectMixable
+class KObject implements KObjectInterface
 {
     /**
      * Class methods

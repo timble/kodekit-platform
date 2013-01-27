@@ -55,7 +55,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
         parent::__construct($config);
 
         //set the base url
-        if (!$config->base_url instanceof KHttpUrl) {
+        if (!$config->base_url instanceof KHttpUrlInterface) {
             $this->_baseurl = $this->getService('koowa:http.url', array('url' => $config->base_url));
         } else {
             $this->_baseurl = $config->base_url;
@@ -126,7 +126,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      */
     public function getModel()
     {
-        if(!$this->_model instanceof KModelAbstract)
+        if(!$this->_model instanceof KModelInterface)
         {
             if(!($this->_model instanceof KServiceIdentifier)) {
                 $this->setModel($this->_model);
