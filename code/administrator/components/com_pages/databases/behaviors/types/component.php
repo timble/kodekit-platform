@@ -3,8 +3,6 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
 {
     protected $_type_title;
 
-    protected $_xml = array();
-
     public static function getInstance(KConfigInterface $config, KServiceInterface $container)
     {
         $instance = parent::getInstance($config, $container);
@@ -144,35 +142,26 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
 
     protected function _getComponentXml()
     {
-        if(!isset($this->_xml['component'][$this->_type['option']])) {
-            $xml  = JFactory::getXMLParser('simple');
-            $path = $this->getIdentifier()->getApplication('admin').'/components/'.$this->_type['option'].'/config.xml';
+        $xml  = JFactory::getXMLParser('simple');
+        $path = $this->getIdentifier()->getApplication('admin').'/components/'.$this->_type['option'].'/config.xml';
 
-            if(file_exists($path)) {
-                $xml->loadFile($path);
-            }
-
-            $this->_xml['component'][$this->_type['option']] = $xml;
+        if(file_exists($path)) {
+            $xml->loadFile($path);
         }
 
-        return $this->_xml['component'][$this->_type['option']];
+        return $xml;
     }
 
-    protected  function _getPageXml()
+    protected function _getPageXml()
     {
-        if(!isset($this->_xml['page'][$this->_type['option']][$this->_type['view']]))
-        {
-            $xml  = JFactory::getXMLParser('simple');
-            $path = $this->getIdentifier()->getApplication('site').'/components/'.$this->_type['option'].'/views/'.$this->_type['view'].'/tmpl/'.$this->_type['layout'].'.xml';
-
-            if(file_exists($path)) {
-                $xml->loadFile($path);
-            }
-
-            $this->_xml['page'][$this->_type['option']][$this->_type['view']] = $xml;
+        $xml  = JFactory::getXMLParser('simple');
+        $path = $this->getIdentifier()->getApplication('site').'/components/'.$this->_type['option'].'/views/'.$this->_type['view'].'/tmpl/'.$this->_type['layout'].'.xml';
+var_dump($path);exit;
+        if(file_exists($path)) {
+            $xml->loadFile($path);
         }
 
-        return $this->_xml['page'][$this->_type['option']][$this->_type['view']];
+        return $xml;
     }
 
     protected function _setLinkBeforeSave(KCommandContext $context)
