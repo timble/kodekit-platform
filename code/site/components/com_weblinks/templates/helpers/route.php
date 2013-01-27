@@ -33,7 +33,7 @@ class ComWeblinksTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'article',
-            'id'       => $weblink->slug,
+            'id'       => $weblink->getSlug(),
             'layout'   => $config->layout,
             'category' => $config->category
         );
@@ -60,7 +60,7 @@ class ComWeblinksTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'weblinks',
-            'category' => $category->slug,
+            'category' => $category->getSlug(),
             'layout'   => $config->layout
         );
 

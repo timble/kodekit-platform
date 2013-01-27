@@ -34,7 +34,7 @@ class ComContactsTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'article',
-            'id'       => $contact->slug,
+            'id'       => $contact->getSlug(),
             'layout'   => $config->layout,
             'category' => $config->category
         );
@@ -61,7 +61,7 @@ class ComContactsTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'contacts',
-            'category' => $category->slug,
+            'category' => $category->getSlug(),
             'layout'   => $config->layout
         );
 

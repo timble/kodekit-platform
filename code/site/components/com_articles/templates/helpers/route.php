@@ -33,7 +33,7 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'     => 'article',
-            'id'       => $article->slug,
+            'id'       => $article->getSlug(),
             'layout'   => $config->layout,
             'category' => $config->category,
         );
@@ -61,7 +61,7 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $route = array(
             'view'      => 'articles',
-            'category'  => $category->slug,
+            'category'  => $category->getSlug(),
             'layout'    => $config->layout
         );
 
