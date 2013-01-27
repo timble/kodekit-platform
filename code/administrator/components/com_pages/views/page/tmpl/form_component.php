@@ -26,12 +26,12 @@ if(!empty($state->type['layout']) && $state->layout != 'default') {
     <? $model = $this->getView()->getModel() ?>
 
     <? if($state->type['name'] == 'component') : ?>
-        <?= $page->params_url->render('urlparams') ?>
+        <?= $page->getParams('url')->render('urlparams') ?>
     <? endif ?>
 </fieldset>
 
 <fieldset class="form-horizontal">
-    <?= $page->params_component->render() ?>
+    <?= $page->getParams('component')->render() ?>
 </fieldset>
 
 <? $advanced_parameters = $page->params_advanced ?>
