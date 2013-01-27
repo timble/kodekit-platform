@@ -186,14 +186,4 @@ abstract class KControllerView extends KControllerAbstract
 
 		return parent::__call($method, $args);
 	}
-
-    /**
-     * Return a string representation of the view
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->render();
-    }
 }

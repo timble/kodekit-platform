@@ -13,7 +13,8 @@
 	->container('files-files')
 	->layout('compact')
 	->types(array('image'))
-	->editor($state->editor);
+	->editor($state->editor)
+    ->render();
 ?>
 
 <script>
