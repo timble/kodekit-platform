@@ -53,97 +53,84 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
 
     protected function _getPageParams()
     {
-        if(!isset($this->params['page']))
-        {
-            $file = __DIR__.'/component.xml';
+        $file = __DIR__.'/component.xml';
 
-            $xml = JFactory::getXMLParser('simple');
-            $xml->loadFile($file);
+        $xml = JFactory::getXMLParser('simple');
+        $xml->loadFile($file);
 
-            $params = new JParameter($this->params);
-            $params->setXML($xml->document->getElementByPath('state/params'));
+        $params = new JParameter($this->params);
+        $params->setXML($xml->document->getElementByPath('state/params'));
 
-            $this->params['page'] = $params;
-        }
-
-        return $this->params['page'];
+        return $params;
     }
 
     protected function _getComponentParams()
     {
-        if(!isset($this->params['component']))
-        {
-            // TODO: Clean this up.
-            $params = new JParameter($this->params);
-            $xml = $this->_getComponentXml();
+        // TODO: Clean this up.
+        $params = new JParameter($this->params);
+        $xml = $this->_getComponentXml();
 
-            // If hide is set, don't show the component configuration.
-            $menu = $xml->document->attributes('menu');
+        // If hide is set, don't show the component configuration.
+        $menu = $xml->document->attributes('menu');
 
-            if(isset($menu) && $menu == 'hide') {
-                return null;
-            }
-
-            // Don't show hidden elements.
-            if (isset($xml->document->params[0]->param))
-            {
-                // Collect hidden elements.
-                $hidden = array();
-
-                for($i = 0, $n = count($xml->document->params[0]->param); $i < $n; $i++)
-                {
-                    if($xml->document->params[0]->param[$i]->attributes('menu') == 'hide') {
-                        $hidden[] = $xml->document->params[0]->param[$i];
-                    }
-                    elseif($xml->document->params[0]->param[$i]->attributes('type') == 'radio'
-                        || $xml->document->params[0]->param[$i]->attributes('type') == 'list')
-                    {
-                        $xml->document->params[0]->param[$i]->addAttribute('default', '');
-                        $xml->document->params[0]->param[$i]->addAttribute('type', 'list');
-                        $child = $xml->document->params[0]->param[$i]->addChild('option', array('value' => ''));
-                        $child->setData('Use Global');
-                    }
-                }
-
-                // Remove hidden elements.
-                for($i = 0, $n = count($hidden); $i < $n; $i++) {
-                    $xml->document->params[0]->removeChild($hidden[$i]);
-                }
-            }
-
-            $params->setXML($xml->document->params[0]);
-            $this->params['component'] = $params;
+        if(isset($menu) && $menu == 'hide') {
+            return null;
         }
 
-        return $this->params['component'];
+        // Don't show hidden elements.
+        if (isset($xml->document->params[0]->param))
+        {
+            // Collect hidden elements.
+            $hidden = array();
+
+            for($i = 0, $n = count($xml->document->params[0]->param); $i < $n; $i++)
+            {
+                if($xml->document->params[0]->param[$i]->attributes('menu') == 'hide') {
+                    $hidden[] = $xml->document->params[0]->param[$i];
+                }
+                elseif($xml->document->params[0]->param[$i]->attributes('type') == 'radio'
+                    || $xml->document->params[0]->param[$i]->attributes('type') == 'list')
+                {
+                    $xml->document->params[0]->param[$i]->addAttribute('default', '');
+                    $xml->document->params[0]->param[$i]->addAttribute('type', 'list');
+                    $child = $xml->document->params[0]->param[$i]->addChild('option', array('value' => ''));
+                    $child->setData('Use Global');
+                }
+            }
+
+            // Remove hidden elements.
+            for($i = 0, $n = count($hidden); $i < $n; $i++) {
+                $xml->document->params[0]->removeChild($hidden[$i]);
+            }
+        }
+
+        $params->setXML($xml->document->params[0]);
+
+        return $params;
     }
 
     protected function _getUrlParams()
     {
-        if(!isset($this->params['url']))
+        $state  = $this->_getPageXml()->document->getElementByPath('state');
+        $params = new JParameter(null);
+
+        if($state instanceof JSimpleXMLElement)
         {
-            $state  = $this->_getPageXml()->document->getElementByPath('state');
-            $params = new JParameter(null);
+            $params->setXML($state->getElementByPath('url'));
 
-            if($state instanceof JSimpleXMLElement)
-            {
-                $params->setXML($state->getElementByPath('url'));
-
-                if($this->link_url) {
-                    $params->loadArray($this->getLink()->query);
-                }
+            if($this->link_url) {
+                $params->loadArray($this->getLink()->query);
             }
-
-            $this->params['url'] = $params;
         }
 
-        return $this->params['url'];
+        return $params;
     }
 
     protected function _getComponentXml()
     {
         $xml  = JFactory::getXMLParser('simple');
-        $path = $this->getIdentifier()->getApplication('admin').'/components/'.$this->_type['option'].'/config.xml';
+        $type = $this->getType();
+        $path = $this->getIdentifier()->getApplication('admin').'/components/'.$type['option'].'/config.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -155,8 +142,9 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
     protected function _getPageXml()
     {
         $xml  = JFactory::getXMLParser('simple');
-        $path = $this->getIdentifier()->getApplication('site').'/components/'.$this->_type['option'].'/views/'.$this->_type['view'].'/tmpl/'.$this->_type['layout'].'.xml';
-var_dump($path);exit;
+        $type = $this->getType();
+        $path = $this->getIdentifier()->getApplication('site').'/components/'.$type['option'].'/views/'.$type['view'].'/tmpl/'.$type['layout'].'.xml';
+
         if(file_exists($path)) {
             $xml->loadFile($path);
         }
