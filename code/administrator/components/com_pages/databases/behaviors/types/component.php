@@ -166,24 +166,23 @@ var_dump($path);exit;
 
     protected function _setLinkBeforeSave(KCommandContext $context)
     {
-        $data = $context->data;
-        if($data->isModified('link_url'))
+        if($this->isModified('link_url'))
         {
             // Set link.
-            parse_str($data->link_url, $query);
+            parse_str($this->link_url, $query);
 
-            if($data->urlparams) {
-                $query += $data->urlparams;
+            if($this->urlparams) {
+                $query += $this->urlparams;
             }
 
-            $data->link_url = 'index.php?'.http_build_query($query);
+            $this->link_url = 'index.php?'.http_build_query($query);
 
             // TODO: Get component from application.component.
             // Set component id.
             $component = $this->getService('com://admin/extensions.database.table.components')
                 ->select(array('name' => $query['option']), KDatabase::FETCH_ROW);
 
-            $data->extensions_component_id = $component->id;
+            $this->extensions_component_id = $component->id;
         }
     }
 
