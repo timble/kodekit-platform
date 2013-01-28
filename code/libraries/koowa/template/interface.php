@@ -16,6 +16,13 @@
 interface KTemplateInterface
 {
     /**
+     * Render the template
+     *
+     * @return string    The rendered data
+     */
+    public function render();
+
+    /**
      * Get the template file identifier
      *
      * @return	string
@@ -90,15 +97,6 @@ interface KTemplateInterface
      * @return KTemplateAbstract
      */
 	public function loadString($string, $data = array());
-
-    /**
-     * Render the template
-     *
-     * This function passes the template through write filter chain and returns the result.
-     *
-     * @return string    The rendered data
-     */
-	public function render();
 
     /**
      * Get a filter by identifier

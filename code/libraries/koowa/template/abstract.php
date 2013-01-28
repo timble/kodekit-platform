@@ -273,7 +273,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Render the template
      *
-     * @param  array   $data  An associative array of data to be extracted in local template scope
      * @return string  The rendered data
      */
     public function render()
