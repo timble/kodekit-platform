@@ -29,7 +29,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	{
 		$methods = array();
 
-		if(isset($mixer->ordering)) {
+		if($mixer instanceof KDatabaseRowInterface && $mixer->has('ordering')) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 
@@ -169,7 +169,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        if(isset($this->ordering))
+        if($this->has('ordering'))
         {
             if($this->ordering <= 0) {
                 $this->ordering = $this->getMaxOrdering() + 1;
@@ -187,7 +187,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableUpdate(KCommandContext $context)
     {
-        if(isset($this->order) && isset($this->ordering)) {
+        if(isset($this->order) && $this->has('ordering')) {
             $this->order($this->order);
         }
     }

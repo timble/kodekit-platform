@@ -70,7 +70,7 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
     {
         $methods = array();
 
-        if (isset($mixer->uuid)) {
+        if($mixer instanceof KDatabaseRowInterface && $mixer->has('uuid')) {
             $methods = parent::getMixableMethods($mixer);
         }
 
@@ -89,9 +89,9 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      */
     protected function _afterTableSelect(KCommandContext $context)
     {
-        if ($this->_auto_generate && !$this->isNew())
+        if($this->getMixer() instanceof KDatabaseRowInterface && $this->_auto_generate && !$this->isNew())
         {
-            if (isset($this->uuid) && empty($this->uuid))
+            if($this->has('uuid') && empty($this->uuid))
             {
                 $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
                 $this->uuid = $this->_uuid($hex);
@@ -111,11 +111,8 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        if (isset($this->uuid))
-        {
-            $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
-            $this->uuid = $this->_uuid($hex);
-        }
+        $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
+        $this->uuid = $this->_uuid($hex);
     }
 
     /**

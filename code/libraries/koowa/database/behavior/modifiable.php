@@ -47,7 +47,7 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	{
 		$methods = array();
 
-		if(isset($mixer->modified_by) || isset($mixer->modified_on)) {
+		if($mixer instanceof KDatabaseRowInterface && ($mixer->has('modified_by') || $mixer->has('modified_on'))) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 
@@ -68,11 +68,11 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 
 		if(!empty($modified))
 		{
-			if(isset($this->modified_by)) {
+			if($this->has('modified_by')) {
 				$this->modified_by = (int) $this->getService('user')->getId();
 			}
 
-			if(isset($this->modified_on)) {
+			if($this->has('modified_on')) {
 				$this->modified_on = gmdate('Y-m-d H:i:s');
 			}
 		}

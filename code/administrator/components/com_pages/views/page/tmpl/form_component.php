@@ -26,18 +26,17 @@ if(!empty($state->type['layout']) && $state->layout != 'default') {
     <? $model = $this->getView()->getModel() ?>
 
     <? if($state->type['name'] == 'component') : ?>
-        <?= $page->params_url->render('urlparams') ?>
+        <?= $page->getParams('url')->render('urlparams') ?>
     <? endif ?>
 </fieldset>
 
 <fieldset class="form-horizontal">
-    <?= $page->params_component->render() ?>
+    <?= $page->getParams('component')->render() ?>
 </fieldset>
 
-<? $advanced_parameters = $page->params_advanced ?>
-<? if($rendered_parameters = $advanced_parameters->render('params')) : ?>
+<? if($rendered_params = $page->getParams('layout')->render('params')) : ?>
 <fieldset class="form-horizontal">
     <legend><?= @text('Advanced') ?></legend>
-    <?= $rendered_parameters ?>
+    <?= $rendered_params ?>
 </fieldset>
 <? endif ?>

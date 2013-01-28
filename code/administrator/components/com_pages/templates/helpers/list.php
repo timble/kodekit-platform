@@ -61,20 +61,20 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
             if($depth == $last_depth) {
                 $result .= '</li>';
             }
-            
+
             $result .= '<li '.($config->active && $page->id == $config->active->id ? 'class="active"' : '').'>';
             switch($page->type)
             {
                 case 'component':
-                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->link->getQuery(), 'escape' => true));
+                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->getLink()->getQuery(), 'escape' => true));
     				$result .= $disabled ? '<span class="nolink">' : '<a href="'.(string) $link.'">';
                     $result .= $page->title;
                     $result .= $disabled ? '</span>' : '</a>';
     				break;
     				
     		    case 'menulink':
-    		        $page_linked = $this->getService('application.pages')->getPage($page->link->query['Itemid']);
-    		        $result .= $disabled ? '<span class="nolink">' : '<a href="'.$page_linked->link.'">';
+    		        $page_linked = $this->getService('application.pages')->getPage($page->getLink()->query['Itemid']);
+    		        $result .= $disabled ? '<span class="nolink">' : '<a href="'.$page_linked->getLink().'">';
                     $result .= $page->title;
                     $result .= $disabled ? '</span>' : '</a>';
     				break;
@@ -84,7 +84,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
     				break;
     
     			case 'url':
-    				$result .= $disabled ? '<span class="nolink">' : '<a href="'.$page->link.'">';
+    				$result .= $disabled ? '<span class="nolink">' : '<a href="'.$page->getLink().'">';
                     $result .= $page->title;
                     $result .= $disabled ? '</span>' : '</a>';
     				break;
