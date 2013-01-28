@@ -4,14 +4,11 @@
  * @package     Koowa_View
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * @link        http://www.nooku.org
  */
 
 /**
  * View JSON Class
- *
- * The JSON view implements supports for JSONP through the models callback
- * state. If a callback is present the output will be padded.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_View
@@ -23,7 +20,7 @@ class KViewJson extends KViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param   object KConfig An optional KConfig object with configuration options
      * @return  void
      */
     protected function _initialize(KConfig $config)
@@ -40,29 +37,26 @@ class KViewJson extends KViewAbstract
     /**
      * Return the views output
      *
-     * If the view 'output' variable is empty the output will be generated based on the
-     * model data, if it set it will be returned instead.
-     *
-     * If the model contains a callback state, the callback value will be used to apply
-     * padding to the JSON output.
+     * If the view 'output' variable is empty the output will be generated based on the model data, if it set it will
+     * be returned instead.
      *
      * @return string     The output of the view
      */
     public function display()
     {
-        if (empty($this->output)) {
-            $this->output = KInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
+        if (empty($this->_content)) {
+            $this->_content = KInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
         }
 
-        if (!is_string($this->output))
+        if (!is_string($this->_content))
         {
             // Root should be JSON object, not array
-            if (is_array($this->output) && 0 === count($this->output)) {
-                $this->output = new \ArrayObject();
+            if (is_array($this->_content) && 0 === count($this->_content)) {
+                $this->_content = new \ArrayObject();
             }
 
             // Encode <, >, ', &, and " for RFC4627-compliant JSON, which may also be embedded into HTML.
-            $this->output = json_encode($this->output, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
+            $this->_content = json_encode($this->_content, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         }
 
         return parent::display();
@@ -71,7 +65,7 @@ class KViewJson extends KViewAbstract
     /**
      * Get the list data
      *
-     * @return array     The array with data to be encoded to json
+     * @return array The array with data to be encoded to json
      */
     protected function _getRowset()
     {
@@ -121,11 +115,11 @@ class KViewJson extends KViewAbstract
                 }
             }
 
-            //Singularize the view name
             $name = KInflector::singularize($this->getName());
 
             $items = array();
-            foreach ($list as $item) {
+            foreach ($list as $item)
+            {
                 $id = $item->getIdentityColumn();
 
                 $items[] = array(
@@ -139,7 +133,8 @@ class KViewJson extends KViewAbstract
             }
 
             $queries = array();
-            foreach (array('first', 'prev', 'next', 'last') as $offset) {
+            foreach (array('first', 'prev', 'next', 'last') as $offset)
+            {
                 $page = $paginator->pages->{$offset};
                 if ($page->active) {
                     $queries[] = array(
@@ -210,10 +205,10 @@ class KViewJson extends KViewAbstract
      *
      * This function force the route to be not fully qualified and not escaped
      *
-     * @param    string    The query string used to create the route
-     * @param     boolean    If TRUE create a fully qualified route. Default FALSE.
-     * @param     boolean    If TRUE escapes the route for xml compliance. Default FALSE.
-     * @return     string     The route
+     * @param   string  $route   The query string used to create the route
+     * @param   boolean $fqr     If TRUE create a fully qualified route. Default FALSE.
+     * @param   boolean $escape  If TRUE escapes the route for xml compliance. Default FALSE.
+     * @return  string  The route
      */
     public function getRoute($route = '', $fqr = null, $escape = null)
     {

@@ -17,11 +17,6 @@
  */
 class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 {
-    /**
-     * Display the view
-     *
-     * @return	string	The output of the view
-     */
     public function display()
     {
         //Get the parameters

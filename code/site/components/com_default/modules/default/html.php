@@ -55,17 +55,18 @@ class ComDefaultModuleDefaultHtml extends KViewHtml
             $identifier = clone $this->getIdentifier();
             $identifier->name = $this->getLayout();
 
-            $this->output = $this->getTemplate()
+            $content = $this->getTemplate()
                 ->loadIdentifier($identifier, $this->_data)
                 ->render();
         }
         else
         {
-            $this->output = $this->getTemplate()
+            $content = $this->getTemplate()
                 ->loadString($this->module->content, $this->_data, false)
                 ->render();
         }
 
-        return $this->output;
+        $this->setContent($content);
+        return parent::display();
     }
 }

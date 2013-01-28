@@ -28,8 +28,7 @@ class ComExtensionsViewSettingsJson extends KViewJson
             $data = $model->getRow()->toArray();
         }
 
-        $this->output = $data;
-
+        $this->setContent($data);
         return parent::display();
     }
 }

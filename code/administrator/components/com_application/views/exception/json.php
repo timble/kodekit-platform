@@ -37,11 +37,12 @@ class ComApplicationViewExceptionJson extends KViewJson
             );
         }
 
-        $this->output = json_encode(array(
+        $content = json_encode(array(
             'version'  => '1.0',
             'errors' => array($properties)
         ));
 
+        $this->setContent($content);
         return parent::display();
     }
 }

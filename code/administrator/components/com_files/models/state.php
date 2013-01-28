@@ -10,21 +10,6 @@
 
 class ComFilesModelState extends KModelState
 {
-	/**
-	 * Needed to make sure form filter does not add config to the form action
-	 */
-	public function toArray($unique = false)
-	{
-		$data = parent::toArray($unique);
-		unset($data['config']);
-
-        if (!empty($data['container']) && $data['container'] instanceof KDatabaseRowInterface) {
-            $data['container'] = $data['container']->slug;
-        }
-		
-		return $data;
-	}
-	
 	public function get($name, $default = null)
     {
     	$result = parent::get($name, $default);
@@ -42,4 +27,19 @@ class ComFilesModelState extends KModelState
 
         return $result;
   	}
+
+    /**
+     * Needed to make sure form filter does not add config to the form action
+     */
+    public function toArray($unique = false)
+    {
+        $data = parent::toArray($unique);
+        unset($data['config']);
+
+        if (!empty($data['container']) && $data['container'] instanceof KDatabaseRowInterface) {
+            $data['container'] = $data['container']->slug;
+        }
+
+        return $data;
+    }
 }

@@ -46,7 +46,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 			$this->setStatus(KDatabase::STATUS_FAILED);
 			$this->setStatusMessage($context->getError());
 		}
-		else $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
+        else $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
 
 		return $context->result;
 	}
@@ -69,15 +69,16 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 			{
 				$image = array(
 					'thumbnail' => $this->thumbnail,
-					'width' => $this->width,
-					'height' => $this->height
+					'width'     => $this->width,
+					'height'    => $this->height
 				);
 				$metadata['image'] = $image;
 			}
 			return $metadata;
 		}
 
-		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage()) {
+		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage())
+        {
 			if ($column == 'thumbnail' && !empty($this->_data['thumbnail'])) {
 				return $this->_data['thumbnail'];
 			}
@@ -165,9 +166,9 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		$result = null;
 		if ($this->isImage() && $this->container->getParameters()->thumbnails)
 		{
-			$parameters = $this->container->getParameters();
+			$parameters      = $this->container->getParameters();
 			$thumbnails_size = isset($parameters['thumbnail_size']) ? $parameters['thumbnail_size'] : array();
-			$thumb = $this->getService('com://admin/files.database.row.thumbnail', array('thumbnail_size' => $thumbnails_size));
+			$thumb           = $this->getService('com://admin/files.database.row.thumbnail', array('thumbnail_size' => $thumbnails_size));
 			$thumb->source = $this;
 
 			$result = $thumb->save();

@@ -19,14 +19,6 @@
  */
 class ComSearchViewResultsHtml extends ComDefaultViewHtml
 {
-	/**
-	 * Return the views output
-	 * 
-	 * This function will auto assign the model data to the view if the auto_assign
-	 * property is set to TRUE.
-	 *
-	 * @return string     The output of the view
-	 */
 	public function display()
 	{
         $model = $this->getModel();
