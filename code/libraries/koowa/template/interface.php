@@ -48,7 +48,7 @@ interface KTemplateInterface
      *
      * @return  string
      */
-    public function getContents();
+    public function getContent();
 
     /**
      * Get the view object attached to the template
