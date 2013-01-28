@@ -20,26 +20,20 @@ class ComApplicationViewExceptionJson extends KViewJson
 {
     public function display()
     {
-        if(ini_get('display_errors')) {
-            $message = (string) $this->exception;
-        } else {
-            $message = KHttpResponse::getMessage($this->exception->getCode());
-        }
-
         $properties = array(
-            'message' => $message,
-            'code'    => $this->exception->getCode()
+            'message' => $this->message,
+            'code'    => $this->code
         );
 
         if(ini_get('display_errors'))
         {
             $properties['data'] = array(
-                'file'	    => $this->exception->getFile(),
-                'line'      => $this->exception->getLine(),
-                'function'  => $this->exception->getFunction(),
-                'class'		=> $this->exception->getClass(),
-                'args'		=> $this->exception->getArgs(),
-                'info'		=> $this->exception->getInfo()
+                'file'	   => $this->file,
+                'line'     => $this->line,
+                'function' => $this->function,
+                'class'	   => $this->class,
+                'args'	   => $this->args,
+                'info'	   => $this->info
             );
         }
 
