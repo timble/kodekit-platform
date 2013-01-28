@@ -12,19 +12,18 @@
  * Proxy Controller Class
  *
  * Used to perform cross origin HEAD request calls on resources to see if they exist, and if exists then also pass
- * the Content-length header
+ * the Content-length and Content-Type headers
  *
  * @author      Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package     Nooku_Components
  * @subpackage  Files
  */
- class ComFilesControllerProxy extends ComFilesControllerDefault
+ class ComFilesControllerProxy extends KControllerView
 {
 	public function _actionRender(KCommandContext $context)
 	{
-        $query = $this->_request->getUrl()->query;
-		$data = array(
-			'url' => $query['url'],
+        $data = array(
+			'url'            => $context->request->query->get('url', 'url'),
 			'content-length' => false
 		);
 
@@ -58,9 +57,13 @@
 			$data['content-length'] = $info['download_content_length'];
 		}
 
+        if (isset($info['content_type'])) {
+            $data['content-type'] = $info['content_type'];
+        }
+
 		curl_close($ch);
 
-        //@TODO NO NO NO BAD! But using return fails atm
-		die(json_encode($data));
+        $this->getView()->setContent($data);
+        return parent::_actionRender($context);
 	}
 }
