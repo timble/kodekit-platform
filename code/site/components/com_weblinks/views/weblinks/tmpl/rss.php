@@ -47,7 +47,7 @@
         <? foreach($weblinks as $weblink) : ?>
         <item>
             <title><?= @escape($weblink->title) ?></title>
-            <link><?= @helper('route.weblink', array('row' => $weblink, 'category' => $category->getSlug())) ?></link>
+            <link><?= @helper('route.weblink', array('row' => $weblink, 'category' => $category->slug)) ?></link>
             <guid isPermaLink="false"><?= @helper('route.weblink', array('row' => $weblink, 'category' => $category->getSlug())) ?></guid>
             <description><![CDATA[<? @escape($weblink->description) ?>]]></description>
             <category domain="<?= @helper('route.category', array('row' => $category)) ?>">

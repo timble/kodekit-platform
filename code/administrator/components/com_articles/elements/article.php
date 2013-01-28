@@ -43,7 +43,21 @@ class JElementArticle extends JElement
 
         $link = JRoute::_('index.php?option=com_articles&view=articles&layout=element&tmpl=overlay&object='.$name);
 
-        JHTML::_('behavior.modal', 'a.modal');
+        // TODO: Replace with call to @helper('behavior.modal')
+        $html .= '<script src="media://lib_koowa/js/modal.js" />';
+        $html .= '<style src="media://lib_koowa/css/modal.css" />';
+
+        $html .= "<script>
+        window.addEvent('domready', function() {
+
+            SqueezeBox.initialize(".json_encode(array('disableFx' => true)).");
+				SqueezeBox.assign($$('a.modal'), {
+			        parse: 'rel'
+				});
+			});
+        </script>";
+
+        //JHTML::_('behavior.modal', 'a.modal');
         $html .= "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
         $html .= '<a style="margin-left: 10px;" class="btn modal" title="'.JText::_('Select an Article').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Select').'</a>'."\n";
         $html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';

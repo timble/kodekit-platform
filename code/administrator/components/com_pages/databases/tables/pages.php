@@ -23,7 +23,7 @@ class ComPagesDatabaseTablePages extends KDatabaseTableDefault
         $config->append(array(
             'name' => 'pages',
             'behaviors'  => array(
-                'creatable', /*'modifiable',*/ 'lockable', 'sluggable', 'assignable',
+                'creatable', /*'modifiable',*/ 'lockable', 'sluggable', 'assignable', 'typable',
                 'com://admin/pages.database.behavior.orderable' => array(
                     'strategy' => 'closure',
                     'table'    => 'com://admin/pages.database.table.orderings',
@@ -39,16 +39,5 @@ class ComPagesDatabaseTablePages extends KDatabaseTableDefault
         ));
 
         parent::_initialize($config);
-    }
-    
-    public function getRow(array $options = array())
-    {
-        if(isset($options['state']->type['name'])) {
-            $options['strategy'] = $options['state']->type['name'];
-        } elseif(isset($options['data']['type'])) {
-            $options['strategy'] = $options['data']['type'];
-        }
-        
-        return parent::getRow($options);
     }
 }

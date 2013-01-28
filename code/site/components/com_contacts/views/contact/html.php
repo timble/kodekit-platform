@@ -44,12 +44,12 @@ class ComContactsViewContactHtml extends ComDefaultViewHtml
         //Set the breadcrumbs
         $pathway =$this->getService('application')->getPathway();
 
-        if($page->link->query['view'] == 'categories' ) {
+        if($page->getLink()->query['view'] == 'categories' ) {
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($contact->name, '');
         }
 
-        if($page->link->query['view'] == 'contacts' ) {
+        if($page->getLink()->query['view'] == 'contacts' ) {
             $pathway->addItem($contact->name, '');
         }
 

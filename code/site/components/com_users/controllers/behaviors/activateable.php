@@ -76,7 +76,7 @@ class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
 
         if ($item->save())
         {
-            $url = $this->getService('application.pages')->home->link;
+            $url = $this->getService('application.pages')->home->getLink();
             $context->response->setRedirect($url, 'Activation successfully completed');
             $result = true;
         }

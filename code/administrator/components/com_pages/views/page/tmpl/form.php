@@ -94,7 +94,7 @@
 
             <?= @helper('tabs.startPanel', array('title' => 'System')); ?>
                 <fieldset class="form-horizontal">
-                    <?= $page->params_page->render('params'); ?>
+                    <?= $page->getParams('page')->render('params'); ?>
                 </fieldset>
             <?= @helper('tabs.endPanel'); ?>
             <?= @helper('tabs.startPanel', array('title' => 'Modules')) ?>

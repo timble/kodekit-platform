@@ -113,7 +113,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     {
         $methods = array();
 
-        if (isset($mixer->slug)) {
+        if($mixer instanceof KDatabaseRowInterface && $mixer->has('slug')) {
             $methods = parent::getMixableMethods($mixer);
         }
 
