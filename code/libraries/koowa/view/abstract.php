@@ -32,11 +32,11 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     protected $_baseurl;
 
     /**
-     * The output of the view
+     * The content of the view
      *
      * @var string
      */
-    public $output = '';
+    protected $_content;
 
     /**
      * The mimetype
@@ -55,13 +55,13 @@ abstract class KViewAbstract extends KObject implements KViewInterface
         parent::__construct($config);
 
         //set the base url
-        if (!$config->base_url instanceof KHttpUrl) {
+        if (!$config->base_url instanceof KHttpUrlInterface) {
             $this->_baseurl = $this->getService('koowa:http.url', array('url' => $config->base_url));
         } else {
             $this->_baseurl = $config->base_url;
         }
 
-        $this->output   = $config->output;
+        $this->setContent($config->contents);
         $this->mimetype = $config->mimetype;
 
         $this->setModel($config->model);
@@ -79,7 +79,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     {
         $config->append(array(
             'model'    => $this->getName(),
-            'output'   => '',
+            'contents' => '',
             'mimetype' => '',
             'base_url' => '',
         ));
@@ -88,9 +88,20 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     }
 
     /**
+     * Render the view
+     *
+     * @return string  The output of the view
+     */
+    public function display()
+    {
+        $contents = $this->getContent();
+        return trim($contents);
+    }
+
+    /**
      * Get the name
      *
-     * @return     string     The name of the object
+     * @return  string  The name of the object
      */
     public function getName()
     {
@@ -101,7 +112,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     /**
      * Get the format
      *
-     * @return     string     The format of the view
+     * @return string   The format of the view
      */
     public function getFormat()
     {
@@ -109,13 +120,25 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     }
 
     /**
-     * Return the views output
+     * Get the content
      *
-     * @return string     The output of the view
+     * @return  string The content of the view
      */
-    public function display()
+    public function getContent()
     {
-        return trim($this->output);
+        return $this->_content;
+    }
+
+    /**
+     * Get the contents
+     *
+     * @param  string $contents The contents of the view
+     * @return KViewAbstract
+     */
+    public function setContent($content)
+    {
+        $this->_content = $content;
+        return $this;
     }
 
     /**
@@ -126,7 +149,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      */
     public function getModel()
     {
-        if(!$this->_model instanceof KModelAbstract)
+        if(!$this->_model instanceof KModelInterface)
         {
             if(!($this->_model instanceof KServiceIdentifier)) {
                 $this->setModel($this->_model);

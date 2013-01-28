@@ -28,10 +28,10 @@ class ComFilesViewThumbnailsJson extends ComFilesViewJson
         }
         ksort($results);
 
-    	$output = parent::_getRowset();
-        $output['items'] = $results;
-        $output['total'] = count($list);
+    	$data = parent::_getRowset();
+        $data['items'] = $results;
+        $data['total'] = count($list);
 
-        return $output;
+        return $data;
     }
 }

@@ -22,20 +22,14 @@ class ComFilesViewJson extends KViewJson
     {
         $row = $this->getModel()->getRow();
 
-        $output = parent::_getRow();
+        $data = parent::_getRow();
 
         $status = $row->getStatus() !== KDatabase::STATUS_FAILED;
-		$output['status'] = $status;
-        if ($status === false){
-            $output['error'] = $row->getStatusMessage();
+		$data['status'] = $status;
+        if ($data === false){
+            $data['error'] = $row->getStatusMessage();
         }
 
-        return $output;
-    }
-
-    /* @TODO this is a temporary fix for an exception throw in com_application for getLayout() not being defined */
-    public function getLayout()
-    {
-        return 'default';
+        return $data;
     }
 }

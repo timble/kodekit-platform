@@ -197,7 +197,7 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     public function mixin($mixin, $config = array())
     {
-        if ($mixin instanceof KControllerBehaviorAbstract)
+        if ($mixin instanceof KControllerBehaviorInterface)
         {
             foreach ($mixin->getMethods() as $method)
             {
@@ -402,7 +402,7 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
             $data = !empty($args) ? $args[0] : array();
 
             //Create a context object
-            if (!($data instanceof KCommandContext))
+            if (!($data instanceof KCommandContextInterface))
             {
                 $context = $this->getCommandContext();
 

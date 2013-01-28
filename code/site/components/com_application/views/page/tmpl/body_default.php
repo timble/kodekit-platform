@@ -38,7 +38,7 @@
 </div>
 
 <? if(@service('application')->getCfg('debug')) : ?>
-    <?= @service('com://admin/debug.controller.debug'); ?>
+    <?= @service('com://admin/debug.controller.debug')->render(); ?>
 <? endif; ?>
 
 </body>

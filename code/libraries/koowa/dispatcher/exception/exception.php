@@ -15,4 +15,4 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Exception
  */
-interface KDispatcherException extends KExceptionInterface {}
+interface KDispatcherException extends KException {}

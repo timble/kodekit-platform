@@ -16,7 +16,7 @@
  * {
  *      $this->path = path/to/file');
  *      // OR
- *      $this->output = $file_contents;
+ *      $this->setContent($file_contents);
  *
  *      $this->filename = foobar.pdf';
  *
@@ -101,8 +101,8 @@ class KViewFile extends KViewAbstract
      */
     public function display()
     {
-        if (empty($this->path) && empty($this->output)) {
-        	throw new \UnexpectedValueException('No output or path supplied');
+        if (empty($this->path) && empty($this->_content)) {
+        	throw new \UnexpectedValueException('No content or path supplied');
         }
 
     	// For a certain unmentionable browser
@@ -125,7 +125,7 @@ class KViewFile extends KViewAbstract
 
     	$this->filename = basename($this->filename);
 
-    	if (!empty($this->output)) 
+    	if (!empty($this->_content))
     	{ 
     		// File body is passed as string
     		if (empty($this->filename)) {
@@ -141,7 +141,7 @@ class KViewFile extends KViewAbstract
     	}
 
 		//Force transport to php if output is a string
-		if (!empty($this->output)) {
+		if (!empty($this->_content)) {
 			$transport = '_transportPhp';
         } else {
         	$transport = '_transport'.ucfirst(strtolower($this->transport));
@@ -157,7 +157,7 @@ class KViewFile extends KViewAbstract
     
     protected function _transportPhp()
     {
-        $this->filesize = $this->path ? filesize($this->path) : strlen($this->output);
+        $this->filesize = $this->path ? filesize($this->path) : strlen($this->_content);
     
         if (!$this->filesize) {
             throw new \RuntimeException('Cannot read file');
@@ -195,10 +195,10 @@ class KViewFile extends KViewAbstract
     
         flush();
     
-        if ($this->output)
+        if ($this->_content)
         {
             $this->file = tmpfile();
-            fwrite($this->file, $this->output);
+            fwrite($this->file, $this->_content);
             fseek($this->file, 0);
         }
         else $this->file = fopen($this->path, 'rb');

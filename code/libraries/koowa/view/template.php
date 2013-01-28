@@ -70,7 +70,7 @@ abstract class KViewTemplate extends KViewAbstract
         parent::__construct($config);
 
         //Set the media url
-        if (!$config->media_url instanceof KHttpUrl) {
+        if (!$config->media_url instanceof KHttpUrlInterface) {
             $this->_mediaurl = $this->getService('koowa:http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
@@ -237,12 +237,12 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function display()
     {
-        if (empty($this->output))
+        if (empty($this->_content))
         {
             $identifier = clone $this->getIdentifier();
             $identifier->name = $this->getLayout();
 
-            $this->output = $this->getTemplate()
+            $this->_content = $this->getTemplate()
                 ->loadIdentifier($identifier, $this->_data)
                 ->render();
         }
@@ -314,7 +314,7 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function getTemplate()
     {
-        if (!$this->_template instanceof KTemplateAbstract)
+        if (!$this->_template instanceof KTemplateInterface)
         {
             //Make sure we have a template identifier
             if (!($this->_template instanceof KServiceIdentifier)) {
@@ -348,7 +348,7 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function setTemplate($template)
     {
-        if (!($template instanceof KTemplateAbstract))
+        if (!($template instanceof KTemplateInterface))
         {
             if (is_string($template) && strpos($template, '.') === false)
             {

@@ -1,4 +1,21 @@
 <?php
+/**
+ * @version     $Id: listbox.php 3031 2011-10-09 14:21:07Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * List Template Helper Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ */
+
 class ComPagesTemplateHelperList extends KTemplateHelperAbstract
 {
     public function pages($config = array())

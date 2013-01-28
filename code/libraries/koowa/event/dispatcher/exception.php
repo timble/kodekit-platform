@@ -162,8 +162,8 @@ class KEventDispatcherException extends KEventDispatcherAbstract
     /**
      * Dispatches an exception by dispatching arguments to all listeners that handle the event.
      *
-     * Function will avoid a recursive loop when an exception is thrown during even dispatching
-     * and output a generic exception instead.
+     * Function will avoid a recursive loop when an exception is thrown during even dispatching and output a generic
+     * exception instead.
      *
      * @link    http://www.php.net/manual/en/function.set-exception-handler.php#88082
      * @param   string  The event name

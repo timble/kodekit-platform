@@ -117,7 +117,7 @@ abstract class KControllerView extends KControllerAbstract
 	 */
 	public function setView($view)
 	{
-		if(!($view instanceof KViewAbstract))
+		if(!($view instanceof KViewInterface))
 		{
 			if(is_string($view) && strpos($view, '.') === false )
 		    {
@@ -186,14 +186,4 @@ abstract class KControllerView extends KControllerAbstract
 
 		return parent::__call($method, $args);
 	}
-
-    /**
-     * Return a string representation of the view
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->render();
-    }
 }

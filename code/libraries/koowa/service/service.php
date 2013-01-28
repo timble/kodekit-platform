@@ -352,7 +352,7 @@ class KService implements KServiceInterface
      */
     protected static function _mixin($identifier, $instance)
     {
-        if (isset(self::$_mixins[$identifier]) && $instance instanceof KObject)
+        if (isset(self::$_mixins[$identifier]) && $instance instanceof KObjectInterface)
         {
             $mixins = self::$_mixins[$identifier];
             foreach ($mixins as $mixin)

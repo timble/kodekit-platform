@@ -2,83 +2,100 @@
 /**
  * @version		$Id$
  * @package		Koowa_Template
+ * @subpackage  Stream
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
  */
 
  /**
-  * Abstract stream wrapper to convert markup of mostly-PHP templates into PHP prior to include().
+  * Stream wrapper to convert markup of mostly-PHP templates into PHP prior to include().
   *
   * Based in large part on the example at
   * http://www.php.net/manual/en/function.stream-wrapper-register.php
   *
   * @author     Johan Janssens <johan@nooku.org>
-  * @category   Koowa
   * @package    Koowa_Template
+  * @subpackage Stream
   */
-class KTemplateStream
+class KTemplateStream implements KTemplateStreamInterface
 {
     /**
      * Current stream position.
      *
      * @var int
      */
-    private $_pos = 0;
+    protected $_pos = 0;
 
     /**
      * Template data
      *
      * @var string
      */
-    private $_data;
+    protected $_data;
 
     /**
      * Stream stats.
      *
      * @var array
      */
-    private $_stat;
+    protected $_stat;
 
     /**
      * Template path
      *
      * @var string
      */
-    private $_path;
+    protected $_path;
+
+    /**
+     * The template stack
+     *
+     * @var KTemplateStack
+     */
+    protected static $_stack;
 
     /**
      * Register the stream wrapper
      *
-     * Function prevents from registering the wrapper twice
+     * @param KTemplateStack $stack     The template stack object
      */
-    public static function register()
+    public static function register(KTemplateStack $stack)
     {
         if (!in_array('tmpl', stream_get_wrappers())) {
             stream_wrapper_register('tmpl', __CLASS__);
         }
+
+        //Store the template stack object
+        self::$_stack = $stack;
     }
 
     /**
      * Opens the template file and converts markup.
      *
-     * This function filters the data from the stream by pushing it through the template's
-     * read filter chain. The template object to use for filtering is the top node on the
-     * template stack
+     * This function just gets the top object from the template stack.
      *
-     * @param string    The stream path
+     * @param string  $path The stream path
+     * @throws	\UnexpectedValueException	If the model doesn't implement the KModelInterface
      * @return boolean
      */
     public function stream_open($path)
     {
         //Get the template object from the template stack and parse it
-        $template = KService::get('koowa:template.stack')->top();
+        $template = self::$_stack->top();
+
+        if(!$template instanceof KTemplateInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Template: '.get_class($template).' does not implement KTemplateInterface'
+            );
+        }
 
         //Get the template path
-        $this->_path = $template->getFile()->filepath;
+        $this->_path = $template->getPath();
 
         //Get the template data
-        $this->_data = $template->parse();
+        $this->_data = $template->getContent();
 
        // file_get_contents() won't update PHP's stat cache, so performing
        // another stat() on it will hit the filesystem again. Since the file
@@ -141,7 +158,6 @@ class KTemplateStream
         return false;
     }
 
-
     /**
      * Close the stream
      *
@@ -155,7 +171,7 @@ class KTemplateStream
 	/**
      * Signal that stream_select is not supported by returning false
      *
-     * @param  int   Can be STREAM_CAST_FOR_SELECT or STREAM_CAST_AS_STREAM
+     * @param  int   $cast_as Can be STREAM_CAST_FOR_SELECT or STREAM_CAST_AS_STREAM
      * @return bool  Always returns false as there is nounderlaying resource to return.
      */
     public function stream_cast($cast_as)
@@ -166,6 +182,8 @@ class KTemplateStream
     /**
      * Seek to a specific point in the stream.
      *
+     * @param
+     * @param
      * @return bool
      */
     public function stream_seek($offset, $whence)
@@ -211,8 +229,8 @@ class KTemplateStream
      *
      * This method is called in response to all stat() related functions on the stream
      *
-     * @param   string  The file path or URL to stat
-     * @param   int     Holds additional flags set by the streams API
+     * @param   string  $path  The file path or URL to stat
+     * @param   int     $flags Holds additional flags set by the streams API
      *
      * @return array
      */

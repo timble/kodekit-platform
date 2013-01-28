@@ -55,9 +55,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         parent::__construct($config);
 
         //Register the default exception handler
-        $this->getEventDispatcher()->addEventListener(
-            'onException', array($this, 'exception'), KEvent::PRIORITY_LOW
-        );
+        $this->addEventListener('onException', array($this, 'exception'), KEvent::PRIORITY_LOW);
 
         //Set callbacks
         $this->registerCallback('before.dispatch', array($this, 'authorizeRequest'));
@@ -247,24 +245,20 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     /**
      * Render an exception
      *
-     * @throws InvalidArgumentException If the action parameter is not an instance of KExceptionInterface
+     * @throws InvalidArgumentException If the action parameter is not an instance of KException
      * @param KCommandContext $context	A command context object
      */
     protected function _actionException(KCommandContext $context)
     {
         //Check an exception was passed
-        if(!isset($context->param) && !$context->param instanceof KEventException)
+        if(!isset($context->param) && !$context->param instanceof KException)
         {
             throw new InvalidArgumentException(
-                "Action parameter 'exception' [KEventException] is required"
+                "Action parameter 'exception' [KException] is required"
             );
         }
 
-        //Render the exception
-        $config = array('response' => $context->response);
-
-        $this->getService('com://site/application.controller.exception', $config)
-            ->render(array('exception' => $context->param->getException()));
+        $this->getService('com://admin/application.controller.exception')->render($context);
 
         //Send the response
         $this->send($context);

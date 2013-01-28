@@ -47,16 +47,14 @@ class KTemplateFilterTemplate extends KTemplateFilterAbstract implements KTempla
     {
         if(preg_match_all('#@template\(\'(.*)\'#siU', $text, $matches))
 		{
-			foreach($matches[1] as $key => $match)
-			{
-			    if(is_string($match) && strpos($match, '.') === false )
-		        {
-                    $identifier = clone $this->getTemplate()->getFile();
-                    $identifier->name = '';
-
-		            $text = str_replace($matches[0][$key], '$this->loadIdentifier('."'".$identifier.".".$matches[1][$key]."'", $text);
-		        }
-			}
+            foreach($matches[1] as $key => $match)
+            {
+                if(is_string($match) && strpos($match, '.') === false )
+                {
+                    $path = dirname($this->getTemplate()->getPath());
+                    $text = str_replace($matches[0][$key], '$this->loadFile('."'".$path."/".$matches[1][$key].".php'", $text);
+                }
+            }
 		}
 
         return $this;

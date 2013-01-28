@@ -15,4 +15,4 @@
  * @package     Koowa_Service
  * @subpackage  Exception
  */
-interface KServiceException extends KExceptionInterface {}
+interface KServiceException extends KException {}

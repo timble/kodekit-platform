@@ -341,7 +341,7 @@ UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category', 'view=articles&la
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=section', 'view=categories') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=section%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'id=', 'category=') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=articles%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, '&layout=blog', '') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=articles%';
-UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=frontpage', 'view=articles');
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=frontpage', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=frontpage%';
 
 # --------------------------------------------------------
 

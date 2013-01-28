@@ -90,7 +90,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
      */
     public function getClosureTable()
     {
-        if(!$this->_table instanceof KDatabaseTableAbstract) {
+        if(!$this->_table instanceof KDatabaseTableInterface) {
             $this->_table = $this->getService($this->_table);
         }
 

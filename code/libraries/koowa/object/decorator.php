@@ -79,7 +79,7 @@ class KObjectDecorator extends KObject
             $methods = array();
             $object = $this->getObject();
 
-            if (!($object instanceof KObject))
+            if (!($object instanceof KObjectMixable))
             {
                 $reflection = new \ReflectionClass($object);
                 foreach ($reflection->getMethods() as $method) {
@@ -105,7 +105,7 @@ class KObjectDecorator extends KObject
         $result = false;
         $object = $this->getObject();
 
-        if ($object instanceof KObject) {
+        if ($object instanceof KObjectMixable) {
             $result = $object->inherits($class);
         } else {
             $result = $object instanceof $class;
@@ -178,7 +178,7 @@ class KObjectDecorator extends KObject
         $object = $this->getObject();
 
         //Check if the method exists
-        if ($object instanceof KObject)
+        if ($object instanceof KObjectMixable)
         {
             $methods = $object->getMethods();
             $exists = in_array($method, $methods);

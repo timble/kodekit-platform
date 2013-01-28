@@ -43,7 +43,7 @@ class KViewHtml extends KViewTemplate
      */
     public function display()
     {
-        if (empty($this->output))
+        if (empty($this->_content))
         {
             $model = $this->getModel();
 

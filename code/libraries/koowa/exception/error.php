@@ -10,21 +10,8 @@
 /**
  * Error Exception Class
  *
- * KException is the base class for all koowa related exceptions and provides an additional method for printing up a
- * detailed view of an exception.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Exception
  */
-class KExceptionError extends \ErrorException implements KExceptionInterface
-{
-    /**
-     * Format the exception for display
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-         return "Exception '".get_class($this) ."' with message '".$this->getMessage()."' in ".$this->getFile().":".$this->getLine();
-    }
-}
+class KExceptionError extends \ErrorException implements KException { }

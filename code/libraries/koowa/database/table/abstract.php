@@ -633,9 +633,9 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         //Create commandchain context
         $context = $this->getCommandContext();
         $context->operation = KDatabase::OPERATION_INSERT;
-        $context->table = $this->getBase();
-        $context->data = $row;
-        $context->query = $query;
+        $context->table     = $this->getBase();
+        $context->data      = $row;
+        $context->query     = $query;
         $context->affected = false;
 
         if ($this->getCommandChain()->run('before.insert', $context) !== false)

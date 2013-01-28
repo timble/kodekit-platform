@@ -15,4 +15,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class KControllerExceptionActionFailed extends KException implements KControllerException {}
+class KControllerExceptionActionFailed extends \Exception implements KControllerException {}

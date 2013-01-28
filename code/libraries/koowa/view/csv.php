@@ -94,9 +94,8 @@ class KViewCsv extends KViewFile
 		// Create the header
 		$header = $this->_arrayToString(array_keys($columns)).$this->eol;
 
-		// Set the output
-		$this->output = $header.$rows;
-
+		// Set the content
+		$this->setContent($header.$rows);
 		return parent::display();
 	}
 

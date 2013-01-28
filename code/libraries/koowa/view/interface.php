@@ -15,7 +15,14 @@
  */
 interface KViewInterface
 {
-	/**
+    /**
+     * Render the view
+     *
+     * @return string The output of the view
+     */
+    public function display();
+
+    /**
 	 * Get the name
 	 *
 	 * @return 	string 	The name of the object
@@ -29,13 +36,21 @@ interface KViewInterface
 	 */
 	public function getFormat();
 
-	/**
-	 * Return the views output
- 	 *
-	 * @return string 	The output of the view
-	 */
-	public function display();
-	
+    /**
+     * Get the content
+     *
+     * @return  string The content of the view
+     */
+    public function getContent();
+
+    /**
+     * Get the content
+     *
+     * @param  string $content The content of the view
+     * @return KViewAbstract
+     */
+    public function setContent($content);
+
 	/**
 	 * Get the model object attached to the controller
 	 *

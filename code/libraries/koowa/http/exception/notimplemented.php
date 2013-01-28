@@ -13,23 +13,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */
-class KHttpExceptionNotImplemented extends KException implements KHttpException
+class KHttpExceptionNotImplemented extends KHttpExceptionAbstract
 {
-    /**
-     * Constructor
-     *
-     * @param string  $message  The exception message
-     * @param integer $code     The exception code
-     * @param object  $previous The previous exception
-     */
-    public function __construct($message = null, $code = 0, Exception $previous = null)
-    {
-        $code = KHttpResponse::NOT_IMPLEMENTED;
-
-        if(!$message) {
-            $message = KHttpResponse::$status_messages[$code];
-        }
-
-        parent::__construct($message, $code, $previous);
-    }
+    protected $code = KHttpResponse::NOT_IMPLEMENTED;
 }

@@ -49,7 +49,7 @@
     </div>
 </div>
 <? if(@service('application')->getCfg('debug')) : ?>
-	<?= @service('com://admin/debug.controller.debug'); ?>
+	<?= @service('com://admin/debug.controller.debug')->render(); ?>
 <? endif; ?>
 	
 <script data-inline src="media://com_application/js/chosen.mootools.1.2.js" /></script>
