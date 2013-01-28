@@ -13,7 +13,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Event
  */
-class KEventException extends KEvent implements KExceptionInterface
+class KEventException extends KEvent implements KException
 {
     /**
      * Set the exception
