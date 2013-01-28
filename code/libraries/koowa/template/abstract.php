@@ -27,21 +27,21 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data;
 
     /**
      * The template contents
      *
      * @var string
      */
-    protected $_contents = '';
+    protected $_content;
 
     /**
      * The set of template filters for templates
      *
      * @var array
      */
-    protected $_filters = array();
+    protected $_filters;
 
     /**
      * View object or identifier
@@ -74,6 +74,12 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         // Set the template stack object
         $this->_stack = $config->stack;
 
+        // Set the template data
+        $this->_data = $config->data;
+
+        //Attach the filters
+        $this->attachFilter($config->filters);
+
         //Register the template stream wrapper
         KTemplateStream::register($this->_stack);
 
@@ -92,6 +98,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+            'data'             => array(),
+            'filters'          => array(),
             'stack'            => $this->getService('koowa:template.stack'),
             'view'             => null,
             'command_chain'    => $this->getService('koowa:command.chain'),
@@ -133,13 +141,13 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Get the template contents
+     * Get the template content
      *
      * @return  string
      */
-    public function getContents()
+    public function getContent()
     {
-        return $this->_contents;
+        return $this->_content;
     }
 
     /**
@@ -257,7 +265,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function loadString($string, $data = array())
     {
-        $this->_contents = $string;
+        $this->_content = $string;
 
         // Merge the data
         $this->_data = array_merge((array)$this->_data, $data);
@@ -278,17 +286,17 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     public function render()
     {
         //Parse the template
-        $this->_contents = $this->_parse();
+        $this->_content = $this->_parse();
 
         //Evaluate the template
-        $this->_contents = $this->_evaluate();
+        $this->_content = $this->_evaluate();
 
         //Render the template
         if($this->getStack()->isEmpty()) {
-            $this->_contents = $this->_process();
+            $this->_content = $this->_process();
         }
 
-        return $this->_contents;
+        return $this->_content;
     }
 
     /**
@@ -451,7 +459,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected function _parse()
     {
         $context = $this->getCommandContext();
-        $context->data = $this->getContents();
+        $context->data = $this->getContent();
 
         $this->getCommandChain()->run(KTemplateFilter::MODE_READ, $context);
 
@@ -495,7 +503,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected function _process()
     {
         $context = $this->getCommandContext();
-        $context->data = $this->getContents();
+        $context->data = $this->getContent();
 
         $this->getCommandChain()->run(KTemplateFilter::MODE_WRITE, $context);
 
@@ -510,6 +518,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function __toString()
     {
-        return $this->getContents();
+        return $this->getContent();
     }
 }
