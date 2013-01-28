@@ -18,15 +18,6 @@
 
 class ComPagesDatabaseRowsetPages extends KDatabaseRowsetTable
 {
-    protected function _initialize(KConfig $config)
-    {
-        $config->append(array(
-            'row_cloning' => false
-        ));
-
-        parent::_initialize($config);
-    }
-
     public function find($needle)
     {
         if(is_array($needle) && array_key_exists('link', $needle) && is_array($needle['link']))
