@@ -95,7 +95,7 @@ class KTemplateStream implements KTemplateStreamInterface
         $this->_path = $template->getPath();
 
         //Get the template data
-        $this->_data = $template->getContents();
+        $this->_data = $template->getContent();
 
        // file_get_contents() won't update PHP's stat cache, so performing
        // another stat() on it will hit the filesystem again. Since the file
