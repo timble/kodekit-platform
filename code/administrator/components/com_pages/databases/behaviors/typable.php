@@ -98,7 +98,16 @@ class ComPagesDatabaseBehaviorTypable extends KDatabaseBehaviorAbstract
     {
         if($name == 'before.insert' || $name == 'before.update')
         {
-            $this->setStrategy($context->data->type);
+            $this->setMixer($context->data);
+
+            if(is_array($this->getType()))
+            {
+                $type = $this->getType();
+                $type = $type['name'];
+            }
+            else $type = $this->type;
+
+            $this->setStrategy($type);
             $return = $this->getStrategy()->setMixer($context->data)->execute($name, $context);
         }
         else $return = true;
@@ -110,7 +119,14 @@ class ComPagesDatabaseBehaviorTypable extends KDatabaseBehaviorAbstract
     {
         if(in_array($method, $this->_mixable_methods))
         {
-            $this->setStrategy($this->type);
+            if(is_array($this->getType()))
+            {
+                $type = $this->getType();
+                $type = $type['name'];
+            }
+            else $type = $this->type;
+
+            $this->setStrategy($type);
             $this->getStrategy()->setMixer($this->getMixer());
 
             switch(count($arguments))
