@@ -15,4 +15,4 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesDatabaseRowUrlException extends KException {}
+class ComFilesDatabaseRowUrlException extends \Exception implements KException {}
