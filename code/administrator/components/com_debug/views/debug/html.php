@@ -32,12 +32,12 @@ class ComDebugViewDebugHtml extends ComDefaultViewHtml
             $includes = str_replace('tmpl://', '', $includes);
         }
 	    
-	    $this->assign('memory'   , $profiler->getMemory())
-	         ->assign('events'   , $profiler->getEvents())
-	         ->assign('queries'  , $database->getQueries())
-	         ->assign('languages', $language->getPaths())
-	         ->assign('includes' , $includes)
-	         ->assign('strings'  , $language->getOrphans());
+	    $this->memory    = $profiler->getMemory();
+	    $this->events    = $profiler->getEvents();
+	    $this->queries   = $database->getQueries();
+	    $this->languages = $language->getPaths();
+	    $this->includes  = $includes;
+	    $this->strings   = $language->getOrphans();
                         
         return parent::display();
     }

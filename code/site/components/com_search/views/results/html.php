@@ -25,9 +25,9 @@ class ComSearchViewResultsHtml extends ComDefaultViewHtml
 
 		$params = $this->getService('application')->getParams();
 
-        $this->assign('params'  , $params);
-        $this->assign('results' , $model->getRowset());
-        $this->assign('total'   , $model->getTotal());
+        $this->params  = $params;
+        $this->results = $model->getRowset();
+        $this->total   = $model->getTotal();
 
         return parent::display();
 	}

@@ -49,7 +49,7 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
             $pathway->addItem($article->title, '');
         }
 
-        $this->assign('params', $params);
+        $this->params = $params;
         return parent::display();
     }
 

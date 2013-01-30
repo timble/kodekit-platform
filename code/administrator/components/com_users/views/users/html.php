@@ -21,13 +21,9 @@ class ComUsersViewUsersHtml extends ComDefaultViewHtml
 {
 	public function display()
 	{
-	    $groups = $this->getService('com://admin/users.model.groups')->getRowset();
-		$this->assign('groups', $groups);
-		
-		$roles = $this->getService('com://admin/users.model.roles')->getRowset();
-		$this->assign('roles', $roles);
-		
-		$this->assign('groups_users', $this->getService('com://admin/users.model.groups_users')->set('type', 'custom')->getRowset());
+	    $this->groups       = $this->getService('com://admin/users.model.groups')->getRowset();
+		$this->roles        = $this->getService('com://admin/users.model.roles')->getRowset();
+		$this->groups_users = $this->getService('com://admin/users.model.groups_users')->set('type', 'custom')->getRowset();
 
 		return parent::display();
 	}

@@ -22,7 +22,7 @@ class ComFilesCommandValidatorNode extends KCommand
 		$row = $context->getSubject();
 
 		if (!$row->isNew() && !$row->overwrite) {
-			$context->setError(JText::_('Resource already exists and overwrite switch is not present.'));
+			$row->setStatusMessage(JText::_('Resource already exists and overwrite switch is not present.'));
 			return false;
 		}
 
@@ -34,12 +34,12 @@ class ComFilesCommandValidatorNode extends KCommand
 		$row = $context->getSubject();
 
 		if (!array_intersect(array('destination_folder', 'destination_name'), $row->getModified())) {
-			$context->setError(JText::_('Please supply a destination.'));
+            $row->setStatusMessage(JText::_('Please supply a destination.'));
 			return false;
 		}
 
 		if ($row->fullpath === $row->destination_fullpath) {
-			$context->setError(JText::_('Source and destination are the same.'));
+            $row->setStatusMessage(JText::_('Source and destination are the same.'));
 			return false;
 		}
 
@@ -51,7 +51,7 @@ class ComFilesCommandValidatorNode extends KCommand
 		if ($exists)
 		{
 			if (!$row->overwrite) {
-				$context->setError(JText::_('Destination resource already exists.'));
+                $row->setStatusMessage(JText::_('Destination resource already exists.'));
 				return false;
 			} else {
 				$row->overwritten = true;

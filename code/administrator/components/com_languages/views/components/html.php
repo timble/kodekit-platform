@@ -38,8 +38,8 @@ class ComLanguagesViewComponentsHtml extends ComDefaultViewHtml
             $components->find($table->extensions_component_id)->enabled = $table->enabled;
         }
         
-        $this->assign('components', $components);
-        $this->assign('total', count($components));
+        $this->components = $components;
+        $this->total      = count($components);
         
         return parent::display();
     }

@@ -23,6 +23,13 @@ interface KTemplateInterface
     public function render();
 
     /**
+     * Check if the template is in a render cycle
+     *
+     * @return boolean Return TRUE if the template is being rendered
+     */
+    public function isRendering();
+
+    /**
      * Get the template file identifier
      *
      * @return	string
@@ -35,13 +42,6 @@ interface KTemplateInterface
 	 * @return	mixed
 	 */
 	public function getData();
-
-    /**
-     * Get the template object stack
-     *
-     * @return  KTemplateStack
-     */
-	public function getStack();
 
     /**
      * Get the template contents

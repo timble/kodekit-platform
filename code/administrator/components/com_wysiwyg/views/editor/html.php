@@ -129,9 +129,9 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 		
 		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
-		$this->assign('options'   , KConfig::unbox($options));
-		$this->assign('settings'  , $this->getEditorSettings());
-		$this->assign('codemirror', $this->codemirror);
+		$this->options    = KConfig::unbox($options);
+		$this->settings   = $this->getEditorSettings();
+		$this->codemirror = $this->codemirror;
 
 		return parent::display();
 	}

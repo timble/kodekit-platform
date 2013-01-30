@@ -34,9 +34,9 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 	    }
 	    
 	    // TODO: take this out when JURI::root() returns correct results
-	    $this->assign('sitebase' , trim(str_replace('administrator/', '/', JURI::root()), '/'));
-		$this->assign('token'    , $this->getService('user')->getSession()->getToken());
-		$this->assign('container', $this->getModel()->getState()->container);
+	    $this->sitebase  = trim(str_replace('administrator/', '/', JURI::root()), '/');
+		$this->token     = $this->getService('user')->getSession()->getToken();
+		$this->container = $this->getModel()->getState()->container;
 
 		return parent::display();
 	}

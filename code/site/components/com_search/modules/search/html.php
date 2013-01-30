@@ -19,9 +19,9 @@ class ComSearchModuleSearchHtml extends ComDefaultModuleDefaultHtml
 {
 	public function display()
 	{
-		$this->assign('form_class'     , $this->module->params->get('form_class'));
-		$this->assign('input_class'    , $this->module->params->get('input_class'));
-		$this->assign('placeholder'    , $this->module->params->get('placeholder', JText::_('search')));
+		$this->form_class  = $this->module->params->get('form_class');
+		$this->input_class = $this->module->params->get('input_class');
+		$this->placeholder = $this->module->params->get('placeholder', JText::_('search'));
 
 		return parent::display();
 	}

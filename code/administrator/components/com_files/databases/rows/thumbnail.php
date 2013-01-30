@@ -44,17 +44,20 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowTable
     	$source = $this->source;
     	if ($source && !$source->isNew())
 		{
-			//Load the library
-		    $this->getService('koowa:loader')->loadIdentifier('com://admin/files.helper.phpthumb.phpthumb');
+			//Load the phpthumb library
+		    require_once JPATH_LIBRARIES.'/phpthumb/phpthumb.php';
 
 		    //Create the thumb
 		    $image = PhpThumbFactory::create($source->fullpath)
-			    ->setOptions(array('jpegQuality' => 50));
+		        ->setOptions(array('jpegQuality' => 50));
 
-			if ($this->_thumbnail_size['x'] && $this->_thumbnail_size['y']) {
+			if ($this->_thumbnail_size['x'] && $this->_thumbnail_size['y'])
+            {
 				// Resize then crop to the provided resolution.
 				$image->adaptiveResize($this->_thumbnail_size['x'], $this->_thumbnail_size['y']);
-			} else {
+			}
+            else
+            {
 				$width = isset($this->_thumbnail_size['x'])?$this->_thumbnail_size['x']:0;
 				$height = isset($this->_thumbnail_size['y'])?$this->_thumbnail_size['y']:0;
 				// PhpThumb will calculate the missing side while preserving the aspect ratio.
@@ -62,7 +65,7 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowTable
 			}
 
 		    ob_start();
-		    	echo $image->getImageAsString();
+		    echo $image->getImageAsString();
 		    $str = ob_get_clean();
 		    $str = sprintf('data:%s;base64,%s', $source->mimetype, base64_encode($str));
 

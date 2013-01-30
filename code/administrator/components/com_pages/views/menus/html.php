@@ -19,9 +19,7 @@ class ComPagesViewMenusHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $applications = array_keys($this->getIdentifier()->getApplications());
-        $this->assign('applications', $applications);
-        
+        $this->applications = array_keys($this->getIdentifier()->getApplications());
         return parent::display();
     }
 }

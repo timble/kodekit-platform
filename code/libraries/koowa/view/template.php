@@ -129,7 +129,7 @@ abstract class KViewTemplate extends KViewAbstract
     }
 
     /**
-     * Set a view properties
+     * Set a view data property
      *
      * @param   string  The property name.
      * @param   mixed   The property value.
@@ -140,7 +140,7 @@ abstract class KViewTemplate extends KViewAbstract
     }
 
     /**
-     * Get a view property
+     * Get a view data property
      *
      * @param   string  The property name.
      * @return  string  The property value.
@@ -153,70 +153,6 @@ abstract class KViewTemplate extends KViewAbstract
         }
 
         return $result;
-    }
-
-    /**
-     * Assigns variables to the view script via differing strategies.
-     *
-     * This method is overloaded; you can assign all the properties of an object, an associative array,
-     * or a single value by name.
-     *
-     * You are not allowed to set variables that begin with an underscore; these are either private
-     * properties for KView or private variables within the template script itself.
-     *
-     * <code>
-     * $view = new KViewDefault();
-     *
-     * // assign directly
-     * $view->var1 = 'something';
-     * $view->var2 = 'else';
-     *
-     * // assign by name and value
-     * $view->assign('var1', 'something');
-     * $view->assign('var2', 'else');
-     *
-     * // assign by assoc-array
-     * $ary = array('var1' => 'something', 'var2' => 'else');
-     * $view->assign($obj);
-     *
-     * // assign by object
-     * $obj = new stdClass;
-     * $obj->var1 = 'something';
-     * $obj->var2 = 'else';
-     * $view->assign($obj);
-     *
-     * </code>
-     *
-     * @return KViewTemplate
-     */
-    public function assign()
-    {
-        // get the arguments; there may be 1 or 2.
-        $arg0 = @func_get_arg(0);
-        $arg1 = @func_get_arg(1);
-
-        // assign by object or array
-        if (is_object($arg0) || is_array($arg0))
-        {
-            if (is_object($arg0)) {
-                $arg0 = get_object_vars($arg0);
-            }
-
-            if (is_array($arg0))
-            {
-                foreach ($arg0 as $k => $v) {
-                    $this->$k = $v;
-                }
-            }
-        }
-        else
-        {
-            if (is_string($arg0) && func_num_args() > 1) {
-                $this->$arg0 = $arg1;
-            }
-        }
-
-        return $this;
     }
 
     /**

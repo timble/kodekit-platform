@@ -60,7 +60,6 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		if ($context->result === false)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
 		}
 		else
 		{
@@ -91,7 +90,6 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		if ($context->result === false)
 		{
 			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
 		}
 		else
 		{
@@ -119,12 +117,11 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 			$this->getCommandChain()->run('after.delete', $context);
         }
 
-		if ($context->result === false)
-		{
+		if ($context->result === false) {
 			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
-		}
-		else $this->setStatus(KDatabase::STATUS_DELETED);
+		} else {
+            $this->setStatus(KDatabase::STATUS_DELETED);
+        }
 
 		return $context->result;
 	}

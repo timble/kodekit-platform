@@ -48,12 +48,11 @@ class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 			$this->getCommandChain()->run('after.save', $context);
 		}
 
-		if ($context->result === false)
-		{
+		if ($context->result === false) {
 			$this->setStatus(KDatabase::STATUS_FAILED);
-			$this->setStatusMessage($context->getError());
-		}
-		else $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
+		} else {
+            $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
+        }
 
 		return $context->result;
 	}

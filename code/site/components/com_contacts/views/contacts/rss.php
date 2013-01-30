@@ -20,9 +20,7 @@ class ComContactsViewContactsRss extends KViewRss
     public function display()
     {
         //Get the category
-        $category = $this->getCategory();
-
-        $this->assign('category'  , $category);
+        $this->category = $this->getCategory();
         return parent::display();
     }
 

@@ -53,7 +53,7 @@ class ComContactsViewContactHtml extends ComDefaultViewHtml
             $pathway->addItem($contact->name, '');
         }
 
-        $this->assign('params', $params);
+        $this->params = $params;
         return parent::display();
     }
 
