@@ -51,11 +51,14 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected $_view;
 
     /**
-     * The template stack object
+     * Counter
      *
-     * @var    KTemplateStack
+     * Used to track recursive calls during template evaluation
+     *
+     * @var int
+     * @see _evaluate()
      */
-    protected $_stack;
+    private $__counter;
 
     /**
      * Constructor
@@ -71,20 +74,17 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         // Set the view identifier
         $this->_view = $config->view;
 
-        // Set the template stack object
-        $this->_stack = $config->stack;
-
         // Set the template data
         $this->_data = $config->data;
 
         //Attach the filters
         $this->attachFilter($config->filters);
 
-        //Register the template stream wrapper
-        KTemplateStream::register($this->_stack);
-
         // Mixin a command chain
         $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
+
+        //Reset the counter
+        $this->__counter = 0;
     }
 
     /**
@@ -100,7 +100,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $config->append(array(
             'data'             => array(),
             'filters'          => array(),
-            'stack'            => $this->getService('koowa:template.stack'),
             'view'             => null,
             'command_chain'    => $this->getService('koowa:command.chain'),
             'dispatch_events'  => false,
@@ -128,16 +127,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     public function getData()
     {
         return $this->_data;
-    }
-
-    /**
-     * Get the template object stack
-     *
-     * @return  KTemplateStack
-     */
-    public function getStack()
-    {
-        return $this->_stack;
     }
 
     /**
@@ -271,7 +260,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $this->_data = array_merge((array)$this->_data, $data);
 
         // Process inline templates
-        if(!$this->getStack()->isEmpty()) {
+        if($this->__counter > 0) {
             $this->render();
         }
 
@@ -286,17 +275,27 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     public function render()
     {
         //Parse the template
-        $this->_content = $this->_parse();
+        $this->_parse($this->_content);
 
         //Evaluate the template
-        $this->_content = $this->_evaluate();
+        $this->_evaluate($this->_content);
 
-        //Render the template
-        if($this->getStack()->isEmpty()) {
-            $this->_content = $this->_process();
+        //Process the template only at the end of the render cycle.
+        if($this->__counter == 0) {
+            $this->_process($this->_content);
         }
 
         return $this->_content;
+    }
+
+    /**
+     * Check if the template is in a render cycle
+     *
+     * @return boolean Return TRUE if the template is being rendered
+     */
+    public function isRendering()
+    {
+        return (bool) $this->_counter;
     }
 
     /**
@@ -456,41 +455,45 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @return string The parsed data
      */
-    protected function _parse()
+    protected function _parse(&$content)
     {
         $context = $this->getCommandContext();
-        $context->data = $this->getContent();
 
+        $context->data = $content;
         $this->getCommandChain()->run(KTemplateFilter::MODE_READ, $context);
-
-        return $context->data;
+        $content = $context->data;
     }
 
     /**
      * Evaluate the template using a simple sandbox
      *
-     * This function uses the tmpl:// stream to be able to include the template and have php evaluate it
+     * This function write the template to a temporary file and then includes it to evaluate it.
      *
      * @return The evaluated data
-     * @see KTemplateStream
+     * @see tempnam()
      */
-    protected function _evaluate()
+    protected function _evaluate(&$content)
     {
-        //Push the template onto the stack
-        $this->getStack()->push(clone $this);
+        //Increase counter
+        $this->__counter++;
 
         //Extract the data in local scope
         extract($this->_data, EXTR_SKIP);
 
-        // Capturing output into a buffer
+        $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
+        $handle = fopen($tempfile, "w+");
+
+        fwrite($handle, $content);
+        fclose($handle);
+
         ob_start();
-        include 'tmpl://'.$this->getPath();
-        $result = ob_get_clean();
+        include $tempfile;
+        $content = ob_get_clean();
 
-        //Remove the template from the template stack
-        $this->getStack()->pop();
+        unlink($tempfile);
 
-        return $result;
+        //Reduce counter
+        $this->__counter--;;
     }
 
     /**
@@ -500,14 +503,13 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @return string  The rendered data
      */
-    protected function _process()
+    protected function _process(&$content)
     {
         $context = $this->getCommandContext();
-        $context->data = $this->getContent();
 
+        $context->data = $content;
         $this->getCommandChain()->run(KTemplateFilter::MODE_WRITE, $context);
-
-        return $context->data;
+        $content = $context->data;
     }
 
     /**
