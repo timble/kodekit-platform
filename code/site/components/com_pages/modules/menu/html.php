@@ -58,8 +58,8 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
             }
         }
         
-        $this->assign('show_title', $this->module->params->get('show_title', false));
-        $this->assign('class', $this->module->params->get('class', 'nav'));
+        $this->show_title = $this->module->params->get('show_title', false);
+        $this->class      = $this->module->params->get('class', 'nav');
         
         return parent::display();
     }

@@ -191,7 +191,10 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             );
         }
 
-        $this->getService('com://admin/application.controller.exception')->render($context);
+        $config = array('request' => $context->request);
+
+        $this->getService('com://admin/application.controller.exception',  $config)
+             ->render($context);
 
         //Send the response
         $this->send($context);

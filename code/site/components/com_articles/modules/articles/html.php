@@ -68,8 +68,8 @@ class ComArticlesModuleArticlesHtml extends ComDefaultModuleDefaultHtml
             'category'  => $category))
             ->getRowset();
 
-        $this->assign('articles', $articles);
-        $this->assign('show_title', $this->module->params->get('show_title', false));
+        $this->articles   = $articles;
+        $this->show_title = $this->module->params->get('show_title', false);
 
         // Set layout based on params.
         $this->setLayout($this->module->params->get('show_content', 0) ? 'articles' : 'links');

@@ -43,8 +43,8 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
             $this->getService('application')->getPathway()->addItem($category->title, '');
         }
 
-        $this->assign('params'    , $params);
-        $this->assign('category'  , $category);
+        $this->params   = $params;
+        $this->category = $category;
 
         return parent::display();
     }

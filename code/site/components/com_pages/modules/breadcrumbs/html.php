@@ -34,7 +34,7 @@ class ComPagesModuleBreadcrumbsHtml extends ComDefaultModuleDefaultHtml
             array_unshift($list, $item);
         }
 
-        $this->assign('list', $list);
+        $this->list = $list;
 
         return parent::display();
     }

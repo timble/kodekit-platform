@@ -33,12 +33,10 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
             ->id($model->menu)
             ->getRow();
         
-        $components = $this->getService('com://admin/pages.model.types')
+        $this->components = $this->getService('com://admin/pages.model.types')
             ->application($menu->application)
             ->getRowset();
-        
-		$this->assign('components', $components);
-		
+
         // Get available and assigned modules.
         $available = $this->getService('com://admin/pages.model.modules')
             ->published(true)
@@ -52,7 +50,7 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
         $assigned = $this->getService('com://admin/pages.database.table.modules_pages')
             ->select($query);
 
-        $this->assign('modules', (object) array('available' => $available, 'assigned' => $assigned));
+        $this->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
         return parent::display();
     }

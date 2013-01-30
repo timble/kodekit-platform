@@ -53,7 +53,7 @@ class KViewRss extends KViewTemplate
 	        $model = $this->getModel();
 
 		    //Auto-assign the state to the view
-		    $this->assign('state', $model->getState());
+		    $this->state = $model->getState();
 
 		    //Auto-assign the data from the model
 		    if($this->_auto_assign)
@@ -64,10 +64,10 @@ class KViewRss extends KViewTemplate
 			    //Assign the data of the model to the view
 			    if(KInflector::isPlural($name))
 			    {
-				    $this->assign($name, 	$model->getRowset())
-					     ->assign('total',	$model->getTotal());
+				    $this->$name = $model->getRowset();
+					$this->total = $model->getTotal();
 			    }
-			    else $this->assign($name, $model->getRow());
+			    else $this->$name = $model->getRow();
 		    }
 		}
 

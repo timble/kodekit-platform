@@ -49,8 +49,8 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
         }
 
         //Set the breadcrumbs
-        $this->assign('params',	  $params);
-        $this->assign('category', $category);
+        $this->params   = $params;
+        $this->category = $category;
         
         return parent::display();
     }

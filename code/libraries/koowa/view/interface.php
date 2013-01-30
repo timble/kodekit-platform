@@ -23,6 +23,23 @@ interface KViewInterface
     public function display();
 
     /**
+     * Set a view property
+     *
+     * @param   string  The property name.
+     * @param   mixed   The property value.
+     * @return KViewAbstract
+     */
+    public function set($property, $value);
+
+    /**
+     * Get a view property
+     *
+     * @param   string  The property name.
+     * @return  string  The property value.
+     */
+    public function get($property);
+
+    /**
 	 * Get the name
 	 *
 	 * @return 	string 	The name of the object

@@ -108,7 +108,7 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 
 	        //Push the params in the view
 	        foreach($context->param as $name => $value) {
-	            $view->assign($name, $value);
+	            $view->set($name, $value);
 	        }
 	
 	        //Render the view

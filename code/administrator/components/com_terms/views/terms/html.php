@@ -13,9 +13,9 @@ class ComTermsViewTermsHtml extends ComTermsViewHtml
 	{
 		//If no row exists assign an empty array
 		if($this->getModel()->get('row')) {
-			$this->assign('disabled', false);
+			$this->disabled = false;
 		} else {
-			$this->assign('disabled', true);
+			$this->disabled = true;
 		}
 			
 		return parent::display();

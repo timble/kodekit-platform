@@ -20,7 +20,6 @@ class ComApplicationControllerPage extends ComDefaultControllerView
 {
     protected function _actionRender(KCommandContext $context)
     {
-        //Assign variables to the view
         $this->getView()->content  = $context->response->getContent();
 
         $content = parent::_actionRender($context);

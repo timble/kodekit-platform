@@ -25,12 +25,7 @@ class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
         if ($this->getLayout() == 'default')
 		{
 			$model = $this->getService($this->getModel()->getIdentifier());
-
-			$this->assign('packages', $model
-				->distinct(true)
-				->column('package')
-				->getRowset()
-			);
+            $this->packages = $model->distinct(true)->column('package')->getRowset();
 		} 
 		
 		return parent::display();

@@ -171,7 +171,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             //Redirect to the default menu item if the route is empty
             if(empty($route))
             {
-                $url = $pages->getHome()->getLink();
+                $url = $pages->getHome()->link;
                 $url->query['Itemid'] = $pages->getHome()->id;
 
                 $this->getRouter()->build($url);
@@ -258,7 +258,10 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             );
         }
 
-        $this->getService('com://admin/application.controller.exception')->render($context);
+        $config = array('request' => $context->request);
+
+        $this->getService('com://admin/application.controller.exception',  $config)
+            ->render($context);
 
         //Send the response
         $this->send($context);
@@ -414,7 +417,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
                         {
                             case 'pagelink':
                             case 'url' :
-                                $url = $page->getLink();
+                                $url = $page->link;
                                 break;
 
                             case 'separator':
@@ -422,7 +425,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
                                 break;
 
                             default:
-                                $url = $page->getLink();
+                                $url = $page->link;
                                 $url->query['Itemid'] = $page->id;
                                 $url = $this->getRouter()->build($url);
                                 break;
