@@ -29,7 +29,7 @@ class ComPagesModuleBreadcrumbsHtml extends ComDefaultModuleDefaultHtml
             $item->name = $params->get('homeText', JText::_('Home'));
 
             $home = $this->getService('application.pages')->getHome();
-            $item->link = $this->getRoute($home->link->getQuery().'&Itemid='.$home->id);
+            $item->link = $this->getRoute($home->getLink()->getQuery().'&Itemid='.$home->id);
 
             array_unshift($list, $item);
         }

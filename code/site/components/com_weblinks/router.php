@@ -28,7 +28,7 @@ class ComWeblinksRouter extends ComDefaultRouter
             $page = $this->getService('application.pages')->getActive();
         }
 
-        $view = $page->link->query['view'];
+        $view = $page->getLink()->query['view'];
 
         if($view == 'categories')
         {
@@ -60,7 +60,7 @@ class ComWeblinksRouter extends ComDefaultRouter
         $vars = array();
         $page = $this->getService('application.pages')->getActive();
 
-        $view  = $page->link->query['view'];
+        $view  = $page->getLink()->query['view'];
         $count = count($segments);
 
         if($view == 'categories')

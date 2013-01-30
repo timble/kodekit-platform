@@ -116,7 +116,7 @@ class ComApplicationRouter extends KDispatcherRouter
 
                     if($page->type != 'redirect')
                     {
-                        $url->setQuery($page->link->query, true);
+                        $url->setQuery($page->getLink()->query, true);
                         $url->query['Itemid'] = $page->id;
                     }
 
@@ -222,7 +222,7 @@ class ComApplicationRouter extends KDispatcherRouter
         {
             $page = $this->getService('application.pages')->getPage($url->query['Itemid']);
 
-            if($page->link->query['option'] == $url->query['option']) {
+            if($page->getLink()->query['option'] == $url->query['option']) {
                 $segments = $page->route;
             } else {
                 $segments = 'component/'.substr($url->query['option'], 4);

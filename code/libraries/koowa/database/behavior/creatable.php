@@ -30,7 +30,7 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
     {
         $methods = array();
 
-        if(isset($mixer->created_by) || isset($mixer->created_on))  {
+        if($mixer instanceof KDatabaseRowInterface && ($mixer->has('created_by') || $mixer->has('created_on')))  {
             $methods = parent::getMixableMethods($mixer);
         }
 
@@ -46,11 +46,11 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        if(isset($this->created_by) && empty($this->created_by)) {
+        if($this->has('created_by') && empty($this->created_by)) {
             $this->created_by  = (int) $this->getService('user')->getId();
         }
 
-        if(isset($this->created_on) && (empty($this->created_on) || $this->created_on == $context->getSubject()->getDefault('created_on'))) {
+        if($this->has('created_on') && (empty($this->created_on) || $this->created_on == $this->getTable()->getDefault('created_on'))) {
             $this->created_on  = gmdate('Y-m-d H:i:s');
         }
     }

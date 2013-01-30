@@ -63,8 +63,8 @@
                         $link = 'type[name]='.$page->type;
                         if($page->type == 'component')
                         {
-                            $link .= '&type[option]='.$page->link->query['option'].'&type[view]='.$page->link->query['view'];
-                            $link .= '&type[layout]='.(isset($page->link->query['layout']) ? $page->link->query['layout'] : 'default');
+                            $link .= '&type[option]='.$page->getLink()->query['option'].'&type[view]='.$page->getLink()->query['view'];
+                            $link .= '&type[layout]='.(isset($page->getLink()->query['layout']) ? $page->getLink()->query['layout'] : 'default');
                         }
 
                         $link .= '&view=page&menu='.$state->menu.'&id='.$page->id;
@@ -92,7 +92,7 @@
                     <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>
                 </td>
                 <td>
-                    <?= $page->type_description ?>
+                    <?= $page->getTypeDescription() ?>
                 </td>
             </tr>
             <? endforeach; ?>

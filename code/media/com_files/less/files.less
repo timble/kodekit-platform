@@ -1307,13 +1307,20 @@ div.current input, div.current textarea, div.current select {
   line-height: 18px;
 
   li {
-    max-height: 14px;
+    max-height: 23px;
     display: inline-block;
-    overflow: visible;
+    overflow: hidden;
     .user-select(none);
     cursor: pointer;
-    vertical-align: top;
-    padding: 0 2px;
+
+    padding: 0;
+
+    span {
+      display: inline-block;
+      overflow: visible;
+      vertical-align: top;
+      padding: 0 2px;
+    }
 
 
   //For later
@@ -1323,7 +1330,7 @@ div.current input, div.current textarea, div.current select {
       cursor: default;
     }
 
-    span {
+    span.divider {
       padding: 0 2px 0 0;
     }
 
@@ -1333,6 +1340,13 @@ div.current input, div.current textarea, div.current select {
 
     &:active {
       color: @grayLight;
+    }
+
+    &:first-child span {
+      padding-left: 0px;
+    }
+    &:last-child span {
+      padding-right: 0px;
     }
   }
 }

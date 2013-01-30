@@ -38,14 +38,14 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         //Set the breadcrumbs
         $pathway = $this->getService('application')->getPathway();
 
-        if($page->link->query['view'] == 'categories')
+        if($page->getLink()->query['view'] == 'categories')
         {
             $category = $this->getCategory();
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($article->title, '');
         }
 
-        if($page->link->query['view'] == 'articles') {
+        if($page->getLink()->query['view'] == 'articles') {
             $pathway->addItem($article->title, '');
         }
 

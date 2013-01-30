@@ -67,8 +67,8 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         if($item = $this->_findPage($needles))
         {
-            if(isset($item->link->query['layout'])) {
-                $route['layout'] = $item->link->query['layout'];
+            if(isset($item->getLink()->query['layout'])) {
+                $route['layout'] = $item->ink->query['layout'];
             }
 
             $route['Itemid'] = $item->id;

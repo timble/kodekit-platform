@@ -31,14 +31,14 @@
 		    <li>
 		        <? switch($page->type) : 
 		              case 'component': ?>
-						<a href="<?= @route(preg_replace('%layout=table%', 'layout=default', $page->link->getQuery()).'&Itemid='.$page->id) ?>">
+						<a href="<?= @route(preg_replace('%layout=table%', 'layout=default', $page->getLink()->getQuery()).'&Itemid='.$page->id) ?>">
 		                    <span><?= $page->title ?></span>
 		                </a>
 						<? break ?>
 						
 				    <? case 'menulink': ?>
-				        <? $page_linked = @service('application.pages')->getPage($page->link->query['Itemid']); ?>
-				        <a href="<?= $page_linked->link ?>">
+				        <? $page_linked = @service('application.pages')->getPage($page->getLink()->query['Itemid']); ?>
+				        <a href="<?= $page_linked->getLink() ?>">
 		                    <span><?= $page->title ?></span>
 		                </a>
 						<? break ?>
@@ -48,7 +48,7 @@
 						<? break ?>
 		
 					<? case 'url': ?>
-						<a href="<?= $page->link ?>">
+						<a href="<?= $page->getLink() ?>">
 		                    <span><?= $page->title ?></span>
 		                </a>
 						<? break ?>

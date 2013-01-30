@@ -39,7 +39,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
         //JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the pathway
-        if($page->link->query['view'] == 'categories' ) {
+        if($page->getLink()->query['view'] == 'categories' ) {
             $this->getService('application')->getPathway()->addItem($category->title, '');
         }
 
