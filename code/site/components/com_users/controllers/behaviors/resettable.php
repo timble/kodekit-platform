@@ -22,7 +22,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         parent::__construct($config);
 
         //@TODO Remove when PHP 5.5 becomes a requirement.
-        KLoader::loadFile(JPATH_ROOT . '/administrator/components/com_users/legacy.php');
+        $this->getService('loader')->loadFile(JPATH_ROOT . '/administrator/components/com_users/legacy.php');
     }
 
     protected function _beforeControllerRead(KCommandContext $context)
