@@ -467,9 +467,9 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Evaluate the template using a simple sandbox
      *
-     * This function write the template to a temporary file and then includes it to evaluate it.
+     * This function writes the template to a temporary file and then includes it.
      *
-     * @return The evaluated data
+     * @return string The evaluated data
      * @see tempnam()
      */
     protected function _evaluate(&$content)
@@ -477,14 +477,17 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         //Increase counter
         $this->__counter++;
 
-        //Extract the data in local scope
-        extract($this->_data, EXTR_SKIP);
-
+        //Create temporary file
         $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
-        $handle = fopen($tempfile, "w+");
+        $this->getService('loader')->setAlias($this->getPath(), $tempfile);
 
+        //Write the template to the file
+        $handle = fopen($tempfile, "w+");
         fwrite($handle, $content);
         fclose($handle);
+
+        //Include the file
+        extract($this->_data, EXTR_SKIP);
 
         ob_start();
         include $tempfile;
