@@ -62,6 +62,14 @@ interface KLoaderInterface
     public function setAlias($alias, $path);
 
     /**
+     * Get the path alias
+     *
+     * @param  string $path The path
+     * @return string Return the file alias if one exists. Otherwise return FALSE.
+     */
+    public function getAlias($path);
+
+    /**
      * Get a list of path aliases
      *
      * @return array

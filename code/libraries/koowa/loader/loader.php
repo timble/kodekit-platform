@@ -178,6 +178,17 @@ class KLoader
     }
 
     /**
+     * Get the path alias
+     *
+     * @param  string $path The path
+     * @return string Return the file alias if one exists. Otherwise return FALSE.
+     */
+    public function getAlias($path)
+    {
+        return array_search($path, $this->_aliases);
+    }
+
+    /**
      * Get a list of path aliases
      *
      * @return array
