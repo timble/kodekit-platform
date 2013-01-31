@@ -49,13 +49,16 @@ class Koowa
         //Load the legacy functions
         require_once $this->_path.'/legacy.php';
 
-        //Setup the loader
+        //Create the loader
         require_once $this->_path.'/loader/loader.php';
         $loader = KLoader::getInstance($config);
 
-        //Setup the factory
+        //Create the service manager
         $service = KService::getInstance($config);
+
+        //Add a 'loader' alias to the service manager
         $service->set('koowa:loader', $loader);
+        $service->setAlias('loader', 'koowa:loader');
     }
 
 	/**

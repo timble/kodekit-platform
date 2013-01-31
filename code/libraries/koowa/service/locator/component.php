@@ -61,7 +61,7 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
         $classname = 'Com'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
 
         //Manually load the class to set the basepath
-        if (!$this->getService('koowa:loader')->loadClass($classname, $identifier->basepath))
+        if (!$this->getService('loader')->loadClass($classname, $identifier->basepath))
         {
             $classpath = $identifier->path;
             $classtype = !empty($classpath) ? array_shift($classpath) : '';
