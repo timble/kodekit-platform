@@ -66,4 +66,25 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
         return $this->optionlist($config);
     }
+
+    public function searchpages($config = array())
+    {
+        $config = new KConfig($config);
+
+        $pages = $this->getService('com://admin/pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
+        $pages = $pages->find(array(
+            'link_url' => 'index.php?option=com_articles&view=articles&layout=search'));
+
+        $options = array();
+
+        foreach($pages as $page)
+        {
+            $options[] =  $this->option(array('text' => $page->title, 'value' => $page->id));
+        }
+
+        //Add the options to the config object
+        $config->options = $options;
+
+        return $this->optionlist($config);
+    }
 }
