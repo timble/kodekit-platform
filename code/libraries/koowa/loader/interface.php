@@ -15,9 +15,10 @@
 interface KLoaderInterface
 {
     /**
-     * Registers this instance as an autoloader.
+     * Registers the loader with the PHP autoloader.
      *
      * @return void
+     * @see spl-autoload-register();
      */
     public function register();
 

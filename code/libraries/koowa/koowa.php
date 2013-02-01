@@ -51,7 +51,7 @@ class Koowa
 
         //Create the loader
         require_once $this->_path.'/loader/loader.php';
-        $loader = KLoader::getInstance($config);
+        $loader = new KLoader($config);
 
         //Create the service manager
         $service = KService::getInstance($config);

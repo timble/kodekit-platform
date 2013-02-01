@@ -50,9 +50,9 @@ class KLoader
     /**
      * Constructor
      *
-     * Prevent creating instances of this class by making the contructor private
+     * @param array $config Array of configuration options.
      */
-    final private function __construct($config = array())
+    public function __construct($config = array())
     {
         //Create the class registry
         $this->_registry = new KLoaderRegistry();
@@ -72,30 +72,6 @@ class KLoader
 
         //Auto register the loader
         $this->register();
-    }
-
-    /**
-     * Clone
-     *
-     * Prevent creating clones of this class
-     */
-    final private function __clone() { }
-
-    /**
-     * Singleton instance
-     *
-     * @param  array  $config An optional array with configuration options.
-     * @return KLoader
-     */
-    public static function getInstance($config = array())
-    {
-        static $instance;
-
-        if ($instance === NULL) {
-            $instance = new self($config);
-        }
-
-        return $instance;
     }
 
     /**
