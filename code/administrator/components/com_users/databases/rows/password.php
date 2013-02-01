@@ -22,7 +22,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowTable
         parent::__construct($config);
 
         // TODO Remove when PHP 5.5 becomes a requirement.
-        KLoader::loadFile(JPATH_ROOT . '/administrator/components/com_users/legacy/password.php');
+        $this->getService('loader')->loadFile(JPATH_ROOT . '/administrator/components/com_users/legacy/password.php');
     }
 
     public function save()

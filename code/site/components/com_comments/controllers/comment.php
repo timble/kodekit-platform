@@ -1,6 +1,4 @@
 <?php
-KLoader::loadIdentifier('com://site/comments.aliases');
-
 class ComCommentsControllerComment extends ComDefaultControllerDefault 
 {
     public function __construct(Kconfig $config)
