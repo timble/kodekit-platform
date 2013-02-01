@@ -197,12 +197,13 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     public function mixin($mixin, $config = array())
     {
-        if ($mixin instanceof KControllerBehaviorInterface)
+        if ($mixin instanceof KControllerBehaviorAbstract)
         {
             foreach ($mixin->getMethods() as $method)
             {
                 if (substr($method, 0, 7) == '_action') {
                     $this->_actions[] = strtolower(substr($method, 7));
+
                 }
             }
 
