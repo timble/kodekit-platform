@@ -52,6 +52,10 @@ a:link    { text-decoration: none; }
 a:visited { text-decoration: none; }
 a:hover   { text-decoration: underline; }
 
+fieldset {
+	margin: 20px;
+}
+
 .ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -404,32 +408,30 @@ a:hover   { text-decoration: underline; }
 }
 
 .-koowa-form {
+	background-color: #F9F9F9;
 	margin: 0;
 	
-	div.title {
-		padding: 10px 10px 10px 10px;
-		#gradient > .vertical(#F0F0F0, #EAEAEA);
-		border-bottom: 1px solid #CCC;
-		
-		input {
-			font-size: @baseFontSize * 1.5;
-			width: 100%;
-			padding: 4px 8px;
-			margin-bottom: 0;
-			.box-sizing(border-box);
-			.border-radius(4px);
-			height: @baseLineHeight * 3;
-			line-height: @baseLineHeight * 3;
+	.main {
+		.title {
+			padding: 10px 10px 10px 10px;
+			#gradient > .vertical(#F0F0F0, #EAEAEA);
+			border-bottom: 1px solid #CCC;
+			
+			input {
+				font-size: @baseFontSize * 1.5;
+				width: 100%;
+				padding: 4px 8px;
+				margin-bottom: 0;
+				.box-sizing(border-box);
+				.border-radius(4px);
+				height: @baseLineHeight * 3;
+				line-height: @baseLineHeight * 3;
+			}
 		}
-	}
-	
-	.form-body {
-		background-color: #F9F9F9;
-	}
-	
-	.form-content {
-		padding: 20px;
-		background-color: @white;
+		
+		.scrollable {
+			background-color: @white;
+		}
 	}
 }
 
@@ -447,8 +449,6 @@ a:hover   { text-decoration: underline; }
 		 
 		 	.scrollable {		
 				border-left: 1px solid #E1E1E1;
-				padding: 14px;
-				background-color: #F9F9F9;
 			}
 		}
 		
