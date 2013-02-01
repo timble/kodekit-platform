@@ -23,12 +23,12 @@
     <input type="hidden" name="published" value="0" />
     <input type="hidden" name="table" value="<?= $state->table ?>" />
     
-    <div class="form-body">
+    <div class="main">
 		<div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
 		</div>
 
-		<div class="form-content">
+		<div class="scrollable">
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Details' ); ?></legend>
 				<div class="control-group">
@@ -48,7 +48,6 @@
 				</div>
 			</fieldset>
 		</div>
-
 	</div>
 
     <div class="sidebar">

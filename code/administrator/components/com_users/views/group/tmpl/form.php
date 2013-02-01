@@ -19,11 +19,11 @@
 <?= @template('com://admin/default.view.form.toolbar') ?>
 
 <form action="" method="post" class="-koowa-form" id="group-form">
-    <div class="form-body">
+    <div class="main">
         <div class="title">
             <input class="required" type="text" name="name" maxlength="255" value="<?= $group->name ?>" placeholder="<?= @text('Group name') ?>" />
         </div>
-        <div class="form-content">
+        <div class="scrollable">
     		<fieldset>
     			<legend><?= @text('Users') ?></legend>
     			<div class="control-group">

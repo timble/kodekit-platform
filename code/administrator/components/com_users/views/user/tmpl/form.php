@@ -28,16 +28,14 @@
 	<input type="hidden" name="enabled" value="<?= $this->getService('user')->getId() == $user->id ? 1 : 0 ?>" />
 	<input type="hidden" name="send_email" value="0" />
 	
-	<div class="form-content row-fluid">
-		<div class="span8">
+	<div class="main">
+		<div class="title">
+			<input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" />
+		</div>
+		
+		<div class="scrollable">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('General') ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="name"><?= @text('Name') ?></label>
-				    <div class="controls">
-				        <input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" />
-				    </div>
-				</div>
 				<div class="control-group">
 				    <label class="control-label" for="email"><?= @text('E-Mail') ?></label>
 				    <div class="controls">
@@ -67,7 +65,7 @@
 				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify" maxlength="100" />
 				    </div>
 				</div>
-                <? if (!$user->isNew()): ?>
+			    <? if (!$user->isNew()): ?>
 				<div class="control-group">
 				    <div class="controls">
 				        <label class="checkbox" for="password_change">
@@ -76,14 +74,17 @@
 				        </label>
 				    </div>
 				</div>
-                <? endif; ?>
+			    <? endif; ?>
 			</fieldset>
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Language') ?></legend>
 				<?= $user->params->render('params') ?>
 			</fieldset>
 		</div>
-		<div class="span4">
+	</div>
+	
+	<div class="sidebar">
+		<div class="scrollable">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('System Information') ?></legend>
 				<div class="control-group">

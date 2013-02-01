@@ -20,12 +20,12 @@
 	<input type="hidden" name="name" value="<?= $module->name ?>" />
 	<input type="hidden" name="application" value="<?= $module->application ?>" />
 	
-	<div class="form-body">
+	<div class="main">
 		<div class="title">
 			<input class="required" type="text" name="title" value="<?= @escape($module->title) ?>" />
 		</div>
 		
-		<div class="form-content">
+		<div class="scrollable">
 		    <fieldset class="form-horizontal">
 		    	<legend><?= @text( 'Details' ); ?></legend>
 				<div class="control-group">

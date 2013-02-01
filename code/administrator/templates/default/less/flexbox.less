@@ -63,21 +63,20 @@ html, body {
 		#flexbox > .box(row, 1);
 		min-height: 100%;
 	
-		.form-body {
+		.main {
 			#flexbox > .box(column, 1);
 			min-height: 100%;
 	
 			.title {
 				height: 36px;
 			}
-		}
-		
-		.form-content {
-			#flexbox > .box-flex(1);
-			#flexbox > .box-scrollable(scrollable);
-			min-height: 100%;
-		}
-		
+			
+			.scrollable {
+				#flexbox > .box-flex(1);
+				#flexbox > .box-scrollable(scrollable);
+				min-height: 100%;
+			}
+		}		
 		.sidebar {
 			#flexbox > .box(column, initial);
 		}
