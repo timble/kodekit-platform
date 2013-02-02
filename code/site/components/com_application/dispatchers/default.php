@@ -171,7 +171,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             //Redirect to the default menu item if the route is empty
             if(empty($route))
             {
-                $url = $pages->getHome()->link;
+                $url = $pages->getHome()->getLink();
                 $url->query['Itemid'] = $pages->getHome()->id;
 
                 $this->getRouter()->build($url);
@@ -418,7 +418,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
                         {
                             case 'pagelink':
                             case 'url' :
-                                $url = $page->link;
+                                $url = $page->getLink();
                                 break;
 
                             case 'separator':
@@ -426,7 +426,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
                                 break;
 
                             default:
-                                $url = $page->link;
+                                $url = $page->getLink();
                                 $url->query['Itemid'] = $page->id;
                                 $url = $this->getRouter()->build($url);
                                 break;
