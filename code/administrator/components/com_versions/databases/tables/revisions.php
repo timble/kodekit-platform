@@ -23,7 +23,10 @@ class ComVersionsDatabaseTableRevisions extends KDatabaseTableDefault
     protected function _initialize(KConfig $config)
     {     
         $config->append(array(
-            'behaviors' => array('creatable')
+            'behaviors' => array('creatable'),
+            'filters'   => array(
+                'data' => array('json')
+            )
         ));
 
         parent::_initialize($config);
