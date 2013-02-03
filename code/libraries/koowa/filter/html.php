@@ -215,12 +215,15 @@ class KFilterHtml extends KFilterAbstract
             $currentSpace   = strpos($tagLeft, ' ');
 
             // Are we an open tag or a close tag?
-            if (substr($currentTag, 0, 1) == '/') {
+            if (substr($currentTag, 0, 1) == '/')
+            {
                 // Close Tag
                 $isCloseTag     = true;
                 list ($tagName) = explode(' ', $currentTag);
                 $tagName        = substr($tagName, 1);
-            } else {
+            }
+            else
+            {
                 // Open Tag
                 $isCloseTag     = false;
                 list ($tagName) = explode(' ', $currentTag);
@@ -231,7 +234,8 @@ class KFilterHtml extends KFilterAbstract
              * OR no tagname
              * OR remove if xssauto is on and tag is blacklisted
              */
-            if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->_tagBlacklist)) && ($this->_xssAuto))) {
+            if ((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName), $this->_tagBlacklist)) && ($this->_xssAuto)))
+            {
                 $postTag        = substr($postTag, ($tagLength +2));
                 $tagOpen_start  = strpos($postTag, '<');
                 // Strip tag
@@ -251,7 +255,8 @@ class KFilterHtml extends KFilterAbstract
                 $closeQuotes    = strpos(substr($fromSpace, ($openQuotes +1)), '"') + $openQuotes +1;
 
                 // Do we have an attribute to process? [check for equal sign]
-                if (strpos($fromSpace, '=') !== false) {
+                if (strpos($fromSpace, '=') !== false)
+                {
                     /*
                      * If the attribute value is wrapped in quotes we need to
                      * grab the substring from the closing quote, otherwise grab
@@ -262,7 +267,9 @@ class KFilterHtml extends KFilterAbstract
                     } else {
                         $attr = substr($fromSpace, 0, $nextSpace);
                     }
-                } else {
+                }
+                else
+                {
                     /*
                      * No more equal signs so add any extra text in the tag into
                      * the attribute array [eg. checked]
@@ -289,10 +296,11 @@ class KFilterHtml extends KFilterAbstract
             $tagFound = in_array(strtolower($tagName), $this->_tagsArray);
 
             // If the tag is allowed lets append it to the output string
-            if ((!$tagFound && $this->_tagsMethod) || ($tagFound && !$this->_tagsMethod)) {
-
+            if ((!$tagFound && $this->_tagsMethod) || ($tagFound && !$this->_tagsMethod))
+            {
                 // Reconstruct tag with allowed attributes
-                if (!$isCloseTag) {
+                if (!$isCloseTag)
+                {
                     // Open or Single tag
                     $attrSet = $this->_cleanAttributes($attrSet);
                     $preTag .= '<'.$tagName;
@@ -307,7 +315,9 @@ class KFilterHtml extends KFilterAbstract
                     } else {
                         $preTag .= ' />';
                     }
-                } else {
+                }
+                else
+                {
                     // Closing Tag
                     $preTag .= '</'.$tagName.'>';
                 }
@@ -322,6 +332,7 @@ class KFilterHtml extends KFilterAbstract
         if ($postTag != '<') {
             $preTag .= $postTag;
         }
+
         return $preTag;
     }
 
@@ -357,7 +368,8 @@ class KFilterHtml extends KFilterAbstract
             }
 
             // XSS attribute value filtering
-            if ($attrSubSet[1]) {
+            if ($attrSubSet[1])
+            {
                 // strips unicode, hex, etc
                 $attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
                 // strip normal newline within attr value
@@ -381,8 +393,8 @@ class KFilterHtml extends KFilterAbstract
             $attrFound = in_array(strtolower($attrSubSet[0]), $this->_attrArray);
 
             // If the tag is allowed lets keep it
-            if ((!$attrFound && $this->_attrMethod) || ($attrFound && !$this->_attrMethod)) {
-
+            if ((!$attrFound && $this->_attrMethod) || ($attrFound && !$this->_attrMethod))
+            {
                 // Does the attribute have a value?
                 if ($attrSubSet[1]) {
                     $newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';

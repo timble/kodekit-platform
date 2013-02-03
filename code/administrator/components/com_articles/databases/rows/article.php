@@ -38,10 +38,12 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowTable
             list($introtext, $fulltext) = preg_split($pattern, $text, 2);
 
             $this->introtext = trim($introtext);
-            $this->fulltext = trim($fulltext);
-        } else {
+            $this->fulltext  = trim($fulltext);
+        }
+        else
+        {
         	$this->introtext = trim($text);
-        	$this->fulltext = '';
+        	$this->fulltext  = '';
         }
 
         //Validate the title
