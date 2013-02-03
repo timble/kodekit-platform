@@ -40,7 +40,7 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
     /**
      * Returns an associative array of the raw data
      *
-     * @param   boolean  If TRUE, only return the modified data. Default FALSE
+     * @param   boolean  If TRUE, only return the modified data.
      * @return  array
      */
     public function getData($modified = false);
@@ -50,7 +50,6 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
      *
      * @param   mixed   Either and associative array, an object or a KDatabaseRow
      * @param   boolean If TRUE, update the modified information for each column being set.
-     *                  Default TRUE
      * @return  KDatabaseRowInterface
      */
     public function setData( $data, $modified = true );
