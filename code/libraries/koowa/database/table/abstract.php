@@ -468,9 +468,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
      * @param mixed    $query KDatabaseQuery, query string, array of row id's, or an id or null
      * @param integer  $mode  The database fetch style. Default FETCH_ROWSET.
      * @param array    $state An optional associative array of configuration options.
-     *
-     * @return KDatabaseRow or KDatabaseRowset depending on the mode. By default will
-     *         return a KDatabaseRowset
+     * @return KDatabaseRow(set) depending on the mode. By default will return a KDatabaseRowset
      */
     public function select($query = null, $mode = KDatabase::FETCH_ROWSET, array $options = array())
     {
@@ -812,8 +810,8 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     /**
      * Table filter method
      *
-     * This function removes extra columns based on the table columns taking any table mappings into
-     * account and filters the data based on each column type.
+     * This function removes extra columns based on the table columns taking any table mappings into account and
+     * filters the data based on each column type.
      *
      * @param   boolean  If TRUE, get the column information from the base table. Default is TRUE.
      * @param  array    An associative array of data to be filtered
