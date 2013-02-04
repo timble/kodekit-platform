@@ -111,7 +111,7 @@ VALUES
 	(18, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
 	(19, 'Latest News', '', 19, 'user1', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_title=1', 20, 'site'),
 	(25, 'Newsflash', '', 9, 'top', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\nshow_title=1\r\n', 20, 'site'),
-	(27, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 'form_class=navbar-search pull-right\ninput_class=search-query', 15, 'site'),
+	(27, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 'form_class=navbar-search form-search pull-right\ninput_class=span2 search-query\nitem_id=51', 20, 'site'),
 	(28, 'Random Image', '', 23, 'right', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_image', 0, '', 19, 'site'),
 	(29, 'Top Menu', '', 11, 'user3', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 'menu_id=4\nshow_title=0\nclass=nav', 25, 'site'),
 	(35, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 25, 'site');
@@ -174,7 +174,8 @@ VALUES
 	(47, 2, 2),
 	(48, 10, 10),
 	(49, 9, 9),
-	(50, 3, 2);
+	(50, 3, 2),
+	(51, 1, 1);
 
 --
 -- Dumping data for table `#__pages_closures`
@@ -206,7 +207,8 @@ VALUES
 	(47, 47, 0),
 	(48, 48, 0),
 	(49, 49, 0),
-	(50, 50, 0);
+	(50, 50, 0),
+	(51, 51, 0);
 
 --
 -- Dumping data for table `#__pages`
@@ -233,7 +235,8 @@ VALUES
 	(47, 1, NULL, 'Category Table', 'category-table', 'index.php?option=com_articles&view=articles&layout=table&category=32', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(48, 1, NULL, 'Web Links', 'web-links', 'index.php?option=com_weblinks&view=categories', NULL, 'component', 1, 0, 0, 4, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(49, 1, NULL, 'The News', 'the-news', 'index.php?option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(50, 3, NULL, 'Submit an Article', 'submit-an-article', 'index.php?option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+	(50, 3, NULL, 'Submit an Article', 'submit-an-article', 'index.php?option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+	(51, 1, NULL, 'Search Results', 'search-results', 'index.php?option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 
 
