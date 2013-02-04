@@ -47,21 +47,13 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
                 ->bind(array('categories' => $categories));
         }
 
+        if ($parents = $constraints['category_parents']) {
+            $context->query->where('categories.parent_id IN :parents')->bind(array('parents' => $parents));
+        }
+
         if ($articles = $constraints['articles']) {
-            // TODO The query builder doesn't support queries like WHERE ... OR (... AND ...). Because of this
-            // I need to make the inner condition a single one. This needs improvement.
-            $db = $this->getMixer()->getDatabase();
-
-            $query = $this->getService('koowa:database.query.select')->table('articles')
-                ->columns('articles_article_id')->where('articles_article_id IN :articles')
-                ->where('access IN :access')->bind(array(
-                'articles' => $articles,
-                'access'   => (array) ($this->_user->guest ? 0 : array(0, 1))));
-
-            if ($articles = $db->select($query, KDatabase::FETCH_FIELD_LIST)) {
-                $context->query->where('tbl.articles_article_id IN :articles', 'OR')
-                    ->bind(array('articles' => $articles));
-            }
+            $context->query->where('(tbl.articles_article_id IN :articles', 'OR')->where('tbl.access IN :access)')
+                ->bind(array('articles' => $articles, 'access' => (array) ($this->_user->guest ? 0 : array(0, 1))));
         }
     }
 
@@ -69,7 +61,7 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
     {
         if (!$this->_constraints) {
 
-            $constraints = array('categories' => array(), 'articles' => array());
+            $constraints = array('categories' => array(), 'articles' => array(), 'category_parents' => array());
 
             if ($pages = $this->_getPages()) {
 
@@ -83,7 +75,12 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
                     }
 
                     if (isset($link->query['category'])) {
-                        $constraints['categories'][] = (int) $link->query['category'];
+                        if ($link->query['view'] == 'categories') {
+                            $constraints['category_parents'][] = (int) $link->query['category'];
+                        } else {
+                            // Assume view=articles
+                            $constraints['categories'][] = (int) $link->query['category'];
+                        }
                     }
 
                     if (($link->query['view'] == 'article') && isset($link->query['id'])) {
