@@ -69,7 +69,9 @@ class KViewFile extends KViewAbstract
     {
         parent::__construct($config);
 
-        $this->set($config->toArray());
+        foreach ($config->toArray() as $key => $value) {
+        	$this->$key = $value;
+        }
     }
 
     /**
@@ -150,7 +152,7 @@ class KViewFile extends KViewAbstract
     	if (!method_exists($this, $transport)) {
     	    throw new \RuntimeException('Transport method :'.$this->transport.'not found');
     	}
-    	
+  	
     	return $this->$transport();
     	die;
     }
@@ -162,12 +164,12 @@ class KViewFile extends KViewAbstract
         if (!$this->filesize) {
             throw new \RuntimeException('Cannot read file');
         }
-    
+
         $this->start_point = 0;
         $this->end_point = $this->filesize - 1;
     
         $this->_setHeaders();
-    
+        
         if (KRequest::get('server.HTTP_RANGE', 'cmd'))
         {
             // Partial download
@@ -192,7 +194,7 @@ class KViewFile extends KViewAbstract
             header('Content-Range: bytes '.$range.'/'.$this->filesize);
             header('Content-Length: '.($this->end_point - $this->start_point + 1), true);
         }
-    
+
         flush();
     
         if ($this->_content)
@@ -235,7 +237,7 @@ class KViewFile extends KViewAbstract
             flush();
             $cnt += strlen($buffer);
         }
-    
+
         if (!empty($this->file) && is_resource($this->file)) {
             fclose($this->file);
         }
