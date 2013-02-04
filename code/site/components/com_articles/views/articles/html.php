@@ -56,4 +56,12 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
 
         return $category;
     }
+
+    public function highlight($text)
+    {
+        if ($searchword = $this->getModel()->getState()->searchword) {
+            $text = preg_replace('/'.$searchword.'(?![^<]*?>)/i', '<span class="highlight">' . $searchword . '</span>', $text);
+        }
+        return $text;
+    }
 }
