@@ -43,7 +43,7 @@ define('DS', DIRECTORY_SEPARATOR);
 
 require_once JPATH_APPLICATION.'/bootstrap.php';
 
-KLoader::loadIdentifier('com://admin/application.aliases');
+KService::get('loader')->loadIdentifier('com://admin/application.aliases');
 $application = KService::get('com://admin/application.dispatcher');
 $application->loadConfig(new KCommandContext());
 $application->loadSession(new KCommandContext());

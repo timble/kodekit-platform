@@ -145,7 +145,7 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
         //Load the component aliases
         $component   = $this->getController()->getIdentifier()->package;
         $application = $this->getController()->getIdentifier()->application;
-        $this->getService('koowa:loader')->loadIdentifier('com://'.$application.'/'.$component.'.aliases');
+        $this->getService('loader')->loadIdentifier('com://'.$application.'/'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());

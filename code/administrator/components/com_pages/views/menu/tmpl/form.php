@@ -20,11 +20,11 @@
 <form action="<?= @route('&id='.$menu->id)?>" method="post" class="-koowa-form">
     <input type="hidden" name="application" value="site" />
     
-    <div class="form-body">
+    <div class="main">
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $menu->title ?>" placeholder="<?= @text('Title') ?>" />
         </div>
-        <div class="form-content">
+        <div class="scrollable">
             <label for="name"><?= @text('Slug') ?>:</label>
             <input type="text" name="slug" size="30" maxlength="25" value="<?= $menu->slug ?>" />
 

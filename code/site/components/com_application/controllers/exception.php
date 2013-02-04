@@ -71,6 +71,12 @@ class ComApplicationControllerException extends KControllerView
             $info     = isset($traces[0]['info'])  ? $traces[0]['info']  : '';
         }
 
+        //Find the real file path
+        if($alias = $this->getService('loader')->getAlias($file)) {
+            $file = $alias;
+        };
+
+        //Create the exception message
         if(ini_get('display_errors')) {
             $message = "Exception '".get_class($exception) ."' with message '".$message."' in ".$file.":".$line;
         } else {

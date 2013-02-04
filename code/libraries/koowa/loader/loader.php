@@ -27,6 +27,13 @@ class KLoader
     protected $_registry = null;
 
     /**
+     * File aliases
+     *
+     * @var    array
+     */
+    protected $_aliases = array();
+
+    /**
      * Adapter list
      *
      * @var array
@@ -43,9 +50,9 @@ class KLoader
     /**
      * Constructor
      *
-     * Prevent creating instances of this class by making the contructor private
+     * @param array $config Array of configuration options.
      */
-    final private function __construct($config = array())
+    public function __construct($config = array())
     {
         //Create the class registry
         $this->_registry = new KLoaderRegistry();
@@ -65,30 +72,6 @@ class KLoader
 
         //Auto register the loader
         $this->register();
-    }
-
-    /**
-     * Clone
-     *
-     * Prevent creating clones of this class
-     */
-    final private function __clone() { }
-
-    /**
-     * Singleton instance
-     *
-     * @param  array  An optional array with configuration options.
-     * @return KLoader
-     */
-    public static function getInstance($config = array())
-    {
-        static $instance;
-
-        if ($instance === NULL) {
-            $instance = new self($config);
-        }
-
-        return $instance;
     }
 
     /**
@@ -116,13 +99,31 @@ class KLoader
         return $this->_registry;
     }
 
+    /**
+     * Get a path from an file
+     *
+     * Function will check if the path is an alias and return the real file path
+     *
+     * @param  string $path The path
+     * @return string The file path
+     */
+    public function getFile($path)
+    {
+        //Find the path by checking the alias map
+        while(array_key_exists($path, $this->_aliases)) {
+            $path = $this->_aliases[$path];
+        }
+
+        return $path;
+    }
+
  	/**
      * Add a loader adapter
      *
-     * @param object    A KLoaderAdapter
+     * @param object $adapter A KLoaderAdapter
      * @return void
      */
-    public static function addAdapter(KLoaderAdapterInterface $adapter)
+    public function addAdapter(KLoaderAdapterInterface $adapter)
     {
         self::$_adapters[$adapter->getType()]     = $adapter;
         self::$_prefix_map[$adapter->getPrefix()] = $adapter->getType();
@@ -133,16 +134,51 @@ class KLoader
      *
      * @return array
      */
-    public static function getAdapters()
+    public function getAdapters()
     {
         return self::$_adapters;
     }
 
     /**
+     * Set an file path alias
+     *
+     * @param string  $alias    The alias
+     * @param string  $path     The path
+     */
+    public function setAlias($alias, $path)
+    {
+        $alias = trim($alias);
+        $path  = trim($path);
+
+        $this->_aliases[$alias] = $path;
+    }
+
+    /**
+     * Get the path alias
+     *
+     * @param  string $path The path
+     * @return string Return the file alias if one exists. Otherwise return FALSE.
+     */
+    public function getAlias($path)
+    {
+        return array_search($path, $this->_aliases);
+    }
+
+    /**
+     * Get a list of path aliases
+     *
+     * @return array
+     */
+    public function getAliases()
+    {
+        return $this->_aliases;
+    }
+
+    /**
      * Load a class based on a class name
      *
-     * @param string    The class name
-     * @param string    The basepath
+     * @param string    $class    The class name
+     * @param string    $basepath The basepath
      * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
     public function loadClass($class, $basepath = null)
@@ -161,7 +197,7 @@ class KLoader
                 $path = self::findPath( $class, $basepath );
 
                 if ($path !== false) {
-                    $result = self::loadFile($path);
+                    $result = $this->loadFile($path);
                 }
             }
             else $result = true;
@@ -173,7 +209,7 @@ class KLoader
 	/**
      * Load a class based on an identifier
      *
-     * @param string|object The identifier or identifier object
+     * @param string|object $identifier The identifier or identifier object
      * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
      */
     public function loadIdentifier($identifier)
@@ -186,7 +222,7 @@ class KLoader
         $path = $identifier->filepath;
 
         if ($path !== false) {
-            $result = self::loadFile($path);
+            $result = $this->loadFile($path);
         }
 
         return $result;
@@ -195,12 +231,13 @@ class KLoader
     /**
      * Load a class based on a path
      *
-     * @param string	The file path
+     * @param string	$path The file path
      * @return boolean  Returns TRUE if the file could be loaded, otherwise returns FALSE.
      */
     public function loadFile($path)
     {
         $result = false;
+        $path   = $this->getFile($path);
 
         //Don't re-include files and stat the file if it exists.
         //Realpath is needed to resolve symbolic links.
@@ -217,8 +254,8 @@ class KLoader
     /**
      * Get the path based on a class name
      *
-     * @param string	The class name
-     * @param string    The basepath
+     * @param string $class    The class name
+     * @param string $basepath The basepath
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
     public function findPath($class, $basepath = null)

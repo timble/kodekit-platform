@@ -23,12 +23,12 @@
 	<input type="hidden" name="access" value="0" />
 	<input type="hidden" name="published" value="0" />
 	
-	<div class="form-body">
+	<div class="main">
 		<div class="title">
 		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
 		</div>
 
-		<div class="form-content">
+		<div class="scrollable">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Information'); ?></legend>
 				<div class="control-group">

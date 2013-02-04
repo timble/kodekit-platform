@@ -54,7 +54,7 @@
                 'white-space': 'nowrap',
                 bottom: 0,
                 top: 0,
-                left: this.options.offset,
+                left: (pathway.getPrevious() ? pathway.getPrevious().getSize().x : 0) + this.options.offset,
                 right: pathway.getNext().getSize().x + this.options.offset,
                 'position': 'absolute'
             });

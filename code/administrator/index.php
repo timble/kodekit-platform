@@ -21,5 +21,5 @@ define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once(JPATH_APPLICATION.'/bootstrap.php' );
 
-KLoader::loadIdentifier('com://admin/application.aliases');
+KService::get('loader')->loadIdentifier('com://admin/application.aliases');
 KService::get('application')->run();
