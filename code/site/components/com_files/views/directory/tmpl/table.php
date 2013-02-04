@@ -7,11 +7,13 @@
  */
 defined('_JEXEC') or die; ?>
 
-<? if ($params->get('show_page_title')): ?>
-	<h2>
-		<?= @escape($params->get('page_title')); ?>
-	</h2>
+<? if ($params->get('show_page_title', 1)): ?>
+<div class="page-header">
+	<h1><?= @escape($params->get('page_title')); ?></h1>
+</div>
 <? endif; ?>
+
+<h2><?= @escape($state->folder); ?></h2>
 
 <form action="" method="get" class="-koowa-form">
 <table class="table table-striped">
@@ -31,9 +33,8 @@ defined('_JEXEC') or die; ?>
 	</tfoot>
 	<? endif; ?>
 	<tbody>
-	    <? $i = 0 ?>
 		<? if ($parent !== null): ?>
-		<tr class="<?= $i++ % 2 ? 'even' : 'odd' ?>">
+		<tr>
 			<td>
 				<a href="<?= @route('folder='.$parent); ?>">
 					<?= @text('Parent Folder') ?>
@@ -42,8 +43,8 @@ defined('_JEXEC') or die; ?>
 			<td></td>
 		</tr>
 		<? endif; ?>
-		<? if ($folders): foreach($folders as $folder): ?>
-		<tr class="<?= $i++ % 2 ? 'even' : 'odd' ?>">
+		<? foreach($folders as $folder): ?>
+		<tr>
 			<td>
 				<a href="<?= @route('folder='.$folder->path);?>">
 					<?=@escape($folder->display_name)?>
@@ -51,12 +52,13 @@ defined('_JEXEC') or die; ?>
 			</td>
 			<td></td>
 		</tr>
-		<? endforeach; endif; ?>
-		<? if ($files): foreach($files as $file): ?>
-		<tr class="<?= $i++ % 2 ? 'even' : 'odd' ?>">
+		<? endforeach; ?>
+		
+		<? foreach($files as $file): ?>
+		<tr>
 			<td>
 				<a class="fileman-download" data-path="<?= @escape($file->path); ?>"
-					href="<?= @route('view=file&container='.$state->container->slug.'&folder='.$state->folder.'&name='.$file->name);?>">
+					href="<?= @route('view=file&container='.$state->container.'&folder='.$state->folder.'&name='.$file->name);?>">
 					<?=@escape($file->display_name)?>
 				</a>
 			</td>
@@ -64,11 +66,17 @@ defined('_JEXEC') or die; ?>
 				<?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => $file->size));?>
 			</td>
 		</tr>
-		<? endforeach; endif; ?>
+		<? endforeach; ?>
 	</tbody>
 </table>
 
 <? if(count($files) != $total): ?>
-    <?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
+    <?= @helper('paginator.pagination', array(
+    	'total' => $total, 
+    	'show_limit' => false, 
+    	'show_count' => false,
+    	'limit' => $state->limit,
+    	'offset' => $state->offset
+    )); ?>
 <? endif; ?>
 </form>

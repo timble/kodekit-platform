@@ -15,6 +15,6 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerFolder extends ComDefaultControllerModel
+class ComFilesControllerDirectory extends ComDefaultControllerModel
 {
 }
