@@ -40,14 +40,9 @@ class ComArticlesControllerDefault extends ComDefaultControllerModel
     {
         $request = parent::getRequest();
 
-        $access = array(0);
-
-        if ($this->getUser()->isAuthentic()) {
-            $access[] = 1;
+        if (!$this->getUser()->isAuthentic()) {
+            $request->query->access = 0;
         }
-
-        // Filter rowsets based on current logged user's permissions.
-        $request->query->access = $access;
 
         return $request;
     }
