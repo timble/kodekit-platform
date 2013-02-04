@@ -93,8 +93,9 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             $query->where('tbl.deleted = :trashed')->bind(array('trashed' => 1));
         }
 
-        if (is_numeric($state->access)) {
-            $query->where('tbl.access = :access')->bind(array('access' => $state->access));
+        if ($access = $state->access) {
+            $query->where('tbl.access IN :access')
+                ->bind(array('access' => (array) $state->access));
         }
     }
 
