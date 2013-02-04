@@ -42,18 +42,25 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
     {
         $constraints = $this->_getConstraints();
 
+        $base_where = '';
+
+        foreach ($context->query->where as $where) {
+            $base_where .= ' ' . $where['combination'] . ' ' . $where['condition'];
+        }
+
         if ($categories = $constraints['categories']) {
             $context->query->where('categories.categories_category_id IN :categories')
                 ->bind(array('categories' => $categories));
         }
 
         if ($parents = $constraints['category_parents']) {
-            $context->query->where('categories.parent_id IN :parents')->bind(array('parents' => $parents));
+            $context->query->where('categories.parent_id IN :parents AND' . $base_where, 'OR')
+                ->bind(array('parents' => $parents));
         }
 
         if ($articles = $constraints['articles']) {
-            $context->query->where('(tbl.articles_article_id IN :articles', 'OR')->where('tbl.access IN :access)')
-                ->bind(array('articles' => $articles, 'access' => (array) ($this->_user->guest ? 0 : array(0, 1))));
+            $context->query->where('tbl.articles_article_id IN :articles AND' . $base_where, 'OR')
+                ->bind(array('articles' => $articles));
         }
     }
 
@@ -106,20 +113,17 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
 
             $user = $this->_user;
 
-            $access = array(0);
-            $groups = array(0);
+            $needles = array(
+                'users_group_id' => array_merge(array(0), $user->getGroups()),
+                'component_name' => 'com_' . $this->getMixer()
+                    ->getIdentifier()->package);
 
-            if (!$user->guest) {
-                $access[] = 1;
-                $groups   = array_merge($groups, $user->getGroups());
+            if ($user->guest) {
+                $needles['access'] = 0;
             }
 
             $pages = $this->getService('com://admin/pages.model.pages')->application('site')->published(true)
-                ->getRowset()->find(array(
-                'component_name' => 'com_' . $this->getMixer()
-                    ->getIdentifier()->package,
-                'users_group_id' => $groups,
-                'access'         => $access));
+                ->getRowset()->find($needles);
 
             $this->_pages = $pages;
         }
