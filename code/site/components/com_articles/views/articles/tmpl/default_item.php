@@ -11,7 +11,7 @@
 
 <article>
     <div class="page-header">
-        <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= $article->title ?></a></h1>
+        <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
         <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
         <span class="label label-info"><?= @text('Unpublished') ?></span>
@@ -21,10 +21,8 @@
         <? endif ?>
     </div>
     
-    <? if ($article->fulltext && $params->get('show_readmore')) : ?>
-        <?= $article->introtext; ?>
+    <? if ($article->introtext) : ?>
+        <?= @highlight($article->introtext) ?>
         <a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @text('Read more') ?></a>
-    <? else : ?>
-        <?= $article->introtext . $article->fulltext ?>
     <? endif; ?>
 </article>
