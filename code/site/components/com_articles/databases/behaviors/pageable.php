@@ -40,13 +40,17 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
 
     protected function _filterByPages(KCommandContext $context)
     {
-        $constraints = $this->_getConstraints();
-
         $base_where = '';
 
         foreach ($context->query->where as $where) {
             $base_where .= ' ' . $where['combination'] . ' ' . $where['condition'];
         }
+
+        if (!empty($base_where)) {
+            $base_where = ' AND ' . $base_where;
+        }
+
+        $constraints = $this->_getConstraints();
 
         if ($categories = $constraints['categories']) {
             $context->query->where('categories.categories_category_id IN :categories')
@@ -54,12 +58,12 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
         }
 
         if ($parents = $constraints['category_parents']) {
-            $context->query->where('categories.parent_id IN :parents AND' . $base_where, 'OR')
+            $context->query->where('categories.parent_id IN :parents' . $base_where, 'OR')
                 ->bind(array('parents' => $parents));
         }
 
         if ($articles = $constraints['articles']) {
-            $context->query->where('tbl.articles_article_id IN :articles AND' . $base_where, 'OR')
+            $context->query->where('tbl.articles_article_id IN :articles' . $base_where, 'OR')
                 ->bind(array('articles' => $articles));
         }
     }
