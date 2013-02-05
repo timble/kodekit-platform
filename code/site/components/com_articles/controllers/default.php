@@ -25,7 +25,6 @@ class ComArticlesControllerDefault extends ComDefaultControllerModel
         /*$params = $this->getService('application')->getParams();
         $params->def('articles_per_page', 5);
         $params->def('sort_by', 'newest');
-        $params->def('show_readmore', 1);
         $params->def('show_description', 0);
         $params->def('show_description_image', 0);
         $params->def('date_format', JText::_('DATE_FORMAT_LC2'));
