@@ -340,24 +340,23 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     {
         $result = null;
 
-        if (!is_scalar($needle))
+        if(is_array($needle))
         {
             $result = clone $this;
 
-            foreach ($this as $i => $row)
+            foreach($this as $row)
             {
-                foreach ($needle as $key => $value) {
-                    if (!in_array($row->{$key}, (array)$value)) {
+                foreach($needle as $key => $value)
+                {
+                    if(!in_array($row->{$key}, (array) $value)) {
                         $result->extract($row);
                     }
                 }
             }
         }
-        else
-        {
-            if (isset($this->_object_set[$needle])) {
-                $result = $this->_object_set[$needle];
-            }
+
+        if(is_scalar($needle) && isset($this->_object_set[$needle])) {
+            $result = $this->_object_set[$needle];
         }
 
         return $result;
