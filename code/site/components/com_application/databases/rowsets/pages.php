@@ -100,20 +100,25 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         $result = true;
         $page   = $this->find($id);
 
-        if($page->access)
+        // Return false if page not found.
+        if(!is_null($page))
         {
-            // Return false if page has access set, but user is a guest.
-            if($user->isAuthentic())
+            if($page->access)
             {
-                // Return false if page has group set, but user is not in that group.
-                if($page->users_group_id && !in_array($user->getRole(), array(21, 23, 24, 25))
-                    && !in_array($page->users_group_id, $user->getGroups()))
+                // Return false if page has access set, but user is a guest.
+                if($user->isAuthentic())
                 {
-                    $result = false;
+                    // Return false if page has group set, but user is not in that group.
+                    if($page->users_group_id && !in_array($user->getRole(), array(21, 23, 24, 25))
+                        && !in_array($page->users_group_id, $user->getGroups()))
+                    {
+                        $result = false;
+                    }
                 }
+                else $result = false;
             }
-            else $result = false;
         }
+        else $result = false;
 
         return $result;
     }
