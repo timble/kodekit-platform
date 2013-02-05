@@ -77,11 +77,11 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         // Set the template data
         $this->_data = $config->data;
 
-        //Attach the filters
-        $this->attachFilter($config->filters);
-
         // Mixin a command chain
         $this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
+
+        //Attach the filters
+        $this->attachFilter($config->filters);
 
         //Reset the counter
         $this->__counter = 0;
