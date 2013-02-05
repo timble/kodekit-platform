@@ -66,7 +66,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         if ($state->search || $state->searchword) {
             $search = $state->searchword ? $state->searchword : $state->search;
-            $query->where('tbl.title LIKE :search')->bind(array('search' => '%' . $search . '%'));
+            $query->where('(tbl.title LIKE :search OR tbl.introtext LIKE :search OR tbl.fulltext LIKE :search)')->bind(array('search' => '%' . $search . '%'));
         }
 
         if(is_numeric($state->category) || $state->category)
