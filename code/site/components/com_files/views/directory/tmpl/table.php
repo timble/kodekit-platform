@@ -60,7 +60,7 @@ defined('_JEXEC') or die; ?>
 		<tr>
 			<td>
 				<a class="fileman-download" data-path="<?= @escape($file->path); ?>"
-					href="<?= @route('&view=file&container='.$state->container.'&folder='.$state->folder.'&name='.$file->name);?>">
+					href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
 					<?=@escape($file->display_name)?>
 				</a>
 			</td>
