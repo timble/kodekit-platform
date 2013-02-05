@@ -88,7 +88,7 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 		}
 	
 		$parent = null;
-		if ($page->query['folder'] !== $folder->path)
+		if ($page->getLink()->query['folder'] !== $folder->path)
 		{
 			$path   = explode('/', $folder->path);
 			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
@@ -119,9 +119,10 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 			$state   = $this->getModel()->getState();
 			$pathway = $this->getService('application')->getPathway();
 			$path    = $this->folder->path;
+			$query   = $this->page->getLink()->query;
 		
-			if (!empty($this->page->query['folder']) && strpos($path, $this->page->query['folder']) === 0) {
-				$path = substr($path, strlen($this->page->query['folder'])+1, strlen($path));
+			if (!empty($query['folder']) && strpos($path, $query['folder']) === 0) {
+				$path = substr($path, strlen($query['folder'])+1, strlen($path));
 			}
 			$parts = explode('/', $path);
 

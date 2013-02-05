@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Gallery layout">
+        <message>
+            <![CDATA[]]>
+        </message>
+    </layout>
+    <state>
+        <name>Gallery Layout</name>
+        <description></description>
+        <url addpath="/administrator/components/com_files/elements">
+        	<param name="folder" type="folders" default="" label="Folder" />
+        	<!-- TODO: take this out when page manager correctly adds the layout to the menu item -->
+        	<param name="layout" type="hidden" default="gallery" />
+        </url>
+    </state>
+</metadata>
