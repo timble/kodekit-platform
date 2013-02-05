@@ -94,7 +94,6 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
 		}
 
-		// TODO: check if this works
 	 	if (!$params->get('page_title')) {
 	 		$params->set('page_title', $page->title);
 	 	}
