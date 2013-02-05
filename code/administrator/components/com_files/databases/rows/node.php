@@ -136,7 +136,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 			return trim(($this->folder ? $this->folder.'/' : '').$this->name, '/\\');
 		}
 		
-		if ($column == 'display_name') {
+		if ($column == 'display_name' && empty($this->_data['display_name'])) {
 			return $this->name;
 		}
 

@@ -24,7 +24,7 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 		
 		$page 	= $this->getService('application.pages')->getActive();
 		$params = new JParameter($page->params);
-		
+
 		$data   = $this->getService('koowa:controller.request', array(
 			'query' => array('container' => $state->container, 'folder' => $state->folder, 'name' => $state->name)
 		));
@@ -94,6 +94,7 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
 		}
 
+		// TODO: check if this works
 	 	if (!$params->get('page_title')) {
 	 		$params->set('page_title', $page->title);
 	 	}

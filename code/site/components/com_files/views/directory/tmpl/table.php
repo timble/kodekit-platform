@@ -13,7 +13,9 @@ defined('_JEXEC') or die; ?>
 </div>
 <? endif; ?>
 
+<? if ($page->getLink()->query['folder'] !== $state->folder): ?>
 <h2><?= @escape($state->folder); ?></h2>
+<? endif; ?>
 
 <form action="" method="get" class="-koowa-form">
 <table class="table table-striped">
