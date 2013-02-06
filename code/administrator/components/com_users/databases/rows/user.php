@@ -180,11 +180,6 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
 
         // Clear role cache
         $this->_role = null;
-
-        //Set defaults
-        $this->guest  = 1;
-        //$this->params = '';
-
         return $result;
     }
 
