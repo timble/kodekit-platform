@@ -23,7 +23,7 @@ class ComFilesRouter extends ComDefaultRouter
 		$string = str_replace("\'", "'", $string);
 		$string = str_replace('\"', '\"', $string);
 		$string = str_replace('%2F', '/', rawurlencode($string));
-		$string = str_replace('.', '%252E', $string);
+		$string = str_replace('.', '-_-_', $string);
 	
 		return $string;
 	}
@@ -31,7 +31,7 @@ class ComFilesRouter extends ComDefaultRouter
 	protected function _decodeString($string)
 	{
 		$string = str_replace('/', '%2F', rawurldecode($string));
-		$string = str_replace('%252E', '.', $string);
+		$string = str_replace('-_-_', '.', $string);
 		$string = str_replace('%20', ' ', $string);
 	
 		return $string;
@@ -107,7 +107,7 @@ class ComFilesRouter extends ComDefaultRouter
 		}
 		$vars['folder'] = str_replace('%2E', '.', $vars['folder']);
 		$vars['layout'] = $query['layout'];
-var_dump($vars);
+
 		return $vars;
     }
 }

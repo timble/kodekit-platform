@@ -38,7 +38,7 @@ defined('_JEXEC') or die; ?>
 		<? if ($parent !== null): ?>
 		<tr>
 			<td>
-				<a href="<?= @route('folder='.$parent); ?>">
+				<a href="<?= @route('&view=folder&folder='.$parent); ?>">
 					<?= @text('Parent Folder') ?>
 				</a>
 			</td>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die; ?>
 		<? foreach($folders as $folder): ?>
 		<tr>
 			<td>
-				<a href="<?= @route('&folder='.$folder->path);?>">
+				<a href="<?= @route('&view=folder&folder='.$folder->path);?>">
 					<?=@escape($folder->display_name)?>
 				</a>
 			</td>
@@ -59,6 +59,7 @@ defined('_JEXEC') or die; ?>
 		<? foreach($files as $file): ?>
 		<tr>
 			<td>
+			<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name);?>	
 				<a class="fileman-download" data-path="<?= @escape($file->path); ?>"
 					href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
 					<?=@escape($file->display_name)?>
