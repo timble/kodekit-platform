@@ -4154,6 +4154,8 @@ div.message {
  */
 label {
   font-size: 12px;
+  line-height: 21px;
+  margin-bottom: 0;
 }
 input[type="text"],
 select {
