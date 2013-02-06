@@ -120,9 +120,7 @@ class ComUsersModelUsers extends ComDefaultModelDefault
 
 	    if ($state->search)
         {
-	        $query->where('tbl.name LIKE :search')
-	              ->where('tbl.name LIKE :search', 'OR')
-	              ->bind(array('search' => '%'.$state->search.'%'));
+	        $query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
         }
     }
 }

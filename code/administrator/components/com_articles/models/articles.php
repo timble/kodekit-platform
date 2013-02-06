@@ -29,7 +29,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('published' , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
-            ->insert('trashed'   , 'int');
+            ->insert('trashed'   , 'int')
+            ->insert('searchword', 'string');
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'category_title');
     }
@@ -48,8 +49,6 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
-        
-        $state = $this->getState();
 
         $query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
               ->join(array('users'  => 'users'), 'users.users_user_id = tbl.created_by');
@@ -65,8 +64,9 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         	$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
         }
 
-        if($state->search) {
-            $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+        if ($state->search || $state->searchword) {
+            $search = $state->searchword ? $state->searchword : $state->search;
+            $query->where('(tbl.title LIKE :search OR tbl.introtext LIKE :search OR tbl.fulltext LIKE :search)')->bind(array('search' => '%' . $search . '%'));
         }
 
         if(is_numeric($state->category) || $state->category)
@@ -93,7 +93,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         }
 
         if (is_numeric($state->access)) {
-            $query->where('tbl.access = :access')->bind(array('access' => $state->access));
+            $query->where('tbl.access = :access')
+                ->bind(array('access' => $state->access));
         }
     }
 

@@ -20,7 +20,8 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'toolbars'  => array('article'))
+                'toolbars'  => array('article'),
+                'behaviors' => array('searchable'))
         );
 
         parent::_initialize($config);
