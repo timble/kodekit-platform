@@ -9,7 +9,7 @@
  */
 
 /**
- * Orderable Behavior Interfce
+ * Orderable Database Behavior Interfce
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server

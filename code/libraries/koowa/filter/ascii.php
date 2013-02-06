@@ -29,8 +29,7 @@ class KFilterAscii extends KFilterAbstract
 	}
 
 	/**
-	 * Transliterate all unicode characters to US-ASCII. The string must be
-	 * well-formed UTF8
+	 * Transliterate all unicode characters to US-ASCII. The string must be well-formed UTF8
 	 *
 	 * @param	scalar	Variable to be sanitized
 	 * @return	scalar

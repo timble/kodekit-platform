@@ -1,4 +1,21 @@
 <?php
+/**
+ * @version     $Id: pages.php 3029 2011-10-09 13:07:11Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Flat Orderable Database Behavior Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ */
+
 class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableAbstract implements ComPagesDatabaseBehaviorOrderableInterface
 {
     protected function _beforeTableInsert(KCommandContext $context)
@@ -42,7 +59,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			        ->bind(array('new' => $new, 'old' => $old));
 			}
 			
-			$table->getDatabase()->update($query);
+			$table->getAdapter()->update($query);
 			$row->ordering = $new;
         }
     }
@@ -71,7 +88,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
     protected function _reorder(KCommandContext $context)
     {
         $table = $context->getSubject();
-        $table->getDatabase()->execute('SET @index = 0');
+        $table->getAdapter()->execute('SET @index = 0');
 
         $query = $this->getService('koowa:database.query.update')
             ->table($table->getBase())
@@ -80,6 +97,6 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         
         $this->_buildQuery($query);
         
-        $table->getDatabase()->update($query);
+        $table->getAdapter()->update($query);
     }
 }

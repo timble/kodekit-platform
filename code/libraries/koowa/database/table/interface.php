@@ -18,19 +18,19 @@
 interface KDatabaseTableInterface
 {
     /**
-     * Get the database adapter
+     * Gets the database adapter
      *
-     * @return KDatabaseAdapterAbstract
+     * @return \KDatabaseAdapterInterface
      */
-    public function getDatabase();
+    public function getAdapter();
 
     /**
      * Set the database adapter
      *
-     * @param   object A KDatabaseAdapterAbstract
-     * @return  KDatabaseTableAbstract
+     * @param  \KDatabaseAdapterInterface $adapter A KDatabaseAdapterInterface object
+     * @return \KDatabaseQueryInterface
      */
-    public function setDatabase(KDatabaseAdapterAbstract $database);
+    public function setAdapter(KDatabaseAdapterInterface $adapter);
 
     /**
      * Test the connected status of the table
@@ -49,9 +49,8 @@ interface KDatabaseTableInterface
     /**
      * Gets the base table name without the table prefix
      *
-     * If the table type is 'VIEW' the base name will be the name of the base
-     * table that is connected to the view. If the table type is 'BASE' this
-     * function will return the same as {@link getName}
+     * If the table type is 'VIEW' the base name will be the name of the base table that is connected to the view.
+     * If the table type is 'BASE' this function will return the same as {@link getName}
      *
      * @return string
      */
@@ -74,16 +73,15 @@ interface KDatabaseTableInterface
     /**
      * Get a column by name
      *
-     * @param  boolean  If TRUE, get the column information from the base table. Default is FALSE.
-     * @return KDatabaseColumn  Returns a KDatabaseSchemaColumn object or NULL if the
-     *                          column does not exist
+     * @param  boolean  If TRUE, get the column information from the base table.
+     * @return KDatabaseColumn  Returns a KDatabaseSchemaColumn object or NULL if the column does not exist
      */
     public function getColumn($columnname, $base = false);
 
     /**
      * Gets the columns for the table
      *
-     * @param   boolean  If TRUE, get the column information from the base table. Default is FALSE.
+     * @param   boolean  If TRUE, get the column information from the base table.
      * @return  array    Associative array of KDatabaseSchemaColumn objects
      */
     public function getColumns($base = false);
@@ -132,8 +130,7 @@ interface KDatabaseTableInterface
     /**
      * Get a default by name
      *
-     * @return mixed    Returns the column default value or NULL if the
-     *                  column does not exist
+     * @return mixed    Returns the column default value or NULL if the column does not exist
      */
     public function getDefault($columnname);
 
@@ -156,16 +153,12 @@ interface KDatabaseTableInterface
     /**
      * Table select method
      *
-     * The name of the resulting row(set) class is based on the table class name
-     * eg Com<Mycomp>Table<Tablename> -> Com<Mycomp>Row(set)<Tablename>
-     *
      * This function will return an empty rowset if called without a parameter.
      *
      * @param mixed    $query KDatabaseQuery, query string, array of row id's, or an id or null
-     * @param integer  $mode  The database fetch style. Default FETCH_ROWSET.
+     * @param integer  $mode  The database fetch style.
      * @param array    $state An optional associative array of configuration options.
-     * @return  KDatabaseRow or KDatabaseRowset depending on the mode. By default will
-     *          return a KDatabaseRowset
+     * @return  KDatabaseRow(set) depending on the mode.
      */
     public function select($query = null, $mode = KDatabase::FETCH_ROWSET, array $options = array());
 
@@ -218,12 +211,12 @@ interface KDatabaseTableInterface
     /**
      * Table filter method
      *
-     * This function removes extra columns based on the table columns taking any table mappings into
-     * account and filters the data based on each column type.
+     * This function removes extra columns based on the table columns taking any table mappings into account and
+     * filters the data based on each column type.
      *
-     * @param   boolean  If TRUE, get the column information from the base table. Default is TRUE.
      * @param  array    An associative array of data to be filtered
-     * @return array    The filtered data array
+     * @param  boolean  If TRUE, get the column information from the base table.
+     * @return array    The filtered data
      */
-    public function filter($data, $base = true);
+    public function filter(array $data, $base = true);
 }

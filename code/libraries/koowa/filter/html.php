@@ -11,13 +11,12 @@
  * Html XSS Filter
  *
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
- * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider,
- * Chris Tobin.
+ * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterHtml extends KFilterAbstract
+class KFilterHtml extends KFilterTidy
 {
     /**
      * List of user-defined tags
@@ -109,6 +108,9 @@ class KFilterHtml extends KFilterAbstract
             'attrib_list'   => array(),
             'attrib_method' => true,
             'xss_auto'      => true,
+            'options'       =>  array(
+                'output-xhtml'  => true,
+            )
         ));
 
         parent::_initialize($config);
@@ -137,6 +139,9 @@ class KFilterHtml extends KFilterAbstract
     protected function _sanitize($value)
     {
         $value = (string) $value;
+
+        //Tidy the value first.
+        $value = parent::_sanitize($value);
 
         // Filter var for XSS and other 'bad' code etc.
         if (!empty ($value)) {
@@ -190,7 +195,8 @@ class KFilterHtml extends KFilterAbstract
             $tagOpen_end    = strpos($fromTagOpen, '>');
 
             // Let's catch any non-terminated tags and skip over them
-            if ($tagOpen_end === false) {
+            if ($tagOpen_end === false)
+            {
                 $postTag        = substr($postTag, $tagOpen_start +1);
                 $tagOpen_start  = strpos($postTag, '<');
                 continue;
@@ -199,7 +205,8 @@ class KFilterHtml extends KFilterAbstract
             // Do we have a nested tag?
             $tagOpen_nested = strpos($fromTagOpen, '<');
             $tagOpen_nested_end = strpos(substr($postTag, $tagOpen_end), '>');
-            if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
+            if (($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
+            {
                 $preTag         .= substr($postTag, 0, ($tagOpen_nested +1));
                 $postTag        = substr($postTag, ($tagOpen_nested +1));
                 $tagOpen_start  = strpos($postTag, '<');
@@ -398,7 +405,9 @@ class KFilterHtml extends KFilterAbstract
                 // Does the attribute have a value?
                 if ($attrSubSet[1]) {
                     $newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
-                } elseif ($attrSubSet[1] == "0") {
+                }
+                elseif ($attrSubSet[1] == "0")
+                {
                     /*
                      * Special Case
                      * Is the value 0?
@@ -426,25 +435,29 @@ class KFilterHtml extends KFilterAbstract
     }
 
     /**
-     * Try to convert to plaintext
+     * Decode to a valid html string
      *
-     * @param   string  $source
-     * @return  string  Plaintext string
+     * @param   string  $string
+     * @return  string  The decoded string
      */
-    protected function _decode($source)
+    protected function _decode($string)
     {
-        // entity decode
-        $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-        foreach($trans_tbl as $k => $v) {
-            $ttr[$v] = utf8_encode($k);
-        }
-        $source = strtr($source, $ttr);
+        // Double escape html special chars to prevent them from being decoded
+        $string = str_replace(array("&amp;", "&lt;", "&gt;"), array("&amp;amp;", "&amp;lt;", "&amp;gt;"), $string);
 
-        // convert decimal
-        $source = preg_replace('/&#(\d+);/me', "chr(\\1)", $source); // decimal notation
+        // Fix &entitiy\n;
+        $string = preg_replace('#(&\#*\w+)[\x00-\x20]+;#u', "$1;", $string);
+        $string = preg_replace('#(&\#x*)([0-9A-F]+);*#iu', "$1$2;", $string);
 
-        // convert hex
-        $source = preg_replace('/&#x([a-f0-9]+);/mei', "chr(0x\\1)", $source); // hex notation
-        return $source;
+        // Entity decode
+        $string = html_entity_decode($string, ENT_COMPAT, "UTF-8");
+
+        // Convert decimal
+        $string = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $string);
+
+        // Convert hex
+        $string = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $string);
+
+        return $string;
     }
 }

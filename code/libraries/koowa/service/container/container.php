@@ -15,7 +15,7 @@
  * @package     Koowa_Service
  * @subpackage  Container
  */
-class KServiceContainer extends ArrayObject implements KServiceContainerInterface
+class KServiceContainer extends \ArrayObject implements KServiceContainerInterface
 {
 
 }

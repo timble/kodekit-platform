@@ -9,7 +9,7 @@
  */
 
 /**
- * Show database query class
+ * Show Database Query Class
  *
  * @author      Gergo Erdosi <gergo@timble.net>
  * @package     Koowa_Database
@@ -134,7 +134,7 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
             }
         }
 
-        if($this->params) {
+        if($this->_params) {
             $query = $this->_replaceParams($query);
         }
 
@@ -158,8 +158,8 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
             $prefix = $this->getAdapter()->getTablePrefix();
         }
         
-        $replacement = $this->getAdapter()->quoteValue($prefix.$this->params[$key]);
+        $replacement = $this->getAdapter()->quoteValue($prefix.$this->_params[$key]);
         
-        return is_array($this->params[$key]) ? '('.$replacement.')' : $replacement;
+        return is_array($this->_params[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

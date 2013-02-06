@@ -44,7 +44,7 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
         {
             $this->_table = $context->getSubject();
 
-            $this->_table->getDatabase()
+            $this->_table->getAdapter()
                          ->getCommandChain()
                          ->enqueue($this, $this->getPriority());
         }
@@ -54,7 +54,7 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
     {
         if(isset($this->_table))
         {
-            $this->_table->getDatabase()
+            $this->_table->getAdapter()
                         ->getCommandChain()
                         ->dequeue($this);
 

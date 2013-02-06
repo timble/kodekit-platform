@@ -9,7 +9,7 @@
  */
 
 /**
- * Select database query class
+ * Select Database Query Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
@@ -372,7 +372,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
 
-        if($this->params) {
+        if($this->_params) {
             $query = $this->_replaceParams($query);
         }
 

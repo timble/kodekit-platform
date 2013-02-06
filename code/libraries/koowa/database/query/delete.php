@@ -9,7 +9,7 @@
  */
 
 /**
- * Delete database query class
+ * Delete Database Query Class
  *
  * @author      Gergo Erdosi <gergo@timble.net>
  * @package     Koowa_Database
@@ -216,7 +216,7 @@ class KDatabaseQueryDelete extends KDatabaseQueryAbstract
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
 
-        if($this->params) {
+        if($this->_params) {
             $query = $this->_replaceParams($query);
         }
 

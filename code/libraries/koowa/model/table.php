@@ -215,6 +215,8 @@ class KModelTable extends KModelAbstract
         // Get the data if it doesn't already exist
         if (!isset($this->_total))
         {
+            $state = $this->getState();
+
             $query = $this->getService('koowa:database.query.select');
             $query->columns('COUNT(*)');
 
@@ -222,7 +224,7 @@ class KModelTable extends KModelAbstract
             $this->_buildQueryJoins($query);
             $this->_buildQueryWhere($query);
 
-            $total = $this->getTable()->count($query);
+            $total = $this->getTable()->count($query, array('state' => $state));
             $this->_total = $total;
         }
 
