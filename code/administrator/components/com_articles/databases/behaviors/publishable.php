@@ -77,7 +77,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
         $query->where('publish_on <= :date')->where('published = :published')->where('publish_on <> :default')
             ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'published' => 0));
 
-        $db = $this->getMixer()->getDatabase();
+        $db = $this->getMixer()->getAdapter();
 
         if ($ids = $db->select($query, KDatabase::FETCH_ARRAY_LIST)) {
             foreach ($ids as $id) {
@@ -98,7 +98,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
         $query->where('unpublish_on <= :date')->where('published = :published')->where('unpublish_on <> :default')
             ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'published' => 1));
 
-        $db = $this->getMixer()->getDatabase();
+        $db = $this->getMixer()->getAdapter();
 
         if ($ids = $db->select($query)) {
         	foreach ($ids as $id) {
@@ -139,7 +139,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
 
         $query->where($this->_identity_column . ' IN :id')->bind(array('id' => (array) $id));
 
-        $db = $this->getMixer()->getDatabase();
+        $db = $this->getMixer()->getAdapter();
         $db->update($query);
     }
 }

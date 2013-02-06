@@ -96,7 +96,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 			        ->bind(array('new' => $new, 'old' => $old));
 			}
 			
-			$table->getDatabase()->update($query);
+			$table->getAdapter()->update($query);
 			
 			$this->ordering = $new;
 			$this->save();
@@ -120,7 +120,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         settype($base, 'int');
         
         $table = $this->getTable();
-        $db    = $table->getDatabase();
+        $db    = $table->getAdapter();
         $db->execute('SET @order = '.$base);
         
         $query = $this->getService('koowa:database.query.update')
@@ -147,7 +147,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
     protected function getMaxOrdering() 
     {
         $table = $this->getTable();
-        $db    = $table->getDatabase();
+        $db    = $table->getAdapter();
         
         $query = $this->getService('koowa:database.query.select')
             ->columns('MAX(ordering)')

@@ -262,7 +262,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 ->columns(array('ancestor_id', 'descendant_id', 'level'))
                 ->values(array($data->id, $data->id, 0));
             
-            $table->getDatabase()->insert($query);
+            $table->getAdapter()->insert($query);
 
             // Set path and level for the current row.
             if($data->parent_id)
@@ -282,7 +282,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
                 
-                $table->getDatabase()->insert($query);
+                $table->getAdapter()->insert($query);
             }
             else $data->setData(array('level' => 1, 'path' => $data->id), false);
         }
@@ -325,7 +325,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     ->where('x.ancestor_id IS NULL')
                     ->bind(array('ancestor_id' => $row->id));
 
-                $table->getDatabase()->delete($query);
+                $table->getAdapter()->delete($query);
 
                 // Insert the subtree under its new location.
                 $select = $this->getService('koowa:database.query.select')
@@ -341,7 +341,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
 
-                $table->getDatabase()->insert($query);
+                $table->getAdapter()->insert($query);
                 
                 $row->path = ($row->parent_id ? $parent->path.'/' : '').$row->id;
             }
@@ -373,7 +373,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             ->where($id_column.' IN :id')
             ->bind(array('id' => $select));
         
-        $table->getDatabase()->delete($query);
+        $table->getAdapter()->delete($query);
         
         return true;
     }

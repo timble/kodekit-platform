@@ -26,7 +26,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowTable
         if($this->getStatus() == KDatabase::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
             $tables   = $this->getService('com://admin/languages.model.tables')->getRowset();
-            $database = $this->getTable()->getDatabase();
+            $database = $this->getTable()->getAdapter();
             $prefix   = $database->getTablePrefix();
             
             foreach($tables as $table)

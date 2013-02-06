@@ -175,7 +175,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                         $query->values[0][$key] = $context->data->id;
                     }
                     
-                    $this->getTable()->getDatabase()->insert($query);
+                    $this->getTable()->getAdapter()->insert($query);
                 }
                 
                 if($language->iso_code != $active->iso_code)
@@ -243,7 +243,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         $translations->save();
         
         // Copy the item's data to all missing translations.
-        $database = $this->getTable()->getDatabase();
+        $database = $this->getTable()->getAdapter();
         $prefix = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
         $select = $this->getService('koowa:database.query.select')
             ->table($prefix.$table->name)
@@ -282,7 +282,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             $active    = $languages->getActive();
             
             // Remove item from other tables too.
-            $database = $this->getTable()->getDatabase();
+            $database = $this->getTable()->getAdapter();
             $query    = clone $context->query;
             
             foreach($languages as $language)

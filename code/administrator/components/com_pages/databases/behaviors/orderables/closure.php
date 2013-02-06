@@ -1,4 +1,21 @@
 <?php
+/**
+ * @version     $Id: pages.php 3029 2011-10-09 13:07:11Z johanjanssens $
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+
+/**
+ * Closure Orderable Database Behavior Class
+ *
+ * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package     Nooku_Server
+ * @subpackage  Pages
+ */
+
 class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorOrderableAbstract implements ComPagesDatabaseBehaviorOrderableInterface
 {
     protected $_columns = array();
@@ -155,7 +172,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         $table = $row->getTable();
 
         // Create a select query which returns an ordered list of rows.
-        $table->getDatabase()->execute('SET @index := 0');
+        $table->getAdapter()->execute('SET @index := 0');
         
         $sub_select = $this->_buildQuery($row)
             ->columns('tbl.'.$column)
@@ -174,7 +191,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
             ->values('tbl.'.$column.' = ordering.index')
             ->where('tbl.'.$table->getIdentityColumn().' = ordering.'.$table->getIdentityColumn());
 
-        $table->getDatabase()->update($update);
+        $table->getAdapter()->update($update);
     }
 
     protected function _reorderCustom(KDatabaseRowInterface $row, $column, $operation)
@@ -191,7 +208,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                     ->order('orderings.custom', 'DESC')
                     ->limit(1);
 
-                $max = (int) $table->getDatabase()->select($query, KDatabase::FETCH_FIELD);
+                $max = (int) $table->getAdapter()->select($query, KDatabase::FETCH_FIELD);
                 $table->getOrderingTable()->select($row->id, KDatabase::FETCH_ROW)
                     ->setData(array('custom' => $max + 1))->save();
             } break;
@@ -229,13 +246,13 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                         ->values('tbl.'.$column.' = ordering.index')
                         ->where('tbl.'.$table->getIdentityColumn().' = ordering.'.$table->getIdentityColumn());
 
-                    $table->getDatabase()->update($update);
+                    $table->getAdapter()->update($update);
                 }
             } break;
 
             case KDatabase::OPERATION_DELETE:
             {
-                $table->getDatabase()->execute('SET @index := 0');
+                $table->getAdapter()->execute('SET @index := 0');
 
                 $select = $this->_buildQuery($row)
                     ->columns(array('index' => '@index := @index + 1'))
@@ -250,7 +267,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                     ->values('tbl.'.$column.' = ordering.index')
                     ->where('tbl.'.$table->getIdentityColumn().' = ordering.'.$table->getIdentityColumn());
 
-                $table->getDatabase()->update($update);
+                $table->getAdapter()->update($update);
             } break;
         }
     }

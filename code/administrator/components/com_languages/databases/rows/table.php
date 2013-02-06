@@ -25,7 +25,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowTable
         
         if($this->getStatus() == KDatabase::STATUS_UPDATED && $modified && $this->enabled)
         {
-            $database  = $this->getTable()->getDatabase();
+            $database  = $this->getTable()->getAdapter();
             $prefix    = $database->getTablePrefix();
             $languages = $this->getService('application.languages');
             $primary   = $languages->getPrimary();
