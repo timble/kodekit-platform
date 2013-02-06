@@ -1,13 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<params>
-		<param name="show_create_date" type="radio" default="1" label="Show creation date" description="">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-		<param name="show_modify_date" type="radio" default="1" label="Show modification date" description="">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-	</params>
 </config>

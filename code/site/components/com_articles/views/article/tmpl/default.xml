@@ -11,5 +11,15 @@
         <url addpath="/administrator/components/com_articles/elements">
             <param name="id" type="article" default="0" label="Select Article" description="An article"/>
         </url>
+        <params>
+            <param name="show_create_date" type="radio" default="1" label="Creation date" description="">
+            	<option value="0">Hide</option>
+            	<option value="1">Show</option>
+            </param>
+            <param name="show_modify_date" type="radio" default="1" label="Modification date" description="">
+            	<option value="0">Hide</option>
+            	<option value="1">Show</option>
+            </param>
+        </params>
     </state>
 </metadata>
