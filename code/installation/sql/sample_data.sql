@@ -112,7 +112,6 @@ VALUES
 	(19, 'Latest News', '', 19, 'user1', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_title=1', 20, 'site'),
 	(25, 'Newsflash', '', 9, 'top', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_articles', 0, 'show_content=1\ncategory=3\r\nstyle=random\r\ncount=\nshow_title=1\r\n', 20, 'site'),
 	(27, 'Search', '', 10, 'user4', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_search', 0, 'form_class=navbar-search form-search pull-right\ninput_class=span2 search-query\nitem_id=51', 20, 'site'),
-	(28, 'Random Image', '', 23, 'right', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_image', 0, '', 19, 'site'),
 	(29, 'Top Menu', '', 11, 'user3', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 0, 'menu_id=4\nshow_title=0\nclass=nav', 25, 'site'),
 	(35, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 25, 'site');
 

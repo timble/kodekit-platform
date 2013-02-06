@@ -14,9 +14,7 @@ DELETE FROM `#__modules` WHERE `module` = 'mod_sections';
 DELETE FROM `#__modules` WHERE `module` = 'mod_quickicon';
 DELETE FROM `#__modules` WHERE `module` = 'mod_mostread';
 DELETE FROM `#__modules` WHERE `module` = 'mod_archive';
-
--- Rename mod_random_image to mod_image
-UPDATE `#__modules` SET `module` = 'mod_image' WHERE `module` = 'mod_random_image';
+DELETE FROM `#__modules` WHERE `module` = 'mod_random_image';
 
 ALTER TABLE `#__modules` DROP `iscore`;
 ALTER TABLE `#__modules` DROP `control`;
@@ -29,13 +27,12 @@ ALTER TABLE `#__modules` DROP INDEX newsfeeds;
 
 UPDATE `#__modules` SET `application` = 'site' WHERE `application` = 0;
 
-UPDATE `#__modules` SET `extensions_component_id` = 19 WHERE `name` = 'mod_image';
 UPDATE `#__modules` SET `extensions_component_id` = 31 WHERE `name` = 'mod_login';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_mainmenu';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_breadcrumbs';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_custom';
 
-UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_image', 'mod_login', 'mod_menu', 'mod_custom', 'mod_lastestnews');  
+UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_login', 'mod_menu', 'mod_custom', 'mod_lastestnews');  
 ALTER TABLE `#__modules` DROP `showtitle`;
 
 UPDATE `#__modules` SET `params` = REPLACE(`params`, 'showAllChildren=', 'show_children=') WHERE `name` = 'mod_menu';
