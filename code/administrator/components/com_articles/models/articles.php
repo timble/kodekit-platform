@@ -26,7 +26,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $this->getState()
             ->insert('category'         , 'slug')
             ->insert('category_recurse' , 'boolean', false)
-            ->insert('published'     , 'int')
+            ->insert('published' , 'int')
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('trashed'   , 'int');
@@ -73,24 +73,23 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         {
             if($state->category)
             {
-            	$query->where('tbl.categories_category_id IN :category' );
+            	$query->where('tbl.categories_category_id IN :categories_category_id' );
             	
 	            if($state->category_recurse === true) {
-	                $query->where('categories.parent_id IN :category', 'OR');
+	                $query->where('categories.parent_id IN :categories_category_id', 'OR');
 	            }
 	
-	            $query->bind(array('category' => (array) $state->category));
+	            $query->bind(array('categories_category_id' => (array) $state->category));
             }
             else $query->where('tbl.categories_category_id IS NULL');
         }
 
-        if($state->created_by) 
-        {
+        if($state->created_by) {
             $query->where('tbl.created_by = :created_by')->bind(array('created_by' => $state->created_by));
         }
 
         if($this->getTable()->isRevisable() && $state->trashed) {
-            $query->where('tbl.deleted = :trashed')->bind(array('trashed' => 1));
+            $query->bind(array('deleted' => 1));
         }
 
         if (is_numeric($state->access)) {
