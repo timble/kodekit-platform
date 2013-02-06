@@ -1,16 +1,18 @@
 <?
 /**
- * @package     FILEman
- * @copyright   Copyright (C) 2012 Timble CVBA. (http://www.timble.net)
+ * @version     $Id$
+ * @package     Nooku_Components
+ * @subpackage  Files
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.joomlatools.com
+ * @link        http://www.nooku.org
  */
 defined('_JEXEC') or die; ?>
 
-<script src="media://com_files/frontend/js/jquery-1.8.0.min.js" />
-<script src="media://com_files/frontend/js/bootstrap-modal.js" />
-<script src="media://com_files/frontend/js/bootstrap-image-gallery.js" />
-<script src="media://com_files/frontend/js/gallery.js" />
+<script src="media://com_files/site/js/jquery-1.8.0.min.js" />
+<script src="media://com_files/site/js/bootstrap-modal.js" />
+<script src="media://com_files/site/js/bootstrap-image-gallery.js" />
+<script src="media://com_files/site/js/gallery.js" />
 
 <script>
 jQuery(function($) {
@@ -18,7 +20,7 @@ jQuery(function($) {
 });
 </script>
 
-<div class="com_fileman files-gallery">
+<div class="com_files files-gallery">
     <div id="modal-gallery" class="modal modal-fullscreen modal-gallery hide fades in">
         <div class="modal-header">
             <a class="close" style="cursor: pointer" data-dismiss="modal">&times;</a>
@@ -46,7 +48,7 @@ jQuery(function($) {
     <? endif ?>
 
     <? if (count($files) || count($folders)): ?>
-    <ol class="gallery-thumbnails" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.fileman-view">
+    <ol class="gallery-thumbnails" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.files-view">
         <? foreach($folders as $folder): ?>
         <li class="gallery-folder">
             <a href="<?= @route('&view=folder&folder='.$folder->path) ?>">
@@ -59,7 +61,7 @@ jQuery(function($) {
         <? foreach($files as $file): ?>
     	<? if ($params->get('show_thumbnails') && !empty($file->thumbnail)): ?>
         <li class="gallery-file">
-    		<a class="fileman-view" data-path="<?= @escape($file->path); ?>"
+    		<a class="files-view" data-path="<?= @escape($file->path); ?>"
     			href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
     		    title="<?= @escape($file->display_name) ?>"
             >
@@ -73,7 +75,7 @@ jQuery(function($) {
         </li>
     	<? else: ?>
         <li class="gallery-document">
-    		<a class="fileman-view" data-path="<?= @escape($file->path); ?>"
+    		<a class="files-view" data-path="<?= @escape($file->path); ?>"
     			href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
     		    title="<?= @escape($file->display_name) ?>"
             >
