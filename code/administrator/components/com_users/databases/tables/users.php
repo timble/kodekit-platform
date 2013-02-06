@@ -22,10 +22,12 @@ class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
     protected function _initialize(KConfig $config)
 	{
         $config->append(array(
-            'column_map' => array('role_id' => 'users_role_id', 'group_id' => 'users_group_id'),
             'name'       => 'users',
-            'base'       => 'users',
-            'behaviors'  => array('modifiable', 'creatable', 'lockable', 'identifiable', 'authenticatable')
+            'behaviors'  => array('modifiable', 'creatable', 'lockable', 'identifiable', 'authenticatable'),
+            'column_map' => array(
+                'role_id'  => 'users_role_id',
+                'group_id' => 'users_group_id'
+            )
         ));
 		
 		parent::_initialize($config);
