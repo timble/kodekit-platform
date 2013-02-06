@@ -40,12 +40,13 @@ class ComFilesRouter extends ComDefaultRouter
 	public function buildRoute(&$query)
 	{
 		$segments = array();
-
-		if (empty($query['Itemid'])) {
-			return $segments;
+		
+		if (isset($query['Itemid'])) {
+			$page = $this->getService('application.pages')->getPage($query['Itemid']);
+		} else {
+			$page = $this->getService('application.pages')->getActive();
 		}
 		
-		$page       = $this->getService('application.pages')->getPage($query['Itemid']);
 		$menu_query = $page->getLink()->query;
 		
 		if (isset($query['view']) && $query['view'] === 'file') {
@@ -71,7 +72,7 @@ class ComFilesRouter extends ComDefaultRouter
 				$segments[] = $this->_encodeString($relative);
 			}
 		}
-		
+
 		if (isset($query['name']))
 		{
 			$name = $this->_encodeString($query['name']);
@@ -106,7 +107,7 @@ class ComFilesRouter extends ComDefaultRouter
 		}
 		$vars['folder'] = str_replace('%2E', '.', $vars['folder']);
 		$vars['layout'] = $query['layout'];
-
+var_dump($vars);
 		return $vars;
     }
 }
