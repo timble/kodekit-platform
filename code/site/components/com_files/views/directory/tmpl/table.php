@@ -58,8 +58,7 @@ defined('_JEXEC') or die; ?>
 		
 		<? foreach($files as $file): ?>
 		<tr>
-			<td>
-			<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name);?>	
+			<td>	
 				<a class="fileman-download" data-path="<?= @escape($file->path); ?>"
 					href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
 					<?=@escape($file->display_name)?>

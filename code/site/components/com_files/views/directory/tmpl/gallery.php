@@ -7,14 +7,14 @@
  */
 defined('_JEXEC') or die; ?>
 
-<!--
-TODO: load bootstrap modal and image-gallery 
-media://com_fileman/js/fileman.js
-media://com_fileman/js/gallery.js 
--->
-<script type="text/javascript">
+<script src="media://com_files/frontend/js/jquery-1.8.0.min.js" />
+<script src="media://com_files/frontend/js/bootstrap-modal.js" />
+<script src="media://com_files/frontend/js/bootstrap-image-gallery.js" />
+<script src="media://com_files/frontend/js/gallery.js" />
+
+<script>
 jQuery(function($) {
-    new Fileman.Gallery($('div.files-gallery'), {thumbwidth: <?= json_encode((int)$thumbnail_size['x']) ?>});
+    new ComFiles.Gallery($('div.files-gallery'), {thumbwidth: <?= json_encode((int)$thumbnail_size['x']) ?>});
 });
 </script>
 
