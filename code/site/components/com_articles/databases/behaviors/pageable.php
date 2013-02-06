@@ -58,12 +58,12 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
         }
 
         if ($parents = $constraints['category_parents']) {
-            $context->query->where('categories.parent_id IN :parents' . $base_where, 'OR')
+            $context->query->where('(categories.parent_id IN :parents' . $base_where . ')', 'OR')
                 ->bind(array('parents' => $parents));
         }
 
         if ($articles = $constraints['articles']) {
-            $context->query->where('tbl.articles_article_id IN :articles' . $base_where, 'OR')
+            $context->query->where('(tbl.articles_article_id IN :articles' . $base_where . ')', 'OR')
                 ->bind(array('articles' => $articles));
         }
     }
