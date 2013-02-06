@@ -9,7 +9,7 @@
  */
 
 /**
- * Insert database query class
+ * Insert Database Query Class
  *
  * @author      Gergo Erdosi <gergo@timble.net>
  * @package     Koowa_Database

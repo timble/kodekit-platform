@@ -9,7 +9,7 @@
  */
 
 /**
- * Abstract database query class
+ * Abstract Database Query Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
@@ -18,18 +18,18 @@
 abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryInterface
 {
     /**
-     * Database connector
+     * Database adapter
      *
      * @var     object
      */
     protected $_adapter;
 
     /**
-     * Parameters to bind.
+     * Query parameters to bind
      *
      * @var array
      */
-    public $params = array();
+    protected $_params;
 
     /**
      * Constructor
@@ -41,9 +41,8 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     {
         parent::__construct($config);
 
-        if ($config->adapter instanceof KDatabaseAdapterInterface) {
-            $this->setAdapter($config->adapter);
-        }
+        $this->_adapter = $config->adapter;
+        $this->_params  = $config->params;
     }
 
     /**
@@ -57,30 +56,9 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'adapter' => KService::get('koowa:database.adapter.mysql')
+            'adapter' => 'koowa:database.adapter.mysql',
+            'params'  => 'koowa:object.array'
         ));
-    }
-
-    /**
-     * Gets the database adapter
-     *
-     * @return \KDatabaseAdapterInterface
-     */
-    public function getAdapter()
-    {
-        return $this->_adapter;
-    }
-
-    /**
-     * Set the database adapter
-     *
-     * @param \KDatabaseAdpaterInterface A KDatabaseAdapterInterface object
-     * @return \KDatabaseQueryInterface
-     */
-    public function setAdapter(KDatabaseAdapterInterface $adapter)
-    {
-        $this->_adapter = $adapter;
-        return $this;
     }
 
     /**
@@ -92,9 +70,79 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     public function bind(array $params)
     {
         foreach ($params as $key => $value) {
-            $this->params[$key] = $value;
+            $this->getParams()->set($key, $value);
         }
 
+        return $this;
+    }
+
+    /**
+     * Get the query parameters
+     *
+     * @throws	\UnexpectedValueException	If the params doesn't implement KObjectArray
+     * @return KObjectArray
+     */
+    public function getParams()
+    {
+        if(!$this->_params instanceof KObjectArray)
+        {
+            $this->_params = $this->getService($this->_params);
+
+            if(!$this->_params instanceof KObjectArray)
+            {
+                throw new \UnexpectedValueException(
+                    'Params: '.get_class($this->_params).' does not implement KObjectArray'
+                );
+            }
+        }
+
+        return $this->_params;
+    }
+
+    /**
+     * Set the query parameters
+     *
+     * @param KObjectArray $params  The query parameters
+     * @return KDatabaseQueryAbstract
+     */
+    public function setParams(KObjectArray $params)
+    {
+        $this->_params = $params;
+        return $this;
+    }
+
+    /**
+     * Gets the database adapter
+     *
+     * @throws	\UnexpectedValueException	If the adapter doesn't implement KDatabaseAdapterInterface
+     * @return \KDatabaseAdapterInterface
+     */
+    public function getAdapter()
+    {
+        if(!$this->_adapter instanceof KDatabaseAdapterInterface)
+        {
+            $this->_adapter = $this->getService($this->_adapter);
+
+            if(!$this->_adapter instanceof KDatabaseAdapterInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Adapter: '.get_class($this->_adapter).' does not implement KDatabaseAdapterInterface'
+                );
+            }
+        }
+
+        return $this->_adapter;
+    }
+
+    /**
+     * Set the database adapter
+     *
+     * @param \KDatabaseAdpaterInterface $adapter
+     * @return \KDatabaseQueryInterface
+     */
+    public function setAdapter(KDatabaseAdapterInterface $adapter)
+    {
+        $this->_adapter = $adapter;
         return $this;
     }
 
@@ -119,12 +167,29 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     {
         $key = substr($matches[0], 1);
 
-        if($this->params[$key] instanceof KDatabaseQuerySelect) {
-            $replacement = '('.$this->params[$key].')';
+        if($this->_params[$key] instanceof KDatabaseQuerySelect) {
+            $replacement = '('.$this->_params[$key].')';
         } else {
-            $replacement = $this->getAdapter()->quoteValue($this->params[$key]);
+            $replacement = $this->getAdapter()->quoteValue($this->_params[$key]);
         }
 
-        return is_array($this->params[$key]) ? '(' . $replacement . ')' : $replacement;
+        return is_array($this->_params[$key]) ? '(' . $replacement . ')' : $replacement;
+    }
+
+    /**
+     * Get a property
+     *
+     * Implement a virtual 'params' property to return the params object.
+     *
+     * @param   string $name  The property name.
+     * @return  string $value The property value.
+     */
+    public function __get($name)
+    {
+        if($name = 'params') {
+            return $this->getParams();
+        }
+
+        return parent::__get($name);
     }
 }
