@@ -32,7 +32,7 @@ UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_mainm
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_breadcrumbs';
 UPDATE `#__modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_custom';
 
-UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_articles', 'mod_login', 'mod_menu', 'mod_custom', 'mod_lastestnews');  
+UPDATE `#__modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_newsflash', 'mod_login', 'mod_menu', 'mod_custom', 'mod_latestnews');  
 ALTER TABLE `#__modules` DROP `showtitle`;
 
 UPDATE `#__modules` SET `params` = REPLACE(`params`, 'showAllChildren=', 'show_children=') WHERE `name` = 'mod_menu';
