@@ -18,10 +18,9 @@ interface KTemplateInterface
     /**
      * Render the template
      *
-     * @param  boolean $filter If TRUE, filter the template output.
-     * @return string  The rendered data
+     * @return string    The rendered data
      */
-    public function render($filter = false);
+    public function render();
 
     /**
      * Check if the template is in a render cycle

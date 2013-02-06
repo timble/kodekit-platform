@@ -272,7 +272,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      *
      * @return string  The rendered data
      */
-    public function render($filter = false)
+    public function render()
     {
         //Parse the template
         $this->_parse($this->_content);
@@ -281,8 +281,8 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $this->_evaluate($this->_content);
 
         //Process the template only at the end of the render cycle.
-        if($filter && $this->__counter == 0) {
-            $this->_filter($this->_content);
+        if($this->__counter == 0) {
+            $this->_process($this->_content);
         }
 
         return $this->_content;
@@ -500,13 +500,13 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Filter the template
+     * Process the template
      *
      * This function passes the template through write filter chain and returns the result.
      *
      * @return string  The rendered data
      */
-    protected function _filter(&$content)
+    protected function _process(&$content)
     {
         $context = $this->getCommandContext();
 
