@@ -18,7 +18,7 @@
 abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRowInterface
 {
     /**
-     * Tracks columns where data has been updated. Allows more specific save operations.
+     * Tracks columns who's data is modified and has not been persisted yet.
      *
      * @var array
      */
@@ -124,10 +124,10 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function set($column, $value)
     {
-        if (!isset($this->_data[$column]) || ($this->_data[$column] != $value) || $this->isNew())
+        if ($this->isNew() || !array_key_exists($column, $this->_data) || ($this->_data[$column] != $value))
         {
             parent::set($column, $value);
-            $this->_modified[$column] = true;
+            $this->_modified[$column] = $column;
         }
 
         return $this;
@@ -150,18 +150,18 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Returns an associative array of the raw data
      *
-     * @param   boolean  If TRUE, only return the modified data. Default FALSE
+     * @param   boolean  If TRUE, only return the modified data.
      * @return  array
      */
     public function getData($modified = false)
     {
+        $data = $this->_data;
+
         if ($modified) {
-            $result = array_intersect_key($this->_data, $this->_modified);
-        } else {
-            $result = $this->_data;
+            $data = array_intersect_key($data, $this->_modified);
         }
 
-        return $result;
+        return $data;
     }
 
     /**
@@ -169,7 +169,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      *
      * @param   mixed   Either and associative array, an object or a KDatabaseRow
      * @param   boolean If TRUE, update the modified information for each column being set.
-     *                  Default TRUE
      * @return  KDatabaseRowAbstract
      */
     public function setData($data, $modified = true)
@@ -210,16 +209,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function setStatus($status)
     {
         $this->_status = $status;
-        $this->_new = false;
-
-        if ($status != KDatabase::STATUS_FAILED) {
-            $this->_modified = array();
-        }
-
-        if ($status == KDatabase::STATUS_DELETED) {
-            $this->_new = true;
-        }
-
         return $this;
     }
 
@@ -262,7 +251,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function getModified()
     {
-        return array_keys($this->_modified);
+        return $this->_modified;
     }
 
     /**
@@ -279,13 +268,16 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Saves the row to the database.
      *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
-     *
      * @return boolean  If successful return TRUE, otherwise FALSE
      */
     public function save()
     {
+        if (!$this->isNew()) {
+            $this->setStatus(KDatabase::STATUS_UPDATED);
+        } else {
+            $this->setStatus(KDatabase::STATUS_CREATED);
+        }
+
         $this->_modified = array();
         return false;
     }
@@ -297,6 +289,9 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function delete()
     {
+        $this->_new    = true;
+        $this->setStatus(KDatabase::STATUS_DELETED);
+
         return false;
     }
 
@@ -320,7 +315,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function isNew()
     {
-        return (bool)$this->_new;
+        return (bool) $this->_new;
     }
 
     /**
