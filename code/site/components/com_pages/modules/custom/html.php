@@ -18,5 +18,10 @@
  
 class ComPagesModuleCustomHtml extends ComDefaultModuleDefaultHtml
 {
-
+    public function display()
+    {        
+        $this->show_title = $this->module->params->get('show_title', false);
+        
+        return parent::display();
+    }
 } 

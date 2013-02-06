@@ -26,6 +26,7 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
         $article = $config->row;
 
+        // TODO: I think that instead of the categories_category_id we should use the category parent
         $needles = array(
             array('view' => 'article' , 'id' => $article->id),
             array('view' => 'category', 'id' => $article->categories_category_id)
@@ -38,9 +39,9 @@ class ComArticlesTemplateHelperRoute extends ComDefaultTemplateHelperRoute
             'category' => $config->category,
         );
 
-		if($item = $this->_findPage($needles)) {
-			$route['Itemid'] = $item->id;
-		};
+        if (($page = $this->_findPage($needles)) || ($article->isPageable() && ($page = $article->getPage()))) {
+            $route['Itemid'] = $page->id;
+        }
 
 		return $this->getTemplate()->getView()->getRoute(http_build_query($route, '', '&'));
 	}

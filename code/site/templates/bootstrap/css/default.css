@@ -7860,3 +7860,6 @@ section article .page-header {
 #password-check.score5 {
   color: #399800;
 }
+.highlight {
+  background-color: yellow;
+}
