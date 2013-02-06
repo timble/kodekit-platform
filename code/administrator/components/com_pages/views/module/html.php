@@ -20,7 +20,8 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
 {
     public function display()
     {
-        $module = $this->getModel()->getRow();
+        $model  = $this->getModel();
+        $module = $model->getRow();
 
         if($this->getLayout() == 'modal')
         {
@@ -29,7 +30,7 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
 
 
             $this->pages     = $this->getService('com://admin/pages.model.pages')
-                                     ->application('site')->getRowset();
+                                    ->application('site')->getRowset();
 
             $this->modules   = $this->getService('com://admin/extensions.model.modules')
                                     ->application('site')->getRowset();
@@ -40,7 +41,11 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
 
         if($this->getLayout() == 'form')
         {
-            $module = $this->getModel()->getRow();
+            if($module->isNew())
+            {
+                $module->application = $model->application;
+                $module->name = $model->name;
+            }
 
             $path = $this->getIdentifier()->getApplication($module->application);
             JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path);

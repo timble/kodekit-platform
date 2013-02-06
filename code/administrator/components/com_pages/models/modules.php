@@ -30,7 +30,8 @@ class ComPagesModelModules extends ComDefaultModelDefault
             ->insert('position'   , 'cmd')
             ->insert('installed'  , 'boolean', false)
             ->insert('access'     , 'int')
-            ->insert('page'       , 'int');
+            ->insert('page'       , 'int')
+            ->insert('name'       , 'cmd');
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)
