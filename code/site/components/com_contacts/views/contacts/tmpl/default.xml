@@ -12,10 +12,13 @@
             <param name="category" type="category" table="contacts" default="0" label="Category" description="PARAMCATSELECT" />
         </url>
 		<params>
-			<param name="@spacer" type="spacer" default="" label="" description="" />
-			<param name="show_feed_link" type="radio" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
+			<param name="show_email" type="radio" default="0" label="Email address" description="">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="show_telephone" type="radio" default="1" label="Phone number" description="">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
 			</param>
 		</params>
 	</state>

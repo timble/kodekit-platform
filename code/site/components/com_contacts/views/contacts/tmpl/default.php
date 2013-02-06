@@ -13,9 +13,7 @@
 <script src="media://lib_koowa/js/koowa.js" />
 -->
 
-<? if ($params->get('show_feed_link', 1) == 1) : ?>
-	<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
-<? endif; ?>
+<link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />
 
 <div class="page-header">
     <h1><?= @escape($params->get('page_title')); ?></h1>
@@ -36,11 +34,6 @@
             <th width="100%">
                 <?= @text('Name'); ?>
         	</th>
-            <? if ($params->get('show_position')) : ?>
-            <th>
-                <?= @text('Position'); ?>
-            </th>
-            <? endif; ?>
             <? if ($params->get('show_email')) : ?>
             <th>
                 <?= @text('Email'); ?>

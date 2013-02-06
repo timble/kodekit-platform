@@ -15,12 +15,7 @@
 		<a href="<?= @helper('route.contact', array('row' => $contact)) ?>">
 		    <?= $contact->name; ?>
 		</a>
-	</td>    
-	<? if ($params->get('show_position')) : ?>
-	<td>
-        <?= @escape($contact->con_position);?>
 	</td>
-    <? endif; ?>
     <? if ($params->get('show_email')) : ?>
 	<td nowrap="nowrap">
 	    <?= $contact->email_to; ?>
