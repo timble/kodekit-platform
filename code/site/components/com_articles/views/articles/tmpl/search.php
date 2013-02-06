@@ -12,10 +12,12 @@ defined('KOOWA') or die('Restricted access');
 <h1><?=@text('Search results')?></h1>
 
 <div class="well">
-    <form action="<?=@route('option=com_articles&view=articles')?>" method="get" class="form-search">
+    <form action="<?=@route('option=com_articles&view=articles')?>" method="get" class="form-search" style="margin-bottom: 0;">
+        <div class="input-append">
         <input id="searchword" name="searchword" class="input-xxlarge search-query" type="text"
                value="<?=@escape($state->searchword)?>" placeholder="<?=@text('Search articles')?>"/>
-        <button type="submit" class="btn"><?=@text('Search')?></button>
+        <button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i></button>
+        </div>
     </form>
 </div>
 
