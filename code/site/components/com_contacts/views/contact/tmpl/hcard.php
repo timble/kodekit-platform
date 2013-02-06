@@ -20,7 +20,6 @@
     </div>
     <? endif;?>
     <div class="adr">
-        <span class="type">Work</span>:
         <? if ($contact->address) : ?>
         <div class="street-address"><?= $contact->address?></div>
         <? endif; ?>
@@ -28,7 +27,7 @@
         <span class="locality"><?= $contact->suburb?></span>,
         <? endif; ?>
         <? if ($contact->state) : ?>
-        <span class="region"> <?= $contact->state?></span>&nbsp;&nbsp;
+        <span class="region"> <?= $contact->state?></span>
         <? endif; ?>
         <?if ($contact->postcode) : ?>
         <span class="postal-code"><?= $contact->postcode?></span>
@@ -40,25 +39,25 @@
     <ul>
         <? if ($contact->telephone) :?>
         <li class="tel">
-            <span class="type">Work</span>:
+            <span class="type"><?= @text('Phone') ?></span>:
             <span class="value"><?= $contact->telephone?></span>
         </li>
         <? endif; ?>
         <? if ($contact->fax) :?>
         <li class="tel">
-            <span class="type">Fax</span>:
+            <span class="type"><?= @text('Fax') ?></span>:
             <span class="value"><?= $contact->fax?></span>
         </li>
         <? endif; ?>
         <?if ($contact->mobile) :?>
         <li class="tel">
-            <span class="type">Cell</span>:
+            <span class="type"><?= @text('Mobile') ?></span>:
             <span class="value"><?= $contact->mobile?></span>
         </li>
         <? endif; ?>
         <?if ($contact->email_to && $contact->params->get('show_email')) :?>
         <li>
-            <span>Email</span><a class="email" href="mailto:<?= $contact->email_to?>"><?= $contact->email_to?></a>
+            <span><?= @text('Email') ?></span><a class="email" href="mailto:<?= $contact->email_to?>"><?= $contact->email_to?></a>
         </li>
         <? endif; ?>
     </ul>
