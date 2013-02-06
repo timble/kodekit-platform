@@ -66,9 +66,9 @@ html, body {
 		.main {
 			#flexbox > .box(column, 1);
 			min-height: 100%;
-	
+			
 			.title {
-				height: 36px;
+				.clearfix();
 			}
 			
 			.scrollable {
@@ -132,20 +132,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 	#components,
 	#layouts {
 		#flexbox > .box(column, none);
-	}
-	
-	#main {
-		#flexbox > .box(column, 1);
-		
-		.tabs {
-			min-height: 31px;
-		}
-		
-		.current {
-			#flexbox > .box-flex(1);
-			#flexbox > .box-scrollable(scrollable);
-			min-height: 100%;
-		}
 	}
 }
 

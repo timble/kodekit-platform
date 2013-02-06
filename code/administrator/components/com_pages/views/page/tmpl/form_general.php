@@ -10,6 +10,7 @@
 ?>
 
 <fieldset class="form-horizontal">
+    <legend><?= @text('Publish') ?></legend>
     <div class="control-group">
         <label class="control-label" for="status"><?= @text('Published') ?></label>
         <div class="controls">

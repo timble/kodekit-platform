@@ -11,10 +11,8 @@
 <?= @helper('behavior.modal') ?>
 
 <fieldset id="pages-modules" class="form-horizontal">
+    <legend><?= @text('Module assignement') ?></legend>
     <div class="control-group">
-        <label class="control-label">
-            <?= @text('Module assignement') ?>
-        </label>
         <div class="controls">
         <? foreach($modules->available as $module) : ?>
             <input type="hidden" name="modules[<?= $module->id ?>][others]" value="" />

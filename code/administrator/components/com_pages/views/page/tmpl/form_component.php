@@ -21,22 +21,13 @@ if(!empty($state->type['layout']) && $state->layout != 'default') {
 ?>
 
 <input type="hidden" name="link_url" value="<?= http_build_query($query) ?>" />
+<? $model = $this->getView()->getModel() ?>
 
-<fieldset class="form-horizontal">
-    <? $model = $this->getView()->getModel() ?>
-
-    <? if($state->type['name'] == 'component') : ?>
-        <?= $page->getParams('url')->render('urlparams') ?>
-    <? endif ?>
-</fieldset>
-
-<fieldset class="form-horizontal">
-    <?= $page->getParams('component')->render() ?>
-</fieldset>
+<? if($state->type['name'] == 'component') : ?>
+<?= $page->getParams('url')->render('urlparams') ?>
+<? endif ?> 
+<?= $page->getParams('component')->render() ?>
 
 <? if($rendered_params = $page->getParams('layout')->render('params')) : ?>
-<fieldset class="form-horizontal">
-    <legend><?= @text('Advanced') ?></legend>
     <?= $rendered_params ?>
-</fieldset>
 <? endif ?>

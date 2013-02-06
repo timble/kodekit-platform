@@ -76,32 +76,26 @@
     </div>
 
     <? if($state->type) : ?>
-    <div id="main">
+    <div class="main">
         <div class="title">
             <input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
             <?= @text('Visitors can access this page at'); ?>
             <?= dirname(JURI::base()) ?>/<input type="text" name="slug" placeholder="<?= @text('Slug') ?>" value="<?= $page->slug ?>" maxlength="255" />
         </div>
-        <?= @helper('tabs.startPane', array('id' => 'pane_1')); ?>
-            <?= @helper('tabs.startPanel', array('title' => 'General')); ?>
-                <?= @template('form_general') ?>
-            <?= @helper('tabs.endPanel'); ?>
-
+        <div class="scrollable">
+            <?= @template('form_general') ?>
             <? if($state->type['name'] == 'component') : ?>
-            <?= @helper('tabs.startPanel', array('title' => 'Component')); ?>
-                <?= @template('form_component') ?>
-            <?= @helper('tabs.endPanel'); ?>
-
-            <?= @helper('tabs.startPanel', array('title' => 'System')); ?>
                 <fieldset class="form-horizontal">
+                    <legend><?= @text('Settings') ?></legend>
+                    <?= @template('form_component') ?>
+                </fieldset>
+                <fieldset class="form-horizontal">
+                    <legend><?= @text('Page') ?></legend>
                     <?= $page->getParams('page')->render('params'); ?>
                 </fieldset>
-            <?= @helper('tabs.endPanel'); ?>
-            <?= @helper('tabs.startPanel', array('title' => 'Modules')) ?>
                 <?= @template('form_modules') ?>
-            <?= @helper('tabs.endPanel') ?>
             <? endif ?>
-        <?= @helper('tabs.endPane') ?>
+        </div>
     </div>
     <? endif ?>
 </form>

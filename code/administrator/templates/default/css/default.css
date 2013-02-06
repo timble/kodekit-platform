@@ -4053,15 +4053,6 @@ div.message {
   padding-bottom: 4px;
   margin-bottom: 20px;
 }
-.com_pages {
-  /* Additions and overrides for the template */
-
-  /* tabs.css */
-
-}
-.com_pages #main .tabs {
-  float: none !important;
-}
 .com_pages #components {
   width: 200px;
   background: #F7F7F7;
@@ -4107,11 +4098,6 @@ div.message {
 .com_pages #layouts .view a small {
   font-weight: normal;
   color: #333;
-}
-.com_pages #main dl.tabs dt {
-  padding: 8px 12px;
-  font-weight: bold;
-  font-size: 110%;
 }
 .com_pages #pages-parent .level1 {
   padding-left: 36px;
@@ -4770,7 +4756,16 @@ body #container {
   min-height: 100%;
 }
 #panel-content .-koowa-form .main .title {
-  height: 36px;
+  *zoom: 1;
+}
+#panel-content .-koowa-form .main .title:before,
+#panel-content .-koowa-form .main .title:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+#panel-content .-koowa-form .main .title:after {
+  clear: both;
 }
 #panel-content .-koowa-form .main .scrollable {
   -webkit-flex: 1;
@@ -4884,28 +4879,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-flex: none;
   -moz-flex: none;
   flex: none;
-}
-.com_pages #main {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-.com_pages #main .tabs {
-  min-height: 31px;
-}
-.com_pages #main .current {
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  min-height: 100%;
 }
 .com_dashboard #panel-content {
   display: -webkit-flex;

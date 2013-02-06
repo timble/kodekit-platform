@@ -4081,15 +4081,6 @@ div.message {
   padding-bottom: 4px;
   margin-bottom: 20px;
 }
-.com_pages {
-  /* Additions and overrides for the template */
-
-  /* tabs.css */
-
-}
-.com_pages #main .tabs {
-  float: none !important;
-}
 .com_pages #components {
   width: 200px;
   background: #F7F7F7;
@@ -4135,11 +4126,6 @@ div.message {
 .com_pages #layouts .view a small {
   font-weight: normal;
   color: #333;
-}
-.com_pages #main dl.tabs dt {
-  padding: 8px 12px;
-  font-weight: bold;
-  font-size: 110%;
 }
 .com_pages #pages-parent .level1 {
   padding-left: 36px;
