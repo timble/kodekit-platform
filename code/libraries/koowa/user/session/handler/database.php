@@ -68,7 +68,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     {
         $result = '';
 
-        if ($this->getTable()->getDatabase()->isConnected())
+        if ($this->getTable()->isConnected())
         {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
@@ -91,7 +91,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     {
         $result = false;
 
-        if ($this->getTable()->getDatabase()->isConnected())
+        if ($this->getTable()->isConnected())
         {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
@@ -117,7 +117,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     {
         $result = false;
 
-        if ($this->getTable()->getDatabase()->isConnected())
+        if ($this->getTable()->isConnected())
         {
             $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
 
@@ -139,7 +139,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     {
         $result = false;
 
-        if ($this->getTable()->getDatabase()->isConnected())
+        if ($this->getTable()->isConnected())
         {
             $query = $this->getService('koowa:database.query.select')
                 ->where('time < :time')
