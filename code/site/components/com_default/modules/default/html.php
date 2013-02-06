@@ -50,21 +50,12 @@ class ComDefaultModuleDefaultHtml extends KViewHtml
             $this->getTemplate()->attachFilter('chrome', array('styles' => $this->module->chrome));
         }
 
-        if(empty($this->module->content))
-        {
-            $identifier = clone $this->getIdentifier();
-            $identifier->name = $this->getLayout();
+        $identifier = clone $this->getIdentifier();
+        $identifier->name = $this->getLayout();
 
-            $content = $this->getTemplate()
-                ->loadIdentifier($identifier, $this->_data)
-                ->render();
-        }
-        else
-        {
-            $content = $this->getTemplate()
-                ->loadString($this->module->content, $this->_data, false)
-                ->render();
-        }
+        $content = $this->getTemplate()
+            ->loadIdentifier($identifier, $this->_data)
+            ->render();
 
         $this->setContent($content);
         return parent::display();
