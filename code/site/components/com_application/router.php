@@ -102,7 +102,8 @@ class ComApplicationRouter extends KDispatcherRouter
         $route = $url->getPath();
         $pages = $this->getService('application.pages');
 
-        if(substr($route, 0, 9) != 'component')
+        //Find the page
+        if(!empty($route))
         {
             //Need to reverse the array (highest sublevels first)
             foreach(array_reverse($pages->id) as $id)
@@ -112,29 +113,22 @@ class ComApplicationRouter extends KDispatcherRouter
 
                 if($length > 0 && strpos($route.'/', $page->route.'/') === 0 && $page->type != 'pagelink')
                 {
-                    $route = substr($route, $length);
-
-                    if($page->type != 'redirect')
-                    {
-                        $url->setQuery($page->getLink()->query, true);
-                        $url->query['Itemid'] = $page->id;
-                    }
-
-                    $pages->setActive($page->id);
+                    $route     = substr($route, $length);
+                    $url->path =  ltrim($route, '/');
                     break;
                 }
             }
         }
-        else
-        {
-            $segments = explode('/', $route);
-            $route    = str_replace('component/'.$segments[1], '', $route);
+        else $page = $pages->getHome();
 
-            $url->query['Itemid'] = $pages->getHome()->id;
-            $url->query['option'] = 'com_'.$segments[1];
+        //Set the page information in the route
+        if($page->type != 'redirect')
+        {
+            $url->setQuery($page->getLink()->query, true);
+            $url->query['Itemid'] = $page->id;
         }
 
-        $url->path =  ltrim($route, '/');
+        $pages->setActive($page->id);
 
         return true;
     }
@@ -157,7 +151,7 @@ class ComApplicationRouter extends KDispatcherRouter
                 $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
 
                 //Parse the view route
-                $vars = KService::get($identifier)->parseRoute($route);
+                $vars = $this->getService($identifier)->parseRoute($route);
 
                 //Merge default and vars
                 $url->query = array_merge($defaults, $vars);
@@ -193,44 +187,37 @@ class ComApplicationRouter extends KDispatcherRouter
     {
         $segments = array();
 
-        // Use the custom routing handler if it exists
-        if (isset($url->query['option']))
-        {
-            //Get the router identifier
-            $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
+        //Get the router identifier
+        $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
 
-            //Build the view route
-            $segments = KService::get($identifier)->buildRoute($url->query);
-        }
+        //Build the view route
+        $segments = $this->getService($identifier)->buildRoute($url->query);
 
         return $segments;
     }
 
     protected function _buildPageRoute($url)
     {
-        $segments = '';
+        $segments = array();
 
+        //Find the page
         if(!isset($url->query['Itemid']))
         {
             $page = $this->getService('application.pages')->getActive();
-            if($page) {
-                $url->query['Itemid'] = $page->id;
-            }
+            $url->query['Itemid'] = $page->id;
         }
 
-        if(isset($url->query['Itemid']))
-        {
-            $page = $this->getService('application.pages')->getPage($url->query['Itemid']);
+        $page = $this->getService('application.pages')->getPage($url->query['Itemid']);
 
+        //Set the page route in the url
+        if(!$page->home)
+        {
             if($page->getLink()->query['option'] == $url->query['option']) {
                 $segments = $page->route;
-            } else {
-                $segments = 'component/'.substr($url->query['option'], 4);
             }
-        }
-        else $segments = 'component/'.substr($url->query['option'], 4);
 
-        $segments = explode('/', $segments);
+            $segments = explode('/', $segments);
+        }
 
         return $segments;
     }

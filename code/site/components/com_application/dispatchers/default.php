@@ -165,12 +165,12 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
 
         if(!$context->request->isAjax())
         {
-            // get the route based on the path
+            // Get the route based on the path
             $search = array(KRequest::base()->getPath(), $this->getSite(), 'index.php');
             $route  = trim(str_replace($search, '', $url->getUrl(KHttpURL::PATH + KHttpURL::FORMAT)), '/');
 
             //Redirect to the default menu item if the route is empty
-            if(empty($route))
+            if(strpos($route, $pages->getHome()->route) === 0)
             {
                 $url = $pages->getHome()->getLink();
                 $url->query['Itemid'] = $pages->getHome()->id;
