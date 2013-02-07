@@ -125,10 +125,10 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 
 		$uri = $this->getService('koowa:http.url', array('url' => $url));
 
-		$scheme = $uri->getUrl(KHttpUrl::SCHEME);
-		$host = $uri->getUrl(KHttpUrl::HOST);
-		$port = $uri->getUrl(KHttpUrl::PORT);
-		$path = $uri->getUrl(KHttpUrl::PATH | KHttpUrl::FORMAT | KHttpUrl::QUERY | KHttpUrl::FRAGMENT);
+		$scheme = $uri->toString(KHttpUrl::SCHEME);
+		$host = $uri->toString(KHttpUrl::HOST);
+		$port = $uri->toString(KHttpUrl::PORT);
+		$path = $uri->toString(KHttpUrl::PATH | KHttpUrl::FORMAT | KHttpUrl::QUERY | KHttpUrl::FRAGMENT);
 
 		if ($scheme == 'https://') {
 			if (!in_array('ssl', stream_get_transports())) {

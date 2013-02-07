@@ -17,16 +17,17 @@
 class KDispatcherRouterRoute extends KHttpUrl
 {
     /**
-     * Return a string representation of this url.
+     * Convert the url or part of it to a string
      *
-     * @see    getUrl()
-     * @return string
+     * Using scheme://user:pass@host/path?query#fragment';
+     *
+     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @return  string
      */
-    public function toString()
+    public function toString($parts = self::FULL)
     {
-        $route = clone $this;
-        $this->getService('application')->getRouter()->build($route);
+        $this->getService('application')->getRouter()->build($this);
 
-        return $route->getUrl(self::FULL);
+        return parent::toString($parts);
     }
 }

@@ -78,7 +78,7 @@ class ComActivitiesViewActivitiesJson extends KViewJson
 			foreach($list as $item)
 			{
 			    $id = array(
-			    	'tag:'.$this->getService('request')->getUrl()->getUrl(KHttpUrl::BASE),
+			    	'tag:'.$this->getService('request')->getUrl()->toString(KHttpUrl::BASE),
 			    	'id:'.$item->id
 				);
 

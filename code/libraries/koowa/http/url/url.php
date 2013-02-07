@@ -67,14 +67,14 @@
  *     $url->path[] = 'another';
  *
  *     // and fetch it to a string.
- *     $new_url = $url->getUrl();
+ *     $new_url = $url->toString();
  *
  *     // the $new_url string is as follows; notice how the format
  *     // is always applied to the last path-element.
  *     // /something/else/entirely/another.php?baz=zab&zim=gir#anchor
  *
  *     // Get the full URL to get the scheme and host
- *     $full_url = $url->getUrl(true);
+ *     $full_url = $url->toString(true);
  *
  *     // the $full_url string is:
  *     // https://example.com/something/else/entirely/another.php?baz=zab&zim=gir#anchor
@@ -142,8 +142,7 @@ class KHttpUrl extends KObject
     public $pass = '';
 
     /**
-     * The dot-format extension of the last path element (for example, the "rss"
-     * in "feed.rss").
+     * The dot-format extension of the last path element (for example, the "rss" in "feed.rss").
      *
      * @var string
      */
@@ -216,7 +215,7 @@ class KHttpUrl extends KObject
         $this->_escape = $config->escape;
 
         //Set the url from a string
-        $this->setUrl($config->url);
+        $this->fromString($config->url);
     }
 
     /**
@@ -230,7 +229,7 @@ class KHttpUrl extends KObject
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'url' => '',
+            'url'    => '',
             'escape' => false
         ));
 
@@ -271,81 +270,6 @@ class KHttpUrl extends KObject
         }
 
         return null;
-    }
-
-    /**
-     * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
-     *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
-     * @return  string
-     */
-    public function getUrl($parts = self::FULL)
-    {
-        $url = '';
-
-        //Add the scheme
-        if (($parts & self::SCHEME) && !empty($this->scheme)) {
-            $url .= urlencode($this->scheme) . '://';
-        }
-
-        //Add the username and password
-        if (($parts & self::USER) && !empty($this->user))
-        {
-            $url .= urlencode($this->user);
-            if (($parts & self::PASS) && !empty($this->pass)) {
-                $url .= ':' . urlencode($this->pass);
-            }
-
-            $url .= '@';
-        }
-
-        // Add the host and port, if any.
-        if (($parts & self::HOST) && !empty($this->host))
-        {
-            $url .= urlencode($this->host);
-
-            if (($parts & self::PORT) && !empty($this->port)) {
-                $url .= ':' . (int)$this->port;
-            }
-        }
-
-        // Add the rest of the url. we use trim() instead of empty() on string
-        // elements to allow for string-zero values.
-        if (($parts & self::PATH) && !empty($this->_path))
-        {
-            $url .= $this->getPath();
-            if (($parts & self::FORMAT) && trim($this->format) !== '') {
-                $url .= '.' . urlencode($this->format);
-            }
-        }
-
-        if (($parts & self::QUERY) && !empty($this->_query)) {
-            $url .= '?' . $this->getQuery(false, $this->_escape);
-        }
-
-        if (($parts & self::FRAGMENT) && trim($this->fragment) !== '') {
-            $url .= '#' . urlencode($this->fragment);
-        }
-
-        return $url;
-    }
-
-    /**
-     * Set the url
-     *
-     * @param   string  $url
-     * @return  KHttpUrl
-     */
-    public function setUrl($url)
-    {
-        if (!empty($url))
-        {
-            foreach (parse_url($url) as $key => $value) {
-                $this->$key = $value;
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -395,8 +319,7 @@ class KHttpUrl extends KObject
     /**
      * Sets the KHttpUrl::$path array and $format from a string.
      *
-     * This will overwrite any previous values. Also, resets the format based
-     * on the final path value.
+     * This will overwrite any previous values. Also, resets the format based on the final path value.
      *
      * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
      *                              A leading slash will *not* create an empty first element; if the string has a
@@ -447,14 +370,86 @@ class KHttpUrl extends KObject
     }
 
     /**
-     * Return a string representation of this url.
+     * Parse the url from a string
      *
-     * @see    getUrl()
-     * @return string
+     * Partial URLs are also accepted,froString tries its best to parse them correctly.
+     *
+     * @param   string  $url
+     * @throws  UnexpectedValueException If the url is not a string or cannot be casted to one.
+     * @return  KHttpUrl
+     * @see     parse_url()
      */
-    public function toString()
+    public function fromString($url)
     {
-        return $this->getUrl(self::FULL);
+        if (!is_string($url) && !is_numeric($url) && !is_callable(array($url, '__toString')))
+        {
+            throw new \UnexpectedValueException(
+                'The url must be a string or object implementing __toString(), "'.gettype($url).'" given.'
+            );
+        }
+
+        foreach (parse_url((string) $url) as $key => $value) {
+            $this->$key = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
+     *
+     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @return  string
+     */
+    public function toString($parts = self::FULL)
+    {
+        $url = '';
+
+        //Add the scheme
+        if (($parts & self::SCHEME) && !empty($this->scheme)) {
+            $url .= urlencode($this->scheme) . '://';
+        }
+
+        //Add the username and password
+        if (($parts & self::USER) && !empty($this->user))
+        {
+            $url .= urlencode($this->user);
+            if (($parts & self::PASS) && !empty($this->pass)) {
+                $url .= ':' . urlencode($this->pass);
+            }
+
+            $url .= '@';
+        }
+
+        // Add the host and port, if any.
+        if (($parts & self::HOST) && !empty($this->host))
+        {
+            $url .= urlencode($this->host);
+
+            if (($parts & self::PORT) && !empty($this->port)) {
+                $url .= ':' . (int)$this->port;
+            }
+        }
+
+        // Add the rest of the url. we use trim() instead of empty() on string
+        // elements to allow for string-zero values.
+        if (($parts & self::PATH) && !empty($this->_path))
+        {
+            $url .= $this->getPath();
+            if (($parts & self::FORMAT) && trim($this->format) !== '') {
+                $url .= '.' . urlencode($this->format);
+            }
+        }
+
+        if (($parts & self::QUERY) && !empty($this->_query)) {
+            $url .= '?' . $this->getQuery(false, $this->_escape);
+        }
+
+        if (($parts & self::FRAGMENT) && trim($this->fragment) !== '') {
+            $url .= '#' . urlencode($this->fragment);
+        }
+
+        return $url;
     }
 
     /**

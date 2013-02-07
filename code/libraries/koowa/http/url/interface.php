@@ -18,22 +18,6 @@
 interface KHttpUrlInterface
 {
     /**
-     * Get the full url, of the format scheme://user:pass@host/path?query#fragment';
-     *
-     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
-     * @return  string
-     */
-    public function getUrl($parts = self::FULL);
-
-    /**
-     * Set the url
-     *
-     * @param   string  $url
-     * @return  KHttpUrl
-     */
-    public function setUrl($url);
-
-    /**
      * Sets the query string in the url, for KHttpUrl::getQuery() and KHttpUrl::$query.
      *
      * This will overwrite any previous values.
@@ -75,10 +59,23 @@ interface KHttpUrlInterface
     public function getPath($toArray = false);
 
     /**
-     * Return a string representation of the url.
+     * Parse the url from a string
      *
-     * @see    getUrl()
-     * @return string
+     * Partial URLs are also accepted,froString tries its best to parse them correctly.
+     *
+     * @param   string  $url
+     * @return  KHttpUrl
+     * @see     parse_url()
      */
-    public function toString();
+    public function fromString($url);
+
+    /**
+     * Convert the url or part of it to a string
+     *
+     * Using scheme://user:pass@host/path?query#fragment';
+     *
+     * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
+     * @return  string
+     */
+    public function toString($parts = self::FULL);
 }
