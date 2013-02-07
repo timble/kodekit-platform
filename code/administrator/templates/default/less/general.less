@@ -276,7 +276,7 @@ fieldset {
 	
 	.scopebar-group {
 		border-right: 1px solid #BBB;
-		padding-top: 3px;
+		padding-top: 6px;
 		padding-right: 10px;
 		margin-right: 10px;
 		
@@ -314,16 +314,17 @@ fieldset {
 	}
 	
 	.scopebar-search {
+		.input-append();
+		margin-bottom: 0;
 		margin-left: 25px;
 		
 		input[type="search"] {
 			max-width: 150px;
-			height: 11px;
-			padding: 3px;
+			margin-bottom: 0;
 		}
 		
 		button {
-			display: none;
+			.btn-small();
 		}
 	}
 }
@@ -421,15 +422,20 @@ fieldset {
 			#gradient > .vertical(#F0F0F0, #EAEAEA);
 			border-bottom: 1px solid #CCC;
 			
-			input {
+			> input {
 				font-size: @baseFontSize * 1.5;
-				width: 100%;
 				padding: 4px 8px;
 				margin-bottom: 0;
-				.box-sizing(border-box);
 				.border-radius(4px);
 				height: @baseLineHeight * 3;
 				line-height: @baseLineHeight * 3;
+			}
+			
+			.slug {
+				.input-prepend();
+				clear: left;				
+				margin-top: 5px;
+				margin-bottom: 0;
 			}
 		}
 		

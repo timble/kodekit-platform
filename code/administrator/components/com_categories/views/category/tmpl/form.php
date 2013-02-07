@@ -26,6 +26,10 @@
     <div class="main">
 		<div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= $category->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+		    <div class="slug">
+		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <input type="text" name="slug" maxlength="255" value="<?= $category->slug ?>" />
+		    </div>
 		</div>
 
 		<div class="scrollable">

@@ -41,6 +41,10 @@
     <div class="main">
         <div class="title">
             <input class="required" type="text" name="title" maxlength="255" value="<?= $article->title ?>" placeholder="<?= @text('Title') ?>" />
+            <div class="slug">
+                <span class="add-on">Slug</span>
+                <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" />
+            </div>
         </div>
         <?= @service('com://admin/wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
@@ -70,12 +74,6 @@
 	                <label class="control-label" for="unpublish_on"><?= @text('Unpublish on') ?></label>
 	                <div class="controls controls-calendar">
 	                    <?= @helper('behavior.calendar', array('date' => $article->unpublish_on, 'name' => 'unpublish_on')); ?>
-	                </div>
-	            </div>
-	            <div class="control-group">
-	                <label class="control-label" for="slug"><?= @text('Slug') ?></label>
-	                <div class="controls">
-	                    <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" placeholder="<?= @text('Slug') ?>" />
 	                </div>
 	            </div>
 	        </fieldset>

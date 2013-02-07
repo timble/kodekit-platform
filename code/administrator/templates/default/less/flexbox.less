@@ -68,7 +68,11 @@ html, body {
 			min-height: 100%;
 			
 			.title {
-				.clearfix();
+				#flexbox > .box(column, 0);
+				
+				.slug {
+					#flexbox > .box(row, 0);
+				}
 			}
 			
 			.scrollable {
@@ -116,7 +120,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 /* @group Scope Bar */
 .scopebar { 
 	#flexbox > .box(row, 0);
-	min-height: 18px;
+	min-height: 14px;
 
 	.scopebar-search {
 		#flexbox > .box(horizontal, 1);

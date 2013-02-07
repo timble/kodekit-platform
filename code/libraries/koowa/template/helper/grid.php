@@ -66,8 +66,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		));
 
 	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->getTemplate()->getView()->escape($config->search).'" />';
-        $html .= '<button>'.JText::_('Go').'</button>';
-		$html .= '<button onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.JText::_('Reset').'</button>';
+        $html .= '<button class="btn">'.JText::_('Go').'</button>';
+		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.JText::_('Reset').'</button>';
 
 	    return $html;
 	}
