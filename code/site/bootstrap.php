@@ -23,7 +23,7 @@ if (!file_exists(JPATH_ROOT . '/configuration.php') || (filesize(JPATH_ROOT . '/
 }
 
 // System includes
-require_once(JPATH_LIBRARIES . '/joomla/import.php');
+require_once(JPATH_VENDOR.'/joomla/import.php');
 
 // Joomla : setup
 jimport('joomla.environment.uri');
@@ -36,7 +36,7 @@ jimport('joomla.language.language');
 require_once JPATH_ROOT . '/configuration.php';
 $config = new JConfig();
 
-require_once(JPATH_LIBRARIES . '/koowa/koowa.php');
+require_once(JPATH_ROOT . '/libraries/koowa/koowa.php');
 Koowa::getInstance(array(
     'cache_prefix' => md5($config->secret) . '-cache-koowa',
     'cache_enabled' => $config->caching

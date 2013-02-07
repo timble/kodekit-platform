@@ -15,7 +15,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JLoader::register('JTableContent', JPATH_LIBRARIES . DS . 'joomla' . DS . 'database' . DS . 'table' . DS . 'content.php');
+JLoader::register('JTableContent', JPATH_VENDOR . DS . 'joomla' . DS . 'database' . DS . 'table' . DS . 'content.php');
 
 /**
  * Utility class to fire onPrepareContent for non-article based content.

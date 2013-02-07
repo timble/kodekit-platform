@@ -14,7 +14,7 @@ define('JPATH_APPLICATION'  , dirname(__FILE__) );
 define('JPATH_BASE'         , JPATH_APPLICATION );
 define('JPATH_ROOT'         , dirname(JPATH_APPLICATION));
 
-define('JPATH_LIBRARIES'    , JPATH_ROOT.'/libraries' );
+define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
 define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );

@@ -284,7 +284,7 @@ class JHTML
 		static $paths;
 
 		if (!isset($paths)) {
-			$paths = array( JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html' );
+			$paths = array( JPATH_VENDOR.DS.'joomla'.DS.'html'.DS.'html' );
 		}
 
 		// force path to array
