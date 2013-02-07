@@ -15,7 +15,7 @@
  * @package     Nooku_Modules
  * @subpackage  Default
  */
-class ComDefaultModuleDefaultHtml extends KViewHtml
+class ComDefaultModuleDefaultHtml extends KViewTemplate
 {
     /**
      * Initializes the default configuration for the object
@@ -28,9 +28,9 @@ class ComDefaultModuleDefaultHtml extends KViewHtml
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+            'mimetype'   => 'text/html',
             'model'      => 'com://admin/default.model.module',
             'media_url'  => KRequest::root() . '/media',
-            'data'	     => array()
         ));
 
         parent::_initialize($config);
@@ -50,14 +50,26 @@ class ComDefaultModuleDefaultHtml extends KViewHtml
             $this->getTemplate()->attachFilter('chrome', array('styles' => $this->module->chrome));
         }
 
-        $identifier = clone $this->getIdentifier();
-        $identifier->name = $this->getLayout();
-
-        $content = $this->getTemplate()
-            ->loadIdentifier($identifier, $this->_data)
-            ->render();
-
-        $this->setContent($content);
         return parent::display();
+    }
+
+    /**
+     * Get a route based on a full or partial query string.
+     *
+     * This function force the route to be not fully qualified and not escaped
+     *
+     * @param    string    The query string used to create the route
+     * @param     boolean    If TRUE create a fully qualified route. Default FALSE.
+     * @param     boolean    If TRUE escapes the route for xml compliance. Default FALSE.
+     * @return     string     The route
+     */
+    public function getRoute($route = '', $fqr = null, $escape = null)
+    {
+        //If not set force to false
+        if ($fqr === null) {
+            $fqr = false;
+        }
+
+        return parent::getRoute($route, $fqr, $escape);
     }
 }
