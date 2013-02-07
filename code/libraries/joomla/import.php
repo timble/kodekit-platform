@@ -18,7 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  * Load the loader class
  */
 if (! class_exists('JLoader')) {
-    require_once( JPATH_LIBRARIES.DS.'loader.php');
+    require_once( dirname(__FILE__).DS.'loader.php');
 }
 
 /**

@@ -48,14 +48,14 @@ abstract class JLoader
 	 * @return void
 	 * @since 1.5
 	 */
-	public static function import( $filePath, $base = null, $key = 'libraries.' )
+	public static function import( $filePath, $base = null, $key = '' )
 	{
 		$keyPath = $key ? $key . $filePath : $filePath;
 
 		if (!isset(self::$_imported[$keyPath]))
 		{
 			if ( ! $base ) {
-				$base =  dirname( __FILE__ );
+				$base =  dirname(dirname( __FILE__ ));
 			}
 
 			$parts = explode( '.', $filePath );
