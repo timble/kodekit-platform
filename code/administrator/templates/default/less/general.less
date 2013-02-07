@@ -276,7 +276,7 @@ fieldset {
 	
 	.scopebar-group {
 		border-right: 1px solid #BBB;
-		padding-top: 3px;
+		padding-top: 6px;
 		padding-right: 10px;
 		margin-right: 10px;
 		
@@ -314,16 +314,17 @@ fieldset {
 	}
 	
 	.scopebar-search {
+		.input-append();
+		margin-bottom: 0;
 		margin-left: 25px;
 		
 		input[type="search"] {
 			max-width: 150px;
-			height: 11px;
-			padding: 3px;
+			margin-bottom: 0;
 		}
 		
 		button {
-			display: none;
+			.btn-small();
 		}
 	}
 }
