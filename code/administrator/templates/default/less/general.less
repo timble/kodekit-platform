@@ -421,7 +421,7 @@ fieldset {
 			#gradient > .vertical(#F0F0F0, #EAEAEA);
 			border-bottom: 1px solid #CCC;
 			
-			input {
+			input[name=title] {
 				font-size: @baseFontSize * 1.5;
 				width: 100%;
 				padding: 4px 8px;
@@ -430,6 +430,13 @@ fieldset {
 				.border-radius(4px);
 				height: @baseLineHeight * 3;
 				line-height: @baseLineHeight * 3;
+			}
+			
+			.slug {
+				.input-prepend();
+				clear: left;				
+				margin-top: 5px;
+				margin-bottom: 0;
 			}
 		}
 		

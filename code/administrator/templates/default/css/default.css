@@ -3490,7 +3490,7 @@ fieldset {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff0f0f0', endColorstr='#ffeaeaea', GradientType=0);
   border-bottom: 1px solid #CCC;
 }
-.-koowa-form .main .title input {
+.-koowa-form .main .title input[name=title] {
   font-size: 16.5px;
   width: 100%;
   padding: 4px 8px;
@@ -3503,6 +3503,78 @@ fieldset {
   border-radius: 4px;
   height: 36px;
   line-height: 36px;
+}
+.-koowa-form .main .title .slug {
+  margin-bottom: 5px;
+  font-size: 0;
+  white-space: nowrap;
+  clear: left;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+.-koowa-form .main .title .slug input,
+.-koowa-form .main .title .slug select,
+.-koowa-form .main .title .slug .uneditable-input,
+.-koowa-form .main .title .slug .dropdown-menu {
+  font-size: 11px;
+}
+.-koowa-form .main .title .slug input,
+.-koowa-form .main .title .slug select,
+.-koowa-form .main .title .slug .uneditable-input {
+  position: relative;
+  margin-bottom: 0;
+  *margin-left: 0;
+  vertical-align: top;
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+.-koowa-form .main .title .slug input:focus,
+.-koowa-form .main .title .slug select:focus,
+.-koowa-form .main .title .slug .uneditable-input:focus {
+  z-index: 2;
+}
+.-koowa-form .main .title .slug .add-on {
+  display: inline-block;
+  width: auto;
+  height: 12px;
+  min-width: 16px;
+  padding: 4px 5px;
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 12px;
+  text-align: center;
+  text-shadow: 0 1px 0 #ffffff;
+  background-color: #dddddd;
+  border: 1px solid #ccc;
+}
+.-koowa-form .main .title .slug .add-on,
+.-koowa-form .main .title .slug .btn,
+.-koowa-form .main .title .slug .btn-group > .dropdown-toggle {
+  vertical-align: top;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.-koowa-form .main .title .slug .active {
+  background-color: #70d09e;
+  border-color: #297e52;
+}
+.-koowa-form .main .title .slug .add-on,
+.-koowa-form .main .title .slug .btn {
+  margin-right: -1px;
+}
+.-koowa-form .main .title .slug .add-on:first-child,
+.-koowa-form .main .title .slug .btn:first-child {
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+.-koowa-form .main .title .slug .add-on {
+  padding: 5px 5px;
+}
+.-koowa-form .main .title .slug .btn {
+  padding-top: 3px;
 }
 .-koowa-form .main .scrollable {
   background-color: #ffffff;
@@ -4762,16 +4834,26 @@ body #container {
   min-height: 100%;
 }
 #panel-content .-koowa-form .main .title {
-  *zoom: 1;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
 }
-#panel-content .-koowa-form .main .title:before,
-#panel-content .-koowa-form .main .title:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-#panel-content .-koowa-form .main .title:after {
-  clear: both;
+#panel-content .-koowa-form .main .title .slug {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex: 0;
+  -moz-flex: 0;
+  flex: 0;
 }
 #panel-content .-koowa-form .main .scrollable {
   -webkit-flex: 1;

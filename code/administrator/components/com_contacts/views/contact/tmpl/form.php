@@ -26,6 +26,10 @@
 	<div class="main">
 		<div class="title">
 		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
+		    <div class="slug">
+		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug ?>" />
+		    </div>
 		</div>
 
 		<div class="scrollable">
@@ -121,12 +125,6 @@
 				    <label class="control-label" for="published"><?= @text( 'Published' ); ?></label>
 				    <div class="controls">
 				        <input type="checkbox" name="published" value="1" <?= $contact->published ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for="slug"><?= @text( 'Slug' ); ?></label>
-				    <div class="controls">
-				        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug; ?>" />
 				    </div>
 				</div>
 				<div class="control-group">

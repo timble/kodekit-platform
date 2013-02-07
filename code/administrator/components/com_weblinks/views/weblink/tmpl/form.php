@@ -25,6 +25,10 @@
 	<div class="main">
 		<div class="title">
 		    <input class="required" type="text" name="title" maxlength="255" value="<?= $weblink->title ?>" placeholder="<?= @text('Title') ?>" />
+		    <div class="slug">
+		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <input type="text" name="slug" maxlength="255" value="<?= $weblink->slug ?>" />
+		    </div>
 		</div>
 	    <div class="scrollable">
 	        <fieldset class="form-horizontal">
@@ -52,12 +56,6 @@
 				    <label class="control-label" for="published"><?= @text( 'Published' ) ?></label>
 				    <div class="controls">
 				        <input type="checkbox" name="published" value="1" <?= $weblink->published ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for=""><?= @text( 'Slug' ); ?></label>
-				    <div class="controls">
-				        <input type="text" name="slug" maxlength="255" value="<?= $weblink->slug; ?>" placeholder="<?= @text( 'Slug' ); ?>" />
 				    </div>
 				</div>
 			</fieldset>

@@ -79,8 +79,10 @@
     <div class="main">
         <div class="title">
             <input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
-            <?= @text('Visitors can access this page at'); ?>
-            <?= dirname(JURI::base()) ?>/<input type="text" name="slug" placeholder="<?= @text('Slug') ?>" value="<?= $page->slug ?>" maxlength="255" />
+            <div class="slug">
+                <span class="add-on"><?= @text('Slug'); ?></span>
+                <input type="text" name="slug" maxlength="255" value="<?= $page->slug ?>" />
+            </div>
         </div>
         <div class="scrollable">
             <?= @template('form_general') ?>

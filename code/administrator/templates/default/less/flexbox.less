@@ -68,7 +68,11 @@ html, body {
 			min-height: 100%;
 			
 			.title {
-				.clearfix();
+				#flexbox > .box(column, 0);
+				
+				.slug {
+					#flexbox > .box(row, 0);
+				}
 			}
 			
 			.scrollable {
