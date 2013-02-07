@@ -19,7 +19,7 @@
 				<li><?= @escape($item->name) ?></li>
 			<? endif ?>
 			<span class="divider">/</span>
-		<? elseif($module->params->get('showLast', 1)) : ?>
+		<? else : ?>
 		    <li><?= @escape($item->name) ?></li>
 		<? endif ?>
 	<? endforeach ?>

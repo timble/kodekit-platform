@@ -23,7 +23,7 @@ class ComPagesModuleBreadcrumbsHtml extends ComDefaultModuleDefaultHtml
         $list   = (array) $this->getService('application')->getPathway()->items;
         $params = $this->module->params;
 
-        if($params->get('showHome', 1))
+        if($params->get('homeText'))
         {
             $item = new stdClass();
             $item->name = $params->get('homeText', JText::_('Home'));
