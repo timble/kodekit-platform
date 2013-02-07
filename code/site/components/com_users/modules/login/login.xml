@@ -9,7 +9,7 @@
 	<authorEmail>info@nooku.org</authorEmail>
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>12.3</version>
-	<description>DESCLOGINFORM</description>
+	<description>This module displays a login form.</description>
 	<params>
 		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
 			<option value="0">Never</option>

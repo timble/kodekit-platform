@@ -9,5 +9,5 @@
     <authorEmail>info@nooku.org</authorEmail>
     <authorUrl>www.nooku.org</authorUrl>
     <version>12.3</version>
-    <description>DESCMODCUSTOM</description>
+    <description>A module for displaying custom information.</description>
 </install>
