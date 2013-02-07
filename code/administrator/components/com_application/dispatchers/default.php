@@ -58,6 +58,9 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         // Set the connection options
         $this->_options = $config->options;
 
+        //Set the base url in the request
+        $this->getRequest()->setBaseUrl($config->base_url);
+
         //Setup the request
         KRequest::root(str_replace('/administrator', '', KRequest::base()));
 
@@ -80,6 +83,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+            'base_url'          => '/administrator',
             'component'         => 'dashboard',
             'event_dispatcher'  => 'com://admin/debug.event.dispatcher.debug',
             'event_subscribers' => array('com://admin/application.event.subscriber.unauthorized'),
@@ -89,7 +93,6 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
                 'config_file'  => JPATH_ROOT.'/configuration.php',
                 'language'     => null
             ),
-
         ));
 
         parent::_initialize($config);

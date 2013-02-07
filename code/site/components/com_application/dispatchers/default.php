@@ -67,6 +67,9 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         // Set the connection options
         $this->_options = $config->options;
 
+        //Set the base url in the request
+        $this->getRequest()->setBaseUrl($config->base_url);
+
         //Setup the request
         KRequest::root(str_replace('/site', '', KRequest::base()));
 
@@ -89,6 +92,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+            'base_url'          => '/',
             'event_dispatcher'  => 'com://admin/debug.event.dispatcher.debug',
             'event_subscribers' => array('com://site/application.event.subscriber.unauthorized'),
             'site'      => null,
@@ -166,8 +170,8 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         if(!$context->request->isAjax())
         {
             // Get the route based on the path
-            $search = array(KRequest::base()->getPath(), $this->getSite(), 'index.php');
-            $route  = trim(str_replace($search, '', $url->getUrl(KHttpURL::PATH + KHttpURL::FORMAT)), '/');
+            $search = array(KRequest::base()->getPath(), $this->getSite());
+            $route  = trim(str_replace($search, '', $url->toString(KHttpURL::PATH + KHttpURL::FORMAT)), '/');
 
             //Redirect to the default menu item if the route is empty
             if(strpos($route, $pages->getHome()->route) === 0)
@@ -586,8 +590,6 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         {
             // Check folder
             $path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
-            $path = trim(str_replace('index.php', '', $path), '/');
-
             if(!empty($path))
             {
                 $folder = array_shift(explode('/', $path));
