@@ -41,7 +41,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Base path of the request.
      *
-     * @var KHttpUrl
+     * @var string
      */
     protected $_base_path;
 
@@ -109,6 +109,12 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
 
         //Set cookie parameters
         $this->setCookies($config->cookies);
+
+        //Set the base URL
+        $this->setBaseUrl($config->base_url);
+
+        //Set the base path
+        $this->setBasePath($config->base_path);
 
         //Set the formats
         foreach($config->formats as $format => $mimetypes) {
@@ -207,6 +213,8 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
+            'base_url'  => '/',
+            'base_path' => null,
             'method'   => null,
             'formats'  => array(
                 'html'   => array('text/html', 'application/xhtml+xml'),
@@ -514,42 +522,76 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     }
 
     /**
-     * Returns the base url of the request.
+     * Returns the base URL from which this request is executed.
+     *
+     * The base URL never ends with a / and t also includes the script filename (e.g. index.php) if one exists.
+     *
+     * Suppose this request is instantiated from /mysite on localhost:
+     *
+     *  * http://localhost/mysite              returns an empty string
+     *  * http://localhost/mysite/about        returns '/about'
+     *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
+     *  * http://localhost/mysite/about?var=1  returns '/about'
      *
      * @return  object  A KHttpUrl object
      */
     public function getBaseUrl()
     {
-        if(!isset($this->_base_url))
+        if(!$this->_base_url instanceof KHttpUrl)
         {
-            // Get the base request path
-            if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo')  && !empty($_SERVER['REQUEST_URI']))
-            {
-                // PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
-                // We don't have user-supplied PATH_INFO in PHP_SELF
-                $path = $_SERVER['PHP_SELF'];
-            }
-            else $path = $_SERVER['SCRIPT_NAME'];
+            $base = clone $this->getUrl();
+            $base->fromString(rtrim((string)$this->_base_url, '/'));
 
-            $path = rtrim(dirname($path), '/\\');
-
-            // Sanitize the url since we can't trust the server var
-            $path = $this->getService('koowa:filter.url')->sanitize($path);
-
-            $this->_base_url = $this->getService('koowa:http.url', array('url' => $path));
+            $this->_base_url = $this->getService('koowa:http.url', array('url' => $base->toString(KHttpUrl::BASE)));
         }
 
         return $this->_base_url;
     }
 
     /**
-     * Get the base path.
+     * Set the base URL for which the request is executed.
      *
-     * @return string
+     * @param string $url
+     * @return KDispatcherRequest
+     */
+    public function setBaseUrl($url)
+    {
+        $this->_base_url = $url;
+        return $this;
+    }
+
+    /**
+     * Returns the base path of the request.
+     *
+     * @return  string
      */
     public function getBasePath()
     {
+        if(!isset($this->_base_path))
+        {
+            // PHP-CGI on Apache with "cgi.fix_pathinfo = 0". We don't have user-supplied PATH_INFO in PHP_SELF
+            if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo')  && !empty($_SERVER['REQUEST_URI'])) {
+                $path = $_SERVER['PHP_SELF'];
+            } else {
+                $path = $_SERVER['SCRIPT_NAME'];
+            }
 
+            $this->_base_path = rtrim(dirname($path), '/\\');
+        }
+
+        return $this->_base_path;
+    }
+
+    /**
+     * Set the base path for which the request is executed.
+     *
+     * @param string $path
+     * @return KDispatcherRequest
+     */
+    public function setBasePath($path)
+    {
+        $this->_base_path = $path;
+        return $this;
     }
 
     /**

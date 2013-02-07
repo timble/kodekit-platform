@@ -133,9 +133,9 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         $from_email = $config->getValue('mailfrom');
         $from_name  = $config->getValue('fromname');
         $url        = $this->getService('koowa:http.url',
-            array('url' => "index.php?option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
+            array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
-        $url     = $url = $context->request->getUrl()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
+        $url     = $url = $context->request->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
 
         $subject = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
         $body    = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);

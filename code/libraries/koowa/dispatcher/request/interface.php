@@ -73,18 +73,43 @@ interface KDispatcherRequestInterface extends KControllerRequestInterface, KServ
     public function getAddress();
 
     /**
-     * Returns the base url of the request.
+     * Returns the base URL from which this request is executed.
+     *
+     * The base URL never ends with a / and t also includes the script filename (e.g. index.php) if one exists.
+     *
+     * Suppose this request is instantiated from /mysite on localhost:
+     *
+     *  * http://localhost/mysite              returns an empty string
+     *  * http://localhost/mysite/about        returns '/about'
+     *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
+     *  * http://localhost/mysite/about?var=1  returns '/about'
      *
      * @return  object  A KHttpUrl object
      */
     public function getBaseUrl();
 
     /**
-     * Get the base path.
+     * Set the base URL for which the request is executed.
      *
-     * @return string
+     * @param string $url
+     * @return KDispatcherRequest
+     */
+    public function setBaseUrl($url);
+
+    /**
+     * Returns the base url of the request.
+     *
+     * @return  object  A KHttpUrl object
      */
     public function getBasePath();
+
+    /**
+     * Set the base path for which the request is executed.
+     *
+     * @param string $path
+     * @return KDispatcherRequest
+     */
+    public function setBasePath($path);
 
     /**
      * Return the request token
