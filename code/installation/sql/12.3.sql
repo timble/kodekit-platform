@@ -223,7 +223,6 @@ SELECT 0, title, alias, image, 'articles', description, published, checked_out, 
 
 UPDATE #__categories a, #__categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
 UPDATE #__menu a, #__categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
-UPDATE `#__menu` SET `link` = REPLACE(`link`, 'id=', 'category=') WHERE `link` LIKE '%com_articles&view=categories%';
 ALTER TABLE #__categories DROP old_id;
 DROP TABLE #__sections;
 
@@ -336,6 +335,7 @@ UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category&layout=blog', 'view
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=section&layout=blog', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=section&layout=blog%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=category', 'view=articles&layout=table') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=category%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=section', 'view=categories') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=section%';
+UPDATE `#__menu` SET `link` = REPLACE(`link`, 'id=', 'category=') WHERE `link` LIKE '%com_articles&view=categories%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'id=', 'category=') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=articles%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, '&layout=blog', '') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=articles%';
 UPDATE `#__menu` SET `link` = REPLACE(`link`, 'view=frontpage', 'view=articles') WHERE `link` LIKE '%com_articles%' AND `link` LIKE '%view=frontpage%';
@@ -611,6 +611,16 @@ ALTER TABLE `#__pages` DROP COLUMN `rgt`;
 
 # --------------------------------------------------------
 
+CREATE TABLE `#__users_groups_users` (
+  `users_group_id` int(11) unsigned NOT NULL,
+  `users_user_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`users_group_id`,`users_user_id`),
+  KEY `jos_users_groups_users__users_user_id` (`users_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `#__users` (`users_user_id`) ON DELETE CASCADE;
+ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `#__users_groups` (`users_group_id`) ON DELETE CASCADE;
+
 CREATE TABLE `#__users_passwords` (
   `email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date DEFAULT NULL,
@@ -623,6 +633,14 @@ CREATE TABLE `#__users_passwords` (
 INSERT INTO `#__users_passwords` (`email`, `expiration`, `hash`, `reset`) SELECT `email`, NULL, `password`, '' FROM `#__users`;
 
 ALTER TABLE `#__users` DROP COLUMN `password`;
+
+# --------------------------------------------------------
+
+DROP TABLE `#__core_acl_aro`;
+DROP TABLE `#__core_acl_aro_groups`;
+DROP TABLE `#__core_acl_aro_map`;
+DROP TABLE `#__core_acl_aro_sections`;
+DROP TABLE `#__core_acl_groups_aro_map`;
 
 # --------------------------------------------------------
 
@@ -681,21 +699,3 @@ INSERT INTO `#__languages_tables` (`extensions_component_id`, `name`, `unique_co
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
-
-CREATE TABLE `#__users_groups_users` (
-  `users_group_id` int(11) unsigned NOT NULL,
-  `users_user_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`users_group_id`,`users_user_id`),
-  KEY `jos_users_groups_users__users_user_id` (`users_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `#__users` (`users_user_id`) ON DELETE CASCADE;
-ALTER TABLE `#__users_groups_users` ADD CONSTRAINT `#__users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `#__users_groups` (`users_group_id`) ON DELETE CASCADE;
-
-# --------------------------------------------------------
-
-DROP TABLE  `#__core_acl_aro` ,
-`#__core_acl_aro_groups` ,
-`#__core_acl_aro_map` ,
-`#__core_acl_aro_sections` ,
-`#__core_acl_groups_aro_map`;
