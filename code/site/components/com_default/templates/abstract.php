@@ -41,35 +41,6 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	}
 
 	/**
-	 * Load a template by path -- first look in the templates folder for an override
-	 *
-	 * This function tries to get the template from the cache. If it cannot be found the template file will be loaded
-     * from the file system.
-	 *
-	 * @param   string 	The template path
-	 * @param	array	An associative array of data to be extracted in local template scope
-	 * @return KTemplateAbstract
-	 */
-	public function loadFile($path, $data = array(), $process = true)
-	{
-	    if(isset($this->_cache))
-	    {
-	        $identifier = md5($path);
-
-	        if ($template = $this->_cache->get($identifier))
-	        {
-		        // store the path
-		        $this->_path = $path;
-
-	            $this->loadString($template, $data, $process);
-	            return $this;
-	        }
-	    }
-
-		return parent::loadFile($path, $data, $process);;
-	}
-
-	/**
 	 * Searches for the file
 	 *
 	 * This function first tries to find a template override, if no override exists it will try to find the default template
@@ -115,14 +86,14 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
         {
             $identifier = md5($this->getPath());
 
-            if (!$this->_cache->has($identifier))
+            if (!$this->_cache->get($identifier))
             {
                 parent::_parse($content);
 
                 //Store the object in the cache
                 $this->_cache->store($content, $identifier);
             }
-            else $content = $this->_cache->has($identifier);
+            else $content = $this->_cache->get($identifier);
         }
         else parent::_parse($content);
     }
