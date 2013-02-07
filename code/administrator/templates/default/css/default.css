@@ -3191,6 +3191,10 @@ fieldset {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f2f2', endColorstr='#ffe9e9e9', GradientType=0);
 }
+#panel-sidebar fieldset,
+#panel-inspector fieldset {
+  margin: 0;
+}
 #panel-inspector {
   border-left: 1px solid #dddddd;
 }
