@@ -164,9 +164,10 @@ class KModelTable extends KModelAbstract
                 $this->_buildQueryWhere($query);
                 $this->_buildQueryGroup($query);
                 $this->_buildQueryHaving($query);
-            }
 
-            $this->_row = $this->getTable()->select($query, KDatabase::FETCH_ROW, array('state' => $state));
+                $this->_row = $this->getTable()->select($query, KDatabase::FETCH_ROW, array('state' => $state));
+            }
+            else $this->_row = $this->getTable()->getRow(array('state' => $state));
         }
 
         return $this->_row;
@@ -197,9 +198,10 @@ class KModelTable extends KModelAbstract
                 $this->_buildQueryHaving($query);
                 $this->_buildQueryOrder($query);
                 $this->_buildQueryLimit($query);
-            }
 
-            $this->_rowset = $this->getTable()->select($query, KDatabase::FETCH_ROWSET, array('state' => $state));
+                $this->_rowset = $this->getTable()->select($query, KDatabase::FETCH_ROWSET, array('state' => $state));
+            }
+            else $this->_rowset = $this->getTable()->getRowset(array('state' => $state));
         }
 
         return $this->_rowset;
