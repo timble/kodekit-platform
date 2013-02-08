@@ -46,7 +46,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      *
      * @var bool
      */
-    protected $_new = true;
+    private $__new = true;
 
     /**
      * Name of the identity column in the rowset
@@ -73,11 +73,11 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
         $this->reset();
 
         // Set the new state of the row
-        $this->_new = $config->new;
+        $this->__new = $config->new;
 
         // Set the row data
         if (isset($config->data)) {
-            $this->setData((array)KConfig::unbox($config->data), $this->_new);
+            $this->setData((array)KConfig::unbox($config->data), $this->__new);
         }
 
         //Set the status
@@ -208,6 +208,18 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function setStatus($status)
     {
+        if($status == KDatabase::STATUS_CREATED) {
+            $this->__new = false;
+        }
+
+        if($status == KDatabase::STATUS_DELETED) {
+            $this->__new = true;
+        }
+
+        if($status == KDatabase::STATUS_LOADED) {
+            $this->__new = false;
+        }
+
         $this->_status = $status;
         return $this;
     }
@@ -289,7 +301,6 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function delete()
     {
-        $this->_new    = true;
         $this->setStatus(KDatabase::STATUS_DELETED);
 
         return false;
@@ -315,7 +326,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function isNew()
     {
-        return (bool) $this->_new;
+        return (bool) $this->__new;
     }
 
     /**

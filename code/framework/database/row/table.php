@@ -40,7 +40,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 
         // Reset the row data
         if (isset($config->data)) {
-            $this->setData($config->data->toArray(), $this->_new);
+            $this->setData($config->data->toArray(), $config->new);
         }
     }
 
@@ -144,7 +144,6 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
                 {
                     $this->setData($row->getData(), false);
                     $this->_modified = array();
-                    $this->_new      = false;
 
                     $this->setStatus(KDatabase::STATUS_LOADED);
                     $result = $this;
@@ -197,7 +196,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
 
         if ($this->isConnected())
         {
-            if (!$this->_new) {
+            if (!$this->isNew()) {
                 $result = $this->getTable()->delete($this);
             }
         }
