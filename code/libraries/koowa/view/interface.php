@@ -100,5 +100,5 @@ interface KViewInterface
      * @param 	boolean	If TRUE escapes the route for xml compliance. Default TRUE.
 	 * @return 	string 	The route
 	 */
-	public function getRoute( $route = '', $fqr = null, $escape = null);
+	public function getRoute($route, $fqr = null, $escape = null);
 }
