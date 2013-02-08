@@ -1,5 +1,5 @@
 <?php
-class JSettings extends JConfig 
+class JSIteConfig extends JConfig
 {
 	//var $sitename = 'Nooku Server - Default';
     //var $offline  = '0';

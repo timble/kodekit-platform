@@ -98,7 +98,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             'site'      => null,
             'options'   => array(
                 'session_name' => 'site',
-                'config_file'  => JPATH_ROOT.'/configuration.php',
+                'config_file'  => JPATH_SITES.'/config.php',
                 'language'     => null
             ),
         ));
@@ -292,8 +292,8 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             JFactory::getConfig()->loadObject(new JConfig());
 
             //Load the site config settings
-            require_once( JPATH_SITES.'/'.$this->getSite().'/settings.php');
-            JFactory::getConfig()->loadObject(new JSettings());
+            require_once( JPATH_SITES.'/'.$this->getSite().'/config.php');
+            JFactory::getConfig()->loadObject(new JSiteConfig());
         }
         else throw new KControllerExceptionNotFound('Site :'.$this->getSite().' not found');
     }
