@@ -19,17 +19,11 @@ class ComApplicationRouter extends KDispatcherRouter
 {
     public function parse(KHttpUrl $url)
 	{
-		// Get the application
-		$app = $this->getService('application');
-
 		// Get the path
 		$path = $url->getPath();
 
         //Remove base path
-        $path = substr_replace($path, '', 0, strlen(KRequest::root()->getPath()));
-
-		//Remove the filename
-		$path = str_replace('index.php', '', $path);
+        $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBasePath()));
 
         // Set the format
         if(!empty($url->format)) {
@@ -54,24 +48,18 @@ class ComApplicationRouter extends KDispatcherRouter
 
 	    if($this->getService('application')->getCfg('sef_suffix'))
 		{
-		    $route .= '.'.$format;
+            $url->format = $format;
             unset($url->query['format']);
 	    }
 		else
 		{
-	        if($format == 'html') {
+	        $url->format = '';
+            if($format == 'html') {
 			    unset($url->query['format']);
 			}
 	    }
 
-        //Transform the route
-		if($this->getService('application')->getCfg('sef_rewrite')) {
-		    $route = str_replace('index.php/', '', $route);
-		}
-
-		$url->path   = KRequest::root()->getPath().'/'.$route;
-        $url->format = '';
-
+        $url->path   = $this->getService('request')->getBasePath().'/'.$route;
 		return $result;
 	}
 
@@ -227,7 +215,7 @@ class ComApplicationRouter extends KDispatcherRouter
         $segments = array();
 
         $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->getUrl(KHttpUrl::HOST)) {
+        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(KHttpUrl::HOST)) {
             $segments[] = $site;
         }
 

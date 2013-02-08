@@ -23,10 +23,7 @@ class ComApplicationRouter extends KDispatcherRouter
         $path = trim($url->getPath(), '/');
 
         //Remove basepath
-        $path = substr_replace($path, '', 0, strlen(JURI::base(true)));
-
-        //Remove prefix
-        $path = trim(str_replace('index.php', '', $path), '/');
+        $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBasePath()));
 
         //Remove suffix
         if(!empty($path))
@@ -96,7 +93,7 @@ class ComApplicationRouter extends KDispatcherRouter
 	{
         $query    = $url->query;
         $segments = array();
-        
+
 	    // Add language slug if more than languages are enabled.
 	    $languages = $this->getService('application.languages');
         if(count($languages) > 1)
@@ -123,32 +120,26 @@ class ComApplicationRouter extends KDispatcherRouter
             }
         }
 
-        $route = implode('/', $segments);
+        $url->query  = $query;
+        $route       = implode('/', $segments);
 
         //Add the format to the uri
         $format = isset($url->query['format']) ? $url->query['format'] : 'html';
 
         if($this->getService('application')->getCfg('sef_suffix'))
         {
-            $route .= '.'.$format;
+            $url->format = $format;
             unset($url->query['format']);
         }
         else
         {
+            $url->format = '';
             if($format == 'html') {
                 unset($url->query['format']);
             }
         }
 
-        //Transform the route
-        if($this->getService('application')->getCfg('sef_rewrite')) {
-            $route = str_replace('index.php/', '', $route);
-        }
-
-        $url->query  = $query;
-        $url->path   = KRequest::base()->getPath().'/'.$route;
-        $url->format = '';
-
+        $url->path = $this->getService('request')->getBasePath().'/'.$route;
         return true;
 	}
 }
