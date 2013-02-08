@@ -73,7 +73,6 @@ class JConfig
 	var $debug_lang = '0';
 
 	/* SEO Settings */
-	var $sef_rewrite = '0';
 	var $sef_suffix  = '';
 
 	/* Template Settings */
