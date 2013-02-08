@@ -41,7 +41,8 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
 
     public function getLink()
     {
-        $link = $this->getService('koowa:http.url', array('url' => $this->link_url));
+        $link = $this->getService('koowa:http.url', array('url' => '?'.$this->link_url));
+        $link->query['Itemid'] = $this->id;
 
         return $link;
     }
@@ -180,7 +181,7 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
                 $query += $this->urlparams;
             }
 
-            $this->link_url = 'index.php?'.http_build_query($query);
+            $this->link_url = http_build_query($query);
 
             // TODO: Get component from application.component.
             // Set component id.
