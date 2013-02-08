@@ -45,7 +45,7 @@ class ComFilesDatabaseRowThumbnail extends KDatabaseRowTable
     	if ($source && !$source->isNew())
 		{
 			//Load the phpthumb library
-		    require_once JPATH_LIBRARIES.'/phpthumb/phpthumb.php';
+		    require_once JPATH_VENDOR.'/phpthumb/phpthumb.php';
 
 		    //Create the thumb
 		    $image = PhpThumbFactory::create($source->fullpath)
