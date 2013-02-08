@@ -66,7 +66,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
             switch($page->type)
             {
                 case 'component':
-                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->getLink()->getQuery(), 'escape' => true));
+                    $link = $this->getTemplate()->getView()->getRoute($page->getLink()->getQuery());
     				$result .= $disabled ? '<span class="nolink">' : '<a href="'.(string) $link.'">';
                     $result .= $page->title;
                     $result .= $disabled ? '</span>' : '</a>';

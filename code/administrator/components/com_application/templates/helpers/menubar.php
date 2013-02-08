@@ -15,7 +15,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
+class ComApplicationTemplateHelperMenubar extends ComPagesTemplateHelperList
 {
  	/**
      * Render the menubar
@@ -41,7 +41,7 @@ class ComApplicationTemplateHelperMenubar extends KTemplateHelperAbstract
         if(count($menu))
         {
             $pages  = $this->getService('application.pages')->find(array('pages_menu_id' => $menu->top()->id));
-            $result = $this->getService('com://admin/pages.template.helper.list')->pages(array('pages' => $pages, 'attribs' => $config->attribs));
+            $result = $this->pages(array('pages' => $pages, 'attribs' => $config->attribs));
         }
 
         return $result;
