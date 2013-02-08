@@ -125,7 +125,7 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
         $path  = '';
         $parts = $identifier->path;
 
-        $component = 'com_'.strtolower($identifier->package);
+        $component = strtolower($identifier->package);
 
         if(!empty($identifier->name))
         {
@@ -144,7 +144,7 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
             else $path  = strtolower($identifier->name);
         }
 
-        $path = $identifier->basepath.'/components/'.$component.'/'.$path.'.php';
+        $path = $identifier->basepath.'/component/'.$component.'/'.$path.'.php';
         return $path;
     }
 }

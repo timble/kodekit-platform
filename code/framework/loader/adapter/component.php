@@ -59,7 +59,7 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 		        $this->_basepath = $basepath;
 		    }
 
-		    $component = 'com_'.strtolower(array_shift($parts));
+		    $component = strtolower(array_shift($parts));
 			$file 	   = array_pop($parts);
 
 			if(count($parts))
@@ -76,7 +76,7 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 			}
 			else $path = $file;
 
-			$path = $this->_basepath.'/components/'.$component.'/'.$path.'.php';
+			$path = $this->_basepath.'/component/'.$component.'/'.$path.'.php';
 		}
 
 		return $path;

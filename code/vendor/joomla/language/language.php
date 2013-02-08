@@ -295,7 +295,7 @@ class JLanguage extends JObject
 			$extension = 'application';
 		}
 
-        $basePath .= '/components/com_'.$extension;
+        $basePath .= '/component/'.$extension;
 		$path      = JLanguage::getLanguagePath( $basePath, $lang);
         $filename  = $file ? $path.'/'.$lang.'.'.$file.'.ini' : $path.'/'.$lang.'.ini';
 
