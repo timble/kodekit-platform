@@ -34,7 +34,7 @@ jimport('joomla.language.language');
 require_once JPATH_ROOT . '/configuration.php';
 $config = new JConfig();
 
-require_once(JPATH_ROOT . '/libraries/koowa/koowa.php');
+require_once(JPATH_ROOT . '/framework/koowa.php');
 Koowa::getInstance(array(
     'cache_prefix' => md5($config->secret) . '-cache-koowa',
     'cache_enabled' => $config->caching
