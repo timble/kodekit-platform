@@ -140,6 +140,11 @@ class ComApplicationRouter extends KDispatcherRouter
         }
 
         $url->path = $this->getService('request')->getBasePath().'/'.$route;
+
+        // Removed unused query variables
+        unset($url->query['Itemid']);
+        unset($url->query['option']);
+
         return true;
 	}
 }
