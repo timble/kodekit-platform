@@ -34,7 +34,7 @@ class ComUsersDispatcherDefault extends ComDefaultDispatcherDefault
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
-                $context->response->setRedirect('index.php', 'You are already logged in!');
+                $context->response->setRedirect($context->response->getReferrer(), 'You are already logged in!');
                 return false;
             }
         }

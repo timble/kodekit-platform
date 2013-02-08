@@ -90,7 +90,7 @@ class ComPagesTemplateHelperList extends KTemplateHelperAbstract
             switch($page->type)
             {
                 case 'component':
-                    $link = $this->getService('koowa:dispatcher.router.route', array('url' => 'index.php?'.$page->getLink()->getQuery().'&Itemid='.$page->id, 'escape' => true));
+                    $link = $this->getTemplate()->getView()->getRoute($page->getLink()->getQuery());
     				$result .= '<a href="'.(string) $link.'">';
                     $result .= $page->title;
                     $result .= '</a>';

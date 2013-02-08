@@ -41,7 +41,7 @@ class JElementArticle extends JElement
         }
         </script>";
 
-        $link = JRoute::_('index.php?option=com_articles&view=articles&layout=element&tmpl=overlay&object='.$name);
+        $link = JRoute::_('option=com_articles&view=articles&layout=element&tmpl=overlay&object='.$name);
 
         // TODO: Replace with call to @helper('behavior.modal')
         $html .= '<script src="media://lib_koowa/js/modal.js" />';

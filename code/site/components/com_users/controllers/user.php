@@ -53,7 +53,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
     {
         if($context->request->query-get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
-            $url =  'index.php?Itemid='.$this->getService('application.pages')->getHome()->id;
+            $url =  '?Itemid='.$this->getService('application.pages')->getHome()->id;
             $context->response->setRedirect($url, 'You are already registered');
             return false;
         }
@@ -87,9 +87,9 @@ class ComUsersControllerUser extends ComDefaultControllerModel
         if ($user->getStatus() == KDatabase::STATUS_CREATED && $user->activation) {
 
             $url       = $this->getService('koowa:http.url',
-                array('url' => "index.php?option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
+                array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
             $this->getService('application')->getRouter()->build($url);
-            $site_url       = $context->request->getUrl()->getUrl(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+            $site_url       = $context->request->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
             $activation_url = $site_url . '/' . $url;
 
             $subject = JText::_('User Account Activation');

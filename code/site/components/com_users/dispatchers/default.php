@@ -43,7 +43,7 @@ class ComUsersDispatcherDefault extends ComDefaultDispatcherDefault
             {
                 $menu = $this->getService('application.pages')->getHome();
                 //@TODO : Fix the redirect
-                //$this->getService('application')->redirect('index.php?Itemid='.$menu->id, 'You are already logged in!');
+                //$this->getService('application')->redirect('?Itemid='.$menu->id, 'You are already logged in!');
             }
         }
 
@@ -54,7 +54,7 @@ class ComUsersDispatcherDefault extends ComDefaultDispatcherDefault
             {
                 $menu = $this->getService('application.pages')->getHome();
                 //@TODO : Fix the redirect
-                //$this->getService('application')->redirect('index.php?Itemid='.$menu->id, 'You are already logged out!');
+                //$this->getService('application')->redirect('?Itemid='.$menu->id, 'You are already logged out!');
             }
         } 
                

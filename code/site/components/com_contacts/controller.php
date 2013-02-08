@@ -140,7 +140,7 @@ class ContactController extends JController
 		}
 
 		$msg = JText::_( 'Thank you for your e-mail');
-		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.$contact->slug.'&category='.$contact->catslug, false);
+		$link = JRoute::_('option=com_contact&view=contact&id='.$contact->slug.'&category='.$contact->catslug, false);
 		$this->setRedirect($link, $msg);
 	}
 

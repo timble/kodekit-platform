@@ -80,17 +80,18 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
 
                     $link = $page->getLink();
 
-                    if ($page->link_url == 'index.php?option=com_articles&view=articles') {
-                        // Particular case ... all articles from all categories.
+                    // Particular case ... all articles from all categories.
+                    if ($page->link_url == 'option=com_articles&view=articles') {
                         $constraints['categories'][] = 0;
                     }
 
-                    if (isset($link->query['category'])) {
-                        if ($link->query['view'] == 'categories') {
-                            $constraints['category_parents'][] = (int) $link->query['category'];
-                        } else {
-                            // Assume view=articles
+                    if (isset($link->query['category']))
+                    {
+                        // Assume view=articles
+                        if ($link->query['view'] != 'categories') {
                             $constraints['categories'][] = (int) $link->query['category'];
+                        } else {
+                            $constraints['category_parents'][] = (int) $link->query['category'];
                         }
                     }
 
@@ -99,8 +100,8 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
                     }
                 }
 
+                // No filtering by category.
                 if (in_array(0, $constraints['categories'])) {
-                    // No filtering by category.
                     $constraints['categories'] = array();
                 }
             }
@@ -149,20 +150,21 @@ class ComArticlesDatabaseBehaviorPageable extends KDatabaseBehaviorAbstract
 
             $page = $pages->find(array('link' => $needles));
 
-            if (is_null($page)) {
+            if (is_null($page))
+            {
                 // Look for a category page.
-                $category = $this->getService('com://admin/categories.model.categories')->category($this->category)
-                    ->getRow();
-                $page     = $pages->find(array(
-                    'link' => array(
+                $category = $this->getService('com://admin/categories.model.categories')->category($this->category)->getRow();
+                $page     = $pages->find(array('link' => array(
                         array(
                             'view'     => 'categories',
-                            'category' => $category->id))));
-            }
+                            'category' => $category->id
+                        )
+                )));
+             }
 
+            // Look for an un-filtered articles view page.
             if (is_null($page)) {
-                // Look for an un-filtered articles view page.
-                $page = $pages->find(array('link_url' => 'index.php?option=com_articles&view=articles'));
+                $page = $pages->find(array('link_url' => 'option=com_articles&view=articles'));
             }
         }
 

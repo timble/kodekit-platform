@@ -82,7 +82,7 @@ class ComContactsControllerMessage extends ComDefaultControllerView
 	    }
 	
 	    $msg  = JText::_( 'Thank you for your e-mail');
-	    $link = JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false);
+	    $link = JRoute::_('option=com_contact&view=contact&id='.$id, false);
 	    
 	    $this->setRedirect($link, $msg);*/
 	}
