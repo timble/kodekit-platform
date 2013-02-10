@@ -40,7 +40,7 @@ class ComPagesModelTypes extends KModelAbstract
             foreach($components as $component)
             {
                 $path  = $this->getIdentifier()->getApplication($this->getState()->application);
-                $path .= '/components/'.$component->name.'/views';
+                $path .= '/component/'.substr($component->name, 4).'/views';
 
                 if(!is_dir($path)) {
                     continue;
