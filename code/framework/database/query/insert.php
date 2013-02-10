@@ -111,8 +111,14 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
                 $query .= ' VALUES'.PHP_EOL;
 
                 $values = array();
-                foreach ($this->values as $value) {
-                    $values[] = '('.implode(', ', array_map(array($adapter, 'quoteValue'), $value)).')';
+                foreach ($this->values as $row)
+                {
+                    $data = array();
+                    foreach($row as $column) {
+                        $data[] = $adapter->quoteValue(is_object($column) ? (string) $column : $column);
+                    }
+
+                    $values[] = '('.implode(', ', $data).')';
                 }
 
                 $query .= implode(', '.PHP_EOL, $values);

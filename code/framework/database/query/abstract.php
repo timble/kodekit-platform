@@ -165,15 +165,16 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
      */
     protected function _replaceParamsCallback($matches)
     {
-        $key = substr($matches[0], 1);
+        $key   = substr($matches[0], 1);
+        $value = $this->_params[$key];
 
-        if($this->_params[$key] instanceof KDatabaseQuerySelect) {
-            $replacement = '('.$this->_params[$key].')';
-        } else {
-            $replacement = $this->getAdapter()->quoteValue($this->_params[$key]);
+        if(!$value instanceof KDatabaseQuerySelect) {
+            $value = is_object($value) ? (string) $value : $value;
+            $replacement = $this->getAdapter()->quoteValue($value);
         }
+        else $replacement = '('.$value.')';
 
-        return is_array($this->_params[$key]) ? '(' . $replacement . ')' : $replacement;
+        return is_array($value) ? '('.$replacement.')' : $replacement;
     }
 
     /**
