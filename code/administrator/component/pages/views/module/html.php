@@ -28,7 +28,6 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
             $this->menu      = $this->getService('com://admin/pages.model.menus')
                                     ->sort('title')->getRowset();
 
-
             $this->pages     = $this->getService('com://admin/pages.model.pages')
                                     ->application('site')->getRowset();
 
@@ -48,7 +47,7 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
             }
 
             $path = $this->getIdentifier()->getApplication($module->application);
-            JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path);
+            JFactory::getLanguage()->load(substr($module->component_name, 4), $module->name, $path);
         }
 
         return parent::display();

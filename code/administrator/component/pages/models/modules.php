@@ -97,14 +97,25 @@ class ComPagesModelModules extends ComDefaultModelDefault
      */
     public function getRow()
     {
-        if (!isset($this->_row))
+        if(!isset($this->_row))
         {
-            $this->_item = parent::getRow();
+            $this->_row = parent::getRow();
 
-            if($this->_row->isNew() && $this->getState()->type)
+            if($this->_row->isNew())
             {
-                $this->_row->application = $this->getState()->application;
-                $this->_row->type        = $this->getState()->type;
+                $state = $this->getState();
+
+                if($state->application) {
+                    $this->_row->application = $state->application;
+                }
+
+                if($state->component)
+                {
+                    $this->_row->extensions_component_id = $state->component;
+                    $this->_row->component_name = $this->getService('application.components')
+                        ->find(array('id' => $state->component))->top()
+                        ->name;
+                }
             }
         }
 
@@ -137,7 +148,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
                 foreach($components as $component)
                 {
                     $path  = $this->getIdentifier()->getApplication('site');
-                    $path .= '/components/'.$component->name.'/modules';
+                    $path .= '/component/'.substr($component->name, 4).'/modules';
 
                     if(!is_dir($path)) {
                         continue;
