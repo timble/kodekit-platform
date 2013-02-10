@@ -63,7 +63,7 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
         $application = $this->getIdentifier()->application;
 
         $path  = $this->getIdentifier()->getApplication($application);
-	    $path .= '/components/com_'.$package.'/manifest.xml';
+	    $path .= '/component/'.$package.'/manifest.xml';
 
 	    if(file_exists($path))
 	    {
