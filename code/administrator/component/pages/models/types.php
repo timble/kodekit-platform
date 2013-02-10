@@ -60,24 +60,28 @@ class ComPagesModelTypes extends KModelAbstract
                     {
                         // Iterate through the layouts.
                         $layouts = array();
-                        foreach(new DirectoryIterator($path.'/'.$view.'/tmpl') as $layout)
+
+                        if(is_dir($path.'/'.$view.'/tmpl'))
                         {
-                            if(!$layout->isFile() || substr($layout, 0, 1) == '.' || $layout->getExtension() != 'xml') {
-                                continue;
-                            }
-
-                            $xml_layout = simplexml_load_file($path.'/'.$view.'/tmpl/'.$layout);
-                            if(!$xml_layout->layout) {
-                                continue;
-                            }
-
-                            if(strtolower($xml_layout->layout->attributes()->hidden) !== 'true')
+                            foreach(new DirectoryIterator($path.'/'.$view.'/tmpl') as $layout)
                             {
-                                $layouts[$layout->getBasename('.xml')] = (object) array(
-                                    'name' => $layout->getBasename('.xml'),
-                                    'title' => trim($xml_layout->layout->attributes()->title),
-                                    'description' => trim($xml_layout->layout->message)
-                                );
+                                if(!$layout->isFile() || substr($layout, 0, 1) == '.' || $layout->getExtension() != 'xml') {
+                                    continue;
+                                }
+
+                                $xml_layout = simplexml_load_file($path.'/'.$view.'/tmpl/'.$layout);
+                                if(!$xml_layout->layout) {
+                                    continue;
+                                }
+
+                                if(strtolower($xml_layout->layout->attributes()->hidden) !== 'true')
+                                {
+                                    $layouts[$layout->getBasename('.xml')] = (object) array(
+                                        'name' => $layout->getBasename('.xml'),
+                                        'title' => trim($xml_layout->layout->attributes()->title),
+                                        'description' => trim($xml_layout->layout->message)
+                                    );
+                                }
                             }
                         }
 

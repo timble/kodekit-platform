@@ -58,16 +58,18 @@
             <? if($component->views) : ?>
             <div data-component="<?= $component->name ?>" class="component-<?= $component->name ?>">
                 <? foreach($component->views as $view) : ?>
-                <div class="view">
-                    <h4><?= @text($view->title) ?></h4>
-                    <? foreach($view->layouts as $layout) : ?>
-                    <a class="<?= $state->type['view'] == $view->name && $state->type['layout'] == $layout->name ? 'active' : '' ?>" href="<?= urldecode(@route('menu='.$state->menu.'&type[name]=component&type[option]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
-                        <?= @text($layout->title) ?>
-                        <br />
-                        <small><?= @text($layout->description) ?></small>
-                    </a>
-                    <? endforeach ?>
-                </div>
+                    <? if(count($view->layouts)) : ?>
+                    <div class="view">
+                        <h4><?= @text($view->title) ?></h4>
+                        <? foreach($view->layouts as $layout) : ?>
+                        <a class="<?= $state->type['view'] == $view->name && $state->type['layout'] == $layout->name ? 'active' : '' ?>" href="<?= urldecode(@route('menu='.$state->menu.'&type[name]=component&type[option]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
+                            <?= @text($layout->title) ?>
+                            <br />
+                            <small><?= @text($layout->description) ?></small>
+                        </a>
+                        <? endforeach ?>
+                    </div>
+                    <? endif ?>
                 <? endforeach ?>
             </div>
             <? endif ?>
