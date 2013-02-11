@@ -49,7 +49,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
             $pages = $this->getService('com://admin/pages.database.table.pages')
                 ->select($this->getService('koowa:database.query.select'));
 
-            $relations = $this->getService('com://admin/pages.database.table.modules')
+            $relations = $this->getService('com://admin/pages.database.table.modules_pages')
                 ->select($this->getService('koowa:database.query.select'));
 
             foreach($context->data->modules as $id => $assignments)

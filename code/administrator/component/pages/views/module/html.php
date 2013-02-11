@@ -25,17 +25,14 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
 
         if($this->getLayout() == 'modal')
         {
-            $this->menu      = $this->getService('com://admin/pages.model.menus')
-                                    ->sort('title')->getRowset();
+            $this->menus   = $this->getService('com://admin/pages.model.menus')
+                                  ->sort('title')->getRowset();
 
-            $this->pages     = $this->getService('com://admin/pages.model.pages')
-                                    ->application('site')->getRowset();
+            $this->pages   = $this->getService('com://admin/pages.model.pages')
+                                  ->application('site')->getRowset();
 
-            $this->modules   = $this->getService('com://admin/extensions.model.modules')
-                                    ->application('site')->getRowset();
-
-            $this->relations = $this->getService('com://admin/pages.model.modules_pages')
-                                    ->modules_module_id($module->id)->getRowset();
+            $this->modules = $this->getService('com://admin/pages.model.modules')
+                                  ->application('site')->getRowset();
         }
 
         if($this->getLayout() == 'form')

@@ -52,37 +52,39 @@ class ComPagesModelModules extends ComDefaultModelDefault
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
     {
-        $state = $this->getState();
-
-        if($state->search) {
-            $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
-        }
-
-        if($state->position) {
-            $query->where('tbl.position = :position')->bind(array('position' => $state->position));
-        }
-
-        if(is_bool($state->published)) {
-            $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
-        }
-
-        if($state->application) {
-            $query->where('tbl.application = :application')->bind(array('application' => $state->application));
-        }
-
-        if($state->component) {
-            $query->where('tbl.extensions_component_id = :component')->bind(array('component' => $state->component));
-        }
-
-        if (is_numeric($state->access)) {
-            $query->where('tbl.access = :access')->bind(array('access' => $state->access));
-        }
-
-        if (is_numeric($state->page)) {
-            $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($state->page, 0)));
-        }
-
         parent::_buildQueryWhere($query);
+
+        $state = $this->getState();
+        if(!$state->isUnique())
+        {
+            if($state->search) {
+                $query->where('tbl.title LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
+            }
+
+            if($state->position) {
+                $query->where('tbl.position = :position')->bind(array('position' => $state->position));
+            }
+
+            if(is_bool($state->published)) {
+                $query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
+            }
+
+            if($state->application) {
+                $query->where('tbl.application = :application')->bind(array('application' => $state->application));
+            }
+
+            if($state->component) {
+                $query->where('tbl.extensions_component_id = :component')->bind(array('component' => $state->component));
+            }
+
+            if (is_numeric($state->access)) {
+                $query->where('tbl.access = :access')->bind(array('access' => $state->access));
+            }
+
+            if (is_numeric($state->page)) {
+                $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($state->page, 0)));
+            }
+        }
     }
 
     /**
@@ -111,9 +113,11 @@ class ComPagesModelModules extends ComDefaultModelDefault
 
                 if($state->component)
                 {
-                    $this->_row->extensions_component_id = $state->component;
+                    $this->_row->extensions->component_id = $state->component;
+
                     $this->_row->component_name = $this->getService('application.components')
-                        ->find(array('id' => $state->component))->top()
+                        ->find(array('id' => $state->component))
+                        ->top()
                         ->name;
                 }
             }

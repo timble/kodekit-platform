@@ -26,15 +26,15 @@ window.addEvent('domready', (function() {
 <form id="module-pages" class="form-horizontal">
     <fieldset>
         <label class="radio inline">
-            <input type="radio" name="pages" value="all" <?= count($relations) == 1 && $relations->top()->pages_page_id == 0 ? 'checked="checked"' : '' ?>/>
+            <input type="radio" name="pages" value="all" <?= $module->pages == 'all' ? 'checked="checked"' : '' ?>/>
             <?= @text('All') ?>
         </label>
         <label class="radio inline">
-            <input type="radio" name="pages" value="selected" <?= count($relations) && $relations->top()->pages_page_id != 0 ? 'checked="checked"' : '' ?>/>
+            <input type="radio" name="pages" value="selected" <?= is_array($module->pages) ? 'checked="checked"' : '' ?>/>
             <?= @text('Selected') ?>
         </label>
         <label class="radio inline">
-            <input type="radio" name="pages" value="none" <?= !count($relations) ? 'checked="checked"' : '' ?>/>
+            <input type="radio" name="pages" value="none" <?= $module->pages == 'none' ? 'checked="checked"' : '' ?>/>
             <?= @text('None') ?>
         </label>
 
@@ -45,8 +45,8 @@ window.addEvent('domready', (function() {
         <? if(count($menu_pages)) : ?>
             <h3><?= $menu->title ?></h3>
             <? foreach($menu_pages as $page) : ?>
-                <? $checked  = array_intersect(array(0, $page->id), $relations->pages_page_id) ? ' checked="checked"' : '' ?>
-                <? $disabled = count($relations) && $relations->top()->pages_page_id != 0 ? '' : ' disabled="disabled"'?>
+                <? $checked  = ($module->pages == 'all' || $module->pages != 'none' && in_array($page->id, $module->pages)) ? ' checked="checked"' : '' ?>
+                <? $disabled = is_array($module->pages) ? '' : ' disabled="disabled"'?>
                 <input type="checkbox" name="page_ids[]" value="<?= $page->id ?>" class="page-<?= $page->id ?> level<?= $page->level ?>" <?= $checked ?><?= $disabled ?> />
                 <? if($page->id == $state->page) : ?>
                     <strong><?= $page->title ?></strong>
