@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: response.php 4675 2012-06-03 01:05:49Z johanjanssens $
  * @package     Koowa_Http
  * @subpackage  Request
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

@@ -1,5 +1,4 @@
 /**
- * @version		$Id: weblinks.php 1294 2011-05-16 22:57:57Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Template

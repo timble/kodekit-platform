@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: default_filter.php 3472 2012-03-17 14:57:58Z tomjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Users

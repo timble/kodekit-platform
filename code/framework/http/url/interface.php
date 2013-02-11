@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: url.php 5054 2012-10-23 19:38:16Z johanjanssens $
  * @package     Koowa_Http
  * @subpackage  Url
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

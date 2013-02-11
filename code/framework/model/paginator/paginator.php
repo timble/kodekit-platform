@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Koowa_Model
  * @subpackage  Paginator
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

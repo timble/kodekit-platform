@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: dispatcher.php 5146 2012-09-03 23:25:47Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Dashboard

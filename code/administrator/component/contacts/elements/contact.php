@@ -1,6 +1,5 @@
 <?php
 /**
- * @version        $Id: category.php 4007 2012-07-11 08:44:40Z arunasmazeika $
  * @package        Nooku_Server
  * @subpackage     Contacts
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)

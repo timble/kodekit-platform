@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: debug.php 783 2011-07-13 20:40:12Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Debug

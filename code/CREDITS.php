@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @copyright	Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net)

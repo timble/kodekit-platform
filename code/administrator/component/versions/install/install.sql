@@ -1,4 +1,3 @@
--- $Id$
 
 CREATE TABLE `jos_versions_revisions` (
   `table` varchar(64) NOT NULL,

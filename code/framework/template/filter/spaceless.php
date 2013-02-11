@@ -1,6 +1,5 @@
 <?php
 /**
- * @version      $Id: form.php 4932 2012-09-03 21:49:44Z johanjanssens $
  * @package      Koowa_Template
  * @subpackage    Filter
  * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: default.php 1708 2011-06-10 20:46:02Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Banners

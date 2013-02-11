@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: sessions.php 862 2011-04-08 01:34:13Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users

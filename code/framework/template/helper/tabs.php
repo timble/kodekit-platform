@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: behavior.php 1051 2009-07-13 22:08:57Z Johan $
  * @package     Koowa_Template
  * @subpackage  Helper
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

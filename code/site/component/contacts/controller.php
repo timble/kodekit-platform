@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: controller.php 14974 2010-02-21 14:32:22Z ian $
  * @package		Joomla
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.

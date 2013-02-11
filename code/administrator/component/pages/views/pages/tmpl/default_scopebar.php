@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: default_filter.php 3029 2011-10-09 13:07:11Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).

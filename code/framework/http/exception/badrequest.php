@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: exception.php 4629 2012-05-06 22:11:00Z johanjanssens $
  * @package     Koowa_Http
  * @subpackage  Exception
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

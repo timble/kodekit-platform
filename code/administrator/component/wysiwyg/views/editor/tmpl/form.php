@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: form.php 2004 2011-06-26 16:32:54Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Editors

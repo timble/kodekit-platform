@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: weblinks.php 1291 2011-05-16 22:13:45Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)

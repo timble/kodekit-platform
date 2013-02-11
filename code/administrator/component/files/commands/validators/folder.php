@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Files

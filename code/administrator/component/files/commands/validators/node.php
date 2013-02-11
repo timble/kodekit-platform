@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: file.php 1352 2012-01-03 20:01:20Z ercanozkaya $
  * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).

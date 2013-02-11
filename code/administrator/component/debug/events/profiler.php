@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: event.php 786 2011-07-14 01:09:23Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Debug

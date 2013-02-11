@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: router.php 3546 2012-04-02 19:05:32Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Contacts
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)

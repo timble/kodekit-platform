@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: abstract.php 1919 2010-04-25 20:49:47Z johanjanssens $
  * @package     Koowa_Template
  * @subpackage  Filter
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

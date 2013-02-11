@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: default_sidebar.php 3030 2011-10-09 13:21:09Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).

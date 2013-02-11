@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: interface.php 1366 2009-11-28 01:34:00Z johan $
  * @package     Koowa_Command
  * @subpackage  Context
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

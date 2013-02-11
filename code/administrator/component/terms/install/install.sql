@@ -1,4 +1,3 @@
--- $Id$
 
 CREATE TABLE IF NOT EXISTS `#__terms_terms` (
 	`terms_term_id` bigint(20) unsigned NOT NULL auto_increment,

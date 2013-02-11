@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: default.php 2057 2010-05-15 20:48:00Z johanjanssens $
  * @package     Koowa_Template
  * @subpackage  Helper
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

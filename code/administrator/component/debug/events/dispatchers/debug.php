@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: dispatcher.php 5146 2012-09-03 23:25:47Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Debug
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)

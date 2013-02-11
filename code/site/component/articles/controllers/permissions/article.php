@@ -1,6 +1,5 @@
 <?php
 /**
- * @version        $Id: executable.php 5655 2012-10-25 13:37:47Z johanjanssens $
  * @package        Nooku_Server
  * @subpackage     Articles
  * @copyright      Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)

@@ -1,6 +1,5 @@
 <?php
 /**
-* @version		$Id: editor.php 1778 2012-08-31 17:09:41Z gergoerdosi $
 * @category		Nooku
 * @package    	Nooku_Server
 * @subpackage  	Wysiwyg

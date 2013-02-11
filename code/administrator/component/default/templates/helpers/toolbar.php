@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: behavior.php 3364 2011-05-25 21:07:41Z johanjanssens $
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

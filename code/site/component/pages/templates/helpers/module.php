@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: listbox.php 3031 2011-10-09 14:21:07Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).

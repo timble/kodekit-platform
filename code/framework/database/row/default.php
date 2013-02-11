@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package     Koowa_Database
  * @subpackage  Row
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

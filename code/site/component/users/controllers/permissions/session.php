@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: executable.php 5738 2012-11-09 12:52:00Z arunasmazeika $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users

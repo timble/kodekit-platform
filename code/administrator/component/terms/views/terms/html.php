@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id$
  * @package		Tags
  * @copyright	Copyright (C) 2009 - 2012 Nooku. All rights reserved.
  * @license 	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

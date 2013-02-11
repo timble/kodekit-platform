@@ -1,5 +1,4 @@
 /**
- * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Media
  * @subpackage  Javascript

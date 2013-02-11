@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: aliases.php 4448 2012-08-08 22:01:03Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Application
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).

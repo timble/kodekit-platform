@@ -1,6 +1,5 @@
 <?php
 /**
- * @version      $Id: chrome.php 4839 2012-08-23 22:48:57Z johanjanssens $
  * @package      Nooku_Components
  * @subpackage	 Default
  * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

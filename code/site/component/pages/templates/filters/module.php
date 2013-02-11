@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: link.php -1 1970-01-01 00:00:00Z  $
  * @package     Nooku_Server
  * @subpackage  Extensions
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

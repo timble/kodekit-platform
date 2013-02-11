@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: dispatcher.php 4629 2012-05-06 22:11:00Z johanjanssens $
  * @package     Nooku_Server
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

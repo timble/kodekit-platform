@@ -1,6 +1,5 @@
 <?php
 /**
-* @version      $Id$
 * @category		Koowa
 * @package      Koowa_Template
 * @subpackage	Filter

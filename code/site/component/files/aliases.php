@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: aliases.php 3776 2012-06-01 16:12:14Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Files

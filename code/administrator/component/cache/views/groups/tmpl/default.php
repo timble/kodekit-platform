@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: default.php 1990 2011-06-26 16:26:47Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Cache

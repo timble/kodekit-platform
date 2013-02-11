@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: default.php 3655 2011-06-27 20:35:22Z johanjanssens $
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

@@ -1,6 +1,5 @@
 <?php
 /**
- * @version    	$Id: modules.php 4868 2012-08-24 14:17:38Z johanjanssens $
  * @package    	Nooku_Server
  * @subpackage 	Pages
  * @copyright  	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).

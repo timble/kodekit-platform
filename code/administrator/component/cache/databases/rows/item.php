@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: sections.php 592 2011-03-16 00:30:35Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Cache

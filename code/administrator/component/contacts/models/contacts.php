@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: templates.php 1161 2011-05-11 14:52:09Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Contacts

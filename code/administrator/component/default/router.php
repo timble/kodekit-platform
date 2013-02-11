@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: dispatcher.php 4711 2012-07-13 01:15:13Z johanjanssens $
  * @package     Nooku_Components
  * @subpackage  Default
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

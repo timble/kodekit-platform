@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: manifest.xml 1481 2012-02-10 01:46:24Z johanjanssens $ -->
 <install type="component" version="1.5.0">
 	<name>Versions</name>
 	<author>Nooku</author>

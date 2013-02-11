@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: html.php 1481 2012-02-10 01:46:24Z johanjanssens $
  * @package     Nooku_Modules
  * @subpackage  Widget
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).

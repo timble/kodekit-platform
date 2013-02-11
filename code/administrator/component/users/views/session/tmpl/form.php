@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id$
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Users

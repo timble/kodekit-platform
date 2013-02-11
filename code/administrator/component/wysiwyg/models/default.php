@@ -1,6 +1,5 @@
 <?php
 /**
-* @version		$Id: categories.php 3542 2012-04-02 18:27:01Z johanjanssens $
 * @category		Nooku
 * @package    	Nooku_Server
 * @subpackage  	Wysiwyg

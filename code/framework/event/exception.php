@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: event.php 4996 2012-10-09 14:54:46Z johanjanssens $
  * @package     Koowa_Event
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>

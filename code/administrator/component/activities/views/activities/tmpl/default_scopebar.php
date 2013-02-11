@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: default_filter.php 1681 2012-05-08 10:17:43Z tomjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Activities

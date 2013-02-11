@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: dashboard.php 176 2010-10-27 03:39:39Z johanjanssens $
  * @category	Nooku
  * @package	 	Nooku_Components
  * @subpackage  Terms

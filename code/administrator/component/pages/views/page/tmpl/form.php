@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: form.php 3035 2011-10-09 16:57:12Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Pages
  * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).

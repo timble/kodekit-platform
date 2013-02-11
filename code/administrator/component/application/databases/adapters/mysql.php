@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: mysqli.php 4714 2012-07-13 01:32:32Z johanjanssens $
  * @package     Nooku_Server
  * @subpackage  Application
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.

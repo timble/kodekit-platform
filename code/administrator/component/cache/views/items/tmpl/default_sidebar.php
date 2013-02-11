@@ -1,6 +1,5 @@
 <?
 /**
- * @version     $Id: default_sidebar.php 1625 2011-06-07 15:22:36Z johanjanssens $
  * @category	Nooku
  * @package     Nooku_Server
  * @subpackage  Cache
