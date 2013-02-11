@@ -67,9 +67,10 @@ class KCommand extends KObject implements KCommandInterface
     /**
      * Command handler
      *
-     * @param   string      The command name
-     * @param   object      The command context
-     * @return  boolean     Can return both true or false.
+     * @param   string           $name     The command name
+     * @param   KCommandContext  $context  The command context
+     *
+     * @return  mixed  Boolean if method exists, null otherwise.
      */
     public function execute($name, KCommandContext $context)
     {
@@ -92,8 +93,6 @@ class KCommand extends KObject implements KCommandInterface
         if (in_array($method, $this->getMethods())) {
             return $this->$method($context);
         }
-
-        return true;
     }
 
     /**
