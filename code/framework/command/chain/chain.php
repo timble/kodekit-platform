@@ -204,7 +204,7 @@ class KCommandChain extends KObjectQueue implements KCommandChainInterface
             throw new \InvalidArgumentException('Command needs to implement KCommandInterface');
         }
 
-        return parent::setPriority($cmd, $priority);
+        return parent::setPriority($command, $priority);
     }
 
     /**
