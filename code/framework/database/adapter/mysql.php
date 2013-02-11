@@ -614,15 +614,10 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      */
     protected function _fetchFieldList($result, $key = 0)
     {
-        $array = array();
-
-        while ($value = $result->fetchColumn((int) $key)) {
-            $array[] = $value;
-        }
-
+        $return = $result->fetchAll(PDO::FETCH_COLUMN, (int) $key);
         $result = null;
 
-        return $array;
+        return $return;
     }
 
 
@@ -653,7 +648,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     protected function _fetchArrayList($result, $key = '')
     {
         $return = array();
-        while($row = $result->fetch(PDO::FETCH_ASSOC))
+        foreach($result->fetchAll(PDO::FETCH_ASSOC) as $row)
         {
             if($key) {
                 $return[$row[$key]] = $row;
@@ -693,7 +688,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     protected function _fetchObjectList($result, $key = '')
     {
         $return = array();
-        while($row = $result->fetchObject())
+        foreach($result->fetchAll(PDO::FETCH_OBJ) as $row)
         {
             if($key) {
                 $return[$row->$key] = $row;
