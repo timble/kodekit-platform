@@ -22,7 +22,10 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
         $config->append(array(
             'name'       => 'articles',
             'behaviors'  => array(
-            	'creatable', 'modifiable', 'lockable', 'orderable', 'sluggable', 'revisable', 'publishable',
+            	'creatable', 'modifiable', 'lockable', 'sluggable', 'revisable', 'publishable',
+                'com://admin/pages.database.behavior.orderable' => array(
+                    'strategy' => 'flat'
+                ),
                 'com://admin/languages.database.behavior.translatable'
             ),
             'filters' => array(

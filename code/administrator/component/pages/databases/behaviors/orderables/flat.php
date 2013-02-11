@@ -33,7 +33,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
     {
         $row = $context->data;
         if($row->order)
-        {        
+        {
 			$old = (int) $row->ordering;
 			$new = $row->ordering + $row->order;
 			$new = $new <= 0 ? 1 : $new;
@@ -41,7 +41,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			$table = $context->getSubject();
 			$query = $this->getService('koowa:database.query.update')
 			    ->table($table->getBase());
-			
+
 			$this->_buildQuery($query);
 
 			if($row->order < 0)
@@ -58,7 +58,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			        ->where('ordering <= :new')
 			        ->bind(array('new' => $new, 'old' => $old));
 			}
-			
+
 			$table->getAdapter()->update($query);
 			$row->ordering = $new;
         }
@@ -78,7 +78,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         }
     }
     
-    protected function _buildQuery(KDatabaseQuerySelect $query)
+    protected function _buildQuery($query)
     {
         if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate) {
 	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate');
