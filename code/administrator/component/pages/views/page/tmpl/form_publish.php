@@ -46,16 +46,4 @@
             <?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id, 'attribs')) ?>
         </div>
     </div>
-    <?
-        switch($state->type['name'])
-        {
-            case 'redirect':
-                echo @template('form_redirect');
-                break;
-
-            case 'pagelink':
-                echo @template('form_pagelink');
-                break;
-        }
-    ?>
 </fieldset>

@@ -86,16 +86,14 @@
             </div>
         </div>
         <div class="scrollable">
-            <?= @template('form_general') ?>
-            <? if($state->type['name'] == 'component') : ?>
-                <fieldset class="form-horizontal">
-                    <legend><?= @text('Settings') ?></legend>
-                    <?= @template('form_component') ?>
-                </fieldset>
+            <?= @template('form_publish') ?>
+            <? if($state->type['name'] == 'component' || $state->type['name'] == 'redirect' || $state->type['name'] == 'pagelink') : ?>
                 <fieldset class="form-horizontal">
                     <legend><?= @text('Page') ?></legend>
-                    <?= $page->getParams('page')->render('params'); ?>
+                    <?= @template('form_page') ?>
                 </fieldset>
+            <? endif ?>
+            <? if($state->type['name'] == 'component') : ?>
                 <?= @template('form_modules') ?>
             <? endif ?>
         </div>
