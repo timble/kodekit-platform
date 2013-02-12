@@ -251,6 +251,16 @@ Drag.Sortable.Adapter.Koowa = new Class({
 		offset: 'relative'
 	},
 
+    initialize: function(options){
+
+        this.parent(options);
+
+        this.addEvent('onSuccess', function(){
+            //@Todo add routine here for updating list with new ordering values
+        });
+
+    },
+
 	store: function(instance, order){
 
 		var backup = this.options.url;
