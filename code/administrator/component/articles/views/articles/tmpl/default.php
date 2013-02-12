@@ -35,7 +35,7 @@
     <table>
         <thead>
             <tr>
-                <? if($state->category) : ?><th class="handle"></th><? endif ?>
+                <? if($state->category || $state->category === '0') : ?><th class="handle"></th><? endif ?>
                 <th width="10">
                 	 <?= @helper('grid.checkall') ?>
                 </th>
@@ -45,7 +45,7 @@
                 <th width="20">
                     <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
-                <? if($state->category) : ?>
+                <? if($state->category || $state->category === '0') : ?>
                 <th width="7%">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
                 </th>
@@ -67,7 +67,7 @@
                 </td>
             </tr>
         </tfoot>
-        <tbody<? if($state->category) : ?> class="sortable"<? endif ?>>
+        <tbody<? if($state->category || $state->category === '0') : ?> class="sortable"<? endif ?>>
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
                 <? if($state->category) : ?><td class="handle"></td><? endif ?>
@@ -89,7 +89,7 @@
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
                 </td>
-                <? if($state->category) : ?>
+                <? if($state->category || $state->category === '0') : ?>
                 <td align="center">
                     <?= @helper('grid.order', array('row' => $article, 'total' => $total)) ?>
                 </td>
