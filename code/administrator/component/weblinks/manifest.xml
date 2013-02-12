@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Weblinks</name>
+	<author>Nooku Project</author>
+	<creationDate>March 2011</creationDate>
+	<copyright>Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<version>12.2</version>
+	<description>This component provides weblinks management</description>
+	
+	<admin>
+		<menubar>
+			<command href="view=weblinks">Weblinks</command>
+			<command href="view=categories">Categories</command>
+		</menubar>
+	</admin>
+</install>

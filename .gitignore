@@ -1,4 +1,2 @@
-code/configuration.php
+code/sites/config.php
 .htaccess
-.idea
-scripts/vagrant/.vagrant
