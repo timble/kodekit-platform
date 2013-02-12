@@ -12,6 +12,7 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 -->
+<?= @helper('behavior.sortable') ?>
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
@@ -33,6 +34,7 @@
     <table>
         <thead>
             <tr>
+                <th class="handle"></th>
                 <th width="10">
                     <?= @helper('grid.checkall'); ?>
                 </th>
@@ -43,7 +45,7 @@
                     <?= @helper('grid.sort',  array('column' => 'published')   ); ?>
                 </th>
                 <th width="8%" nowrap="nowrap">
-                    <?= @text('Ordering') ?>
+                    <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
                 </th>
                 <th width="5%">
                     <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count') ); ?>
@@ -59,9 +61,10 @@
             </tr>
         </tfoot>
 
-        <tbody>
+        <tbody class="sortable">
             <? foreach( $categories as $category) :  ?>
                 <tr>
+                    <td class="handle"></td>
                     <td align="center">
                         <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>
