@@ -50,8 +50,8 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	public function findFile($path)
 	{
 	    $template  = $this->getService('application')->getTemplate();
-        $override  = JPATH_APPLICATION.'/templates/'.$template.'/html';
-	    $override .= str_replace(array(JPATH_BASE.'/components', '/views'), '', $path);
+        $override  = JPATH_APPLICATION.'/template/'.$template.'/html';
+	    $override .= str_replace(array(JPATH_BASE.'/component', '/views'), '', $path);
 
 	    //Try to load the template override
 	    $result = parent::findFile($override);
