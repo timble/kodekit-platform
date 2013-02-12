@@ -13,6 +13,7 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 -->
+<?= @helper('behavior.sortable') ?>
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
@@ -29,6 +30,7 @@
 	<table>
 	<thead>
 		<tr>
+            <? if($state->category) : ?><th class="handle"></th><? endif ?>
 			<th width="10">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
@@ -52,9 +54,10 @@
 			</td>
 		</tr>
 	</tfoot>
-	<tbody>
+	<tbody<? if($state->category) : ?> class="sortable"<? endif ?>>
 		<? foreach ($weblinks as $weblink) : ?>
 		<tr>
+            <? if($state->category) : ?><td class="handle"></td><? endif ?>
 			<td align="center">
 				<?= @helper('grid.checkbox', array('row' => $weblink))?>
 			</td>

@@ -12,6 +12,7 @@
 <script src="media://lib_koowa/js/koowa.js" />
 <style src="media://lib_koowa/css/koowa.css" />
 -->
+<?= @helper('behavior.sortable') ?>
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
 
@@ -24,6 +25,7 @@
 	<table>
 		<thead>
 			<tr>
+                <th class="handle"></th>
 				<th width="10">
 				    <?= @helper('grid.checkall'); ?>
 				</th>
@@ -53,9 +55,10 @@
 			</tr>
 			<? endif ?>
 		</tfoot>
-		<tbody>
+		<tbody class="sortable">
 		<? foreach ($modules as $module) : ?>
 			<tr>
+                <td class="handle"></td>
 				<td width="20" align="center">
 					<?= @helper('grid.checkbox',array('row' => $module)) ?>
 				</td>
