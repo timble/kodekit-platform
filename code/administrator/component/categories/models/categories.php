@@ -27,7 +27,8 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             ->insert('published' , 'boolean')
             ->insert('distinct'  , 'string')
             ->insert('access'    , 'boolean')
-            ->insert('category'  , 'int');
+            ->insert('category'  , 'int')
+            ->insert('sort', 'cmd', 'ordering');
     }
 
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
