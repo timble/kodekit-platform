@@ -1,6 +1,5 @@
 <?php
 /**
- * @version		$Id: LICENSES.php 14401 2010-01-26 14:10:00Z louis $
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php

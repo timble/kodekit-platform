@@ -1,6 +1,5 @@
 <?php
 /**
- * @version     $Id: sections.php 592 2011-03-16 00:30:35Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Server
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -17,35 +16,13 @@
  */
 
 //Installation check
-if (!file_exists(JPATH_ROOT . '/configuration.php') || (filesize(JPATH_ROOT . '/configuration.php') < 10)) {
+if (!file_exists(JPATH_SITES . '/config.php') || (filesize(JPATH_SITES . '/config.php') < 10)) {
     echo 'No configuration file found. Exciting...';
     exit();
 }
 
-//Suhosin compatibility
-if(in_array('suhosin', get_loaded_extensions()))
-{
-    //Attempt setting the whitelist value
-    @ini_set('suhosin.executor.include.whitelist', 'tmpl://, file://');
-
-    //Checking if the whitelist is ok
-    if(!@ini_get('suhosin.executor.include.whitelist') || strpos(@ini_get('suhosin.executor.include.whitelist'), 'tmpl://') === false)
-    {
-        throw Exception(sprintf(JText::_('Your server has Suhosin loaded. Please follow <a href="%s" target="_blank">this</a> tutorial.'), 'https://nooku.assembla.com/wiki/show/nooku-framework/Known_Issues'));
-        exit();
-    }
-}
-
-//Safety Extender compatibility
-if(extension_loaded('safeex') && strpos('tmpl', ini_get('safeex.url_include_proto_whitelist')) === false)
-{
-    $whitelist = ini_get('safeex.url_include_proto_whitelist');
-    $whitelist = (strlen($whitelist) ? $whitelist . ',' : '') . 'tmpl';
-    ini_set('safeex.url_include_proto_whitelist', $whitelist);
-}
-
 // System includes
-require_once(JPATH_LIBRARIES . '/joomla/import.php');
+require_once(JPATH_VENDOR.'/joomla/import.php');
 
 // Joomla : setup
 jimport('joomla.environment.uri');
@@ -55,10 +32,10 @@ jimport('joomla.utilities.utility');
 jimport('joomla.language.language');
 
 // Koowa : setup
-require_once JPATH_ROOT . '/configuration.php';
+require_once JPATH_SITES . '/config.php';
 $config = new JConfig();
 
-require_once(JPATH_LIBRARIES . '/koowa/koowa.php');
+require_once(JPATH_ROOT . '/framework/koowa.php');
 Koowa::getInstance(array(
     'cache_prefix' => md5($config->secret) . '-cache-koowa',
     'cache_enabled' => $config->caching

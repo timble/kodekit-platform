@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>Menu</name>
+    <author>Nooku Project</author>
+    <creationDate>April 2011</creationDate>
+    <copyright>Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net).</copyright>
+    <license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+    <authorEmail>info@nooku.org</authorEmail>
+    <authorUrl>www.nooku.org</authorUrl>
+    <version>12.3</version>
+    <description>This module will display a menu</description>
+	<params addpath="/administrator/component/pages/elements">
+		<param name="menu_id" type="menu" default="" label="Menu" description="" />
+		<param name="show_title" type="radio" default="0" label="Module title" description="">
+			<option value="1">Show</option>
+			<option value="0">Hide</option>
+		</param>
+		<param name="start_level" type="text" default="0" size="5" label="Start Level" description="Level to start rendering the menu at" />
+		<param name="end_level" type="text" default="0" size="5" label="End Level" description="Level to stop rendering the menu at." />
+		<param name="show_children" type="radio" default="active" label="Show submenu items" description="Display all sub-menu items regardless of whether or not parent is active.">
+			<option value="active">When parent is active</option>
+			<option value="always">Always</option>
+		</param>
+	</params>
+	<params group="advanced">
+		<param name="class" type="text" default="0" label="HTML class" description="" />
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+	</params>
+</install>

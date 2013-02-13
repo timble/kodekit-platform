@@ -1,0 +1,317 @@
+/* -- General styles ------------------------------ */
+
+div.message {
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	padding: 3px;
+	border: 1px solid #e0e0e0;
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #333;
+	/*letter-spacing: .1em;*/  /* letter spacing doesn't work for all languages */
+}
+
+/* -- Specific styles ----------------------------- */
+.com_users
+{
+	&.login {
+		overflow: auto;
+	}
+	
+	.login {
+		padding: 50px 0 10px 0;
+		width: 275px;
+		margin: 0 auto;
+
+		form  			{ margin: 0px; padding: 0px; }
+		form input.inputbox { 
+			width: 220px !important;
+			padding: 4px 8px;
+			font-size: @baseFontSize * 1.5;
+			.box-sizing(border-box);
+			height: @baseLineHeight * 3;
+		}
+
+		.login { margin: 0 auto; width: 300px; margin-bottom: 100px; }
+
+		.btn-block {
+			margin-top: 14px;
+			width: 100%;
+		}
+
+		h1 { 
+			margin: 0;
+			text-align: center;
+			background: grey;
+			padding: 10px 0;
+			color: #464646;
+			#gradient > .vertical(#f6f6f6, #e6e6e6);
+			.border-radius(10px 10px 0 0);
+			.box-shadow(#AAA 0px 2px 3px);
+		}
+
+		p {
+			margin: 0;
+			padding: 0;
+			margin-bottom: 10px;
+		}
+
+		img { margin-bottom: 25px; }
+
+		#section-box {
+			.box-shadow(#AAA 0px 3px 15px);
+			border: 1px solid #D7DADE;
+			.border-radius(10px);
+			padding: 0 !important;
+			background: #FFF;
+		}
+
+		form {
+			padding: 25px;
+		}
+
+		a.return {
+			margin-top: 15px;
+			text-align: center;
+			display: block;
+		}
+
+		#form-login label {
+			font-size: 13px;
+			width: 120px;
+			text-align: left;
+			padding: 4px;
+			color: #666;
+			font-weight: bold;
+		}
+		
+		input:focus,
+		textarea:focus {
+		  @color: @blueDark;
+		  @shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px hsla(hue(@color), saturation(@color), lightness(@color), .6);
+		  .box-shadow(@shadow);
+		}
+	}
+	
+	.form {	
+		#password-check.score1 {
+			color: #FF0000;
+		}
+		
+		#password-check.score2 {
+			color: #FF5F5F;
+		}
+		
+		#password-check.score3 {
+			color: #56E500;
+		}
+		
+		#password-check.score4 {
+			color: #4DCD00;
+		}
+		
+		#password-check.score5 {
+			color: #399800;
+		}
+	}
+}
+
+.com_dashboard #panel-content {	
+	> div:first-child {
+		border-right: 1px solid @grayLighter;
+	}
+	
+	.sidebar {
+		width: 400px;
+		padding: 20px;
+	}
+}
+
+.com_articles .categories,
+.com_users .groups {
+	padding-bottom: 14px;
+}
+
+.com_articles .categories h3 {
+	margin-bottom: 10px;
+}
+
+.com_articles .categories span,
+.com_users .groups span {
+	padding: 12px 10px 0px 0;
+	font-weight: bold;
+	display: block;
+}
+
+.com_articles .categories .control-group {
+	margin-left: 12px;
+}
+
+.com_articles textarea[name="description"] {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 0;
+	resize: vertical;
+	width: 100%
+}
+
+.com_extensions {
+	#toolbar-box {
+		border-bottom: 1px solid @grayLighter;
+	}
+	
+	dl.tabs {
+		min-width: 200px;
+		border-right: 1px solid #E1E1E1;
+		.box-sizing(border-box);
+		background-color: #F9F9F9;
+		
+		float: none !important; /* override default tabs styling */
+		margin: 0 !important; /* override default tabs styling */
+		
+		#flexbox > .box(column, 0, scrollable);
+	}
+	
+	dl.tabs h3 {
+		color: #666;
+		font-size: 11px;
+		padding: 6px 0;
+		text-indent: 12px;
+		margin: 0;
+		text-transform: uppercase;
+	}
+	
+	dl.tabs dt {
+		float: none !important; /* override default tabs styling */
+		padding: 0 !important; /* override default tabs styling */
+		margin: 0 !important; /* override default tabs styling */
+		border: 0 none !important; /* override default tabs styling */
+		background: none !important; /* override default tabs styling */
+	}
+	
+	dl.tabs dt span {
+		display: block;
+		padding: 6px 0 6px 22px;
+		color: #444;
+		border-top: 1px solid #F9F9F9;
+		font-weight: bold;
+		
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
+	dl.tabs dt span:hover {
+		color: #444;
+		border-top-color: lighten(@blueDark, 40%);
+		#gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
+		text-decoration: none;
+	}
+	
+	dl.tabs dt.open span,
+	dl.tabs dt.open span:hover {
+		color: #FFF;
+		border-top-color: lighten(@blueDark, 15%);
+		#gradient > .vertical(lighten(@blueDark, 20%), @blueDark);
+		.box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
+		text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
+	}
+	
+	.current {
+	 	padding: 0 !important; /* override default tabs styling */
+		border: 0 none !important; /* override default tabs styling */
+		
+		.box-sizing(border-box);
+		#flexbox > .box-scrollable(scrollable);
+		
+		dd {
+			padding: 14px 20px !important; /* override default tabs styling */
+			
+			h2 {
+				border-bottom: 1px solid #EEE;
+				color: #53637D;
+				padding-bottom: 4px;
+				margin-bottom: 20px;
+			}
+		}
+	}
+}
+
+.com_pages {	
+	#components {
+		width: 200px;
+		background: #F7F7F7;
+		border-right: 1px solid #DDD;
+	}
+	
+	#components h3 {
+		border-bottom: 1px solid #DDD;
+		margin: 0;
+		padding: 10px;
+	}
+	
+	#components a {
+		display: block;
+		font-size: 120%;
+		font-weight: bold;
+		padding: 10px 15px;
+		border-bottom: 1px solid #DDD;
+	}
+	
+	#components a.active 	{ background: #E8F3FB; }
+	
+	#layouts {
+		width: 250px;
+		border-right: 1px solid #DDD;
+	}
+	
+	#layouts .view h4 {
+		margin: 0;
+		padding: 5px;
+		background: #F0F0F0;
+		border-bottom: 1px solid #DDD;
+		border-top: 1px solid #DDD;
+	}
+	
+	#layouts .view:first-of-type h4 { border-top: none 0px; }
+	
+	#layouts .view a {
+		padding: 5px 10px;
+		display: block;
+		font-weight: bold;
+		
+		&.active {
+			background: #E8F3FB;
+		}
+	}
+	
+	#layouts .view a small {
+		font-weight: normal;
+		color: #333;
+	}
+	
+	#pages-parent {
+		.level1 { .com_pages #pages-parent .padding(1) }
+		.level2 { .com_pages #pages-parent .padding(2) }
+		.level3 { .com_pages #pages-parent .padding(2) }
+		.level4 { .com_pages #pages-parent .padding(2) }
+		.level5 { .com_pages #pages-parent .padding(2) }
+		
+		.padding(@level:1) {
+			padding-left: (18px * @level) + 18px;
+		}
+	}
+}
+
+.com_files {
+	#files-paginator {
+		padding-top: 5px;
+		background-color: #F1F1F1;
+		border-top: 1px solid darken(#F1F1F1, 10%);
+		color: #333;
+		
+		z-index: 1000;
+	}
+}

@@ -1,5 +1,4 @@
 /**
- * @version     $Id: default.php 2721 2010-10-27 00:58:51Z johanjanssens $
  * @category    Nooku
  * @package     Nooku_Media
  * @subpackage  Javascript
