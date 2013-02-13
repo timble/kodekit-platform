@@ -19,6 +19,18 @@
 
 class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
+    public function articles( $config = array())
+    {
+    	$config = new KConfig($config);
+    	$config->append(array(
+    		'model' 	=> 'articles',
+    		'value'		=> 'id',
+    		'text'		=> 'title'
+    	));
+    
+    	return parent::_listbox($config);
+    }
+    
     public function authors($config = array())
     {
         $config = new KConfig($config);
