@@ -19,48 +19,17 @@ class JElementArticle extends JElement
 {
     var $_name = 'Article';
 
-    function fetchElement($name, $value, &$node, $control_name)
+    public function fetchElement($name, $value, &$node, $control_name)
     {
-        if(is_numeric($value))
-        {
-            $title = KService::get('com://admin/articles.model.articles')
-                ->id($value)
-                ->getRow()
-                ->title;
-        }
-        else $title = JText::_('Select an Article');
+        $config = array(
+            'name'     => $control_name . '[' . $name . ']',
+            'selected' => $value,
+            'table'    => $node->attributes('table'),
+            'attribs'  => array('class' => 'inputbox'),
+            'autocomplete' => true,
+        );
 
-        $fieldName  = $control_name.'['.$name.']';
-
-        $html = "<script>
-        function jSelectArticle(id, title, object) {
-            document.getElementById(object + '_id').value = id;
-            document.getElementById(object + '_name').value = title;
-            SqueezeBox.close();
-        }
-        </script>";
-
-        $link = JRoute::_('option=com_articles&view=articles&layout=element&tmpl=overlay&object='.$name);
-
-        // TODO: Replace with call to @helper('behavior.modal')
-        $html .= '<script src="media://lib_koowa/js/modal.js" />';
-        $html .= '<style src="media://lib_koowa/css/modal.css" />';
-
-        $html .= "<script>
-        window.addEvent('domready', function() {
-
-            SqueezeBox.initialize(".json_encode(array('disableFx' => true)).");
-				SqueezeBox.assign($$('a.modal'), {
-			        parse: 'rel'
-				});
-			});
-        </script>";
-
-        //JHTML::_('behavior.modal', 'a.modal');
-        $html .= "\n".'<div style="float: left;"><input style="background: #ffffff;" type="text" id="'.$name.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
-        $html .= '<a style="margin-left: 10px;" class="btn modal" title="'.JText::_('Select an Article').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 650, y: 375}}">'.JText::_('Select').'</a>'."\n";
-        $html .= "\n".'<input type="hidden" id="'.$name.'_id" name="'.$fieldName.'" value="'.(int)$value.'" />';
-
+        $html = KService::get('com://admin/articles.template.helper.listbox')->articles($config);
         return $html;
     }
 }
