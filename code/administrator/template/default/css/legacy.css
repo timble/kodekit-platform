@@ -3497,6 +3497,10 @@ fieldset {
   border-collapse: collapse;
   color: #666;
 }
+.-koowa-grid table input[type="radio"],
+.-koowa-grid table input[type="checkbox"] {
+  margin-top: 0;
+}
 .-koowa-grid table td {
   padding: 4px 4px;
 }
@@ -3522,6 +3526,10 @@ fieldset {
 }
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
+}
+.-koowa-grid table thead th:first-child {
+  border-left: none;
+  padding-left: 2px;
 }
 .-koowa-grid table thead th:not(.void):active {
   background-color: #e2e2e2;
