@@ -26,7 +26,8 @@ class ComContactsModelContacts extends KModelTable
 		$this->getState()
 			->insert('published', 'boolean')
 			->insert('category' , 'slug')
-			->insert('access', 'int');
+			->insert('access', 'int')
+            ->insert('sort', 'cmd', 'ordering');
 	}
 
 	protected function _buildQueryColumns(KDatabaseQuerySelect $query)

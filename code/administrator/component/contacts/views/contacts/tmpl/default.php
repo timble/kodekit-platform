@@ -30,7 +30,7 @@
 <table>
 	<thead>
 		<tr>
-            <? if($state->category) : ?><th class="handle"></th><? endif ?>
+            <? if($state->category && $state->sort == 'ordering') : ?><th class="handle"></th><? endif ?>
 			<th width="10">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
@@ -56,10 +56,10 @@
 			</tr>
 	</tfoot>
 		
-	<tbody<? if($state->category) : ?> class="sortable"<? endif ?>>
+	<tbody<? if($state->category && $state->sort == 'ordering') : ?> class="sortable"<? endif ?>>
 	<? foreach ($contacts as $contact) : ?>
 		<tr>
-            <? if($state->category) : ?><td class="handle"></td><? endif ?>
+            <? if($state->category && $state->sort == 'ordering') : ?><td class="handle"></td><? endif ?>
 			<td width="20" align="center">
 				<?= @helper('grid.checkbox', array('row' => $contact))?>
 			</td>				
