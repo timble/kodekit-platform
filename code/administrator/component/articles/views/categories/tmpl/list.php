@@ -22,7 +22,7 @@
 	</a>
 	<? if($category->hasChildren()) : ?>
 		<? foreach($category->getChildren() as $child) : ?>
-			<a style="padding-left: 36px;" class="<?= $state->category == $child->id ? 'active' : ''; ?>" href="<?= @route('category='.$child->id ) ?>">
+			<a style="padding-left: 36px;" class="<?= $state->category == $child->id ? 'active' : ''; ?>" href="<?= @route('sort=ordering&category='.$child->id ) ?>">
 				<?= $child->title; ?>
 			</a>
 		<? endforeach ?>
