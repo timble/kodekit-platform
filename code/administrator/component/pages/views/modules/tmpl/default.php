@@ -25,7 +25,7 @@
 	<table>
 		<thead>
 			<tr>
-                <? if($state->position) : ?><th class="handle"></th><? endif ?>
+                <? if($state->position && $state->sort == 'ordering') : ?><th class="handle"></th><? endif ?>
 				<th width="10">
 				    <?= @helper('grid.checkall'); ?>
 				</th>
@@ -55,10 +55,10 @@
 			</tr>
 			<? endif ?>
 		</tfoot>
-		<tbody<? if($state->position) : ?> class="sortable"<? endif ?>>
+		<tbody<? if($state->position && $state->sort == 'ordering') : ?> class="sortable"<? endif ?>>
 		<? foreach ($modules as $module) : ?>
 			<tr>
-                <? if($state->position) : ?><td class="handle"></td><? endif ?>
+                <? if($state->position && $state->sort == 'ordering') : ?><td class="handle"></td><? endif ?>
 				<td width="20" align="center">
 					<?= @helper('grid.checkbox',array('row' => $module)) ?>
 				</td>

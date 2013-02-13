@@ -24,7 +24,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
         $this->getState()
             ->insert('application', 'cmd', 'site')
             ->insert('component'  , 'int')
-            ->insert('sort'  	  , 'cmd', array('position'))
+            ->insert('sort'  	  , 'cmd', array('position', 'ordering'))
             ->insert('published'  , 'boolean')
             ->insert('position'   , 'cmd')
             ->insert('installed'  , 'boolean', false)
