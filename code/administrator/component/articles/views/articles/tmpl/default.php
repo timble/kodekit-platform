@@ -30,12 +30,21 @@
     <?= @template('com://admin/activities.view.activities.simple', array('package' => 'articles', 'name' => 'article')); ?>
 </ktml:module>
 
+<? /* @TODO move into template helper or view file? */ ?>
+<?
+    $category_not_section = @service('com://admin/articles.model.categories')
+                            ->table('articles')
+                            ->id($state->category)
+                            ->getRow()
+                            ->parent_id;
+?>
+
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar'); ?>
     <table>
         <thead>
             <tr>
-                <? if($state->category || $state->category === '0') : ?><th class="handle"></th><? endif ?>
+                <? if($category_not_section) : ?><th class="handle"></th><? endif ?>
                 <th width="10">
                 	 <?= @helper('grid.checkall') ?>
                 </th>
@@ -45,7 +54,7 @@
                 <th width="20">
                     <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
-                <? if($state->category || $state->category === '0') : ?>
+                <? if($state->category) : ?>
                 <th width="7%">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
                 </th>
@@ -67,10 +76,10 @@
                 </td>
             </tr>
         </tfoot>
-        <tbody<? if($state->category || $state->category === '0') : ?> class="sortable"<? endif ?>>
+        <tbody<? if($category_not_section) : ?> class="sortable"<? endif ?>>
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
-                <? if($state->category || $state->category === '0') : ?><td class="handle"></td><? endif ?>
+                <? if($category_not_section) : ?><td class="handle"></td><? endif ?>
                 <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
@@ -89,7 +98,7 @@
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
                 </td>
-                <? if($state->category || $state->category === '0') : ?>
+                <? if($state->category) : ?>
                 <td align="center">
                     <?= @helper('grid.order', array('row' => $article, 'total' => $total)) ?>
                 </td>
