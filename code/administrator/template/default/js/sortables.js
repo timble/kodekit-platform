@@ -40,6 +40,7 @@ Drag.Sortable = new Class({
 			type: 'cookie',
 			options: {}
 		},
+        direction: 'asc',
 
 
 		onStart: function(element, ghost){
@@ -67,9 +68,24 @@ Drag.Sortable = new Class({
 
 		this.adapters = [];
 		this.lists.each(function(list, key){
+            var children = list.getChildren();
+            if(this.options.direction === 'desc') {
+                var k = 0;
+                for (var i = children.length - 1; i >= 0; i--) {
+                    children[k].setProperty('data-order', i);
+                    k++;
+                }
+            } else {
+                children.each(function(row, i){
+                    row.setProperty('data-order', i);
+                }, this);
+            }
+
+            /*
 			list.getChildren().each(function(row, i){
-				row.setProperty('data-order', i);
+
 			}, this);
+            //*/
 
 			var adapter = new Drag.Sortable.Adapter[this.options.adapter.type.capitalize()](this.options.adapter.options);
 			adapter.retrieve(this, this.serialize(this.options.converter));
