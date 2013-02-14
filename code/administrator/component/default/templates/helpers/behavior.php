@@ -67,11 +67,13 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
         $config->append(array(
             'option'	=> KRequest::get('get.option', 'cmd'),
             'view'		=> KInflector::singularize(KRequest::get('get.view', 'cmd')),
-            'selector'	=> 'table tbody.sortable'
+            'selector'	=> 'table tbody.sortable',
+            'direction' => 'asc'
         ))->append(array(
             'options'	=> array(
                 'handle'	=> 'td.handle',
                 'numcolumn'	=> '.grid-count',
+                'direction' => $config->direction,
                 'adapter'	=> array(
                     'type'		=> 'koowa',
                     'options'	=> array(
@@ -87,7 +89,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
             )
         ));
 
-        $html = '';//$this->getService('ninja:template.helper.document')->render(array('/sortables.js', '/sortables.css'));
+        $html = '';
 
         $signature = md5(serialize(array($config->selector,$config->options)));
         if (!isset($this->_loaded[$signature]))
