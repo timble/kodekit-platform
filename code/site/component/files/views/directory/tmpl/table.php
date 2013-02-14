@@ -51,7 +51,7 @@ defined('_JEXEC') or die; ?>
 		<tr>
 			<td>
 				<a href="<?= @route('&view=folder&folder='.$folder->path);?>">
-					<?=@escape($folder->display_name)?>
+					<i class="icon-folder-close"></i> <?=@escape($folder->display_name)?>
 				</a>
 			</td>
 			<td></td>
