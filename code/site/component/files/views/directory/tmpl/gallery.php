@@ -64,13 +64,12 @@ jQuery(function($) {
         <? foreach($files as $file): ?>
     	<? if (!empty($file->thumbnail)): ?>
         <li class="span3">
-    		<a class="thumbnail" data-path="<?= @escape($file->path); ?>"
+    		<a class="thumbnail text-center" data-path="<?= @escape($file->path); ?>"
     			href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
     		    title="<?= @escape($file->display_name) ?>"
+    		    style="min-height:<?= $thumbnail_size['y'] ?>px"
             >
-    		    <span class="file-thumbnail" style="min-height:<?= $thumbnail_size['y'] ?>px">
-        		    <img src="<?= $file->thumbnail ?>" alt="<?= @escape($file->display_name) ?>" />
-        		</span>  
+        		<img src="<?= $file->thumbnail ?>" alt="<?= @escape($file->display_name) ?>" />
         	</a>
         </li>
     	<? endif ?>
