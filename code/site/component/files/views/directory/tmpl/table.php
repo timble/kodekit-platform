@@ -21,18 +21,18 @@ defined('_JEXEC') or die; ?>
 		<tr>
 			<th><?=@text('Name')?></th>
 			<th><?=@text('Size')?></th>
+			<th><?=@text('Type')?></th>
 		</tr>
 	</thead>
 	<tbody>
 		<? if ($parent !== null): ?>
 		<tr>
-			<td>
+			<td colspan="3">
 				<i class="icon-chevron-left"></i>
 				<a href="<?= @route('&view=folder&folder='.$parent); ?>">
 					<?= @text('Parent Folder') ?>
 				</a>
 			</td>
-			<td></td>
 		</tr>
 		<? endif; ?>
 		<? foreach($folders as $folder): ?>
@@ -43,6 +43,7 @@ defined('_JEXEC') or die; ?>
 					<?=@escape($folder->display_name)?>
 				</a>
 			</td>
+			<td></td>
 			<td></td>
 		</tr>
 		<? endforeach; ?>
@@ -58,6 +59,9 @@ defined('_JEXEC') or die; ?>
 			</td>
 			<td>
 				<?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => $file->size));?>
+			</td>
+			<td>
+				<?= $file->extension; ?>
 			</td>
 		</tr>
 		<? endforeach; ?>
