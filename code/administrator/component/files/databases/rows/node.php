@@ -1,5 +1,6 @@
 <?php
 /**
+ * @version     $Id: file.php 1428 2012-01-20 17:14:12Z ercanozkaya $
  * @package     Nooku_Components
  * @subpackage  Files
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -133,6 +134,10 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 
 		if ($column == 'path') {
 			return trim(($this->folder ? $this->folder.'/' : '').$this->name, '/\\');
+		}
+		
+		if ($column == 'display_name' && empty($this->_data['display_name'])) {
+			return $this->name;
 		}
 
 		if ($column == 'destination_path')

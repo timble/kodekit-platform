@@ -24,7 +24,6 @@ if(!empty($state->type['layout']) && $state->layout != 'default') {
 <? $model = $this->getView()->getModel() ?>
 
 <?= $page->getParams('url')->render('urlparams') ?>
-<?= $page->getParams('component')->render() ?>
 
 <? if($rendered_params = $page->getParams('layout')->render('params')) : ?>
     <?= $rendered_params ?>
