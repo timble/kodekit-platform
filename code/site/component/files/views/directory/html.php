@@ -67,7 +67,7 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 			))->browse();
 		}
 		
-		$request->query->set('thumbnails', (bool) $params->get('show_thumbnails'));
+		$request->query->set('thumbnails', true);
 
 		$file_controller = $this->getService('com://admin/files.controller.file', array(
 			'request' => $request
@@ -96,11 +96,6 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 
 	 	if (!$params->get('page_title')) {
 	 		$params->set('page_title', $page->title);
-	 	}
-	 	
-	 	// If we don't have a thumbnail we have to dislay the thumbnail in gallery views
-	 	if ($this->getLayout() === 'gallery' && !$params->get('show_thumbnails')) {
-	 		$params->set('show_filenames', 1);
 	 	}
 	
 		$this->folder  = $folder;

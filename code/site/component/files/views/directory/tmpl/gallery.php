@@ -46,44 +46,32 @@ jQuery(function($) {
     	</a>
     </h4>
     <? endif ?>
-
-    <? if (count($files) || count($folders)): ?>
-    <ol class="gallery-thumbnails" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.files-view">
-        <? foreach($folders as $folder): ?>
-        <li class="gallery-folder">
-            <a href="<?= @route('&view=folder&folder='.$folder->path) ?>">
-                <span class="file-thumbnail"></span>
-                <span class="file-label"><?= @escape($folder->display_name) ?></span>
-            </a>
-        </li>
-        <? endforeach ?>
-        
+    
+    <? if (count($folders)): ?>
+    <ul>
+    <? foreach($folders as $folder): ?>
+	<li class="gallery-folder">
+	    <a href="<?= @route('&view=folder&folder='.$folder->path) ?>">
+	        <?= @escape($folder->display_name) ?>
+	    </a>
+	</li>
+	<? endforeach ?>
+	</ul>
+	<? endif ?>
+	
+	<? if (count($files)): ?>
+    <ol class="thumbnails files-gallery" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="a.thumbnail">
         <? foreach($files as $file): ?>
-    	<? if ($params->get('show_thumbnails') && !empty($file->thumbnail)): ?>
-        <li class="gallery-file">
-    		<a class="files-view" data-path="<?= @escape($file->path); ?>"
+    	<? if (!empty($file->thumbnail)): ?>
+        <li class="span3">
+    		<a class="thumbnail" data-path="<?= @escape($file->path); ?>"
     			href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
     		    title="<?= @escape($file->display_name) ?>"
             >
     		    <span class="file-thumbnail" style="min-height:<?= $thumbnail_size['y'] ?>px">
-        		    <img class="img-polaroid" src="<?= $file->thumbnail ?>" alt="<?= @escape($file->display_name) ?>" />
-        		</span>
-        		<? if ($params->get('show_filenames')): ?>
-        		<span class="file-label"><?= @escape($file->display_name) ?></span>
-        		<? endif; ?>    
+        		    <img src="<?= $file->thumbnail ?>" alt="<?= @escape($file->display_name) ?>" />
+        		</span>  
         	</a>
-        </li>
-    	<? else: ?>
-        <li class="gallery-document">
-    		<a class="files-view" data-path="<?= @escape($file->path); ?>"
-    			href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name) ?>"
-    		    title="<?= @escape($file->display_name) ?>"
-            >
-    			<span class="file-thumbnail" style="min-height:<?= $thumbnail_size['y'] ?>px"></span>
-        		<? if ($params->get('show_filenames')): ?>
-        		<span class="file-label"><?= @escape($file->display_name) ?></span>
-        		<? endif; ?>
-    		</a>
         </li>
     	<? endif ?>
         <? endforeach ?>

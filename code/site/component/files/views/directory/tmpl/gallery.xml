@@ -18,15 +18,7 @@
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
-			<param name="show_filenames" type="radio" default="1" label="Show file names">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
 			<param name="humanize_filenames" type="radio" default="1" label="Humanized file names">
-				<option value="0">No</option>
-				<option value="1">Yes</option>
-			</param>
-			<param name="show_thumbnails" type="radio" default="1" label="Show thumbnails">
 				<option value="0">No</option>
 				<option value="1">Yes</option>
 			</param>
