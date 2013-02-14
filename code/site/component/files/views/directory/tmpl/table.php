@@ -15,10 +15,6 @@ defined('_JEXEC') or die; ?>
 </div>
 <? endif; ?>
 
-<? if ($page->getLink()->query['folder'] !== $state->folder): ?>
-<h2><?= @escape($state->folder); ?></h2>
-<? endif; ?>
-
 <form action="" method="get" class="-koowa-form">
 <table class="table table-striped">
 	<thead>
@@ -27,19 +23,11 @@ defined('_JEXEC') or die; ?>
 			<th><?=@text('Size')?></th>
 		</tr>
 	</thead>
-	<? if ($state->limit && $total > $state->limit-$state->offset): ?>
-	<tfoot>
-	    <tr>
-	        <td colspan="2">
-	        	
-	        </td>
-	    </tr>
-	</tfoot>
-	<? endif; ?>
 	<tbody>
 		<? if ($parent !== null): ?>
 		<tr>
 			<td>
+				<i class="icon-chevron-left"></i>
 				<a href="<?= @route('&view=folder&folder='.$parent); ?>">
 					<?= @text('Parent Folder') ?>
 				</a>
@@ -50,8 +38,9 @@ defined('_JEXEC') or die; ?>
 		<? foreach($folders as $folder): ?>
 		<tr>
 			<td>
+				<i class="icon-folder-close"></i>
 				<a href="<?= @route('&view=folder&folder='.$folder->path);?>">
-					<i class="icon-folder-close"></i> <?=@escape($folder->display_name)?>
+					<?=@escape($folder->display_name)?>
 				</a>
 			</td>
 			<td></td>
@@ -61,6 +50,7 @@ defined('_JEXEC') or die; ?>
 		<? foreach($files as $file): ?>
 		<tr>
 			<td>	
+				<i class="icon-file"></i>
 				<a class="files-download" data-path="<?= @escape($file->path); ?>"
 					href="<?= @route('&view=file&folder='.$state->folder.'&name='.$file->name);?>">
 					<?=@escape($file->display_name)?>

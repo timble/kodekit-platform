@@ -34,17 +34,13 @@ jQuery(function($) {
 		<h1><?= @escape($params->get('page_title')); ?></h1>
 	</div>
 	<? endif; ?>
-	
-	<? if ($page->getLink()->query['folder'] !== $state->folder): ?>
-	<h2><?= @escape($state->folder); ?></h2>
-	<? endif; ?>
 
     <? if ($parent !== null): ?>
-    <h4>
-    	<a href="<?= @route('&view=folder&folder='.$parent) ?>">
-    		<?= @text('Parent Folder') ?>
-    	</a>
-    </h4>
+	<div class="btn-toolbar">
+	    <a class="btn btn-small" href="<?= @route('&view=folder&folder='.$parent) ?>">
+		    <i class="icon-chevron-left"></i> <?= @text('Parent folder') ?>
+	    </a>
+	</div>
     <? endif ?>
     
     <? if (count($folders)): ?>
