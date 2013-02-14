@@ -47,7 +47,7 @@
                 <th width="8%" nowrap="nowrap">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
                 </th>
-                <th width="5%">
+                <th width="5%" nowrap="nowrap">
                     <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count') ); ?>
                 </th>
             </tr>
