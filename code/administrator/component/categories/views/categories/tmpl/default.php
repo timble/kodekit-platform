@@ -34,7 +34,7 @@
     <table>
         <thead>
             <tr>
-                <th class="handle"></th>
+                <? if($state->sort == 'ordering') : ?><th class="handle"></th><? endif ?>
                 <th width="10">
                     <?= @helper('grid.checkall'); ?>
                 </th>
@@ -61,10 +61,10 @@
             </tr>
         </tfoot>
 
-        <tbody class="sortable">
+        <tbody<? if($state->sort == 'ordering') : ?> class="sortable"<? endif ?>>
             <? foreach( $categories as $category) :  ?>
                 <tr>
-                    <td class="handle"></td>
+                    <? if($state->sort == 'ordering') : ?><td class="handle"></td><? endif ?>
                     <td align="center">
                         <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>

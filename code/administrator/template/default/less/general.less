@@ -338,7 +338,13 @@ fieldset {
 		border-spacing: 0px;
 		border-collapse: collapse;
 		color: #666;
-	
+
+        //Fixing radio and checkbox positioning in tables
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-top: 0;
+        }
+
 		td { padding: 4px 4px; }
 		
 		thead {
@@ -358,6 +364,11 @@ fieldset {
 					
 					&:hover { text-decoration: none; }
 				}
+
+                &:first-child {
+                    border-left: none;
+                    padding-left: 2px;
+                }
 			}
 			
 			th:not(.void):active {

@@ -14,7 +14,7 @@
 	    <?= @text('All positions') ?>
 	</a>
 	<? foreach(array_unique(@service('com://admin/pages.model.modules')->application('site')->getRowset()->position) as $position) : ?>
-	<a <? if($state->position == $position && $state->application == 'site') echo 'class="active"' ?> href="<?= @route('position='.$position.'&application=site') ?>">
+	<a <? if($state->position == $position && $state->application == 'site') echo 'class="active"' ?> href="<?= @route('sort=ordering&position='.$position.'&application=site') ?>">
 	    <?= $position; ?>
 	</a>
 	<? endforeach ?>

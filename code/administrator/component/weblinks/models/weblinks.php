@@ -24,7 +24,8 @@ class ComWeblinksModelWeblinks extends ComDefaultModelDefault
 
 		$this->getState()
 		    ->insert('category' , 'slug')
-		    ->insert('published', 'boolean');
+		    ->insert('published', 'boolean')
+            ->insert('sort', 'cmd', 'ordering');
 	}
 	
 	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
