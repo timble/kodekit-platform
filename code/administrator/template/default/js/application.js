@@ -23,7 +23,6 @@ window.addEvent('domready', function(){
 	    // If debug bar present, add chromatable support to it
 	    if($('debug')) $$('#debug .adminlist').chromatable();
 	}
-	$$('td.divider').getPrevious().addClass('last');
 	
 	var sidebar = $('sidebar');
 	if(sidebar) {
@@ -43,5 +42,4 @@ window.addEvent('domready', function(){
             document.body.setStyles({WebkitTransform: 'scaleX(-1)', MozTransform: 'scaleX(-1)', transform: 'scaleX(-1)'});
         }
 	});
-	$$('td.divider').getPrevious().addClass('last');
 });
