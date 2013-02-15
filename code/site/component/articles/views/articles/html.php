@@ -35,7 +35,7 @@ class ComArticlesViewArticlesHtml extends ComArticlesViewHtml
         else $params->set('page_title',	$category->title);
 
         //Set the pathway
-        if($page->query['view'] == 'categories' ) {
+        if($page->getLink()->query['view'] == 'categories' ) {
             $this->getService('application')->getPathway()->addItem($category->title, '');
         }
 
