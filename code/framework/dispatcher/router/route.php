@@ -25,7 +25,7 @@ class KDispatcherRouterRoute extends KHttpUrl
      */
     public function toString($parts = self::FULL)
     {
-        if(isset($this->query['Itemdid'])) {
+        if(isset($this->query['option'])) {
             $this->getService('application')->getRouter()->build($this);
         }
 
