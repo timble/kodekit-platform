@@ -432,7 +432,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
                             default:
                                 $url = $page->getLink();
                                 $url->query['Itemid'] = $page->id;
-                                $url = $this->getRouter()->build($url);
+                                $this->getRouter()->build($url);
                                 break;
                         }
 
