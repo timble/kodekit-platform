@@ -22,7 +22,7 @@ window.addEvent('domready', (function() {
 }));
 </script>
 
-<form id="module-pages" class="form-horizontal">
+<form id="module-pages" class="form-horizontal scrollable">
     <fieldset>
         <label class="radio inline">
             <input type="radio" name="pages" value="all" <?= $module->pages == 'all' ? 'checked="checked"' : '' ?>/>
@@ -37,23 +37,26 @@ window.addEvent('domready', (function() {
             <?= @text('None') ?>
         </label>
 
-        <input type="button" name="save" value="<?= @text('Save') ?>" />
+        <input type="button" name="save" class="btn" value="<?= @text('Save') ?>" />
     </fieldset>
     <? foreach($menus as $menu) : ?>
         <? $menu_pages = $pages->find(array('pages_menu_id' => $menu->id)) ?>
         <? if(count($menu_pages)) : ?>
-            <h3><?= $menu->title ?></h3>
+        <fieldset>        
+            <legend><?= $menu->title ?></legend>
             <? foreach($menu_pages as $page) : ?>
                 <? $checked  = ($module->pages == 'all' || $module->pages != 'none' && in_array($page->id, $module->pages)) ? ' checked="checked"' : '' ?>
                 <? $disabled = is_array($module->pages) ? '' : ' disabled="disabled"'?>
-                <input type="checkbox" name="page_ids[]" value="<?= $page->id ?>" class="page-<?= $page->id ?> level<?= $page->level ?>" <?= $checked ?><?= $disabled ?> />
-                <? if($page->id == $state->page) : ?>
+                <label class="checkbox level<?= $page->level ?>">
+                    <input type="checkbox" name="page_ids[]" value="<?= $page->id ?>" class="page-<?= $page->id ?>" <?= $checked ?><?= $disabled ?> />
+                    <? if($page->id == $state->page) : ?>
                     <strong><?= $page->title ?></strong>
-                <? else : ?>
+                    <? else : ?>
                     <?= $page->title ?>
-                <? endif ?>
-                <br>
+                    <? endif ?>
+                </label>
             <? endforeach ?>
+            </fieldset>
         <? endif ?>
     <? endforeach ?>
 </form>

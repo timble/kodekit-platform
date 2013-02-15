@@ -9,5 +9,7 @@
 ?>
 
 <body id="tmpl-overlay" class="com_<?= $component ?> contentpane">
-    <ktml:variable name="content" />
+    <div id="container">
+        <ktml:variable name="content" />
+    </div>
 </body>
