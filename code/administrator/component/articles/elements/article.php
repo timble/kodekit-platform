@@ -29,7 +29,7 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = KService::get('com://admin/pages.controller.page')->getView()->getTemplate();
+        $template = KService::get('com://admin/articles.controller.article')->getView()->getTemplate();
         $html     = KService::get('com://admin/articles.template.helper.listbox', array('template' => $template))->articles($config);
 
         return $html;
