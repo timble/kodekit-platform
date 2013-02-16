@@ -25,7 +25,7 @@ class JElementArticle extends JElement
             'name'     => $control_name . '[' . $name . ']',
             'selected' => $value,
             'table'    => $node->attributes('table'),
-            'attribs'  => array('class' => array('inputbox', 'chzn-select')),
+            'attribs'  => array('class' => 'inputbox'),
             'autocomplete' => true,
         );
 
