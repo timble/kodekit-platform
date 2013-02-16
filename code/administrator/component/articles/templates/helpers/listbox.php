@@ -28,7 +28,7 @@ class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     		'text'		=> 'title'
     	));
     
-    	return parent::_listbox($config);
+    	return parent::_render($config);
     }
     
     public function authors($config = array())
