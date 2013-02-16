@@ -29,21 +29,27 @@ class ComPagesModelMenus extends KModelTable
     {
         parent::_buildQueryColumns($query);
 
-        $query->columns(array('page_count' => 'COUNT(pages.pages_page_id)'));
+        if(!$query->isCountQuery()) {
+            $query->columns(array('page_count' => 'COUNT(pages.pages_page_id)'));
+        }
     }
 
     protected function _buildQueryJoins(KDatabaseQuerySelect $query)
     {
-         parent::_buildQueryJoins($query);
+        parent::_buildQueryJoins($query);
 
-         $query->join(array('pages' => 'pages'), 'tbl.pages_menu_id = pages.pages_menu_id');
+        if(!$query->isCountQuery()) {
+            $query->join(array('pages' => 'pages'), 'tbl.pages_menu_id = pages.pages_menu_id');
+        }
     }
 
     protected function _buildQueryGroup(KDatabaseQuerySelect $query)
     {
         parent::_buildQueryGroup($query);
 
-        $query->group('pages.pages_menu_id');
+        if(!$query->isCountQuery()) {
+            $query->group('pages.pages_menu_id');
+        }
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)
