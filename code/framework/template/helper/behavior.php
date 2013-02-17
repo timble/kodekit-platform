@@ -274,7 +274,8 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
             'path' => 'name',
             'filter' => array(),
             'validate' => true,
-            'selected' => null
+            'selected' => null,
+            'name' => $config->value
         ))->append(array(
             'value_element' => $config->element . '-value',
             'attribs' => array(
@@ -326,7 +327,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
         $html .= '<input ' . $this->_buildAttributes($config->attribs) . ' />';
         $html .= '<input ' . $this->_buildAttributes(array(
             'type' => 'hidden',
-            'name' => $config->value,
+            'name' => $config->name,
             'id' => $config->element . '-value',
             'value' => $config->selected
         )) . ' />';
