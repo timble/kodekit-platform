@@ -214,7 +214,8 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableSelect(KCommandContext $context)
     {
-        if($query = $context->query)
+        $query = $context->query;
+        if($query && !$query->isCountQuery())
         {
             $state         = $context->options->state;
             $id_column     = $context->getSubject()->getIdentityColumn();
