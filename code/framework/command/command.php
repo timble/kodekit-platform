@@ -9,8 +9,8 @@
 /**
  * Command handler
  *
- * The command handler will translate the command name into a function format and
- * call it for the object class to handle it if the method exists.
+ * The command handler will translate the command name into a function format and call it for the object class to handle
+ * it if the method exists.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
@@ -37,7 +37,7 @@ class KCommand extends KObject implements KCommandInterface
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param  KConfig  $config An optional KConfig object with configuration options
      */
     public function __construct(KConfig $config)
     {
@@ -51,7 +51,7 @@ class KCommand extends KObject implements KCommandInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param KConfig $config An optional KConfig object with configuration options
      * @return void
      */
     protected function _initialize(KConfig $config)
@@ -69,11 +69,12 @@ class KCommand extends KObject implements KCommandInterface
      * @param   string           $name     The command name
      * @param   KCommandContext  $context  The command context
      *
-     * @return  mixed  Boolean if method exists, null otherwise.
+     * @return  mixed  Method result if the method exsist, NULL otherwise.
      */
     public function execute($name, KCommandContext $context)
     {
-        $type = '';
+        $type   = '';
+        $result = null;
 
         if ($context->getSubject())
         {
@@ -89,9 +90,12 @@ class KCommand extends KObject implements KCommandInterface
         $parts = explode('.', $name);
         $method = !empty($type) ? '_' . $type . ucfirst(KInflector::implode($parts)) : '_' . lcfirst(KInflector::implode($parts));
 
+        //If the method exists call the method and return the result
         if (in_array($method, $this->getMethods())) {
-            return $this->$method($context);
+            $result = $this->$method($context);
         }
+
+        return $result;
     }
 
     /**

@@ -9,9 +9,8 @@
 /**
  * Command Chain
  *
- * The command queue implements a double linked list. The command handle is used
- * as the key. Each command can have a priority, default priority is 3 The queue
- * is ordered by priority, commands with a higher priority are called first.
+ * The command queue implements a double linked list. The command handle is used as the key. Each command can have a
+ * priority, default priority is 3 The queue is ordered by priority, commands with a higher priority are called first.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command

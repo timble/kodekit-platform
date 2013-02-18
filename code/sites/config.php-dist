@@ -50,7 +50,7 @@ class JConfig
 	var $timezone        = 'UTC';
 
 	/* Session settings */
-	var $lifetime          = '15';				// Session time
+	var $lifetime          = '15';          // Session time
 
 	/* Mail Settings */
 	var $mailer = 'mail';
@@ -73,8 +73,8 @@ class JConfig
 	var $debug_lang = '0';
 
 	/* SEO Settings */
-	var $sef_suffix  = '';
+	var $sef_suffix  = '0';
 
 	/* Template Settings */
-	var $template = 'bootstrap';
+	var $theme = 'bootstrap';
 }
