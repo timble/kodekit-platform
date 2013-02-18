@@ -49,7 +49,7 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
 
                 $sort_by = $sort_by_map[$params->get('sort_by', 'newest')];
                 $request->query->sort = key($sort_by);
-                $request->direction   = current($sort_by);
+                $request->query->direction   = current($sort_by);
             }
 
             // Allow editors (and above) to view unpublished items on lists.
