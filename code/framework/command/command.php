@@ -9,8 +9,8 @@
 /**
  * Command handler
  *
- * The command handler will translate the command name into a function format and
- * call it for the object class to handle it if the method exists.
+ * The command handler will translate the command name into a function format and call it for the object class to handle
+ * it if the method exists.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
