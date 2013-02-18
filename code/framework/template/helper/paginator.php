@@ -38,7 +38,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		));
 	
 		$html = '';
-		$html .= '<style src="media://lib_koowa/css/koowa.css" />';
+		$html .= '<style src="media://koowa/css/koowa.css" />';
 
 		$html .= '<div class="-koowa-pagination pagination pagination-centered">';
 		if($config->show_limit) {

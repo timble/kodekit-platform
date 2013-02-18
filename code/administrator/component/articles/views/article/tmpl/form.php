@@ -12,7 +12,7 @@
 <?= @helper('behavior.validator') ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
+<script src="media://koowa/js/koowa.js" />
 -->
 <script>
     if(Form && Form.Validator) {

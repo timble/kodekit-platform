@@ -9,7 +9,7 @@
 ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
+<script src="media://koowa/js/koowa.js" />
 -->
 
 <? if ($contact->params->get('allow_vcard')) : ?>

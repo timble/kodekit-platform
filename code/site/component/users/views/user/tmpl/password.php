@@ -12,7 +12,7 @@ defined('KOOWA') or die('Restricted access');
 <?=@helper('behavior.mootools');?>
 <?=@helper('behavior.validator');?>
 
-<script src="media://lib_koowa/js/koowa.js"/>
+<script src="media://koowa/js/koowa.js"/>
 
 <div class="page-header">
     <h1><?=@text('Set your password');?></h1>

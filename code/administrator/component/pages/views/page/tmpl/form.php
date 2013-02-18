@@ -11,9 +11,9 @@
 <?= @helper('behavior.keepalive') ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
-<script src="media://com_pages/js/widget.js" />
-<script src="media://com_pages/js/page.js" />
+<script src="media://koowa/js/koowa.js" />
+<script src="media://pages/js/widget.js" />
+<script src="media://pages/js/page.js" />
 -->
 
 <script>

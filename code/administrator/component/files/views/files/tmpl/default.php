@@ -26,7 +26,7 @@ window.addEvent('domready', function() {
 				}
 			},
 			tree: {
-				theme: 'media://com_files/images/mootree.png'
+				theme: 'media://files/images/mootree.png'
 			},
 			types: <?= json_encode($state->types); ?>,
 			container: <?= json_encode($container ? $container->slug : 'files-files'); ?>,

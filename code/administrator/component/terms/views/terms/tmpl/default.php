@@ -10,8 +10,8 @@
 
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<style src="media://com_default/css/admin.css" />
-<style src="media://com_terms/css/admin.css" />
+<style src="media://default/css/admin.css" />
+<style src="media://terms/css/admin.css" />
 
 <form action="" method="post" class="-koowa-grid">
 <div style="margin-bottom: 25px">

@@ -59,12 +59,12 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
 
 
         // Add required assets
-        $html = '<script src="media://com_users/js/users.js" />';
+        $html = '<script src="media://users/js/users.js" />';
 
         $html .= '<span id="' . $config->container_id . '" class="' . $config->class . '">' . $config->score_map[0] . '</span>';
 
         // Async load of zxcvbn
-        $zxcvbn_url = 'media://com_users/js/libs/zxcvbn/zxcvbn.js';
+        $zxcvbn_url = 'media://users/js/libs/zxcvbn/zxcvbn.js';
         $html .= '<script type="text/javascript">';
         $html .= '(function(){var a;a=function(){var a,b;b=document.createElement("script");b.src="' . $zxcvbn_url . '";b.type="text/javascript";b.async=!0;a=document.getElementsByTagName("script")[0];return a.parentNode.insertBefore(b,a)};null!=window.attachEvent?window.attachEvent("onload",a):window.addEventListener("load",a,!1)}).call(this);';
         $html .= '</script>';

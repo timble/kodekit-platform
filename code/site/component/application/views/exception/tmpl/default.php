@@ -11,7 +11,7 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
-    <link rel="stylesheet" href="media://com_application/css/error.css" type="text/css" />
+    <link rel="stylesheet" href="media://application/css/error.css" type="text/css" />
     <title><?= @text('Error').': '.$code; ?></title>
 </head>
 <body>

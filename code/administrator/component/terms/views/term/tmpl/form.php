@@ -12,8 +12,8 @@ defined('KOOWA') or die( 'Restricted access' ); ?>
 
 <?= @helper('behavior.tooltip'); ?>
 
-<style src="media://com_default/css/form.css" />
-<style src="media://com_terms/css/admin.css" />
+<style src="media://default/css/form.css" />
+<style src="media://terms/css/admin.css" />
 
 <form action="" method="post" class="-koowa-form">
 	<div style="width:100%; float: left" id="mainform">
