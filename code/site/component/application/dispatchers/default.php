@@ -98,7 +98,8 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             'options'   => array(
                 'session_name' => 'site',
                 'config_file'  => JPATH_SITES.'/config.php',
-                'language'     => null
+                'language'     => null,
+                'theme'        => 'bootstrap'
             ),
         ));
 
@@ -514,13 +515,13 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     }
 
     /**
-     * Get the template
+     * Get the theme
      *
-     * @return string The template name
+     * @return string The theme name
      */
-    public function getTemplate()
+    public function getTheme()
     {
-        return $this->getCfg('template');
+        return $this->getCfg('theme');
     }
 
     /**
