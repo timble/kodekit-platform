@@ -32,7 +32,7 @@ class ComArticlesTemplateHelperDate extends ComDefaultTemplateHelperDate
 
         if ($config->show_create_date) {
             $html[] = '<span class="timestamp">';
-            $html[] = $this->format(array('date'=> $article->created_on, 'format' => JText::_('DATE_FORMAT_LC5')));
+            $html[] = $this->format(array('date'=> $article->ordering_date, 'format' => JText::_('DATE_FORMAT_LC5')));
         }
 
         if ($config->get('show_modify_date') && $config->show_create_date && ($modified_on = $article->modified_on) && (intval($modified_on) != 0))

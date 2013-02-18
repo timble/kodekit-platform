@@ -37,8 +37,8 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
             if ($request->getFormat() != 'json')
             {
                 $sort_by_map = array(
-                    'newest' => array('created_on' => 'DESC'),
-                    'oldest' => array('created_on' => 'ASC'),
+                    'newest' => array('ordering_date' => 'DESC'),
+                    'oldest' => array('ordering_date' => 'ASC'),
                     'order'  => array('ordering' => 'ASC'));
 
                 // Get the parameters
