@@ -248,13 +248,6 @@ class JFactory
 
         // Create the registry with a default namespace of config
         $registry = new JRegistry('config');
-
-        // Create the JConfig object
-        $config = new JFrameworkConfig();
-
-        // Load the configuration values into the registry
-        $registry->loadObject($config);
-
         return $registry;
     }
 
