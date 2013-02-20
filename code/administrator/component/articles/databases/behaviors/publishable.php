@@ -28,26 +28,26 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     protected $_uptodate = false;
 
     /**
-     * @var string The name of the table containing the items.
+     * @var string The name of the table containing the publishable items.
      */
     protected $_table;
 
     /**
-     * @var string The name of the identity column of the table.
+     * @var KDate The current date.
      */
-    protected $_identity_column;
+    protected $_date;
 
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
         $this->_table           = $config->table;
-        $this->_identity_column = $config->identity_column;
+        $this->_date            = new KDate(array('timezone' => 'GMT'));
     }
 
     protected function _initialize(KConfig $config)
     {
-        $config->append(array('table'=> 'articles', 'identity_column' => 'articles_article_id'));
+        $config->append(array('table'=> 'articles'));
         parent::_initialize($config);
     }
 
@@ -55,90 +55,72 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     {
         if (!$this->_uptodate) {
 
-            $date = new KDate(array('timezone' => 'GMT'));
-
-            $this->_publishItems($date);
-            $this->_unpublishItems($date);
+            $this->_publishItems();
+            $this->_unpublishItems();
 
             $this->_uptodate = true;
         }
     }
 
+    protected function _beforeTableInsert(KCommandContext $context)
+    {
+        // Same as update.
+        $this->_beforeTableUpdate($context);
+    }
+
+    protected function _beforeTableUpdate(KCommandContext $context)
+    {
+        $data = $context->data;
+
+        if ($data->published && (strtotime($data->publish_on) > $this->_date->getTimestamp())) {
+            // Un-publish the item.
+            $data->published = 0;
+        }
+    }
+
     /**
      * Publishes items given a date.
-     *
-     * @param KDate $date The date on which items should be published.
      */
-    protected function _publishItems(KDate $date)
+    protected function _publishItems()
     {
-        $query = $this->_getSelectQuery();
+        $query = $this->_getQuery();
 
-        $query->where('publish_on <= :date')->where('published = :published')->where('publish_on <> :default')
-            ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'published' => 0));
+        $query->where('publish_on <= :date')->where('published = :published')->where('publish_on IS NOT NULL')
+            ->values('published = :value')
+            ->bind(array('date'      => $this->_date->format('Y-m-d H:i:s'),
+                         'published' => 0,
+                         'value'     => 1));
 
-        $db = $this->getMixer()->getAdapter();
-
-        if ($ids = $db->select($query, KDatabase::FETCH_ARRAY_LIST)) {
-            foreach ($ids as $id) {
-            	$this->_updateState($id, 1);
-            }
-        }
+        $this->getMixer()->getAdapter()->update($query);
     }
 
     /**
      * Un-publishes items given a date.
-     *
-     * @param KDate $date The date on which items should be un-published.
      */
-    protected function _unpublishItems(KDate $date)
+    protected function _unpublishItems()
     {
-        $query = $this->_getSelectQuery();
+        $query = $this->_getQuery();
 
-        $query->where('unpublish_on <= :date')->where('published = :published')->where('unpublish_on <> :default')
-            ->bind(array('date' => $date->format('Y-m-d H:i:s'), 'default' => '0000-00-00 00:00:00', 'published' => 1));
+        $query->where('unpublish_on <= :date')->where('published = :published')->where('unpublish_on IS NOT NULL')
+            ->values('published = :value')
+            ->bind(array('date'      => $this->_date->format('Y-m-d H:i:s'),
+                         'published' => 1,
+                         'value'     => 0));
 
-        $db = $this->getMixer()->getAdapter();
-
-        if ($ids = $db->select($query)) {
-        	foreach ($ids as $id) {
-        		$this->_updateState($id, 0);
-        	}
-        }
+        $this->getMixer()->getAdapter()->update($query);
     }
 
     /**
-     * Generic select query getter.
+     * Generic query getter.
      *
-     * @return object A select query object.
+     * @return object A query object.
      */
-    protected function _getSelectQuery()
-    {
-        $query = $this->getService('koowa:database.query.select');
-
-        $query->table(array($this->_table));
-        $query->columns(array($this->_identity_column));
-
-        return $query;
-    }
-
-    /**
-     * Updates items states.
-     *
-     * @param     $ids   A list of items ids to be updated.
-     * @param int $published The new published value.
-     */
-    protected function _updateState($id, $published = 0)
+    protected function _getQuery()
     {
         $query = $this->getService('koowa:database.query.update');
 
-        $query->table($this->_table);
+        $query->table(array($this->_table));
 
-        $query->values(array('published = :published'))->bind(array(
-            'published'   => $published));
-
-        $query->where($this->_identity_column . ' IN :id')->bind(array('id' => (array) $id));
-
-        $db = $this->getMixer()->getAdapter();
-        $db->update($query);
+        return $query;
     }
 }

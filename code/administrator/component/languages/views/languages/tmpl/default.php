@@ -8,8 +8,8 @@
  */
 ?>
 
-<script src="media://lib_koowa/js/koowa.js" />
-<style src="media://lib_koowa/css/koowa.css" />
+<script src="media://koowa/js/koowa.js" />
+<style src="media://koowa/css/koowa.css" />
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
 
@@ -69,7 +69,7 @@
 				</td>
                 <td align="center">
                     <? if($language->primary): ?>
-                        <img src="media://lib_koowa/images/star.png" alt="<?= @text( 'Primary Language' ) ?>" />
+                        <img src="media://koowa/images/star.png" alt="<?= @text( 'Primary Language' ) ?>" />
                     <? endif ?>
                 </td>
 				<td align="center">

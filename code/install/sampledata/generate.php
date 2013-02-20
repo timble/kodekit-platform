@@ -37,7 +37,7 @@ define('_JEXEC', 1);
 define('JPATH_APPLICATION', realpath(__DIR__.'/../../code/administrator'));
 define('JPATH_BASE'       , JPATH_APPLICATION);
 define('JPATH_ROOT'       , dirname(JPATH_APPLICATION));
-define('JPATH_VEBDOR'     , JPATH_ROOT.'/vendor' );
+define('JPATH_VENDOR'     , JPATH_ROOT.'/vendor' );
 define('JPATH_SITES'      , JPATH_ROOT.'/sites');
 define('DS', DIRECTORY_SEPARATOR);
 

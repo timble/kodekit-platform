@@ -37,8 +37,8 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
             if ($request->getFormat() != 'json')
             {
                 $sort_by_map = array(
-                    'newest' => array('created_on' => 'DESC'),
-                    'oldest' => array('created_on' => 'ASC'),
+                    'newest' => array('ordering_date' => 'DESC'),
+                    'oldest' => array('ordering_date' => 'ASC'),
                     'order'  => array('ordering' => 'ASC'));
 
                 // Get the parameters
@@ -49,7 +49,7 @@ class ComArticlesControllerArticle extends ComArticlesControllerDefault
 
                 $sort_by = $sort_by_map[$params->get('sort_by', 'newest')];
                 $request->query->sort = key($sort_by);
-                $request->direction   = current($sort_by);
+                $request->query->direction   = current($sort_by);
             }
 
             // Allow editors (and above) to view unpublished items on lists.

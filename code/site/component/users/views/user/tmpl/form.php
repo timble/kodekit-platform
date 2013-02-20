@@ -12,8 +12,8 @@
 <?=@helper('behavior.mootools');?>
 <?=@helper('behavior.validator');?>
 
-<script src="media://lib_koowa/js/koowa.js"/>
-<script src="media://com_users/js/users.js" />
+<script src="media://koowa/js/koowa.js"/>
+<script src="media://users/js/users.js" />
 
 <script type="text/javascript">
     window.addEvent('domready', function () {

@@ -98,7 +98,7 @@ class KModelPaginator extends KConfig implements KModelPaginatorInterface
         // Previous
         $offset  = max(0, ($this->current - 2) * $this->limit);
         $active  = $offset != $this->offset;
-        $pages->prev = array('title' => 'Prev', 'page' => $this->current - 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active, 'rel' => 'prev');
+        $pages->prev = array('title' => 'Previous', 'page' => $this->current - 1, 'offset' => $offset, 'limit' => $this->limit, 'current' => false, 'active' => $active, 'rel' => 'prev');
 
         // Pages
         $offsets = array();

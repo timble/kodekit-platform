@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<params addpath="/administrator/components/com_languages/elements">
+	<params addpath="/administrator/component/languages/elements">
 	</params>
 </config>

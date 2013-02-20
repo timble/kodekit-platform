@@ -10,7 +10,7 @@
 ?>
 
 <!--
-<style src="media://com_activities/css/activities-default.css" />
+<style src="media://activities/css/activities-default.css" />
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>

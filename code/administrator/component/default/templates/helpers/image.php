@@ -56,7 +56,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
 		<script>
 		window.addEvent('domready', function(){
 			$('".$config->name."').addEvent('change', function(){
-				var value = this.value ? ('".$root."/' + this.value) : 'media://lib_koowa/images/blank.png';
+				var value = this.value ? ('".$root."/' + this.value) : 'media://koowa/images/blank.png';
 				$('".$config->name."-preview').src = value;
 			});
 		});
@@ -122,7 +122,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
 
  	    $image = JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
 
- 	    $path = $config->selected ? $image : 'media://lib_koowa/images/blank.png';
+ 	    $path = $config->selected ? $image : 'media://koowa/images/blank.png';
   		$html = '<img '.$this->_buildAttributes(array(
   			'src'		=> $path,
   			'id'		=> $config->name.'-preview',

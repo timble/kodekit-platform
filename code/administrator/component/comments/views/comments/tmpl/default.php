@@ -1,4 +1,4 @@
-<style src="media://com_comments/css/comments-default.css" />
+<style src="media://comments/css/comments-default.css" />
 
 <div id="list" class="-koowa-box-flex">
 	<form action="<?= @route()?>" method="post" name="adminForm">

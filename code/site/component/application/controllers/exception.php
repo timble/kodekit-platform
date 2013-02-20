@@ -36,9 +36,13 @@ class ComApplicationControllerException extends KControllerView
         //Set the exception data in the view
         $exception = $context->param;
 
-        $code    = $exception->getCode() == 0 ? '500' : $exception->getCode();
-        $message = KHttpResponse::$status_messages[$code];
+        //If the error code does not correspond to a status message, use 500
+        $code = $exception->getCode();
+        if(!isset(KHttpResponse::$status_messages[$code])) {
+            $code = '500';
+        }
 
+        $message = KHttpResponse::$status_messages[$code];
         $traces = $exception->getTrace();
 
         //Traverse up the trace stack to find the actual function that was not found

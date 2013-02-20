@@ -94,10 +94,6 @@ class JFactory
         static $instance;
 
         if (!is_object($instance)) {
-            if ($file === null) {
-                $file = dirname(__FILE__) . DS . 'config.php';
-            }
-
             $instance = JFactory::_createConfig($file, $type);
         }
 
@@ -244,17 +240,12 @@ class JFactory
     {
         jimport('joomla.registry.registry');
 
-        require_once $file;
+        if($file !== null) {
+            require_once $file;
+        }
 
         // Create the registry with a default namespace of config
         $registry = new JRegistry('config');
-
-        // Create the JConfig object
-        $config = new JFrameworkConfig();
-
-        // Load the configuration values into the registry
-        $registry->loadObject($config);
-
         return $registry;
     }
 

@@ -33,7 +33,7 @@ class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
 		}
 		
 		$html = <<<END
-		<script src="media://com_attachments/js/attachments.js" />
+		<script src="media://attachments/js/attachments.js" />
 		<script>
 		window.addEvent('domready', function() {
 			new Attachments.Upload({

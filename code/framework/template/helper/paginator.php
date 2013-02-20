@@ -38,9 +38,9 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 		));
 	
 		$html = '';
-		$html .= '<style src="media://lib_koowa/css/koowa.css" />';
+		$html .= '<style src="media://koowa/css/koowa.css" />';
 
-		$html .= '<div class="-koowa-pagination pagination">';
+		$html .= '<div class="-koowa-pagination pagination pagination-centered">';
 		if($config->show_limit) {
 		    $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
 		}
@@ -103,15 +103,16 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
         $html = '<ul>';
 
-		$html .= $this->link($config->pages->first);
-		$html .= $this->link($config->pages->prev);
-
+		if($config->offset) {
+            $html .= $this->link($config->pages->prev);
+        }
 		foreach($config->pages->offsets as $offset) {
 			$html .= $this->link($offset);
 		}
 
-		$html .= $this->link($config->pages->next);
-		$html .= $this->link($config->pages->last);
+        if($config->total > ($config->offset + $config->limit)) {
+		    $html .= $this->link($config->pages->next);
+        }
 
         $html .= '</ul>';
 

@@ -1,6 +1,6 @@
 
 function changeFlag(name) {
-	var flag_url = '../media/com_nooku/images/flags/';
+	var flag_url = '../media/nooku/images/flags/';
 	$$('.nooku_flag')[0].setStyle('background-image', 'url('+flag_url+name.toLowerCase()+'.png)');
 	$('image').value = name.toLowerCase()+'.png';
 }

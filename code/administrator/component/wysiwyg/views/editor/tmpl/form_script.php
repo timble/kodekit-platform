@@ -13,22 +13,22 @@
 <?= @helper('behavior.modal') ?>
 
 <? if ($options['toggle']) : ?>
-    <style src="media://com_wysiwyg/css/form.css" />
-    <script src="media://com_wysiwyg/js/Fx.Toggle.js" />
+    <style src="media://wysiwyg/css/form.css" />
+    <script src="media://wysiwyg/js/Fx.Toggle.js" />
 <? endif ?>
 
-<script src="media://com_wysiwyg/tinymce/tiny_mce<?= @service('application')->getCfg('debug') ? '_src.js' : '.js' ?>" />
-<script src="media://com_wysiwyg/js/Editor.js" />
+<script src="media://wysiwyg/tinymce/tiny_mce<?= @service('application')->getCfg('debug') ? '_src.js' : '.js' ?>" />
+<script src="media://wysiwyg/js/Editor.js" />
 
 <? if($codemirror) : ?>
-<script src="media://com_wysiwyg/codemirror/lib/codemirror.js" />
-<script src="media://com_wysiwyg/codemirror/mode/css/css.js" />
-<script src="media://com_wysiwyg/codemirror/mode/htmlmixed/htmlmixed.js" />
-<script src="media://com_wysiwyg/codemirror/mode/javascript/javascript.js" />
-<script src="media://com_wysiwyg/codemirror/mode/php/php.js" />
-<script src="media://com_wysiwyg/codemirror/mode/xml/xml.js" />
+<script src="media://wysiwyg/codemirror/lib/codemirror.js" />
+<script src="media://wysiwyg/codemirror/mode/css/css.js" />
+<script src="media://wysiwyg/codemirror/mode/htmlmixed/htmlmixed.js" />
+<script src="media://wysiwyg/codemirror/mode/javascript/javascript.js" />
+<script src="media://wysiwyg/codemirror/mode/php/php.js" />
+<script src="media://wysiwyg/codemirror/mode/xml/xml.js" />
 
-<style src="media://com_wysiwyg/codemirror/lib/codemirror.css" />
+<style src="media://wysiwyg/codemirror/lib/codemirror.css" />
 
 <script>	
 var quicktagsL10n = 

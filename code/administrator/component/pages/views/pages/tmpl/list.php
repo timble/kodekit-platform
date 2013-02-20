@@ -1,9 +1,9 @@
-<script src="media://com_pages/js/pages-list.js" />
+<script src="media://pages/js/pages-list.js" />
 
 <nav class="scrollable">
 <ul class="nav nav-list">
-<? foreach($this->getService('com://admin/pages.model.menus')->sort('title')->getRowset() as $menu) : ?>
-    <? $menu_pages = $this->getService('com://admin/pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
+<? foreach(@service('com://admin/pages.model.menus')->sort('title')->getRowset() as $menu) : ?>
+    <? $menu_pages = @service('com://admin/pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
     <? if(count($menu_pages)) : ?>
         <li class="nav-header"><?= $menu->title ?></li>
 		<? $first = true; $last_depth = 0; ?>

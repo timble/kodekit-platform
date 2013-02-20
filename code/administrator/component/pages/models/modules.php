@@ -112,7 +112,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
 
                 if($state->component)
                 {
-                    $this->_row->extensions->component_id = $state->component;
+                    $this->_row->extensions_component_id = $state->component;
 
                     $this->_row->component_name = $this->getService('application.components')
                         ->find(array('id' => $state->component))

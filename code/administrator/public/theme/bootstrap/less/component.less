@@ -292,17 +292,15 @@ div.message {
 		color: #333;
 	}
 	
-	#pages-parent {
-		.level1 { .com_pages #pages-parent .padding(1) }
-		.level2 { .com_pages #pages-parent .padding(2) }
-		.level3 { .com_pages #pages-parent .padding(2) }
-		.level4 { .com_pages #pages-parent .padding(2) }
-		.level5 { .com_pages #pages-parent .padding(2) }
-		
-		.padding(@level:1) {
-			padding-left: (18px * @level) + 18px;
-		}
-	}
+    .level1 { .com_pages .padding(1) }
+    .level2 { .com_pages .padding(2) }
+    .level3 { .com_pages .padding(3) }
+    .level4 { .com_pages .padding(4) }
+    .level5 { .com_pages .padding(5) }
+    
+    .padding(@level:1) {
+        padding-left: (18px * @level) + 18px;
+    }
 }
 
 .com_files {

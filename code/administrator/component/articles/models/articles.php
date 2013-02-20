@@ -41,7 +41,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $query->columns(array(
             'category_title'    => 'categories.title',
             'created_by_name'   => 'users.name',
-            'created_by_id'     => 'users.users_user_id'
+            'created_by_id'     => 'users.users_user_id',
+            'ordering_date'     => 'IF(tbl.publish_on, tbl.publish_on, tbl.created_on)'
         ));
     }
 

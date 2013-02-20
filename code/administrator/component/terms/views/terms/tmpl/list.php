@@ -10,8 +10,8 @@
 
 defined('KOOWA') or die( 'Restricted access' ); ?>
 
-<script src="media://com_terms/js/terms.js" />
-<style src="media://com_terms/css/default.css" />
+<script src="media://terms/js/terms.js" />
+<style src="media://terms/css/default.css" />
 
 <? $disabled = $disabled ? 'disabled="disabled"' : ''; ?>
 

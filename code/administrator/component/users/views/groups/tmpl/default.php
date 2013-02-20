@@ -9,8 +9,8 @@
 ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
-<style src="media://lib_koowa/css/koowa.css" />
+<script src="media://koowa/js/koowa.js" />
+<style src="media://koowa/css/koowa.css" />
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>

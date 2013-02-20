@@ -19,18 +19,18 @@
     <ktml:style />
     <ktml:script />
 
-    <link href="media://com_application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 	
-	<script src="media://lib_koowa/js/mootools.js" />
-	<script src="media://com_application/js/application.js" />
-    <script src="media://com_application/js/chromatable.js" />
+	<script src="media://koowa/js/mootools.js" />
+	<script src="media://application/js/application.js" />
+    <script src="media://application/js/chromatable.js" />
 
 	<? if(true) : ?>
-	<style src="media://com_application/css/default.css" />
+	<style src="media://application/css/default.css" />
 	<? else : ?>
-    <script src="media://com_application/js/sidebar.js" />
-	<style src="media://com_application/css/legacy.css" />
+    <script src="media://application/js/sidebar.js" />
+	<style src="media://application/css/legacy.css" />
 	<? endif; ?>
 	
-    <style src="media://com_application/css/system.css"  />
+    <style src="media://application/css/system.css"  />
 </head>

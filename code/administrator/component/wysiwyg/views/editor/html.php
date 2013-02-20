@@ -93,13 +93,13 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 			'codemirror'   		=> true,
 			'codemirrorOptions' => array(
 				'stylesheet' => array(
-					$config->media_url.'/com_wysiwyg/codemirror/lib/codemirror.css',
-				  	/*$config->media_url.'/com_wysiwyg/codemirror/css/xmlcolors.css',
-				  	$config->media_url.'/com_wysiwyg/codemirror/css/jscolors.css',
-				  	$config->media_url.'/com_wysiwyg/codemirror/css/csscolors.css',
-				  	$config->media_url.'/com_wysiwyg/css/codemirror.css'*/
+					$config->media_url.'/wysiwyg/codemirror/lib/codemirror.css',
+				  	/*$config->media_url.'/wysiwyg/codemirror/css/xmlcolors.css',
+				  	$config->media_url.'/wysiwyg/codemirror/css/jscolors.css',
+				  	$config->media_url.'/wysiwyg/codemirror/css/csscolors.css',
+				  	$config->media_url.'/wysiwyg/css/codemirror.css'*/
 				),
-				'path' => $config->media_url.'/com_wysiwyg/codemirror/'
+				'path' => $config->media_url.'/wysiwyg/codemirror/'
 			),
 
 			'editor_settings' => $settings
