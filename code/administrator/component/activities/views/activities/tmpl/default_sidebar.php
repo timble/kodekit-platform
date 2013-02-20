@@ -37,7 +37,7 @@ window.addEvent('domready', function(){
 		<?php endforeach ?>
 	</nav>
 		
-	<form action="" method="get" class="activities-filter">
+	<form action="" method="get" id="activities-filter">
 		<fieldset>
 		    <legend><?=@text( 'Filters' )?></legend>
 		    <div>
