@@ -39,7 +39,7 @@
 <textarea style="display: none" id="compact_details_file">
 <div class="details">
 <div style="text-align: center">
-<img class="icon" src="media://com_files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
+<img class="icon" src="media://files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
 </div>
 <table class="table table-condensed parameters">
 	<tbody>

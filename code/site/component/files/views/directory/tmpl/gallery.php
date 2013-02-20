@@ -9,10 +9,10 @@
  */
 defined('_JEXEC') or die; ?>
 
-<script src="media://com_files/site/js/jquery-1.8.0.min.js" />
-<script src="media://com_files/site/js/bootstrap-modal.js" />
-<script src="media://com_files/site/js/bootstrap-image-gallery.js" />
-<script src="media://com_files/site/js/gallery.js" />
+<script src="media://files/site/js/jquery-1.8.0.min.js" />
+<script src="media://files/site/js/bootstrap-modal.js" />
+<script src="media://files/site/js/bootstrap-image-gallery.js" />
+<script src="media://files/site/js/gallery.js" />
 
 <script>
 jQuery(function($) {

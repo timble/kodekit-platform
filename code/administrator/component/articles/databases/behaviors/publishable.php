@@ -32,11 +32,17 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      */
     protected $_table;
 
+    /**
+     * @var KDate The current date.
+     */
+    protected $_date;
+
     public function __construct(KConfig $config)
     {
         parent::__construct($config);
 
         $this->_table           = $config->table;
+        $this->_date            = new KDate(array('timezone' => 'GMT'));
     }
 
     protected function _initialize(KConfig $config)
@@ -49,27 +55,39 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     {
         if (!$this->_uptodate) {
 
-            $date = new KDate(array('timezone' => 'GMT'));
-
-            $this->_publishItems($date);
-            $this->_unpublishItems($date);
+            $this->_publishItems();
+            $this->_unpublishItems();
 
             $this->_uptodate = true;
         }
     }
 
+    protected function _beforeTableInsert(KCommandContext $context)
+    {
+        // Same as update.
+        $this->_beforeTableUpdate($context);
+    }
+
+    protected function _beforeTableUpdate(KCommandContext $context)
+    {
+        $data = $context->data;
+
+        if ($data->published && (strtotime($data->publish_on) > $this->_date->getTimestamp())) {
+            // Un-publish the item.
+            $data->published = 0;
+        }
+    }
+
     /**
      * Publishes items given a date.
-     *
-     * @param KDate $date The date on which items should be published.
      */
-    protected function _publishItems(KDate $date)
+    protected function _publishItems()
     {
         $query = $this->_getQuery();
 
         $query->where('publish_on <= :date')->where('published = :published')->where('publish_on IS NOT NULL')
             ->values('published = :value')
-            ->bind(array('date'      => $date->format('Y-m-d H:i:s'),
+            ->bind(array('date'      => $this->_date->format('Y-m-d H:i:s'),
                          'published' => 0,
                          'value'     => 1));
 
@@ -78,16 +96,14 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
 
     /**
      * Un-publishes items given a date.
-     *
-     * @param KDate $date The date on which items should be un-published.
      */
-    protected function _unpublishItems(KDate $date)
+    protected function _unpublishItems()
     {
         $query = $this->_getQuery();
 
         $query->where('unpublish_on <= :date')->where('published = :published')->where('unpublish_on IS NOT NULL')
             ->values('published = :value')
-            ->bind(array('date'      => $date->format('Y-m-d H:i:s'),
+            ->bind(array('date'      => $this->_date->format('Y-m-d H:i:s'),
                          'published' => 1,
                          'value'     => 0));
 

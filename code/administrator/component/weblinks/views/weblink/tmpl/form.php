@@ -14,8 +14,8 @@
 <?= @template('com://admin/default.view.form.toolbar'); ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
-<style src="media://lib_koowa/css/koowa.css" />
+<script src="media://koowa/js/koowa.js" />
+<style src="media://koowa/css/koowa.css" />
 -->
 <form action="" method="post" id="weblink-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $weblink->id ?>" />

@@ -9,7 +9,7 @@
 ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
+<script src="media://koowa/js/koowa.js" />
 -->
 
 <link href="<?= @route('format=rss') ?>" rel="alternate" type="application/rss+xml" />

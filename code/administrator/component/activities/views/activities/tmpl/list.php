@@ -9,7 +9,7 @@
  */
 ?>
 
-<style src="media://com_activities/css/activities-list.css" />
+<style src="media://activities/css/activities-list.css" />
 
 <div id="activities-list">
     <?= @template('default_scopebar') ?>

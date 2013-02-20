@@ -9,8 +9,8 @@
  */
 ?>
 
-<style src="media://com_debug/css/debug-default.css" />
-<script src="media://com_debug/js/debug.js" />
+<style src="media://debug/css/debug-default.css" />
+<script src="media://debug/js/debug.js" />
 
 <div id="debug" class="profiler">
 <a class="close" title="<?= @text("press 'd' to bring the debug bar back up") ?>"></a>

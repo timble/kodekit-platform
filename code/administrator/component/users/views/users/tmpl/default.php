@@ -10,8 +10,8 @@
 ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
-<style src="media://lib_koowa/css/koowa.css" />
+<script src="media://koowa/js/koowa.js" />
+<style src="media://koowa/css/koowa.css" />
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar'); ?>
@@ -75,7 +75,7 @@
 					</a>
 				</td>
 				<td align="center">
-					<img src="media://lib_koowa/images/<?= $user->loggedin ? 'tick.png' : 'publish_x.png' ?>" border="0" />
+					<img src="media://koowa/images/<?= $user->loggedin ? 'tick.png' : 'publish_x.png' ?>" border="0" />
 				</td>
 				<td align="center">
 					<?= @helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>

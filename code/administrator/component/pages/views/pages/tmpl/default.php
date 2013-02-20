@@ -9,8 +9,8 @@
 ?>
 
 <!--
-<script src="media://lib_koowa/js/koowa.js" />
-<style src="media://lib_koowa/css/koowa.css" />
+<script src="media://koowa/js/koowa.js" />
+<style src="media://koowa/css/koowa.css" />
 -->
 
 <?= @template('com://admin/default.view.grid.toolbar') ?>
@@ -75,7 +75,7 @@
                         <?= @escape($page->title) ?>
                     </a>
                     <? if($page->home) : ?>
-                        <img src="media://lib_koowa/images/star.png" alt="<?= @text('Default') ?>" />
+                        <img src="media://koowa/images/star.png" alt="<?= @text('Default') ?>" />
                     <? endif ?>
                     <? if($page->access) : ?>
                         <span class="label label-important"><?= @text('Registered') ?></span>

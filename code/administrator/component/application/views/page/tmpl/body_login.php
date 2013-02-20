@@ -11,7 +11,7 @@
 <body class="com_<?= $component ?> login">
 <div id="container">
     <div id="login-box" class="login">
-		<img src="media://com_application/images/nooku-server_logo.png" alt="Nooku Server logo">
+		<img src="media://application/images/nooku-server_logo.png" alt="Nooku Server logo">
 		<?= @template('default_message') ?>
 		<div id="section-box">
 			<ktml:variable name="content" />
@@ -22,6 +22,6 @@
 	</div>
 </div>
 
-<script data-inline src="media://com_application/js/chosen.mootools.1.2.js" /></script>
+<script data-inline src="media://application/js/chosen.mootools.1.2.js" /></script>
 <script data-inline> $$(".chzn-select").chosen(); </script>
 </body>

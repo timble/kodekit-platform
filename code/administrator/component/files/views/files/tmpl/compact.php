@@ -10,10 +10,10 @@
 
 <?= @template('com://admin/files.views.files.initialize'); ?>
 
-<script src="media://com_files/js/files.compact.js" />
+<script src="media://files/js/files.compact.js" />
 
-<style src="media://com_files/css/files.css" />
-<style src="media://com_files/css/files.compact.css" />
+<style src="media://files/css/files.css" />
+<style src="media://files/css/files.compact.css" />
 <style>
     #files-compact #details {
         height: 388px \0/; /* IE needs this */

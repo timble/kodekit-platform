@@ -8,12 +8,12 @@
  */
 ?>
 
-<style src="media://com_files/css/files-layout-icons.css" />
+<style src="media://files/css/files-layout-icons.css" />
 
 <textarea style="display: none" id="file_preview">
     <div class="files-preview">
         <div class="preview extension-[%=metadata.extension%]">
-            <img src="media://com_files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
+            <img src="media://files/images/document-64.png" width="64" height="64" alt="[%=name%]" border="0" />
         </div>
         <div class="details">
             <a href="[%=baseurl+'/'+filepath%]" target="_blank"><?= @text('View'); ?></a>

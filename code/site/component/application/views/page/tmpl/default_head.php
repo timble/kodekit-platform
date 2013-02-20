@@ -19,12 +19,12 @@
 <ktml:style />
 <ktml:script />
 
-<link href="media://com_application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-<style src="media://com_application/css/system.css"  />
-<style src="media://com_application/css/general.css"  />
-<style src="media://com_application/css/default.css" />
-<style src="media://com_application/css/print.css" media="print" />
+<style src="media://application/css/system.css"  />
+<style src="media://application/css/general.css"  />
+<style src="media://application/css/default.css" />
+<style src="media://application/css/print.css" media="print" />
 
 
 

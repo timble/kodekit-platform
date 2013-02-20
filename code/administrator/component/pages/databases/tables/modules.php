@@ -29,8 +29,8 @@ class ComPagesDatabaseTableModules extends KDatabaseTableDefault
             'filters' => array(
                 'content' => array('html', 'tidy'),
                 'params'  => 'ini' 
-                )
-            ));
+            )
+        ));
      
         parent::_initialize($config);
     }
@@ -47,9 +47,9 @@ class ComPagesDatabaseTableModules extends KDatabaseTableDefault
 	{
 		$defaults = parent::getDefaults();
 		
-		$defaults['position']		= 'left';
-		$defaults['published']		= 1;
-		$defaults['description']	= '';
+		$defaults['position']    = 'left';
+		$defaults['published']	 = 1;
+		$defaults['description'] = '';
 	     
 		return $defaults;
 	}

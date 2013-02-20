@@ -8,7 +8,7 @@
  */
 ?>
 
-<script src="media://lib_koowa/js/koowa.js" />
+<script src="media://koowa/js/koowa.js" />
 <?= @helper('behavior.validator') ?>
 
 <?= @template('com://admin/default.view.form.toolbar') ?>

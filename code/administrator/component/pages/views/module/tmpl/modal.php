@@ -8,7 +8,7 @@
  */
 ?>
 
-<script src="media://com_pages/js/module.js" />
+<script src="media://pages/js/module.js" />
 
 <script>
 window.addEvent('domready', (function() {
