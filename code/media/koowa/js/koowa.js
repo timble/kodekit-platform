@@ -679,7 +679,6 @@ Koowa.Overlay = new Class({
                 scripts += arguments[1] + '\n';
                 return '';
             });
-            //this._tmp_scripts = scripts;
         }
         return this.parent(text);
     }
