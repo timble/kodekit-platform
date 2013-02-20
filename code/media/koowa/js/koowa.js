@@ -578,45 +578,27 @@ Koowa.Overlay = new Class({
             if (this.options.evalScripts) {
             	scripts = element.getElements('script[type=text/javascript]');
                 scripts = scripts.filter(function(script) {
-                    var src = script.src.replace(location.origin, '');
-                    if(script.src && document.head.getElement('script[src$='+src+']')) return false;
+                    if(!script.src) return false;
+                    if(document.head.getElement('script[src$='+script.src.replace(location.origin, '')+']')) return false;
                     return true;
                 });
                 if(scripts.length) {
-                    //Remove existing domready events as they've fired by now anyway
-                    delete window.retrieve('events').domready;
-console.warn(scripts.length);
                     var self = this, script = scripts.shift(), loadScript = function(script){
-                        var options = {
-                            id: script.id,
-                            type: script.type,
-                            //text: script.innerText,
-                            onLoad: function(){
-                                console.error(scripts.length, script.src, script.innerText);
-                                if(scripts.length) {
-                                    tmp = scripts.shift();
-                                    loadScript(tmp);
-                                } else {
-                                    window.fireEvent('domready');
-                                }
-                            }
-                        };
-                        console.warn(options);
-                        if(script.innerText) {
-                            //$exec(script.innerText.trim());
-                        }
-                        if(script.src) {
-                            console.log('got src');
-                            try {
-                                new Asset.javascript(script.src, options);
-                            } catch(error)
-                            {
-                                console.error(error);
-                            }
-                        } else {
-                            options.onLoad();
-                        }
+                        new Asset.javascript(script.src, {id: script.id, onload: function(){
+                            if(scripts.length) {
+                                script = scripts.shift();
+                                loadScript(script);
+                            } else {
+                                //Remove existing domready events as they've fired by now anyway
+                                delete window.retrieve('events').domready;
 
+                                if(self._tmp_scripts) {
+                                    $exec(self._tmp_scripts);
+                                }
+
+                                window.fireEvent('domready');
+                            }
+                        }});
                     };
                     loadScript(script);
                 };
@@ -680,9 +662,8 @@ console.warn(scripts.length);
     
     processScripts: function(text){
         if(this.options.evalScripts) {
-            var i = 0, scripts, text = text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, function(){
+            var scripts, text = text.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, function(){
     			scripts += arguments[1] + '\n';
-                i++;
     			return '';
     		});
     		this._tmp_scripts = scripts;
