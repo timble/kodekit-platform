@@ -10,10 +10,4 @@
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
 	<version>12.2</version>
 	<description>Administration template for Nooku Server</description>
-	<params>
-		<param name="flexBox" type="list" default="yes" label="Flexible Box Model" description="Flexible Box Model">
-			<option value="1">Yes</option>
-			<option value="0">no</option>
-		</param>
-	</params>
 </install>

@@ -10,19 +10,4 @@
 	<license>GNU GPLv3</license>
 	<version>1.0.2</version>
 	<description>Bootstrap</description>
-	<positions>
-		<position>breadcrumb</position>
-		<position>left</position>
-		<position>right</position>
-		<position>top</position>
-		<position>user1</position>
-		<position>user2</position>
-		<position>user3</position>
-		<position>user4</position>
-		<position>footer</position>
-		<position>debug</position>
-		<position>syndicate</position>
-	</positions>
-	<params>
-	</params>
 </install>
