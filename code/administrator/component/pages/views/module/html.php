@@ -39,7 +39,7 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
             if($module->isNew())
             {
                 $module->application = $model->application;
-                $module->name = $model->name;
+                $module->name        = $model->name;
             }
 
             $path = $this->getIdentifier()->getApplication($module->application);

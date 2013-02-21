@@ -84,7 +84,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     /**
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      * @return ComPagesTemplateFilterModule
      */
     public function write(&$text)
@@ -98,7 +98,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     /**
      * Parse <ktml:module></ktml:module> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      */
     public function _parseModuleTags(&$text)
     {
@@ -124,8 +124,8 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'position'   => $attributes['position'],
                     'params'     => $attributes['params'],
                     'title'      => $attributes['title'],
-                    'name'       => 'mod_default',
-                    'identifier' => $this->getIdentifier('com://admin/default.module.default.html'),
+                    'name'       => 'mod_dynamic',
+                    'identifier' => $this->getIdentifier('com://admin/pages.module.dynamic.html'),
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
@@ -140,7 +140,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     /**
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
-     * @param string Block of text to parse
+     * @param string $text Block of text to parse
      */
     public function _parseModulesTags(&$text)
     {

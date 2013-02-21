@@ -124,8 +124,8 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                     'position'   => $attributes['position'],
                     'params'     => $attributes['params'],
                     'title'      => $attributes['title'],
-                    'name'       => 'mod_default',
-                    'identifier' => $this->getIdentifier('com://site/default.module.default.html'),
+                    'name'       => 'mod_dynamic',
+                    'identifier' => $this->getIdentifier('com://site/pages.module.dynamic.html'),
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 

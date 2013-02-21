@@ -119,7 +119,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $options = array();
 
         $path = $this->getIdentifier()->getApplication('site');
-        $path = $path.'/template/bootstrap/bootstrap.xml';
+        $path = $path.'/public/theme/bootstrap/config.xml';
 
         if (file_exists($path))
         {

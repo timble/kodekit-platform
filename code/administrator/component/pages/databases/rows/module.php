@@ -87,7 +87,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
             $path = dirname($this->identifier->filepath);
-            $file = $path.'/'.basename($path).'.xml';
+            $file = $path.'/config.xml';
 
 	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'module' );
         }
