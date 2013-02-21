@@ -96,8 +96,8 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
         {
             $options = !empty($config->options) ? $config->options->toArray() : array();
             $html .= "
-                <script src=\"/administrator/template/default/js/sortables.js\" />
-                <style src=\"/administrator/template/default/css/sortables.css\" />
+                <script src=\"/administrator/public/theme/bootstrap/js/sortables.js\" />
+                <style src=\"/administrator/public/theme/bootstrap/css/sortables.css\" />
 				<script>
 				(function(){
 					var sortable = function() {
