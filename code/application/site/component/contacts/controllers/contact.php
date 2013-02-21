@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * @package     Nooku_Server
  * @subpackage  Contacts
