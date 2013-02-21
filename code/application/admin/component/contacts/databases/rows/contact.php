@@ -23,7 +23,7 @@ class ComContactsDatabaseRowContact extends KDatabaseRowTable
 	{
 	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-	        $file = JPATH_BASE.'/components/com_contacts/databases/rows/contact.xml';
+	        $file = __DIR__.'/contact.xml';
 
 			$params	= new JParameter($this->_data['params']);
 			$params->loadSetupFile($file);
