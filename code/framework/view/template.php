@@ -172,15 +172,12 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function display()
     {
-        if (empty($this->_content))
-        {
-            $identifier = clone $this->getIdentifier();
-            $identifier->name = $this->getLayout();
+        $identifier = clone $this->getIdentifier();
+        $identifier->name = $this->getLayout();
 
-            $this->_content = $this->getTemplate()
-                ->loadIdentifier($identifier, $this->_data)
-                ->render();
-        }
+        $this->_content = $this->getTemplate()
+            ->loadIdentifier($identifier, $this->_data)
+            ->render();
 
         return parent::display();
     }

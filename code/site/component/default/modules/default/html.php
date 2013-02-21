@@ -21,7 +21,7 @@ class ComDefaultModuleDefaultHtml extends KViewTemplate
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   KConfig $config An optional KConfig object with configuration options
      * @return  void
      */
     protected function _initialize(KConfig $config)
@@ -57,10 +57,10 @@ class ComDefaultModuleDefaultHtml extends KViewTemplate
      *
      * This function force the route to be not fully qualified and not escaped
      *
-     * @param    string    The query string used to create the route
-     * @param     boolean    If TRUE create a fully qualified route. Default FALSE.
-     * @param     boolean    If TRUE escapes the route for xml compliance. Default FALSE.
-     * @return     string     The route
+     * @param   string  $route      The query string used to create the route
+     * @param   boolean $fqr        If TRUE create a fully qualified route. Default FALSE.
+     * @param   boolean $escape     If TRUE escapes the route for xml compliance. Default FALSE.
+     * @return  string  The route
      */
     public function getRoute($route = '', $fqr = null, $escape = null)
     {
