@@ -9,13 +9,4 @@
 	<authorUrl>www.nooku.org</authorUrl>
 	<version>12.3</version>
 	<description>This module displays a login form.</description>
-	<params>
-		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
-			<option value="0">Never</option>
-		</param>
-		<param name="usesecure" type="radio" default="0" label="Encrypt Login Form" description="Submit encrypted login data (requires SSL)">
-			<option value="0">No</option>
-			<option value="1">Yes</option>
-		</param>
-	</params>
 </install>
