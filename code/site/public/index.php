@@ -9,7 +9,7 @@
 // Set flag that this is a parent file
 define( '_JEXEC', 1 );
 
-define('JPATH_APPLICATION'  , dirname(__FILE__) );
+define('JPATH_APPLICATION'  , dirname(dirname(__FILE__)));
 define('JPATH_BASE'         , JPATH_APPLICATION);
 define('JPATH_ROOT'         , dirname(JPATH_APPLICATION));
 define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
@@ -17,7 +17,7 @@ define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once(JPATH_APPLICATION.'/bootstrap.php' );
+require_once(dirname(__FILE__).'/bootstrap.php' );
 
 //Nooku Server identification information
 header('X-Nooku-Server: version='.Koowa::VERSION);

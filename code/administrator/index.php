@@ -6,19 +6,5 @@
  * @link        http://www.nooku.org
  */
 
-// Set flag that this is a parent file
-define( '_JEXEC', 1 );
+require_once(dirname(__FILE__).'/public/index.php' );
 
-define('JPATH_APPLICATION'  , dirname(__FILE__) );
-define('JPATH_BASE'         , JPATH_APPLICATION );
-define('JPATH_ROOT'         , dirname(JPATH_APPLICATION));
-
-define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
-define('JPATH_SITES'        , JPATH_ROOT.'/sites');
-
-define( 'DS', DIRECTORY_SEPARATOR );
-
-require_once(JPATH_APPLICATION.'/bootstrap.php' );
-
-KService::get('loader')->loadIdentifier('com://admin/application.aliases');
-KService::get('application')->run();

@@ -6,4 +6,4 @@
  * @link        http://www.nooku.org
  */
 
-require_once(dirname(__FILE__).'/site/index.php' );
+require_once(dirname(__FILE__).'/site/public/index.php' );
