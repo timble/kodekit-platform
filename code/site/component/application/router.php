@@ -19,7 +19,7 @@ class ComApplicationRouter extends KDispatcherRouter
     public function parse(KHttpUrl $url)
 	{
 		// Get the path
-		$path = $url->getPath();
+        $path = trim($url->getPath(), '/');
 
         //Remove base path
         $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBasePath()));
@@ -66,7 +66,7 @@ class ComApplicationRouter extends KDispatcherRouter
 	{
         $this->_parseSiteRoute($url);
         $this->_parsePageRoute($url);
-        $this->_parseViewRoute($url);
+        $this->_parseComponentRoute($url);
 
 		return true;
 	}
@@ -120,7 +120,7 @@ class ComApplicationRouter extends KDispatcherRouter
         return true;
     }
 
-    protected function _parseViewRoute($url)
+    protected function _parseComponentRoute($url)
     {
         $route = $url->path;
 
@@ -154,7 +154,7 @@ class ComApplicationRouter extends KDispatcherRouter
 	{
         $segments = array();
 
-        $view = $this->_buildViewRoute($url);
+        $view = $this->_buildComponentRoute($url);
         $page = $this->_buildPageRoute($url);
         $site = $this->_buildSiteRoute($url);
 
@@ -170,7 +170,7 @@ class ComApplicationRouter extends KDispatcherRouter
         return true;
 	}
 
-    protected function _buildViewRoute($url)
+    protected function _buildComponentRoute($url)
     {
         $segments = array();
 

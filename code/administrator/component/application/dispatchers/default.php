@@ -270,9 +270,10 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         //Re-create the session if we changed sites
         if($context->user->isAuthentic() && ($session->site != $this->getSite()))
         {
-            if(!$this->getService('com://admin/users.controller.session')->add()) {
-                $session->destroy();
-            }
+            //@TODO : Fix this
+            //if(!$this->getService('com://admin/users.controller.session')->add()) {
+            //    $session->destroy();
+            //}
         }
     }
 
@@ -408,8 +409,8 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     /**
      * Find the site name
      *
-     * This function tries to get the site name based on the information present in the request.
-     * If no site can be found it will return 'default'.
+     * This function tries to get the site name based on the information present in the request. If no site can be found
+     * it will return 'default'.
      *
      * @return string   The site name
      */
@@ -417,22 +418,21 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     {
         // Check URL host
         $uri  = clone(JURI::getInstance());
-        $site = 'default';
 
         $host = $uri->getHost();
         if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($host))
         {
-            if($this->getRequest()->isGet()) {
-                $request = $this->getRequest()->getQuery()->get('site', 'cmd');
+           // Check folder
+           $path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
+           if(!empty($path)) {
+                $site = array_shift(explode('/', $path));
             } else {
-                $request = $this->getRequest()->getData()->get('site', 'cmd');
+                $site = 'default';
             }
 
-            if($request)
-            {
-                if($this->getService('com://admin/sites.model.sites')->getRowset()->find($request)) {
-                    $site = $request;
-                }
+            //Check if the site can be found, otherwise use 'default'
+            if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($site)) {
+                $site = 'default';
             }
 
         } else $site = $host;

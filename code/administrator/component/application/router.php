@@ -21,55 +21,25 @@ class ComApplicationRouter extends KDispatcherRouter
         $vars = array();
         $path = trim($url->getPath(), '/');
 
-        //Remove basepath
+        //Remove base path
         $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBasePath()));
 
-        //Remove suffix
-        if(!empty($path))
-        {
-            if($suffix = pathinfo($path, PATHINFO_EXTENSION))
-            {
-                $path = str_replace('.'.$suffix, '', $path);
-                $vars['format'] = $suffix;
-            }
-
-            //Get the segments
-            $segments = explode('/', $path);
+        // Set the format
+        if(!empty($url->format)) {
+            $url->query['format'] = $url->format;
         }
-        
-	    // Find language if more languages are enabled. 
-	    $languages = $this->getService('application.languages');
-        if(count($languages) > 1)
-        {
-	        // Test if the first segment of the path is a language slug.
-	        if(!empty($path) && !empty($segments[0]))
-	        {
-                foreach($languages as $language)
-                {
-                    if($segments[0] == $language->slug)
-                    {
-                        $languages->setActive($language);
-                        
-                        $vars['language'] = array_shift($segments);
-                        $url->setPath(implode($segments, '/'));
-                        break;
-                    }
-                }
-	        }
-	        
-		    // Redirect if language wasn't found.
-            //@TODO : Move redirect out of the dispatcher
-            /*if(empty($path) || !isset($vars['language']))
-            {
-                $redirect  = JURI::base(true).'/'.$languages->getPrimary()->slug;
-                $redirect .= '/'.$path.$url->getQuery();
-                
-                $this->getService('application')->redirect($redirect);
-            }*/
-	    }
 
+        //Parse site route
+        $url->query['site'] = $this->getService('application')->getSite();
+
+        $path = str_replace($url->query['site'], '', $path);
+        $path = ltrim($path, '/');
+
+        //Parse component route
         if(!empty($path))
         {
+            $segments = explode('/', $path);
+
             if(isset($segments[0]))
             {
                 $vars['option'] = 'com_'.$segments[0];
@@ -93,17 +63,13 @@ class ComApplicationRouter extends KDispatcherRouter
         $query    = $url->query;
         $segments = array();
 
-	    // Add language slug if more than languages are enabled.
-	    $languages = $this->getService('application.languages');
-        if(count($languages) > 1)
-        {
-	        if(!isset($query['language'])) {
-	            $segments[] = $languages->getActive()->slug;
-	        } else {
-	            $segments[] = $query['language'];
-	        }
+        //Build site route
+        $site = $this->getService('application')->getSite();
+        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(KHttpUrl::HOST)) {
+            $segments[] = $site;
         }
-	        
+
+	    //Build commponent route
         if(isset($query['option']))
         {
             $segments[] = substr($query['option'], 4);
@@ -120,7 +86,9 @@ class ComApplicationRouter extends KDispatcherRouter
         }
 
         $url->query  = $query;
-        $route       = implode('/', $segments);
+
+        //Build the route
+        $route  = implode('/', $segments);
 
         //Add the format to the uri
         $format = isset($url->query['format']) ? $url->query['format'] : 'html';

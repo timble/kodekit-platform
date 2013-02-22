@@ -338,9 +338,10 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         //Re-create the session if we changed sites
         if($context->user->isAuthentic() && ($session->site != $this->getSite()))
         {
-            if(!$this->getService('com://admin/users.controller.session')->add()) {
-                $session->destroy();
-            }
+            //@TODO : Fix this
+            //if(!$this->getService('com://admin/users.controller.session')->add()) {
+            //    $session->destroy();
+            //}
         }
     }
 
@@ -583,20 +584,21 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     {
         // Check URL host
         $uri  = clone(JURI::getInstance());
-        $site = 'default';
 
         $host = $uri->getHost();
         if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($host))
         {
             // Check folder
             $path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
-            if(!empty($path))
-            {
-                $folder = array_shift(explode('/', $path));
+            if(!empty($path)) {
+                $site = array_shift(explode('/', $path));
+            } else {
+                $site = 'default';
+            }
 
-                if($this->getService('com://admin/sites.model.sites')->getRowset()->find($folder)) {
-                    $site = $folder;
-                }
+            //Check if the site can be found, otherwise use 'default'
+            if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($site)) {
+                $site = 'default';
             }
 
         } else $site = $host;

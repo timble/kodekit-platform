@@ -29,12 +29,13 @@ class ComUsersDispatcherDefault extends ComDefaultDispatcherDefault
     protected function _actionDispatch(KCommandContext $context)
 	{
         if($context->user->isAuthentic() && $context->request->isGet())
-        {  
+        {
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
-                $context->response->setRedirect($context->response->getReferrer(), 'You are already logged in!');
-                return false;
+                //@TODO : Fix the redirect
+                //$context->response->setRedirect($context->request->getReferrer(), 'You are already logged in!');
+                //return false;
             }
         }
        

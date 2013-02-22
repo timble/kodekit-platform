@@ -29,13 +29,5 @@
             <input name="password" type="password" id="password" class="inputbox" placeholder="<?= @text('Password') ?>" />
        </div>
    </div>
-   <? if(@service('application')->getSite() == 'default') : ?>
-   <div class="control-group">
-       <label class="control-label" for="site"><?= @text('Site'); ?></label>
-       <div class="controls">
-            <?= @service('com://admin/sites.template.helper.listbox')->sites(array('attribs' => array('class' => 'chzn-select'))); ?>
-       </div>
-   </div>
-   <? endif ?>
    <input type="submit" class="btn btn-large btn-block" value="<?= @text('Login') ?>" />
 </form>
