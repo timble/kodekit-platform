@@ -97,7 +97,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             'site'      => null,
             'options'   => array(
                 'session_name' => 'site',
-                'config_file'  => JPATH_SITES.'/config.php',
+                'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
                 'theme'        => 'bootstrap'
             ),
@@ -144,8 +144,8 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         //Set the paths
         $params = $this->getService('application.components')->files->params;
 
-        define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite());
-        define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/'.$params->get('image_path', 'images'));
+        define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/data');
+        define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/data/'.$params->get('image_path', 'images'));
         define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
         // Set timezone to user's setting, falling back to global configuration.
@@ -292,7 +292,7 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
             JFactory::getConfig()->loadObject(new JConfig());
 
             //Load the site config settings
-            require_once( JPATH_SITES.'/'.$this->getSite().'/config.php');
+            require_once( JPATH_SITES.'/'.$this->getSite().'/config/config.php');
             JFactory::getConfig()->loadObject(new JSiteConfig());
         }
         else throw new KControllerExceptionNotFound('Site :'.$this->getSite().' not found');

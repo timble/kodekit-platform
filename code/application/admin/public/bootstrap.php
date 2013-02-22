@@ -16,7 +16,7 @@
  */
 
 //Installation check
-if (!file_exists(JPATH_SITES . '/config.php') || (filesize(JPATH_SITES . '/config.php') < 10)) {
+if (!file_exists(JPATH_ROOT . '/config/config.php') || (filesize(JPATH_ROOT . '/config/config.php') < 10)) {
     echo 'No configuration file found. Exciting...';
     exit();
 }
@@ -30,7 +30,7 @@ jimport('joomla.utilities.utility');
 jimport('joomla.language.language');
 
 // Koowa : setup
-require_once JPATH_SITES . '/config.php';
+require_once JPATH_ROOT . '/config/config.php';
 $config = new JConfig();
 
 require_once(JPATH_ROOT . '/framework/koowa.php');
