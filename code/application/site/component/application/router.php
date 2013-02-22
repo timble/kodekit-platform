@@ -128,20 +128,17 @@ class ComApplicationRouter extends KDispatcherRouter
         {
             if(!empty($route))
             {
-                //Store the default
-                $defaults = array(
-                    'option' => $url->query['option'],
-                    'Itemid' => $url->query['Itemid']
-                );
-
                 //Get the router identifier
                 $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
 
                 //Parse the view route
-                $vars = $this->getService($identifier)->parseRoute($route);
+                $query = $this->getService($identifier)->parseRoute($route);
 
-                //Merge default and vars
-                $url->query = array_merge($defaults, $vars);
+                //Prevent option and/or itemid from being override by the commponent router
+                $query['option'] = $url->query['option'];
+                $query['Itemid'] = $url->query['Itemid'];
+
+                $url->setQuery($query, true);
             }
         }
 
