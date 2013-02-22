@@ -6,4 +6,6 @@
  * @link        http://www.nooku.org
  */
 
-require_once(dirname(__FILE__).'/site/public/index.php' );
+define('JPATH_ROOT', __DIR__);
+
+require_once(JPATH_ROOT.'/application/site/public/index.php' );

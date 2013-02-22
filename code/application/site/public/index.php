@@ -9,16 +9,18 @@
 // Set flag that this is a parent file
 define( '_JEXEC', 1 );
 
-define('JPATH_APPLICATION'  , dirname(dirname(__FILE__)));
+define('JPATH_APPLICATION'  , JPATH_ROOT.'/application/site');
 define('JPATH_BASE'         , JPATH_APPLICATION );
-define('JPATH_ROOT'         , dirname(JPATH_APPLICATION));
 
 define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
 define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
-require_once(dirname(__FILE__).'/bootstrap.php' );
+require_once(__DIR__.'/bootstrap.php' );
 
-KService::get('loader')->loadIdentifier('com://admin/application.aliases');
+//Nooku Server identification information
+header('X-Nooku-Server: version='.Koowa::VERSION);
+
+KService::get('loader')->loadIdentifier('com://site/application.aliases');
 KService::get('application')->run();

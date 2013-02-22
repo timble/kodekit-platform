@@ -568,8 +568,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     /**
      * Migrates the current session to a new session id while maintaining all session data
      *
-     * Note : fork and destroy should not clear the session data in memory only delete the session data from
-     * persistent storage.
+     * Note : fork should not clear the session data in memory only delete the session data from persistent storage.
      *
      * @param Boolean $destroy  If TRUE, destroy session when forking.
      * @param integer $lifetime Sets the cookie lifetime for the session cookie. A null value will leave the system

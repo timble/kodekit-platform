@@ -21,8 +21,10 @@ if (!file_exists(JPATH_SITES . '/config.php') || (filesize(JPATH_SITES . '/confi
     exit();
 }
 
+// System includes
+require_once(JPATH_VENDOR.'/joomla/import.php');
+
 // Joomla : setup
-require_once(JPATH_VENDOR . '/joomla/import.php');
 jimport('joomla.environment.uri');
 jimport('joomla.html.html');
 jimport('joomla.html.parameter');
@@ -44,5 +46,5 @@ unset($config);
 KService::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
 KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
 
-KServiceIdentifier::setApplication('site', JPATH_ROOT . '/site');
-KServiceIdentifier::setApplication('admin', JPATH_ROOT . '/administrator');
+KServiceIdentifier::setApplication('site', JPATH_ROOT . '/application/site');
+KServiceIdentifier::setApplication('admin', JPATH_ROOT . '/application/admin');

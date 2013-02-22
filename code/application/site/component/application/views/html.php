@@ -21,7 +21,7 @@ class ComApplicationViewHtml extends KViewHtml
     {
         parent::__construct($config);
 
-        $path = (string) KRequest::base().'/public/theme/'.$this->getService('application')->getTheme().'/';
+        $path = (string) KRequest::base().'/application/site/public/theme/'.$this->getService('application')->getTheme().'/';
         $this->getTemplate()->getFilter('alias')->addAlias(
             array($this->_mediaurl.'/application/' => $path), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
         );
@@ -50,4 +50,5 @@ class ComApplicationViewHtml extends KViewHtml
     {
         return 'default';
     }
+
 }
