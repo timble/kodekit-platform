@@ -97,4 +97,15 @@ class ComContactsControllerMessage extends ComDefaultControllerView
 	
 	    return true;
 	}
+
+    public function __call($method, $args)
+    {
+        if($method == 'id')
+        {
+            $this->getView()->id = $args[0];
+            return $this;
+        }
+
+        return parent::__call($method, $args);
+    }
 }
