@@ -26,6 +26,8 @@ CREATE TABLE `#__activities_activities` (
 	KEY `idx-ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
 -- Table structure for table `#__articles`
 --
@@ -60,6 +62,42 @@ CREATE TABLE `#__articles` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__attachments`
+--
+
+CREATE TABLE `#__attachments` (
+  `attachments_attachment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `container` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  `description` text,
+  `created_by` int(11) unsigned DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `modified_by` int(11) unsigned DEFAULT NULL,
+  `modified_on` datetime DEFAULT NULL,
+  `locked_by` int(11) unsigned DEFAULT NULL,
+  `locked_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`attachments_attachment_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__attachments_relations`
+--
+
+CREATE TABLE `#__attachments_relations` (
+  `attachments_attachment_id` int(10) unsigned NOT NULL,
+  `table` varchar(64) NOT NULL,
+  `row` int(10) unsigned NOT NULL,
+  KEY `attachments_attachment_id` (`attachments_attachment_id`),
+  CONSTRAINT `#__attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments_attachments` (`attachments_attachment_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__categories`
 --
 
@@ -89,17 +127,22 @@ CREATE TABLE `#__categories` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__components`
+-- Table structure for table `#__comments`
 --
 
-CREATE TABLE `#__extensions_components` (
-  `extensions_component_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) NOT NULL DEFAULT '',
-  `name` varchar(50) NOT NULL DEFAULT '',
-  `params` text NOT NULL,
-  `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`extensions_component_id`),
-  UNIQUE KEY `name` (`name`)
+CREATE TABLE `#__comments` (
+    `comments_comment_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `table` VARCHAR(64) NOT NULL,
+    `row` INT UNSIGNED NOT NULL,
+    `text` TEXT,
+    `created_on` DATETIME,
+    `created_by` INT UNSIGNED,
+    `modified_on` DATETIME,
+    `modified_by` INT UNSIGNED,
+    `locked_on` DATETIME,
+    `locked_by` INT UNSIGNED,
+    PRIMARY KEY (`comments_comment_id`),
+    INDEX `idx_table_row` (`table`, `row`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -138,6 +181,53 @@ CREATE TABLE `#__contacts` (
   `webpage` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`contacts_contact_id`),
   KEY `category` (`categories_category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__extensions_components`
+--
+
+CREATE TABLE `#__extensions_components` (
+  `extensions_component_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL DEFAULT '',
+  `name` varchar(50) NOT NULL DEFAULT '',
+  `params` text NOT NULL,
+  `enabled` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`extensions_component_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__files_containers`
+--
+
+CREATE TABLE `#__files_containers` (
+  `files_container_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `slug` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `path` varchar(255) NOT NULL,
+  `parameters` text NOT NULL,
+  PRIMARY KEY (`files_container_id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__files_thumbnails`
+--
+
+CREATE TABLE `#__files_thumbnails` (
+  `files_thumbnail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `files_container_id` varchar(255) NOT NULL,
+  `folder` varchar(255) NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `thumbnail` text NOT NULL,
+  PRIMARY KEY (`files_thumbnail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -191,6 +281,42 @@ CREATE TABLE `#__languages_tables` (
     PRIMARY KEY (`languages_table_id`),
     CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`extensions_component_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__pages`
+--
+
+CREATE TABLE `#__pages` (
+  `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pages_menu_id` INT UNSIGNED NOT NULL,
+  `users_group_id` INT UNSIGNED NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `slug` VARCHAR(255),
+  `link_url` TEXT,
+  `link_id` INT UNSIGNED,
+  `type` VARCHAR(50),
+  `published` BOOLEAN NOT NULL DEFAULT 0,
+  `hidden` BOOLEAN NOT NULL DEFAULT 0,
+  `home` BOOLEAN NOT NULL DEFAULT 0,
+  `extensions_component_id` INT UNSIGNED,
+  `created_by` INT UNSIGNED,
+  `created_on` DATETIME,
+  `modified_by` INT UNSIGNED,
+  `modified_on` DATETIME,
+  `locked_by` INT UNSIGNED,
+  `locked_on` DATETIME,
+  `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
+  `params` TEXT,
+  PRIMARY KEY (`pages_page_id`),
+  CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
+  CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+  INDEX `ix_published` (`published`),
+  INDEX `ix_extensions_component_id` (`extensions_component_id`),
+  INDEX `ix_home` (`home`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- --------------------------------------------------------
 
@@ -291,36 +417,36 @@ CREATE TABLE `#__pages_modules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages`
+-- Table structure for table `#__terms`
 --
 
-CREATE TABLE `#__pages` (
-  `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `pages_menu_id` INT UNSIGNED NOT NULL,
-  `users_group_id` INT UNSIGNED NOT NULL,
-  `title` VARCHAR(255) NOT NULL,
-  `slug` VARCHAR(255),
-  `link_url` TEXT,
-  `link_id` INT UNSIGNED,
-  `type` VARCHAR(50),
-  `published` BOOLEAN NOT NULL DEFAULT 0,
-  `hidden` BOOLEAN NOT NULL DEFAULT 0,
-  `home` BOOLEAN NOT NULL DEFAULT 0,
-  `extensions_component_id` INT UNSIGNED,
-  `created_by` INT UNSIGNED,
-  `created_on` DATETIME,
-  `modified_by` INT UNSIGNED,
-  `modified_on` DATETIME,
-  `locked_by` INT UNSIGNED,
-  `locked_on` DATETIME,
-  `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  `params` TEXT,
-  PRIMARY KEY (`pages_page_id`),
-  CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
-  CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
-  INDEX `ix_published` (`published`),
-  INDEX `ix_extensions_component_id` (`extensions_component_id`),
-  INDEX `ix_home` (`home`)
+CREATE TABLE IF NOT EXISTS `#__terms` (
+	`terms_term_id` bigint(20) unsigned NOT NULL auto_increment,
+	`title` VARCHAR( 255 ) NOT NULL,
+	`slug` VARCHAR( 255 ) NOT NULL,
+	`params` text NOT NULL,
+	`created_by` int(10) unsigned DEFAULT NULL,
+    `created_on` datetime DEFAULT NULL,
+    `modified_by` int(10) unsigned DEFAULT NULL,
+    `modified_on` datetime DEFAULT NULL,
+    `locked_by` int(10) unsigned DEFAULT NULL,
+    `locked_on` datetime DEFAULT NULL,
+	PRIMARY KEY ( `terms_term_id` ) ,
+	UNIQUE KEY ( `slug` ),
+	UNIQUE KEY ( `title` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__terms_relations`
+--
+
+CREATE TABLE IF NOT EXISTS `#__terms_relations` (
+	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
+  	`row` BIGINT(20) UNSIGNED NOT NULL,
+  	`table` VARCHAR( 255 ) NOT NULL,
+  	PRIMARY KEY  (`terms_term_id`,`row`,`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -431,6 +557,23 @@ CREATE TABLE `#__users_passwords` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__versions_revisions`
+--
+
+CREATE TABLE `#__versions_revisions` (
+  `table` varchar(64) NOT NULL,
+  `row` bigint(20) unsigned NOT NULL,
+  `revision` bigint(20) unsigned NOT NULL DEFAULT '1',
+  `created_on` datetime NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `data` longtext NOT NULL COMMENT '@Filter("json")',
+  `status` varchar(100) NOT NULL,
+  PRIMARY KEY  (`table`,`row`,`revision`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__weblinks`
 --
 
@@ -453,56 +596,6 @@ CREATE TABLE `#__weblinks` (
   PRIMARY KEY (`weblinks_weblink_id`),
   KEY `category` (`categories_category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__versions_revisions`
---
-
-CREATE TABLE `#__versions_revisions` (
-  `table` varchar(64) NOT NULL,
-  `row` bigint(20) unsigned NOT NULL,
-  `revision` bigint(20) unsigned NOT NULL DEFAULT '1',
-  `created_on` datetime NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `data` longtext NOT NULL COMMENT '@Filter("json")',
-  `status` varchar(100) NOT NULL,
-  PRIMARY KEY  (`table`,`row`,`revision`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__files_containers`
---
-
-CREATE TABLE `#__files_containers` (
-  `files_container_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `slug` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `path` varchar(255) NOT NULL,
-  `parameters` text NOT NULL,
-  PRIMARY KEY (`files_container_id`),
-  UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__files_thumbnails`
---
-
-CREATE TABLE `#__files_thumbnails` (
-  `files_thumbnail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `files_container_id` varchar(255) NOT NULL,
-  `folder` varchar(255) NOT NULL,
-  `filename` varchar(255) NOT NULL,
-  `thumbnail` text NOT NULL,
-  PRIMARY KEY (`files_thumbnail_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET TIME_ZONE=@OLD_TIME_ZONE;

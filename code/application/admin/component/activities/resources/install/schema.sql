@@ -1,5 +1,10 @@
 
-CREATE TABLE IF NOT EXISTS `#__activities_activities` (
+-- --------------------------------------------------------
+--
+-- Table structure for table `#__activities`
+--
+
+CREATE TABLE `#__activities` (
     `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
     `application` VARCHAR(10) NOT NULL DEFAULT '',
