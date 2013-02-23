@@ -71,14 +71,12 @@ class KViewRss extends KViewTemplate
 	}
 
     /**
-     * Sets the layout name to use
+     * Get the layout to use
      *
-     * @param    string  The template name.
-     * @return   KViewAbstract
+     * @return   string The layout name
      */
-    public function setLayout($layout)
+    public function getLayout()
     {
-        //Don't allow to change the layout
-        return parent::setLayout($this->_layout);
+        return 'rss';
     }
 }
