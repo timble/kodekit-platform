@@ -165,16 +165,20 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
     {
         $url = clone $context->request->getUrl();
 
+        //Parse the route
+        $this->getRouter()->parse($url);
+
         $pages = $this->getService('application.pages');
 
+        //Redirect the default page
         if(!$context->request->isAjax())
         {
             // Get the route based on the path
-            $search = array(KRequest::base()->getPath(), $this->getSite());
+            $search = array($context->request->getBasePath(), $this->getSite());
             $route  = trim(str_replace($search, '', $url->toString(KHttpURL::PATH + KHttpURL::FORMAT)), '/');
 
             //Redirect to the default menu item if the route is empty
-            if(strpos($route, $pages->getHome()->route) === 0)
+            if(strpos($route, $pages->getHome()->route) === 0 && $context->request->getFormat() == 'html')
             {
                 $url = $pages->getHome()->getLink();
                 $url->query['Itemid'] = $pages->getHome()->id;
@@ -185,9 +189,6 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
                 $this->send($context);
             }
         }
-
-        //Parse the route
-        $this->getRouter()->parse($url);
 
         // Redirect if page type is redirect.
         if(($page = $pages->getActive()) && $page->type == 'redirect')
