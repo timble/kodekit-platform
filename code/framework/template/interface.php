@@ -34,7 +34,7 @@ interface KTemplateInterface
      * @return	string
      */
     public function getPath();
-	
+
 	/**
 	 * Get the template data
 	 * 
@@ -65,19 +65,6 @@ interface KTemplateInterface
      * @return KTemplateAbstract
      */
 	public function setView($view);
-
-    /**
-     * Load a template by identifier
-     *
-     * This functions only accepts full identifiers of the format
-     * -  com:[//application/]component.view.[.path].name
-     *
-     * @param   string   $template  The template identifier
-     * @param   array    $data      An associative array of data to be extracted in local template scope
-     * @throws \InvalidArgumentException If the template could not be found
-     * @return KTemplateAbstract
-     */
-	public function loadIdentifier($template, $data = array());
 
     /**
      * Load a template by path

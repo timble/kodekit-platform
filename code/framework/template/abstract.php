@@ -15,13 +15,6 @@
 abstract class KTemplateAbstract extends KObject implements KTemplateInterface
 {
     /**
-     * The template path
-     *
-     * @var string
-     */
-    protected $_path;
-
-    /**
      * The template data
      *
      * @var array
@@ -50,14 +43,14 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     protected $_view;
 
     /**
-     * Counter
+     * Template stack
      *
-     * Used to track recursive calls during template evaluation
+     * Used to track recursive loadFile calls during template evaluation
      *
-     * @var int
-     * @see _evaluate()
+     * @var array
+     * @see loadFile()
      */
-    private $__counter;
+    protected $_stack;
 
     /**
      * Constructor
@@ -83,7 +76,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $this->attachFilter($config->filters);
 
         //Reset the counter
-        $this->__counter = 0;
+        $this->_stack = array();
     }
 
     /**
@@ -109,16 +102,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Get the template path
-     *
-     * @return  string
-     */
-    public function getPath()
-    {
-        return $this->_path;
-    }
-
-    /**
      * Get the template data
      *
      * @return  mixed
@@ -136,6 +119,16 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     public function getContent()
     {
         return $this->_content;
+    }
+
+    /**
+     * Get the template file identifier
+     *
+     * @return	string
+     */
+    public function getPath()
+    {
+        return current($this->_stack);
     }
 
     /**
@@ -195,51 +188,44 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     }
 
     /**
-     * Load a template by identifier
+     * Load a template by path
      *
-     * This functions only accepts full identifiers of the format
-     * -  com:[//application/]component.view.[.path].name
-     *
-     * @param   string   $template  The template identifier
-     * @param   array    $data      An associative array of data to be extracted in local template scope
+     * @param   string  $path     The template path
+     * @param   array   $data     An associative array of data to be extracted in local template scope
      * @throws \InvalidArgumentException If the template could not be found
      * @return KTemplateAbstract
      */
-    public function loadIdentifier($template, $data = array())
+    public function loadFile($file, $data = array())
     {
-        //Find the template
-        $identifier = $this->getIdentifier($template);
-
-        if ($identifier->filepath === false) {
-            throw new \InvalidArgumentException('Template "' . $identifier->name . '" not found');
+        if(strpos($file, 'com://') === 0)
+        {
+            $info  = pathinfo( $file );
+            $path  = $this->getIdentifier($info['dirname'].'/'.$info['filename'])->filepath;
+            $path  = str_replace('.php', '.'.$info['extension'].'.php', $path);
+        }
+        else
+        {
+            $path  = dirname($this->getPath());
+            $path .= '/'.$file.'.php';
         }
 
-        // Load the file
-        $this->loadFile($identifier->filepath, $data);
+        //Find the template
+        $template = $this->findFile($path);
 
-        return $this;
-    }
+        //Check of the file exists
+        if (!file_exists($template)) {
+            throw new \InvalidArgumentException('Template "' . $template . '" not found');
+        }
 
-    /**
-     * Load a template by path
-     *
-     * @param   string  $file     The template path
-     * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @return KTemplateAbstract
-     */
-    public function loadFile($path, $data = array())
-    {
-        //Store the original path
-        $this->_path = $path;
+        //Push the path on the stack
+        array_push($this->_stack, $path);
 
-        //Find the file
-        $file = $this->findFile($path);
-
-        //Get the file contents
-        $contents = file_get_contents($file);
-
-        //Load the contents
+        //Load the file
+        $contents = file_get_contents($template);
         $this->loadString($contents, $data);
+
+        //Pop the path of the stack
+        array_pop($this->_stack);
 
         return $this;
     }
@@ -255,11 +241,11 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     {
         $this->_content = $string;
 
-        // Merge the data
+        //Merge the data
         $this->_data = array_merge((array)$this->_data, $data);
 
-        // Process inline templates
-        if($this->__counter > 0) {
+        //Render subtemplates
+        if(count($this->_stack)) {
             $this->render();
         }
 
@@ -280,7 +266,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $this->_evaluate($this->_content);
 
         //Process the template only at the end of the render cycle.
-        if($this->__counter == 0) {
+        if(!count($this->_stack)) {
             $this->_process($this->_content);
         }
 
@@ -294,7 +280,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     public function isRendering()
     {
-        return (bool) $this->_counter;
+        return (bool) count($this->_stack);
     }
 
     /**
@@ -473,9 +459,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
      */
     protected function _evaluate(&$content)
     {
-        //Increase counter
-        $this->__counter++;
-
         //Create temporary file
         $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
         $this->getService('loader')->setAlias($this->getPath(), $tempfile);
@@ -493,9 +476,6 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         $content = ob_get_clean();
 
         unlink($tempfile);
-
-        //Reduce counter
-        $this->__counter--;;
     }
 
     /**

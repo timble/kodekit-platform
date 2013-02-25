@@ -119,7 +119,7 @@ abstract class KViewTemplate extends KViewAbstract
             'escape'           => 'htmlspecialchars',
             'layout'           => '',
             'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'alias', 'variable', 'template'),
+            'template_filters' => array('shorttag', 'alias', 'variable'),
             'auto_assign'      => true,
             'media_url'        => '/media',
         ));
@@ -172,11 +172,14 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function display()
     {
+        $layout     = $this->getLayout();
+        $format     = $this->getFormat();
+
         $identifier = clone $this->getIdentifier();
-        $identifier->name = $this->getLayout();
+        $identifier->name = $layout.'.'.$format;
 
         $this->_content = $this->getTemplate()
-            ->loadIdentifier($identifier, $this->_data)
+            ->loadFile($identifier, $this->_data)
             ->render();
 
         return parent::display();
