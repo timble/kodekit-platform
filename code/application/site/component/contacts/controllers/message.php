@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * @package     Nooku_Server
  * @subpackage  Contacts
@@ -16,86 +16,52 @@
  */
 class ComContactsControllerMessage extends ComDefaultControllerView
 { 
-    protected function _actionSend(KCommandContext $context)
+    protected function _actionAdd(KCommandContext $context)
 	{
-	    /*$name          = $context->data->name;
-	    $email         = $context->data->email;
-	    $body          = $context->data->text;
-	    $subject       = $context->data->subject;
-	    $emailcopy     = $context->data->email_copy;
-	
-	    $mainframe =$this->getService('application');
-	    
-	    $SiteName = $mainframe->getCfg('sitename');
-	    $default  = JText::sprintf( 'MAILENQUIRY', $SiteName );
-	
-	    if($emailto == '' && $userid != 0)
-	    {
-	        $contact_user = JUser::getInstance($userid);
-	        $emailto = $contact_user->get('email');
-	    }
-	
-	    jimport('joomla.mail.helper');
-	    if (!$email || !$body || (JMailHelper::isEmailAddress($email) == false))
-	    {
-	        $mainframe->enqueueMessage(JText::_('CONTACT_FORM_NC'));
-	        $this->display();
-	        return false;
-	    }
-	
-	    $contact = $this->getService('com://site/contacts.model.contacts')->set('id', $id)->getRow();
-	
-	    $params = $mainframe->getParams('com_contact');
-	    
-	    $MailFrom = $mainframe->getCfg('mailfrom');
-	    $FromName = $mainframe->getCfg('fromname');
-	
-	    // Prepare email body
-	    $prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
-	    $body   = $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
-	
-	    $mail = JFactory::getMailer();
-	    
-	    $mail->addRecipient( $emailto );
-	    $mail->setSender( array( $email, $name ) );
-	    $mail->setSubject( $FromName.': '.$subject );
-	    $mail->setBody( $body );
-	
-	    $sent = $mail->Send();
-	
-	    //Copy administrator.
-	    if ( $emailcopy && $showemailcopy )
-	    {
-	    	$copyText     = JText::sprintf('Copy of:', $name, $SiteName);
-	        $copyText    .= "\r\n\r\n".$body;
-	        $copySubject  = JText::_('Copy of:')." ".$subject;
-	
-	        $mail = JFactory::getMailer();
-	
-	        $mail->addRecipient( $email );
-	        $mail->setSender( array( $MailFrom, $FromName ) );
-	        $mail->setSubject( $copySubject );
-	        $mail->setBody( $copyText );
-	
-	        $sent = $mail->Send();
-	    }
-	
-	    $msg  = JText::_( 'Thank you for your e-mail');
-	    $link = JRoute::_('option=com_contact&view=contact&id='.$id, false);
-	    
-	    $this->setRedirect($link, $msg);*/
-	}
-	
-	public function _validateInput(KCommandContext $context)
-	{
-	    // Test to ensure that only one email address is entered
-	    /*$check = explode( '@', $context->data->email );
-	    if ( strpos( $context->data->email, ';' ) || strpos( $context->data->email, ',' ) || strpos( $context->data->email, ' ' ) || count( $check ) > 2 ) {
-	        $mainframe->enqueueMessage('You cannot enter more than one email address.', 'error');
-	        return false;
-	    }*/
-	
-	    return true;
+        // Set parts of the mail.
+        $data        = $context->request->data;
+	    $name        = $data->get('name', 'string');
+	    $email_from  = $data->get('email', 'email');
+	    $body        = $data->get('text', 'string');
+	    $subject     = $data->get('subject', 'string');
+
+	    $application = $this->getService('application');
+        $site_name   = $application->getCfg('sitename');
+
+        $prefix      = JText::sprintf('ENQUIRY_TEXT', JURI::base());
+        $body        = $prefix."\n".$name.' <'.$email_from.'>'."\r\n\r\n".stripslashes($body);
+        $mail_from   = $application->getCfg('mailfrom');
+        $from_name   = $application->getCfg('fromname');
+
+        $email_to = $this->getService('com://admin/contacts.model.contacts')
+            ->id($context->request->query->get('id', 'int'))
+            ->getRow()
+            ->email_to;
+
+        // Send mail.
+        $mail = JFactory::getMailer();
+        $mail->addRecipient($email_to);
+        $mail->setSender(array($email_from, $name));
+        $mail->setSubject($from_name.': '.$subject);
+        $mail->setBody($body);
+        $mail->Send();
+
+        // Send copy if requested.
+        if($data->get('email_copy', 'boolean'))
+        {
+            $copy_text    = JText::sprintf('Copy of:', $name, $site_name)."\r\n\r\n".$body;
+            $copy_subject = JText::_('Copy of:').' '.$subject;
+
+            $mail = JFactory::getMailer();
+            $mail->addRecipient( $email_from );
+            $mail->setSender( array( $mail_from, $from_name ) );
+            $mail->setSubject( $copy_subject );
+            $mail->setBody( $copy_text );
+            $mail->Send();
+        }
+
+	    $message = JText::_('Thank you for your e-mail');
+	    $context->response->setRedirect($context->request->getUrl(), $message);
 	}
 
     public function __call($method, $args)
