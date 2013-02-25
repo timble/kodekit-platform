@@ -52,7 +52,7 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	public function findFile($path)
 	{
 	    $theme     = $this->getService('application')->getTheme();
-        $override  = JPATH_APPLICATION.'/public/theme/'.$theme.'/tmpl';
+        $override  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
 	    $override .= str_replace(array(JPATH_BASE.'/component', '/views'), '', $path);
 
 	    //Try to load the template override
@@ -60,9 +60,9 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 
 	    if($result === false)
 	    {
-	        //If the path doesn't contain the /tmpl/ folder add it
-	        if(strpos($path, '/tmpl/') === false) {
-	            $path = dirname($path).'/tmpl/'.basename($path);
+	        //If the path doesn't contain the /templates/ folder add it
+	        if(strpos($path, '/templates/') === false) {
+	            $path = dirname($path).'/templates/'.basename($path);
 	        }
 
 	        $result = parent::findFile($path);

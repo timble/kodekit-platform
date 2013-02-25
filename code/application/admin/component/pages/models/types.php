@@ -60,15 +60,15 @@ class ComPagesModelTypes extends KModelAbstract
                         // Iterate through the layouts.
                         $layouts = array();
 
-                        if(is_dir($path.'/'.$view.'/tmpl'))
+                        if(is_dir($path.'/'.$view.'/templates'))
                         {
-                            foreach(new DirectoryIterator($path.'/'.$view.'/tmpl') as $layout)
+                            foreach(new DirectoryIterator($path.'/'.$view.'/templates') as $layout)
                             {
                                 if(!$layout->isFile() || substr($layout, 0, 1) == '.' || $layout->getExtension() != 'xml') {
                                     continue;
                                 }
 
-                                $xml_layout = simplexml_load_file($path.'/'.$view.'/tmpl/'.$layout);
+                                $xml_layout = simplexml_load_file($path.'/'.$view.'/templates/'.$layout);
                                 if(!$xml_layout->layout) {
                                     continue;
                                 }
