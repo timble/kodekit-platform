@@ -12,5 +12,5 @@
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 
 <?= @template('default_head.html') ?>
-<?= @template('com://site/application.view.page.body_'.$tmpl.'.html') ?>
+<?= @template('body_'.$tmpl.'.html') ?>
 </html>
