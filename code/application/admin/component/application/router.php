@@ -22,7 +22,7 @@ class ComApplicationRouter extends KDispatcherRouter
         $path = trim($url->getPath(), '/');
 
         //Remove base path
-        $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBasePath()));
+        $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBaseUrl()->getPath()));
 
         // Set the format
         if(!empty($url->format)) {
@@ -106,7 +106,7 @@ class ComApplicationRouter extends KDispatcherRouter
             }
         }
 
-        $url->path = $this->getService('request')->getBasePath().'/'.$route;
+        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
 
         // Removed unused query variables
         unset($url->query['Itemid']);

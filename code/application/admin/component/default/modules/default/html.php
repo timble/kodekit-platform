@@ -29,7 +29,7 @@ class ComDefaultModuleDefaultHtml extends KViewTemplate
         $config->append(array(
             'mimetype'   => 'text/html',
             'model'      => 'com://admin/default.model.module',
-            'media_url'  => KRequest::root() . '/media',
+            'media_url'  => $this->getService('request')->getBaseUrl()->getPath().'/media',
         ));
 
         parent::_initialize($config);

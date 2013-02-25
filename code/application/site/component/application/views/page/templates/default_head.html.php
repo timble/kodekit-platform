@@ -19,7 +19,7 @@
 <ktml:style />
 <ktml:script />
 
-<link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<link href="media://application/img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 <style src="media://application/css/system.css"  />
 <style src="media://application/css/general.css"  />
