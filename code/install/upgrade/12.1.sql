@@ -1,5 +1,5 @@
-# --------------------------------------------------------
-# Diff Joomla 1.5 to alpha3
+# -----------------------------------------------------------
+# This script will update a Joomla 1.5 database to Nooku 12.1
 
 CREATE TABLE `#__versions_revisions` (
   `table` varchar(64) NOT NULL,
@@ -12,9 +12,7 @@ CREATE TABLE `#__versions_revisions` (
   PRIMARY KEY  (`table`,`row`,`revision`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-
 # --------------------------------------------------------
-# Diff alpha3 to alpha4
 
 DROP TABLE IF EXISTS `#__files_paths`;
 

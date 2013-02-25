@@ -1,4 +1,5 @@
-# --------------------------------------------------------
+# -----------------------------------------------------------
+# This script will update a Joomla 1.5 database to Nooku 13.1
 
 -- Remove all the admin modules
 DELETE FROM `#__modules` WHERE `client_id` = 1;
@@ -80,6 +81,11 @@ ALTER TABLE #__users DROP INDEX idx_name;
 ALTER TABLE #__users DROP INDEX gid_block;
 
 -- Update schema to follow conventions
+
+-- Add UUID field required by identifiable behahvior
+ALTER TABLE `#__users` ADD `uuid` CHAR(36) NOT NULL AFTER `id`;
+UPDATE `#__users` SET `uuid` = UUID() WHERE `uuid` = '';
+ALTER TABLE `#__users` ADD UNIQUE (`uuid`);
 ALTER TABLE `#__users` CHANGE  `id`  `users_user_id` INT(11) UNSIGNED AUTO_INCREMENT;
 ALTER TABLE `#__users` CHANGE  `block`  `enabled` TINYINT(1);
 UPDATE `#__users` SET `enabled` = IF(`enabled`, 0, 1);
@@ -129,9 +135,12 @@ VALUES
     (24, 'Administrator', ''),
     (25, 'Super Administrator', '');
 
--- Remove unused columns from #__session
+-- Change session table storage engine to InnoDB
+-- http://nooku.assembla.com/spaces/nooku-server/tickets/190
+ALTER TABLE `#__session` ENGINE InnoDB;
 RENAME TABLE`#__session` TO  `#__users_sessions`;
 
+-- Remove unused columns from #__session
 ALTER TABLE `#__users_sessions` DROP `username`;
 ALTER TABLE `#__users_sessions` DROP `usertype`;
 ALTER TABLE `#__users_sessions` DROP `gid`;
