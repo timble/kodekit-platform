@@ -4501,17 +4501,6 @@ td .validation-advice {
   top: 0px;
   float: left;
 }
-#system-message dd.message ul {
-  background: #c3d2e5 url(../images/notice-info.png) 4px center no-repeat;
-}
-#system-message dd.error ul {
-  color: #c00;
-  background: #e6c0c0 url(../images/notice-alert.png) 4px top no-repeat;
-}
-#system-message dd.notice ul {
-  color: #c00;
-  background: #efe7b8 url(../images/notice-note.png) 4px top no-repeat;
-}
 .icon-activities {
   background-position: -168px -24px;
 }

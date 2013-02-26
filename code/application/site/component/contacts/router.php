@@ -47,6 +47,10 @@ class ComContactsRouter extends ComDefaultRouter
             }
         }
 
+        if(isset($query['view']) && $query['view'] == 'message') {
+            $segments[] = 'message';
+        }
+
         unset($query['category']);
         unset($query['id']);
         unset($query['view']);
@@ -90,6 +94,10 @@ class ComContactsRouter extends ComDefaultRouter
 
             $vars['id'] = $segment;
             $vars['view'] = 'contact';
+        }
+
+        if(count($segments) && $segments[0] == 'message') {
+            $vars['view'] = 'message';
         }
 
         return $vars;

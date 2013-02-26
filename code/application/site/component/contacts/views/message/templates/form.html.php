@@ -24,8 +24,8 @@
 	}
 </script>
 
-<form action="" method="post" name="emailForm" id="emailForm" class="form-validate">
-<input type="hidden" name="action" value="email" />
+<form action="<?= @route('view=message&id='.$id) ?>" method="post" name="emailForm" id="emailForm" class="form-validate">
+    <input type="hidden" name="_action" value="add" />
     <div class="control-group">
         <label for="contact_name">
             <?= @text( 'Enter your name' );?>:

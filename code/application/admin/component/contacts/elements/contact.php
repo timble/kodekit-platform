@@ -21,6 +21,20 @@ class JElementContact extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
+        $config = array(
+            'name'     => $control_name . '[' . $name . ']',
+            'selected' => $value,
+            'table'    => $node->attributes('table'),
+            'attribs'  => array('class' => 'inputbox'),
+            'autocomplete' => true,
+        );
+
+        $template = KService::get('com://admin/contacts.controller.contact')->getView()->getTemplate();
+        $html     = KService::get('com://admin/contacts.template.helper.listbox', array('template' => $template))->contacts($config);
+
+        return $html;
+
+
 		$db = JFactory::getDBO();
 
 		$query = 'SELECT a.id, CONCAT( a.name, " - ",a.con_position ) AS text, a.categories_category_id '
