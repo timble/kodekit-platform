@@ -111,8 +111,8 @@ class ComApplicationDispatcherDefault extends KDispatcherApplication
         //Set the paths
         $params = $this->getService('application.components')->files->params;
 
-        define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/data');
-        define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/data/'.$params->get('image_path', 'images'));
+        define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
+        define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
         define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
         // Set timezone to user's setting, falling back to global configuration.
