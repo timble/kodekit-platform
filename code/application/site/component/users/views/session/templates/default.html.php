@@ -25,7 +25,7 @@
     <div class="control-group">
         <label class="control-label" for="email"><?= @text('E-mail') ?></label>
         <div class="controls">
-            <input id="email" class="required validate-email" name="email" type="text" alt="email" />
+            <input id="email" class="required validate-email" name="email" type="email" alt="email" />
         </div>
     </div>
     

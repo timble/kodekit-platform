@@ -38,7 +38,7 @@
 				<div class="control-group">
 				    <label class="control-label" for="email"><?= @text('E-Mail') ?></label>
 				    <div class="controls">
-				        <input class="required validate-email" type="text" id="email" name="email" value="<?= $user->email ?>" />
+				        <input class="required validate-email" type="email" id="email" name="email" value="<?= $user->email ?>" />
 				    </div>
 				</div>
 				<div class="control-group">
