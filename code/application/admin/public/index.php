@@ -6,9 +6,6 @@
  * @link        http://www.nooku.org
  */
 
-// Set flag that this is a parent file
-define( '_JEXEC', 1 );
-
 define('JPATH_ROOT'         , $_SERVER['DOCUMENT_ROOT']);
 define('JPATH_APPLICATION'  , JPATH_ROOT.'/application/admin');
 define('JPATH_BASE'         , JPATH_APPLICATION );
