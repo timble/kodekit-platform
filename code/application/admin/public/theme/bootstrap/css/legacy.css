@@ -4387,6 +4387,15 @@ div.message {
   color: #333;
   z-index: 1000;
 }
+#attachments-attachments-upload ul li:nth-last-child(2) {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dddddd;
+}
+#attachments-attachments-upload ul li:last-of-type {
+  list-style: none;
+  margin-left: -20px;
+}
 /*!
  * Overrides for bootstrap/forms.less
  */

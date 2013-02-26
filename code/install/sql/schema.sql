@@ -79,7 +79,7 @@ CREATE TABLE `#__attachments` (
   `locked_by` int(11) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
   PRIMARY KEY (`attachments_attachment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,7 @@ CREATE TABLE `#__attachments_relations` (
   `table` varchar(64) NOT NULL,
   `row` int(10) unsigned NOT NULL,
   KEY `attachments_attachment_id` (`attachments_attachment_id`),
-  CONSTRAINT `#__attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments_attachments` (`attachments_attachment_id`) ON DELETE CASCADE
+  CONSTRAINT `#__attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments` (`attachments_attachment_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

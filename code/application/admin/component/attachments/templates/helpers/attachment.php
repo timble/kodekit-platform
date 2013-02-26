@@ -31,14 +31,16 @@ class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
 		if($config->holder != 'document.body') {
 			$config->holder = '\''.$config->holder.'\'';
 		}
-		
+
+        $extensions = json_encode($config->allowed_extensions->toArray());
+
 		$html = <<<END
 		<script src="media://attachments/js/attachments.js" />
 		<script>
 		window.addEvent('domready', function() {
 			new Attachments.Upload({
 				holder: {$config->holder},
-			    extensions: {$config->allowed_extensions->toJson()}
+			    extensions: {$extensions}
 			});
 		});
 		</script>

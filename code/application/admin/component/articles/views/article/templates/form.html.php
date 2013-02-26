@@ -25,6 +25,14 @@
     }
 </script>
 
+<script>
+    window.addEvent('domready', (function(){
+    	<? if (!$article->id) : ?>
+            new Attachments.Upload({holder: 'article-form'});
+        <? endif ?>
+    }));
+</script>
+
 <?= @template('com://admin/default.view.form.toolbar.html') ?>
 
 <? if($article->isTranslatable()) : ?>
@@ -120,6 +128,14 @@
     	            <? endforeach ?>
     	        </fieldset>
 	        <? endif ?>
+            
+            <fieldset>
+                <legend><?= @text('Attachments') ?></legend>
+                <? if ($article->id) : ?>
+                    <?= @template('com://admin/attachments.view.attachments.list.html') ?>
+                <? endif ?>
+                <?= @template('com://admin/attachments.view.attachments.upload.html') ?>
+            </fieldset>
         </div>
     </div>
 </form>

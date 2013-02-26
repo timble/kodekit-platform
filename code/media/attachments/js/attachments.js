@@ -34,7 +34,7 @@ Attachments.Upload = new Class({
 	add: function(target){
 		target.setStyle('display', 'none').getParent().adopt(
 			new Element('span', {text: target.value.replace(/c:\\fakepath\\/i, '')}),
-			new Element('a', {text: 'remove'}).addEvent('click', function(event){
+			new Element('a', {text: 'x', class: 'btn btn-mini btn-danger'}).addEvent('click', function(event){
 				event.stop();
 				
 				this.remove(event.target);
