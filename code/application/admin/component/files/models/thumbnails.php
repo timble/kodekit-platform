@@ -99,7 +99,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    if (!empty($state->files)) {
 		        $query->where('tbl.filename IN :files')->bind(array('files' => $state->files));
 		    } elseif ($state->filename) {
-		        $query->where('tbl.filename = :filename')->bind(array('filename' => $state->filename));
+		        $query->where('tbl.filename IN :filename')->bind(array('filename' => (array) $state->filename));
 		    }
 		}
 	}
