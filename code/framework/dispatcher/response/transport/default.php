@@ -85,7 +85,7 @@ class KDispatcherResponseTransportDefault extends KDispatcherResponseTransportAb
         }
 
         //Add the version header
-        $response->headers->set('X-Koowa', array('version' => Koowa::VERSION));
+        $response->headers->set('X-Nooku', array('version' => Koowa::VERSION));
 
         // Fix Content-Length
         if ($response->headers->has('Transfer-Encoding')) {
