@@ -38,7 +38,7 @@ class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
 		window.addEvent('domready', function() {
 			new Attachments.Upload({
 				holder: {$config->holder},
-			    extensions: {$config->allowed_extensions->toJson()}
+			    extensions: {}
 			});
 		});
 		</script>
