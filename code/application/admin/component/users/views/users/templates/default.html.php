@@ -75,7 +75,7 @@
 					</a>
 				</td>
 				<td align="center">
-					<img src="media://koowa/images/<?= $user->loggedin ? 'tick.png' : 'publish_x.png' ?>" border="0" />
+					<i class="<?= $user->loggedin ? 'icon-ok' : 'icon-remove' ?>"></i>
 				</td>
 				<td align="center">
 					<?= @helper('grid.enable', array('row' => $user, 'option' => 'com_users', 'view' => 'users')) ?>

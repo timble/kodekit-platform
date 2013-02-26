@@ -69,7 +69,7 @@
 				</td>
                 <td align="center">
                     <? if($language->primary): ?>
-                        <img src="media://koowa/images/star.png" alt="<?= @text( 'Primary Language' ) ?>" />
+                        <i class="icon-star"></i>
                     <? endif ?>
                 </td>
 				<td align="center">

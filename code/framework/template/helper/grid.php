@@ -35,7 +35,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		if($config->row->isLockable() && $config->row->locked())
 		{
 		    $html = '<span class="editlinktip hasTip" title="'.$config->row->lockMessage() .'">
-						<img src="media://koowa/images/locked.png"/>
+						<i class="icon-lock"></i>
 					</span>';
 		}
 		else
@@ -144,14 +144,14 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		    'data'		=> array($config->field => $config->row->{$config->field})
 		));
 
-		$img    = $config->row->{$config->field} ? 'enabled.png' : 'disabled.png';
+		$img    = $config->row->{$config->field} ? 'icon-ok' : 'icon-remove';
 		$alt 	= $config->row->{$config->field} ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
 		$text 	= $config->row->{$config->field} ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
 
 	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
 
-		$html = '<img src="media://koowa/images/'. $img .'" border="0" alt="'. $alt .'" data-action="edit" data-data="'.$data.'" title='.$text.' />';
+		$html = '<i class="'. $img .'" data-action="edit" data-data="'.$data.'"></i>';
 
 		return $html;
 	}
@@ -172,9 +172,6 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		    'data'		=> array('order' => 0)
 		));
 
-		$up   = 'media://koowa/images/arrow_up.png';
-		$down = 'media://koowa/images/arrow_down.png';
-
 		$config->data->order = -1;
 		$updata   = str_replace('"', '&quot;', $config->data);
 
@@ -184,13 +181,13 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$html = '';
 
 		if ($config->row->{$config->field} > 1) {
-            $html .= '<img src="'.$up.'" border="0" alt="'.JText::_('Move up').'" data-action="edit" data-data="'.$updata.'" />';
+            $html .= '<i class="icon-chevron-up" data-action="edit" data-data="'.$updata.'"></i>';
         }
 
         $html .= $config->row->{$config->field};
 
         if($config->row->{$config->field} != $config->total) {
-            $html .= '<img src="'.$down.'" border="0" alt="'.JText::_('Move down').'" data-action="edit" data-data="'.$downdata.'"/>';
+            $html .= '<i class="icon-chevron-down" data-action="edit" data-data="'.$downdata.'"></i>';
 	    }
 
 		return $html;
