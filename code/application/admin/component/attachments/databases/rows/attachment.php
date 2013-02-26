@@ -44,6 +44,28 @@ class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
 	        $this->relation = $this->getService('com://admin/attachments.database.table.relations')
 	            ->select(array('attachments_attachment_id' => $this->id), KDatabase::FETCH_ROW);
 	    }
+        
+        if($name == 'file' && is_null($this->file))
+	    {
+	    	$this->file = $this->getService('com://admin/files.model.files')
+	    					->container($this->container)
+	    					->folder($this->path)
+	    					->name($this->name)
+	    					->getRow();
+	    }
+	    
+	    if($name == 'thumbnail' && is_null($this->thumbnail))
+	    {
+	    	$file = $this->file;
+	    	
+	    	if($file && $file->isImage())
+	    	{
+	    		$this->thumbnail = $this->getService('com://admin/files.controller.thumbnail')
+	    				->container($this->container)
+	    				->filename($this->path)
+	    				->read();
+	    	}
+	    }
 	    
 	    return parent::__get($name);
 	}
