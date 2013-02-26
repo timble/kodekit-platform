@@ -17,8 +17,5 @@ define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once(__DIR__.'/bootstrap.php' );
 
-//Nooku Server identification information
-header('X-Nooku-Server: version='.Koowa::VERSION);
-
 KService::get('loader')->loadIdentifier('com://site/application.aliases');
 KService::get('application')->run();
