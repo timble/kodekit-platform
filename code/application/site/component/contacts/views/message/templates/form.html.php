@@ -24,43 +24,45 @@
 	}
 </script>
 
-<form action="<?= @route('view=message&id='.$id) ?>" method="post" name="emailForm" id="emailForm" class="form-validate">
+<form action="<?= @route('view=message&id='.$id) ?>" method="post" name="emailForm" class="form-validate form-horizontal">
     <input type="hidden" name="_action" value="add" />
     <div class="control-group">
-        <label for="contact_name">
+        <label class="control-label" for="name">
             <?= @text( 'Enter your name' );?>:
         </label>
         <div class="controls">
-            <input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
+            <input type="text" name="name" value="" />
         </div>
     </div>
     <div class="control-group">
-        <label id="contact_emailmsg" for="contact_email">
+        <label class="control-label" for="email">
             <?= @text( 'Email address' );?>:
         </label>
         <div class="controls">
-            <input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
+            <input type="text" name="email" value="" class="required validate-email" maxlength="100" />
         </div>
     </div>
     <div class="control-group">
-        <label for="contact_subject">
+        <label class="control-label" for="subject">
             <?= @text( 'Message subject' );?>:
         </label>
         <div class="controls">
-            <input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
+            <input type="text" name="subject" value="" />
         </div>
     </div>
     <div class="control-group">
-        <label id="contact_textmsg" for="contact_text">
+        <label class="control-label" for="text">
             <?= @text( 'Enter your message' );?>:
         </label>
         <div class="controls">
-            <textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
+            <textarea rows="10" name="text" class="required"></textarea>
         </div>
     </div>
     <div class="control-group">
         <div class="controls">
-             <input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  /> <?= @text( 'EMAIL_A_COPY' ); ?>
+            <label class="checkbox" for="email_copy">
+                <input type="checkbox" name="email_copy" value="1" /> <?= @text( 'EMAIL_A_COPY' ); ?>
+            </label>
         </div>
     </div>
     
