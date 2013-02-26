@@ -33,12 +33,12 @@
             <th width="100%">
                 <?= @text('Name'); ?>
         	</th>
-            <? if ($params->get('show_email')) : ?>
+            <? if ($params->get('show_email', false)) : ?>
             <th>
                 <?= @text('Email'); ?>
         	</th>
             <? endif; ?>
-            <? if ($params->get('show_telephone')) : ?>
+            <? if ($params->get('show_telephone', true)) : ?>
         	<th>
                 <?= @text('Phone'); ?>
         	</th>
