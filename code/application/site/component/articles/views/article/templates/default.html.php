@@ -23,5 +23,14 @@
 	    <span class="label label-important"><?= @text('Registered') ?></span>
 	    <? endif ?>
 	</div>
+    
+    <?= @helper('com://site/attachments.template.helper.grid.thumbnail', array('filter' => array('row' => $article->id, 'table' => $table, 'limit' => '1'))); ?>
+    
     <?= $article->introtext . $article->fulltext ?>
+    
+    <? if(isset($attachments)): ?>
+    <div class="article-attachments">
+        <?= @template('com://site/attachments.view.attachments.default.html') ?>
+    </div>
+    <? endif; ?>
 </article>

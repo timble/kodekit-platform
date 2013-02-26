@@ -7,8 +7,7 @@
  * @link           http://www.nooku.org
  */
 ?>
-
-<article>
+<article class="clearfix">
     <div class="page-header">
         <h1><a href="<?= @helper('route.article', array('row' => $article)) ?>"><?= @highlight($article->title) ?></a></h1>
         <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
@@ -19,6 +18,8 @@
         <span class="label label-important"><?= @text('Registered') ?></span>
         <? endif ?>
     </div>
+    
+    <?= @helper('com://site/attachments.template.helper.grid.thumbnail', array('filter' => array('row' => $article->id, 'table' => $table, 'limit' => '1'))); ?>
     
     <? if ($article->introtext) : ?>
         <?= @highlight($article->introtext) ?>
