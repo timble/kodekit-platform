@@ -124,7 +124,7 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
             $context->response->headers->addCookie($this->getService('koowa:http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
-                'path'   => JURI::base(true)
+                'path'   => $context->request->getBaseUrl()->getPath()
             )));
 
             $context->response->headers->set('X-Token', $token);
