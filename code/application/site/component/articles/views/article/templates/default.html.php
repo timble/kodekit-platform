@@ -25,10 +25,10 @@
 	</div>
     
     <div class="pull-right">
-        <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('filter' => array('row' => $article->id, 'table' => $table))); ?>
+        <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('filter' => array('row' => $article->id, 'table' => 'articles'))); ?>
     </div>
     
     <?= $article->introtext . $article->fulltext ?>
     
-    <?= @helper('com://site/attachments.template.helper.grid.files', array('filter' => array('row' => $article->id, 'table' => $table))); ?>
+    <?= @helper('com://site/attachments.template.helper.grid.files', array('filter' => array('row' => $article->id, 'table' => 'articles'))); ?>
 </article>
