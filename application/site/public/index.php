@@ -11,7 +11,7 @@ define('JPATH_APPLICATION'  , JPATH_ROOT.'/application/site');
 define('JPATH_BASE'         , JPATH_APPLICATION );
 
 define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
-define('JPATH_SITES'        , JPATH_ROOT.'/site');
+define('JPATH_SITES'        , JPATH_ROOT.'/sites');
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
