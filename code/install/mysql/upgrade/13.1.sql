@@ -711,3 +711,7 @@ INSERT INTO `#__languages_tables` (`extensions_component_id`, `name`, `unique_co
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
+
+INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`)
+VALUES
+	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": true,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');

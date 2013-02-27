@@ -42,8 +42,22 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		$this->_file_controller = $this->getService($config->file_controller, array(
 			'request' => array('container' => $this->_container)
 		));
-		
-		$this->_attachment_controller = $this->getService($config->attachment_controller);
+        
+        $this->_file_controller = $this->getService($config->file_controller, array(
+			'request' => $this->getService('koowa:controller.request', array(
+				'query' => array(
+					'container' => $this->_container
+				)
+			))
+		));
+        
+        $this->_attachment_controller = $this->getService($config->attachment_controller, array(
+			'request' => $this->getService('koowa:controller.request', array(
+				'query' => array(
+					'container' => $this->_container
+				)
+			))
+		));
 		
 		$this->_attachment_limit = $config->attachment_limit;
 	}
@@ -126,7 +140,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 			));
 			
 			$model = $this->_file_controller->getModel(); 
-			$data = $model->getState()->getData();
+			$data = $model->getState();
 			$model->reset(false)->set($data);
 			$this->_attachment_controller->getModel()->reset(false);
 		}
@@ -144,11 +158,15 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		}
 	
 		$row = $context->result;
-		
-		$count = $this->getService('com://admin/attachments.controller.attachment')
-			->row($row->id)
-			->table($row->getTable()->getBase())
-			->browse();
+        
+        $count = $this->getService('com://admin/attachments.controller.attachment', array(
+			'request' => $this->getService('koowa:controller.request', array(
+				'query' => array(
+					'row' => $row->id,
+					'table' => $row->getTable()->getBase()
+				)
+			))
+		))->browse();
 		$count = count($count);
 		$limit = $this->_attachment_limit;
 

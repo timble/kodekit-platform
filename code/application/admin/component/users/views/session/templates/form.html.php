@@ -20,7 +20,7 @@
     <div class="control-group">
         <label class="control-label" for=""><?= @text( 'Email' ); ?></label>
         <div class="controls">
-        <input name="email" id="email" type="text" class="inputbox" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
+        <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
         </div>
     </div>
    <div class="control-group">

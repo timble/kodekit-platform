@@ -36,7 +36,7 @@
     <div class="control-group">
         <label class="control-label" for="email"><?= @text('Email') ?></label>
         <div class="controls">
-            <input class="inputbox required validate-email" type="text" id="email" name="email" value="<?= @escape($user->email) ?>" size="100" />
+            <input class="inputbox required validate-email" type="email" id="email" name="email" value="<?= @escape($user->email) ?>" size="100" />
         </div>
     </div>
 

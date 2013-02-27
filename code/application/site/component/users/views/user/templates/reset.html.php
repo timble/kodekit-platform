@@ -22,7 +22,7 @@ defined('KOOWA') or die('Restricted access');
         <label class="control-label" for="email"><?= @text('E-mail') ?></label>
 
         <div class="controls">
-            <input class="required validate-email" type="text" id="email" name="email" placeholder="E-mail"/>
+            <input class="required validate-email" type="email" id="email" name="email" placeholder="E-mail"/>
         </div>
     </div>
     <div class="form-actions">

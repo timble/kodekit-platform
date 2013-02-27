@@ -12,13 +12,13 @@
 <script src="media://koowa/js/koowa.js" />
 -->
 
-<? if ($contact->params->get('allow_vcard')) : ?>
+<? if ($contact->params->get('allow_vcard', false)) : ?>
     <link href="<?= @route('format=vcard') ?>" rel="alternate" type="text/x-vcard; version=2.1" title="Vcard - <?= $contact->name; ?>"/>
 <? endif; ?>
 
 <?= @template('hcard.html') ?>
                
-<?if ($contact->params->get('allow_vcard')) :?>
+<?if ($contact->params->get('allow_vcard', false)) :?>
 <p>
     <?= @text( 'Download information as a' );?>
     <a href="<?= @route('id='.$contact->id.'&format=vcard') ?>">
@@ -27,6 +27,6 @@
 </p>
 <? endif; ?>
 
-<? if ( $contact->params->get('show_email_form') && $contact->email_to) : ?>
+<? if ( $contact->params->get('show_email_form', true) && $contact->email_to) : ?>
     <?= @service('com://site/contacts.controller.message')->layout('form')->id($contact->id)->render(); ?>
 <? endif; ?>   

@@ -54,7 +54,7 @@
             <span class="value"><?= $contact->mobile?></span>
         </li>
         <? endif; ?>
-        <?if ($contact->email_to && $contact->params->get('show_email')) :?>
+        <?if ($contact->email_to && $contact->params->get('show_email', false)) :?>
         <li>
             <span><?= @text('Email') ?></span><a class="email" href="mailto:<?= $contact->email_to?>"><?= $contact->email_to?></a>
         </li>

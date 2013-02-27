@@ -75,7 +75,7 @@
                         <?= @escape($page->title) ?>
                     </a>
                     <? if($page->home) : ?>
-                        <img src="media://koowa/images/star.png" alt="<?= @text('Default') ?>" />
+                        <i class="icon-star"></i>
                     <? endif ?>
                     <? if($page->access) : ?>
                         <span class="label label-important"><?= @text('Registered') ?></span>

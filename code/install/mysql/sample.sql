@@ -174,7 +174,9 @@ VALUES
 	(48, 10, 10),
 	(49, 9, 9),
 	(50, 3, 2),
-	(51, 1, 1);
+	(51, 1, 1),
+	(52, 1, 11);
+
 
 --
 -- Dumping data for table `#__pages_closures`
@@ -207,7 +209,8 @@ VALUES
 	(48, 48, 0),
 	(49, 49, 0),
 	(50, 50, 0),
-	(51, 51, 0);
+	(51, 51, 0),
+    (52, 52, 0);
 
 --
 -- Dumping data for table `#__pages`
@@ -235,7 +238,8 @@ VALUES
 	(48, 1, NULL, 'Web Links', 'web-links', 'option=com_weblinks&view=categories', NULL, 'component', 1, 0, 0, 4, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(49, 1, NULL, 'The News', 'the-news', 'option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(50, 3, NULL, 'Submit an Article', 'submit-an-article', 'option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
-	(51, 1, NULL, 'Search Results', 'search-results', 'option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
+	(51, 1, NULL, 'Search Results', 'search-results', 'option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(52, 1, 0, 'Contacts', 'contacts', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, '2013-02-26 10:05:27', NULL, NULL, NULL, NULL, 0, NULL);
 
 
 

@@ -8,7 +8,7 @@
     <state>
         <name>Gallery Layout</name>
         <description></description>
-        <url addpath="/administrator/component/files/elements">
+        <url addpath="/application/admin/component/files/elements">
         	<param name="folder" type="folders" default="" label="Folder" />
         	<!-- TODO: take this out when page manager correctly adds the layout to the menu item -->
         	<param name="layout" type="hidden" default="gallery" />

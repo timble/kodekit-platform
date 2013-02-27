@@ -25,7 +25,8 @@ class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
                 'com://admin/pages.database.behavior.orderable' => array(
                     'strategy' => 'flat'
                 ),
-                'com://admin/languages.database.behavior.translatable'
+                'com://admin/languages.database.behavior.translatable',
+                'com://admin/attachments.database.behavior.attachable'
             ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),
