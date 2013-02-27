@@ -111,6 +111,16 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		$direction	= strtolower($config->direction);
 		$direction 	= in_array($direction, array('asc', 'desc')) ? $direction : 'asc';
 
+        //Set the route
+        if($config->column == $config->sort && $direction == 'desc')
+        {
+            $route = 'direction=asc';
+        }
+        else
+        {
+            $route = 'sort='.$config->column.'&direction='.$direction;
+        }
+
 		//Set the class
 		$class = '';
 		if($config->column == $config->sort)
@@ -119,7 +129,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 			$class = 'class="-koowa-'.$direction.'"';
 		}
 
-		$route = $this->getTemplate()->getView()->getRoute('sort='.$config->column.'&direction='.$direction);
+		$route = $this->getTemplate()->getView()->getRoute($route);
 
 		$html  = '<a href="'.$route.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
 		$html .= JText::_($config->title);
