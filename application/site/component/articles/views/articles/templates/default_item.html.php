@@ -19,7 +19,9 @@
         <? endif ?>
     </div>
     
-    <?= @helper('com://site/attachments.template.helper.grid.thumbnail', array('filter' => array('row' => $article->id, 'table' => 'articles', 'limit' => '1'))); ?>
+    <div class="pull-right">
+        <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('filter' => array('row' => $article->id, 'table' => 'articles'))); ?>
+    </div>
     
     <? if ($article->introtext) : ?>
         <?= @highlight($article->introtext) ?>
