@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.5/template-install.dtd">
+<install version="1.5" type="template">
+	<name>Bootstrap</name>
+	<creationDate>March 2012</creationDate>
+	<author>Tom Janssens</author>
+	<authorEmail>tom@nooku.org</authorEmail>
+	<authorUrl>http://www.nooku.org</authorUrl>
+	<copyright>Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+	<license>GNU GPLv3</license>
+	<version>1.0.2</version>
+	<description>Bootstrap</description>
+</install>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="DEFAULT LOGIN LAYOUT">
+		<message>
+			<![CDATA[DEFAULT LOGIN LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Default Login Layout</name>
+		<description>DEFAULT LOGIN LAYOUT DESC</description>
+		<params>
+			<param name="description_login_text" type="textarea" cols="30" rows="5" default="" label="Login Description Text" description="PARAMLOGINDESCTEXT" />
+		</params>
+	</state>
+</metadata>

@@ -1,0 +1,26 @@
+// LABELS
+// ------
+
+// Base
+.label {
+	padding: 2px 4px 3px;
+	font-size: @baseFontSize * .85;
+	.border-radius(3px);
+	.label-colors();
+	
+	.label-colors(@background: lighten(@grayLighter, 5%), @text: @gray) {
+		background-color: @background;
+		color: @text;
+	}
+}
+
+// Colors
+.label-important        { .label > .label-colors(lighten(@red, 52%), @red) }
+.label-warning          { .label > .label-colors(lighten(@orange, 45%), @orange) }
+.label-success          { .label > .label-colors(lighten(@green, 60%), @green) }
+.label-info             { .label > .label-colors(lighten(@blue, 50%), @blue) }
+
+// Languages
+.label-completed { .label-success(); }
+.label-outdated { .label-warning(); }
+.label-missing { .label-important(); }

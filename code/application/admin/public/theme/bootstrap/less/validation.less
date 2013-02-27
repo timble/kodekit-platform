@@ -1,0 +1,59 @@
+/* Forms validation message */
+.validation-advice {
+    clear: both;
+    font-size: 11px;
+    color: hsl(40, 98%, 25%);
+    float: left;
+    position: relative;
+    margin-top: 15px;
+    overflow: visible!important;
+    top: -10px;
+    left: 1px;
+    padding: 6px 10px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    text-shadow: white 0 1px 1px;
+    .border-radius(5px);
+    .box-sizing(content-box);
+    #gradient > .vertical(rgb(255, 243, 197), rgb(255, 231, 143));
+    .box-shadow(~"hsla(0, 0%, 0%, 0.25) 0 2px 7px, hsla(48, 100%, 59%, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, hsla(0, 0%, 100%, 0.6) 0 1px 0 inset");
+}
+.validation-advice::before, .validation-advice::after {
+    content: '▾';
+    
+    font-family: Arial;
+    color: rgb(255, 243, 197);    
+    -webkit-transform: rotate(180deg);
+    display: block;
+    position: absolute;
+    
+    //left: 50%;
+    //margin-left: -9px;
+}
+.validation-advice::before {
+    text-shadow: white 0 1px 0;
+    top: -22px;
+    z-index: 1;
+    font-size: 36px;
+    left: 10px;
+}
+.validation-advice::after {
+    content: '▾';
+    color: hsla(48, 100%, 20%, 0.4);
+    text-shadow: hsla(0, 0%, 0%, 0.1) 0 2px 7px;
+    top: -24px;
+    font-size: 38px;
+    left: 9px;
+}
+.validation-failed,
+.required,
+input[class*=validate],
+select[class*=validate] {
+    float: left;
+}
+td .validation-advice {
+    margin-top: 5px;
+    top: 0px;
+    float: left;
+}
