@@ -24,10 +24,12 @@ class ComApplicationControllerPage extends ComDefaultControllerView
         $content = parent::_actionRender($context);
 
         //Make images paths absolute
-        $path = KRequest::root()->getPath().'/'.str_replace(JPATH_ROOT.DS, '', JPATH_IMAGES.'/');
+        $base = $this->getService('request')->getBaseUrl();
         $site = $this->getService('application')->getSite();
 
-        $content = str_replace(JURI::base().'images/', $path, $content);
+        $path = $base->getPath().'/files/'.$site.'/images/';
+
+        $content = str_replace($base.'/images/', $path, $content);
         $content = str_replace(array('"images/','"/images/', '"sites/'.$site.'/images') , '"'.$path, $content);
 
         $context->response->setContent($content);
