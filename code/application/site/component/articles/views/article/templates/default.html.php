@@ -24,13 +24,11 @@
 	    <? endif ?>
 	</div>
     
-    <?= @helper('com://site/attachments.template.helper.grid.thumbnail', array('filter' => array('row' => $article->id, 'table' => $table, 'limit' => '1'))); ?>
+    <div class="pull-right">
+        <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('filter' => array('row' => $article->id, 'table' => $table))); ?>
+    </div>
     
     <?= $article->introtext . $article->fulltext ?>
     
-    <? if(isset($attachments)): ?>
-    <div class="article-attachments">
-        <?= @template('com://site/attachments.view.attachments.default.html') ?>
-    </div>
-    <? endif; ?>
+    <?= @helper('com://site/attachments.template.helper.grid.files', array('filter' => array('row' => $article->id, 'table' => $table))); ?>
 </article>

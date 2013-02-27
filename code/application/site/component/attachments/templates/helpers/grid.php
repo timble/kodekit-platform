@@ -16,7 +16,7 @@
  */
 class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
 {
-    public function thumbnail($config = array())
+    public function thumbnails($config = array())
     {
         $config = new KConfig($config);
         $config->append(array(
@@ -36,7 +36,6 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
         $html = array();
         
         if(count($list)) {
-            $html[] = '<div class="pull-right">';
             foreach($list as $item) {
                 if($item->file->isImage()) {
                     $html[] = '<a class="thumbnail" href="#">';
@@ -44,7 +43,44 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
                     $html[] = '</a>';
                 }
             }
-            $html[] = '</div>';
+    
+            return implode(' ', $html);
+        }
+        
+        return false;
+    }
+    
+    public function files($config = array())
+    {
+        $config = new KConfig($config);
+        $config->append(array(
+            'filter'   => array(
+                'row'      => '',
+                'table'    => '',
+                'limit'    => ''
+            )
+        ));
+
+        $list = $this->getService('com://admin/attachments.controller.attachment', array(
+			'request' => $this->getService('koowa:controller.request', array(
+				'query' => $config->filter
+			))
+		))->browse();
+        
+        $html = array();
+
+        if(count($list)) {
+            $html[] = '<ul>';
+            foreach($list as $item) {
+                if(!$item->file->isImage()) {
+                    $html[] = '<li>';
+                    $html[] = '<a href="#">';
+                    $html[] = $item->name;
+                    $html[] = '</a>';
+                    $html[] = '</li>';
+                }
+            }
+            $html[] = '</ul>';
     
             return implode(' ', $html);
         }
