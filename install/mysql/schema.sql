@@ -420,7 +420,7 @@ CREATE TABLE `#__pages_modules` (
 -- Table structure for table `#__terms`
 --
 
-CREATE TABLE IF NOT EXISTS `#__terms` (
+CREATE TABLE `#__terms` (
 	`terms_term_id` bigint(20) unsigned NOT NULL auto_increment,
 	`title` VARCHAR( 255 ) NOT NULL,
 	`slug` VARCHAR( 255 ) NOT NULL,
@@ -442,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `#__terms` (
 -- Table structure for table `#__terms_relations`
 --
 
-CREATE TABLE IF NOT EXISTS `#__terms_relations` (
+CREATE TABLE `#__terms_relations` (
 	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
   	`row` BIGINT(20) UNSIGNED NOT NULL,
   	`table` VARCHAR( 255 ) NOT NULL,
