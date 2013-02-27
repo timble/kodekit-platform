@@ -19,7 +19,7 @@
         <? endif ?>
     </div>
     
-    <?= @helper('com://site/attachments.template.helper.grid.thumbnail', array('filter' => array('row' => $article->id, 'table' => $table, 'limit' => '1'))); ?>
+    <?= @helper('com://site/attachments.template.helper.grid.thumbnail', array('filter' => array('row' => $article->id, 'table' => 'articles', 'limit' => '1'))); ?>
     
     <? if ($article->introtext) : ?>
         <?= @highlight($article->introtext) ?>
