@@ -36,7 +36,7 @@ The 13.1 release can befound in the the [develop](https://nooku.assembla.com/cod
 
 *  Checkout the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch using Git.
 *  Create a database, eg nooku-server.
-* Execute the [schema.sql](develop/code/install/sql/schema.sql), [data.sql](develop/code/install/sql/data.sqll) and [sample.sql](develop/code/install/sql/sample.sql) scripts in your nooku-server database. Make sure to replace the #__ suffix in each file with a database table name prefix of your choosing.
+* Execute the [schema.sql](develop/code/install/mysql/schema.sql), [data.sql](develop/code/install/mysql/data.sqll) and [sample.sql](develop/code/install/mysql/sample.sql) scripts in your nooku-server database. Make sure to replace the #__ suffix in each file with a database table name prefix of your choosing.
 * Rename [config/config.php-dist](code/config/config.php-dist) to config/config.php and fill in your database details.
 
 License
