@@ -24,7 +24,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
         $this->getState()
             ->insert('application', 'cmd', 'site')
             ->insert('component'  , 'int')
-            ->insert('sort'  	  , 'cmd', array('position', 'ordering'))
+            ->insert('sort'  	  , 'cmd', 'ordering')
             ->insert('published'  , 'boolean')
             ->insert('position'   , 'cmd')
             ->insert('installed'  , 'boolean', false)
@@ -83,6 +83,24 @@ class ComPagesModelModules extends ComDefaultModelDefault
             if (is_numeric($state->page)) {
                 $query->where('module_menu.pages_page_id IN :page')->bind(array('page' => array($state->page, 0)));
             }
+        }
+    }
+
+    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    {
+        $state = $this->getState();
+
+        $direction = strtoupper($state->direction);
+
+        if ($state->sort == 'ordering')
+        {
+            $query->order('position', 'ASC')
+                ->order('ordering', $direction);
+        }
+        else
+        {
+            $query->order($state->sort, $direction)
+                ->order('ordering', 'ASC');
         }
     }
 

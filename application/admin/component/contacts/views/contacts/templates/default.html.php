@@ -30,18 +30,18 @@
 <table>
 	<thead>
 		<tr>
-            <? if($state->category && $state->sort == 'ordering') : ?><th class="handle"></th><? endif ?>
+            <? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
 			<th width="10">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'name')); ?>
 			</th>
-			<th>
+			<th width="5%" nowrap="nowrap">
 			    <?= @helper('grid.sort', array('column' => 'published')); ?>
 			 </th>
 			<? if($state->category) : ?>
-			<th>
+			<th width="8%" nowrap="nowrap">
 			    <?= @helper('grid.sort', array('column' => 'ordering')); ?>
 			</th>
 			<? endif ?>
@@ -56,10 +56,10 @@
 			</tr>
 	</tfoot>
 		
-	<tbody<? if($state->category && $state->sort == 'ordering') : ?> class="sortable"<? endif ?>>
+	<tbody<? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
 	<? foreach ($contacts as $contact) : ?>
 		<tr>
-            <? if($state->category && $state->sort == 'ordering') : ?><td class="handle"></td><? endif ?>
+            <? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
 			<td width="20" align="center">
 				<?= @helper('grid.checkbox', array('row' => $contact))?>
 			</td>				

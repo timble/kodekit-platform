@@ -95,12 +95,21 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);
 		$config->append(array(
-			'title'   	=> '',
-			'column'  	=> '',
-			'direction' => 'asc',
-			'sort'		=> ''
+			'title'   	    => '',
+			'column'  	    => '',
+			'direction'     => 'asc',
+			'sort'          => '',
+            'default_sort'  => ''
 		));
 
+        if(empty($config->default_sort) && $config->default_sort !== false) {
+            $view    = $this->getTemplate()->getView();
+            $state   = $view->getModel()->getState();
+            $states  = $state->getStates();
+            if(isset($states['sort']) && !is_array($states['sort']->default)) {
+                $config->default_sort = $states['sort']->default;
+            }
+        }
 
 		//Set the title
 		if(empty($config->title)) {
@@ -110,17 +119,31 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		//Set the direction
 		$direction	= strtolower($config->direction);
 		$direction 	= in_array($direction, array('asc', 'desc')) ? $direction : 'asc';
+        $toggle     = $direction == 'desc' ? 'asc' : 'desc';
+
+        //Set the route
+        if(!empty($config->default_sort) && $config->column == $config->sort && $direction == 'desc')
+        {
+            $route = 'sort='.$config->default_sort.'&direction=asc';
+        }
+        else if($config->column != $config->sort)
+        {
+            $route = 'sort='.$config->column.'&direction=asc';
+        }
+        else
+        {
+            $route = 'sort='.$config->column.'&direction='.$toggle;
+        }
 
 		//Set the class
 		$class = '';
 		if($config->column == $config->sort)
 		{
-			$direction = $direction == 'desc' ? 'asc' : 'desc'; // toggle
+
 			$class = 'class="-koowa-'.$direction.'"';
 		}
 
-		$route = $this->getTemplate()->getView()->getRoute('sort='.$config->column.'&direction='.$direction);
-
+		$route = $this->getTemplate()->getView()->getRoute($route);
 		$html  = '<a href="'.$route.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
 		$html .= JText::_($config->title);
 		$html .= '</a>';

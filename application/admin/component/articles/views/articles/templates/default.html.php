@@ -44,7 +44,7 @@
     <table>
         <thead>
             <tr>
-                <? if($category_not_section && $state->sort == 'ordering') : ?><th class="handle"></th><? endif ?>
+                <? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
                 <th width="10">
                 	 <?= @helper('grid.checkall') ?>
                 </th>
@@ -76,10 +76,10 @@
                 </td>
             </tr>
         </tfoot>
-        <tbody<? if($category_not_section && $state->sort == 'ordering') : ?> class="sortable"<? endif ?>>
+        <tbody<? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
-                <? if($category_not_section && $state->sort == 'ordering') : ?><td class="handle"></td><? endif ?>
+                <? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
                 <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>

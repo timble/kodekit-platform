@@ -11,7 +11,6 @@
 @import "../../../../../../vendor/bootstrap/less/forms.less";
 @import "../../../../../../vendor/bootstrap/less/tables.less";
 // Components: common
-@import "../../../../../../vendor/bootstrap/font-awesome/less/font-awesome.less";
 @import "../../../../../../vendor/bootstrap/less/wells.less";
 // Components: Buttons & Alerts
 @import "../../../../../../vendor/bootstrap/less/buttons.less";
@@ -21,6 +20,10 @@
 @import "../../../../../../vendor/bootstrap/less/breadcrumbs.less";
 // Utility classes
 @import "../../../../../../vendor/bootstrap/less/utilities.less"; // Has to be last to override when necessary
+
+// Font-Awesome
+@import "font-awesome.less";
+@FontAwesomePath:   "../font";
 
 // Base CSS
 @import "mixins";
@@ -38,5 +41,3 @@
 @import "flexbox-legacy";
 
 @import "responsive";
-
-@FontAwesomePath:   "../../../../../../vendor/bootstrap/font-awesome/font";
