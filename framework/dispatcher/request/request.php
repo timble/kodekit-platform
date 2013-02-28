@@ -492,7 +492,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
 
         if($isInternal)
         {
-            if(!$this->getService('koowa:filter.internalurl')->validate((string) $this->_referrer)) {
+            if(!$this->getService('koowa:filter.internalurl')->validate($this->_referrer->toString(KHttpUrl::SCHEME | KHttpUrl::HOST))) {
                 return null;
             }
         }

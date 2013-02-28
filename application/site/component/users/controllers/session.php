@@ -107,7 +107,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
                 $this->getService('application')->getRouter()->build($url);
                 $context->response->setRedirect($url);
             }
-            else $context->response->setRedirect(KRequest::referrer());
+            else $context->response->setRedirect($context->request->getReferrer());
         }
     }
 
