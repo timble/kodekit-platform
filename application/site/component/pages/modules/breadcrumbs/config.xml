@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="homeText" type="text" default="" label="Text for Home entry" description="This text will be shown as Home entry" />
+	</params>
+	<params group="advanced">
+		<param name="cache" type="list" default="0" label="Caching" description="Select whether to cache the content of this module">
+			<option value="0">Never</option>
+		</param>
+	</params>
+</config>

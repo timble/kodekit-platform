@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <params>
+        <param name="count" type="text" default="5" label="Number of articles" description="" />
+        <param name="show_content" type="radio" default="0" label="Introtext" description="Show the introtext or only a link to the article">
+            <option value="1">Show</option>
+            <option value="0">Hide</option>
+        </param>
+        <param name="sort_by" type="list" default="newest" label="Sort by" description="">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="order">Ordering</option>
+        </param>
+        <param name="show_title" type="radio" default="0" label="Module title" description="">
+        	<option value="1">Show</option>
+        	<option value="0">Hide</option>
+        </param>
+        <param name="@spacer" type="spacer" default="" label="" description="" />
+        <param name="section" type="text" default="" label="Section ID" description="" />
+        <param name="category" type="text" default="" label="Category ID" description="" />
+    </params>
+    <params group="advanced">
+        <param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+            <option value="1">Use global</option>
+            <option value="0">No caching</option>
+        </param>
+        <param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+    </params>
+</config>
