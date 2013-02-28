@@ -106,7 +106,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
             $view    = $this->getTemplate()->getView();
             $state   = $view->getModel()->getState();
             $states  = $state->getStates();
-            if(isset($states['sort'])) {
+            if(isset($states['sort']) && !is_array($states['sort']->default)) {
                 $config->default_sort = $states['sort']->default;
             }
         }
