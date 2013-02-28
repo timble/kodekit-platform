@@ -153,7 +153,7 @@ class KInflector
 		if(isset($verbal)) 
 		{
 		    self::$_cache['verbalized'][$singular] = $verbal;
-		    self::$_cache['verbalized'][$plura]    = $verbal;
+		    self::$_cache['verbalized'][$plural]   = $verbal;
 		}
 	}
 
