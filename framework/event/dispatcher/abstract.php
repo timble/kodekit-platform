@@ -131,7 +131,7 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
             );
         }
 
-        if (isset($this->listeners[$name]))
+        if (isset($this->_listeners[$name]))
         {
             foreach ($this->_listeners[$name] as $priority => $listeners)
             {
