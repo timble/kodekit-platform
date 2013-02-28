@@ -37,7 +37,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
     /**
      * Constructor.
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param  KConfig $config  A KConfig object with configuration options
      */
     public function __construct(KConfig $config)
     {
@@ -66,7 +66,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param  KConfig $config A KConfig object with configuration options
      * @return void
      */
     protected function _initialize(KConfig $config)
@@ -82,7 +82,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
     /**
      * Get the priority of a behavior
      *
-     * @return    integer The command priority
+     * @return  integer The command priority
      */
     public function getPriority()
     {
@@ -95,23 +95,27 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      * This function transmlated the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string      The command name
-     * @param     object       The command context
-     * @return     boolean        Can return both true or false.
+     * @param   string           $name     The command name
+     * @param   KCommandContext  $context  The command context
+     *
+     * @return  mixed  Method result if the method exsist, NULL otherwise.
      */
     public function execute($name, KCommandContext $context)
     {
+        $result = null;
+
         $identifier = clone $context->getSubject()->getIdentifier();
         $type = array_pop($identifier->path);
 
         $parts = explode('.', $name);
         $method = '_' . $parts[0] . ucfirst($type) . ucfirst($parts[1]);
 
+        //If the method exists call the method and return the result
         if (method_exists($this, $method)) {
-            return $this->$method($context);
+            $result = $this->$method($context);
         }
 
-        return true;
+        return $result;
     }
 
     /**
@@ -143,7 +147,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
      * behavior is callable.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param KOject $mxier The mixer requesting the mixable methods.
      * @return array An array of methods
      */
     public function getMixableMethods(KObject $mixer = null)
@@ -165,8 +169,8 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      *
      * @param    string|object    $identifier The class identifier or identifier object
      * @param    array              $config     An optional associative array of configuration settings.
-     * @throws    \RuntimeException If the service manager has not been defined.
-     * @return    object          Return object on success, throws exception on failure
+     * @throws   RuntimeException If the service manager has not been defined.
+     * @return   object          Return object on success, throws exception on failure
      * @see     KObjectServiceable
      */
     final public function getService($identifier = null, array $config = array())
