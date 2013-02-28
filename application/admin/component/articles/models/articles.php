@@ -31,7 +31,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
             ->insert('trashed'   , 'int')
             ->insert('searchword', 'string');
 
-        $this->getState()->remove('sort')->insert('sort', 'cmd', array('category_title', 'ordering'));
+        $this->getState()->remove('sort')->insert('sort', 'cmd', 'category_title');
     }
 
     protected function _buildQueryColumns(KDatabaseQuerySelect $query)

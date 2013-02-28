@@ -34,21 +34,21 @@
     <table>
         <thead>
             <tr>
-                <? if($state->sort == 'ordering') : ?><th class="handle"></th><? endif ?>
+                <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
                 <th width="10">
                     <?= @helper('grid.checkall'); ?>
                 </th>
                 <th>
-                    <?= @helper('grid.sort',  array('column' => 'title')   ); ?>
+                    <?= @helper('grid.sort',  array('column' => 'title')); ?>
                 </th>
                 <th width="5%">
-                    <?= @helper('grid.sort',  array('column' => 'published')   ); ?>
+                    <?= @helper('grid.sort',  array('column' => 'published')); ?>
                 </th>
                 <th width="8%" nowrap="nowrap">
                     <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
                 </th>
                 <th width="5%" nowrap="nowrap">
-                    <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count') ); ?>
+                    <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count')); ?>
                 </th>
             </tr>
         </thead>
@@ -61,10 +61,10 @@
             </tr>
         </tfoot>
 
-        <tbody<? if($state->sort == 'ordering') : ?> class="sortable"<? endif ?>>
+        <tbody<? if($state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
             <? foreach( $categories as $category) :  ?>
                 <tr>
-                    <? if($state->sort == 'ordering') : ?><td class="handle"></td><? endif ?>
+                    <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
                     <td align="center">
                         <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>
