@@ -66,6 +66,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
                     throw new KControllerExceptionUnauthorized('Wrong password');
                 }
             }
+            else throw new KControllerExceptionUnauthorized('Wrong email');
 
             //Start the session (if not started already)
             $context->user->session->start();
