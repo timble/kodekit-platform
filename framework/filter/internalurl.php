@@ -9,8 +9,7 @@
 /**
  * Internal url filter
  *
- * Check if an refers to a legal URL inside the system. Use when redirecting to an URL
- * that was passed in a request
+ * Check if an refers to a legal URL inside the system. Use when redirecting to an URL that was passed in a request.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
@@ -29,7 +28,7 @@ class KFilterInternalurl extends KFilterAbstract
             return false;
         }
 
-        if(stripos($value, (string)  $this->getService('request')->getUrl()->toString(KHttpUrl::AUTHORITY)) !== 0) {
+        if(stripos($value, (string)  $this->getService('request')->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST)) !== 0) {
             return false;
         }
 
