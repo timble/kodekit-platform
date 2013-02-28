@@ -46,18 +46,6 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
     /**
      * Drag and Drop Sortables Behavior
      *
-     * Examples:
-     * <code>
-     * // Outside a template layout
-     * $helper = $this->getService('ninja:template.helper.behavior');
-     * $helper->sortable();
-     * <tbody class="sortable"><tr class="sortable"><td class="handle"></td></tr></tbody>
-     *
-     * // Inside a template layout
-     * <?= @ninja('behavior.sortable') ?>
-     * <tbody class="sortable"><tr class="sortable"><td class="handle"></td></tr></tbody>
-     * </code>
-     *
      * @param 	array 	An optional array with configuration options
      * @return	string 	Html
      */
