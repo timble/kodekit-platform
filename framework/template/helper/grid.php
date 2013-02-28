@@ -102,6 +102,14 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
             'default_sort'  => ''
 		));
 
+        if(empty($config->default_sort) && $config->default_sort !== false) {
+            $view    = $this->getTemplate()->getView();
+            $state   = $view->getModel()->getState();
+            $states  = $state->getStates();
+            if(isset($states['sort'])) {
+                $config->default_sort = $states['sort']->default;
+            }
+        }
 
 		//Set the title
 		if(empty($config->title)) {
@@ -120,7 +128,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
         }
         else if($config->column != $config->sort)
         {
-            $route = 'sort='.$config->column.'&direction='.$direction;
+            $route = 'sort='.$config->column.'&direction=asc';
         }
         else
         {
@@ -136,7 +144,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		}
 
 		$route = $this->getTemplate()->getView()->getRoute($route);
-		$html  = '<a href="'.$route.'" title="'.JText::_('Click to sort by this column').' sorting by '.$config->sort.' direction '.$config->direction.'"  '.$class.'>';
+		$html  = '<a href="'.$route.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
 		$html .= JText::_($config->title);
 		$html .= '</a>';
 

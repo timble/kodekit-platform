@@ -39,7 +39,7 @@
                     <?= @helper('grid.checkall'); ?>
                 </th>
                 <th>
-                    <?= @helper('grid.sort',  array('column' => 'title', 'default_sort' => 'ordering')); ?>
+                    <?= @helper('grid.sort',  array('column' => 'title')); ?>
                 </th>
                 <th width="5%">
                     <?= @helper('grid.sort',  array('column' => 'published')); ?>
