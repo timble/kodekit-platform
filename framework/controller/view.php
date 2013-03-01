@@ -86,7 +86,7 @@ abstract class KControllerView extends KControllerAbstract
 			//Create the view
 			$config = array(
                 'media_url' => $this->getService('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getService('request')->getUrl()->toString(KHttpUrl::BASE | KHttpUrl::BASE),
+			    'base_url'	=> $this->getService('request')->getUrl()->toString(KHttpUrl::BASE ^ KHttpUrl::USER ^ KHttpUrl::PASS),
                 'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
