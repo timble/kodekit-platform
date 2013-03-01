@@ -47,7 +47,7 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
             // Extract if path is not in the active branch.
             if(!$extract && $children == 'active' && $page->level > 1)
             {
-                if(!is_null($this->active) && (implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $this->active->path), 0, count($page->parent_ids))))) {
+                if(implode('/', $page->getParentIds()) != implode('/', array_slice(explode('/', $this->active->path), 0, count($page->getParentIds())))) {
                     $extract = true;
                 }
             }
@@ -56,7 +56,7 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
                 $this->pages->extract($page);
             }
         }
-        
+
         $this->show_title = $this->module->params->get('show_title', false);
         $this->class      = $this->module->params->get('class', 'nav');
         
