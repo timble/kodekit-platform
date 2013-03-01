@@ -8,7 +8,7 @@
 */
 
 /**
- * Template read filter to convert @ to $this->
+ * Replace <ktml:variable /> with the contents of the variable if it exists
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Template
@@ -34,29 +34,13 @@ class KTemplateFilterVariable extends KTemplateFilterAbstract implements KTempla
     }
 
     /**
-	 * Convert '@' to '$this->', unless when they are escaped '\@'
+	 * Replace <ktml:variable /> with the contents of the variable if it exists
 	 *
 	 * @param string
 	 * @return KTemplateFilterVariable
 	 */
 	public function read(&$text)
 	{
-        /**
-         * We could make a better effort at only finding @ between <?php ?>
-         * but that's probably not necessary as @ doesn't occur much in the wild
-         * and there's a significant performance gain by using str_replace().
-         */
-
-		// Replace \@ with \$
-		$text = str_replace('\@', '\$', $text);
-
-        // Now replace non-eescaped @'s
-         $text = str_replace(array('@$'), '$', $text);
-
-        // Replace \$ with @
-		$text = str_replace('\$', '@', $text);
-
-        // Replace <ktml:variable /> with the contents of the variable if it exists
         $matches = array();
         if(preg_match_all('#<ktml:variable\ name="([^"]+)"(.*)\/>#iU', $text, $matches))
         {
