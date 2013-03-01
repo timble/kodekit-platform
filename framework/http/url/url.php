@@ -9,11 +9,9 @@
 /**
  * HTTP Url Class
  *
- * This class helps you to create and manipulate urls, including query
- * strings and path elements. It does so by splitting up the pieces of the
- * url and allowing you modify them individually; you can then then fetch
- * them as a single url string. This helps when building complex links,
- * such as in a paged navigation system.
+ * This class helps you to create and manipulate urls, including query strings and path elements. It does so by splitting
+ * up the pieces of the url and allowing you modify them individually; you can then then fetch them as a single url
+ * string.
  *
  * The following is a simple example. Say that the page address is currently
  * `http://anonymous::guest@example.com/path/to/index.php/foo/bar?baz=dib#anchor`.
@@ -40,8 +38,8 @@
  * ?>
  * </code>
  *
- * Now that we have imported the url and had it parsed automatically, we
- * can modify the component parts, then fetch a new url string.
+ * Now that we have imported the url and had it parsed automatically, we can modify the component parts, then fetch a
+ * new url string.
  *
  * <code>
  * <?php
@@ -272,46 +270,124 @@ class KHttpUrl extends KObject
     }
 
     /**
-     * Sets the query string in the url, for KHttpUrl::getQuery() and KHttpUrl::$query.
+     * Get the scheme part of the URL
      *
-     * This will overwrite any previous values.
+     * @return string|null
+     */
+    public function getScheme()
+    {
+        return $this->scheme;
+    }
+
+    /**
+     * Set the URL scheme
      *
-     * @param   string|array  $query  The query string to use; for example `foo=bar&baz=dib`.
-     * @param   boolean       $merge  If TRUE the data in $query will be merged instead of replaced. Default FALSE.
+     * @param  string $scheme
      * @return  KHttpUrl
      */
-    public function setQuery($query, $merge = false)
+    public function setScheme($scheme)
     {
-        $result = $query;
-        if (!is_array($query))
-        {
-            if (strpos($query, '&amp;') !== false) {
-                $query = str_replace('&amp;', '&', $query);
-            }
-
-            //Set the query vars
-            parse_str($query, $result);
-        }
-
-        if ($merge) {
-            $this->_query = array_merge($this->_query, $result);
-        } else {
-            $this->_query = $result;
-        }
-
+        $this->scheme = $scheme;
         return $this;
     }
 
     /**
-     * Returns the query portion as a string or array
+     * Get the URL user
+     *
+     * @return string|null
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set the URL user
+     *
+     * @param  string $user
+     * @return KHttpUrl
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * Get the URL password
+     *
+     * @return string|null
+     */
+    public function getPass()
+    {
+        return $this->pass;
+    }
+
+    /**
+     * Set the URL password
+     *
+     * @param  string $user
+     * @return KHttpUrl
+     */
+    public function setPass($pass)
+    {
+        $this->pass = $pass;
+        return $this;
+    }
+
+    /**
+     * Get the URL host
+     *
+     * @return string|null
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
+     * Set the URL Host
+     *
+     * @param  string $host
+     * @return KHttpUrl
+     */
+    public function setHost($host)
+    {
+        $this->host = $host;
+        return $this;
+    }
+
+    /**
+     * Get the URL port
+     *
+     * @return integer|null
+     */
+    public function getPort()
+    {
+        return $this->port;
+    }
+
+    /**
+     * Set the port part of the URL
+     *
+     * @param  integer $port
+     * @return KHttpUrl
+     */
+    public function setPort($port)
+    {
+        $this->port = $port;
+        return $this;
+    }
+
+    /**
+     * Returns the path portion as a string or array
      *
      * @param     boolean $toArray If TRUE return an array. Default FALSE
-     * @param     boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
-     * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
+     * @return  string|array The path string; e.g., `path/to/site`.
      */
-    public function getQuery($toArray = false, $escape = false)
+    public function getPath($toArray = false)
     {
-        $result = $toArray ? $this->_query : http_build_query($this->_query, '', $escape ? '&amp;' : '&');
+        $result = $toArray ? $this->_path : $this->_pathEncode($this->_path);
         return $result;
     }
 
@@ -357,16 +433,103 @@ class KHttpUrl extends KObject
     }
 
     /**
-     * Returns the path portion as a string or array
+     * Returns the query portion as a string or array
      *
-     * @param     boolean $toArray If TRUE return an array. Default FALSE
-     * @return  string|array The path string; e.g., `path/to/site`.
+     * @param   boolean $toArray If TRUE return an array. Default FALSE
+     * @param   boolean $escape  If TRUE escapes '&' to '&amp;' for xml compliance. Default FALSE
+     * @return  string|array The query string; e.g., `foo=bar&baz=dib`.
      */
-    public function getPath($toArray = false)
+    public function getQuery($toArray = false, $escape = false)
     {
-        $result = $toArray ? $this->_path : $this->_pathEncode($this->_path);
+        $result = $this->_query;
+
+        if(!$toArray)
+        {
+            $result =  http_build_query($this->_query, '', $escape ? '&amp;' : '&');
+
+            // We replace the + used for spaces by http_build_query with the more standard %20.
+            $result = str_replace('+', '%20', $result);
+        }
+
         return $result;
     }
+
+    /**
+     * Sets the query string
+     *
+     * If an string is provided, will decode the string to an array of parameters. Array values will be represented in
+     * the query string using PHP's common square bracket notation.
+     *
+     * @param   string|array  $query  The query string to use; for example `foo=bar&baz=dib`.
+     * @param   boolean       $merge  If TRUE the data in $query will be merged instead of replaced. Default FALSE.
+     * @return  KHttpUrl
+     */
+    public function setQuery($query, $merge = false)
+    {
+        $result = $query;
+        if (!is_array($query))
+        {
+            if (strpos($query, '&amp;') !== false) {
+                $query = str_replace('&amp;', '&', $query);
+            }
+
+            //Set the query vars
+            parse_str($query, $result);
+        }
+
+        if ($merge) {
+            $this->_query = array_merge($this->_query, $result);
+        } else {
+            $this->_query = $result;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the URL format
+     *
+     * @return string|null
+     */
+    public function getFormat()
+    {
+        return $this->format;
+    }
+
+    /**
+     * Set the URL format
+     *
+     * @param  string $format
+     * @return KHttpUrl
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
+        return $this;
+    }
+
+    /**
+     * Get the URL fragment
+     *
+     * @return string|null
+     */
+    public function getFragment()
+    {
+        return $this->fragment;
+    }
+
+    /**
+     * Set the URL fragment part
+     *
+     * @param  string $fragment
+     * @return KHttpUrl
+     */
+    public function setFragment($fragment)
+    {
+        $this->fragment = $fragment;
+        return $this;
+    }
+
 
     /**
      * Parse the url from a string
