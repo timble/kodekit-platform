@@ -24,9 +24,5 @@ class ComDebugControllerDebug extends ComDefaultControllerView
         //Don't dispatch event or allow callbacks
         $config->dispatch_events  = false;
         $config->enable_callbacks = false;
-
-        //Force request variables
-        $config->request->view   = 'debug';
-        $config->request->layout = 'default';
     }
 }

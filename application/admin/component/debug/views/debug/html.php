@@ -16,27 +16,31 @@
  * @package     Nooku_Components
  * @subpackage  Debug
  */
-class ComDebugViewDebugHtml extends ComDefaultViewHtml
+class ComDebugViewDebugHtml extends KViewHtml
 {
     public function display()
     {
         $database = $this->getService('com://admin/debug.event.subscriber.database');
         $profiler = $this->getService('com://admin/debug.event.profiler');
         $language = JFactory::getLanguage();
-        
+
         //Remove the template includes
         $includes = get_included_files();
-        
-        foreach($includes as $key => $value) {
-            $includes = str_replace('tmpl://', '', $includes);
+
+        foreach($includes as $key => $value)
+        {
+            //Find the real file path
+            if($alias = $this->getService('loader')->getAlias($value)) {
+                $includes[$key] = $alias;
+            };
         }
-	    
+
 	    $this->memory    = $profiler->getMemory();
-	    $this->events    = $profiler->getEvents();
-	    $this->queries   = $database->getQueries();
-	    $this->languages = $language->getPaths();
-	    $this->includes  = $includes;
-	    $this->strings   = $language->getOrphans();
+	    $this->events    = (array) $profiler->getEvents();
+	    $this->queries   = (array) $database->getQueries();
+	    $this->languages = (array) $language->getPaths();
+	    $this->includes  = (array) $includes;
+	    $this->strings   = (array) $language->getOrphans();
                         
         return parent::display();
     }

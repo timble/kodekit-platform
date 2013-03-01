@@ -1,6 +1,5 @@
 <?
 /**
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Debug
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -36,7 +35,7 @@
   			<tr>  
   				<td class="-koowa-sortable" align="right" width="10"><?= $i; ?></td>
   				<td class="-koowa-sortable"><?= @text('PHP') ?></td>
-				<td class="-koowa-sortable"><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => filesize($file))); ?></td>
+				<td class="-koowa-sortable"><?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => \@filesize($file))); ?></td>
             	<td class="-koowa-sortable"><?= str_replace(JPATH_ROOT, '', $file); ?></td>
         	</tr>
             <? $i++; ?>
