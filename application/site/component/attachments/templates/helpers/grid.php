@@ -20,7 +20,10 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
     {
         $config = new KConfig($config);
         $config->append(array(
-            'attribs'   => array(),
+            'attribs'   => array(
+                'class'    => 'thumbnail',
+                'align'    => 'right'
+            ),
             'filter'   => array(
                 'row'      => '',
                 'table'    => '',
