@@ -513,10 +513,8 @@ Files.App = new Class({
 			delete query.format;
 		}
 
-		var isAdmin = document.URL.replace(Files.sitebase, '').substr(0, 14) == '/administrator' ? true : false;
-		
-		return (isAdmin ? '/administrator' : '') + '/files/?'+new Hash(query).filter(function(value, key) {
-			return typeof value !== 'function';
+		return Files.sitebase+'?'+new Hash(query).filter(function(value, key) {
+				return typeof value !== 'function';
 		}).toQueryString();
 	}
 });
