@@ -422,9 +422,10 @@ class ComApplicationDispatcher extends KDispatcherApplication
         $host = $uri->getHost();
         if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($host))
         {
-           // Check folder
-           $path = trim(str_replace(array(JURI::base(true)), '', $uri->getPath()), '/');
-           if(!empty($path)) {
+            // Check folder
+            $base = $this->getRequest()->getBaseUrl()->getPath();
+            $path = trim(str_replace($base, '', $uri->getPath()), '/');
+            if(!empty($path)) {
                 $site = array_shift(explode('/', $path));
             } else {
                 $site = 'default';
