@@ -30,6 +30,7 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
         '@template('    => '$this->loadFile(',
         '@route('       => '$this->getView()->getRoute(',
         '@escape('      => '$this->getView()->escape(',
+        '@url('         => '$this->getView()->getBaseUrl()->toString('
     );
 
     /**
