@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<params addpath="/administrator/component/pages/elements">
+	<params addpath="/application/admin/component/pages/elements">
 		<param name="menu_id" type="menu" default="" label="Menu" description="" />
 		<param name="show_title" type="radio" default="0" label="Module title" description="">
 			<option value="1">Show</option>
