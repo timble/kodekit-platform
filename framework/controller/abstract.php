@@ -111,10 +111,6 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     protected function _initialize(KConfig $config)
     {
-        //Create permission identifier
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array($permission->path[0], 'permission');
-
         $config->append(array(
             'command_chain'     => 'koowa:command.chain',
             'dispatch_events'   => true,
@@ -124,7 +120,6 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
             'request'           => 'koowa:controller.request',
             'response'          => 'koowa:controller.response',
             'user'              => 'koowa:controller.user',
-            'behaviors'         => array($permission),
         ));
 
         parent::_initialize($config);

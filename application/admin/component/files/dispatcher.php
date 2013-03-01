@@ -15,7 +15,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDispatcherDefault extends ComDefaultDispatcherDefault
+class ComFilesDispatcher extends ComDefaultDispatcher
 {
 	public function __construct(KConfig $config)
 	{

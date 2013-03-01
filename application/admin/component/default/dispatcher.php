@@ -14,7 +14,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcherDefault extends KDispatcherComponent
+class ComDefaultDispatcher extends KDispatcherComponent
 {
     /**
      * Constructor

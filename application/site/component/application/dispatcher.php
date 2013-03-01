@@ -14,7 +14,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDispatcherDefault extends KDispatcherApplication
+class ComApplicationDispatcher extends KDispatcherApplication
 {
     /**
      * The site identifier.

@@ -50,8 +50,13 @@ abstract class KControllerView extends KControllerAbstract
      */
     protected function _initialize(KConfig $config)
     {
+        //Create permission identifier
+        $permission       = clone $this->getIdentifier();
+        $permission->path = array('controller', 'permission');
+
         $config->append(array(
-            'view' => $this->getIdentifier()->name,
+            'view'      => $this->getIdentifier()->name,
+            'behaviors' => array($permission),
         ));
 
         parent::_initialize($config);

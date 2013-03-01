@@ -44,11 +44,16 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
      */
     protected function _initialize(KConfig $config)
     {
-    	$config->append(array(
+        //Create permission identifier
+        $permission       = clone $this->getIdentifier();
+        $permission->path = array('dispatcher', 'permission');
+
+        $config->append(array(
         	'controller' => $this->getIdentifier()->package,
             'request'    => 'koowa:dispatcher.request',
             'response'   => 'koowa:dispatcher.response',
             'user'       => 'koowa:dispatcher.user',
+            'behaviors'  => array($permission),
          ));
 
         parent::_initialize($config);

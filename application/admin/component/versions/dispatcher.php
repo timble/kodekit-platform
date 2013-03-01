@@ -16,7 +16,7 @@
  * @package    	Nooku_Components
  * @subpackage 	Versions
  */
-class ComVersionsDispatcherDefault extends ComDefaultDispatcherDefault
+class ComVersionsDispatcher extends ComDefaultDispatcher
 {
  	/**
      * Initializes the options for the object

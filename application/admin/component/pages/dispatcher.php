@@ -15,7 +15,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesDispatcherDefault extends ComDefaultDispatcherDefault
+class ComPagesDispatcher extends ComDefaultDispatcher
 {
     protected function _actionDispatch(KCommandContext $context)
     {

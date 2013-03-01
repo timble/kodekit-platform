@@ -129,7 +129,13 @@ class KMixinBehavior extends KMixinAbstract
             if (is_string($behavior) && strpos($behavior, '.') === false)
             {
                 $identifier = clone $this->getIdentifier();
-                $identifier->path = array($identifier->path[0], 'behavior');
+
+                if(isset($identifier->path[0])) {
+                    $identifier->path = array($identifier->path[0], 'behavior');
+                } else {
+                    $identifier->path = array($identifier->name, 'behavior');
+                }
+
                 $identifier->name = $behavior;
             }
             else $identifier = $this->getIdentifier($behavior);

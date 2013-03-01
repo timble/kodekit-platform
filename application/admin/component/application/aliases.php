@@ -15,7 +15,7 @@
  * @subpackage  Application
  */
 
-KService::setAlias('application'           , 'com://admin/application.dispatcher.default');
+KService::setAlias('application'           , 'com://admin/application.dispatcher');
 KService::setAlias('application.components', 'com://admin/application.database.rowset.components');
 KService::setAlias('application.languages' , 'com://admin/application.database.rowset.languages');
 KService::setAlias('application.pages'     , 'com://admin/application.database.rowset.pages');
