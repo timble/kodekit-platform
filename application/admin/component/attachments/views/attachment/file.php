@@ -1,15 +1,14 @@
 <?php
-
 class ComAttachmentsViewAttachmentFile extends KViewFile
 {
 	public function display()
 	{
-		$item = $this->getModel()->getItem();
+		$item = $this->getModel()->getRow();
     	$state = $this->getModel()->getState();
     	
     	$container = $this->getService('com://admin/files.model.containers')
     		->slug($item->container)
-    		->getItem();
+    		->getRow();
 
         $this->path = $container->path.'/'.$item->path;
         $this->filename = $item->name;

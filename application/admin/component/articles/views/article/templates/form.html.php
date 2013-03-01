@@ -28,7 +28,7 @@
 <script>
     window.addEvent('domready', (function(){
     	<? if (!$article->id) : ?>
-            new Attachments.Upload({holder: 'article-form'});
+            new Attachments.Upload({container: 'article-form'});
         <? endif ?>
     }));
 </script>
