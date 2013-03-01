@@ -9,7 +9,7 @@
 ?>
 
 <head>
-    <base href="<?= @service('request')->getUrl(); ?>" />
+    <base href="<?= @url(); ?>" />
     <title><?= @escape(@service('application')->getCfg('sitename' )). ' - ' .@text( 'Administration')  ?></title>
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta content="chrome=1" http-equiv="X-UA-Compatible" />
