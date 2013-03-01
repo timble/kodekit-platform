@@ -39,13 +39,13 @@ class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
 	
 	public function __get($name)
 	{
-	    if($name == 'relation' && is_null($this->relation))
+	    if($name == 'relation' && !isset($this->relation))
 	    {
 	        $this->relation = $this->getService('com://admin/attachments.database.table.relations')
 	            ->select(array('attachments_attachment_id' => $this->id), KDatabase::FETCH_ROW);
 	    }
         
-        if($name == 'file' && is_null($this->file))
+        if($name == 'file' && !isset($this->file))
 	    {
 	    	$this->file = $this->getService('com://admin/files.model.files')
 	    					->container($this->container)
@@ -54,7 +54,7 @@ class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
 	    					->getRow();
 	    }
 	    
-	    if($name == 'thumbnail' && is_null($this->thumbnail))
+	    if($name == 'thumbnail' && !isset($this->thumbnail))
 	    {
 	    	$file = $this->file;
 	    	
