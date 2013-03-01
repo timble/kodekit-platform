@@ -20,12 +20,15 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
     {
         $config = new KConfig($config);
         $config->append(array(
+            'attribs'   => array(),
             'filter'   => array(
                 'row'      => '',
                 'table'    => '',
                 'limit'    => '1'
             )
         ));
+        
+        $attribs = $this->_buildAttributes($config->attribs);
 
         $list = $this->getService('com://admin/attachments.controller.attachment', array(
 			'request' => $this->getService('koowa:controller.request', array(
@@ -38,9 +41,7 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
         if(count($list)) {
             foreach($list as $item) {
                 if($item->file->isImage()) {
-                    $html[] = '<a class="thumbnail" href="#">';
-                    $html[] = '<img src="'.$item->thumbnail->thumbnail.'" />';
-                    $html[] = '</a>';
+                    $html[] = '<img '.$attribs.' src="'.$item->thumbnail->thumbnail.'" />';
                 }
             }
     
