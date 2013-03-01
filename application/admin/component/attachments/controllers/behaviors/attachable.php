@@ -145,7 +145,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 			$this->_attachment_controller->getModel()->reset(false);
 		}
 		catch (KControllerException $e) {
-			$context->setError($e);
+			$context->response->setStatus($e->getCode() , $e->getMessage());
 			return false;
 		}
 		
@@ -172,9 +172,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 
 		foreach ($this->_attachments as $attachment) {
 			if ($limit !== false && $count >= $limit) {
-				$context->setError(new KControllerException(
-					'You have reached the attachment limit for this item.'
-				));
+                $context->response->setStatus(500, 'You have reached the attachment limit for this item.');
 				return false;
 			}
 			if ($this->_saveFile($context, $attachment)) {
