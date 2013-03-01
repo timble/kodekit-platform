@@ -14,7 +14,7 @@ class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
 	{
 		$config = new KConfig($config);		
 		$config->append(array(
-				'holder'	 		 => 'document.body'
+				'container'	 		 => 'document.body'
 		));
 
 		if(!$config->allowed_extensions || !$config->allowed_mimetypes)
@@ -28,18 +28,18 @@ class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
 			));
 		}
 		
-		if($config->holder != 'document.body') {
-			$config->holder = '\''.$config->holder.'\'';
+		if($config->container != 'document.body') {
+			$config->container = '\''.$config->container.'\'';
 		}
 
         $extensions = json_encode($config->allowed_extensions->toArray());
 
 		$html = <<<END
-		<script src="media://attachments/js/attachments.js" />
+		<script src="media://attachments/js/attachments.upload.js" />
 		<script>
 		window.addEvent('domready', function() {
 			new Attachments.Upload({
-				holder: {$config->holder},
+				container: {$config->container},
 			    extensions: {$extensions}
 			});
 		});

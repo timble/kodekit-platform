@@ -5,7 +5,7 @@ Attachments.Upload = new Class({
 	
 	initialize: function(options){
 		this.setOptions({
-			list: document.id(options.holder).getElement('ul.attachments'), 
+			list: document.id(options.container).getElement('ul.attachments'),
 			extensions : options.extensions
 		});
 		
