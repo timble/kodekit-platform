@@ -199,7 +199,24 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		$this->_saveFiles($context);
 	}
 	
-	protected function _afterControllerDelete(KCommandContext $context) {
-		// TODO
+	protected function _afterControllerDelete(KCommandContext $context)
+    {
+        $status = $context->result->getStatus();
+
+        if($status == KDatabase::STATUS_DELETED || $status == 'trashed')
+        {
+            $id = $context->result->get('id');
+            $table = $context->result->getTable()->getBase();
+
+            if(!empty($id) && $id != 0)
+            {
+                $rows = $this->getService('com://admin/attachments.model.attachments')
+                    ->row($id)
+                    ->table($table)
+                    ->getRowset();
+
+                $rows->delete();
+            }
+        }
 	} 
 }
