@@ -9,17 +9,6 @@
 ?>
 
 <fieldset class="form-horizontal">
-	<legend><?= @text( 'Server' ); ?></legend>
-	<div class="control-group">
-	    <label class="control-label" for="settings[system][gzip]"><?= @text( 'Page Compression' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][gzip]', 'selected' => $settings->gzip));?>
-	        <p class="help-block"><?= @text( 'Compress buffered output if supported' ); ?></p>
-	    </div>
-	</div>
-</fieldset>
-
-<fieldset class="form-horizontal">
 	<legend><?= @text( 'Diagnostics' ); ?></legend>
 	<div class="control-group">
 	    <label class="control-label" for="settings[system][debug]"><?= @text( 'Application Profiling' ); ?></label>
