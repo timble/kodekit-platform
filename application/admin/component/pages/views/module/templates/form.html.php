@@ -23,7 +23,7 @@
 		<div class="title">
 			<input class="required" type="text" name="title" value="<?= @escape($module->title) ?>" />
 		</div>
-		
+
 		<div class="scrollable">
 		    <fieldset class="form-horizontal">
 		    	<legend><?= @text( 'Details' ); ?></legend>
@@ -40,19 +40,19 @@
 				    </div>
 				</div>
 			</fieldset>
-			
+
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Default Parameters' ); ?></legend>
 				<?= @template('form_parameters.html', array('params' => $module->params)) ?>
 			</fieldset>
-						
+
 			<? if($module->params->getNumParams('advanced')) : ?>
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Advanced Parameters' ); ?></legend>
 				<?= @template('form_parameters.html', array('params' => $module->params, 'group' => 'advanced')) ?>
 			</fieldset>
 			<? endif ?>
-			
+
 			<? if($module->params->getNumParams('other')) : ?>
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Other Parameters' ); ?></legend>
@@ -70,7 +70,7 @@
 	</div>
 
 	<div class="sidebar">
-		<div class="scrollable">	
+		<div class="scrollable">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Publish') ?></legend>
 				<div class="control-group">
