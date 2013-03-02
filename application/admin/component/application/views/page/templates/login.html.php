@@ -8,16 +8,21 @@
  */
 ?>
 
+<!DOCTYPE HTML>
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+
+<?= @template('page_head.html') ?>
+
 <body class="com_<?= $component ?> login">
 <div id="container">
     <div id="login-box" class="login">
 		<img src="media://application/images/nooku-server_logo.png" alt="Nooku Server logo">
-		<?= @template('default_message.html') ?>
+		<?= @template('page_message.html') ?>
 		<div id="section-box">
-			<ktml:variable name="content" />
+            <ktml:content />
 		</div>
-		<a class="return" href="<?= JURI::root(); ?>">
-			<?= JText::_('Go to site home page.'); ?>
+		<a class="return" href="/">
+			<?= @text('Go to site home page.'); ?>
 		</a>
 	</div>
 </div>
@@ -25,3 +30,5 @@
 <script data-inline src="media://application/js/chosen.mootools.1.2.js" /></script>
 <script data-inline> $$(".chzn-select").chosen(); </script>
 </body>
+
+</html>

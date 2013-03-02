@@ -8,7 +8,15 @@
  */
 ?>
 
-<body id="tmpl-dialog" class="com_<?= $component ?> contentpane">
-    <?= @template('default_message.html') ?>
-    <ktml:variable name="content" />
+<!DOCTYPE HTML>
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+
+<?= @template('page_head.html') ?>
+
+<body id="tmpl-overlay" class="com_<?= $component ?> contentpane">
+    <div id="container">
+        <ktml:content />
+    </div>
 </body>
+
+</html>

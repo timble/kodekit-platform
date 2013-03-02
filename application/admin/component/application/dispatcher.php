@@ -171,7 +171,8 @@ class ComApplicationDispatcher extends KDispatcherApplication
             $config = array('response' => $context->response);
 
             $this->getService('com://admin/application.controller.page', $config)
-                ->render(array('tmpl' => $context->request->query->get('tmpl', 'cmd', 'default')));
+                 ->layout($context->request->query->get('tmpl', 'cmd', 'default'))
+                 ->render();
         }
 
         //Send the response

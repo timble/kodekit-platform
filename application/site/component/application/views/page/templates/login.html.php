@@ -7,10 +7,18 @@
  * @link        http://www.nooku.org
  */
 ?>
+
+<!DOCTYPE HTML>
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+
+<?= @template('page_head.html') ?>
+
 <body>
-<?= @template('default_message.html') ?>
+<?= @template('page_message.html') ?>
 <div id="frame" class="outline">
     <h1><?= @service('application')->getCfg('sitename'); ?></h1>
-    <ktml:variable name="content" />
+    <ktml:content />
 </div>
 </body>
+
+</html>

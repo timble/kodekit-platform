@@ -46,10 +46,4 @@ class ComApplicationViewHtml extends KViewHtml
 
         return parent::display();
     }
-
-    public function getLayout()
-    {
-        return 'default';
-    }
-
 }

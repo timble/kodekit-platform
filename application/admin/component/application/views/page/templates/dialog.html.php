@@ -8,6 +8,14 @@
  */
 ?>
 
-<body id="tmpl-overlay" class="com_<?= $component ?> contentpane">
-    <ktml:variable name="content" />
+<!DOCTYPE HTML>
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+
+<?= @template('page_head.html') ?>
+
+<body id="tmpl-dialog" class="com_<?= $component ?> contentpane">
+    <?= @template('page_message.html') ?>
+    <ktml:content />
 </body>
+
+</html>

@@ -8,7 +8,14 @@
  */
 ?>
 
+<!DOCTYPE HTML>
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+
+<?= @template('page_head.html') ?>
+
 <body id="tmpl-modal" class="com_<?= $component ?> contentpane">
-    <?= @template('default_message.html') ?>
-    <ktml:variable name="content" />
+    <?= @template('page_message.html') ?>
+    <ktml:content />
 </body>
+
+</html>

@@ -8,8 +8,13 @@
  */
 ?>
 
+<!DOCTYPE HTML>
+<html lang="<?= $language; ?>" dir="<?= $direction; ?>">
+
+<?= @template('page_head.html') ?>
+
 <body id="tmpl-overlay" class="com_<?= $component ?> contentpane">
-    <div id="container">
-        <ktml:variable name="content" />
-    </div>
+    <ktml:content />
 </body>
+
+</html>

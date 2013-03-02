@@ -10,9 +10,10 @@
 
 <head>
     <base href="<?= @url(); ?>" />
-    <title><?= @escape(@service('application')->getCfg('sitename' )). ' - ' .@text( 'Administration')  ?></title>
+    <title><?= @escape(@service('application')->getCfg('sitename' )) ?></title>
+
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
-    <meta content="chrome=1" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <ktml:meta />
     <ktml:link />
@@ -20,17 +21,10 @@
     <ktml:script />
 
     <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-	
-	<script src="media://koowa/js/mootools.js" />
-	<script src="media://application/js/application.js" />
-    <script src="media://application/js/chromatable.js" />
 
-	<? if(true) : ?>
-	<style src="media://application/css/default.css" />
-	<? else : ?>
-    <script src="media://application/js/sidebar.js" />
-	<style src="media://application/css/legacy.css" />
-	<? endif; ?>
-	
     <style src="media://application/css/system.css"  />
+    <style src="media://application/css/general.css"  />
+    <style src="media://application/css/default.css" />
+    <style src="media://application/css/print.css" media="print" />
+
 </head>
