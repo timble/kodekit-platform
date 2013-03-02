@@ -156,6 +156,9 @@ abstract class KControllerView extends KControllerAbstract
             $view->set($name, $value);
         }
 
+        //Push the content in the view
+        $view->setContent($context->response->getContent());
+
         //Render the view
         $content = $view->display();
 
