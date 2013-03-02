@@ -52,7 +52,8 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'modules' => null,
+            'modules'  => null,
+            'priority' => KCommand::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
@@ -179,7 +180,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
                 $replace[$i] = $this->_renderModules($modules, $attribs);
 
                 if(!empty($replace[$i])) {
-                    $replace[$i] = str_replace('<ktml:content />', $replace[$i], $matches[3][$i]);
+                    $replace[$i] = str_replace('<ktml:modules:content />', $replace[$i], $matches[3][$i]);
                 }
             }
 
