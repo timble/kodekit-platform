@@ -26,13 +26,13 @@ class ComUsersModuleLoginHtml extends ComDefaultModuleDefaultHtml
         parent::_initialize($config);
     }
     
-    public function display()
+    public function render()
     { 
         $this->name          = $this->module->params->get('name');
         $this->usesecure     = $this->module->params->get('usesecure');
         $this->show_title    = $this->module->params->get('show_title', false);
         $this->allow_registration = $this->getService('application.components')->users->params->get('allowUserRegistration');
 
-        return parent::display();
+        return parent::render();
     }
 } 

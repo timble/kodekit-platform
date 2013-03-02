@@ -16,7 +16,7 @@
  */
 class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
 {
-    public function display()
+    public function render()
     {
         $start    = $this->module->params->get('start_level');
         $end      = $this->module->params->get('end_level');
@@ -60,6 +60,6 @@ class ComPagesModuleMenuHtml extends ComDefaultModuleDefaultHtml
         $this->show_title = $this->module->params->get('show_title', false);
         $this->class      = $this->module->params->get('class', 'nav');
         
-        return parent::display();
+        return parent::render();
     }
 }

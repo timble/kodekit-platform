@@ -18,7 +18,7 @@
  */
 class ComCacheViewItemsHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function render()
 	{
         $group = $this->getModel()->getState()->group;
         
@@ -26,6 +26,6 @@ class ComCacheViewItemsHtml extends ComDefaultViewHtml
 	    $this->size   = !empty($group) ? $this->groups->find($group)->size : $this->groups->size;
         $this->count  = !empty($group)? $this->groups->find($group)->count : $this->groups->count;
         
-		return parent::display();
+		return parent::render();
 	}
 }

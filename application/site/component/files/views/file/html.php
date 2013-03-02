@@ -10,7 +10,7 @@
 
 class ComFilesViewFileHtml extends KViewFile
 {
-    public function display()
+    public function render()
     {
     	$state = $this->getModel()->getState();
     	$file  = $this->getModel()->getRow();
@@ -26,6 +26,6 @@ class ComFilesViewFileHtml extends KViewFile
         	throw new KViewException(JText::_('File not found'));
         }
 
-        return parent::display();
+        return parent::render();
     }
 }

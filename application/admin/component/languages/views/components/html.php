@@ -26,7 +26,7 @@ class ComLanguagesViewComponentsHtml extends ComDefaultViewHtml
         parent::_initialize($config);
     }
     
-    public function display()
+    public function render()
     {
         $tables     = $this->getService('com://admin/languages.model.tables')->getRowset();
         $components = $this->getService('com://admin/extensions.model.components')
@@ -40,6 +40,6 @@ class ComLanguagesViewComponentsHtml extends ComDefaultViewHtml
         $this->components = $components;
         $this->total      = count($components);
         
-        return parent::display();
+        return parent::render();
     }
 }

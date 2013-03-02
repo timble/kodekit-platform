@@ -16,9 +16,9 @@
  */
 class ComCategoriesViewCategoriesHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function render()
 	{
 		$this->params = $this->getService('application')->getParams();
-		return parent::display();
+		return parent::render();
 	}
 }

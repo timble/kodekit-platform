@@ -17,7 +17,7 @@
  
 class ComDefaultModuleWidgetHtml extends ComDefaultModuleDefaultHtml
 {
-    public function display()
+    public function render()
     {
     	$function = '_'.$this->module->params->get('layout', 'overlay');
     	return $this->$function();

@@ -30,7 +30,7 @@ class ComPagesModuleDynamicHtml extends ComDefaultModuleDefaultHtml implements K
         return $container->get($config->service_identifier);
     }
 
-    public function display()
+    public function render()
     {
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome)) {

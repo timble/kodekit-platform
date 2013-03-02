@@ -17,7 +17,7 @@
 
 class ComPagesViewPageHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         // Load languages.
         $language   = JFactory::getLanguage();
@@ -51,6 +51,6 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
 
         $this->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
-        return parent::display();
+        return parent::render();
     }
 }

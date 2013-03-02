@@ -170,7 +170,7 @@ abstract class KViewTemplate extends KViewAbstract
      *
      * @return string     The output of the view
      */
-    public function display()
+    public function render()
     {
         $layout     = $this->getLayout();
         $format     = $this->getFormat();
@@ -182,7 +182,7 @@ abstract class KViewTemplate extends KViewAbstract
             ->loadFile($identifier, $this->_data)
             ->render();
 
-        return parent::display();
+        return parent::render();
     }
 
     /**
@@ -343,14 +343,14 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function __toString()
     {
-        return $this->display();
+        return $this->render();
     }
 
     /**
      * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view by using the variable
      * name as the method name. If the method name is a setter method the setter will be called instead.
      *
-     * For example : $view->layout('foo')->title('name')->display().
+     * For example : $view->layout('foo')->title('name')->render().
      *
      * @param   string  Method name
      * @param   array   Array containing all the arguments for the original call

@@ -1,7 +1,7 @@
 <?php
 class ComAttachmentsViewAttachmentFile extends KViewFile
 {
-	public function display()
+	public function render()
 	{
 		$item = $this->getModel()->getRow();
     	$state = $this->getModel()->getState();
@@ -17,6 +17,6 @@ class ComAttachmentsViewAttachmentFile extends KViewFile
         	throw new KViewException('File not found');
         }
 
-        return parent::display();
+        return parent::render();
 	}
 }

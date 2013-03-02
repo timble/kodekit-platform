@@ -108,7 +108,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 		parent::_initialize($config);
     }
     
-	public function display()
+	public function render()
 	{
 		$options = new KConfig(array(
 			'lang' => array(
@@ -132,7 +132,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 		$this->settings   = $this->getEditorSettings();
 		$this->codemirror = $this->codemirror;
 
-		return parent::display();
+		return parent::render();
 	}
 	
     public function getEditorSettings()

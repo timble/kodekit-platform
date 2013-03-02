@@ -12,7 +12,7 @@
  *
  * <code>
  * // in child view class
- * public function display()
+ * public function render()
  * {
  *      $this->path = path/to/file');
  *      // OR
@@ -24,7 +24,7 @@
  *      $this->mimetype    = 'application/pdf';
  *      $this->disposition =  'inline'; // defaults to 'attachment' to force download
  *
- *      return parent::display();
+ *      return parent::render();
  * }
  * </code>
  *
@@ -101,7 +101,7 @@ class KViewFile extends KViewAbstract
      *
      * @return void
      */
-    public function display()
+    public function render()
     {
         if (empty($this->path) && empty($this->_content)) {
         	throw new \UnexpectedValueException('No content or path supplied');

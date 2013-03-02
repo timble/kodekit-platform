@@ -160,7 +160,7 @@ abstract class KControllerView extends KControllerAbstract
         $view->setContent($context->response->getContent());
 
         //Render the view
-        $content = $view->display();
+        $content = $view->render();
 
         //Set the data in the response
         $context->response

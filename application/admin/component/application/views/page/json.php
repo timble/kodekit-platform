@@ -17,7 +17,7 @@
 
 class ComApplicationViewPageJson extends ComApplicationViewHtml
 {
-    public function display()
+    public function render()
     {
         return $this->content;
     }

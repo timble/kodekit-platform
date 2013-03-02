@@ -16,11 +16,11 @@
  */
 class ComPagesViewPagesHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         $this->applications = array_keys($this->getIdentifier()->getApplications());
         $this->menus        = $this->getService('com://admin/pages.model.menus')->getRowset();
         
-        return parent::display();
+        return parent::render();
     }
 }

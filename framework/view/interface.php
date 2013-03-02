@@ -19,7 +19,7 @@ interface KViewInterface
      *
      * @return string The output of the view
      */
-    public function display();
+    public function render();
 
     /**
      * Set a view property

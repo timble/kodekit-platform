@@ -18,12 +18,12 @@
  */
 class ComUsersViewGroupHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         $group = $this->getModel()->getRow();
 
         $this->users = $this->getService('com://admin/users.model.groups_users')->group_id($group->id)->getRowset()->user_id;
         
-        return parent::display();
+        return parent::render();
     }
 }

@@ -18,7 +18,7 @@
  */
 class ComArticlesViewArticleHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         $article = $this->getModel()->getRow();
 
@@ -26,6 +26,6 @@ class ComArticlesViewArticleHtml extends ComDefaultViewHtml
             $this->attachments($article->getAttachments());
         }
         
-        return parent::display();
+        return parent::render();
     }
 }

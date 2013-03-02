@@ -25,7 +25,7 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 		parent::_initialize($config);
 	}
 
-	public function display()
+	public function render()
 	{
 	    $state = $this->getModel()->getState();
 	    if (empty($state->limit)) {
@@ -35,6 +35,6 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 		$this->token     = $this->getService('user')->getSession()->getToken();
 		$this->container = $this->getModel()->getState()->container;
 
-		return parent::display();
+		return parent::render();
 	}
 }

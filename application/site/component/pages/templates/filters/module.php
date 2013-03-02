@@ -221,7 +221,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
             $content = $this->getService($module->identifier)
                 ->data(array('module' => $module))
                 ->content($module->content)
-                ->display();
+                ->render();
 
             //Prepend or append the module
             if(isset($module->attribs['content']) && $module->attribs['content'] == 'prepend') {

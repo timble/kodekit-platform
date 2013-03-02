@@ -91,7 +91,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      *
      * @return string  The output of the view
      */
-    public function display()
+    public function render()
     {
         $contents = $this->getContent();
         return trim($contents);
@@ -306,6 +306,6 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      */
     public function __toString()
     {
-        return $this->display();
+        return $this->render();
     }
 }

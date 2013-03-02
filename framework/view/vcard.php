@@ -48,7 +48,7 @@ class KViewVcard extends KViewFile
      *
      *  @return string  The output of the view
      */
-    public function display()
+    public function render()
     {
         //Set the filename
         $filename = $this->getService('koowa:filter.filename')->sanitize($this->_properties['FN']);
@@ -72,7 +72,7 @@ class KViewVcard extends KViewFile
         $data   .= "\r\n";
 
         $this->setContent($data);
-        parent::display();
+        parent::render();
     }
 
     /**

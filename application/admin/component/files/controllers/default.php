@@ -111,7 +111,7 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 	        }
 	
 	        //Render the view
-	        $content = $view->display();
+	        $content = $view->render();
 	
 	        //Set the data in the response
 	        $context->response

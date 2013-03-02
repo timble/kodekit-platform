@@ -17,7 +17,7 @@
  */
 class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function render()
 	{
 		$state 	= $this->getModel()->getState();
 		$state->container = 'files-files';
@@ -109,7 +109,7 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 	
 		$this->setPathway();
 	
-		return parent::display();
+		return parent::render();
 	}
 
 	public function setPathway()

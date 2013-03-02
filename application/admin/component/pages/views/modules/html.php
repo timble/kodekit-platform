@@ -16,7 +16,7 @@
  */
 class ComPagesViewModulesHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function render()
 	{
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
@@ -28,6 +28,6 @@ class ComPagesViewModulesHtml extends ComDefaultViewHtml
 		    }
 		} 
 
-		return parent::display();
+		return parent::render();
 	}
 }
