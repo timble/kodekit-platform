@@ -55,7 +55,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
 
         //set the base url
         if (!$config->base_url instanceof KHttpUrlInterface) {
-            $this->_baseurl = $this->getService('koowa:http.url', array('url' => $config->base_url));
+            $this->_baseurl = $this->getService('lib://nooku/http.url', array('url' => $config->base_url));
         } else {
             $this->_baseurl = $config->base_url;
         }
@@ -274,7 +274,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
         }
 
         //Create the route
-        $route = $this->getService('koowa:dispatcher.router.route', array(
+        $route = $this->getService('lib://nooku/dispatcher.router.route', array(
             'url'    => '?'.http_build_query($parts),
             'escape' => $escape === null || $escape === true ? true : false
         ));

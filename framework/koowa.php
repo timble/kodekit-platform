@@ -56,8 +56,8 @@ class Koowa
         $service = KServiceManager::getInstance($config);
 
         //Add a 'loader' alias to the service manager
-        $service->set('koowa:loader', $loader);
-        $service->setAlias('loader', 'koowa:loader');
+        $service->set('lib://nooku/loader', $loader);
+        $service->setAlias('loader', 'lib://nooku/loader');
     }
 
 	/**

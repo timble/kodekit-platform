@@ -119,7 +119,7 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
         {
             $token = $context->user->session->getToken();
 
-            $context->response->headers->addCookie($this->getService('koowa:http.cookie', array(
+            $context->response->headers->addCookie($this->getService('lib://nooku/http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
                 'path'   => $context->request->getBaseUrl()->getPath()
@@ -140,9 +140,9 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
 	protected function _actionDispatch(KCommandContext $context)
 	{
         //Load the component aliases
-        $component   = $this->getController()->getIdentifier()->package;
-        $application = $this->getController()->getIdentifier()->application;
-        $this->getService('loader')->loadIdentifier('com://'.$application.'/'.$component.'.aliases');
+        $component = $this->getController()->getIdentifier()->package;
+        $namespace = $this->getController()->getIdentifier()->namespace;
+        $this->getService('loader')->loadIdentifier('com://'.$namespace.'/'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());

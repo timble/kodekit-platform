@@ -105,7 +105,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     {
         
         $table = $this->getTable();
-        $query = $this->getService('koowa:database.query.select')
+        $query = $this->getService('lib://nooku/database.query.select')
             ->columns('tbl.*')
             ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('tbl.'.$table->getIdentityColumn().' <> :id')
@@ -150,7 +150,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         
         if($this->level > 1)
         {
-            $query = $this->getService('koowa:database.query.select')
+            $query = $this->getService('lib://nooku/database.query.select')
                 ->columns('tbl.*')
                 ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.ancestor_id = tbl.'.$table->getIdentityColumn(), 'INNER')
                 ->where('closures.descendant_id = :id')
@@ -172,7 +172,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     public function getDescendants()
     {
         $table = $this->getTable();
-        $query = $this->getService('koowa:database.query.select')
+        $query = $this->getService('lib://nooku/database.query.select')
             ->columns('tbl.*')
             ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('closures.ancestor_id = :id')
@@ -257,7 +257,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             $table = $context->getSubject();
             
             // Insert the self relation.
-            $query = $this->getService('koowa:database.query.insert')
+            $query = $this->getService('lib://nooku/database.query.insert')
                 ->table($this->getClosureTable()->getBase())
                 ->columns(array('ancestor_id', 'descendant_id', 'level'))
                 ->values(array($data->id, $data->id, 0));
@@ -271,13 +271,13 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
 
                 // Insert child relations.
-                $select = $this->getService('koowa:database.query.select')
+                $select = $this->getService('lib://nooku/database.query.select')
                     ->columns(array('ancestor_id', $data->id, 'level + 1'))
                     ->table($this->getClosureTable()->getName())
                     ->where('descendant_id = :descendant_id')
                     ->bind(array('descendant_id' => $parent->id));
                 
-                $query = $this->getService('koowa:database.query.insert')
+                $query = $this->getService('lib://nooku/database.query.insert')
                     ->table($this->getClosureTable()->getBase())
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
@@ -317,7 +317,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 }
                 
                 // Delete the outdated paths for the old location.
-                $query = $this->getService('koowa:database.query.delete')
+                $query = $this->getService('lib://nooku/database.query.delete')
                     ->table(array('a' => $this->getClosureTable()->getBase()))
                     ->join(array('d' => $this->getClosureTable()->getBase()), 'a.descendant_id = d.descendant_id', 'INNER')
                     ->join(array('x' => $this->getClosureTable()->getBase()), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
@@ -328,7 +328,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 $table->getAdapter()->delete($query);
 
                 // Insert the subtree under its new location.
-                $select = $this->getService('koowa:database.query.select')
+                $select = $this->getService('lib://nooku/database.query.select')
                     ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
                     ->table(array('supertree' => $this->getClosureTable()->getName()))
                     ->join(array('subtree' => $this->getClosureTable()->getName()), null, 'INNER')
@@ -336,7 +336,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                     ->where('supertree.descendant_id = :descendant_id')
                     ->bind(array('ancestor_id' => $row->id, 'descendant_id' => (int) $row->parent_id));
 
-                $query = $this->getService('koowa:database.query.insert')
+                $query = $this->getService('lib://nooku/database.query.insert')
                     ->table($this->getClosureTable()->getBase())
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
@@ -361,14 +361,14 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
         $table         = $context->getSubject();
         $id_column     = $table->getIdentityColumn();
 
-        $select = $this->getService('koowa:database.query.select')
+        $select = $this->getService('lib://nooku/database.query.select')
             ->columns('descendant_id')
             ->table($table->getClosureTable()->getName())
             ->where('ancestor_id = :id')
             ->where('descendant_id <> :id')
             ->bind(array('id' => $context->data->id));
         
-        $query = $this->getService('koowa:database.query.delete')
+        $query = $this->getService('lib://nooku/database.query.delete')
             ->table($table->getBase())
             ->where($id_column.' IN :id')
             ->bind(array('id' => $select));

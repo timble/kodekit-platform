@@ -34,7 +34,7 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
         $attribs = $this->_buildAttributes($config->attribs);
 
         $list = $this->getService('com://admin/attachments.controller.attachment', array(
-			'request' => $this->getService('koowa:controller.request', array(
+			'request' => $this->getService('lib://nooku/controller.request', array(
 				'query' => $config->filter
 			))
 		))->browse();
@@ -66,7 +66,7 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
         ));
 
         $list = $this->getService('com://admin/attachments.controller.attachment', array(
-			'request' => $this->getService('koowa:controller.request', array(
+			'request' => $this->getService('lib://nooku/controller.request', array(
 				'query' => $config->filter
 			))
 		))->browse();

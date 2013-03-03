@@ -93,7 +93,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
             'data'             => array(),
             'filters'          => array(),
             'view'             => null,
-            'command_chain'    => $this->getService('koowa:command.chain'),
+            'command_chain'    => $this->getService('lib://nooku/command.chain'),
             'dispatch_events'  => false,
             'enable_callbacks' => false,
         ));

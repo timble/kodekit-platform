@@ -18,7 +18,7 @@ class ComPagesViewPagesHtml extends ComDefaultViewHtml
 {
     public function render()
     {
-        $this->applications = array_keys($this->getIdentifier()->getApplications());
+        $this->applications = array_keys($this->getIdentifier()->getNamespaces());
         $this->menus        = $this->getService('com://admin/pages.model.menus')->getRowset();
         
         return parent::render();

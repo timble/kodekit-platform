@@ -131,7 +131,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         $site_name  = $config->getValue('sitename');
         $from_email = $config->getValue('mailfrom');
         $from_name  = $config->getValue('fromname');
-        $url        = $this->getService('koowa:http.url',
+        $url        = $this->getService('lib://nooku/http.url',
             array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
         $url     = $url = $context->request->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;

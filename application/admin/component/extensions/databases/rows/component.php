@@ -54,8 +54,8 @@ class ComExtensionsDatabaseRowComponent extends KDatabaseRowTable
 	    
 	    if($column == 'manifest' && empty($this->_data['manifest'])) 
 		{
-            $path = $this->getIdentifier()->getApplication('admin');
-            $file = $path.'/components/'.$this->option.'/manifest.xml';
+            $path = $this->getIdentifier()->getNamespace('admin');
+            $file = $path.'/component/'.$this->option.'/manifest.xml';
               
             if(file_exists($file)) {
 		        $this->_data['manifest'] = simplexml_load_file($file);
@@ -70,8 +70,8 @@ class ComExtensionsDatabaseRowComponent extends KDatabaseRowTable
         
 	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-            $path = $this->getIdentifier()->getApplication('admin');
-            $file = $path.'/components/'.$this->option.'/config.xml';
+            $path = $this->getIdentifier()->getNamespace('admin');
+            $file = $path.'/component/'.$this->option.'/config.xml';
 
 	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );
         }

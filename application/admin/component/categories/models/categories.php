@@ -42,7 +42,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             {
                 $query->columns(array('count'));
 
-                $subquery = $this->getService('koowa:database.query.select')
+                $subquery = $this->getService('lib://nooku/database.query.select')
                                  ->columns(array('categories_category_id', 'count' => 'COUNT(categories_category_id)'))
                                  ->table($state->table)
                                  ->group('categories_category_id');

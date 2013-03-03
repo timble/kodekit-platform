@@ -183,7 +183,7 @@ class KRequest
         }
 
         if(!($filter instanceof KFilterInterface)) {
-            $filter = KServiceManager::get('koowa:filter.factory')->instantiate($filter);
+            $filter = KServiceManager::get('lib://nooku/filter.factory')->instantiate($filter);
         }
 
         return $filter->sanitize($result);
@@ -353,13 +353,13 @@ class KRequest
         if(!isset(self::$_referrer))
         {
             if($referrer = KRequest::get('server.HTTP_REFERER', 'url')) {
-                self::$_referrer = KServiceManager::get('koowa:http.url', array('url' => $referrer));
+                self::$_referrer = KServiceManager::get('lib://nooku/http.url', array('url' => $referrer));
             }
         }
 
         if($isInternal)
         {
-            if(!KServiceManager::get('koowa:filter.internalurl')->validate((string) self::$_referrer)) {
+            if(!KServiceManager::get('lib://nooku/filter.internalurl')->validate((string) self::$_referrer)) {
                 return null;
             }
         }
@@ -413,10 +413,10 @@ class KRequest
         	else $url .= 'koowa';
             
             // Sanitize the url since we can't trust the server var
-            $url = KServiceManager::get('koowa:filter.url')->sanitize($url);
+            $url = KServiceManager::get('lib://nooku/filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_url = KServiceManager::get('koowa:http.url', array('url' => $url));
+            self::$_url = KServiceManager::get('lib://nooku/http.url', array('url' => $url));
 
         }
 
@@ -444,9 +444,9 @@ class KRequest
             $path = rtrim(dirname($path), '/\\');
          
             // Sanitize the url since we can't trust the server var
-            $path = KServiceManager::get('koowa:filter.url')->sanitize($path);
+            $path = KServiceManager::get('lib://nooku/filter.url')->sanitize($path);
 
-            self::$_base = KServiceManager::get('koowa:http.url', array('url' => $path));
+            self::$_base = KServiceManager::get('lib://nooku/http.url', array('url' => $path));
         }
 
         return self::$_base;
@@ -465,7 +465,7 @@ class KRequest
         if(!is_null($path))
         {
             if(!$path instanceof KhttpUrlInterface) {
-                $path = KServiceManager::get('koowa:http.url', array('url' => $path));
+                $path = KServiceManager::get('lib://nooku/http.url', array('url' => $path));
             }
 
             self::$_root = $path;

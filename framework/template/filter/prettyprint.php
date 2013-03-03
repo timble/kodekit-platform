@@ -51,7 +51,7 @@ class KTemplateFilterPrettyprint extends KTemplateFilterAbstract implements KTem
             'drop-proprietary-attributes' => false,
         ));
 
-        $text = $this->getService('koowa:filter.tidy', $config)->sanitize($text);
+        $text = $this->getService('lib://nooku/filter.tidy', $config)->sanitize($text);
         return $this;
     }
 }

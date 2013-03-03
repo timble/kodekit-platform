@@ -70,7 +70,7 @@ abstract class KViewTemplate extends KViewAbstract
 
         //Set the media url
         if (!$config->media_url instanceof KHttpUrlInterface) {
-            $this->_mediaurl = $this->getService('koowa:http.url', array('url' => $config->media_url));
+            $this->_mediaurl = $this->getService('lib://nooku/http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
         }

@@ -191,7 +191,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         }
 
         //Create the filter
-        $filter = $this->getService('koowa:filter.slug', $config);
+        $filter = $this->getService('lib://nooku/filter.slug', $config);
         return $filter;
     }
 
@@ -251,7 +251,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
         if ($this->_unique && $table->count(array('slug' => $this->slug)))
         {
             $db = $table->getAdapter();
-            $query = $this->getService('koowa:database.query.select')
+            $query = $this->getService('lib://nooku/database.query.select')
                 ->columns('slug')
                 ->where('slug LIKE :slug')
                 ->bind(array('slug' => $this->slug . '-%'));

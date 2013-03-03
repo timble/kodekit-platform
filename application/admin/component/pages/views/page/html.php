@@ -42,7 +42,7 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
             ->application('site')
             ->getRowset();
 
-        $query = $this->getService('koowa:database.query.select')
+        $query = $this->getService('lib://nooku/database.query.select')
             ->where('tbl.pages_page_id IN :id')
             ->bind(array('id' => array((int) $model->getRow()->id, 0)));
 

@@ -195,7 +195,7 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
      */
     public function getSession()
     {
-        return $this->getService('koowa:user.session');
+        return $this->getService('lib://nooku/user.session');
     }
 
     /**

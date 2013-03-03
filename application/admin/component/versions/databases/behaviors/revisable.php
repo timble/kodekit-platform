@@ -366,7 +366,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     	// Set revision number.
     	if ($status == KDatabase::STATUS_UPDATED || $status == KDatabase::STATUS_DELETED) 
     	{
-    	    $query = $this->getService('koowa:database.query.select')
+    	    $query = $this->getService('lib://nooku/database.query.select')
         	    ->where('table = :table')
         	    ->where('row = :row')
         	    ->order('revision', 'DESC')

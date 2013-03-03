@@ -41,7 +41,7 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
 
     public function getLink()
     {
-        $link = $this->getService('koowa:http.url', array('url' => '?'.$this->link_url));
+        $link = $this->getService('lib://nooku/http.url', array('url' => '?'.$this->link_url));
         $link->query['Itemid'] = $this->id;
 
         return $link;
@@ -148,7 +148,7 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
     {
         $xml  = JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getIdentifier()->getApplication('admin').'/component/'.substr($type['option'], 4).'/config.xml';
+        $path = $this->getIdentifier()->getNamespace('admin').'/component/'.substr($type['option'], 4).'/config.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -161,7 +161,7 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
     {
         $xml  = JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getIdentifier()->getApplication('site').'/component/'.substr($type['option'], 4).'/views/'.$type['view'].'/templates/'.$type['layout'].'.xml';
+        $path = $this->getIdentifier()->getNamespace('site').'/component/'.substr($type['option'], 4).'/views/'.$type['view'].'/templates/'.$type['layout'].'.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);

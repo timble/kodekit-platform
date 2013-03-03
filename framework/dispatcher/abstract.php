@@ -50,9 +50,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
 
         $config->append(array(
         	'controller' => $this->getIdentifier()->package,
-            'request'    => 'koowa:dispatcher.request',
-            'response'   => 'koowa:dispatcher.response',
-            'user'       => 'koowa:dispatcher.user',
+            'request'    => 'lib://nooku/dispatcher.request',
+            'response'   => 'lib://nooku/dispatcher.response',
+            'user'       => 'lib://nooku/dispatcher.user',
             'behaviors'  => array($permission),
          ));
 

@@ -23,11 +23,11 @@ class ComPagesViewModulesHtml extends ComDefaultViewHtml
 		{
 		    foreach($this->getModel()->getRowset() as $module)
 		    {
-                $path = $this->getIdentifier()->getApplication($module->application);
+                $path = $this->getIdentifier()->getNamespace($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
 		} 
 
-		return parent::render();
+        return parent::render();
 	}
 }

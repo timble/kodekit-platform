@@ -63,7 +63,7 @@ class KMixinCommand extends KMixinAbstract
         { 
             $this->_mixer->mixin(new KMixinEvent($config));
 
-            $command = $this->_command_chain->getService('koowa:command.event', array(
+            $command = $this->_command_chain->getService('lib://nooku/command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()
             ));
 

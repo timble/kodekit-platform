@@ -141,7 +141,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
             self::$_loaded['overlay'] = true;
         }
 
-        $url = $this->getService('koowa:http.url', array('url' => $config->url));
+        $url = $this->getService('lib://nooku/http.url', array('url' => $config->url));
 
         //Force tmpl to overlay
         $url->query['tmpl'] = 'overlay';

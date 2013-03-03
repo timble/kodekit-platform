@@ -58,7 +58,7 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     {
         $config->append(array(
             'transport' => 'default',
-            'request'   => 'koowa:dispatcher.request',
+            'request'   => 'lib://nooku/dispatcher.request',
         ));
 
         parent::_initialize($config);
@@ -127,7 +127,7 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
         if(!($transport instanceof KDispatcherResponseTransportInterface))
         {
             if(is_string($transport) && strpos($transport, '.') === false ) {
-                $identifier = 'koowa:dispatcher.response.transport.'.$transport;
+                $identifier = 'lib://nooku/dispatcher.response.transport.'.$transport;
             } else {
                 $identifier = $this->getIdentifier($transport);
             }

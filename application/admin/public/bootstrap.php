@@ -42,7 +42,7 @@ Koowa::getInstance(array(
 unset($config);
 
 KServiceManager::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
-KServiceIdentifier::addLocator(KServiceManager::get('koowa:service.locator.component'));
+KServiceIdentifier::addLocator(KServiceManager::get('lib://nooku/service.locator.component'));
 
-KServiceIdentifier::setApplication('site', JPATH_ROOT . '/application/site');
-KServiceIdentifier::setApplication('admin', JPATH_ROOT . '/application/admin');
+KServiceIdentifier::setNamespace('site' , JPATH_ROOT . '/application/site');
+KServiceIdentifier::setNamespace('admin', JPATH_ROOT . '/application/admin');

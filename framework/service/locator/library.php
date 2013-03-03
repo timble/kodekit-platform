@@ -14,14 +14,14 @@
  * @subpackage 	Locator
  * @uses 		KInflector
  */
-class KServiceLocatorKoowa extends KServiceLocatorAbstract
+class KServiceLocatorLibrary extends KServiceLocatorAbstract
 {
 	/**
 	 * The type
 	 *
 	 * @var string
 	 */
-	protected $_type = 'koowa';
+	protected $_type = 'lib';
 
 	/**
 	 * Get the classname

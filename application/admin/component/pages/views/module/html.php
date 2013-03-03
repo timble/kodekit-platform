@@ -42,7 +42,7 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = $this->getIdentifier()->getApplication($module->application);
+            $path = $this->getIdentifier()->getNamespace($module->application);
             JFactory::getLanguage()->load(substr($module->component_name, 4), $module->name, $path);
         }
 

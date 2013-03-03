@@ -21,4 +21,4 @@ KServiceManager::setAlias('application.languages' , 'com://admin/application.dat
 KServiceManager::setAlias('application.pages'     , 'com://site/application.database.rowset.pages');
 KServiceManager::setAlias('application.modules'   , 'com://site/application.database.rowset.modules');
 
-KServiceManager::setAlias('koowa:database.adapter.mysql', 'com://admin/application.database.adapter.mysql');
+KServiceManager::setAlias('lib://nooku/database.adapter.mysql', 'com://admin/application.database.adapter.mysql');

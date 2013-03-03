@@ -140,7 +140,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $query = $this->getService('koowa:database.query.select')
+            $query = $this->getService('lib://nooku/database.query.select')
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
 

@@ -155,7 +155,7 @@ class KModelTable extends KModelAbstract
 
             if($state->isUnique())
             {
-                $query = $this->getService('koowa:database.query.select');
+                $query = $this->getService('lib://nooku/database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -187,7 +187,7 @@ class KModelTable extends KModelAbstract
 
             if(!$state->isEmpty())
             {
-                $query = $this->getService('koowa:database.query.select');
+                $query = $this->getService('lib://nooku/database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -218,7 +218,7 @@ class KModelTable extends KModelAbstract
         {
             $state = $this->getState();
 
-            $query = $this->getService('koowa:database.query.select');
+            $query = $this->getService('lib://nooku/database.query.select');
             $query->columns('COUNT(*)');
 
             $this->_buildQueryTable($query);

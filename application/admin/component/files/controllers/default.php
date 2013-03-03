@@ -22,7 +22,7 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 		$config->append(array(
 			'persistable' => false,
 			'limit' => array('max' => 1000),
-			'request' => $this->getService('koowa:controller.request', array(
+			'request' => $this->getService('lib://nooku/controller.request', array(
 				'query' => array('container' => 'files-files')
 			))
 		));

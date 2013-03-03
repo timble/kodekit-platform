@@ -49,7 +49,7 @@ class ComExtensionsModelSettings extends KModelAbstract
             $components = $this->getService('com://admin/extensions.model.components')->enabled(1)->getRowset();
             foreach($components as $component)
             {
-                $path  = $this->getIdentifier()->getApplication('admin');
+                $path  = $this->getIdentifier()->getNamespace('admin');
                 $path .= '/component/'.substr($component->name, 4).'/resources/config/settings.xml';
 
                 if(file_exists($path))

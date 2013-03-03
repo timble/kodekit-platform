@@ -74,7 +74,8 @@ class KServiceManager implements KServiceManagerInterface
         self::$_services = new KServiceContainer();
 
         //Auto-load the koowa adapter
-        KServiceIdentifier::addLocator(new KServiceLocatorKoowa(new KConfig()));
+        KServiceIdentifier::addLocator(new KServiceLocatorLibrary(new KConfig()));
+        KServiceIdentifier::setNamespace('nooku', JPATH_ROOT . '/framework');
     }
 
     /**

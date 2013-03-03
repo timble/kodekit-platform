@@ -74,7 +74,7 @@ class KHttpMessageParameters extends KObjectArray
 
             // Filter the data
             if(!($filter instanceof KFilterInterface)) {
-                $filter = $this->getService('koowa:filter.factory')->instantiate($filter);
+                $filter = $this->getService('lib://nooku/filter.factory')->instantiate($filter);
             }
 
             $result = $filter->sanitize($result);
@@ -122,7 +122,7 @@ class KHttpMessageParameters extends KObjectArray
 
             // Filter the data
             if(!($filter instanceof KFilterInterface)) {
-                $filter = $this->getService('koowa:filter.factory')->instantiate($filter);
+                $filter = $this->getService('lib://nooku/filter.factory')->instantiate($filter);
             }
 
             $result = $filter->sanitize($result);

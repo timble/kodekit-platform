@@ -30,7 +30,7 @@ class ComPagesModelTypes extends KModelAbstract
         if(!isset($this->_rowset))
         {
             $table = $this->getService('com://admin/extensions.database.table.components');
-            $query = $this->getService('koowa:database.query.select')
+            $query = $this->getService('lib://nooku/database.query.select')
                 ->order('name');
 
             $components = $table->select($query);
@@ -38,7 +38,7 @@ class ComPagesModelTypes extends KModelAbstract
             // Iterate through the components.
             foreach($components as $component)
             {
-                $path  = $this->getIdentifier()->getApplication($this->getState()->application);
+                $path  = $this->getIdentifier()->getNamespace($this->getState()->application);
                 $path .= '/component/'.substr($component->name, 4).'/views';
 
                 if(!is_dir($path)) {

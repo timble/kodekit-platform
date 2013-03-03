@@ -25,7 +25,7 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 		$page 	= $this->getService('application.pages')->getActive();
 		$params = new JParameter($page->params);
 
-		$data   = $this->getService('koowa:controller.request', array(
+		$data   = $this->getService('lib://nooku/controller.request', array(
 			'query' => array('container' => $state->container, 'folder' => $state->folder, 'name' => $state->name)
 		));
 		$folder = $this->getService('com://admin/files.controller.folder', array(
@@ -51,7 +51,7 @@ class ComFilesViewDirectoryHtml extends ComDefaultViewHtml
 			$request['types'] = array('image');
 		}
 		
-		$request = $this->getService('koowa:controller.request', array(
+		$request = $this->getService('lib://nooku/controller.request', array(
 			'query' => $request
 		));
 

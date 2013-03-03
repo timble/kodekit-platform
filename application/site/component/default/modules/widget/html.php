@@ -25,7 +25,7 @@ class ComDefaultModuleWidgetHtml extends ComDefaultModuleDefaultHtml
 
     public function _inline()
     {
-        $url = $this->getService('koowa:http.url', array('url' => $this->module->params->get('url')));
+        $url = $this->getService('lib://nooku/http.url', array('url' => $this->module->params->get('url')));
 
         $parts   = $url->getQuery(true);
         $package = substr($parts['option'], 4);

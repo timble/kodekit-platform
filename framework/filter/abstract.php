@@ -38,7 +38,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	{
 		parent::__construct($config); 
 		 
-	    $this->_chain = $this->getService('koowa:filter.chain');
+	    $this->_chain = $this->getService('lib://nooku/filter.chain');
 		$this->addFilter($this);
 	}
 	
