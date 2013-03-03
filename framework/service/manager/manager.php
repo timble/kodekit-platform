@@ -383,10 +383,10 @@ class KServiceManager implements KServiceManagerInterface
             $config = new KConfig(array_merge(self::getConfig($identifier), $config));
 
             //Set the service container and identifier
-            $config->service_manager = self::getInstance();
+            $config->service_manager    = self::getInstance();
             $config->service_identifier = $identifier;
 
-            // If the class has an instantiate method call it
+            // Delegate object instantiation.
             if (array_key_exists('KServiceInstantiatable', class_implements($identifier->classname))) {
                 $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
             } else {
