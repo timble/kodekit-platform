@@ -183,7 +183,7 @@ class KRequest
         }
 
         if(!($filter instanceof KFilterInterface)) {
-            $filter = KService::get('koowa:filter.factory')->instantiate($filter);
+            $filter = KServiceManager::get('koowa:filter.factory')->instantiate($filter);
         }
 
         return $filter->sanitize($result);
@@ -353,13 +353,13 @@ class KRequest
         if(!isset(self::$_referrer))
         {
             if($referrer = KRequest::get('server.HTTP_REFERER', 'url')) {
-                self::$_referrer = KService::get('koowa:http.url', array('url' => $referrer));
+                self::$_referrer = KServiceManager::get('koowa:http.url', array('url' => $referrer));
             }
         }
 
         if($isInternal)
         {
-            if(!KService::get('koowa:filter.internalurl')->validate((string) self::$_referrer)) {
+            if(!KServiceManager::get('koowa:filter.internalurl')->validate((string) self::$_referrer)) {
                 return null;
             }
         }
@@ -413,10 +413,10 @@ class KRequest
         	else $url .= 'koowa';
             
             // Sanitize the url since we can't trust the server var
-            $url = KService::get('koowa:filter.url')->sanitize($url);
+            $url = KServiceManager::get('koowa:filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_url = KService::get('koowa:http.url', array('url' => $url));
+            self::$_url = KServiceManager::get('koowa:http.url', array('url' => $url));
 
         }
 
@@ -444,9 +444,9 @@ class KRequest
             $path = rtrim(dirname($path), '/\\');
          
             // Sanitize the url since we can't trust the server var
-            $path = KService::get('koowa:filter.url')->sanitize($path);
+            $path = KServiceManager::get('koowa:filter.url')->sanitize($path);
 
-            self::$_base = KService::get('koowa:http.url', array('url' => $path));
+            self::$_base = KServiceManager::get('koowa:http.url', array('url' => $path));
         }
 
         return self::$_base;
@@ -465,7 +465,7 @@ class KRequest
         if(!is_null($path))
         {
             if(!$path instanceof KhttpUrlInterface) {
-                $path = KService::get('koowa:http.url', array('url' => $path));
+                $path = KServiceManager::get('koowa:http.url', array('url' => $path));
             }
 
             self::$_root = $path;

@@ -115,7 +115,7 @@ abstract class KControllerView extends KControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
+	 * @param	mixed	An object that implements KServiceInterface, KServiceIdentifier object
 	 * 					or valid identifier string
 	 * @return	KControllerView
 	 */

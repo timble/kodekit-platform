@@ -53,7 +53,7 @@ class Koowa
         $loader = new KLoader($config);
 
         //Create the service manager
-        $service = KService::getInstance($config);
+        $service = KServiceManager::getInstance($config);
 
         //Add a 'loader' alias to the service manager
         $service->set('koowa:loader', $loader);

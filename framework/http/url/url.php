@@ -23,7 +23,7 @@
  *     // Create a url object;
  *
  *     $url = 'http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor'
- *     $url = KService::get('koowa:http.url', array('url' => $url) );
+ *     $url = KServiceManager::get('koowa:http.url', array('url' => $url) );
  *
  *     // the $ur properties are ...
  *     //

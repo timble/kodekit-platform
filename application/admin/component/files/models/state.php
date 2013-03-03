@@ -15,7 +15,7 @@ class ComFilesModelState extends KModelState
 
         if ($name === 'container' && is_string($result))
         {
-            $result = KService::get('com://admin/files.model.containers')->slug($result)->getRow();
+            $result = KServiceManager::get('com://admin/files.model.containers')->slug($result)->getRow();
 
 	        if (!is_object($result) || $result->isNew()) {
 	            throw new UnexpectedValueException('Invalid container');

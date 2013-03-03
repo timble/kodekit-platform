@@ -41,8 +41,8 @@ Koowa::getInstance(array(
 
 unset($config);
 
-KService::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
-KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
+KServiceManager::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
+KServiceIdentifier::addLocator(KServiceManager::get('koowa:service.locator.component'));
 
 KServiceIdentifier::setApplication('site', JPATH_ROOT . '/application/site');
 KServiceIdentifier::setApplication('admin', JPATH_ROOT . '/application/admin');

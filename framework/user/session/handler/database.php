@@ -181,7 +181,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     /**
      * Set a table object attached to the handler
      *
-     * @param   mixed   $table An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed   $table An object that implements KServiceInterface, KServiceIdentifier object
      *                         or valid identifier string
      * @return KUserSessionHandlerDatabase
      */

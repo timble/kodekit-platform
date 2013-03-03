@@ -9,21 +9,12 @@
  */
 
 /**
- * Description
+ * Service Aliases
  *   
  * @author   	Johan Janssens <johan@nooku.org>
  * @category	Nooku
  * @package    	Nooku_Components
  * @subpackage 	Terms
  */
-// Check if Koowa is active
-if(!defined('KOOWA')) {
-	JError::raiseWarning(0, JText::_("Koowa wasn't found. Please install the Koowa plugin and enable it."));
-	return;
-}
 
-// Factory mappings
-KService::setAlias('com://site/terms.controller.terms', 'com://admin/terms.controller.terms');
-
-// Create the controller dispatcher
-KService::get('com://admin/terms.dispatcher')->dispatch();
+KServiceManager::setAlias('com://site/terms.controller.terms', 'com://admin/terms.controller.terms');

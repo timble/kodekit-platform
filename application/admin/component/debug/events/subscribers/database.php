@@ -34,19 +34,19 @@ class ComDebugEventSubscriberDatabase extends KEventSubscriberAbstract implement
 	/**
      * Force creation of a singleton
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
+     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
      * @return ComDebugProfilerEvents
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        if (!$container->has($config->service_identifier)) 
+        if (!$manager->has($config->service_identifier))
         {
             $instance = new self($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
         }
         
-        return $container->get($config->service_identifier);
+        return $manager->get($config->service_identifier);
     }
     
     /**

@@ -31,18 +31,16 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
              ->insert('search'    , 'string');
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
-    { 
-       // Check if an instance with this identifier already exists or not
-        if (!$container->has($config->service_identifier))
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    {
+        if (!$manager->has($config->service_identifier))
         {
-            //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
         }
         
-        return $container->get($config->service_identifier);
+        return $manager->get($config->service_identifier);
     }
     
     public function getRowset()

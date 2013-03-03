@@ -215,7 +215,7 @@ class KLoader
     {
         $result = false;
 
-        $identifier = KService::getIdentifier($identifier);
+        $identifier = KServiceManager::getIdentifier($identifier);
 
         //Get the path
         $path = $identifier->filepath;

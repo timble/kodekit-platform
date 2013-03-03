@@ -27,7 +27,7 @@ class JElementCategory extends JElement
             'attribs'  => array('class' => 'inputbox'),
         );
 
-        $html = KService::get('com://admin/categories.template.helper.listbox')->categories($config);
+        $html = KServiceManager::get('com://admin/categories.template.helper.listbox')->categories($config);
         return $html;
     }
 }

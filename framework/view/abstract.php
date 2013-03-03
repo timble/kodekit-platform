@@ -194,7 +194,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     /**
      * Method to set a model object attached to the controller
      *
-     * @param	mixed	$model An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param	mixed	$model An object that implements KServiceInterface, KServiceIdentifier object
      * 					       or valid identifier string
      * @return	KViewAbstract
      */

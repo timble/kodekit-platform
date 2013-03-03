@@ -200,7 +200,7 @@ class KObject implements KObjectInterface
      * @param    array            $config     An optional associative array of configuration settings.
      * @throws   \RuntimeException If the service manager has not been defined.
      * @return   object            Return object on success, throws exception on failure
-     * @see      KObjectServiceable
+     * @see      KServiceInterface
      */
     final public function getService($identifier = null, array $config = array())
     {
@@ -226,7 +226,7 @@ class KObject implements KObjectInterface
      * @param   string|object    $identifier The class identifier or identifier object
      * @throws  \RuntimeException If the service manager has not been defined.
      * @return  KServiceIdentifier
-     * @see     KObjectServiceable
+     * @see     KServiceInterface
      */
     final public function getIdentifier($identifier = null)
     {

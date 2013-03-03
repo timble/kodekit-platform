@@ -3,15 +3,15 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
 {
     protected $_type_title;
 
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        $instance = parent::getInstance($config, $container);
+        $instance = parent::getInstance($config, $manager);
 
-        if(!$container->has($config->service_identifier)) {
-            $container->set($config->service_identifier, $instance);
+        if(!$manager->has($config->service_identifier)) {
+            $manager->set($config->service_identifier, $instance);
         }
 
-        return $container->get($config->service_identifier);
+        return $manager->get($config->service_identifier);
     }
 
     public function getTypeTitle()

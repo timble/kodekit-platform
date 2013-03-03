@@ -15,5 +15,5 @@
  * @subpackage  Contacts
  */
 
-KService::setAlias('com://admin/articles.model.categories', 'com://admin/categories.model.categories');
-KService::setAlias('com://admin/articles.view.attachment.file', 'com://admin/attachments.view.attachment.file');
+KServiceManager::setAlias('com://admin/articles.model.categories', 'com://admin/categories.model.categories');
+KServiceManager::setAlias('com://admin/articles.view.attachment.file', 'com://admin/attachments.view.attachment.file');

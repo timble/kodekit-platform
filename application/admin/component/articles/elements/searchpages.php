@@ -28,7 +28,7 @@ class JElementSearchpages extends JElement
 
         );
 
-        $html = KService::get('com://admin/articles.template.helper.listbox')->searchpages($config);
+        $html = KServiceManager::get('com://admin/articles.template.helper.listbox')->searchpages($config);
         return $html;
     }
 }

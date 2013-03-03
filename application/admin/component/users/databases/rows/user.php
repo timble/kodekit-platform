@@ -57,7 +57,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
         {
             //@TODO : Temporarily using KService::get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
-            $this->_role = KService::get('com://admin/users.model.roles')->id($this->role_id)->getRow();
+            $this->_role = KServiceManager::get('com://admin/users.model.roles')->id($this->role_id)->getRow();
             //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->role_id)->getRow();
         }
         return $this->_role;
@@ -69,7 +69,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
         {
             if(!$this->guest)
             {
-                $this->_groups = KService::get('com://admin/users.database.table.groups_users')
+                $this->_groups = KServiceManager::get('com://admin/users.database.table.groups_users')
                     ->select(array('users_user_id' => $this->id), KDatabase::FETCH_FIELD_LIST);
             }
             else $this->_groups = array();

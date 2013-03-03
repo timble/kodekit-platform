@@ -65,7 +65,7 @@ class KMixinToolbar extends KMixinAbstract
     /**
      * Add one or more toolbars
      *
-     * @param   mixed    An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed    An object that implements KServiceInterface, KServiceIdentifier object
      *                   or valid identifier string
      * @return  KObject  The mixer object
      */

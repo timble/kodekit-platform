@@ -67,24 +67,24 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Force creation of a singleton
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
+     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
      * @return KDispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        // Check if an instance with this identifier already exists or not
-        if (!$container->has('response'))
+        if (!$manager->has('response'))
         {
             //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
 
-            $container->setAlias('response', $config->service_identifier);
+            //Add the service alias to allow easy access to the singleton
+            $manager->setAlias('response', $config->service_identifier);
         }
 
-        return $container->get('response');
+        return $manager->get('response');
     }
 
     /**
@@ -118,7 +118,7 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Method to set a transport strategy
      *
-     * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param	mixed	An object that implements KServiceInterface, KServiceIdentifier object
      * 					or valid identifier string
      * @return	KDispatcherResponse
      */

@@ -15,5 +15,5 @@
  * @subpackage  Weblinks
  */
 
-KService::setAlias('com://site/weblinks.model.categories', 'com://admin/categories.model.categories');
-KService::setAlias('com://site/weblinks.model.weblinks'  , 'com://admin/weblinks.model.weblinks');
+KServiceManager::setAlias('com://site/weblinks.model.categories', 'com://admin/categories.model.categories');
+KServiceManager::setAlias('com://site/weblinks.model.weblinks'  , 'com://admin/weblinks.model.weblinks');

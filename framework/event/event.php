@@ -42,7 +42,7 @@ class KEvent extends KConfig
     /**
      * Target of the event
      *
-     * @var KObjectServiceable
+     * @var KServiceInterface
      */
     protected $_target;
     
@@ -91,7 +91,7 @@ class KEvent extends KConfig
      * @param object	The event target
      * @return KEvent
      */
-    public function setTarget(KObjectServiceable $target)
+    public function setTarget(KServiceInterface $target)
     {
         $this->_target = $target;
         return $this;

@@ -18,14 +18,14 @@
  * @subpackage  Files
  */
 
-KService::setAlias('com://site/files.model.containers', 'com://admin/files.model.containers');
-KService::setAlias('com://site/files.model.default'   , 'com://admin/files.model.default');
-KService::setAlias('com://site/files.model.files'     , 'com://admin/files.model.files');
-KService::setAlias('com://site/files.model.folders'   , 'com://admin/files.model.folders');
-KService::setAlias('com://site/files.model.nodes'     , 'com://admin/files.model.nodes');
-KService::setAlias('com://site/files.model.state'	  , 'com://admin/files.model.state');
-KService::setAlias('com://site/files.model.thumbnails', 'com://admin/files.model.thumbnails');
+KServiceManager::setAlias('com://site/files.model.containers', 'com://admin/files.model.containers');
+KServiceManager::setAlias('com://site/files.model.default'   , 'com://admin/files.model.default');
+KServiceManager::setAlias('com://site/files.model.files'     , 'com://admin/files.model.files');
+KServiceManager::setAlias('com://site/files.model.folders'   , 'com://admin/files.model.folders');
+KServiceManager::setAlias('com://site/files.model.nodes'     , 'com://admin/files.model.nodes');
+KServiceManager::setAlias('com://site/files.model.state'	  , 'com://admin/files.model.state');
+KServiceManager::setAlias('com://site/files.model.thumbnails', 'com://admin/files.model.thumbnails');
 
-KService::setAlias('com://site/files.database.row.file', 'com://admin/files.database.row.file');
-KService::setAlias('com://site/files.database.row.folder', 'com://admin/files.database.row.folder');
-KService::setAlias('com://site/files.database.row.node', 'com://admin/files.database.row.node');
+KServiceManager::setAlias('com://site/files.database.row.file', 'com://admin/files.database.row.file');
+KServiceManager::setAlias('com://site/files.database.row.folder', 'com://admin/files.database.row.folder');
+KServiceManager::setAlias('com://site/files.database.row.node', 'com://admin/files.database.row.node');

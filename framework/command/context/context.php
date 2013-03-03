@@ -34,12 +34,12 @@ class KCommandContext extends KConfig implements KCommandContextInterface
     }
     
     /**
- * Set the command subject
- *
- * @param KObjectServiceable $subject The command subject
- * @return KCommandContext
- */
-    public function setSubject(KObjectServiceable $subject)
+    * Set the command subject
+    *
+    * @param KServiceInterface $subject The command subject
+    * @return KCommandContext
+    */
+    public function setSubject(KServiceInterface $subject)
     {
         $this->_subject = $subject;
         return $this;

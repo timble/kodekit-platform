@@ -276,7 +276,7 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Method to set a template object attached to the view
      *
-     * @param   mixed   An object that implements KObjectServiceable, an object that
+     * @param   mixed   An object that implements KServiceInterface, an object that
      *                  implements KServiceIdentifierInterface or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  KViewAbstract
@@ -292,7 +292,6 @@ abstract class KViewTemplate extends KViewAbstract
                 $identifier->name = $template;
             }
             else $identifier = $this->getIdentifier($template);
-
 
             $template = $identifier;
         }

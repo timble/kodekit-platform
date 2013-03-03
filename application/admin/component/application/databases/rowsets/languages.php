@@ -38,17 +38,17 @@ class ComApplicationDatabaseRowsetLanguages extends KDatabaseRowsetAbstract impl
         parent::_initialize($config);
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        if (!$container->has($config->service_identifier))
+        if (!$manager->has($config->service_identifier))
         {
             //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
         }
 
-        return $container->get($config->service_identifier);
+        return $manager->get($config->service_identifier);
     }
 
     public function setActive($active)
