@@ -8,8 +8,6 @@
  * @link        http://www.nooku.org
  */
 
-defined('KOOWA') or die( 'Restricted access' ); ?>
-
 <?= @helper('behavior.tooltip'); ?>
 
 <style src="media://default/css/form.css" />
