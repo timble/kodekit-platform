@@ -53,7 +53,7 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     {
         $config->append(array(
             'modules'  => null,
-            'priority' => KCommand::PRIORITY_HIGH,
+            'priority' => KCommand::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
