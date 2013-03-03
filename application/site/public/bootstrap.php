@@ -35,8 +35,8 @@ jimport('joomla.language.language');
 require_once JPATH_ROOT . '/config/config.php';
 $config = new JConfig();
 
-require_once(JPATH_ROOT . '/framework/koowa.php');
-Koowa::getInstance(array(
+require_once(JPATH_ROOT . '/framework/nooku.php');
+Nooku::getInstance(array(
     'cache_prefix' => md5($config->secret) . '-cache-koowa',
     'cache_enabled' => $config->caching
 ));

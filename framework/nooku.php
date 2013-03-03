@@ -6,18 +6,18 @@
 */
 
 /**
- * Koowa constant, if true koowa is loaded
+ * Nooku constant, if true nooku is loaded
  */
-define('KOOWA', 1);
+define('NOOKU', 1);
 
 /**
- * Koowa class
+ * Nooku class
  *
  * Loads classes and files, and provides metadata for Koowa such as version info
  *
  * @author  Johan Janssens <johan@nooku.org>
  */
-class Koowa
+class Nooku
 {
     /**
      * Koowa version
