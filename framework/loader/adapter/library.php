@@ -7,21 +7,20 @@
  */
 
 /**
- * Loader Adapter for the Koowa framework
+ * Loader Adapter for framework libraries
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Loader
  * @subpackage 	Adapter
- * @uses 		Koowa
  */
-class KLoaderAdapterKoowa extends KLoaderAdapterAbstract
+class KLoaderAdapterLibrary extends KLoaderAdapterAbstract
 {
 	/**
 	 * The adapter type
 	 *
 	 * @var string
 	 */
-	protected $_type = 'koowa';
+	protected $_type = 'lib';
 
 	/**
 	 * The class prefix

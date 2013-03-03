@@ -8,8 +8,8 @@
 /**
  * Abstract Behavior Class
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Behavior
+ * @author  Johan Janssens <johan@nooku.org>
+ * @package Koowa_Behavior
  */
 abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInterface
 {
