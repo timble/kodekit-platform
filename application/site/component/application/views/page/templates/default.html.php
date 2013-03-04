@@ -10,9 +10,9 @@
 
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
-
 <?= @template('page_head.html') ?>
 
+<body>
 <header class="container">
     <div class="navbar">
         <nav class="navbar-inner">           
