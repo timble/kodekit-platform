@@ -42,32 +42,33 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	/**
 	 * Searches for the file
 	 *
-	 * This function first tries to find a template override, if no override exists it will try to find the default template
+	 * This function first tries to find a template override, if no override exists it will try to find the default
+     * template
 	 *
 	 * @param	string	The file path to look for.
 	 * @return	mixed	The full path and file name for the target file, or FALSE if the file is not found
 	 */
-	public function findFile($path)
-	{
-	    $theme     = $this->getService('application')->getTheme();
-        $override  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
-	    $override .= str_replace(array(JPATH_BASE.'/component', '/views'), '', $path);
+    public function findFile($file)
+    {
+        //Theme override
+        $theme  = $this->getService('application')->getTheme();
+        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
+        $theme .= str_replace(array(JPATH_ROOT.'/component', '/views', '/templates'), '', $file);
 
-	    //Try to load the template override
-	    $result = parent::findFile($override);
+        //Application override
+        $application = str_replace(JPATH_ROOT, JPATH_APPLICATION, $file);
 
-	    if($result === false)
-	    {
-	        //If the path doesn't contain the /templates/ folder add it
-	        if(strpos($path, '/templates/') === false) {
-	            $path = dirname($path).'/templates/'.basename($path);
-	        }
+        //Try to find the template
+        foreach(array($theme, $application, $file) as $path)
+        {
+            $result = parent::findFile($path);
+            if($result !== false) {
+                break;
+            }
+        }
 
-	        $result = parent::findFile($path);
-	    }
-
-	    return $result;
-	}
+        return $result;
+    }
 
     /**
      * Parse the template

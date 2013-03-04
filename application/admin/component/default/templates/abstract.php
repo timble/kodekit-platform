@@ -49,24 +49,24 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	 * @return	mixed	The full path and file name for the target file, or FALSE
 	 * 					if the file is not found
 	 */
-	public function findFile($path)
+	public function findFile($file)
 	{
-	    $theme     = $this->getService('application')->getTheme();
-        $override  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
-	    $override .= str_replace(array(JPATH_BASE.'/component', '/views'), '', $path);
+        //Theme override
+        $theme  = $this->getService('application')->getTheme();
+        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
+	    $theme .= str_replace(array(JPATH_ROOT.'/component', '/views', '/templates'), '', $file);
 
-	    //Try to load the template override
-	    $result = parent::findFile($override);
+        //Application override
+        $application = str_replace(JPATH_ROOT, JPATH_APPLICATION, $file);
 
-	    if($result === false)
-	    {
-	        //If the path doesn't contain the /templates/ folder add it
-	        if(strpos($path, '/templates/') === false) {
-	            $path = dirname($path).'/templates/'.basename($path);
-	        }
-
-	        $result = parent::findFile($path);
-	    }
+        //Try to find the template
+        foreach(array($theme, $application, $file) as $path)
+        {
+            $result = parent::findFile($path);
+            if($result !== false) {
+                break;
+            }
+        }
 
 	    return $result;
 	}
