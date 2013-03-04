@@ -1,21 +1,18 @@
 <?php
 /**
- * @category	Nooku
- * @package     Nooku_Components
- * @subpackage  Versions
- * @copyright	Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git
  */
 
 /**
  * Revisions Model
  *
- * @author      Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package    	Nooku_Components
- * @subpackage 	Versions
+ * @author  Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Versions
  */
 class ComVersionsModelRevisions extends ComDefaultModelDefault
 {
@@ -30,12 +27,11 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
     /**
      * Get a revision item
      *
-     * When gettig revision number X, this method will transparently build the
-     * data from revision 1 to X and return a complete row. This is done because
-     * revision X always contains just the changes from the previous revision,
+     * When gettig revision number X, this method will transparently build the data from revision 1 to X and return
+     * a complete row. This is done because revision X always contains just the changes from the previous revision,
      * so the rest needs to be built.
      *
-     * @return KDatabaseRow
+     * @return KDatabaseRowInterface
      */
     public function getRow()
     {
@@ -52,7 +48,7 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
     /**
      * Get a complete revision row, merging data from all previous revisions
      *
-     * @return KDatabaseRow
+     * @return KDatabaseRowInterface
      */
     public function getRevision()
     {
@@ -87,8 +83,8 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
     /**
      * Build where part of query
      *
-     * When getting a revision X > 1, we need to get all revisions from
-     * 1 to X, and combine the data from these into one row.
+     * When getting a revision X > 1, we need to get all revisions from 1 to X, and combine the data from these into
+     * one row.
      *
      * @param KDatabaseQuerySelect $query
      */

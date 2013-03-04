@@ -1,21 +1,18 @@
 <?php
 /**
- * @category	Nooku
- * @package     Nooku_Components
- * @subpackage  Versions
- * @copyright	Copyright (C) 2010 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git
  */
 
 /**
- * Database Revisable Behavior
+ * Revisable Database Behavior
  *
- * @author      Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @category	Nooku
- * @package    	Nooku_Components
- * @subpackage 	Versions
+ * @author  Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Versions
  */
 class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 {

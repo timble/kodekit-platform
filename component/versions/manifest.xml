@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest type="component" version="1.0">
+	<name>Versions</name>
+    <version>13.1</version>
+    <date>March 2013</date>
+    <author>
+        <name>Nooku Project</name>
+        <email>info@nooku.org</email>
+        <link>www.nooku.org</link>
+    </author>
+	<copyright>(C) 2009 - 2012 Nooku. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>A versioning component</description>
+</manifest>
