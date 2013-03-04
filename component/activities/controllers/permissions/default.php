@@ -8,7 +8,7 @@
  */
 
 /**
- * Executable Controller Behavior Class
+ * Executable Controller Behavior
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Activities

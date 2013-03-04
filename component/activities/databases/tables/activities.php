@@ -8,7 +8,7 @@
  */
 
 /**
- * Activities Database Table Class
+ * Activities Database Table
  *
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities

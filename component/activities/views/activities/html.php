@@ -8,12 +8,11 @@
  */
 
 /**
- * Activities Html View Class
+ * Activities Html View
  *
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-
 class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 {
 	public function render()

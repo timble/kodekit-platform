@@ -8,12 +8,11 @@
  */
 
 /**
- * Loggable Controller Behavior Class
+ * Loggable Controller Behavior
  *
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-
 class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstract
 {
     /**
