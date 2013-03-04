@@ -28,7 +28,7 @@
 <script>
     window.addEvent('domready', (function(){
     	<? if (!$article->id) : ?>
-            new Attachments.Upload({holder: 'article-form'});
+            new Attachments.Upload({container: 'article-form'});
         <? endif ?>
     }));
 </script>
@@ -87,20 +87,18 @@
 	    
 	        <fieldset class="form-horizontal">
 	        	<legend><?= @text('Details') ?></legend>
-	            <tbody>
-	                <div class="control-group">
-	                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
-	                    <div class="controls">
-	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
-	                    </div>
-	                </div>
-	                <div class="control-group">
-	                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
-	                    <div class="controls">
-	                    	<p class="help-block"><?= @helper('date.humanize', array('date' => $article->created_on)) ?></p>
-	                    </div>
-	                </div>
-	            </tbody>
+                <div class="control-group">
+                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
+                    <div class="controls">
+                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
+                    <div class="controls">
+                        <p class="help-block"><?= @helper('date.humanize', array('date' => $article->created_on)) ?></p>
+                    </div>
+                </div>
 	        </fieldset>
 	        
 	        <fieldset class="categories group">

@@ -18,15 +18,15 @@ interface KCommandContextInterface
     /**
     * Get the command subject 
     *     
-    * @return KObjectServiceable The command subject
+    * @return KServiceInterface The command subject
     */
     public function getSubject();
 
     /**
      * Set the command subject
      *
-     * @param KObjectServiceable $subject The command subject
+     * @param KServiceInterface $subject The command subject
      * @return KCommandContextInterface
      */
-    public function setSubject(KObjectServiceable $subject);
+    public function setSubject(KServiceInterface $subject);
 }

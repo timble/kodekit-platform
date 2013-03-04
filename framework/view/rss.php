@@ -45,7 +45,7 @@ class KViewRss extends KViewTemplate
  	 *
 	 * @return string 	The output of the view
 	 */
-	public function display()
+	public function render()
 	{
 	    $model = $this->getModel();
 
@@ -67,7 +67,7 @@ class KViewRss extends KViewTemplate
 			else $this->$name = $model->getRow();
 		}
 
-		return parent::display();
+		return parent::render();
 	}
 
     /**

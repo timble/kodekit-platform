@@ -32,7 +32,7 @@ class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstrac
 		
 		$folder = $context->request->query->get('folder', 'com://admin/files.filter.path');
 		$thumbnails = $this->getService('com://admin/files.controller.thumbnail', array(
-			'request' => $this->getService('koowa:controller.request', array(
+			'request' => $this->getService('lib://nooku/controller.request', array(
 				'query' => array(
 					'container' => $this->getModel()->container,
 					'folder' => $folder,

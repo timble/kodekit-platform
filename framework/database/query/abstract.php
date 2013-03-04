@@ -55,8 +55,8 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'adapter' => 'koowa:database.adapter.mysql',
-            'params'  => 'koowa:object.array'
+            'adapter' => 'lib://nooku/database.adapter.mysql',
+            'params'  => 'lib://nooku/object.array'
         ));
     }
 

@@ -78,7 +78,7 @@ class KTemplateFilterExpire extends KTemplateFilterAbstract implements KTemplate
         if(!isset($this->_cache[$url]))
         {
             // Remote resources cannot be processed
-            if($this->getService('koowa:filter.url')->validate($url)) {
+            if($this->getService('lib://nooku/filter.url')->validate($url)) {
                 return $this->_cache[$url] = $url;
             }
 

@@ -140,7 +140,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $query = $this->getService('koowa:database.query.select')
+            $query = $this->getService('lib://nooku/database.query.select')
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
 
@@ -181,7 +181,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     /**
      * Set a table object attached to the handler
      *
-     * @param   mixed   $table An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed   $table An object that implements KServiceInterface, KServiceIdentifier object
      *                         or valid identifier string
      * @return KUserSessionHandlerDatabase
      */

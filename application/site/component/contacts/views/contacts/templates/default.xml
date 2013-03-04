@@ -8,7 +8,7 @@
 	<state>
 		<name>Contacts Category Layout</name>
 		<description>CONTACT CATEGORY LAYOUT DESC</description>
-        <url addpath="/administrator/component/categories/elements">
+        <url addpath="/application/admin/component/categories/elements">
             <param name="category" type="category" table="contacts" default="0" label="Category" description="PARAMCATSELECT" />
         </url>
 		<params>

@@ -102,7 +102,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
             if ($user->getPassword()->expired())
             {
                 $url = '?option=com_users&view=user&layout=password&id=' . $user->id;
-                $url = $this->getService('koowa:http.url', array('url' => $url));
+                $url = $this->getService('lib://nooku/http.url', array('url' => $url));
 
                 $this->getService('application')->getRouter()->build($url);
                 $context->response->setRedirect($url);
@@ -130,7 +130,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
             'email'       => $context->user->getEmail(),
             'data'        => '',
             'time'        => time(),
-            'application' => $this->getIdentifier()->application,
+            'application' => $this->getIdentifier()->namespace,
         );
 
         $context->request->data->add($data);
@@ -150,7 +150,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
     protected function _actionDelete(KCommandContext $context)
     {
         //Force logout from site only
-        $context->request->query->application = array($this->getIdentifier()->application);
+        $context->request->query->application = array($this->getIdentifier()->namespace);
 
         //Remove the session from the session store
         $entity = parent::_actionDelete($context);

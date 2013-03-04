@@ -93,7 +93,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
             'data'             => array(),
             'filters'          => array(),
             'view'             => null,
-            'command_chain'    => $this->getService('koowa:command.chain'),
+            'command_chain'    => $this->getService('lib://nooku/command.chain'),
             'dispatch_events'  => false,
             'enable_callbacks' => false,
         ));
@@ -163,7 +163,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Method to set a view object attached to the controller
      *
-     * @param	mixed	$view An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param	mixed	$view An object that implements KServiceInterface, KServiceIdentifier object
      * 					      or valid identifier string
      * @return KTemplateAbstract
      */
@@ -286,7 +286,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
     /**
      * Get a filter by identifier
      *
-     * @param   mixed    $filter    An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed    $filter    An object that implements KServiceInterface, KServiceIdentifier object
                                     or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
      * @return KTemplateFilterInterface

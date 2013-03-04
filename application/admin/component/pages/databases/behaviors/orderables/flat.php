@@ -19,7 +19,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 {
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        $query = $this->getService('koowa:database.query.select')
+        $query = $this->getService('lib://nooku/database.query.select')
             ->columns('MAX(ordering)');
         
         $this->_buildQuery($query);
@@ -38,7 +38,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			$new = $new <= 0 ? 1 : $new;
 
 			$table = $context->getSubject();
-			$query = $this->getService('koowa:database.query.update')
+			$query = $this->getService('lib://nooku/database.query.update')
 			    ->table($table->getBase());
 
 			$this->_buildQuery($query);
@@ -89,7 +89,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         $table = $context->getSubject();
         $table->getAdapter()->execute('SET @index = 0');
 
-        $query = $this->getService('koowa:database.query.update')
+        $query = $this->getService('lib://nooku/database.query.update')
             ->table($table->getBase())
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');

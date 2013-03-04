@@ -70,7 +70,7 @@ abstract class KViewTemplate extends KViewAbstract
 
         //Set the media url
         if (!$config->media_url instanceof KHttpUrlInterface) {
-            $this->_mediaurl = $this->getService('koowa:http.url', array('url' => $config->media_url));
+            $this->_mediaurl = $this->getService('lib://nooku/http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
         }
@@ -119,7 +119,7 @@ abstract class KViewTemplate extends KViewAbstract
             'escape'           => 'htmlspecialchars',
             'layout'           => '',
             'template'         => $this->getName(),
-            'template_filters' => array('shorttag', 'alias', 'variable'),
+            'template_filters' => array('shorttag', 'alias', 'decorator'),
             'auto_assign'      => true,
             'media_url'        => '/media',
         ));
@@ -170,7 +170,7 @@ abstract class KViewTemplate extends KViewAbstract
      *
      * @return string     The output of the view
      */
-    public function display()
+    public function render()
     {
         $layout     = $this->getLayout();
         $format     = $this->getFormat();
@@ -182,7 +182,7 @@ abstract class KViewTemplate extends KViewAbstract
             ->loadFile($identifier, $this->_data)
             ->render();
 
-        return parent::display();
+        return parent::render();
     }
 
     /**
@@ -276,7 +276,7 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Method to set a template object attached to the view
      *
-     * @param   mixed   An object that implements KObjectServiceable, an object that
+     * @param   mixed   An object that implements KServiceInterface, an object that
      *                  implements KServiceIdentifierInterface or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  KViewAbstract
@@ -292,7 +292,6 @@ abstract class KViewTemplate extends KViewAbstract
                 $identifier->name = $template;
             }
             else $identifier = $this->getIdentifier($template);
-
 
             $template = $identifier;
         }
@@ -343,14 +342,14 @@ abstract class KViewTemplate extends KViewAbstract
      */
     public function __toString()
     {
-        return $this->display();
+        return $this->render();
     }
 
     /**
      * Supports a simple form of Fluent Interfaces. Allows you to assign variables to the view by using the variable
      * name as the method name. If the method name is a setter method the setter will be called instead.
      *
-     * For example : $view->layout('foo')->title('name')->display().
+     * For example : $view->layout('foo')->title('name')->render().
      *
      * @param   string  Method name
      * @param   array   Array containing all the arguments for the original call

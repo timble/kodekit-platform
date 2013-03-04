@@ -1,15 +1,14 @@
 <?php
 /**
- * @package		Koowa_Service
- * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * @package     Koowa_Service
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
 /**
- * Factory Interface
+ * Service Interface
  *
- * @author		Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
  */
 interface KServiceInterface
@@ -19,98 +18,15 @@ interface KServiceInterface
 	 *
 	 * @param	string|object	$identifier The class identifier or identifier object
 	 * @param	array  			$config     An optional associative array of configuration settings.
-	 * @throws	KServiceServiceException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
-	public static function get($identifier, array $config = array());
+	public function getService($identifier = null, array $config = array());
 
 	/**
-	 * Insert the object instance using the identifier
+	 * Get a service identifier.
 	 *
-	 * @param mixed  $identifier The class identifier
-	 * @param object $config     The object instance to store
+     * @param	string|object	$identifier The class identifier or identifier object
+	 * @return	KServiceIdentifier
 	 */
-	public static function set($identifier, $object);
-
-	/**
-	 * Check if the object instance exists based on the identifier
-	 *
-	 * @param mixed $identifier The class identifier
-	 * @return boolean Returns TRUE on success or FALSE on failure.
-	 */
-	public static function has($identifier);
-
-	/**
-     * Set a mixin or an array of mixins for an identifier
-     *
-     * The mixins are mixed when the indentified object is first instantiated see {@link get}
-     * Mixins are also added to objects that already exist in the object registry.
-     *
-     * @param  string|object $identifier An identifier string or KIdentfier object
-     * @param  string|array  $mixins     A mixin identifier or a array of mixin identifiers
-     * @see KObject::mixin()
-     */
-    public static function addMixin($identifier, $mixins);
-
-    /**
-     * Get the mixins for an identifier
-     *
-     * @param  string|object $identifier An identifier string or KIdentfier object
-     * @return array An array of mixins
-     */
-    public static function getMixins($identifier);
-
-    /**
-     * Returns an identifier object.
-	 *
-	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements KObjectServiceable, or a KServiceIdentifier object, or valid identifier string.
-     *
-     * Function will also check for identifier mappings and return the mapped identifier.
-	 *
-	 * @param	mixed $identifier An object that implements KObjectServiceable, KServiceIdentifier object
-	 * 					         or valid identifier string
-	 * @return KServiceIdentifier
-	 */
-	public static function getIdentifier($identifier);
-
-	/**
-	 * Set the configuration options for an identifier
-	 *
-	 * @param mixed	$identifier An object that implements KObjectServiceable, KServiceIdentifier object
-	 * 				            or valid identifier string
-	 * @param array	$config An associative array of configuration options
-	 */
-	public static function setConfig($identifier, array $config);
-
-	/**
-	 * Get the configuration options for an identifier
-	 *
-	 * @param mixed	$identifier An object that implements KObjectServiceable, KServiceIdentifier object
-	 * 				            or valid identifier string
-	 *  @param array  An associative array of configuration options
-	 */
-	public static function getConfig($identifier);
-
-	/**
-     * Get the configuration options for all the identifiers
-     *
-     * @return array  An associative array of configuration options
-     */
-    public static function getConfigs();
-
-	/**
-	 * Set an alias for an identifier
-	 *
-	 * @param string $alias      The alias
-	 * @param mixed  $identifier The class identifier or identifier object
-	 */
-	public static function setAlias($alias, $identifier);
-
-	/**
-     * Get a list of aliases
-     *
-     * @return array
-     */
-    public static function getAliases();
+	public function getIdentifier($identifier = null);
 }

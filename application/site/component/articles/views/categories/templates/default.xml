@@ -8,7 +8,7 @@
 <state>
     <name>Standard Category Layout</name>
     <description>STANDARD CATEGORY LAYOUT DESC</description>
-    <url addpath="/administrator/component/categories/elements">
+    <url addpath="/application/admin/component/categories/elements">
         <param name="category" type="category" table="articles" label="Category" description=""/>
     </url>
     <params>

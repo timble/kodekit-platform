@@ -38,7 +38,7 @@ class JRoute
 	function _($url, $xhtml = true, $ssl = null)
 	{
 		//Create the route
-        $url = KService::get('koowa:http.url', array('url' => $url));
+        $url = KServiceManager::get('lib://nooku/http.url', array('url' => $url));
 
         JFactory::getApplication()->getRouter()->build($url);
 

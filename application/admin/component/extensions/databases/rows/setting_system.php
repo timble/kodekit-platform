@@ -28,7 +28,7 @@ class ComExtensionsDatabaseRowSetting_System extends ComExtensionsDatabaseRowSet
     {
         $config->append(array(
              'name' => 'system',
-             'path'	=> JPATH_ROOT.DS.'configuration.php',
+             'path'	=> JPATH_ROOT.'/config/config.php',
              'data' => JFactory::getConfig()->toArray()
         ));
         

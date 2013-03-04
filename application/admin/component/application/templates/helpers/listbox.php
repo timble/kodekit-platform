@@ -30,7 +30,7 @@ class ComApplicationTemplateHelperListbox extends ComDefaultTemplateHelperListbo
             $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
         
-        foreach($this->getIdentifier()->getApplications() as $application => $path) {
+        foreach($this->getIdentifier()->getNamespaces() as $application => $path) {
             $options[] = $this->option(array('text' => $application, 'value' => $application));
         }
         

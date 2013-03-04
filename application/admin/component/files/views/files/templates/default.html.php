@@ -11,7 +11,8 @@
 <?= @template('initialize.html');?>
 
 <script>
-Files.sitebase = '<?= $sitebase; ?>';
+
+Files.sitebase = window.location.pathname;
 Files.token = '<?= $token; ?>';
 
 window.addEvent('domready', function() {

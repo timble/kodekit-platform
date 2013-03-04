@@ -59,7 +59,7 @@ interface KTemplateInterface
     /**
      * Method to set a view object attached to the template
      *
-     * @param mixed  $view An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param mixed  $view An object that implements KServiceInterface, KServiceIdentifier object
      *                     or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a view identifier
      * @return KTemplateAbstract
@@ -87,7 +87,7 @@ interface KTemplateInterface
     /**
      * Get a filter by identifier
      *
-     * @param   mixed    $filter    An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed    $filter    An object that implements KServiceInterface, KServiceIdentifier object
                                     or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
      * @return KTemplateFilterInterface

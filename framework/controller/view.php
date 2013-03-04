@@ -50,8 +50,13 @@ abstract class KControllerView extends KControllerAbstract
      */
     protected function _initialize(KConfig $config)
     {
+        //Create permission identifier
+        $permission       = clone $this->getIdentifier();
+        $permission->path = array('controller', 'permission');
+
         $config->append(array(
-            'view' => $this->getIdentifier()->name,
+            'view'      => $this->getIdentifier()->name,
+            'behaviors' => array($permission),
         ));
 
         parent::_initialize($config);
@@ -80,8 +85,8 @@ abstract class KControllerView extends KControllerAbstract
 
 			//Create the view
 			$config = array(
-                'media_url'  => $this->getService('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getService('request')->getUrl()->toString(KHttpUrl::BASE),
+                'media_url' => $this->getService('request')->getBaseUrl()->getPath().'/media',
+			    'base_url'	=> $this->getService('request')->getUrl()->toString(KHttpUrl::BASE ^ KHttpUrl::USER ^ KHttpUrl::PASS),
                 'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
@@ -110,7 +115,7 @@ abstract class KControllerView extends KControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object
+	 * @param	mixed	An object that implements KServiceInterface, KServiceIdentifier object
 	 * 					or valid identifier string
 	 * @return	KControllerView
 	 */
@@ -151,8 +156,11 @@ abstract class KControllerView extends KControllerAbstract
             $view->set($name, $value);
         }
 
+        //Push the content in the view
+        $view->setContent($context->response->getContent());
+
         //Render the view
-        $content = $view->display();
+        $content = $view->render();
 
         //Set the data in the response
         $context->response

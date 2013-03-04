@@ -93,7 +93,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param    mixed    An object that implements KServiceInterface, KServiceIdentifier object
      *                    or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  KDatabaseRowsetAbstract

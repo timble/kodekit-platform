@@ -12,7 +12,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
  */
-interface KObjectInterface extends KObjectHandlable, KObjectServiceable, KObjectMixable
+interface KObjectInterface extends KObjectHandlable, KObjectMixable
 {
 
 }

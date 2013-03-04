@@ -17,7 +17,7 @@
 
 class ComExtensionsViewSettingsJson extends KViewJson
 {
-    public function display()
+    public function render()
     {
         $model = $this->getModel();
 
@@ -28,6 +28,6 @@ class ComExtensionsViewSettingsJson extends KViewJson
         }
 
         $this->setContent($data);
-        return parent::display();
+        return parent::render();
     }
 }

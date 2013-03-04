@@ -19,8 +19,6 @@ class ComApplicationControllerPage extends ComDefaultControllerView
 {
     protected function _actionRender(KCommandContext $context)
     {
-        $this->getView()->content = $context->response->getContent();
-
         $content = parent::_actionRender($context);
 
         //Make images paths absolute

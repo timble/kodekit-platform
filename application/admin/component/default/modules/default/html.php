@@ -40,14 +40,14 @@ class ComDefaultModuleDefaultHtml extends KViewTemplate
      *
      * @return ModDefaultHtml
      */
-    public function display()
+    public function render()
     {
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome)) {
             $this->getTemplate()->attachFilter('chrome', array('styles' => $this->module->chrome));
         }
 
-        return parent::display();
+        return parent::render();
     }
 
     /**

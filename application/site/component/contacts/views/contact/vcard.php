@@ -16,7 +16,7 @@
  */
 class ComContactsViewContactVcard extends KViewVcard
 {
-    public function display()
+    public function render()
     {
         $contact = $this->getModel()->getRow();
        
@@ -56,6 +56,6 @@ class ComContactsViewContactVcard extends KViewVcard
             $this->setURL($contact->webpage);
         }
 
-        return parent::display();
+        return parent::render();
     }
 }

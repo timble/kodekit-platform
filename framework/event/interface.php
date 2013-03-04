@@ -42,7 +42,7 @@ interface KEvent
      * @param object	The event target
      * @return KEvent
      */
-    public function setTarget(KObjectServiceable $target);
+    public function setTarget(KServiceInterface $target);
     
     /**
      * Stores the EventDispatcher that dispatches this Event

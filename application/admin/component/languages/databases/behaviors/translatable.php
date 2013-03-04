@@ -28,16 +28,16 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             ->getRowset();
     }
     
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        if(!$container->has($config->service_identifier))
+        if(!$manager->has($config->service_identifier))
         {
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
         }
 
-        return $container->get($config->service_identifier);
+        return $manager->get($config->service_identifier);
     }
     
     public function getHandle()
@@ -223,7 +223,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         ))->save();
         
         // Set the other items to outdated if they were completed before.
-        $query = $this->getService('koowa:database.query.select')
+        $query = $this->getService('lib://nooku/database.query.select')
             ->where('iso_code <> :iso_code')
             ->where('table = :table')
             ->where('row = :row')
@@ -244,7 +244,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         // Copy the item's data to all missing translations.
         $database = $this->getTable()->getAdapter();
         $prefix = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
-        $select = $this->getService('koowa:database.query.select')
+        $select = $this->getService('lib://nooku/database.query.select')
             ->table($prefix.$table->name)
             ->where($table->unique_column.' = :unique')
             ->bind(array('unique' => $context->data->id));

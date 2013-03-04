@@ -15,10 +15,10 @@
  * @subpackage  Application
  */
 
-KService::setAlias('application'           , 'com://admin/application.dispatcher.default');
-KService::setAlias('application.components', 'com://admin/application.database.rowset.components');
-KService::setAlias('application.languages' , 'com://admin/application.database.rowset.languages');
-KService::setAlias('application.pages'     , 'com://admin/application.database.rowset.pages');
-KService::setAlias('application.modules'   , 'com://admin/application.database.rowset.modules');
+KServiceManager::setAlias('application'           , 'com://admin/application.dispatcher');
+KServiceManager::setAlias('application.components', 'com://admin/application.database.rowset.components');
+KServiceManager::setAlias('application.languages' , 'com://admin/application.database.rowset.languages');
+KServiceManager::setAlias('application.pages'     , 'com://admin/application.database.rowset.pages');
+KServiceManager::setAlias('application.modules'   , 'com://admin/application.database.rowset.modules');
 
-KService::setAlias('koowa:database.adapter.mysql', 'com://admin/application.database.adapter.mysql');
+KServiceManager::setAlias('lib://nooku/database.adapter.mysql', 'com://admin/application.database.adapter.mysql');

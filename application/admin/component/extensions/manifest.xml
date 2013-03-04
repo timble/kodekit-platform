@@ -9,12 +9,4 @@
   	<authorUrl>www.nooku.org</authorUrl>
   	<version>12.2</version>
    	<description>This component provides extension management</description>
-   	
-   	<admin>
-		<menubar>
-            <command href="view=components">Extensions</command>
-			<command href="view=settings">Settings</command>
-		</menubar>
-	</admin>
-	
 </install>

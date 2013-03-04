@@ -152,24 +152,22 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     /**
      * Force creation of a singleton
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
+     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
      * @return KDispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        // Check if an instance with this identifier already exists or not
-        if (!$container->has('session'))
+        if (!$manager->has('session'))
         {
-            //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
 
-            $container->setAlias('session', $config->service_identifier);
+            $manager->setAlias('session', $config->service_identifier);
         }
 
-        return $container->get('session');
+        return $manager->get('session');
     }
 
     /**
@@ -387,7 +385,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * If the container does not exist a container will be created on the fly.
      *
-     * @param   mixed $name An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed $name An object that implements KServiceInterface, KServiceIdentifier object
      *                      or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a session container identifier
      * @return KUserSessionContainerInterface

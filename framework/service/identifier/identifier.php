@@ -9,7 +9,7 @@
 /**
  * Service Identifier
  *
- * Wraps identifiers of the form [application::]type.package.[.path].name in an object, providing public accessors
+ * Wraps identifiers of the form type://namespace/package.[.path].name in an object, providing public accessors
  * and methods for derived formats.
  *
  * @author      Johan Janssens <johan@nooku.org>
@@ -19,11 +19,11 @@
 class KServiceIdentifier implements KServiceIdentifierInterface
 {
     /**
-     * An associative array of application paths
+     * An associative array of namespace paths
      *
      * @var array
      */
-    protected static $_applications = array();
+    protected static $_namespaces = array();
 
     /**
      * Associative array of identifier adapters
@@ -40,14 +40,14 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     protected $_identifier = '';
 
     /**
-     * The application name
+     * The namespace
      *
      * @var string
      */
-    protected $_application = '';
+    protected $_namespace = '';
 
     /**
-     * The identifier type [com|plg|mod]
+     * The identifier type [com|lib]
      *
      * @var string
      */
@@ -98,7 +98,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     /**
      * Constructor
      *
-     * @param   string   $identifier Identifier string or object in [application::]type.package.[.path].name format
+     * @param   string   $identifier Identifier string or object in type://namespace/package.[.path].name format
      * @throws  KServiceExceptionInvalidIdentifier If the identifier is not valid
      */
     public function __construct($identifier)
@@ -116,9 +116,9 @@ class KServiceIdentifier implements KServiceIdentifierInterface
         // Set the type
         $this->type = $parts['scheme'];
 
-        //Set the application
+        //Set the namespace
         if(isset($parts['host'])) {
-            $this->application = $parts['host'];
+            $this->namespace = $parts['host'];
         }
 
         // Set the path
@@ -145,7 +145,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
 	public function serialize()
 	{
         $data = array(
-            'application' => $this->_application,
+            'namespace  ' => $this->_namespace,
             'type'		  => $this->_type,
             'package'	  => $this->_package,
             'path'		  => $this->_path,
@@ -174,36 +174,36 @@ class KServiceIdentifier implements KServiceIdentifierInterface
 	}
 
 	/**
-	 * Set an application path
+	 * Set an namespace path
 	 *
-	 * @param string	The name of the application
-	 * @param string	The path of the application
+	 * @param string	The name of the namespace
+	 * @param string	The path of the namespace
 	 * @return void
      */
-    public static function setApplication($application, $path)
+    public static function setNamespace($namespace, $path)
     {
-        self::$_applications[$application] = $path;
+        self::$_namespaces[$namespace] = $path;
     }
 
 	/**
-	 * Get an application path
+	 * Get an namespace path
 	 *
-	 * @param string	The name of the application
-	 * @return string	The path of the application
+	 * @param string	The name of the namespace
+	 * @return string	The path of the namespace
      */
-    public static function getApplication($application)
+    public static function getNamespace($namespace)
     {
-        return isset(self::$_applications[$application]) ? self::$_applications[$application] : null;
+        return isset(self::$_namespaces[$namespace]) ? self::$_namespaces[$namespace] : null;
     }
 
 	/**
-     * Get a list of applications
+     * Get a list of namespaces
      *
      * @return array
      */
-    public static function getApplications()
+    public static function getNamespaces()
     {
-        return self::$_applications;
+        return self::$_namespaces;
     }
 
 	/**
@@ -234,7 +234,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
      *
      * @param   string  The virtual property to set.
      * @param   string  Set the virtual property to this value.
-     * @throws \DomainException If the application or type are unknown
+     * @throws \DomainException If the namespace or type are unknown
      */
     public function __set($property, $value)
     {
@@ -249,13 +249,13 @@ class KServiceIdentifier implements KServiceIdentifierInterface
             }
 
             //Set the basepath
-            if($property == 'application')
+            if($property == 'namespace')
             {
-               if(!isset(self::$_applications[$value])) {
-                    throw new \DomainException('Unknow application : '.$value);
+               if(!isset(self::$_namespaces[$value])) {
+                    throw new \DomainException('Unknow namespace : '.$value);
                }
 
-               $this->_basepath = self::$_applications[$value];
+               $this->_basepath = self::$_namespaces[$value];
             }
 
             //Set the type
@@ -311,7 +311,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     }
 
     /**
-     * Formats the indentifier as a [application::]type.package.[.path].name string
+     * Formats the indentifier as a type://namespace/package.[.path].name string
      *
      * @return string
      */
@@ -323,8 +323,8 @@ class KServiceIdentifier implements KServiceIdentifierInterface
                 $this->_identifier .= $this->_type;
             }
 
-            if(!empty($this->_application)) {
-                $this->_identifier .= '://'.$this->_application.'/';
+            if(!empty($this->_namespace)) {
+                $this->_identifier .= '://'.$this->_namespace.'/';
             } else {
                 $this->_identifier .= ':';
             }

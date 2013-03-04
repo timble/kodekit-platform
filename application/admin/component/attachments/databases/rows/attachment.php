@@ -24,9 +24,12 @@ class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
 	{
 		$return = parent::delete();
 			
-		if ($return) {
+		if ($return)
+        {
 			$this->getService('com://admin/files.controller.file', array(
-				'request' => array('container' => $this->container, 'name' => $this->path)
+				'request' => $this->getService('lib://nooku/controller.request', array(
+                                'query' => array('container' => $this->container, 'name' => $this->path)
+                            ))
 			))->delete();
 			
 			$relations = $this->getService('com://admin/attachments.database.table.relations')

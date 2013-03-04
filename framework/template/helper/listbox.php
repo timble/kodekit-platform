@@ -77,7 +77,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		))->append(array(
 			'value'		 => $config->name,
 			'selected'   => $config->{$config->name},
-		    'identifier' => 'com://'.$this->getIdentifier()->application.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
+		    'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(
@@ -127,7 +127,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		))->append(array(
 		    'value'		 => $config->name,
 		    'selected'   => $config->{$config->name},
-			'identifier' => 'com://'.$this->getIdentifier()->application.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
+			'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(

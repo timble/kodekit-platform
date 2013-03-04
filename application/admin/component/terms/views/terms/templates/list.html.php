@@ -8,8 +8,6 @@
  * @link        http://www.nooku.org
  */
 
-defined('KOOWA') or die( 'Restricted access' ); ?>
-
 <script src="media://terms/js/terms.js" />
 <style src="media://terms/css/default.css" />
 

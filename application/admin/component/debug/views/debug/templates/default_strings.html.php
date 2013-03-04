@@ -1,6 +1,5 @@
 <?
 /**
- * @category	Nooku
  * @package     Nooku_Components
  * @subpackage  Debug
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -14,10 +13,10 @@
 <? foreach ($strings as $key => $occurance) : ?>
 	<? foreach ( $occurance as $i => $info) : ?>
 	<?	
-		$class	= @$info['class'];
-		$func	= @$info['function'];
-		$file	= @$info['file'];
-		$line	= @$info['line'];
+		$class	= $info['class'];
+		$func	= $info['function'];
+		$file	= $info['file'];
+		$line	= $info['line'];
 	?>
 	<?= strtoupper( $key )."\t$class::$func()\t[$file:$line]\n"; ?>
 	<? endforeach; ?>
