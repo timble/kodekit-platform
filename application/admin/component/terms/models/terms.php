@@ -24,7 +24,6 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 		
 		// Set the state
 		$this->getState()
-			->insert('row', 'int')
 		 	->insert('table', 'string', $this->getIdentifier()->package);
 	}
 	
@@ -39,7 +38,7 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 	
 	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
 	{	
-        $query->group('relations.terms_term_id');
+        $query->group('tbl.terms_term_id');
 	}
 	 
 	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
@@ -51,16 +50,15 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 	
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{                
-        if(!$this->_state->isUnique()) 
-		{
-			if($this->_state->table) {
-				$query->where('relations.table = :table')->bind(array('table' => $this->_state->table));
-			}
-		
-			if($this->_state->row) {
-				$query->where('relations.row IN :row')->bind(array('row' => (array) $this->_state->row));
-			}
-		}
+        $state = $this->getState();
+
+        if($state->search) {
+            $query->where('tbl.title LIKE %:search%')->bind(array('search' => $state->search));
+        }
+        
+        if($this->_state->table) {
+            $query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
+        }
         
         parent::_buildQueryWhere($query);
 	}

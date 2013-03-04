@@ -27,7 +27,7 @@ class ComArticlesViewArticleHtml extends ComDefaultViewHtml
         }
         
         if ($article->id && $article->isTaggable()) {
-            $this->terms($article->getTerms()->id);
+            $this->terms($article->getTerms()->terms_term_id);
         }
         
         return parent::render();
