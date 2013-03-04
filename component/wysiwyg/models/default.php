@@ -9,9 +9,9 @@
 
 
 /**
- * Wysiwyg Model Class
+ * Default Model
  *
- * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @package     Nooku\Component\Wysiwyg
+ * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @package Nooku\Component\Wysiwyg
  */
 class ComWysiwygModelDefault extends KModelAbstract {}

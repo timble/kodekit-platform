@@ -6,7 +6,6 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git
  */
-
 ?>
 
 <?= @template('form_script.html') ?>

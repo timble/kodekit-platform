@@ -8,10 +8,10 @@
  */
 
 /**
- * Editor Controller Class
+ * Editor Controller
  *
- * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @package     Nooku\Component\Wysiwyg
+ * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @package Nooku\Component\Wysiwyg
  */
 class ComWysiwygControllerEditor extends KControllerView
 {

@@ -10,8 +10,8 @@
 /**
  * Editor Html View Class
  *
- * @author    	Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
- * @package     Nooku\Component\Wysiwyg
+ * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @package Nooku\Component\Wysiwyg
  */
 class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 {
@@ -33,13 +33,6 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
         }
     }
 
-    /**
-     * Initializes the configuration for the object
-     * 
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   array   Configuration settings
-     */
     protected function _initialize(KConfig $config)
     {
         $language = JFactory::getLanguage();

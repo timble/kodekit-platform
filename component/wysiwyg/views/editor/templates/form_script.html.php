@@ -6,7 +6,6 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		git://git.assembla.com/nooku-framework.git
  */
-
 ?>
 
 <? /* Image and article buttons needs this in order to work */ ?>
