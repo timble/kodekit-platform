@@ -143,7 +143,14 @@ class KServiceLocatorComponent extends KServiceLocatorAbstract
             else $path  = strtolower($identifier->name);
         }
 
-        $path = $identifier->basepath.'/component/'.$component.'/'.$path.'.php';
+        $path = 'component/'.$component.'/'.$path.'.php';
+
+        if(file_exists($identifier->basepath.'/'.$path)) {
+            $path = $identifier->basepath.'/'.$path;
+        } else {
+            $path = JPATH_ROOT.'/'.$path;
+        }
+
         return $path;
     }
 }

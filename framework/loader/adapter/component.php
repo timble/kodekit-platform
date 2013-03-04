@@ -75,7 +75,13 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 			}
 			else $path = $file;
 
-			$path = $this->_basepath.'/component/'.$component.'/'.$path.'.php';
+			$path = 'component/'.$component.'/'.$path.'.php';
+
+            if(file_exists($this->_basepath.'/'.$path)) {
+                $path = $this->_basepath.'/'.$path;
+            } else {
+                $path = JPATH_ROOT.'/'.$path;
+            }
 		}
 
 		return $path;
