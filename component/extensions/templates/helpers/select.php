@@ -1,0 +1,32 @@
+<?php
+/**
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
+ */
+
+/**
+ * Select Template Helper
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Extensions
+ */
+class ComExtensionsTemplateHelperSelect extends KTemplateHelperSelect
+{
+	public function booleanlist( $config = array())
+	{
+		$config = new KConfig($config);
+		$config->append(array(
+			'name'   	=> '',
+			'attribs'	=> array(),
+			'true'		=> 'yes',
+			'false'		=> 'no',
+			'selected'	=> null,
+			'translate'	=> true
+		));
+		
+		return parent::booleanlist($config);
+	}
+}
