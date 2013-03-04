@@ -31,9 +31,9 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 	protected function _initialize(KConfig $config)
 	{
 		$config->append(array(
-			'command_chain'     => $this->getService('koowa:command.chain'),
+			'command_chain'     => $this->getService('lib://nooku/command.chain'),
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getService('koowa:event.dispatcher.default'),
+			'event_dispatcher'  => $this->getService('lib://nooku/event.dispatcher.default'),
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));

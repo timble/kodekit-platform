@@ -8,7 +8,7 @@
 	<state>
 		<name>LIST LAYOUT</name>
 		<description>WEBLINKS LIST LAYOUT DESC</description>
-		<url addpath="/administrator/component/categories/elements">
+		<url addpath="/application/admin/component/categories/elements">
 			<param name="category" type="category" table="weblinks" default="0" label="Category" description="PARAMCATSELECT" />
 		</url>
 		<params>

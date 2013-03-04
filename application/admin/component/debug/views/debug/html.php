@@ -18,7 +18,7 @@
  */
 class ComDebugViewDebugHtml extends KViewHtml
 {
-    public function display()
+    public function render()
     {
         $database = $this->getService('com://admin/debug.event.subscriber.database');
         $profiler = $this->getService('com://admin/debug.event.profiler');
@@ -42,6 +42,6 @@ class ComDebugViewDebugHtml extends KViewHtml
 	    $this->includes  = (array) $includes;
 	    $this->strings   = (array) $language->getOrphans();
                         
-        return parent::display();
+        return parent::render();
     }
 }

@@ -90,8 +90,9 @@ class ComArticlesRouter extends ComDefaultRouter
                 $count--;
                 $segment = array_shift( $segments) ;
 
-                $vars['id'] = $segment;
-                $vars['view'] = 'article';
+                $vars['id']     = $segment;
+                $vars['view']   = 'article';
+                $vars['layout'] = 'default';
             }
         }
 
@@ -99,8 +100,9 @@ class ComArticlesRouter extends ComDefaultRouter
         {
             $segment = array_shift( $segments) ;
 
-            $vars['id'] = $segment;
-            $vars['view'] = 'article';
+            $vars['id']     = $segment;
+            $vars['view']   = 'article';
+            $vars['layout'] = 'default';
         }
 
         return $vars;

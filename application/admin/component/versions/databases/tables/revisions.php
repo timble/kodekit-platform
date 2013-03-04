@@ -40,7 +40,7 @@ class ComVersionsDatabaseTableRevisions extends KDatabaseTableDefault
      */
     public function insert(KDatabaseRowInterface $row)
     {
-    	$query = $this->getService('koowa:database.query.select')
+    	$query = $this->getService('lib://nooku/database.query.select')
             ->where('table', '=', $row->table)
             ->where('row',   '=', $row->row)
             ->order('revision','desc')

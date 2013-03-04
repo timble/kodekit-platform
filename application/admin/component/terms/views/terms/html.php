@@ -8,7 +8,7 @@
 
 class ComTermsViewTermsHtml extends ComTermsViewHtml
 {
-	public function display()
+	public function render()
 	{
 		//If no row exists assign an empty array
 		if($this->getModel()->get('row')) {
@@ -17,6 +17,6 @@ class ComTermsViewTermsHtml extends ComTermsViewHtml
 			$this->disabled = true;
 		}
 			
-		return parent::display();
+		return parent::render();
 	}
 }

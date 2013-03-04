@@ -85,7 +85,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
 
         if ($user->getStatus() == KDatabase::STATUS_CREATED && $user->activation) {
 
-            $url       = $this->getService('koowa:http.url',
+            $url       = $this->getService('lib://nooku/http.url',
                 array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
             $this->getService('application')->getRouter()->build($url);
             $site_url       = $context->request->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);

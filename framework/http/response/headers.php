@@ -74,7 +74,7 @@ class KHttpResponseHeaders extends KHttpMessageHeaders
      */
     public function clearCookie($name, $path = '/', $domain = null)
     {
-        $cookie = $this->getService('koowa:http.cookie', array(
+        $cookie = $this->getService('lib://nooku/http.cookie', array(
             'name'   => $name,
             'path'   => $path,
             'domain' => $domain,

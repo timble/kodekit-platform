@@ -40,7 +40,7 @@ class ComDefaultModuleDefaultHtml extends KViewTemplate
      *
      * @return ModDefaultHtml
      */
-    public function display()
+    public function render()
     {
         JFactory::getLanguage()->load($this->getIdentifier()->package, $this->module->name);
 
@@ -49,7 +49,7 @@ class ComDefaultModuleDefaultHtml extends KViewTemplate
             $this->getTemplate()->attachFilter('chrome', array('styles' => $this->module->chrome));
         }
 
-        return parent::display();
+        return parent::render();
     }
 
     /**

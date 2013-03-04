@@ -239,24 +239,23 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Force creation of a singleton
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
+     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
      * @return KDispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        // Check if an instance with this identifier already exists or not
-        if (!$container->has('request'))
+        if (!$manager->has('request'))
         {
-            //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
 
-            $container->setAlias('request', $config->service_identifier);
+            //Add the service alias to allow easy access to the singleton
+            $manager->setAlias('request', $config->service_identifier);
         }
 
-        return $container->get('request');
+        return $manager->get('request');
     }
 
     /**
@@ -267,7 +266,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      */
     public function setCookies($parameters)
     {
-        $this->_cookies = $this->getService('koowa:http.message.parameters', array('parameters' => $parameters));
+        $this->_cookies = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -288,7 +287,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      */
     public function setFiles($parameters)
     {
-        $this->_files = $this->getService('koowa:http.message.parameters', array('parameters' => $parameters));
+        $this->_files = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -447,10 +446,10 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
             }
 
             // Sanitize the url since we can't trust the server var
-            $url = $this->getService('koowa:filter.url')->sanitize($url);
+            $url = $this->getService('lib://nooku/filter.url')->sanitize($url);
 
             // Create the URI object
-            $this->_url = $this->getService('koowa:http.url', array('url' => $url));
+            $this->_url = $this->getService('lib://nooku/http.url', array('url' => $url));
 
             //Set the url port
             $port = $_SERVER['SERVER_PORT'];
@@ -486,13 +485,13 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     {
         if(!isset($this->_referrer))
         {
-            $referrer = $this->getService('koowa:filter.url')->sanitize($this->_headers->get('Referer'));
-            $this->_referrer = $this->getService('koowa:http.url', array('url' => $referrer));
+            $referrer = $this->getService('lib://nooku/filter.url')->sanitize($this->_headers->get('Referer'));
+            $this->_referrer = $this->getService('lib://nooku/http.url', array('url' => $referrer));
         }
 
         if($isInternal)
         {
-            if(!$this->getService('koowa:filter.internalurl')->validate($this->_referrer->toString(KHttpUrl::SCHEME | KHttpUrl::HOST))) {
+            if(!$this->getService('lib://nooku/filter.internalurl')->validate($this->_referrer->toString(KHttpUrl::SCHEME | KHttpUrl::HOST))) {
                 return null;
             }
         }
@@ -541,7 +540,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
             $base = clone $this->getUrl();
             $base->fromString(rtrim((string)$this->_base_url, '/'));
 
-            $this->_base_url = $this->getService('koowa:http.url', array('url' => $base->toString(KHttpUrl::BASE)));
+            $this->_base_url = $this->getService('lib://nooku/http.url', array('url' => $base->toString(KHttpUrl::BASE)));
         }
 
         return $this->_base_url;

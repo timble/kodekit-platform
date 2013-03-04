@@ -17,5 +17,5 @@ define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once(__DIR__.'/bootstrap.php' );
 
-KService::get('loader')->loadIdentifier('com://site/application.aliases');
-KService::get('application')->run();
+KServiceManager::get('loader')->loadIdentifier('com://site/application.aliases');
+KServiceManager::get('application')->run();

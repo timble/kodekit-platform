@@ -17,7 +17,7 @@
 
 class ComApplicationViewExceptionJson extends KViewJson
 {
-    public function display()
+    public function render()
     {
         $properties = array(
             'message' => $this->message,
@@ -42,6 +42,6 @@ class ComApplicationViewExceptionJson extends KViewJson
         ));
 
         $this->setContent($content);
-        return parent::display();
+        return parent::render();
     }
 }

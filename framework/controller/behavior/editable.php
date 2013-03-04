@@ -40,7 +40,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      */
     public function lockReferrer(KCommandContext $context)
     {
-        $cookie = $this->getService('koowa:http.cookie', array(
+        $cookie = $this->getService('lib://nooku/http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
             'path'   => $context->request->getBaseUrl()->getPath()
@@ -71,7 +71,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     {
         $identifier = $this->getMixer()->getIdentifier();
 
-        $referrer = $this->getService('koowa:http.url',
+        $referrer = $this->getService('lib://nooku/http.url',
             array('url' => $context->request->cookies->get('referrer', 'url'))
         );
 
@@ -103,7 +103,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
             }
 
             //Add the referrer cookie
-            $cookie = $this->getService('koowa:http.cookie', array(
+            $cookie = $this->getService('lib://nooku/http.cookie', array(
                 'name'   => 'referrer',
                 'value'  => $referrer,
                 'path'   => $context->request->getBaseUrl()->getPath()

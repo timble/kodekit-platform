@@ -74,7 +74,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 			$new = $new <= 0 ? 1 : $new;
 
 			$table = $this->getTable();
-			$query = $this->getService('koowa:database.query.update')
+			$query = $this->getService('lib://nooku/database.query.update')
 			    ->table($table->getBase());
 			
 			//Build the where query
@@ -122,7 +122,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         $db    = $table->getAdapter();
         $db->execute('SET @order = '.$base);
         
-        $query = $this->getService('koowa:database.query.update')
+        $query = $this->getService('lib://nooku/database.query.update')
             ->table($table->getBase())
             ->values('ordering = (@order := @order + 1)')
             ->order('ordering', 'ASC');
@@ -148,7 +148,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         $table = $this->getTable();
         $db    = $table->getAdapter();
         
-        $query = $this->getService('koowa:database.query.select')
+        $query = $this->getService('lib://nooku/database.query.select')
             ->columns('MAX(ordering)')
             ->table($table->getName());
 

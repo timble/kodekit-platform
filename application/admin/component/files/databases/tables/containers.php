@@ -26,7 +26,7 @@ class ComFilesDatabaseTableContainers extends KDatabaseTableDefault
 				'parameters'         => 'json'
 			),
 			'behaviors' => array(
-			    'koowa:database.behavior.sluggable' => array('columns' => array('id', 'title'))
+			    'lib://nooku/database.behavior.sluggable' => array('columns' => array('id', 'title'))
 			)
 		));
 

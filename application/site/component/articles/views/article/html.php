@@ -16,7 +16,7 @@
  */
 class ComArticlesViewArticleHtml extends ComArticlesViewHtml
 {
-    public function display()
+    public function render()
     {
         //Get the parameters
         $params = $this->getService('application')->getParams();
@@ -49,7 +49,7 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         }
 
         $this->params = $params;
-        return parent::display();
+        return parent::render();
     }
 
     public function getCategory()

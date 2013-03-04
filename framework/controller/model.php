@@ -127,7 +127,7 @@ abstract class KControllerModel extends KControllerView
     /**
      * Method to set a model object attached to the controller
      *
-     * @param	mixed	$model An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param	mixed	$model An object that implements KServiceInterface, KServiceIdentifier object
      * 					       or valid identifier string
      * @return	KControllerView
      */

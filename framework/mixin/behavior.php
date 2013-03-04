@@ -76,7 +76,7 @@ class KMixinBehavior extends KMixinAbstract
     /**
      * Add a behavior
      *
-     * @param   mixed $behavior   An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed $behavior   An object that implements KServiceInterface, KServiceIdentifier object
      *                            or valid identifier string
      * @param   array $config    An optional associative array of configuration settings
      * @return  KObject The mixer object
@@ -115,7 +115,7 @@ class KMixinBehavior extends KMixinAbstract
     /**
      * Get a behavior by identifier
      *
-     * @param   mixed    An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed    An object that implements KServiceInterface, KServiceIdentifier object
      *                   or valid identifier string
      * @param   array   An optional associative array of configuration settings
      * @throws \UnexpectedValueException    If the behavior does not implement the KBehaviorInterface
@@ -129,7 +129,13 @@ class KMixinBehavior extends KMixinAbstract
             if (is_string($behavior) && strpos($behavior, '.') === false)
             {
                 $identifier = clone $this->getIdentifier();
-                $identifier->path = array($identifier->path[0], 'behavior');
+
+                if(isset($identifier->path[0])) {
+                    $identifier->path = array($identifier->path[0], 'behavior');
+                } else {
+                    $identifier->path = array($identifier->name, 'behavior');
+                }
+
                 $identifier->name = $behavior;
             }
             else $identifier = $this->getIdentifier($behavior);

@@ -1,9 +1,9 @@
 <?php
 class ComCommentsViewCommentsHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function render()
 	{
 		$this->user = JFactory::getUser();
-		return parent::display();
+		return parent::render();
 	}
 }

@@ -7,7 +7,7 @@
 
 require_once dirname(__FILE__).'/adapter/interface.php';
 require_once dirname(__FILE__).'/adapter/abstract.php';
-require_once dirname(__FILE__).'/adapter/koowa.php';
+require_once dirname(__FILE__).'/adapter/library.php';
 require_once dirname(__FILE__).'/registry.php';
 
 /**
@@ -65,7 +65,7 @@ class KLoader
         }
 
         //Add the koowa class loader
-        $this->addAdapter(new KLoaderAdapterKoowa(
+        $this->addAdapter(new KLoaderAdapterLibrary(
             array('basepath' => dirname(dirname(__FILE__)))
         ));
 
@@ -215,7 +215,7 @@ class KLoader
     {
         $result = false;
 
-        $identifier = KService::getIdentifier($identifier);
+        $identifier = KServiceManager::getIdentifier($identifier);
 
         //Get the path
         $path = $identifier->filepath;

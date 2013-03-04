@@ -86,7 +86,7 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
      */
     public function setHeaders($headers)
     {
-        $this->_headers = $this->getService('koowa:http.request.headers', array('headers' => $headers));
+        $this->_headers = $this->getService('lib://nooku/http.request.headers', array('headers' => $headers));
         return $this;
     }
 
@@ -132,7 +132,7 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
         }
 
         if (is_string($url)) {
-            $url = $this->getService('koowa:http.url', array('url' => $url));
+            $url = $this->getService('lib://nooku/http.url', array('url' => $url));
         }
 
         $this->_url = $url;

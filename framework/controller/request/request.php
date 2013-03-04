@@ -73,7 +73,7 @@ class KControllerRequest extends KHttpRequest implements KControllerRequestInter
      */
     public function setQuery($parameters)
     {
-        $this->_query = $this->getService('koowa:http.message.parameters', array('parameters' => $parameters));
+        $this->_query = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
         return $this;
     }
 
@@ -95,7 +95,7 @@ class KControllerRequest extends KHttpRequest implements KControllerRequestInter
      */
     public function setData($parameters)
     {
-        $this->_data = $this->getService('koowa:http.message.parameters', array('parameters' => $parameters));
+        $this->_data = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
         return $this;
     }
 

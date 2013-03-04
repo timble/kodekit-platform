@@ -20,11 +20,11 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
      *
      * If the behavior is auto mixed also lazy mix it into related row objects.
      *
-     * @param     object     An optional KConfig object with configuration options
-     * @param     object    A KServiceInterface object
+     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
      * @return  object
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
         $classname = $config->service_identifier->classname;
         $instance  = new $classname($config);
@@ -36,7 +36,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
             $identifier->path = array('database', 'row');
             $identifier->name = KInflector::singularize($identifier->name);
 
-            $container->addMixin($identifier, $instance);
+            $manager->addMixin($identifier, $instance);
         }
 
         return $instance;

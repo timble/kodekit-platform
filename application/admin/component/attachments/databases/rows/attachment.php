@@ -27,7 +27,7 @@ class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
 		if ($return)
         {
 			$this->getService('com://admin/files.controller.file', array(
-				'request' => $this->getService('koowa:controller.request', array(
+				'request' => $this->getService('lib://nooku/controller.request', array(
                                 'query' => array('container' => $this->container, 'name' => $this->path)
                             ))
 			))->delete();

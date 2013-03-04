@@ -111,20 +111,15 @@ abstract class KControllerAbstract extends KObject implements KControllerInterfa
      */
     protected function _initialize(KConfig $config)
     {
-        //Create permission identifier
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array($permission->path[0], 'permission');
-
         $config->append(array(
-            'command_chain'     => 'koowa:command.chain',
+            'command_chain'     => 'lib://nooku/command.chain',
             'dispatch_events'   => true,
-            'event_dispatcher'  => 'koowa:event.dispatcher.default',
+            'event_dispatcher'  => 'lib://nooku/event.dispatcher.default',
             'enable_callbacks'  => true,
             'dispatched'        => false,
-            'request'           => 'koowa:controller.request',
-            'response'          => 'koowa:controller.response',
-            'user'              => 'koowa:controller.user',
-            'behaviors'         => array($permission),
+            'request'           => 'lib://nooku/controller.request',
+            'response'          => 'lib://nooku/controller.response',
+            'user'              => 'lib://nooku/controller.user',
         ));
 
         parent::_initialize($config);

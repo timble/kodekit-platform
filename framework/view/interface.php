@@ -19,7 +19,7 @@ interface KViewInterface
      *
      * @return string The output of the view
      */
-    public function display();
+    public function render();
 
     /**
      * Set a view property
@@ -77,7 +77,7 @@ interface KViewInterface
 	/**
 	 * Method to set a model object attached to the view
 	 *
-	 * @param	mixed	An object that implements KObjectServiceable, KServiceIdentifier object 
+	 * @param	mixed	An object that implements KServiceInterface, KServiceIdentifier object
 	 * 					or valid identifier string
 	 * @throws	\UnexpectedValueException	If the identifier is not a model identifier
 	 * @return	KViewAbstract

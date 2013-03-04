@@ -21,7 +21,7 @@ class ComFilesFilterContainer extends KFilterAbstract
     protected function _validate($data)
     {
         if (is_string($data)) {
-            return $this->getService('koowa:filter.cmd')->validate($value);
+            return $this->getService('lib://nooku/filter.cmd')->validate($value);
         }
         else if (is_object($data)) {
             return true;
@@ -33,7 +33,7 @@ class ComFilesFilterContainer extends KFilterAbstract
     protected function _sanitize($data)
     {
         if (is_string($data)) {
-            return $this->getService('koowa:filter.cmd')->sanitize($data);
+            return $this->getService('lib://nooku/filter.cmd')->sanitize($data);
         }
         else if (is_object($data)) {
             return $data;

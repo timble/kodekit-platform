@@ -73,7 +73,7 @@ class KCommandChain extends KObjectQueue implements KCommandChainInterface
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
-            'stack'     => $this->getService('koowa:object.stack'),
+            'stack'     => $this->getService('lib://nooku/object.stack'),
             'context'   => new KCommandContext(),
             'enabled'   => true,
             'break_condition' => false,

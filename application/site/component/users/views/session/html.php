@@ -18,7 +18,7 @@
  */
 class ComUsersViewSessionHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         $title = JText::_('Login');
 
@@ -28,7 +28,7 @@ class ComUsersViewSessionHtml extends ComDefaultViewHtml
         $this->user       = $this->getService('user');;
         $this->parameters = $this->getParameters();
 
-        return parent::display();
+        return parent::render();
     }
     
     public function getParameters()

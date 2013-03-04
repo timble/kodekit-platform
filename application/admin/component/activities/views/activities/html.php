@@ -19,7 +19,7 @@
 
 class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function render()
 	{
         if ($this->getLayout() == 'default')
 		{
@@ -27,6 +27,6 @@ class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
             $this->packages = $model->distinct(true)->column('package')->getRowset();
 		} 
 		
-		return parent::display();
+		return parent::render();
 	}
 }

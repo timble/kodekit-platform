@@ -68,7 +68,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
             $application = $this->getService('application');
 
             /*
-            $url        = $this->getService('koowa:http.url',
+            $url        = $this->getService('lib://nooku/http.url',
                 array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
             $this->getService('com://site/application.router')->build($url);
             */

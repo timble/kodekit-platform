@@ -18,11 +18,11 @@
  */
 class ComUsersViewUserHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         $this->parameters = $this->getService('application')->getParams();
 		
         JFactory::getDocument()->setTitle($this->parameters->get('page_title')); 
-        return parent::display();
+        return parent::render();
     }
 }

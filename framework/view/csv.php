@@ -63,7 +63,7 @@ class KViewCsv extends KViewFile
  	 *
 	 *  @return string 	The output of the view
 	 */
-	public function display()
+	public function render()
 	{
 		$rows    = '';
 	    $columns = array();
@@ -95,7 +95,7 @@ class KViewCsv extends KViewFile
 
 		// Set the content
 		$this->setContent($header.$rows);
-		return parent::display();
+		return parent::render();
 	}
 
 	/**

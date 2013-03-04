@@ -155,7 +155,7 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Add an event subscriber
      *
-     * @param   mixed  An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed  An object that implements KServiceInterface, KServiceIdentifier object
      *                 or valid identifier string
      * @param  integer The event priority, usually between 1 (high priority) and 5 (lowest),
      *                 default is 3. If no priority is set, the command priority will be used
@@ -177,7 +177,7 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Remove an event subscriber
      *
-     * @param   mixed  An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed  An object that implements KServiceInterface, KServiceIdentifier object
      *                 or valid identifier string
      * @return  KObject  The mixer object
      */
@@ -194,7 +194,7 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Get a event subscriber by identifier
      *
-     * @param  mixed    An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param  mixed    An object that implements KServiceInterface, KServiceIdentifier object
      *                  or valid identifier string
      * @param  array    An optional associative array of configuration settings
      * @throws \DomainException    If the subscriber is not implementing the KEventSubscriberInterface

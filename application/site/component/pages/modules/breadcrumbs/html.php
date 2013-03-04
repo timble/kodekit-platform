@@ -17,7 +17,7 @@
  
 class ComPagesModuleBreadcrumbsHtml extends ComDefaultModuleDefaultHtml
 {
-    public function display()
+    public function render()
     {
         $list   = (array) $this->getService('application')->getPathway()->items;
         $params = $this->module->params;
@@ -35,6 +35,6 @@ class ComPagesModuleBreadcrumbsHtml extends ComDefaultModuleDefaultHtml
 
         $this->list = $list;
 
-        return parent::display();
+        return parent::render();
     }
 } 

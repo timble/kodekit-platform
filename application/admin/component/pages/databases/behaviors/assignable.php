@@ -46,10 +46,10 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
         if($context->data->modules)
         {
             $pages = $this->getService('com://admin/pages.database.table.pages')
-                ->select($this->getService('koowa:database.query.select'));
+                ->select($this->getService('lib://nooku/database.query.select'));
 
             $relations = $this->getService('com://admin/pages.database.table.modules_pages')
-                ->select($this->getService('koowa:database.query.select'));
+                ->select($this->getService('lib://nooku/database.query.select'));
 
             foreach($context->data->modules as $id => $assignments)
             {

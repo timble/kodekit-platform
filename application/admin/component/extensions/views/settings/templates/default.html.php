@@ -17,13 +17,13 @@
 
 <form action="" method="post" class="-koowa-form" >
 <?= @helper('tabs.startPane') ?>
-<h3><?= @text('System')?></h3>	
+<h3><?= @text('Settings')?></h3>
 <?= @template('default_system.html', array('settings' => $settings->system)); ?>
 
-<h3><?= @text('Components')?></h3>	
+<h3><?= @text('Extensions')?></h3>
 <? foreach($settings as $name => $setting) : ?>
 	<? if($setting->getType() == 'component' && $setting->getPath()) : ?>
-	    <?= @template('default_component.html', array('settings' => $setting)); ?>
+	    <?= @template('default_extension.html', array('settings' => $setting)); ?>
 	<? endif; ?>
 <? endforeach; ?>
 <?= @helper('tabs.endPane') ?>

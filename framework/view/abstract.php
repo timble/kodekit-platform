@@ -55,7 +55,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
 
         //set the base url
         if (!$config->base_url instanceof KHttpUrlInterface) {
-            $this->_baseurl = $this->getService('koowa:http.url', array('url' => $config->base_url));
+            $this->_baseurl = $this->getService('lib://nooku/http.url', array('url' => $config->base_url));
         } else {
             $this->_baseurl = $config->base_url;
         }
@@ -91,7 +91,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      *
      * @return string  The output of the view
      */
-    public function display()
+    public function render()
     {
         $contents = $this->getContent();
         return trim($contents);
@@ -194,7 +194,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     /**
      * Method to set a model object attached to the controller
      *
-     * @param	mixed	$model An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param	mixed	$model An object that implements KServiceInterface, KServiceIdentifier object
      * 					       or valid identifier string
      * @return	KViewAbstract
      */
@@ -274,7 +274,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
         }
 
         //Create the route
-        $route = $this->getService('koowa:dispatcher.router.route', array(
+        $route = $this->getService('lib://nooku/dispatcher.router.route', array(
             'url'    => '?'.http_build_query($parts),
             'escape' => $escape === null || $escape === true ? true : false
         ));
@@ -306,6 +306,6 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      */
     public function __toString()
     {
-        return $this->display();
+        return $this->render();
     }
 }

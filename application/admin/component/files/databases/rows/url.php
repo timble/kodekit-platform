@@ -122,7 +122,7 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
-		$uri = $this->getService('koowa:http.url', array('url' => $url));
+		$uri = $this->getService('lib://nooku/http.url', array('url' => $url));
 
 		$scheme = $uri->toString(KHttpUrl::SCHEME);
 		$host = $uri->toString(KHttpUrl::HOST);

@@ -109,7 +109,7 @@ class KModelTable extends KModelAbstract
     /**
      * Method to set a table object attached to the model
      *
-     * @param	mixed	$table An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param	mixed	$table An object that implements KServiceInterface, KServiceIdentifier object
 	 * 					       or valid identifier string
      * @throws  \UnexpectedValueException   If the identifier is not a table identifier
      * @return  KModelTable
@@ -155,7 +155,7 @@ class KModelTable extends KModelAbstract
 
             if($state->isUnique())
             {
-                $query = $this->getService('koowa:database.query.select');
+                $query = $this->getService('lib://nooku/database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -187,7 +187,7 @@ class KModelTable extends KModelAbstract
 
             if(!$state->isEmpty())
             {
-                $query = $this->getService('koowa:database.query.select');
+                $query = $this->getService('lib://nooku/database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -218,7 +218,7 @@ class KModelTable extends KModelAbstract
         {
             $state = $this->getState();
 
-            $query = $this->getService('koowa:database.query.select');
+            $query = $this->getService('lib://nooku/database.query.select');
             $query->columns('COUNT(*)');
 
             $this->_buildQueryTable($query);

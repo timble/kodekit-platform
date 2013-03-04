@@ -134,13 +134,13 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         $name = $this->getIdentifier()->name;
 
         $config->append(array(
-            'adapter'           => 'koowa:database.adapter.mysql',
+            'adapter'           => 'lib://nooku/database.adapter.mysql',
             'name'              => empty($package) ? $name : $package . '_' . $name,
             'column_map'        => null,
             'filters'           => array(),
             'behaviors'         => array(),
             'identity_column'   => null,
-            'command_chain'     => $this->getService('koowa:command.chain'),
+            'command_chain'     => $this->getService('lib://nooku/command.chain'),
             'dispatch_events'   => false,
             'event_dispatcher'  => null,
             'enable_callbacks'  => false,
@@ -487,7 +487,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         if (is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
         {
             $key = $this->getIdentityColumn();
-            $query = $this->getService('koowa:database.query.select')
+            $query = $this->getService('lib://nooku/database.query.select')
                 ->where('tbl.'.$key . ' IN :' . $key)
                 ->bind(array($key => (array)$query));
         }
@@ -495,7 +495,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('koowa:database.query.select');
+            $query = $this->getService('lib://nooku/database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -604,7 +604,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('koowa:database.query.select');
+            $query = $this->getService('lib://nooku/database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -637,7 +637,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     public function insert(KDatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('koowa:database.query.insert')
+        $query = $this->getService('lib://nooku/database.query.insert')
                       ->table($this->getBase());
 
         //Create commandchain context
@@ -686,7 +686,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     public function update(KDatabaseRowTable $row)
     {
         // Create query object.
-        $query = $this->getService('koowa:database.query.update')
+        $query = $this->getService('lib://nooku/database.query.update')
                       ->table($this->getBase());
 
         // Create commandchain context.
@@ -740,7 +740,7 @@ abstract class KDatabaseTableAbstract extends KObject implements KDatabaseTableI
     public function delete(KDatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('koowa:database.query.delete')
+        $query = $this->getService('lib://nooku/database.query.delete')
                       ->table($this->getBase());
 
         //Create commandchain context
