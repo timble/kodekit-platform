@@ -140,7 +140,7 @@
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Tags') ?></label>
                     <div class="controls">
-                        <?= @helper('com://admin/terms.template.helper.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
+                        <?= @helper('com://admin/terms.template.helper.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
                     </div>
                 </div>
             </fieldset>
