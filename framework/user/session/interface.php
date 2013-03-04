@@ -79,7 +79,7 @@ interface KUserSessionInterface
     /**
      * Method to set a session handler object
      *
-     * @param mixed $handler An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param mixed $handler An object that implements KServiceInterface, KServiceIdentifier object
      *                       or valid identifier string
      * @param array $config An optional associative array of configuration settings
      * @return KUserSession
@@ -107,7 +107,7 @@ interface KUserSessionInterface
      *
      * If the container does not exist a container will be created on the fly.
      *
-     * @param   mixed $name An object that implements KObjectServiceable, KServiceIdentifier object
+     * @param   mixed $name An object that implements KServiceInterface, KServiceIdentifier object
      *                      or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a session container identifier
      * @return KUserSessionContainerInterface

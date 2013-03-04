@@ -141,7 +141,7 @@ class KModelState extends KConfig implements KModelStateInterface
                     if($value !== '')
                     {
                         if(!($filter instanceof KFilterInterface)) {
-                            $filter = KService::get('koowa:filter.factory')->instantiate($filter);
+                            $filter = KServiceManager::get('lib://nooku/filter.factory')->instantiate($filter);
                         }
 
                         $value = $filter->sanitize($value);

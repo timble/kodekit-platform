@@ -8,8 +8,6 @@
  * @link        http://www.nooku.org
  */
 
-defined('KOOWA') or die( 'Restricted access' ); ?>
-
 <? foreach ($terms as $term) : ?>
 <tr>
 	<td align="center">

@@ -11,7 +11,7 @@
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-interface KBehaviorInterface extends KCommandInterface, KObjectServiceable
+interface KBehaviorInterface extends KCommandInterface, KServiceInterface
 {
 	
 }

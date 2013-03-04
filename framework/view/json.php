@@ -34,14 +34,14 @@ class KViewJson extends KViewAbstract
     }
 
     /**
-     * Return the views output
+     * Render and return the views output
      *
      * If the view 'output' variable is empty the output will be generated based on the model data, if it set it will
      * be returned instead.
      *
      * @return string     The output of the view
      */
-    public function display()
+    public function render()
     {
         if (empty($this->_content)) {
             $this->_content = KInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
@@ -58,7 +58,7 @@ class KViewJson extends KViewAbstract
             $this->_content = json_encode($this->_content, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT);
         }
 
-        return parent::display();
+        return parent::render();
     }
 
     /**

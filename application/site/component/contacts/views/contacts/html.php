@@ -21,7 +21,7 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
      *
      * @return	string	The output of the view
      */
-    public function display()
+    public function render()
     {
         //Get the parameters
         $params = $this->getService('application')->getParams();
@@ -51,7 +51,7 @@ class ComContactsViewContactsHtml extends ComDefaultViewHtml
         $this->params   = $params;
         $this->category = $category;
         
-        return parent::display();
+        return parent::render();
     }
 
     public function getCategory()

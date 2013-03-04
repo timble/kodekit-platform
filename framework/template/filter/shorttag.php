@@ -27,14 +27,11 @@ class KTemplateFilterShorttag extends KTemplateFilterAbstract implements KTempla
         if (!ini_get('short_open_tag'))
         {
            /**
-         	* We could also convert <%= like the real T_OPEN_TAG_WITH_ECHO
-         	* but that's not necessary.
+         	* We could also convert <%= like the real T_OPEN_TAG_WITH_ECHO but that's not necessary.
          	*
-         	* It might be nice to also convert PHP code blocks <? ?> but
-         	* let's quit while we're ahead.  It's probably better to keep
-         	* the <?php for larger code blocks but that's your choice.  If
-          	* you do go for it, explicitly check for <?xml as this will
-         	* probably be the biggest headache.
+         	* It might be nice to also convert PHP code blocks <? ?> but let's quit while we're ahead.  It's probably
+            * better to keep the <?php for larger code blocks but that's your choice.  If you do go for it, explicitly
+            * check for <?xml as this will probably be the biggest headache.
          	*/
 
         	// convert "<?=" to "<?php echo"

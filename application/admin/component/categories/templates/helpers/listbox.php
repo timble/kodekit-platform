@@ -32,7 +32,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         //@TODO can be removed when name collisions fixed
         $config->name = 'order'; 
 
-        $app        = $this->getIdentifier()->application;
+        $app        = $this->getIdentifier()->namespace;
         $identifier = 'com://'.$app.'/'.$config->package.'.model.'.($config->model ? $config->model : KInflector::pluralize($config->package));
 
         $list = $this->getService($identifier)->set($config->filter)->getRowset();

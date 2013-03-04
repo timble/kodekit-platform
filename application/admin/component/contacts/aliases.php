@@ -15,4 +15,4 @@
  * @subpackage  Contacts
  */
 
-KService::setAlias('com://admin/contacts.model.categories', 'com://admin/categories.model.categories');
+KServiceManager::setAlias('com://admin/contacts.model.categories', 'com://admin/categories.model.categories');

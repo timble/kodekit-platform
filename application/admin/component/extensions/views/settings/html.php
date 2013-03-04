@@ -17,7 +17,7 @@
 
 class ComExtensionsViewSettingsHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         $settings = $this->getModel()->getRowset();
         
@@ -28,6 +28,6 @@ class ComExtensionsViewSettingsHtml extends ComDefaultViewHtml
 	    	}
         } 
        
-        return parent::display();
+        return parent::render();
     }
 }

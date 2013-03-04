@@ -16,11 +16,11 @@
  */
 class ComWeblinksViewWeblinksRss extends KViewRss
 {
-	public function display()
+	public function render()
     {
         //Get the category
         $this->category = $this->getCategory();
-    	return parent::display();
+    	return parent::render();
     }
 
     public function getCategory()

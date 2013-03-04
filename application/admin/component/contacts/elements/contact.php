@@ -29,8 +29,8 @@ class JElementContact extends JElement
             'autocomplete' => true,
         );
 
-        $template = KService::get('com://admin/contacts.controller.contact')->getView()->getTemplate();
-        $html     = KService::get('com://admin/contacts.template.helper.listbox', array('template' => $template))->contacts($config);
+        $template = KServiceManager::get('com://admin/contacts.controller.contact')->getView()->getTemplate();
+        $html     = KServiceManager::get('com://admin/contacts.template.helper.listbox', array('template' => $template))->contacts($config);
 
         return $html;
 

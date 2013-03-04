@@ -25,18 +25,16 @@ class ComFilesViewFilesHtml extends ComDefaultViewHtml
 		parent::_initialize($config);
 	}
 
-	public function display()
+	public function render()
 	{
 	    $state = $this->getModel()->getState();
 	    if (empty($state->limit)) {
 	        $state->limit = $this->getService('application')->getCfg('list_limit');
 	    }
 	    
-	    // TODO: take this out when JURI::root() returns correct results
-	    $this->sitebase  = trim(str_replace('administrator/', '/', JURI::root()), '/');
 		$this->token     = $this->getService('user')->getSession()->getToken();
 		$this->container = $this->getModel()->getState()->container;
 
-		return parent::display();
+		return parent::render();
 	}
 }

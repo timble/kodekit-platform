@@ -8,8 +8,8 @@
 /**
  * Abstract Behavior Class
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Behavior
+ * @author  Johan Janssens <johan@nooku.org>
+ * @package Koowa_Behavior
  */
 abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInterface
 {
@@ -168,10 +168,10 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
      *
      * @param    string|object    $identifier The class identifier or identifier object
-     * @param    array              $config     An optional associative array of configuration settings.
+     * @param    array            $config     An optional associative array of configuration settings.
      * @throws   RuntimeException If the service manager has not been defined.
      * @return   object          Return object on success, throws exception on failure
-     * @see     KObjectServiceable
+     * @see      KServiceInterface
      */
     final public function getService($identifier = null, array $config = array())
     {
@@ -194,10 +194,10 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
     /**
      * Gets the service identifier.
      *
-     * @param    string|object    $identifier The class identifier or identifier object
-     * @throws    \RuntimeException If the service manager has not been defined.
-     * @return    KServiceIdentifier
-     * @see     KObjectServiceable
+     * @param   string|object     $identifier The class identifier or identifier object
+     * @throws  \RuntimeException If the service manager has not been defined.
+     * @return  KServiceIdentifier
+     * @see     KServiceInterface
      */
     final public function getIdentifier($identifier = null)
     {

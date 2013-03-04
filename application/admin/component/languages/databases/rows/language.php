@@ -35,10 +35,10 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowTable
                 // Add language specific table and copy the content of the original table.
                 $database->execute('CREATE TABLE '.$database->quoteIdentifier($prefix.$table_name).' LIKE '.$database->quoteIdentifier($prefix.$table->name));
                 
-                $select = $this->getService('koowa:database.query.select')
+                $select = $this->getService('lib://nooku/database.query.select')
                     ->table($table->name);
                 
-                $insert = $this->getService('koowa:database.query.insert')
+                $insert = $this->getService('lib://nooku/database.query.insert')
                     ->table($table_name)
                     ->values($select);
                 
@@ -53,7 +53,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowTable
                     'original' => ':original'
                 );
                 
-                $select = $this->getService('koowa:database.query.select')
+                $select = $this->getService('lib://nooku/database.query.select')
                     ->columns($columns)
                     ->table(array('tbl' => $table_name))
                     ->bind(array(
@@ -63,7 +63,7 @@ class ComLanguagesDatabaseRowLanguage extends KDatabaseRowTable
                         'original' => 0
                     ));
                 
-                $insert = $this->getService('koowa:database.query.insert')
+                $insert = $this->getService('lib://nooku/database.query.insert')
                     ->table('languages_translations')
                     ->columns(array_keys($columns))
                     ->values($select);

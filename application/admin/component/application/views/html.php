@@ -38,17 +38,12 @@ class ComApplicationViewHtml extends KViewHtml
         parent::_initialize($config);
     }
 
-    public function display()
+    public function render()
     {
         //Set the language information
         $this->language  = JFactory::getLanguage()->getTag();
         $this->direction = JFactory::getLanguage()->isRTL() ? 'rtl' : 'ltr';
 
-        return parent::display();
-    }
-
-    public function getLayout()
-    {
-        return 'default';
+        return parent::render();
     }
 }

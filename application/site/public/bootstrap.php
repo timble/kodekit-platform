@@ -35,16 +35,16 @@ jimport('joomla.language.language');
 require_once JPATH_ROOT . '/config/config.php';
 $config = new JConfig();
 
-require_once(JPATH_ROOT . '/framework/koowa.php');
-Koowa::getInstance(array(
+require_once(JPATH_ROOT . '/framework/nooku.php');
+Nooku::getInstance(array(
     'cache_prefix' => md5($config->secret) . '-cache-koowa',
     'cache_enabled' => $config->caching
 ));
 
 unset($config);
 
-KService::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
-KServiceIdentifier::addLocator(KService::get('koowa:service.locator.component'));
+KServiceManager::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
+KServiceIdentifier::addLocator(KServiceManager::get('lib://nooku/service.locator.component'));
 
-KServiceIdentifier::setApplication('site', JPATH_ROOT . '/application/site');
-KServiceIdentifier::setApplication('admin', JPATH_ROOT . '/application/admin');
+KServiceIdentifier::setNamespace('site', JPATH_ROOT . '/application/site');
+KServiceIdentifier::setNamespace('admin', JPATH_ROOT . '/application/admin');

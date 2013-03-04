@@ -46,20 +46,20 @@ class ComApplicationDatabaseAdapterMysql extends KDatabaseAdapterMysql implement
 	/**
      * Force creation of a singleton
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
+     * @param 	KConfigInterface         $config  An optional KConfig object with configuration options
+     * @param 	KServiceManagerInterfac  $manager A KServiceManagerInterface object
      * @return KDatabaseTableInterface
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        if (!$container->has($config->service_identifier))
+        if (!$manager->has($config->service_identifier))
         {
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
         }
 
-        return $container->get($config->service_identifier);
+        return $manager->get($config->service_identifier);
     }
 
     /**

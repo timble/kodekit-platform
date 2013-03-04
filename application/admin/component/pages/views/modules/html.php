@@ -16,18 +16,18 @@
  */
 class ComPagesViewModulesHtml extends ComDefaultViewHtml
 {
-	public function display()
+	public function render()
 	{
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
 		{
 		    foreach($this->getModel()->getRowset() as $module)
 		    {
-                $path = $this->getIdentifier()->getApplication($module->application);
+                $path = $this->getIdentifier()->getNamespace($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
 		} 
 
-		return parent::display();
+        return parent::render();
 	}
 }

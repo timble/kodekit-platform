@@ -149,9 +149,9 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
             'charset'          => 'UTF8',
             'table_prefix'     => 'jos_',
             'table_needle'     => '#__',
-            'command_chain'    => $this->getService('koowa:command.chain'),
+            'command_chain'    => $this->getService('lib://nooku/command.chain'),
             'dispatch_events'  => true,
-            'event_dispatcher' => $this->getService('koowa:event.dispatcher.default'),
+            'event_dispatcher' => $this->getService('lib://nooku/event.dispatcher.default'),
             'enable_callbacks' => false,
             'connection'       => null,
         ));

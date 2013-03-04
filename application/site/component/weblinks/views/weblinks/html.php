@@ -16,7 +16,7 @@
  */
 class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         //Get the parameters
         $params = $this->getService('application')->getParams();
@@ -45,7 +45,7 @@ class ComWeblinksViewWeblinksHtml extends ComDefaultViewHtml
         $this->params   = $params;
         $this->category = $category;
 
-        return parent::display();
+        return parent::render();
     }
 
     public function getCategory()

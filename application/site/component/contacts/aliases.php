@@ -15,5 +15,5 @@
  * @subpackage  Newsfeeds
  */
 
-KService::setAlias('com://site/contacts.model.categories', 'com://admin/categories.model.categories');
-KService::setAlias('com://site/contacts.model.contacts'  , 'com://admin/contacts.model.contacts');
+KServiceManager::setAlias('com://site/contacts.model.categories', 'com://admin/categories.model.categories');
+KServiceManager::setAlias('com://site/contacts.model.contacts'  , 'com://admin/contacts.model.contacts');

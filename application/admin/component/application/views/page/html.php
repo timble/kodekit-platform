@@ -26,7 +26,7 @@ class ComApplicationViewPageHtml extends ComApplicationViewHtml
         parent::_initialize($config);
     }
 
-    public function display()
+    public function render()
     {
         // Build the sorted message list
         $messages = $this->getService('application')->getMessageQueue();
@@ -46,6 +46,6 @@ class ComApplicationViewPageHtml extends ComApplicationViewHtml
         $this->component = $this->getService('application')->getController()->getIdentifier()->package;
         $this->layout    = $this->getService('component')->getController()->getView()->getLayout();
 
-        return parent::display();
+        return parent::render();
     }
 }

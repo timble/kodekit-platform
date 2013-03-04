@@ -160,7 +160,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
             if($state->installed)
             {
                 $table = $this->getService('com://admin/extensions.database.table.components');
-                $query = $this->getService('koowa:database.query.select')->order('name');
+                $query = $this->getService('lib://nooku/database.query.select')->order('name');
 
                 $components = $table->select($query);
 
@@ -168,7 +168,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
                 $modules = array();
                 foreach($components as $component)
                 {
-                    $path  = $this->getIdentifier()->getApplication('site');
+                    $path  = $this->getIdentifier()->getNamespace('site');
                     $path .= '/component/'.substr($component->name, 4).'/modules';
 
                     if(!is_dir($path)) {

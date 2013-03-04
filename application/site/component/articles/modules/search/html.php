@@ -16,7 +16,7 @@
  */
 class ComArticlesModuleSearchHtml extends ComDefaultModuleDefaultHtml
 {
-    public function display()
+    public function render()
     {
         $this->form_class   = $this->module->params->get('form_class', 'form-search');
         $this->input_class  = $this->module->params->get('input_class', 'span2 search-query');
@@ -24,6 +24,6 @@ class ComArticlesModuleSearchHtml extends ComDefaultModuleDefaultHtml
         $this->placeholder  = $this->module->params->get('placeholder', 'Search articles');
         $this->item_id      = $this->module->params->get('item_id', null);
 
-        return parent::display();
+        return parent::render();
     }
 }

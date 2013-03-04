@@ -17,15 +17,99 @@
 interface KHttpUrlInterface
 {
     /**
-     * Sets the query string in the url, for KHttpUrl::getQuery() and KHttpUrl::$query.
+     * Get the scheme part of the URL
      *
-     * This will overwrite any previous values.
+     * @return string|null
+     */
+    public function getScheme();
+
+    /**
+     * Set the URL scheme
      *
-     * @param   string|array  $query  The query string to use; for example `foo=bar&baz=dib`.
-     * @param   boolean       $merge  If TRUE the data in $query will be merged instead of replaced. Default FALSE.
+     * @param  string $scheme
      * @return  KHttpUrl
      */
-    public function setQuery($query, $merge = false);
+    public function setScheme($scheme);
+
+    /**
+     * Get the URL user
+     *
+     * @return string|null
+     */
+    public function getUser();
+
+    /**
+     * Set the URL user
+     *
+     * @param  string $user
+     * @return KHttpUrl
+     */
+    public function setUser($user);
+
+    /**
+     * Get the URL password
+     *
+     * @return string|null
+     */
+    public function getPass();
+
+    /**
+     * Set the URL password
+     *
+     * @param  string $user
+     * @return KHttpUrl
+     */
+    public function setPass($password);
+
+    /**
+     * Get the URL host
+     *
+     * @return string|null
+     */
+    public function getHost();
+
+    /**
+     * Set the URL Host
+     *
+     * @param  string $host
+     * @return KHttpUrl
+     */
+    public function setHost($host);
+
+    /**
+     * Get the URL port
+     *
+     * @return integer|null
+     */
+    public function getPort();
+
+    /**
+     * Set the port part of the URL
+     *
+     * @param  integer $port
+     * @return KHttpUrl
+     */
+    public function setPort($port);
+
+    /**
+     * Returns the path portion as a string or array
+     *
+     * @param   boolean $toArray If TRUE return an array. Default FALSE
+     * @return  string|array The path string; e.g., `path/to/site`.
+     */
+    public function getPath($toArray = false);
+
+    /**
+     * Sets the KHttpUrl::$path array and $format from a string.
+     *
+     * This will overwrite any previous values. Also, resets the format based on the final path value.
+     *
+     * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
+     *                              A leading slash will *not* create an empty first element; if the string has a
+     *                              leading slash, it is ignored.
+     * @return  KHttpUrl
+     */
+    public function setPath($path);
 
     /**
      * Returns the query portion as a string or array
@@ -37,25 +121,43 @@ interface KHttpUrlInterface
     public function getQuery($toArray = false, $escape = false);
 
     /**
-     * Sets the KHttpUrl::$path array and $format from a string.
+     * Sets the query string in the url
      *
-     * This will overwrite any previous values. Also, resets the format based
-     * on the final path value.
-     *
-     * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
-     *                              A leading slash will *not* create an empty first element; if the string has a
-     *                              leading slash, it is ignored.
+     * @param   string|array  $query  The query string to use; for example `foo=bar&baz=dib`.
+     * @param   boolean       $merge  If TRUE the data in $query will be merged instead of replaced. Default FALSE.
      * @return  KHttpUrl
      */
-    public function setPath($path);
+    public function setQuery($query, $merge = false);
 
     /**
-     * Returns the path portion as a string or array
+     * Get the URL format
      *
-     * @param   boolean $toArray If TRUE return an array. Default FALSE
-     * @return  string|array The path string; e.g., `path/to/site`.
+     * @return string|null
      */
-    public function getPath($toArray = false);
+    public function getFormat();
+
+    /**
+     * Set the URL format
+     *
+     * @param  string $format
+     * @return KHttpUrl
+     */
+    public function setFormat($format);
+
+    /**
+     * Get the URL fragment
+     *
+     * @return string|null
+     */
+    public function getFragment();
+
+    /**
+     * Set the URL fragment part
+     *
+     * @param  string $fragment
+     * @return KHttpUrl
+     */
+    public function setFragment($fragment);
 
     /**
      * Parse the url from a string

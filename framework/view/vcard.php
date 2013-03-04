@@ -48,10 +48,10 @@ class KViewVcard extends KViewFile
      *
      *  @return string  The output of the view
      */
-    public function display()
+    public function render()
     {
         //Set the filename
-        $filename = $this->getService('koowa:filter.filename')->sanitize($this->_properties['FN']);
+        $filename = $this->getService('lib://nooku/filter.filename')->sanitize($this->_properties['FN']);
         $this->filename = !empty($filename) ? $filename.'.vcf' : 'vcard.vcf';
 
         //Render the vcard
@@ -72,7 +72,7 @@ class KViewVcard extends KViewFile
         $data   .= "\r\n";
 
         $this->setContent($data);
-        parent::display();
+        parent::render();
     }
 
     /**

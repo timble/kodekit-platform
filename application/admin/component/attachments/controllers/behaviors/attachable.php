@@ -44,7 +44,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		));
         
         $this->_file_controller = $this->getService($config->file_controller, array(
-			'request' => $this->getService('koowa:controller.request', array(
+			'request' => $this->getService('lib://nooku/controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
@@ -52,7 +52,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		));
         
         $this->_attachment_controller = $this->getService($config->attachment_controller, array(
-			'request' => $this->getService('koowa:controller.request', array(
+			'request' => $this->getService('lib://nooku/controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
@@ -160,7 +160,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		$row = $context->result;
         
         $count = $this->getService('com://admin/attachments.controller.attachment', array(
-			'request' => $this->getService('koowa:controller.request', array(
+			'request' => $this->getService('lib://nooku/controller.request', array(
 				'query' => array(
 					'row' => $row->id,
 					'table' => $row->getTable()->getBase()

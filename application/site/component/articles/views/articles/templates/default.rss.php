@@ -21,7 +21,7 @@
         <description><![CDATA[<?= @escape($category->description) ?>]]></description>
         <link><?= @route() ?></link>
         <lastBuildDate><?= @helper('date.format', array('format' => KDate::RSS)) ?></lastBuildDate>
-        <generator>http://www.nooku.org?v=<?= Koowa::VERSION ?></generator>
+        <generator>http://www.nooku.org?v=<?= Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
 
         <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>

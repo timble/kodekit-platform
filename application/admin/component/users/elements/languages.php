@@ -21,7 +21,7 @@ class JElementLanguages extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$user = KService::get('user');
+		$user = KServiceManager::get('user');
 
 		/*
 		 * @TODO: change to acl_check method
@@ -32,7 +32,7 @@ class JElementLanguages extends JElement
 
 		jimport('joomla.language.helper');
 
-        return KService::get('com://admin/users.template.helper.listbox')->languages(array(
+        return KServiceManager::get('com://admin/users.template.helper.listbox')->languages(array(
             'selected'    => $value,
             'application' => $node->attributes('client'),
             'name'        => $control_name . '[' . $name . ']'));

@@ -97,7 +97,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 		    if(!$this->isNew()) 
 		    {
 		        $table = $this->getService('com://admin/pages.database.table.modules_pages');
-				$query = $this->getService('koowa:database.query.select')
+				$query = $this->getService('lib://nooku/database.query.select')
                     ->columns('pages_page_id')
                     ->where('modules_module_id = :id')
                     ->bind(array('id' => $this->id));

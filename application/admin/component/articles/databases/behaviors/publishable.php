@@ -117,7 +117,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
      */
     protected function _getQuery()
     {
-        $query = $this->getService('koowa:database.query.update');
+        $query = $this->getService('lib://nooku/database.query.update');
 
         $query->table(array($this->_table));
 

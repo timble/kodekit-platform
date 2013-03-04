@@ -41,9 +41,9 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowTable
                     $database->execute($query);
                     
                     // Copy content of original table into the language specific one.
-                    $query = $this->getService('koowa:database.query.insert')
+                    $query = $this->getService('lib://nooku/atabase.query.insert')
                         ->table($table)
-                        ->values($this->getService('koowa:database.query.select')->table($this->name));
+                        ->values($this->getService('lib://nooku/database.query.select')->table($this->name));
                     $database->execute($query);
                     
                     $status   = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
@@ -57,7 +57,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowTable
                 }
                 
                 // Add items to the translations table.
-                $select = $this->getService('koowa:database.query.select')
+                $select = $this->getService('lib://nooku/database.query.select')
                     ->columns(array(
                         'iso_code' => ':iso_code',
                         'table' => ':table',
@@ -73,7 +73,7 @@ class ComLanguagesDatabaseRowTable extends KDatabaseRowTable
                         'original' => $original
                     ));
                 
-                $query = $this->getService('koowa:database.query.insert')
+                $query = $this->getService('lib://nooku/database.query.insert')
                     ->table('languages_translations')
                     ->columns(array('iso_code', 'table', 'row', 'status', 'original'))
                     ->values($select);

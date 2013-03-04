@@ -57,25 +57,23 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
     /**
      * Force creation of a singleton
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
-     * @return KDispatcherDefault
+     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
+     * @return KDispatcherComponent
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        // Check if an instance with this identifier already exists or not
-        if (!$container->has($config->service_identifier))
+        if (!$manager->has($config->service_identifier))
         {
-            //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
 
-            //Add the factory map to allow easy access to the singleton
-            $container->setAlias('component', $config->service_identifier);
+            //Add the service alias to allow easy access to the singleton
+            $manager->setAlias('component', $config->service_identifier);
         }
 
-        return $container->get($config->service_identifier);
+        return $manager->get($config->service_identifier);
     }
 
     /**
@@ -121,7 +119,7 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
         {
             $token = $context->user->session->getToken();
 
-            $context->response->headers->addCookie($this->getService('koowa:http.cookie', array(
+            $context->response->headers->addCookie($this->getService('lib://nooku/http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
                 'path'   => $context->request->getBaseUrl()->getPath()
@@ -142,9 +140,9 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
 	protected function _actionDispatch(KCommandContext $context)
 	{
         //Load the component aliases
-        $component   = $this->getController()->getIdentifier()->package;
-        $application = $this->getController()->getIdentifier()->application;
-        $this->getService('loader')->loadIdentifier('com://'.$application.'/'.$component.'.aliases');
+        $component = $this->getController()->getIdentifier()->package;
+        $namespace = $this->getController()->getIdentifier()->namespace;
+        $this->getService('loader')->loadIdentifier('com://'.$namespace.'/'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());

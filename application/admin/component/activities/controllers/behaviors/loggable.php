@@ -79,7 +79,7 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
 
                          $log = array(
                             'action'	  => $context->action,
-            				'application' => $identifier->application,
+            				'application' => $identifier->namespace,
             				'type'        => $identifier->type,
             				'package'     => $identifier->package,
             				'name'        => $identifier->name,

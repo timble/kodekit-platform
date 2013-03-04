@@ -63,24 +63,22 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
     /**
      * Force creation of a singleton
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
+     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
      * @return KDispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container)
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
     {
-        // Check if an instance with this identifier already exists or not
-        if (!$container->has('user'))
+        if (!$manager->has('user'))
         {
-            //Create the singleton
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
-            $container->set($config->service_identifier, $instance);
+            $manager->set($config->service_identifier, $instance);
 
-            $container->setAlias('user', $config->service_identifier);
+            $manager->setAlias('user', $config->service_identifier);
         }
 
-        return $container->get('user');
+        return $manager->get('user');
     }
 
     /**
@@ -197,7 +195,7 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
      */
     public function getSession()
     {
-        return $this->getService('koowa:user.session');
+        return $this->getService('lib://nooku/user.session');
     }
 
     /**

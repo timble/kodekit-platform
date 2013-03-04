@@ -17,7 +17,7 @@
 
 class ComPagesViewModuleHtml extends ComDefaultViewHtml
 {
-    public function display()
+    public function render()
     {
         $model  = $this->getModel();
         $module = $model->getRow();
@@ -42,10 +42,10 @@ class ComPagesViewModuleHtml extends ComDefaultViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = $this->getIdentifier()->getApplication($module->application);
+            $path = $this->getIdentifier()->getNamespace($module->application);
             JFactory::getLanguage()->load(substr($module->component_name, 4), $module->name, $path);
         }
 
-        return parent::display();
+        return parent::render();
     }
 }

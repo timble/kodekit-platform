@@ -16,9 +16,9 @@ interface KServiceInstantiatable
     /**
      * Instantiate the object
      *
-     * @param 	object 	An optional KConfig object with configuration options
-     * @param 	object	A KServiceInterface object
+     *  @param 	KConfigInterface            $config	  A KConfig object with configuration options
+     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
      * @return  object
      */
-    public static function getInstance(KConfigInterface $config, KServiceInterface $container);
+    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager);
 }

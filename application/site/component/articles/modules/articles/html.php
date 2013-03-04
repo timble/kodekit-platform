@@ -21,7 +21,7 @@ class ComArticlesModuleArticlesHtml extends ComDefaultModuleDefaultHtml
      *
      * @return string
      */
-    public function display()
+    public function render()
     {
         // Preparing the sort and direction model states.
         switch ($this->module->params->get('sort_by', 'newest'))
@@ -73,6 +73,6 @@ class ComArticlesModuleArticlesHtml extends ComDefaultModuleDefaultHtml
         // Set layout based on params.
         $this->setLayout($this->module->params->get('show_content', 0) ? 'articles' : 'links');
 
-        return parent::display();
+        return parent::render();
     }
 }

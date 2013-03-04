@@ -8,11 +8,11 @@
  */
 ?>
 
-<?= @helper('tabs.startPanel', array('id' => 'system', 'title' => @text('General'))) ?>
-    <?= @template('default_general.html'); ?>
+<?= @helper('tabs.startPanel', array('id' => 'system', 'title' => @text('Global'))) ?>
+    <?= @template('default_global.html'); ?>
 <?= @helper('tabs.endPanel') ?>
 	
-<?= @helper('tabs.startPanel', array('id' => 'site', 'title' => @text('Frontend'))) ?>
+<?= @helper('tabs.startPanel', array('id' => 'site', 'title' => @text('Site'))) ?>
 	<?= @template('default_site.html'); ?>
 <?= @helper('tabs.endPanel') ?>
 	

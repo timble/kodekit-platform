@@ -326,7 +326,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     {
         if(!isset($this->_database))
         {
-            $query = $this->getService('koowa:database.query.select')
+            $query = $this->getService('lib://nooku/database.query.select')
                 ->columns('DATABASE');
 
             $this->_database = $this->select($query, KDatabase::FETCH_FIELD);
@@ -411,7 +411,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     protected function _fetchTableInfo($table)
     {
         $return = null;
-        $query  = $this->getService('koowa:database.query.show')
+        $query  = $this->getService('lib://nooku/database.query.show')
             ->show('TABLE STATUS')
             ->like(':like')
             ->bind(array('like' => $table));
@@ -432,7 +432,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     protected function _fetchTableColumns($table)
     {
         $return = array();
-        $query  = $this->getService('koowa:database.query.show')
+        $query  = $this->getService('lib://nooku/database.query.show')
             ->show('FULL COLUMNS')
             ->from($table);
 
@@ -460,7 +460,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     protected function _fetchTableIndexes($table)
     {
         $return = array();
-        $query  = $this->getService('koowa:database.query.show')
+        $query  = $this->getService('lib://nooku/database.query.show')
             ->show('INDEX')
             ->from($table);
 
@@ -482,7 +482,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      */
     protected function _parseTableInfo($info)
     {
-        $table              = $this->getService('koowa:database.schema.table');
+        $table              = $this->getService('lib://nooku/database.schema.table');
         $table->name        = $info->Name;
         $table->engine      = $info->Engine;
         $table->type        = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
@@ -505,7 +505,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     {
         list($type, $length, $scope) = $this->_parseColumnType($info->Type);
 
-        $column = $this->getService('koowa:database.schema.column');
+        $column = $this->getService('lib://nooku/database.schema.column');
         $column->name     = $info->Field;
         $column->type     = $type;
         $column->length   = $length ? $length : null;
