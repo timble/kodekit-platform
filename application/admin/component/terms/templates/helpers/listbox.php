@@ -26,12 +26,7 @@ class ComTermsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     		'model' 	=> 'terms',
     		'value'		=> 'id',
     		'text'		=> 'title',
-            'prompt'    => false,
-            // @todo Why do I need to reset the state? Otherwise the listbox is empty
-            'filter'    => array(
-                'table' => '',
-                'row'   => ''
-            )
+            'prompt'    => false
         ));
         
         $config->text = 'title';
