@@ -47,4 +47,13 @@ class ComTermsControllerTerm extends ComDefaultControllerDefault
 	        
         return parent::_actionRender($context);
     }
+    
+    public function getRequest()
+	{
+		$request = parent::getRequest();
+
+        $request->query->table  = $this->getIdentifier()->package;
+
+	    return $request;
+	}
 }
