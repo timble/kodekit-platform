@@ -134,6 +134,16 @@
                 <? endif ?>
                 <?= @template('com://admin/attachments.view.attachments.upload.html') ?>
             </fieldset>
+            
+            <fieldset>
+                <legend><?= @text('Tags') ?></legend>
+                <div class="control-group">
+                    <label class="control-label" for="created_by"><?= @text('Tags') ?></label>
+                    <div class="controls">
+                        <?= @helper('com://admin/terms.template.helper.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
+                    </div>
+                </div>
+            </fieldset>
         </div>
     </div>
 </form>

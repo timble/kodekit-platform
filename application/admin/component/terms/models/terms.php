@@ -23,52 +23,45 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 		parent::__construct($config);
 		
 		// Set the state
-		$this->_state
+		$this->getState()
 			->insert('row', 'int')
-		 	->insert('table', 'string');
+		 	->insert('table', 'string', $this->getIdentifier()->package);
 	}
 	
-	protected function _buildQueryColumns(KDatabaseQuery $query)
-	{
-		if(!$this->_state->isUnique()) {
-			$query->select('COUNT( relations.terms_term_id ) AS count');
-			$query->select('table');
-		}
-		
-		return parent::_buildQueryColumns($query);
+	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryColumns($query);
+        
+        $query->columns(array(
+            'count'    => 'COUNT( relations.terms_term_id )'
+        ));
 	}
 	
-	protected function _buildQueryGroup(KDatabaseQuery $query)
+	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
 	{	
-		if(!$this->_state->isUnique()) {
-			$query->group('relations.terms_term_id');
-		}
-		
-		return parent::_buildQueryGroup($query);
+        $query->group('relations.terms_term_id');
 	}
 	 
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
 	{
-		if(!$this->_state->isUnique()) {
-			$query->join('LEFT', 'terms_relations AS relations', 'relations.terms_term_id = tbl.terms_term_id');
-		}
-		
-		return parent::_buildQueryJoins($query);
+        parent::_buildQueryJoins($query);
+        
+        $query->join(array('relations' => 'terms_relations'), 'relations.terms_term_id = tbl.terms_term_id');
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuery $query)
-	{
-		if(!$this->_state->isUnique()) 
+	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	{                
+        if(!$this->_state->isUnique()) 
 		{
 			if($this->_state->table) {
-				$query->where('relations.table','=', $this->_state->table);
+				$query->where('relations.table = :table')->bind(array('table' => $this->_state->table));
 			}
 		
 			if($this->_state->row) {
-				$query->where('relations.row', 'LIKE',  $this->_state->row);
+				$query->where('relations.row IN :row')->bind(array('row' => (array) $this->_state->row));
 			}
 		}
-		
-		parent::_buildQueryWhere($query);
+        
+        parent::_buildQueryWhere($query);
 	}
 }

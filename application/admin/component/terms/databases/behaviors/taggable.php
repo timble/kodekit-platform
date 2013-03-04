@@ -23,14 +23,12 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 	 * 
 	 * @return ComTermsRowsetTerms
 	 */
-	public function getTags()
+	public function getTerms()
 	{
-		$tags = $this->getService('com://admin/terms.model.terms')
+		return $this->getService('com://admin/terms.model.terms')
 					->row($this->id)
 					->table($this->getTable()->getName())
 					->getRowset();
-
-		return $tags;
 	}
         
         /**

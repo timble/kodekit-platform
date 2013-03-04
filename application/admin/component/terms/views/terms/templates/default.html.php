@@ -7,59 +7,60 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
+?>
 
-<style src="media://default/css/admin.css" />
-<style src="media://terms/css/admin.css" />
+<?= @template('com://admin/default.view.grid.toolbar.html'); ?>
 
 <form action="" method="post" class="-koowa-grid">
-<div style="margin-bottom: 25px">
-	<div style="float: left">
-		<?= @helper( 'grid.search'); ?>
-	</div>
-</div>
-
-
-<table class="adminlist" style="clear: both;">
-<thead>
-	<tr>
-		<th width="20">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($terms); ?>);" />
-		</th>
-		<th>
-			<?= @helper('grid.sort', array('column' => 'title')); ?>
-		</th>
-		<th>
-			<?= @helper('grid.sort', array('column' => 'slug')); ?>
-		</th>
-		<th>
-			<?= @helper('grid.sort', array('column' => 'count')); ?>
-		</th>
-	</tr>
-	<tr>
-		<td colspan="2">
-			<?= @text('Filters'); ?>	
-		</td>
-		<td>
-		</td>
-	</tr>
-</thead>
-<tbody>
-<? if (count($terms)) : ?>
-	<?= @template('default_terms.html'); ?>
-<? else : ?>
-	<tr>
-		<td colspan="8" align="center">
-			<?= @text('No items found'); ?>
-		</td>
-	</tr>
-<? endif; ?>
-</tbody>
-<tfoot>
-	<tr>
-		<td colspan="20">
-			<?= @helper('paginator.pagination', array('total' => $total)) ?>
-		</td>
-	</tr>
-</tfoot>
-</table>
+    <?= @template('default_scopebar.html'); ?>
+    <table>
+        <thead>
+            <tr>
+                <th width="10">
+                    <?= @helper('grid.checkall'); ?>
+                </th>
+                <th>
+                    <?= @helper('grid.sort', array('column' => 'title')); ?>
+                </th>
+                <th>
+                    <?= @helper('grid.sort', array('column' => 'count')); ?>
+                </th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <?= @helper('paginator.pagination', array('total' => $total)) ?>
+                </td>
+            </tr>
+        </tfoot>
+        
+        <tbody>        
+            <? foreach ($terms as $term) : ?>
+            <tr>
+                <td align="center">
+                    <?= @helper('grid.checkbox', array('row' => $term)); ?>
+                </td>
+                <td>
+                    <span class="editlinktip hasTip" title="<?= @text('Edit Term') ?>::<?= @escape($term->title); ?>">
+                        <a href="<?= @route('view=term&id='.$term->id); ?>">
+                            <?= @escape($term->title); ?>
+                        </a>
+                    </span>
+                </td>
+                <td>
+                    <?= @escape($term->count); ?>
+                </td>
+            </tr>
+            <? endforeach; ?>	
+            <? if (!count($terms)) : ?>
+            <tr>
+                <td colspan="4" align="center">
+                    <?= @text('No items found'); ?>
+                </td>
+            </tr>
+            <? endif; ?>
+        </tbody>
+    </table>
 </form>

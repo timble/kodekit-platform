@@ -16,4 +16,5 @@
  */
 
 KServiceManager::setAlias('com://admin/articles.model.categories', 'com://admin/categories.model.categories');
+KServiceManager::setAlias('com://admin/articles.model.terms', 'com://admin/terms.model.terms');
 KServiceManager::setAlias('com://admin/articles.view.attachment.file', 'com://admin/attachments.view.attachment.file');

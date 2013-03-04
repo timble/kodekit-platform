@@ -7,25 +7,29 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
+?>
 
-<?= @helper('behavior.tooltip'); ?>
+<!--
+<script src="media://koowa/js/koowa.js" />
+<style src="media://koowa/css/koowa.css" />
+-->
 
-<style src="media://default/css/form.css" />
-<style src="media://terms/css/admin.css" />
+<?= @template('com://admin/default.view.form.toolbar.html'); ?>
 
-<form action="" method="post" class="-koowa-form">
-	<div style="width:100%; float: left" id="mainform">
-		<fieldset>
-			<legend><?= @text('Details'); ?></legend>
-			<label for="title" class="mainlabel"><?= @text('Title'); ?></label>
-			<input id="title" type="text" name="title" value="<?= $term->title; ?>" />
-			<br />
-			<label for="slug" class="mainlabel"><?= @text('Slug'); ?></label>
-			<input id="slug" type="text" name="slug" value="<?= $term->slug; ?>" />
-		</fieldset>
-		<fieldset>
-			<legend><?= @text('Description'); ?></legend>
-			<?= @editor(array('row' => $term, 'height' => 50, 'options' => array('theme' => 'simple'))) ?>
-		</fieldset>
+<form action="" method="post" class="-koowa-form" id="term-form">
+    <input type="hidden" name="table" value="<?= $state->table ?>" />
+    
+    <div class="main">
+		<div class="title">
+			<input class="required" type="text" name="title" maxlength="255" value="<?= $term->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
+		    <div class="slug">
+		        <span class="add-on"><?= @text('Slug'); ?></span>
+		        <input type="text" name="slug" maxlength="255" value="<?= $term->slug ?>" />
+		    </div>
+		</div>
+
+		<div class="scrollable">
+
+		</div>
 	</div>
 </form>
