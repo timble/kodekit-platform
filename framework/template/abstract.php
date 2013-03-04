@@ -200,7 +200,14 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
         if(strpos($file, 'com://') === 0)
         {
             $info  = pathinfo( $file );
+
+            //Get the filepath based on the identifier
             $path  = $this->getIdentifier($info['dirname'].'/'.$info['filename'])->filepath;
+
+            //Add the templates folder
+            $path = dirname($path).'/templates/'.basename($path);
+
+            //Add the format
             $path  = str_replace('.php', '.'.$info['extension'].'.php', $path);
         }
         else
@@ -214,7 +221,7 @@ abstract class KTemplateAbstract extends KObject implements KTemplateInterface
 
         //Check of the file exists
         if (!file_exists($template)) {
-            throw new \InvalidArgumentException('Template "' . $template . '" not found');
+            throw new \InvalidArgumentException('Template "' . $file . '" not found');
         }
 
         //Push the path on the stack
