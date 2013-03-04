@@ -1,20 +1,17 @@
 <?php
 /**
- * @category	Nooku
- * @package     Nooku_Components
- * @subpackage  Terms
- * @copyright	Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git
  */
 
 /**
- * Description
+ * Term Controller
  *   
- * @author   	Johan Janssens <johan@nooku.org>
- * @category	Nooku
- * @package    	Nooku_Components
- * @subpackage 	Terms
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Terms
  */
 class ComTermsControllerTerm extends ComDefaultControllerDefault
 {	

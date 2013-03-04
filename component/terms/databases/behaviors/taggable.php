@@ -1,20 +1,17 @@
 <?php
 /**
- * @category	Nooku
- * @package     Nooku_Components
- * @subpackage  Terms
- * @copyright	Copyright (C) 2009 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git
  */
 
 /**
- * Database Taggable Behavior
+ * Taggable Database Behavior
  *   
- * @author   	Johan Janssens <johan@nooku.org>
- * @category	Nooku
- * @package    	Nooku_Components
- * @subpackage 	Terms
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Terms
  */
 class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 {
@@ -33,7 +30,7 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 		return $tags;
 	}
         
-        /**
+    /**
 	 * Modify the select query
 	 * 
 	 * If the query's where information includes a tag propery, auto-join the terms tables
@@ -47,9 +44,9 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 		{
 			foreach($query->where as $key => $where) 
 			{	
-                            if($where['property'] == 'tbl.tag') 
-                                {
-                                        $table = $context->caller;
+                if($where['property'] == 'tbl.tag')
+                {
+                    $table = $context->caller;
                                         
 					$query->where('terms_terms.slug'     , $where['constraint'],  $where['value']);
 					$query->where('terms_relations.table','=', $table->getName());
