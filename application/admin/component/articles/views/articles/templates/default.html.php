@@ -30,15 +30,6 @@
     <?= @template('com://admin/activities.view.activities.simple.html', array('package' => 'articles', 'name' => 'article')); ?>
 </ktml:module>
 
-<? /* @TODO move into template helper or view file? */ ?>
-<?
-    $category_not_section = @service('com://admin/articles.model.categories')
-                            ->table('articles')
-                            ->id($state->category)
-                            ->getRow()
-                            ->parent_id;
-?>
-
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar.html'); ?>
     <table>
