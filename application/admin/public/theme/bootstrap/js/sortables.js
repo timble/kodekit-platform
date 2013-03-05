@@ -272,7 +272,14 @@ Drag.Sortable.Adapter.Koowa = new Class({
         this.parent(options);
 
         this.addEvent('onSuccess', function(){
-            //@Todo add routine here for updating list with new ordering values
+            this.instance.lists[0].getChildren().each(function(item){
+                var index = item.getProperty('data-index');
+                if(index !== null) {
+                    item.setProperty('data-order', index);
+                    item.removeProperty('data-index');
+                    //item.getElements('.data-order').set('text', index);
+                }
+            }, this);
         });
 
     },
@@ -283,6 +290,8 @@ Drag.Sortable.Adapter.Koowa = new Class({
 		instance.lists[0].getChildren().each(function(item, index){
 			if(this.options.offset == 'relative') offset = index - item.getProperty('data-order');
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
+
+            item.setProperty('data-index', index);
 
 			if(/*offset !== 0 && */item == instance.dragged) {
 				this.options.url += '&id='+item.getElement('[name^=id]').value;
