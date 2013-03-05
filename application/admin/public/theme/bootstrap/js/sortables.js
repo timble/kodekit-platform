@@ -273,11 +273,11 @@ Drag.Sortable.Adapter.Koowa = new Class({
 
         this.addEvent('onSuccess', function(){
             var prev_orderings = [], next_orderings = [];
-            this.instance.lists[0].getChildren().each(function(item){
+            this.getRows().each(function(item){
                 var index = item.getProperty('data-index');
                 if(index !== null) {
+                    console.log(item);
                     item.setProperty('data-order', index);
-                    item.removeProperty('data-index');
                 }
                 var order_element = item.getElement('.data-order')
                 if(order_element) {
@@ -286,33 +286,42 @@ Drag.Sortable.Adapter.Koowa = new Class({
                 }
             }, this);
             next_orderings.sort();
-            prev_orderings.each(function(item){
-                console.log(this, arguments);
+            prev_orderings.each(function(item, index){
+                console.log(item.get('text'), next_orderings[index]);
+                item.set('text', next_orderings[index]);
             });
         });
 
     },
 
 	store: function(instance, order){
-
-		var backup = this.options.url, value;
-		instance.lists[0].getChildren().each(function(item, index){
+console.log('huh');
+		var backup = this.options.url, value, id = instance.dragged.getElement('[name^=id]').value;
+		this.getRows().each(function(item, index){
 			if(this.options.offset == 'relative') offset = index - item.getProperty('data-order');
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
 
             item.setProperty('data-index', index);
 
-            if(item == instance.dragged) {
+            if(item.getElement('[name^=id]').value == id) {
                 value = offset;
             }
 		}, this);
-        if(instance.dragged && offset) {
-            this.options.url += '&id='+instance.dragged.getElement('[name^=id]').value;
+
+console.log(instance.lists[0].getChildren(), instance.dragged);
+        if(offset) {
+            this.options.url += '&id='+id;
             this.options.data[this.options.key] = value;
             this.send();
             this.options.url = backup;
         }
-	}
+	},
+
+    getRows: function(){
+        return this.instance.lists[0].getChildren().filter(function(item){
+            return !!item.hasClass('clone');
+        });
+    }
 
 });
 /*
