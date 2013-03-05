@@ -16,16 +16,17 @@
  */
 
 class ComArticlesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableFlat
-{     
-    public function _buildQueryWhere($query)
+{
+    public function _buildQuery($query, KCommandContext $context)
     {
-        parent::_buildQueryWhere($query);
-        
+        parent::_buildQuery($query, $context);
+
         if ($this->getMixer()->getIdentifier()->name == 'article') 
         {
             $query->where('categories_category_id = :category')
                   ->where('published >= :published')
-                  ->bind(array('category' => $this->category_id, 'published' => 0));
+                  ->bind(array('category' => $context->data->categories_category_id, 'published' => 0));
+
         }
     }
 }

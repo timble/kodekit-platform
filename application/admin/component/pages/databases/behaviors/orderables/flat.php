@@ -22,7 +22,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         $query = $this->getService('lib://nooku/database.query.select')
             ->columns('MAX(ordering)');
         
-        $this->_buildQuery($query);
+        $this->_buildQuery($query, $context);
         
         $max = (int) $context->getSubject()->select($query, KDatabase::FETCH_FIELD);
         $context->data->ordering = $max + 1;
@@ -41,7 +41,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			$query = $this->getService('lib://nooku/database.query.update')
 			    ->table($table->getBase());
 
-			$this->_buildQuery($query);
+
 
 			if($row->order < 0)
 			{
@@ -77,7 +77,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         }
     }
     
-    protected function _buildQuery($query)
+    protected function _buildQuery($query, KCommandContext $context)
     {
         if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate) {
 	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate');
@@ -94,7 +94,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');
         
-        $this->_buildQuery($query);
+        $this->_buildQuery($query, $context);
         
         $table->getAdapter()->update($query);
     }
