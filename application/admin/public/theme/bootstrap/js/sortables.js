@@ -272,13 +272,10 @@ Drag.Sortable.Adapter.Koowa = new Class({
         this.parent(options);
 
         this.addEvent('onSuccess', function(){
-            var prev_orderings = [], next_orderings = [];
-            this.getRows()/*.sort(function(a, b){
-                return parseInt(a.getProperty('data-order'), 10) - parseInt(b.getProperty('data-order'), 10);
-            })*/.each(function(item){
+            var prev_orderings = [], next_orderings = [], base = false;
+            this.getRows().each(function(item){
                 var index = item.getProperty('data-index');
                 if(index !== null) {
-                    console.log('item:onSuccess', item);
                     item.setProperty('data-order', index);
                 }
                 var order_element = item.getElement('.data-order')
@@ -288,9 +285,13 @@ Drag.Sortable.Adapter.Koowa = new Class({
                 }
             }, this);
             next_orderings.sort();
-            
+            next_orderings.each(function(item, index){
+                if(base === false)  base = item;
+                else                base++;
+                //Don't update .data-order if the list isn't a clean 1-step incremental list
+                if(item !== base)   prev_orderings.length = 0;
+            });
             prev_orderings.each(function(item, index){
-                console.log('orderings',item.get('text'), next_orderings[index]);
                 item.set('text', next_orderings[index]);
             });
         });
@@ -298,22 +299,17 @@ Drag.Sortable.Adapter.Koowa = new Class({
     },
 
 	store: function(instance, order){
-console.log('huh');
 		var backup = this.options.url, value, id = instance.dragged.getElement('[name^=id]').value;
 		this.getRows().each(function(item, index){
-            console.warn('index', index, 'order', item.getProperty('data-order'));
 			if(this.options.offset == 'relative') offset = index - parseInt(item.getProperty('data-order'), 10);
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
 
             item.setProperty('data-index', index);
-            console.error(item.getElement('[name^=id]').value, id, offset);
             if(item.getElement('[name^=id]').value == id) {
                 value = offset;
-                console.error('offset', offset);
             }
 		}, this);
 
-console.log(instance.lists[0].getChildren(), instance.dragged, this.getRows());
         if(value) {
             this.options.url += '&id='+id;
             this.options.data[this.options.key] = value;
@@ -325,9 +321,7 @@ console.log(instance.lists[0].getChildren(), instance.dragged, this.getRows());
     getRows: function(){
         return this.instance.lists[0].getChildren().filter(function(item){
             return !item.hasClass('clone');
-        });/*.sort(function(a, b){
-            return parseInt(a.getProperty('data-order'), 10) - parseInt(b.getProperty('data-order'), 10);
-        });*/
+        });
     }
 
 });
