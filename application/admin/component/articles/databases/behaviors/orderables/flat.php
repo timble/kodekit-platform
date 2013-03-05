@@ -19,7 +19,7 @@ class ComArticlesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorO
 {
     public function _buildQuery($query)
     {
-        parent::_buildQuery($query, $context);
+        parent::_buildQuery($query);
 
         if ($this->getMixer()->getIdentifier()->name == 'article') 
         {
