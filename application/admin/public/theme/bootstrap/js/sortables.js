@@ -277,7 +277,7 @@ Drag.Sortable.Adapter.Koowa = new Class({
                 if(index !== null) {
                     item.setProperty('data-order', index);
                     item.removeProperty('data-index');
-                    //item.getElements('.data-order').set('text', index);
+                    item.getElements('.data-order').set('text', (parseInt(index, 10) + 1));
                 }
             }, this);
         });
@@ -286,22 +286,23 @@ Drag.Sortable.Adapter.Koowa = new Class({
 
 	store: function(instance, order){
 
-		var backup = this.options.url;
+		var backup = this.options.url, value;
 		instance.lists[0].getChildren().each(function(item, index){
 			if(this.options.offset == 'relative') offset = index - item.getProperty('data-order');
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
 
             item.setProperty('data-index', index);
 
-			if(/*offset !== 0 && */item == instance.dragged) {
-				this.options.url += '&id='+item.getElement('[name^=id]').value;
-				//if(this.options.offset == 'relative' && offset > 0) offset = '+'+offset;
-				this.options.data[this.options.key] = offset;
-				this.send();
-				this.options.url = backup;
-			}
+            if(item == instance.dragged) {
+                value = offset;
+            }
 		}, this);
-
+        if(instance.dragged && offset) {
+            this.options.url += '&id='+instance.dragged.getElement('[name^=id]').value;
+            this.options.data[this.options.key] = value;
+            this.send();
+            this.options.url = backup;
+        }
 	}
 
 });
