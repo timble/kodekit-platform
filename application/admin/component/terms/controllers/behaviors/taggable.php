@@ -1,52 +1,19 @@
 <?php
 
 class ComTermsControllerBehaviorTaggable extends KControllerBehaviorAbstract
-{	
-	/**
-	 * Controller to handle term saving
-	 */
-	protected $_term_controller = null;
-	
-	public function __construct(KConfig $config)
-	{
-		parent::__construct($config);
-		
-		$this->_populate_from_request = $config->populate_from_request;
-        
-        $this->_term_controller = $this->getService($config->term_controller, array(
-			'request' => $this->getService('lib://nooku/controller.request', array(
-				'query' => array()
-			))
-		));
-	}
-	
-    protected function _initialize(KConfig $config)
-	{
-		$config->append(array(
-			'term_controller' => 'com://admin/terms.controller.term',
-		));
-		
-		parent::_initialize($config);
-	}
-	
+{		
 	protected function _saveTerm(KCommandContext $context, $term)
 	{
 		$row = $context->result;
-		
-		try {			
-			$data = $this->_term_controller->add(array(
-				'id' => $term,
-				'row' => $row->id,
-				'table' => $row->getTable()->getBase()
-			
-			));
-			
-			$this->_term_controller->getModel()->reset(false);
-		}
-		catch (KControllerException $e) {
-			$context->response->setStatus($e->getCode() , $e->getMessage());
-			return false;
-		}
+
+        $relation = $this->getService('com://admin/terms.database.row.relation');
+        $relation->terms_term_id = $term;
+        $relation->row		   = $row->id;
+        $relation->table		 = $row->getTable()->getBase();
+
+        if(!$relation->load()) {
+            $relation->save();
+        }
 		
 		return true;
 	}
