@@ -1,43 +1,47 @@
 <?php
 
 class ComTermsControllerBehaviorTaggable extends KControllerBehaviorAbstract
-{		
-	protected function _saveTerm(KCommandContext $context, $term)
-	{
-		$row = $context->result;
-
-        $relation = $this->getService('com://admin/terms.database.row.relation');
-        $relation->terms_term_id = $term;
-        $relation->row		   = $row->id;
-        $relation->table		 = $row->getTable()->getBase();
-
-        if(!$relation->load()) {
-            $relation->save();
-        }
-		
-		return true;
-	}
-	
-	protected function _saveTerms(KCommandContext $context) {
+{			
+	protected function _saveRelations(KCommandContext $context) {
 		if ($context->error) {
 			return;
 		}
         
-        $row = $context->result;
+        $row   = $context->result;
+        $table = $row->getTable()->getBase();
         
+        // Remove all existing relations
+        if($row->id && $row->getTable()->getBase())
+        {
+            $rows = $this->getService('com://admin/terms.model.relations')
+                ->row($row->id)
+                ->table($table)
+                ->getRowset();
+
+            $rows->delete();
+        }
+        
+        // Save terms as relations
 		foreach ($row->terms as $term) {
-			$this->_saveTerm($context, $term);
+			$relation = $this->getService('com://admin/terms.database.row.relation');
+            $relation->terms_term_id = $term;
+            $relation->row		     = $row->id;
+            $relation->table		 = $table;
+    
+            if(!$relation->load()) {
+                $relation->save();
+            }
 		}
 		
 		return true;
 	}
 	
 	protected function _afterControllerAdd(KCommandContext $context) {
-		$this->_saveTerms($context);
+		$this->_saveRelations($context);
 	}
 	
 	protected function _afterControllerEdit(KCommandContext $context) {
-		$this->_saveTerms($context);
+		$this->_saveRelations($context);
 	}
 	
 	protected function _afterControllerDelete(KCommandContext $context)
