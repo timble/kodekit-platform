@@ -17,7 +17,7 @@
 
 class ComArticlesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableFlat
 {
-    public function _buildQuery($query, KCommandContext $context)
+    public function _buildQuery($query)
     {
         parent::_buildQuery($query, $context);
 
@@ -25,7 +25,7 @@ class ComArticlesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorO
         {
             $query->where('categories_category_id = :category')
                   ->where('published >= :published')
-                  ->bind(array('category' => $context->data->categories_category_id, 'published' => 0));
+                  ->bind(array('category' => $this->categories_category_id, 'published' => 0));
 
         }
     }
