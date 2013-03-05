@@ -43,11 +43,11 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 		
 		if(!is_null($query)) 
 		{
-			foreach($query->where as $key => $where) 
+            foreach($query->where as $key => $where) 
 			{	
-                            if($where['property'] == 'tbl.tag') 
-                                {
-                                        $table = $context->caller;
+                if($where['condition'] == 'tbl.tag') 
+                {
+                    $table = $context->caller;
                                         
 					$query->where('terms_terms.slug'     , $where['constraint'],  $where['value']);
 					$query->where('terms_relations.table','=', $table->getName());
@@ -57,6 +57,7 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 					unset($context->query->where[$key]);
 				}
 			}
+            
 		}
 	}
 }

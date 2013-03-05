@@ -29,4 +29,6 @@
     <?= $article->introtext . $article->fulltext ?>
     
     <?= @helper('com://site/attachments.template.helper.grid.files', array('filter' => array('row' => $article->id, 'table' => 'articles'))); ?>
+    
+    <?= @template('com://site/terms.view.terms.default.html') ?>
 </article>

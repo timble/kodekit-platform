@@ -47,6 +47,10 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         if($page->getLink()->query['view'] == 'articles') {
             $pathway->addItem($article->title, '');
         }
+        
+        if ($article->id && $article->isTaggable()) {
+            $this->terms($article->getTerms());
+        }
 
         $this->params = $params;
         return parent::render();

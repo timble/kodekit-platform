@@ -27,6 +27,23 @@ class ComTermsModelRelations extends ComDefaultModelDefault
 			->insert('row', 'int')
 		 	->insert('table', 'string', $this->getIdentifier()->package);
 	}
+    
+    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    {
+        parent::_buildQueryColumns($query);
+        
+        $query->columns(array(
+            'title'   => 'terms.title',
+            'slug'    => 'terms.slug'
+        ));
+	}
+	 
+	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+	{
+        parent::_buildQueryJoins($query);
+        
+        $query->join(array('terms' => 'terms'), 'terms.terms_term_id = tbl.terms_term_id');
+	}
 	
 	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
 	{                
