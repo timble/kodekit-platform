@@ -3978,6 +3978,10 @@ fieldset {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+#panel-sidebar nav a .badge {
+  float: right;
+  margin-right: 8px;
+}
 #panel-sidebar nav a:hover {
   padding-top: 6px;
   color: #444;
@@ -5135,14 +5139,19 @@ td .validation-advice {
 .icon-authorize:before {
   content: "\f007";
 }
-.label {
-  padding: 2px 4px 3px;
+.label,
+.badge {
+  padding: 1px 6px;
   font-size: 9.35px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
   background-color: #eaeaea;
   color: #555555;
+}
+.label:empty,
+.badge:empty {
+  display: none;
 }
 .label-important {
   background-color: #fdebeb;
@@ -5159,18 +5168,6 @@ td .validation-advice {
 .label-info {
   background-color: #e0f5fe;
   color: #049cdb;
-}
-.label-completed {
-  background-color: #e3f6ec;
-  color: #297e52;
-}
-.label-outdated {
-  background-color: #fef4e5;
-  color: #f89406;
-}
-.label-missing {
-  background-color: #fdebeb;
-  color: #cf1010;
 }
 div.chzn-container {
   font-size: 13px;
