@@ -272,14 +272,23 @@ Drag.Sortable.Adapter.Koowa = new Class({
         this.parent(options);
 
         this.addEvent('onSuccess', function(){
+            var prev_orderings = [], next_orderings = [];
             this.instance.lists[0].getChildren().each(function(item){
                 var index = item.getProperty('data-index');
                 if(index !== null) {
                     item.setProperty('data-order', index);
                     item.removeProperty('data-index');
-                    item.getElements('.data-order').set('text', (parseInt(index, 10) + 1));
+                }
+                var order_element = item.getElement('.data-order')
+                if(order_element) {
+                    prev_orderings.push(order_element);
+                    next_orderings.push(parseInt(order_element.get('text'), 10));
                 }
             }, this);
+            next_orderings.sort();
+            prev_orderings.each(function(item){
+                console.log(this, arguments);
+            });
         });
 
     },
