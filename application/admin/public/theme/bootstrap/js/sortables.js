@@ -273,10 +273,12 @@ Drag.Sortable.Adapter.Koowa = new Class({
 
         this.addEvent('onSuccess', function(){
             var prev_orderings = [], next_orderings = [];
-            this.getRows().each(function(item){
+            this.getRows()/*.sort(function(a, b){
+                return parseInt(a.getProperty('data-order'), 10) - parseInt(b.getProperty('data-order'), 10);
+            })*/.each(function(item){
                 var index = item.getProperty('data-index');
                 if(index !== null) {
-                    console.log(item);
+                    console.log('item:onSuccess', item);
                     item.setProperty('data-order', index);
                 }
                 var order_element = item.getElement('.data-order')
@@ -286,8 +288,9 @@ Drag.Sortable.Adapter.Koowa = new Class({
                 }
             }, this);
             next_orderings.sort();
+            
             prev_orderings.each(function(item, index){
-                console.log(item.get('text'), next_orderings[index]);
+                console.log('orderings',item.get('text'), next_orderings[index]);
                 item.set('text', next_orderings[index]);
             });
         });
@@ -298,18 +301,20 @@ Drag.Sortable.Adapter.Koowa = new Class({
 console.log('huh');
 		var backup = this.options.url, value, id = instance.dragged.getElement('[name^=id]').value;
 		this.getRows().each(function(item, index){
-			if(this.options.offset == 'relative') offset = index - item.getProperty('data-order');
+            console.warn('index', index, 'order', item.getProperty('data-order'));
+			if(this.options.offset == 'relative') offset = index - parseInt(item.getProperty('data-order'), 10);
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
 
             item.setProperty('data-index', index);
-
+            console.error(item.getElement('[name^=id]').value, id, offset);
             if(item.getElement('[name^=id]').value == id) {
                 value = offset;
+                console.error('offset', offset);
             }
 		}, this);
 
-console.log(instance.lists[0].getChildren(), instance.dragged);
-        if(offset) {
+console.log(instance.lists[0].getChildren(), instance.dragged, this.getRows());
+        if(value) {
             this.options.url += '&id='+id;
             this.options.data[this.options.key] = value;
             this.send();
@@ -319,8 +324,10 @@ console.log(instance.lists[0].getChildren(), instance.dragged);
 
     getRows: function(){
         return this.instance.lists[0].getChildren().filter(function(item){
-            return !!item.hasClass('clone');
-        });
+            return !item.hasClass('clone');
+        });/*.sort(function(a, b){
+            return parseInt(a.getProperty('data-order'), 10) - parseInt(b.getProperty('data-order'), 10);
+        });*/
     }
 
 });
