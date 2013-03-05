@@ -98,6 +98,20 @@ CREATE TABLE `#__attachments_relations` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__attachments_relations`
+--
+
+CREATE TABLE `#__articles_images` (
+  `attachments_attachment_id` int(10) unsigned NOT NULL,
+  `image` smallint(6) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`attachments_attachment_id`),
+  KEY `attachments_attachment_id` (`attachments_attachment_id`),
+  CONSTRAINT `#__articles_images_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments` (`attachments_attachment_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__categories`
 --
 

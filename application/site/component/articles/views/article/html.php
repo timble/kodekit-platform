@@ -49,6 +49,17 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         }
 
         $this->params = $params;
+
+        $attachments = $article->getAttachments();
+        $this->attachments = $attachments;
+
+        $image = $this->getService('com://site/articles.database.table.images')
+            ->select(array('id' => $attachments->get('id')), KDatabase::FETCH_ROW);
+
+        if(!$image->isNew()) {
+            $this->image = $image;
+        }
+
         return parent::render();
     }
 

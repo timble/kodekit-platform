@@ -18,36 +18,57 @@ Attachments.List = new Class({
             {
                 a.addEvent('click', function(e) {
                     e.stop();
-                    that.execute(this.get('data-action'), this.get('data-id'));
+                    that.execute(this.get('data-action'), this.get('data-id'), this.get('data-row'));
                 });
             }
         });
     },
 
-    execute: function(action, data)
+    execute: function(action, id, row)
     {
         var method = '_action' + action.capitalize();
 
         if($type(this[method]) == 'function')
         {
             this.action = action;
-            this[method].call(this, data);
+
+            var uri = new URI(this.url);
+            uri.setData('id', id);
+
+            if(row) {
+                uri.setData('row', row);
+            }
+
+            this[method].call(this, uri);
         }
     },
 
-    _actionDelete: function(id)
+    _actionDelete: function(uri)
     {
-        var uri = new URI(this.url);
-        uri.setData('id', id);
-
         var form = new Koowa.Form({
             method: 'post',
             url: uri.toString(),
             params: {
-                _action:'delete',
+                _action: 'delete',
                 _token: this.token
             }
         });
+
+        form.submit();
+    },
+
+    _actionAssign: function(uri)
+    {
+        var form = new Koowa.Form({
+            method: 'post',
+            url: uri.toString(),
+            params: {
+                _action: 'save',
+                _token: this.token,
+                assign: 1
+            }
+        });
+
         form.submit();
     }
 });

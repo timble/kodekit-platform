@@ -25,7 +25,7 @@
 	</div>
     
     <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('filter' => array('row' => $article->id, 'table' => 'articles'), 'attribs' => array('class' => 'thumbnail', 'align' => 'right', 'style' => 'margin:0 0 20px 20px;'))); ?>
-    
+
     <?= $article->introtext . $article->fulltext ?>
     
     <?= @helper('com://site/attachments.template.helper.grid.files', array('filter' => array('row' => $article->id, 'table' => 'articles'))); ?>

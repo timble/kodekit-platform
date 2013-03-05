@@ -130,7 +130,7 @@
             <fieldset>
                 <legend><?= @text('Attachments') ?></legend>
                 <? if ($article->id) : ?>
-                    <?= @template('com://admin/attachments.view.attachments.list.html') ?>
+                    <?= @template('com://admin/articles.view.attachments.list.html', array('attachments' => $article->getAttachments())) ?>
                 <? endif ?>
                 <?= @template('com://admin/attachments.view.attachments.upload.html') ?>
             </fieldset>

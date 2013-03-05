@@ -1,6 +1,13 @@
 <?php
 class ComArticlesControllerAttachment extends ComAttachmentsControllerAttachment
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->getModel()->getTable()->attachBehavior('com://admin/articles.database.behavior.assignable');
+    }
+
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
