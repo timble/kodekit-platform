@@ -58,7 +58,7 @@
 		<tr>
             <? if($sortable) : ?>
             <td class="handle">
-                <span class="text-small"><?= $contact->ordering ?></span>
+                <span class="text-small data-order"><?= $contact->ordering ?></span>
             </td>
             <? endif ?>
 			<td width="20" align="center">

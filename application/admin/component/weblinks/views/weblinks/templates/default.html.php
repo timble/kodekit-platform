@@ -56,7 +56,7 @@
 		<tr>
             <? if($sortable) : ?>
             <td class="handle">
-                <span class="text-small"><?= $weblink->ordering ?></span>
+                <span class="text-small data-order"><?= $weblink->ordering ?></span>
             </td>
             <? endif ?>
 			<td align="center">

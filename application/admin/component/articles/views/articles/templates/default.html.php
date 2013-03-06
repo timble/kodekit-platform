@@ -69,7 +69,7 @@
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
                 <? if($sortable) : ?>
                 <td class="handle">
-                    <span class="text-small"><?= $article->ordering ?></span>
+                    <span class="text-small data-order"><?= $article->ordering ?></span>
                 </td>
                 <? endif ?>
                 <td align="center">
