@@ -33,20 +33,15 @@
             <? if($sortable) : ?>
             <th class="handle"></th>
             <? endif ?>
-			<th width="10">
+			<th width="1">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
 			<th>
 				<?= @helper('grid.sort', array('column' => 'title')) ?>
 			</th>
-			<th width="5%" nowrap="nowrap">
+			<th width="1">
 				<?= @helper('grid.sort', array('column' => 'published')) ?>
 			</th>
-			<? if($state->category) : ?>
-			<th width="8%" nowrap="nowrap">
-				<?= @helper('grid.sort', array('column' => 'ordering')) ?>
-			</th>
-			<? endif ?>
 		</tr>
 	</thead>
 	<tfoot>
@@ -60,7 +55,9 @@
 		<? foreach ($weblinks as $weblink) : ?>
 		<tr>
             <? if($sortable) : ?>
-            <td class="handle"></td>
+            <td class="handle">
+                <span class="text-small data-order"><?= $weblink->ordering ?></span>
+            </td>
             <? endif ?>
 			<td align="center">
 				<?= @helper('grid.checkbox', array('row' => $weblink))?>
@@ -71,11 +68,6 @@
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $weblink, 'field' => 'published')) ?>
 			</td>
-			<? if($state->category) : ?>
-			<td class="order">
-				<?= @helper('grid.order', array('row' => $weblink, 'total' => $total)); ?>
-			</td>
-			<? endif ?>
 		</tr>
 		<? endforeach; ?>
 	</tbody>
