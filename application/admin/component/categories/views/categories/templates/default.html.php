@@ -37,17 +37,17 @@
                 <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
                 <th class="handle"></th>
                 <? endif ?>
-                <th width="10">
+                <th width="1">
                     <?= @helper('grid.checkall'); ?>
                 </th>
                 <th>
                     <?= @helper('grid.sort',  array('column' => 'title')); ?>
                 </th>
-                <th width="5%">
+                <th width="1">
                     <?= @helper('grid.sort',  array('column' => 'published')); ?>
                 </th>
-                <th width="5%" nowrap="nowrap">
-                    <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count')); ?>
+                <th width="1">
+                    <?= @helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count')); ?>
                 </th>
             </tr>
         </thead>

@@ -38,16 +38,16 @@
                 <? if($sortable) : ?>
                 <th class="handle"></th>
                 <? endif ?>
-                <th width="10">
+                <th width="1">
                 	 <?= @helper('grid.checkall') ?>
                 </th>
                 <th>
                     <?= @helper('grid.sort', array('column' => 'title')) ?>
                 </th>
-                <th width="20">
+                <th width="1">
                     <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
-                <th width="20%">
+                <th width="1">
                     <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created_on')) ?>
                 </th>
                 <? if($articles->isTranslatable()) : ?>
@@ -75,7 +75,7 @@
                 <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
-                <td>
+                <td class="ellipsis">
                 	<?if($article->getStatus() != 'deleted') : ?>
                     	<a href="<?= @route('view=article&id='.$article->id) ?>">
                             <?= @escape($article->title) ?>

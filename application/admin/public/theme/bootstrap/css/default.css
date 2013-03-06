@@ -3760,11 +3760,6 @@ a:hover {
 fieldset {
   margin: 20px;
 }
-.ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .hide {
   display: none;
 }
@@ -4181,6 +4176,8 @@ fieldset {
   border-spacing: 0px;
   border-collapse: collapse;
   color: #666;
+  table-layout: auto;
+  white-space: nowrap;
 }
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
@@ -4208,6 +4205,10 @@ fieldset {
   display: block;
   padding: 0px 4px;
   color: #666;
+}
+.-koowa-grid table thead th a.-koowa-desc,
+.-koowa-grid table thead th a.-koowa-asc {
+  padding-right: 12px;
 }
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
@@ -4252,6 +4253,9 @@ fieldset {
   -moz-transition: all 150ms ease-in-out;
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
+}
+.-koowa-grid table tbody tr td.ellipsis {
+  max-width: 100px;
 }
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
@@ -5478,6 +5482,11 @@ div.chzn-container-active ul.chzn-choices input {
 }
 .text-small {
   font-size: smaller;
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 body {
   overflow: hidden;
