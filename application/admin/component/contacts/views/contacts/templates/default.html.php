@@ -42,27 +42,24 @@
 			<th width="5%" nowrap="nowrap">
 			    <?= @helper('grid.sort', array('column' => 'published')); ?>
 			 </th>
-			<? if($state->category) : ?>
-			<th width="8%" nowrap="nowrap">
-			    <?= @helper('grid.sort', array('column' => 'ordering')); ?>
-			</th>
-			<? endif ?>
 		</tr>		
 	</thead>
 
 	<tfoot>
-           <tr>
-                <td colspan="20">
-					 <?= @helper('paginator.pagination', array('total' => $total)) ?>
-                </td>
-			</tr>
+        <tr>
+            <td colspan="20">
+                 <?= @helper('paginator.pagination', array('total' => $total)) ?>
+            </td>
+        </tr>
 	</tfoot>
 		
 	<tbody<?= $sortable ? ' class="sortable"' : '' ?>>
 	<? foreach ($contacts as $contact) : ?>
 		<tr>
             <? if($sortable) : ?>
-            <td class="handle"></td>
+            <td class="handle">
+                <span class="text-small"><?= $contact->ordering ?></span>
+            </td>
             <? endif ?>
 			<td width="20" align="center">
 				<?= @helper('grid.checkbox', array('row' => $contact))?>
@@ -78,11 +75,6 @@
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
             </td>
-			<? if($state->category) : ?>
-			<td align="center">
-				<?= @helper('grid.order', array('row' => $contact)); ?>
-			</td>
-			<? endif ?>
 		</tr>
 	<? endforeach; ?>
 	</tbody>	
