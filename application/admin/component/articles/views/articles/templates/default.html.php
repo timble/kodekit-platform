@@ -48,7 +48,7 @@
                     <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
                 <th width="1">
-                    <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created_on')) ?>
+                    <?= @helper('grid.sort', array('title' => 'Last modified', 'column' => 'last_activity_on')) ?>
                 </th>
                 <? if($articles->isTranslatable()) : ?>
                     <th width="70">
@@ -91,8 +91,8 @@
                     <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
                 </td>
                 <td>
-                    <?= @helper('date.humanize', array('date' => $article->created_on)) ?> by <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
-                        <?= $article->created_by_name ?>
+                    <?= @helper('date.humanize', array('date' => $article->last_activity_on)) ?> by <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
+                        <?= $article->last_activity_by_name ?>
                     </a>
                 </td>
                 <? if($article->isTranslatable()) : ?>
