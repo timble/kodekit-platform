@@ -51,6 +51,8 @@ CREATE TABLE `#__articles` (
   `params` text,
   `ordering` int(11) NOT NULL DEFAULT '0',
   `description` text,
+  `image` varchar(255) NOT NULL,
+  `thumbnail` text NOT NULL,
   `access` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`articles_article_id`),
   KEY `idx_access` (`access`),
@@ -93,20 +95,6 @@ CREATE TABLE `#__attachments_relations` (
   `row` int(10) unsigned NOT NULL,
   KEY `attachments_attachment_id` (`attachments_attachment_id`),
   CONSTRAINT `#__attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments` (`attachments_attachment_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `#__attachments_relations`
---
-
-CREATE TABLE `#__articles_images` (
-  `attachments_attachment_id` int(10) unsigned NOT NULL,
-  `image` smallint(6) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`attachments_attachment_id`),
-  KEY `attachments_attachment_id` (`attachments_attachment_id`),
-  CONSTRAINT `#__articles_images_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments` (`attachments_attachment_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

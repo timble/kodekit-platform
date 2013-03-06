@@ -35,10 +35,6 @@ Attachments.List = new Class({
             var uri = new URI(this.url);
             uri.setData('id', id);
 
-            if(row) {
-                uri.setData('row', row);
-            }
-
             this[method].call(this, uri);
         }
     },

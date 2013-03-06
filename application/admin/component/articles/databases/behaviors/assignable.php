@@ -7,27 +7,26 @@ class ComArticlesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
 
         if($data->assign)
         {
-            $attachments =  $this->getService('com://admin/attachments.model.attachments')
-                                ->table('articles')
-                                ->row($data->row)
-                                ->getRowset();
+            $attachment =  $this->getService('com://admin/attachments.model.attachments')
+                                ->id($data->id)
+                                ->getRow();
 
-            $table   = $this->getService('com://admin/articles.database.table.images');
-            $image   = $table->select(array('id' => $attachments->get('id')), KDatabase::FETCH_ROW);
+            $article =  $this->getService('com://admin/articles.model.articles')
+                            ->id($attachment->relation->row)
+                            ->getRow();
 
-            if($image->id != $data->id)
+            if($article->image == $attachment->name)
             {
-                if($image->id) {
-                    $image->delete();
-                }
-
-                $table->getRow()->setData(array('id' => $data->id))->save();
+                // Toggle to remove the image
+                $article->image = $article->thumbnail = null;
             }
-            elseif($image->id == $data->id)
+            else
             {
-                // If it does equal the existing row's id, delete to toggle it off
-                $image->delete();
+                $article->image = $attachment->name;
+                $article->thumbnail = $attachment->thumbnail->thumbnail;
             }
+
+            $article->save();
         }
 
         return true;
