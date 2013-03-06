@@ -30,7 +30,9 @@
 	<table>
 	<thead>
 		<tr>
-            <? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
+            <? if($sortable) : ?>
+            <th class="handle"></th>
+            <? endif ?>
 			<th width="10">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
@@ -54,10 +56,12 @@
 			</td>
 		</tr>
 	</tfoot>
-	<tbody<? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
+	<tbody<?= $sortable ? ' class="sortable"' : '' ?>>
 		<? foreach ($weblinks as $weblink) : ?>
 		<tr>
-            <? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
+            <? if($sortable) : ?>
+            <td class="handle"></td>
+            <? endif ?>
 			<td align="center">
 				<?= @helper('grid.checkbox', array('row' => $weblink))?>
 			</td>
