@@ -5476,6 +5476,9 @@ div.chzn-container-active ul.chzn-choices {
 div.chzn-container-active ul.chzn-choices input {
   color: #111 !important;
 }
+.text-small {
+  font-size: smaller;
+}
 body {
   overflow: hidden;
 }
