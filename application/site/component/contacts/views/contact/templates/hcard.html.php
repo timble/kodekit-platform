@@ -9,14 +9,14 @@
 ?>
 
 <address class="vcard">
-    <h1 class="fn url" href="<?= @route(); ?>"><?= $contact->name?></h1>
+    <div class="page-header">
+        <h1 class="fn url" href="<?= @route(); ?>"><?= $contact->name?></h1>
+    </div>
     <?if ($contact->con_position) : ?>
     <h2 class="title"><?= $contact->con_position?></h2>
     <? endif;?>
     <?if ($contact->image) : ?>
-    <div style="float: right;">
-        <img class="photo" src="images/stories/<?= $contact->image ?>" title="<?= $contact->name ?>" />
-    </div>
+        <img class="photo thumbnail" align="right" src="images/stories/<?= $contact->image ?>" title="<?= $contact->name ?>" />
     <? endif;?>
     <div class="adr">
         <? if ($contact->address) : ?>

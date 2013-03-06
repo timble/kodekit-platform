@@ -30,21 +30,14 @@
     <?= @template('com://admin/activities.view.activities.simple.html', array('package' => 'articles', 'name' => 'article')); ?>
 </ktml:module>
 
-<? /* @TODO move into template helper or view file? */ ?>
-<?
-    $category_not_section = @service('com://admin/articles.model.categories')
-                            ->table('articles')
-                            ->id($state->category)
-                            ->getRow()
-                            ->parent_id;
-?>
-
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar.html'); ?>
     <table>
         <thead>
             <tr>
-                <? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
+                <? if($sortable) : ?>
+                <th class="handle"></th>
+                <? endif ?>
                 <th width="10">
                 	 <?= @helper('grid.checkall') ?>
                 </th>
@@ -76,10 +69,12 @@
                 </td>
             </tr>
         </tfoot>
-        <tbody<? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
+        <tbody<?= $sortable ? ' class="sortable"' : '' ?>>
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
-                <? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
+                <? if($sortable) : ?>
+                <td class="handle"></td>
+                <? endif ?>
                 <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
