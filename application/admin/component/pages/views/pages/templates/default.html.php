@@ -28,17 +28,17 @@
     <table>
         <thead>
             <tr>
-                <th width="5"></th>
-                <th width="60%">
+                <th width="1"></th>
+                <th>
                     <?= @helper('grid.sort', array('column' => 'title')); ?>
                 </th>
-                <th width="5">
+                <th width="1">
                     <?= @helper('grid.sort', array('column' => 'published' , 'title' => 'Published')); ?>
                 </th>
-                <th width="80">
+                <th width="1">
                     <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
                 </th>
-                <th>
+                <th width="1">
                     <?= @helper('grid.sort',  array('column' => 'extensions_component_id' , 'title' => 'Type')); ?>
                 </th>
             </tr>

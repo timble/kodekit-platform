@@ -41,7 +41,7 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
 			$query = $this->getService('lib://nooku/database.query.update')
 			    ->table($table->getBase());
 
-			$this->_buildQuery($query);
+            $this->_buildQuery($query);
 
 			if($row->order < 0)
 			{

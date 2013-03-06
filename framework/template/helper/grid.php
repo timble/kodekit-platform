@@ -207,7 +207,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
             $html .= '<i class="icon-chevron-up" data-action="edit" data-data="'.$updata.'"></i>';
         }
 
-        $html .= $config->row->{$config->field};
+        $html .= '<span class="data-order">'.$config->row->{$config->field}.'</span>';
 
         if($config->row->{$config->field} != $config->total) {
             $html .= '<i class="icon-chevron-down" data-action="edit" data-data="'.$downdata.'"></i>';

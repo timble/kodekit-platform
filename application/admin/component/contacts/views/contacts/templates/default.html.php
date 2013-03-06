@@ -30,40 +30,41 @@
 <table>
 	<thead>
 		<tr>
-            <? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
-			<th width="10">
+            <? if($sortable) : ?>
+            <th class="handle"></th>
+            <? endif ?>
+			<th width="1">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'name')); ?>
 			</th>
-			<th width="5%" nowrap="nowrap">
+			<th width="1">
 			    <?= @helper('grid.sort', array('column' => 'published')); ?>
 			 </th>
-			<? if($state->category) : ?>
-			<th width="8%" nowrap="nowrap">
-			    <?= @helper('grid.sort', array('column' => 'ordering')); ?>
-			</th>
-			<? endif ?>
 		</tr>		
 	</thead>
 
 	<tfoot>
-           <tr>
-                <td colspan="20">
-					 <?= @helper('paginator.pagination', array('total' => $total)) ?>
-                </td>
-			</tr>
+        <tr>
+            <td colspan="20">
+                 <?= @helper('paginator.pagination', array('total' => $total)) ?>
+            </td>
+        </tr>
 	</tfoot>
 		
-	<tbody<? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
+	<tbody<?= $sortable ? ' class="sortable"' : '' ?>>
 	<? foreach ($contacts as $contact) : ?>
 		<tr>
-            <? if($state->category && $state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
-			<td width="20" align="center">
+            <? if($sortable) : ?>
+            <td class="handle">
+                <span class="text-small data-order"><?= $contact->ordering ?></span>
+            </td>
+            <? endif ?>
+			<td align="center">
 				<?= @helper('grid.checkbox', array('row' => $contact))?>
 			</td>				
-			<td align="left">
+			<td>
 				<a href="<?= @route('view=contact&id='.$contact->id); ?>">
 	   				<?= @escape($contact->name); ?>
 	   			</a>
@@ -74,11 +75,6 @@
 			<td align="center">
 				<?= @helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
             </td>
-			<? if($state->category) : ?>
-			<td align="center">
-				<?= @helper('grid.order', array('row' => $contact)); ?>
-			</td>
-			<? endif ?>
 		</tr>
 	<? endforeach; ?>
 	</tbody>	

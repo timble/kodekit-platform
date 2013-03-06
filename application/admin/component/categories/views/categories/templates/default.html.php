@@ -34,21 +34,20 @@
     <table>
         <thead>
             <tr>
-                <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
-                <th width="10">
+                <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
+                <th class="handle"></th>
+                <? endif ?>
+                <th width="1">
                     <?= @helper('grid.checkall'); ?>
                 </th>
                 <th>
                     <?= @helper('grid.sort',  array('column' => 'title')); ?>
                 </th>
-                <th width="5%">
+                <th width="1">
                     <?= @helper('grid.sort',  array('column' => 'published')); ?>
                 </th>
-                <th width="8%" nowrap="nowrap">
-                    <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
-                </th>
-                <th width="5%" nowrap="nowrap">
-                    <?= @helper('grid.sort',  array( 'title' => 'Num Items', 'column' => 'count')); ?>
+                <th width="1">
+                    <?= @helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count')); ?>
                 </th>
             </tr>
         </thead>
@@ -64,7 +63,11 @@
         <tbody<? if($state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
             <? foreach( $categories as $category) :  ?>
                 <tr>
-                    <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
+                    <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
+                    <td class="handle">
+                        <span class="text-small data-order"><?= $category->ordering ?></span>
+                    </td>
+                    <? endif ?>
                     <td align="center">
                         <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>
@@ -78,9 +81,6 @@
                     </td>
                     <td align="center">
                         <?= @helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
-                    </td>
-                    <td class="order">
-                        <?= @helper( 'grid.order' , array('row' => $category, 'total' => $category->order_total )); ?>
                     </td>
                     <td align="center">
                         <?= $category->count; ?>

@@ -272,28 +272,57 @@ Drag.Sortable.Adapter.Koowa = new Class({
         this.parent(options);
 
         this.addEvent('onSuccess', function(){
-            //@Todo add routine here for updating list with new ordering values
+            var prev_orderings = [], next_orderings = [], base = false;
+            this.getRows().each(function(item){
+                var index = item.getProperty('data-index');
+                if(index !== null) {
+                    item.setProperty('data-order', index);
+                }
+                var order_element = item.getElement('.data-order')
+                if(order_element) {
+                    prev_orderings.push(order_element);
+                    next_orderings.push(parseInt(order_element.get('text'), 10));
+                }
+            }, this);
+            next_orderings.sort();
+            next_orderings.each(function(item, index){
+                if(base === false)  base = item;
+                else                base++;
+                //Don't update .data-order if the list isn't a clean 1-step incremental list
+                if(item !== base)   prev_orderings.length = 0;
+            });
+            prev_orderings.each(function(item, index){
+                item.set('text', next_orderings[index]);
+            });
         });
 
     },
 
 	store: function(instance, order){
-
-		var backup = this.options.url;
-		instance.lists[0].getChildren().each(function(item, index){
-			if(this.options.offset == 'relative') offset = index - item.getProperty('data-order');
+		var backup = this.options.url, value, id = instance.dragged.getElement('[name^=id]').value;
+		this.getRows().each(function(item, index){
+			if(this.options.offset == 'relative') offset = index - parseInt(item.getProperty('data-order'), 10);
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
 
-			if(/*offset !== 0 && */item == instance.dragged) {
-				this.options.url += '&id='+item.getElement('[name^=id]').value;
-				//if(this.options.offset == 'relative' && offset > 0) offset = '+'+offset;
-				this.options.data[this.options.key] = offset;
-				this.send();
-				this.options.url = backup;
-			}
+            item.setProperty('data-index', index);
+            if(item.getElement('[name^=id]').value == id) {
+                value = offset;
+            }
 		}, this);
 
-	}
+        if(value) {
+            this.options.url += '&id='+id;
+            this.options.data[this.options.key] = value;
+            this.send();
+            this.options.url = backup;
+        }
+	},
+
+    getRows: function(){
+        return this.instance.lists[0].getChildren().filter(function(item){
+            return !item.hasClass('clone');
+        });
+    }
 
 });
 /*
