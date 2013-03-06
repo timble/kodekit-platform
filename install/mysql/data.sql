@@ -89,7 +89,8 @@ VALUES
 	(27, 2, 1),
 	(28, 1, 2),
 	(29, 2, 1),
-	(30, 1, 2);
+	(30, 1, 2),
+    (31, 3, 2);
 
 
 --
@@ -117,6 +118,7 @@ VALUES
 	(4, 21, 2),
 	(4, 22, 2),
 	(4, 23, 2),
+	(4, 31, 2),
 	(5, 5, 0),
 	(6, 6, 0),
 	(6, 27, 1),
@@ -136,6 +138,7 @@ VALUES
 	(12, 12, 0),
 	(12, 16, 1),
 	(12, 17, 1),
+	(12, 31, 1),
 	(13, 13, 0),
 	(13, 18, 1),
 	(13, 19, 1),
@@ -159,7 +162,9 @@ VALUES
 	(27, 27, 0),
 	(28, 28, 0),
 	(29, 29, 0),
-	(30, 30, 0);
+	(30, 30, 0),
+	(31, 31, 0);
+
 
 --
 -- Dumping data for table `#__pages_modules`
@@ -204,7 +209,9 @@ VALUES
 	(27, 2, NULL, 'Users', 'users', 'option=com_users&view=users', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(28, 2, NULL, 'Groups', 'groups', 'option=com_users&view=groups', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(29, 2, NULL, 'Items', 'items', 'option=com_cache&view=items', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(30, 2, NULL, 'Groups', 'groups', 'option=com_cache&view=groups', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
+	(30, 2, NULL, 'Groups', 'groups', 'option=com_cache&view=groups', NULL, 'component', 1, 0, 0, 32, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(31, 2, NULL, 'Terms', 'terms', 'option=com_articles&view=terms', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
+
 
 --
 -- Dumping data for table `#__files_containers`
