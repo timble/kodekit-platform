@@ -2,34 +2,28 @@
 /**
  * @category    Nooku
  * @package     Nooku_Server
- * @subpackage  Articles
+ * @subpackage  Contacts
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
 
 /**
- * Articles HTML view class.
+ * Contacts HTML view class.
  *
  * @author     Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @category   Nooku
  * @package    Nooku_Server
- * @subpackage Articles
+ * @subpackage Contacts
  */
-class ComArticlesViewArticlesHtml extends ComDefaultViewHtml
+class ComContactsViewContactsHtml extends ComDefaultViewHtml
 {
     public function render()
     {        
         $state = $this->getModel()->getState();
         
-        $parent_id = $this->getService('com://admin/articles.model.categories')
-                            ->table('articles')
-                            ->id($state->category)
-                            ->getRow()
-                            ->parent_id;
-        
         // Enable sortable
-        $this->sortable = $parent_id && $state->sort == 'ordering' && $state->direction == 'asc';
+        $this->sortable = $state->category && $state->sort == 'ordering' && $state->direction == 'asc';
         
         return parent::render();
     }

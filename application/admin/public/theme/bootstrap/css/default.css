@@ -3876,7 +3876,7 @@ fieldset {
 #panel-inspector legend {
   padding: 0;
   margin: 0;
-  line-height: 24px;
+  line-height: 28px;
   vertical-align: middle;
   color: #555555;
   font-size: 11px;
@@ -3893,6 +3893,9 @@ fieldset {
   background-image: linear-gradient(to bottom, #f2f2f2, #e9e9e9);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f2f2', endColorstr='#ffe9e9e9', GradientType=0);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 #panel-sidebar fieldset,
 #panel-inspector fieldset {
@@ -5584,6 +5587,7 @@ body #container {
   -webkit-flex: 1 1 15%;
   -moz-flex: 1 1 15%;
   flex: 1 1 15%;
+  max-width: 200px;
 }
 #panel-sidebar h3,
 #panel-inspector h3 {
