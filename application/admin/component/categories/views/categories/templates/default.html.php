@@ -34,7 +34,9 @@
     <table>
         <thead>
             <tr>
-                <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
+                <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
+                <th class="handle"></th>
+                <? endif ?>
                 <th width="10">
                     <?= @helper('grid.checkall'); ?>
                 </th>
@@ -64,7 +66,9 @@
         <tbody<? if($state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
             <? foreach( $categories as $category) :  ?>
                 <tr>
-                    <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
+                    <? if($state->sort == 'ordering' && $state->direction == 'asc') : ?>
+                    <td class="handle"></td>
+                    <? endif ?>
                     <td align="center">
                         <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>
