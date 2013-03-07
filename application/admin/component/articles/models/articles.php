@@ -40,6 +40,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         $query->columns(array(
             'category_title'         => 'categories.title',
+            'thumbnail'              => 'thumbnails.thumbnail',
             'last_activity_on'       => 'IF(tbl.modified_on, tbl.modified_on, tbl.created_on)',
             'last_activity_by_name'  => 'IF(tbl.modified_on, modifier.name, creator.name)',
             'ordering_date'          => 'IF(tbl.publish_on, tbl.publish_on, tbl.created_on)'
@@ -52,7 +53,8 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
 
         $query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
               ->join(array('creator'  => 'users'), 'creator.users_user_id = tbl.created_by')
-              ->join(array('modifier'  => 'users'), 'modifier.users_user_id = tbl.modified_by');
+              ->join(array('modifier'  => 'users'), 'modifier.users_user_id = tbl.modified_by')
+              ->join(array('thumbnails'  => 'files_thumbnails'), 'thumbnails.filename = tbl.image');
     }
 
     protected function _buildQueryWhere(KDatabaseQuerySelect $query)

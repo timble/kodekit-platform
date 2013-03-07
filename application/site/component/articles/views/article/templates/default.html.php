@@ -24,8 +24,8 @@
 	    <? endif ?>
 	</div>
 
-    <? if($thumbnail->thumbnail): ?>
-        <img class="thumbnail" src="<?= $thumbnail->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
+    <? if($article->thumbnail): ?>
+        <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
     <? endif; ?>
 
     <?= $article->introtext . $article->fulltext ?>
