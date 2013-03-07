@@ -22,7 +22,7 @@ class ComArticlesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
             }
             else
             {
-                $article->image = $attachment->name;
+                $article->image = $attachment->path;
                 $article->thumbnail = $attachment->thumbnail->thumbnail;
             }
 
