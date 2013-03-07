@@ -47,6 +47,15 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         if($page->getLink()->query['view'] == 'articles') {
             $pathway->addItem($article->title, '');
         }
+        
+        $this->thumbnail = $this->getService('com://admin/files.controller.thumbnail')
+	    				->container('attachments-attachments')
+	    				->filename($article->image)
+	    				->read();
+        
+        if ($article->id && $article->isAttachable()) {
+            $this->attachments($article->getAttachments());
+        }
 
         $this->params = $params;
 

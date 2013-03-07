@@ -24,13 +24,11 @@
 	    <? endif ?>
 	</div>
 
-    <? if($article->thumbnail): ?>
-        <img src="<?= $article->thumbnail ?>" class="thumbnail" style="float: left" />
+    <? if($thumbnail->thumbnail): ?>
+        <img class="thumbnail" src="<?= $thumbnail->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
     <? endif; ?>
 
     <?= $article->introtext . $article->fulltext ?>
-
-    <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('exclude' => array($article->image), 'filter' => array('row' => $article->id, 'table' => 'articles'), 'attribs' => array('class' => 'thumbnail', 'align' => 'right', 'style' => 'margin:0 0 20px 20px;'))); ?>
-
-    <?= @helper('com://site/attachments.template.helper.grid.files', array('filter' => array('row' => $article->id, 'table' => 'articles'))); ?>
+    
+    <?= @template('com://site/attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
