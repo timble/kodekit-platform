@@ -27,6 +27,11 @@ window.addEvent('domready', function() {
                     <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
                         <i class="icon-trash icon-white"></i>
                     </a>
+                    <? if($assignable) : ?>
+                    <a class="btn btn-mini <?= ($item->path == $article->image ? 'btn-warning' : '') ?>" href="#" data-action="assign" data-id="<?= $item->id; ?>">
+                        <i class="icon-star"></i>
+                    </a>
+                    <? endif ?>
                 </div>
             </div>
     	</li>
