@@ -15,7 +15,7 @@ class ComArticlesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
                             ->id($attachment->relation->row)
                             ->getRow();
 
-            if($article->image == $attachment->name)
+            if($article->image == $attachment->path)
             {
                 // Toggle to remove the image
                 $article->image = $article->thumbnail = null;
