@@ -27,10 +27,11 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
             'filter'   => array(
                 'row'      => '',
                 'table'    => '',
-                'limit'    => '1'
-            )
+                'limit'    => '0'
+            ),
+            'exclude' => array()
         ));
-        
+
         $attribs = $this->_buildAttributes($config->attribs);
 
         $list = $this->getService('com://admin/attachments.controller.attachment', array(
@@ -40,10 +41,10 @@ class ComAttachmentsTemplateHelperGrid extends KTemplateHelperDefault
 		))->browse();
         
         $html = array();
-        
+
         if(count($list)) {
             foreach($list as $item) {
-                if($item->file->isImage()) {
+                if($item->file->isImage() && !in_array($item->name, KConfig::unbox($config->exclude))) {
                     $html[] = '<img '.$attribs.' src="'.$item->thumbnail->thumbnail.'" />';
                 }
             }
