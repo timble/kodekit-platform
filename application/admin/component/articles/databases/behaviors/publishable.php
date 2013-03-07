@@ -21,19 +21,26 @@
 class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
 {
     /**
-     * @var bool Variable for keeping track of the updated status of the items table. A value of true
-     * indicates that items are already up to date, i.e. published and unpublished according with the
-     * current timestamp.
+     * Track updated status
+     *
+     * Variable keeps track of the updated status of the items table. A value of true indicates that items are
+     * already up to date, i.e. published and unpublished according with the current timestamp.
+     *
+     * @var bool
      */
     protected $_uptodate = false;
 
     /**
-     * @var string The name of the table containing the publishable items.
+     * The name of the table containing the publishable items.
+     *
+     * @var string
      */
     protected $_table;
 
     /**
-     * @var KDate The current date.
+     * The current date.
+     *
+     * @var KDate
      */
     protected $_date;
 
@@ -41,20 +48,25 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     {
         parent::__construct($config);
 
-        $this->_table           = $config->table;
-        $this->_date            = new KDate(array('timezone' => 'GMT'));
+        $this->_table = $config->table;
+        $this->_date  = new KDate(array('timezone' => 'GMT'));
     }
 
     protected function _initialize(KConfig $config)
     {
-        $config->append(array('table'=> 'articles'));
+        $config->append(array(
+            'table'=> 'articles'
+        ));
+
         parent::_initialize($config);
     }
 
-    protected function _beforeTableSelect(KCommandContext $context)
+    protected function _afterTableSelect(KCommandContext $context)
     {
-        if (!$this->_uptodate) {
+        $data = $context->data;
 
+        if ($data instanceof KDatabaseRowsetInterface && !$this->_uptodate)
+        {
             $this->_publishItems();
             $this->_unpublishItems();
 
@@ -72,8 +84,8 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     {
         $data = $context->data;
 
+        // Un-publish the item.
         if ($data->published && (strtotime($data->publish_on) > $this->_date->getTimestamp())) {
-            // Un-publish the item.
             $data->published = 0;
         }
     }
@@ -118,7 +130,6 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     protected function _getQuery()
     {
         $query = $this->getService('lib://nooku/database.query.update');
-
         $query->table(array($this->_table));
 
         return $query;
