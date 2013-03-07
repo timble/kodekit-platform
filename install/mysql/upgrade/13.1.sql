@@ -176,6 +176,7 @@ ALTER TABLE `#__articles` DROP INDEX `idx_catid`;
 ALTER TABLE `#__articles` ADD INDEX  `category` (  `categories_category_id` );
 ALTER TABLE `#__articles` CHANGE  `metadesc`  `description` TEXT;
 ALTER TABLE `#__articles` DROP INDEX `idx_checkout`;
+ALTER TABLE `#__articles` ADD `image` varchar(255) `description`;
 
 ALTER TABLE `#__articles` CHANGE  `attribs`  `params` TEXT;
 ALTER TABLE `#__articles` CHANGE  `state`  `published` TINYINT(1);
