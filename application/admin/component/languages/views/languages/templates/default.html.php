@@ -22,25 +22,25 @@
 	<table>
 		<thead>
 			<tr>
-				<th width="10">
+				<th width="1">
 				    <?= @helper('grid.checkall') ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', array('column' => 'name')) ?>
 				</th>
-				<th>
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'native_name', 'title' => 'Native Name')) ?>
 				</th>
-				<th width="10%">
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'iso_code', 'title' => 'ISO Code')) ?>
 				</th>
-                <th width="50px" nowrap="nowrap">
+                <th width="1">
                     <?= @text('Primary') ?>
                 </th>
-				<th width="15%" nowrap="nowrap">
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'slug')) ?>
 				</th>
-				<th width="31px" nowrap="nowrap">
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'enabled', 'title' => 'Enabled')) ?>
 				</th>
 			</tr>

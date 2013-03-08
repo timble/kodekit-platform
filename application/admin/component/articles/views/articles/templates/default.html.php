@@ -30,37 +30,25 @@
     <?= @template('com://admin/activities.view.activities.simple.html', array('package' => 'articles', 'name' => 'article')); ?>
 </ktml:module>
 
-<? /* @TODO move into template helper or view file? */ ?>
-<?
-    $category_not_section = @service('com://admin/articles.model.categories')
-                            ->table('articles')
-                            ->id($state->category)
-                            ->getRow()
-                            ->parent_id;
-?>
-
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar.html'); ?>
     <table>
         <thead>
             <tr>
-                <? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
-                <th width="10">
+                <? if($sortable) : ?>
+                <th class="handle"></th>
+                <? endif ?>
+                <th width="1">
                 	 <?= @helper('grid.checkall') ?>
                 </th>
                 <th>
                     <?= @helper('grid.sort', array('column' => 'title')) ?>
                 </th>
-                <th width="20">
+                <th width="1">
                     <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
-                <? if($state->category) : ?>
-                <th width="7%">
-                    <?= @helper('grid.sort', array('title' => 'Order', 'column' => 'ordering')) ?>
-                </th>
-                <? endif; ?>
-                <th width="20%">
-                    <?= @helper('grid.sort', array('title' => 'Created', 'column' => 'created_on')) ?>
+                <th width="1">
+                    <?= @helper('grid.sort', array('title' => 'Last modified', 'column' => 'last_activity_on')) ?>
                 </th>
                 <? if($articles->isTranslatable()) : ?>
                     <th width="70">
@@ -76,14 +64,18 @@
                 </td>
             </tr>
         </tfoot>
-        <tbody<? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?> class="sortable"<? endif ?>>
+        <tbody<?= $sortable ? ' class="sortable"' : '' ?>>
         <? foreach($articles as $article) : ?>
             <tr data-readonly="<?= $article->getStatus() == 'deleted' ? '1' : '0' ?>">
-                <? if($category_not_section && $state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
+                <? if($sortable) : ?>
+                <td class="handle">
+                    <span class="text-small data-order"><?= $article->ordering ?></span>
+                </td>
+                <? endif ?>
                 <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
-                <td>
+                <td class="ellipsis">
                 	<?if($article->getStatus() != 'deleted') : ?>
                     	<a href="<?= @route('view=article&id='.$article->id) ?>">
                             <?= @escape($article->title) ?>
@@ -98,14 +90,9 @@
                 <td align="center">
                     <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
                 </td>
-                <? if($state->category) : ?>
-                <td align="center">
-                    <?= @helper('grid.order', array('row' => $article, 'total' => $total)) ?>
-                </td>
-                <? endif; ?>
                 <td>
-                    <?= @helper('date.humanize', array('date' => $article->created_on)) ?> by <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
-                        <?= $article->created_by_name ?>
+                    <?= @helper('date.humanize', array('date' => $article->last_activity_on)) ?> by <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
+                        <?= $article->last_activity_by_name ?>
                     </a>
                 </td>
                 <? if($article->isTranslatable()) : ?>

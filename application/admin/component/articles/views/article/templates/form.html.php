@@ -87,20 +87,18 @@
 	    
 	        <fieldset class="form-horizontal">
 	        	<legend><?= @text('Details') ?></legend>
-	            <tbody>
-	                <div class="control-group">
-	                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
-	                    <div class="controls">
-	                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
-	                    </div>
-	                </div>
-	                <div class="control-group">
-	                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
-	                    <div class="controls">
-	                    	<p class="help-block"><?= @helper('date.humanize', array('date' => $article->created_on)) ?></p>
-	                    </div>
-	                </div>
-	            </tbody>
+                <div class="control-group">
+                    <label class="control-label" for="created_by"><?= @text('Author') ?></label>
+                    <div class="controls">
+                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
+                    <div class="controls">
+                        <p class="help-block"><?= @helper('date.humanize', array('date' => $article->created_on)) ?></p>
+                    </div>
+                </div>
 	        </fieldset>
 	        
 	        <fieldset class="categories group">
@@ -132,7 +130,7 @@
             <fieldset>
                 <legend><?= @text('Attachments') ?></legend>
                 <? if ($article->id) : ?>
-                    <?= @template('com://admin/attachments.view.attachments.list.html') ?>
+                    <?= @template('com://admin/attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true)) ?>
                 <? endif ?>
                 <?= @template('com://admin/attachments.view.attachments.upload.html') ?>
             </fieldset>

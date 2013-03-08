@@ -18,13 +18,13 @@
 	<table>
 		<thead>
 			<tr>
-			    <th width="10">
+			    <th width="1">
 				    <?= @helper('grid.checkall') ?>
 				</th>
 				<th>
 					<?= @text('Name') ?>
 				</th>
-				<th>
+				<th width="1">
 					<?= @text('Enabled') ?>
 				</th>
 			</tr>

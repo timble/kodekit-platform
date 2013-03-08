@@ -29,28 +29,28 @@
 	<table>
 		<thead>
 			<tr>
-				<th width="10">
+				<th width="1">
 				    <?= @helper('grid.checkall'); ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', array('title' => 'Name', 'column' => 'name')) ?>
 				</th>
-				<th width="8%">
+				<th width="1">
 					<?= @helper('grid.sort',  array('title' => 'Logged In', 'column' => 'loggedin')) ?>
 				</th>
-				<th width="8%">
+				<th width="1">
 					<?= @helper('grid.sort',  array('title' => 'Enabled', 'column' => 'enabled')) ?>
 				</th>
-				<th width="15%">
+				<th width="1">
 					<?= @helper('grid.sort',  array('title' => 'Role', 'column' => 'role_name')) ?>
 				</th>
-				<th width="15%">
+				<th width="1">
 					<?= @text('Group') ?>
 				</th>
-				<th width="15%">
+				<th width="1">
 					<?= @helper('grid.sort',  array('title' => 'E-Mail', 'column' => 'email')) ?>
 				</th>
-				<th width="10%">
+				<th width="1">
 					<?= @helper('grid.sort',  array('title' => 'Last Visit', 'column' => 'last_visited_on')) ?>
 				</th>
 			</tr>
