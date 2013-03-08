@@ -145,7 +145,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
 	public function serialize()
 	{
         $data = array(
-            'namespace  ' => $this->_namespace,
+            'namespace'   => $this->_namespace,
             'type'		  => $this->_type,
             'package'	  => $this->_package,
             'path'		  => $this->_path,
@@ -162,7 +162,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
 	/**
 	 * Unserialize the identifier
 	 *
-	 * @return string 	The serialised identifier
+	 * @return string $data	The serialised identifier
 	 */
 	public function unserialize($data)
 	{
@@ -176,8 +176,8 @@ class KServiceIdentifier implements KServiceIdentifierInterface
 	/**
 	 * Set an namespace path
 	 *
-	 * @param string	The name of the namespace
-	 * @param string	The path of the namespace
+	 * @param string $namespace The name of the namespace
+	 * @param string $path      The path of the namespace
 	 * @return void
      */
     public static function setNamespace($namespace, $path)
@@ -188,8 +188,8 @@ class KServiceIdentifier implements KServiceIdentifierInterface
 	/**
 	 * Get an namespace path
 	 *
-	 * @param string	The name of the namespace
-	 * @return string	The path of the namespace
+	 * @param string $namespace The name of the namespace
+	 * @return string The path of the namespace
      */
     public static function getNamespace($namespace)
     {
@@ -207,9 +207,9 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     }
 
 	/**
-     * Add a identifier adapter
+     * Add a service locator
      *
-     * @param object    A KServiceLocator
+     * @param KServiceLocatorInterface $locator  A ServiceLocator
      * @return void
      */
     public static function addLocator(KServiceLocatorInterface $locator)
@@ -218,7 +218,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     }
 
 	/**
-     * Get the registered adapters
+     * Get the registered service locators
      *
      * @return array
      */
@@ -232,8 +232,8 @@ class KServiceIdentifier implements KServiceIdentifierInterface
      *
      * This functions creates a string representation of the identifier.
      *
-     * @param   string  The virtual property to set.
-     * @param   string  Set the virtual property to this value.
+     * @param   string  $property The virtual property to set.
+     * @param   string  $value    Set the virtual property to this value.
      * @throws \DomainException If the namespace or type are unknown
      */
     public function __set($property, $value)
@@ -280,11 +280,12 @@ class KServiceIdentifier implements KServiceIdentifierInterface
     /**
      * Implements access to virtual properties by reference so that it appears to be a public property.
      *
-     * @param   string  The virtual property to return.
+     * @param   string  $property The virtual property to return.
      * @return  array   The value of the virtual property.
      */
     public function &__get($property)
     {
+        $result = null;
         if(isset($this->{'_'.$property}))
         {
             if($property == 'filepath' && empty($this->_filepath)) {
@@ -295,19 +296,21 @@ class KServiceIdentifier implements KServiceIdentifierInterface
                 $this->_classname = self::$_locators[$this->_type]->findClass($this);
             }
 
-            return $this->{'_'.$property};
+            $result =& $this->{'_'.$property};
         }
+
+        return $result;
     }
 
     /**
      * This function checks if a virtual property is set.
      *
-     * @param   string  The virtual property to return.
+     * @param   string  $property The virtual property to return.
      * @return  boolean True if it exists otherwise false.
      */
     public function __isset($property)
     {
-        return isset($this->{'_'.$property});
+        return in_array('_'.$property, array_keys(get_object_vars($this)));
     }
 
     /**
