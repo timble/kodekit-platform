@@ -20,7 +20,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
+class ComArticlesDatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * Track updated status
@@ -65,7 +65,7 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
 
     protected function _afterTableSelect(Framework\CommandContext $context)
     {
-        if (!$this->_uptodate) {
+        $data = $context->data;
 
         if ($data instanceof KDatabaseRowsetInterface && !$this->_uptodate)
         {
