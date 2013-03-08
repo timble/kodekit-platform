@@ -6,6 +6,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
+?>
 
 <? if ($params->get('show_page_title', 1)): ?>
 <div class="page-header">
