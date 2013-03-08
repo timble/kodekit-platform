@@ -6,15 +6,17 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Locator for the Koowa framework
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
  * @subpackage 	Locator
- * @uses 		KInflector
+ * @uses 		Inflector
  */
-class KServiceLocatorLibrary extends KServiceLocatorAbstract
+class ServiceLocatorLibrary extends ServiceLocatorAbstract
 {
 	/**
 	 * The type
@@ -29,10 +31,12 @@ class KServiceLocatorLibrary extends KServiceLocatorAbstract
 	 * @param 	mixed  		 An identifier object - koowa:[path].name
 	 * @return string|false  Return object on success, returns FALSE on failure
 	 */
-	public function findClass(KServiceIdentifier $identifier)
+	public function findClass(ServiceIdentifier $identifier)
 	{
+        $namespace = 'Nooku\Framework';
+
         $classes   = array();
-        $classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).ucfirst($identifier->name);
+        $classname = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).ucfirst($identifier->name);
 
 		if (!class_exists($classname))
 		{
@@ -40,7 +44,7 @@ class KServiceLocatorLibrary extends KServiceLocatorAbstract
             $classes[] = $classname;
 
 			// use default class instead
-			$classname = 'K'.ucfirst($identifier->package).KInflector::implode($identifier->path).'Default';
+			$classname = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).'Default';
 
 			if (class_exists($classname)) {
 				$classname = false;
@@ -59,7 +63,7 @@ class KServiceLocatorLibrary extends KServiceLocatorAbstract
 	 * @param  object  	An identifier object - koowa:[path].name
 	 * @return string	Returns the path
 	 */
-	public function findPath(KServiceIdentifier $identifier)
+	public function findPath(ServiceIdentifier $identifier)
 	{
 	    $path = '';
 

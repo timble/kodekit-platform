@@ -6,28 +6,30 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-interface KDispatcherInterface extends KControllerInterface
+interface DispatcherInterface extends ControllerInterface
 {
     /**
      * Method to get a controller object
      *
-     * @throws	\UnexpectedValueException	If the controller doesn't implement the KControllerInterface
-     * @return	KDispatcherInterface
+     * @throws	\UnexpectedValueException	If the controller doesn't implement the ControllerInterface
+     * @return	DispatcherInterface
      */
     public function getController();
 
     /**
      * Method to set a controller object attached to the dispatcher
      *
-     * @param	mixed	$controller An object that implements KControllerInterface, KServiceIdentifier object
+     * @param	mixed	$controller An object that implements ControllerInterface, ServiceIdentifier object
      * 					            or valid identifier string
-     * @return	KDispatcherInterface
+     * @return	DispatcherInterface
      */
     public function setController($controller, $config = array());
 }

@@ -7,13 +7,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Numeric filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterNumeric extends KFilterAbstract
+class FilterNumeric extends FilterAbstract
 {
 	/**
 	 * Validate whether the given variable is numeric. Numeric strings consist of optional sign, any

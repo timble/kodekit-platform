@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Html View
 .*
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultViewHtml extends KViewDefault
+class ComDefaultViewHtml extends Framework\ViewDefault
 {
    
 }

@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Term Database Row
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ComTermsDatabaseRowTerm extends KDatabaseRowDefault
+class ComTermsDatabaseRowTerm extends Framework\DatabaseRowDefault
 {
 	/**
 	 * Save the term in the database.

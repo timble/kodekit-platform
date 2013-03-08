@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Helper Class
  *
@@ -20,7 +22,7 @@ class ComCacheTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
 	public function groups( $config = array())
 	{	
-	    $config = new KConfig($config);
+	    $config = new Framework\Config($config);
 		$config->append(array(
 			'model'		=> 'groups',
 			'name' 		=> 'group',

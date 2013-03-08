@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Paginator Helper
  *
@@ -14,7 +16,7 @@
  * @package		Koowa_Template
  * @subpackage	Helper
  */
-class KTemplateHelperPaginator extends KTemplateHelperSelect
+class TemplateHelperPaginator extends TemplateHelperSelect
 {
 	/**
 	 * Render item pagination
@@ -25,7 +27,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	 */
 	public function pagination($config = array())
 	{
-	    $config = new KModelPaginator($config);
+	    $config = new ModelPaginator($config);
 		$config->append(array(
 		    'total'      => 0,
             'display'    => 4,
@@ -42,11 +44,11 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 
 		$html .= '<div class="-koowa-pagination pagination pagination-centered">';
 		if($config->show_limit) {
-		    $html .= '<div class="limit">'.JText::_('Display NUM').' '.$this->limit($config).'</div>';
+		    $html .= '<div class="limit">'.\JText::_('Display NUM').' '.$this->limit($config).'</div>';
 		}
 		$html .=  $this->pages($config);
 		if($config->show_count) {
-		    $html .= '<div class="count"> '.JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
+		    $html .= '<div class="count"> '.\JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
 		}
 		$html .= '</div>';
 
@@ -61,7 +63,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	 */
 	public function limit($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'limit'	  	=> 0,
             'page_rows' => array(10, 20, 50, 100),
@@ -92,7 +94,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	 */
 	public function pages($config = array())
 	{
-	    $config = new KModelPaginator($config);
+	    $config = new ModelPaginator($config);
 		$config->append(array(
 			'total'      => 0,
 			'display'    => 4,
@@ -127,7 +129,7 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
 	 */
     public function link($config)
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
 		$config->append(array(
 			'title'   => '',
 			'current' => false,
@@ -142,11 +144,11 @@ class KTemplateHelperPaginator extends KTemplateHelperSelect
         $rel   = !empty($config->rel) ? 'rel="'.$config->rel.'"' : ''; 
         
         if(!$config->active && $config->current) {
-            $html = '<li class="active"><a href="#">'.JText::_($config->title).'</a></li>';
+            $html = '<li class="active"><a href="#">'.\JText::_($config->title).'</a></li>';
         } elseif (!$config->active && !$config->current) {
-            $html = '<li class="disabled"><a class="disabled" href="#">'.JText::_($config->title).'</a></li>';
+            $html = '<li class="disabled"><a class="disabled" href="#">'.\JText::_($config->title).'</a></li>';
         } else {
-            $html = '<li><a href="'.$route.'" '.$rel.'>'.JText::_($config->title).'</a></li>';
+            $html = '<li><a href="'.$route.'" '.$rel.'>'.\JText::_($config->title).'</a></li>';
         }
 
         return $html;

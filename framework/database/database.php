@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Namespace class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  */
-class KDatabase
+class Database
 {
 	/**
 	 * Database operations

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Module Controller Class
  *
@@ -17,18 +19,18 @@
 
 class ComPagesControllerModule extends ComDefaultControllerModel
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
 		$this->registerCallback('after.edit', array($this, 'purgeCache'));
 	}
 	
-	public function purgeCache(KCommandContext $context)
+	public function purgeCache(Framework\CommandContext $context)
 	{
 		$cache = JFactory::getCache();
 		
-		$result = $context->result instanceof KDatabaseRowInterface ? array($context->result) : $context->result;
+		$result = $context->result instanceof Framework\DatabaseRowInterface ? array($context->result) : $context->result;
 		foreach($result as $row)
 		{
 			// Clean cache for all 3 front-end user groups (guest, reg, special)

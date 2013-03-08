@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Menubar 
 .*
@@ -14,14 +16,14 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
+class ComDefaultControllerToolbarMenubar extends Framework\ControllerToolbarAbstract
 {
 	/**
 	 * Push the menubar into the view
 	 * .
-	 * @param	KEvent	A event object
+	 * @param	Framework\Event	A event object
 	 */
-    public function onBeforeControllerRender(KEvent $event)
+    public function onBeforeControllerRender(Framework\Event $event)
     {   
         $event->getTarget()->getView()->menubar = $this;
     }
@@ -33,7 +35,7 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
-     * @return  KControllerToolbarCommand
+     * @return  Framework\ControllerToolbarCommand
      */
     public function addCommand($name, $config = array())
     {
@@ -41,7 +43,7 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
         
         $controller = $this->getController();
         
-        if($controller->isEditable() && KInflector::isSingular($controller->getView()->getName())) {
+        if($controller->isEditable() && Framework\Inflector::isSingular($controller->getView()->getName())) {
             $command->disabled = true;
         }
         
@@ -74,7 +76,7 @@ class ComDefaultControllerToolbarMenubar extends KControllerToolbarAbstract
 	            {
 	                parse_str($command['href'], $href);
 	                if(!isset($command['active'])) {
-	                    $command['active'] = ($name == KInflector::singularize($href['view']));
+	                    $command['active'] = ($name == Framework\Inflector::singularize($href['view']));
 	                }
 
 	                $this->addCommand(JText::_((string)$command), array(

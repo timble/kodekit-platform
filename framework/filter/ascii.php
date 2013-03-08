@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Ascii filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterAscii extends KFilterAbstract
+class FilterAscii extends FilterAbstract
 {
 	/**
 	 * Validate a variable

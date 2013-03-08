@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template filter to parse script tags
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterScript extends KTemplateFilterTag
+class TemplateFilterScript extends TemplateFilterTag
 {
 	/**
 	 * Parse the text for script tags

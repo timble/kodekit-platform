@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Rowset Default
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Database
  * @subpackage  Rowset
  */
-class KDatabaseRowsetDefault extends KDatabaseRowsetTable {}
+class DatabaseRowsetDefault extends DatabaseRowsetTable {}

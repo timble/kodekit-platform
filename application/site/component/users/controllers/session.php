@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Session Controller Class
  *
@@ -18,7 +20,7 @@
  */
 class ComUsersControllerSession extends ComDefaultControllerModel
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -30,7 +32,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
         $this->registerCallback('after.add'  , array($this, 'redirect'));
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -41,7 +43,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
         parent::_initialize($config);
     }
 
-    public function authenticate(KCommandContext $context)
+    public function authenticate(Framework\CommandContext $context)
     {
         $email = $context->request->data->get('email', 'email');
 
@@ -55,7 +57,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
                 $password = $user->getPassword();
 
                 if(!$password->verify($context->request->data->get('password', 'string'))) {
-                    throw new KControllerExceptionUnauthorized('Wrong password');
+                    throw new Framework\ControllerExceptionUnauthorized('Wrong password');
                 }
             }
 
@@ -79,22 +81,22 @@ class ComUsersControllerSession extends ComDefaultControllerModel
 
             $context->user->fromArray($data);
         }
-        else throw new KControllerExceptionUnauthorized('Wrong email');
+        else throw new Framework\ControllerExceptionUnauthorized('Wrong email');
 
         return true;
     }
 
-    public function authorize(KCommandContext $context)
+    public function authorize(Framework\CommandContext $context)
     {
         //If the user is blocked, redirect with an error
         if (!$context->user->isEnabled()) {
-            throw new KControllerExceptionForbidden('Account disabled');
+            throw new Framework\ControllerExceptionForbidden('Account disabled');
         }
 
         return true;
     }
 
-    public function redirect(KCommandContext $context)
+    public function redirect(Framework\CommandContext $context)
     {
         if ($context->result !== false)
         {
@@ -111,13 +113,13 @@ class ComUsersControllerSession extends ComDefaultControllerModel
         }
     }
 
-    protected function _actionAdd(KCommandContext $context)
+    protected function _actionAdd(Framework\CommandContext $context)
     {
         $session = $context->user->session;
 
         //Insert the session into the database
         if(!$session->isActive()) {
-            throw new KControllerExceptionActionFailed('Session could not be stored. No active session');
+            throw new Framework\ControllerExceptionActionFailed('Session could not be stored. No active session');
         }
 
         //Fork the session to prevent session fixation issues
@@ -147,7 +149,7 @@ class ComUsersControllerSession extends ComDefaultControllerModel
         return $entity;
     }
 
-    protected function _actionDelete(KCommandContext $context)
+    protected function _actionDelete(Framework\CommandContext $context)
     {
         //Force logout from site only
         $context->request->query->application = array($this->getIdentifier()->namespace);

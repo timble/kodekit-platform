@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Alias Template Filter Class
  *
@@ -14,12 +16,12 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateFilterAlias extends KTemplateFilterAlias
+class ComArticlesTemplateFilterAlias extends Framework\TemplateFilterAlias
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
-        $this->addAlias(array('@highlight(' => '$this->getView()->highlight('), KTemplateFilter::MODE_READ);
+        $this->addAlias(array('@highlight(' => '$this->getView()->highlight('), Framework\TemplateFilter::MODE_READ);
     }
 }

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Schema Table Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Schema
  */
-class KDatabaseSchemaTable extends KObject
+class DatabaseSchemaTable extends Object
 {
 	/**
 	 * Table name
@@ -69,7 +71,7 @@ class KDatabaseSchemaTable extends KObject
 	 * List of columns
 	 * 
 	 * Associative array of columns, where key holds the columns name and the value is 
-	 * an KDatabaseSchemaColumn object.
+	 * an DatabaseSchemaColumn object.
 	 * 
 	 * @var	array
 	 */

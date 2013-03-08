@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Session Database Row Class
  *
@@ -16,7 +18,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowSession extends KDatabaseRowTable
+class ComUsersDatabaseRowSession extends Framework\DatabaseRowTable
 {
     const LOGGED_IN  = 'logged in';
     const LOGGED_OUT = 'logged out';

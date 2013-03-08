@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * HTTP Url Class
  *
@@ -16,14 +18,14 @@
  * The following is a simple example. Say that the page address is currently
  * `http://anonymous::guest@example.com/path/to/index.php/foo/bar?baz=dib#anchor`.
  *
- * You can use KHttpUrl to parse this complex string very easily:
+ * You can use HttpUrl to parse this complex string very easily:
  *
  * <code>
  * <?php
  *     // Create a url object;
  *
  *     $url = 'http://anonymous:guest@example.com/path/to/index.php/foo/bar.xml?baz=dib#anchor'
- *     $url = KServiceManager::get('lib://nooku/http.url', array('url' => $url) );
+ *     $url = ServiceManager::get('lib://nooku/http.url', array('url' => $url) );
  *
  *     // the $ur properties are ...
  *     //
@@ -81,7 +83,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */
-class KHttpUrl extends KObject
+class HttpUrl extends Object
 {
     /**
      * The url parts
@@ -202,9 +204,9 @@ class KHttpUrl extends KObject
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @param Config|null $config  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -220,10 +222,10 @@ class KHttpUrl extends KObject
      *
      * Called from {@link __construct()} as a first step of object instantiation
      *
-     * @param   KConfig $config An optional KConfig object with configuration options
+     * @param   Config $config An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'url'    => '',
@@ -283,7 +285,7 @@ class KHttpUrl extends KObject
      * Set the URL scheme
      *
      * @param  string $scheme
-     * @return  KHttpUrl
+     * @return  HttpUrl
      */
     public function setScheme($scheme)
     {
@@ -305,7 +307,7 @@ class KHttpUrl extends KObject
      * Set the URL user
      *
      * @param  string $user
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function setUser($user)
     {
@@ -327,7 +329,7 @@ class KHttpUrl extends KObject
      * Set the URL password
      *
      * @param  string $user
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function setPass($pass)
     {
@@ -349,7 +351,7 @@ class KHttpUrl extends KObject
      * Set the URL Host
      *
      * @param  string $host
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function setHost($host)
     {
@@ -371,7 +373,7 @@ class KHttpUrl extends KObject
      * Set the port part of the URL
      *
      * @param  integer $port
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function setPort($port)
     {
@@ -392,14 +394,14 @@ class KHttpUrl extends KObject
     }
 
     /**
-     * Sets the KHttpUrl::$path array and $format from a string.
+     * Sets the HttpUrl::$path array and $format from a string.
      *
      * This will overwrite any previous values. Also, resets the format based on the final path value.
      *
      * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
      *                              A leading slash will *not* create an empty first element; if the string has a
      *                              leading slash, it is ignored.
-     * @return  KHttpUrl
+     * @return  HttpUrl
      */
     public function setPath($path)
     {
@@ -462,7 +464,7 @@ class KHttpUrl extends KObject
      *
      * @param   string|array  $query  The query string to use; for example `foo=bar&baz=dib`.
      * @param   boolean       $merge  If TRUE the data in $query will be merged instead of replaced. Default FALSE.
-     * @return  KHttpUrl
+     * @return  HttpUrl
      */
     public function setQuery($query, $merge = false)
     {
@@ -500,7 +502,7 @@ class KHttpUrl extends KObject
      * Set the URL format
      *
      * @param  string $format
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function setFormat($format)
     {
@@ -522,7 +524,7 @@ class KHttpUrl extends KObject
      * Set the URL fragment part
      *
      * @param  string $fragment
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function setFragment($fragment)
     {
@@ -538,7 +540,7 @@ class KHttpUrl extends KObject
      *
      * @param   string  $url
      * @throws  UnexpectedValueException If the url is not a string or cannot be casted to one.
-     * @return  KHttpUrl
+     * @return  HttpUrl
      * @see     parse_url()
      */
     public function fromString($url)
@@ -617,7 +619,7 @@ class KHttpUrl extends KObject
     /**
      * Converts an array of path elements into a string.
      *
-     * Does not use urlencode(); instead, only converts characters found in KHttpUrl::$_encode_path.
+     * Does not use urlencode(); instead, only converts characters found in HttpUrl::$_encode_path.
      *
      * @param  array $spec The path elements.
      * @return string A url path string.

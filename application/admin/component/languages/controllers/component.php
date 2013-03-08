@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Component Controller Class
  *
@@ -17,7 +19,7 @@
 
 class ComLanguagesControllerComponent extends ComDefaultControllerView
 {
-    protected function _actionEdit(KCommandContext $context)
+    protected function _actionEdit(Framework\CommandContext $context)
     {
         if($context->request->data->has('id'))
         {

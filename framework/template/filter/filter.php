@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Filter Factory
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Database
  * @subpackage 	Filter
  */
-class KTemplateFilter
+class TemplateFilter
 {
 	/**
 	 * Filter modes

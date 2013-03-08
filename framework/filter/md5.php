@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * MD5 filter
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterMd5 extends KFilterAbstract
+class FilterMd5 extends FilterAbstract
 {
     /**
      * Validate a value

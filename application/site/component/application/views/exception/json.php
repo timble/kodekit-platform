@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Exception Json View Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Application
  */
 
-class ComApplicationViewExceptionJson extends KViewJson
+class ComApplicationViewExceptionJson extends Framework\ViewJson
 {
     public function render()
     {

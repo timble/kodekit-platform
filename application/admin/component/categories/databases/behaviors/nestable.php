@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Nestable Database Behavior Class
  *
@@ -15,11 +17,11 @@
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
+class ComCategoriesDatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
 {
     protected $_table;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -28,7 +30,7 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(
             array('table' => null)
@@ -37,9 +39,9 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeTableSelect(KCommandContext $context)
+    protected function _beforeTableSelect(Framework\CommandContext $context)
     {
-        if($context->query instanceof KDatabaseQuerySelect && $context->mode == KDatabase::FETCH_ROWSET)
+        if($context->query instanceof Framework\DatabaseQuerySelect && $context->mode == Framework\Database::FETCH_ROWSET)
         {
             $this->_table = $context->getSubject();
 
@@ -49,7 +51,7 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _afterTableSelect(KCommandContext $context)
+    protected function _afterTableSelect(Framework\CommandContext $context)
     {
         if(isset($this->_table))
         {
@@ -61,7 +63,7 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeAdapterSelect(KCommandContext $context)
+    protected function _beforeAdapterSelect(Framework\CommandContext $context)
     {
         $context->limit  = $context->query->limit;
         $context->offset = $context->query->offset;
@@ -69,10 +71,10 @@ class ComCategoriesDatabaseBehaviorNestable extends KDatabaseBehaviorAbstract
         $context->query->limit(0);
     }
 
-    protected function _afterAdapterSelect(KCommandContext $context)
+    protected function _afterAdapterSelect(Framework\CommandContext $context)
     {
         //Get the data
-        $rows = KConfig::unbox($context->result);
+        $rows = Framework\Config::unbox($context->result);
 
         if(is_array($rows))
         {

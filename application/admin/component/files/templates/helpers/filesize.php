@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Filesize Helper Class
  *
@@ -15,11 +17,11 @@
  * @subpackage  Files
  */
 
-class ComFilesTemplateHelperFilesize extends KTemplateHelperAbstract
+class ComFilesTemplateHelperFilesize extends Framework\TemplateHelperAbstract
 {
 	public function humanize($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Framework\Config($config);
 		$config->append(array(
 			'sizes' => array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB')
 		));
@@ -38,7 +40,7 @@ class ComFilesTemplateHelperFilesize extends KTemplateHelperAbstract
 		}
 
 		if ($result == 1) {
-			$size = KInflector::singularize($size);
+			$size = Framework\Inflector::singularize($size);
 		}
 
 		return sprintf($format, $result, JText::_($size));

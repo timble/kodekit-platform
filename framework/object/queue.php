@@ -6,10 +6,12 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Object Queue Class
  *
- * KObjectQueue is a type of container adaptor implemented as a double linked list and specifically designed such that
+ * ObjectQueue is a type of container adaptor implemented as a double linked list and specifically designed such that
  * its first element is always the greatest of the elements it contains based on the priority of the element.
  *
  * @author      Johan Janssens <johan@nooku.org>
@@ -17,7 +19,7 @@
  * @package     Koowa_Object
  * @see         http://www.php.net/manual/en/class.splpriorityqueue.php
  */
-class KObjectQueue extends KObject implements \Iterator, \Countable
+class ObjectQueue extends Object implements \Iterator, \Countable
 {
     /**
      * Object list
@@ -36,26 +38,26 @@ class KObjectQueue extends KObject implements \Iterator, \Countable
     /**
      * Constructor
      *
-     * @param KConfig $config  A KConfig object with configuration options
-     * @return KObjectQueue
+     * @param Config $config  A Config object with configuration options
+     * @return ObjectQueue
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
-        $this->_object_list   = new ArrayObject();
-        $this->_priority_list = new ArrayObject();
+        $this->_object_list   = new \ArrayObject();
+        $this->_priority_list = new \ArrayObject();
 
     }
 
     /**
      * Inserts an object to the queue.
      *
-     * @param   KObjectHandlable  $object
+     * @param   ObjectHandlable  $object
      * @param   integer           $priority
      * @return  boolean        TRUE on success FALSE on failure
      */
-    public function enqueue(KObjectHandlable $object, $priority)
+    public function enqueue(ObjectHandlable $object, $priority)
     {
         $result = false;
 
@@ -75,10 +77,10 @@ class KObjectQueue extends KObject implements \Iterator, \Countable
     /**
      * Removes an object from the queue
      *
-     * @param   KObjectHandlable $object
+     * @param   ObjectHandlable $object
      * @return  boolean    TRUE on success FALSE on failure
      */
-    public function dequeue(KObjectHandlable $object)
+    public function dequeue(ObjectHandlable $object)
     {
         $result = false;
 
@@ -99,11 +101,11 @@ class KObjectQueue extends KObject implements \Iterator, \Countable
     /**
      * Set the priority of an object in the queue
      *
-     * @param   KObjectHandlable  $object
+     * @param   ObjectHandlable  $object
      * @param   integer           $priority
-     * @return  KCommandChain
+     * @return  CommandChain
      */
-    public function setPriority(KObjectHandlable $object, $priority)
+    public function setPriority(ObjectHandlable $object, $priority)
     {
         if ($handle = $object->getHandle())
         {
@@ -120,10 +122,10 @@ class KObjectQueue extends KObject implements \Iterator, \Countable
     /**
      * Get the priority of an object in the queue
      *
-     * @param   KObjectHandlable $object
+     * @param   ObjectHandlable $object
      * @return  integer|false The command priority or FALSE if the commnand isn't enqueued
      */
-    public function getPriority(KObjectHandlable $object)
+    public function getPriority(ObjectHandlable $object)
     {
         $result = false;
 
@@ -152,10 +154,10 @@ class KObjectQueue extends KObject implements \Iterator, \Countable
     /**
      * Check if the queue does contain a given object
      *
-     * @param  KObjectHandlable $object
+     * @param  ObjectHandlable $object
      * @return bool
      */
-    public function contains(KObjectHandlable $object)
+    public function contains(ObjectHandlable $object)
     {
         $result = false;
 
@@ -183,7 +185,7 @@ class KObjectQueue extends KObject implements \Iterator, \Countable
      *
      * Required by the Iterator interface
      *
-     * @return KObjectQueue
+     * @return ObjectQueue
      */
     public function rewind()
     {
@@ -244,7 +246,7 @@ class KObjectQueue extends KObject implements \Iterator, \Countable
     /**
      * Return the object from the top of the queue
      *
-     * @return  KObject or NULL is queue is empty
+     * @return  Object or NULL is queue is empty
      */
     public function top()
     {

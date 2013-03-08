@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Insert Database Query Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-class KDatabaseQueryInsert extends KDatabaseQueryAbstract
+class DatabaseQueryInsert extends DatabaseQueryAbstract
 {
     /**
      * The table name.
@@ -41,7 +43,7 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
      * Build the table clause 
      *
      * @param  string $table The table name.
-     * @return \KDatabaseQueryInsert
+     * @return DatabaseQueryInsert
      */
     public function table($table)
     {
@@ -54,7 +56,7 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
      * Build the columns clause 
      *
      * @param  array $columns Array of column names.
-     * @return \KDatabaseQueryInsert
+     * @return DatabaseQueryInsert
      */
     public function columns(array $columns)
     {
@@ -67,11 +69,11 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
      * Build the values clause 
      *
      * @param  array $values Array of values.
-     * @return \KDatabaseQueryInsert
+     * @return DatabaseQueryInsert
      */
     public function values($values)
     {
-        if(!$values instanceof KDatabaseQuerySelect)
+        if(!$values instanceof DatabaseQuerySelect)
         {
             if (!$this->columns && !is_numeric(key($values))) {
                 $this->columns(array_keys($values));
@@ -105,7 +107,7 @@ class KDatabaseQueryInsert extends KDatabaseQueryAbstract
 
         if($this->values)
         {
-            if(!$this->values instanceof KDatabaseQuerySelect)
+            if(!$this->values instanceof DatabaseQuerySelect)
             {
                 $query .= ' VALUES'.PHP_EOL;
 

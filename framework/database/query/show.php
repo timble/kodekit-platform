@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Show Database Query Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-class KDatabaseQueryShow extends KDatabaseQueryAbstract
+class DatabaseQueryShow extends DatabaseQueryAbstract
 {
     /**
      * The show clause.
@@ -48,7 +50,7 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
      * Build the show clause 
      *
      * @param   string $table The name of the table.
-     * @return  \KDatabaseQueryShow
+     * @return  DatabaseQueryShow
      */
     public function show($table) 
     {
@@ -60,7 +62,7 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
      * Build the from clause 
      *
      * @param   string $form The name of the database or table.
-     * @return  \KDatabaseQueryShow
+     * @return  DatabaseQueryShow
      */
     public function from($from)
     {
@@ -72,7 +74,7 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
      * Build the like clause 
      *
      * @param   string $pattern The pattern to match.
-     * @return  \KDatabaseQueryShow
+     * @return  DatabaseQueryShow
      */
     public function like($pattern)
     {
@@ -86,7 +88,7 @@ class KDatabaseQueryShow extends KDatabaseQueryAbstract
      *
      * @param   string $condition   The condition.
      * @param   string $combination Combination type, defaults to 'AND'.
-     * @return  KDatabaseQueryShow
+     * @return  DatabaseQueryShow
      */
     public function where($condition, $combination = 'AND')
     {

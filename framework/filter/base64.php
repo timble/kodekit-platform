@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Base64 filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterBase64 extends KFilterAbstract
+class FilterBase64 extends FilterAbstract
 {
 	/**
 	 * Validate a value

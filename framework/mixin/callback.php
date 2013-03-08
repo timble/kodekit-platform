@@ -6,13 +6,15 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Callback Command Mixin
  *
  * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
  */
-class KMixinCallback extends KMixinAbstract implements KCommandInterface
+class MixinCallback extends MixinAbstract implements CommandInterface
 {
     /**
      * Array of callbacks
@@ -38,9 +40,9 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     /**
      * Object constructor
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param     object     An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -53,13 +55,13 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param     object     An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'callback_priority' => KCommand::PRIORITY_HIGH
+            'callback_priority' => Command::PRIORITY_HIGH
         ));
 
         parent::_initialize($config);
@@ -73,7 +75,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
      *
      * @return boolean
      */
-    public function execute($name, KCommandContext $context)
+    public function execute($name, CommandContext $context)
     {
         $result = true;
 
@@ -125,19 +127,19 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
      *
      * If the callback has already been registered. It will not be re-registered.
      *
-     * If params are passed as a associative array or as a KConfig object they will be merged with the
+     * If params are passed as a associative array or as a Config object they will be merged with the
      * context of the command chain and passed along. If they are passed as an indexed array they
      * will be passed to the callback directly.
      *
      * @param   string|array    The command name to register the callback for or an array of command names
      * @param   callback        The callback function to register
-     * @param   array|object    An associative array of config parameters or a KConfig object
-     * @return  KObject    The mixer object
+     * @param   array|object    An associative array of config parameters or a Config object
+     * @return  Object    The mixer object
      */
     public function registerCallback($commands, $callback, $params = array())
     {
         $commands = (array)$commands;
-        $params   = (array)KConfig::unbox($params);
+        $params   = (array)Config::unbox($params);
 
         foreach ($commands as $command)
         {
@@ -168,7 +170,7 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
      *
      * @param   string|array    The method name to unregister the callback from or an array of method names
      * @param   callback        The callback function to unregister
-     * @return  KObject The mixer object
+     * @return  Object The mixer object
      */
     public function unregisterCallback($commands, $callback)
     {
@@ -192,12 +194,12 @@ class KMixinCallback extends KMixinAbstract implements KCommandInterface
     /**
      * Get the methods that are available for mixin.
      *
-     * This functions overloads KMixinAbstract::getMixableMethods and excludes the execute()
+     * This functions overloads MixinAbstract::getMixableMethods and excludes the execute()
      * function from the list of available mixable methods.
      *
      * @return array An array of methods
      */
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Object $mixer = null)
     {
         $methods = parent::getMixableMethods();
 

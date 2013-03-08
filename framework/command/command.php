@@ -6,6 +6,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Command handler
  *
@@ -14,9 +16,9 @@
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
- * @uses        KInflector
+ * @uses        Inflector
  */
-class KCommand extends KObject implements KCommandInterface
+class Command extends Object implements CommandInterface
 {
     /**
      * Priority levels
@@ -37,9 +39,9 @@ class KCommand extends KObject implements KCommandInterface
     /**
      * Constructor.
      *
-     * @param  KConfig  $config An optional KConfig object with configuration options
+     * @param  Config  $config An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -51,13 +53,13 @@ class KCommand extends KObject implements KCommandInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param KConfig $config An optional KConfig object with configuration options
+     * @param Config $config An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority' => KCommand::PRIORITY_NORMAL,
+            'priority' => Command::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -67,11 +69,11 @@ class KCommand extends KObject implements KCommandInterface
      * Command handler
      *
      * @param   string           $name     The command name
-     * @param   KCommandContext  $context  The command context
+     * @param   CommandContext  $context  The command context
      *
      * @return  mixed  Method result if the method exsist, NULL otherwise.
      */
-    public function execute($name, KCommandContext $context)
+    public function execute($name, CommandContext $context)
     {
         $type   = '';
         $result = null;
@@ -88,7 +90,7 @@ class KCommand extends KObject implements KCommandInterface
         }
 
         $parts = explode('.', $name);
-        $method = !empty($type) ? '_' . $type . ucfirst(KInflector::implode($parts)) : '_' . lcfirst(KInflector::implode($parts));
+        $method = !empty($type) ? '_' . $type . ucfirst(Inflector::implode($parts)) : '_' . lcfirst(Inflector::implode($parts));
 
         //If the method exists call the method and return the result
         if (in_array($method, $this->getMethods())) {

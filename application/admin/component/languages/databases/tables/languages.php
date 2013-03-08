@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Languages Database Table Class
  *
@@ -15,9 +17,9 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseTableLanguages extends KDatabaseTableAbstract
+class ComLanguagesDatabaseTableLanguages extends Framework\DatabaseTableAbstract
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'name'      => 'languages',

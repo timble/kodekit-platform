@@ -1,9 +1,12 @@
 <?php
-class ComCommentsTemplateHelperGrid extends KTemplateHelperGrid
+
+use Nooku\Framework;
+
+class ComCommentsTemplateHelperGrid extends Framework\TemplateHelperGrid
 {   
     public function gravatar($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'email'  => '',
             'size'  => '32',

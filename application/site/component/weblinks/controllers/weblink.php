@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+ use Nooku\Framework;
+
 /**
  * Weblink Controller Class
  *
@@ -26,7 +28,7 @@ class ComWeblinksControllerWeblink extends ComDefaultControllerModel
 		return $request;
 	}
 	
-	public function _actionRead(KCommandContext $context)
+	public function _actionRead(Framework\CommandContext $context)
 	{
         $weblink = parent::_actionRead($context);
 

@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Email filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterEmail extends KFilterAbstract
+class FilterEmail extends FilterAbstract
 {
 	/**
 	 * Validate a value

@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Category Controller Class
  *

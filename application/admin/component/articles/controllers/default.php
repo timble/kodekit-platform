@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Articles Controller Default Class
  *
@@ -16,7 +18,7 @@
  */
 class ComArticlesControllerDefault extends ComDefaultControllerModel
 { 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
         	'behaviors' => array('com://admin/activities.controller.behavior.loggable'),

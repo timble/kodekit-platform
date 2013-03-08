@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Group Users Model Class
  *
@@ -18,7 +20,7 @@
  */
 class ComUsersModelGroups_users extends ComDefaultModelDefault
 {
-	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryColumns($query);
 	
@@ -27,12 +29,12 @@ class ComUsersModelGroups_users extends ComDefaultModelDefault
 		));
 	}
 	
-	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
 	{
 		$query->join(array('group' => 'users_groups'), 'group.users_group_id = tbl.users_group_id');
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryWhere($query);
 		$state = $this->getState();

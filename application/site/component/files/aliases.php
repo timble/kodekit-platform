@@ -18,14 +18,16 @@
  * @subpackage  Files
  */
 
-KServiceManager::setAlias('com://site/files.model.containers', 'com://admin/files.model.containers');
-KServiceManager::setAlias('com://site/files.model.default'   , 'com://admin/files.model.default');
-KServiceManager::setAlias('com://site/files.model.files'     , 'com://admin/files.model.files');
-KServiceManager::setAlias('com://site/files.model.folders'   , 'com://admin/files.model.folders');
-KServiceManager::setAlias('com://site/files.model.nodes'     , 'com://admin/files.model.nodes');
-KServiceManager::setAlias('com://site/files.model.state'	  , 'com://admin/files.model.state');
-KServiceManager::setAlias('com://site/files.model.thumbnails', 'com://admin/files.model.thumbnails');
+use Nooku\Framework\ServiceManager;
 
-KServiceManager::setAlias('com://site/files.database.row.file', 'com://admin/files.database.row.file');
-KServiceManager::setAlias('com://site/files.database.row.folder', 'com://admin/files.database.row.folder');
-KServiceManager::setAlias('com://site/files.database.row.node', 'com://admin/files.database.row.node');
+ServiceManager::setAlias('com://site/files.model.containers', 'com://admin/files.model.containers');
+ServiceManager::setAlias('com://site/files.model.default'   , 'com://admin/files.model.default');
+ServiceManager::setAlias('com://site/files.model.files'     , 'com://admin/files.model.files');
+ServiceManager::setAlias('com://site/files.model.folders'   , 'com://admin/files.model.folders');
+ServiceManager::setAlias('com://site/files.model.nodes'     , 'com://admin/files.model.nodes');
+ServiceManager::setAlias('com://site/files.model.state'	  , 'com://admin/files.model.state');
+ServiceManager::setAlias('com://site/files.model.thumbnails', 'com://admin/files.model.thumbnails');
+
+ServiceManager::setAlias('com://site/files.database.row.file', 'com://admin/files.database.row.file');
+ServiceManager::setAlias('com://site/files.database.row.folder', 'com://admin/files.database.row.folder');
+ServiceManager::setAlias('com://site/files.database.row.node', 'com://admin/files.database.row.node');

@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper
  *
@@ -17,7 +19,7 @@ class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
     public function list_limits($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'		=> 'list_limit',
             'attribs'	=> array()
@@ -44,7 +46,7 @@ class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function cache_handlers($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'		=> 'cache_handler',
             'attribs'	=> array()
@@ -69,7 +71,7 @@ class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function timezones($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'		=> 'timezone',
             'attribs'	=> array(),
@@ -81,7 +83,7 @@ class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
             $options[] = $this->option(array('text' => $config->prompt, 'value' => ''));
         }
 
-        foreach (DateTimeZone::listIdentifiers() as $identifier)
+        foreach (\DateTimeZone::listIdentifiers() as $identifier)
         {
             if (strpos($identifier, '/')) {
                 list($group, $locale) = explode('/', $identifier, 2);
@@ -110,7 +112,7 @@ class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function error_reportings($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'		=> 'error_reporting',
             'attribs'	=> array()
@@ -132,7 +134,7 @@ class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function mailers($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'		=> 'mailer',
             'attribs'	=> array()
@@ -154,7 +156,7 @@ class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function smtpsecure($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'		=> 'smtpsecure',
             'attribs'	=> array()

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Article Element Class
  *
@@ -29,8 +31,8 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = KServiceManager::get('com://admin/articles.controller.article')->getView()->getTemplate();
-        $html     = KServiceManager::get('com://admin/articles.template.helper.listbox', array('template' => $template))->articles($config);
+        $template = Framework\ServiceManager::get('com://admin/articles.controller.article')->getView()->getTemplate();
+        $html     = Framework\ServiceManager::get('com://admin/articles.template.helper.listbox', array('template' => $template))->articles($config);
 
         return $html;
     }

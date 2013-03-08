@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Dispatcher
 .*
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcher extends KDispatcherComponent
+class ComDefaultDispatcher extends Framework\DispatcherComponent
 {
     /**
      * Dispatch the controller and redirect
@@ -24,9 +26,9 @@ class ComDefaultDispatcher extends KDispatcherComponent
      * @param   string      The view to dispatch. If null, it will default to retrieve the controller information
      *                      from the request or default to the component name if no controller info can be found.
      *
-     * @return  KDispatcherDefault
+     * @return  Framework\DispatcherDefault
      */
-    protected function _actionDispatch(KCommandContext $context)
+    protected function _actionDispatch(Framework\CommandContext $context)
     {
         //Redirect if no view information can be found in the request
         if(!$context->request->query->has('view'))

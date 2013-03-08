@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Response Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage  Response
  */
-class KControllerResponse extends KHttpResponse implements KControllerResponseInterface
+class ControllerResponse extends HttpResponse implements ControllerResponseInterface
 {
     /**
      * Sets a redirect
@@ -26,7 +28,7 @@ class KControllerResponse extends KHttpResponse implements KControllerResponseIn
      * @param  string   $code       The redirect status code
      * @throws \InvalidArgumentException If the location is empty
      * @throws \UnexpectedValueException If the location is not a string, or cannot be cast to a string
-     * @return KDispatcherResponse
+     * @return DispatcherResponse
      */
     public function setRedirect($location, $message = null, $code = self::SEE_OTHER)
     {

@@ -34,7 +34,7 @@
                 <p><strong><?= @text('Please try one of the following pages:'); ?></strong></p>
                 <p>
                 <ul>
-                    <li><a href="<? KRequest::root(); ?>" title="<?= @text('Go to the home page'); ?>"><?= @text('Home Page'); ?></a></li>
+                    <li><a href="<? Framework\Request::root(); ?>" title="<?= @text('Go to the home page'); ?>"><?= @text('Home Page'); ?></a></li>
                 </ul>
                 </p>
                 <p><?= @text('If difficulties persist, please contact the system administrator of this site.'); ?></p>

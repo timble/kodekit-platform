@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Page Controller Class
  *
@@ -17,7 +19,7 @@
 
 class ComPagesControllerPage extends ComDefaultControllerModel
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
     	$config->append(array(
     		'behaviors' => array(

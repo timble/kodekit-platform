@@ -6,13 +6,15 @@
  * @link 		http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract filter.
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-abstract class KFilterAbstract extends KObject implements KFilterInterface
+abstract class FilterAbstract extends Object implements FilterInterface
 {
 	/**
 	 * The filter chain
@@ -32,9 +34,9 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	/**
 	 * Constructor
 	 *
-	 * @param 	object	An optional KConfig object with configuration options
+	 * @param 	object	An optional Config object with configuration options
 	 */
-	public function __construct(KConfig $config) 
+	public function __construct(Config $config)
 	{
 		parent::__construct($config); 
 		 
@@ -45,11 +47,11 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KFilterInterface
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return FilterInterface
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -69,7 +71,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 *
 	 * @return object
 	 */
-	final public function execute($name, KCommandContext $context) 
+	final public function execute($name, CommandContext $context)
 	{	
 		$function = '_'.$name;
 		return $this->$function($context->data);
@@ -146,14 +148,14 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	/**
 	 * Add a filter based on priority
 	 * 
-	 * @param object 	A KFilter
+	 * @param object 	A Filter
 	 * @param integer	The command priority, usually between 1 (high priority) and 5 (lowest), 
      *                  default is 3. If no priority is set, the command priority will be used 
      *                  instead.
 	 *
-	 * @return KFilterAbstract
+	 * @return FilterAbstract
 	 */
-	public function addFilter(KFilterInterface $filter, $priority = null)
+	public function addFilter(FilterInterface $filter, $priority = null)
 	{	
 		$this->_chain->enqueue($filter, $priority);
 		return $this;
@@ -179,7 +181,7 @@ abstract class KFilterAbstract extends KObject implements KFilterInterface
 	 */
   	public function getPriority()
   	{
-  		return KCommand::PRIORITY_NORMAL;
+  		return Command::PRIORITY_NORMAL;
   	}
 
 	/**

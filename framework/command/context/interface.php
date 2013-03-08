@@ -7,26 +7,28 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Command Context Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
  */
-interface KCommandContextInterface
+interface CommandContextInterface
 {
     /**
     * Get the command subject 
     *     
-    * @return KServiceInterface The command subject
+    * @return ServiceInterface The command subject
     */
     public function getSubject();
 
     /**
      * Set the command subject
      *
-     * @param KServiceInterface $subject The command subject
-     * @return KCommandContextInterface
+     * @param ServiceInterface $subject The command subject
+     * @return CommandContextInterface
      */
-    public function setSubject(KServiceInterface $subject);
+    public function setSubject(ServiceInterface $subject);
 }

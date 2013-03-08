@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Tabs Behavior Helper
  *
@@ -15,7 +17,7 @@
  * @subpackage  Helper
  * @uses        KArrayHelper
  */
-class KTemplateHelperTabs extends KTemplateHelperBehavior
+class TemplateHelperTabs extends TemplateHelperBehavior
 {
     /**
      * Creates a pane and creates the javascript object for it
@@ -25,7 +27,7 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
      */
     public function startPane( $config = array() )
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'id'      => 'pane',
             'attribs' => array(),
@@ -74,7 +76,7 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
      */
     public function startPanel( $config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'title'     => '',
             'attribs'   => array(),
@@ -82,7 +84,7 @@ class KTemplateHelperTabs extends KTemplateHelperBehavior
             'translate' => true
         ));
 
-        $title   = $config->translate ? JText::_($config->title) : $config->title;
+        $title   = $config->translate ? \JText::_($config->title) : $config->title;
         $attribs = $this->_buildAttributes($config->attribs);
 
         return '<dt '.$attribs.'><span>'.$title.'</span></dt><dd>';

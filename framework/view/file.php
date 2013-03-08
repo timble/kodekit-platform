@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Use to force browser to download a file from the file system
  *
@@ -31,7 +33,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_View
  */
-class KViewFile extends KViewAbstract
+class ViewFile extends ViewAbstract
 {
     /**
      * The file path
@@ -63,9 +65,9 @@ class KViewFile extends KViewAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -79,10 +81,10 @@ class KViewFile extends KViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $count = count($this->getIdentifier()->path);
 
@@ -170,10 +172,10 @@ class KViewFile extends KViewAbstract
     
         $this->_setHeaders();
         
-        if (KRequest::get('server.HTTP_RANGE', 'cmd'))
+        if (Request::get('server.HTTP_RANGE', 'cmd'))
         {
             // Partial download
-            $range = KRequest::get('server.HTTP_RANGE', 'cmd');
+            $range = Request::get('server.HTTP_RANGE', 'cmd');
             $parts = explode('-', substr($range, strlen('bytes=')));
             $this->start_point = $parts[0];
             if (isset($parts[0])) {

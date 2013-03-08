@@ -5,6 +5,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Loader Registry Class
  *
@@ -12,7 +14,7 @@
  * @category    Koowa
  * @package     Koowa_Loader
  */
-class KLoaderRegistry extends \ArrayObject
+class LoaderRegistry extends \ArrayObject
 {
  	/**
  	 * Cache
@@ -92,7 +94,7 @@ class KLoaderRegistry extends \ArrayObject
      *
      * @param   int     The offset of the item
      * @param   mixed   The item's value
-     * @return  object  KObjectArray
+     * @return  object  ObjectArray
      */
     public function offsetSet($offset, $value)
     {

@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Loader Adapter for framework libraries
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Loader
  * @subpackage 	Adapter
  */
-class KLoaderAdapterLibrary extends KLoaderAdapterAbstract
+class LoaderAdapterLibrary extends LoaderAdapterAbstract
 {
 	/**
 	 * The adapter type
@@ -27,7 +29,7 @@ class KLoaderAdapterLibrary extends KLoaderAdapterAbstract
 	 *
 	 * @var string
 	 */
-	protected $_prefix = 'K';
+	protected $_prefix = 'Nooku\Framework';
 
 	/**
 	 * Get the path based on a class name
@@ -39,32 +41,29 @@ class KLoaderAdapterLibrary extends KLoaderAdapterAbstract
 	{
 		$path = false;
 
-        //Exceptions classes cannot be deep nested. Transform classname to lower
-        //case to always load the exception class from the /exception/ folder.
+        /*
+         * Exception rule for Exception classes
+         *
+         * Transform classname to lower case to always load the exception class from the /exception/ folder.
+         */
         if($pos = strpos($classname, 'Exception'))
         {
             $filename  = substr($classname, $pos + strlen('Exception'));
             $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
         }
 
-		$word  = preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $classname);
-		$parts = explode(' ', $word);
+		$parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $classname));
+	    $path  = strtolower(implode('/', $parts));
 
-		// If class start with a 'K' it is a Koowa framework class and we handle it
-		if(array_shift($parts) == $this->_prefix)
-		{
-		    $path = strtolower(implode('/', $parts));
-
-			if(count($parts) == 1) {
-				$path = $path.'/'.$path;
-			}
-
-			if(!is_file($this->_basepath.'/'.$path.'.php')) {
-				$path = $path.'/'.strtolower(array_pop($parts));
-			}
-
-			$path = $this->_basepath.'/'.$path.'.php';
+		if(count($parts) == 1) {
+			$path = $path.'/'.$path;
 		}
+
+		if(!is_file($this->_basepath.'/'.$path.'.php')) {
+			$path = $path.'/'.strtolower(array_pop($parts));
+		}
+
+		$path = $this->_basepath.'/'.$path.'.php';
 
 		return $path;
 	}

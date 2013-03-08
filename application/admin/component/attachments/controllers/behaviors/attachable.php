@@ -1,6 +1,8 @@
 <?php
 
-class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbstract
+use Nooku\Framework;
+
+class ComAttachmentsControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 {
 	/**
 	 * Attachments array coming from $_FILES
@@ -32,7 +34,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 	 */
 	protected $_attachment_limit = false;
 	
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -62,7 +64,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		$this->_attachment_limit = $config->attachment_limit;
 	}
 	
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
 			'container' => 'attachments-attachments',
@@ -87,13 +89,15 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		return $this->_attachments;
 	}
 	
-	protected function _populateFilesFromRequest(KCommandContext $context)
+	protected function _populateFilesFromRequest(Framework\CommandContext $context)
 	{
-		if ($this->_populate_from_request) {
-			$attachments = KRequest::get('files.attachments', 'raw');
+		if ($this->_populate_from_request)
+        {
+			$attachments = Framework\Request::get('files.attachments', 'raw');
 			$files = array();
 	
-			if (is_array($attachments['name'])) {
+			if (is_array($attachments['name']))
+            {
 				// Why do you return such a weird array for files PHP? why?
 				for ($i = 0, $n = count($attachments['name']); $i < $n; $i++) {
 					if ($attachments['error'][$i] === UPLOAD_ERR_NO_FILE) {
@@ -115,7 +119,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		}
 	}
 	
-	protected function _saveFile(KCommandContext $context, $attachment)
+	protected function _saveFile(Framework\CommandContext $context, $attachment)
 	{
 		$row = $context->result;
 		
@@ -144,7 +148,7 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 			$model->reset(false)->set($data);
 			$this->_attachment_controller->getModel()->reset(false);
 		}
-		catch (KControllerException $e) {
+		catch (Framework\ControllerException $e) {
 			$context->response->setStatus($e->getCode() , $e->getMessage());
 			return false;
 		}
@@ -152,7 +156,8 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		return true;
 	}
 	
-	protected function _saveFiles(KCommandContext $context) {
+	protected function _saveFiles(Framework\CommandContext $context)
+    {
 		if ($context->error) {
 			return;
 		}
@@ -170,11 +175,13 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		$count = count($count);
 		$limit = $this->_attachment_limit;
 
-		foreach ($this->_attachments as $attachment) {
+		foreach ($this->_attachments as $attachment)
+        {
 			if ($limit !== false && $count >= $limit) {
                 $context->response->setStatus(500, 'You have reached the attachment limit for this item.');
 				return false;
 			}
+
 			if ($this->_saveFile($context, $attachment)) {
 				$count++;	
 			}
@@ -183,27 +190,27 @@ class ComAttachmentsControllerBehaviorAttachable extends KControllerBehaviorAbst
 		return true;
 	}
 	
-	protected function _beforeControllerAdd(KCommandContext $context) {
+	protected function _beforeControllerAdd(Framework\CommandContext $context) {
 		$this->_populateFilesFromRequest($context);
 	}
 	
-	protected function _beforeControllerEdit(KCommandContext $context) {
+	protected function _beforeControllerEdit(Framework\CommandContext $context) {
 		$this->_populateFilesFromRequest($context);
 	}
 	
-	protected function _afterControllerAdd(KCommandContext $context) {
+	protected function _afterControllerAdd(Framework\CommandContext $context) {
 		$this->_saveFiles($context);
 	}
 	
-	protected function _afterControllerEdit(KCommandContext $context) {
+	protected function _afterControllerEdit(Framework\CommandContext $context) {
 		$this->_saveFiles($context);
 	}
 	
-	protected function _afterControllerDelete(KCommandContext $context)
+	protected function _afterControllerDelete(Framework\CommandContext $context)
     {
         $status = $context->result->getStatus();
 
-        if($status == KDatabase::STATUS_DELETED || $status == 'trashed')
+        if($status == Framework\Database::STATUS_DELETED || $status == 'trashed')
         {
             $id = $context->result->get('id');
             $table = $context->result->getTable()->getBase();

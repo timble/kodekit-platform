@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Contacts Model Class
  *
@@ -17,9 +19,9 @@
  * @subpackage  Contacts   
  */
 
-class ComContactsModelContacts extends KModelTable
+class ComContactsModelContacts extends Framework\ModelTable
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -30,7 +32,7 @@ class ComContactsModelContacts extends KModelTable
             ->insert('sort', 'cmd', 'ordering');
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryColumns($query);
 		
@@ -39,14 +41,14 @@ class ComContactsModelContacts extends KModelTable
 		));
 	}
 
-	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryJoins($query);
 		
 		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id');
 	}
 
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryWhere($query);
 		$state = $this->getState();

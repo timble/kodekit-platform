@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Activities Model
  *
@@ -15,7 +17,7 @@
  */
 class ComActivitiesModelActivities extends ComDefaultModelDefault
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -38,7 +40,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 		$this->getState()->sort = 'created_on';
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
 	{
 	    $state = $this->getState();
 	    
@@ -55,12 +57,12 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 		}
 	}
 
-	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
 	{
 		$query->join(array('users' => 'users'), 'users.users_user_id = tbl.created_by');
 	}
 
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
 		$state = $this->getState();
@@ -87,7 +89,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 
 		if ($state->start_date && $state->start_date != '0000-00-00')
 		{
-		    // TODO: Sync this code with KDate and KDatabaseQuery changes.
+		    // TODO: Sync this code with Date and DatabaseQuery changes.
 			$start_date = $this->getService('lib://nooku/date', array('date' => $this->_state->start_date));
 			$days_back  = clone $start_date;
 			$start      = $start_date->addDays(1)->addSeconds(-1)->getDate();
@@ -105,7 +107,7 @@ class ComActivitiesModelActivities extends ComDefaultModelDefault
 		}
 	}
 
-	protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+	protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
 	{
 		if($this->getState()->distinct && !empty($this->getState()->column)) {
 			$query->order('package', 'asc');

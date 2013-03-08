@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Sessions Model Class
  *
@@ -16,14 +18,14 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersModelSessions extends KModelTable
+class ComUsersModelSessions extends Framework\ModelTable
 {
     /**
      * Constructor.
      *
-     * @param   KConfig  An optional KConfig object with configuration options.
+     * @param   Config  An optional Framework\Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -39,10 +41,10 @@ class ComUsersModelSessions extends KModelTable
     /**
      * Builds SELECT columns list for the query.
      *
-     * @param   KDatabaseQuery  A query object.
+     * @param   Framework\DatabaseQuery  A query object.
      * @return  void
      */
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
@@ -54,10 +56,10 @@ class ComUsersModelSessions extends KModelTable
     /**
      * Builds LEFT JOINS clauses for the query.
      *
-     * @param   KDatabaseQuery  A query object.
+     * @param   Framework\DatabaseQuery  A query object.
      * @return  void
      */
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
 
@@ -67,10 +69,10 @@ class ComUsersModelSessions extends KModelTable
     /**
      * Builds a WHERE clause for the query.
      *
-     * @param   KDatabaseQuery  A query object.
+     * @param   Framework\DatabaseQuery  A query object.
      * @return  void
      */
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();

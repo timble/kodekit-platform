@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * User Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_User
  */
-interface KUserInterface
+interface UserInterface
 {
     /**
      * Returns the id of the user
@@ -71,7 +73,7 @@ interface KUserInterface
     /**
      * Get the user session
      *
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function getSession();
 
@@ -110,7 +112,7 @@ interface KUserInterface
      *
      * @param   mixed   Attribute identifier, eg foo.bar
      * @param   mixed   Attribute value
-     * @return KUser
+     * @return User
      */
     public function set($identifier, $value);
 
@@ -126,7 +128,7 @@ interface KUserInterface
      * Removes an user attribute
      *
      * @param string $identifier Attribute identifier, eg foo.bar
-     * @return KUser
+     * @return User
      */
     public function remove($identifier);
 
@@ -141,7 +143,7 @@ interface KUserInterface
      * Set the user data from an array
      *
      * @param  array $data An associative array of data
-     * @return KUser
+     * @return User
      */
     public function fromArray(array $data);
 }

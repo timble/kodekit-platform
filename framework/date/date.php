@@ -6,22 +6,24 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Date Class
  *
  * @author  	Gergo Erdosi <gergo@timble.net>
  * @package     Koowa_Date
  */
-class KDate extends \DateTime implements KDateInterface
+class Date extends \DateTime implements DateInterface
 {
     /**
      * Constructor.
      *
-     * @param   array|KConfig An associative array of configuration settings or a KConfig instance.
+     * @param   array|Config An associative array of configuration settings or a Config instance.
      */
     public function __construct($config = array())
     {
-        if(!$config instanceof KConfig) $config = new KConfig($config);
+        if(!$config instanceof Config) $config = new Config($config);
         
         $this->_initialize($config);
         
@@ -37,10 +39,10 @@ class KDate extends \DateTime implements KDateInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
         	'date'     => 'now',
@@ -85,19 +87,19 @@ class KDate extends \DateTime implements KDateInterface
         switch ($matches[0]) 
         {
             case 'D':
-                $replacement = JText::_(strtoupper(parent::format('D')));
+                $replacement = \JText::_(strtoupper(parent::format('D')));
                 break;
 
             case 'l':
-                $replacement = JText::_(strtoupper(parent::format('l')));
+                $replacement = \JText::_(strtoupper(parent::format('l')));
                 break;
 
             case 'F':
-                $replacement = JText::_(strtoupper(parent::format('F')).'_SHORT');
+                $replacement = \JText::_(strtoupper(parent::format('F')).'_SHORT');
                 break;
 
             case 'M':
-                $replacement = JText::_(strtoupper(parent::format('F')));
+                $replacement = \JText::_(strtoupper(parent::format('F')));
                 break;
         }
 

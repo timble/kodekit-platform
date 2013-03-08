@@ -7,6 +7,7 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
 
 /**
  * Route Template Helper Class
@@ -15,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateHelperRoute extends KTemplateHelperDefault
+class ComDefaultTemplateHelperRoute extends Framework\TemplateHelperDefault
 {
     /**
      * Find a page based on list of needles

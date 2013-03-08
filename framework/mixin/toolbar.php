@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Toolbar Mixin Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
  */
-class KMixinToolbar extends KMixinAbstract
+class MixinToolbar extends MixinAbstract
 {
     /**
      * List of toolbars
@@ -26,14 +28,14 @@ class KMixinToolbar extends KMixinAbstract
     /**
      * Constructor
      *
-     * @param     object     An optional KConfig object with configuration options.
+     * @param     object     An optional Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         //Add the toolbars
-        $toolbars = (array)KConfig::unbox($config->toolbars);
+        $toolbars = (array)Config::unbox($config->toolbars);
 
         foreach ($toolbars as $key => $value)
         {
@@ -50,10 +52,10 @@ class KMixinToolbar extends KMixinAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options.
+     * @param     object     An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         parent::_initialize($config);
 
@@ -65,17 +67,17 @@ class KMixinToolbar extends KMixinAbstract
     /**
      * Add one or more toolbars
      *
-     * @param   mixed    An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed    An object that implements ServiceInterface, ServiceIdentifier object
      *                   or valid identifier string
-     * @return  KObject  The mixer object
+     * @return  Object  The mixer object
      */
-    public function attachToolbar($toolbar, $config = array(), $priority = KEvent::PRIORITY_NORMAL)
+    public function attachToolbar($toolbar, $config = array(), $priority = Event::PRIORITY_NORMAL)
     {
-        if (!($toolbar instanceof KControllerToolbarInterface)) {
+        if (!($toolbar instanceof ControllerToolbarInterface)) {
             $toolbar = $this->getToolbar($toolbar, $config);
         }
 
-        if ($this->inherits('KMixinEvent')) {
+        if ($this->inherits('Nooku\Framework\MixinEvent')) {
             $this->addEventSubscriber($toolbar, $priority);
         }
 
@@ -96,11 +98,11 @@ class KMixinToolbar extends KMixinAbstract
     /**
      * Get a toolbar by identifier
      *
-     * @return KControllerToolbarAbstract
+     * @return ControllerToolbarAbstract
      */
     public function getToolbar($toolbar, $config = array())
     {
-        if (!($toolbar instanceof KServiceIdentifier))
+        if (!($toolbar instanceof ServiceIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($toolbar) && strpos($toolbar, '.') === false)
@@ -118,8 +120,8 @@ class KMixinToolbar extends KMixinAbstract
             $config['controller'] = $this->getMixer();
             $toolbar = $this->getService($identifier, $config);
 
-            if (!($toolbar instanceof KControllerToolbarInterface)) {
-                throw new \UnexpectedValueException("Controller toolbar $identifier does not implement KControllerToolbarInterface");
+            if (!($toolbar instanceof ControllerToolbarInterface)) {
+                throw new \UnexpectedValueException("Controller toolbar $identifier does not implement ControllerToolbarInterface");
             }
 
             $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;

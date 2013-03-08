@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Message Headers Class
  *
@@ -18,7 +20,7 @@
  * @package     Koowa_Http
  * @subpackage  Request
  */
-class KHttpRequestHeaders extends KHttpMessageHeaders
+class HttpRequestHeaders extends HttpMessageHeaders
 {
    
 }

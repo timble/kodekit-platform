@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Class
  *
@@ -13,29 +15,29 @@
  * @category    Koowa
  * @package     Koowa_Service
  */
-class KService implements KServiceInterface
+class Service implements ServiceInterface
 {
     /**
      * The service identifier
      *
-     * @var KServiceIdentifier
+     * @var ServiceIdentifier
      */
     private $__service_identifier;
 
     /**
      * The service manager
      *
-     * @var KServiceManager
+     * @var ServiceManager
      */
     private $__service_manager;
 
     /**
      * Constructor
      *
-     * @param KConfig  $config  An optional KConfig object with configuration options
-     * @return KObject
+     * @param Config  $config  An optional Config object with configuration options
+     * @return Object
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         //Set the service container
         if (isset($config->service_manager)) {
@@ -55,7 +57,7 @@ class KService implements KServiceInterface
      * @param    array            $config     An optional associative array of configuration settings.
      * @throws   \RuntimeException If the service manager has not been defined.
      * @return   object            Return object on success, throws exception on failure
-     * @see      KServiceInterface
+     * @see      ServiceInterface
      */
     final public function getService($identifier = null, array $config = array())
     {
@@ -80,8 +82,8 @@ class KService implements KServiceInterface
      *
      * @param   string|object    $identifier The class identifier or identifier object
      * @throws  \RuntimeException If the service manager has not been defined.
-     * @return  KServiceIdentifier
-     * @see     KServiceInterface
+     * @return  ServiceIdentifier
+     * @see     ServiceInterface
      */
     final public function getIdentifier($identifier = null)
     {

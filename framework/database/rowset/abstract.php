@@ -7,15 +7,16 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Rowset Class
  *
  * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Rowset
- * @uses         KMixinClass
  */
-abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRowsetInterface
+abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowsetInterface
 {
     /**
      * Name of the identity column in the rowset
@@ -41,10 +42,10 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDatabaseRowsetAbstract
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return DatabaseRowsetAbstract
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -74,10 +75,10 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'data' => null,
@@ -106,14 +107,14 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * The row will be stored by it's identity_column if set or otherwise by
      * it's object handle.
      *
-     * @param  KDatabaseRowInterface $row
+     * @param  DatabaseRowInterface $row
      * @return boolean    TRUE on success FALSE on failure
-     * @throws \InvalidArgumentException if the object doesn't implement KDatabaseRowInterface
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      */
-    public function insert(KObjectHandlable $row)
+    public function insert(ObjectHandlable $row)
     {
-        if (!$row instanceof KDatabaseRowInterface) {
-            throw new \InvalidArgumentException('Row needs to implement KDatabaseRowInterface');
+        if (!$row instanceof DatabaseRowInterface) {
+            throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
         }
 
         if (isset($this->_identity_column)) {
@@ -135,14 +136,14 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * The row will be removed based on it's identity_column if set or otherwise by
      * it's object handle.
      *
-     * @param  KDatabaseRowInterface $row
-     * @return \KDatabaseRowsetAbstract
-     * @throws \InvalidArgumentException if the object doesn't implement KDatabaseRowInterface
+     * @param  DatabaseRowInterface $row
+     * @return DatabaseRowsetAbstract
+     * @throws \InvalidArgumentException if the object doesn't implement DatabaseRowInterface
      */
-    public function extract(KObjectHandlable $row)
+    public function extract(ObjectHandlable $row)
     {
-        if (!$row instanceof KDatabaseRowInterface) {
-            throw new \InvalidArgumentException('Row needs to implement KDatabaseRowInterface');
+        if (!$row instanceof DatabaseRowInterface) {
+            throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
         }
 
         if (isset($this->_identity_column)) {
@@ -208,9 +209,9 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     /**
      * Set the rowset data based on a named array/hash
      *
-     * @param   mixed   $data     Either and associative array, a KDatabaseRow object or object
+     * @param   mixed   $data     Either and associative array, a DatabaseRow object or object
      * @param   boolean $modified If TRUE, update the modified information for each column being set. Default TRUE
-     * @return  \KDatabaseRowsetAbstract
+     * @return  DatabaseRowsetAbstract
      */
     public function setData($data, $modified = true)
     {
@@ -241,13 +242,13 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      *
      * @param  array $rows An associative array of row data to be inserted.
      * @param  bool  $new  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return  KDatabaseRowsetAbstract
+     * @return  DatabaseRowsetAbstract
      * @see __construct
      */
     public function addRow(array $rows, $new = true)
     {
         $options = array(
-            'status' => $new ? NULL : KDatabase::STATUS_LOADED,
+            'status' => $new ? NULL : Database::STATUS_LOADED,
             'new'    => $new,
         );
 
@@ -281,13 +282,13 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * Get an instance of a row object for this rowset
      *
      * @param    array $options An optional associative array of configuration settings.
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function getRow(array $options = array())
     {
         $identifier = clone $this->getIdentifier();
         $identifier->path = array('database', 'row');
-        $identifier->name = KInflector::singularize($this->getIdentifier()->name);
+        $identifier->name = Inflector::singularize($this->getIdentifier()->name);
 
         //The row default options
         $options['identity_column'] = $this->getIdentityColumn();
@@ -309,7 +310,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      * Set the status message
      *
      * @param   string      The status message
-     * @return  KDatabaseRowsetAbstract
+     * @return  DatabaseRowsetAbstract
      */
     public function setStatusMessage($message)
     {
@@ -328,12 +329,12 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     }
 
     /**
-     * Returns a KDatabaseRow(set)
+     * Returns a DatabaseRow(set)
      *
      * This functions accepts either a know position or associative array of key/value pairs
      *
      * @param   string|array  $needle The position or the key or an associative array of column data to match
-     * @return KDatabaseRow(set)Abstract Returns a row or rowset if successful. Otherwise NULL.
+     * @return  DatabaseRow(set)Abstract Returns a row or rowset if successful. Otherwise NULL.
      */
     public function find($needle)
     {
@@ -416,7 +417,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
     /**
      * Reset the rowset
      *
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function reset()
     {
@@ -467,7 +468,7 @@ abstract class KDatabaseRowsetAbstract extends KObjectSet implements KDatabaseRo
      *
      * @param  string   $method    The function name
      * @param  array    $arguments The function arguments
-     * @throws BadMethodCallException   If method could not be found
+     * @throws \BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
     public function __call($method, $arguments)

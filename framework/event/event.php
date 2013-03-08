@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Event Class
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Event
  */
-class KEvent extends KConfig
+class Event extends Config implements EventInterface
 {
  	/**
      * Priority levels
@@ -42,14 +44,14 @@ class KEvent extends KConfig
     /**
      * Target of the event
      *
-     * @var KServiceInterface
+     * @var ServiceInterface
      */
     protected $_target;
     
     /**
      * Dispatcher of the event
      * 
-     * @var KEventDispatcher 
+     * @var EventDispatcher
      */
     protected $_dispatcher;
          
@@ -67,7 +69,7 @@ class KEvent extends KConfig
      * Set the event name
      *
      * @param string	The event name
-     * @return KEvent
+     * @return Event
      */
     public function setName($name)
     {
@@ -89,9 +91,9 @@ class KEvent extends KConfig
      * Set the event target
      *
      * @param object	The event target
-     * @return KEvent
+     * @return Event
      */
-    public function setTarget(KServiceInterface $target)
+    public function setTarget(ServiceInterface $target)
     {
         $this->_target = $target;
         return $this;
@@ -101,9 +103,9 @@ class KEvent extends KConfig
      * Stores the EventDispatcher that dispatches this Event
      *
      * @param EventDispatcher $dispatcher
-     * @return KEvent
+     * @return Event
      */
-    public function setDispatcher(KEventDispatcherInterface $dispatcher)
+    public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->_dispatcher = $dispatcher;
         return $this;
@@ -112,7 +114,7 @@ class KEvent extends KConfig
     /**
      * Returns the EventDispatcher that dispatches this Event
      *
-     * @return KEventDispatcher
+     * @return EventDispatcher
      */
     public function getDispatcher()
     {
@@ -136,7 +138,7 @@ class KEvent extends KConfig
      * further event listener will be triggered once any trigger calls
      * stopPropagation().
      * 
-     * @return KEvent
+     * @return Event
      */
     public function stopPropagation()
     {

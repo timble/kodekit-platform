@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Cache Group Row Class
  *
@@ -17,9 +19,9 @@
  * @subpackage  Cache
  */
  
-class ComCacheDatabaseRowGroup extends KDatabaseRowAbstract
+class ComCacheDatabaseRowGroup extends Framework\DatabaseRowAbstract
 {	
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'identity_column'   => 'name'

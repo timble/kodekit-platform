@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
  /**
   * Template Interface
   * 
   * @author		Johan Janssens <johan@nooku.org>
   * @package	Koowa_Template
   */
-interface KTemplateInterface
+interface TemplateInterface
 {
     /**
      * Render the template
@@ -52,17 +54,17 @@ interface KTemplateInterface
     /**
      * Get the view object attached to the template
      *
-     * @return  KViewInterface
+     * @return  ViewInterface
      */
 	public function getView();
 
     /**
      * Method to set a view object attached to the template
      *
-     * @param mixed  $view An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed  $view An object that implements ServiceInterface, ServiceIdentifier object
      *                     or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a view identifier
-     * @return KTemplateAbstract
+     * @return TemplateAbstract
      */
 	public function setView($view);
 
@@ -71,7 +73,7 @@ interface KTemplateInterface
      *
      * @param   string  $file     The template path
      * @param   array   $data     An associative array of data to be extracted in local template scope
-     * @return KTemplateAbstract
+     * @return TemplateAbstract
      */
 	public function loadFile($file, $data = array());
 
@@ -80,17 +82,17 @@ interface KTemplateInterface
      *
      * @param  string   $string     The template contents
      * @param  array    $data       An associative array of data to be extracted in local template scope
-     * @return KTemplateAbstract
+     * @return TemplateAbstract
      */
 	public function loadString($string, $data = array());
 
     /**
      * Get a filter by identifier
      *
-     * @param   mixed    $filter    An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed    $filter    An object that implements ServiceInterface, ServiceIdentifier object
                                     or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
-     * @return KTemplateFilterInterface
+     * @return TemplateFilterInterface
      */
     public function getFilter($filter, $config = array());
 
@@ -98,16 +100,16 @@ interface KTemplateInterface
      * Attach one or more filters for template transformation
      *
      * @param array $filters Array of one or more behaviors to add.
-     * @return KTemplateAbstract
+     * @return TemplateAbstract
      */
     public function attachFilter($filters);
 
     /**
      * Get a template helper
      *
-     * @param    mixed    $helper KServiceIdentifierInterface
+     * @param    mixed    $helper ServiceIdentifierInterface
      * @param    array    $config An optional associative array of configuration settings
-     * @return  KTemplateHelperInterface
+     * @return  TemplateHelperInterface
      */
     public function getHelper($helper, $config = array());
 

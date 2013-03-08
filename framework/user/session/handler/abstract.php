@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Session Handler Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-abstract class KUserSessionHandlerAbstract extends KObject implements KUserSessionHandlerInterface
+abstract class UserSessionHandlerAbstract extends Object implements UserSessionHandlerInterface
 {
     /**
      * The handler that was registered
@@ -28,11 +30,11 @@ abstract class KUserSessionHandlerAbstract extends KObject implements KUserSessi
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
+     * @param Config|null $config  An optional Config object with configuration options
      * @throws \RuntimeException If the session handler is not available
-     * @return KUserSessionHandlerAbstract
+     * @return UserSessionHandlerAbstract
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -53,10 +55,10 @@ abstract class KUserSessionHandlerAbstract extends KObject implements KUserSessi
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'auto_register' => false,

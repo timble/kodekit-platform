@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Debug Event Dispatcher
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class ComDebugEventDispatcherDebug extends KEventDispatcherException
+class ComDebugEventDispatcherDebug extends Framework\EventDispatcherException
 {
     /**
      * Debug modes
@@ -32,9 +34,9 @@ class ComDebugEventDispatcherDebug extends KEventDispatcherException
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Framework\Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -46,10 +48,10 @@ class ComDebugEventDispatcherDebug extends KEventDispatcherException
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Framework\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'debug_level' => self::PRODUCTION,

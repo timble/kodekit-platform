@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Pages Database Rowset Class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implements KServiceInstantiatable
+class ComApplicationDatabaseRowsetPages extends Framework\DatabaseRowsetAbstract implements Framework\ServiceInstantiatable
 {
-    public function __construct(KConfig $config )
+    public function __construct(Framework\Config $config )
     {
         parent::__construct($config);
 
@@ -28,13 +30,13 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         $this->merge($pages);
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if(!$manager->has($config->service_identifier))
         {

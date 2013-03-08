@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Error Event Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Event
  */
-class KEventException extends KEvent implements KException
+class EventException extends Event implements Exception
 {
     /**
      * Set the exception

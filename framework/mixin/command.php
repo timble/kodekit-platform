@@ -6,38 +6,36 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Command Mixin
  * 
- * Class can be used as a mixin in classes that want to implement a chain 
- * of responsability or chain of command pattern.
+ * Class can be used as a mixin in classes that want to implement a chain of responsability or chain of command pattern.
  *  
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
- * @uses        KCommandChain
- * @uses        KCommandInterface
- * @uses        KCommandEvent
  */
-class KMixinCommand extends KMixinAbstract
+class MixinCommand extends MixinAbstract
 {   
     /**
      * Chain of command object
      *
-     * @var KCommandChain
+     * @var CommandChain
      */
     protected $_command_chain;
     
     /**
      * Object constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
         
         if(is_null($config->command_chain)) {
-			throw new \InvalidArgumentException('command_chain [KCommandChainInterface] config option is required');
+			throw new \InvalidArgumentException('command_chain [CommandChainInterface] config option is required');
 		}
             
         //Create a command chain object 
@@ -49,7 +47,7 @@ class KMixinCommand extends KMixinAbstract
         //Mixin the callback mixer if callbacks have been enabled
         if($config->enable_callbacks)
         {
-            $callback = new KMixinCallback($config);
+            $callback = new MixinCallback($config);
 
             //Mixin the callback mixin
             $this->_mixer->mixin($callback);
@@ -61,7 +59,7 @@ class KMixinCommand extends KMixinAbstract
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) 
         { 
-            $this->_mixer->mixin(new KMixinEvent($config));
+            $this->_mixer->mixin(new MixinEvent($config));
 
             $command = $this->_command_chain->getService('lib://nooku/command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()
@@ -76,18 +74,18 @@ class KMixinCommand extends KMixinAbstract
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'command_chain'     => null,
             'event_dispatcher'  => null,
             'dispatch_events'   => true,
-            'event_priority'    => KCommand::PRIORITY_LOWEST,
+            'event_priority'    => Command::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
-            'callback_priority' => KCommand::PRIORITY_HIGH,
+            'callback_priority' => Command::PRIORITY_HIGH,
         ));
         
         parent::_initialize($config);
@@ -98,7 +96,7 @@ class KMixinCommand extends KMixinAbstract
      * 
      * This functions sets the command subject as the mixer in the context
      *
-     * @return  KCommandContext
+     * @return  CommandContext
      */
     public function getCommandContext()
     {
@@ -111,19 +109,19 @@ class KMixinCommand extends KMixinAbstract
     /**
      * Get the chain of command object
      *
-     * @return  KCommandChain
+     * @return  CommandChain
      */
     public function getCommandChain()
     {
-        if(!$this->_command_chain instanceof KCommandChainInterface)
+        if(!$this->_command_chain instanceof CommandChainInterface)
         {
             $this->_command_chain = $this->getService($this->_command_chain);
 
-            //Make sure the request implements KControllerRequestInterface
-            if(!$this->_command_chain instanceof KCommandChainInterface)
+            //Make sure the request implements ControllerRequestInterface
+            if(!$this->_command_chain instanceof CommandChainInterface)
             {
                 throw new \UnexpectedValueException(
-                    'CommandChain: '.get_class($this->_command_chain).' does not implement KCommandChainInterface'
+                    'CommandChain: '.get_class($this->_command_chain).' does not implement CommandChainInterface'
                 );
             }
         }
@@ -135,9 +133,9 @@ class KMixinCommand extends KMixinAbstract
      * Set the chain of command object
      *
      * @param   object 	A command chain object
-     * @return  KObject The mixer object
+     * @return  Object The mixer object
      */
-    public function setCommandChain(KCommandChainInterface $chain)
+    public function setCommandChain(CommandChainInterface $chain)
     {
         $this->_command_chain = $chain;
         return $this->_mixer;

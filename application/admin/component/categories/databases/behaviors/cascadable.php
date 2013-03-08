@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Cascadable Database Behavior Class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComCategoriesDatabaseBehaviorCascadable extends KDatabaseBehaviorAbstract
+class ComCategoriesDatabaseBehaviorCascadable extends Framework\DatabaseBehaviorAbstract
 {
-    protected function _beforeTableDelete(KCommandContext $context)
+    protected function _beforeTableDelete(Framework\CommandContext $context)
     {
         $result = true;
 

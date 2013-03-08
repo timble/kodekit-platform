@@ -7,22 +7,24 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Editable Controller Behavior
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsControllerBehaviorEditable extends KControllerBehaviorEditable
+class ComExtensionsControllerBehaviorEditable extends Framework\ControllerBehaviorEditable
 {  
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     { 
         parent::__construct($config);
         
         $this->registerCallback('before.browse' , array($this, 'setReferrer'));
     }
     
-	protected function _actionSave(KCommandContext $context)
+	protected function _actionSave(Framework\CommandContext $context)
 	{
 		$entity = $context->getSubject()->execute('edit', $context);
 	    
@@ -30,13 +32,13 @@ class ComExtensionsControllerBehaviorEditable extends KControllerBehaviorEditabl
 		return $entity;
 	}
     
-	protected function _actionCancel(KCommandContext $context)
+	protected function _actionCancel(Framework\CommandContext $context)
 	{
         $context->response->setRedirect($this->getReferrer($context));
 		return;
 	}
 
-	protected function _actionApply(KCommandContext $context)
+	protected function _actionApply(Framework\CommandContext $context)
 	{
 		$entity = $context->getSubject()->execute('edit', $context);
 

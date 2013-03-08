@@ -1,5 +1,8 @@
 <?php
-class ComCommentsDatabaseBehaviorDiscussible extends KDatabaseBehaviorAbstract
+
+use Nooku\Framework;
+
+class ComCommentsDatabaseBehaviorDiscussible extends Framework\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of comments

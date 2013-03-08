@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Sessions Database Table Class
  *
@@ -16,9 +18,9 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseTableSessions extends KDatabaseTableDefault
+class ComUsersDatabaseTableSessions extends Framework\DatabaseTableDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'identity_column' => 'users_session_id',

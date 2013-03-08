@@ -6,15 +6,17 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Config Class
  *
- * KConfig provides a property based interface to an array
+ * Config provides a property based interface to an array
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class KConfig implements KConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * The data container
@@ -26,12 +28,12 @@ class KConfig implements KConfigInterface
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KConfig
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return \Config
      */
     public function __construct( $config = array() )
     {
-        if ($config instanceof KConfig) {
+        if ($config instanceof Config) {
             $data = $config->toArray();
         } else {
             $data = $config;
@@ -94,7 +96,7 @@ class KConfig implements KConfigInterface
      * Remove a configuration item
      *
      * @param   string $name The configuration item name.
-     * @return  KModelStateInterface
+     * @return  ModelStateInterface
      */
     public function remove( $name )
     {
@@ -102,37 +104,37 @@ class KConfig implements KConfigInterface
     }
 
 	/**
-     * Unbox a KConfig object
+     * Unbox a Config object
      *
-     * If the data being passed is an instance of KConfig the data will be transformed to an associative array.
+     * If the data being passed is an instance of Config the data will be transformed to an associative array.
      *
-     * @param  KConfig|mxied $data
+     * @param  Config|mxied $data
      * @return array|mixed
      */
     public static function unbox($data)
     {
-        return ($data instanceof KConfig) ? $data->toArray() : $data;
+        return ($data instanceof Config) ? $data->toArray() : $data;
     }
 
     /**
-     * Append an array or KObject recursively
+     * Append an array or Object recursively
      *
-     * Merges the elements of an array or KConfig object recursively so that the values of one are appended.
+     * Merges the elements of an array or Config object recursively so that the values of one are appended.
      *
      * If the input arrays has string keys, then the value for that key will be not overwrite the previous one. Instead
-     * the values for these keys are transformed into KObjects and merged together, and this is done recursively, so
+     * the values for these keys are transformed into Objects and merged together, and this is done recursively, so
      * that if one of the values is an associative array itself, the function will merge it with a corresponding entry.
      *
      * If, the input arrays contain numeric keys, the later value will not overwrite the original value, but will be
      * appended. Values in the input array with numeric keys will be renumbered with incrementing keys starting from
      * zero in the result array.
      *
-     * @param  KConfig|array $config  A KConfig object or an array of values to be appended
-     * @return \KConfig
+     * @param  Config|array $config  A Config object or an array of values to be appended
+     * @return \Config
      */
     public function append($config)
     {
-        $config = KConfig::unbox($config);
+        $config = Config::unbox($config);
 
         if(is_array($config))
         {
@@ -142,7 +144,7 @@ class KConfig implements KConfigInterface
                 {
                     if(array_key_exists($key, $this->_data))
                     {
-                        if(!empty($value) && ($this->_data[$key] instanceof KConfig)) {
+                        if(!empty($value) && ($this->_data[$key] instanceof Config)) {
                             $this->_data[$key] = $this->_data[$key]->append($value);
                         }
                     }
@@ -212,7 +214,7 @@ class KConfig implements KConfigInterface
         if(isset($this->_data[$offset]))
         {
             $result = $this->_data[$offset];
-            if($result instanceof KConfig) {
+            if($result instanceof Config) {
                 $result = $result->toArray();
             }
         }
@@ -227,7 +229,7 @@ class KConfig implements KConfigInterface
      *
      * @param   int     $offset
      * @param   mixed   $value
-     * @return  \KConfig
+     * @return  Config
      */
     public function offsetSet($offset, $value)
     {
@@ -244,7 +246,7 @@ class KConfig implements KConfigInterface
      * Required by interface ArrayAccess
      *
      * @param   int  $offset
-     * @return  \KConfig
+     * @return  Config
      */
     public function offsetUnset($offset)
     {
@@ -263,7 +265,7 @@ class KConfig implements KConfigInterface
         $data  = $this->_data;
         foreach ($data as $key => $value)
         {
-            if ($value instanceof KConfig) {
+            if ($value instanceof Config) {
                 $array[$key] = $value->toArray();
             } else {
                 $array[$key] = $value;
@@ -329,7 +331,7 @@ class KConfig implements KConfigInterface
     }
 
  	/**
-     * Deep clone of this instance to ensure that nested KConfigs are also cloned.
+     * Deep clone of this instance to ensure that nested Config objects are also cloned.
      *
      * @return void
      */
@@ -338,7 +340,7 @@ class KConfig implements KConfigInterface
         $array = array();
         foreach ($this->_data as $key => $value)
         {
-            if ($value instanceof KConfig || $value instanceof \stdClass) {
+            if ($value instanceof Config || $value instanceof \stdClass) {
                 $array[$key] = clone $value;
             } else {
                 $array[$key] = $value;

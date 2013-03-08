@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Command filter.
  *
@@ -15,7 +17,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterCmd extends KFilterAbstract
+class FilterCmd extends FilterAbstract
 {
     /**
      * Validate a value

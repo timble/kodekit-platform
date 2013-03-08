@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Modifiable Behavior
  *
@@ -13,20 +15,20 @@
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */
-class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
+class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 {
 	/**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options
+     * @param 	object 	An optional Config object with configuration options
      * @return void
      */
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Config $config)
     {
     	$config->append(array(
-			'priority'   => KCommand::PRIORITY_LOW,
+			'priority'   => Command::PRIORITY_LOW,
 	  	));
 
     	parent::_initialize($config);
@@ -42,11 +44,11 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	 * @param object The mixer requesting the mixable methods.
 	 * @return array An array of methods
 	 */
-	public function getMixableMethods(KObject $mixer = null)
+	public function getMixableMethods(Object $mixer = null)
 	{
 		$methods = array();
 
-		if($mixer instanceof KDatabaseRowInterface && ($mixer->has('modified_by') || $mixer->has('modified_on'))) {
+		if($mixer instanceof DatabaseRowInterface && ($mixer->has('modified_by') || $mixer->has('modified_on'))) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 
@@ -60,7 +62,7 @@ class KDatabaseBehaviorModifiable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return void
 	 */
-	protected function _beforeTableUpdate(KCommandContext $context)
+	protected function _beforeTableUpdate(CommandContext $context)
 	{
 		//Get the modified columns
 		$modified = $this->getTable()->filter($this->getModified());

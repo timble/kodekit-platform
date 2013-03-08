@@ -6,6 +6,8 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Database Behavior
  *
@@ -13,18 +15,18 @@
  * @package     Koowa_Database
  * @subpackage     Behavior
  */
-abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KServiceInstantiatable
+abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ServiceInstantiatable
 {
     /**
      * Instantiate the object
      *
      * If the behavior is auto mixed also lazy mix it into related row objects.
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
+     * @param 	Config                 $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
      * @return  object
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         $classname = $config->service_identifier->classname;
         $instance  = new $classname($config);
@@ -34,7 +36,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
         {
             $identifier = clone $instance->getMixer()->getIdentifier();
             $identifier->path = array('database', 'row');
-            $identifier->name = KInflector::singularize($identifier->name);
+            $identifier->name = Inflector::singularize($identifier->name);
 
             $manager->addMixin($identifier, $instance);
         }
@@ -52,9 +54,9 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
      * @param     object    The command context
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, KCommandContext $context)
+    public function execute($name, CommandContext $context)
     {
-        if ($context->data instanceof KDatabaseRowInterface) {
+        if ($context->data instanceof DatabaseRowInterface) {
             $this->setMixer($context->data);
         }
 
@@ -64,11 +66,11 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
     /**
      * Saves the row or rowset in the database.
      *
-     * This function specialises the KDatabaseRow or KDatabaseRowset save function and auto-disables the tables
+     * This function specialises the DatabaseRow or DatabaseRowset save function and auto-disables the tables
      * command chain to prevent recursive looping.
      *
-     * @return KDatabaseRowAbstract or KDatabaseRowsetAbstract
-     * @see KDatabaseRow::save or KDatabaseRowset::save
+     * @return DatabaseRowAbstract or DatabaseRowsetAbstract
+     * @see DatabaseRow::save or DatabaseRowset::save
      */
     public function save()
     {
@@ -85,10 +87,10 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
     /**
      * Deletes the row form the database.
      *
-     * This function specialises the KDatabaseRow or KDatabaseRowset delete function and auto-disables the tables
+     * This function specialises the DatabaseRow or DatabaseRowset delete function and auto-disables the tables
      * command chain to prevent recursive looping.
      *
-     * @return KDatabaseRowAbstract
+     * @return DatabaseRowAbstract
      */
     public function delete()
     {
@@ -111,7 +113,7 @@ abstract class KDatabaseBehaviorAbstract extends KBehaviorAbstract implements KS
      * @param object The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Object $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
 

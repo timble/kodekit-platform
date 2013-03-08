@@ -7,22 +7,24 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Activity Template Helper
  *
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault implements KServiceInstantiatable
+class ComActivitiesTemplateHelperActivity extends Framework\TemplateHelperDefault implements Framework\ServiceInstantiatable
 {
 	/**
      * Check for overrides of the helper
      *
-     * @param   KConfigInterface 	        $config  An optional KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager A KServiceManagerInterface object
+     * @param   Framework\Config         	        $config  An optional Framework\Config object with configuration options
+     * @param 	Framework\ServiceManagerInterface	$manager A Framework\ServiceManagerInterface object
      * @return ComActivitiesTemplateHelperActivity
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         $identifier = clone $config->service_identifier;
         $identifier->package = $config->row->package;
@@ -41,7 +43,7 @@ class ComActivitiesTemplateHelperActivity extends KTemplateHelperDefault impleme
     
     public function message($config = array())
 	{
-	    $config = new KConfig($config);
+	    $config = new Framework\Config($config);
 		$config->append(array(
 			'row'      => ''
 		));

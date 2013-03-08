@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Folders Element Class
  *
@@ -25,7 +27,7 @@ class JElementFolders extends JElement
 		$el_name = $control_name ? $control_name.'['.$name.']' : $name;
 		$show_root = $node->attributes('show_root');
 
-		$tree = KServiceManager::get('com://admin/files.controller.folder')
+		$tree =  Framework\ServiceManager::get('com://admin/files.controller.folder')
 			->container('files-files')
 			->tree(1)
 			->limit(0)
@@ -41,7 +43,7 @@ class JElementFolders extends JElement
 			$this->_addFolder($folder, $options);
 		}
 
-		return KServiceManager::get('com://admin/files.template.helper.select')->optionlist(array(
+		return  Framework\ServiceManager::get('com://admin/files.template.helper.select')->optionlist(array(
 			'name' => $el_name,
 			'options' => $options,
 			'showroot' => false,

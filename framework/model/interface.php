@@ -6,14 +6,16 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Model Interface
  *
  * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
- * @uses        KObject
+ * @uses        Object
  */
-interface KModelInterface
+interface ModelInterface
 {
     /**
      * Set the model state properties
@@ -23,7 +25,7 @@ interface KModelInterface
      *
      * @param   string|array|object  $name  The name of the property, an associative array or an object
      * @param   mixed                $value The value of the property
-     * @return  KModelAbstract
+     * @return  ModelAbstract
      */
     public function set($name, $value = null);
 
@@ -45,36 +47,36 @@ interface KModelInterface
      * Reset all cached data and reset the model state to it's default
      *
      * @param   boolean If TRUE use defaults when resetting. Default is TRUE
-     * @return  KModelInterface
+     * @return  ModelInterface
      */
     public function reset($default = true);
 
     /**
      * Set the model state object
      *
-     * @param KModelState $state A model state object
-     * @return  KModelInterface
+     * @param ModelState $state A model state object
+     * @return  ModelInterface
      */
-    public function setState(KModelState $state);
+    public function setState(ModelState $state);
 
     /**
      * Method to get state object
      *
-     * @return  KModelState  The model state object
+     * @return  ModelState  The model state object
      */
     public function getState();
 
     /**
      * Method to get a item
      *
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function getRow();
 
     /**
      * Get a list of items
      *
-     * @return  KDatabaseRowsetInterface
+     * @return  DatabaseRowsetInterface
      */
     public function getRowset();
 
@@ -90,14 +92,14 @@ interface KModelInterface
      *
      * If the model state is unique this function will call getRow(), otherwise it will call getRowset().
      *
-     * @return KDatabaseRowsetInterface or KDatabaseRowInterface
+     * @return DatabaseRowsetInterface or DatabaseRowInterface
      */
     public function getData();
 
     /**
      * Get the model paginator object
      *
-     * @return  KModelPaginator  The model paginator object
+     * @return  ModelPaginator  The model paginator object
      */
     public function getPaginator();
 }

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Listbox Helper
  *
@@ -14,7 +16,7 @@
  * @package		Koowa_Template
  * @subpackage	Helper
  */
-class KTemplateHelperListbox extends KTemplateHelperSelect
+class TemplateHelperListbox extends TemplateHelperSelect
 {
 	/**
 	 * Generates an HTML optionlist based on the distinct data from a model column.
@@ -34,7 +36,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 	 */
     protected function _render($config = array())
  	{
- 	    $config = new KConfig($config);
+ 	    $config = new Config($config);
  	    $config->append(array(
  	        'autocomplete' => false
  	    ));
@@ -66,18 +68,18 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 	 */
 	protected function _listbox($config = array())
  	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'name'		  => '',
 			'attribs'	  => array(),
-			'model'		  => KInflector::pluralize($this->getIdentifier()->package),
+			'model'		  => Inflector::pluralize($this->getIdentifier()->package),
 			'deselect'    => true,
 		    'prompt'      => '- Select -',
 		    'unique'	  => true
 		))->append(array(
 			'value'		 => $config->name,
 			'selected'   => $config->{$config->name},
-		    'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
+		    'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(
@@ -95,7 +97,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 		//Compose the options array
         $options   = array();
  		if($config->deselect) {
-         	$options[] = $this->option(array('text' => JText::_($config->prompt)));
+         	$options[] = $this->option(array('text' => \JText::_($config->prompt)));
         }
 
  		foreach($items as $key => $value)
@@ -113,21 +115,21 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
 	/**
 	 * Renders a listbox with autocomplete behavior
 	 *
-	 * @see    KTemplateHelperBehavior::autocomplete
+	 * @see    TemplateHelperBehavior::autocomplete
 	 * @return string	The html output
 	 */
 	protected function _autocomplete($config = array())
  	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 		    'name'		 => '',
 			'attribs'	 => array(),
-			'model'		 => KInflector::pluralize($this->getIdentifier()->package),
+			'model'		 => Inflector::pluralize($this->getIdentifier()->package),
 			'validate'   => true,
 		))->append(array(
 		    'value'		 => $config->name,
 		    'selected'   => $config->{$config->name},
-			'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.KInflector::pluralize($config->model)
+			'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(
@@ -155,7 +157,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
      *
      * @param  string   The function name
      * @param  array    The function arguments
-     * @throws BadMethodCallException   If method could not be found
+     * @throws \BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
     public function __call($method, $arguments)
@@ -164,7 +166,7 @@ class KTemplateHelperListbox extends KTemplateHelperSelect
         {
             $config = $arguments[0];
             if(!isset($config['name'])) {
-                $config['name']  = KInflector::singularize(strtolower($method));
+                $config['name']  = Inflector::singularize(strtolower($method));
             }
 
             return $this->_render($config);

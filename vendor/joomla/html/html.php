@@ -173,7 +173,7 @@ class JHTML
 		}
 
 		if(strpos($path, 'http') !== 0) {
-			$path =  KRequest::root().'/'.$path;
+			$path =  Nooku\Framework\Request::root().'/'.$path;
 		};
 
 		$document = &JFactory::getDocument();
@@ -191,7 +191,7 @@ class JHTML
 	function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 	{
 		if(strpos($path, 'http') !== 0) {
-			$path =  KRequest::root().'/'.$path;
+			$path =  Nooku\Framework\Request::root().'/'.$path;
 		};
 
 		$document = &JFactory::getDocument();

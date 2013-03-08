@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Toolbar Class
  *
@@ -16,7 +18,7 @@
  */
 class ComFilesControllerToolbarDefault extends ComDefaultControllerToolbarDefault
 {
-    public function onBeforeControllerRender(KEvent $event)
+    public function onBeforeControllerRender(Framework\Event $event)
     {     
         parent::onBeforeControllerRender($event);
         

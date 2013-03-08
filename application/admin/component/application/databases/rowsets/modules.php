@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Modules Database Rowset Class
  *
@@ -14,15 +16,15 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseRowsetModules extends KDatabaseRowsetAbstract implements KServiceInstantiatable
+class ComApplicationDatabaseRowsetModules extends Framework\DatabaseRowsetAbstract implements Framework\ServiceInstantiatable
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

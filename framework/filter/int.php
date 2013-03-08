@@ -7,13 +7,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Integer filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterInt extends KFilterAbstract
+class FilterInt extends FilterAbstract
 {
 	/**
 	 * Validate a value

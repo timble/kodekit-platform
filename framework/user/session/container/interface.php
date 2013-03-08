@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Session Container Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_User
  * @subpackage  Session
  */
-interface KUserSessionContainerInterface
+interface UserSessionContainerInterface
 {
     /**
      * Get a an attribute
@@ -30,7 +32,7 @@ interface KUserSessionContainerInterface
      *
      * @param   mixed   Attribute identifier, eg foo.bar
      * @param   mixed   Attribute value
-     * @return KUserSessionContainerInterface
+     * @return UserSessionContainerInterface
      */
     public function set($identifier, $value);
 
@@ -46,14 +48,14 @@ interface KUserSessionContainerInterface
      * Removes an attribute
      *
      * @param string $identifier Attribute identifier, eg foo.bar
-     * @return  KUserSessionContainerInterface
+     * @return  UserSessionContainerInterface
      */
     public function remove($identifier);
 
     /**
      * Clears out all attributes
      *
-     * @return  KUserSessionContainerInterface
+     * @return  UserSessionContainerInterface
      */
     public function clear();
 
@@ -68,7 +70,7 @@ interface KUserSessionContainerInterface
      * Adds new attributes
      *
      * @param array $attributes An array of attributes
-     * @return  KUserSessionContainerInterface
+     * @return  UserSessionContainerInterface
      */
     public function fromArray(array $attributes);
 
@@ -93,7 +95,7 @@ interface KUserSessionContainerInterface
      * with the result automatically. This function will load the attributes from the $_SESSION global by reference.
      *
      * @param array|null $session   The session attributes to load
-     * @return  KUserSessionContainerInterface
+     * @return  UserSessionContainerInterface
      */
     public function loadSession(array &$session = null);
 }

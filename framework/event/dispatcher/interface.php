@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Event Dispatcher Interface.
  *
@@ -14,15 +16,15 @@
  * @package     Koowa_Event
  * @subpackage 	Dispatcher
  */
-interface KEventDispatcherInterface
+interface EventDispatcherInterface
 {
     /**
      * Dispatches an event by dispatching arguments to all listeners that handle
      * the event and returning their return values.
      *
      * @param   string  The event name
-     * @param   object|array   An array, a KConfig or a KEvent object
-     * @return  KEvent
+     * @param   object|array   An array, a Config or a Event object
+     * @return  Event
      */
     public function dispatchEvent($name, $event = array());
 
@@ -34,16 +36,16 @@ interface KEventDispatcherInterface
      * @param  integer  $priority  The event priority, usually between 1 (high priority) and 5 (lowest),
      *                             default is 3. If no priority is set, the command priority will be used
      *                             instead.
-     * @return KEventDispatcherInterface
+     * @return EventDispatcherInterface
      */
-    public function addEventListener($name, $listener, $priority = KEvent::PRIORITY_NORMAL);
+    public function addEventListener($name, $listener, $priority = Event::PRIORITY_NORMAL);
 
     /**
      * Remove an event listener
      *
      * @param   string   $event     The event name
      * @param   callable $listener  The listener
-     * @return  KEventDispatcherInterface
+     * @return  EventDispatcherInterface
      */
     public function removeEventListener($name, $listener);
 
@@ -51,7 +53,7 @@ interface KEventDispatcherInterface
      * Get a list of listeners for a specific event
      *
      * @param   string          The event name
-     * @return  KObjectQueue    An object queue containing the listeners
+     * @return  ObjectQueue    An object queue containing the listeners
      */
     public function getListeners($name);
 
@@ -67,17 +69,17 @@ interface KEventDispatcherInterface
      * Add an event subscriber
      *
      * @param  object    The event subscriber to add
-     * @return  KEventDispatcherInterface
+     * @return  EventDispatcherInterface
      */
-    public function addEventSubscriber(KEventSubscriberInterface $subscriber, $priority = null);
+    public function addEventSubscriber(EventSubscriberInterface $subscriber, $priority = null);
 
     /**
      * Remove an event subscriber
      *
      * @param  object    The event subscriber to remove
-     * @return  KEventDispatcherInterface
+     * @return  EventDispatcherInterface
      */
-    public function removeEventSubscriber(KEventSubscriberInterface $subscriber);
+    public function removeEventSubscriber(EventSubscriberInterface $subscriber);
 
     /**
      * Gets the event subscribers
@@ -92,7 +94,7 @@ interface KEventDispatcherInterface
      * @param  object  The event dispatcher
      * @return boolean TRUE if the handler is already connected to the dispatcher. FALSE otherwise.
      */
-    public function isSubscribed(KEventSubscriberInterface $subscriber);
+    public function isSubscribed(EventSubscriberInterface $subscriber);
 
     /**
      * Set the priority of an event
@@ -100,7 +102,7 @@ interface KEventDispatcherInterface
      * @param  string   $name      The event name
      * @param  callable $listener  The listener
      * @param  integer  $priority  The event priority
-     * @return  KEventDispatcherInterface
+     * @return  EventDispatcherInterface
      */
     public function setEventPriority($name, $listener, $priority);
 

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Exception Unauthorized Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class KControllerExceptionUnauthorized extends KHttpExceptionUnauthorized implements KControllerException {}
+class ControllerExceptionUnauthorized extends HttpExceptionUnauthorized implements ControllerException {}

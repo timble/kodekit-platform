@@ -5,26 +5,28 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
- * KLoader Interface
+ * Loader Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Loader
  */
-interface KLoaderInterface
+interface LoaderInterface
 {
     /**
      * Registers the loader with the PHP autoloader.
      *
      * @return void
-     * @see spl-autoload-register();
+     * @see \spl-autoload-register();
      */
     public function register();
 
     /**
      * Get the class registry object
      *
-     * @return object KLoaderRegistry
+     * @return LoaderRegistry
      */
     public function getRegistry();
 
@@ -41,10 +43,10 @@ interface KLoaderInterface
  	/**
      * Add a loader adapter
      *
-     * @param object    A KLoaderAdapter
+     * @param LoaderAdapterInterface $adapter
      * @return void
      */
-    public function addAdapter(KLoaderAdapterInterface $adapter);
+    public function addAdapter(LoaderAdapterInterface $adapter);
 
 	/**
      * Get the registered adapters

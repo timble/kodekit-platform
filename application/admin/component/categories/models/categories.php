@@ -7,6 +7,8 @@
  * @link       	http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Categories Model Class
  *
@@ -16,7 +18,7 @@
  */
 class ComCategoriesModelCategories extends ComDefaultModelDefault
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
 	{
         parent::__construct($config);
 
@@ -31,7 +33,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
             ->insert('sort', 'cmd', 'ordering');
     }
 
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
         
@@ -54,7 +56,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         parent::_buildQueryJoins($query);
     }
 
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         
@@ -93,7 +95,7 @@ class ComCategoriesModelCategories extends ComDefaultModelDefault
         }
     }
 
-    protected function _buildQueryGroup(KDatabaseQuerySelect $query)
+    protected function _buildQueryGroup(Framework\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
         if( $state->distinct ) 

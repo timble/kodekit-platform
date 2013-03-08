@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper Class
  *
@@ -19,7 +21,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
     public function menus($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 		$config->append(array(
 			'model'		=> 'menus',
 			'name' 		=> 'pages_menu_id',
@@ -32,7 +34,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     
     public function pages($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'deselect' => true,
             'prompt' => '- Select -',
@@ -55,7 +57,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
                 $options[] = $this->option(array(
                     'text' => str_repeat(str_repeat('&nbsp;', 4), $page->level).$page->title,
                     'value' => $page->id,
-                    'disable' => in_array($page->type, KConfig::unbox($config->disable))
+                    'disable' => in_array($page->type, Framework\Config::unbox($config->disable))
                 ));
             }
         }
@@ -67,7 +69,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function parents($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name' => 'parent_id',
             'page' => null,
@@ -111,7 +113,7 @@ class ComPagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function positions($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name' => 'position',
         ));

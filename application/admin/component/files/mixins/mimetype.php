@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Mimetype Mixin Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesMixinMimetype extends KObject
+class ComFilesMixinMimetype extends Framework\Object
 {
 	/**
 	 * Used as a way to continue on the chain when the method is not available.
@@ -29,16 +31,16 @@ class ComFilesMixinMimetype extends KObject
 	 */
 	protected $_adapters = array();
 
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
 		if (isset($config->adapters)) {
-			$this->_adapters = KConfig::unbox($config->adapters);
+			$this->_adapters = Framework\Config::unbox($config->adapters);
 		}
 	}
 
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		if (empty($config->adapters)) {
 			$config->adapters = array('image', 'finfo');

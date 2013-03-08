@@ -1,11 +1,14 @@
 <?php
+
+use Nooku\Framework;
+
 class ComPagesDatabaseBehaviorTypeRedirect extends ComPagesDatabaseBehaviorTypeAbstract
 {
     protected $_type_title;
 
     protected $_type_description;
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
@@ -34,19 +37,19 @@ class ComPagesDatabaseBehaviorTypeRedirect extends ComPagesDatabaseBehaviorTypeA
         return $this->_type_description;
     }
 
-    protected function _setLinkBeforeSave(KCommandContext $context)
+    protected function _setLinkBeforeSave(Framework\CommandContext $context)
     {
         if($this->link_type) {
             $this->link_type == 'id' ? $this->link_url = null : $this->link_id = null;
         }
     }
 
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(Framework\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }
 
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }

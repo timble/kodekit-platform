@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Template
  *
@@ -32,7 +34,7 @@ class ComDefaultTemplateDefault extends ComDefaultTemplateAbstract
     {
         $view = $this->getView();
 
-        if(KInflector::isPlural($view->getName()))
+        if(Framework\Inflector::isPlural($view->getName()))
         {
             if($state = $view->getModel()->getState()) {
                 $params = array_merge( $state->toArray(), $params);

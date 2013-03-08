@@ -5,13 +5,15 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Behavior Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-interface KBehaviorInterface extends KCommandInterface, KServiceInterface
+interface BehaviorInterface extends CommandInterface, ServiceInterface
 {
 	
 }

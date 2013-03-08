@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Weblink Database Table Class
  *
@@ -16,9 +18,9 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksDatabaseTableWeblinks extends KDatabaseTableDefault
+class ComWeblinksDatabaseTableWeblinks extends Framework\DatabaseTableDefault
 {
-    public function  _initialize(KConfig $config) 
+    public function  _initialize(Framework\Config $config)
     {
         $config->append(array(
         	'name'         => 'weblinks',

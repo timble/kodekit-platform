@@ -6,23 +6,25 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Object Mixable Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
  */
-interface KObjectMixable
+interface ObjectMixable
 {
     /**
      * Mixin an object
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements KMixinInterface, KServiceIdentifier object
+     * @@param   mixed  $mixin  An object that implements MixinInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return  KObjectInterface
+     * @return  ObjectInterface
      */
     public function mixin($mixin, $config = array());
 

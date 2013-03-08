@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Pages Database Rowset Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowsetPages extends KDatabaseRowsetTable
+class ComPagesDatabaseRowsetPages extends Framework\DatabaseRowsetTable
 {
     public function find($needle)
     {

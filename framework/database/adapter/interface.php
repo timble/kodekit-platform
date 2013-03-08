@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Adapter Interface
  *
@@ -14,26 +16,26 @@
  * @package     Koowa_Database
  * @subpackage  Adapter
  */
-interface KDatabaseAdapterInterface
+interface DatabaseAdapterInterface
 {
 	/**
 	 * Connect to the db
 	 * 
-	 * @return  KDatabaseAdapterAbstract
+	 * @return  DatabaseAdapterAbstract
 	 */
 	public function connect();
 
 	/**
 	 * Reconnect to the db
 	 * 
-	 * @return  KDatabaseAdapterAbstract
+	 * @return  DatabaseAdapterAbstract
 	 */
 	public function reconnect();
 
 	/**
 	 * Disconnect from db
 	 * 
-	 * @return  KDatabaseAdapterAbstract
+	 * @return  DatabaseAdapterAbstract
 	 */
 	public function disconnect();
 
@@ -77,54 +79,54 @@ interface KDatabaseAdapterInterface
      * Preform a select query.
      * 
      * @param	string  	A full SQL query to run. Data inside the query should be properly escaped. 
-     * @param	integer 	The result maode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE 
-     * 						depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
-     * 						use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
+     * @param	integer 	The result maode, either the constant Database::RESULT_USE or Database::RESULT_STORE
+     * 						depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
+     * 						use Database::RESULT_USE all subsequent calls will return error Commands out of sync
      * 						unless you free the result first.
      * @param 	string 		The column name of the index to use.
      * @return  mixed 		If successfull returns a result object otherwise FALSE
      */
-	public function select(KDatabaseQueryInterface $query, $mode = KDatabase::RESULT_STORE, $key = '');
+	public function select(DatabaseQueryInterface $query, $mode = Database::RESULT_STORE, $key = '');
 
 	/**
      * Insert a row of data into a table.
      *
-     * @param KDatabaseQueryInsert The query object.
+     * @param DatabaseQueryInsert The query object.
      * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if 
      * 					     no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
-	public function insert(KDatabaseQueryInsert $query);
+	public function insert(DatabaseQueryInsert $query);
 
 	/**
      * Update a table with specified data.
      *
-     * @param  KDatabaseQueryUpdate The query object.
+     * @param  DatabaseQueryUpdate The query object.
      * @return integer  If the update query was executed returns the number of rows updated, or 0 if 
      * 					no rows where updated, or -1 if an error occurred. Otherwise FALSE. 
      */
-	public function update(KDatabaseQueryUpdate $query);
+	public function update(DatabaseQueryUpdate $query);
 
 	/**
      * Delete rows from the table.
      *
-     * @param  KDatabaseQueryDelete The query object.
+     * @param  DatabaseQueryDelete The query object.
      * @return integer 	Number of rows affected, or -1 if an error occured.
      */
-	public function delete(KDatabaseQueryDelete $query);
+	public function delete(DatabaseQueryDelete $query);
 
 	/**
 	 * Use and other queries that don't return rows
 	 *
 	 * @param  string 	The query to run. Data inside the query should be properly escaped. 
-	 * @param  integer 	The result made, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
-     * 					depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you 
-     * 					use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync 
+	 * @param  integer 	The result made, either the constant Database::RESULT_USE or Database::RESULT_STORE
+     * 					depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
+     * 					use Database::RESULT_USE all subsequent calls will return error Commands out of sync
      * 					unless you free the result first.
 	 * @throws \RuntimeException If the query could not be executed
 	 * @return boolean 	For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object. 
 	 * 					For other successful queries  return TRUE. 
 	 */
-	public function execute($sql, $mode = KDatabase::RESULT_STORE );
+	public function execute($sql, $mode = Database::RESULT_STORE );
 
     /**
      * Get the connection
@@ -140,7 +142,7 @@ interface KDatabaseAdapterInterface
      * Set the connection
      *
      * @param 	resource 	The connection resource
-     * @return  KDatabaseAdapterAbstract
+     * @return  DatabaseAdapterAbstract
      */
     public function setConnection($resource);
 
@@ -155,7 +157,7 @@ interface KDatabaseAdapterInterface
      * Retrieves the column schema information about the given table
      *
      * @param 	string 	A table name
-     * @return	KDatabaseSchemaTable
+     * @return	DatabaseSchemaTable
      */
     public function getTableSchema($table);
 
@@ -163,8 +165,8 @@ interface KDatabaseAdapterInterface
 	 * Set the table prefix
 	 *
 	 * @param string The table prefix
-	 * @return KDatabaseAdapterAbstract
-	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
+	 * @return DatabaseAdapterAbstract
+	 * @see DatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function setTablePrefix($prefix);
 
@@ -172,7 +174,7 @@ interface KDatabaseAdapterInterface
 	 * Get the table prefix
 	 *
 	 * @return string The table prefix
-	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
+	 * @see DatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function getTablePrefix();
 	
@@ -180,7 +182,7 @@ interface KDatabaseAdapterInterface
 	 * Get the table needle
 	 *
 	 * @return string The table needle
-	 * @see KDatabaseAdapterAbstract::replaceTableNeedle
+	 * @see DatabaseAdapterAbstract::replaceTableNeedle
 	 */
 	public function getTableNeedle();
 

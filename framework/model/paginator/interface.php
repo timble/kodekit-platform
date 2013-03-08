@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Model Paginator Interface
  *
@@ -14,12 +16,12 @@
  * @package     Koowa_Model
  * @subpackage  Paginator
  */
-interface KModelPaginatorInterface
+interface ModelPaginatorInterface
 {
     /**
      * Get the pages
      *
-     * @return KConfig A KConfig object that holds the page information
+     * @return Config A Config object that holds the page information
      */
     public function getPages();
 }

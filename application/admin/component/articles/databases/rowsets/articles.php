@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Articles database rowset class.
  *
@@ -14,7 +16,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesDatabaseRowsetArticles extends KDatabaseRowsetTable
+class ComArticlesDatabaseRowsetArticles extends Framework\DatabaseRowsetTable
 {
 
 }

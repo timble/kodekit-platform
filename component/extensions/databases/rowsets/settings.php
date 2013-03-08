@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Settings Database Rowset
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsDatabaseRowsetSettings extends KDatabaseRowsetAbstract
+class ComExtensionsDatabaseRowsetSettings extends Framework\DatabaseRowsetAbstract
 {       
 	/**
      * Test existence of a key
@@ -43,7 +45,7 @@ class ComExtensionsDatabaseRowsetSettings extends KDatabaseRowsetAbstract
      * @param   array   An associative array of data
      * @param   boolean If TRUE, update the modified information for each column being set.
      *                  Default TRUE
-     * @return  KDatabaseRowsetAbstract
+     * @return  Framework\DatabaseRowsetAbstract
      */
      public function setData( $data, $modified = true )
      { 

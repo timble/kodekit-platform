@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Event Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Event
  */
-interface KEvent
+interface EventInterface
 {
     /**
      * Get the event name
@@ -25,7 +27,7 @@ interface KEvent
      * Set the event name
      *
      * @param string	The event name
-     * @return KEvent
+     * @return Event
      */
     public function setName($name);
     
@@ -40,22 +42,22 @@ interface KEvent
      * Set the event target
      *
      * @param object	The event target
-     * @return KEvent
+     * @return Event
      */
-    public function setTarget(KServiceInterface $target);
+    public function setTarget(ServiceInterface $target);
     
     /**
      * Stores the EventDispatcher that dispatches this Event
      *
      * @param EventDispatcher $dispatcher
-     * @return KEvent
+     * @return Event
      */
-    public function setDispatcher(KEventDispatcherInterface $dispatcher);
+    public function setDispatcher(EventDispatcherInterface $dispatcher);
     
     /**
      * Returns the EventDispatcher that dispatches this Event
      *
-     * @return KEventDispatcher
+     * @return EventDispatcher
      */
     public function getDispatcher();
     
@@ -73,7 +75,7 @@ interface KEvent
      * further event listener will be triggered once any trigger calls
      * stopPropagation().
      * 
-     * @return KEvent
+     * @return Event
      */
     public function stopPropagation();
 }

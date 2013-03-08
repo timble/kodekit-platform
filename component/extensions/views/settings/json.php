@@ -7,19 +7,21 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Settings Json View
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsViewSettingsJson extends KViewJson
+class ComExtensionsViewSettingsJson extends Framework\ViewJson
 {
     public function render()
     {
         $model = $this->getModel();
 
-        if(KInflector::isPlural($this->getName())) {
+        if(Framework\Inflector::isPlural($this->getName())) {
             $data = array('settings' => $model->getRowset()->toArray());
         } else {
             $data = $model->getRow()->toArray();

@@ -7,15 +7,17 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Image Helper
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KConfig
+ * @uses        Framework\Config
  */
-class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
+class ComDefaultTemplateHelperImage extends Framework\TemplateHelperListbox
 {
 	/**
 	 * Generated a HTML images listbox
@@ -35,7 +37,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
 	 */
 	public function listbox($config = array())
 	{
-  		$config = new KConfig($config);
+  		$config = new Framework\Config($config);
   		$config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',
@@ -67,7 +69,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
   		}
 
 		$files = array();
-  		foreach(new DirectoryIterator($config->directory) as $file) {
+  		foreach(new \DirectoryIterator($config->directory) as $file) {
    			if(in_array(pathinfo($file, PATHINFO_EXTENSION), $config->filetypes->toArray() )) {
     				$files[] = (string) $file;
    			}
@@ -108,7 +110,7 @@ class ComDefaultTemplateHelperImage extends KTemplateHelperListbox
  	 */
  	public function preview($config = array())
  	{
- 	    $config = new KConfig($config);
+ 	    $config = new Framework\Config($config);
  	    $config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',

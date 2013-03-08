@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Log Template Helper Class
  *
@@ -21,7 +23,7 @@ class ComUsersTemplateHelperActivity extends ComActivitiesTemplateHelperActivity
 {
     public function message($config = array())
 	{
-	    $config = new KConfig($config);
+	    $config = new Framework\Config($config);
 		$config->append(array(
 			'row'      => ''
 		));

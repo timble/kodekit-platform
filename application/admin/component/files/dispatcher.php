@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Dispatcher Class
  *
@@ -17,7 +19,7 @@
 
 class ComFilesDispatcher extends ComDefaultDispatcher
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 	
@@ -25,7 +27,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
 		$this->registerCallback('after.post' , array($this, 'renderResponse'));
 	}
 	
-	public function renderResponse(KCommandContext $context) 
+	public function renderResponse(Framework\CommandContext $context)
 	{
 		if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
 			$this->getController()->execute('render', $context);
@@ -35,12 +37,12 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     /**
      * Overloaded execute function to handle exceptions in JSON requests
      */
-    public function execute($action, KCommandContext $context)
+    public function execute($action, Framework\CommandContext $context)
     {
         try {
             return parent::execute($action, $context);
         }
-        catch (KControllerException $e) {
+        catch (Framework\ControllerException $e) {
             $this->_handleException($e);
         }
         catch (UnexpectedValueException $e) {
@@ -52,7 +54,7 @@ class ComFilesDispatcher extends ComDefaultDispatcher
     {
     	if ($this->getRequest()->getFormat() == 'json')
         {
-    		$obj = new stdClass;
+    		$obj = new \stdClass;
     		$obj->status = false;
     		$obj->error  = $e->getMessage();
     		$obj->code   = $e->getCode();

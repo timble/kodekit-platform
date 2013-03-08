@@ -1,9 +1,12 @@
 <?php
+
+use Nooku\Framework;
+
 class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorTypeAbstract
 {
     protected $_type_title;
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
@@ -170,7 +173,7 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
         return $xml;
     }
 
-    protected function _setLinkBeforeSave(KCommandContext $context)
+    protected function _setLinkBeforeSave(Framework\CommandContext $context)
     {
         if($this->isModified('link_url'))
         {
@@ -186,18 +189,18 @@ class ComPagesDatabaseBehaviorTypeComponent extends ComPagesDatabaseBehaviorType
             // TODO: Get component from application.component.
             // Set component id.
             $component = $this->getService('com://admin/extensions.database.table.components')
-                ->select(array('name' => $query['option']), KDatabase::FETCH_ROW);
+                ->select(array('name' => $query['option']), Framework\Database::FETCH_ROW);
 
             $this->extensions_component_id = $component->id;
         }
     }
 
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(Framework\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }
 
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }

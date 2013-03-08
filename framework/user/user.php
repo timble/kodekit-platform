@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * User Class
  *
@@ -17,20 +19,20 @@
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_User
  */
-class KUser extends KObject implements KUserInterface, KServiceInstantiatable
+class User extends Object implements UserInterface, ServiceInstantiatable
 {
     /**
      * Constructor
      *
-     * @param KConfig $config An optional KConfig object with configuration options.
-     * @return KUser
+     * @param Config $config An optional Config object with configuration options.
+     * @return User
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         //Set the user properties and attributes
-        $this->fromArray(KConfig::unbox($config));
+        $this->fromArray(Config::unbox($config));
     }
 
     /**
@@ -38,10 +40,10 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  KConfig $config An optional KConfig object with configuration options.
+     * @param  Config $config An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'id'         => 0,
@@ -63,11 +65,11 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherRequest
+     * @param 	Config                 $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return DispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has('user'))
         {
@@ -212,12 +214,12 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
      * Set the user data from an array
      *
      * @param  array $data An associative array of data
-     * @return KUser
+     * @return User
      */
     public function fromArray(array $data)
     {
         //Re-initialize the object
-        $data = new KConfig($data);
+        $data = new Config($data);
         $this->_initialize($data);
 
         unset($data['mixins']);
@@ -225,7 +227,7 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
         unset($data['service_identifier']);
 
         //Set the user data
-        $this->getSession()->set('user', KConfig::unbox($data));
+        $this->getSession()->set('user', Config::unbox($data));
 
         return $this;
     }
@@ -247,7 +249,7 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
      *
      * @param   mixed   Attribute identifier, eg foo.bar
      * @param   mixed   Attribute value
-     * @return KUser
+     * @return User
      */
     public function set($identifier, $value)
     {
@@ -270,7 +272,7 @@ class KUser extends KObject implements KUserInterface, KServiceInstantiatable
      * Removes an user attribute
      *
      * @param string $identifier Attribute identifier, eg foo.bar
-     * @return KUser
+     * @return User
      */
     public function remove($identifier)
     {

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Database Table Class
  *
@@ -14,16 +16,16 @@
  * @package     Koowa_Database
  * @subpackage  Table
  */
-class KDatabaseTableDefault extends KDatabaseTableAbstract implements KServiceInstantiatable
+class DatabaseTableDefault extends DatabaseTableAbstract implements ServiceInstantiatable
 {
 	/**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDatabaseTableDefault
+     * @param 	ConfigI                 $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return DatabaseTableDefault
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

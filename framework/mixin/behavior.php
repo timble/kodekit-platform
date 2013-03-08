@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Behavior Mixin Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
  */
-class KMixinBehavior extends KMixinAbstract
+class MixinBehavior extends MixinAbstract
 {
     /**
      * List of behaviors
@@ -33,9 +35,9 @@ class KMixinBehavior extends KMixinAbstract
     /**
      * Constructor
      *
-     * @param     object     An optional KConfig object with configuration options.
+     * @param     object     An optional Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -43,7 +45,7 @@ class KMixinBehavior extends KMixinAbstract
         $this->_auto_mixin = $config->auto_mixin;
 
         //Add the behaviors
-        $behaviors = (array)KConfig::unbox($config->behaviors);
+        $behaviors = (array)Config::unbox($config->behaviors);
 
         foreach ($behaviors as $key => $value)
         {
@@ -60,10 +62,10 @@ class KMixinBehavior extends KMixinAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options.
+     * @param     object     An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         parent::_initialize($config);
 
@@ -76,14 +78,14 @@ class KMixinBehavior extends KMixinAbstract
     /**
      * Add a behavior
      *
-     * @param   mixed $behavior   An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed $behavior   An object that implements ServiceInterface, ServiceIdentifier object
      *                            or valid identifier string
      * @param   array $config    An optional associative array of configuration settings
-     * @return  KObject The mixer object
+     * @return  Object The mixer object
      */
     public function attachBehavior($behavior, $config = array())
     {
-        if (!($behavior instanceof KBehaviorInterface)) {
+        if (!($behavior instanceof BehaviorInterface)) {
             $behavior = $this->getBehavior($behavior, $config);
         }
 
@@ -115,15 +117,15 @@ class KMixinBehavior extends KMixinAbstract
     /**
      * Get a behavior by identifier
      *
-     * @param   mixed    An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed    An object that implements ServiceInterface, ServiceIdentifier object
      *                   or valid identifier string
      * @param   array   An optional associative array of configuration settings
-     * @throws \UnexpectedValueException    If the behavior does not implement the KBehaviorInterface
-     * @return KControllerBehaviorAbstract
+     * @throws \UnexpectedValueException    If the behavior does not implement the BehaviorInterface
+     * @return ControllerBehaviorAbstract
      */
     public function getBehavior($behavior, $config = array())
     {
-        if (!($behavior instanceof KServiceIdentifier))
+        if (!($behavior instanceof ServiceIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($behavior) && strpos($behavior, '.') === false)
@@ -148,8 +150,8 @@ class KMixinBehavior extends KMixinAbstract
 
             $behavior = $this->getService($identifier, $config);
 
-            if (!($behavior instanceof KBehaviorInterface)) {
-                throw new \UnexpectedValueException("Behavior $identifier does not implement KBehaviorInterface");
+            if (!($behavior instanceof BehaviorInterface)) {
+                throw new \UnexpectedValueException("Behavior $identifier does not implement BehaviorInterface");
             }
 
             $this->_behaviors[$behavior->getIdentifier()->name] = $behavior;

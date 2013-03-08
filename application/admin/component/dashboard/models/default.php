@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Dashboard Model
  *   
@@ -17,7 +19,7 @@
  * @subpackage  Dashboard
  */
  
-class ComDashboardModelDefault extends KModelAbstract
+class ComDashboardModelDefault extends Framework\ModelAbstract
 {
     
 }

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Authenticatable Database Behavior class.
  *
@@ -14,9 +16,9 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
+class ComUsersDatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'auto_mixin' => true
@@ -25,7 +27,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         $data = $context->data;
 
@@ -40,7 +42,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(Framework\CommandContext $context)
     {
         $data = $context->data;
 
@@ -56,7 +58,7 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $data = $context->data;
 
@@ -67,18 +69,18 @@ class ComUsersDatabaseBehaviorAuthenticatable extends KDatabaseBehaviorAbstract
 
             if (!$password->setData(array('password' => $data->password))->save())
             {
-                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatus(Framework\Database::STATUS_FAILED);
                 $this->setStatusMessage($password->getStatusMessage());
                 return false;
             }
         }
     }
 
-    protected function _afterTableInsert(KCommandContext $context)
+    protected function _afterTableInsert(Framework\CommandContext $context)
     {
         $data = $context->data;
 
-        if ($data->getStatus() == KDatabase::STATUS_CREATED)
+        if ($data->getStatus() == Framework\Database::STATUS_CREATED)
         {
             // Create a password row for the user.
             $data->getPassword()

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Date Helper
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateHelperDate extends KTemplateHelperDate
+class ComDefaultTemplateHelperDate extends Framework\TemplateHelperDate
 {
     /**
      * Returns formated date according to current local and adds time offset
@@ -26,7 +28,7 @@ class ComDefaultTemplateHelperDate extends KTemplateHelperDate
      */
     public function format($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'format' => JText::_('DATE_FORMAT_LC1'),
             'gmt_offset' => JFactory::getConfig()->getValue('config.offset') * 3600
@@ -43,7 +45,7 @@ class ComDefaultTemplateHelperDate extends KTemplateHelperDate
      */
     public function humanize($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'gmt_offset' => 0
         ));

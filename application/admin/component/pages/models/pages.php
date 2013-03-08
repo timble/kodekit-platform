@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Pages Model Class
  *
@@ -18,7 +20,7 @@ class ComPagesModelPages extends ComDefaultModelDefault
 {
     protected $_page_xml;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -34,7 +36,7 @@ class ComPagesModelPages extends ComDefaultModelDefault
             ->insert('application', 'word');
     }
 
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
@@ -43,7 +45,7 @@ class ComPagesModelPages extends ComDefaultModelDefault
         }
     }
 
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
 
@@ -57,7 +59,7 @@ class ComPagesModelPages extends ComDefaultModelDefault
         }
     }
 
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();

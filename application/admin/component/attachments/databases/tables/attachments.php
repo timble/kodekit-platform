@@ -1,7 +1,10 @@
 <?php
-class ComAttachmentsDatabaseTableAttachments extends KDatabaseTableDefault
+
+use Nooku\Framework;
+
+class ComAttachmentsDatabaseTableAttachments extends Framework\DatabaseTableDefault
 {
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
     {
     	$config->append(array(
     		'name'      => 'attachments',

@@ -6,15 +6,17 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Config Interface
  *
- * KConfig provides a property based interface to an array
+ * Config provides a property based interface to an array
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-interface KConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
+interface ConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
 {
     /**
      * Retrieve a configuration item and return $default if there is no element set.
@@ -46,7 +48,7 @@ interface KConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
      * Remove a configuration item
      *
      * @param   string $name The configuration item name.
-     * @return  KModelStateInterface
+     * @return  ModelStateInterface
      */
     public function remove( $name );
 
@@ -56,16 +58,16 @@ interface KConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
      * This function only adds keys that don't exist and it filters out any duplicate values
      *
      * @param  mixed    A value of an or array of values to be appended
-     * @return KConfig
+     * @return Config
      */
     public function append($config);
 
     /**
-     * Unbox a KConfig object
+     * Unbox a Config object
      *
-     * If the data being passed is an instance of KConfig the data will be transformed to an associative array.
+     * If the data being passed is an instance of Config the data will be transformed to an associative array.
      *
-     * @param  KConfig|mxied $data
+     * @param  Config|mxied $data
      * @return array|mixed
      */
     public static function unbox($data);

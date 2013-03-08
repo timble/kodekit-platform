@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher User Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage  User
  */
-interface KDispatcherUserInterface extends KControllerUserInterface
+interface DispatcherUserInterface extends ControllerUserInterface
 {
 
 }

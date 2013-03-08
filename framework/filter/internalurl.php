@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Internal url filter
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterInternalurl extends KFilterAbstract
+class FilterInternalurl extends FilterAbstract
 {
     /**
      * Validate a value
@@ -28,7 +30,7 @@ class KFilterInternalurl extends KFilterAbstract
             return false;
         }
 
-        if(stripos($value, (string)  $this->getService('request')->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST)) !== 0) {
+        if(stripos($value, (string)  $this->getService('request')->getUrl()->toString(HttpUrl::SCHEME | HttpUrl::HOST)) !== 0) {
             return false;
         }
 

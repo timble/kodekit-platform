@@ -1,7 +1,10 @@
 <?php
+
+use Nooku\Framework;
+
 class ComArticlesControllerAttachment extends ComAttachmentsControllerAttachment
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -10,7 +13,7 @@ class ComArticlesControllerAttachment extends ComAttachmentsControllerAttachment
         $this->registerCallback(array('after.edit', 'after.delete'), array($this, 'setRedirect'));
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'model'   => 'com://admin/attachments.model.attachments',
@@ -22,7 +25,7 @@ class ComArticlesControllerAttachment extends ComAttachmentsControllerAttachment
         parent::_initialize($config);
     }
 
-    public function setRedirect(KCommandContext $context)
+    public function setRedirect(Framework\CommandContext $context)
     {
         $context->response->setRedirect($context->request->getReferrer());
     }

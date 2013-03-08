@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Query Interface
  *
@@ -14,43 +16,43 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-interface KDatabaseQueryInterface
+interface DatabaseQueryInterface
 {
     /**
      * Bind values to a corresponding named placeholders in the query.
      *
      * @param  array $params Associative array of parameters.
-     * @return \KDatabaseQueryInterface
+     * @return DatabaseQueryInterface
      */
     public function bind(array $params);
 
     /**
      * Get the query parameters
      *
-     * @return KObjectArray
+     * @return ObjectArray
      */
     public function getParams();
 
     /**
      * Set the query parameters
      *
-     * @param KObjectArray $params  The query parameters
-     * @return \KDatabaseQueryInterface
+     * @param ObjectArray $params  The query parameters
+     * @return DatabaseQueryInterface
      */
-    public function setParams(KObjectArray $params);
+    public function setParams(ObjectArray $params);
 
     /**
      * Gets the database adapter
      *
-     * @return \KDatabaseAdapterInterface
+     * @return DatabaseAdapterInterface
      */
     public function getAdapter();
     
     /**
      * Set the database adapter
      *
-     * @param  \KDatabaseAdapterInterface $adapter A KDatabaseAdapterInterface object
-     * @return \KDatabaseQueryInterface
+     * @param  DatabaseAdapterInterface $adapter A DatabaseAdapterInterface object
+     * @return DatabaseQueryInterface
      */
-    public function setAdapter(KDatabaseAdapterInterface $adapter);
+    public function setAdapter(DatabaseAdapterInterface $adapter);
 }

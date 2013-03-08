@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Html XSS Filter
  *
@@ -15,7 +17,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterHtml extends KFilterTidy
+class FilterHtml extends FilterTidy
 {
     /**
      * List of user-defined tags
@@ -59,20 +61,20 @@ class KFilterHtml extends KFilterTidy
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         // List of user-defined tags
         if(isset($config->tag_list)) {
-            $this->_tagsArray = array_map('strtolower', (array) KConfig::unbox($config->tag_list));
+            $this->_tagsArray = array_map('strtolower', (array) Config::unbox($config->tag_list));
         }
 
         // List of user-defined attributes
         if(isset($config->attrib_list)) {
-            $this->_attrArray = array_map('strtolower', (array) KConfig::unbox($config->attrib_list));
+            $this->_attrArray = array_map('strtolower', (array) Config::unbox($config->attrib_list));
         }
 
         // WhiteList method = 0, BlackList method = 1
@@ -96,10 +98,10 @@ class KFilterHtml extends KFilterTidy
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'tag_list'      => array(),

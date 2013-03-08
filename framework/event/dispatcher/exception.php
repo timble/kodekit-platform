@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Error Event Dispatcher Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Event
  * @subpackage 	Dispatcher
  */
-class KEventDispatcherException extends KEventDispatcherAbstract
+class EventDispatcherException extends EventDispatcherAbstract
 {
     /**
      * The error level.
@@ -26,9 +28,9 @@ class KEventDispatcherException extends KEventDispatcherAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -52,10 +54,10 @@ class KEventDispatcherException extends KEventDispatcherAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'catch_exceptions'  => true,
@@ -96,6 +98,7 @@ class KEventDispatcherException extends KEventDispatcherAbstract
     public function registerExceptionHandler()
     {
         $self = $this; //Cannot use $this as a lexical variable in PHP 5.3
+
         $previous = set_exception_handler(function($exception) use ($self) {
             $self->dispatchException('onException', array('exception' => $exception));
         });
@@ -113,6 +116,7 @@ class KEventDispatcherException extends KEventDispatcherAbstract
     {
         $error_level = $this->_error_level;
         $self        = $this; //Cannot use $this as a lexical variable in PHP 5.3
+
         $previous = set_error_handler(function($level, $message, $file, $line, $context) use ($self, $error_level)
         {
             if (0 === $error_level) {
@@ -121,7 +125,7 @@ class KEventDispatcherException extends KEventDispatcherAbstract
 
             if (error_reporting() & $level && $error_level & $level)
             {
-                $exception = new KExceptionError($message, 500, $level, $file, $line);
+                $exception = new ExceptionError($message, 500, $level, $file, $line);
                 $self->dispatchException('onException', array(
                     'exception' => $exception,
                     'context'   => $context
@@ -152,7 +156,7 @@ class KEventDispatcherException extends KEventDispatcherAbstract
 
             if (error_reporting() & $level && $error_level & $level)
             {
-                $exception = new KExceptionError($error['message'], 500, $level, $error['file'], $error['line']);
+                $exception = new ExceptionError($error['message'], 500, $level, $error['file'], $error['line']);
                 $self->dispatchException('onException', array('exception' => $exception));
             }
         });
@@ -166,21 +170,21 @@ class KEventDispatcherException extends KEventDispatcherAbstract
      *
      * @link    http://www.php.net/manual/en/function.set-exception-handler.php#88082
      * @param   string  The event name
-     * @param   object|array   An array, a KConfig or a KEvent object
-     * @return  KEventException
+     * @param   object|array   An array, a Config or a Event object
+     * @return  EventException
      */
     public function dispatchException($name, $event = array())
     {
         try
         {
             //Make sure we have an event object
-            if (!$event instanceof KEventException) {
-                $event = new KEventException($event);
+            if (!$event instanceof EventException) {
+                $event = new EventException($event);
             }
 
             parent::dispatchEvent($name, $event);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             $message = "<strong>Exception</strong> '%s' thrown while dispatching error: %s in <strong>%s</strong> on line <strong>%s</strong> %s";
             $message = sprintf($message, get_class($e), $e->getMessage(), $e->getFile(), $e->getLine(), $e->getTraceAsString());

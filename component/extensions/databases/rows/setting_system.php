@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * System Setting Database Row
  *
@@ -20,10 +22,10 @@ class ComExtensionsDatabaseRowSetting_System extends ComExtensionsDatabaseRowSet
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Framework\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
              'name' => 'system',
@@ -50,12 +52,12 @@ class ComExtensionsDatabaseRowSetting_System extends ComExtensionsDatabaseRowSet
 		    if (file_put_contents($this->getPath(), $config->toString('PHP', 'config', array('class' => 'JConfig'))) === false) 
 		    {
 			    $this->setStatusMessage(JText::_('ERRORCONFIGFILE'));
-			    $this->setStatus(KDatabase::STATUS_FAILED);
+			    $this->setStatus(Framework\Database::STATUS_FAILED);
 			
 			    return false;
 		    }     
 		
-		    $this->setStatus(KDatabase::STATUS_UPDATED);
+		    $this->setStatus(Framework\Database::STATUS_UPDATED);
         }
         
         return true;

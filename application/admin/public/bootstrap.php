@@ -15,6 +15,8 @@
  * @package     Nooku_Server
  */
 
+use Nooku\Framework;
+
 //Installation check
 if (!file_exists(JPATH_ROOT . '/config/config.php') || (filesize(JPATH_ROOT . '/config/config.php') < 10)) {
     echo 'No configuration file found. Exciting...';
@@ -34,15 +36,16 @@ require_once JPATH_ROOT . '/config/config.php';
 $config = new JConfig();
 
 require_once(JPATH_ROOT . '/framework/nooku.php');
-Nooku::getInstance(array(
+\Nooku::getInstance(array(
     'cache_prefix' => md5($config->secret) . '-cache-koowa',
     'cache_enabled' => $config->caching
 ));
 
 unset($config);
 
-KServiceManager::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
-KServiceIdentifier::addLocator(KServiceManager::get('lib://nooku/service.locator.component'));
 
-KServiceIdentifier::setNamespace('site' , JPATH_ROOT . '/application/site');
-KServiceIdentifier::setNamespace('admin', JPATH_ROOT . '/application/admin');
+Framework\ServiceManager::get('loader')->addAdapter(new Framework\LoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
+Framework\ServiceIdentifier::addLocator(Framework\ServiceManager::get('lib://nooku/service.locator.component'));
+
+Framework\ServiceIdentifier::setNamespace('site' , JPATH_ROOT . '/application/site');
+Framework\ServiceIdentifier::setNamespace('admin', JPATH_ROOT . '/application/admin');

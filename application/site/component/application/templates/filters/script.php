@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Script Template Filter Class
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateFilterScript extends KTemplateFilterScript
+class ComApplicationTemplateFilterScript extends Framework\TemplateFilterScript
 {
     public function write(&$text)
     {

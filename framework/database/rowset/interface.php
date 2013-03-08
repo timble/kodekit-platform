@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Rowset Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Rowset
  */
-interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Countable, \Serializable
+interface DatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Countable, \Serializable
 {
     /**
      * Retrieve an array of column values
@@ -44,9 +46,9 @@ interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Co
 	/**
   	 * Set the rowset data based on a named array/hash
   	 *
-  	 * @param   mixed 	$data     Either and associative array, a KDatabaseRow object or object
+  	 * @param   mixed 	$data     Either and associative array, a DatabaseRow object or object
   	 * @param   boolean $modified If TRUE, update the modified information for each column being set. Default TRUE
- 	 * @return 	\KDatabaseRowsetInterface
+ 	 * @return 	DatabaseRowsetInterface
   	 */
   	 public function setData( $data, $modified = true );
 
@@ -55,7 +57,7 @@ interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Co
      *
      * @param  array   $data An associative array of row data to be inserted.
      * @param  boolean $new  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return \KDatabaseRowsetInterface
+     * @return DatabaseRowsetInterface
      * @see __construct
      */
     public function addRow(array $data, $new = true);
@@ -71,7 +73,7 @@ interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Co
      * Set the status message
      *
      * @param   string $message The status message
-     * @return  KDatabaseRowsetAbstract
+     * @return  DatabaseRowsetAbstract
      */
     public function setStatusMessage($message);
     
@@ -88,28 +90,28 @@ interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Co
      * This functions accepts either a know position or associative array of key/value pairs
      *
      * @param 	string $needle The position or the key to search for
-     * @return \KDatabaseRowInterface
+     * @return DatabaseRowInterface
      */
     public function find($needle);
 
 	/**
      * Saves all rows in the rowset to the database
      *
-     * @return \KDatabaseRowsetInterface
+     * @return DatabaseRowsetInterface
      */
     public function save();
 
 	/**
      * Deletes all rows in the rowset from the database
      *
-     * @return \KDatabaseRowsetInterface
+     * @return DatabaseRowsetInterface
      */
     public function delete();
 
 	/**
      * Reset the rowset
      *
-     * @return \KDatabaseRowsetInterface
+     * @return DatabaseRowsetInterface
      */
     public function reset();
 
@@ -119,10 +121,10 @@ interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Co
      * The row will be stored by i'ts identity_column if set or otherwise by
      * it's object handle.
      *
-     * @param  KDatabaseRowInterface $row A KDatabaseRow object to be inserted
-     * @return \KDatabaseRowsetInterface
+     * @param  DatabaseRowInterface $row A DatabaseRow object to be inserted
+     * @return DatabaseRowsetInterface
      */
-    public function insert(KObjectHandlable $row);
+    public function insert(ObjectHandlable $row);
 
 	/**
      * Removes a row
@@ -130,10 +132,10 @@ interface KDatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Co
      * The row will be removed based on it's identity_column if set or otherwise by
      * it's object handle.
      *
-     * @param  KDatabaseRowInterface $row A KDatabaseRow object to be removed
-     * @return \KDatabaseRowsetInterface
+     * @param  DatabaseRowInterface $row A DatabaseRow object to be removed
+     * @return DatabaseRowsetInterface
      */
-    public function extract(KObjectHandlable $row);
+    public function extract(ObjectHandlable $row);
 
     /**
      * Return an associative array of the data.

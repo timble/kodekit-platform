@@ -7,6 +7,7 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
 
 /**
  * Default Controller

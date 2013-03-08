@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Assignable Database Behavior Class
  *
@@ -15,25 +17,25 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
+class ComPagesDatabaseBehaviorAssignable extends Framework\DatabaseBehaviorAbstract
 {
-    protected function _afterTableInsert(KCommandContext $context)
+    protected function _afterTableInsert(Framework\CommandContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableDelete(KCommandContext $context)
+    protected function _afterTableDelete(Framework\CommandContext $context)
     {
-        if($context->data->getStatus() == KDatabase::STATUS_DELETED)
+        if($context->data->getStatus() == Framework\Database::STATUS_DELETED)
         {
             $this->getService('com://admin/pages.database.table.modules_pages')
                 ->select(array('pages_page_id' => $context->data->id))
@@ -41,7 +43,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _assign(KCommandContext $context)
+    protected function _assign(Framework\CommandContext $context)
     {
         if($context->data->modules)
         {

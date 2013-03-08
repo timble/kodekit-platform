@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Route Class
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Router
  */
-class KDispatcherRouterRoute extends KHttpUrl
+class DispatcherRouterRoute extends HttpUrl
 {
     /**
      * Convert the url or part of it to a string

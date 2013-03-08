@@ -8,6 +8,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template filter interface
  *
@@ -15,7 +17,7 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-interface KTemplateFilterInterface  extends KCommandInterface
+interface TemplateFilterInterface  extends CommandInterface
 {
   	/**
      * Get the template object

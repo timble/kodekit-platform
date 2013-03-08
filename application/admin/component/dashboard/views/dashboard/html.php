@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Dashboard View
  *   
@@ -17,7 +19,7 @@
  * @subpackage  Dashboard
  */
 
-class ComDashboardViewDashboardHtml extends KViewHtml
+class ComDashboardViewDashboardHtml extends Framework\ViewHtml
 {
 
 }

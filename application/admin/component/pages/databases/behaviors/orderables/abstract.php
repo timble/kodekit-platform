@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Abstract Orderable Database Behavior Class
  *
@@ -15,9 +17,9 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseBehaviorOrderableAbstract extends KDatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorOrderableInterface
+class ComPagesDatabaseBehaviorOrderableAbstract extends Framework\DatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorOrderableInterface
 {
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Framework\Object $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
         unset($methods['is'.ucfirst($this->getIdentifier()->name)]);

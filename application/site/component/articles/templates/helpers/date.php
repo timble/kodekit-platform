@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Article Template Helper Class
  *
@@ -18,7 +20,7 @@ class ComArticlesTemplateHelperDate extends ComDefaultTemplateHelperDate
 {
     public function timestamp($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 
         $config->append(array('parameters' => $this->getService('application.components')->articles->params))
                ->append(array(

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Config Database Row Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowConfig extends KDatabaseRowAbstract
+class ComFilesDatabaseRowConfig extends Framework\DatabaseRowAbstract
 {
 	public function __toString()
 	{

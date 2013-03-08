@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Event Subscriber Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Event
  * @subpackage 	Subscriber
  */
-abstract class KEventSubscriberAbstract extends KObject implements KEventSubscriberInterface
+abstract class EventSubscriberAbstract extends Object implements EventSubscriberInterface
 {
  	/**
      * List of subscribed events
@@ -33,9 +35,9 @@ abstract class KEventSubscriberAbstract extends KObject implements KEventSubscri
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
+	 * @param 	object 	An optional Config object with configuration options.
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Config $config)
 	{
 		parent::__construct($config);
 		
@@ -47,13 +49,13 @@ abstract class KEventSubscriberAbstract extends KObject implements KEventSubscri
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      * @return 	void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-    		'priority' => KEvent::PRIORITY_NORMAL
+    		'priority' => Event::PRIORITY_NORMAL
         ));
 
         parent::_initialize($config);
@@ -84,7 +86,7 @@ abstract class KEventSubscriberAbstract extends KObject implements KEventSubscri
             
             //Get all the public methods
             $reflection = new \ReflectionClass($this);
-            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) 
+            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method)
             {
                 if(substr($method->name, 0, 2) == 'on') {
                     $subscriptions[$method->name] = array($this, $method->name);

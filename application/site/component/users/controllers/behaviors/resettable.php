@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Resettable Controller Behavior class.
  *
@@ -14,9 +16,9 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
+class ComUsersControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -24,7 +26,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         $this->getService('loader')->loadFile(JPATH_ROOT . '/administrator/component/users/legacy.php');
     }
 
-    protected function _beforeControllerRead(KCommandContext $context)
+    protected function _beforeControllerRead(Framework\CommandContext $context)
     {
         if ($token = $context->request->query->get('token', 'cmd'))
         {
@@ -42,7 +44,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         }
     }
 
-    protected function _beforeControllerReset(KCommandContext $context)
+    protected function _beforeControllerReset(Framework\CommandContext $context)
     {
         $password = $this->getModel()->getRow();
 
@@ -63,7 +65,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionReset(KCommandContext $context)
+    protected function _actionReset(Framework\CommandContext $context)
     {
         $password = $context->password;
 
@@ -71,7 +73,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         $password->reset    = '';
         $password->save();
 
-        if ($password->getStatus() == KDatabase::STATUS_FAILED)
+        if ($password->getStatus() == Framework\Database::STATUS_FAILED)
         {
             $context->response->setRedirect($context->request->getReferrer());
             //@TODO : Set message in session
@@ -99,7 +101,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeControllerToken(KCommandContext $context)
+    protected function _beforeControllerToken(Framework\CommandContext $context)
     {
         $user = $this->getService('com://site/users.model.users')
             ->set('email', $context->request->data->get('email', 'email'))
@@ -121,7 +123,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionToken(KCommandContext $context)
+    protected function _actionToken(Framework\CommandContext $context)
     {
         $user     = $context->user;
         $password = $user->getPassword();
@@ -134,7 +136,7 @@ class ComUsersControllerBehaviorResettable extends KControllerBehaviorAbstract
         $url        = $this->getService('lib://nooku/http.url',
             array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
-        $url     = $url = $context->request->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT) . $url;
+        $url     = $url = $context->request->getUrl()->toString(Framework\HttpUrl::SCHEME | Framework\HttpUrl::HOST | Framework\HttpUrl::PORT) . $url;
 
         $subject = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
         $body    = JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);

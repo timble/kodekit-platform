@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Raw filter
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterRaw extends KFilterAbstract
+class FilterRaw extends FilterAbstract
 {
     /**
      * Validate a value

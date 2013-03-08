@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Application Event Subscriber
 .*
  * @author		Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Debug
  */
-class ComDebugEventSubscriberApplication extends KEventSubscriberAbstract
+class ComDebugEventSubscriberApplication extends Framework\EventSubscriberAbstract
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
 	{
 	    //Intercept the events for profiling
 	    if($this->getService('application')->getCfg('debug'))

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Model State Class
  *
@@ -14,18 +16,18 @@
  * @package     Koowa_Model
  * @subpackage  State
  */
-class KModelState extends KConfig implements KModelStateInterface
+class ModelState extends Config implements ModelStateInterface
 {
     /**
      * Insert a new state
      *
      * @param   string   $name     The name of the state
-     * @param   mixed    $filter   Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
+     * @param   mixed    $filter   Filter(s), can be a FilterInterface object, a filter name or an array of filter names
      * @param   mixed    $default  The default value of the state
      * @param   boolean  $unique   TRUE if the state uniquely identifies an entity, FALSE otherwise. Default FALSE.
      * @param   array    $required Array of required states to determine if the state is unique. Only applicable if the
      *                             state is unqiue.
-     * @return  KModelState
+     * @return  ModelState
      */
     public function insert($name, $filter, $default = null, $unique = false, $required = array())
     {
@@ -63,7 +65,7 @@ class KModelState extends KConfig implements KModelStateInterface
      *
      * @param  	string 	$name The state name.
      * @param  	mixed  	$value The state value.
-     * @return 	KModelState
+     * @return 	ModelState
      */
     public function set($name, $value)
     {
@@ -94,7 +96,7 @@ class KModelState extends KConfig implements KModelStateInterface
      * Remove an existing state
      *
      * @param   string $name The name of the state
-     * @return  KModelState
+     * @return  ModelState
      */
     public function remove( $name )
     {
@@ -106,7 +108,7 @@ class KModelState extends KConfig implements KModelStateInterface
      * Reset all state data and revert to the default state
      *
      * @param   boolean If TRUE use defaults when resetting. Default is TRUE
-     * @return KModelState
+     * @return ModelState
      */
     public function reset($default = true)
     {
@@ -124,7 +126,7 @@ class KModelState extends KConfig implements KModelStateInterface
      * to NULL.
      *
      * @param   array An associative array of state values by name
-     * @return  KModelState
+     * @return  ModelState
      */
     public function fromArray(array $data)
     {
@@ -140,8 +142,8 @@ class KModelState extends KConfig implements KModelStateInterface
                 {
                     if($value !== '')
                     {
-                        if(!($filter instanceof KFilterInterface)) {
-                            $filter = KServiceManager::get('lib://nooku/filter.factory')->instantiate($filter);
+                        if(!($filter instanceof FilterInterface)) {
+                            $filter =  ServiceManager::get('lib://nooku/filter.factory')->instantiate($filter);
                         }
 
                         $value = $filter->sanitize($value);

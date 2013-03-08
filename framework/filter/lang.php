@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Language filter for ISO codes like en-GB (lang-COUNTRY)
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterLang extends KFilterAbstract
+class FilterLang extends FilterAbstract
 {
     /**
      * Validate a value

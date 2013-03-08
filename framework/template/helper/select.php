@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Select Helper
  *
@@ -14,7 +16,7 @@
  * @package		Koowa_Template
  * @subpackage	Helper
  */
-class KTemplateHelperSelect extends KTemplateHelperAbstract
+class TemplateHelperSelect extends TemplateHelperAbstract
 {
 	/**
 	 * Generates an HTML select option
@@ -24,7 +26,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 	 */
 	public function option( $config = array() )
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'value' 	=> null,
 			'text'   	=> '',
@@ -33,7 +35,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 			'attribs'	=> array(),
 		));
 
-		$option = new stdClass;
+		$option = new \stdClass;
 		$option->value 	  = $config->value;
 		$option->text  	  = trim( $config->text ) ? $config->text : $config->value;
 		$option->disable  = $config->disable;
@@ -51,7 +53,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 	 */
 	public function optionlist($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'options' 	=> array(),
 			'name'   	=> 'id',
@@ -69,7 +71,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		foreach($config->options as $option)
 		{
 			$value  = $option->value;
-			$text   = $config->translate ? JText::_( $option->text ) : $option->text;
+			$text   = $config->translate ? \JText::_( $option->text ) : $option->text;
             
 			if ($option->group) {
 			    $html[] = '<optgroup label="'.$text.'">'.$text.'</option>';
@@ -87,7 +89,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 
 			if(!is_null($config->selected))
 			{
-				if ($config->selected instanceof KConfig)
+				if ($config->selected instanceof Config)
 				{
 					foreach ($config->selected as $selected)
 					{
@@ -118,7 +120,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 	 */
 	public function radiolist( $config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'list' 		=> null,
 			'name'   	=> 'id',
@@ -136,7 +138,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		foreach($config->list as $row)
 		{
 			$key  = $row->{$config->key};
-			$text = $config->translate ? JText::_( $row->{$config->text} ) : $row->{$config->text};
+			$text = $config->translate ? \JText::_( $row->{$config->text} ) : $row->{$config->text};
 			$id	  = isset($row->id) ? $row->id : null;
 
 			$extra = ($key == $config->selected ? 'checked="checked"' : '');
@@ -158,7 +160,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 	 */
 	public function checklist( $config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'list' 		=> null,
 			'name'   	=> 'id',
@@ -176,12 +178,12 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		foreach($config->list as $row)
 		{
 			$key  = $row->{$config->key};
-			$text = $config->translate ? JText::_( $row->{$config->text} ) : $row->{$config->text};
+			$text = $config->translate ? \JText::_( $row->{$config->text} ) : $row->{$config->text};
 			$id	  = isset($row->id) ? $row->id : null;
 
 			$extra = '';
 
-			if ($config->selected instanceof KConfig)
+			if ($config->selected instanceof Config)
 			{
 				foreach ($config->selected as $value)
 				{
@@ -212,7 +214,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 	 */
 	public function booleanlist( $config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'name'   	=> '',
 			'attribs'	=> array(),
@@ -228,7 +230,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		$html  = array();
 
 		$extra = !$config->selected ? 'checked="checked"' : '';
-		$text  = $config->translate ? JText::_( $config->false ) : $config->false;
+		$text  = $config->translate ? \JText::_( $config->false ) : $config->false;
 
 		$html[] = '<label class="radio" for="'.$name.'0">';
 		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'0" value="0" '.$extra.' '.$attribs.' />';
@@ -236,7 +238,7 @@ class KTemplateHelperSelect extends KTemplateHelperAbstract
 		$html[] = '</label>';
 
 		$extra = $config->selected ? 'checked="checked"' : '';
-		$text  = $config->translate ? JText::_( $config->true ) : $config->true;
+		$text  = $config->translate ? \JText::_( $config->true ) : $config->true;
 
 		$html[] = '<label class="radio" for="'.$name.'1">';
 		$html[] = '<input type="radio" name="'.$name.'" id="'.$name.'1" value="1" '.$extra.' '.$attribs.' />';

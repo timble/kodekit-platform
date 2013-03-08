@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Path Filter
  *
@@ -15,7 +17,7 @@
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterPath extends KFilterAbstract
+class FilterPath extends FilterAbstract
 {
 	const PATTERN = '#^(?:[a-z]:/|~*/)[a-z0-9_\.-\s/~]*$#i';
 

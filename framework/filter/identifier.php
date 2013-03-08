@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Identifier Filter
  *
@@ -15,7 +17,7 @@
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterIdentifier extends KFilterAbstract
+class FilterIdentifier extends FilterAbstract
 {
 	/**
 	 * Validate a value

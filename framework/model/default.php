@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Model Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
  */
-class KModelDefault extends KModelTable
+class ModelDefault extends ModelTable
 {
 
 }

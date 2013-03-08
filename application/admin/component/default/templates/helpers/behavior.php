@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Template Behavior Helper
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
+class ComDefaultTemplateHelperBehavior extends Framework\TemplateHelperBehavior
 {
     /**
      * Keep session alive
@@ -34,7 +36,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
             //Refresh time is 1 minute less than the liftime
             $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 
-            $config = new KConfig($config);
+            $config = new Framework\Config($config);
             $config->append(array(
                 'refresh' => $refresh
             ));
@@ -51,10 +53,10 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
      */
     public function sortable($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
-            'option'	=> KRequest::get('get.option', 'cmd'),
-            'view'		=> KInflector::singularize(KRequest::get('get.view', 'cmd')),
+            'option'	=> Framework\Request::get('get.option', 'cmd'),
+            'view'		=> Framework\Inflector::singularize(Framework\Request::get('get.view', 'cmd')),
             'selector'	=> 'table tbody.sortable',
             'direction' => 'asc'
         ))->append(array(

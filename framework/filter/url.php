@@ -7,13 +7,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Url filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterUrl extends KFilterAbstract
+class FilterUrl extends FilterAbstract
 {
 	/**
 	 * Validate a value

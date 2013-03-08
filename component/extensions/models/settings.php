@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Settings Model
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsModelSettings extends KModelAbstract
+class ComExtensionsModelSettings extends Framework\ModelAbstract
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Article Toolbar Class
  *
@@ -16,7 +18,7 @@
  */
 class ComArticlesControllerToolbarArticle extends ComDefaultControllerToolbarDefault
 {
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
         

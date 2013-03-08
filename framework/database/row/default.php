@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Row Default
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-class KDatabaseRowDefault extends KDatabaseRowTable
+class DatabaseRowDefault extends DatabaseRowTable
 {
 
 }

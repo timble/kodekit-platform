@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Password database row class.
  *
@@ -14,9 +16,9 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseRowPassword extends KDatabaseRowTable
+class ComUsersDatabaseRowPassword extends Framework\DatabaseRowTable
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -33,7 +35,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowTable
         // Check if referenced user actually exists.
         if ($user->isNew())
         {
-            $this->setStatus(KDatabase::STATUS_FAILED);
+            $this->setStatus(Framework\Database::STATUS_FAILED);
             $this->setStatusMessage(JText::sprintf('USER NOT FOUND', $this->id));
             return false;
         }
@@ -46,7 +48,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowTable
 
             if (strlen($password) < $length)
             {
-                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatus(Framework\Database::STATUS_FAILED);
                 $this->setStatusMessage(JText::sprintf('PASSWORD TOO SHORT', $length));
                 return false;
             }
@@ -56,7 +58,7 @@ class ComUsersDatabaseRowPassword extends KDatabaseRowTable
                 // Check if new and current hashes are the same.
                 if ($this->verify($password))
                 {
-                    $this->setStatus(KDatabase::STATUS_FAILED);
+                    $this->setStatus(Framework\Database::STATUS_FAILED);
                     $this->setStatusMessage(JText::_('New and old passwords are the same'));
                     return false;
                 }

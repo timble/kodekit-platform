@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Modules Database Table Class
  *
@@ -15,9 +17,9 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseTableModules extends KDatabaseTableDefault
+class ComPagesDatabaseTableModules extends Framework\DatabaseTableDefault
 {
-    public function  _initialize(KConfig $config) 
+    public function  _initialize(Framework\Config $config)
     {
         $config->identity_column = 'id';
 		

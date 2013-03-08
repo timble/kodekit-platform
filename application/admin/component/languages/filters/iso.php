@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Iso Code Filter Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesFilterIso extends KFilterCmd
+class ComLanguagesFilterIso extends Framework\FilterCmd
 {
     protected function _validate($value)
     {

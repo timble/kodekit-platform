@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Custom directory iterator with additional filters and callbacks.
  *
@@ -48,7 +50,7 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 	 */
 	public static function getNodes($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Framework\Config($config);
 		$config->append(array(
 			'path' 		=> null, // path to the directory
 			'type' 		=> null, // folders or files, null for both
@@ -61,9 +63,9 @@ class ComFilesIteratorDirectory extends DirectoryIterator
 			'return_raw'=> false
 		));
 
-		$exclude = KConfig::unbox($config->exclude);
-		$filter = KConfig::unbox($config->filter);
-		$map = KConfig::unbox($config->map);
+		$exclude = Framework\Config::unbox($config->exclude);
+		$filter = Framework\Config::unbox($config->filter);
+		$map = Framework\Config::unbox($config->map);
 		$recurse = $config->recurse;
 
 		$results = array();

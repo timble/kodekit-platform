@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher Exception Not Allowed Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Exception
  */
-class KDispatcherExceptionActionNotAllowed extends KHttpExceptionMethodNotAllowed implements KDispatcherException {}
+class DispatcherExceptionActionNotAllowed extends HttpExceptionMethodNotAllowed implements DispatcherException {}

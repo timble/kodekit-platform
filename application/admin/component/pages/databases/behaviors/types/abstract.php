@@ -1,5 +1,8 @@
 <?php
-abstract class ComPagesDatabaseBehaviorTypeAbstract extends KDatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorTypeInterface
+
+use Nooku\Framework;
+
+abstract class ComPagesDatabaseBehaviorTypeAbstract extends Framework\DatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorTypeInterface
 {
     abstract function getTypeTitle();
 
@@ -15,18 +18,18 @@ abstract class ComPagesDatabaseBehaviorTypeAbstract extends KDatabaseBehaviorAbs
         return null;
     }
 
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(Framework\CommandContext $context)
     {
         return null;
     }
 
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         // Set home.
         if($this->isModified('home') && $this->home == 1)
         {
             $page = $this->getService('com://admin/pages.database.table.pages')
-                ->select(array('home' => 1), KDatabase::FETCH_ROW);
+                ->select(array('home' => 1), Framework\Database::FETCH_ROW);
 
             $page->home = 0;
             $page->save();

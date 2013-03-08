@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Dispatcher Permission Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage	Permission
  */
-abstract class KDispatcherPermissionAbstract extends KControllerPermissionAbstract
+abstract class DispatcherPermissionAbstract extends ControllerPermissionAbstract
 {
 	/**
      * Command handler
@@ -23,11 +25,11 @@ abstract class KDispatcherPermissionAbstract extends KControllerPermissionAbstra
      *
      * @param   string $name     The command name
      * @param   object $context  The command context
-     * @throws  KControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
-     * @throws  KControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
+     * @throws  ControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
+     * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
      * @return  boolean     Can return both true or false.
      */
-    public function execute( $name, KCommandContext $context)
+    public function execute( $name, CommandContext $context)
     {
         $parts = explode('.', $name);
 
@@ -42,7 +44,7 @@ abstract class KDispatcherPermissionAbstract extends KControllerPermissionAbstra
             {
                 if($this->$method() === false)
 		        {
-                    throw new KDispatcherExceptionActionNotAllowed('Action: '.$method.' not allowed');
+                    throw new DispatcherExceptionActionNotAllowed('Action: '.$method.' not allowed');
 		            return false;
 		        }
             }

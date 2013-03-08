@@ -7,17 +7,19 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Select Template Helper
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsTemplateHelperSelect extends KTemplateHelperSelect
+class ComExtensionsTemplateHelperSelect extends Framework\TemplateHelperSelect
 {
 	public function booleanlist( $config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Framework\Config($config);
 		$config->append(array(
 			'name'   	=> '',
 			'attribs'	=> array(),

@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Captchable controller behavior class.
  *
@@ -16,7 +18,7 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
+class ComUsersControllerBehaviorCaptchable extends Framework\ControllerBehaviorAbstract
 {
     /**
      * @var ComUsersConfigCaptcha Captcha configuration object.
@@ -28,18 +30,18 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
      */
     protected $_error_message;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
         if (is_null($config->captcha->private_key)) {
-            throw new InvalidArgumentException('Private key is missing');
+            throw new \InvalidArgumentException('Private key is missing');
         }
 
         $this->_config = $config->captcha;
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $params = $this->getService('application.components')->users->params;
 
@@ -124,13 +126,13 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
         return (string) $this->_error_message;
     }
 
-    protected function _beforeControllerEdit(KCommandContext $context)
+    protected function _beforeControllerEdit(Framework\CommandContext $context)
     {
         // Same as add.
         return $this->_beforeControllerAdd($context);
     }
 
-    protected function _beforeControllerAdd(KCommandContext $context)
+    protected function _beforeControllerAdd(Framework\CommandContext $context)
     {
         $challenge = $context->request->data->get('recaptcha_challenge_field', 'string');
         $answer    = $context->request->data->get('recaptcha_response_field', 'string');
@@ -154,11 +156,11 @@ class ComUsersControllerBehaviorCaptchable extends KControllerBehaviorAbstract
         $config = $this->_config;
 
         if (!$private_key = $config->private_key) {
-            throw new UnexpectedValueException('reCAPTCHA private key is not set.');
+            throw new \UnexpectedValueException('reCAPTCHA private key is not set.');
         }
 
         if (!$remote_ip = $config->remote_ip) {
-            throw new UnexpectedValueException('reCAPTCHA remote ip is not set.');
+            throw new \UnexpectedValueException('reCAPTCHA remote ip is not set.');
         }
 
         if (!trim((string) $challenge) || !trim((string) $answer))

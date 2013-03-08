@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Users Dispatcher Class
  *
@@ -18,7 +20,7 @@
  */
 class ComUsersDispatcher extends ComDefaultDispatcher
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         parent::_initialize($config);
 
@@ -33,7 +35,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         }
     }
 	
-    protected function _actionDispatch(KCommandContext $context)
+    protected function _actionDispatch(Framework\CommandContext $context)
 	{        	
         if($context->user->isAuthentic())
         {  

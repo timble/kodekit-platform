@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher Exception Interface
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Exception
  */
-interface KDispatcherException extends KException {}
+interface DispatcherException extends Exception {}

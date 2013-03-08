@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Revisions Model
  *
@@ -16,7 +18,7 @@
  */
 class ComVersionsModelRevisions extends ComDefaultModelDefault
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -31,7 +33,7 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
      * a complete row. This is done because revision X always contains just the changes from the previous revision,
      * so the rest needs to be built.
      *
-     * @return KDatabaseRowInterface
+     * @return Framework\DatabaseRowInterface
      */
     public function getRow()
     {
@@ -48,7 +50,7 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
     /**
      * Get a complete revision row, merging data from all previous revisions
      *
-     * @return KDatabaseRowInterface
+     * @return Framework\DatabaseRowInterface
      */
     public function getRevision()
     {
@@ -69,13 +71,13 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
         return $revision;
     }
 
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
         $query->columns[] = 'u.name AS user_name';
         parent::_buildQueryColumns($query);
     }
 
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         $query->join('RIGHT', 'users u', 'tbl.created_by = u.id');
     }
@@ -86,9 +88,9 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
      * When getting a revision X > 1, we need to get all revisions from 1 to X, and combine the data from these into
      * one row.
      *
-     * @param KDatabaseQuerySelect $query
+     * @param Framework\DatabaseQuerySelect $query
      */
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
     	parent::_buildQueryWhere($query);
 
@@ -111,7 +113,7 @@ class ComVersionsModelRevisions extends ComDefaultModelDefault
         }
     }
 
-    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
     {
         $query->order('tbl.revision', 'desc');
     }

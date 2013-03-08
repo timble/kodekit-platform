@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Module Template Helper Class
  *
@@ -17,7 +19,7 @@
 
 class ComApplicationTemplateHelperModule extends ComPagesTemplateHelperModule
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'modules' => 'application.modules',

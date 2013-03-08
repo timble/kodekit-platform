@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Group Database Row Class
  *
@@ -16,7 +18,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowGroup extends KDatabaseRowTable
+class ComUsersDatabaseRowGroup extends Framework\DatabaseRowTable
 {   
     public function save()
     {

@@ -20,13 +20,13 @@
         <title><?= @escape($category->title) ?></title>
         <description><![CDATA[<?= @escape($category->description) ?>]]></description>
         <link><?= @route() ?></link>
-        <lastBuildDate><?= @helper('date.format', array('format' => KDate::RSS)) ?></lastBuildDate>
-        <generator>http://www.nooku.org?v=<?= Nooku::VERSION ?></generator>
+        <lastBuildDate><?= @helper('date.format', array('format' => Framework\Date::RSS)) ?></lastBuildDate>
+        <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
 
         <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
         <dc:rights>Copyright <?= @helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= @helper('date.format', array('format' => KDate::RSS)) ?></dc:date>
+        <dc:date><?= @helper('date.format', array('format' => Framework\Date::RSS)) ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>
@@ -35,7 +35,7 @@
 
         <? if($category->image) : ?>
         <image>
-            <url><?= @service('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(KHttpUrl::BASE) ?></url>
+            <url><?= @service('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Framework\HttpUrl::BASE) ?></url>
             <title><?= @escape($category->title) ?></title>
             <link><?= @route() ?></link>
             <width><?= $category->image->width ?></width>
@@ -52,8 +52,8 @@
             <category domain="<?= @helper('route.category', array('row' => $category)) ?>">
                 <![CDATA[<? $category->title; ?>]]>
             </category>
-            <pubDate><?= @helper('date.format', array('date' => $weblink->date, 'format' => KDate::RSS)) ?></pubDate>
-            <dc:date><?= @helper('date.format', array('date' => $weblink->date, 'format' => KDate::RSS)) ?></dc:date>
+            <pubDate><?= @helper('date.format', array('date' => $weblink->date, 'format' => Framework\Date::RSS)) ?></pubDate>
+            <dc:date><?= @helper('date.format', array('date' => $weblink->date, 'format' => Framework\Date::RSS)) ?></dc:date>
         </item>
         <? endforeach; ?>
 

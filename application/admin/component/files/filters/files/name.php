@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * File Name Filter Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesFilterFileName extends KFilterAbstract
+class ComFilesFilterFileName extends Framework\FilterAbstract
 {
 	protected $_walk = false;
 

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Event Dispatcher Class
  *
@@ -14,13 +16,13 @@
  * @package     Koowa_Event
  * @subpackage 	Dispatcher
  */
-abstract class KEventDispatcherAbstract extends KObject implements KEventDispatcherInterface
+abstract class EventDispatcherAbstract extends Object implements EventDispatcherInterface
 {
     /**
      * List of event listeners
      *
      * An associative array of event listeners queues where keys are holding the event name and the value
-     * is an KObjectQueue object.
+     * is an ObjectQueue object.
      *
      * @var array
      */
@@ -39,16 +41,16 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
     /**
      * The event object
      *
-     * @var KEvent
+     * @var Event
      */
     protected $_event = null;
 
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -60,16 +62,16 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      * Dispatches an event by dispatching arguments to all listeners that handle the event.
      *
      * @param   string  The event name
-     * @param   object|array   An array, a KConfig or a KEvent object
-     * @return  KEvent
+     * @param   object|array   An array, a Config or a Event object
+     * @return  Event
      */
     public function dispatchEvent($name, $event = array())
     {
         $result = array();
 
         //Make sure we have an event object
-        if (!$event instanceof KEvent) {
-            $event = new KEvent($event);
+        if (!$event instanceof Event) {
+            $event = new Event($event);
         }
 
         $event->setName($name)
@@ -98,9 +100,9 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      * @param  integer   $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
      *                               default is 3. If no priority is set, the command priority will be used
      *                               instead.
-     * @return KEventDispatcherAbstract
+     * @return EventDispatcherAbstract
      */
-    public function addEventListener($name, $listener, $priority = KEvent::PRIORITY_NORMAL)
+    public function addEventListener($name, $listener, $priority = Event::PRIORITY_NORMAL)
     {
         if (!is_callable($listener))
         {
@@ -120,7 +122,7 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      *
      * @param   string    $name      The event name
      * @param   callable  $listener  The listener
-     * @return  KEventDispatcherAbstract
+     * @return  EventDispatcherAbstract
      */
     public function removeEventListener($name, $listener)
     {
@@ -148,7 +150,7 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      * Get a list of listeners for a specific event
      *
      * @param   string          The event name
-     * @return  KObjectQueue    An object queue containing the listeners
+     * @return  ObjectQueue    An object queue containing the listeners
      */
     public function getListeners($name)
     {
@@ -183,9 +185,9 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      * Add an event subscriber
      *
      * @param  object    The event subscriber to add
-     * @return  KEventDispatcherAbstract
+     * @return  EventDispatcherAbstract
      */
-    public function addEventSubscriber(KEventSubscriberInterface $subscriber, $priority = null)
+    public function addEventSubscriber(EventSubscriberInterface $subscriber, $priority = null)
     {
         $handle = $subscriber->getHandle();
 
@@ -208,9 +210,9 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      * Remove an event subscriber
      *
      * @param  object    The event subscriber to remove
-     * @return  KEventDispatcherAbstract
+     * @return  EventDispatcherAbstract
      */
-    public function removeEventSubscriber(KEventSubscriberInterface $subscriber)
+    public function removeEventSubscriber(EventSubscriberInterface $subscriber)
     {
         $handle = $subscriber->getHandle();
 
@@ -244,7 +246,7 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      * @param  object  The event dispatcher
      * @return boolean TRUE if the handler is already connected to the dispatcher. FALSE otherwise.
      */
-    public function isSubscribed(KEventSubscriberInterface $subscriber)
+    public function isSubscribed(EventSubscriberInterface $subscriber)
     {
         $handle = $subscriber->getHandle();
         return isset($this->_subscribers[$handle]);
@@ -256,7 +258,7 @@ abstract class KEventDispatcherAbstract extends KObject implements KEventDispatc
      * @param  string   $name      The event name
      * @param  object   $listener  The listener
      * @param  integer  $priority  The event priority
-     * @return  KEventDispatcherAbstract
+     * @return  EventDispatcherAbstract
      */
     public function setEventPriority($name, $listener, $priority)
     {

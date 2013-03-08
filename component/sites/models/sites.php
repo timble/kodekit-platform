@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Sites Model
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatable
+class ComSitesModelSites extends Framework\ModelAbstract implements Framework\ServiceInstantiatable
 {	
-     public function __construct(KConfig $config)
+     public function __construct(Framework\Config $config)
      {
          parent::__construct($config);
          
@@ -28,7 +30,7 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
              ->insert('search'    , 'string');
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -48,7 +50,7 @@ class ComSitesModelSites extends KModelAbstract implements KServiceInstantiatabl
             $data = array();
             
             //Get the sites
-			foreach(new DirectoryIterator(JPATH_SITES) as $file)
+			foreach(new \DirectoryIterator(JPATH_SITES) as $file)
 			{
 				if($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.')) 
 				{

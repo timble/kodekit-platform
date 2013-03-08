@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Table Database Row Class
  *
@@ -15,14 +17,14 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowTable extends KDatabaseRowTable
+class ComLanguagesDatabaseRowTable extends Framework\DatabaseRowTable
 {
     public function save()
     {
         $modified = $this->isModified('enabled');
         $result   = parent::save();
         
-        if($this->getStatus() == KDatabase::STATUS_UPDATED && $modified && $this->enabled)
+        if($this->getStatus() == Framework\Database::STATUS_UPDATED && $modified && $this->enabled)
         {
             $database  = $this->getTable()->getAdapter();
             $prefix    = $database->getTablePrefix();

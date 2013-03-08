@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Passwords Database Table Class
  *
@@ -14,9 +16,9 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseTablePasswords extends KDatabaseTableDefault
+class ComUsersDatabaseTablePasswords extends Framework\DatabaseTableDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array('behaviors' => array('expirable')));
         parent::_initialize($config);

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Categories Database Table Class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-class ComCategoriesDatabaseTableCategories extends KDatabaseTableDefault
+class ComCategoriesDatabaseTableCategories extends Framework\DatabaseTableDefault
 {
-    public function  _initialize(KConfig $config)
+    public function  _initialize(Framework\Config $config)
     {
         $config->append(array(
             'name'       => 'categories',

@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Behavior Helper
  *
@@ -14,7 +16,7 @@
  * @package        Koowa_Template
  * @subpackage    Helper
  */
-class KTemplateHelperBehavior extends KTemplateHelperAbstract
+class TemplateHelperBehavior extends TemplateHelperAbstract
 {
     /**
      * Array which holds a list of loaded javascript libraries
@@ -36,7 +38,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
         // Only load once
         if (!isset(self::$_loaded['mootools'])) {
-            $config = new KConfig($config);
+            $config = new Config($config);
 
             $html .= '<script src="media://koowa/js/mootools.js" />';
             self::$_loaded['mootools'] = true;
@@ -52,7 +54,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
      */
     public function modal($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'selector' => 'a.modal',
             'options' => array('disableFx' => true)
@@ -95,7 +97,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
      */
     public function tooltip($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'selector' => '.hasTip',
             'options' => array()
@@ -125,7 +127,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
      */
     public function overlay($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'url' => '',
             'options' => array(),
@@ -162,7 +164,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
         $options = $config->options->toArray() ? ', ' . $config->options : '';
         $html .= "<script>window.addEvent('domready', function(){new Koowa.Overlay('$id'" . $options . ");});</script>";
 
-        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . JText::_('Loading...') . '</div></div>';
+        $html .= '<div data-url="' . $url . '" class="-koowa-overlay" id="' . $id . '" ' . $attribs . '><div class="-koowa-overlay-status">' . \JText::_('Loading...') . '</div></div>';
         return $html;
     }
 
@@ -180,7 +182,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
 
         // Only load once
         if (!isset(self::$_loaded['keepalive'])) {
-            $config = new KConfig($config);
+            $config = new Config($config);
             $config->append(array(
                 'refresh' => 15 * 60000, //15min
                 'url' => $this->getTemplate()->getView()->getRoute('', false, false)
@@ -222,7 +224,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
      */
     public function validator($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'selector' => '.-koowa-form',
             'options' => array(
@@ -267,7 +269,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
      */
     public function autocomplete($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'identifier' => null,
             'element' => null,
@@ -291,7 +293,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
                 'requestOptions' => array('method' => 'get'),
                 'urlOptions' => array(
                     'queryVarName' => 'search',
-                    'extraParams' => KConfig::unbox($config->filter)
+                    'extraParams' => Config::unbox($config->filter)
                 )
             )
         ));
@@ -320,7 +322,7 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
         $html .= "
 		<script>
 			window.addEvent('domready', function(){				
-				new Koowa.Autocomplete($('" . $config->element . "'), " . json_encode((string)$config->url) . ", " . json_encode(KConfig::unbox($config->options)) . ");
+				new Koowa.Autocomplete($('" . $config->element . "'), " . json_encode((string)$config->url) . ", " . json_encode(Config::unbox($config->options)) . ");
 			});
 		</script>";
 
@@ -342,13 +344,13 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
      */
     public function calendar($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'date' => gmdate("M d Y H:i:s"),
             'name' => '',
             'format' => '%Y-%m-%d %H:%M:%S',
             'attribs' => array('size' => 25, 'maxlenght' => 19),
-            'gmt_offset' => JFactory::getConfig()->getValue('config.offset') * 3600
+            'gmt_offset' => \JFactory::getConfig()->getValue('config.offset') * 3600
         ));
 
         if ($config->date && $config->date != '0000-00-00 00:00:00' && $config->date != '0000-00-00') {
@@ -397,58 +399,58 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
     {
         // Build the day names array.
         $dayNames = array(
-            '"' . JText::_('Sunday') . '"',
-            '"' . JText::_('Monday') . '"',
-            '"' . JText::_('Tuesday') . '"',
-            '"' . JText::_('Wednesday') . '"',
-            '"' . JText::_('Thursday') . '"',
-            '"' . JText::_('Friday') . '"',
-            '"' . JText::_('Saturday') . '"',
-            '"' . JText::_('Sunday') . '"'
+            '"' . \JText::_('Sunday') . '"',
+            '"' . \JText::_('Monday') . '"',
+            '"' . \JText::_('Tuesday') . '"',
+            '"' . \JText::_('Wednesday') . '"',
+            '"' . \JText::_('Thursday') . '"',
+            '"' . \JText::_('Friday') . '"',
+            '"' . \JText::_('Saturday') . '"',
+            '"' . \JText::_('Sunday') . '"'
         );
 
         // Build the short day names array.
         $shortDayNames = array(
-            '"' . JText::_('Sun') . '"',
-            '"' . JText::_('Mon') . '"',
-            '"' . JText::_('Tue') . '"',
-            '"' . JText::_('Wed') . '"',
-            '"' . JText::_('Thu') . '"',
-            '"' . JText::_('Fri') . '"',
-            '"' . JText::_('Sat') . '"',
-            '"' . JText::_('Sun') . '"'
+            '"' . \JText::_('Sun') . '"',
+            '"' . \JText::_('Mon') . '"',
+            '"' . \JText::_('Tue') . '"',
+            '"' . \JText::_('Wed') . '"',
+            '"' . \JText::_('Thu') . '"',
+            '"' . \JText::_('Fri') . '"',
+            '"' . \JText::_('Sat') . '"',
+            '"' . \JText::_('Sun') . '"'
         );
 
         // Build the month names array.
         $monthNames = array(
-            '"' . JText::_('January') . '"',
-            '"' . JText::_('February') . '"',
-            '"' . JText::_('March') . '"',
-            '"' . JText::_('April') . '"',
-            '"' . JText::_('May') . '"',
-            '"' . JText::_('June') . '"',
-            '"' . JText::_('July') . '"',
-            '"' . JText::_('August') . '"',
-            '"' . JText::_('September') . '"',
-            '"' . JText::_('October') . '"',
-            '"' . JText::_('November') . '"',
-            '"' . JText::_('December') . '"'
+            '"' . \JText::_('January') . '"',
+            '"' . \JText::_('February') . '"',
+            '"' . \JText::_('March') . '"',
+            '"' . \JText::_('April') . '"',
+            '"' . \JText::_('May') . '"',
+            '"' . \JText::_('June') . '"',
+            '"' . \JText::_('July') . '"',
+            '"' . \JText::_('August') . '"',
+            '"' . \JText::_('September') . '"',
+            '"' . \JText::_('October') . '"',
+            '"' . \JText::_('November') . '"',
+            '"' . \JText::_('December') . '"'
         );
 
         // Build the short month names array.
         $shortMonthNames = array(
-            '"' . JText::_('January_short') . '"',
-            '"' . JText::_('February_short') . '"',
-            '"' . JText::_('March_short') . '"',
-            '"' . JText::_('April_short') . '"',
-            '"' . JText::_('May_short') . '"',
-            '"' . JText::_('June_short') . '"',
-            '"' . JText::_('July_short') . '"',
-            '"' . JText::_('August_short') . '"',
-            '"' . JText::_('September_short') . '"',
-            '"' . JText::_('October_short') . '"',
-            '"' . JText::_('November_short') . '"',
-            '"' . JText::_('December_short') . '"'
+            '"' . \JText::_('January_short') . '"',
+            '"' . \JText::_('February_short') . '"',
+            '"' . \JText::_('March_short') . '"',
+            '"' . \JText::_('April_short') . '"',
+            '"' . \JText::_('May_short') . '"',
+            '"' . \JText::_('June_short') . '"',
+            '"' . \JText::_('July_short') . '"',
+            '"' . \JText::_('August_short') . '"',
+            '"' . \JText::_('September_short') . '"',
+            '"' . \JText::_('October_short') . '"',
+            '"' . \JText::_('November_short') . '"',
+            '"' . \JText::_('December_short') . '"'
         );
 
         // Build the script.
@@ -461,24 +463,24 @@ class KTemplateHelperBehavior extends KTemplateHelperAbstract
             'Calendar._SMN = new Array (' . implode(', ', $shortMonthNames) . ');',
             '',
             'Calendar._TT = {};',
-            'Calendar._TT["INFO"] = "' . JText::_('About the calendar') . '";',
-            'Calendar._TT["PREV_YEAR"] = "' . JText::_('Prev. year (hold for menu)') . '";',
-            'Calendar._TT["PREV_MONTH"] = "' . JText::_('Prev. month (hold for menu)') . '";',
-            'Calendar._TT["GO_TODAY"] = "' . JText::_('Go Today') . '";',
-            'Calendar._TT["NEXT_MONTH"] = "' . JText::_('Next month (hold for menu)') . '";',
-            'Calendar._TT["NEXT_YEAR"] = "' . JText::_('Next year (hold for menu)') . '";',
-            'Calendar._TT["SEL_DATE"] = "' . JText::_('Select date') . '";',
-            'Calendar._TT["DRAG_TO_MOVE"] = "' . JText::_('Drag to move') . '";',
-            'Calendar._TT["PART_TODAY"] = "' . JText::_('(Today)') . '";',
-            'Calendar._TT["DAY_FIRST"] = "' . JText::_('Display %s first') . '";',
+            'Calendar._TT["INFO"] = "' . \JText::_('About the calendar') . '";',
+            'Calendar._TT["PREV_YEAR"] = "' . \JText::_('Prev. year (hold for menu)') . '";',
+            'Calendar._TT["PREV_MONTH"] = "' . \JText::_('Prev. month (hold for menu)') . '";',
+            'Calendar._TT["GO_TODAY"] = "' . \JText::_('Go Today') . '";',
+            'Calendar._TT["NEXT_MONTH"] = "' . \JText::_('Next month (hold for menu)') . '";',
+            'Calendar._TT["NEXT_YEAR"] = "' . \JText::_('Next year (hold for menu)') . '";',
+            'Calendar._TT["SEL_DATE"] = "' . \JText::_('Select date') . '";',
+            'Calendar._TT["DRAG_TO_MOVE"] = "' . \JText::_('Drag to move') . '";',
+            'Calendar._TT["PART_TODAY"] = "' . \JText::_('(Today)') . '";',
+            'Calendar._TT["DAY_FIRST"] = "' . \JText::_('Display %s first') . '";',
             'Calendar._TT["WEEKEND"] = "0,6";',
-            'Calendar._TT["CLOSE"] = "' . JText::_('Close') . '";',
-            'Calendar._TT["TODAY"] = "' . JText::_('Today') . '";',
-            'Calendar._TT["TIME_PART"] = "' . JText::_('(Shift-)Click or drag to change value') . '";',
-            'Calendar._TT["DEF_DATE_FORMAT"] = "' . JText::_('%Y-%m-%d') . '";',
-            'Calendar._TT["TT_DATE_FORMAT"] = "' . JText::_('%a, %b %e') . '";',
-            'Calendar._TT["WK"] = "' . JText::_('wk') . '";',
-            'Calendar._TT["TIME"] = "' . JText::_('Time:') . '";',
+            'Calendar._TT["CLOSE"] = "' . \JText::_('Close') . '";',
+            'Calendar._TT["TODAY"] = "' . \JText::_('Today') . '";',
+            'Calendar._TT["TIME_PART"] = "' . \JText::_('(Shift-)Click or drag to change value') . '";',
+            'Calendar._TT["DEF_DATE_FORMAT"] = "' . \JText::_('%Y-%m-%d') . '";',
+            'Calendar._TT["TT_DATE_FORMAT"] = "' . \JText::_('%a, %b %e') . '";',
+            'Calendar._TT["WK"] = "' . \JText::_('wk') . '";',
+            'Calendar._TT["TIME"] = "' . \JText::_('Time:') . '";',
             '',
             '"Date selection:\n" +',
             '"- Use the \xab, \xbb buttons to select year\n" +',

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * List Template Helper Class
  *
@@ -15,11 +17,11 @@
  * @subpackage  Pages
  */
 
-class ComPagesTemplateHelperList extends KTemplateHelperAbstract
+class ComPagesTemplateHelperList extends Framework\TemplateHelperAbstract
 {
     public function pages($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'pages'   => array(),
             'active'  => null,

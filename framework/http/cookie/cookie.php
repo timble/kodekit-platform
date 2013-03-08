@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * HTTP Cookie Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */
-class KHttpCookie extends KObject implements KHttpCookieInterface
+class HttpCookie extends Object implements HttpCookieInterface
 {
     /**
      * The name of the cookie
@@ -79,10 +81,10 @@ class KHttpCookie extends KObject implements KHttpCookieInterface
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDispatcherSessionAbstract
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return DispatcherSessionAbstract
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -97,10 +99,10 @@ class KHttpCookie extends KObject implements KHttpCookieInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation
      *
-     * @param   KConfig $config An optional KConfig object with configuration options
+     * @param   Config $config An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'name'      => '',
@@ -120,7 +122,7 @@ class KHttpCookie extends KObject implements KHttpCookieInterface
      *
      * @param string $name The name of the cookie
      * @throws \InvalidArgumentException    If the cookie name is not valid or is empty
-     * @return KHttpCookie
+     * @return HttpCookie
      */
     public function setName($name)
     {
@@ -143,7 +145,7 @@ class KHttpCookie extends KObject implements KHttpCookieInterface
      *
      * @param integer|string|\DateTime $expire The expiration time of the cookie
      * @throws \InvalidArgumentException    If the cookie expiration time is not valid
-     * @return KHttpCookie
+     * @return HttpCookie
      */
     public function setExpire($expire)
     {

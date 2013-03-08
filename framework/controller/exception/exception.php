@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Exception Interface
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-interface KControllerException extends KException {}
+interface ControllerException extends Exception {}

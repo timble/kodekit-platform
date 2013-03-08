@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Object Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
  */
-interface KObjectInterface extends KObjectHandlable, KObjectMixable
+interface ObjectInterface extends ObjectHandlable, ObjectMixable
 {
 
 }

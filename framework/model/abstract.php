@@ -6,18 +6,20 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Model Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
  */
-abstract class KModelAbstract extends KObject implements KModelInterface
+abstract class ModelAbstract extends Object implements ModelInterface
 {
     /**
      * A state object
      *
-     * @var KModelStateInterface
+     * @var ModelStateInterface
      */
     protected $_state;
 
@@ -31,23 +33,23 @@ abstract class KModelAbstract extends KObject implements KModelInterface
     /**
      * Model list data
      *
-     * @var KDatabaseRowsetInterface
+     * @var DatabaseRowsetInterface
      */
     protected $_rowset;
 
     /**
      * Model row data
      *
-     * @var KDatabaseRowInterface
+     * @var DatabaseRowInterface
      */
     protected $_row;
 
     /**
      * Constructor
      *
-     * @param  KConfig $config    An optional KConfig object with configuration options
+     * @param  Config $config    An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -60,13 +62,13 @@ abstract class KModelAbstract extends KObject implements KModelInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $config An optional KConfig object with configuration options
+     * @param   Config $config An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'state' => new KModelState(),
+            'state' => new ModelState(),
         ));
 
         parent::_initialize($config);
@@ -80,14 +82,14 @@ abstract class KModelAbstract extends KObject implements KModelInterface
      *
      * @param   string|array|object  $name  The name of the property, an associative array or an object
      * @param   mixed                $value The value of the property
-     * @return  KModelAbstract
+     * @return  ModelAbstract
      */
     public function set($name, $value = null)
     {
         $changed = false;
 
         if (is_object($name)) {
-            $name = (array)KConfig::unbox($name);
+            $name = (array)Config::unbox($name);
         }
 
         if (is_array($name))
@@ -155,7 +157,7 @@ abstract class KModelAbstract extends KObject implements KModelInterface
      * Reset all cached data and reset the model state to it's default
      *
      * @param  boolean $default If TRUE use defaults when resetting. Default is TRUE
-     * @return KModelAbstract
+     * @return ModelAbstract
      */
     public function reset($default = true)
     {
@@ -171,10 +173,10 @@ abstract class KModelAbstract extends KObject implements KModelInterface
     /**
      * Set the model state object
      *
-     * @param  KModelState $state A model state object
-     * @return KModelAbstract
+     * @param  ModelState $state A model state object
+     * @return ModelAbstract
      */
-    public function setState(KModelState $state)
+    public function setState(ModelState $state)
     {
         $this->_state = $state;
         return $this;
@@ -183,7 +185,7 @@ abstract class KModelAbstract extends KObject implements KModelInterface
     /**
      * Get the model state object
      *
-     * @return  KModelState  The model state object
+     * @return  ModelState  The model state object
      */
     public function getState()
     {
@@ -225,7 +227,7 @@ abstract class KModelAbstract extends KObject implements KModelInterface
      *
      * If the model state is unique this function will call getRow(), otherwise it will call getRowset().
      *
-     * @return KDatabaseRowsetInterface or KDatabaseRowInterface
+     * @return DatabaseRowsetInterface or DatabaseRowInterface
      */
     public function getData()
     {
@@ -241,11 +243,11 @@ abstract class KModelAbstract extends KObject implements KModelInterface
     /**
      * Get the model paginator object
      *
-     * @return  KModelPaginator  The model paginator object
+     * @return  ModelPaginator  The model paginator object
      */
     public function getPaginator()
     {
-        $paginator = new KModelPaginator(array(
+        $paginator = new ModelPaginator(array(
             'offset' => (int) $this->offset,
             'limit'  => (int) $this->limit,
             'total'  => (int) $this->getTotal(),
@@ -284,7 +286,7 @@ abstract class KModelAbstract extends KObject implements KModelInterface
      *
      * @param   string  $method Method name
      * @param   array   $args   Array containing all the arguments for the original call
-     * @return  KModelAbstract
+     * @return  ModelAbstract
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html
      */

@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Default Model
  *
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Debug
  */
-class ComDebugModelDefault extends KModelAbstract
+class ComDebugModelDefault extends Framework\ModelAbstract
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         parent::_initialize($config);
 

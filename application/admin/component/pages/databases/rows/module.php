@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Modules Database Row Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Extensions    
  */
 
-class ComPagesDatabaseRowModule extends KDatabaseRowTable
+class ComPagesDatabaseRowModule extends Framework\DatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest
@@ -102,7 +104,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
                     ->where('modules_module_id = :id')
                     ->bind(array('id' => $this->id));
                 
-				$pages = $table->select($query, KDatabase::FETCH_FIELD_LIST);
+				$pages = $table->select($query, Framework\Database::FETCH_FIELD_LIST);
 				
 				if(count($pages) == 1 && $pages[0] == 0) {
 		            $pages = 'all';
@@ -145,7 +147,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
                 foreach($this->pages as $page)
 			    {
 				    $table
-					    ->select(null, KDatabase::FETCH_ROW)
+					    ->select(null, Framework\Database::FETCH_ROW)
 					    ->setData(array(
 							'modules_module_id' => $this->id,
 							'pages_page_id' => $page
@@ -157,7 +159,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 		    elseif($this->pages == 'all') 
 		    {
                 $table
-				    ->select(null, KDatabase::FETCH_ROW)
+				    ->select(null, Framework\Database::FETCH_ROW)
 				    ->setData(array(
 						'moduleid'	=> $this->id,
 						'menuid'	=> 0
@@ -180,7 +182,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 	{
 		$result = parent::delete();
 		
-		if($this->getStatus() != KDatabase::STATUS_FAILED) 
+		if($this->getStatus() != Framework\Database::STATUS_FAILED)
 		{	
 		    $this->getService('com://admin/pages.database.table.modules')
 			    ->select(array('modules_module_id' => $this->id))

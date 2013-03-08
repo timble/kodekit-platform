@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Revisable Controller Behavior
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsControllerBehaviorRevisable extends KControllerBehaviorAbstract
+class ComVersionsControllerBehaviorRevisable extends Framework\ControllerBehaviorAbstract
 {
-	protected function _beforeControllerRender(KCommandContext $context)
+	protected function _beforeControllerRender(Framework\CommandContext $context)
 	{
 	    $this->attachToolbar('com://admin/versions.controller.toolbar.revisable');
 	}

@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Articles Model Class
  *
@@ -18,7 +20,7 @@
  */
 class ComArticlesModelArticles extends ComDefaultModelDefault
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -34,7 +36,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'ordering');
     }
 
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
@@ -47,7 +49,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         ));
     }
 
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
 
@@ -57,7 +59,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
               ->join(array('thumbnails'  => 'files_thumbnails'), 'thumbnails.filename = tbl.image');
     }
 
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         
@@ -101,7 +103,7 @@ class ComArticlesModelArticles extends ComDefaultModelDefault
         }
     }
 
-    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
 

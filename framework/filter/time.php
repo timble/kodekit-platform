@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Time filter
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterTime extends KFilterTimestamp
+class FilterTime extends FilterTimestamp
 {
     /**
      * Validates that the value is an ISO 8601 time string (hh:ii::ss format).

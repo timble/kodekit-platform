@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Revisions Database Table
  *
@@ -14,9 +16,9 @@
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsDatabaseTableRevisions extends KDatabaseTableDefault
+class ComVersionsDatabaseTableRevisions extends Framework\DatabaseTableDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {     
         $config->append(array(
             'behaviors' => array('creatable'),
@@ -33,9 +35,9 @@ class ComVersionsDatabaseTableRevisions extends KDatabaseTableDefault
      * 
      * Takes care of automatically incrementing the revision number
      *
-     * @param KDatabaseRowInterface $row
+     * @param Framework\DatabaseRowInterface $row
      */
-    public function insert(KDatabaseRowInterface $row)
+    public function insert(Framework\DatabaseRowInterface $row)
     {
     	$query = $this->getService('lib://nooku/database.query.select')
             ->where('table', '=', $row->table)
@@ -43,7 +45,7 @@ class ComVersionsDatabaseTableRevisions extends KDatabaseTableDefault
             ->order('revision','desc')
             ->limit(1);
 
-       	$latest = $this->select($query, KDatabase::FETCH_ROW);
+       	$latest = $this->select($query, Framework\Database::FETCH_ROW);
 
      	if (!$latest->isNew()) {
             $row->revision = $latest->revision + 1;

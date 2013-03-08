@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Loggable Controller Behavior
  *
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstract
+class ComActivitiesControllerBehaviorLoggable extends Framework\ControllerBehaviorAbstract
 {
     /**
      * List of actions to log
@@ -29,18 +31,18 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
      */
     protected $_title_column;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
-        $this->_actions      = KConfig::unbox($config->actions);
-        $this->_title_column = KConfig::unbox($config->title_column);
+        $this->_actions      = Framework\Config::unbox($config->actions);
+        $this->_title_column = Framework\Config::unbox($config->title_column);
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'priority'     => KCommand::PRIORITY_LOWEST,
+            'priority'     => Framework\Command::PRIORITY_LOWEST,
             'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => array('title', 'name'),
         ));
@@ -48,17 +50,17 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
         parent::_initialize($config);
     }
 
-    public function execute($name, KCommandContext $context)
+    public function execute($name, Framework\CommandContext $context)
     {
         if(in_array($name, $this->_actions))
         {
             $entity = $context->result;
 
-            if($entity instanceof KDatabaseRowInterface || $entity instanceof KDatabaseRowsetInterface )
+            if($entity instanceof Framework\DatabaseRowInterface || $entity instanceof Framework\DatabaseRowsetInterface )
             {
                 $rowset = array();
 
-                if ($entity instanceof KDatabaseRowInterface) {
+                if ($entity instanceof Framework\DatabaseRowInterface) {
                     $rowset[] = $entity;
                 } else {
                     $rowset = $entity;
@@ -120,6 +122,6 @@ class ComActivitiesControllerBehaviorLoggable extends KControllerBehaviorAbstrac
 
     public function getHandle()
     {
-        return KMixinAbstract::getHandle();
+        return Framework\MixinAbstract::getHandle();
     }
 }

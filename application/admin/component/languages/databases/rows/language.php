@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Language Database Row Class
  *
@@ -15,14 +17,14 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowLanguage extends KDatabaseRowTable
+class ComLanguagesDatabaseRowLanguage extends Framework\DatabaseRowTable
 {
     public function save()
     {
         $modified = $this->isModified('enabled');
         $result   = parent::save();
         
-        if($this->getStatus() == KDatabase::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
+        if($this->getStatus() == Framework\Database::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
             $tables   = $this->getService('com://admin/languages.model.tables')->getRowset();
             $database = $this->getTable()->getAdapter();

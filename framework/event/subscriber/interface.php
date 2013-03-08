@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Event Handler Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Event
  * @subpackage 	Subscriber
  */
-interface KEventSubscriberInterface
+interface EventSubscriberInterface
 {
     /**
      * Get the priority of the subscriber

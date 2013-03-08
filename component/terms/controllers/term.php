@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Term Controller
  *   
@@ -15,7 +17,7 @@
  */
 class ComTermsControllerTerm extends ComDefaultControllerDefault
 {	
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 

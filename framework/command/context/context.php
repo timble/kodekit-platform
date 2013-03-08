@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Command Context
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Command
  * @subpackage  Context
  */
-class KCommandContext extends KConfig implements KCommandContextInterface
+class CommandContext extends Config implements CommandContextInterface
 {
     /**
      * The command subject
@@ -36,10 +38,10 @@ class KCommandContext extends KConfig implements KCommandContextInterface
     /**
     * Set the command subject
     *
-    * @param KServiceInterface $subject The command subject
-    * @return KCommandContext
+    * @param ServiceInterface $subject The command subject
+    * @return CommandContext
     */
-    public function setSubject(KServiceInterface $subject)
+    public function setSubject(ServiceInterface $subject)
     {
         $this->_subject = $subject;
         return $this;

@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Components Database Table
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsDatabaseTableComponents extends KDatabaseTableDefault
+class ComExtensionsDatabaseTableComponents extends Framework\DatabaseTableDefault
 {
-    public function  _initialize(KConfig $config) 
+    public function  _initialize(Framework\Config $config)
     {
         $config->append(array(
             'filters'  => array('params' => 'ini')

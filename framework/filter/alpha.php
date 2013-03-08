@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Alphabetic filter.
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterAlpha extends KFilterAbstract
+class FilterAlpha extends FilterAbstract
 {
 	/**
 	 * Validate a variable

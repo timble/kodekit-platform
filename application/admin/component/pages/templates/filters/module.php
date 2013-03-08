@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Module Template Filter Class
  *
@@ -20,7 +22,7 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class ComPagesTemplateFilterModule extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
 {
     /**
      * Database rowset or identifier
@@ -32,9 +34,9 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Framework\Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -46,14 +48,14 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Framework\Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'modules'  => null,
-            'priority' => KCommand::PRIORITY_LOW,
+            'priority' => Framework\Command::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
@@ -62,19 +64,19 @@ class ComPagesTemplateFilterModule extends KTemplateFilterAbstract implements KT
     /**
      * Get the modules
      *
-     * @throws	\UnexpectedValueException	If the request doesn't implement the KDatabaseRowsetInterface
-     * @return KDatabaseRowsetInterface
+     * @throws	\UnexpectedValueException	If the request doesn't implement the Framework\DatabaseRowsetInterface
+     * @return Framework\DatabaseRowsetInterface
      */
     public function getModules()
     {
-        if(!$this->_modules instanceof KDatabaseRowsetInterface)
+        if(!$this->_modules instanceof Framework\DatabaseRowsetInterface)
         {
             $this->_modules = $this->getService($this->_modules);
 
-            if(!$this->_modules instanceof KDatabaseRowsetInterface)
+            if(!$this->_modules instanceof Framework\DatabaseRowsetInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Modules: '.get_class($this->_modules).' does not implement KDatabaseRowsetInterface'
+                    'Modules: '.get_class($this->_modules).' does not implement Framework\DatabaseRowsetInterface'
                 );
             }
         }

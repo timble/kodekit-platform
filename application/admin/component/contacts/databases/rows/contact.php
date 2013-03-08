@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Contact Database Row Class
  *
@@ -17,7 +19,7 @@
  * @subpackage  Contacts   
  */
 
-class ComContactsDatabaseRowContact extends KDatabaseRowTable
+class ComContactsDatabaseRowContact extends Framework\DatabaseRowTable
 {
 	public function __get($column)
 	{

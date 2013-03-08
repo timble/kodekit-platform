@@ -7,6 +7,8 @@
  * @link 		 http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Module Chrome Filter
  *
@@ -14,7 +16,7 @@
  * @package      Nooku_Module
  * @subpackage   Default
  */
-class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class ComDefaultTemplateFilterChrome extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
 {
     /**
      * The chrome styles
@@ -26,9 +28,9 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Framework\Config object with configuration options
      */
-    public function __construct( KConfig $config )
+    public function __construct( Framework\Config $config )
     {
         parent::__construct($config);
 
@@ -40,10 +42,10 @@ class ComDefaultTemplateFilterChrome extends KTemplateFilterAbstract implements 
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Framework\Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'styles'  => array(),

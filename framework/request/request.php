@@ -6,46 +6,45 @@
  * @link 		http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 //Instantiate the request singleton
-KRequest::getInstance();
+Request::getInstance();
 
 /**
  * Request class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Request
- * @uses        KFilter
- * @uses        KInflector
- * @uses        KService
  * @static
  */
-class KRequest
+class Request
 {
     /**
      * URL of the request regardless of the server
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected static $_url = null;
 
     /**
      * Base path of the request.
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected static $_base = null;
 
     /**
      * Root path of the request.
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected static $_root = null;
 
     /**
      * Referrer of the request
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected static $_referrer = null;
 
@@ -69,16 +68,16 @@ class KRequest
      *
      * Prevent creating instances of this class by making the contructor private
      */
-    final private function __construct(KConfig $config)
+    final private function __construct(Config $config)
     {
         $content = self::content();
 
         if(self::type() == 'HTTP')
         {
             if(strpos(PHP_SAPI, 'cgi') !== false) {
-                $authorization = KRequest::get('server.REDIRECT_HTTP_AUTHORIZATION', 'string');
+                $authorization = Request::get('server.REDIRECT_HTTP_AUTHORIZATION', 'string');
             } else {
-                $authorization = KRequest::get('server.HTTP_AUTHORIZATION', 'url');
+                $authorization = Request::get('server.HTTP_AUTHORIZATION', 'url');
             }
             
 	        if (strstr($authorization,"Basic"))
@@ -87,8 +86,8 @@ class KRequest
 
 	            if (count($parts) == 2)
 			    {
-				    KRequest::set('server.PHP_AUTH_USER', $parts[0]);
-				    KRequest::set('server.PHP_AUTH_PW'  , $parts[1]);
+				    Request::set('server.PHP_AUTH_USER', $parts[0]);
+				    Request::set('server.PHP_AUTH_PW'  , $parts[1]);
 			    }
 		    }
         }
@@ -133,8 +132,8 @@ class KRequest
 
         if ($instance === NULL)
         {
-            if(!$config instanceof KConfig) {
-                $config = new KConfig($config);
+            if(!$config instanceof Config) {
+                $config = new Config($config);
             }
 
             $instance = new self($config);
@@ -148,7 +147,7 @@ class KRequest
      * Get sanitized data from the request.
      *
      * @param   string              Variable identifier, prefixed by hash name eg post.foo.bar
-     * @param   mixed               Filter(s), can be a KFilter object, a filter name, an array of filter names or a filter identifier
+     * @param   mixed               Filter(s), can be a Filter object, a filter name, an array of filter names or a filter identifier
      * @param   mixed               Default value when the variable doesn't exist
      * @return  mixed               The sanitized data
      */
@@ -182,8 +181,8 @@ class KRequest
             $result = self::_stripSlashes( $result );
         }
 
-        if(!($filter instanceof KFilterInterface)) {
-            $filter = KServiceManager::get('lib://nooku/filter.factory')->instantiate($filter);
+        if(!($filter instanceof FilterInterface)) {
+            $filter = ServiceManager::get('lib://nooku/filter.factory')->instantiate($filter);
         }
 
         return $filter->sanitize($result);
@@ -205,7 +204,7 @@ class KRequest
         }
         
         // Store cookies persistently
-        if($hash == 'COOKIE' && strpos(KRequest::scheme(), 'http') !== false)
+        if($hash == 'COOKIE' && strpos(Request::scheme(), 'http') !== false)
         {
             // rewrite the $keys as foo[bar][bar]
             $ckeys = $keys; // get a copy
@@ -215,7 +214,7 @@ class KRequest
             }
  
             if(!setcookie($name, $value)) {
-                throw new RuntimeException("Couldn't set cookie, headers already sent.");
+                throw new \RuntimeException("Couldn't set cookie, headers already sent.");
             }
         }
 
@@ -310,18 +309,18 @@ class KRequest
     {
         if (!isset(self::$_accept) && isset($_SERVER['HTTP_ACCEPT']))
         {
-            $accept = KRequest::get('server.HTTP_ACCEPT', 'string');
+            $accept = Request::get('server.HTTP_ACCEPT', 'string');
             self::$_accept['format'] = self::_parseAccept($accept);
 
             if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
             {
-                $accept = KRequest::get('server.HTTP_ACCEPT_ENCODING', 'string');
+                $accept = Request::get('server.HTTP_ACCEPT_ENCODING', 'string');
                 self::$_accept['encoding'] = self::_parseAccept($accept);
             }
 
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
             {
-                $accept = KRequest::get('server.HTTP_ACCEPT_LANGUAGE', 'string');
+                $accept = Request::get('server.HTTP_ACCEPT_LANGUAGE', 'string');
                 self::$_accept['language'] = self::_parseAccept($accept);
             }
         }
@@ -346,20 +345,20 @@ class KRequest
      * @see     http://en.wikipedia.org/wiki/HTTP_referrer
      *
      * @param   boolean     Only allow internal url's
-     * @return  KHttpUrl    A KHttpUrl object
+     * @return  HttpUrl    A HttpUrl object
      */
     public static function referrer($isInternal = true)
     {
         if(!isset(self::$_referrer))
         {
-            if($referrer = KRequest::get('server.HTTP_REFERER', 'url')) {
-                self::$_referrer = KServiceManager::get('lib://nooku/http.url', array('url' => $referrer));
+            if($referrer = Request::get('server.HTTP_REFERER', 'url')) {
+                self::$_referrer = ServiceManager::get('lib://nooku/http.url', array('url' => $referrer));
             }
         }
 
         if($isInternal)
         {
-            if(!KServiceManager::get('lib://nooku/filter.internalurl')->validate((string) self::$_referrer)) {
+            if(!ServiceManager::get('lib://nooku/filter.internalurl')->validate((string) self::$_referrer)) {
                 return null;
             }
         }
@@ -370,7 +369,7 @@ class KRequest
     /**
      * Return the URI of the request regardless of the server
      *
-     * @return  KHttpUrl    A KHttpUri object
+     * @return  HttpUrl    A HttpUri object
      */
     public static function url()
     {
@@ -413,10 +412,10 @@ class KRequest
         	else $url .= 'koowa';
             
             // Sanitize the url since we can't trust the server var
-            $url = KServiceManager::get('lib://nooku/filter.url')->sanitize($url);
+            $url = ServiceManager::get('lib://nooku/filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_url = KServiceManager::get('lib://nooku/http.url', array('url' => $url));
+            self::$_url = ServiceManager::get('lib://nooku/http.url', array('url' => $url));
 
         }
 
@@ -426,7 +425,7 @@ class KRequest
     /**
      * Returns the base path of the request.
      *
-     * @return  object  A KHttpUrl object
+     * @return  object  A HttpUrl object
      */
     public static function base()
     {
@@ -444,9 +443,9 @@ class KRequest
             $path = rtrim(dirname($path), '/\\');
          
             // Sanitize the url since we can't trust the server var
-            $path = KServiceManager::get('lib://nooku/filter.url')->sanitize($path);
+            $path = ServiceManager::get('lib://nooku/filter.url')->sanitize($path);
 
-            self::$_base = KServiceManager::get('lib://nooku/http.url', array('url' => $path));
+            self::$_base = ServiceManager::get('lib://nooku/http.url', array('url' => $path));
         }
 
         return self::$_base;
@@ -455,17 +454,17 @@ class KRequest
     /**
      * Returns the root path of the request.
      *
-     * In most case this value will be the same as KRequest::base however it can be
+     * In most case this value will be the same as Request::base however it can be
      * changed by pushing in a different value
      *
-     * @return  object  A KHttpUrl object
+     * @return  object  A HttpUrl object
      */
     public static function root($path = null)
     {
         if(!is_null($path))
         {
-            if(!$path instanceof KhttpUrlInterface) {
-                $path = KServiceManager::get('lib://nooku/http.url', array('url' => $path));
+            if(!$path instanceof HttpUrlInterface) {
+                $path = ServiceManager::get('lib://nooku/http.url', array('url' => $path));
             }
 
             self::$_root = $path;
@@ -555,7 +554,7 @@ class KRequest
             $type = 'FLASH';
         }
 
-        if(preg_match('/^(Shockwave|Adobe) Flash/', KRequest::client()) == 1) {
+        if(preg_match('/^(Shockwave|Adobe) Flash/', Request::client()) == 1) {
              $type = 'FLASH';
         }
 
@@ -710,7 +709,7 @@ class KRequest
     protected static function _stripSlashes( $value )
     {
         if(!is_object($value)) {
-            $value = is_array( $value ) ? array_map( array( 'KRequest', '_stripSlashes' ), $value ) : stripslashes( $value );
+            $value = is_array( $value ) ? array_map( array( 'Request', '_stripSlashes' ), $value ) : stripslashes( $value );
         }
 
         return $value;

@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Date filter
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterDate extends KFilterTimestamp
+class FilterDate extends FilterTimestamp
 {
     /**
      * Validates that a value is an ISO 8601 date string

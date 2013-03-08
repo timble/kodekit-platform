@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Update Database Query Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
+class DatabaseQueryUpdate extends DatabaseQueryAbstract
 {
     /**
      * The table name
@@ -62,7 +64,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      * Build the table clause 
      *
      * @param   string The name of the table to update.
-     * @return  KDatabaseQueryUpdate
+     * @return  DatabaseQueryUpdate
      */
     public function table($table)
     {
@@ -77,7 +79,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      * @param string|array $table      The table name to join to.
      * @param string       $condition  The join condition statement.
      * @param string       $type       The type of join.
-     * @return \KDatabaseQueryUpdate
+     * @return DatabaseQueryUpdate
      */
     public function join($table, $condition = null, $type = 'LEFT')
     {
@@ -102,7 +104,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      * Build the set clause 
      *
      * @param   array|string $columns An array or string of columns to update.
-     * @return  \KDatabaseQueryUpdate
+     * @return  DatabaseQueryUpdate
      */
     public function values($values)
     {
@@ -116,7 +118,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      *
      * @param   string $condiaiton  The condition.
      * @param   string $combination Combination type, defaults to 'AND'.
-     * @return  \KDatabaseQueryUpdate
+     * @return  DatabaseQueryUpdate
      */
     public function where($condition, $combination = 'AND')
     {
@@ -133,7 +135,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      *
      * @param   array|string $columns   A string or array of ordering columns.
      * @param   string       $direction Either DESC or ASC.
-     * @return  \KDatabaseQueryUpdate
+     * @return  DatabaseQueryUpdate
      */
     public function order($columns, $direction = 'ASC')
     {
@@ -151,7 +153,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
      * Build the limit clause
      *
      * @param   integer $limit Number of items to update.
-     * @return  \KDatabaseQueryUpdate
+     * @return  DatabaseQueryUpdate
      */
     public function limit($limit)
     {
@@ -185,7 +187,7 @@ class KDatabaseQueryUpdate extends KDatabaseQueryAbstract
                     $tmp .= ' '.$join['type'];
                 }
 
-                if($join['table'] instanceof KDatabaseQuerySelect) {
+                if($join['table'] instanceof DatabaseQuerySelect) {
                     $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
                 } else {
                     $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));

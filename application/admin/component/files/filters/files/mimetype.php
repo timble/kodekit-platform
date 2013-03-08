@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * File Mimetype Filter Class
  *
@@ -15,14 +17,14 @@
  * @subpackage  Files
  */
 
-class ComFilesFilterFileMimetype extends KFilterAbstract
+class ComFilesFilterFileMimetype extends Framework\FilterAbstract
 {
 	protected $_walk = false;
 
 	protected function _validate($context)
 	{
 		$row = $context->getSubject();
-		$mimetypes = KConfig::unbox($row->container->parameters->allowed_mimetypes);
+		$mimetypes = Framework\Config::unbox($row->container->parameters->allowed_mimetypes);
 
 		if (is_array($mimetypes))
 		{

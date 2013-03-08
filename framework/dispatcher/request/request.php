@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Dispatcher Request Class
  *
@@ -14,26 +16,26 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Request
  */
-class KDispatcherRequest extends KControllerRequest implements KDispatcherRequestInterface
+class DispatcherRequest extends ControllerRequest implements DispatcherRequestInterface
 {
     /**
      * The request cookies
      *
-     * @var KHttpMessageParameters
+     * @var HttpMessageParameters
      */
     protected $_cookies;
 
     /**
      * The request files
      *
-     * @var KHttpMessageParameters
+     * @var HttpMessageParameters
      */
     protected $_files;
 
     /**
      * Base url of the request.
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected $_base_url;
 
@@ -47,14 +49,14 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Root url of the request.
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected $_root;
 
     /**
      * Referrer of the request
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected $_referrer;
 
@@ -96,10 +98,10 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return KDispatcherRequest
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return DispatcherRequest
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -206,10 +208,10 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'base_url'  => '/',
@@ -239,11 +241,11 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherRequest
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return DispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has('request'))
         {
@@ -262,7 +264,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      * Set the request cookies
      *
      * @param  array $cookies
-     * @return KDispatcherRequestInterface
+     * @return DispatcherRequestInterface
      */
     public function setCookies($parameters)
     {
@@ -272,7 +274,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Get the request cookies
      *
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function getCookies()
     {
@@ -283,7 +285,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      * Set the request files
      *
      * @param  array $files
-     * @return KDispatcherRequestInterface
+     * @return DispatcherRequestInterface
      */
     public function setFiles($parameters)
     {
@@ -293,7 +295,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Get the request files
      *
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function getFiles()
     {
@@ -332,7 +334,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      * Sets the request method.
      *
      * @param string $method
-     * @return KDispatcherRequest
+     * @return DispatcherRequest
      */
     public function setMethod($method)
     {
@@ -394,7 +396,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
     /**
      * Return the URI of the request regardless of the server
      *
-     * @return  KHttpUrl    A KHttpUri object
+     * @return  HttpUrl    A HttpUri object
      */
     public function getUrl()
     {
@@ -479,7 +481,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      * @see     http://en.wikipedia.org/wiki/HTTP_referrer
      *
      * @param   boolean     Only allow internal url's
-     * @return  KHttpUrl    A KHttpUrl object
+     * @return  HttpUrl    A HttpUrl object
      */
     public function getReferrer($isInternal = true)
     {
@@ -491,7 +493,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
 
         if($isInternal)
         {
-            if(!$this->getService('lib://nooku/filter.internalurl')->validate($this->_referrer->toString(KHttpUrl::SCHEME | KHttpUrl::HOST))) {
+            if(!$this->getService('lib://nooku/filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
                 return null;
             }
         }
@@ -531,16 +533,16 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
      *  * http://localhost/mysite/about?var=1  returns '/about'
      *
-     * @return  object  A KHttpUrl object
+     * @return  object  A HttpUrl object
      */
     public function getBaseUrl()
     {
-        if(!$this->_base_url instanceof KHttpUrl)
+        if(!$this->_base_url instanceof HttpUrl)
         {
             $base = clone $this->getUrl();
             $base->fromString(rtrim((string)$this->_base_url, '/'));
 
-            $this->_base_url = $this->getService('lib://nooku/http.url', array('url' => $base->toString(KHttpUrl::BASE)));
+            $this->_base_url = $this->getService('lib://nooku/http.url', array('url' => $base->toString(HttpUrl::BASE)));
         }
 
         return $this->_base_url;
@@ -550,7 +552,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      * Set the base URL for which the request is executed.
      *
      * @param string $url
-     * @return KDispatcherRequest
+     * @return DispatcherRequest
      */
     public function setBaseUrl($url)
     {
@@ -584,7 +586,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      * Set the base path for which the request is executed.
      *
      * @param string $path
-     * @return KDispatcherRequest
+     * @return DispatcherRequest
      */
     public function setBasePath($path)
     {
@@ -665,7 +667,7 @@ class KDispatcherRequest extends KControllerRequest implements KDispatcherReques
      * @param string       $format    The format
      * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used
      *                                as the content type)
-     * @return KDispatcherRequestAbstract
+     * @return DispatcherRequestAbstract
      */
     public function addFormat($format, $mime_types)
     {

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Html View Class
  *
@@ -17,7 +19,7 @@
 
 class ComApplicationViewPageHtml extends ComApplicationViewHtml
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'template_filters' => array('expire', 'module'),

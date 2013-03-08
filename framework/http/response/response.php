@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * HTTP Response Class
  *
@@ -15,7 +17,7 @@
  * @package     Koowa_Http
  * @link        http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6
  */
-class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
+class HttpResponse extends HttpMessage implements HttpResponseInterface
 {
     /**
      * The response status code
@@ -139,10 +141,10 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return KHttpResponse
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return HttpResponse
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -160,10 +162,10 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'content'        => '',
@@ -180,7 +182,7 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
      * Set the header parameters
      *
      * @param  array $headers
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setHeaders($headers)
     {
@@ -195,7 +197,7 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
      * @param  integer $code
      * @param  string $message
      * @throws InvalidArgumentException
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setStatus($code, $message = null)
     {
@@ -246,7 +248,7 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
      *
      * @param string $type Content type
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setContentType($type)
     {
@@ -298,7 +300,7 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.18
      *
      * @param \DateTime $date A \DateTime instance
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setDate(\DateTime $date)
     {
@@ -385,7 +387,7 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21
      *
      * @param \DateTime $date A \DateTime instance
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setExpires(\DateTime $date = null)
     {
@@ -419,7 +421,7 @@ class KHttpResponse extends KHttpMessage implements KHttpResponseInterface
      *
      * @param string  $etag The ETag unique identifier
      * @param Boolean $weak Whether you want a weak ETag or not
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setEtag($etag = null, $weak = false)
     {

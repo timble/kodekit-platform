@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Filter interface
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-interface KFilterInterface extends KCommandInterface, KServiceInstantiatable
+interface FilterInterface extends CommandInterface, ServiceInstantiatable
 {
     /**
      * Validate a value or data collection

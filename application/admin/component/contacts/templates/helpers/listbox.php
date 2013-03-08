@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper
  *
@@ -20,7 +22,7 @@ class ComContactsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
     public function contacts($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'model' 	=> 'contacts',
             'value'		=> 'id',

@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Database Event Subscriber
  * 
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class ComDebugEventSubscriberDatabase extends KEventSubscriberAbstract implements KServiceInstantiatable
+class ComDebugEventSubscriberDatabase extends Framework\EventSubscriberAbstract implements Framework\ServiceInstantiatable
 {    
     /**
      * The start time
@@ -32,11 +34,11 @@ class ComDebugEventSubscriberDatabase extends KEventSubscriberAbstract implement
 	/**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
+     * @param 	Framework\Config                     $config	  A Framework\Config object with configuration options
+     * @param 	Framework\ServiceManagerInterface	$manager  A KServiceInterface object
      * @return ComDebugProfilerEvents
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -57,45 +59,45 @@ class ComDebugEventSubscriberDatabase extends KEventSubscriberAbstract implement
         return $this->_queries;
     }
     
-    public function onBeforeDatabaseSelect(KEvent $event) 
+    public function onBeforeDatabaseSelect(Framework\Event $event)
     {
         $this->_start = microtime(true);
     }
         
-    public function onAfterDatabaseSelect(KEvent $event)
+    public function onAfterDatabaseSelect(Framework\Event $event)
     {
         $event->time = microtime(true) - $this->_start;
         $this->_queries[] = $event;
     }
     
-    public function onBeforeDatabaseUpdate(KEvent $event)
+    public function onBeforeDatabaseUpdate(Framework\Event $event)
     {
         $this->_start = microtime(true);
     }
         
-    public function onAfterDatabaseUpdate(KEvent $event)
+    public function onAfterDatabaseUpdate(Framework\Event $event)
     {
         $event->time = microtime(true) - $this->_start;
         $this->_queries[] = $event;
     }
     
-    public function onBeforeDatabaseInsert(KEvent $event)
+    public function onBeforeDatabaseInsert(Framework\Event $event)
     {
         $this->_start = microtime(true);
     }
                 
-    public function onAfterDatabaseInsert(KEvent $event)
+    public function onAfterDatabaseInsert(Framework\Event $event)
     {
         $event->time = microtime(true) - $this->_start;
         $this->_queries[] = $event;
     }
     
-    public function onBeforeDatabaseDelete(KEvent $event)
+    public function onBeforeDatabaseDelete(Framework\Event $event)
     {
         $this->_start = microtime(true);
     }
                 
-    public function onAfterDatabaseDelete(KEvent $event)
+    public function onAfterDatabaseDelete(Framework\Event $event)
     {
         $event->time = microtime(true) - $this->_start;
         $this->_queries[] = $event;

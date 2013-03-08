@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Message Headers Class
  *
@@ -18,19 +20,19 @@
  * @package     Koowa_Http
  * @subpackage  Messsage
  */
-class KHttpMessageHeaders extends KObjectArray
+class HttpMessageHeaders extends ObjectArray
 {
     /**
      * Constructor
      *
-     * @param KConfig $config  An optional KConfig object with configuration options
-     * @return KObjectArray
+     * @param Config $config  An optional Config object with configuration options
+     * @return ObjectArray
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
-        $headers = KConfig::unbox($config->headers);
+        $headers = Config::unbox($config->headers);
         foreach ($headers as $key => $values) {
             $this->set($key, $values);
         }
@@ -41,10 +43,10 @@ class KHttpMessageHeaders extends KObjectArray
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'headers' => array(),
@@ -97,7 +99,7 @@ class KHttpMessageHeaders extends KObjectArray
      * @param string       $key     The key
      * @param string|array $values  The value or an array of values
      * @param boolean      $replace Whether to replace the actual value of not (true by default)
-     * @return KHttpMessageHeaders
+     * @return HttpMessageHeaders
      */
     public function set($key, $values, $replace = true)
     {
@@ -118,7 +120,7 @@ class KHttpMessageHeaders extends KObjectArray
      * This function will not add headers that already exist.
      *
      * @param array $headers An array of HTTP headers
-     * @return KHttpMessageHeaders
+     * @return HttpMessageHeaders
      */
     public function add(array $headers)
     {
@@ -156,7 +158,7 @@ class KHttpMessageHeaders extends KObjectArray
      * Removes a header nu name
      *
      * @param string $key The HTTP header name
-     * @return KHttpMessageHeaders
+     * @return HttpMessageHeaders
      */
     public function remove($key)
     {
@@ -168,7 +170,7 @@ class KHttpMessageHeaders extends KObjectArray
     /**
      * Clear the current HTTP headers
      *
-     * @return KHttpMessageHeaders
+     * @return HttpMessageHeaders
      */
     public function clear()
     {

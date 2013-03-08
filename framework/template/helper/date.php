@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Helper Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Template
  * @subpackage  Helper
  */
-class KTemplateHelperDate extends KTemplateHelperAbstract
+class TemplateHelperDate extends TemplateHelperAbstract
 {
     /**
      * Returns formatted date according to current local and adds time offset.
@@ -24,11 +26,11 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
      */
     public function format($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
-            'format'   => JText::_('DATE_FORMAT_LC'),
+            'format'   => \JText::_('DATE_FORMAT_LC'),
             'default'  => ''
         ));
 
@@ -38,7 +40,7 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
         {
             try 
             {
-                $date = new KDate(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 $return = $date->format($config->format);
@@ -57,11 +59,11 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
      */
     public function humanize($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Config($config);
         $config->append(array(
             'date'            => 'now',
             'timezone'        => date_default_timezone_get(),
-            'default'         => JText::_('Never'),
+            'default'         => \JText::_('Never'),
             'smallest_period' => 'second'
         ));
 
@@ -75,8 +77,8 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
 
             try 
             {
-                $date = new KDate(array('date' => $config->date, 'timezone' => 'UTC'));
-                $date->setTimezone(new DateTimeZone($config->timezone));
+                $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
+                $date->setTimezone(new \DateTimeZone($config->timezone));
 
                 if($now != $date) 
                 {
@@ -110,9 +112,9 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                     if($periods[$i] == 'day' && ($difference == 1 || $difference == 2)) 
                     {
                         if($difference == 1) {
-                            $result = JText::_('Today');
+                            $result = \JText::_('Today');
                         } else {
-                            $result = $tense == 'ago' ? JText::_('Yesterday') : JText::_('Tomorrow');
+                            $result = $tense == 'ago' ? \JText::_('Yesterday') : \JText::_('Tomorrow');
                         }
                     } 
                     else 
@@ -121,10 +123,10 @@ class KTemplateHelperDate extends KTemplateHelperAbstract
                             $periods[$i] .= 's';
                         }
 
-                        $result = sprintf(JText::_('%d '.$periods[$i].' '.$tense), $difference);
+                        $result = sprintf(\JText::_('%d '.$periods[$i].' '.$tense), $difference);
                     }
                 } 
-                else $result = JText::_('Now');
+                else $result = \JText::_('Now');
             } 
             catch(\Exception $e) {}
         }

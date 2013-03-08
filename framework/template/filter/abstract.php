@@ -6,6 +6,8 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Template Filter
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilterInterface
+abstract class TemplateFilterAbstract extends Object implements TemplateFilterInterface
 {
     /**
      * The filter priority
@@ -32,23 +34,23 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         /*if (is_null($config->template))
         {
-            throw new InvalidArgumentException(
-                'template [KTemplateInterface] config option is required'
+            throw new \InvalidArgumentException(
+                'template [TemplateInterface] config option is required'
             );
         }
 
-        if(!$config->template instanceof KTemplateInterface)
+        if(!$config->template instanceof TemplateInterface)
         {
-            throw new UnexpectedValueException(
-                'Template: '.get_class($config->template).' does not implement KTemplateInterface'
+            throw new \UnexpectedValueException(
+                'Template: '.get_class($config->template).' does not implement TemplateInterface'
             );
         }*/
 
@@ -61,14 +63,14 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'template' => null,
-            'priority' => KCommand::PRIORITY_NORMAL,
+            'priority' => Command::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -101,16 +103,16 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
      * @param   object      The command context
      * @return  boolean     Always returns TRUE
      */
-    final public function execute($name, KCommandContext $context)
+    final public function execute($name, CommandContext $context)
     {
         //Set the data
         $data = $context->data;
 
-        if (($name & KTemplateFilter::MODE_READ) && $this instanceof KTemplateFilterRead) {
+        if (($name & TemplateFilter::MODE_READ) && $this instanceof TemplateFilterRead) {
             $this->read($data);
         }
 
-        if (($name & KTemplateFilter::MODE_WRITE) && $this instanceof KTemplateFilterWrite) {
+        if (($name & TemplateFilter::MODE_WRITE) && $this instanceof TemplateFilterWrite) {
             $this->write($data);
         }
 
@@ -157,8 +159,8 @@ abstract class KTemplateFilterAbstract extends KObject implements KTemplateFilte
     {
         $output = array();
 
-        if ($array instanceof KConfig) {
-            $array = KConfig::unbox($array);
+        if ($array instanceof Config) {
+            $array = Config::unbox($array);
         }
 
         if (is_array($array)) {

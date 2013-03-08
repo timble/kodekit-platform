@@ -6,15 +6,17 @@
  * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Controller Toolbar Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  * @subpackage     Toolbar
- * @uses        KInflector
+ * @uses        Inflector
  */
-abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract implements KControllerToolbarInterface
+abstract class ControllerToolbarAbstract extends EventSubscriberAbstract implements ControllerToolbarInterface
 {
     /**
      * Controller object
@@ -33,23 +35,23 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
     /**
      * Constructor.
      *
-     * @param  KConfig     An associative array of configuration settings or a KConfig instance.
+     * @param  Config     An associative array of configuration settings or a Config instance.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         if (is_null($config->controller))
         {
             throw new \InvalidArgumentException(
-                'controller [KControllerInterface] config option is required'
+                'controller [ControllerInterface] config option is required'
             );
         }
 
-        if(!$config->controller instanceof KControllerInterface)
+        if(!$config->controller instanceof ControllerInterface)
         {
             throw new \UnexpectedValueException(
-                'Controller: '.get_class($config->controller).' does not implement KControllerInterface'
+                'Controller: '.get_class($config->controller).' does not implement ControllerInterface'
             );
         }
 
@@ -65,10 +67,10 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'controller' => null,
@@ -80,7 +82,7 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
     /**
      * Get the controller object
      *
-     * @return  \KControllerInterface
+     * @return  ControllerInterface
      */
     public function getController()
     {
@@ -100,11 +102,11 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
     /**
      * Add a separator
      *
-     * @return  \KControllerToolbarInterface
+     * @return  ControllerToolbarInterface
      */
     public function addSeparator()
     {
-        $command = new KControllerToolbarCommand('separator');
+        $command = new ControllerToolbarCommand('separator');
         $this->_commands[] = $command;
         return $command;
     }
@@ -113,12 +115,12 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
      * Add a command
      *
      * @param   string    $command The command name
-     * @param    mixed    $config  Parameters to be passed to the command
-     * @return  \KControllerToolbarCommand  The command that was added
+     * @param   mixed    $config  Parameters to be passed to the command
+     * @return  ControllerToolbarCommand  The command that was added
      */
     public function addCommand($command, $config = array())
     {
-        if (!($command instanceof  KControllerToolbarCommand)) {
+        if (!($command instanceof  ControllerToolbarCommand)) {
             $command = $this->getCommand($command, $config);
         }
 
@@ -134,12 +136,12 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
      *
      * @param string $name  The command name
      * @param array $config An optional associative array of configuration settings
-     * @return mixed KControllerToolbarCommand if found, false otherwise.
+     * @return mixed ControllerToolbarCommand if found, false otherwise.
      */
     public function getCommand($name, $config = array())
     {
         //Create the config object
-        $command = new KControllerToolbarCommand($name, $config);
+        $command = new ControllerToolbarCommand($name, $config);
 
         //Attach the command to the toolbar
         $command->setToolbar($this);
@@ -208,7 +210,7 @@ abstract class KControllerToolbarAbstract extends KEventSubscriberAbstract imple
      */
     public function __call($method, $args)
     {
-        $parts = KInflector::explode($method);
+        $parts = Inflector::explode($method);
 
         if ($parts[0] == 'add' && isset($parts[1]))
         {

@@ -7,6 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
 
 /**
  * Default Model
@@ -14,4 +15,4 @@
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ComWysiwygModelDefault extends KModelAbstract {}
+class ComWysiwygModelDefault extends Framework\ModelAbstract {}

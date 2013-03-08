@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Page Controller Class
  *   
@@ -17,7 +19,7 @@
  
 class ComApplicationControllerPage extends ComDefaultControllerView
 {
-    protected function _actionRender(KCommandContext $context)
+    protected function _actionRender(Framework\CommandContext $context)
     {
         $content = parent::_actionRender($context);
 

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Dispatcher Permission Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage	Permission
  */
-class KDispatcherPermissionDefault extends KDispatcherPermissionAbstract
+class DispatcherPermissionDefault extends DispatcherPermissionAbstract
 {
 
 }

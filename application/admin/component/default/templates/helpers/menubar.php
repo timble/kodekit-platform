@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Template Menubar Helper
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
+class ComDefaultTemplateHelperMenubar extends Framework\TemplateHelperAbstract
 {
  	/**
      * Render the menubar
@@ -24,7 +26,7 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
         	'menubar' => null,
             'attribs' => array(),
@@ -57,7 +59,7 @@ class ComDefaultTemplateHelperMenubar extends KTemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
         	'command' => null
         ));

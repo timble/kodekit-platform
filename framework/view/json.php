@@ -6,23 +6,25 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * View JSON Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_View
  */
-class KViewJson extends KViewAbstract
+class ViewJson extends ViewAbstract
 {
     /**
      * Initializes the config for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object KConfig An optional KConfig object with configuration options
+     * @param   object Config An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'version' => '1.0'
@@ -44,7 +46,7 @@ class KViewJson extends KViewAbstract
     public function render()
     {
         if (empty($this->_content)) {
-            $this->_content = KInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
+            $this->_content = Inflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
         }
 
         if (!is_string($this->_content))
@@ -93,7 +95,7 @@ class KViewJson extends KViewAbstract
             'href' => (string)$route->setQuery($state->toArray(), true),
             'url' => array(
                 'type' => 'application/json',
-                'template' => (string)$route->toString(KHttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
+                'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
             ),
             'offset' => (int)$paginator->offset,
             'limit' => (int)$paginator->limit,
@@ -114,7 +116,7 @@ class KViewJson extends KViewAbstract
                 }
             }
 
-            $name = KInflector::singularize($this->getName());
+            $name = Inflector::singularize($this->getName());
 
             $items = array();
             foreach ($list as $item)
@@ -184,7 +186,7 @@ class KViewJson extends KViewAbstract
             'href' => (string)$route->setQuery($state->toArray(true)),
             'url' => array(
                 'type' => 'application/json',
-                'template' => (string)$route->toString(KHttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
+                'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
             ),
             'item' => array()
         );

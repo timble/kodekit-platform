@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Exception Controller Class
  *   
@@ -15,21 +17,21 @@
  * @subpackage  Application
  */
  
-class ComApplicationControllerException extends KControllerView
+class ComApplicationControllerException extends Framework\ControllerView
 {
     /**
      * Render an exception
      *
-     * @throws InvalidArgumentException If the action parameter is not an instance of KException
-     * @param KCommandContext $context	A command context object
+     * @throws InvalidArgumentException If the action parameter is not an instance of Framework\Exception
+     * @param Framework\CommandContext $context	A command context object
      */
-    protected function _actionRender(KCommandContext $context)
+    protected function _actionRender(Framework\CommandContext $context)
     {
         //Check an exception was passed
-        if(!isset($context->param) && !$context->param instanceof KException)
+        if(!isset($context->param) && !$context->param instanceof Framework\Exception)
         {
-            throw new InvalidArgumentException(
-                "Action parameter 'exception' [KException] is required"
+            throw new \InvalidArgumentException(
+                "Action parameter 'exception' [Framework\Exception] is required"
             );
         }
 
@@ -38,11 +40,11 @@ class ComApplicationControllerException extends KControllerView
 
         //If the error code does not correspond to a status message, use 500
         $code = $exception->getCode();
-        if(!isset(KHttpResponse::$status_messages[$code])) {
+        if(!isset(Framework\HttpResponse::$status_messages[$code])) {
             $code = '500';
         }
 
-        $message = KHttpResponse::$status_messages[$code];
+        $message = Framework\HttpResponse::$status_messages[$code];
         $traces = $exception->getTrace();
 
         //Traverse up the trace stack to find the actual function that was not found
@@ -73,6 +75,8 @@ class ComApplicationControllerException extends KControllerView
             $args     = isset($traces[0]['args'])  ? $traces[0]['args']  : '';
             $info     = isset($traces[0]['info'])  ? $traces[0]['info']  : '';
         }
+
+
 
         //Find the real file path
         if($alias = $this->getService('loader')->getAlias($file)) {

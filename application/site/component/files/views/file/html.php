@@ -8,7 +8,9 @@
  * @link        http://www.nooku.org
  */
 
-class ComFilesViewFileHtml extends KViewFile
+use Nooku\Framework;
+
+class ComFilesViewFileHtml extends Framework\ViewFile
 {
     public function render()
     {
@@ -23,7 +25,7 @@ class ComFilesViewFileHtml extends KViewFile
         }
 
         if (!file_exists($this->path)) {
-        	throw new KViewException(JText::_('File not found'));
+        	throw new Framework\ViewException(JText::_('File not found'));
         }
 
         return parent::render();

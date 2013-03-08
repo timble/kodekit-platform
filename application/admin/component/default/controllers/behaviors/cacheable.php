@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Controller Cacheable Behavior
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
+class ComDefaultControllerBehaviorCacheable extends Framework\ControllerBehaviorAbstract
 {
 	/**
 	 * The cached state of the resource
@@ -26,10 +28,10 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	/**
 	 * Fetch the unrendered view data from the cache
 	 *
-	 * @param   KCommandContext	A command context object
+	 * @param   Framework\CommandContext	A command context object
 	 * @return 	void	
 	 */
-	protected function _beforeControllerRender(KCommandContext $context)
+	protected function _beforeControllerRender(Framework\CommandContext $context)
 	{ 
 	    $view   = $this->getView();
 	    $cache  = JFactory::getCache($this->_getGroup(), 'output');
@@ -40,7 +42,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
             $data = unserialize($data);
             
             //Render the view output
-            if($view instanceof KViewTemplate) 
+            if($view instanceof Framework\ViewTemplate)
             {
                 $context->result = $view->getTemplate()
                                ->loadString($data['component'], array(), false)
@@ -55,10 +57,10 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	/**
 	 * Store the unrendered view data in the cache
 	 *
-	 * @param   KCommandContext	A command context object
+	 * @param   Framework\CommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterControllerRender(KCommandContext $context)
+	protected function _afterControllerRender(Framework\CommandContext $context)
 	{
 	    if(empty($this->_output))
 	    {
@@ -69,7 +71,7 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	        $data  = array();
 	   
 	        //Store the unrendered view output
-	        if($view instanceof KViewTemplate) {
+	        if($view instanceof Framework\ViewTemplate) {
 	            $data['component'] = (string) $view->getTemplate();
 	        } else {
 	            $data['component'] = $context->result;
@@ -85,10 +87,10 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * Only if cached data was found return it but allow the chain to continue to allow
 	 * processing all the read commands
 	 *
-	 * @param   KCommandContext	A command context object
+	 * @param   Framework\CommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterControllerRead(KCommandContext $context)
+	protected function _afterControllerRead(Framework\CommandContext $context)
 	{ 
 	    if(!empty($this->_output)) {
 	        $context->result = $this->_output;
@@ -101,10 +103,10 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	 * Only if cached data was fetch return it and break the chain to dissallow any
 	 * further processing to take place
 	 * 
-	 * @param   KCommandContext	A command context object
+	 * @param   Framework\CommandContext	A command context object
 	 * @return 	void
 	 */
-    protected function _beforeControllerBrowse(KCommandContext $context)
+    protected function _beforeControllerBrowse(Framework\CommandContext $context)
 	{
 	    if(!empty($this->_output)) 
 	    {
@@ -116,14 +118,14 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	/**
 	 * Clean the cache
 	 *
-	 * @param   KCommandContext	A command context object
+	 * @param   Framework\CommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterControllerAdd(KCommandContext $context)
+	protected function _afterControllerAdd(Framework\CommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
-	    if($status == KDatabase::STATUS_CREATED) {
+	    if($status == Framework\Database::STATUS_CREATED) {
 	         JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
@@ -133,14 +135,14 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	/**
 	 * Clean the cache
 	 *
-	 * @param   KCommandContext	A command context object
+	 * @param   Framework\CommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterControllerDelete(KCommandContext $context)
+	protected function _afterControllerDelete(Framework\CommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
-	    if($status == KDatabase::STATUS_DELETED) {
+	    if($status == Framework\Database::STATUS_DELETED) {
 	        JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
@@ -150,14 +152,14 @@ class ComDefaultControllerBehaviorCacheable extends KControllerBehaviorAbstract
 	/**
 	 * Clean the cache
 	 *
-	 * @param   KCommandContext	A command context object
+	 * @param   Framework\CommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterControllerEdit(KCommandContext $context)
+	protected function _afterControllerEdit(Framework\CommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
-	    if($status == KDatabase::STATUS_UPDATED) {
+	    if($status == Framework\Database::STATUS_UPDATED) {
 	        JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      

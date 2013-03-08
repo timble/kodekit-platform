@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Editor Controller
  *
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ComWysiwygControllerEditor extends KControllerView
+class ComWysiwygControllerEditor extends Framework\ControllerView
 {
 
 }

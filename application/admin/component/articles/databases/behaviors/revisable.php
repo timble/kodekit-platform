@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Revisable Database Behavior Class
  *
@@ -16,7 +18,7 @@
  */
 class ComArticlesDatabaseBehaviorRevisable extends ComVersionsDatabaseBehaviorRevisable
 {
-    protected function _selectRevisions($table, $status, KDatabaseQueryInterface $query)
+    protected function _selectRevisions($table, $status, Framework\DatabaseQueryInterface $query)
     {
         $result = parent::_selectRevisions($table, $status, $query);
 

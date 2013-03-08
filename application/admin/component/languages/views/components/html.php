@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Compponents Html View Class
  *
@@ -17,7 +19,7 @@
 
 class ComLanguagesViewComponentsHtml extends ComDefaultViewHtml
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'auto_assign' => false

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller User Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage  User
  */
-interface KControllerUserInterface extends KUserInterface
+interface ControllerUserInterface extends UserInterface
 {
 
 }

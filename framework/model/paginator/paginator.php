@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Paginator Model Class
  *
@@ -14,12 +16,12 @@
  * @package		Koowa_Model
  * @subpackage  Paginator
  */
-class KModelPaginator extends KConfig implements KModelPaginatorInterface
+class ModelPaginator extends Config implements ModelPaginatorInterface
 {
     /**
      * Get the pages
      *
-     * @return KConfig A KConfig object that holds the page information
+     * @return Config A Config object that holds the page information
      */
     public function getPages()
     {
@@ -85,7 +87,7 @@ class KModelPaginator extends KConfig implements KModelPaginatorInterface
      */
     protected function _pages()
     {
-        $pages = new KConfig();
+        $pages = new Config();
         $current  = ($this->current - 1) * $this->limit;
         
         // First

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Toolbar Command Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  */
-class KControllerToolbarCommand extends KConfig implements KControllerToolbarInterface
+class ControllerToolbarCommand extends Config implements ControllerToolbarInterface
 {
  	/**
      * The command name
@@ -48,7 +50,7 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
      * Constructor.
      *
      * @param	string 			The command name
-     * @param   array|KConfig 	An associative array of configuration settings or a KConfig instance.
+     * @param   array|Config 	An associative array of configuration settings or a Config instance.
      */
     public function __construct( $name, $config = array() )
     {
@@ -88,11 +90,11 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
      *
      * @param   string	$command The command name
      * @param	mixed	$config  Parameters to be passed to the command
-     * @return  \KControllerToolbarCommand  The command that was added
+     * @return  ControllerToolbarCommand  The command that was added
      */
     public function addCommand($command, $config = array())
     {
-        if (!($command instanceof  KControllerToolbarCommand)) {
+        if (!($command instanceof  ControllerToolbarCommand)) {
             $command = $this->getCommand($command, $config);
         }
 
@@ -108,7 +110,7 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
      *
      * @param string $name  The command name
      * @param array $config An optional associative array of configuration settings
-     * @return mixed KControllerToolbarCommand if found, false otherwise.
+     * @return mixed ControllerToolbarCommand if found, false otherwise.
      */
     public function getCommand($name, $config = array())
     {
@@ -150,7 +152,7 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
     /**
      * Get the parent node
      *
-     * @return	\KControllerToolbarCommand
+     * @return	ControllerToolbarCommand
      */
     public function getParent()
     {
@@ -163,7 +165,7 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
      * @param object $node The parent command
      * @return \KControllerToolbarCommand
      */
-    public function setParent(KControllerToolbarCommand $command )
+    public function setParent(ControllerToolbarCommand $command )
     {
         $this->_parent = $command;
         return $this;
@@ -185,7 +187,7 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
      * @param object $node The toolbar this command belongs too
      * @return \KControllerToolbarCommand
      */
-    public function setToolbar(KControllerToolbarInterface $toolbar )
+    public function setToolbar(ControllerToolbarInterface $toolbar )
     {
         $this->_toolbar = $toolbar;
         return $this;
@@ -201,7 +203,7 @@ class KControllerToolbarCommand extends KConfig implements KControllerToolbarInt
      */
     public function __call($method, $args)
     {
-        $parts = KInflector::explode($method);
+        $parts = Inflector::explode($method);
 
         if($parts[0] == 'add' && isset($parts[1]))
         {

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Folder Database Row Class
  *
@@ -48,9 +50,9 @@ class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 		}
 
 		if ($context->result === false) {
-			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatus(Framework\Database::STATUS_FAILED);
 		} else {
-            $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
+            $this->setStatus($is_new ? Framework\Database::STATUS_CREATED : Framework\Database::STATUS_UPDATED);
         }
 
 		return $context->result;
@@ -80,14 +82,14 @@ class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 	{
 		$result = parent::getData($modified);
 
-		if (isset($result['children']) && $result['children'] instanceof KDatabaseRowsetInterface) {
+		if (isset($result['children']) && $result['children'] instanceof Framework\DatabaseRowsetInterface) {
 			$result['children'] = $result['children']->getData();
 		}
 
 		return $result;
 	}
 
-	public function insertChild(KDatabaseRowInterface $node)
+	public function insertChild(Framework\DatabaseRowInterface $node)
 	{
 		//Track the parent
 		$node->setParent($this);
@@ -110,11 +112,11 @@ class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 	 */
 	public function getChildren()
 	{
-		if(!($this->_children instanceof KDatabaseRowsetInterface))
+		if(!($this->_children instanceof Framework\DatabaseRowsetInterface))
 		{
 			$identifier         = clone $this->getIdentifier();
 			$identifier->path   = array('database', 'rowset');
-			$identifier->name   = KInflector::pluralize($this->getIdentifier()->name);
+			$identifier->name   = Framework\Inflector::pluralize($this->getIdentifier()->name);
 
 			//The row default options
 			$options  = array(

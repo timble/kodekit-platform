@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Setting Controller Toolbar
  *
@@ -15,7 +17,7 @@
  */
 class ComExtensionsControllerToolbarSetting extends ComDefaultControllerToolbarDefault
 {  
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {
         parent::onAfterControllerBrowse($event);
         

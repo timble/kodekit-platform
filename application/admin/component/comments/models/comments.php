@@ -1,7 +1,10 @@
 <?php
+
+use Nooku\Framework;
+
 class ComCommentsModelComments extends ComDefaultModelDefault
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -10,7 +13,7 @@ class ComCommentsModelComments extends ComDefaultModelDefault
 			->insert('row', 'int');
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
 		

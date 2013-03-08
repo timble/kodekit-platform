@@ -8,6 +8,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Publishable Database Behavior Class
  *
@@ -40,19 +42,19 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
     /**
      * The current date.
      *
-     * @var KDate
+     * @var Framework\Date The current date.
      */
     protected $_date;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
-
+        
         $this->_table = $config->table;
-        $this->_date  = new KDate(array('timezone' => 'GMT'));
+        $this->_date  = new Framework\Date(array('timezone' => 'GMT'));
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'table'=> 'articles'
@@ -61,9 +63,9 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _afterTableSelect(KCommandContext $context)
+    protected function _afterTableSelect(Framework\CommandContext $context)
     {
-        $data = $context->data;
+        if (!$this->_uptodate) {
 
         if ($data instanceof KDatabaseRowsetInterface && !$this->_uptodate)
         {
@@ -74,17 +76,17 @@ class ComArticlesDatabaseBehaviorPublishable extends KDatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(Framework\CommandContext $context)
     {
         // Same as update.
         $this->_beforeTableUpdate($context);
     }
 
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $data = $context->data;
 
-        // Un-publish the item.
+        // Un-publish the item
         if ($data->published && (strtotime($data->publish_on) > $this->_date->getTimestamp())) {
             $data->published = 0;
         }

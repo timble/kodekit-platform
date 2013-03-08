@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Node Database Row Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
+class ComCategoriesDatabaseRowNode extends Framework\DatabaseRowTable
 {
     /**
      * Nodes object or identifier
@@ -36,10 +38,10 @@ class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Framework\Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'children'  => null,
@@ -54,10 +56,10 @@ class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
      *
      * The row will be stored by it's identity_column if set or otherwise by it's object handle.
      *
-     * @param  object $node A KDatabaseRow object to be inserted
-     * @return \KDatabaseRowsetInterface
+     * @param  object $node A Framework\DatabaseRow object to be inserted
+     * @return \Framework\DatabaseRowsetInterface
      */
-	public function insertChild(KDatabaseRowInterface $node)
+	public function insertChild(Framework\DatabaseRowInterface $node)
  	{
  		//Track the parent
  		$node->setParent($this);
@@ -81,15 +83,15 @@ class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
 	/**
      * Get the children rowset
      *
-     * @return	\KDatabaseRowInterface
+     * @return	\Framework\DatabaseRowInterface
      */
 	public function getChildren()
 	{
-		if(!($this->_children instanceof KDatabaseRowsetInterface))
+		if(!($this->_children instanceof Framework\DatabaseRowsetInterface))
         {
             $identifier         = clone $this->getIdentifier();
             $identifier->path   = array('database', 'rowset');
-            $identifier->name   = KInflector::pluralize($this->getIdentifier()->name);
+            $identifier->name   = Framework\Inflector::pluralize($this->getIdentifier()->name);
             
             //The row default options
             $options  = array(
@@ -105,7 +107,7 @@ class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
 	/**
      * Get the parent node
      *
-     * @return	\KDatabaseRowInterface
+     * @return	\Framework\DatabaseRowInterface
      */
 	public function getParent()
 	{
@@ -118,7 +120,7 @@ class ComCategoriesDatabaseRowNode extends KDatabaseRowTable
      * @param object $node The parent node
      * @return \ComCategoriesDatabaseRowNode
      */
-	public function setParent(KDatabaseRowInterface $node )
+	public function setParent(Framework\DatabaseRowInterface $node )
 	{
 		$this->_parent = $node;
 		return $this;

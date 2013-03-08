@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Editor Html View Class
  *
@@ -17,7 +19,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 {
     protected $_editor_settings;
     
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
         
@@ -33,7 +35,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
         }
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $language = JFactory::getLanguage();
 
@@ -59,7 +61,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 			'invalid_elements'						=> 'script,applet,iframe',
 			'relative_urls'							=> false,
 			'remove_script_host'					=> true,
-			'document_base_url'						=>  KRequest::root().'/sites/'.$this->getService('application')->getSite(),
+			'document_base_url'						=>  Framework\Request::root().'/sites/'.$this->getService('application')->getSite(),
 			'theme_advanced_toolbar_location'		=> 'top',
 			'theme_advanced_toolbar_align'			=> 'left',
 			'theme_advanced_source_editor_height'	=> '400',
@@ -100,7 +102,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
     
 	public function render()
 	{
-		$options = new KConfig(array(
+		$options = new Framework\Config(array(
 			'lang' => array(
 				'html'		=> JText::_('HTML'),
 				'visual'	=> JText::_('Visual')
@@ -118,7 +120,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 		
 		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
-		$this->options    = KConfig::unbox($options);
+		$this->options    = Framework\Config::unbox($options);
 		$this->settings   = $this->getEditorSettings();
 		$this->codemirror = $this->codemirror;
 
@@ -127,7 +129,7 @@ class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
 	
     public function getEditorSettings()
 	{
-	    return KConfig::unbox($this->_editor_settings);
+	    return Framework\Config::unbox($this->_editor_settings);
 	}
 	
 	public function setEditorSettings(array $settings = array())

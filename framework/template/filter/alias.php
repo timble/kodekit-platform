@@ -7,6 +7,8 @@
 * @link         http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template read filter for aliases such as @template, @text, @helper, @route etc
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateFilterRead, KTemplateFilterWrite
+class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilterRead, TemplateFilterWrite
 {
     /**
      * The alias read map
@@ -26,7 +28,7 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
     	'@service('     => '$this->getService(',
         '@date('        => '$this->renderHelper(\'date.format\',',
         '@overlay('     => '$this->renderHelper(\'behavior.overlay\', ',
-        '@text('        => 'JText::_(',
+        '@text('        => '\JText::_(',
         '@template('    => '$this->loadFile(',
         '@route('       => '$this->getView()->getRoute(',
         '@escape('      => '$this->getView()->escape(',
@@ -44,15 +46,15 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
      * Append an alias
      *
      * @param array     An array of aliases to be appended
-     * @return KTemplateFilterAlias
+     * @return TemplateFilterAlias
      */
-    public function addAlias(array $alias, $mode = KTemplateFilter::MODE_READ)
+    public function addAlias(array $alias, $mode = TemplateFilter::MODE_READ)
     {
-        if($mode & KTemplateFilter::MODE_READ) {
+        if($mode & TemplateFilter::MODE_READ) {
             $this->_alias_read = array_merge($this->_alias_read, $alias);
         }
 
-        if($mode & KTemplateFilter::MODE_WRITE) {
+        if($mode & TemplateFilter::MODE_WRITE) {
             $this->_alias_write = array_merge($this->_alias_write, $alias);
         }
 
@@ -63,7 +65,7 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
      * Convert the alias
      *
      * @param string
-     * @return KTemplateFilterAlias
+     * @return TemplateFilterAlias
      */
     public function read(&$text)
     {
@@ -79,7 +81,7 @@ class KTemplateFilterAlias extends KTemplateFilterAbstract implements KTemplateF
      * Convert the alias
      *
      * @param string
-     * @return KTemplateFilterAlias
+     * @return TemplateFilterAlias
      */
     public function write(&$text)
     {

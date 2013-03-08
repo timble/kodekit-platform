@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Categories Toolbar Class
  *
@@ -16,7 +18,7 @@
  */
 class ComCategoriesControllerToolbarCategory extends ComDefaultControllerToolbarDefault
 {
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
         
@@ -25,10 +27,10 @@ class ComCategoriesControllerToolbarCategory extends ComDefaultControllerToolbar
 	    $this->addDisable(array('label' => 'unpublish'));
     }  
     
-    protected function _commandNew(KControllerToolbarCommand $command)
+    protected function _commandNew(Framework\ControllerToolbarCommand $command)
     {
         $option = $this->getController()->getIdentifier()->package;
-		$view	= KInflector::singularize($this->getIdentifier()->name);
+		$view	= Framework\Inflector::singularize($this->getIdentifier()->name);
 		$table  = $this->getController()->getModel()->get('table');
 		
         $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;

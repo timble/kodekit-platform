@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Exception Interface
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Service
  * @subpackage  Exception
  */
-interface KServiceException extends KException {}
+interface ServiceException extends Exception {}

@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template write filter to handle form html elements
  *
@@ -19,7 +21,7 @@
  * @subpackage  Filter
  * @see         http://www.w3.org/TR/html401/interact/forms.html#h-17.13.3.4
  */
-class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilterWrite
 {
     /**
      * The form token value
@@ -38,9 +40,9 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -53,10 +55,10 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'token_value' => '',
@@ -103,7 +105,7 @@ class KTemplateFilterForm extends KTemplateFilterAbstract implements KTemplateFi
      * Add unique token field
      *
      * @param string
-     * @return KTemplateFilterForm
+     * @return TemplateFilterForm
      */
     public function write(&$text)
     {

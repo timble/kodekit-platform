@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
  /**
   * Object Stack Class
   * 
@@ -14,7 +16,7 @@
   * @author     Johan Janssens <johan@nooku.org>
   * @package    Koowa_Object
   */
-class KObjectStack extends KObject implements \Countable
+class ObjectStack extends Object implements \Countable
 { 
     /**
      * The object container
@@ -26,10 +28,10 @@ class KObjectStack extends KObject implements \Countable
     /**
      * Constructor
      *
-     * @param KConfig $config  An optional KConfig object with configuration options
-     * @return KObjectStack
+     * @param Config $config  An optional Config object with configuration options
+     * @return ObjectStack
      */
-    public function __construct(KConfig $config) 
+    public function __construct(Config $config)
     { 
         parent::__construct($config);
         
@@ -49,14 +51,14 @@ class KObjectStack extends KObject implements \Countable
     /**
      * Pushes an element at the end of the stack
      *
-     * @param  KObject $object
-     * @throws \InvalidArgumentException if the object doesn't extend from KObject
-     * @return KObjectStack
+     * @param  Object $object
+     * @throws \InvalidArgumentException if the object doesn't extend from Object
+     * @return ObjectStack
      */
     public function push($object)
     {
-        if(!$object instanceof KObjectInterface) {
-            throw new \InvalidArgumentException('Object needs to extend from KObjectInterface');
+        if(!$object instanceof ObjectInterface) {
+            throw new \InvalidArgumentException('Object needs to extend from ObjectInterface');
         }
 
         $this->_object_stack[] = $object;

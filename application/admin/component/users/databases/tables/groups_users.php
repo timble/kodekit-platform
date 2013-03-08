@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Groups Users Database Table Class
  *
@@ -14,9 +16,9 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseTableGroups_users extends KDatabaseTableDefault
+class ComUsersDatabaseTableGroups_users extends Framework\DatabaseTableDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'column_map' => array('group_id' => 'users_group_id', 'user_id' => 'users_user_id'))

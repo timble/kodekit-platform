@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Menu Toolbar Class
  *
@@ -16,7 +18,7 @@
  */
 class ComPagesControllerToolbarMenu extends ComDefaultControllerToolbarDefault
 {
-    protected function _commandNew(KControllerToolbarCommand $command)
+    protected function _commandNew(Framework\ControllerToolbarCommand $command)
     {
         $application = $this->getController()->getModel()->application;
         $command->href = 'option=com_pages&view=menu&application='.$application;

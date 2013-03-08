@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default View Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package		Koowa_View
  */
-class KViewDefault extends KViewHtml
+class ViewDefault extends ViewHtml
 {
 	
 }

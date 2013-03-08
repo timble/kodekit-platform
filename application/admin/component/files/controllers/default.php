@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Node Controller Class
  *
@@ -17,7 +19,7 @@
 
 class ComFilesControllerDefault extends ComDefaultControllerModel
 {
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
 			'persistable' => false,
@@ -42,54 +44,54 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 		return $request;
 	}
 
-	protected function _actionCopy(KCommandContext $context)
+	protected function _actionCopy(Framework\CommandContext $context)
 	{
 		$entity = $this->getModel()->getRow();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(KConfig::unbox($context->request->data->toArray()));
+			$entity->setData(Framework\Config::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->copy() === false)
 			{
 				$error = $entity->getStatusMessage();
-                throw new KControllerExceptionActionFailed($error ? $error : 'Copy Action Failed');
+                throw new Framework\ControllerExceptionActionFailed($error ? $error : 'Copy Action Failed');
 			}
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === KDatabase::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
+                    $entity->getStatus() === Framework\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
                 );
             }
 		}
-		else throw new KControllerExceptionNotFound('Resource Not Found');
+		else throw new Framework\ControllerExceptionNotFound('Resource Not Found');
 
 		return $entity;
 	}
 
-	protected function _actionMove(KCommandContext $context)
+	protected function _actionMove(Framework\CommandContext $context)
 	{
 		$entity = $this->getModel()->getRow();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(KConfig::unbox($context->request->data->toArray()));
+			$entity->setData(Framework\Config::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->move() === false)
 			{
 				$error = $entity->getStatusMessage();
-                throw new KControllerExceptionActionFailed($error ? $error : 'Move Action Failed');
+                throw new Framework\ControllerExceptionActionFailed($error ? $error : 'Move Action Failed');
 			}
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === KDatabase::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
+                    $entity->getStatus() === Framework\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
                 );
             }
 		}
-		else throw new KControllerExceptionNotFound('Resource Not Found');
+		else throw new Framework\ControllerExceptionNotFound('Resource Not Found');
 
 		return $entity;
 	}
@@ -97,7 +99,7 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 	/**
 	 * Overridden method to be able to use it with both resource and service controllers
 	 */
-	protected function _actionRender(KCommandContext $context)
+	protected function _actionRender(Framework\CommandContext $context)
 	{
 		if ($this->getIdentifier()->name == 'image' || ($this->getIdentifier()->name == 'file' && $context->request->getFormat() == 'html'))
 		{
@@ -127,9 +129,9 @@ class ComFilesControllerDefault extends ComDefaultControllerModel
 	/**
 	 * Copied to allow 0 as a limit
 	 * 
-	 * @param KCommandContext $context
+	 * @param Framework\CommandContext $context
 	 */
-	protected function _actionBrowse(KCommandContext $context)
+	protected function _actionBrowse(Framework\CommandContext $context)
 	{
 	    if($this->isDispatched())
 	    {

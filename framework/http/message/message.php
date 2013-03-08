@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Message Class
  *
@@ -16,12 +18,12 @@
  * @package     Koowa_Http
  * @subpackage  Messsage
  */
-abstract class KHttpMessage extends KObject implements KHttpMessageInterface
+abstract class HttpMessage extends Object implements HttpMessageInterface
 {
     /**
      * The message headers
      *
-     * @var KHttpMessageHeaders
+     * @var HttpMessageHeaders
      */
     protected $_headers;
 
@@ -49,10 +51,10 @@ abstract class KHttpMessage extends KObject implements KHttpMessageInterface
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KHttpMessage
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return HttpMessage
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -69,10 +71,10 @@ abstract class KHttpMessage extends KObject implements KHttpMessageInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'version'      => '1.1',
@@ -88,7 +90,7 @@ abstract class KHttpMessage extends KObject implements KHttpMessageInterface
      * Set the header parameters
      *
      * @param  array $headers
-     * @return KHttpMessageInterface
+     * @return HttpMessageInterface
      */
     public function setHeaders($headers)
     {
@@ -100,7 +102,7 @@ abstract class KHttpMessage extends KObject implements KHttpMessageInterface
      * Get the headers container
      *
      * @param  array $headers
-     * @return KHttpMessageHeaders
+     * @return HttpMessageHeaders
      */
     public function getHeaders()
     {
@@ -111,7 +113,7 @@ abstract class KHttpMessage extends KObject implements KHttpMessageInterface
      * Sets the HTTP protocol version (1.0 or 1.1).
      *
      * @param string $version The HTTP protocol version
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setVersion($version)
     {
@@ -140,7 +142,7 @@ abstract class KHttpMessage extends KObject implements KHttpMessageInterface
      *
      * @param mixed $content
      * @throws UnexpectedValueException
-     * @return KHttpMessageAbstract
+     * @return HttpMessageAbstract
      */
     public function setContent($content)
     {
@@ -170,7 +172,7 @@ abstract class KHttpMessage extends KObject implements KHttpMessageInterface
      * Sets the message content type
      *
      * @param string $type Content type
-     * @return KHttpMessageAbstract
+     * @return HttpMessageAbstract
      */
     public function setContentType($type)
     {

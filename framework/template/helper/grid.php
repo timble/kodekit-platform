@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Grid Helper
  *
@@ -15,7 +17,7 @@
  * @subpackage	Helper
  * @see 		http://ajaxpatterns.org/Data_Grid
  */
-class KTemplateHelperGrid extends KTemplateHelperAbstract
+class TemplateHelperGrid extends TemplateHelperAbstract
 {
 	/**
 	 * Render a checkbox field
@@ -25,7 +27,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	 */
 	public function checkbox($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'row'    => null,
 	    ))->append(array( 
@@ -57,7 +59,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	 */
 	public function search($config = array())
 	{
-	    $config = new KConfig($config);
+	    $config = new Config($config);
 		$config->append(array(
 			'search'      => null,
 			'results'     => 5,
@@ -65,8 +67,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		));
 
 	    $html = '<input type="search" results="'.$config->results.'" name="search" id="search" placeholder="'.$config->placeholder.'" value="'.$this->getTemplate()->getView()->escape($config->search).'" />';
-        $html .= '<button class="btn">'.JText::_('Go').'</button>';
-		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.JText::_('Reset').'</button>';
+        $html .= '<button class="btn">'.\JText::_('Go').'</button>';
+		$html .= '<button class="btn" onclick="document.getElementById(\'search\').value=\'\';this.form.submit();">'.\JText::_('Reset').'</button>';
 
 	    return $html;
 	}
@@ -79,7 +81,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	 */
 	public function checkall($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 
 		$html = '<input type="checkbox" class="-koowa-grid-checkall" />';
 		return $html;
@@ -93,7 +95,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	 */
 	public function sort( $config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'title'   	    => '',
 			'column'  	    => '',
@@ -144,8 +146,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		}
 
 		$route = $this->getTemplate()->getView()->getRoute($route);
-		$html  = '<a href="'.$route.'" title="'.JText::_('Click to sort by this column').'"  '.$class.'>';
-		$html .= JText::_($config->title);
+		$html  = '<a href="'.$route.'" title="'.\JText::_('Click to sort by this column').'"  '.$class.'>';
+		$html .= \JText::_($config->title);
 		$html .= '</a>';
 
 		return $html;
@@ -159,7 +161,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	 */
 	public function enable($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'enabled'
@@ -168,8 +170,8 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 		));
 
 		$img    = $config->row->{$config->field} ? 'icon-ok' : 'icon-remove';
-		$alt 	= $config->row->{$config->field} ? JText::_( 'Enabled' ) : JText::_( 'Disabled' );
-		$text 	= $config->row->{$config->field} ? JText::_( 'Disable Item' ) : JText::_( 'Enable Item' );
+		$alt 	= $config->row->{$config->field} ? \JText::_( 'Enabled' ) : \JText::_( 'Disabled' );
+		$text 	= $config->row->{$config->field} ? \JText::_( 'Disable Item' ) : \JText::_( 'Enable Item' );
 
 	    $config->data->{$config->field} = $config->row->{$config->field} ? 0 : 1;
 	    $data = str_replace('"', '&quot;', $config->data);
@@ -187,7 +189,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	 */
 	public function order($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'total'		=> null,
@@ -224,7 +226,7 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 	 */
 	public function access($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'access'
@@ -237,21 +239,21 @@ class KTemplateHelperGrid extends KTemplateHelperAbstract
 			case 0 :
 			{
 				$color   = 'green';
-				$group   = JText::_('Public');
+				$group   = \JText::_('Public');
 				$access  = 1;
 			} break;
 
 			case 1 :
 			{
 				$color   = 'red';
-				$group   = JText::_('Registered');
+				$group   = \JText::_('Registered');
 				$access  = 2;
 			} break;
 
 			case 2 :
 			{
 				$color   = 'black';
-				$group   = JText::_('Special');
+				$group   = \JText::_('Special');
 				$access  = 0;
 			} break;
 

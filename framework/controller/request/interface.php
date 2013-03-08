@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Request Interface
  *
@@ -14,20 +16,20 @@
  * @package     Koowa_Controller
  * @subpackage  Request
  */
-interface KControllerRequestInterface extends KHttpRequestInterface
+interface ControllerRequestInterface extends HttpRequestInterface
 {
     /**
      * Set the request query
      *
      * @param  array $query
-     * @return KControllerRequestInterface
+     * @return ControllerRequestInterface
      */
     public function setQuery($query);
 
     /**
      * Get the request query
      *
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function getQuery();
 
@@ -35,14 +37,14 @@ interface KControllerRequestInterface extends KHttpRequestInterface
      * Set the request data
      *
      * @param  array $data
-     * @return KControllerRequestInterface
+     * @return ControllerRequestInterface
      */
     public function setData($data);
 
     /**
      * Get the request data
      *
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function getData();
 
@@ -50,7 +52,7 @@ interface KControllerRequestInterface extends KHttpRequestInterface
      * Set the request format
      *
      * @param $format
-     * @return KControllerRequestInterface
+     * @return ControllerRequestInterface
      */
     public function setFormat($format);
 

@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Row Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRowInterface
+abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInterface
 {
     /**
      * Tracks columns who's data is modified and has not been persisted yet.
@@ -26,10 +28,10 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Tracks the status the row
      *
-     * Available row status values are defined as STATUS_ constants in KDatabase
+     * Available row status values are defined as STATUS_ constants in Database
      *
      * @var string
-     * @see KDatabase
+     * @see Database
      */
     protected $_status = null;
 
@@ -57,9 +59,9 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -76,7 +78,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
 
         // Set the row data
         if (isset($config->data)) {
-            $this->setData((array)KConfig::unbox($config->data), $this->__new);
+            $this->setData((array)Config::unbox($config->data), $this->__new);
         }
 
         //Set the status
@@ -95,10 +97,10 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'data'   => null,
@@ -119,7 +121,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      *
      * @param   string  The column name.
      * @param   mixed   The value for the property.
-     * @return  KDatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function set($column, $value)
     {
@@ -136,7 +138,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      * Remove a row field
      *
      * @param   string  The column name.
-     * @return  KDatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function remove($column)
     {
@@ -166,13 +168,13 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Set the row data
      *
-     * @param   mixed   Either and associative array, an object or a KDatabaseRow
+     * @param   mixed   Either and associative array, an object or a DatabaseRow
      * @param   boolean If TRUE, update the modified information for each column being set.
-     * @return  KDatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function setData($data, $modified = true)
     {
-        if ($data instanceof KDatabaseRowInterface) {
+        if ($data instanceof DatabaseRowInterface) {
             $data = $data->toArray();
         } else {
             $data = (array)$data;
@@ -203,19 +205,19 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      * Set the status
      *
      * @param   string|null     The status value or NULL to reset the status
-     * @return  KDatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function setStatus($status)
     {
-        if($status == KDatabase::STATUS_CREATED) {
+        if($status == Database::STATUS_CREATED) {
             $this->__new = false;
         }
 
-        if($status == KDatabase::STATUS_DELETED) {
+        if($status == Database::STATUS_DELETED) {
             $this->__new = true;
         }
 
-        if($status == KDatabase::STATUS_LOADED) {
+        if($status == Database::STATUS_LOADED) {
             $this->__new = false;
         }
 
@@ -237,7 +239,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      * Set the status message
      *
      * @param   string      The status message
-     * @return  KDatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function setStatusMessage($message)
     {
@@ -284,9 +286,9 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     public function save()
     {
         if (!$this->isNew()) {
-            $this->setStatus(KDatabase::STATUS_UPDATED);
+            $this->setStatus(Database::STATUS_UPDATED);
         } else {
-            $this->setStatus(KDatabase::STATUS_CREATED);
+            $this->setStatus(Database::STATUS_CREATED);
         }
 
         $this->_modified = array();
@@ -300,7 +302,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
      */
     public function delete()
     {
-        $this->setStatus(KDatabase::STATUS_DELETED);
+        $this->setStatus(Database::STATUS_DELETED);
 
         return false;
     }
@@ -308,7 +310,7 @@ abstract class KDatabaseRowAbstract extends KObjectArray implements KDatabaseRow
     /**
      * Resets to the default properties
      *
-     * @return KDatabaseRowInterface
+     * @return DatabaseRowInterface
      */
     public function reset()
     {

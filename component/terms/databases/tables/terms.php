@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Description
  *   
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ComTermsDatabaseTableTerms extends KDatabaseTableDefault
+class ComTermsDatabaseTableTerms extends Framework\DatabaseTableDefault
 {
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
     {
     	$config->behaviors = array('lockable', 'creatable', 'modifiable', 'sluggable');
 		

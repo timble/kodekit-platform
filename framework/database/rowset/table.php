@@ -7,15 +7,16 @@
  * @link         http://www.koowa.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Table Rowset Class
  *
  * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Rowset
- * @uses         KMixinClass
  */
-class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
+class DatabaseRowsetTable extends DatabaseRowsetAbstract
 {
     /**
      * Table object or identifier
@@ -27,10 +28,10 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return KDatabaseRowsetTable
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return DatabaseRowsetTable
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -50,10 +51,10 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'table' => $this->getIdentifier()->name
@@ -65,19 +66,19 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
     /**
      * Method to get a table object
      *
-     * Function catches KDatabaseTableExceptions that are thrown for tables that
+     * Function catches DatabaseTableExceptions that are thrown for tables that
      * don't exist. If no table object can be created the function will return FALSE.
      *
-     * @return KDatabaseTableAbstract
+     * @return DatabaseTableAbstract
      */
     public function getTable()
     {
         if ($this->_table !== false)
         {
-            if (!($this->_table instanceof KDatabaseTableInterface))
+            if (!($this->_table instanceof DatabaseTableInterface))
             {
                 //Make sure we have a table identifier
-                if (!($this->_table instanceof KServiceIdentifier)) {
+                if (!($this->_table instanceof ServiceIdentifier)) {
                     $this->setTable($this->_table);
                 }
 
@@ -95,20 +96,20 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    $table  An object that implements KServiceInterface, KServiceIdentifier object or valid
+     * @param    mixed    $table  An object that implements ServiceInterface, ServiceIdentifier object or valid
      *                            identifier string
      * @throws  \UnexpectedValueException If the identifier is not a table identifier
-     * @return  KDatabaseRowsetAbstract
+     * @return  DatabaseRowsetAbstract
      */
     public function setTable($table)
     {
-        if (!($table instanceof KDatabaseTableInterface))
+        if (!($table instanceof DatabaseTableInterface))
         {
             if (is_string($table) && strpos($table, '.') === false)
             {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('database', 'table');
-                $identifier->name = KInflector::tableize($table);
+                $identifier->name = Inflector::tableize($table);
             }
             else $identifier = $this->getIdentifier($table);
 
@@ -127,7 +128,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
     /**
      * Test the connected status of the row.
      *
-     * @return    bool    Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
+     * @return    bool    Returns TRUE if we have a reference to a live DatabaseTableAbstract object.
      */
     public function isConnected()
     {
@@ -139,7 +140,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      *
      * @param  array  $data  An associative array of row data to be inserted.
      * @param  boole  $new   If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-     * @return  KDatabaseRowsetAbstract
+     * @return  DatabaseRowsetAbstract
      * @see __construct
      */
     public function addRow(array $data, $new = true)
@@ -155,7 +156,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      * Get an empty row
      *
      * @param    array $options An optional associative array of configuration settings.
-     * @return    KDatabaseRowAbstract
+     * @return    DatabaseRowAbstract
      */
     public function getRow(array $options = array())
     {
@@ -172,7 +173,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
      * Search the mixin method map and call the method or forward the call to each row
      *
      * This function implements a just in time mixin strategy. Available table behaviors are only mixed when needed.
-     * Lazy mixing is triggered by calling KDatabaseRowTable::is[Behaviorable]();
+     * Lazy mixing is triggered by calling DatabaseRowTable::is[Behaviorable]();
      *
      * @param  string     $method    The function name
      * @param  array      $arguments The function arguments
@@ -182,7 +183,7 @@ class KDatabaseRowsetTable extends KDatabaseRowsetAbstract
     {
         if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
         {
-            $parts = KInflector::explode($method);
+            $parts = Inflector::explode($method);
 
             //Check if a behavior is mixed
             if ($parts[0] == 'is' && isset($parts[1]))

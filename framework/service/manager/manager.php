@@ -7,15 +7,17 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Manager Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
  * @subpackage  Manager
- * @uses        KServiceIdentifier
+ * @uses        ServiceIdentifier
  */
-class KServiceManager implements KServiceManagerInterface
+class ServiceManager implements ServiceManagerInterface
 {
     /**
      * The identifier registry
@@ -57,10 +59,10 @@ class KServiceManager implements KServiceManagerInterface
      *
      * Prevent creating instances of this class by making the constructor private
      */
-    final private function __construct(KConfig $config)
+    final private function __construct(Config $config)
     {
         //Create the identifier registry
-        self::$_identifiers = new KServiceIdentifierRegistry();
+        self::$_identifiers = new ServiceIdentifierRegistry();
 
         if (isset($config['cache_prefix'])) {
             self::$_identifiers->setCachePrefix($config['cache_prefix']);
@@ -71,11 +73,11 @@ class KServiceManager implements KServiceManagerInterface
         }
 
         //Create the service container
-        self::$_services = new KServiceContainer();
+        self::$_services = new ServiceContainer();
 
         //Auto-load the koowa adapter
-        KServiceIdentifier::addLocator(new KServiceLocatorLibrary(new KConfig()));
-        KServiceIdentifier::setNamespace('nooku', JPATH_ROOT . '/framework');
+        ServiceIdentifier::addLocator(new ServiceLocatorLibrary(new Config()));
+        ServiceIdentifier::setNamespace('nooku', JPATH_ROOT . '/framework');
     }
 
     /**
@@ -99,8 +101,8 @@ class KServiceManager implements KServiceManagerInterface
         static $instance;
 
         if ($instance === NULL) {
-            if (!$config instanceof KConfig) {
-                $config = new KConfig($config);
+            if (!$config instanceof Config) {
+                $config = new Config($config);
             }
 
             $instance = new self($config);
@@ -113,7 +115,7 @@ class KServiceManager implements KServiceManagerInterface
      * Get an instance of a class based on a class identifier only creating it
      * if it doesn't exist yet.
      *
-     * @param  mixed  $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param  mixed  $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                            or valid identifier string
      * @param  array   $config    An optional associative array of configuration settings.
      * @return object  Return object on success, throws exception on failure
@@ -139,7 +141,7 @@ class KServiceManager implements KServiceManagerInterface
     /**
      * Insert the object instance using the identifier
      *
-     * @param mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @param object $object    The object instance to store
      */
@@ -154,7 +156,7 @@ class KServiceManager implements KServiceManagerInterface
     /**
      * Check if the object instance exists based on the identifier
      *
-     * @param  mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param  mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                           or valid identifier string
      * @return boolean Returns TRUE on success or FALSE on failure.
      */
@@ -178,10 +180,10 @@ class KServiceManager implements KServiceManagerInterface
      * The mixins are mixed when the indentified object is first instantiated see {@link get}
      * Mixins are also added to objects that already exist in the service container.
      *
-     * @param mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @param  string A mixin identifier string
-     * @see KObject::mixin()
+     * @see Object::mixin()
      */
     public static function addMixin($identifier, $mixin)
     {
@@ -206,7 +208,7 @@ class KServiceManager implements KServiceManagerInterface
     /**
      * Get the mixins for an identifier
      *
-     * @param mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @return array An array of mixins
      */
@@ -227,11 +229,11 @@ class KServiceManager implements KServiceManagerInterface
      * Returns an identifier object.
      *
      * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements KServiceInterface, or a KServiceIdentifier object, or valid identifier string.
+     * implements ServiceInterface, or a ServiceIdentifier object, or valid identifier string.
      *
      * Function will also check for identifier aliases and return the real identifier.
      *
-     * @param mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @return KServiceIdentifier
      */
@@ -239,7 +241,7 @@ class KServiceManager implements KServiceManagerInterface
     {
         if (!is_string($identifier))
         {
-            if ($identifier instanceof KServiceInterface) {
+            if ($identifier instanceof ServiceInterface) {
                 $identifier = $identifier->getIdentifier();
             }
         }
@@ -253,7 +255,7 @@ class KServiceManager implements KServiceManagerInterface
         if (!self::$_identifiers->offsetExists((string)$identifier))
         {
             if (is_string($identifier)) {
-                $identifier = new KServiceIdentifier($identifier);
+                $identifier = new ServiceIdentifier($identifier);
             }
 
             self::$_identifiers->offsetSet((string)$identifier, $identifier);
@@ -267,7 +269,7 @@ class KServiceManager implements KServiceManagerInterface
      * Set an alias for an identifier
      *
      * @param string $alias      The alias
-     * @param mixed  $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed  $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                           or valid identifier string
      */
     public static function setAlias($alias, $identifier)
@@ -291,7 +293,7 @@ class KServiceManager implements KServiceManagerInterface
     /**
      * Set the configuration options for an identifier
      *
-     * @param mixed  $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed  $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                           or valid identifier string
      * @param array $config      An associative array of configuration options
      */
@@ -303,14 +305,14 @@ class KServiceManager implements KServiceManagerInterface
         if (isset(self::$_configs[$strIdentifier])) {
             self::$_configs[$strIdentifier] = self::$_configs[$strIdentifier]->append($config);
         } else {
-            self::$_configs[$strIdentifier] = new KConfig($config);
+            self::$_configs[$strIdentifier] = new Config($config);
         }
     }
 
     /**
      * Get the configuration options for an identifier
      *
-     * @param mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @param array An associative array of configuration options
      */
@@ -335,19 +337,19 @@ class KServiceManager implements KServiceManagerInterface
     /**
      * Perform the actual mixin of all registered mixins with an object
      *
-     * @param mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
-     * @param  object $instance A KObject instance to used as the mixer
+     * @param  object $instance A Object instance to used as the mixer
      * @return void
      */
     protected static function _mixin($identifier, $instance)
     {
-        if (isset(self::$_mixins[$identifier]) && $instance instanceof KObjectInterface)
+        if (isset(self::$_mixins[$identifier]) && $instance instanceof ObjectInterface)
         {
             $mixins = self::$_mixins[$identifier];
             foreach ($mixins as $mixin)
             {
-                if(!$mixin instanceof KMixinInterface) {
+                if(!$mixin instanceof MixinInterface) {
                     $mixin = self::get($mixin, array('mixer' => $instance));
                 }
 
@@ -359,36 +361,36 @@ class KServiceManager implements KServiceManagerInterface
     /**
      * Get an instance of a class based on a class identifier
      *
-     * @param   object $identifier A KServiceIdentifier object
+     * @param   object $identifier A ServiceIdentifier object
      * @param   array  $config     An optional associative array of configuration settings.
-     * @throws	KServiceExceptionInvalidService	    If the object doesn't implement the KServiceInterface
-     * @throws  KServiceExceptionNotFound           If service cannot be loaded
-     * @throws  KServiceExceptionNotInstantiated    If service cannot be instantiated
+     * @throws	ServiceExceptionInvalidService	    If the object doesn't implement the ServiceInterface
+     * @throws  ServiceExceptionNotFound           If service cannot be loaded
+     * @throws  ServiceExceptionNotInstantiated    If service cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
      */
-    protected static function _instantiate(KServiceIdentifier $identifier, array $config = array())
+    protected static function _instantiate(ServiceIdentifier $identifier, array $config = array())
     {
         $result = null;
 
         //Load the class manually using the basepath
         if (self::get('loader')->loadClass($identifier->classname, $identifier->basepath))
         {
-            if (!array_key_exists('KServiceInterface', class_implements($identifier->classname)))
+            if (!array_key_exists(__NAMESPACE__.'\ServiceInterface', class_implements($identifier->classname)))
             {
-                throw new KServiceExceptionInvalidService(
-                    'Object: '.$identifier->classname.' does not implement KServiceInterface'
+                throw new ServiceExceptionInvalidService(
+                    'Object: '.$identifier->classname.' does not implement ServiceInterface'
                 );
             }
 
             //Create the configuration object
-            $config = new KConfig(array_merge(self::getConfig($identifier), $config));
+            $config = new Config(array_merge(self::getConfig($identifier), $config));
 
             //Set the service container and identifier
             $config->service_manager    = self::getInstance();
             $config->service_identifier = $identifier;
 
             // Delegate object instantiation.
-            if (array_key_exists('KServiceInstantiatable', class_implements($identifier->classname))) {
+            if (array_key_exists(__NAMESPACE__.'\ServiceInstantiatable', class_implements($identifier->classname))) {
                 $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
             } else {
                 $result = new $identifier->classname($config);
@@ -396,10 +398,10 @@ class KServiceManager implements KServiceManagerInterface
 
             //Thrown an error if no object was instantiated
             if (!is_object($result)) {
-                throw new KServiceExceptionNotInstantiated('Cannot instantiate service object: ' . $identifier->classname);
+                throw new ServiceExceptionNotInstantiated('Cannot instantiate service object: ' . $identifier->classname);
             }
         }
-        else throw new KServiceExceptionNotFound('Cannot load service identifier: '. $identifier);
+        else throw new ServiceExceptionNotFound('Cannot load service identifier: '. $identifier);
 
         return $result;
     }

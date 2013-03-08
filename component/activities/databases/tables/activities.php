@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Activities Database Table
  *
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesDatabaseTableActivities extends KDatabaseTableDefault
+class ComActivitiesDatabaseTableActivities extends Framework\DatabaseTableDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'behaviors' => array('creatable', 'identifiable')

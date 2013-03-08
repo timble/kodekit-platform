@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Language Controller Toolbar Class
  *
@@ -17,7 +19,7 @@
 
 class ComLanguagesControllerToolbarLanguage extends ComDefaultControllerToolbarDefault
 {
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
 

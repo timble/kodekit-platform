@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Html View
  *
@@ -15,7 +17,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultViewHtml extends KViewHtml
+class ComDefaultViewHtml extends Framework\ViewHtml
 {
     /**
      * Get the layout
@@ -24,6 +26,6 @@ class ComDefaultViewHtml extends KViewHtml
      */
     public function getLayout()
     {
-        return empty($this->_layout) ? KInflector::isSingular($this->getName()) ? 'form' : 'default' :  $this->_layout;
+        return empty($this->_layout) ? Framework\Inflector::isSingular($this->getName()) ? 'form' : 'default' :  $this->_layout;
     }
 }

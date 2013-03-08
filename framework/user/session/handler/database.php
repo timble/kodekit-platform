@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database User Session Handler Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage  Session
  */
-class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
+class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
 {
     /**
      * Table object or identifier
@@ -26,10 +28,10 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return KUserSessionHandlerDatabase
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return UserSessionHandlerDatabase
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -45,10 +47,10 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'table' => null,
@@ -69,7 +71,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
+            $row = $this->_table->select($session_id, Database::FETCH_ROW);
 
             if (!$row->isNew()) {
                 $result = $row->data;
@@ -92,7 +94,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
+            $row = $this->_table->select($session_id, Database::FETCH_ROW);
 
             if (!$row->isNew())
             {
@@ -118,7 +120,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $row = $this->_table->select($session_id, KDatabase::FETCH_ROW);
+            $row = $this->_table->select($session_id, Database::FETCH_ROW);
 
             if (!$row->isNew()) {
                 $result = $row->delete();
@@ -144,7 +146,7 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
 
-            $result = $this->_table->select($query, KDatabase::FETCH_ROW)->delete();
+            $result = $this->_table->select($query, Database::FETCH_ROW)->delete();
         }
 
         return $result;
@@ -153,24 +155,24 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     /**
      * Get a table object, create it if it does not exist.
      *
-     * @throws UnexpectedValueException  If the table object doesn't implement KDatabaseTableInterface
-     * @return KDatabaseTableInterface
+     * @throws UnexpectedValueException  If the table object doesn't implement DatabaseTableInterface
+     * @return DatabaseTableInterface
      */
     public function getTable()
     {
-        if (!($this->_table instanceof KDatabaseTableInterface))
+        if (!($this->_table instanceof DatabaseTableInterface))
         {
             //Make sure we have a table identifier
-            if (!($this->_table instanceof KServiceIdentifier)) {
+            if (!($this->_table instanceof ServiceIdentifier)) {
                 $this->setTable($this->_table);
             }
 
             $this->_table = $this->getService($this->_table);
 
-            if (!($this->_table instanceof KDatabaseTableInterface))
+            if (!($this->_table instanceof DatabaseTableInterface))
             {
                 throw new \UnexpectedValueException(
-                    'Table: ' . get_class($this->_table) . ' doed not implement KDatabaseTableInterface'
+                    'Table: ' . get_class($this->_table) . ' doed not implement DatabaseTableInterface'
                 );
             }
         }
@@ -181,9 +183,9 @@ class KUserSessionHandlerDatabase extends KUserSessionHandlerAbstract
     /**
      * Set a table object attached to the handler
      *
-     * @param   mixed   $table An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed   $table An object that implements ServiceInterface, ServiceIdentifier object
      *                         or valid identifier string
-     * @return KUserSessionHandlerDatabase
+     * @return UserSessionHandlerDatabase
      */
     public function setTable($table)
     {

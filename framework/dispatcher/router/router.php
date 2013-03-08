@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Router Class
  *
@@ -16,16 +18,16 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Router
  */
-class KDispatcherRouter extends KObject implements KDispatcherRouterInterface, KServiceInstantiatable
+class DispatcherRouter extends Object implements DispatcherRouterInterface, ServiceInstantiatable
 {
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherSessionDefault
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return  DispatcherSessionDefault
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -40,10 +42,10 @@ class KDispatcherRouter extends KObject implements KDispatcherRouterInterface, K
     /**
      * Function to convert a route to an internal URI
      *
-     * @param   KHttpUrl  $url  The url.
+     * @param   HttpUrl  $url  The url.
      * @return  boolean
      */
-    public function parse(KHttpUrl $url)
+    public function parse(HttpUrl $url)
     {
         $this->_parseRoute($url);
         return true;
@@ -52,10 +54,10 @@ class KDispatcherRouter extends KObject implements KDispatcherRouterInterface, K
     /**
      * Function to convert an internal URI to a route
      *
-     * @param	KhttpUrl   $url	The internal URL
+     * @param	HttpUrl   $url	The internal URL
      * @return	boolean
      */
-    public function build(KHttpUrl $url)
+    public function build(HttpUrl $url)
     {
         // Build the url : mysite/route/index.php?var=x
         $this->_buildRoute($url);

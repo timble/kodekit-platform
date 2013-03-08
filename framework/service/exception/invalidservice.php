@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Exception Not Found Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class KServiceExceptionInvalidService extends \UnexpectedValueException implements KServiceException {}
+class ServiceExceptionInvalidService extends \UnexpectedValueException implements ServiceException {}

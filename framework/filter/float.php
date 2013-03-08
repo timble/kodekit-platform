@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Float filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterFloat extends KFilterAbstract
+class FilterFloat extends FilterAbstract
 {
 	/**
 	 * Validate a value

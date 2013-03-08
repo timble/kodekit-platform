@@ -17,12 +17,14 @@
  * @subpackage  Users
  */
 
-KServiceManager::setAlias('com://site/users.controller.default'   , 'com://admin/users.controller.default');
-KServiceManager::setAlias('com://site/users.model.users'          , 'com://admin/users.model.users');
-KServiceManager::setAlias('com://site/users.model.sessions'       , 'com://admin/users.model.sessions');
-KServiceManager::setAlias('com://site/users.database.row.user'    , 'com://admin/users.database.row.user');
-KServiceManager::setAlias('com://site/users.database.row.session' , 'com://admin/users.database.row.session');
-KServiceManager::setAlias('com://site/users.database.table.groups', 'com://admin/users.database.table.groups');
-KServiceManager::setAlias('com://site/users.database.table.users' , 'com://admin/users.database.table.users');
-KServiceManager::setAlias('com://site/users.helper.password'      , 'com://admin/users.helper.password');
-KServiceManager::setAlias('com://site/users.model.passwords'      , 'com://admin/users.model.passwords');
+use Nooku\Framework\ServiceManager;
+
+ServiceManager::setAlias('com://site/users.controller.default'   , 'com://admin/users.controller.default');
+ServiceManager::setAlias('com://site/users.model.users'          , 'com://admin/users.model.users');
+ServiceManager::setAlias('com://site/users.model.sessions'       , 'com://admin/users.model.sessions');
+ServiceManager::setAlias('com://site/users.database.row.user'    , 'com://admin/users.database.row.user');
+ServiceManager::setAlias('com://site/users.database.row.session' , 'com://admin/users.database.row.session');
+ServiceManager::setAlias('com://site/users.database.table.groups', 'com://admin/users.database.table.groups');
+erviceManager::setAlias('com://site/users.database.table.users' , 'com://admin/users.database.table.users');
+ServiceManager::setAlias('com://site/users.helper.password'      , 'com://admin/users.helper.password');
+ServiceManager::setAlias('com://site/users.model.passwords'      , 'com://admin/users.model.passwords');

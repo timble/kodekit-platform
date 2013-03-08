@@ -7,6 +7,7 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
 
 /**
  * Application Database MySQLi Adapter Class
@@ -15,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseAdapterMysql extends KDatabaseAdapterMysql implements KServiceInstantiatable
+class ComApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql implements Framework\ServiceInstantiatable
 {
     /**
 	 * The cache object
@@ -29,9 +30,9 @@ class ComApplicationDatabaseAdapterMysql extends KDatabaseAdapterMysql implement
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options
+	 * @param 	object 	An optional Framework\Config object with configuration options
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -46,11 +47,11 @@ class ComApplicationDatabaseAdapterMysql extends KDatabaseAdapterMysql implement
 	/**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface         $config  An optional KConfig object with configuration options
-     * @param 	KServiceManagerInterfac  $manager A KServiceManagerInterface object
-     * @return KDatabaseTableInterface
+     * @param 	Config                  $config  An optional Config object with configuration options
+     * @param 	ServiceManagerInterfac  $manager A Framework\ServiceManagerInterface object
+     * @return  DatabaseTableInterface
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -67,10 +68,10 @@ class ComApplicationDatabaseAdapterMysql extends KDatabaseAdapterMysql implement
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Framework\Config object with configuration options.
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $application = $this->getService('application');
 
@@ -94,7 +95,7 @@ class ComApplicationDatabaseAdapterMysql extends KDatabaseAdapterMysql implement
 	 * the table schema will be retrieved from the database and stored in the cache.
 	 *
 	 * @param 	string 	A table name or a list of table names
-	 * @return	KDatabaseSchemaTable
+	 * @return	Framework\DatabaseSchemaTable
 	 */
 	public function getTableSchema($table)
 	{

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default View Controller
  *
@@ -14,15 +16,15 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerView extends KControllerView
+class ComDefaultControllerView extends Framework\ControllerView
 {
     /**
      * Render action
      *
-     * @param   KCommandContext A command context object
-     * @return  KDatabaseRow(set)   A row(set) object containing the data to display
+     * @param   Framework\CommandContext A command context object
+     * @return  Framework\DatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionRender(KCommandContext $context)
+    protected function _actionRender(Framework\CommandContext $context)
     {
         JFactory::getLanguage()->load($this->getIdentifier()->package);
         return parent::_actionRender($context);

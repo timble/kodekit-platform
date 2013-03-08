@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Metadata User Session Container Class
  *
@@ -16,7 +18,7 @@
  * @package     Koowa_Session
  * @subpackage  Container
  */
-class KUserSessionContainerMetadata extends KUserSessionContainerAbstract
+class UserSessionContainerMetadata extends UserSessionContainerAbstract
 {
     /**
      * Maximum session lifetime
@@ -33,7 +35,7 @@ class KUserSessionContainerMetadata extends KUserSessionContainerAbstract
      * automatically during session start.
      *
      * @param integer $lifetime The session lifetime in seconds
-     * @return KUserSessionContainerMetadata
+     * @return UserSessionContainerMetadata
      */
     public function setLifetime($lifetime)
     {
@@ -69,7 +71,7 @@ class KUserSessionContainerMetadata extends KUserSessionContainerAbstract
     /**
      * Load the attributes from the $_SESSION global
      *
-     * @return KUserSessionContainerAbstract
+     * @return UserSessionContainerAbstract
      */
     public function loadSession(array &$session = null)
     {

@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template write filter which runs the output through Tidy
  *
@@ -14,20 +16,20 @@
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class KTemplateFilterPrettyprint extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class TemplateFilterPrettyprint extends TemplateFilterAbstract implements TemplateFilterWrite
 {
     /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority' => KCommand::PRIORITY_LOWEST,
+            'priority' => Command::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);
@@ -37,7 +39,7 @@ class KTemplateFilterPrettyprint extends KTemplateFilterAbstract implements KTem
      * Prettyprint the template output
      *
      * @param string
-     * @return KTemplateFilterForm
+     * @return TemplateFilterForm
      */
     public function write(&$text)
     {

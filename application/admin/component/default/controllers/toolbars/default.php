@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Toolbar
  *
@@ -14,14 +16,14 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
+class ComDefaultControllerToolbarDefault extends Framework\ControllerToolbarDefault
 {
 	/**
 	 * Push the toolbar into the view
 	 * .
-	 * @param	KEvent	A event object
+	 * @param	Framework\Event	A event object
 	 */
-    public function onBeforeControllerRender(KEvent $event)
+    public function onBeforeControllerRender(Framework\Event $event)
     {
         $event->getTarget()->getView()->toolbar = $this;
     }
@@ -29,9 +31,9 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
-	 * @param	KEvent	A event object
+	 * @param	Framework\Event	A event object
 	 */
-    public function onAfterControllerRead(KEvent $event)
+    public function onAfterControllerRead(Framework\Event $event)
     {
         $name = ucfirst($this->getController()->getIdentifier()->name);
 
@@ -58,9 +60,9 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
     /**
 	 * Add default toolbar commands
 	 * .
-	 * @param	KEvent	A event object
+	 * @param	Framework\Event	A event object
 	 */
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {
         if($this->getController()->canAdd())
         {
@@ -78,10 +80,10 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
     /**
      * Enable toolbar command
      *
-     * @param   object  A KControllerToolbarCommand object
+     * @param   object  A Framework\ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandEnable(KControllerToolbarCommand $command)
+    protected function _commandEnable(Framework\ControllerToolbarCommand $command)
     {
         $command->icon = 'icon-32-publish';
 
@@ -96,10 +98,10 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
     /**
      * Disable toolbar command
      *
-     * @param   object  A KControllerToolbarCommand object
+     * @param   object  A Framework\ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandDisable(KControllerToolbarCommand $command)
+    protected function _commandDisable(Framework\ControllerToolbarCommand $command)
     {
         $command->icon = 'icon-32-unpublish';
 
@@ -114,10 +116,10 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
     /**
      * Export toolbar command
      *
-     * @param   object  A KControllerToolbarCommand object
+     * @param   object  A Framework\ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandExport(KControllerToolbarCommand $command)
+    protected function _commandExport(Framework\ControllerToolbarCommand $command)
     {
         //Get the states
         $states = $this->getController()->getModel()->getState()->toArray();
@@ -138,10 +140,10 @@ class ComDefaultControllerToolbarDefault extends KControllerToolbarDefault
     /**
      * Dialog toolbar command
      *
-     * @param   object  A KControllerToolbarCommand object
+     * @param   object  A Framework\ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandDialog(KControllerToolbarCommand $command)
+    protected function _commandDialog(Framework\ControllerToolbarCommand $command)
     {
         $option = $this->getIdentifier()->package;
 

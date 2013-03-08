@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Page Controller
  *
@@ -14,18 +16,18 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerView extends KControllerView
+class ComDefaultControllerView extends Framework\ControllerView
 {
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Framework\Config object with configuration options.
      */
-    protected function  _initialize(KConfig $config)
+    protected function  _initialize(Framework\Config $config)
   	{
-		$config->append(array(
+        $config->append(array(
 		    'toolbars'  => array('menubar', $this->getIdentifier()->name),
-		));
+        ));
 
       	parent::_initialize($config);
   	}
@@ -33,10 +35,10 @@ class ComDefaultControllerView extends KControllerView
     /**
      * Render action
      *
-     * @param   KCommandContext A command context object
-     * @return  KDatabaseRow(set)   A row(set) object containing the data to display
+     * @param   Framework\CommandContext A command context object
+     * @return  Framework\DatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionRender(KCommandContext $context)
+    protected function _actionRender(Framework\CommandContext $context)
     {
         JFactory::getLanguage()->load($this->getIdentifier()->package);
         return parent::_actionRender($context);

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Closurable Database Behavior Class
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
+class ComPagesDatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * The closure table name
@@ -26,10 +28,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Constructor
      *
-     * @param  object   A KConfig object with configuration options.
+     * @param  object   A Framework\Config object with configuration options.
      * @return void
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
         
@@ -43,13 +45,13 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  object   A KConfig object with configuration options.
+     * @param  object   A Framework\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_HIGH,
+            'priority'   => Framework\Command::PRIORITY_HIGH,
             'auto_mixin' => true,
             'table'      => null
         ));
@@ -85,11 +87,11 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Get closure table object
      * 
-     * @return KDatabaseTableAbstract
+     * @return Framework\DatabaseTableAbstract
      */
     public function getClosureTable()
     {
-        if(!$this->_table instanceof KDatabaseTableInterface) {
+        if(!$this->_table instanceof Framework\DatabaseTableInterface) {
             $this->_table = $this->getService($this->_table);
         }
 
@@ -99,7 +101,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Get the siblings of the row
      *
-     * @return KDatabaseRowsetAbstract
+     * @return Framework\DatabaseRowsetAbstract
      */
     public function getSiblings()
     {
@@ -124,14 +126,14 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Get the first ancestor of the row
      *
-     * @return KDatabaseRowAbstract Parent row or empty if there is no parent.
+     * @return Framework\DatabaseRowAbstract Parent row or empty if there is no parent.
      */
     public function getParent()
     {
         $table = $this->getTable();
         
         if($this->level > 1) {
-            $result = $table->select(end(array_values($this->getParentIds())), KDatabase::FETCH_ROW);
+            $result = $table->select(end(array_values($this->getParentIds())), Framework\Database::FETCH_ROW);
         } else {
             $result = $table->getRow();
         }
@@ -142,7 +144,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Get ancestors of the row
      *
-     * @return KDatabaseRowsetAbstract A rowset containing all ancestors.
+     * @return Framework\DatabaseRowsetAbstract A rowset containing all ancestors.
      */
     public function getAncestors()
     {
@@ -167,7 +169,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Get ancestors of the row
      *
-     * @return KDatabaseRowsetAbstract A rowset containing all ancestors.
+     * @return Framework\DatabaseRowsetAbstract A rowset containing all ancestors.
      */
     public function getDescendants()
     {
@@ -187,10 +189,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Checks if the current row is a descendant of the given one
      *
-     * @param  KDatabaseRowAbstract $row
+     * @param  Framework\DatabaseRowAbstract $row
      * @return boolean
      */
-    public function isDescendantOf(KDatabaseRowAbstract $row)
+    public function isDescendantOf(Framework\DatabaseRowAbstract $row)
     {
         return in_array($row->id, $this->getParentIds());
     }
@@ -198,10 +200,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Checks if the current row is an ancestor of the given one
      *
-     * @param  KDatabaseRowAbstract $row
+     * @param  Framework\DatabaseRowAbstract $row
      * @return boolean
      */
-    public function isAncestorOf(KDatabaseRowAbstract $row)
+    public function isAncestorOf(Framework\DatabaseRowAbstract $row)
     {
         return in_array($this->id, $row->getParentIds());
     }
@@ -209,10 +211,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Add level and path columns to the query
      * 
-     * @param  KCommandContext $context A command context object.
+     * @param  Framework\CommandContext $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _beforeTableSelect(KCommandContext $context)
+    protected function _beforeTableSelect(Framework\CommandContext $context)
     {
         $query = $context->query;
         if($query && !$query->isCountQuery())
@@ -246,10 +248,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Insert relations into the relation table
      * 
-     * @param  KCommandContext $context A command context object.
+     * @param  Framework\CommandContext $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _afterTableInsert(KCommandContext $context)
+    protected function _afterTableInsert(Framework\CommandContext $context)
     {
         if($context->affected !== false)
         {
@@ -267,7 +269,7 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
             // Set path and level for the current row.
             if($data->parent_id)
             {
-                $parent = $table->select($data->parent_id, KDatabase::FETCH_ROW);
+                $parent = $table->select($data->parent_id, Framework\Database::FETCH_ROW);
                 $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
 
                 // Insert child relations.
@@ -293,10 +295,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
      * 
      * @link http://www.mysqlperformanceblog.com/2011/02/14/moving-subtrees-in-closure-table/
      * 
-     * @param  KCommandContext $context A command context object.
+     * @param  Framework\CommandContext $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         if($context->affected !== false)
         {
@@ -307,11 +309,11 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
                 
                 if($row->parent_id)
                 {
-                    $parent = $table->select((int) $row->parent_id, KDatabase::FETCH_ROW);
+                    $parent = $table->select((int) $row->parent_id, Framework\Database::FETCH_ROW);
                     if($parent->isDescendantOf($row))
                     {
                         $this->setStatusMessage(JText::_('You cannot move a node under one of its descendants'));
-                        $this->setStatus(KDatabase::STATUS_FAILED);
+                        $this->setStatus(Framework\Database::STATUS_FAILED);
                         return false;
                     }
                 }
@@ -353,10 +355,10 @@ class ComPagesDatabaseBehaviorClosurable extends KDatabaseBehaviorAbstract
     /**
      * Delete the row and its children
      *
-     * @param  KCommandContext $context A command context object.
+     * @param  Framework\CommandContext $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _beforeTableDelete(KCommandContext $context)
+    protected function _beforeTableDelete(Framework\CommandContext $context)
     {
         $table         = $context->getSubject();
         $id_column     = $table->getIdentityColumn();

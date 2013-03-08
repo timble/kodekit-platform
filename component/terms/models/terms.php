@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Terms Model
  *   
@@ -15,7 +17,7 @@
  */
 class ComTermsModelTerms extends ComDefaultModelDefault
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -25,7 +27,7 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 		 	->insert('table', 'string');
 	}
 	
-	protected function _buildQueryColumns(KDatabaseQuery $query)
+	protected function _buildQueryColumns(Framework\DatabaseQuery $query)
 	{
 		if(!$this->_state->isUnique()) {
 			$query->select('COUNT( relations.terms_term_id ) AS count');
@@ -35,7 +37,7 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 		return parent::_buildQueryColumns($query);
 	}
 	
-	protected function _buildQueryGroup(KDatabaseQuery $query)
+	protected function _buildQueryGroup(Framework\DatabaseQuery $query)
 	{	
 		if(!$this->_state->isUnique()) {
 			$query->group('relations.terms_term_id');
@@ -44,7 +46,7 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 		return parent::_buildQueryGroup($query);
 	}
 	 
-	protected function _buildQueryJoins(KDatabaseQuery $query)
+	protected function _buildQueryJoins(Framework\DatabaseQuery $query)
 	{
 		if(!$this->_state->isUnique()) {
 			$query->join('LEFT', 'terms_relations AS relations', 'relations.terms_term_id = tbl.terms_term_id');
@@ -53,7 +55,7 @@ class ComTermsModelTerms extends ComDefaultModelDefault
 		return parent::_buildQueryJoins($query);
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuery $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuery $query)
 	{
 		if(!$this->_state->isUnique()) 
 		{

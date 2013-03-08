@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
 {
     /**
@@ -18,7 +20,7 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
      */
     public function pagination($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'limit'   => 0,
         ));
@@ -36,7 +38,7 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
 
     public function pages($config = array())
     {
-        $config = new KModelPaginator($config);
+        $config = new Framework\ModelPaginator($config);
 		$config->append(array(
 			'total'      => 0,
 			'display'    => 4,
@@ -60,7 +62,7 @@ class ComFilesTemplateHelperPaginator extends ComDefaultTemplateHelperPaginator
     
     public function link($config)
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'title'   => '',
             'current' => false,

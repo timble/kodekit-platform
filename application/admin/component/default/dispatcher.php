@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Dispatcher Class
 .*
@@ -14,14 +16,14 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultDispatcher extends KDispatcherComponent
+class ComDefaultDispatcher extends Framework\DispatcherComponent
 {
     /**
      * Constructor
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Framework\Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -39,10 +41,10 @@ class ComDefaultDispatcher extends KDispatcherComponent
      * 
      * Redirect if no view information can be found in the request.
      * 
-     * @param   KCommandContext	$context A command context object
+     * @param   Framework\CommandContext	$context A command context object
      * @return	mixed
      */
-    protected function _actionDispatch(KCommandContext $context)
+    protected function _actionDispatch(Framework\CommandContext $context)
     {
         //Redirect if no view information can be found in the request
         if(!$context->request->query->has('view'))

@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Orderable Database Behavior Class
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Categories    
  */
-class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
+class ComCategoriesDatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
 {
     protected $_table;
 
@@ -27,7 +29,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      */
     protected $_parent_column;
 
-    public function __construct( KConfig $config)
+    public function __construct( Framework\Config $config)
     {
         $config->append(array('parent_column' => null));
         $this->_parent_column = $config->parent_column;
@@ -54,9 +56,9 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      * unchanged.
      * Inserts space in order sequence of new section if section changed.
      *
-     * @param   KCommandContext Context
+     * @param   Framework\CommandContext Context
      */
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if(isset($this->ordering))
@@ -82,9 +84,9 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
     /**
      * Reorders the old section if record has changed sections
      *
-     * @param   KCommandContext Context
+     * @param   Framework\CommandContext Context
      */
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
@@ -100,7 +102,7 @@ class ComCategoriesDatabaseBehaviorOrderable extends KDatabaseBehaviorOrderable
      *
      * If the $this->_parent_column is set, this will modify the query to add the column needed by the behavior
      */
-    protected function _beforeTableSelect(KCommandContext $context)
+    protected function _beforeTableSelect(Framework\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if($parent_column = $this->_parent_column)

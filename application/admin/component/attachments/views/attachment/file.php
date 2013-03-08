@@ -1,5 +1,8 @@
 <?php
-class ComAttachmentsViewAttachmentFile extends KViewFile
+
+use Nooku\Framework;
+
+class ComAttachmentsViewAttachmentFile extends Framework\ViewFile
 {
 	public function render()
 	{
@@ -14,7 +17,7 @@ class ComAttachmentsViewAttachmentFile extends KViewFile
         $this->filename = $item->name;
 
         if (!file_exists($this->path)) {
-        	throw new KViewException('File not found');
+        	throw new Framework\ViewException('File not found');
         }
 
         return parent::render();

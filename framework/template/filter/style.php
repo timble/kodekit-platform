@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template filter to parse style tags
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterStyle extends KTemplateFilterTag
+class TemplateFilterStyle extends TemplateFilterTag
 {
 	/**
 	 * Parse the text for style tags

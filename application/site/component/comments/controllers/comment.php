@@ -1,16 +1,19 @@
 <?php
+
+use Nooku\Framework;
+
 class ComCommentsControllerComment extends ComDefaultControllerDefault 
 {
-    public function __construct(Kconfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
         
         $this->registerCallback('after.add', array($this, 'redirect'));
     }
     
-    public function redirect(KCommandContext $context)
+    public function redirect(Framework\CommandContext $context)
     {
-        $url = ($referrer = KRequest::get('post.referrer', 'base64')) ? base64_decode($referrer) : KRequest::referrer();
+        $url = ($referrer = Framework\Request::get('post.referrer', 'base64')) ? base64_decode($referrer) : Framework\Request::referrer();
         $this->setRedirect($url);
     }
 }

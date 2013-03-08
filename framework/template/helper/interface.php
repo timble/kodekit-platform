@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template helper interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Template
  * @subpackage	Helper
  */
-interface KTemplateHelperInterface
+interface TemplateHelperInterface
 {
  	/**
      * Get the template object

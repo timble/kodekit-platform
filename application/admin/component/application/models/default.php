@@ -7,6 +7,7 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
 
 /**
  * Default Application Model
@@ -15,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Application
  */
-class ComApplicationModelDefault extends KModelAbstract
+class ComApplicationModelDefault extends Framework\ModelAbstract
 {
 
 }

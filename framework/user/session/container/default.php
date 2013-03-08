@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default User Session Container Class
  *
@@ -15,7 +17,7 @@
  * @package     Koowa_Session
  * @subpackage  Container
  */
-class KUserSessionContainerDefault extends KUserSessionContainerAbstract
+class UserSessionContainerDefault extends UserSessionContainerAbstract
 {
 
 }

@@ -7,13 +7,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Date Interface
  *
  * @author  Gergo Erdosi <gergo@timble.net>
  * @package Koowa_Date
  */
-interface KDateInterface extends KObjectHandlable
+interface DateInterface extends ObjectHandlable
 {
     
 }

@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Component Setting Database Row
  *
@@ -32,9 +34,9 @@ class ComExtensionsDatabaseRowSetting_Component extends ComExtensionsDatabaseRow
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Framework\Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -47,10 +49,10 @@ class ComExtensionsDatabaseRowSetting_Component extends ComExtensionsDatabaseRow
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Framework\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'id'     => '',
@@ -69,7 +71,7 @@ class ComExtensionsDatabaseRowSetting_Component extends ComExtensionsDatabaseRow
     {
         if(!empty($this->_modified))
         {
-            $row = $this->getService($this->_table)->select($this->_id, KDatabase::FETCH_ROW);
+            $row = $this->getService($this->_table)->select($this->_id, Framework\Database::FETCH_ROW);
             $row->params = $this->_data;
 
             return (bool) $row->save();

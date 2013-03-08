@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Container Database Row Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowContainer extends KDatabaseRowTable
+class ComFilesDatabaseRowContainer extends Framework\DatabaseRowTable
 {
 	/**
 	 * A reference to the container configuration

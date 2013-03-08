@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 class ComFilesAdapterLocalFile extends ComFilesAdapterLocalAbstract
 {
 	protected $_metadata;
@@ -23,7 +25,7 @@ class ComFilesAdapterLocalFile extends ComFilesAdapterLocalAbstract
 					'size' => $this->_handle->getSize(),
 					'modified_date' => $this->_handle->getMTime()
 				);
-			} catch (RunTimeException $e) {}
+			} catch (\RunTimeException $e) {}
 		}
 
 		return $this->_metadata;

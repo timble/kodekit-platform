@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Manager Interface
  *
@@ -14,14 +16,14 @@
  * @package     Koowa_Service
  * @subpackage  Manager
  */
-interface KServiceManagerInterface
+interface ServiceManagerInterface
 {
 	/**
 	 * Get an instance of a class based on a class identifier only creating it if it doesn't exist yet.
 	 *
 	 * @param	string|object	$identifier The class identifier or identifier object
 	 * @param	array  			$config     An optional associative array of configuration settings.
-	 * @throws	KServiceServiceException
+	 * @throws	ServiceServiceException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
 	public static function get($identifier, array $config = array());
@@ -50,7 +52,7 @@ interface KServiceManagerInterface
      *
      * @param  string|object $identifier An identifier string or KIdentfier object
      * @param  string|array  $mixins     A mixin identifier or a array of mixin identifiers
-     * @see KObject::mixin()
+     * @see Object::mixin()
      */
     public static function addMixin($identifier, $mixins);
 
@@ -66,20 +68,20 @@ interface KServiceManagerInterface
      * Returns an identifier object.
 	 *
 	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements KServiceInterface, or a KServiceIdentifier object, or valid identifier string.
+     * implements ServiceInterface, or a ServiceIdentifier object, or valid identifier string.
      *
      * Function will also check for identifier mappings and return the mapped identifier.
 	 *
-	 * @param	mixed $identifier An object that implements KServiceInterface, KServiceIdentifier object
+	 * @param	mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
 	 * 					         or valid identifier string
-	 * @return KServiceIdentifier
+	 * @return ServiceIdentifier
 	 */
 	public static function getIdentifier($identifier);
 
 	/**
 	 * Set the configuration options for an identifier
 	 *
-	 * @param mixed	$identifier An object that implements KServiceInterface, KServiceIdentifier object
+	 * @param mixed	$identifier An object that implements ServiceInterface, ServiceIdentifier object
 	 * 				            or valid identifier string
 	 * @param array	$config An associative array of configuration options
 	 */
@@ -88,7 +90,7 @@ interface KServiceManagerInterface
 	/**
 	 * Get the configuration options for an identifier
 	 *
-	 * @param mixed	$identifier An object that implements KServiceInterface, KServiceIdentifier object
+	 * @param mixed	$identifier An object that implements ServiceInterface, ServiceIdentifier object
 	 * 				            or valid identifier string
 	 *  @param array  An associative array of configuration options
 	 */

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * File Uploadble Filter Class
  *
@@ -15,15 +17,15 @@
  * @subpackage  Files
  */
 
-class ComFilesFilterFileUploadable extends KFilterAbstract
+class ComFilesFilterFileUploadable extends Framework\FilterAbstract
 {
 	protected $_walk = false;
 
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com://admin/files.filter.file.name'), KCommand::PRIORITY_HIGH);
+		$this->addFilter($this->getService('com://admin/files.filter.file.name'), Framework\Command::PRIORITY_HIGH);
 
 		$this->addFilter($this->getService('com://admin/files.filter.file.extension'));
 		$this->addFilter($this->getService('com://admin/files.filter.file.mimetype'));

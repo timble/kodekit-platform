@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Abstract Template
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
+abstract class ComDefaultTemplateAbstract extends Framework\TemplateAbstract
 {
 	/**
 	 * The cache object
@@ -28,9 +30,9 @@ abstract class ComDefaultTemplateAbstract extends KTemplateAbstract
 	 *
 	 * Prevent creating instances of this class by making the constructor private
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options
+	 * @param 	object 	An optional Framework\Config object with configuration options
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 

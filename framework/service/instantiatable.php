@@ -5,20 +5,22 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Instantiatable Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
  */
-interface KServiceInstantiatable
+interface ServiceInstantiatable
 {
     /**
      * Instantiate the object
      *
-     *  @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
+     *  @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
      * @return  object
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager);
+    public static function getInstance(Config $config, ServiceManagerInterface $manager);
 }

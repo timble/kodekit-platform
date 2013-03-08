@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * User Session Interface
  *
@@ -16,7 +18,7 @@
  * @package     Koowa_User
  * @subpackage  Session
  */
-interface KUserSessionInterface
+interface UserSessionInterface
 {
     /**
      * Get the session life time
@@ -32,7 +34,7 @@ interface KUserSessionInterface
      * automatically during session start.
      *
      * @param integer $lifetime The session lifetime in seconds
-     * @return KUserSessionContainerMetadata
+     * @return UserSessionContainerMetadata
      */
     public function setLifetime($lifetime);
 
@@ -56,7 +58,7 @@ interface KUserSessionInterface
      *
      * @param string $session_id
      * @throws \LogicException	When changing the id of an active session
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function setId($session_id);
 
@@ -72,17 +74,17 @@ interface KUserSessionInterface
      *
      * @param  string $name
      * @throws \LogicException	When changing the name of an active session
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function setName($name);
 
     /**
      * Method to set a session handler object
      *
-     * @param mixed $handler An object that implements KServiceInterface, KServiceIdentifier object
+     * @param mixed $handler An object that implements ServiceInterface, ServiceIdentifier object
      *                       or valid identifier string
      * @param array $config An optional associative array of configuration settings
-     * @return KUserSession
+     * @return UserSession
      */
     public function setHandler($handler, $config = array());
 
@@ -90,7 +92,7 @@ interface KUserSessionInterface
      * Get the session handler object
      *
      * @throws \UnexpectedValueException    If the identifier is not a session handler identifier
-     * @return KUserSessionHandlerInterface
+     * @return UserSessionHandlerInterface
      */
     public function getHandler();
 
@@ -107,10 +109,10 @@ interface KUserSessionInterface
      *
      * If the container does not exist a container will be created on the fly.
      *
-     * @param   mixed $name An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed $name An object that implements ServiceInterface, ServiceIdentifier object
      *                      or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a session container identifier
-     * @return KUserSessionContainerInterface
+     * @return UserSessionContainerInterface
      */
     public function getContainer($name);
 
@@ -118,7 +120,7 @@ interface KUserSessionInterface
      * Starts the session storage and load the session data into memory
      *
      * @see  session_start()
-     * @return \KUserSessionInterface
+     * @return UserSessionInterface
      * @throws \RuntimeException If something goes wrong starting the session.
      */
     public function start();
@@ -126,7 +128,7 @@ interface KUserSessionInterface
     /**
      * Force the session to be saved and closed.
      *
-     * Session data is usually stored after your script terminated without the need to call KDispatcherSession::save(),
+     * Session data is usually stored after your script terminated without the need to call DispatcherSession::save(),
      * but as session data is locked to prevent concurrent writes only one script may operate on a session at any time.
      *
      * When using framesets together with sessions you will experience the frames loading one by one due to this locking.
@@ -134,7 +136,7 @@ interface KUserSessionInterface
      * variables are done.
      *
      * @see  session_write_close()
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function close();
 
@@ -142,7 +144,7 @@ interface KUserSessionInterface
      * Clear all session data in memory.
      *
      * @see session_unset()
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function clear();
 
@@ -155,7 +157,7 @@ interface KUserSessionInterface
      *
      * @see session_unset()
      * @see session_destroy()
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function destroy();
 
@@ -170,7 +172,7 @@ interface KUserSessionInterface
      *                          settings unchanged, 0 sets the cookie to expire with browser session. Time is in seconds,
      *                          and is not a Unix timestamp.
      * @see  session_regenerate_id()
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      * @throws \RuntimeException If an error occurs while regenerating this storage
      */
     public function fork($destroy = false, $lifetime = null);
@@ -189,7 +191,7 @@ interface KUserSessionInterface
      *
      * @param   mixed   Attribute identifier, eg foo.bar
      * @param   mixed   Attribute value
-     * @return KUser
+     * @return User
      */
     public function set($identifier, $value);
 
@@ -205,7 +207,7 @@ interface KUserSessionInterface
      * Removes an session attribute
      *
      * @param string $identifier Attribute identifier, eg foo.bar
-     * @return KUserSession
+     * @return UserSession
      */
     public function remove($identifier);
 }

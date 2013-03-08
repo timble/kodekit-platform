@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Closure Orderable Database Behavior Class
  *
@@ -23,12 +25,12 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
 
     protected $_old_row;
     
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
         if($config->columns) {
-            $this->_columns = KConfig::unbox($config->columns);
+            $this->_columns = Framework\Config::unbox($config->columns);
         }
 
         if($config->table) {
@@ -36,10 +38,10 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         }
     }
     
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOWEST,
+            'priority'   => Framework\Command::PRIORITY_LOWEST,
             'auto_mixin' => true,
             'columns'    => array(),
             'table'      => null
@@ -50,16 +52,16 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
     
     public function getOrderingTable()
     {
-        if(!$this->_table instanceof KDatabaseTableInterface)
+        if(!$this->_table instanceof Framework\DatabaseTableInterface)
         {
-            $table = $this->getMixer() instanceof KDatabaseTableInterface ? $this : $this->getTable();
+            $table = $this->getMixer() instanceof Framework\DatabaseTableInterface ? $this : $this->getTable();
             $this->_table = $this->getService($this->_table, array('identity_column' => $table->getIdentityColumn()));
         }
         
         return $this->_table;
     }
     
-    protected function _buildQuery(KDatabaseRowInterface $row)
+    protected function _buildQuery(Framework\DatabaseRowInterface $row)
     {
         $table = $row->getTable();
         $query = $this->getService('lib://nooku/database.query.select')
@@ -81,7 +83,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         return $query;
     }
     
-    protected function _beforeTableSelect(KCommandContext $context)
+    protected function _beforeTableSelect(Framework\CommandContext $context)
     {
         if($query = $context->query)
         {
@@ -111,10 +113,10 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         }
     }
     
-    protected function _afterTableInsert(KCommandContext $context)
+    protected function _afterTableInsert(Framework\CommandContext $context)
     {
         $row = $context->data;
-        if($row->getStatus() != KDatabase::STATUS_FAILED)
+        if($row->getStatus() != Framework\Database::STATUS_FAILED)
         {
             // Insert empty row into ordering table.
             $table = $row->getTable();
@@ -128,18 +130,18 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         }
     }
 
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $row = $context->data;
         if($row->isModified('parent_id')) {
-            $this->_old_row = $row->getTable()->select($row->id, KDatabase::FETCH_ROW);
+            $this->_old_row = $row->getTable()->select($row->id, Framework\Database::FETCH_ROW);
         }
     }
     
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         $row = $context->data;
-        if($row->getStatus() != KDatabase::STATUS_FAILED)
+        if($row->getStatus() != Framework\Database::STATUS_FAILED)
         {
             foreach($this->_columns as $column) {
                 call_user_func(array($this, '_reorder'.ucfirst($column)), $row, $column, $context->operation);
@@ -155,10 +157,10 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         }
     }
     
-    protected function _afterTableDelete(KCommandContext $context)
+    protected function _afterTableDelete(Framework\CommandContext $context)
     {
         $row = $context->data;
-        if($row->getStatus() != KDatabase::STATUS_FAILED)
+        if($row->getStatus() != Framework\Database::STATUS_FAILED)
         {
             foreach($this->_columns as $column) {
                 call_user_func(array($this, '_reorder'.ucfirst($column)), $row, $column, $context->operation);
@@ -166,7 +168,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         }
     }
     
-    protected function _reorderDefault(KDatabaseRowInterface $row, $column, $operation)
+    protected function _reorderDefault(Framework\DatabaseRowInterface $row, $column, $operation)
     {
         $table = $row->getTable();
 
@@ -193,13 +195,13 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
         $table->getAdapter()->update($update);
     }
 
-    protected function _reorderCustom(KDatabaseRowInterface $row, $column, $operation)
+    protected function _reorderCustom(Framework\DatabaseRowInterface $row, $column, $operation)
     {
         $table = $row->getTable();
 
         switch($operation)
         {
-            case KDatabase::OPERATION_INSERT:
+            case Framework\Database::OPERATION_INSERT:
             {
                 $query = $this->_buildQuery($row)
                     ->columns('orderings.custom')
@@ -207,12 +209,12 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                     ->order('orderings.custom', 'DESC')
                     ->limit(1);
 
-                $max = (int) $table->getAdapter()->select($query, KDatabase::FETCH_FIELD);
-                $table->getOrderingTable()->select($row->id, KDatabase::FETCH_ROW)
+                $max = (int) $table->getAdapter()->select($query, Framework\Database::FETCH_FIELD);
+                $table->getOrderingTable()->select($row->id, Framework\Database::FETCH_ROW)
                     ->setData(array('custom' => $max + 1))->save();
             } break;
 
-            case KDatabase::OPERATION_UPDATE:
+            case Framework\Database::OPERATION_UPDATE:
             {
                 if($row->order)
                 {
@@ -249,7 +251,7 @@ class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorO
                 }
             } break;
 
-            case KDatabase::OPERATION_DELETE:
+            case Framework\Database::OPERATION_DELETE:
             {
                 $table->getAdapter()->execute('SET @index := 0');
 

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * File Validator Command Class
  *
@@ -16,7 +18,7 @@
  */
 class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 {
-	protected function _databaseBeforeSave(KCommandContext $context)
+	protected function _databaseBeforeSave(Framework\CommandContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -36,7 +38,7 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 			if (empty($row->name))
 			{
 				$uri = $this->getService('lib://nooku/http.url', array('url' => $row->file));
-	        	$path = $uri->toString(KHttpUrl::PATH | KHttpUrl::FORMAT);
+	        	$path = $uri->toString(Framework\HttpUrl::PATH | Framework\HttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
 	        	}

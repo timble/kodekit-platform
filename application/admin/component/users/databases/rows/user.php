@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * User Database Row Class
  *
@@ -16,7 +18,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowUser extends KDatabaseRowTable
+class ComUsersDatabaseRowUser extends Framework\DatabaseRowTable
 {
     /**
      * @var ComUsersDatabaseRowRole User role object.
@@ -55,9 +57,9 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
     {
         if (!$this->_role)
         {
-            //@TODO : Temporarily using KService::get since User object is not yet properly set on session when
+            //@TODO : Temporarily using  Framework\ServiceManager::get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
-            $this->_role = KServiceManager::get('com://admin/users.model.roles')->id($this->role_id)->getRow();
+            $this->_role =  Framework\ServiceManager::get('com://admin/users.model.roles')->id($this->role_id)->getRow();
             //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->role_id)->getRow();
         }
         return $this->_role;
@@ -69,8 +71,8 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
         {
             if(!$this->guest)
             {
-                $this->_groups = KServiceManager::get('com://admin/users.database.table.groups_users')
-                    ->select(array('users_user_id' => $this->id), KDatabase::FETCH_FIELD_LIST);
+                $this->_groups =  Framework\ServiceManager::get('com://admin/users.database.table.groups_users')
+                    ->select(array('users_user_id' => $this->id), Framework\Database::FETCH_FIELD_LIST);
             }
             else $this->_groups = array();
         }
@@ -83,7 +85,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
         // Validate name
         if ($this->isModified('name') && trim($this->name) == '')
         {
-            $this->setStatus(KDatabase::STATUS_FAILED);
+            $this->setStatus(Framework\Database::STATUS_FAILED);
             $this->setStatusMessage(JText::_('Please enter a name'));
             return false;
         }
@@ -93,7 +95,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
             // Validate E-mail
             if (!$this->getService('lib://nooku/filter.email')->validate($this->email))
             {
-                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatus(Framework\Database::STATUS_FAILED);
                 $this->setStatusMessage(JText::_('Please enter a valid E-mail address'));
                 return false;
             }
@@ -106,7 +108,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
 
             if ($this->getService('com://admin/users.database.table.users')->count($query))
             {
-                $this->setStatus(KDatabase::STATUS_FAILED);
+                $this->setStatus(Framework\Database::STATUS_FAILED);
                 $this->setStatusMessage(JText::_('The provided E-mail address is already registered'));
                 return false;
             }
@@ -115,7 +117,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
         // Check if the attached role exists
         if ($this->isModified('role_id') && $this->getRole()->isNew())
         {
-            $this->setStatus(KDatabase::STATUS_FAILED);
+            $this->setStatus(Framework\Database::STATUS_FAILED);
             $this->setStatusMessage('Invalid role');
             return false;
         }
@@ -141,7 +143,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
         {
             // Load the current user row for checks.
             $current = $this->getService('com://admin/users.database.table.users')
-                ->select($this->id, KDatabase::FETCH_ROW);
+                ->select($this->id, Framework\Database::FETCH_ROW);
 
             // There must be at least one enabled super administrator
             if (($this->isModified('role_id') || ($this->isModified('enabled') && !$this->enabled)) && $current->role_id == 25)
@@ -151,7 +153,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
 
                 if ($this->getService('com://admin/users.database.table.users')->count($query) <= 1)
                 {
-                    $this->setStatus(KDatabase::STATUS_FAILED);
+                    $this->setStatus(Framework\Database::STATUS_FAILED);
                     $this->setStatusMessage('There must be at least one enabled super administrator');
                     return false;
                 }
@@ -206,7 +208,7 @@ class ComUsersDatabaseRowUser extends KDatabaseRowTable
      */
     public function notify($config = array()) {
 
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 
         $application = $this->getService('application');
         $user        = $this->getService('user');

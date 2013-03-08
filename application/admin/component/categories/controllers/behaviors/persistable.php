@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Persistable Controller Behavior Class
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Categories   
  */
-class ComCategoriesControllerBehaviorPersistable extends KControllerBehaviorPersistable
+class ComCategoriesControllerBehaviorPersistable extends Framework\ControllerBehaviorPersistable
 { 
 	/**
 	 * Load the model state from the request
@@ -22,10 +24,10 @@ class ComCategoriesControllerBehaviorPersistable extends KControllerBehaviorPers
 	 * This functions merges the request information with any model state information
 	 * that was saved in the session and returns the result.
 	 *
-	 * @param 	KCommandContext		The active command context
+	 * @param 	Framework\CommandContext		The active command context
 	 * @return 	void
 	 */
-	protected function _beforeControllerBrowse(KCommandContext $context)
+	protected function _beforeControllerBrowse(Framework\CommandContext $context)
 	{
 		 // Built the session identifier based on the action
         $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->get('table');
@@ -41,10 +43,10 @@ class ComCategoriesControllerBehaviorPersistable extends KControllerBehaviorPers
 	/**
 	 * Saves the model state in the session
 	 *
-	 * @param 	KCommandContext		The active command context
+	 * @param 	Framework\CommandContext		The active command context
 	 * @return 	void
 	 */
-	protected function _afterControllerBrowse(KCommandContext $context)
+	protected function _afterControllerBrowse(Framework\CommandContext $context)
 	{
 		$model  = $this->getModel();
         $state  = $model->getState();

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * File Validator Command Class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesCommandValidatorNode extends KCommand
+class ComFilesCommandValidatorNode extends Framework\Command
 {
-	protected function _databaseBeforeSave(KCommandContext $context)
+	protected function _databaseBeforeSave(Framework\CommandContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -28,7 +30,7 @@ class ComFilesCommandValidatorNode extends KCommand
 		return true;
 	}
 
-	protected function _databaseBeforeCopy(KCommandContext $context)
+	protected function _databaseBeforeCopy(Framework\CommandContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -62,7 +64,7 @@ class ComFilesCommandValidatorNode extends KCommand
 		return true;
 	}
 
-	protected function _databaseBeforeMove(KCommandContext $context)
+	protected function _databaseBeforeMove(Framework\CommandContext $context)
 	{
 		return $this->_databaseBeforeCopy($context);
 	}

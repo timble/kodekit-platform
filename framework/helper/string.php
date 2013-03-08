@@ -28,6 +28,8 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
     iconv_set_encoding("output_encoding", "UTF-8");
 }
 
+namespace Nooku\Framework;
+
 /**
  * String helper class for utf-8 data
  *
@@ -39,7 +41,7 @@ if (function_exists('iconv') || ((!strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' &&
  * @subpackage  String
  * @static
  */
-class KHelperString
+class HelperString
 {
     /**
      * UTF-8 aware alternative to strpos
@@ -194,10 +196,10 @@ class KHelperString
                 return $str;
             }
 
-            $search = KHelperString::strtolower($search);
+            $search = HelperString::strtolower($search);
 
             $search = preg_quote($search, '/');
-            $lstr = KHelperString::strtolower($str);
+            $lstr = HelperString::strtolower($str);
             $i = 0;
             $matched = 0;
             while ( preg_match('/(.*)'.$search.'/Us',$lstr, $matches) ) {
@@ -219,12 +221,12 @@ class KHelperString
                 if ( is_array($replace) )
                 {
                     if ( array_key_exists($k,$replace) ) {
-                        $str = KHelperString::str_ireplace($search[$k], $replace[$k], $str, $count);
+                        $str = HelperString::str_ireplace($search[$k], $replace[$k], $str, $count);
                     } else {
-                        $str = KHelperString::str_ireplace($search[$k], '', $str, $count);
+                        $str = HelperString::str_ireplace($search[$k], '', $str, $count);
                     }
                 } else {
-                    $str = KHelperString::str_ireplace($search[$k], $replace, $str, $count);
+                    $str = HelperString::str_ireplace($search[$k], $replace, $str, $count);
                 }
             }
             return $str;
@@ -247,7 +249,7 @@ class KHelperString
             return FALSE;
         }
 
-        $len = KHelperString::strlen($str);
+        $len = HelperString::strlen($str);
         if ( $len <= $split_len ) {
             return array($str);
         }
@@ -268,8 +270,8 @@ class KHelperString
     */
     public static function strcasecmp($str1, $str2)
     {
-         $strX = KHelperString::strtolower($strX);
-         $strY = KHelperString::strtolower($strY);
+         $strX = HelperString::strtolower($strX);
+         $strY = HelperString::strtolower($strY);
         return strcmp($strX, $strY);
     }
 
@@ -293,7 +295,7 @@ class KHelperString
         $mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
         if ( $start !== NULL || $length !== NULL ) {
-            $str = KHelperString::substr($str, $start, $length);
+            $str = HelperString::substr($str, $start, $length);
         }
 
         preg_match('/^[^'.$mask.']+/u',$str, $matches);
@@ -323,8 +325,8 @@ class KHelperString
             return $str;
         }
 
-        $lstr = KHelperString::strtolower($str);
-        $lsearch = KHelperString::strtolower($search);
+        $lstr = HelperString::strtolower($str);
+        $lsearch = HelperString::strtolower($search);
         preg_match('|^(.*)'.preg_quote($lsearch).'|Us',$lstr, $matches);
 
         if ( count($matches) == 2 ) {
@@ -365,13 +367,13 @@ class KHelperString
         $mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
         if ( $start !== NULL || $length !== NULL ) {
-            $str = KHelperString::substr($str, $start, $length);
+            $str = HelperString::substr($str, $start, $length);
         }
 
         preg_match('/^['.$mask.']+/u',$str, $matches);
 
         if ( isset($matches[0]) ) {
-            return KHelperString::strlen($matches[0]);
+            return HelperString::strlen($matches[0]);
         }
 
         return 0;
@@ -393,7 +395,7 @@ class KHelperString
         preg_match_all('/./us', $str, $ar);
         preg_match_all('/./us', $repl, $rar);
         if( $length === NULL ) {
-            $length = KHelperString::strlen($str);
+            $length = HelperString::strlen($str);
         }
         array_splice( $ar[0], $start, $length, $rar[0] );
         return join('',$ar[0]);
@@ -466,7 +468,7 @@ class KHelperString
             return trim($str);
         }
 
-        return KHelperString::ltrim(utf8_rtrim($str, $charlist), $charlist);
+        return HelperString::ltrim(utf8_rtrim($str, $charlist), $charlist);
     }
 
     /**
@@ -480,17 +482,17 @@ class KHelperString
     */
     public static function ucfirst($str)
     {
-        switch ( KHelperString::strlen($str) )
+        switch ( HelperString::strlen($str) )
         {
             case 0:
                 return '';
             break;
             case 1:
-                return KHelperString::strtoupper($str);
+                return HelperString::strtoupper($str);
             break;
             default:
                 preg_match('/^(.{1})(.*)$/us', $str, $matches);
-                return KHelperString::strtoupper($matches[1]).$matches[2];
+                return HelperString::strtoupper($matches[1]).$matches[2];
             break;
         }
     }
@@ -510,7 +512,7 @@ class KHelperString
         // form feeds, horizontal tabs, vertical tabs, linefeeds and carriage returns
         // This corresponds to the definition of a "word" defined at http://www.php.net/ucwords
         $pattern = '/(^|([\x0c\x09\x0b\x0a\x0d\x20]+))([^\x0c\x09\x0b\x0a\x0d\x20]{1})[^\x0c\x09\x0b\x0a\x0d\x20]*/u';
-        return preg_replace_callback($pattern, 'KHelperString::ucwords_callback',$str);
+        return preg_replace_callback($pattern, 'HelperString::ucwords_callback',$str);
     }
 
     /**
@@ -526,8 +528,8 @@ class KHelperString
     public static function ucwords_callback($matches)
     {
         $leadingws = $matches[2];
-        $ucfirst = KHelperString::strtoupper($matches[3]);
-        $ucword = KHelperString::substr_replace(ltrim($matches[0]),$ucfirst,0,1);
+        $ucfirst = HelperString::strtoupper($matches[3]);
+        $ucword = HelperString::substr_replace(ltrim($matches[0]),$ucfirst,0,1);
         return $leadingws . $ucword;
     }
 

@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Dirname filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterDirname extends KFilterAbstract
+class FilterDirname extends FilterAbstract
 {
 	/**
 	 * Validate a value

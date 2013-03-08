@@ -6,14 +6,16 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Controller Behavior
  *
- * @author        Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
- * @subpackage     Behavior
+ * @subpackage  Behavior
  */
-abstract class KControllerBehaviorAbstract extends KBehaviorAbstract
+abstract class ControllerBehaviorAbstract extends BehaviorAbstract
 {
     /**
      * Command handler
@@ -25,7 +27,7 @@ abstract class KControllerBehaviorAbstract extends KBehaviorAbstract
      * @param     object       The command context
      * @return     boolean        Can return both true or false.
      */
-    public function execute($name, KCommandContext $context)
+    public function execute($name, CommandContext $context)
     {
         $this->setMixer($context->getSubject());
 
@@ -50,7 +52,7 @@ abstract class KControllerBehaviorAbstract extends KBehaviorAbstract
      * @param object The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Object $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
 

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Module Template Filter Class
  *
@@ -16,7 +18,7 @@
  */
 class ComApplicationTemplateFilterModule extends ComPagesTemplateFilterModule
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'modules' => 'application.modules',

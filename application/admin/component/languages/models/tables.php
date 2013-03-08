@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Tables Model Class
  *
@@ -16,7 +18,7 @@
  */
 class ComLanguagesModelTables extends ComDefaultModelDefault
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -25,21 +27,21 @@ class ComLanguagesModelTables extends ComDefaultModelDefault
             ->insert('component', 'int');
     }
     
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
         
         $query->columns(array('component_name' => 'components.name'));
     }
     
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
         
         $query->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
     }
 
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();

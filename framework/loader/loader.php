@@ -5,18 +5,20 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 require_once dirname(__FILE__).'/adapter/interface.php';
 require_once dirname(__FILE__).'/adapter/abstract.php';
 require_once dirname(__FILE__).'/adapter/library.php';
 require_once dirname(__FILE__).'/registry.php';
 
 /**
- * KLoader class
+ * Loader class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Loader
  */
-class KLoader
+class Loader
 {
     /**
      * The file container
@@ -54,7 +56,7 @@ class KLoader
     public function __construct($config = array())
     {
         //Create the class registry
-        $this->_registry = new KLoaderRegistry();
+        $this->_registry = new LoaderRegistry();
 
         if(isset($config['cache_prefix'])) {
             $this->_registry->setCachePrefix($config['cache_prefix']);
@@ -65,7 +67,7 @@ class KLoader
         }
 
         //Add the koowa class loader
-        $this->addAdapter(new KLoaderAdapterLibrary(
+        $this->addAdapter(new LoaderAdapterLibrary(
             array('basepath' => dirname(dirname(__FILE__)))
         ));
 
@@ -87,11 +89,10 @@ class KLoader
         }
     }
 
-
     /**
      * Get the class registry object
      *
-     * @return object KLoaderRegistry
+     * @return LoaderRegistry
      */
     public function getRegistry()
     {
@@ -119,10 +120,10 @@ class KLoader
  	/**
      * Add a loader adapter
      *
-     * @param object $adapter A KLoaderAdapter
+     * @param LoaderAdapterInterface $adapter
      * @return void
      */
-    public function addAdapter(KLoaderAdapterInterface $adapter)
+    public function addAdapter(LoaderAdapterInterface $adapter)
     {
         self::$_adapters[$adapter->getType()]     = $adapter;
         self::$_prefix_map[$adapter->getPrefix()] = $adapter->getType();
@@ -215,7 +216,7 @@ class KLoader
     {
         $result = false;
 
-        $identifier = KServiceManager::getIdentifier($identifier);
+        $identifier = ServiceManager::getIdentifier($identifier);
 
         //Get the path
         $path = $identifier->filepath;
@@ -268,17 +269,27 @@ class KLoader
         {
             $result = false;
 
-            $word  = preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class);
-            $parts = explode(' ', $word);
-
-            if(isset(self::$_prefix_map[$parts[0]]))
+            if (false !== $pos = strrpos($class, '\\'))
             {
-                $result = self::$_adapters[self::$_prefix_map[$parts[0]]]->findPath( $class, $basepath);
+                //Namespaced classname
+                $prefix = substr($class, 0, $pos);
+                $class  = substr($class, $pos + 1);
+            }
+            else
+            {
+                //Prefixed classname
+                $parts  = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class));
+                $prefix = $parts[0];
+            }
+
+            if(isset(self::$_prefix_map[$prefix]))
+            {
+                $result = self::$_adapters[self::$_prefix_map[$prefix]]->findPath( $class, $basepath);
 
                 if ($result !== false)
                 {
                    //Get the canonicalized absolute pathname
-                   $path = realpath($result);
+                   $path   = realpath($result);
                    $result = $path !== false ? $path : $result;
                 }
 

@@ -7,10 +7,12 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Exception Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */
-interface KHttpException extends KException {}
+interface HttpException extends Exception {}

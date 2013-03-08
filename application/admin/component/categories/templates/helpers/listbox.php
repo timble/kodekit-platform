@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper
  *
@@ -19,7 +21,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
      public function order($config = array())
      {
-         $config = new KConfig($config);
+         $config = new Framework\Config($config);
          $config->append(array(
              'name'          => 'order',
              'state'         => null,
@@ -33,7 +35,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
         $config->name = 'order'; 
 
         $app        = $this->getIdentifier()->namespace;
-        $identifier = 'com://'.$app.'/'.$config->package.'.model.'.($config->model ? $config->model : KInflector::pluralize($config->package));
+        $identifier = 'com://'.$app.'/'.$config->package.'.model.'.($config->model ? $config->model : Framework\Inflector::pluralize($config->package));
 
         $list = $this->getService($identifier)->set($config->filter)->getRowset();
 
@@ -53,7 +55,7 @@ class ComCategoriesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function categories($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'      => 'category',
             'deselect'  => true,

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Exception Not Implemented Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Exception
  */
-class KControllerExceptionNotImplemented extends KHttpExceptionNotImplemented implements KControllerException {}
+class ControllerExceptionNotImplemented extends HttpExceptionNotImplemented implements ControllerException {}

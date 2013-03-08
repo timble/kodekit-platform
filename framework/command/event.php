@@ -6,38 +6,43 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Event Command
  *
- * The event commend will translate the command name to a onCommandName format
- * and let the event dispatcher dispatch to any registered event handlers.
+ * The event commend will translate the command name to a onCommandName format and let the event dispatcher dispatch
+ * to any registered event handlers.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
- * @uses        KService
- * @uses        KEventDispatcher
- * @uses        KInflector
+ * @uses        Service
+ * @uses        EventDispatcher
+ * @uses        Inflector
  */
-class KCommandEvent extends KCommand
+class CommandEvent extends Command
 {
     /**
      * The event dispatcher object
      *
-     * @var KEventDispatcher
+     * @var EventDispatcher
      */
     protected $_dispatcher;
 
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
-        if (is_null($config->event_dispatcher)) {
-            throw new \InvalidArgumentException('event_dispatcher [KEventDispatcherInterface] config option is required');
+        if (is_null($config->event_dispatcher))
+        {
+            throw new \InvalidArgumentException(
+                'event_dispatcher [EventDispatcherInterface] config option is required'
+            );
         }
 
         $this->_event_dispatcher = $config->event_dispatcher;
@@ -48,10 +53,10 @@ class KCommandEvent extends KCommand
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'event_dispatcher' => null
@@ -63,19 +68,19 @@ class KCommandEvent extends KCommand
     /**
      * Get the event dispatcher
      *
-     * @return  KEventDispatcher
+     * @return  EventDispatcher
      */
     public function getEventDispatcher()
     {
-        if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+        if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
         {
             $this->_event_dispatcher = $this->getService($this->_event_dispatcher);
 
-            //Make sure the request implements KControllerRequestInterface
-            if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+            //Make sure the request implements ControllerRequestInterface
+            if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
             {
                 throw new \UnexpectedValueException(
-                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement KEventDispatcherInterface'
+                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement EventDispatcherInterface'
                 );
             }
         }
@@ -90,7 +95,7 @@ class KCommandEvent extends KCommand
      * @param   object      The command context
      * @return  boolean     Always returns true
      */
-    public function execute($name, KCommandContext $context)
+    public function execute($name, CommandContext $context)
     {
         $type = '';
 
@@ -106,9 +111,9 @@ class KCommandEvent extends KCommand
         }
 
         $parts = explode('.', $name);
-        $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . KInflector::implode($parts);
+        $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . Inflector::implode($parts);
 
-        $event = new KEvent(clone($context));
+        $event = new Event(clone($context));
         $event->setTarget($context->getSubject());
 
         $this->getEventDispatcher()->dispatchEvent($name, $event);

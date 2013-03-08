@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Editable Controller Behavior Class
  *
@@ -14,14 +16,14 @@
  * @package     Koowa_Controller
  * @subpackage  Behavior
  */
-class KControllerBehaviorEditable extends KControllerBehaviorAbstract
+class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 {
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -35,10 +37,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     /**
      * Lock the referrer from updates
      *
-     * @param    KCommandContext    A command context object
+     * @param    CommandContext    A command context object
      * @return void
      */
-    public function lockReferrer(KCommandContext $context)
+    public function lockReferrer(CommandContext $context)
     {
         $cookie = $this->getService('lib://nooku/http.cookie', array(
             'name'   => 'referrer_locked',
@@ -52,10 +54,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     /**
      * Unlock the referrer for updates
      *
-     * @param    KCommandContext    A command context object
+     * @param    CommandContext    A command context object
      * @return void
      */
-    public function unlockReferrer(KCommandContext $context)
+    public function unlockReferrer(CommandContext $context)
     {
         $path = $context->request->getBaseUrl()->getPath();
         $context->response->headers->clearCookie('referrer_locked', $path);
@@ -64,10 +66,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     /**
      * Get the referrer
      *
-     * @param    KCommandContext    A command context object
-     * @return KHttpUrl    A KHttpUrl object.
+     * @param    CommandContext    A command context object
+     * @return HttpUrl    A HttpUrl object.
      */
-    public function getReferrer(KCommandContext $context)
+    public function getReferrer(CommandContext $context)
     {
         $identifier = $this->getMixer()->getIdentifier();
 
@@ -81,10 +83,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
     /**
      * Set the referrer
      *
-     * @param    KCommandContext    A command context object
+     * @param    CommandContext    A command context object
      * @return void
      */
-    public function setReferrer(KCommandContext $context)
+    public function setReferrer(CommandContext $context)
     {
         if (!$context->request->cookies->has('referrer_locked'))
         {
@@ -98,7 +100,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
                 $identifier = $controller->getIdentifier();
 
                 $option = 'com_' . $identifier->package;
-                $view = KInflector::pluralize($identifier->name);
+                $view = Inflector::pluralize($identifier->name);
                 $referrer = $controller->getView()->getRoute('option=' . $option . '&view=' . $view, true, false);
             }
 
@@ -118,7 +120,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      *
      * @return void
      */
-    public function unsetReferrer(KCommandContext $context)
+    public function unsetReferrer(CommandContext $context)
     {
         $path = $context->request->getBaseUrl()->getPath();
         $context->response->headers->clearCookie('referrer', $path);
@@ -132,10 +134,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      *
      * This function also sets the redirect to the referrer.
      *
-     * @param   KCommandContext  A command context object
-     * @return  KDatabaseRow     A row object containing the saved data
+     * @param   CommandContext  A command context object
+     * @return  DatabaseRow     A row object containing the saved data
      */
-    protected function _actionSave(KCommandContext $context)
+    protected function _actionSave(CommandContext $context)
     {
         $action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
         $entity = $context->getSubject()->execute($action, $context);
@@ -154,10 +156,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      *
      * This function also sets the redirect to the current url
      *
-     * @param    KCommandContext    A command context object
-     * @return     KDatabaseRow     A row object containing the saved data
+     * @param    CommandContext    A command context object
+     * @return   DatabaseRow     A row object containing the saved data
      */
-    protected function _actionApply(KCommandContext $context)
+    protected function _actionApply(CommandContext $context)
     {
         $action = $this->getModel()->getState()->isUnique() ? 'edit' : 'add';
         $entity = $context->getSubject()->execute($action, $context);
@@ -165,7 +167,7 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
         //Create the redirect
         $url = $this->getReferrer($context);
 
-        if ($entity instanceof KDatabaseRowInterface)
+        if ($entity instanceof DatabaseRowInterface)
         {
             $url = clone $context->request->getUrl();
 
@@ -190,10 +192,10 @@ class KControllerBehaviorEditable extends KControllerBehaviorAbstract
      *
      * This function will unlock the row(s) and set the redirect to the referrer
      *
-     * @param    KCommandContext    A command context object
-     * @return     KDatabaseRow    A row object containing the data of the cancelled object
+     * @param   CommandContext    A command context object
+     * @return  DatabaseRow    A row object containing the data of the cancelled object
      */
-    protected function _actionCancel(KCommandContext $context)
+    protected function _actionCancel(CommandContext $context)
     {
         //Create the redirect
         $context->response->setRedirect($this->getReferrer($context));

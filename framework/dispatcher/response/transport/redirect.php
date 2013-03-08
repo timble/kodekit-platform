@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Redirect Dispatcher Response Transport Class
  *
@@ -14,12 +16,12 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class KDispatcherResponseTransportRedirect extends KDispatcherResponseTransportDefault
+class DispatcherResponseTransportRedirect extends DispatcherResponseTransportDefault
 {
     /**
      * Sends content for the current web response.
      *
-     * @return KDispatcherResponseTransportRedirect
+     * @return DispatcherResponseTransportRedirect
      */
     public function sendContent()
     {

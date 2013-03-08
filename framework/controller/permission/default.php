@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Controller Permission Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage	Permission
  */
-class KControllerPermissionDefault extends KControllerPermissionAbstract
+class ControllerPermissionDefault extends ControllerPermissionAbstract
 {
 
 }

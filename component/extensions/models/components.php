@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Components Model
  *
@@ -15,7 +17,7 @@
  */
 class ComExtensionsModelComponents extends ComDefaultModelDefault
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 	
@@ -25,7 +27,7 @@ class ComExtensionsModelComponents extends ComDefaultModelDefault
             ->insert('sort', 'tbl.name');
 	}
 	
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryWhere($query);
 		$state = $this->getState();

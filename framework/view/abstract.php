@@ -6,15 +6,15 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract View Class
  *
  * @author        Johan Janssens <johan@nooku.org>
  * @package        Koowa_View
- * @uses        KMixinClass
- * @uses         KTemplate
  */
-abstract class KViewAbstract extends KObject implements KViewInterface
+abstract class ViewAbstract extends Object implements ViewInterface
 {
     /**
      * Model object or identifier
@@ -47,14 +47,14 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     /**
      * Constructor
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param     object     An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         //set the base url
-        if (!$config->base_url instanceof KHttpUrlInterface) {
+        if (!$config->base_url instanceof HttpUrlInterface) {
             $this->_baseurl = $this->getService('lib://nooku/http.url', array('url' => $config->base_url));
         } else {
             $this->_baseurl = $config->base_url;
@@ -71,10 +71,10 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param     object     An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'model'    => $this->getName(),
@@ -102,7 +102,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      *
      * @param   string  The property name.
      * @param   mixed   The property value.
-     * @return KViewAbstract
+     * @return ViewAbstract
      */
     public function set($property, $value)
     {
@@ -156,7 +156,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
      * Get the contents
      *
      * @param  string $contents The contents of the view
-     * @return KViewAbstract
+     * @return ViewAbstract
      */
     public function setContent($content)
     {
@@ -167,23 +167,23 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     /**
      * Get the model object attached to the view
      *
-     * @throws	\UnexpectedValueException	If the model doesn't implement the KModelInterface
-     * @return	KModelAbstract
+     * @throws	\UnexpectedValueException	If the model doesn't implement the ModelInterface
+     * @return	ModelAbstract
      */
     public function getModel()
     {
-        if(!$this->_model instanceof KModelInterface)
+        if(!$this->_model instanceof ModelInterface)
         {
-            if(!($this->_model instanceof KServiceIdentifier)) {
+            if(!($this->_model instanceof ServiceIdentifier)) {
                 $this->setModel($this->_model);
             }
 
             $this->_model = $this->getService($this->_model);
 
-            if(!$this->_model instanceof KModelInterface)
+            if(!$this->_model instanceof ModelInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Model: '.get_class($this->_model).' does not implement KModelInterface'
+                    'Model: '.get_class($this->_model).' does not implement ModelInterface'
                 );
             }
         }
@@ -194,19 +194,19 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     /**
      * Method to set a model object attached to the controller
      *
-     * @param	mixed	$model An object that implements KServiceInterface, KServiceIdentifier object
+     * @param	mixed	$model An object that implements ServiceInterface, ServiceIdentifier object
      * 					       or valid identifier string
-     * @return	KViewAbstract
+     * @return	ViewAbstract
      */
     public function setModel($model)
     {
-        if(!($model instanceof KModelInterface))
+        if(!($model instanceof ModelInterface))
         {
             if(is_string($model) && strpos($model, '.') === false )
             {
                 // Model names are always plural
-                if(KInflector::isSingular($model)) {
-                    $model = KInflector::pluralize($model);
+                if(Inflector::isSingular($model)) {
+                    $model = Inflector::pluralize($model);
                 }
 
                 $identifier			= clone $this->getIdentifier();
@@ -292,7 +292,7 @@ abstract class KViewAbstract extends KObject implements KViewInterface
     /**
      * Get the view base url
      *
-     * @return     object    A KHttpUrl object
+     * @return     object    A HttpUrl object
      */
     public function getBaseUrl()
     {

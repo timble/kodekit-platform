@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper Class
  *
@@ -18,7 +20,7 @@ class ComApplicationTemplateHelperListbox extends ComDefaultTemplateHelperListbo
 {
     public function applications($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'     => 'application',
             'deselect' => true,

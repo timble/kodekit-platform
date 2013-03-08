@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher Response Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-interface KDispatcherResponseInterface extends KControllerResponseInterface, KDispatcherResponseTransportInterface, KServiceInstantiatable
+interface DispatcherResponseInterface extends ControllerResponseInterface, DispatcherResponseTransportInterface, ServiceInstantiatable
 {
 
 }

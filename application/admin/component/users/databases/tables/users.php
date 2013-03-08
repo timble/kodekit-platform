@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Users Database Table Class
  *
@@ -16,9 +18,9 @@
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersDatabaseTableUsers extends KDatabaseTableDefault
+class ComUsersDatabaseTableUsers extends Framework\DatabaseTableDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
 	{
         $config->append(array(
             'name'       => 'users',

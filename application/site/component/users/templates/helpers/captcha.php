@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Captcha template helper class
  *
@@ -16,7 +18,7 @@
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersTemplateHelperCaptcha extends KTemplateHelperDefault
+class ComUsersTemplateHelperCaptcha extends Framework\TemplateHelperDefault
 {
     /**
      * Renders the reCAPTCHA widget.
@@ -28,7 +30,7 @@ class ComUsersTemplateHelperCaptcha extends KTemplateHelperDefault
      */
     public function render($config = array()) {
 
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 
         $params = $this->getService('application.components')->users->params;
 
@@ -46,7 +48,7 @@ class ComUsersTemplateHelperCaptcha extends KTemplateHelperDefault
         $captcha = $config->captcha;
 
         if (!$public_key = $captcha->public_key) {
-            throw new InvalidArgumentException('public_key config option is required');
+            throw new \InvalidArgumentException('public_key config option is required');
         }
 
         if ($config->ssl) {
@@ -63,7 +65,7 @@ class ComUsersTemplateHelperCaptcha extends KTemplateHelperDefault
 
         // Use options if any.
         if (count($options = $captcha->options)) {
-            $options = KConfig::unbox($options);
+            $options = Framework\Config::unbox($options);
             $html .= '<script type="text/javascript">';
             $html .= 'var RecaptchaOptions = ' . json_encode($options);
             $html .= '</script> ';

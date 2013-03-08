@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Toolbar Class
  *
@@ -25,7 +27,7 @@ class ComCacheControllerToolbarDefault extends ComDefaultControllerToolbarDefaul
         return parent::getCommands();
     }
      
-    protected function _commandPurge(KControllerToolbarCommand $command)
+    protected function _commandPurge(Framework\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(

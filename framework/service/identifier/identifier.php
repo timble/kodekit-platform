@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Identifier
  *
@@ -16,7 +18,7 @@
  * @package     Koowa_Service
  * @subpackage  Identifier
  */
-class KServiceIdentifier implements KServiceIdentifierInterface
+class ServiceIdentifier implements ServiceIdentifierInterface
 {
     /**
      * An associative array of namespace paths
@@ -99,18 +101,18 @@ class KServiceIdentifier implements KServiceIdentifierInterface
      * Constructor
      *
      * @param   string   $identifier Identifier string or object in type://namespace/package.[.path].name format
-     * @throws  KServiceExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  ServiceExceptionInvalidIdentifier If the identifier is not valid
      */
     public function __construct($identifier)
     {
         //Check if the identifier is valid
         if(strpos($identifier, ':') === FALSE) {
-            throw new KServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
         }
 
         //Get the parts
         if(false === $parts = parse_url($identifier)) {
-            throw new KServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
         }
 
         // Set the type
@@ -212,7 +214,7 @@ class KServiceIdentifier implements KServiceIdentifierInterface
      * @param object    A KServiceLocator
      * @return void
      */
-    public static function addLocator(KServiceLocatorInterface $locator)
+    public static function addLocator(ServiceLocatorInterface $locator)
     {
         self::$_locators[$locator->getType()] = $locator;
     }

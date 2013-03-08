@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Flat Orderable Database Behavior Class
  *
@@ -17,18 +19,18 @@
 
 class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableAbstract implements ComPagesDatabaseBehaviorOrderableInterface
 {
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(Framework\CommandContext $context)
     {
         $query = $this->getService('lib://nooku/database.query.select')
             ->columns('MAX(ordering)');
         
         $this->_buildQuery($query);
         
-        $max = (int) $context->getSubject()->select($query, KDatabase::FETCH_FIELD);
+        $max = (int) $context->getSubject()->select($query, Framework\Database::FETCH_FIELD);
         $context->data->ordering = $max + 1;
     }
     
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $row = $context->data;
         if($row->order)
@@ -63,14 +65,14 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         }
     }
     
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         if($context->affected === false) {
             $this->_reorder($context);
         }
     }
     
-    protected function _afterTableDelete(KCommandContext $context)
+    protected function _afterTableDelete(Framework\CommandContext $context)
     {
         if($context->affected) {
             $this->_reorder($context);
@@ -79,12 +81,12 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
     
     protected function _buildQuery($query)
     {
-        if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate) {
-	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate');
+        if(!$query instanceof Framework\DatabaseQuerySelect && !$query instanceof Framework\DatabaseQueryUpdate) {
+	        throw new \InvalidArgumentException('Query must be an instance of Framework\DatabaseQuerySelect or Framework\DatabaseQueryUpdate');
 	    }
     }
     
-    protected function _reorder(KCommandContext $context)
+    protected function _reorder(Framework\CommandContext $context)
     {
         $table = $context->getSubject();
         $table->getAdapter()->execute('SET @index = 0');

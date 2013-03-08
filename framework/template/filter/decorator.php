@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template Decorator Filter
  *
@@ -16,13 +18,13 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterDecorator extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class TemplateFilterDecorator extends TemplateFilterAbstract implements TemplateFilterWrite
 {
     /**
 	 * Replace <ktml:content /> with the view contents
 	 *
 	 * @param string
-	 * @return KTemplateFilterDecorator
+	 * @return TemplateFilterDecorator
 	 */
 	public function write(&$text)
 	{

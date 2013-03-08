@@ -7,15 +7,17 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Helper
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KConfig
+ * @uses        Framework\Config
  */
-class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
+class ComDefaultTemplateHelperListbox extends Framework\TemplateHelperListbox
 {
     /**
      * Generates an HTML enabled listbox
@@ -25,7 +27,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
      */
     public function enabled( $config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
@@ -58,7 +60,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
      */
     public function published( $config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
@@ -91,7 +93,7 @@ class ComDefaultTemplateHelperListbox extends KTemplateHelperListbox
      */
     public function access($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'name'      => 'access',
             'attribs'   => array(),

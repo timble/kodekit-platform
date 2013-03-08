@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Revisable Database Behavior
  *
@@ -14,21 +16,21 @@
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
+class ComVersionsDatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * The versions_revisions table object
      *
-     * @var KDatabaseTableDefault
+     * @var Framework\DatabaseTableDefault
      */
     protected $_table;
 
     /**
      * Constructor
      *
-     * @param KConfig $config
+     * @param Framework\Config $config
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -45,10 +47,10 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig  $config An optional KConfig object with configuration options
+     * @param   Config  $config An optional Framework\Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
         	'table' => $this->getService('com://admin/versions.database.table.revisions')
@@ -67,17 +69,17 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * @param     object    The command context
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, KCommandContext $context)
+    public function execute($name, Framework\CommandContext $context)
     {
         $parts = explode('.', $name);
         if($parts[0] == 'after')
         {
-            if ($context->data instanceof KDatabaseRowInterface) {
+            if ($context->data instanceof Framework\DatabaseRowInterface) {
                 $this->setMixer(clone $context->data);
             }
         }
 
-        return KBehaviorAbstract::execute($name, $context);
+        return Nooku\Framework\BehaviorAbstract::execute($name, $context);
     }
 
 	/**
@@ -88,7 +90,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return void|false
 	 */
-	protected function _beforeTableSelect(KCommandContext $context)
+	protected function _beforeTableSelect(Framework\CommandContext $context)
 	{
         $query = $context->query;
 
@@ -96,7 +98,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         {
             $table = $context->getSubject();
 
-            $revisions = $this->_selectRevisions($table, KDatabase::STATUS_DELETED, $query);
+            $revisions = $this->_selectRevisions($table, Framework\Database::STATUS_DELETED, $query);
 
             if (!$query->isCountQuery())
             {
@@ -127,12 +129,12 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * Add a new revision of the row. We store a revision for a row that was just created to be able to create a
      * diff history later.
      *
-     * @param   KCommandContext $context
+     * @param   Framework\CommandContext $context
      * @return  void
      */
-    protected function _afterTableInsert(KCommandContext $context)
+    protected function _afterTableInsert(Framework\CommandContext $context)
     {
-        if($this->_countRevisions(KDatabase::STATUS_CREATED) == 0) {
+        if($this->_countRevisions(Framework\Database::STATUS_CREATED) == 0) {
     		$this->_insertRevision();
     	}
     }
@@ -142,16 +144,16 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      *
      * Add a new revision if the row exists and it hasn't been revised yet. If the row was deleted revert it.
      *
-     * @param  KCommandContext $context
+     * @param  Framework\CommandContext $context
      * @return void
      */
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
     	if(!$context->getSubject()->count($context->data->id))
     	{
             $this->setMixer($context->data);
 
-            if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
+            if($this->_countRevisions(Framework\Database::STATUS_DELETED) == 1)
             {
                 //Restore the row
                 $table = clone $context->getSubject();
@@ -162,7 +164,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
                 $context->data->setStatus('restored');
 
                 //Delete the revision
-                $context->affected = $this->_deleteRevisions(KDatabase::STATUS_DELETED);
+                $context->affected = $this->_deleteRevisions(Framework\Database::STATUS_DELETED);
 
                 //Prevent the item from being updated
                 return false;
@@ -181,10 +183,10 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      *
      * Add a new revision if the row was succesfully updated
      *
-     * @param   KCommandContext $context
+     * @param   Framework\CommandContext $context
      * @return  void
      */
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         // Only insert new revision if the database was updated
         if ((bool) $context->affected) {
@@ -198,22 +200,22 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      * Add a new revision if the row exists and it hasn't been revised yet. Delete the revisions for the row, if the
      * row was previously deleted.
      *
-     * @param  KCommandContext $context
+     * @param  Framework\CommandContext $context
      * @return void
      */
-    protected function _beforeTableDelete(KCommandContext $context)
+    protected function _beforeTableDelete(Framework\CommandContext $context)
     {
    		if (!$context->getSubject()->count($context->data->id))
    		{
             $this->setMixer($context->data);
 
-            if($this->_countRevisions(KDatabase::STATUS_DELETED) == 1)
+            if($this->_countRevisions(Framework\Database::STATUS_DELETED) == 1)
             {
                 //Delete the revision
                 $context->affected = $this->_deleteRevisions();
 
                 //Set the status
-                $context->data->setStatus(KDatabase::STATUS_DELETED);
+                $context->data->setStatus(Framework\Database::STATUS_DELETED);
 
                 //Prevent the item from being deleted
                 return false;
@@ -232,10 +234,10 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      *
      * After a row has been deleted, save the previously preseved data as revision with status deleted.
      *
-     * @param  KCommandContext $context
+     * @param  Framework\CommandContext $context
      * @return void
      */
-    protected function _afterTableDelete(KCommandContext $context)
+    protected function _afterTableDelete(Framework\CommandContext $context)
     {
     	//Insert the revision
         $this->_insertRevision();
@@ -249,10 +251,10 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
      *
      * @param  object  $table   A database table object
      * @param  string  $status  The row status
-     * @param  KDatabaseQueryInterface  $query   A database query object
-     * @return KDatabaseRowsetInterface
+     * @param  Framework\DatabaseQueryInterface  $query   A database query object
+     * @return Framework\DatabaseRowsetInterface
      */
-    protected function _selectRevisions($table, $status, KDatabaseQueryInterface $query)
+    protected function _selectRevisions($table, $status, Framework\DatabaseQueryInterface $query)
     {
         $columns = array(
         	'table'  => $table->getName(),
@@ -318,7 +320,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     	$table = $this->getTable();
 
     	// Get the row data
-    	if ($this->getStatus() == KDatabase::STATUS_UPDATED) {
+    	if ($this->getStatus() == Framework\Database::STATUS_UPDATED) {
             $data = $this->getData(true);
         } else {
             $data = $this->getData();
@@ -326,8 +328,8 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
 
         //Get the row status
         $status = $this->getStatus();
-        if ($status == KDatabase::STATUS_LOADED) {
-            $status = KDatabase::STATUS_CREATED;
+        if ($status == Framework\Database::STATUS_LOADED) {
+            $status = Framework\Database::STATUS_CREATED;
         }
 
     	// Create the new revision
@@ -361,7 +363,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
     	}
     	
     	// Set revision number.
-    	if ($status == KDatabase::STATUS_UPDATED || $status == KDatabase::STATUS_DELETED) 
+    	if ($status == Framework\Database::STATUS_UPDATED || $status == Framework\Database::STATUS_DELETED)
     	{
     	    $query = $this->getService('lib://nooku/database.query.select')
         	    ->where('table = :table')
@@ -372,7 +374,7 @@ class ComVersionsDatabaseBehaviorRevisable extends KDatabaseBehaviorAbstract
         	        'row'   => $this->id
         	    ));
         	
-        	$revision->revision = $this->_table->select($query, KDatabase::FETCH_ROW)->revision + 1;
+        	$revision->revision = $this->_table->select($query, Framework\Database::FETCH_ROW)->revision + 1;
     	}
 
         // Store the revision

@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Locator Interface
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Service
  * @subpackage 	Locator
  */
-interface KServiceLocatorInterface
+interface ServiceLocatorInterface
 {
 	/**
 	 * Get the classname based on an identifier
@@ -21,7 +23,7 @@ interface KServiceLocatorInterface
 	 * @param 	object 			An identifier object - [application::]type.package.[.path].name
 	 * @return 	string|false 	Returns the class on success, returns FALSE on failure
 	 */
-	public function findClass(KServiceIdentifier $identifier);
+	public function findClass(ServiceIdentifier $identifier);
 
 	 /**
      * Get the path based on an identifier
@@ -29,7 +31,7 @@ interface KServiceLocatorInterface
      * @param  object   An identifier object - [application::]type.package.[.path].name
      * @return string	Returns the path
      */
-    public function findPath(KServiceIdentifier $identifier);
+    public function findPath(ServiceIdentifier $identifier);
 
 	/**
 	 * Get the type

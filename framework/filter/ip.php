@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * IP filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterIP extends KFilterAbstract
+class FilterIP extends FilterAbstract
 {
 	/**
 	 * Validate a value

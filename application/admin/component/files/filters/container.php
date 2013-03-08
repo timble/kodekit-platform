@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Filter class for validating containers
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesFilterContainer extends KFilterAbstract
+class ComFilesFilterContainer extends Framework\FilterAbstract
 {
     protected $_walk = false;
 

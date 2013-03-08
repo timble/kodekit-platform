@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Exception Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Exception
  */
-interface KException
+interface Exception
 {
 	/**
 	 * Return the exception message

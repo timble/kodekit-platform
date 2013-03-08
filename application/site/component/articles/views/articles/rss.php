@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Articles RSS View Class
  *
@@ -14,7 +16,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesViewArticlesRss extends KViewRss
+class ComArticlesViewArticlesRss extends Framework\ViewRss
 {
     public function render()
     {

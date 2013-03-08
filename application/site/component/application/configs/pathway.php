@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Application Pathway Config
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationConfigPathway extends KConfig
+class ComApplicationConfigPathway extends Framework\Config
 {
     /**
      * Add item to pathway
@@ -25,7 +27,7 @@ class ComApplicationConfigPathway extends KConfig
      */
     public function addItem($name, $link = null)
     {
-        $item = new stdClass();
+        $item = new \stdClass();
         $item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');
         $item->link = $link;
 

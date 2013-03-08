@@ -1,4 +1,7 @@
 <?php
+
+use Nooku\Framework;
+
 interface ComPagesDatabaseBehaviorTypeInterface
 {
     public function getTypeTitle();

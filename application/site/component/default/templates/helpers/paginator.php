@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Paginator Helper
 .*
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
+class ComDefaultTemplateHelperPaginator extends Framework\TemplateHelperPaginator
 {
 	/**
 	 * Render a select box with limit values
@@ -24,7 +26,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
 	 */
 	public function limit($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Framework\Config($config);
 		$config->append(array(
             'attribs'   => array('onchange' => 'this.form.submit();'),
         ));

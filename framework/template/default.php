@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
  /**
   * Default Template class
   *
   * @author		Johan Janssens <johan@nooku.org>
   * @package	Koowa_Template
   */
-class KTemplateDefault extends KTemplateAbstract
+class TemplateDefault extends TemplateAbstract
 {
 
 }

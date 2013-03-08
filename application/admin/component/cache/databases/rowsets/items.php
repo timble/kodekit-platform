@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Cache Items Rowset Class
  *
@@ -17,9 +19,9 @@
  * @subpackage  Cache
  */
  
-class ComCacheDatabaseRowsetItems extends KDatabaseRowsetAbstract
+class ComCacheDatabaseRowsetItems extends Framework\DatabaseRowsetAbstract
 {	
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'identity_column' => 'hash'

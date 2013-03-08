@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Expirable Database Behavior Class
  *
@@ -14,7 +16,7 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
+class ComUsersDatabaseBehaviorExpirable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * The Expiration period
@@ -30,7 +32,7 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
      */
     protected $_expirable;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -38,7 +40,7 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
         $this->_expirable     = $config->expirable;
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $params = $this->getService('application.components')->users->params;
 
@@ -51,7 +53,7 @@ class ComUsersDatabaseBehaviorExpirable extends KDatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(Framework\CommandContext $context)
     {
         if ($this->_expirable) {
             $this->resetExpiration(false);

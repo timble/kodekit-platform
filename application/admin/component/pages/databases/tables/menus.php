@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Menus Database Table Class
  *
@@ -15,9 +17,9 @@
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseTableMenus extends KDatabaseTableDefault
+class ComPagesDatabaseTableMenus extends Framework\DatabaseTableDefault
 {
-    public function  _initialize(KConfig $config) 
+    public function  _initialize(Framework\Config $config)
     {		
         $config->append(array(
             'behaviors'  => array(

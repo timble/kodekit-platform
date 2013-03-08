@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Database Adapter
  *
@@ -15,7 +17,7 @@
  * @subpackage  Adapter
  * @uses         KPatternCommandChain
  */
-abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdapterInterface
+abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapterInterface
 {
     /**
      * Active state of the connection
@@ -76,7 +78,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     /**
      * The connection options
      *
-     * @var KConfig
+     * @var Config
      */
     protected $_options = null;
     
@@ -90,11 +92,11 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     /**
      * Constructor.
      *
-     * @param     object     An optional KConfig object with configuration options.
+     * @param     object     An optional Config object with configuration options.
      * Recognized key values include 'command_chain', 'charset', 'table_prefix',
      * (this list is not meant to be comprehensive).
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -121,7 +123,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
         $config->mixer = $this;
 
         // Mixin the command interface
-        $this->mixin(new KMixinCommand($config));
+        $this->mixin(new MixinCommand($config));
     }
 
     /**
@@ -139,10 +141,10 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options.
+     * @param     object     An optional Config object with configuration options.
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'options'          => array(),
@@ -162,7 +164,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     /**
      * Reconnect to the db
      *
-     * @return  KDatabaseAdapterAbstract
+     * @return  DatabaseAdapterAbstract
      */
     public function reconnect()
     {
@@ -175,7 +177,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     /**
      * Disconnect from db
      *
-     * @return  KDatabaseAdapterAbstract
+     * @return  DatabaseAdapterAbstract
      */
     public function disconnect()
     {
@@ -196,7 +198,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Set the database name
      *
      * @param     string     The database name
-     * @return  KDatabaseAdapterAbstract
+     * @return  DatabaseAdapterAbstract
      */
     abstract function setDatabase($database);
 
@@ -217,7 +219,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Set the connection
      *
      * @param     resource     The connection resource
-     * @return  KDatabaseAdapterAbstract
+     * @return  DatabaseAdapterAbstract
      */
     public function setConnection($resource)
     {
@@ -239,7 +241,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Set character set
      * 
      * @param string $charset The character set.
-     * @return KDatabaseAdapterAbstract
+     * @return DatabaseAdapterAbstract
      */
     public function setCharset($charset)
     {
@@ -263,53 +265,53 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      *
      * Use for SELECT and anything that returns rows.
      *
-     * @param    KDatabaseQuerySelect The query object.
+     * @param    DatabaseQuerySelect The query object.
      * @param   integer    The fetch mode. Controls how the result will be returned to the subject. This
-     *                     value must be one of the KDatabase::FETCH_* constants.
+     *                     value must be one of the Database::FETCH_* constants.
      * @param   string     The column name of the index to use.
-     * @throws  \InvalidArgumentException If the query is not an instance of KDatabaseQuerySelect or KDatabaseQueryShow
+     * @throws  \InvalidArgumentException If the query is not an instance of DatabaseQuerySelect or DatabaseQueryShow
      * @return  mixed     The return value of this function on success depends on the fetch type.
      *                    In all cases, FALSE is returned on failure.
      */
-    public function select(KDatabaseQueryInterface $query, $mode = KDatabase::FETCH_ARRAY_LIST, $key = '')
+    public function select(DatabaseQueryInterface $query, $mode = Database::FETCH_ARRAY_LIST, $key = '')
     {
-        if (!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryShow) {
-            throw new \InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryShow');
+        if (!$query instanceof DatabaseQuerySelect && !$query instanceof DatabaseQueryShow) {
+            throw new \InvalidArgumentException('Query must be an instance of DatabaseQuerySelect or DatabaseQueryShow');
         }
 
         $context  = $this->getCommandContext();
         $context->query     = $query;
-        $context->operation = KDatabase::OPERATION_SELECT;
+        $context->operation = Database::OPERATION_SELECT;
         $context->mode      = $mode;
 
         // Excute the insert operation
         if ($this->getCommandChain()->run('before.select', $context) !== false)
         {
-            if ($result = $this->execute($context->query, KDatabase::RESULT_USE))
+            if ($result = $this->execute($context->query, Database::RESULT_USE))
             {
                 switch ($context->mode)
                 {
-                    case KDatabase::FETCH_ARRAY       :
+                    case Database::FETCH_ARRAY       :
                         $context->result = $this->_fetchArray($result);
                         break;
 
-                    case KDatabase::FETCH_ARRAY_LIST  :
+                    case Database::FETCH_ARRAY_LIST  :
                         $context->result = $this->_fetchArrayList($result, $key);
                         break;
 
-                    case KDatabase::FETCH_FIELD       :
+                    case Database::FETCH_FIELD       :
                         $context->result = $this->_fetchField($result, $key);
                         break;
 
-                    case KDatabase::FETCH_FIELD_LIST  :
+                    case Database::FETCH_FIELD_LIST  :
                         $context->result = $this->_fetchFieldList($result, $key);
                         break;
 
-                    case KDatabase::FETCH_OBJECT      :
+                    case Database::FETCH_OBJECT      :
                         $context->result = $this->_fetchObject($result);
                         break;
 
-                    case KDatabase::FETCH_OBJECT_LIST :
+                    case Database::FETCH_OBJECT_LIST :
                         $context->result = $this->_fetchObjectList($result, $key);
                         break;
 
@@ -321,20 +323,20 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
             $this->getCommandChain()->run('after.select', $context);
         }
 
-        return KConfig::unbox($context->result);
+        return Config::unbox($context->result);
     }
 
     /**
      * Insert a row of data into a table.
      *
-     * @param KDatabaseQueryInsert The query object.
+     * @param  DatabaseQueryInsert The query object.
      * @return bool|integer  If the insert query was executed returns the number of rows updated, or 0 if
      *                          no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
-    public function insert(KDatabaseQueryInsert $query)
+    public function insert(DatabaseQueryInsert $query)
     {
         $context = $this->getCommandContext();
-        $context->operation = KDatabase::OPERATION_INSERT;
+        $context->operation = Database::OPERATION_INSERT;
         $context->query = $query;
 
         //Excute the insert operation
@@ -358,14 +360,14 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     /**
      * Update a table with specified data.
      *
-     * @param  KDatabaseQueryUpdate The query object.
+     * @param  DatabaseQueryUpdate The query object.
      * @return integer  If the update query was executed returns the number of rows updated, or 0 if
      *                     no rows where updated, or -1 if an error occurred. Otherwise FALSE.
      */
-    public function update(KDatabaseQueryUpdate $query)
+    public function update(DatabaseQueryUpdate $query)
     {
         $context = $this->getCommandContext();
-        $context->operation = KDatabase::OPERATION_UPDATE;
+        $context->operation = Database::OPERATION_UPDATE;
         $context->query     = $query;
 
         //Excute the update operation
@@ -388,13 +390,13 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
     /**
      * Delete rows from the table.
      *
-     * @param  KDatabaseQueryDelete The query object.
+     * @param  DatabaseQueryDelete The query object.
      * @return integer     Number of rows affected, or -1 if an error occured.
      */
-    public function delete(KDatabaseQueryDelete $query)
+    public function delete(DatabaseQueryDelete $query)
     {
         $context = $this->getCommandContext();
-        $context->operation = KDatabase::OPERATION_DELETE;
+        $context->operation = Database::OPERATION_DELETE;
         $context->query     = $query;
 
         //Excute the delete operation
@@ -414,18 +416,18 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Use and other queries that don't return rows
      *
      * @param  string      The query to run. Data inside the query should be properly escaped.
-     * @param  integer     The result made, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
-     *                     depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you
-     *                     use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync
+     * @param  integer     The result made, either the constant Database::RESULT_USE or Database::RESULT_STORE
+     *                     depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
+     *                     use Database::RESULT_USE all subsequent calls will return error Commands out of sync
      *                     unless you free the result first.
      * @throws \RuntimeException If the query could not be executed
      * @return boolean     For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
      *                     For other successful queries  return TRUE.
      */
-    public function execute($query, $mode = KDatabase::RESULT_STORE)
+    public function execute($query, $mode = Database::RESULT_STORE)
     {
         // Add or replace the database table prefix.
-        if (!($query instanceof KDatabaseQueryAbstract)) {
+        if (!($query instanceof DatabaseQueryAbstract)) {
             $query = $this->replaceTableNeedle($query);
         }
 
@@ -448,8 +450,8 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Set the table prefix
      *
      * @param string The table prefix
-     * @return KDatabaseAdapterAbstract
-     * @see KDatabaseAdapterAbstract::replaceTableNeedle
+     * @return DatabaseAdapterAbstract
+     * @see    DatabaseAdapterAbstract::replaceTableNeedle
      */
     public function setTablePrefix($prefix)
     {
@@ -461,7 +463,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Get the table prefix
      *
      * @return string The table prefix
-     * @see KDatabaseAdapterAbstract::replaceTableNeedle
+     * @see DatabaseAdapterAbstract::replaceTableNeedle
      */
     public function getTablePrefix()
     {
@@ -472,7 +474,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Get the table needle
      *
      * @return string The table needle
-     * @see KDatabaseAdapterAbstract::replaceTableNeedle
+     * @see DatabaseAdapterAbstract::replaceTableNeedle
      */
     public function getTableNeedle()
     {
@@ -631,7 +633,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Parse the raw table schema information
      *
      * @param   object  The raw table schema information
-     * @return KDatabaseSchemaTable
+     * @return DatabaseSchemaTable
      */
     abstract protected function _parseTableInfo($info);
 
@@ -639,7 +641,7 @@ abstract class KDatabaseAdapterAbstract extends KObject implements KDatabaseAdap
      * Parse the raw column schema information
      *
      * @param   object  The raw column schema information
-     * @return KDatabaseSchemaColumn
+     * @return DatabaseSchemaColumn
      */
     abstract protected function _parseColumnInfo($info);
 

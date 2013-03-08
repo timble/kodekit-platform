@@ -7,15 +7,17 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Site Database Row
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ComSitesDatabaseRowSite extends KDatabaseRowAbstract
+class ComSitesDatabaseRowSite extends Framework\DatabaseRowAbstract
 {       
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'identity_column'   => 'name'

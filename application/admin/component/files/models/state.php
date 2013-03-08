@@ -7,7 +7,9 @@
  * @link        http://www.nooku.org
  */
 
-class ComFilesModelState extends KModelState
+use Nooku\Framework;
+
+class ComFilesModelState extends Framework\ModelState
 {
 	public function get($name, $default = null)
     {
@@ -15,10 +17,10 @@ class ComFilesModelState extends KModelState
 
         if ($name === 'container' && is_string($result))
         {
-            $result = KServiceManager::get('com://admin/files.model.containers')->slug($result)->getRow();
+            $result =  Framework\ServiceManager::get('com://admin/files.model.containers')->slug($result)->getRow();
 
 	        if (!is_object($result) || $result->isNew()) {
-	            throw new UnexpectedValueException('Invalid container');
+	            throw new \UnexpectedValueException('Invalid container');
 	        }
 
 	        $this->_data['container']->value = $result;
@@ -35,7 +37,7 @@ class ComFilesModelState extends KModelState
         $data = parent::toArray($unique);
         unset($data['config']);
 
-        if (!empty($data['container']) && $data['container'] instanceof KDatabaseRowInterface) {
+        if (!empty($data['container']) && $data['container'] instanceof Framework\DatabaseRowInterface) {
             $data['container'] = $data['container']->slug;
         }
 

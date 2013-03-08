@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Remote File Database Row Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
+class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 {
 	/**
 	 * Adapters to use for remote access
@@ -23,7 +25,7 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 	 */
 	protected $_adapters = array();
 
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -32,7 +34,7 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 		}
 	}
 
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		if (empty($config->adapters)) {
 			$config->adapters = array('curl', 'fsockopen', 'fopen');
@@ -124,10 +126,10 @@ class ComFilesDatabaseRowUrl extends KDatabaseRowAbstract
 
 		$uri = $this->getService('lib://nooku/http.url', array('url' => $url));
 
-		$scheme = $uri->toString(KHttpUrl::SCHEME);
-		$host = $uri->toString(KHttpUrl::HOST);
-		$port = $uri->toString(KHttpUrl::PORT);
-		$path = $uri->toString(KHttpUrl::PATH | KHttpUrl::FORMAT | KHttpUrl::QUERY | KHttpUrl::FRAGMENT);
+		$scheme = $uri->toString(Framework\HttpUrl::SCHEME);
+		$host = $uri->toString(Framework\HttpUrl::HOST);
+		$port = $uri->toString(Framework\HttpUrl::PORT);
+		$path = $uri->toString(Framework\HttpUrl::PATH | Framework\HttpUrl::FORMAT | Framework\HttpUrl::QUERY | Framework\HttpUrl::FRAGMENT);
 
 		if ($scheme == 'https://') {
 			if (!in_array('ssl', stream_get_transports())) {

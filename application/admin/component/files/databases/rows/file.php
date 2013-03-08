@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * File Database Row Class
  *
@@ -19,7 +21,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -41,9 +43,9 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
         }
 
 		if ($context->result === false) {
-			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatus(Framework\Database::STATUS_FAILED);
 		} else {
-            $this->setStatus($is_new ? KDatabase::STATUS_CREATED : KDatabase::STATUS_UPDATED);
+            $this->setStatus($is_new ? Framework\Database::STATUS_CREATED : Framework\Database::STATUS_UPDATED);
         }
 
 		return $context->result;
@@ -160,7 +162,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		}
 	}
 
-	public function saveThumbnail(KCommandContext $context = null)
+	public function saveThumbnail(Framework\CommandContext $context = null)
 	{
 		$result = null;
 		if ($this->isImage() && $this->container->getParameters()->thumbnails)
@@ -176,7 +178,7 @@ class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
 		return $result;
 	}
 
-	public function deleteThumbnail(KCommandContext $context = null)
+	public function deleteThumbnail(Framework\CommandContext $context = null)
 	{
 		$thumb = $this->getService('com://admin/files.model.thumbnails')
 			->source($this)

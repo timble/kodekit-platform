@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Breadcrumbs Module Html View Class
  *
@@ -24,7 +26,7 @@ class ComPagesModuleBreadcrumbsHtml extends ComDefaultModuleDefaultHtml
 
         if($params->get('homeText'))
         {
-            $item = new stdClass();
+            $item = new \stdClass();
             $item->name = $params->get('homeText', JText::_('Home'));
 
             $home = $this->getService('application.pages')->getHome();

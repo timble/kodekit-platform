@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Specialized exception for remote files
  *
@@ -14,4 +16,4 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesDatabaseRowUrlException extends \Exception implements KException {}
+class ComFilesDatabaseRowUrlException extends \Exception implements Framework\Exception {}

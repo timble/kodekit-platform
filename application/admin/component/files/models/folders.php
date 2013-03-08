@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Folders Model Class
  *
@@ -17,7 +19,7 @@
 
 class ComFilesModelFolders extends ComFilesModelNodes
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -39,7 +41,7 @@ class ComFilesModelFolders extends ComFilesModelNodes
 			));
 
         	if ($folders === false) {
-        		throw new UnexpectedValueException('Invalid folder');
+        		throw new \UnexpectedValueException('Invalid folder');
         	}
 
 			$this->_total = count($folders);

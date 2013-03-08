@@ -1,4 +1,7 @@
 <?php
+
+use Nooku\Framework;
+
 class ComCommentsViewCommentsHtml extends ComDefaultViewHtml
 {
 	public function render()

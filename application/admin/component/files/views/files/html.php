@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Files Html View Class
  *
@@ -18,7 +20,7 @@
 
 class ComFilesViewFilesHtml extends ComDefaultViewHtml
 {
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		$config->auto_assign = false;
 

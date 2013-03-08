@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Container Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Service
  * @subpackage  Container
  */
-class KServiceContainer extends \ArrayObject implements KServiceContainerInterface
+class ServiceContainer extends \ArrayObject implements ServiceContainerInterface
 {
 
 }

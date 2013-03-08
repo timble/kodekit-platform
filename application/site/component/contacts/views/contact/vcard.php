@@ -7,6 +7,8 @@
 * @link			http://www.nooku.org
 */
 
+use Nooku\Framework;
+
 /**
  * Contact Vcard View
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsViewContactVcard extends KViewVcard
+class ComContactsViewContactVcard extends Framework\ViewVcard
 {
     public function render()
     {

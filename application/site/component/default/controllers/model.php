@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Model Controller
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerModel extends KControllerModel
+class ComDefaultControllerModel extends Framework\ControllerModel
 {
 	/**
 	 * The limit information
@@ -26,9 +28,9 @@ class ComDefaultControllerModel extends KControllerModel
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
+	 * @param 	object 	An optional Framework\Config object with configuration options.
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -40,10 +42,10 @@ class ComDefaultControllerModel extends KControllerModel
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Framework\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'limit' => array('max' => 100, 'default' => $this->getService('application')->getCfg('list_limit'))
@@ -55,10 +57,10 @@ class ComDefaultControllerModel extends KControllerModel
     /**
      * Display action
      *
-     * @param   KCommandContext A command context object
-     * @return  KDatabaseRow(set)   A row(set) object containing the data to display
+     * @param   Framework\CommandContext A command context object
+     * @return  Framework\DatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionRender(KCommandContext $context)
+    protected function _actionRender(Framework\CommandContext $context)
     {
         JFactory::getLanguage()->load($this->getIdentifier()->package);
         return parent::_actionRender($context);
@@ -70,10 +72,10 @@ class ComDefaultControllerModel extends KControllerModel
      * Use the application default limit if no limit exists in the model and limit the
      * limit to a maximum.
      *
-     * @param   KCommandContext A command context object
-     * @return  KDatabaseRow(set)   A row(set) object containing the data to display
+     * @param   Framework\CommandContext A command context object
+     * @return  Framework\DatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionBrowse(KCommandContext $context)
+    protected function _actionBrowse(Framework\CommandContext $context)
     {
         if($this->isDispatched())
         {

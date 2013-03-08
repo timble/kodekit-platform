@@ -7,7 +7,9 @@
  * @link        http://www.nooku.org
  */
 
-abstract class ComFilesAdapterLocalAbstract extends KObject
+use Nooku\Framework;
+
+abstract class ComFilesAdapterLocalAbstract extends Framework\Object
 {
 	/**
 	 * Path to the node
@@ -19,14 +21,14 @@ abstract class ComFilesAdapterLocalAbstract extends KObject
 	 */
 	protected $_handle = null;
 
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
 		$this->setPath($config->path);
 	}
 
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
 			'path' => ''

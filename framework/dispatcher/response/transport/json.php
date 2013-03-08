@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * JSON Dispatcher Response Transport Class
  *
@@ -16,7 +18,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class KDispatcherResponseTransportJson extends KDispatcherResponseTransportDefault
+class DispatcherResponseTransportJson extends DispatcherResponseTransportDefault
 {
     /**
      * The padding for JSONP
@@ -28,9 +30,9 @@ class KDispatcherResponseTransportJson extends KDispatcherResponseTransportDefau
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -42,10 +44,10 @@ class KDispatcherResponseTransportJson extends KDispatcherResponseTransportDefau
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options
+     * @param     object     An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'padding' => '',
@@ -59,7 +61,7 @@ class KDispatcherResponseTransportJson extends KDispatcherResponseTransportDefau
      *
      * @param string $callback
      * @throws \InvalidArgumentException If the padding is not a valid javascript identifier
-     * @return KDispatcherResponseTransportJson
+     * @return DispatcherResponseTransportJson
      */
     public function setCallback($callback)
     {
@@ -80,7 +82,7 @@ class KDispatcherResponseTransportJson extends KDispatcherResponseTransportDefau
     /**
      * Sends content for the current web response.
      *
-     * @return KDispatcherResponseTransportJson
+     * @return DispatcherResponseTransportJson
      */
     public function sendContent()
     {
@@ -99,7 +101,7 @@ class KDispatcherResponseTransportJson extends KDispatcherResponseTransportDefau
      * If not padding is set inspect the request query for a 'callback' parameter and use this.
      *
      * @see http://tools.ietf.org/html/rfc2616
-     * @return KDispatcherResponseTransportJson
+     * @return DispatcherResponseTransportJson
      */
     public function send()
     {

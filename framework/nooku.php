@@ -6,28 +6,23 @@
 */
 
 /**
- * Nooku constant, if true nooku is loaded
- */
-define('NOOKU', 1);
-
-/**
  * Nooku class
  *
- * Loads classes and files, and provides metadata for Koowa such as version info
+ * Loads classes and files, and provides metadata for Nooku such as version info
  *
  * @author  Johan Janssens <johan@nooku.org>
  */
 class Nooku
 {
     /**
-     * Koowa version
+     * Nooku version
      *
      * @var string
      */
     const VERSION = '12.3';
 
     /**
-     * Path to Koowa libraries
+     * Path to Nooku libraries
      *
      * @var string
      */
@@ -36,7 +31,7 @@ class Nooku
  	/**
      * Constructor
      *
-     * Prevent creating instances of this class by making the contructor private
+     * Prevent creating instances of this class by making the constructor private
      *
      * @param  array  An optional array with configuration options.
      */
@@ -50,10 +45,10 @@ class Nooku
 
         //Create the loader
         require_once $this->_path.'/loader/loader.php';
-        $loader = new KLoader($config);
+        $loader = new Nooku\Framework\Loader($config);
 
         //Create the service manager
-        $service = KServiceManager::getInstance($config);
+        $service = Nooku\Framework\ServiceManager::getInstance($config);
 
         //Add a 'loader' alias to the service manager
         $service->set('lib://nooku/loader', $loader);
@@ -71,7 +66,7 @@ class Nooku
      * Singleton instance
      *
      * @param  array  An optional array with configuration options.
-     * @return Koowa
+     * @return Nooku
      */
     final public static function getInstance($config = array())
     {
@@ -95,7 +90,7 @@ class Nooku
     }
 
     /**
-     * Get path to Koowa libraries
+     * Get path to Nooku libraries
      *
      * @return string
      */

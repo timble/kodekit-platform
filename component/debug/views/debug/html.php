@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Debug Html View
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class ComDebugViewDebugHtml extends KViewHtml
+class ComDebugViewDebugHtml extends Framework\ViewHtml
 {
     public function render()
     {

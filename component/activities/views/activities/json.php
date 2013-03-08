@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Activities JSON View Class
  *
@@ -14,7 +16,7 @@
  * @package Nooku\Component\Activities
  * @see 	http://activitystrea.ms/specs/json/1.0/
  */
-class ComActivitiesViewActivitiesJson extends KViewJson
+class ComActivitiesViewActivitiesJson extends Framework\ViewJson
 {
 	/**
 	 * Get the list data
@@ -48,7 +50,7 @@ class ComActivitiesViewActivitiesJson extends KViewJson
 			'href'     => (string) $route->setQuery($state->toArray()),
 			'url'      => array(
 				'type'     => 'application/json',
-				'template' => (string) $route->get(KHttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->get(Framework\HttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 			),
 			'offset'   => (int) $paginator->offset,
 			'limit'    => (int) $paginator->limit,
@@ -73,7 +75,7 @@ class ComActivitiesViewActivitiesJson extends KViewJson
 			foreach($list as $item)
 			{
 			    $id = array(
-			    	'tag:'.$this->getService('request')->getUrl()->toString(KHttpUrl::BASE),
+			    	'tag:'.$this->getService('request')->getUrl()->toString(Framework\HttpUrl::BASE),
 			    	'id:'.$item->id
 				);
 

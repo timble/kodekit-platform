@@ -6,17 +6,19 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * An Object Array Class
  *
- * The KObjectArray class provides provides the main functionality of an array and at the same time implement the
- * features of KObject
+ * The ObjectArray class provides provides the main functionality of an array and at the same time implement the
+ * features of Object
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa
  * @package     Koowa_Object
  */
-class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
+class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
 {
     /**
      * The data for each key in the array (key => value).
@@ -28,14 +30,14 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
     /**
      * Constructor
      *
-     * @param KConfig $config  An optional KConfig object with configuration options
-     * @return KObjectArray
+     * @param Config $config  An optional Config object with configuration options
+     * @return ObjectArray
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
-        $this->_data = KConfig::unbox($config->data);
+        $this->_data = Config::unbox($config->data);
     }
 
     /**
@@ -43,10 +45,10 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'data' => array(),
@@ -79,7 +81,7 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
      *
      * @param   string  $key   The key name
      * @param   mixed   $value The value for the key
-     * @return  KObjectArray
+     * @return  ObjectArray
      */
     public function set($key, $value)
     {
@@ -102,7 +104,7 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
      * Unset a key
      *
      * @param   string  $key The key name
-     * @return  KObjectArray
+     * @return  ObjectArray
      */
     public function remove($key)
     {
@@ -143,7 +145,7 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
      *
      * @param   int     $offset
      * @param   mixed   $value
-     * @return  KObjectArray
+     * @return  ObjectArray
      */
     public function offsetSet($offset, $value)
     {
@@ -164,7 +166,7 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
      * Required by interface ArrayAccess
      *
      * @param   int     $offset
-     * @return  KObjectArray
+     * @return  ObjectArray
      */
     public function offsetUnset($offset)
     {
@@ -185,7 +187,7 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
     /**
      * Serialize
      *
-     * Required by interface Serializable
+     * Required by interface \Serializable
      *
      * @return  string
      */
@@ -197,7 +199,7 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
     /**
      * Unserialize
      *
-     * Required by interface Serializable
+     * Required by interface \Serializable
      *
      * @param   string  $data
      */
@@ -222,7 +224,7 @@ class KObjectArray extends KObject implements \IteratorAggregate, \ArrayAccess, 
      * Set the data from an array
      *
      * @param array An associative array of data
-     * @return KObjectArray
+     * @return ObjectArray
      */
     public function fromArray(array $data)
     {

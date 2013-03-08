@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Article controller toolbar class.
  *
@@ -17,7 +19,7 @@
 
 class ComArticlesControllerToolbarArticle extends ComDefaultControllerToolbarDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array('controller' => 'com://site/articles.controller.article'));
 

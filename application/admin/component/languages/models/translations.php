@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Translations Model Class
  *
@@ -16,7 +18,7 @@
  */
 class ComLanguagesModelTranslations extends ComDefaultModelDefault
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
         
@@ -28,7 +30,7 @@ class ComLanguagesModelTranslations extends ComDefaultModelDefault
             ->insert('deleted', 'boolean', false);
     }
 
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();
@@ -61,7 +63,7 @@ class ComLanguagesModelTranslations extends ComDefaultModelDefault
         }
     }
     
-    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
     {
         if($this->sort == 'table')
         {

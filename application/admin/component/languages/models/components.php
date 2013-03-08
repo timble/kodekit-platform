@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Components Model Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesModelComponents extends KModelAbstract
+class ComLanguagesModelComponents extends Framework\ModelAbstract
 {
     
 }

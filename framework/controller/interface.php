@@ -6,25 +6,25 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
- * @uses        KMixinClass
- * @uses        KCommandChain
  */
-interface KControllerInterface
+interface ControllerInterface
 {
     /**
      * Execute an action by triggering a method in the derived class.
      *
      * @param   string     $action  The action to execute
      * @param   object	   $context  A command context object
-     * @throws  KControllerException If the action method doesn't exist
+     * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
-    public function execute($action, KCommandContext $context);
+    public function execute($action, CommandContext $context);
 
     /**
      * Gets the available actions in the controller.
@@ -36,45 +36,45 @@ interface KControllerInterface
     /**
      * Set the request object
      *
-     * @param KControllerRequestInterface $request A request object
-     * @return KControllerAbstract
+     * @param ControllerRequestInterface $request A request object
+     * @return ControllerAbstract
      */
-    public function setRequest(KControllerRequestInterface $request);
+    public function setRequest(ControllerRequestInterface $request);
 
     /**
      * Get the request object
      *
-     * @return KControllerRequestInterface
+     * @return ControllerRequestInterface
      */
     public function getRequest();
 
     /**
      * Set the response object
      *
-     * @param KControllerResponseInterface $request A request object
-     * @return KControllerAbstract
+     * @param ControllerResponseInterface $request A request object
+     * @return ControllerAbstract
      */
-    public function setResponse(KControllerResponseInterface $response);
+    public function setResponse(ControllerResponseInterface $response);
 
     /**
      * Get the response object
      *
-     * @return KControllerResponseInterface
+     * @return ControllerResponseInterface
      */
     public function getResponse();
 
     /**
      * Set the user object
      *
-     * @param KControllerUserInterface $user A request object
-     * @return KControllerUser
+     * @param ControllerUserInterface $user A request object
+     * @return ControllerUser
      */
-    public function setUser(KControllerUserInterface $user);
+    public function setUser(ControllerUserInterface $user);
 
     /**
      * Get the user object
      *
-     * @return KControllerUserInterface
+     * @return ControllerUserInterface
      */
     public function getUser();
 
@@ -84,7 +84,7 @@ interface KControllerInterface
      * @param   string  The action.
      * @param   string  The name of the method in the derived class to perform
      *                  for this action.
-     * @return  KControllerAbstract
+     * @return  ControllerAbstract
      */
     public function registerActionAlias($alias, $action);
 

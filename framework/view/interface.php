@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * View Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package		Koowa_View
  */
-interface KViewInterface
+interface ViewInterface
 {
     /**
      * Render the view
@@ -26,7 +28,7 @@ interface KViewInterface
      *
      * @param   string  The property name.
      * @param   mixed   The property value.
-     * @return KViewAbstract
+     * @return ViewAbstract
      */
     public function set($property, $value);
 
@@ -63,24 +65,24 @@ interface KViewInterface
      * Get the content
      *
      * @param  string $content The content of the view
-     * @return KViewAbstract
+     * @return ViewAbstract
      */
     public function setContent($content);
 
 	/**
 	 * Get the model object attached to the controller
 	 *
-	 * @return	KModelAbstract
+	 * @return	ModelAbstract
 	 */
 	public function getModel();
 	
 	/**
 	 * Method to set a model object attached to the view
 	 *
-	 * @param	mixed	An object that implements KServiceInterface, KServiceIdentifier object
+	 * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
 	 * 					or valid identifier string
 	 * @throws	\UnexpectedValueException	If the identifier is not a model identifier
-	 * @return	KViewAbstract
+	 * @return	ViewAbstract
 	 */
     public function setModel($model);
 

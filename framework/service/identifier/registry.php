@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Identifier Registry Class
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Service
  * @subpackage  Identifier
  */
-class KServiceIdentifierRegistry extends \ArrayObject
+class ServiceIdentifierRegistry extends \ArrayObject
 {
  	/**
  	 * Cache
@@ -93,7 +95,7 @@ class KServiceIdentifierRegistry extends \ArrayObject
      *
      * @param   int     The offset of the item
      * @param   mixed   The item's value
-     * @return  object  KObjectArray
+     * @return  object  ObjectArray
      */
     public function offsetSet($offset, $value)
     {

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Menu Controller Class
  *
@@ -16,7 +18,7 @@
  */
 class ComPagesControllerMenu extends ComDefaultControllerModel
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'request' => array('application' => 'site')

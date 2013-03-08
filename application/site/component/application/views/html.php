@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Html View Class
  *
@@ -15,20 +17,20 @@
  * @subpackage  Articles
  */
 
-class ComApplicationViewHtml extends KViewHtml
+class ComApplicationViewHtml extends Framework\ViewHtml
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
         $path  = $this->getService('request')->getBaseUrl()->getPath();
         $path .= '/theme/'.$this->getService('application')->getTheme().'/';
         $this->getTemplate()->getFilter('alias')->addAlias(
-            array($this->_mediaurl.'/application/' => $path), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
+            array($this->_mediaurl.'/application/' => $path), Framework\TemplateFilter::MODE_READ | Framework\TemplateFilter::MODE_WRITE
         );
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'auto_assign' => false,

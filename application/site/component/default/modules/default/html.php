@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Module View
  *
@@ -14,17 +16,17 @@
  * @package     Nooku_Modules
  * @subpackage  Default
  */
-class ComDefaultModuleDefaultHtml extends KViewTemplate
+class ComDefaultModuleDefaultHtml extends Framework\ViewTemplate
 {
     /**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $config An optional KConfig object with configuration options
+     * @param   Config $config An optional Framework\Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'mimetype'   => 'text/html',

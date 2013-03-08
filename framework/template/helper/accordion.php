@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Accordion Behavior Helper
  *
@@ -15,7 +17,7 @@
  * @subpackage	Helper
  * @uses		KArrayHelper
  */
-class KTemplateHelperAccordion extends KTemplateHelperBehavior
+class TemplateHelperAccordion extends TemplateHelperBehavior
 {
 	/**
 	 * Creates a pane and creates the javascript object for it
@@ -25,7 +27,7 @@ class KTemplateHelperAccordion extends KTemplateHelperBehavior
 	 */
 	public function startPane( $config = array() )
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 
 		$config->append(array(
 			'id'	=> 'accordions',
@@ -96,7 +98,7 @@ class KTemplateHelperAccordion extends KTemplateHelperBehavior
 	 */
 	public function startPanel($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Config($config);
 
 		$config->append(array(
 			'title'		=> 'Slide',
@@ -104,7 +106,7 @@ class KTemplateHelperAccordion extends KTemplateHelperBehavior
 			'translate'	=> true
 		));
 
-		$title   = $config->translate ? JText::_($config->title) : $config->title;
+		$title   = $config->translate ? \JText::_($config->title) : $config->title;
 		$attribs = $this->_buildAttributes($config->attribs);
 
 		$html = '<div class="panel"><h3 class="jpane-toggler title" '.$attribs.'><span>'.$title.'</span></h3><div class="jpane-slider content">';

@@ -6,23 +6,25 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * View Rss Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_View
  */
-class KViewRss extends KViewTemplate
+class ViewRss extends ViewTemplate
 {
     /**
      * Initializes the config for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options
+     * @param 	object 	An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'layout'   => 'rss',
@@ -59,7 +61,7 @@ class KViewRss extends KViewTemplate
 		    $name  = $this->getName();
 
 	        //Assign the data of the model to the view
-		    if(KInflector::isPlural($name))
+		    if(Inflector::isPlural($name))
 			{
 		        $this->$name = $model->getRowset();
 				$this->total = $model->getTotal();

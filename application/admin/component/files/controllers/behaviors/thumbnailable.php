@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Attach thumbnais to the rows if they are available
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerBehaviorThumbnailable extends KControllerBehaviorAbstract
+class ComFilesControllerBehaviorThumbnailable extends Framework\ControllerBehaviorAbstract
 {
-	protected function _afterControllerBrowse(KCommandContext $context)
+	protected function _afterControllerBrowse(Framework\CommandContext $context)
 	{
 		if (!$context->request->query->get('thumbnails', 'cmd') || $this->getModel()->container->parameters->thumbnails !== true) {
 			return;

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Exception Not Found Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class KControllerExceptionNotFound extends KHttpExceptionNotFound implements KControllerException {}
+class ControllerExceptionNotFound extends HttpExceptionNotFound implements ControllerException {}

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Router Class
  *
@@ -16,21 +18,21 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Router
  */
-interface KDispatcherRouterInterface
+interface DispatcherRouterInterface
 {
     /**
      * Function to convert a route to an internal URI
      *
-     * @param   KHttpUrl  $url  The url.
+     * @param   HttpUrl  $url  The url.
      * @return  boolean
      */
-	public function parse(KHttpUrl $uri);
+	public function parse(HttpUrl $uri);
 
     /**
      * Function to convert an internal URI to a route
      *
-     * @param	KhttpUrl   $url	The internal URL
+     * @param	HttpUrl   $url	The internal URL
      * @return	boolean
      */
-	public function build(KHttpUrl $url);
+	public function build(HttpUrl $url);
 }

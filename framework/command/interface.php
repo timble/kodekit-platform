@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Command Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
  */
-interface KCommandInterface extends KObjectHandlable
+interface CommandInterface extends ObjectHandlable
 {
 	/**
 	 * Generic Command handler
@@ -21,7 +23,7 @@ interface KCommandInterface extends KObjectHandlable
 	 * @param 	object  The command context
 	 * @return	boolean
 	 */
-	public function execute( $name, KCommandContext $context);
+	public function execute( $name, CommandContext $context);
 
 	/**
 	 * Get the priority of the command

@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller User Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage  User
  */
-class KControllerUser extends KUser implements KControllerUserInterface
+class ControllerUser extends User implements ControllerUserInterface
 {
     /**
      * Get a user attribute

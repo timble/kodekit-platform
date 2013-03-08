@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Nodes Database Rowset Class
  *
@@ -15,15 +17,15 @@
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseRowsetNodes extends KDatabaseRowsetAbstract
+class ComCategoriesDatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
 {
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KDatabaseRowsetAbstract
+     * @param Config|null $config  An optional Framework\Config object with configuration options
+     * @return \Framework\DatabaseRowsetAbstract
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -39,7 +41,7 @@ class ComCategoriesDatabaseRowsetNodes extends KDatabaseRowsetAbstract
      *
 	 * @param  array  	$list An associative array of row data to be inserted.
 	 * @param  boolean	$new If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-	 * @return  \KDatabaseRowsetAbstract
+	 * @return  \Framework\DatabaseRowsetAbstract
 	 * @see __construct
      */
 	public function addRow(array $list, $new = true)
@@ -48,7 +50,7 @@ class ComCategoriesDatabaseRowsetNodes extends KDatabaseRowsetAbstract
 		{
 		    $options = array(
             	'data'   => $row,
-                'status' => $new ? NULL : KDatabase::STATUS_LOADED,
+                'status' => $new ? NULL : Framework\Database::STATUS_LOADED,
                 'new'    => $new,   
             );
 		    

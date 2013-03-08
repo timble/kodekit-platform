@@ -5,13 +5,15 @@
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Behavior Class
  *
  * @author  Johan Janssens <johan@nooku.org>
  * @package Koowa_Behavior
  */
-abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInterface
+abstract class BehaviorAbstract extends MixinAbstract implements BehaviorInterface
 {
     /**
      * The behavior priority
@@ -23,23 +25,23 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
     /**
      * The service identifier
      *
-     * @var KServiceIdentifier
+     * @var ServiceIdentifier
      */
     private $__service_identifier;
 
     /**
      * The service manager
      *
-     * @var KServiceManager
+     * @var ServiceManager
      */
     private $__service_manager;
 
     /**
      * Constructor.
      *
-     * @param  KConfig $config  A KConfig object with configuration options
+     * @param  Config $config  A Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         //Set the service container
         if (isset($config->service_manager)) {
@@ -66,13 +68,13 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  KConfig $config A KConfig object with configuration options
+     * @param  Config $config A Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority' => KCommand::PRIORITY_NORMAL,
+            'priority' => Command::PRIORITY_NORMAL,
             'auto_mixin' => false
         ));
 
@@ -96,11 +98,11 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      * '_after[Command]. Command handler functions should be declared protected.
      *
      * @param   string           $name     The command name
-     * @param   KCommandContext  $context  The command context
+     * @param   CommandContext  $context  The command context
      *
      * @return  mixed  Method result if the method exsist, NULL otherwise.
      */
-    public function execute($name, KCommandContext $context)
+    public function execute($name, CommandContext $context)
     {
         $result = null;
 
@@ -150,7 +152,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      * @param KOject $mxier The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Object $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
         $methods['is' . ucfirst($this->getIdentifier()->name)] = function() { return true; };
@@ -171,7 +173,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      * @param    array            $config     An optional associative array of configuration settings.
      * @throws   RuntimeException If the service manager has not been defined.
      * @return   object          Return object on success, throws exception on failure
-     * @see      KServiceInterface
+     * @see      ServiceInterface
      */
     final public function getService($identifier = null, array $config = array())
     {
@@ -179,7 +181,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
         {
             if (!isset($this->__service_manager))
             {
-                throw new RuntimeException(
+                throw new \RuntimeException(
                     "Failed to call " . get_class($this) . "::getService(). No service_manager object defined."
                 );
             }
@@ -196,8 +198,8 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
      *
      * @param   string|object     $identifier The class identifier or identifier object
      * @throws  \RuntimeException If the service manager has not been defined.
-     * @return  KServiceIdentifier
-     * @see     KServiceInterface
+     * @return  ServiceIdentifier
+     * @see     ServiceInterface
      */
     final public function getIdentifier($identifier = null)
     {
@@ -205,7 +207,7 @@ abstract class KBehaviorAbstract extends KMixinAbstract implements KBehaviorInte
         {
             if (!isset($this->__service_manager))
             {
-                throw new RuntimeException(
+                throw new \RuntimeException(
                     "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
                 );
             }

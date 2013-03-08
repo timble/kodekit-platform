@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Files Model Class
  *
@@ -32,7 +34,7 @@ class ComFilesModelFiles extends ComFilesModelNodes
         	));
 
         	if ($files === false) {
-        		throw new UnexpectedValueException('Invalid folder');
+        		throw new \UnexpectedValueException('Invalid folder');
         	}
 
             $this->_total = count($files);

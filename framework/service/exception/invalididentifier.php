@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Exception Not Found Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class KServiceExceptionInvalidIdentifier extends \InvalidArgumentException implements KServiceException {}
+class ServiceExceptionInvalidIdentifier extends \InvalidArgumentException implements ServiceException {}

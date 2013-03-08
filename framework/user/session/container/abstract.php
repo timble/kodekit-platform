@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract User Session Container Class
  *
@@ -17,7 +19,7 @@
  * @package     Koowa_Session
  * @subpackage  Container
  */
-abstract class KUserSessionContainerAbstract extends KObjectArray implements KUserSessionContainerInterface
+abstract class UserSessionContainerAbstract extends ObjectArray implements UserSessionContainerInterface
 {
     /**
      * The root attribute session namespace
@@ -39,10 +41,10 @@ abstract class KUserSessionContainerAbstract extends KObjectArray implements KUs
     /**
      * Constructor
      *
-     * @param KConfig $config  An optional KConfig object with configuration options
-     * @return  KUserSessionContainerAbstract
+     * @param Config $config  An optional Config object with configuration options
+     * @return  UserSessionContainerAbstract
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -61,10 +63,10 @@ abstract class KUserSessionContainerAbstract extends KObjectArray implements KUs
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'namespace' => '_koowa_'.$this->getIdentifier()->name,
@@ -111,7 +113,7 @@ abstract class KUserSessionContainerAbstract extends KObjectArray implements KUs
      *
      * @param   mixed   $identifier Attribute identifier, eg foo.bar
      * @param   string  $value      Attribute value
-     * @return KUserSessionContainerAbstract
+     * @return UserSessionContainerAbstract
      */
     public function set($identifier, $value)
     {
@@ -150,7 +152,7 @@ abstract class KUserSessionContainerAbstract extends KObjectArray implements KUs
      * Removes an attribute
      *
      * @param string $identifier Attribute identifier, eg foo.bar
-     * @return KUserSessionContainerAbstract
+     * @return UserSessionContainerAbstract
      */
     public function remove($identifier)
     {
@@ -171,7 +173,7 @@ abstract class KUserSessionContainerAbstract extends KObjectArray implements KUs
     /**
      * Clears out all attributes
      *
-     * @return KUserSessionContainerAbstract
+     * @return UserSessionContainerAbstract
      */
     public function clear()
     {
@@ -183,7 +185,7 @@ abstract class KUserSessionContainerAbstract extends KObjectArray implements KUs
      * Adds new attributes the active session.
      *
      * @param array $attributes An array of attributes
-     * @return KUserSessionContainerAbstract
+     * @return UserSessionContainerAbstract
      */
     public function fromArray(array $attributes)
     {
@@ -218,7 +220,7 @@ abstract class KUserSessionContainerAbstract extends KObjectArray implements KUs
      * Load the attributes from the $_SESSION global
      *
      * @param array $session The session data to load by reference. Will use $_SESSION by default.
-     * @return KUserSessionContainerAbstract
+     * @return UserSessionContainerAbstract
      */
     public function loadSession(array &$session = null)
     {

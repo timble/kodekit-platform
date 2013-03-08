@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Alphanumeric filter.
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterAlnum extends KFilterAbstract
+class FilterAlnum extends FilterAbstract
 {
 	/**
 	 * Validate a variable

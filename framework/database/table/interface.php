@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Table Interface
  *
@@ -14,27 +16,27 @@
  * @package     Koowa_Database
  * @subpackage  Table
  */
-interface KDatabaseTableInterface
+interface DatabaseTableInterface
 {
     /**
      * Gets the database adapter
      *
-     * @return \KDatabaseAdapterInterface
+     * @return DatabaseAdapterInterface
      */
     public function getAdapter();
 
     /**
      * Set the database adapter
      *
-     * @param  \KDatabaseAdapterInterface $adapter A KDatabaseAdapterInterface object
-     * @return \KDatabaseQueryInterface
+     * @param  DatabaseAdapterInterface $adapter A DatabaseAdapterInterface object
+     * @return DatabaseQueryInterface
      */
-    public function setAdapter(KDatabaseAdapterInterface $adapter);
+    public function setAdapter(DatabaseAdapterInterface $adapter);
 
     /**
      * Test the connected status of the table
      *
-     * @return    boolean    Returns TRUE if we have a reference to a live KDatabaseAdapterAbstract object.
+     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseAdapterAbstract object.
      */
     public function isConnected();
 
@@ -65,7 +67,7 @@ interface KDatabaseTableInterface
     /**
      * Gets the schema of the table
      *
-     * @return  object|null Returns a KDatabaseSchemaTable object or NULL if the table doesn't exists
+     * @return  object|null Returns a DatabaseSchemaTable object or NULL if the table doesn't exists
      */
     public function getSchema();
 
@@ -73,7 +75,7 @@ interface KDatabaseTableInterface
      * Get a column by name
      *
      * @param  boolean  If TRUE, get the column information from the base table.
-     * @return KDatabaseColumn  Returns a KDatabaseSchemaColumn object or NULL if the column does not exist
+     * @return DatabaseColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
      */
     public function getColumn($columnname, $base = false);
 
@@ -81,7 +83,7 @@ interface KDatabaseTableInterface
      * Gets the columns for the table
      *
      * @param   boolean  If TRUE, get the column information from the base table.
-     * @return  array    Associative array of KDatabaseSchemaColumn objects
+     * @return  array    Associative array of DatabaseSchemaColumn objects
      */
     public function getColumns($base = false);
 
@@ -108,7 +110,7 @@ interface KDatabaseTableInterface
      *
      * @param string $column The name of the identity column
      * @throws \DomainException If the column is not unique
-     * @return \KDatabaseTableAbstract
+     * @return DatabaseTableAbstract
      */
     public function setIdentityColumn($column);
 
@@ -137,7 +139,7 @@ interface KDatabaseTableInterface
      * Get an instance of a row object for this table
      *
      * @param    array An optional associative array of configuration settings.
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function getRow(array $options = array());
 
@@ -145,7 +147,7 @@ interface KDatabaseTableInterface
      * Get an instance of a rowset object for this table
      *
      * @param    array An optional associative array of configuration settings.
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function getRowset(array $options = array());
 
@@ -154,17 +156,17 @@ interface KDatabaseTableInterface
      *
      * This function will return an empty rowset if called without a parameter.
      *
-     * @param mixed    $query KDatabaseQuery, query string, array of row id's, or an id or null
+     * @param mixed    $query DatabaseQuery, query string, array of row id's, or an id or null
      * @param integer  $mode  The database fetch style.
      * @param array    $state An optional associative array of configuration options.
-     * @return  KDatabaseRow(set) depending on the mode.
+     * @return  DatabaseRow(set) depending on the mode.
      */
-    public function select($query = null, $mode = KDatabase::FETCH_ROWSET, array $options = array());
+    public function select($query = null, $mode = Database::FETCH_ROWSET, array $options = array());
 
     /**
      * Count table rows
      *
-     * @param   mixed   KDatabaseQuery object or query string or null to count all rows
+     * @param   mixed   DatabaseQuery object or query string or null to count all rows
      * @return  int     Number of rows
      */
     public function count($query = null);
@@ -172,26 +174,26 @@ interface KDatabaseTableInterface
     /**
      * Table insert method
      *
-     * @param  object       A KDatabaseRow object
+     * @param  object       A DatabaseRow object
      * @return bool|integer Returns the number of rows inserted, or FALSE if insert query was not executed.
      */
-    public function insert(KDatabaseRowInterface $row);
+    public function insert(DatabaseRowInterface $row);
 
     /**
      * Table update method
      *
-     * @param  object           A KDatabaseRow object
+     * @param  object           A DatabaseRow object
      * @return boolean|integer  Returns the number of rows updated, or FALSE if insert query was not executed.
      */
-    public function update(KDatabaseRowTable $row);
+    public function update(DatabaseRowTable $row);
 
     /**
      * Table delete method
      *
-     * @param  object       A KDatabaseRow object
+     * @param  object       A DatabaseRow object
      * @return bool|integer Returns the number of rows deleted, or FALSE if delete query was not executed.
      */
-    public function delete(KDatabaseRowInterface $row);
+    public function delete(DatabaseRowInterface $row);
 
     /**
      * Lock the table.

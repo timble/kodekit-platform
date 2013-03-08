@@ -7,7 +7,9 @@
  * @link        http://www.nooku.org
  */
 
-class ComFilesAdapterLocalIterator extends KObject
+use Nooku\Framework;
+
+class ComFilesAdapterLocalIterator extends Framework\Object
 {
 	public function getFiles(array $config = array())
 	{

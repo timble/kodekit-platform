@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Route Template Helper Class
  *
@@ -18,7 +20,7 @@ class ComContactsTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 {
     public function contact($config = array())
 	{
-        $config   = new KConfig($config);
+        $config   = new Framework\Config($config);
         $config->append(array(
             'layout'   => null,
             'category' => null
@@ -47,7 +49,7 @@ class ComContactsTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new KConfig($config);
+        $config   = new Framework\Config($config);
         $config->append(array(
             'layout' => null
         ));

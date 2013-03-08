@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Helper Class
  *
@@ -14,7 +16,7 @@
  * @package		Koowa_Template
  * @subpackage	Helper
  */
-abstract class KTemplateHelperAbstract extends KObject implements KTemplateHelperInterface
+abstract class TemplateHelperAbstract extends Object implements TemplateHelperInterface
 {
 	/**
 	 * Template object
@@ -26,23 +28,23 @@ abstract class KTemplateHelperAbstract extends KObject implements KTemplateHelpe
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options
+	 * @param 	object 	An optional Config object with configuration options
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Config $config)
 	{
 		parent::__construct($config);
 
         /*if (is_null($config->template))
         {
-            throw new InvalidArgumentException(
-                'template [KTemplateInterface] config option is required'
+            throw new \InvalidArgumentException(
+                'template [TemplateInterface] config option is required'
             );
         }
 
-        if(!$config->template instanceof KTemplateInterface)
+        if(!$config->template instanceof TemplateInterface)
         {
-            throw new UnexpectedValueException(
-                'Template: '.get_class($config->template).' does not implement KTemplateInterface'
+            throw new \UnexpectedValueException(
+                'Template: '.get_class($config->template).' does not implement TemplateInterface'
             );
         }*/
 
@@ -70,8 +72,8 @@ abstract class KTemplateHelperAbstract extends KObject implements KTemplateHelpe
     {
         $output = array();
 
-        if($array instanceof KConfig) {
-            $array = KConfig::unbox($array);
+        if($array instanceof Config) {
+            $array = Config::unbox($array);
         }
 
         if(is_array($array))

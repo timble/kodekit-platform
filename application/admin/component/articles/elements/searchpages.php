@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Search Pages Element Class
  *
@@ -28,7 +30,7 @@ class JElementSearchpages extends JElement
 
         );
 
-        $html = KServiceManager::get('com://admin/articles.template.helper.listbox')->searchpages($config);
+        $html = Framework\ServiceManager::get('com://admin/articles.template.helper.listbox')->searchpages($config);
         return $html;
     }
 }

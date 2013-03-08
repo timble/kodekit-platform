@@ -7,6 +7,8 @@
  * @link       	http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Modules Model Class
  *
@@ -17,7 +19,7 @@
 
 class ComPagesModelModules extends ComDefaultModelDefault
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -33,14 +35,14 @@ class ComPagesModelModules extends ComDefaultModelDefault
             ->insert('name'       , 'cmd');
     }
 
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
         $query->columns(array('component_name' => 'components.name'));
     }
 
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         $query
             ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.modules_module_id = tbl.id')
@@ -49,7 +51,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
         parent::_buildQueryJoins($query);
     }
 
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
 
@@ -86,7 +88,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
         }
     }
 
-    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
 
@@ -112,7 +114,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
      *
      * This method is customized in order to set the default module type on new rows.
      *
-     * @return KDatabaseRow
+     * @return Framework\DatabaseRow
      */
     public function getRow()
     {
@@ -149,7 +151,7 @@ class ComPagesModelModules extends ComDefaultModelDefault
      * If the installed state is TRUE this function will return a list of the installed
      * modules.
      *
-     * @return KDatabaseRowsetInterface
+     * @return Framework\DatabaseRowsetInterface
      */
     public function getRowset()
     {

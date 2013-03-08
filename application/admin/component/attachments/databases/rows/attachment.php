@@ -1,6 +1,8 @@
 <?php
 
-class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
+use Nooku\Framework;
+
+class ComAttachmentsDatabaseRowAttachment extends Framework\DatabaseRowDefault
 {
 	public function save()
 	{
@@ -45,7 +47,7 @@ class ComAttachmentsDatabaseRowAttachment extends KDatabaseRowDefault
 	    if($name == 'relation' && !isset($this->relation))
 	    {
 	        $this->relation = $this->getService('com://admin/attachments.database.table.relations')
-	            ->select(array('attachments_attachment_id' => $this->id), KDatabase::FETCH_ROW);
+	            ->select(array('attachments_attachment_id' => $this->id), Framework\Database::FETCH_ROW);
 	    }
         
         if($name == 'file' && !isset($this->file))

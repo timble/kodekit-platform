@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
 {
 	public function move($target)

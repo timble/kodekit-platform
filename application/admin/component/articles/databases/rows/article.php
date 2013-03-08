@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Article Database Row Class
  *
@@ -14,8 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-
-class ComArticlesDatabaseRowArticle extends KDatabaseRowTable
+class ComArticlesDatabaseRowArticle extends Framework\DatabaseRowTable
 {
     public function __get($column)
     {
@@ -48,7 +49,7 @@ class ComArticlesDatabaseRowArticle extends KDatabaseRowTable
         //Validate the title
         if(empty($this->title))
         {
-            $this->_status          = KDatabase::STATUS_FAILED;
+            $this->_status          = Framework\Database::STATUS_FAILED;
             $this->_status_message  = JText::_('Article must have a title');
 
             return false;

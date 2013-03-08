@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Persistable Dispatcher Behavior Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage	Behavior
  */
-class KDispatcherBehaviorPersistable extends KControllerBehaviorAbstract
+class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 {
 	/**
 	 * Load the model state from the request and persist it.
@@ -22,10 +24,10 @@ class KDispatcherBehaviorPersistable extends KControllerBehaviorAbstract
 	 * This functions merges the request information with any model state information that was saved in the session
      * and returns the result.
 	 *
-	 * @param 	KCommandContext $context The active command context
+	 * @param 	CommandContext $context The active command context
 	 * @return 	void
 	 */
-	protected function _beforeControllerBrowse(KCommandContext $context)
+	protected function _beforeControllerBrowse(CommandContext $context)
 	{
 		$model = $this->getController()->getModel();
 
@@ -43,10 +45,10 @@ class KDispatcherBehaviorPersistable extends KControllerBehaviorAbstract
 	/**
 	 * Saves the model state in the session.
 	 *
-	 * @param 	KCommandContext $context The active command context
+	 * @param 	CommandContext $context The active command context
 	 * @return 	void
 	 */
-	protected function _afterControllerBrowse(KCommandContext $context)
+	protected function _afterControllerBrowse(CommandContext $context)
 	{
         $model  = $this->getController()->getModel();
 		$state  = $model->getState();

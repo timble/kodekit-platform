@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template Write Filter Interface
  *
@@ -16,13 +18,13 @@
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-interface KTemplateFilterWrite
+interface TemplateFilterWrite
 {
     /**
      * Parse the text and filter it
      *
      * @param string Block of text to parse
-     * @return KTemplateFilterWrite
+     * @return TemplateFilterWrite
      */
     public function write(&$text);
 }

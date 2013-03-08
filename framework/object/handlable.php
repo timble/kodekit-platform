@@ -6,6 +6,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Object Hashable interface
  *
@@ -13,7 +15,7 @@
  * @category    Koowa
  * @package     Koowa_Object
  */
-interface KObjectHandlable
+interface ObjectHandlable
 {
 	/**
 	 * Get the object handle

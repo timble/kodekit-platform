@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Database Query Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryInterface
+abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInterface
 {
     /**
      * Database adapter
@@ -33,10 +35,10 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return \KObjectDecorator
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return ObjectDecorator
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -49,10 +51,10 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'adapter' => 'lib://nooku/database.adapter.mysql',
@@ -64,7 +66,7 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
      * Bind values to a corresponding named placeholders in the query.
      *
      * @param  array $params Associative array of parameters.
-     * @return \KDatabaseQueryInterface
+     * @return DatabaseQueryInterface
      */
     public function bind(array $params)
     {
@@ -78,19 +80,19 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     /**
      * Get the query parameters
      *
-     * @throws	\UnexpectedValueException	If the params doesn't implement KObjectArray
-     * @return KObjectArray
+     * @throws	\UnexpectedValueException	If the params doesn't implement ObjectArray
+     * @return ObjectArray
      */
     public function getParams()
     {
-        if(!$this->_params instanceof KObjectArray)
+        if(!$this->_params instanceof ObjectArray)
         {
             $this->_params = $this->getService($this->_params);
 
-            if(!$this->_params instanceof KObjectArray)
+            if(!$this->_params instanceof ObjectArray)
             {
                 throw new \UnexpectedValueException(
-                    'Params: '.get_class($this->_params).' does not implement KObjectArray'
+                    'Params: '.get_class($this->_params).' does not implement ObjectArray'
                 );
             }
         }
@@ -101,10 +103,10 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     /**
      * Set the query parameters
      *
-     * @param KObjectArray $params  The query parameters
-     * @return KDatabaseQueryAbstract
+     * @param ObjectArray $params  The query parameters
+     * @return DatabaseQueryAbstract
      */
-    public function setParams(KObjectArray $params)
+    public function setParams(ObjectArray $params)
     {
         $this->_params = $params;
         return $this;
@@ -113,19 +115,19 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     /**
      * Gets the database adapter
      *
-     * @throws	\UnexpectedValueException	If the adapter doesn't implement KDatabaseAdapterInterface
-     * @return \KDatabaseAdapterInterface
+     * @throws	\UnexpectedValueException	If the adapter doesn't implement DatabaseAdapterInterface
+     * @return \DatabaseAdapterInterface
      */
     public function getAdapter()
     {
-        if(!$this->_adapter instanceof KDatabaseAdapterInterface)
+        if(!$this->_adapter instanceof DatabaseAdapterInterface)
         {
             $this->_adapter = $this->getService($this->_adapter);
 
-            if(!$this->_adapter instanceof KDatabaseAdapterInterface)
+            if(!$this->_adapter instanceof DatabaseAdapterInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Adapter: '.get_class($this->_adapter).' does not implement KDatabaseAdapterInterface'
+                    'Adapter: '.get_class($this->_adapter).' does not implement DatabaseAdapterInterface'
                 );
             }
         }
@@ -136,10 +138,10 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
     /**
      * Set the database adapter
      *
-     * @param \KDatabaseAdpaterInterface $adapter
-     * @return \KDatabaseQueryInterface
+     * @param DatabaseAdpaterInterface $adapter
+     * @return DatabaseQueryInterface
      */
-    public function setAdapter(KDatabaseAdapterInterface $adapter)
+    public function setAdapter(DatabaseAdapterInterface $adapter)
     {
         $this->_adapter = $adapter;
         return $this;
@@ -167,7 +169,7 @@ abstract class KDatabaseQueryAbstract extends KObject implements KDatabaseQueryI
         $key   = substr($matches[0], 1);
         $value = $this->_params[$key];
 
-        if(!$value instanceof KDatabaseQuerySelect) {
+        if(!$value instanceof DatabaseQuerySelect) {
             $value = is_object($value) ? (string) $value : $value;
             $replacement = $this->getAdapter()->quoteValue($value);
         }

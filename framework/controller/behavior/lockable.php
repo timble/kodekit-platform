@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Lockable Controller Behavior Class
  *
@@ -14,14 +16,14 @@
  * @package     Koowa_Controller
  * @subpackage  Behavior
  */
-class KControllerBehaviorLockable extends KControllerBehaviorAbstract
+class ControllerBehaviorLockable extends ControllerBehaviorAbstract
 {
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -35,16 +37,16 @@ class KControllerBehaviorLockable extends KControllerBehaviorAbstract
      *
      * Only lock if the context contains a row object and the view layout is 'form'.
      *
-     * @param   KCommandContext  $context The active command context
+     * @param   CommandContext  $context The active command context
      * @return  void
      */
-    public function lockEntity(KCommandContext $context)
+    public function lockEntity(CommandContext $context)
     {
-        if ($context->result instanceof KDatabaseRowInterface)
+        if ($context->result instanceof DatabaseRowInterface)
         {
             $view = $this->getView();
 
-            if ($view instanceof KViewTemplate)
+            if ($view instanceof ViewTemplate)
             {
                 if ($view->getLayout() == 'form' && $context->result->isLockable()) {
                     $context->result->lock();
@@ -56,12 +58,12 @@ class KControllerBehaviorLockable extends KControllerBehaviorAbstract
     /**
      * Unlock callback
      *
-     * @param  KCommandContext  $context    The active command context
+     * @param  CommandContext  $context    The active command context
      * @return void
      */
-    public function unlockEntity(KCommandContext $context)
+    public function unlockEntity(CommandContext $context)
     {
-        if ($context->result instanceof KDatabaseRowInterface && $context->result->isLockable()) {
+        if ($context->result instanceof DatabaseRowInterface && $context->result->isLockable()) {
             $context->result->unlock();
         }
     }

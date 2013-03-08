@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Exception Forbidden Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Http
  * @subpackage  Exception
  */
-class KHttpExceptionNotFound extends KHttpExceptionAbstract
+class HttpExceptionNotFound extends HttpExceptionAbstract
 {
-    protected $code = KHttpResponse::NOT_FOUND;
+    protected $code = HttpResponse::NOT_FOUND;
 }

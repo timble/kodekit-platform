@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Application Router Class
 .*
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationRouter extends KDispatcherRouter
+class ComApplicationRouter extends Framework\DispatcherRouter
 {
-    public function parse(KHttpUrl $url)
+    public function parse(Framework\HttpUrl $url)
 	{
 		// Get the path
         $path = trim($url->getPath(), '/');
@@ -35,7 +37,7 @@ class ComApplicationRouter extends KDispatcherRouter
 		return parent::parse($url);
 	}
 
-	public function build(KHttpUrl $url)
+	public function build(Framework\HttpUrl $url)
 	{
         $result = parent::build($url);
 
@@ -211,7 +213,7 @@ class ComApplicationRouter extends KDispatcherRouter
         $segments = array();
 
         $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(KHttpUrl::HOST)) {
+        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(Framework\HttpUrl::HOST)) {
             $segments[] = $site;
         }
 

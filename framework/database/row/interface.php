@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Row Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
+interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
 {
     /**
      * Set row field value
@@ -24,7 +26,7 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
      *
      * @param   string  The column name.
      * @param   mixed   The value for the property.
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function set($column, $value);
 
@@ -32,7 +34,7 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
      * Get row field value
      *
      * @param   string  The column name.
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function get($column);
 
@@ -47,9 +49,9 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
     /**
      * Set the row data
      *
-     * @param   mixed   Either and associative array, an object or a KDatabaseRow
+     * @param   mixed   Either and associative array, an object or a DatabaseRow
      * @param   boolean If TRUE, update the modified information for each column being set.
-     * @return  KDatabaseRowInterface
+     * @return  DatabaseRowInterface
      */
     public function setData( $data, $modified = true );
 
@@ -64,7 +66,7 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
      * Set the status
      *
      * @param   string|null     The status value or NULL to reset the status
-     * @return  KDatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function setStatus($status);
     
@@ -79,7 +81,7 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
      * Set the status message
      *
      * @param   string      The status message
-     * @return  KDatabaseRowAbstract
+     * @return  DatabaseRowAbstract
      */
     public function setStatusMessage($message);
 
@@ -103,21 +105,21 @@ interface KDatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Seria
      * This performs an intelligent insert/update and reloads the properties
      * with fresh data from the table on success.
      *
-     * @return KDatabaseRowInterface
+     * @return DatabaseRowInterface
      */
     public function save();
 
     /**
      * Deletes the row form the database.
      *
-     * @return KDatabaseRowInterface
+     * @return DatabaseRowInterface
      */
     public function delete();
 
     /**
      * Resets to the default properties
      *
-     * @return KDatabaseRowInterface
+     * @return DatabaseRowInterface
      */
     public function reset();
 

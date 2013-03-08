@@ -1,5 +1,8 @@
 <?php
-class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
+
+use Nooku\Framework;
+
+class ComAttachmentsTemplateHelperAttachment extends Framework\TemplateHelperAbstract
 {
 	/**
 	 * Builds the file upload control and initializes it's related javascript classes.
@@ -8,11 +11,11 @@ class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
 	 * specify both any MIME types and any corresponding extension. For more information, see 
 	 * from http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#attr-input-accept
 	 * 
-	 * @param 	object 	An optional KConfig object with configuration options
+	 * @param 	object 	An optional Framework\Config object with configuration options
 	 */
 	public function upload($config = array())
 	{
-		$config = new KConfig($config);		
+		$config = new Framework\Config($config);
 		$config->append(array(
 				'container'	 		 => 'document.body'
 		));
@@ -20,7 +23,7 @@ class ComAttachmentsTemplateHelperAttachment extends KTemplateHelperAbstract
 		if(!$config->allowed_extensions || !$config->allowed_mimetypes)
 		{
 			$container = $this->getService('com://admin/files.database.table.containers')
-							->select(array('slug' => 'attachments-attachments'), KDatabase::FETCH_ROW);
+							->select(array('slug' => 'attachments-attachments'), Framework\Database::FETCH_ROW);
 			
 			$config->append(array(
 					'allowed_extensions'  => $container->parameters->allowed_extensions,

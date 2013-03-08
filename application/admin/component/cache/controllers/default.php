@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Cache Default Controller
  *
@@ -19,7 +21,7 @@
  
 class ComCacheControllerDefault extends ComDefaultControllerModel
 { 
-    protected function _actionPurge(KCommandContext $context)
+    protected function _actionPurge(Framework\CommandContext $context)
     {
         //Purge the cache
         if(JFactory::getCache('')->gc()) {

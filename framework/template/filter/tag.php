@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template filter to parse tags
  *
@@ -14,20 +16,20 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-abstract class KTemplateFilterTag extends KTemplateFilterAbstract implements KTemplateFilterWrite
+abstract class TemplateFilterTag extends TemplateFilterAbstract implements TemplateFilterWrite
 {
 	/**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOW,
+            'priority'   => Command::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
@@ -39,7 +41,7 @@ abstract class KTemplateFilterTag extends KTemplateFilterAbstract implements KTe
      * This function will pre-pend the tags to the content
 	 *
 	 * @param string Block of text to parse
-	 * @return KTemplateFilterTag
+	 * @return TemplateFilterTag
 	 */
 	public function write(&$text)
 	{

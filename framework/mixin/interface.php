@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Mixes a chain of command behaviour into a class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
  */
-interface KMixinInterface extends KObjectHandlable
+interface MixinInterface extends ObjectHandlable
 {
     /**
      * Get the methods that are available for mixin.
@@ -22,7 +24,7 @@ interface KMixinInterface extends KObjectHandlable
      * @param object The mixer requesting the mixable methods.
      * @return array An array of public methods
      */
-    public function getMixableMethods(KObject $mixer = null);
+    public function getMixableMethods(Object $mixer = null);
 
     /**
      * Mixin Notifier
@@ -30,9 +32,9 @@ interface KMixinInterface extends KObjectHandlable
      * This function is called when the mixin is being mixed. It will get the mixer passed in.
      *
      * @param object $mixer The mixer object
-     * @return KMixinInterface
+     * @return MixinInterface
      */
-    public function onMixin(KObject $mixer);
+    public function onMixin(Object $mixer);
 
 	/**
      * Get the mixer object
@@ -45,7 +47,7 @@ interface KMixinInterface extends KObjectHandlable
      * Set the mixer object
      *
      * @param object The mixer object
-     * @return KMixinInterface
+     * @return MixinInterface
      */
     public function setMixer($mixer);
 }

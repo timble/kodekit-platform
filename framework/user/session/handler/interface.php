@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * User Session Handler Interface
  *
@@ -15,7 +17,7 @@
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-interface KUserSessionHandlerInterface
+interface UserSessionHandlerInterface
 {
     /**
      * Initialize the session handler backend

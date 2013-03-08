@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Export a view as a CSV file
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_View
  */
-class KViewCsv extends KViewFile
+class ViewCsv extends ViewFile
 {
 	/**
 	 * Character used for quoting
@@ -40,10 +42,10 @@ class KViewCsv extends KViewFile
 	 *
 	 * Called from {@link __construct()} as a first step of object instantiation.
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options
+	 * @param 	object 	An optional Config object with configuration options
 	 * @return  void
 	 */
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Config $config)
 	{
 		$config->append(array(
 			'version'     => '1.0',

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Mate Template Filter Class
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateFilterMeta extends KTemplateFilterMeta
+class ComApplicationTemplateFilterMeta extends Framework\TemplateFilterMeta
 {
     public function write(&$text)
     {

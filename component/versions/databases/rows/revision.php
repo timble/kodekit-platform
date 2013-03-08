@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Revision Database Row
  *
@@ -14,7 +16,7 @@
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsDatabaseRowRevision extends KDatabaseRowTable
+class ComVersionsDatabaseRowRevision extends Framework\DatabaseRowTable
 {
 	public function __get($column)
     {

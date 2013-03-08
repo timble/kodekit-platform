@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * An Object Decorator Class
  *
  * @author  Johan Janssens <johan@nooku.org>
  * @package Koowa_Object
  */
-class KObjectDecorator extends KObject
+class ObjectDecorator extends Object
 {
     /**
      * Class methods
@@ -31,10 +33,10 @@ class KObjectDecorator extends KObject
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return KObjectDecorator
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return ObjectDecorator
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -55,7 +57,7 @@ class KObjectDecorator extends KObject
      * Set the decorated object
      *
      * @param   object $object
-     * @return  KObjectDecorator
+     * @return  ObjectDecorator
      */
     public function setObject($object)
     {
@@ -78,7 +80,7 @@ class KObjectDecorator extends KObject
             $methods = array();
             $object = $this->getObject();
 
-            if (!($object instanceof KObjectMixable))
+            if (!($object instanceof ObjectMixable))
             {
                 $reflection = new \ReflectionClass($object);
                 foreach ($reflection->getMethods() as $method) {
@@ -104,7 +106,7 @@ class KObjectDecorator extends KObject
         $result = false;
         $object = $this->getObject();
 
-        if ($object instanceof KObjectMixable) {
+        if ($object instanceof ObjectMixable) {
             $result = $object->inherits($class);
         } else {
             $result = $object instanceof $class;
@@ -169,7 +171,7 @@ class KObjectDecorator extends KObject
      *
      * @param  string     $method    The function name
      * @param  array      $arguments The function arguments
-     * @throws BadMethodCallException     If method could not be found
+     * @throws \BadMethodCallException     If method could not be found
      * @return mixed The result of the function
      */
     public function __call($method, $arguments)
@@ -177,7 +179,7 @@ class KObjectDecorator extends KObject
         $object = $this->getObject();
 
         //Check if the method exists
-        if ($object instanceof KObjectMixable)
+        if ($object instanceof ObjectMixable)
         {
             $methods = $object->getMethods();
             $exists = in_array($method, $methods);

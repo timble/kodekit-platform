@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * User Controller Class
  *
@@ -18,7 +20,7 @@
  */
 class ComUsersControllerUser extends ComDefaultControllerModel
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -26,7 +28,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
              ->registerCallback('after.add', array($this, 'notify'));
 	}
     
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -48,7 +50,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
         return $request;
     }
 
-    public function _actionRender(KCommandContext $context)
+    public function _actionRender(Framework\CommandContext $context)
     {
         if($context->request->query-get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
@@ -60,7 +62,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
         return parent::_actionRender($context);
     }
 
-    protected function _actionAdd(KCommandContext $context) {
+    protected function _actionAdd(Framework\CommandContext $context) {
 
         $params = $this->getService('application.components')->users->params;
         $context->request->data->role_id = $params->get('new_usertype', 18);
@@ -68,7 +70,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
         return parent::_actionAdd($context);
     }
     
-    protected function _actionEdit(KCommandContext $context)
+    protected function _actionEdit(Framework\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
         
@@ -79,16 +81,16 @@ class ComUsersControllerUser extends ComDefaultControllerModel
         return $entity;
     }
 
-    public function notify(KCommandContext $context)
+    public function notify(Framework\CommandContext $context)
     {
         $user = $context->result;
 
-        if ($user->getStatus() == KDatabase::STATUS_CREATED && $user->activation) {
+        if ($user->getStatus() == Framework\Database::STATUS_CREATED && $user->activation) {
 
             $url       = $this->getService('lib://nooku/http.url',
                 array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
             $this->getService('application')->getRouter()->build($url);
-            $site_url       = $context->request->getUrl()->toString(KHttpUrl::SCHEME | KHttpUrl::HOST | KHttpUrl::PORT);
+            $site_url       = $context->request->getUrl()->toString(Framework\HttpUrl::SCHEME | Framework\HttpUrl::HOST | Framework\HttpUrl::PORT);
             $activation_url = $site_url . '/' . $url;
 
             $subject = JText::_('User Account Activation');
@@ -99,7 +101,7 @@ class ComUsersControllerUser extends ComDefaultControllerModel
         }
     }
 
-    public function sanitizeRequest(KCommandContext $context)
+    public function sanitizeRequest(Framework\CommandContext $context)
     {
         // Unset some variables because of security reasons.
         foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {

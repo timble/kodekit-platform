@@ -6,14 +6,16 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
- * KInflector to pluralize and singularize English nouns.
+ * Inflector to pluralize and singularize English nouns.
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package		Koowa_Inflector
  * @static
  */
-class KInflector
+class Inflector
 {
    	/**
 	 * Rules for pluralizing and singularizing of nouns.

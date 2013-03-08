@@ -7,6 +7,7 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
 
 /**
  * Date Helper
@@ -15,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
+class ComDefaultTemplateHelperBehavior extends Framework\TemplateHelperBehavior
 {
     /**
      * Keep session alive
@@ -35,7 +36,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
             //Refresh time is 1 minute less than the liftime
             $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 
-            $config = new KConfig($config);
+            $config = new Framework\Config($config);
             $config->append(array(
                 'refresh' => $refresh
             ));

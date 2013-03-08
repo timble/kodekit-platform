@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Taggable Database Behavior
  *   
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
+class ComTermsDatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of tags
@@ -36,7 +38,7 @@ class ComTermsDatabaseBehaviorTaggable extends KDatabaseBehaviorAbstract
 	 * If the query's where information includes a tag propery, auto-join the terms tables
 	 * with the query and select all the rows that are tagged with the term.
 	 */
-	protected function _beforeTableSelect(KCommandContext $context)
+	protected function _beforeTableSelect(Framework\CommandContext $context)
 	{
 		$query = $context->query;
 		

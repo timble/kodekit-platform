@@ -6,6 +6,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Tidy filter.
  *
@@ -16,7 +18,7 @@
  * @package     Koowa_Filter
  * @see         http://tidy.sourceforge.net/docs/quickref.html
  */
-class KFilterTidy extends KFilterAbstract
+class FilterTidy extends FilterAbstract
 {
     /**
      * A tidy object
@@ -42,14 +44,14 @@ class KFilterTidy extends KFilterAbstract
     /**
      * Constructor
      *
-     * @param  object  An optional KConfig object with configuration options
+     * @param  object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         $this->_encoding = $config->encoding;
-        $this->_options  = KConfig::unbox($config->options);
+        $this->_options  = Config::unbox($config->options);
     }
 
  	/**
@@ -57,10 +59,10 @@ class KFilterTidy extends KFilterAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'encoding'      => 'utf8',

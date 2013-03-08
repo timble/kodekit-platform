@@ -1,5 +1,8 @@
 <?php
-class ComPagesDatabaseBehaviorTypable extends KDatabaseBehaviorAbstract
+
+use Nooku\Framework;
+
+class ComPagesDatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
 {
     protected $_strategy;
 
@@ -21,14 +24,14 @@ class ComPagesDatabaseBehaviorTypable extends KDatabaseBehaviorAbstract
         'getLink'
     );
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
         $this->_populateStrategies();
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'auto_mixin' => true
@@ -37,7 +40,7 @@ class ComPagesDatabaseBehaviorTypable extends KDatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
@@ -86,7 +89,7 @@ class ComPagesDatabaseBehaviorTypable extends KDatabaseBehaviorAbstract
         return array_fill_keys($this->_methods, $this);
     }
 
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Framework\Object $mixer = null)
     {
         $methods = array_fill_keys($this->_mixable_methods, $this);
         $methods['is'.ucfirst($this->getIdentifier()->name)] = function() { return true; };
@@ -94,7 +97,7 @@ class ComPagesDatabaseBehaviorTypable extends KDatabaseBehaviorAbstract
         return $methods;
     }
 
-    public function execute($name, KCommandContext $context)
+    public function execute($name, Framework\CommandContext $context)
     {
         if($name == 'before.insert' || $name == 'before.update')
         {

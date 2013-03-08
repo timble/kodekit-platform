@@ -6,14 +6,16 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract View Controller Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
- * @uses        KInflector
+ * @uses        Inflector
  */
-abstract class KControllerView extends KControllerAbstract
+abstract class ControllerView extends ControllerAbstract
 {
 	/**
 	 * View object or identifier
@@ -25,9 +27,9 @@ abstract class KControllerView extends KControllerAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
+	 * @param 	object 	An optional Config object with configuration options.
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Config $config)
 	{
 		parent::__construct($config);
 
@@ -36,7 +38,7 @@ abstract class KControllerView extends KControllerAbstract
 
 		// Mixin the toolbar
 		if($config->dispatch_events) {
-            $this->mixin(new KMixinToolbar($config->append(array('mixer' => $this))));
+            $this->mixin(new MixinToolbar($config->append(array('mixer' => $this))));
 		}
 	}
 	
@@ -45,10 +47,10 @@ abstract class KControllerView extends KControllerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         //Create permission identifier
         $permission       = clone $this->getIdentifier();
@@ -69,43 +71,43 @@ abstract class KControllerView extends KControllerAbstract
      * an exception. This is a security measure to make sure we can only explicitly get data from views the have been
      * physically defined.
 	 *
-	 * @throws  KControllerExceptionNotFond If the view cannot be found. Only when controller is being dispatched.
-     * @throws	\UnexpectedValueException	If the views doesn't implement the KViewInterface
-	 * @return	KViewInterface
+	 * @throws  ControllerExceptionNotFond If the view cannot be found. Only when controller is being dispatched.
+     * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
+	 * @return	ViewInterface
 	 *
 	 */
 	public function getView()
 	{
-        if(!$this->_view instanceof KViewInterface)
+        if(!$this->_view instanceof ViewInterface)
 		{
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof KServiceIdentifier)) {
+		    if(!($this->_view instanceof ServiceIdentifier)) {
 		        $this->setView($this->_view);
 			}
 
 			//Create the view
 			$config = array(
                 'media_url' => $this->getService('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getService('request')->getUrl()->toString(KHttpUrl::BASE ^ KHttpUrl::USER ^ KHttpUrl::PASS),
+			    'base_url'	=> $this->getService('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
                 'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
 			$this->_view = $this->getService($this->_view, $config);
 
-            //Make sure the view implements KViewInterface
-            if(!$this->_view instanceof KViewInterface)
+            //Make sure the view implements ViewInterface
+            if(!$this->_view instanceof ViewInterface)
             {
                 throw new \UnexpectedValueException(
-                    'View: '.get_class($this->_view).' does not implement KViewInterface'
+                    'View: '.get_class($this->_view).' does not implement ViewInterface'
                 );
             }
 
 			//Make sure the view exists if we are dispatching this controller
             if($this->isDispatched())
             {
-                if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
-                    throw new KControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
-                }
+                //if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
+                //    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
+                //}
             }
 		}
 
@@ -115,13 +117,13 @@ abstract class KControllerView extends KControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements KServiceInterface, KServiceIdentifier object
+	 * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
 	 * 					or valid identifier string
-	 * @return	KControllerView
+	 * @return	ControllerView
 	 */
 	public function setView($view)
 	{
-		if(!($view instanceof KViewInterface))
+		if(!($view instanceof ViewInterface))
 		{
 			if(is_string($view) && strpos($view, '.') === false )
 		    {
@@ -144,10 +146,10 @@ abstract class KControllerView extends KControllerAbstract
      *
      * This function will also set the rendered output in the response.
 	 *
-	 * @param	KCommandContext	A command context object
+	 * @param	CommandContext	A command context object
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
-	protected function _actionRender(KCommandContext $context)
+	protected function _actionRender(CommandContext $context)
 	{
 	    $view = $this->getView();
 
@@ -178,7 +180,7 @@ abstract class KControllerView extends KControllerAbstract
 	 *
 	 * @param	string	Method name
 	 * @param	array	Array containing all the arguments for the original call
-	 * @return	KControllerView
+	 * @return	ControllerView
 	 *
 	 * @see http://martinfowler.com/bliki/FluentInterface.html
 	 */

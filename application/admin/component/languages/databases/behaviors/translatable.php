@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Translatable Database Behavior Class
  *
@@ -15,11 +17,11 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract implements KServiceInstantiatable
+class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract implements Framework\ServiceInstantiatable
 {
     protected $_tables;
     
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
         
@@ -28,7 +30,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
             ->getRowset();
     }
     
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if(!$manager->has($config->service_identifier))
         {
@@ -43,7 +45,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
     public function getHandle()
     {
         // If table is not enabled, return null to prevent enqueueing.
-        $table = $this->getMixer() instanceof KDatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
+        $table = $this->getMixer() instanceof Framework\DatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
         $needle = array(
             'name' => $table->getBase(),
             'component_name' => 'com_'.$table->getIdentifier()->package
@@ -52,14 +54,14 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         return count($this->_tables->find($needle)) ? parent::getHandle() : null;
     }
     
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Framework\Object $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
         
         if(!is_null($mixer))
         {
             // If table is not enabled, don't mix the methods.
-            $table  = $mixer instanceof KDatabaseTableInterface ? $mixer : $mixer->getTable();
+            $table  = $mixer instanceof Framework\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name' => $table->getBase(),
                 'component_name' => 'com_'.$table->getIdentifier()->package
@@ -94,7 +96,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         return $translations;
     }
     
-    protected function _beforeTableSelect(KCommandContext $context)
+    protected function _beforeTableSelect(Framework\CommandContext $context)
     {
         if($query = $context->query)
         {
@@ -139,7 +141,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         }
     }
     
-    protected function _afterTableInsert(KCommandContext $context)
+    protected function _afterTableInsert(Framework\CommandContext $context)
     {
         if($context->affected)
         {
@@ -192,7 +194,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         }
     }
     
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(Framework\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $active    = $languages->getActive();
@@ -203,7 +205,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         }
     }
     
-    protected function _afterTableUpdate(KCommandContext $context)
+    protected function _afterTableUpdate(Framework\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $primary   = $languages->getPrimary();
@@ -216,7 +218,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
                 'iso_code' => $active->iso_code,
                 'table'    => $context->table,
                 'row'      => $context->data->id
-            ), KDatabase::FETCH_ROW);
+            ), Framework\Database::FETCH_ROW);
         
         $translation->setData(array(
             'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
@@ -261,7 +263,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         }
     }
     
-    protected function _beforeTableDelete(KCommandContext $context)
+    protected function _beforeTableDelete(Framework\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $active    = $languages->getActive();
@@ -272,9 +274,9 @@ class ComLanguagesDatabaseBehaviorTranslatable extends KDatabaseBehaviorAbstract
         }
     }
     
-    protected function _afterTableDelete(KCommandContext $context)
+    protected function _afterTableDelete(Framework\CommandContext $context)
     {
-        if($context->data->getStatus() == KDatabase::STATUS_DELETED)
+        if($context->data->getStatus() == Framework\Database::STATUS_DELETED)
         {
             $languages = $this->getService('application.languages');
             $primary   = $languages->getPrimary();

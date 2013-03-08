@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Path Filter Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesFilterPath extends KFilterAbstract
+class ComFilesFilterPath extends Framework\FilterAbstract
 {
     protected static $_safepath_pattern = array('#(\.){2,}#', '#^\.#');
 

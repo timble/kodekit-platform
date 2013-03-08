@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Form Template Helper Class
  *
@@ -14,17 +16,17 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
+class ComArticlesTemplateHelperForm extends Framework\TemplateHelperDefault
 {
     public function publish($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 
         $article = $config->row;
 
         if ($article->isNew())
         {
-            $date       = new KDate();
+            $date       = new Framework\Date();
             $publish_on = $date->format('Y-m-d H:i:s');
         }
         else $publish_on = $article->publish_on;
@@ -40,7 +42,7 @@ class ComArticlesTemplateHelperForm extends KTemplateHelperDefault
 
     public function unpublish($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 
         $article = $config->row;
 

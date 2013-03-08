@@ -7,6 +7,8 @@
  * @link         http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Expire Template Filter
  *
@@ -17,7 +19,7 @@
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class KTemplateFilterExpire extends KTemplateFilterAbstract implements KTemplateFilterWrite
+class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFilterWrite
 {
     /**
      * Quick lookup cache, mostly useful for <img /> and url() rewrites as there are often duplicates on page
@@ -31,13 +33,13 @@ class KTemplateFilterExpire extends KTemplateFilterAbstract implements KTemplate
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority' => KCommand::PRIORITY_LOWEST,
+            'priority' => Command::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);
@@ -47,7 +49,7 @@ class KTemplateFilterExpire extends KTemplateFilterAbstract implements KTemplate
      * Filter the template output
      *
      * @param string
-     * @return KTemplateFilterForm
+     * @return TemplateFilterForm
      */
     public function write(&$text)
     {
@@ -87,7 +89,7 @@ class KTemplateFilterExpire extends KTemplateFilterAbstract implements KTemplate
              * And the count is needed to prevent the root to be replaced multiple times in a longer path.
              */
             $count = 1;
-            $src   = JPATH_ROOT.str_replace(KRequest::root(), '', $url, $count);
+            $src   = JPATH_ROOT.str_replace(Request::root(), '', $url, $count);
 
             if(file_exists($src) && $modified = filemtime($src))
             {
@@ -114,7 +116,7 @@ class KTemplateFilterExpire extends KTemplateFilterAbstract implements KTemplate
     {
         $match = trim($matches[1], '"\'');
         if(strpos($match, '..') === 0) {
-            $match = KRequest::root().ltrim($match, '.');
+            $match = Request::root().ltrim($match, '.');
         }
 
         return str_replace($matches[1], $this->_processResourceURL($match), $matches[0]);

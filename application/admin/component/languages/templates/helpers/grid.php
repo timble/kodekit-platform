@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Languages Template Helper Grid Class
  *
@@ -15,11 +17,11 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesTemplateHelperGrid extends KTemplateHelperGrid
+class ComLanguagesTemplateHelperGrid extends Framework\TemplateHelperGrid
 {
     public function status($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'status'   => '',
             'original' => 0,

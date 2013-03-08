@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper
  *
@@ -17,7 +19,7 @@ class ComSitesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
   	public function sites( $config = array() )
    	{
-     	$config = new KConfig($config);
+     	$config = new Framework\Config($config);
        	$config->append(array(
           	'model' => 'sites',
            	'name' => 'site',

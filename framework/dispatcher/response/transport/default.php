@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Dispatcher Response Transport Class
  *
@@ -14,12 +16,12 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class KDispatcherResponseTransportDefault extends KDispatcherResponseTransportAbstract
+class DispatcherResponseTransportDefault extends DispatcherResponseTransportAbstract
 {
     /**
      * Send HTTP headers
      *
-     * @return KDispatcherResponseTransportDefault
+     * @return DispatcherResponseTransportDefault
      */
     public function sendHeaders()
     {
@@ -58,7 +60,7 @@ class KDispatcherResponseTransportDefault extends KDispatcherResponseTransportAb
     /**
      * Sends content for the current web response.
      *
-     * @return KDispatcherResponseTransportDefault
+     * @return DispatcherResponseTransportDefault
      */
     public function sendContent()
     {
@@ -74,7 +76,7 @@ class KDispatcherResponseTransportDefault extends KDispatcherResponseTransportAb
      * conservative value
      *
      * @see http://tools.ietf.org/html/rfc2616
-     * @return KDispatcherResponseTransportDefault
+     * @return DispatcherResponseTransportDefault
      */
     public function send()
     {
@@ -85,7 +87,7 @@ class KDispatcherResponseTransportDefault extends KDispatcherResponseTransportAb
         }
 
         //Add the version header
-        $response->headers->set('X-Nooku', array('version' => Nooku::VERSION));
+        $response->headers->set('X-Nooku', array('version' => \Nooku::VERSION));
 
         // Fix Content-Length
         if ($response->headers->has('Transfer-Encoding')) {
@@ -93,7 +95,7 @@ class KDispatcherResponseTransportDefault extends KDispatcherResponseTransportAb
         }
 
         //Modifies the response so that it conforms to the rules defined for a 304 status code.
-        if($response->getStatusCode() == KHttpResponse::NOT_MODIFIED)
+        if($response->getStatusCode() == HttpResponse::NOT_MODIFIED)
         {
             $response->setContent(null);
 

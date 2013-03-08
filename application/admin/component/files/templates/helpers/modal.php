@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Modal Helper Class
  *
@@ -14,11 +16,11 @@
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesTemplateHelperModal extends KTemplateHelperAbstract
+class ComFilesTemplateHelperModal extends Framework\TemplateHelperAbstract
 {
 	public function select($config = array())
 	{
-		$config = new KConfig($config);
+		$config = new Framework\Config($config);
 		$config->append(array(
 			'name' => '',
 			'visible' => true,

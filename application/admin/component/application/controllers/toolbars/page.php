@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Page Toolbar Class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
+class ComApplicationControllerToolbarPage extends Framework\ControllerToolbarAbstract
 {
-    public function onBeforeControllerRender(KEvent $event)
+    public function onBeforeControllerRender(Framework\Event $event)
     {
         $event->getTarget()->getView()->toolbar = $this;
 
@@ -25,7 +27,7 @@ class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
         $this->addCommand('logout');
     }
 
-    protected function _commandPreview(KControllerToolbarCommand $command)
+    protected function _commandPreview(Framework\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(
@@ -36,12 +38,12 @@ class ComApplicationControllerToolbarPage extends KControllerToolbarAbstract
         $command->href = JURI::root();
     }
 
-    protected function _commandProfile(KControllerToolbarCommand $command)
+    protected function _commandProfile(Framework\ControllerToolbarCommand $command)
     {
         $command->href = 'option=com_users&view=user&id='.$this->getController()->getUser()->getId();
     }
 
-    protected function _commandLogout(KControllerToolbarCommand $command)
+    protected function _commandLogout(Framework\ControllerToolbarCommand $command)
     {
         $controller = $this->getController();
         $session    = $controller->getUser()->getSession();

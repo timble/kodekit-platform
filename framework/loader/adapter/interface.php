@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Loader Adapter Interface
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Loader
  * @subpackage 	Adapter
  */
-interface KLoaderAdapterInterface
+interface LoaderAdapterInterface
 {
 	/**
 	 * Get the type

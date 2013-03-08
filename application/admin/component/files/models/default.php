@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Model Class
  *
@@ -15,9 +17,9 @@
  * @subpackage  Files
  */
 
-class ComFilesModelDefault extends KModelAbstract
+class ComFilesModelDefault extends Framework\ModelAbstract
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -38,7 +40,7 @@ class ComFilesModelDefault extends KModelAbstract
 			;
 	}
 
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
 			'state' => new ComFilesModelState()

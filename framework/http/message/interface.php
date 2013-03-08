@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Message Interface
  *
@@ -14,13 +16,13 @@
  * @package     Koowa_Http
  * @subpackage  Message
  */
-interface KHttpMessageInterface
+interface HttpMessageInterface
 {
     /**
      * Set the header parameters
      *
      * @param  array $headers
-     * @return KHttpMessageInterface
+     * @return HttpMessageInterface
      */
     public function setHeaders($parameters);
 
@@ -28,7 +30,7 @@ interface KHttpMessageInterface
      * Get the headers container
      *
      * @param  array $headers
-     * @return KHttpMessageHeaders
+     * @return HttpMessageHeaders
      */
     public function getHeaders();
 
@@ -36,7 +38,7 @@ interface KHttpMessageInterface
      * Sets the HTTP protocol version (1.0 or 1.1).
      *
      * @param string $version The HTTP protocol version
-     * @return KHttpMessage
+     * @return HttpMessage
      */
     public function setVersion($version);
 
@@ -51,7 +53,7 @@ interface KHttpMessageInterface
      * Set message content
      *
      * @param  mixed $value
-     * @return KHttpMessageInterface
+     * @return HttpMessageInterface
      */
     public function setContent($value);
 
@@ -66,7 +68,7 @@ interface KHttpMessageInterface
      * Sets the message content type
      *
      * @param string $type Content type
-     * @return KHttpMessage
+     * @return HttpMessage
      */
     public function setContentType($type);
 

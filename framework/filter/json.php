@@ -6,20 +6,22 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Json filter
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterJson extends KFilterAbstract
+class FilterJson extends FilterAbstract
 {
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -48,8 +50,8 @@ class KFilterJson extends KFilterAbstract
      */
     protected function _sanitize($value)
     {
-        // If instance of KConfig casting to string will make it encode itself to JSON
-        if($value instanceof KConfig) {
+        // If instance of Config casting to string will make it encode itself to JSON
+        if($value instanceof Config) {
             $result = (string) $value;
         }
         else

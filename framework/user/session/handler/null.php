@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * User Null Session Handler Class
  *
@@ -17,7 +19,7 @@
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-class KUserSessionHandlerNull extends KUserSessionHandlerAbstract
+class UserSessionHandlerNull extends UserSessionHandlerAbstract
 {
 
 }

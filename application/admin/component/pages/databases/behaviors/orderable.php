@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Orderable Database Behavior Class
  *
@@ -16,11 +18,11 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
+class ComPagesDatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstract
 {
     protected $_strategy;
     
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         // Need to set strategy before parent::__construct, otherwise strategy won't be available in getMixableMethods().
         if($config->strategy)
@@ -29,16 +31,16 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
             $identifier->path = array('database', 'behavior', 'orderable');
             $identifier->name = $config->strategy;
             
-            $this->setStrategy($config->service_manager->get($identifier, KConfig::unbox($config)));
+            $this->setStrategy($config->service_manager->get($identifier, Framework\Config::unbox($config)));
         }
         
         parent::__construct($config);
     }
     
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_LOWEST,
+            'priority'   => Framework\Command::PRIORITY_LOWEST,
             'auto_mixin' => true,
             'strategy'   => 'flat',
             'table'      => null,
@@ -62,7 +64,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         return $methods;
     }
     
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Framework\Object $mixer = null)
     {
         $methods = array_merge(parent::getMixableMethods($mixer), $this->getStrategy()->getMixableMethods($mixer));
         
@@ -71,7 +73,7 @@ class ComPagesDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
         return $methods;
     }
     
-    public function execute($name, KCommandContext $context)
+    public function execute($name, Framework\CommandContext $context)
     {
         return $this->getStrategy()->execute($name, $context);
     }

@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Boolean filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterBoolean extends KFilterAbstract
+class FilterBoolean extends FilterAbstract
 {
 	/**
 	 * Validate a value

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Controller Executable Behavior
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultControllerPermissionDefault extends KControllerPermissionDefault
+class ComDefaultControllerPermissionDefault extends Framework\ControllerPermissionDefault
 {
     /**
      * Generic authorize handler for controller render actions

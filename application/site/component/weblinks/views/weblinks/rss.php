@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Weblink Rss View
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksViewWeblinksRss extends KViewRss
+class ComWeblinksViewWeblinksRss extends Framework\ViewRss
 {
 	public function render()
     {

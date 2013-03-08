@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Template Helper Class
  *
@@ -14,7 +16,7 @@
  * @package		Koowa_Template
  * @subpackage	Helper
  */
-class KTemplateHelperDefault extends KTemplateHelperAbstract
+class TemplateHelperDefault extends TemplateHelperAbstract
 {
 
 }

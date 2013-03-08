@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Directories Class
  *   
@@ -16,9 +18,9 @@
  * @subpackage  Application
  */
  
-class ComFilesModelDirectories extends KModelAbstract
+class ComFilesModelDirectories extends Framework\ModelAbstract
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 

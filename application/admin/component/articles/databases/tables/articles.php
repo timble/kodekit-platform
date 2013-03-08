@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Articles Database Table class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesDatabaseTableArticles extends KDatabaseTableDefault
+class ComArticlesDatabaseTableArticles extends Framework\DatabaseTableDefault
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'name'       => 'articles',

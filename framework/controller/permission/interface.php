@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Controller Permission Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Controller
  * @subpackage	Permission
  */
-interface KControllerPermissionInterface
+interface ControllerPermissionInterface
 {
     /**
      * Check if an action can be executed

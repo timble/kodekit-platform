@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Route Template Helper Class
  *
@@ -18,7 +20,7 @@ class ComWeblinksTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 {
     public function weblink($config = array())
 	{
-        $config   = new KConfig($config);
+        $config   = new Framework\Config($config);
         $config->append(array(
            'layout'    => null,
         ));
@@ -46,7 +48,7 @@ class ComWeblinksTemplateHelperRoute extends ComDefaultTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new KConfig($config);
+        $config   = new Framework\Config($config);
         $config->append(array(
             'layout' => null
         ));

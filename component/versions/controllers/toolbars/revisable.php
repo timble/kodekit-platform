@@ -7,24 +7,26 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Revisable Controller Toolbar
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsControllerToolbarRevisable extends KControllerToolbarAbstract
+class ComVersionsControllerToolbarRevisable extends Framework\ControllerToolbarAbstract
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-    		'priority'  => KCommand::PRIORITY_LOW
+    		'priority'  => Framework\Command::PRIORITY_LOW
         ));
 
         parent::_initialize($config);
     }
     
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {     
         $state = $this->getController()->getModel()->getState();
         $name  = $this->getController()->getIdentifier()->name;
@@ -45,7 +47,7 @@ class ComVersionsControllerToolbarRevisable extends KControllerToolbarAbstract
         } 
     }
     
-    protected function _commandRestore(KControllerToolbarCommand $command)
+    protected function _commandRestore(Framework\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(
@@ -54,7 +56,7 @@ class ComVersionsControllerToolbarRevisable extends KControllerToolbarAbstract
         )); 
     }
     
-    protected function _commandDelete(KControllerToolbarCommand $command)
+    protected function _commandDelete(Framework\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(

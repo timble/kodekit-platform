@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Request Interface
  *
@@ -14,14 +16,14 @@
  * @package     Koowa_Http
  * @subpackage  Request
  */
-interface KHttpRequestInterface extends KHttpMessageInterface
+interface HttpRequestInterface extends HttpMessageInterface
 {
     /**
      * Set the method for this request
      *
      * @param  string $method
      * @throws InvalidArgumentException
-     * @return KHttpRequest
+     * @return HttpRequest
      */
     public function setMethod($method);
 
@@ -35,16 +37,16 @@ interface KHttpRequestInterface extends KHttpMessageInterface
     /**
      * Set the url for this request
      *
-     * @param string|KHttpUrl   $uri
-     * @throws InvalidArgumentException If the url is not an instance of KHttpUrl or a string
-     * @return KHttpRequest
+     * @param string|HttpUrl   $uri
+     * @throws InvalidArgumentException If the url is not an instance of HttpUrl or a string
+     * @return HttpRequest
      */
     public function setUrl($url);
 
     /**
      * Return the url for this request
      *
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function getUrl();
 

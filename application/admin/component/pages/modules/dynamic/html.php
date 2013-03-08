@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Dynamic Module Html View Class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesModuleDynamicHtml extends ComDefaultModuleDefaultHtml implements KServiceInstantiatable
+class ComPagesModuleDynamicHtml extends ComDefaultModuleDefaultHtml implements Framework\ServiceInstantiatable
 {
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

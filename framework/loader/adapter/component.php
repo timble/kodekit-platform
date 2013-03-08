@@ -6,15 +6,17 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Loader Adapter for a component
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Loader
  * @subpackage 	Adapter
- * @uses		KInflector
+ * @uses		Inflector
  */
-class KLoaderAdapterComponent extends KLoaderAdapterAbstract
+class LoaderAdapterComponent extends LoaderAdapterAbstract
 {
 	/**
 	 * The adapter type
@@ -40,8 +42,11 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
 	{
 		$path = false;
 
-        //Exceptions classes cannot be deep nested. Transform classname to lower
-        //case to always load the exception class from the /exception/ folder.
+        /*
+         * Exception rule for Exception classes
+         *
+         * Transform classname to lower case to always load the exception class from the /exception/ folder.
+         */
         if($pos = strpos($classname, 'Exception'))
         {
             $filename  = substr($classname, $pos + strlen('Exception'));
@@ -66,10 +71,10 @@ class KLoaderAdapterComponent extends KLoaderAdapterAbstract
                 if(!in_array($parts[0], array('view', 'module')))
 			    {
 			        foreach($parts as $key => $value) {
-					    $parts[$key] = KInflector::pluralize($value);
+					    $parts[$key] = Inflector::pluralize($value);
 				    }
 			    }
-			    else $parts[0] = KInflector::pluralize($parts[0]);
+			    else $parts[0] = Inflector::pluralize($parts[0]);
 
 				$path = implode('/', $parts).'/'.$file;
 			}

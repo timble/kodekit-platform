@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Activateable Controller Behavior Class.
  *
@@ -14,7 +16,7 @@
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
+class ComUsersControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstract
 {
     /**
      * Determines whether new created items need activation or not.
@@ -23,14 +25,14 @@ class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
      */
     protected $_enable;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
         $this->_enable = $config->enable;
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $parameters = $this->getService('application.components')->users->params;
 
@@ -44,9 +46,9 @@ class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
     /**
      * Handles item activation via GET requests.
      *
-     * @param KCommandContext The command context.
+     * @param Framework\CommandContext The command context.
      */
-    protected function _afterControllerRead(KCommandContext $context)
+    protected function _afterControllerRead(Framework\CommandContext $context)
     {
         $item = $context->result;
 
@@ -55,19 +57,19 @@ class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
         }
     }
 
-    protected function _beforeControllerActivate(KCommandContext $context)
+    protected function _beforeControllerActivate(Framework\CommandContext $context)
     {
         $activation = $context->request->data->get('activation', 'string');
         $item       = $this->getModel()->getRow();
 
         if ($activation !== $item->activation)
         {
-            $context->response->setRedirect(KRequest::root(), 'Wrong activation token');
+            $context->response->setRedirect(Framework\Request::root(), 'Wrong activation token');
             return false;
         }
     }
 
-    protected function _actionActivate(KCommandContext $context)
+    protected function _actionActivate(Framework\CommandContext $context)
     {
         $item             = $this->getModel()->getRow();
         $item->activation = '';
@@ -79,12 +81,12 @@ class ComUsersControllerBehaviorActivateable extends KControllerBehaviorAbstract
             $context->response->setRedirect($url, 'Activation successfully completed');
             $result = true;
         }
-        else throw new KControllerExceptionActionFailed('Unable to activate user');
+        else throw new Framework\ControllerExceptionActionFailed('Unable to activate user');
 
         return $result;
     }
 
-    protected function _beforeControllerAdd(KCommandContext $context)
+    protected function _beforeControllerAdd(Framework\CommandContext $context)
     {
         // Set activation on new records.
         if ($this->_enable)

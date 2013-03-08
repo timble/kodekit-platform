@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * User File Session Handler Class
  *
@@ -17,15 +19,15 @@
  * @subpackage  Session
  * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-class KUserSessionHandlerFile extends KUserSessionHandlerAbstract
+class UserSessionHandlerFile extends UserSessionHandlerAbstract
 {
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return KUserSessionHandlerFile
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return UserSessionHandlerFile
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -41,10 +43,10 @@ class KUserSessionHandlerFile extends KUserSessionHandlerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'save_path' => ini_get('session.save_path'),

@@ -7,13 +7,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Slug filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterSlug extends KFilterAbstract
+class FilterSlug extends FilterAbstract
 {
 	/**
 	 * Separator character / string to use for replacing non alphabetic characters
@@ -34,9 +36,9 @@ class KFilterSlug extends KFilterAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param 	object	An optional KConfig object with configuration options
+	 * @param 	object	An optional Config object with configuration options
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Config $config)
 	{
 		parent::__construct($config);
 
@@ -49,10 +51,10 @@ class KFilterSlug extends KFilterAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options
+     * @param 	object 	An optional Config object with configuration options
      * @return void
      */
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Config $config)
     {
     	$config->append(array(
     		'separator' => '-',

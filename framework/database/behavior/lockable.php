@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Lockable Behavior
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */
-class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
+class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 {
 	/**
 	 * The lock lifetime
@@ -27,13 +29,13 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options
+     * @param 	object 	An optional Config object with configuration options
      * @return void
      */
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Config $config)
     {
     	$config->append(array(
-			'priority'   => KCommand::PRIORITY_HIGH,
+			'priority'   => Command::PRIORITY_HIGH,
     	    'lifetime'	 => '900' //in seconds
 	  	));
 
@@ -51,11 +53,11 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 * @param object The mixer requesting the mixable methods.
 	 * @return array An array of methods
 	 */
-	public function getMixableMethods(KObject $mixer = null)
+	public function getMixableMethods(Object $mixer = null)
 	{
 		$methods = array();
 
-		if($mixer instanceof KDatabaseRowInterface && ($mixer->has('locked_by') || $mixer->has('locked_on'))) {
+		if($mixer instanceof DatabaseRowInterface && ($mixer->has('locked_by') || $mixer->has('locked_on'))) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 
@@ -145,10 +147,10 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 
 		if($this->locked())
 		{
-	        $user = JFactory::getUser($this->locked_by);
+	        $user = \JFactory::getUser($this->locked_by);
 			$date = $this->getService('com:default.template.helper.date')->humanize(array('date' => $this->locked_on));
 
-			$message = JText::sprintf('Locked by %s %s', $user->get('name'), $date);
+			$message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date);
 		}
 
 		return $message;
@@ -163,7 +165,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return boolean True if row can be updated, false otherwise
 	 */
-	protected function _beforeTableUpdate(KCommandContext $context)
+	protected function _beforeTableUpdate(CommandContext $context)
 	{
 		return (bool) !$this->locked();
 	}
@@ -177,7 +179,7 @@ class KDatabaseBehaviorLockable extends KDatabaseBehaviorAbstract
 	 *
 	 * @return boolean True if row can be deleted, false otherwise
 	 */
-	protected function _beforeTableDelete(KCommandContext $context)
+	protected function _beforeTableDelete(CommandContext $context)
 	{
 		return (bool) !$this->locked();
 	}

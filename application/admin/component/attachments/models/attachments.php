@@ -1,8 +1,10 @@
 <?php
 
+use Nooku\Framework;
+
 class ComAttachmentsModelAttachments extends ComDefaultModelDefault
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -11,7 +13,7 @@ class ComAttachmentsModelAttachments extends ComDefaultModelDefault
 		 	->insert('table', 'string');
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) {
 			$query->columns(array('count' => 'COUNT(relations.attachments_attachment_id)'))
@@ -22,7 +24,7 @@ class ComAttachmentsModelAttachments extends ComDefaultModelDefault
 		return parent::_buildQueryColumns($query);
 	}
 	
-	protected function _buildQueryGroup(KDatabaseQuerySelect $query)
+	protected function _buildQueryGroup(Framework\DatabaseQuerySelect $query)
 	{	
 		if(!$this->_state->isUnique()) {
 			$query->group('relations.attachments_attachment_id');
@@ -31,7 +33,7 @@ class ComAttachmentsModelAttachments extends ComDefaultModelDefault
 		return parent::_buildQueryGroup($query);
 	}	
 	
-	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) {
 			$query->join(array('relations' => 'attachments_relations'), 'relations.attachments_attachment_id = tbl.attachments_attachment_id', 'LEFT');
@@ -40,7 +42,7 @@ class ComAttachmentsModelAttachments extends ComDefaultModelDefault
 		return parent::_buildQueryJoins($query);
 	}	
 	
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) 
 		{

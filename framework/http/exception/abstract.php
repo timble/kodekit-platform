@@ -7,13 +7,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Exception Bad Request Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */
-abstract class KHttpExceptionAbstract extends \RuntimeException implements KHttpException
+abstract class HttpExceptionAbstract extends \RuntimeException implements HttpException
 {
     /**
      * Constructor

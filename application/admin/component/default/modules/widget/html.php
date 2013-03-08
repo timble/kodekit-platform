@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Widget Module Html View Class
  *
@@ -29,7 +31,7 @@ class ComDefaultModuleWidgetHtml extends ComDefaultModuleDefaultHtml
 
         $parts   = $url->getQuery(true);
         $package = substr($parts['option'], 4);
-        $view    = KInflector::singularize($parts['view']);
+        $view    = Framework\Inflector::singularize($parts['view']);
 
         $identifier = 'com://site/'.$package.'.controller.'.$view;
 

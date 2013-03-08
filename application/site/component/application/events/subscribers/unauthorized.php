@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Unauthorized Event Subscriber Class
  *
@@ -14,20 +16,20 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationEventSubscriberUnauthorized extends KEventSubscriberAbstract
+class ComApplicationEventSubscriberUnauthorized extends Framework\EventSubscriberAbstract
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'priority' => KEvent::PRIORITY_HIGH
+            'priority' => Framework\Event::PRIORITY_HIGH
         ));
 
         parent::_initialize($config);
     }
 
-    public function onException(KEventException $event)
+    public function onException(Framework\EventException $event)
     {
-        if($event->getException() instanceof KControllerExceptionUnauthorized)
+        if($event->getException() instanceof Framework\ControllerExceptionUnauthorized)
         {
             $application = $this->getService('application');
 

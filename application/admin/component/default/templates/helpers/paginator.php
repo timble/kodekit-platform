@@ -7,15 +7,17 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Default Paginator Helper
 .*
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        KConfig
+ * @uses        Framework\Config
  */
-class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
+class ComDefaultTemplateHelperPaginator extends Framework\TemplateHelperPaginator
 {
     /**
      * Render item pagination
@@ -26,7 +28,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
      */
     public function pagination($config = array())
     { 
-        $config = new KModelPaginator($config);
+        $config = new Framework\ModelPaginator($config);
         $config->append(array(
             'total'      => 0,
             'display'    => 4,
@@ -60,7 +62,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
      */
     public function pages($config = array())
     {
-        $config = new KModelPaginator($config);
+        $config = new Framework\ModelPaginator($config);
 		$config->append(array(
 			'total'      => 0,
 			'display'    => 4,
@@ -92,7 +94,7 @@ class ComDefaultTemplateHelperPaginator extends KTemplateHelperPaginator
      */
    public function link($config)
    {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 		$config->append(array(
 			'title'   => '',
 			'current' => false,

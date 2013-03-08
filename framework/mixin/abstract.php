@@ -6,18 +6,20 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract mixing class
  *
- * This class does not extend from KObject and acts as a special core
+ * This class does not extend from Object and acts as a special core
  * class that is intended to offer semi-multiple inheritance features
- * to KObject derived classes.
+ * to Object derived classes.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
- * @uses        KObject
+ * @uses        Object
  */
-abstract class KMixinAbstract implements KMixinInterface
+abstract class MixinAbstract implements MixinInterface
 {
     /**
      * The object doing the mixin
@@ -43,9 +45,9 @@ abstract class KMixinAbstract implements KMixinInterface
     /**
      * Object constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         //Initialise
         $this->_initialize($config);
@@ -59,10 +61,10 @@ abstract class KMixinAbstract implements KMixinInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'mixer' => $this,
@@ -83,7 +85,7 @@ abstract class KMixinAbstract implements KMixinInterface
      * Set the mixer object
      *
      * @param object The mixer object
-     * @return KMixinAbstract
+     * @return MixinAbstract
      */
     public function setMixer($mixer)
     {
@@ -117,7 +119,7 @@ abstract class KMixinAbstract implements KMixinInterface
         {
             $methods = array();
 
-            $reflection = new ReflectionClass($this);
+            $reflection = new \ReflectionClass($this);
             foreach ($reflection->getMethods() as $method) {
                 $methods[] = $method->name;
             }
@@ -136,7 +138,7 @@ abstract class KMixinAbstract implements KMixinInterface
      * @param object The mixer requesting the mixable methods.
      * @return array An array of public methods
      */
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Object $mixer = null)
     {
         if (!$this->__mixable_methods)
         {
@@ -144,13 +146,13 @@ abstract class KMixinAbstract implements KMixinInterface
 
             //Get all the public methods
             $reflection = new \ReflectionClass($this);
-            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                 $methods[$method->name] = $this;
             }
 
             //Remove the base class methods
             $reflection = new \ReflectionClass(__CLASS__);
-            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
+            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method)
             {
                 if (isset($methods[$method->name])) {
                     unset($methods[$method->name]);
@@ -169,9 +171,9 @@ abstract class KMixinAbstract implements KMixinInterface
      * This function is called when the mixin is being mixed. It will get the mixer passed in.
      *
      * @param object $mixer The mixer object
-     * @return KMixinInterface
+     * @return MixinInterface
      */
-    public function onMixin(KObject $mixer)
+    public function onMixin(Object $mixer)
     {
         $this->setMixer($mixer);
         return $this;

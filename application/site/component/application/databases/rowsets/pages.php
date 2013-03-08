@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Components Database Rowset Class
  *
@@ -14,12 +16,12 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implements KServiceInstantiatable
+class ComApplicationDatabaseRowsetPages extends Framework\DatabaseRowsetAbstract implements Framework\ServiceInstantiatable
 {
     protected $_active;
     protected $_home;
 
-    public function __construct(KConfig $config )
+    public function __construct(Framework\Config $config )
     {
         parent::__construct($config);
 
@@ -45,13 +47,13 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         }
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -94,7 +96,7 @@ class ComApplicationDatabaseRowsetPages extends KDatabaseRowsetAbstract implemen
         return $this->_active;
     }
 
-    public function isAuthorized($id, KUserInterface $user)
+    public function isAuthorized($id, Framework\UserInterface $user)
     {
         $result = true;
         $page   = $this->find($id);

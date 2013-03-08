@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Orderable Behavior
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Database
  * @subpackage 	Behavior
  */
-class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
+class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 {
 	/**
 	 * Get the methods that are available for mixin based
@@ -24,11 +26,11 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 * @param object The mixer requesting the mixable methods.
 	 * @return array An array of methods
 	 */
-	public function getMixableMethods(KObject $mixer = null)
+	public function getMixableMethods(Object $mixer = null)
 	{
 		$methods = array();
 
-		if($mixer instanceof KDatabaseRowInterface && $mixer->has('ordering')) {
+		if($mixer instanceof DatabaseRowInterface && $mixer->has('ordering')) {
 			$methods = parent::getMixableMethods($mixer);
 		}
 
@@ -42,15 +44,15 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 * 	   $query->where('category_id = :category_id')->bind(array('category_id' => $this->id)); 
 	 * </code>
 	 *
-	 * @param 	KDatabaseQuerySelect $query
+	 * @param 	DatabaseQuerySelect $query
 	 * @return  void
 	 */
 	public function _buildQueryWhere($query)
 	{
-	    if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate)
+	    if(!$query instanceof DatabaseQuerySelect && !$query instanceof DatabaseQueryUpdate)
         {
 	        throw new \InvalidArgumentException(
-                'Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate'
+                'Query must be an instance of DatabaseQuerySelect or DatabaseQueryUpdate'
             );
 	    }
 	}
@@ -61,7 +63,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 	 * Requires an 'ordering' column
 	 *
 	 * @param	integer	Amount to move up or down
-	 * @return 	KDatabaseRowAbstract
+	 * @return 	DatabaseRowAbstract
 	 */
 	public function order($change)
 	{
@@ -112,7 +114,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      * record insertion.
      *
      * @param	integer 	Order at which to start resetting.
-     * @return	KDatabaseBehaviorOrderable
+     * @return	DatabaseBehaviorOrderable
      */
     public function reorder($base = 0)
     {
@@ -154,7 +156,7 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
 
         $this->_buildQueryWhere($query);
 
-        return (int) $db->select($query, KDatabase::FETCH_FIELD);
+        return (int) $db->select($query, Database::FETCH_FIELD);
         
     }
 
@@ -164,9 +166,9 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      * This performs an intelligent insert/update and reloads the properties
      * with fresh data from the table on success.
      *
-     * @return KDatabaseRowAbstract
+     * @return DatabaseRowAbstract
      */
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(CommandContext $context)
     {
         if($this->has('ordering'))
         {
@@ -182,9 +184,9 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
      * Changes the rows ordering if the virtual order field is set. Order is
      * relative to the row's current position.
      *
-     * @param   KCommandContext Context
+     * @param   CommandContext Context
      */
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(CommandContext $context)
     {
         if(isset($this->order) && $this->has('ordering')) {
             $this->order($this->order);
@@ -194,9 +196,9 @@ class KDatabaseBehaviorOrderable extends KDatabaseBehaviorAbstract
     /**
      * Clean up the ordering after an item was deleted
      *
-     * @param   KCommandContext Context
+     * @param   CommandContext Context
      */
-    protected function _afterTableDelete(KCommandContext $context)
+    protected function _afterTableDelete(CommandContext $context)
     {
         $this->reorder();
     }

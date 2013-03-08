@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Template Menubar Helper
  *
@@ -24,7 +26,7 @@ class ComApplicationTemplateHelperMenubar extends ComPagesTemplateHelperList
      */
     public function render($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'attribs' => array('class' => array())
         ));

@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper Class
  *
@@ -20,7 +22,7 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
     public function groups( $config = array())
     {
-    	$config = new KConfig($config);
+    	$config = new Framework\Config($config);
     	$config->append(array(
     		'model' 	=> 'groups',
     		'value'		=> 'id',
@@ -32,7 +34,7 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
     
     public function users($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 		$config->append(array(
 			'model'		=> 'users',
 			'name'		=> 'id',
@@ -51,7 +53,7 @@ class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 
     public function languages($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 
         $config->append(array(
             'value'      => 'iso_code',

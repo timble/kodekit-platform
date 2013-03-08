@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Url Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Http
  * @subpackage  Url
  */
-interface KHttpUrlInterface
+interface HttpUrlInterface
 {
     /**
      * Get the scheme part of the URL
@@ -27,7 +29,7 @@ interface KHttpUrlInterface
      * Set the URL scheme
      *
      * @param  string $scheme
-     * @return  KHttpUrl
+     * @return  HttpUrl
      */
     public function setScheme($scheme);
 
@@ -42,7 +44,7 @@ interface KHttpUrlInterface
      * Set the URL user
      *
      * @param  string $user
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function setUser($user);
 
@@ -100,7 +102,7 @@ interface KHttpUrlInterface
     public function getPath($toArray = false);
 
     /**
-     * Sets the KHttpUrl::$path array and $format from a string.
+     * Sets the HttpUrl::$path array and $format from a string.
      *
      * This will overwrite any previous values. Also, resets the format based on the final path value.
      *

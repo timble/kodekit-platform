@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Categories Template Helper Class
  *
@@ -14,11 +16,11 @@
  * @package    Nooku_Server
  * @subpackage Categories
  */
-class ComCategoriesTemplateHelperString extends KTemplateHelperDefault
+class ComCategoriesTemplateHelperString extends Framework\TemplateHelperDefault
 {
     public function image($config = array())
     {
-        $config   = new KConfig($config);
+        $config   = new Framework\Config($config);
         $config->append(array(
            'align' => 'right',
            'class' => 'thumbnail'

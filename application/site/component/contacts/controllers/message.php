@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Message Controller
  *
@@ -16,7 +18,7 @@
  */
 class ComContactsControllerMessage extends ComDefaultControllerView
 { 
-    protected function _actionAdd(KCommandContext $context)
+    protected function _actionAdd(Framework\CommandContext $context)
 	{
         // Set parts of the mail.
         $data        = $context->request->data;

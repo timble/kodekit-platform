@@ -1,6 +1,8 @@
 <?php
 
-class ComAttachmentsDatabaseBehaviorAttachable extends KDatabaseBehaviorAbstract
+use Nooku\Framework;
+
+class ComAttachmentsDatabaseBehaviorAttachable extends Framework\DatabaseBehaviorAbstract
 {
 	public function getAttachments()
 	{

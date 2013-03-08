@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Languages Model Class
  *
@@ -16,7 +18,7 @@
  */
 class ComLanguagesModelLanguages extends ComDefaultModelDefault
 {
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -27,7 +29,7 @@ class ComLanguagesModelLanguages extends ComDefaultModelDefault
             ->insert('iso_code', 'com://admin/languages.filter.iso', null, true, array('application'));
     }
 
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();

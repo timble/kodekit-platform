@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Response Interface
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Http
  * @subpackage  Response
  */
-interface KHttpResponseInterface extends KHttpMessageInterface
+interface HttpResponseInterface extends HttpMessageInterface
 {
     /**
      * Set HTTP status code and (optionally) message
@@ -22,7 +24,7 @@ interface KHttpResponseInterface extends KHttpMessageInterface
      * @param  integer $code
      * @param  string  $message
      * @throws InvalidArgumentException
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setStatus($code, $message = null);
 
@@ -46,7 +48,7 @@ interface KHttpResponseInterface extends KHttpMessageInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17
      *
      * @param string $type Content type
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setContentType($type);
 
@@ -75,7 +77,7 @@ interface KHttpResponseInterface extends KHttpMessageInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.18
      *
      * @param \DateTime $date A \DateTime instance
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setDate(\DateTime $date);
 
@@ -96,7 +98,7 @@ interface KHttpResponseInterface extends KHttpMessageInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29
      *
      * @param \DateTime $date A \DateTime instance
-     * @return KHttpResponseInterface
+     * @return HttpResponseInterface
      */
     public function setLastModified(\DateTime $date = null);
 
@@ -117,7 +119,7 @@ interface KHttpResponseInterface extends KHttpMessageInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21
      *
      * @param \DateTime $date A \DateTime instance
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setExpires(\DateTime $date = null);
 
@@ -137,7 +139,7 @@ interface KHttpResponseInterface extends KHttpMessageInterface
      *
      * @param string  $etag The ETag unique identifier
      * @param Boolean $weak Whether you want a weak ETag or not
-     * @return KHttpResponse
+     * @return HttpResponse
      */
     public function setEtag($etag = null, $weak = false);
 

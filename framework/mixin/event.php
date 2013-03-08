@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Event Mixin
  *
@@ -14,14 +16,14 @@
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
- * @uses        KEventDispatcher
+ * @uses        EventDispatcher
  */
-class KMixinEvent extends KMixinAbstract
+class MixinEvent extends MixinAbstract
 {
     /**
      * Event dispatcher object
      *
-     * @var KEventDispatcherInterface
+     * @var EventDispatcherInterface
      */
     protected $_event_dispatcher;
 
@@ -38,14 +40,14 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         if (is_null($config->event_dispatcher)) {
-            throw new InvalidArgumentException('event_dispatcher [KEventDispatcherInterface] config option is required');
+            throw new InvalidArgumentException('event_dispatcher [EventDispatcherInterface] config option is required');
         }
 
         //Set the event dispatcher
@@ -57,7 +59,7 @@ class KMixinEvent extends KMixinAbstract
         }
 
         //Add the event handlers
-        $subscribers = (array)KConfig::unbox($config->event_subscribers);
+        $subscribers = (array)Config::unbox($config->event_subscribers);
 
         foreach ($subscribers as $key => $value)
         {
@@ -74,10 +76,10 @@ class KMixinEvent extends KMixinAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'event_dispatcher'  => null,
@@ -91,19 +93,19 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Get the event dispatcher
      *
-     * @return  KEventDispatcher
+     * @return  EventDispatcher
      */
     public function getEventDispatcher()
     {
-        if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+        if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
         {
             $this->_event_dispatcher = $this->getService($this->_event_dispatcher);
 
-            //Make sure the request implements KControllerRequestInterface
-            if(!$this->_event_dispatcher instanceof KEventDispatcherInterface)
+            //Make sure the request implements ControllerRequestInterface
+            if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
             {
                 throw new \UnexpectedValueException(
-                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement KEventDispatcherInterface'
+                    'EventDispatcher: '.get_class($this->_event_dispatcher).' does not implement EventDispatcherInterface'
                 );
             }
         }
@@ -115,9 +117,9 @@ class KMixinEvent extends KMixinAbstract
      * Set the chain of command object
      *
      * @param   object         An event dispatcher object
-     * @return  KObject     The mixer object
+     * @return  Object     The mixer object
      */
-    public function setEventDispatcher(KEventDispatcher $dispatcher)
+    public function setEventDispatcher(EventDispatcher $dispatcher)
     {
         $this->_event_dispatcher = $dispatcher;
         return $this->getMixer();
@@ -131,9 +133,9 @@ class KMixinEvent extends KMixinAbstract
      * @param  integer $priority   The event priority, usually between 1 (high priority) and 5 (lowest),
      *                             default is 3. If no priority is set, the command priority will be used
      *                             instead.
-     * @return  KObject The mixer objects
+     * @return  Object The mixer objects
      */
-    public function addEventListener($event, $listener, $priority = KEvent::PRIORITY_NORMAL)
+    public function addEventListener($event, $listener, $priority = Event::PRIORITY_NORMAL)
     {
         $this->getEventDispatcher()->addEventListener($event, $listener, $priority);
         return $this->getMixer();
@@ -144,7 +146,7 @@ class KMixinEvent extends KMixinAbstract
      *
      * @param   string   $event     The event name
      * @param   callable $listener  The listener
-     * @return  KObject  The mixer object
+     * @return  Object  The mixer object
      */
     public function removeEventListener($event, $listener)
     {
@@ -155,16 +157,16 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Add an event subscriber
      *
-     * @param   mixed  An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed  An object that implements ServiceInterface, ServiceIdentifier object
      *                 or valid identifier string
      * @param  integer The event priority, usually between 1 (high priority) and 5 (lowest),
      *                 default is 3. If no priority is set, the command priority will be used
      *                 instead.
-     * @return  KObject    The mixer object
+     * @return  Object    The mixer object
      */
     public function addEventSubscriber($subscriber, $config = array(), $priority = null)
     {
-        if (!($subscriber instanceof KEventSubscriberInterface)) {
+        if (!($subscriber instanceof EventSubscriberInterface)) {
             $subscriber = $this->getEventSubscriber($subscriber, $config);
         }
 
@@ -177,13 +179,13 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Remove an event subscriber
      *
-     * @param   mixed  An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed  An object that implements ServiceInterface, ServiceIdentifier object
      *                 or valid identifier string
-     * @return  KObject  The mixer object
+     * @return  Object  The mixer object
      */
     public function removeEventSubscriber($subscriber)
     {
-        if (!($subscriber instanceof KEventSubscriberInterface)) {
+        if (!($subscriber instanceof EventSubscriberInterface)) {
             $subscriber = $this->getEventSubscriber($subscriber);
         }
 
@@ -194,15 +196,15 @@ class KMixinEvent extends KMixinAbstract
     /**
      * Get a event subscriber by identifier
      *
-     * @param  mixed    An object that implements KServiceInterface, KServiceIdentifier object
+     * @param  mixed    An object that implements ServiceInterface, ServiceIdentifier object
      *                  or valid identifier string
      * @param  array    An optional associative array of configuration settings
-     * @throws \DomainException    If the subscriber is not implementing the KEventSubscriberInterface
-     * @return KEventSubscriberInterface
+     * @throws \DomainException    If the subscriber is not implementing the EventSubscriberInterface
+     * @return EventSubscriberInterface
      */
     public function getEventSubscriber($subscriber, $config = array())
     {
-        if (!($subscriber instanceof KServiceIdentifier))
+        if (!($subscriber instanceof ServiceIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($subscriber) && strpos($subscriber, '.') === false)
@@ -221,10 +223,10 @@ class KMixinEvent extends KMixinAbstract
             $subscriber = $this->getService($identifier, $config);
 
             //Check the event subscriber interface
-            if (!($subscriber instanceof KEventSubscriberInterface))
+            if (!($subscriber instanceof EventSubscriberInterface))
             {
                 throw new \UnexpectedValueException(
-                    "Event Subscriber $identifier does not implement KEventSubscriberInterface"
+                    "Event Subscriber $identifier does not implement EventSubscriberInterface"
                 );
             }
         }

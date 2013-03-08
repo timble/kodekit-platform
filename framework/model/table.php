@@ -6,6 +6,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Table Model Class
  *
@@ -14,7 +16,7 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
  */
-class KModelTable extends KModelAbstract
+class ModelTable extends ModelAbstract
 {
     /**
      * Table object or identifier (APP::com.COMPONENT.table.TABLENAME)
@@ -26,9 +28,9 @@ class KModelTable extends KModelAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -53,10 +55,10 @@ class KModelTable extends KModelAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'table' => $this->getIdentifier()->name,
@@ -68,11 +70,11 @@ class KModelTable extends KModelAbstract
     /**
      * Set the model state properties
      *
-     * This function overloads the KDatabaseTableAbstract::set() function and only acts on state properties.
+     * This function overloads the DatabaseTableAbstract::set() function and only acts on state properties.
      *
      * @param   string|array|object The name of the property, an associative array or an object
      * @param   mixed               The value of the property
-     * @return  KModelTable
+     * @return  ModelTable
      */
     public function set( $property, $value = null )
     {
@@ -89,14 +91,14 @@ class KModelTable extends KModelAbstract
     /**
      * Method to get a table object
      *
-     * @return KDatabaseTableInterface
+     * @return DatabaseTableInterface
      */
     public function getTable()
     {
-        if(!($this->_table instanceof KDatabaseTableInterface))
+        if(!($this->_table instanceof DatabaseTableInterface))
 		{
             //Make sure we have a table identifier
-            if(!($this->_table instanceof KServiceIdentifier)) {
+            if(!($this->_table instanceof ServiceIdentifier)) {
                 $this->setTable($this->_table);
             }
 
@@ -109,20 +111,20 @@ class KModelTable extends KModelAbstract
     /**
      * Method to set a table object attached to the model
      *
-     * @param	mixed	$table An object that implements KServiceInterface, KServiceIdentifier object
+     * @param	mixed	$table An object that implements ServiceInterface, ServiceIdentifier object
 	 * 					       or valid identifier string
      * @throws  \UnexpectedValueException   If the identifier is not a table identifier
-     * @return  KModelTable
+     * @return  ModelTable
      */
     public function setTable($table)
 	{
-		if(!($table instanceof KDatabaseTableInterface))
+		if(!($table instanceof DatabaseTableInterface))
 		{
 			if(is_string($table) && strpos($table, '.') === false ) 
 		    {
 		        $identifier         = clone $this->getIdentifier();
 		        $identifier->path   = array('database', 'table');
-		        $identifier->name   = KInflector::tableize($table);
+		        $identifier->name   = Inflector::tableize($table);
 		    }
 		    else  $identifier = $this->getIdentifier($table);
 		    
@@ -144,7 +146,7 @@ class KModelTable extends KModelAbstract
      * If the model state is unique a row is fetched from the database based on the state.
      * If not, an empty row is be returned instead.
      *
-     * @return KDatabaseRow
+     * @return DatabaseRow
      */
     public function getRow()
     {
@@ -164,7 +166,7 @@ class KModelTable extends KModelAbstract
                 $this->_buildQueryGroup($query);
                 $this->_buildQueryHaving($query);
 
-                $this->_row = $this->getTable()->select($query, KDatabase::FETCH_ROW, array('state' => $state));
+                $this->_row = $this->getTable()->select($query, Database::FETCH_ROW, array('state' => $state));
             }
             else $this->_row = $this->getTable()->getRow(array('state' => $state));
         }
@@ -175,7 +177,7 @@ class KModelTable extends KModelAbstract
     /**
      * Get a list of items which represents a  table rowset
      *
-     * @return KDatabaseRowset
+     * @return DatabaseRowset
      */
     public function getRowset()
     {
@@ -198,7 +200,7 @@ class KModelTable extends KModelAbstract
                 $this->_buildQueryOrder($query);
                 $this->_buildQueryLimit($query);
 
-                $this->_rowset = $this->getTable()->select($query, KDatabase::FETCH_ROWSET, array('state' => $state));
+                $this->_rowset = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
             }
             else $this->_rowset = $this->getTable()->getRowset(array('state' => $state));
         }
@@ -235,7 +237,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds SELECT columns list for the query
      */
-    protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+    protected function _buildQueryColumns(DatabaseQuerySelect $query)
     {
         $query->columns('tbl.*');
     }
@@ -243,7 +245,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds FROM tables list for the query
      */
-    protected function _buildQueryTable(KDatabaseQuerySelect $query)
+    protected function _buildQueryTable(DatabaseQuerySelect $query)
     {
         $name = $this->getTable()->getName();
         $query->table(array('tbl' => $name));
@@ -252,7 +254,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds LEFT JOINS clauses for the query
      */
-    protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+    protected function _buildQueryJoins(DatabaseQuerySelect $query)
     {
 
     }
@@ -260,7 +262,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds a WHERE clause for the query
      */
-    protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+    protected function _buildQueryWhere(DatabaseQuerySelect $query)
     {
         //Get only the unique states
         $states = $this->getState()->toArray(true);
@@ -282,7 +284,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds a GROUP BY clause for the query
      */
-    protected function _buildQueryGroup(KDatabaseQuerySelect $query)
+    protected function _buildQueryGroup(DatabaseQuerySelect $query)
     {
 
     }
@@ -290,7 +292,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds a HAVING clause for the query
      */
-    protected function _buildQueryHaving(KDatabaseQuerySelect $query)
+    protected function _buildQueryHaving(DatabaseQuerySelect $query)
     {
 
     }
@@ -298,7 +300,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds a generic ORDER BY clasue based on the model's state
      */
-    protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+    protected function _buildQueryOrder(DatabaseQuerySelect $query)
     {
         $sort       = $this->getState()->sort;
         $direction  = strtoupper($this->getState()->direction);
@@ -315,7 +317,7 @@ class KModelTable extends KModelAbstract
     /**
      * Builds LIMIT clause for the query
      */
-    protected function _buildQueryLimit(KDatabaseQuerySelect $query)
+    protected function _buildQueryLimit(DatabaseQuerySelect $query)
     {
         $limit = $this->getState()->limit;
         

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Nodes Json View Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesViewJson extends KViewJson
+class ComFilesViewJson extends Framework\ViewJson
 {
     protected function _getRow()
     {
@@ -23,7 +25,7 @@ class ComFilesViewJson extends KViewJson
 
         $data = parent::_getRow();
 
-        $status = $row->getStatus() !== KDatabase::STATUS_FAILED;
+        $status = $row->getStatus() !== Framework\Database::STATUS_FAILED;
 		$data['status'] = $status;
         if ($data === false){
             $data['error'] = $row->getStatusMessage();

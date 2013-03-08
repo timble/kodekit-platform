@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Translatable Controller Behavior Class
  *
@@ -15,9 +17,9 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesControllerBehaviorTranslatable extends KDatabaseBehaviorAbstract
+class ComLanguagesControllerBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract
 {
-    protected function _beforeControllerGet(KCommandContext $context)
+    protected function _beforeControllerGet(Framework\CommandContext $context)
     {
         $model = $this->getModel();
         if($model->getTable()->isTranslatable())

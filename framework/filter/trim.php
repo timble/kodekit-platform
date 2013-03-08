@@ -7,13 +7,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Trim filter.
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterTrim extends KFilterAbstract
+class FilterTrim extends FilterAbstract
 {
 	/**
      * List of characters provided to the trim() function
@@ -28,9 +30,9 @@ class KFilterTrim extends KFilterAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 

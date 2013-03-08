@@ -7,6 +7,8 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Template read filter for short_open_tags support
  *
@@ -14,13 +16,13 @@
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class KTemplateFilterShorttag extends KTemplateFilterAbstract implements KTemplateFilterRead
+class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateFilterRead
 {
 	/**
 	 * Convert <?= ?> to long-form <?php echo ?> when needed
 	 *
 	 * @param string
-	 * @return KTemplateFilterShorttag
+	 * @return TemplateFilterShorttag
 	 */
 	public function read(&$text)
 	{

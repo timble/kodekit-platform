@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Service Identifier interface
  *
@@ -16,7 +18,7 @@
  * @package     Koowa_Service
  * @subpackage  Identifier
  */
-interface KServiceIdentifierInterface extends Serializable
+interface ServiceIdentifierInterface extends \Serializable
 {
     /**
      * Formats the indentifier as a [application::]type.component.[.path].name string

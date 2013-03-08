@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Contact Toolbar Class
  *
@@ -18,7 +20,7 @@
  */
 class ComContactsControllerToolbarContact extends ComDefaultControllerToolbarDefault
 {
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
         

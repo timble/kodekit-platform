@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Select Database Query Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Query
  */
-class KDatabaseQuerySelect extends KDatabaseQueryAbstract
+class DatabaseQuerySelect extends DatabaseQueryAbstract
 {
     /**
      * Distinct operation
@@ -109,7 +111,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
     /**
      * Make the query distinct
      *
-     * @return KDatabaseQuery
+     * @return DatabaseQuery
      */
     public function distinct()
     {
@@ -121,7 +123,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      * Build a select query
      *
      * @param  array|string $columns A string or an array of column names
-     * @return \KDatabaseQuerySelect
+     * @return DatabaseQuerySelect
      */
     public function columns($columns = array())
     {
@@ -141,7 +143,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      * Build the from clause 
      *
      * @param  array|string The table string or array name.
-     * @return \KDatabaseQuerySelect
+     * @return DatabaseQuerySelect
      */
     public function table($table)
     {
@@ -155,7 +157,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      * @param string $table      The table name to join to.
      * @param string $condition  The join conditation statement.
      * @param string|array $type The type of join; empty for a plain JOIN, or "LEFT", "INNER", etc.
-     * @return \KDatabaseQuerySelect
+     * @return DatabaseQuerySelect
      */
     public function join($table, $condition = null, $type = 'LEFT')
     {
@@ -181,7 +183,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      *
      * @param   string $condition   The where conditition stateme
      * @param   string $combination The where combination, defaults to 'AND'
-     * @return  \KDatabaseQuerySelect
+     * @return  DatabaseQuerySelect
      */
     public function where($condition, $combination = 'AND')
     {
@@ -197,7 +199,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      * Build the group clause
      *
      * @param   array|string $columns A string or array of ordering columns
-     * @return  \KDatabaseQuerySelect
+     * @return  DatabaseQuerySelect
      */
     public function group($columns)
     {
@@ -209,7 +211,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      * Build the having clause
      *
      * @param   array|string $columns A string or array of ordering columns
-     * @return  \KDatabaseQuerySelect
+     * @return  DatabaseQuerySelect
      */
     public function having($columns)
     {
@@ -222,7 +224,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      *
      * @param   array|string $columns   A string or array of ordering columns
      * @param   string       $direction Either DESC or ASC
-     * @return  \KDatabaseQuerySelect
+     * @return  DatabaseQuerySelect
      */
     public function order($columns, $direction = 'ASC')
     {
@@ -242,7 +244,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
      *
      * @param   integer $limit  Number of items to fetch.
      * @param   integer $offset Offset to start fetching at.
-     * @return  \KDatabaseQuerySelect
+     * @return  DatabaseQuerySelect
      */
     public function limit($limit, $offset = 0)
     {
@@ -272,7 +274,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
             $columns = array();
             foreach($this->columns as $alias => $column)
             {
-                if($column instanceof KDatabaseQuerySelect) {
+                if($column instanceof DatabaseQuerySelect) {
                     $columns[] = '('.$column.')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
                 } else {
                     $columns[] = $adapter->quoteIdentifier($column.(is_string($alias) ? ' AS '.$alias : ''));
@@ -285,7 +287,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
 
         if($this->table)
         {
-            if(current($this->table) instanceof KDatabaseQuerySelect) {
+            if(current($this->table) instanceof DatabaseQuerySelect) {
                 $table= '('.current($this->table).')'.(!is_numeric(key($this->table)) ? ' AS '.$adapter->quoteIdentifier(key($this->table)) : '');
             } else {
                 $table = $adapter->quoteIdentifier($prefix.current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
@@ -305,7 +307,7 @@ class KDatabaseQuerySelect extends KDatabaseQueryAbstract
                     $tmp .= ' '.$join['type'];
                 }
 
-                if($join['table'] instanceof KDatabaseQuerySelect) {
+                if($join['table'] instanceof DatabaseQuerySelect) {
                     $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
                 } else {
                     $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));

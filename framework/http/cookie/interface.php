@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * HTTP Cookie Class
  *
@@ -14,14 +16,14 @@
  * @package     Koowa_Http
  * @subpackage  Cookie
  */
-interface KHttpCookieInterface
+interface HttpCookieInterface
 {
     /**
      * Set the cookie name
      *
      * @param string $name The name of the cookie
      * @throws \InvalidArgumentException    If the cookie name is not valid or is empty
-     * @return KHttpCookie
+     * @return HttpCookie
      */
     public function setName($name);
 
@@ -30,7 +32,7 @@ interface KHttpCookieInterface
      *
      * @param integer|string|\DateTime $expire The expiration time of the cookie
      * @throws \InvalidArgumentException    If the cookie expiration time is not valid
-     * @return KHttpCookie
+     * @return HttpCookie
      */
     public function setExpire($expire);
 

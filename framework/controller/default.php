@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Controller Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-class KControllerDefault extends KControllerModel
+class ControllerDefault extends ControllerModel
 {
 
 }

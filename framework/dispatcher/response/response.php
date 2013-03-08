@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher Response Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class KDispatcherResponse extends KControllerResponse implements KDispatcherResponseInterface
+class DispatcherResponse extends ControllerResponse implements DispatcherResponseInterface
 {
     /**
      * Transport object or identifier
@@ -33,9 +35,9 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Constructor.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -51,10 +53,10 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      * @return 	void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'transport' => 'default',
@@ -67,11 +69,11 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherRequest
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return DispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has('response'))
         {
@@ -91,23 +93,23 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
      * Get the transport strategy
      *
      * @throws	\UnexpectedValueException	If the transport object doesn't implement the
-     *                                      KDispatcherResponseTransportInterface
-     * @return	KDispatcherResponseTransportInterface
+     *                                      DispatcherResponseTransportInterface
+     * @return	DispatcherResponseTransportInterface
      */
     public function getTransport()
     {
-        if(!$this->_transport instanceof KDispatcherResponseTransportInterface)
+        if(!$this->_transport instanceof DispatcherResponseTransportInterface)
         {
-            if(!($this->_transport instanceof KServiceIdentifier)) {
+            if(!($this->_transport instanceof ServiceIdentifier)) {
                 $this->setTransport($this->_transport);
             }
 
             $this->_transport = $this->getService($this->_transport, array('response' => $this));
 
-            if(!$this->_transport instanceof KDispatcherResponseTransportInterface)
+            if(!$this->_transport instanceof DispatcherResponseTransportInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Transport: '.get_class($this->_transport).' does not implement KDispatcherResponseTransportInterface'
+                    'Transport: '.get_class($this->_transport).' does not implement DispatcherResponseTransportInterface'
                 );
             }
         }
@@ -118,13 +120,13 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Method to set a transport strategy
      *
-     * @param	mixed	An object that implements KServiceInterface, KServiceIdentifier object
+     * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
      * 					or valid identifier string
-     * @return	KDispatcherResponse
+     * @return	DispatcherResponse
      */
     public function setTransport($transport)
     {
-        if(!($transport instanceof KDispatcherResponseTransportInterface))
+        if(!($transport instanceof DispatcherResponseTransportInterface))
         {
             if(is_string($transport) && strpos($transport, '.') === false ) {
                 $identifier = 'lib://nooku/dispatcher.response.transport.'.$transport;
@@ -143,10 +145,10 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Set the request object
      *
-     * @param KDispatcherRequestInterface $request A request object
-     * @return KDispatcherResponse
+     * @param DispatcherRequestInterface $request A request object
+     * @return DispatcherResponse
      */
-    public function setRequest(KDispatcherRequestInterface $request)
+    public function setRequest(DispatcherRequestInterface $request)
     {
         $this->_request = $request;
         return $this;
@@ -155,19 +157,19 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Get the request object
      *
-     * @throws	\UnexpectedValueException	If the request doesn't implement the KControllerRequestInterface
-     * @return KControllerRequestInterface
+     * @throws	\UnexpectedValueException	If the request doesn't implement the ControllerRequestInterface
+     * @return ControllerRequestInterface
      */
     public function getRequest()
     {
-        if(!$this->_request instanceof KDispatcherRequestInterface)
+        if(!$this->_request instanceof DispatcherRequestInterface)
         {
             $this->_request = $this->getService($this->_request);
 
-            if(!$this->_request instanceof KDispatcherRequestInterface)
+            if(!$this->_request instanceof DispatcherRequestInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Request: '.get_class($this->_request).' does not implement KDispatcherRequestInterface'
+                    'Request: '.get_class($this->_request).' does not implement DispatcherRequestInterface'
                 );
             }
         }
@@ -178,7 +180,7 @@ class KDispatcherResponse extends KControllerResponse implements KDispatcherResp
     /**
      * Send the response
      *
-     * @return KDispatcherResponseTransportInterface
+     * @return DispatcherResponseTransportInterface
      */
     public function send()
     {

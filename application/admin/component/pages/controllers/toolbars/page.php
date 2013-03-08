@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Pages Toolbar Class
  *
@@ -17,7 +19,7 @@
 
 class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
 {
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {
         parent::onAfterControllerBrowse($event);
 
@@ -28,7 +30,7 @@ class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
         $this->addDefault();
     }
 
-    protected function _commandDefault(KControllerToolbarCommand $command)
+    protected function _commandDefault(Framework\ControllerToolbarCommand $command)
     {
         $command->label = JText::_('Make Default');
 
@@ -40,7 +42,7 @@ class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
         ));
     }
 
-    protected function _commandRestore(KControllerToolbarCommand $command)
+    protected function _commandRestore(Framework\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(
@@ -49,7 +51,7 @@ class ComPagesControllerToolbarPage extends ComDefaultControllerToolbarDefault
         ));
     }
     
-    protected function _commandNew(KControllerToolbarCommand $command)
+    protected function _commandNew(Framework\ControllerToolbarCommand $command)
     {
         $menu = $this->getController()->getModel()->menu;
         $command->href = 'option=com_pages&view=page&menu='.$menu;

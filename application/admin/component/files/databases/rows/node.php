@@ -8,15 +8,17 @@
  * @link        http://www.nooku.org
  */
 
-class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
+use Nooku\Framework;
+
+class ComFilesDatabaseRowNode extends Framework\DatabaseRowAbstract
 {
 	protected $_adapter;
 
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
-		$this->mixin(new KMixinCommand($config->append(array('mixer' => $this))));
+		$this->mixin(new Framework\MixinCommand($config->append(array('mixer' => $this))));
 
 		if ($config->validator !== false)
 		{
@@ -28,7 +30,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 		}
 	}
 
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
 			'command_chain'     => $this->getService('lib://nooku/command.chain'),
@@ -59,7 +61,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 
 		if ($context->result === false)
 		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatus(Framework\Database::STATUS_FAILED);
 		}
 		else
 		{
@@ -70,7 +72,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 				$this->name = $this->destination_name;
 			}
 
-			$this->setStatus($this->overwritten ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_CREATED);
+			$this->setStatus($this->overwritten ? Framework\Database::STATUS_UPDATED : Framework\Database::STATUS_CREATED);
 		}
 
 		return $context->result;
@@ -89,7 +91,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 
 		if ($context->result === false)
 		{
-			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatus(Framework\Database::STATUS_FAILED);
 		}
 		else
 		{
@@ -100,7 +102,7 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
 				$this->name = $this->destination_name;
 			}
 
-			$this->setStatus($this->overwritten ? KDatabase::STATUS_UPDATED : KDatabase::STATUS_CREATED);
+			$this->setStatus($this->overwritten ? Framework\Database::STATUS_UPDATED : Framework\Database::STATUS_CREATED);
 		}
 
 		return $context->result;
@@ -118,9 +120,9 @@ class ComFilesDatabaseRowNode extends KDatabaseRowAbstract
         }
 
 		if ($context->result === false) {
-			$this->setStatus(KDatabase::STATUS_FAILED);
+			$this->setStatus(Framework\Database::STATUS_FAILED);
 		} else {
-            $this->setStatus(KDatabase::STATUS_DELETED);
+            $this->setStatus(Framework\Database::STATUS_DELETED);
         }
 
 		return $context->result;

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Languages Database Rowset Class
  *
@@ -14,12 +16,12 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseRowsetLanguages extends KDatabaseRowsetAbstract implements KServiceInstantiatable
+class ComApplicationDatabaseRowsetLanguages extends Framework\DatabaseRowsetAbstract implements Framework\ServiceInstantiatable
 {
     protected $_active;
     protected $_primary;
 
-    public function __construct(KConfig $config )
+    public function __construct(Framework\Config $config )
     {
         parent::__construct($config);
 
@@ -32,13 +34,13 @@ class ComApplicationDatabaseRowsetLanguages extends KDatabaseRowsetAbstract impl
         $this->merge($components);
     }
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
     }
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

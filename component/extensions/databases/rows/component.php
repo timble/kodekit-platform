@@ -7,13 +7,15 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+use Nooku\Framework;
+
 /**
  * Component Database Row
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsDatabaseRowComponent extends KDatabaseRowTable
+class ComExtensionsDatabaseRowComponent extends Framework\DatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest

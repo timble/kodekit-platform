@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher Response Transport Interface
  *
@@ -14,12 +16,12 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-interface KDispatcherResponseTransportInterface
+interface DispatcherResponseTransportInterface
 {
     /**
      * Send the response
      *
-     * @return KDispatcherResponseTransportInterface
+     * @return DispatcherResponseTransportInterface
      */
     public function send();
 }

@@ -10,6 +10,8 @@
 jimport('joomla.registry.format');
 jimport('joomla.registry.format.ini');
 
+use Nooku\Framework;
+
 /**
  * INI filter
  *
@@ -23,14 +25,14 @@ jimport('joomla.registry.format.ini');
  * @subpackage  Default
  * @uses        JRegistryFormatINI
  */
-class ComDefaultFilterIni extends KFilterAbstract
+class ComDefaultFilterIni extends Framework\FilterAbstract
 {
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Framework\Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
@@ -64,7 +66,7 @@ class ComDefaultFilterIni extends KFilterAbstract
         {
             $handler = JRegistryFormat::getInstance('INI');
 
-            if($value instanceof KConfig) {
+            if($value instanceof Framework\Config) {
                 $value = $value->toArray();
             }
 

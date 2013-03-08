@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Schema Column Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Schema
  */
-class KDatabaseSchemaColumn extends KObject
+class DatabaseSchemaColumn extends Object
 {
 	/**
 	 * Column name
@@ -91,14 +93,14 @@ class KDatabaseSchemaColumn extends KObject
 	 *
 	 * Public access is allowed via __get() with $filter.
 	 *
-	 * @var	KFilter
+	 * @var	Filter
 	 */
 	protected $_filter;
 
 	/**
      * Implements the virtual $filter property.
      *
-     * The value can be a KFilter object, a filter name, an array of filter
+     * The value can be a Filter object, a filter name, an array of filter
      * names or a filter identifier
      *
      * @param 	string 	The virtual property to set, only accepts 'filter'
@@ -126,7 +128,7 @@ class KDatabaseSchemaColumn extends KObject
                 $this->_filter = $this->type;
             }
 
-            if(!($this->_filter instanceof KFilterInterface)) {
+            if(!($this->_filter instanceof FilterInterface)) {
                 $this->_filter = $this->getService('lib://nooku/filter.factory')->instantiate($this->_filter);
             }
 

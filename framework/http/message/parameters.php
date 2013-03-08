@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Message Parameters Class
  *
@@ -16,20 +18,20 @@
  * @package     Koowa_Http
  * @subpackage  Messsage
  */
-class KHttpMessageParameters extends KObjectArray
+class HttpMessageParameters extends ObjectArray
 {
     /**
      * Constructor
      *
-     * @param KConfig $config  An optional KConfig object with configuration options
-     * @return KObjectArray
+     * @param Config $config  An optional Config object with configuration options
+     * @return ObjectArray
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         //Add the parameters
-        $this->add(KConfig::unbox($config->parameters));
+        $this->add(Config::unbox($config->parameters));
     }
 
     /**
@@ -37,10 +39,10 @@ class KHttpMessageParameters extends KObjectArray
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'parameters' => array(),
@@ -52,7 +54,7 @@ class KHttpMessageParameters extends KObjectArray
     /**
      * Get all parameters and filter them
      *
-     * @param   mixed   $filter Filter(s), can be a KFilter object, a filter name, an array of filter names or a filter identifier
+     * @param   mixed   $filter Filter(s), can be a Filter object, a filter name, an array of filter names or a filter identifier
      * @return  mixed   The sanitized data
      */
     public function all($filter)
@@ -73,7 +75,7 @@ class KHttpMessageParameters extends KObjectArray
             }
 
             // Filter the data
-            if(!($filter instanceof KFilterInterface)) {
+            if(!($filter instanceof FilterInterface)) {
                 $filter = $this->getService('lib://nooku/filter.factory')->instantiate($filter);
             }
 
@@ -87,7 +89,7 @@ class KHttpMessageParameters extends KObjectArray
      * Get a filtered parameter
      *
      * @param   string  $identifier Parameter identifier, eg .foo.bar
-     * @param   mixed   $filter     Filter(s), can be a KFilter object, a filter name, an array of filter names or a filter
+     * @param   mixed   $filter     Filter(s), can be a Filter object, a filter name, an array of filter names or a filter
      *                              identifier
      * @param   mixed   $default    Default value when the variable doesn't exist
      * @return  mixed   The sanitized parameter
@@ -121,7 +123,7 @@ class KHttpMessageParameters extends KObjectArray
             }
 
             // Filter the data
-            if(!($filter instanceof KFilterInterface)) {
+            if(!($filter instanceof FilterInterface)) {
                 $filter = $this->getService('lib://nooku/filter.factory')->instantiate($filter);
             }
 
@@ -138,7 +140,7 @@ class KHttpMessageParameters extends KObjectArray
      * @param   mixed   $identifier Parameter identifier, eg foo.bar
      * @param   mixed   $value      Parameter value
      * @param   boolean $replace    Whether to replace the actual value or not (true by default)
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function set($identifier, $value, $replace = true)
     {
@@ -183,7 +185,7 @@ class KHttpMessageParameters extends KObjectArray
      * This function will not add parameters that already exist.
      *
      * @param array $parameters An array of HTTP headers
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function add(array $parameters)
     {
@@ -198,7 +200,7 @@ class KHttpMessageParameters extends KObjectArray
      * Removes a parameter.
      *
      * @param string $identifier The parameter name
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function remove($identifier)
     {
@@ -219,7 +221,7 @@ class KHttpMessageParameters extends KObjectArray
     /**
      * Clear the current parameters
      *
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function clear()
     {

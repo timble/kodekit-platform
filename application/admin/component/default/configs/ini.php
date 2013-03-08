@@ -10,6 +10,8 @@
 jimport('joomla.registry.format');
 jimport('joomla.registry.format.ini');
 
+use Nooku\Framework;
+
 /**
  * INI Config Class
  *
@@ -17,7 +19,7 @@ jimport('joomla.registry.format.ini');
  * @package     Nooku_Server
  * @subpackage  Config
  */
-class ComDefaultConfigIni extends KConfig
+class ComDefaultConfigIni extends Framework\Config
 {
     /**
      * Returns a string in INI format

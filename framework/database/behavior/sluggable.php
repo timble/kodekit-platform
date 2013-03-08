@@ -6,6 +6,8 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Sluggable Behavior
  *
@@ -17,7 +19,7 @@
  * @subpackage  Behavior
  * @see         http://en.wikipedia.org/wiki/Slug_(web_publishing)
  */
-class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
+class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
 {
     /**
      * The column name from where to generate the slug, or a set of column
@@ -63,9 +65,9 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -82,10 +84,10 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'columns'    => array('title'),
@@ -108,11 +110,11 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      * @param object The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Object $mixer = null)
     {
         $methods = array();
 
-        if($mixer instanceof KDatabaseRowInterface && $mixer->has('slug')) {
+        if($mixer instanceof DatabaseRowInterface && $mixer->has('slug')) {
             $methods = parent::getMixableMethods($mixer);
         }
 
@@ -149,7 +151,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _afterTableInsert(KCommandContext $context)
+    protected function _afterTableInsert(CommandContext $context)
     {
         if ($this->_createSlug()) {
             $this->save();
@@ -167,7 +169,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _beforeTableUpdate(KCommandContext $context)
+    protected function _beforeTableUpdate(CommandContext $context)
     {
         if ($this->_updatable) {
             $this->_createSlug();
@@ -256,7 +258,7 @@ class KDatabaseBehaviorSluggable extends KDatabaseBehaviorAbstract
                 ->where('slug LIKE :slug')
                 ->bind(array('slug' => $this->slug . '-%'));
 
-            $slugs = $table->select($query, KDatabase::FETCH_FIELD_LIST);
+            $slugs = $table->select($query, Database::FETCH_FIELD_LIST);
 
             $i = 1;
             while (in_array($this->slug . '-' . $i, $slugs)) {

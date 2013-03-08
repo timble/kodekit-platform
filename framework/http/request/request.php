@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * HTTP Request Class
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Http
  * @link        http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5
  */
-class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
+class HttpRequest extends HttpMessage implements HttpRequestInterface
 {
     // Methods
     const GET     = 'GET';
@@ -36,17 +38,17 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
     /**
      * URL of the request regardless of the server
      *
-     * @var KHttpUrl
+     * @var HttpUrl
      */
     protected $_url;
 
     /**
      * Constructor
      *
-     * @param KConfig $config  An optional KConfig object with configuration options
-     * @return KHttpResponse
+     * @param Config $config  An optional Config object with configuration options
+     * @return HttpResponse
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -64,10 +66,10 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'method'  => self::GET,
@@ -82,7 +84,7 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
      * Set the header parameters
      *
      * @param  array $headers
-     * @return KHttpRequest
+     * @return HttpRequest
      */
     public function setHeaders($headers)
     {
@@ -95,7 +97,7 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
      *
      * @param  string $method
      * @throws \InvalidArgumentException
-     * @return KHttpRequest
+     * @return HttpRequest
      */
     public function setMethod($method)
     {
@@ -121,14 +123,14 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
     /**
      * Set the url for this request
      *
-     * @param string|KHttpUrl   $uri
-     * @throws \InvalidArgumentException If the url is not an instance of KHttpUrl or a string
-     * @return KHttpRequest
+     * @param string|HttpUrl   $uri
+     * @throws \InvalidArgumentException If the url is not an instance of HttpUrl or a string
+     * @return HttpRequest
      */
     public function setUrl($url)
     {
-        if (!$url instanceof KHttpUrlInterface || !is_string($url)) {
-            throw new \InvalidArgumentException('Url must be an instance of KHttpUrl or a string');
+        if (!$url instanceof HttpUrlInterface || !is_string($url)) {
+            throw new \InvalidArgumentException('Url must be an instance of HttpUrl or a string');
         }
 
         if (is_string($url)) {
@@ -142,7 +144,7 @@ class KHttpRequest extends KHttpMessage implements KHttpRequestInterface
     /**
      * Return the url for this request
      *
-     * @return KHttpUrl
+     * @return HttpUrl
      */
     public function getUrl()
     {

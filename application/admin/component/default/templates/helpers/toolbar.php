@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Template Toolbar Helper
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
+class ComDefaultTemplateHelperToolbar extends Framework\TemplateHelperAbstract
 {
     /**
      * Render the toolbar
@@ -24,7 +26,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'toolbar' => null,
             'attribs' => array('class' => array('toolbar'))
@@ -59,7 +61,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
         	'command' => array('attribs' => array('class' => array('btn', 'toolbar')))
         ));
@@ -94,7 +96,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
      */
     public function separator($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
             'command' => array('attribs' => array('class' => array('btn-group')))
         ));
@@ -114,7 +116,7 @@ class ComDefaultTemplateHelperToolbar extends KTemplateHelperAbstract
      */
     public function dialog($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
         	'command' => NULL
         ));

@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Select Template Helper Class
  *
@@ -16,11 +18,11 @@
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersTemplateHelperSelect extends KTemplateHelperSelect
+class ComUsersTemplateHelperSelect extends Framework\TemplateHelperSelect
 {    
     public function users($config = array())
     {
-    	$config = new KConfig($config);
+    	$config = new Framework\Config($config);
     	$config->append(array(
     		'list'      => $this->getService('com://admin/users.model.users')->set('sort', 'name')->getRowset(),
     		'text'		=> 'name'

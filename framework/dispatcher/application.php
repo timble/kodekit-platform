@@ -6,20 +6,22 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Application Dispatcher Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class KDispatcherApplication extends KDispatcherAbstract implements KServiceInstantiatable
+class DispatcherApplication extends DispatcherAbstract implements ServiceInstantiatable
 {
     /**
      * Constructor.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -32,10 +34,10 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      * @return 	void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
     	$config->append(array(
         	'component' => $this->getIdentifier()->package,
@@ -47,11 +49,11 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherApplication
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return DispatcherApplication
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         // Check if an instance with this identifier already exists
         if (!$manager->has('application'))
@@ -70,19 +72,19 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
     /**
      * Method to get a dispatcher object
      *
-     * @throws	\UnexpectedValueException	If the controller doesn't implement the KControllerInterface
-     * @return	KControllerAbstract
+     * @throws	\UnexpectedValueException	If the controller doesn't implement the ControllerInterface
+     * @return	ControllerAbstract
      */
     public function getComponent()
     {
-        if(!($this->_controller instanceof KDispatcherInterface))
+        if(!($this->_controller instanceof DispatcherInterface))
         {
             $this->_controller = $this->getController();
 
-            if(!$this->_controller instanceof KDispatcherInterface)
+            if(!$this->_controller instanceof DispatcherInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Dispatcher: '.get_class($this->_controller).' does not implement KDispatcherInterface'
+                    'Dispatcher: '.get_class($this->_controller).' does not implement DispatcherInterface'
                 );
             }
         }
@@ -93,13 +95,13 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
     /**
      * Method to set a dispatcher object
      *
-     * @param	mixed	$component  An object that implements KControllerInterface, KServiceIdentifier object
+     * @param	mixed	$component  An object that implements ControllerInterface, ServiceIdentifier object
      * 					            or valid identifier string
-     * @return	KDispatcherAbstract
+     * @return	DispatcherAbstract
      */
     public function setComponent($component, $config = array())
     {
-        if(!($component instanceof KDispatcherInterface))
+        if(!($component instanceof DispatcherInterface))
         {
             if(is_string($component) && strpos($component, '.') === false )
             {
@@ -119,9 +121,9 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
     /**
      * Dispatch the request
      *
-     * @param KCommandContext $context	A command context object
+     * @param CommandContext $context	A command context object
      */
-    protected function _actionDispatch(KCommandContext $context)
+    protected function _actionDispatch(CommandContext $context)
     {
         $this->getComponent()->dispatch($context);
     }
@@ -129,9 +131,9 @@ class KDispatcherApplication extends KDispatcherAbstract implements KServiceInst
     /**
      * Send the response to the client
      *
-     * @param KCommandContext $context	A command context object
+     * @param CommandContext $context	A command context object
      */
-    public function _actionSend(KCommandContext $context)
+    public function _actionSend(CommandContext $context)
     {
         $context->response->send();
         exit(0);

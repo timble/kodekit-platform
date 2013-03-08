@@ -7,6 +7,8 @@
  * @link         http://www.koowa.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Table Row Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Database
  * @subpackage  Row
  */
-class KDatabaseRowTable extends KDatabaseRowAbstract
+class DatabaseRowTable extends DatabaseRowAbstract
 {
     /**
      * Table object or identifier
@@ -26,9 +28,9 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -48,10 +50,10 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional KConfig object with configuration options.
+     * @param     object     An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'table' => $this->getIdentifier()->name
@@ -63,25 +65,25 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     /**
      * Method to get a table object
      *
-     * Function catches KDatabaseTableExceptions that are thrown for tables that
+     * Function catches DatabaseTableExceptions that are thrown for tables that
      * don't exist. If no table object can be created the function will return FALSE.
      *
-     * @return KDatabaseTableAbstract
+     * @return DatabaseTableAbstract
      */
     public function getTable()
     {
         if ($this->_table !== false)
         {
-            if (!($this->_table instanceof KDatabaseTableInterface))
+            if (!($this->_table instanceof DatabaseTableInterface))
             {
                 //Make sure we have a table identifier
-                if (!($this->_table instanceof KServiceIdentifier)) {
+                if (!($this->_table instanceof ServiceIdentifier)) {
                     $this->setTable($this->_table);
                 }
 
                 try {
                     $this->_table = $this->getService($this->_table);
-                } catch (RuntimeException $e) {
+                } catch (\RuntimeException $e) {
                     $this->_table = false;
                 }
             }
@@ -93,20 +95,20 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    An object that implements KServiceInterface, KServiceIdentifier object
+     * @param    mixed    An object that implements ServiceInterface, ServiceIdentifier object
      *                    or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
-     * @return  KDatabaseRowsetAbstract
+     * @return  DatabaseRowsetAbstract
      */
     public function setTable($table)
     {
-        if (!($table instanceof KDatabaseTableInterface))
+        if (!($table instanceof DatabaseTableInterface))
         {
             if (is_string($table) && strpos($table, '.') === false)
             {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('database', 'table');
-                $identifier->name = KInflector::tableize($table);
+                $identifier->name = Inflector::tableize($table);
             }
             else $identifier = $this->getIdentifier($table);
 
@@ -136,7 +138,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
             if ($this->isConnected())
             {
                 $data = $this->getTable()->filter($this->getData(true), true);
-                $row  = $this->getTable()->select($data, KDatabase::FETCH_ROW);
+                $row  = $this->getTable()->select($data, Database::FETCH_ROW);
 
                 // Set the data if the row was loaded successfully.
                 if (!$row->isNew())
@@ -144,7 +146,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
                     $this->setData($row->getData(), false);
                     $this->_modified = array();
 
-                    $this->setStatus(KDatabase::STATUS_LOADED);
+                    $this->setStatus(Database::STATUS_LOADED);
                     $result = $this;
                 }
             }
@@ -206,7 +208,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     /**
      * Reset the row data using the defaults
      *
-     * @return KDatabaseRowTable
+     * @return DatabaseRowTable
      */
     public function reset()
     {
@@ -222,7 +224,7 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
     /**
      * Test the connected status of the row.
      *
-     * @return    boolean    Returns TRUE if we have a reference to a live KDatabaseTableAbstract object.
+     * @return    boolean    Returns TRUE if we have a reference to a live DatabaseTableAbstract object.
      */
     public function isConnected()
     {
@@ -255,18 +257,18 @@ class KDatabaseRowTable extends KDatabaseRowAbstract
      * Search the mixin method map and call the method or trigger an error
      *
      * This function implements a just in time mixin strategy. Available table behaviors are only mixed when needed.
-     * Lazy mixing is triggered by calling KDatabaseRowsetTable::is[Behaviorable]();
+     * Lazy mixing is triggered by calling DatabaseRowsetTable::is[Behaviorable]();
      *
      * @param  string     The function name
      * @param  array      The function arguments
-     * @throws BadMethodCallException     If method could not be found
+     * @throws \BadMethodCallException     If method could not be found
      * @return mixed The result of the function
      */
     public function __call($method, $arguments)
     {
         if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
         {
-            $parts = KInflector::explode($method);
+            $parts = Inflector::explode($method);
 
             //Check if a behavior is mixed
             if ($parts[0] == 'is' && isset($parts[1]))

@@ -6,6 +6,8 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
+namespace Nooku\Framework;
+
 /**
  * Database Creatable Behavior
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Database
  * @subpackage  Behavior
  */
-class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
+class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
 {
     /**
      * Get the methods that are available for mixin based
@@ -25,11 +27,11 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
      * @param object The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(KObject $mixer = null)
+    public function getMixableMethods(Object $mixer = null)
     {
         $methods = array();
 
-        if($mixer instanceof KDatabaseRowInterface && ($mixer->has('created_by') || $mixer->has('created_on')))  {
+        if($mixer instanceof DatabaseRowInterface && ($mixer->has('created_by') || $mixer->has('created_on')))  {
             $methods = parent::getMixableMethods($mixer);
         }
 
@@ -43,7 +45,7 @@ class KDatabaseBehaviorCreatable extends KDatabaseBehaviorAbstract
      *
      * @return void
      */
-    protected function _beforeTableInsert(KCommandContext $context)
+    protected function _beforeTableInsert(CommandContext $context)
     {
         if($this->has('created_by') && empty($this->created_by)) {
             $this->created_by  = (int) $this->getService('user')->getId();

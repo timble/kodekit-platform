@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * File Size Filter Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Files
  */
 
-class ComFilesFilterFileSize extends KFilterAbstract
+class ComFilesFilterFileSize extends Framework\FilterAbstract
 {
 	protected $_walk = false;
 

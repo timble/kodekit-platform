@@ -14,16 +14,16 @@
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComDefaultRouter extends KObject implements KServiceInstantiatable
+class ComDefaultRouter extends Framework\Object implements Framework\ServiceInstantiatable
 {
 	/**
      * Force creation of a singleton
      *
-     * @@param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherDefault
+     * @@param 	Framework\Config                     $config	  A Framework\Config object with configuration options
+     * @param 	Framework\ServiceManagerInterface	$manager  A KServiceInterface object
+     * @return Framework\DispatcherDefault
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

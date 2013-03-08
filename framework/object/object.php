@@ -6,6 +6,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Object class
  *
@@ -13,7 +15,7 @@
  * @category    Koowa
  * @package     Koowa_Object
  */
-class KObject extends KService implements KObjectInterface
+class Object extends Service implements ObjectInterface
 {
     /**
      * Class methods
@@ -32,10 +34,10 @@ class KObject extends KService implements KObjectInterface
     /**
      * Constructor
      *
-     * @param KConfig  $config  A KConfig object with optional configuration options
-     * @return KObject
+     * @param Config  $config  A Config object with optional configuration options
+     * @return Object
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -43,7 +45,7 @@ class KObject extends KService implements KObjectInterface
         $this->_initialize($config);
 
         //Add the mixins
-        $mixins = (array)KConfig::unbox($config->mixins);
+        $mixins = (array)Config::unbox($config->mixins);
 
         foreach ($mixins as $key => $value)
         {
@@ -60,10 +62,10 @@ class KObject extends KService implements KObjectInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'mixins' => array(),
@@ -75,16 +77,16 @@ class KObject extends KService implements KObjectInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements KMixinInterface, KServiceIdentifier object
+     * @@param   mixed  $mixin  An object that implements MixinInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return  KObjectInterface
+     * @return  ObjectInterface
      */
     public function mixin($mixin, $config = array())
     {
-        if (!($mixin instanceof KMixinInterface))
+        if (!($mixin instanceof MixinInterface))
         {
-            if (!($mixin instanceof KServiceIdentifier))
+            if (!($mixin instanceof ServiceIdentifier))
             {
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($mixin) && strpos($mixin, '.') === false)
@@ -97,7 +99,7 @@ class KObject extends KService implements KObjectInterface
             }
             else $identifier = $mixin;
 
-            $mixin = new $identifier->classname(new KConfig($config));
+            $mixin = new $identifier->classname(new Config($config));
         }
 
         //Set the mixed methods and overwrite existing methods

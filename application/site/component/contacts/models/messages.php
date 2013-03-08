@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Messages Model
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsModelMessages extends KModelAbstract
+class ComContactsModelMessages extends Framework\ModelAbstract
 {
 
 }

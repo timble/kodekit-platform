@@ -6,13 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Exception Bad Request Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */
-class KHttpExceptionNotImplemented extends KHttpExceptionAbstract
+class HttpExceptionNotImplemented extends HttpExceptionAbstract
 {
-    protected $code = KHttpResponse::NOT_IMPLEMENTED;
+    protected $code = HttpResponse::NOT_IMPLEMENTED;
 }

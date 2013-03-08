@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Thumbnails Model Class
  *
@@ -16,7 +18,7 @@
  */
 class ComFilesModelThumbnails extends ComDefaultModelDefault
 {
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
@@ -30,7 +32,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		    ->insert('config'    , 'json', '');
 	}
 	
-	protected function _initialize(KConfig $config)
+	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
 			'state' => new ComFilesModelState()
@@ -50,31 +52,31 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		return $item;
 	}
 
-	protected function _buildQueryColumns(KDatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
     	parent::_buildQueryColumns($query);
     	$state = $this->getState();
     	
-    	if ($state->source instanceof KDatabaseRowInterface || $state->container) {
+    	if ($state->source instanceof Framework\DatabaseRowInterface || $state->container) {
     		$query->columns(array('container' => 'containers.slug'));
     	}
     }
 	
-	protected function _buildQueryJoins(KDatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
     	parent::_buildQueryJoins($query);
     	$state = $this->getState();
     	
-    	if ($state->source instanceof KDatabaseRowInterface || $state->container) {
+    	if ($state->source instanceof Framework\DatabaseRowInterface || $state->container) {
     		$query->join(array('containers' => 'files_containers'), 'containers.files_container_id = tbl.files_container_id');
     	}
     }
 
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
         
-		if ($state->source instanceof KDatabaseRowInterface) {
+		if ($state->source instanceof Framework\DatabaseRowInterface) {
 			$source = $state->source;
 
 			$query->where('tbl.files_container_id = :container_id')
@@ -104,7 +106,7 @@ class ComFilesModelThumbnails extends ComDefaultModelDefault
 		}
 	}
 	
-	protected function _buildQueryOrder(KDatabaseQuerySelect $query)
+	protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
 	{
 		$sort       = $this->_state->sort;
 		$direction  = strtoupper($this->_state->direction);

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Exception Bad Request Class
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Http
  * @subpackage  Exception
  */
-class KHttpExceptionBadRequest extends KHttpExceptionAbstract
+class HttpExceptionBadRequest extends HttpExceptionAbstract
 {
-    protected $code = KHttpResponse::BAD_REQUEST;
+    protected $code = HttpResponse::BAD_REQUEST;
 }

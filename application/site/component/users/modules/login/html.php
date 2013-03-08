@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Module Login View
  *
@@ -17,7 +19,7 @@
  
 class ComUsersModuleLoginHtml extends ComDefaultModuleDefaultHtml
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     { 
         $config->append(array(
             'layout' => $this->getService('user')->isAuthentic() ? 'logout' : 'login'

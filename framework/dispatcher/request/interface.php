@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Dispatcher Request Interface
  *
@@ -14,20 +16,20 @@
  * @package     Koowa_Dispatcher
  * @subpackage  Request
  */
-interface KDispatcherRequestInterface extends KControllerRequestInterface, KServiceInstantiatable
+interface DispatcherRequestInterface extends ControllerRequestInterface, ServiceInstantiatable
 {
     /**
      * Set the request cookies
      *
      * @param  array $cookies
-     * @return KDispatcherRequestInterface
+     * @return DispatcherRequestInterface
      */
     public function setCookies($cookies);
 
     /**
      * Get the request cookies
      *
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function getCookies();
 
@@ -35,14 +37,14 @@ interface KDispatcherRequestInterface extends KControllerRequestInterface, KServ
      * Set the request files
      *
      * @param  array $files
-     * @return KDispatcherRequestInterface
+     * @return DispatcherRequestInterface
      */
     public function setFiles($files);
 
     /**
      * Get the request files
      *
-     * @return KHttpMessageParameters
+     * @return HttpMessageParameters
      */
     public function getFiles();
 
@@ -53,7 +55,7 @@ interface KDispatcherRequestInterface extends KControllerRequestInterface, KServ
      * @see     http://en.wikipedia.org/wiki/HTTP_referrer
      *
      * @param   boolean  $isInternal Only allow internal url's
-     * @return  KHttpUrl A KHttpUrl object
+     * @return  HttpUrl A HttpUrl object
      */
     public function getReferrer($isInternal = true);
 
@@ -83,7 +85,7 @@ interface KDispatcherRequestInterface extends KControllerRequestInterface, KServ
      *  * http://localhost/mysite/enco%20ded   returns '/enco%20ded'
      *  * http://localhost/mysite/about?var=1  returns '/about'
      *
-     * @return  object  A KHttpUrl object
+     * @return  object  A HttpUrl object
      */
     public function getBaseUrl();
 
@@ -91,14 +93,14 @@ interface KDispatcherRequestInterface extends KControllerRequestInterface, KServ
      * Set the base URL for which the request is executed.
      *
      * @param string $url
-     * @return KDispatcherRequest
+     * @return DispatcherRequest
      */
     public function setBaseUrl($url);
 
     /**
      * Returns the base url of the request.
      *
-     * @return  object  A KHttpUrl object
+     * @return  object  A HttpUrl object
      */
     public function getBasePath();
 
@@ -106,7 +108,7 @@ interface KDispatcherRequestInterface extends KControllerRequestInterface, KServ
      * Set the base path for which the request is executed.
      *
      * @param string $path
-     * @return KDispatcherRequest
+     * @return DispatcherRequest
      */
     public function setBasePath($path);
 
@@ -135,7 +137,7 @@ interface KDispatcherRequestInterface extends KControllerRequestInterface, KServ
      * @param string       $format    The format
      * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used
      *                                as the content type)
-     * @return KDispatcherRequestInterface
+     * @return DispatcherRequestInterface
      */
     public function addFormat($format, $mime_types);
 

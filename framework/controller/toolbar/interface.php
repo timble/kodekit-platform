@@ -6,6 +6,8 @@
 * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
 */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Toolbar Interface
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  */
-interface KControllerToolbarInterface extends \IteratorAggregate
+interface ControllerToolbarInterface extends \IteratorAggregate
 {
     /**
      * Get the toolbar's name
@@ -27,7 +29,7 @@ interface KControllerToolbarInterface extends \IteratorAggregate
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
-     * @return  \KControllerToolbarCommand  The command object that was added
+     * @return  ControllerToolbarCommand  The command object that was added
      */
     public function addCommand($name, $config = array());
 
@@ -36,7 +38,7 @@ interface KControllerToolbarInterface extends \IteratorAggregate
      *
      * @param string $name  The command name
      * @param array $config An optional associative array of configuration settings
-     * @return mixed KControllerToolbarCommand if found, false otherwise.
+     * @return mixed ControllerToolbarCommand if found, false otherwise.
      */
     public function getCommand($name, $config = array()) ;
     

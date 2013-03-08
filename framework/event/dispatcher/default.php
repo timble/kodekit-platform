@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Event Dispatcher Class.
  *
@@ -14,7 +16,7 @@
  * @package     Koowa_Event
  * @subpackage 	Dispatcher
  */
-class KEventDispatcherDefault extends KEventDispatcherAbstract
+class EventDispatcherDefault extends EventDispatcherAbstract
 {
 
 }

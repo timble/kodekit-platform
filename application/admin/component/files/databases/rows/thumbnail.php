@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Thumbnail Database Row Class
  *
@@ -14,20 +16,20 @@
   * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesDatabaseRowThumbnail extends KDatabaseRowTable
+class ComFilesDatabaseRowThumbnail extends Framework\DatabaseRowTable
 {
     protected $_thumbnail_size;
 
-	public function __construct(KConfig $config)
+	public function __construct(Framework\Config $config)
 	{
 		parent::__construct($config);
 
-		$this->setThumbnailSize(KConfig::unbox($config->thumbnail_size));
+		$this->setThumbnailSize(Framework\Config::unbox($config->thumbnail_size));
 	}
 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
-    	$size = KConfig::unbox($config->thumbnail_size);
+    	$size = Framework\Config::unbox($config->thumbnail_size);
     	
 		if (empty($size)) {
 			$config->thumbnail_size = array('x' => 200, 'y' => 150);

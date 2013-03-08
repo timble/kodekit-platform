@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Module Toolbar Class
  *
@@ -16,7 +18,7 @@
  */
 class ComPagesControllerToolbarModule extends ComDefaultControllerToolbarDefault
 {
-    public function onAfterControllerBrowse(KEvent $event)
+    public function onAfterControllerBrowse(Framework\Event $event)
     {
         parent::onAfterControllerBrowse($event);
         
@@ -25,7 +27,7 @@ class ComPagesControllerToolbarModule extends ComDefaultControllerToolbarDefault
         $this->addDisable(array('label' => 'unpublish'));
     }
     
-    protected function _commandNew(KControllerToolbarCommand &$command)
+    protected function _commandNew(Framework\ControllerToolbarCommand &$command)
     {
         $command = $this->getCommand('dialog', array('label' => 'new'));
         $command->href = 'option=com_pages&view=modules&layout=list&installed=1&tmpl=dialog';

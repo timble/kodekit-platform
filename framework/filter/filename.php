@@ -6,13 +6,15 @@
 * @link 		http://www.nooku.org
 */
 
+namespace Nooku\Framework;
+
 /**
  * Filename filter, strips path info
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class KFilterFilename extends KFilterAbstract
+class FilterFilename extends FilterAbstract
 {
 	/**
 	 * Validate a value

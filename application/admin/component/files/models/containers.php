@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Containers Model Class
  *
@@ -16,7 +18,7 @@
  */
 class ComFilesModelContainers extends ComDefaultModelDefault
 {
-	protected function _buildQueryWhere(KDatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
         $state = $this->getState();

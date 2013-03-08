@@ -6,6 +6,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Error Exception Class
  *
@@ -13,4 +15,4 @@
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Exception
  */
-class KExceptionError extends \ErrorException implements KException { }
+class ExceptionError extends \ErrorException implements Exception { }

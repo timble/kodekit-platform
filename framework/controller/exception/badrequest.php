@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Exception Bad Request Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class KControllerExceptionBadRequest extends KHttpExceptionBadRequest implements KControllerException {}
+class ControllerExceptionBadRequest extends HttpExceptionBadRequest implements ControllerException {}

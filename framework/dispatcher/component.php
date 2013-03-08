@@ -6,20 +6,22 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Dispatcher Class
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstantiatable
+class DispatcherComponent extends DispatcherAbstract implements ServiceInstantiatable
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
+	 * @param 	object 	An optional Config object with configuration options.
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Config $config)
 	{
 		parent::__construct($config);
 
@@ -42,10 +44,10 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      * @return 	void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
@@ -57,11 +59,11 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherComponent
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return DispatcherComponent
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -82,26 +84,26 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      * @param   object  The command context
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
-    public function authenticateRequest(KCommandContext $context)
+    public function authenticateRequest(CommandContext $context)
     {
         $request = $context->request;
         $user    = $context->user;
 
         //Check referrer
         if(!$request->getReferrer()) {
-            throw new KControllerExceptionForbidden('Invalid Request Referrer');
+            throw new ControllerExceptionForbidden('Invalid Request Referrer');
         }
 
         //Check cookie token
         if($request->getToken() !== $request->cookies->get('_token', 'md5')) {
-            throw new KControllerExceptionForbidden('Invalid Cookie Token');
+            throw new ControllerExceptionForbidden('Invalid Cookie Token');
         }
 
         //Check session token
         if($user->isAuthentic())
         {
             if( $request->getToken() !== $user->session->getToken()) {
-                throw new KControllerExceptionForbidden('Invalid Session Token');
+                throw new ControllerExceptionForbidden('Invalid Session Token');
             }
         }
 
@@ -111,9 +113,9 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
     /**
      * Sign the response with a token
      *
-     * @param	KCommandContext	A command context object
+     * @param	CommandContext	A command context object
      */
-    public function signResponse(KCommandContext $context)
+    public function signResponse(CommandContext $context)
     {
         if(!$context->response->isError())
         {
@@ -133,11 +135,11 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
 	 * Dispatch the http method
 	 *
 	 * @param   object	$context A command context object
-     * @throws  KDispatcherExceptionActionNotImplemented If the action is not implemented and the request cannot be
+     * @throws  DispatcherExceptionActionNotImplemented If the action is not implemented and the request cannot be
      *                                                   full filled.
 	 * @return	mixed
 	 */
-	protected function _actionDispatch(KCommandContext $context)
+	protected function _actionDispatch(CommandContext $context)
 	{
         //Load the component aliases
         $component = $this->getController()->getIdentifier()->package;
@@ -156,10 +158,10 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      *
      * This function translates a GET request into a render action.
      *
-     * @param	KCommandContext	$context    A command context object
-     * @return 	KDatabaseRow(Set)Interface	A row(set) object containing the modified data
+     * @param	CommandContext	$context    A command context object
+     * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
-    protected function _actionGet(KCommandContext $context)
+    protected function _actionGet(CommandContext $context)
     {
         $controller = $this->getController();
         return $controller->execute('render', $context);
@@ -171,13 +173,13 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      * This function translated a POST request action into an edit or add action. If the model state is unique a edit
      * action will be executed, if not unique an add action will be executed.
      *
-     * @param	KCommandContext	$context    A command context object
-     * @throws  KDispatcherExceptionActionNotAllowed    The action specified in the request is not allowed for the
+     * @param	CommandContext	$context    A command context object
+     * @throws  DispatcherExceptionActionNotAllowed    The action specified in the request is not allowed for the
      *          resource identified by the Request-URI. The response MUST include an Allow header containing a list of
      *          valid actions for the requested resource.
-     * @return 	KDatabaseRow(Set)Interface	A row(set) object containing the modified data
+     * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
-    protected function _actionPost(KCommandContext $context)
+    protected function _actionPost(CommandContext $context)
     {
         $controller = $this->getController();
 
@@ -186,7 +188,7 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
             $action = strtolower($context->request->data->get('_action', 'alpha'));
 
             if(in_array($action, array('browse', 'read', 'render'))) {
-                throw new KDispatcherExceptionActionNotAllowed('Action: '.$action.' not allowed');
+                throw new DispatcherExceptionActionNotAllowed('Action: '.$action.' not allowed');
             }
 
         }
@@ -204,11 +206,11 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      *
      * If the resource already exists it will be completely replaced based on the data available in the request.
      *
-     * @param	KCommandContext	$context        A command context object
-     * @throws  KControllerExceptionBadRequest 	If the model state is not unique
-     * @return 	KDatabaseRow(set)Ineterface	    A row(set) object containing the modified data
+     * @param	CommandContext	$context        A command context object
+     * @throws  ControllerExceptionBadRequest 	If the model state is not unique
+     * @return 	DatabaseRow(set)Ineterface	    A row(set) object containing the modified data
      */
-    protected function _actionPut(KCommandContext $context)
+    protected function _actionPut(CommandContext $context)
     {
         $controller = $this->getController();
         $entity     = $controller->getModel()->getRow();
@@ -229,7 +231,7 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
 
             $entity = $controller->execute($action, $context);
         }
-        else throw new KControllerExceptionBadRequest('Resource not found');
+        else throw new ControllerExceptionBadRequest('Resource not found');
 
         return $entity;
     }
@@ -239,10 +241,10 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      *
      * This function translates a DELETE request into a delete action.
      *
-     * @param	KCommandContext	$context    A command context object
-     * @return 	KDatabaseRow(Set)Interface	A row(set) object containing the modified data
+     * @param	CommandContext	$context    A command context object
+     * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
-    protected function _actionDelete(KCommandContext $context)
+    protected function _actionDelete(CommandContext $context)
     {
         $controller = $this->getController();
         return $controller->execute('delete', $context);
@@ -253,7 +255,7 @@ class KDispatcherComponent extends KDispatcherAbstract implements KServiceInstan
      *
      * @return  string    The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
      */
-    protected function _actionOptions(KCommandContext $context)
+    protected function _actionOptions(CommandContext $context)
     {
         $methods = array();
 

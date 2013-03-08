@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Nodes Model Class
  *
@@ -21,7 +23,7 @@ class ComFilesModelNodes extends ComFilesModelDefault
 	{
 		$identifier         = clone $this->getIdentifier();
 		$identifier->path   = array('database', 'row');
-		$identifier->name   = KInflector::singularize($this->getIdentifier()->name);
+		$identifier->name   = Framework\Inflector::singularize($this->getIdentifier()->name);
 	
 		return $this->getService($identifier, $options);
 	}

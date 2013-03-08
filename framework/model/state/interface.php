@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Model State Interface
  *
@@ -14,17 +16,17 @@
  * @package     Koowa_Model
  * @subpackage  State
  */
-interface KModelStateInterface
+interface ModelStateInterface
 {
     /**
      * Insert a new state
      *
      * @param   string   $name     The name of the state
-     * @param   mixed    $filter   Filter(s), can be a KFilterInterface object, a filter name or an array of filter names
+     * @param   mixed    $filter   Filter(s), can be a FilterInterface object, a filter name or an array of filter names
      * @param   mixed    $default  The default value of the state
      * @param   boolean  $unique   TRUE if the state uniquely identifies an entity, FALSE otherwise. Default FALSE.
      * @param   array    $required Array of required states to determine if the state is unique. Only applicable if the state is unqiue.
-     * @return  KModelStateInterface
+     * @return  ModelStateInterface
      */
     public function insert($name, $filter, $default = null, $unique = false, $required = array());
 
@@ -42,7 +44,7 @@ interface KModelStateInterface
      *
      * @param  	string 	$name The state name.
      * @param  	mixed  	$value The state value.
-     * @return 	KModelStateInterface
+     * @return 	ModelStateInterface
      */
     public function set($name, $value);
 
@@ -58,7 +60,7 @@ interface KModelStateInterface
      * Remove an existing state
      *
      * @param   string $name The name of the state
-     * @return  KModelStateInterface
+     * @return  ModelStateInterface
      */
     public function remove( $name );
 
@@ -66,7 +68,7 @@ interface KModelStateInterface
      * Reset all state data and revert to the default state
      *
      * @param   boolean $default If TRUE use defaults when resetting. Default is TRUE
-     * @return KModelStateInterface
+     * @return ModelStateInterface
      */
     public function reset($default = true);
 
@@ -77,7 +79,7 @@ interface KModelStateInterface
      * to NULL.
      *
      * @param   array An associative array of state values by name
-     * @return  KModelState
+     * @return  ModelState
      */
     public function fromArray(array $data);
 

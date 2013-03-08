@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Template Toolbar Helper
  *
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateHelperToolbar extends KTemplateHelperAbstract
+class ComApplicationTemplateHelperToolbar extends Framework\TemplateHelperAbstract
 {
     /**
      * Render the toolbar
@@ -24,7 +26,7 @@ class ComApplicationTemplateHelperToolbar extends KTemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
         	'toolbar' => null,
             'attribs' => array()
@@ -56,7 +58,7 @@ class ComApplicationTemplateHelperToolbar extends KTemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
         $config->append(array(
         	'command' => array()
         ));

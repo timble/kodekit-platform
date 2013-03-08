@@ -7,6 +7,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Controller Permission Class
  *
@@ -14,20 +16,20 @@
  * @package     Koowa_Controller
  * @subpackage	Permission
  */
-abstract class KControllerPermissionAbstract extends KControllerBehaviorAbstract implements KControllerPermissionInterface
+abstract class ControllerPermissionAbstract extends ControllerBehaviorAbstract implements ControllerPermissionInterface
 {
     /**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options.
+     * @param   object  An optional Config object with configuration options.
      * @return void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority'   => KCommand::PRIORITY_HIGH,
+            'priority'   => Command::PRIORITY_HIGH,
             'auto_mixin' => true
         ));
 
@@ -41,11 +43,11 @@ abstract class KControllerPermissionAbstract extends KControllerBehaviorAbstract
      *
      * @param   string $name     The command name
      * @param   object $context  The command context
-     * @throws  KControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
-     * @throws  KControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
+     * @throws  ControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
+     * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
      * @return  boolean     Can return both true or false.
      */
-    public function execute( $name, KCommandContext $context)
+    public function execute( $name, CommandContext $context)
     {
         $parts = explode('.', $name);
 
@@ -56,9 +58,9 @@ abstract class KControllerPermissionAbstract extends KControllerBehaviorAbstract
             if($this->isPermitted($action) === false)
 		    {
                 if($context->user->isAuthentic()) {
-                    throw new KControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
+                    throw new ControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
                 } else {
-                    throw new KControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
+                    throw new ControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
                 }
 
 		        return false;
@@ -78,7 +80,7 @@ abstract class KControllerPermissionAbstract extends KControllerBehaviorAbstract
      */
     public function getHandle()
     {
-        return KMixinAbstract::getHandle();
+        return MixinAbstract::getHandle();
     }
 
     /**

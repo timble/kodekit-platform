@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Cache Group Model
  *
@@ -16,9 +18,9 @@
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheModelGroups extends KModelAbstract
+class ComCacheModelGroups extends Framework\ModelAbstract
 {	
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
 	{
 	    parent::__construct($config);
 		

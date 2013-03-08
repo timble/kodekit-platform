@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Http Message Headers Class
  *
@@ -18,7 +20,7 @@
  * @package     Koowa_Http
  * @subpackage  Request
  */
-class KHttpResponseHeaders extends KHttpMessageHeaders
+class HttpResponseHeaders extends HttpMessageHeaders
 {
     /**
      * A list of response cookies
@@ -32,7 +34,7 @@ class KHttpResponseHeaders extends KHttpMessageHeaders
      *
      * @param Cookie $cookie
      */
-    public function addCookie(KHttpCookie $cookie)
+    public function addCookie(HttpCookie $cookie)
     {
         $this->_cookies[$cookie->domain][(string) $cookie->path][$cookie->name] = $cookie;
     }

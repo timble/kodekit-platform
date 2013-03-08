@@ -6,13 +6,15 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract controller dispatcher
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-abstract class KDispatcherAbstract extends KControllerAbstract implements KDispatcherInterface
+abstract class DispatcherAbstract extends ControllerAbstract implements DispatcherInterface
 {
 	/**
 	 * Controller object or identifier
@@ -24,9 +26,9 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional KConfig object with configuration options.
+	 * @param 	object 	An optional Config object with configuration options.
 	 */
-	public function __construct(KConfig $config)
+	public function __construct(Config $config)
 	{
 		parent::__construct($config);
 
@@ -39,10 +41,10 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Config object with configuration options.
      * @return 	void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         //Create permission identifier
         $permission       = clone $this->getIdentifier();
@@ -62,19 +64,19 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
     /**
      * Get the request object
      *
-     * @throws	\UnexpectedValueException	If the request doesn't implement the KDispatcherRequestInterface
-     * @return KDispatcherRequest
+     * @throws	\UnexpectedValueException	If the request doesn't implement the DispatcherRequestInterface
+     * @return DispatcherRequest
      */
     public function getRequest()
     {
-        if(!$this->_request instanceof KDispatcherRequestInterface)
+        if(!$this->_request instanceof DispatcherRequestInterface)
         {
             $this->_request = parent::getRequest();
 
-            if(!$this->_request instanceof KDispatcherRequestInterface)
+            if(!$this->_request instanceof DispatcherRequestInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Request: '.get_class($this->_request).' does not implement KDispatcherRequestInterface'
+                    'Request: '.get_class($this->_request).' does not implement DispatcherRequestInterface'
                 );
             }
         }
@@ -85,22 +87,22 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
     /**
      * Get the response object
      *
-     * @throws	\UnexpectedValueException	If the response doesn't implement the KDispatcherResponseInterface
-     * @return KDispatcherResponse
+     * @throws	\UnexpectedValueException	If the response doesn't implement the DispatcherResponseInterface
+     * @return DispatcherResponse
      */
     public function getResponse()
     {
-        if(!$this->_response instanceof KDispatcherResponseInterface)
+        if(!$this->_response instanceof DispatcherResponseInterface)
         {
             $this->_response = parent::getResponse();
 
             //Set the request in the response
             $this->_response->setRequest($this->getRequest());
 
-            if(!$this->_response instanceof KDispatcherResponseInterface)
+            if(!$this->_response instanceof DispatcherResponseInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Response: '.get_class($this->_response).' does not implement KDispatcherResponseInterface'
+                    'Response: '.get_class($this->_response).' does not implement DispatcherResponseInterface'
                 );
             }
         }
@@ -111,19 +113,19 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
     /**
      * Get the user object
      *
-     * @throws	\UnexpectedValueException	If the user doesn't implement the KDispatcherUserInterface
-     * @return KDispatcherUserInterface
+     * @throws	\UnexpectedValueException	If the user doesn't implement the DispatcherUserInterface
+     * @return DispatcherUserInterface
      */
     public function getUser()
     {
-        if(!$this->_user instanceof KDispatcherUserInterface)
+        if(!$this->_user instanceof DispatcherUserInterface)
         {
             $this->_user = parent::getUser();
 
-            if(!$this->_user instanceof KDispatcherUserInterface)
+            if(!$this->_user instanceof DispatcherUserInterface)
             {
                 throw new \UnexpectedValueException(
-                    'User: '.get_class($this->_user).' does not implement KDispatcherUserInterface'
+                    'User: '.get_class($this->_user).' does not implement DispatcherUserInterface'
                 );
             }
         }
@@ -134,15 +136,15 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
 	/**
 	 * Method to get a controller object
 	 *
-     * @throws	\UnexpectedValueException	If the controller doesn't implement the KControllerInterface
-	 * @return	KControllerAbstract
+     * @throws	\UnexpectedValueException	If the controller doesn't implement the ControllerInterface
+	 * @return	ControllerAbstract
 	 */
 	public function getController()
 	{
-        if(!($this->_controller instanceof KControllerInterface))
+        if(!($this->_controller instanceof ControllerInterface))
 		{
 		    //Make sure we have a controller identifier
-		    if(!($this->_controller instanceof KServiceIdentifier)) {
+		    if(!($this->_controller instanceof ServiceIdentifier)) {
 		        $this->setController($this->_controller);
 			}
 
@@ -155,11 +157,11 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
 
 			$this->_controller = $this->getService($this->_controller, $config);
 
-            //Make sure the controller implements KControllerInterface
-            if(!$this->_controller instanceof KControllerInterface)
+            //Make sure the controller implements ControllerInterface
+            if(!$this->_controller instanceof ControllerInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Controller: '.get_class($this->_controller).' does not implement KControllerInterface'
+                    'Controller: '.get_class($this->_controller).' does not implement ControllerInterface'
                 );
             }
 		}
@@ -170,19 +172,19 @@ abstract class KDispatcherAbstract extends KControllerAbstract implements KDispa
 	/**
 	 * Method to set a controller object attached to the dispatcher
 	 *
-	 * @param	mixed	$controller An object that implements KControllerInterface, KServiceIdentifier object
+	 * @param	mixed	$controller An object that implements ControllerInterface, ServiceIdentifier object
 	 * 					            or valid identifier string
-	 * @return	KDispatcherAbstract
+	 * @return	DispatcherAbstract
 	 */
 	public function setController($controller, $config = array())
 	{
-		if(!($controller instanceof KControllerInterface))
+		if(!($controller instanceof ControllerInterface))
 		{
 			if(is_string($controller) && strpos($controller, '.') === false )
 		    {
 		        // Controller names are always singular
-			    if(KInflector::isPlural($controller)) {
-				    $controller = KInflector::singularize($controller);
+			    if(Inflector::isPlural($controller)) {
+				    $controller = Inflector::singularize($controller);
 			    }
 
 			    $identifier			= clone $this->getIdentifier();

@@ -6,6 +6,8 @@
  * @link     	http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Default Dispatcher
  *
@@ -13,7 +15,7 @@
  * @package     Koowa_Dispatcher
  */
 
-class KDispatcherDefault extends KDispatcherComponent
+class DispatcherDefault extends DispatcherComponent
 {
 
 }

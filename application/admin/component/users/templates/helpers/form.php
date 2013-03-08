@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Form template helper class
  *
@@ -17,7 +19,7 @@
  * @subpackage  Users
  */
 
-class ComUsersTemplateHelperForm extends KTemplateHelperDefault
+class ComUsersTemplateHelperForm extends Framework\TemplateHelperDefault
 {
 
     /**
@@ -29,7 +31,7 @@ class ComUsersTemplateHelperForm extends KTemplateHelperDefault
      */
     public function password($config = array()) {
 
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 
         $config->append(array(
             'class'                    => 'help-block',

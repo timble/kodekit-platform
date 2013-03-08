@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Translation Database Row Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowTranslation extends KDatabaseRowTable
+class ComLanguagesDatabaseRowTranslation extends Framework\DatabaseRowTable
 {
     /**
      * Status = completed

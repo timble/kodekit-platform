@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * MySQL Database Adapter
  *
@@ -15,7 +17,7 @@
  * @package     Koowa_Database
  * @subpackage  Adapter
  */
-class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
+class DatabaseAdapterMysql extends DatabaseAdapterAbstract
 {
     /**
      * Quote for query identifiers
@@ -95,10 +97,10 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   KConfig $config  An optional KConfig object with configuration options.
+     * @param   Config $config  An optional Config object with configuration options.
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'options' => array(
@@ -117,8 +119,8 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     /**
      * Connects to the database
      *
-     * @throws KDatabaseAdapterException  If connection failed.
-     * @return KDatabaseAdapterMysql
+     * @throws DatabaseAdapterException  If connection failed.
+     * @return DatabaseAdapterMysql
      */
     public function connect()
     {
@@ -137,9 +139,9 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
             $dsn .= ';socket='.$options->socket;
         }
 
-        $dbh = new PDO($dsn, $options->username, $options->password, array(
-            PDO::ATTR_PERSISTENT         => true,
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+        $dbh = new \PDO($dsn, $options->username, $options->password, array(
+            \PDO::ATTR_PERSISTENT         => true,
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ));
 
         $this->_connection = $dbh;
@@ -152,7 +154,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     /**
      * Disconnects from database
      *
-     * @return KDatabaseAdapterMysql
+     * @return DatabaseAdapterMysql
      */
     public function disconnect()
     {
@@ -239,7 +241,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
 
         if($this->getCommandChain()->run('before.lock', $context) !== false)
         {
-            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
+            $context->result = $this->execute($context->query, Database::RESULT_USE);
             $this->getCommandChain()->run('after.lock', $context);
         }
 
@@ -262,7 +264,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
 
         if($this->getCommandChain()->run('before.unlock', $context) !== false)
         {
-            $context->result = $this->execute($context->query, KDatabase::RESULT_USE);
+            $context->result = $this->execute($context->query, Database::RESULT_USE);
             $this->getCommandChain()->run('after.unlock', $context);
         }
 
@@ -273,16 +275,16 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      * Executes queries
      *
      * @param  string  $query  The query to run. Data inside the query should be properly escaped.
-     * @param  integer $mode   The result mode, either the constant KDatabase::RESULT_USE or KDatabase::RESULT_STORE
-     *                         depending on the desired behavior. By default, KDatabase::RESULT_STORE is used. If you
-     *                         use KDatabase::RESULT_USE all subsequent calls will return error Commands out of sync
+     * @param  integer $mode   The result mode, either the constant Database::RESULT_USE or Database::RESULT_STORE
+     *                         depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
+     *                         use Database::RESULT_USE all subsequent calls will return error Commands out of sync
      *                         unless you free the result first.
      *
      * @throws \RuntimeException If the query could not be executed
      * @return object|boolean  For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
      *                         For other successful queries return TRUE.
      */
-    public function execute($query, $mode = KDatabase::RESULT_STORE)
+    public function execute($query, $mode = Database::RESULT_STORE)
     {
         $dbh    = $this->getConnection();
         $result = $dbh->query((string) $query, $mode);
@@ -305,11 +307,11 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      * @param   $connection  The connection object.
      *
      * @throws  \InvalidArgumentException If the resource is not a PDO instance.
-     * @return  KDatabaseAdapterMysql
+     * @return  DatabaseAdapterMysql
      */
     public function setConnection($connection)
     {
-        if(!$connection instanceof PDO) {
+        if(!$connection instanceof \PDO) {
             throw new \InvalidArgumentException('Not a PDO instance');
         }
 
@@ -329,7 +331,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
             $query = $this->getService('lib://nooku/database.query.select')
                 ->columns('DATABASE');
 
-            $this->_database = $this->select($query, KDatabase::FETCH_FIELD);
+            $this->_database = $this->select($query, Database::FETCH_FIELD);
         }
 
         return $this->_database;
@@ -340,13 +342,13 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      *
      * @param   string $database  The database name.
      * @throws  \RuntimeException If the database could not be set
-     * @return  KDatabaseAdapterMysql
+     * @return  DatabaseAdapterMysql
      */
     public function setDatabase($database)
     {
         try {
             $this->execute('USE '.$this->quoteIdentifier($database));
-        } catch(RuntimeException $e) {
+        } catch(\RuntimeException $e) {
             throw new \RuntimeException('Could not connect to database : ' . $database);
         }
 
@@ -358,7 +360,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      * Retrieves the table schema information about the given table
      *
      * @param   string  $table  A table name.
-     * @return  KDatabaseSchemaTable
+     * @return  DatabaseSchemaTable
      */
     public function getTableSchema($table)
     {
@@ -382,8 +384,8 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     {
         if($this->_connected)
         {
-            if($this->_connection instanceof PDO) {
-                $this->_connected = (bool) $this->_connection->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+            if($this->_connection instanceof \PDO) {
+                $this->_connected = (bool) $this->_connection->getAttribute(\PDO::ATTR_CONNECTION_STATUS);
             } else {
                 $this->_connected = false;
             }
@@ -406,7 +408,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      * Retrieves the table schema information about the given tables
      *
      * @param   string $table  A table name.
-     * @return  KDatabaseSchemaTable or null if the table doesn't exist.
+     * @return  DatabaseSchemaTable or null if the table doesn't exist.
      */
     protected function _fetchTableInfo($table)
     {
@@ -416,7 +418,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
             ->like(':like')
             ->bind(array('like' => $table));
 
-        if($info = $this->select($query, KDatabase::FETCH_OBJECT)) {
+        if($info = $this->select($query, Database::FETCH_OBJECT)) {
             $return = $this->_parseTableInfo($info);
         }
 
@@ -436,7 +438,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
             ->show('FULL COLUMNS')
             ->from($table);
 
-        if($columns = $this->select($query, KDatabase::FETCH_OBJECT_LIST))
+        if($columns = $this->select($query, Database::FETCH_OBJECT_LIST))
         {
             foreach($columns as $column)
             {
@@ -464,7 +466,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
             ->show('INDEX')
             ->from($table);
 
-        if($indexes = $this->select($query, KDatabase::FETCH_OBJECT_LIST))
+        if($indexes = $this->select($query, Database::FETCH_OBJECT_LIST))
         {
             foreach($indexes as $index) {
                 $return[$index->Key_name][$index->Seq_in_index] = $index;
@@ -478,7 +480,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      * Parses the raw table schema information
      *
      * @param   object  $info  The raw table schema information.
-     * @return  KDatabaseSchemaTable
+     * @return  DatabaseSchemaTable
      */
     protected function _parseTableInfo($info)
     {
@@ -499,7 +501,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      * Parses the raw column schema information
      *
      * @param   object  $info  The raw column schema information.
-     * @return  KDatabaseSchemaColumn
+     * @return  DatabaseSchemaColumn
      */
     protected function _parseColumnInfo($info)
     {
@@ -613,7 +615,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      */
     protected function _fetchFieldList($result, $key = 0)
     {
-        $return = $result->fetchAll(PDO::FETCH_COLUMN, (int) $key);
+        $return = $result->fetchAll(\PDO::FETCH_COLUMN, (int) $key);
         $result = null;
 
         return $return;
@@ -628,7 +630,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
      */
     protected function _fetchArray($result)
     {
-        $return = $result->fetch(PDO::FETCH_ASSOC);
+        $return = $result->fetch(\PDO::FETCH_ASSOC);
         $result = null;
 
         return $return;
@@ -647,7 +649,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     protected function _fetchArrayList($result, $key = '')
     {
         $return = array();
-        foreach($result->fetchAll(PDO::FETCH_ASSOC) as $row)
+        foreach($result->fetchAll(\PDO::FETCH_ASSOC) as $row)
         {
             if($key) {
                 $return[$row[$key]] = $row;
@@ -687,7 +689,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     protected function _fetchObjectList($result, $key = '')
     {
         $return = array();
-        foreach($result->fetchAll(PDO::FETCH_OBJ) as $row)
+        foreach($result->fetchAll(\PDO::FETCH_OBJ) as $row)
         {
             if($key) {
                 $return[$row->$key] = $row;

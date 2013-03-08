@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Folders Database Rowset Class
  *
@@ -45,7 +47,7 @@ class ComFilesDatabaseRowsetFolders extends ComFilesDatabaseRowsetNodes
      *
 	 * @param  array  	An associative array of row data to be inserted.
 	 * @param  boolean	If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-	 * @return  KDatabaseRowsetAbstract
+	 * @return  Framework\DatabaseRowsetAbstract
 	 * @see __construct
      */
 	public function addRow(array $list, $new = true)
@@ -58,7 +60,7 @@ class ComFilesDatabaseRowsetFolders extends ComFilesDatabaseRowsetNodes
 		    //Create a row prototype and clone it this is faster then instanciating a new row
 			$instance = $this->getRow()
 							->setData($row)
-							->setStatus($new ? NULL : KDatabase::STATUS_LOADED);
+							->setStatus($new ? NULL : Framework\Database::STATUS_LOADED);
 
         	if($hierarchy)
         	{

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Controller Exception Forbidden Class
  *
@@ -14,4 +16,4 @@
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class KControllerExceptionForbidden extends KHttpExceptionForbidden implements KControllerException {}
+class ControllerExceptionForbidden extends HttpExceptionForbidden implements ControllerException {}

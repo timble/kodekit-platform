@@ -1,9 +1,12 @@
 <?php
-class ComPagesDatabaseRowPage extends KDatabaseRowTable
+
+use Nooku\Framework;
+
+class ComPagesDatabaseRowPage extends Framework\DatabaseRowTable
 {
     protected $_type;
 
-    public function __construct(KConfig $config)
+    public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 

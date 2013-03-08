@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * User Session Class
  *
@@ -16,7 +18,7 @@
  * @package     Koowa_User
  * @subpackage  Session
  */
-class KUserSession extends KObject implements KUserSessionInterface, KServiceInstantiatable
+class UserSession extends Object implements UserSessionInterface, ServiceInstantiatable
 {
     /**
      * Is the session active
@@ -29,7 +31,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     /**
      * The session handler
      *
-     * @var KUserSessionHandlerInterface
+     * @var UserSessionHandlerInterface
      */
     protected $_handler;
 
@@ -79,10 +81,10 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     /**
      * Constructor
      *
-     * @param KConfig|null $config  An optional KConfig object with configuration options
-     * @return KUserSession
+     * @param Config|null $config  An optional Config object with configuration options
+     * @return UserSession
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
@@ -110,7 +112,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
         $this->getContainer('metadata')->setLifetime($config->lifetime);
 
         //Set the session handler
-        $this->setHandler($config->handler, KConfig::unbox($config));
+        $this->setHandler($config->handler, Config::unbox($config));
     }
 
     /**
@@ -118,10 +120,10 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * Called from {@link __construct()} as a first step of object instantiation
      *
-     * @param   KConfig $object An optional KConfig object with configuration options
+     * @param   Config $object An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         $config->append(array(
             'handler'    => 'file',
@@ -152,11 +154,11 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     /**
      * Force creation of a singleton
      *
-     * @param 	KConfigInterface            $config	  A KConfig object with configuration options
-     * @param 	KServiceManagerInterface	$manager  A KServiceInterface object
-     * @return KDispatcherRequest
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return DispatcherRequest
      */
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
         if (!$manager->has('session'))
         {
@@ -198,7 +200,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      * automatically during session start.
      *
      * @param integer $lifetime The session lifetime in seconds
-     * @return KUserSessionContainerMetadata
+     * @return UserSessionContainerMetadata
      */
     public function setLifetime($lifetime)
     {
@@ -242,7 +244,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * @param  string $name
      * @throws \LogicException    When changing the name of an active session
-     * @return KUserSession
+     * @return UserSession
      */
     public function setName($name)
     {
@@ -274,7 +276,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * @param string $session_id
      * @throws \LogicException    When changing the id of an active session
-     * @return KUserSession
+     * @return UserSession
      */
     public function setId($session_id)
     {
@@ -294,7 +296,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * @param string $namespace The session namespace
      * @throws \LogicException When changing the namespace of an active session
-     * @return KUserSession
+     * @return UserSession
      */
     public function setNamespace($namespace)
     {
@@ -319,14 +321,14 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     /**
      * Method to set a session handler object
      *
-     * @param mixed $handler An object that implements KUserSessionHandlerInterface, KServiceIdentifier object
+     * @param mixed $handler An object that implements UserSessionHandlerInterface, ServiceIdentifier object
      *                       or valid identifier string
      * @param array $config An optional associative array of configuration settings
-     * @return KUserSession
+     * @return UserSession
      */
     public function setHandler($handler, $config = array())
     {
-        if (!($handler instanceof KUserSessionHandlerInterface))
+        if (!($handler instanceof UserSessionHandlerInterface))
         {
             if (is_string($handler) && strpos($handler, '.') === false)
             {
@@ -350,18 +352,18 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      * Get the session handler object
      *
      * @throws \UnexpectedValueException    If the identifier is not a session handler identifier
-     * @return KUserSessionHandlerInterface
+     * @return UserSessionHandlerInterface
      */
     public function getHandler()
     {
-        if(!$this->_handler instanceof KUserSessionHandlerInterface)
+        if(!$this->_handler instanceof UserSessionHandlerInterface)
         {
             $this->_handler = $this->getService($this->_handler);
 
-            if(!$this->_handler instanceof KUserSessionHandlerInterface)
+            if(!$this->_handler instanceof UserSessionHandlerInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Handler: '.get_class($this->_handler).' does not implement KUserSessionHandlerInterface'
+                    'Handler: '.get_class($this->_handler).' does not implement UserSessionHandlerInterface'
                 );
             }
         }
@@ -385,14 +387,14 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * If the container does not exist a container will be created on the fly.
      *
-     * @param   mixed $name An object that implements KServiceInterface, KServiceIdentifier object
+     * @param   mixed $name An object that implements ServiceInterface, ServiceIdentifier object
      *                      or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a session container identifier
-     * @return KUserSessionContainerInterface
+     * @return UserSessionContainerInterface
      */
     public function getContainer($name)
     {
-        if (!($name instanceof KServiceIdentifier))
+        if (!($name instanceof ServiceIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($name) && strpos($name, '.') === false)
@@ -409,10 +411,10 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
         {
             $container = $this->getService($identifier);
 
-            if (!($container instanceof KUserSessionContainerInterface))
+            if (!($container instanceof UserSessionContainerInterface))
             {
                 throw new \UnexpectedValueException(
-                    'Container: '. get_class($container) .' does not implement KUserSessionContainerInterface'
+                    'Container: '. get_class($container) .' does not implement UserSessionContainerInterface'
                 );
             }
 
@@ -447,7 +449,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * @see  session_start()
      * @throws \RuntimeException If something goes wrong starting the session.
-     * @return KUserSession
+     * @return UserSession
      */
     public function start()
     {
@@ -485,7 +487,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
     /**
      * Force the session to be saved and closed.
      *
-     * Session data is usually stored after your script terminated without the need to call KUserSession::close(),
+     * Session data is usually stored after your script terminated without the need to call UserSession::close(),
      * but as session data is locked to prevent concurrent writes only one script may operate on a session at any time.
      *
      * When using framesets together with sessions you will experience the frames loading one by one due to this locking.
@@ -493,7 +495,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      * variables are done.
      *
      * @see  session_write_close()
-     * @return KUserSession
+     * @return UserSession
      */
     public function close()
     {
@@ -509,7 +511,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      * Clear all session data in memory.
      *
      * @see session_unset()
-     * @return KUserSession
+     * @return UserSession
      */
     public function clear()
     {
@@ -534,7 +536,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      * session cookie.
      *
      * @see session_destroy()
-     * @return KUserSession
+     * @return UserSession
      */
     public function destroy()
     {
@@ -574,7 +576,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *                          and is not a Unix timestamp.
      * @see  session_regenerate_id()
      * @throws \RuntimeException If an error occurs while forking this storage
-     * @return KUserSession
+     * @return UserSession
      */
     public function fork($destroy = true, $lifetime = null)
     {
@@ -609,7 +611,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      *
      * @param   mixed   Attribute identifier, eg foo.bar
      * @param   mixed   Attribute value
-     * @return KUser
+     * @return User
      */
     public function set($identifier, $value)
     {
@@ -631,7 +633,7 @@ class KUserSession extends KObject implements KUserSessionInterface, KServiceIns
      * Removes an session attribute
      *
      * @param string $identifier Attribute identifier, eg foo.bar
-     * @return KUserSession
+     * @return UserSession
      */
     public function remove($identifier)
     {

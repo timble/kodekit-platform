@@ -1,11 +1,14 @@
 <?php
+
+use Nooku\Framework;
+
 class ComPagesDatabaseBehaviorTypeUrl extends ComPagesDatabaseBehaviorTypeAbstract
 {
     protected $_type_title;
 
     protected $_type_description;
 
-    public static function getInstance(KConfigInterface $config, KServiceManagerInterface $manager)
+    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 

@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Languages Template Helper Listbox Class
  *
@@ -18,7 +20,7 @@ class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
 {
     public function languages($config = array())
     {
-        $config = new KConfig($config);
+        $config = new Framework\Config($config);
 		$config->append(array(
 			'name'      => 'language'
 		));

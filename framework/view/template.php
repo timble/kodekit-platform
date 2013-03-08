@@ -6,16 +6,15 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * Abstract Template View Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_View
- * @uses        KMixinClass
- * @uses        KTemplate
- * @uses        KService
  */
-abstract class KViewTemplate extends KViewAbstract
+abstract class ViewTemplate extends ViewAbstract
 {
     /**
      * Template object or identifier
@@ -62,14 +61,14 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      */
-    public function __construct(KConfig $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
         //Set the media url
-        if (!$config->media_url instanceof KHttpUrlInterface) {
+        if (!$config->media_url instanceof HttpUrlInterface) {
             $this->_mediaurl = $this->getService('lib://nooku/http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
@@ -79,7 +78,7 @@ abstract class KViewTemplate extends KViewAbstract
         $this->_auto_assign = $config->auto_assign;
 
         //Set the data
-        $this->_data = KConfig::unbox($config->data);
+        $this->_data = Config::unbox($config->data);
 
         //Set the user-defined escaping callback
         $this->setEscape($config->escape);
@@ -97,7 +96,7 @@ abstract class KViewTemplate extends KViewAbstract
 
         //Add alias filter for media:// namespaced
         $this->getTemplate()->getFilter('alias')->addAlias(
-            array('media://' => (string)$this->_mediaurl . '/'), KTemplateFilter::MODE_READ | KTemplateFilter::MODE_WRITE
+            array('media://' => (string)$this->_mediaurl . '/'), TemplateFilter::MODE_READ | TemplateFilter::MODE_WRITE
         );
     }
 
@@ -106,10 +105,10 @@ abstract class KViewTemplate extends KViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional KConfig object with configuration options
+     * @param   object  An optional Config object with configuration options
      * @return  void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Config $config)
     {
         //Clone the identifier
         $identifier = clone $this->getIdentifier();
@@ -189,7 +188,7 @@ abstract class KViewTemplate extends KViewAbstract
      * Sets the view data
      *
      * @param   array The view data
-     * @return  KViewAbstract
+     * @return  ViewAbstract
      */
     public function setData(array $data)
     {
@@ -221,7 +220,7 @@ abstract class KViewTemplate extends KViewAbstract
      * Sets the layout name to use
      *
      * @param    string  The template name.
-     * @return   KViewAbstract
+     * @return   ViewAbstract
      */
     public function setLayout($layout)
     {
@@ -233,7 +232,7 @@ abstract class KViewTemplate extends KViewAbstract
      * Sets the _escape() callback.
      *
      * @param   mixed The callback for _escape() to use.
-     * @return  KViewAbstract
+     * @return  ViewAbstract
      */
     public function setEscape($spec)
     {
@@ -244,15 +243,15 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Get the template object attached to the view
      *
-     *  @throws	\UnexpectedValueException	If the template doesn't implement the KTemplateInterface
-     * @return  KTemplateInterface
+     *  @throws	\UnexpectedValueException	If the template doesn't implement the TemplateInterface
+     * @return  TemplateInterface
      */
     public function getTemplate()
     {
-        if (!$this->_template instanceof KTemplateInterface)
+        if (!$this->_template instanceof TemplateInterface)
         {
             //Make sure we have a template identifier
-            if (!($this->_template instanceof KServiceIdentifier)) {
+            if (!($this->_template instanceof ServiceIdentifier)) {
                 $this->setTemplate($this->_template);
             }
 
@@ -262,10 +261,10 @@ abstract class KViewTemplate extends KViewAbstract
 
             $this->_template = $this->getService($this->_template, $options);
 
-            if(!$this->_template instanceof KTemplateInterface)
+            if(!$this->_template instanceof TemplateInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Template: '.get_class($this->_template).' does not implement KTemplateInterface'
+                    'Template: '.get_class($this->_template).' does not implement TemplateInterface'
                 );
             }
         }
@@ -276,14 +275,14 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Method to set a template object attached to the view
      *
-     * @param   mixed   An object that implements KServiceInterface, an object that
-     *                  implements KServiceIdentifierInterface or valid identifier string
+     * @param   mixed   An object that implements ServiceInterface, an object that
+     *                  implements ServiceIdentifierInterface or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
-     * @return  KViewAbstract
+     * @return  ViewAbstract
      */
     public function setTemplate($template)
     {
-        if (!($template instanceof KTemplateInterface))
+        if (!($template instanceof TemplateInterface))
         {
             if (is_string($template) && strpos($template, '.') === false)
             {
@@ -304,7 +303,7 @@ abstract class KViewTemplate extends KViewAbstract
     /**
      * Get the view media url
      *
-     * @return     object    A KHttpUrl object
+     * @return     object    A HttpUrl object
      */
     public function getMediaUrl()
     {
@@ -353,7 +352,7 @@ abstract class KViewTemplate extends KViewAbstract
      *
      * @param   string  Method name
      * @param   array   Array containing all the arguments for the original call
-     * @return  KViewAbstract
+     * @return  ViewAbstract
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html
      */
