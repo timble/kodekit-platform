@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersViewGroupHtml extends ComDefaultViewHtml
+class ComUsersViewGroupHtml extends ComBaseViewHtml
 {
     public function render()
     {

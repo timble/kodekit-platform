@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateHelperListbox extends ComDefaultTemplateHelperListbox
+class ComApplicationTemplateHelperListbox extends ComBaseTemplateHelperListbox
 {
     public function applications($config = array())
     {

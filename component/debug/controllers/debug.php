@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Debug
  */
-class ComDebugControllerDebug extends ComDefaultControllerView
+class ComDebugControllerDebug extends ComBaseControllerView
 {
     protected function _initialize(Framework\Config $config)
     {

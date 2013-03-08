@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerPermissionDefault extends ComDefaultControllerPermissionDefault
+class ComArticlesControllerPermissionDefault extends ComBaseControllerPermissionDefault
 {
     public function canRead()
     {

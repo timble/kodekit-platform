@@ -35,7 +35,7 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'prefixes' => array('ComDefault', 'Nooku\Framework\\'),
+            'prefixes' => array('ComBase', 'Nooku\Framework\\'),
         ));
     }
 

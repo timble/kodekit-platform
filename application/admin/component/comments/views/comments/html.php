@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComCommentsViewCommentsHtml extends ComDefaultViewHtml
+class ComCommentsViewCommentsHtml extends ComBaseViewHtml
 {
 	public function render()
 	{

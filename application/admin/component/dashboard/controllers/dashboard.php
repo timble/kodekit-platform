@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Dashboard
  */
  
-class ComDashboardControllerDashboard extends ComDefaultControllerView
+class ComDashboardControllerDashboard extends ComBaseControllerView
 {
 	
 }

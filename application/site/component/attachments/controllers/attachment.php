@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsControllerAttachment extends ComDefaultControllerResource
+class ComAttachmentsControllerAttachment extends ComBaseControllerResource
 {
 	protected function _initialize(Framework\Config $config)
 	{

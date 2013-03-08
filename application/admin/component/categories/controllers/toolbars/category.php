@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Categories   
  */
-class ComCategoriesControllerToolbarCategory extends ComDefaultControllerToolbarDefault
+class ComCategoriesControllerToolbarCategory extends ComBaseControllerToolbarDefault
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {    

@@ -21,7 +21,7 @@
     });
 </script>
 
-<?= @template('com://admin/default.view.form.toolbar.html'); ?>
+<?= @template('com://admin/base.view.form.toolbar.html'); ?>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
 	<input type="hidden" name="enabled" value="<?= $this->getService('user')->getId() == $user->id ? 1 : 0 ?>" />

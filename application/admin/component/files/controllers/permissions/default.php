@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerPermissionDefault extends ComDefaultControllerPermissionDefault
+class ComFilesControllerPermissionDefault extends ComBaseControllerPermissionDefault
 {
 	protected static $_group_map = array(
 		4 => 18,

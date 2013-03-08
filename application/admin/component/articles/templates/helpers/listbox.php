@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Articles
  */
 
-class ComArticlesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
+class ComArticlesTemplateHelperListbox extends ComBaseTemplateHelperListbox
 {
     public function articles($config = array())
     {

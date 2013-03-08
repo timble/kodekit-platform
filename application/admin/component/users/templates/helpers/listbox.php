@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersTemplateHelperListbox extends ComDefaultTemplateHelperListbox
+class ComUsersTemplateHelperListbox extends ComBaseTemplateHelperListbox
 {
     public function groups( $config = array())
     {

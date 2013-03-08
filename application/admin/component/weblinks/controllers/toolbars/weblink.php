@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksControllerToolbarWeblink extends ComDefaultControllerToolbarDefault
+class ComWeblinksControllerToolbarWeblink extends ComBaseControllerToolbarDefault
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {

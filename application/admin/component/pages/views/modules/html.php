@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesViewModulesHtml extends ComDefaultViewHtml
+class ComPagesViewModulesHtml extends ComBaseViewHtml
 {
 	public function render()
 	{

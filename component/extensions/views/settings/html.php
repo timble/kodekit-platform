@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsViewSettingsHtml extends ComDefaultViewHtml
+class ComExtensionsViewSettingsHtml extends ComBaseViewHtml
 {
     public function render()
     {

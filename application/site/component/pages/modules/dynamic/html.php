@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesModuleDynamicHtml extends ComDefaultModuleDefaultHtml implements Framework\ServiceInstantiatable
+class ComPagesModuleDynamicHtml extends ComBaseModuleDefaultHtml implements Framework\ServiceInstantiatable
 {
     public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {

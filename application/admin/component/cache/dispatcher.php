@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Cache
  */
  
-class ComCacheDispatcher extends ComDefaultDispatcher
+class ComCacheDispatcher extends ComBaseDispatcher
 {
     protected function _initialize(Framework\Config $config)
     {

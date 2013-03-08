@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationControllerPermissionDefault extends ComDefaultControllerPermissionDefault
+class ComApplicationControllerPermissionDefault extends ComBaseControllerPermissionDefault
 {
     public function canRender()
     {

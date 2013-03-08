@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerPermissionUser extends ComDefaultControllerPermissionDefault
+class ComUsersControllerPermissionUser extends ComBaseControllerPermissionDefault
 {
     public function canRead()
     {

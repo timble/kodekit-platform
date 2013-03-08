@@ -14,7 +14,7 @@
 <script src="media://koowa/js/koowa.js" />
 -->
 
-<?= @template('com://admin/default.view.form.toolbar.html'); ?>
+<?= @template('com://admin/base.view.form.toolbar.html'); ?>
 
 <form action="<?= @route('&id='.$menu->id)?>" method="post" class="-koowa-form">
     <input type="hidden" name="application" value="site" />

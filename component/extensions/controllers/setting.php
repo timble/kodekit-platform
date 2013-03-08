@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsControllerSetting extends ComDefaultControllerModel
+class ComExtensionsControllerSetting extends ComBaseControllerModel
 {
     protected function _initialize(Framework\Config $config)
     {

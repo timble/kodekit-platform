@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationControllerPage extends ComDefaultControllerView
+class ComApplicationControllerPage extends ComBaseControllerView
 {
     protected function _actionRender(Framework\CommandContext $context)
     {

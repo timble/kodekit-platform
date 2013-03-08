@@ -16,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksControllerWeblink extends ComDefaultControllerModel
+class ComWeblinksControllerWeblink extends ComBaseControllerModel
 {
     public function getRequest()
 	{

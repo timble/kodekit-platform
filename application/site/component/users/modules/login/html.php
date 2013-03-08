@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Users
  */
  
-class ComUsersModuleLoginHtml extends ComDefaultModuleDefaultHtml
+class ComUsersModuleLoginHtml extends ComBaseModuleDefaultHtml
 {
     protected function _initialize(Framework\Config $config)
     { 

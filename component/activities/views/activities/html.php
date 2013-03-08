@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesViewActivitiesHtml extends ComDefaultViewHtml
+class ComActivitiesViewActivitiesHtml extends ComBaseViewHtml
 {
 	public function render()
 	{

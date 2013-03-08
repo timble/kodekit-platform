@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComCommentsModelComments extends ComDefaultModelDefault
+class ComCommentsModelComments extends ComBaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{

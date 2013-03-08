@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Cache
  */
  
-class ComCacheControllerDefault extends ComDefaultControllerModel
+class ComCacheControllerDefault extends ComBaseControllerModel
 { 
     protected function _actionPurge(Framework\CommandContext $context)
     {

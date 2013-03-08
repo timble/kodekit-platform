@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ComWysiwygViewEditorHtml extends ComDefaultViewHtml
+class ComWysiwygViewEditorHtml extends ComBaseViewHtml
 {
     protected $_editor_settings;
     

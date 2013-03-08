@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage Articles
  */
 
-class ComArticlesRouter extends ComDefaultRouter
+class ComArticlesRouter extends ComBaseRouter
 {
     public function buildRoute(&$query)
     {

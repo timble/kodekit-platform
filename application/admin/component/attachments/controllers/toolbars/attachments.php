@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsControllerToolbarAttachments extends ComDefaultControllerToolbarDefault
+class ComAttachmentsControllerToolbarAttachments extends ComBaseControllerToolbarDefault
 {
 	public function getCommands()
 	{

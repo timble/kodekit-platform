@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
+class ComExtensionsTemplateHelperListbox extends ComBaseTemplateHelperListbox
 {
     public function list_limits($config = array())
     {

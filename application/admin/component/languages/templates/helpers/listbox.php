@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesTemplateHelperListbox extends ComDefaultTemplateHelperListbox
+class ComLanguagesTemplateHelperListbox extends ComBaseTemplateHelperListbox
 {
     public function languages($config = array())
     {

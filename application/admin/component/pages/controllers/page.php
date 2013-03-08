@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesControllerPage extends ComDefaultControllerModel
+class ComPagesControllerPage extends ComBaseControllerModel
 {
     protected function _initialize(Framework\Config $config)
     {

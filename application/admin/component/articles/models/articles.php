@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesModelArticles extends ComDefaultModelDefault
+class ComArticlesModelArticles extends ComBaseModelDefault
 {
     public function __construct(Framework\Config $config)
     {

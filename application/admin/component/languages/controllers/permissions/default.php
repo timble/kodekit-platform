@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesControllerPermissionDefault extends ComDefaultControllerPermissionDefault
+class ComLanguagesControllerPermissionDefault extends ComBaseControllerPermissionDefault
 {
     public function canEdit()
     {

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesViewImagesHtml extends ComDefaultViewHtml
+class ComFilesViewImagesHtml extends ComBaseViewHtml
 {
 	protected function _initialize(Framework\Config $config)
 	{

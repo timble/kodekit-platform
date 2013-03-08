@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsControllerToolbarSetting extends ComDefaultControllerToolbarDefault
+class ComExtensionsControllerToolbarSetting extends ComBaseControllerToolbarDefault
 {  
     public function onAfterControllerBrowse(Framework\Event $event)
     {

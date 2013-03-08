@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesModelActivities extends ComDefaultModelDefault
+class ComActivitiesModelActivities extends ComBaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{

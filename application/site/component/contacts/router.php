@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Contacts
  */
 
-class ComContactsRouter extends ComDefaultRouter
+class ComContactsRouter extends ComBaseRouter
 {
     public function buildRoute(&$query)
     {

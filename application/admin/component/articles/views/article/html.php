@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesViewArticleHtml extends ComDefaultViewHtml
+class ComArticlesViewArticleHtml extends ComBaseViewHtml
 {
     public function render()
     {

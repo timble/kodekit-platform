@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesModelThumbnails extends ComDefaultModelDefault
+class ComFilesModelThumbnails extends ComBaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{

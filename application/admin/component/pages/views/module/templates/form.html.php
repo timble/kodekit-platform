@@ -11,7 +11,7 @@
 <script src="media://koowa/js/koowa.js" />
 <?= @helper('behavior.validator') ?>
 
-<?= @template('com://admin/default.view.form.toolbar.html') ?>
+<?= @template('com://admin/base.view.form.toolbar.html') ?>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />

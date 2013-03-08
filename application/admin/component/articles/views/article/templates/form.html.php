@@ -33,7 +33,7 @@
     }));
 </script>
 
-<?= @template('com://admin/default.view.form.toolbar.html') ?>
+<?= @template('com://admin/base.view.form.toolbar.html') ?>
 
 <? if($article->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">

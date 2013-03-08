@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsViewContactHtml extends ComDefaultViewHtml
+class ComContactsViewContactHtml extends ComBaseViewHtml
 {
     public function render()
     {

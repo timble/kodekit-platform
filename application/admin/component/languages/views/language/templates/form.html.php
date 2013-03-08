@@ -13,7 +13,7 @@
 
 <script src="media://koowa/js/koowa.js" />
 
-<?= @template('com://admin/default.view.form.toolbar.html') ?>
+<?= @template('com://admin/base.view.form.toolbar.html') ?>
 
 <form action="" method="post" class="-koowa-form">
     <input type="hidden" name="enabled" value="0" />

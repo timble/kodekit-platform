@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ComTermsControllerTerm extends ComDefaultControllerDefault
+class ComTermsControllerTerm extends ComBaseControllerDefault
 {	
 	public function __construct(Framework\Config $config)
 	{

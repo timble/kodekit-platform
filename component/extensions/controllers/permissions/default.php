@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsControllerPermissionDefault extends ComDefaultControllerPermissionDefault
+class ComExtensionsControllerPermissionDefault extends ComBaseControllerPermissionDefault
 {
     public function canAdd()
     {

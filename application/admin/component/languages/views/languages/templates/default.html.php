@@ -11,7 +11,7 @@
 <script src="media://koowa/js/koowa.js" />
 <style src="media://koowa/css/koowa.css" />
 
-<?= @template('com://admin/default.view.grid.toolbar.html') ?>
+<?= @template('com://admin/base.view.grid.toolbar.html') ?>
 
 <ktml:module position="sidebar">
     <?= @template('default_sidebar.html'); ?>

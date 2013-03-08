@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsModelRevisions extends ComDefaultModelDefault
+class ComVersionsModelRevisions extends ComBaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{

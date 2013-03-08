@@ -13,7 +13,7 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com://admin/default.view.form.toolbar.html'); ?>
+<?= @template('com://admin/base.view.form.toolbar.html'); ?>
 
 <ktml:module position="sidebar">
 	<?= @template('default_sidebar.html') ?>

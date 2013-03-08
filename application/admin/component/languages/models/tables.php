@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesModelTables extends ComDefaultModelDefault
+class ComLanguagesModelTables extends ComBaseModelDefault
 {
     public function __construct(Framework\Config $config)
     {

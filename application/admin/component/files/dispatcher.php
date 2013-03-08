@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDispatcher extends ComDefaultDispatcher
+class ComFilesDispatcher extends ComBaseDispatcher
 {
 	public function __construct(Framework\Config $config)
 	{

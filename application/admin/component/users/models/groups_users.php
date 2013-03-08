@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersModelGroups_users extends ComDefaultModelDefault
+class ComUsersModelGroups_users extends ComBaseModelDefault
 {
 	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
 	{

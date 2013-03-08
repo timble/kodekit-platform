@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksModelWeblinks extends ComDefaultModelDefault
+class ComWeblinksModelWeblinks extends ComBaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{
