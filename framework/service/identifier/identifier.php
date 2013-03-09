@@ -310,7 +310,10 @@ class KServiceIdentifier implements KServiceIdentifierInterface
      */
     public function __isset($property)
     {
-        return in_array('_'.$property, array_keys(get_object_vars($this)));
+        $name = ltrim($property, '_');
+        $vars = get_object_vars($this);
+
+        return isset($vars['_'.$name]);
     }
 
     /**
