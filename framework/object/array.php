@@ -61,7 +61,6 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * Get a value by key
      *
      * @param   string  $key The key name.
-     * @throws  \InvalidArgumentException If the key cannot be found in the array
      * @return  string  The corresponding value.
      */
     public function get($key)
@@ -69,9 +68,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
         $result = null;
         if (isset($this->_data[$key])) {
             $result = $this->_data[$key];
-        } //else {
-            //throw new \InvalidArgumentException('Not a valid key in this array: '. $key);
-        //}
+        }
 
         return $result;
     }
