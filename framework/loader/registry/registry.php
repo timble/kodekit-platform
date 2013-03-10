@@ -14,7 +14,7 @@ namespace Nooku\Framework;
  * @category    Koowa
  * @package     Koowa_Loader
  */
-class LoaderRegistry extends \ArrayObject
+class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
 {
  	/**
  	 * Cache

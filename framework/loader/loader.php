@@ -10,7 +10,8 @@ namespace Nooku\Framework;
 require_once dirname(__FILE__).'/adapter/interface.php';
 require_once dirname(__FILE__).'/adapter/abstract.php';
 require_once dirname(__FILE__).'/adapter/library.php';
-require_once dirname(__FILE__).'/registry.php';
+require_once dirname(__FILE__).'/registry/interface.php';
+require_once dirname(__FILE__).'/registry/registry.php';
 
 /**
  * Loader class
