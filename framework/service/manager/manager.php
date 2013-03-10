@@ -15,7 +15,6 @@ namespace Nooku\Framework;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
  * @subpackage  Manager
- * @uses        ServiceIdentifier
  */
 class ServiceManager implements ServiceManagerInterface
 {

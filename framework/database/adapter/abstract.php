@@ -15,7 +15,6 @@ namespace Nooku\Framework;
  * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Adapter
- * @uses         KPatternCommandChain
  */
 abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapterInterface
 {

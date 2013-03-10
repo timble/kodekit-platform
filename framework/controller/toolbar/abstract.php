@@ -14,7 +14,6 @@ namespace Nooku\Framework;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  * @subpackage     Toolbar
- * @uses        Inflector
  */
 abstract class ControllerToolbarAbstract extends EventSubscriberAbstract implements ControllerToolbarInterface
 {

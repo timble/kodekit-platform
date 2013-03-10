@@ -15,7 +15,6 @@ namespace Nooku\Framework;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Template
  * @subpackage  Helper
- * @uses        KArrayHelper
  */
 class TemplateHelperTabs extends TemplateHelperBehavior
 {

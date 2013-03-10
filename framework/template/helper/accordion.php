@@ -15,7 +15,6 @@ namespace Nooku\Framework;
  * @author		Stian Didriksen <stian@timble.net>
  * @package		Koowa_Template
  * @subpackage	Helper
- * @uses		KArrayHelper
  */
 class TemplateHelperAccordion extends TemplateHelperBehavior
 {

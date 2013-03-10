@@ -16,9 +16,6 @@ namespace Nooku\Framework;
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
- * @uses        Service
- * @uses        EventDispatcher
- * @uses        Inflector
  */
 class CommandEvent extends Command
 {

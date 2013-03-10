@@ -15,7 +15,6 @@ use Nooku\Framework;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        Framework\Config
  */
 class ComBaseTemplateHelperPaginator extends Framework\TemplateHelperPaginator
 {

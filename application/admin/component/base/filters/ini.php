@@ -20,7 +20,6 @@ use Nooku\Framework;
  * @author      Stian Didriksen <stian@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
- * @uses        JRegistryFormatINI
  */
 class ComBaseFilterIni extends Framework\FilterAbstract
 {

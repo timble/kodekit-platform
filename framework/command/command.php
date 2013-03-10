@@ -16,7 +16,6 @@ namespace Nooku\Framework;
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Command
- * @uses        Inflector
  */
 class Command extends Object implements CommandInterface
 {

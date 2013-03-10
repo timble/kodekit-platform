@@ -43,9 +43,14 @@ require_once(JPATH_ROOT . '/framework/nooku.php');
 
 unset($config);
 
+//Setup the loader
+$adapter = new Framework\LoaderAdapterComponent();
+$adapter->registerPrefix('Com', JPATH_APPLICATION);
+$adapter->registerNamespace('Nooku\Component', JPATH_ROOT.'/component');
 
-Framework\ServiceManager::get('loader')->addAdapter(new Framework\LoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
+Framework\ServiceManager::get('loader')->addAdapter($adapter);
+
+//Set the service
 Framework\ServiceIdentifier::addLocator(Framework\ServiceManager::get('lib://nooku/service.locator.component'));
-
 Framework\ServiceIdentifier::setNamespace('site' , JPATH_ROOT . '/application/site');
 Framework\ServiceIdentifier::setNamespace('admin', JPATH_ROOT . '/application/admin');

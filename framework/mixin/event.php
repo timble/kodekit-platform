@@ -16,7 +16,6 @@ namespace Nooku\Framework;
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
- * @uses        EventDispatcher
  */
 class MixinEvent extends MixinAbstract
 {

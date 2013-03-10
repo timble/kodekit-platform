@@ -17,7 +17,6 @@ namespace Nooku\Framework;
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
- * @uses        Object
  */
 abstract class MixinAbstract implements MixinInterface
 {

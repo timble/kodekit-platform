@@ -14,7 +14,6 @@ namespace Nooku\Framework;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Service
  * @subpackage 	Locator
- * @uses 		Inflector
  */
 class ServiceLocatorLibrary extends ServiceLocatorAbstract
 {

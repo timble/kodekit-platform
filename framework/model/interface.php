@@ -13,7 +13,6 @@ namespace Nooku\Framework;
  *
  * @author        Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
- * @uses        Object
  */
 interface ModelInterface
 {
