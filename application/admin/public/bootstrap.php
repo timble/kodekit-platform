@@ -45,7 +45,7 @@ unset($config);
 
 //Setup the loader
 $adapter = new Framework\LoaderAdapterComponent();
-$adapter->registerPrefix('Com', JPATH_APPLICATION);
+$adapter->registerPrefix('Com', JPATH_APPLICATION.'/component');
 $adapter->registerNamespace('Nooku\Component', JPATH_ROOT.'/component');
 
 Framework\ServiceManager::get('loader')->addAdapter($adapter);
