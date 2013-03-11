@@ -35,7 +35,7 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'prefixes' => array('ComBase', 'Nooku\Framework\\'),
+            'fallbacks' => array('ComBase', 'Nooku\Framework\\'),
         ));
     }
 
@@ -45,12 +45,10 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
      * This locator will try to create an generic or default classname on the identifier information
      * if the actual class cannot be found using the configurable fallback sequence.
      *
-     * Fallback sequence : -> Named Component Specific
-     *                     -> Named Component Default
-     *                     -> Default Component Specific
-     *                     -> Default Component Default
-     *                     -> Framework Specific
-     *                     -> Framework Default
+     * Fallback sequence :
+     *
+     *  -> Named   Class
+     *  -> Default Class
      *
      * @param mixed  		 An identifier object - com:[//application/]component.[path].name
      * @return string|false  Return object on success, returns FALSE on failure
@@ -62,50 +60,54 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
         $classname = 'Com'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
 
         //Manually load the class to set the basepath
-        if (!$this->getService('loader')->loadClass($classname, $identifier->basepath))
+        if (!$this->getService('loader')->loadClass($classname, $identifier->basepath.'/component'))
         {
-            $classpath = $identifier->path;
-            $classtype = !empty($classpath) ? array_shift($classpath) : '';
+            //Fallback on the Nooku\Component namespace
+            $classname = 'Nooku\Component\\'.ucfirst($identifier->package).'\\'.$path.ucfirst($identifier->name);
 
-            //Create the fallback path and make an exception for views and modules
-            if(!in_array($classtype, array('view','module'))) {
-                $path = ucfirst($classtype).Inflector::camelize(implode('_', $classpath));
-            } else {
-                $path = ucfirst($classtype);
-            }
-
-            /*
-             * Fallback sequence : -> Named Component Specific
-             *                     -> Named Component Default
-             *                     -> Default Component Specific
-             *                     -> Default Component Default
-             *                     -> Framework Specific
-             *                     -> Framework Default
-             */
-
-            //Add the classname to prevent re-look up
-            $classes[] = $classname;
-
-            //Add the package to look up defaults
-            $prefixes = $this->_prefixes;
-            array_unshift($prefixes, 'Com'.ucfirst($identifier->package));
-
-            $classname = false;
-            foreach($prefixes as $prefix)
+            if(!class_exists($classname))
             {
-                foreach(array($identifier->name, 'default') as $name)
+                $classpath = $identifier->path;
+                $classtype = !empty($classpath) ? array_shift($classpath) : '';
+
+                //Create the fallback path and make an exception for views and modules
+                if(!in_array($classtype, array('view','module'))) {
+                    $path = ucfirst($classtype).Inflector::camelize(implode('_', $classpath));
+                } else {
+                    $path = ucfirst($classtype);
+                }
+
+                /*
+                 * Fallback sequence :
+                 *
+                 *  -> Named   Class
+                 *  -> Default Class
+                 */
+
+                //Add the classname to prevent re-look up
+                $classes[] = $classname;
+
+                //Add the package to look up defaults
+                $fallbacks = $this->_fallbacks;
+                array_unshift($fallbacks, 'Com'.ucfirst($identifier->package));
+
+                $classname = false;
+                foreach($fallbacks as $fallback)
                 {
-                    $classname = $prefix.$path.ucfirst($name);
-
-                    if(!in_array($classname, $classes))
+                    foreach(array($identifier->name, 'default') as $name)
                     {
-                        if(class_exists($classname))
-                        {
-                            $classes[] = $classname;
-                            break(2);
-                        }
+                        $classname = $fallback.$path.ucfirst($name);
 
-                        $classes[] = $classname;
+                        if(!in_array($classname, $classes))
+                        {
+                            if(class_exists($classname))
+                            {
+                                $classes[] = $classname;
+                                break(2);
+                            }
+
+                            $classes[] = $classname;
+                        }
                     }
                 }
             }
