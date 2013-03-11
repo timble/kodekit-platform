@@ -17,26 +17,37 @@ namespace Nooku\Framework;
  */
 interface LoaderAdapterInterface
 {
-	/**
-	 * Get the type
-	 *
-	 * @return string	Returns the type
-	 */
-	public function getType();
+    /**
+     * Register a namespace
+     *
+     * @param  string $namespace
+     * @param  string $paths The location(s) of the namespace
+     * @return LoaderAdapterInterface
+     */
+    public function registerNamespace($namespace, $paths);
 
-	/**
-	 * Get the class prefix
-	 *
-	 * @return string	Returns the class prefix
-	 */
-	public function getPrefix();
+    /**
+     * Get the registered namespaces
+     *
+     * @return array An array with namespaces as keys and path as values
+     */
+    public function getNamespaces();
 
-	/**
-	 * Get the base path
-	 *
-	 * @return string	Returns the base path
-	 */
-	public function getBasepath();
+    /**
+     * Register a prefix
+     *
+     * @param  string $prefix
+     * @param  string $paths The location(s) of the classes
+     * @return LoaderAdapterInterface
+     */
+    public function registerPrefix($prefix, $paths);
+
+    /**
+     * Get the registered class prefixes
+     *
+     * @return array Returns the class prefixes
+     */
+    public function getPrefixes();
 
     /**
      * Get the path based on a class name

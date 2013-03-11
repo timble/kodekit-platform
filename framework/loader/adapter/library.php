@@ -18,20 +18,6 @@ namespace Nooku\Framework;
 class LoaderAdapterLibrary extends LoaderAdapterAbstract
 {
 	/**
-	 * The adapter type
-	 *
-	 * @var string
-	 */
-	protected $_type = 'lib';
-
-	/**
-	 * The class prefix
-	 *
-	 * @var string
-	 */
-	protected $_prefix = 'Nooku\Framework';
-
-	/**
 	 * Get the path based on a class name
 	 *
 	 * @param  string		  	The class name
@@ -40,6 +26,11 @@ class LoaderAdapterLibrary extends LoaderAdapterAbstract
 	public function findPath($classname, $basepath = null)
 	{
 		$path = false;
+
+        $pos       = strrpos($classname, '\\');
+        $namespace = substr($classname, 0, $pos);
+        $classname = substr($classname, $pos + 1);
+        $basepath  = $this->_namespaces[$namespace];
 
         /*
          * Exception rule for Exception classes
@@ -59,11 +50,11 @@ class LoaderAdapterLibrary extends LoaderAdapterAbstract
 			$path = $path.'/'.$path;
 		}
 
-		if(!is_file($this->_basepath.'/'.$path.'.php')) {
+		if(!is_file($basepath.'/'.$path.'.php')) {
 			$path = $path.'/'.strtolower(array_pop($parts));
 		}
 
-		$path = $this->_basepath.'/'.$path.'.php';
+		$path = $basepath.'/'.$path.'.php';
 
 		return $path;
 	}

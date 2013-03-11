@@ -36,18 +36,18 @@ class Loader
     protected $_aliases = array();
 
     /**
-     * Adapter list
+     * Prefix map
      *
      * @var array
      */
-    protected static $_adapters = array();
+    protected static $_prefix_map = array();
 
     /**
      * Prefix map
      *
      * @var array
      */
-    protected static $_prefix_map = array();
+    protected static $_namespace_map = array();
 
     /**
      * Constructor
@@ -67,27 +67,34 @@ class Loader
             $this->_registry->enableCache($config['cache_enabled']);
         }
 
-        //Add the koowa class loader
-        $this->addAdapter(new LoaderAdapterLibrary(
-            array('basepath' => dirname(dirname(__FILE__)))
-        ));
+        //Register the framework adapter
+        $loader = new LoaderAdapterLibrary();
+        $loader->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
+        $this->addAdapter($loader);
 
         //Auto register the loader
         $this->register();
     }
 
     /**
-     * Registers this instance as an autoloader.
+     * Registers the loader with the PHP autoloader.
      *
-     * @return void
+     * @param Boolean $prepend Whether to prepend the autoloader or not
+     * @see \spl_autoload_register();
      */
-    public function register()
+    public function register($prepend = false)
     {
-        spl_autoload_register(array($this, 'loadClass'));
+        spl_autoload_register(array($this, 'loadClass'), true, $prepend);
+    }
 
-        if (function_exists('__autoload')) {
-            spl_autoload_register('__autoload');
-        }
+    /**
+     * Unregisters the loader with the PHP autoloader.
+     *
+     * @see \spl_autoload_unregister();
+     */
+    public function unregister()
+    {
+        spl_autoload_unregister(array($this, 'loadClass'));
     }
 
     /**
@@ -126,18 +133,13 @@ class Loader
      */
     public function addAdapter(LoaderAdapterInterface $adapter)
     {
-        self::$_adapters[$adapter->getType()]     = $adapter;
-        self::$_prefix_map[$adapter->getPrefix()] = $adapter->getType();
-    }
+        foreach($adapter->getPrefixes() as $prefix => $path) {
+            self::$_prefix_map[$prefix] = $adapter;
+        }
 
-	/**
-     * Get the registered adapters
-     *
-     * @return array
-     */
-    public function getAdapters()
-    {
-        return self::$_adapters;
+        foreach($adapter->getNamespaces() as $namespace => $path) {
+            self::$_namespace_map[$namespace] = $adapter;
+        }
     }
 
     /**
@@ -186,23 +188,19 @@ class Loader
     {
         $result = false;
 
-        //Extra filter added to circomvent issues with Zend Optimiser and strange classname.
-        if((ctype_upper(substr($class, 0, 1)) || (strpos($class, '.') !== false)))
+        //Pre-empt further searching for the named class or interface.
+        //Do not use autoload, because this method is registered with
+        //spl_autoload already.
+        if (!class_exists($class, false) && !interface_exists($class, false))
         {
-            //Pre-empt further searching for the named class or interface.
-            //Do not use autoload, because this method is registered with
-            //spl_autoload already.
-            if (!class_exists($class, false) && !interface_exists($class, false))
-            {
-                //Get the path
-                $path = self::findPath( $class, $basepath );
+            //Get the path
+            $path = self::findPath( $class, $basepath );
 
-                if ($path !== false) {
-                    $result = $this->loadFile($path);
-                }
+            if ($path !== false) {
+                $result = $this->loadFile($path);
             }
-            else $result = true;
         }
+        else $result = true;
 
         return $result;
     }
@@ -273,31 +271,35 @@ class Loader
             if (false !== $pos = strrpos($class, '\\'))
             {
                 //Namespaced classname
-                $prefix = substr($class, 0, $pos);
-                $class  = substr($class, $pos + 1);
+                foreach(self::$_namespace_map as $namespace => $adapter)
+                {
+                    if(strpos($class, $namespace) === 0)
+                    {
+                        $result = $adapter->findPath( $class, $basepath);
+                        break;
+                    }
+                }
             }
             else
             {
                 //Prefixed classname
                 $parts  = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class));
                 $prefix = $parts[0];
-            }
 
-            if(isset(self::$_prefix_map[$prefix]))
-            {
-                $result = self::$_adapters[self::$_prefix_map[$prefix]]->findPath( $class, $basepath);
-
-                if ($result !== false)
-                {
-                   //Get the canonicalized absolute pathname
-                   $path   = realpath($result);
-                   $result = $path !== false ? $path : $result;
+                if(isset(self::$_prefix_map[$prefix])) {
+                    $result = self::$_prefix_map[$prefix]->findPath( $class, $basepath);
                 }
-
-                $this->_registry->offsetSet($base.'-'.(string) $class, $result);
             }
 
-        } else $result = $this->_registry->offsetGet($base.'-'.(string)$class);
+            if ($result !== false)
+            {
+                //Get the canonicalized absolute pathname
+                if($result = realpath($result)) {
+                    $this->_registry->offsetSet($base.'-'.(string) $class, $result);
+                }
+            }
+        }
+        else $result = $this->_registry->offsetGet($base.'-'.(string)$class);
 
         return $result;
     }

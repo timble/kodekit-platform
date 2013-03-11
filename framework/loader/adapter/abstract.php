@@ -17,66 +17,63 @@ namespace Nooku\Framework;
  */
 abstract class LoaderAdapterAbstract implements LoaderAdapterInterface
 {
-	/**
-	 * The adapter type
-	 *
-	 * @var string
-	 */
-	protected $_type = '';
-
-	/**
-	 * The basepath
-	 *
-	 * @var string
-	 */
-	protected $_basepath = '';
-
-	/**
-	 * The class prefiex
-	 *
-	 * @var string
-	 */
-	protected $_prefix = '';
-
-	/**
-     * Constructor.
+    /**
+     * Namespace/directory pairs to search
      *
-     * @param  array  An optional array with configuration options.
+     * @var array
      */
-    public function __construct( $config = array())
+    protected $_namespaces = array();
+
+    /**
+     * Prefix/directory pairs to search
+     *
+     * @var array
+     */
+    protected $_prefixes = array();
+
+    /**
+     * Register a namespace
+     *
+     * @param  string $namespace
+     * @param  string $paths The location(s) of the namespace
+     * @return LoaderAdapterInterface
+     */
+    public function registerNamespace($namespace, $paths)
     {
-        if(isset($config['basepath'])) {
-            $this->_basepath = $config['basepath'];
-        }
+        $this->_namespaces[$namespace] = $paths;
+        return $this;
     }
 
-	/**
-	 * Get the type
-	 *
-	 * @return string	Returns the type
-	 */
-	public function getType()
-	{
-		return $this->_type;
-	}
+    /**
+     * Get the registered namespaces
+     *
+     * @return array An array with namespaces as keys and path as values
+     */
+    public function getNamespaces()
+    {
+        return $this->_namespaces;
+    }
 
-	/**
-	 * Get the base path
-	 *
-	 * @return string	Returns the base path
-	 */
-	public function getBasepath()
-	{
-		return $this->_basepath;
-	}
+    /**
+     * Register a prefix
+     *
+     * @param  string $prefix
+     * @param  string $paths The location(s) of the classes
+     * @return LoaderAdapterInterface
+     */
+    public function registerPrefix($prefix, $paths)
+    {
+        $this->_prefixes[$prefix] = $paths;
+        return $this;
+    }
 
-	/**
-	 * Get the class prefix
-	 *
-	 * @return string	Returns the class prefix
-	 */
-	public function getPrefix()
-	{
-		return $this->_prefix;
-	}
+    /**
+     * Get the registered class prefixes
+     *
+     * @return array Returns the class prefixes
+     */
+    public function getPrefixes()
+    {
+        return $this->_prefixes;
+    }
 }

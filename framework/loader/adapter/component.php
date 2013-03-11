@@ -14,24 +14,9 @@ namespace Nooku\Framework;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Loader
  * @subpackage 	Adapter
- * @uses		Inflector
  */
 class LoaderAdapterComponent extends LoaderAdapterAbstract
 {
-	/**
-	 * The adapter type
-	 *
-	 * @var string
-	 */
-	protected $_type = 'com';
-
-	/**
-	 * The class prefix
-	 *
-	 * @var string
-	 */
-	protected $_prefix = 'Com';
-
 	/**
 	 * Get the path based on a class name
 	 *
@@ -40,7 +25,37 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
 	 */
 	public function findPath($classname, $basepath = null)
 	{
-		$path = false;
+        static $base;
+
+        $path = false;
+
+        if (false !== $pos = strrpos($classname, '\\'))
+        {
+            //Find the classname
+            foreach($this->_namespaces as $namespace => $path)
+            {
+                if(strpos($classname, $namespace) == 0)
+                {
+                    $classname = str_replace(array($namespace, '\\'), '', $classname);
+                    $basepath   = $path;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            //Prefixed classname
+            $parts  = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname));
+
+            $prefix    = array_shift($parts);
+            $classname = implode($parts);
+
+            if(!empty($basepath)) {
+                $base = $basepath;
+            }
+
+            $basepath = $base;
+        }
 
         /*
          * Exception rule for Exception classes
@@ -53,41 +68,26 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
             $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
         }
 
-		$word  = strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname));
-		$parts = explode(' ', $word);
+		$parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname)));
 
-		if (array_shift($parts) == 'com')
+        $component = strtolower(array_shift($parts));
+		$file 	   = array_pop($parts);
+
+		if(count($parts))
 		{
-		    //Switch the basepath
-		    if(!empty($basepath)) {
-		        $this->_basepath = $basepath;
+            if(!in_array($parts[0], array('view', 'module')))
+	        {
+			    foreach($parts as $key => $value) {
+			        $parts[$key] = Inflector::pluralize($value);
+		        }
 		    }
+	        else $parts[0] = Inflector::pluralize($parts[0]);
 
-		    $component = strtolower(array_shift($parts));
-			$file 	   = array_pop($parts);
-
-			if(count($parts))
-			{
-                if(!in_array($parts[0], array('view', 'module')))
-			    {
-			        foreach($parts as $key => $value) {
-					    $parts[$key] = Inflector::pluralize($value);
-				    }
-			    }
-			    else $parts[0] = Inflector::pluralize($parts[0]);
-
-				$path = implode('/', $parts).'/'.$file;
-			}
-			else $path = $file;
-
-			$path = 'component/'.$component.'/'.$path.'.php';
-
-            if(file_exists($this->_basepath.'/'.$path)) {
-                $path = $this->_basepath.'/'.$path;
-            } else {
-                $path = JPATH_ROOT.'/'.$path;
-            }
+			$path = implode('/', $parts).'/'.$file;
 		}
+		else $path = $file;
+
+		$path = $basepath.'/'.$component.'/'.$path.'.php';
 
 		return $path;
 	}

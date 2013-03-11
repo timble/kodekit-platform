@@ -18,10 +18,17 @@ interface LoaderInterface
     /**
      * Registers the loader with the PHP autoloader.
      *
-     * @return void
-     * @see \spl-autoload-register();
+     * @param Boolean $prepend Whether to prepend the autoloader or not
+     * @see \spl_autoload_register();
      */
-    public function register();
+    public function register($prepend = false);
+
+    /**
+     * Unregisters the loader with the PHP autoloader.
+     *
+     * @see \spl_autoload_unregister();
+     */
+    public function unregister();
 
     /**
      * Get the class registry object
@@ -39,21 +46,6 @@ interface LoaderInterface
      * @return string The file path
      */
     public function getFile($path);
-
- 	/**
-     * Add a loader adapter
-     *
-     * @param LoaderAdapterInterface $adapter
-     * @return void
-     */
-    public function addAdapter(LoaderAdapterInterface $adapter);
-
-	/**
-     * Get the registered adapters
-     *
-     * @return array
-     */
-    public function getAdapters();
 
     /**
      * Set an file path alias
