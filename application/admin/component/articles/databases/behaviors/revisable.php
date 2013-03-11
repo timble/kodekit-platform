@@ -8,6 +8,7 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Versions;
 
 /**
  * Revisable Database Behavior Class
@@ -16,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesDatabaseBehaviorRevisable extends ComVersionsDatabaseBehaviorRevisable
+class ComArticlesDatabaseBehaviorRevisable extends Versions\DatabaseBehaviorRevisable
 {
     protected function _selectRevisions($table, $status, Framework\DatabaseQueryInterface $query)
     {

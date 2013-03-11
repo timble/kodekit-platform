@@ -9,6 +9,7 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Activities;
 
 /**
  * Log Template Helper Class
@@ -19,7 +20,7 @@ use Nooku\Framework;
  * @subpackage 	Users
  */
 
-class ComUsersTemplateHelperActivity extends ComActivitiesTemplateHelperActivity
+class ComUsersTemplateHelperActivity extends Activities\TemplateHelperActivity
 {
     public function message($config = array())
 	{
