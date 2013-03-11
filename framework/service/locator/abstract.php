@@ -29,7 +29,7 @@ abstract class ServiceLocatorAbstract extends Object implements ServiceLocatorIn
      *
      * @var array
      */
-    protected $_prefixes = array();
+    protected $_fallbacks = array();
 
     /**
      * Constructor.
@@ -40,7 +40,7 @@ abstract class ServiceLocatorAbstract extends Object implements ServiceLocatorIn
     {
         parent::__construct($config);
 
-        $this->_prefixes = Config::unbox($config->prefixes);
+        $this->_fallbacks = Config::unbox($config->fallbacks);
     }
 
     /**
@@ -54,7 +54,7 @@ abstract class ServiceLocatorAbstract extends Object implements ServiceLocatorIn
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'prefixes' => array(),
+            'fallbacks' => array(),
         ));
     }
 

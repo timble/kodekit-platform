@@ -17,7 +17,14 @@ namespace Nooku\Framework;
  */
 interface ServiceLocatorInterface
 {
-	/**
+    /**
+     * Get the type
+     *
+     * @return string	Returns the type
+     */
+    public function getType();
+
+    /**
 	 * Get the classname based on an identifier
 	 *
 	 * @param 	object 			An identifier object - [application::]type.package.[.path].name
@@ -32,11 +39,4 @@ interface ServiceLocatorInterface
      * @return string	Returns the path
      */
     public function findPath(ServiceIdentifier $identifier);
-
-	/**
-	 * Get the type
-	 *
-	 * @return string	Returns the type
-	 */
-	public function getType();
 }
