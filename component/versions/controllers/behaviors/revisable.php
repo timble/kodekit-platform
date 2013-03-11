@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Versions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsControllerBehaviorRevisable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorRevisable extends Framework\ControllerBehaviorAbstract
 {
 	protected function _beforeControllerRender(Framework\CommandContext $context)
 	{

@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsDatabaseRowSetting_System extends ComExtensionsDatabaseRowSetting
+class DatabaseRowSetting_System extends DatabaseRowSetting
 {
     /**
      * Initializes the options for the object
@@ -30,7 +32,7 @@ class ComExtensionsDatabaseRowSetting_System extends ComExtensionsDatabaseRowSet
         $config->append(array(
              'name' => 'system',
              'path'	=> JPATH_ROOT.'/config/config.php',
-             'data' => JFactory::getConfig()->toArray()
+             'data' => \JFactory::getConfig()->toArray()
         ));
         
         parent::_initialize($config);
@@ -45,13 +47,13 @@ class ComExtensionsDatabaseRowSetting_System extends ComExtensionsDatabaseRowSet
     {  
         if(!empty($this->_modified)) 
         {
-            $config = new JRegistry('config');
-            $config->loadArray(JFactory::getConfig()->toArray());
+            $config = new \JRegistry('config');
+            $config->loadArray(\JFactory::getConfig()->toArray());
             $config->loadArray($this->_data);
             
 		    if (file_put_contents($this->getPath(), $config->toString('PHP', 'config', array('class' => 'JConfig'))) === false) 
 		    {
-			    $this->setStatusMessage(JText::_('ERRORCONFIGFILE'));
+			    $this->setStatusMessage(\JText::_('ERRORCONFIGFILE'));
 			    $this->setStatus(Framework\Database::STATUS_FAILED);
 			
 			    return false;

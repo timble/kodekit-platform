@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Debug;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Debug
  */
-class ComDebugControllerDebug extends ComBaseControllerView
+class ControllerDebug extends \ComBaseControllerView
 {
     protected function _initialize(Framework\Config $config)
     {

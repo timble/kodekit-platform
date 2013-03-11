@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Activities;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesViewActivitiesHtml extends ComBaseViewHtml
+class ViewActivitiesHtml extends \ComBaseViewHtml
 {
 	public function render()
 	{

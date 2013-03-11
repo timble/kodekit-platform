@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Sites;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ComSitesModelSites extends Framework\ModelAbstract implements Framework\ServiceInstantiatable
+class ModelSites extends Framework\ModelAbstract implements Framework\ServiceInstantiatable
 {	
      public function __construct(Framework\Config $config)
      {

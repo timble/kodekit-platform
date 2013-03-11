@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Versions;
+
 use Nooku\Framework;
 
 /**
@@ -16,7 +18,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsModelRevisions extends ComBaseModelDefault
+class ModelRevisions extends \ComBaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{
@@ -74,6 +76,7 @@ class ComVersionsModelRevisions extends ComBaseModelDefault
     protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
     {
         $query->columns[] = 'u.name AS user_name';
+
         parent::_buildQueryColumns($query);
     }
 

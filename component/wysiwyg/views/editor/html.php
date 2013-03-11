@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Wysiwyg;
+
 use Nooku\Framework;
 
 /**
@@ -15,14 +17,14 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ComWysiwygViewEditorHtml extends ComBaseViewHtml
+class ViewEditorHtml extends \ComBaseViewHtml
 {
     protected $_editor_settings;
     
     public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
-        
+
         if ($config->editor_settings) {
             $this->_editor_settings = $config->editor_settings;
         }
@@ -37,7 +39,7 @@ class ComWysiwygViewEditorHtml extends ComBaseViewHtml
 
     protected function _initialize(Framework\Config $config)
     {
-        $language = JFactory::getLanguage();
+        $language = \JFactory::getLanguage();
 
 		$settings = array(
 			'directionality'						=> $language->isRTL() ? 'rtl' : 'ltr',
@@ -104,8 +106,8 @@ class ComWysiwygViewEditorHtml extends ComBaseViewHtml
 	{
 		$options = new Framework\Config(array(
 			'lang' => array(
-				'html'		=> JText::_('HTML'),
-				'visual'	=> JText::_('Visual')
+				'html'		=> \JText::_('HTML'),
+				'visual'	=> \JText::_('Visual')
 			),
             'autoheight'        => true,
 			'codemirror'        => $this->codemirror,

@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsModelSettings extends Framework\ModelAbstract
+class ModelSettings extends Framework\ModelAbstract
 {
     public function __construct(Framework\Config $config)
     {
@@ -47,6 +49,7 @@ class ComExtensionsModelSettings extends Framework\ModelAbstract
                         
             //Insert the component configuration settings
             $components = $this->getService('com://admin/extensions.model.components')->enabled(1)->getRowset();
+
             foreach($components as $component)
             {
                 $path  = $this->getIdentifier()->getNamespace('admin');

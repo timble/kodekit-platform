@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Debug;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class ComDebugEventDispatcherDebug extends Framework\EventDispatcherException
+class EventDispatcherDebug extends Framework\EventDispatcherException
 {
     /**
      * Debug modes

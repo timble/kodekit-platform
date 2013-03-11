@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Debug;
+
 use Nooku\Framework;
 
 /**
@@ -15,13 +17,13 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class ComDebugViewDebugHtml extends Framework\ViewHtml
+class ViewDebugHtml extends Framework\ViewHtml
 {
     public function render()
     {
         $database = $this->getService('com://admin/debug.event.subscriber.database');
         $profiler = $this->getService('com://admin/debug.event.profiler');
-        $language = JFactory::getLanguage();
+        $language = \JFactory::getLanguage();
 
         //Remove the template includes
         $includes = get_included_files();

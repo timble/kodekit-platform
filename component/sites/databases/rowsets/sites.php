@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Sites;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ComSitesDatabaseRowsetSites extends Framework\DatabaseRowsetAbstract
+class DatabaseRowsetSites extends Framework\DatabaseRowsetAbstract
 {       
     protected function _initialize(Framework\Config $config)
     {

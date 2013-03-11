@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Debug;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class ComDebugEventSubscriberDatabase extends Framework\EventSubscriberAbstract implements Framework\ServiceInstantiatable
+class EventSubscriberDatabase extends Framework\EventSubscriberAbstract implements Framework\ServiceInstantiatable
 {    
     /**
      * The start time
@@ -36,7 +38,7 @@ class ComDebugEventSubscriberDatabase extends Framework\EventSubscriberAbstract 
      *
      * @param 	Framework\Config                     $config	  A Framework\Config object with configuration options
      * @param 	Framework\ServiceManagerInterface	$manager  A KServiceInterface object
-     * @return ComDebugProfilerEvents
+     * @return  ProfilerEvents
      */
     public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {

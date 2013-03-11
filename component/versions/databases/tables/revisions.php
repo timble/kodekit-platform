@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Versions;
+
 use Nooku\Framework;
 
 /**
@@ -16,7 +18,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsDatabaseTableRevisions extends Framework\DatabaseTableDefault
+class DatabaseTableRevisions extends Framework\DatabaseTableDefault
 {
     protected function _initialize(Framework\Config $config)
     {     

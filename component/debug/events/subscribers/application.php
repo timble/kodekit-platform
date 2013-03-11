@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Debug;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author		Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Debug
  */
-class ComDebugEventSubscriberApplication extends Framework\EventSubscriberAbstract
+class EventSubscriberApplication extends Framework\EventSubscriberAbstract
 {
     public function __construct(Framework\Config $config)
 	{

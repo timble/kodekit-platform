@@ -9,7 +9,7 @@
 ?>
 
 <? 
-$params = new JParameter( null, $settings->getPath() );
+$params = new \JParameter( null, $settings->getPath() );
 $params->loadArray($settings->toArray());
 ?>
 

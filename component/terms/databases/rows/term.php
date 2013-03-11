@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Terms;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ComTermsDatabaseRowTerm extends Framework\DatabaseRowDefault
+class DatabaseRowTerm extends Framework\DatabaseRowDefault
 {
 	/**
 	 * Save the term in the database.
@@ -23,7 +25,7 @@ class ComTermsDatabaseRowTerm extends Framework\DatabaseRowDefault
 	 * If the term does not exist yet it will be created. A relationship for the term will also be added to the
      * terms_relations table based on the row_id and table_name information.
 	 *
-	 * @return	TermsRowTerm
+	 * @return boolean
 	 */
 	public function save()
 	{
@@ -35,7 +37,8 @@ class ComTermsDatabaseRowTerm extends Framework\DatabaseRowDefault
 				$row->save();
 			}
 		}
-		else {
+		else
+        {
 			//Add the term
 			if(!$this->load()) {
 				parent::save();
@@ -64,7 +67,7 @@ class ComTermsDatabaseRowTerm extends Framework\DatabaseRowDefault
 	 * If only one relationship exists in the actual term will also be deleted. Otherwise only the relation will be
      * removed.
 	 *
-	 * @return TermsRowTerm
+	 * @return boolean
 	 */
 	public function delete()
 	{

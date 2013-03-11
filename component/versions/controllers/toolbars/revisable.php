@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Versions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsControllerToolbarRevisable extends Framework\ControllerToolbarAbstract
+class ControllerToolbarRevisable extends Framework\ControllerToolbarAbstract
 {
     protected function _initialize(Framework\Config $config)
     {

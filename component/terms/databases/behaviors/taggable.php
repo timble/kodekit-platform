@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Terms;
+
 use Nooku\Framework;
 
 /**
@@ -15,12 +17,12 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ComTermsDatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of tags
 	 * 
-	 * @return ComTermsRowsetTerms
+	 * @return RowsetTerms
 	 */
 	public function getTags()
 	{

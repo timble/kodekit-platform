@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsModelComponents extends ComBaseModelDefault
+class ModelComponents extends \ComBaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{
@@ -30,6 +32,7 @@ class ComExtensionsModelComponents extends ComBaseModelDefault
 	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryWhere($query);
+
 		$state = $this->getState();
 	
 		if($state->search) {

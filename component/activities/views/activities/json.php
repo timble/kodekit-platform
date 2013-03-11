@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Activities;
+
 use Nooku\Framework;
 
 /**
@@ -16,7 +18,7 @@ use Nooku\Framework;
  * @package Nooku\Component\Activities
  * @see 	http://activitystrea.ms/specs/json/1.0/
  */
-class ComActivitiesViewActivitiesJson extends Framework\ViewJson
+class ViewActivitiesJson extends Framework\ViewJson
 {
 	/**
 	 * Get the list data

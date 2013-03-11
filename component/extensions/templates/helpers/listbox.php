@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsTemplateHelperListbox extends ComBaseTemplateHelperListbox
+class TemplateHelperListbox extends \ComBaseTemplateHelperListbox
 {
     public function list_limits($config = array())
     {
@@ -56,7 +58,7 @@ class ComExtensionsTemplateHelperListbox extends ComBaseTemplateHelperListbox
         $rows = JCache::getStores();
 
         foreach($rows as $row) {
-            $options[] 	= $this->option(array('text' => JText::_(ucfirst($row)), 'value' => $row));
+            $options[] 	= $this->option(array('text' => \JText::_(ucfirst($row)), 'value' => $row));
         }
 
         $list = $this->optionlist(array(
@@ -76,7 +78,7 @@ class ComExtensionsTemplateHelperListbox extends ComBaseTemplateHelperListbox
             'name'		=> 'timezone',
             'attribs'	=> array(),
             'deselect'  => true,
-            'prompt'    => '- '.JText::_('Select Time Zone').' -',
+            'prompt'    => '- '.\JText::_('Select Time Zone').' -',
         ));
 
         if ($config->deselect) {

@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Versions;
+
 use Nooku\Framework;
 
 /**
@@ -16,7 +18,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ComVersionsDatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * The versions_revisions table object
@@ -79,7 +81,7 @@ class ComVersionsDatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbs
             }
         }
 
-        return Nooku\Framework\BehaviorAbstract::execute($name, $context);
+        return Framework\BehaviorAbstract::execute($name, $context);
     }
 
 	/**
@@ -96,8 +98,7 @@ class ComVersionsDatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbs
 
         if($context->query->params->has('deleted'))
         {
-            $table = $context->getSubject();
-
+            $table     = $context->getSubject();
             $revisions = $this->_selectRevisions($table, Framework\Database::STATUS_DELETED, $query);
 
             if (!$query->isCountQuery())

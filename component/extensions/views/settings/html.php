@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsViewSettingsHtml extends ComBaseViewHtml
+class ViewSettingsHtml extends \ComBaseViewHtml
 {
     public function render()
     {
@@ -24,7 +26,7 @@ class ComExtensionsViewSettingsHtml extends ComBaseViewHtml
         foreach($settings as $setting) 
         {
 	    	if($setting->getType() == 'component' && $setting->getPath()) {
-	    	    JFactory::getLanguage()->load($setting->getName(), JPATH_APPLICATION);
+	    	    \JFactory::getLanguage()->load($setting->getName(), JPATH_APPLICATION);
 	    	}
         } 
        

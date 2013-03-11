@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsDatabaseRowComponent extends Framework\DatabaseRowTable
+class DatabaseRowComponent extends Framework\DatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest
@@ -66,12 +68,12 @@ class ComExtensionsDatabaseRowComponent extends Framework\DatabaseRowTable
             $this->_data[$column] = isset($this->manifest->{$column}) ? $this->manifest->{$column} : '';
         }
         
-	    if($column == 'params' && !($this->_data['params']) instanceof JParameter)
+	    if($column == 'params' && !($this->_data['params']) instanceof \JParameter)
         {
             $path = $this->getIdentifier()->getNamespace('admin');
             $file = $path.'/component/'.$this->option.'/config.xml';
 
-	        $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );
+	        $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'component' );
         }
         
 		return parent::__get($column);

@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Activities;
+
 use Nooku\Framework;
 
 /**
@@ -15,14 +17,14 @@ use Nooku\Framework;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesTemplateHelperActivity extends Framework\TemplateHelperDefault implements Framework\ServiceInstantiatable
+class TemplateHelperActivity extends Framework\TemplateHelperDefault implements Framework\ServiceInstantiatable
 {
 	/**
      * Check for overrides of the helper
      *
      * @param   Framework\Config         	        $config  An optional Framework\Config object with configuration options
      * @param 	Framework\ServiceManagerInterface	$manager A Framework\ServiceManagerInterface object
-     * @return ComActivitiesTemplateHelperActivity
+     * @return  TemplateHelperActivity
      */
     public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
     {

@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Activities;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Activities
  */
-class ComActivitiesControllerPermissionDefault extends ComBaseControllerPermissionDefault
+class ControllerPermissionDefault extends \ComBaseControllerPermissionDefault
 {  
     public function canAdd()
     {

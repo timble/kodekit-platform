@@ -7,6 +7,8 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Framework;
 
 /**
@@ -15,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ComExtensionsViewSettingsJson extends Framework\ViewJson
+class ViewSettingsJson extends Framework\ViewJson
 {
     public function render()
     {
@@ -28,6 +30,7 @@ class ComExtensionsViewSettingsJson extends Framework\ViewJson
         }
 
         $this->setContent($data);
+
         return parent::render();
     }
 }
