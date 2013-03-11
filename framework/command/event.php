@@ -86,9 +86,11 @@ class KCommandEvent extends KCommand
     /**
      * Command handler
      *
+     * This functions returns void to prevent is from breaking the chain.
+     *
      * @param   string      The command name
      * @param   object      The command context
-     * @return  boolean     Always returns true
+     * @return  void
      */
     public function execute($name, KCommandContext $context)
     {
@@ -112,7 +114,5 @@ class KCommandEvent extends KCommand
         $event->setTarget($context->getSubject());
 
         $this->getEventDispatcher()->dispatchEvent($name, $event);
-
-        return true;
     }
 }
