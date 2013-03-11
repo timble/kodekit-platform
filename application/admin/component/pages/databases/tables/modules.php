@@ -19,8 +19,6 @@ class ComPagesDatabaseTableModules extends KDatabaseTableDefault
 {
     public function  _initialize(KConfig $config) 
     {
-        $config->identity_column = 'id';
-		
         $config->append(array(
             'behaviors'  => array(
                 'creatable', 'modifiable', 'lockable',

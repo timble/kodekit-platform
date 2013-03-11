@@ -394,7 +394,7 @@ CREATE TABLE `#__pages_modules_pages` (
 --
 
 CREATE TABLE `#__pages_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pages_module_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `content` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
@@ -411,7 +411,7 @@ CREATE TABLE `#__pages_modules` (
   `params` text NOT NULL,
   `extensions_component_id` INT UNSIGNED,
   `application` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`pages_module_id`),
   KEY `published` (`published`,`access`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
