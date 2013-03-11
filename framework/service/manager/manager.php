@@ -374,7 +374,7 @@ class ServiceManager implements ServiceManagerInterface
         //Load the class manually using the basepath
         if (self::get('loader')->loadClass($identifier->classname, $identifier->basepath))
         {
-            if (!array_key_exists(__NAMESPACE__.'\ServiceInterface', class_implements($identifier->classname)))
+            if (!array_key_exists(__NAMESPACE__.'\ServiceInterface', class_implements($identifier->classname, false)))
             {
                 throw new ServiceExceptionInvalidService(
                     'Object: '.$identifier->classname.' does not implement ServiceInterface'
@@ -389,7 +389,7 @@ class ServiceManager implements ServiceManagerInterface
             $config->service_identifier = $identifier;
 
             // Delegate object instantiation.
-            if (array_key_exists(__NAMESPACE__.'\ServiceInstantiatable', class_implements($identifier->classname))) {
+            if (array_key_exists(__NAMESPACE__.'\ServiceInstantiatable', class_implements($identifier->classname, false))) {
                 $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
             } else {
                 $result = new $identifier->classname($config);
