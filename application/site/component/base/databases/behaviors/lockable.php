@@ -29,7 +29,7 @@ class ComBaseDatabaseBehaviorLockable extends Framework\DatabaseBehaviorLockable
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'lifetime'   =>  $this->getUser()->getSession()->getLifetime()
+            'lifetime'   =>  $this->getService('user')->getSession()->getLifetime()
         ));
 
         parent::_initialize($config);
