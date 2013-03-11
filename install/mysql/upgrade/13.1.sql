@@ -407,11 +407,11 @@ RENAME TABLE `#__menu_types` TO `#__pages_menus`;
 RENAME TABLE `#__modules` TO  `#__pages_modules` ;
 
 -- Update schema to follow conventions
-ALTER TABLE `#__pages` CHANGE `id` `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `#__pages` CHANGE `id` `pages_page_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__pages` CHANGE `name` `title` VARCHAR(255) NOT NULL;
 ALTER TABLE `#__pages` CHANGE `alias` `slug` VARCHAR(255);
 ALTER TABLE `#__pages` CHANGE `link` `link_url` TEXT;
-ALTER TABLE `#__pages` ADD COLUMN `link_id` INT UNSIGNED AFTER `link_url`;
+ALTER TABLE `#__pages` ADD COLUMN `link_id` INT(11) UNSIGNED AFTER `link_url`;
 ALTER TABLE `#__pages` MODIFY `type` VARCHAR(50);
 ALTER TABLE `#__pages` CHANGE `componentid` `extensions_component_id` INT UNSIGNED;
 ALTER TABLE `#__pages` CHANGE `checked_out` `locked_by` INT UNSIGNED;
@@ -451,9 +451,11 @@ ALTER TABLE `#__pages_modules` ADD `modified_on` DATETIME AFTER `modified_by`;
 ALTER TABLE `#__pages_modules` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `#__pages_modules` CHANGE `checked_out_time` `locked_on` DATETIME;
 
-ALTER TABLE `#__pages_modules_pages` CHANGE `moduleid` `modules_module_id` INT UNSIGNED NOT NULL;
-ALTER TABLE `#__pages_modules_pages` CHANGE `menuid` `pages_page_id` INT UNSIGNED NOT NULL;
+ALTER TABLE `#__pages_modules_pages` CHANGE `moduleid` `pages_module_id` INT(11) UNSIGNED NOT NULL;
+ALTER TABLE `#__pages_modules_pages` CHANGE `menuid` `pages_page_id` INT(11) UNSIGNED NOT NULL;
 
+ALTER TABLE `#__pages_modules_pages` ADD CONSTRAINT `#__pages_modules_pages__pages_module_id` FOREIGN KEY (`pages_module_id`) REFERENCES `#__pages_modules` (`pages_module_id`) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `#__pages_modules_pages` ADD CONSTRAINT `#__pages_modules_pages__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- Add admin menubar pages
 INSERT INTO `#__pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`)
@@ -505,8 +507,6 @@ ALTER TABLE `#__pages` ADD INDEX `ix_home` (`home`);
 #ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
 ALTER TABLE `#__pages` ADD CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE;
 
-ALTER TABLE `#__pages_modules_pages` ADD INDEX `ix_pages_page_id` (`pages_page_id`);
-
 UPDATE `#__pages_modules` SET `name` = 'mod_menu' WHERE `name` = 'mod_mainmenu';
 UPDATE `#__pages_modules` AS `modules` SET `modules`.`params` = REPLACE(`modules`.`params`, CONCAT('menutype=', SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)), CONCAT('menu_id=', (SELECT `pages_menu_id` FROM `#__pages_menus` AS `menus` WHERE `menus`.`slug` = SUBSTRING_INDEX(SUBSTRING_INDEX(`modules`.`params`, 'menutype=', -1), '\n', 1)))) WHERE `modules`.`name` = 'mod_menu';
 
@@ -521,8 +521,8 @@ DELETE FROM `#__pages` WHERE `published` < 0;
 
 -- Add relations table
 CREATE TABLE IF NOT EXISTS `#__pages_closures` (
-    `ancestor_id` INT UNSIGNED NOT NULL,
-    `descendant_id` INT UNSIGNED NOT NULL,
+    `ancestor_id` INT(11) UNSIGNED NOT NULL,
+    `descendant_id` INT(11) UNSIGNED NOT NULL,
     `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (`ancestor_id`, `descendant_id`),
     CONSTRAINT `#__pages_closures__ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,

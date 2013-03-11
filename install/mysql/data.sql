@@ -52,7 +52,7 @@ VALUES
 -- Dumping data for table `#__pages_modules_pages`
 --
 
-INSERT INTO `#__pages_modules_pages` (`modules_module_id`, `pages_page_id`) VALUES (1, 0);
+INSERT INTO `#__pages_modules_pages` (`pages_module_id`, `pages_page_id`) VALUES (1, 0);
 
 --
 -- Dumping data for table `#__pages_orderings`

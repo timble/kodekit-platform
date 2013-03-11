@@ -119,7 +119,7 @@ VALUES
 -- Dumping data for table `#__pages_modules`
 --
 
-INSERT INTO `#__pages_modules_pages` (`modules_module_id`, `pages_page_id`)
+INSERT INTO `#__pages_modules_pages` (`pages_module_id`, `pages_page_id`)
 VALUES
 	(17, 0),
 	(18, 1),
