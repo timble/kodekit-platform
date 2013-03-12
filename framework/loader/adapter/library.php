@@ -17,12 +17,13 @@ namespace Nooku\Framework;
  */
 class LoaderAdapterLibrary extends LoaderAdapterAbstract
 {
-	/**
-	 * Get the path based on a class name
-	 *
-	 * @param  string		  	The class name
-	 * @return string|false		Returns the path on success FALSE on failure
-	 */
+    /**
+     * Get the path based on a class name
+     *
+     * @param  string       $classname The class name
+     * @param  string|false $basepath
+     * @return string  The path on success FALSE on failure
+     */
 	public function findPath($classname, $basepath = null)
 	{
 		$path = false;
@@ -30,7 +31,7 @@ class LoaderAdapterLibrary extends LoaderAdapterAbstract
         $pos       = strrpos($classname, '\\');
         $namespace = substr($classname, 0, $pos);
         $classname = substr($classname, $pos + 1);
-        $basepath  = $this->_namespaces[$namespace];
+        $basepath  = $this->_namespaces['\\'.$namespace];
 
         /*
          * Exception rule for Exception classes

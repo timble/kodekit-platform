@@ -34,26 +34,11 @@ interface LoaderAdapterInterface
     public function getNamespaces();
 
     /**
-     * Register a prefix
-     *
-     * @param  string $prefix
-     * @param  string $paths The location(s) of the classes
-     * @return LoaderAdapterInterface
-     */
-    public function registerPrefix($prefix, $paths);
-
-    /**
-     * Get the registered class prefixes
-     *
-     * @return array Returns the class prefixes
-     */
-    public function getPrefixes();
-
-    /**
      * Get the path based on a class name
      *
-     * @param  string           The class name
-     * @return string|false     Returns the path on success FALSE on failure
+     * @param  string       $classname The class name
+     * @param  string|false $basepath
+     * @return string  The path on success FALSE on failure
      */
-    public function findPath($classname, $basepath = null);
+    public function findPath($class, $basepath = null);
 }

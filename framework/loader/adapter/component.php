@@ -17,44 +17,40 @@ namespace Nooku\Framework;
  */
 class LoaderAdapterComponent extends LoaderAdapterAbstract
 {
-	/**
-	 * Get the path based on a class name
-	 *
-	 * @param  string		  	The class name
-	 * @return string|false		Returns the path on success FALSE on failure
-	 */
+    /**
+     * Get the path based on a class name
+     *
+     * @param  string       $classname The class name
+     * @param  string|false $basepath
+     * @return string  The path on success FALSE on failure
+     */
 	public function findPath($classname, $basepath = null)
 	{
         static $base;
 
         $path = false;
 
-        if (false !== $pos = strrpos($classname, '\\'))
+        //Find the classname
+        foreach($this->_namespaces as $namespace => $path)
         {
-            //Find the classname
-            foreach($this->_namespaces as $namespace => $path)
+            if(strpos('\\'.$classname, $namespace) === 0)
             {
-                if(strpos($classname, $namespace) == 0)
+                $classname = str_replace(array($namespace, '\\'), '', '\\'.$classname);
+
+                //Set the basepath
+                if($namespace == '\\')
                 {
-                    $classname = str_replace(array($namespace, '\\'), '', $classname);
-                    $basepath   = $path;
-                    break;
+                    //Handle basepath switching
+                    if(!empty($basepath)) {
+                        $base = $basepath;
+                    }
+
+                    $basepath = $base;
                 }
+                else  $basepath = $path;
+
+                break;
             }
-        }
-        else
-        {
-            //Prefixed classname
-            $parts  = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname));
-
-            $prefix    = array_shift($parts);
-            $classname = implode($parts);
-
-            if(!empty($basepath)) {
-                $base = $basepath;
-            }
-
-            $basepath = $base;
         }
 
         /*
@@ -88,6 +84,7 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
 		else $path = $file;
 
 		$path = $basepath.'/'.$component.'/'.$path.'.php';
+
 
 		return $path;
 	}

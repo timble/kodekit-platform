@@ -25,13 +25,6 @@ abstract class LoaderAdapterAbstract implements LoaderAdapterInterface
     protected $_namespaces = array();
 
     /**
-     * Prefix/directory pairs to search
-     *
-     * @var array
-     */
-    protected $_prefixes = array();
-
-    /**
      * Register a namespace
      *
      * @param  string $namespace
@@ -40,7 +33,11 @@ abstract class LoaderAdapterAbstract implements LoaderAdapterInterface
      */
     public function registerNamespace($namespace, $paths)
     {
-        $this->_namespaces[$namespace] = $paths;
+        $namespace = trim($namespace, '\\');
+        $this->_namespaces['\\'.$namespace] = $paths;
+
+        krsort($this->_namespaces, SORT_STRING);
+
         return $this;
     }
 
@@ -52,28 +49,5 @@ abstract class LoaderAdapterAbstract implements LoaderAdapterInterface
     public function getNamespaces()
     {
         return $this->_namespaces;
-    }
-
-    /**
-     * Register a prefix
-     *
-     * @param  string $prefix
-     * @param  string $paths The location(s) of the classes
-     * @return LoaderAdapterInterface
-     */
-    public function registerPrefix($prefix, $paths)
-    {
-        $this->_prefixes[$prefix] = $paths;
-        return $this;
-    }
-
-    /**
-     * Get the registered class prefixes
-     *
-     * @return array Returns the class prefixes
-     */
-    public function getPrefixes()
-    {
-        return $this->_prefixes;
     }
 }

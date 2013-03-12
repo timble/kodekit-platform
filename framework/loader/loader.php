@@ -36,18 +36,11 @@ class Loader
     protected $_aliases = array();
 
     /**
-     * Prefix map
+     * Namespace map
      *
      * @var array
      */
-    protected static $_prefix_map = array();
-
-    /**
-     * Prefix map
-     *
-     * @var array
-     */
-    protected static $_namespace_map = array();
+    protected $_namespace_map = array();
 
     /**
      * Constructor
@@ -133,13 +126,11 @@ class Loader
      */
     public function addAdapter(LoaderAdapterInterface $adapter)
     {
-        foreach($adapter->getPrefixes() as $prefix => $path) {
-            self::$_prefix_map[$prefix] = $adapter;
+        foreach($adapter->getNamespaces() as $namespace => $path) {
+            $this->_namespace_map[$namespace] = $adapter;
         }
 
-        foreach($adapter->getNamespaces() as $namespace => $path) {
-            self::$_namespace_map[$namespace] = $adapter;
-        }
+        krsort($this->_namespace_map, SORT_STRING);
     }
 
     /**
@@ -268,26 +259,13 @@ class Loader
         {
             $result = false;
 
-            if (false !== $pos = strrpos($class, '\\'))
+            //Find the adapter
+            foreach($this->_namespace_map as $namespace => $adapter)
             {
-                //Namespaced classname
-                foreach(self::$_namespace_map as $namespace => $adapter)
+                if(strpos('\\'.$class, $namespace) === 0)
                 {
-                    if(strpos($class, $namespace) === 0)
-                    {
-                        $result = $adapter->findPath( $class, $basepath);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                //Prefixed classname
-                $parts  = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class));
-                $prefix = $parts[0];
-
-                if(isset(self::$_prefix_map[$prefix])) {
-                    $result = self::$_prefix_map[$prefix]->findPath( $class, $basepath);
+                    $result = $adapter->findPath( $class, $basepath);
+                    break;
                 }
             }
 
