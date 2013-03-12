@@ -172,27 +172,6 @@ class PagesDatabaseRowModule extends Framework\DatabaseRowTable
     }
 
 	/**
-	 * Deletes the row form the database.
-	 *
-	 * Customized in order to implement cascading delete
-	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
-	 */
-	public function delete()
-	{
-		$result = parent::delete();
-		
-		if($this->getStatus() != Framework\Database::STATUS_FAILED)
-		{	
-		    $this->getService('com://admin/pages.database.table.modules')
-			    ->select(array('modules_module_id' => $this->id))
-			    ->delete();
-		}
-
-		return $result;
-	}
-	
-	/**
      * Return an associative array of the data.
      *
      * @return array

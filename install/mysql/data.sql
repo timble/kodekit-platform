@@ -52,7 +52,7 @@ VALUES
 -- Dumping data for table `#__pages_modules_pages`
 --
 
-INSERT INTO `#__pages_modules_pages` (`modules_module_id`, `pages_page_id`) VALUES (1, 0);
+INSERT INTO `#__pages_modules_pages` (`pages_module_id`, `pages_page_id`) VALUES (1, 0);
 
 --
 -- Dumping data for table `#__pages_orderings`
@@ -165,7 +165,7 @@ VALUES
 -- Dumping data for table `#__pages_modules`
 --
 
-INSERT INTO `#__pages_modules` (`id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `#__pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
 	(1, 'Main Menu', '', 2, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=1\nclass=nav nav-list', 25, 'site');
 

@@ -290,13 +290,13 @@ CREATE TABLE `#__languages_tables` (
 --
 
 CREATE TABLE `#__pages` (
-  `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `pages_page_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
   `users_group_id` INT UNSIGNED NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `slug` VARCHAR(255),
   `link_url` TEXT,
-  `link_id` INT UNSIGNED,
+  `link_id` INT(11) UNSIGNED,
   `type` VARCHAR(50),
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
@@ -342,8 +342,8 @@ CREATE TABLE `#__pages_orderings` (
 --
 
 CREATE TABLE `#__pages_closures` (
-  `ancestor_id` INT UNSIGNED NOT NULL,
-  `descendant_id` INT UNSIGNED NOT NULL,
+  `ancestor_id` INT(11) UNSIGNED NOT NULL,
+  `descendant_id` INT(11) UNSIGNED NOT NULL,
   `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`ancestor_id`, `descendant_id`),
   CONSTRAINT `#__pages_closures__ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
@@ -381,10 +381,11 @@ CREATE TABLE `#__pages_menus` (
 --
 
 CREATE TABLE `#__pages_modules_pages` (
-  `modules_module_id` INT NOT NULL,
-  `pages_page_id` INT NOT NULL,
-  PRIMARY KEY (`modules_module_id`,`pages_page_id`),
-  INDEX `ix_pages_page_id` (`pages_page_id`)
+  `pages_module_id` INT(11) UNSIGNED NOT NULL,
+  `pages_page_id` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`pages_module_id`,`pages_page_id`),
+  CONSTRAINT `#__pages_modules_pages__pages_module_id` FOREIGN KEY (`pages_module_id`) REFERENCES `#__pages_modules` (`pages_module_id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `#__pages_modules_pages__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -394,7 +395,7 @@ CREATE TABLE `#__pages_modules_pages` (
 --
 
 CREATE TABLE `#__pages_modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pages_module_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `content` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
@@ -411,7 +412,7 @@ CREATE TABLE `#__pages_modules` (
   `params` text NOT NULL,
   `extensions_component_id` INT UNSIGNED,
   `application` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`pages_module_id`),
   KEY `published` (`published`,`access`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

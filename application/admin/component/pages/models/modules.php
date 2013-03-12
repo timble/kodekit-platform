@@ -45,7 +45,7 @@ class PagesModelModules extends BaseModelDefault
     protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
     {
         $query
-            ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.modules_module_id = tbl.id')
+            ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.pages_module_id = tbl.pages_module_id')
             ->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
 
         parent::_buildQueryJoins($query);

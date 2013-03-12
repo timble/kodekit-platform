@@ -21,8 +21,6 @@ class PagesDatabaseTableModules extends Framework\DatabaseTableDefault
 {
     public function  _initialize(Framework\Config $config)
     {
-        $config->identity_column = 'id';
-		
         $config->append(array(
             'behaviors'  => array(
                 'creatable', 'modifiable', 'lockable',
