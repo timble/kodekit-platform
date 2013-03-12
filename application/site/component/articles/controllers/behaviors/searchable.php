@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerBehaviorSearchable extends Framework\ControllerBehaviorAbstract
+class ArticlesControllerBehaviorSearchable extends Framework\ControllerBehaviorAbstract
 {
     protected function _beforeControllerBrowse(Framework\CommandContext $context)
     {

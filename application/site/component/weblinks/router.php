@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Weblinks
  */
 
-class ComWeblinksRouter extends ComBaseRouter
+class WeblinksRouter extends BaseRouter
 {
     public function buildRoute(&$query)
     {

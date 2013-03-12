@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesModelDefault extends Framework\ModelAbstract
+class FilesModelDefault extends Framework\ModelAbstract
 {
 	public function __construct(Framework\Config $config)
 	{
@@ -43,7 +43,7 @@ class ComFilesModelDefault extends Framework\ModelAbstract
 	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
-			'state' => new ComFilesModelState()
+			'state' => new FilesModelState()
 		));
 
 		parent::_initialize($config);

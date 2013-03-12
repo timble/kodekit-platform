@@ -16,7 +16,7 @@
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesViewArticlesHtml extends ComBaseViewHtml
+class ArticlesViewArticlesHtml extends BaseViewHtml
 {
     public function render()
     {        

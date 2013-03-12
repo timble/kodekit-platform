@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseTableModules extends Framework\DatabaseTableDefault
+class PagesDatabaseTableModules extends Framework\DatabaseTableDefault
 {
     public function  _initialize(Framework\Config $config)
     {

@@ -20,7 +20,7 @@ use Nooku\Component\Activities;
  * @subpackage 	Users
  */
 
-class ComUsersTemplateHelperActivity extends Activities\TemplateHelperActivity
+class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity
 {
     public function message($config = array())
 	{

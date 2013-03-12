@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationControllerToolbarPage extends Framework\ControllerToolbarAbstract
+class ApplicationControllerToolbarPage extends Framework\ControllerToolbarAbstract
 {
     public function onBeforeControllerRender(Framework\Event $event)
     {

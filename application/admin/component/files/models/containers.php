@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesModelContainers extends ComBaseModelDefault
+class FilesModelContainers extends BaseModelDefault
 {
 	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
 	{

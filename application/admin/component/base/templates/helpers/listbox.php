@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseTemplateHelperListbox extends Framework\TemplateHelperListbox
+class BaseTemplateHelperListbox extends Framework\TemplateHelperListbox
 {
     /**
      * Generates an HTML enabled listbox

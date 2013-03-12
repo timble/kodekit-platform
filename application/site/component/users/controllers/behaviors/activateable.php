@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstract
+class UsersControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstract
 {
     /**
      * Determines whether new created items need activation or not.

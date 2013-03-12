@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Default
  */
  
-class ComBaseModuleWidgetHtml extends ComBaseModuleDefaultHtml
+class BaseModuleWidgetHtml extends BaseModuleDefaultHtml
 {
     public function render()
     {

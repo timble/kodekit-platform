@@ -9,7 +9,7 @@
 
 use Nooku\Framework;
 
-class ComFilesAdapterLocalFile extends ComFilesAdapterLocalAbstract
+class FilesAdapterLocalFile extends FilesAdapterLocalAbstract
 {
 	protected $_metadata;
 

@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowGroup extends Framework\DatabaseRowTable
+class UsersDatabaseRowGroup extends Framework\DatabaseRowTable
 {   
     public function save()
     {

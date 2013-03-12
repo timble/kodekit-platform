@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseControllerBehaviorCacheable extends Framework\ControllerBehaviorAbstract
+class BaseControllerBehaviorCacheable extends Framework\ControllerBehaviorAbstract
 {
 	/**
 	 * The cached state of the resource

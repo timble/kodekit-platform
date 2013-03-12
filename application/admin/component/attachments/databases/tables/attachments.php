@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsDatabaseTableAttachments extends Framework\DatabaseTableDefault
+class AttachmentsDatabaseTableAttachments extends Framework\DatabaseTableDefault
 {
 	protected function _initialize(Framework\Config $config)
     {

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-class ComCategoriesDatabaseTableCategories extends Framework\DatabaseTableDefault
+class CategoriesDatabaseTableCategories extends Framework\DatabaseTableDefault
 {
     public function  _initialize(Framework\Config $config)
     {

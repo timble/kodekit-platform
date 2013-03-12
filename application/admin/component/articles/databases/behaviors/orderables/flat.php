@@ -15,7 +15,7 @@
  * @subpackage  Articles
  */
 
-class ComArticlesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableFlat
+class ArticlesDatabaseBehaviorOrderableFlat extends PagesDatabaseBehaviorOrderableFlat
 {
     public function _buildQuery($query)
     {

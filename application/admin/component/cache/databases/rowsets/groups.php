@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Cache
  */
  
-class ComCacheDatabaseRowsetGroups extends Framework\DatabaseRowsetAbstract
+class CacheDatabaseRowsetGroups extends Framework\DatabaseRowsetAbstract
 {	
     protected function _initialize(Framework\Config $config)
     {

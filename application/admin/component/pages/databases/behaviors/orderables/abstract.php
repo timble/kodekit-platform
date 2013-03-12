@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseBehaviorOrderableAbstract extends Framework\DatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorOrderableInterface
+class PagesDatabaseBehaviorOrderableAbstract extends Framework\DatabaseBehaviorAbstract implements PagesDatabaseBehaviorOrderableInterface
 {
     public function getMixableMethods(Framework\Object $mixer = null)
     {

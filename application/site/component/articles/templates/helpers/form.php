@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateHelperForm extends Framework\TemplateHelperDefault
+class ArticlesTemplateHelperForm extends Framework\TemplateHelperDefault
 {
     public function publish($config = array())
     {

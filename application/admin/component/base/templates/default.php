@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseTemplateDefault extends ComBaseTemplateAbstract
+class BaseTemplateDefault extends BaseTemplateAbstract
 {
     /**
      * Load a template helper

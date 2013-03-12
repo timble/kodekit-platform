@@ -45,12 +45,12 @@ unset($config);
 
 //Setup the loader
 $adapter = new Framework\LoaderAdapterComponent();
-$adapter->registerPrefix('Com', JPATH_APPLICATION.'/component');
+$adapter->registerNamespace('\\', JPATH_APPLICATION.'/component');
 $adapter->registerNamespace('Nooku\Component', JPATH_ROOT.'/component');
 
 Framework\ServiceManager::get('loader')->addAdapter($adapter);
 
 //Set the service
 Framework\ServiceIdentifier::addLocator(Framework\ServiceManager::get('lib://nooku/service.locator.component'));
-Framework\ServiceIdentifier::setNamespace('site' , JPATH_ROOT . '/application/site');
-Framework\ServiceIdentifier::setNamespace('admin', JPATH_ROOT . '/application/admin');
+Framework\ServiceIdentifier::setNamespace('site' , JPATH_ROOT.'/application/site');
+Framework\ServiceIdentifier::setNamespace('admin', JPATH_ROOT.'/application/admin');

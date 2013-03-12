@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerBehaviorThumbnailable extends Framework\ControllerBehaviorAbstract
+class FilesControllerBehaviorThumbnailable extends Framework\ControllerBehaviorAbstract
 {
 	protected function _afterControllerBrowse(Framework\CommandContext $context)
 	{

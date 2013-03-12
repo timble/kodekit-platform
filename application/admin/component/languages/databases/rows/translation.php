@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowTranslation extends Framework\DatabaseRowTable
+class LanguagesDatabaseRowTranslation extends Framework\DatabaseRowTable
 {
     /**
      * Status = completed

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseBehaviorExpirable extends Framework\DatabaseBehaviorAbstract
+class UsersDatabaseBehaviorExpirable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * The Expiration period

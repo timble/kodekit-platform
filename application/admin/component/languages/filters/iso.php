@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesFilterIso extends Framework\FilterCmd
+class LanguagesFilterIso extends Framework\FilterCmd
 {
     protected function _validate($value)
     {

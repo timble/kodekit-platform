@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsViewAttachmentFile extends Framework\ViewFile
+class AttachmentsViewAttachmentFile extends Framework\ViewFile
 {
 	public function render()
 	{

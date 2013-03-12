@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesModelPages extends ComBaseModelDefault
+class PagesModelPages extends BaseModelDefault
 {
     protected $_page_xml;
 

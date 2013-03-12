@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesModelFiles extends ComFilesModelNodes
+class FilesModelFiles extends FilesModelNodes
 {
     public function getRowset()
     {
@@ -81,8 +81,8 @@ class ComFilesModelFiles extends ComFilesModelNodes
 
 		if ($this->_state->types) 
         {
-			if ((in_array($extension, ComFilesDatabaseRowFile::$image_extensions) && !in_array('image', (array) $this->_state->types))
-			|| (!in_array($extension, ComFilesDatabaseRowFile::$image_extensions) && !in_array('file', (array) $this->_state->types))
+			if ((in_array($extension, FilesDatabaseRowFile::$image_extensions) && !in_array('image', (array) $this->_state->types))
+			|| (!in_array($extension, FilesDatabaseRowFile::$image_extensions) && !in_array('file', (array) $this->_state->types))
 			) {
 				return false;
 			}

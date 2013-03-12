@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesTemplateHelperFilesize extends Framework\TemplateHelperAbstract
+class FilesTemplateHelperFilesize extends Framework\TemplateHelperAbstract
 {
 	public function humanize($config = array())
 	{

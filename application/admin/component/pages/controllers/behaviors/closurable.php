@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesControllerBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
+class PagesControllerBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
 {
     protected function _beforeControllerGet(Framework\CommandContext $context)
     {

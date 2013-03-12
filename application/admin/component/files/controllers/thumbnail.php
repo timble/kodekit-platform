@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerThumbnail extends ComFilesControllerDefault
+class FilesControllerThumbnail extends FilesControllerDefault
 {
     protected function _actionBrowse(Framework\CommandContext $context)
     {
@@ -33,7 +33,7 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
         	$needed  = array();
         	foreach ($nodes as $row)
         	{
-        		if ($row instanceof ComFilesDatabaseRowFile && $row->isImage()) {
+        		if ($row instanceof FilesDatabaseRowFile && $row->isImage()) {
         			$needed[] = $row->name;
         		}
         	}
@@ -56,7 +56,7 @@ class ComFilesControllerThumbnail extends ComFilesControllerDefault
         	$new = array();
         	foreach ($nodes as $row)
         	{
-        		if ($row instanceof ComFilesDatabaseRowFile && $row->isImage() && !in_array($row->name, $found))
+        		if ($row instanceof FilesDatabaseRowFile && $row->isImage() && !in_array($row->name, $found))
         		{
 	        		$result = $row->saveThumbnail();
 	        		if ($result) {

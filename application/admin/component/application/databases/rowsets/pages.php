@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseRowsetPages extends Framework\DatabaseRowsetAbstract implements Framework\ServiceInstantiatable
+class ApplicationDatabaseRowsetPages extends Framework\DatabaseRowsetAbstract implements Framework\ServiceInstantiatable
 {
     public function __construct(Framework\Config $config )
     {

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Attachments
  */
-class ComAttachmentsTemplateHelperGrid extends Framework\TemplateHelperDefault
+class AttachmentsTemplateHelperGrid extends Framework\TemplateHelperDefault
 {
     public function thumbnails($config = array())
     {

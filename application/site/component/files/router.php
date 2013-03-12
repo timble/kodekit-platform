@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @subpackage Articles
  */
 
-class ComFilesRouter extends ComBaseRouter
+class FilesRouter extends BaseRouter
 {
 	protected function _encodeString($string)
 	{

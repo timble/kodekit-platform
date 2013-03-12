@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseControllerToolbarMenubar extends Framework\ControllerToolbarAbstract
+class BaseControllerToolbarMenubar extends Framework\ControllerToolbarAbstract
 {
 	/**
 	 * Push the menubar into the view

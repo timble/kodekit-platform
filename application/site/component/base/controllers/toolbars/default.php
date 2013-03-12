@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
+class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
 {
 	/**
 	 * Push the toolbar into the view

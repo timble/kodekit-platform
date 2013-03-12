@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesCommandValidatorFolder extends ComFilesCommandValidatorNode
+class FilesCommandValidatorFolder extends FilesCommandValidatorNode
 {
 	protected function _databaseBeforeSave($context)
 	{

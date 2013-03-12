@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersControllerPermissionUser extends ComBaseControllerPermissionDefault
+class UsersControllerPermissionUser extends BaseControllerPermissionDefault
 {
     public function canAdd()
     {

@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheControllerPermissionDefault extends ComBaseControllerPermissionDefault
+class CacheControllerPermissionDefault extends BaseControllerPermissionDefault
 {  
     public function canAdd()
     {

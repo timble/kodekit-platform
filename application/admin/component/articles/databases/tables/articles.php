@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesDatabaseTableArticles extends Framework\DatabaseTableDefault
+class ArticlesDatabaseTableArticles extends Framework\DatabaseTableDefault
 {
     protected function _initialize(Framework\Config $config)
     {

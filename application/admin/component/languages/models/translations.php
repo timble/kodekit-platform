@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class ComLanguagesModelTranslations extends ComBaseModelDefault
+class LanguagesModelTranslations extends BaseModelDefault
 {
     public function __construct(Framework\Config $config)
     {

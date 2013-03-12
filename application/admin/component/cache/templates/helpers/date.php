@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheTemplateHelperDate extends Framework\TemplateHelperDate
+class CacheTemplateHelperDate extends Framework\TemplateHelperDate
 {
     /**
      * Returns human readable date.

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract implements Framework\ServiceInstantiatable
+class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract implements Framework\ServiceInstantiatable
 {
     protected $_tables;
     
@@ -124,9 +124,9 @@ class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehavio
                 
                 if(!is_null($state->translated))
                 {
-                    $status = $state->translated ? ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED : array(
-                        ComLanguagesDatabaseRowTranslation::STATUS_MISSING,
-                        ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED
+                    $status = $state->translated ? LanguagesDatabaseRowTranslation::STATUS_COMPLETED : array(
+                        LanguagesDatabaseRowTranslation::STATUS_MISSING,
+                        LanguagesDatabaseRowTranslation::STATUS_OUTDATED
                     );
                     
                     $query->where('translations.status IN :translation_status')
@@ -153,7 +153,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehavio
                 'iso_code'   => $active->iso_code,
                 'table'      => $context->table,
                 'row'        => $context->data->id,
-                'status'     => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED,
+                'status'     => LanguagesDatabaseRowTranslation::STATUS_COMPLETED,
                 'original'   => 1
             );
             
@@ -183,7 +183,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehavio
                 {
                     // Insert item into translations table.
                     $translation['iso_code'] = $language->iso_code;
-                    $translation['status']   = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
+                    $translation['status']   = LanguagesDatabaseRowTranslation::STATUS_MISSING;
                     $translation['original'] = 0;
                     
                     $this->getService('com://admin/languages.database.row.translation')
@@ -221,7 +221,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehavio
             ), Framework\Database::FETCH_ROW);
         
         $translation->setData(array(
-            'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
+            'status' => LanguagesDatabaseRowTranslation::STATUS_COMPLETED
         ))->save();
         
         // Set the other items to outdated if they were completed before.
@@ -234,13 +234,13 @@ class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehavio
                 'iso_code' => $active->iso_code,
                 'table' => $context->table,
                 'row' => $context->data->id,
-                'status' => ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED
+                'status' => LanguagesDatabaseRowTranslation::STATUS_COMPLETED
             ));
         
         $translations = $this->getService('com://admin/languages.database.table.translations')
             ->select($query);
         
-        $translations->status = ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED;
+        $translations->status = LanguagesDatabaseRowTranslation::STATUS_OUTDATED;
         $translations->save();
         
         // Copy the item's data to all missing translations.
@@ -251,7 +251,7 @@ class ComLanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehavio
             ->where($table->unique_column.' = :unique')
             ->bind(array('unique' => $context->data->id));
         
-        $query->bind(array('status' => ComLanguagesDatabaseRowTranslation::STATUS_MISSING));
+        $query->bind(array('status' => LanguagesDatabaseRowTranslation::STATUS_MISSING));
         $translations = $this->getService('com://admin/languages.database.table.translations')
             ->select($query);
         

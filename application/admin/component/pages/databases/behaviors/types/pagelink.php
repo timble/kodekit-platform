@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComPagesDatabaseBehaviorTypePagelink extends ComPagesDatabaseBehaviorTypeAbstract
+class PagesDatabaseBehaviorTypePagelink extends PagesDatabaseBehaviorTypeAbstract
 {
     protected $_type_title;
 

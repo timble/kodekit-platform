@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseDatabaseBehaviorLockable extends Framework\DatabaseBehaviorLockable
+class BaseDatabaseBehaviorLockable extends Framework\DatabaseBehaviorLockable
 {
     /**
      * Initializes the options for the object

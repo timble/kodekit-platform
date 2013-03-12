@@ -16,4 +16,4 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesDatabaseRowUrlException extends \Exception implements Framework\Exception {}
+class FilesDatabaseRowUrlException extends \Exception implements Framework\Exception {}

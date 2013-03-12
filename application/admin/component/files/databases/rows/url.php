@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
+class FilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 {
 	/**
 	 * Adapters to use for remote access
@@ -52,7 +52,7 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 		$response = $this->_fetch($url);
 
 		if ($response === false) {
-			throw new ComFilesDatabaseRowUrlException('File cannot be downloaded');
+			throw new FilesDatabaseRowUrlException('File cannot be downloaded');
 		}
 
 		$this->contents = $response;
@@ -70,10 +70,10 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 				$response = $this->$function($url);
 				break;
 			}
-			catch (ComFilesDatabaseRowUrlAdapterException $e) {
+			catch (FilesDatabaseRowUrlAdapterException $e) {
 				continue;
 			}
-			catch (ComFilesDatabaseRowUrlException $e)
+			catch (FilesDatabaseRowUrlException $e)
 			{
 				if ($i+1 < count($this->_adapters)) {
 					continue;
@@ -90,7 +90,7 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 	protected function _fetchCurl($url)
 	{
 		if (!function_exists('curl_init')) {
-			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
+			throw new FilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
 		$ch = curl_init();
@@ -105,7 +105,7 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 		$response = curl_exec($ch);
 
 		if (curl_errno($ch)) {
-			throw new ComFilesDatabaseRowUrlException('Curl Error: '.curl_error($ch));
+			throw new FilesDatabaseRowUrlException('Curl Error: '.curl_error($ch));
 		}
 
 		$info = curl_getinfo($ch);
@@ -121,7 +121,7 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 	protected function _fetchFsockopen($url)
 	{
 		if (!in_array('tcp', stream_get_transports())) {
-			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
+			throw new FilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
 		$uri = $this->getService('lib://nooku/http.url', array('url' => $url));
@@ -133,7 +133,7 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 
 		if ($scheme == 'https://') {
 			if (!in_array('ssl', stream_get_transports())) {
-				throw new ComFilesDatabaseRowUrlAdapterException('fsockopen does not support SSL');
+				throw new FilesDatabaseRowUrlAdapterException('fsockopen does not support SSL');
 			}
 			$host = 'ssl://'.$host;
 			$port = 443;
@@ -150,7 +150,7 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 		$errstr = null;
 		$fp = @fsockopen($host, $port, $errno, $errstr, 120);
 		if (!$fp) {
-			throw new ComFilesDatabaseRowUrlException('PHP Socket Error: '.$errstr);
+			throw new FilesDatabaseRowUrlException('PHP Socket Error: '.$errstr);
 		}
 		$out = "GET $path HTTP/1.1\r\n";
 		$out .= "Host: $host\r\n";
@@ -176,7 +176,7 @@ class ComFilesDatabaseRowUrl extends Framework\DatabaseRowAbstract
 	protected function _fetchFopen($url)
 	{
 		if (!ini_get('allow_url_fopen')) {
-			throw new ComFilesDatabaseRowUrlAdapterException('Adapter does not exist');
+			throw new FilesDatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
 		$response = @file_get_contents($url);

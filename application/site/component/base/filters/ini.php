@@ -24,7 +24,7 @@ use Nooku\Framework;
  * @package     Nooku_Filter
  * @subpackage  Default
  */
-class ComBaseFilterIni extends Framework\FilterAbstract
+class BaseFilterIni extends Framework\FilterAbstract
 {
     /**
      * Constructor

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowFile extends ComFilesDatabaseRowNode
+class FilesDatabaseRowFile extends FilesDatabaseRowNode
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 

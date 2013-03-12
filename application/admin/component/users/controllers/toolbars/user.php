@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersControllerToolbarUser extends ComBaseControllerToolbarDefault
+class UsersControllerToolbarUser extends BaseControllerToolbarDefault
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {

@@ -9,7 +9,7 @@
 
 use Nooku\Framework;
 
-class ComFilesAdapterLocalIterator extends Framework\Object
+class FilesAdapterLocalIterator extends Framework\Object
 {
 	public function getFiles(array $config = array())
 	{
@@ -29,7 +29,7 @@ class ComFilesAdapterLocalIterator extends Framework\Object
 					array('path' => $config['path']))->getRealPath();
 
 		try {
-			$results = ComFilesIteratorDirectory::getNodes($config);
+			$results = FilesIteratorDirectory::getNodes($config);
 		}
 		catch (Exception $e) {
 			return false;

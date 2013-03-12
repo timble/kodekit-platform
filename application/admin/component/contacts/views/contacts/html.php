@@ -16,7 +16,7 @@
  * @package    Nooku_Server
  * @subpackage Contacts
  */
-class ComContactsViewContactsHtml extends ComBaseViewHtml
+class ContactsViewContactsHtml extends BaseViewHtml
 {
     public function render()
     {        

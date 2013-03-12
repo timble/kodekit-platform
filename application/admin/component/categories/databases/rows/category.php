@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseRowCategory extends ComCategoriesDatabaseRowNode
+class CategoriesDatabaseRowCategory extends CategoriesDatabaseRowNode
 {
 
 }

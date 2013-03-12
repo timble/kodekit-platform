@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersModelSessions extends Framework\ModelTable
+class UsersModelSessions extends Framework\ModelTable
 {
     /**
      * Constructor.

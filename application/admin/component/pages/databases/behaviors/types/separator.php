@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComPagesDatabaseBehaviorTypeSeparator extends ComPagesDatabaseBehaviorTypeAbstract
+class PagesDatabaseBehaviorTypeSeparator extends PagesDatabaseBehaviorTypeAbstract
 {
     protected $_type_title;
 

@@ -22,7 +22,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComApplicationTemplateFilterModule extends ComPagesTemplateFilterModule
+class ApplicationTemplateFilterModule extends PagesTemplateFilterModule
 {
     /**
      * Initializes the options for the object

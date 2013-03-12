@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseBehaviorAssignable extends Framework\DatabaseBehaviorAbstract
+class PagesDatabaseBehaviorAssignable extends Framework\DatabaseBehaviorAbstract
 {
     protected function _afterTableInsert(Framework\CommandContext $context)
     {

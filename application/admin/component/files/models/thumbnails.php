@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesModelThumbnails extends ComBaseModelDefault
+class FilesModelThumbnails extends BaseModelDefault
 {
 	public function __construct(Framework\Config $config)
 	{
@@ -35,7 +35,7 @@ class ComFilesModelThumbnails extends ComBaseModelDefault
 	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
-			'state' => new ComFilesModelState()
+			'state' => new FilesModelState()
 		));
 		
 		parent::_initialize($config);

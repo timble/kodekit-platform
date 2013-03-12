@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerFile extends ComBaseControllerModel
+class FilesControllerFile extends BaseControllerModel
 {
 	public function getRequest()
 	{

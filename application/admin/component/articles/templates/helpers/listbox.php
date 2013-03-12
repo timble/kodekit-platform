@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Articles
  */
 
-class ComArticlesTemplateHelperListbox extends ComBaseTemplateHelperListbox
+class ArticlesTemplateHelperListbox extends BaseTemplateHelperListbox
 {
     public function articles($config = array())
     {
@@ -50,7 +50,7 @@ class ComArticlesTemplateHelperListbox extends ComBaseTemplateHelperListbox
     {
         $config = new Framework\Config($config);
 
-        if (!$config->row instanceof ComArticlesDatabaseRowArticle) {
+        if (!$config->row instanceof ArticlesDatabaseRowArticle) {
             throw new \InvalidArgumentException('The row is missing.');
         }
 

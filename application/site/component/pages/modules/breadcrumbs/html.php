@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
  
-class ComPagesModuleBreadcrumbsHtml extends ComBaseModuleDefaultHtml
+class PagesModuleBreadcrumbsHtml extends BaseModuleDefaultHtml
 {
     public function render()
     {

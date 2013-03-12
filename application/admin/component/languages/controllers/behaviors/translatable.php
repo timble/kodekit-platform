@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesControllerBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract
+class LanguagesControllerBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract
 {
     protected function _beforeControllerGet(Framework\CommandContext $context)
     {

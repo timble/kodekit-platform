@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseViewHtml extends Framework\ViewHtml
+class BaseViewHtml extends Framework\ViewHtml
 {
     /**
      * Get the layout

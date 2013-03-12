@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesTemplateHelperGrid extends Framework\TemplateHelperGrid
+class LanguagesTemplateHelperGrid extends Framework\TemplateHelperGrid
 {
     public function status($config = array())
     {
@@ -29,9 +29,9 @@ class ComLanguagesTemplateHelperGrid extends Framework\TemplateHelperGrid
         ));
     
         $statuses = array(
-            ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED => 'Completed',
-            ComLanguagesDatabaseRowTranslation::STATUS_MISSING   => 'Missing',
-            ComLanguagesDatabaseRowTranslation::STATUS_OUTDATED  => 'Outdated'
+            LanguagesDatabaseRowTranslation::STATUS_COMPLETED => 'Completed',
+            LanguagesDatabaseRowTranslation::STATUS_MISSING   => 'Missing',
+            LanguagesDatabaseRowTranslation::STATUS_OUTDATED  => 'Outdated'
         );
         
         $text  = $config->original ? 'Original' : $statuses[$config->status];

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsViewCategoriesHtml extends ComCategoriesViewCategoriesHtml
+class ContactsViewCategoriesHtml extends CategoriesViewCategoriesHtml
 {
 
 }

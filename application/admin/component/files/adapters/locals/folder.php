@@ -9,7 +9,7 @@
 
 use Nooku\Framework;
 
-class ComFilesAdapterLocalFolder extends ComFilesAdapterLocalAbstract
+class FilesAdapterLocalFolder extends FilesAdapterLocalAbstract
 {
 	public function move($target)
 	{

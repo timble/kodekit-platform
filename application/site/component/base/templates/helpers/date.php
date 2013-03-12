@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseTemplateHelperDate extends Framework\TemplateHelperDate
+class BaseTemplateHelperDate extends Framework\TemplateHelperDate
 {
     /**
      * Returns formated date according to current local and adds time offset

@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts   
  */
-class ComContactsControllerToolbarContact extends ComBaseControllerToolbarDefault
+class ContactsControllerToolbarContact extends BaseControllerToolbarDefault
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {    

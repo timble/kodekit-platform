@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowsetFolders extends ComFilesDatabaseRowsetNodes
+class FilesDatabaseRowsetFolders extends FilesDatabaseRowsetNodes
 {
     /**
      * Returns if an iterator can be created for the current entry.

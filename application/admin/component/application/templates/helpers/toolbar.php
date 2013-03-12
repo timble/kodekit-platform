@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateHelperToolbar extends Framework\TemplateHelperAbstract
+class ApplicationTemplateHelperToolbar extends Framework\TemplateHelperAbstract
 {
     /**
      * Render the toolbar

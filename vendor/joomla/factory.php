@@ -70,7 +70,7 @@ class JFactory
             $session = Nooku\Framework\ServiceManager::get('user')->getSession();
             $instance = $session->user;
 
-            if (!$instance instanceof ComUsersDatabaseRowUser) {
+            if (!$instance instanceof UsersDatabaseRowUser) {
                 $instance = Nooku\Framework\ServiceManager::get('com://admin/users.database.row.user');
             }
         } else $instance = Nooku\Framework\ServiceManager::get('com://admin/users.database.row.user')->set('id', $id)->load();

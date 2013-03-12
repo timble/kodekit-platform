@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseTemplateHelperRoute extends Framework\TemplateHelperDefault
+class BaseTemplateHelperRoute extends Framework\TemplateHelperDefault
 {
     /**
      * Find a page based on list of needles

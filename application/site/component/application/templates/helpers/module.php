@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Application
  */
 
-class ComApplicationTemplateHelperModule extends ComPagesTemplateHelperModule
+class ApplicationTemplateHelperModule extends PagesTemplateHelperModule
 {
     protected function _initialize(Framework\Config $config)
     {

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseModuleDefaultHtml extends Framework\ViewTemplate
+class BaseModuleDefaultHtml extends Framework\ViewTemplate
 {
     /**
      * Initializes the default configuration for the object

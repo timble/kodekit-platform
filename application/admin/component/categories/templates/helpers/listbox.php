@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Categories    
  */
 
-class ComCategoriesTemplateHelperListbox extends ComBaseTemplateHelperListbox
+class CategoriesTemplateHelperListbox extends BaseTemplateHelperListbox
 {
      public function order($config = array())
      {

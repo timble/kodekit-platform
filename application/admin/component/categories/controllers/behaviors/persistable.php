@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Categories   
  */
-class ComCategoriesControllerBehaviorPersistable extends Framework\ControllerBehaviorPersistable
+class CategoriesControllerBehaviorPersistable extends Framework\ControllerBehaviorPersistable
 { 
 	/**
 	 * Load the model state from the request

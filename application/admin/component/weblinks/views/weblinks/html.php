@@ -16,7 +16,7 @@
  * @package    Nooku_Server
  * @subpackage Weblinks
  */
-class ComWeblinksViewWeblinksHtml extends ComBaseViewHtml
+class WeblinksViewWeblinksHtml extends BaseViewHtml
 {
     public function render()
     {        

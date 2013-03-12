@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowTable extends Framework\DatabaseRowTable
+class LanguagesDatabaseRowTable extends Framework\DatabaseRowTable
 {
     public function save()
     {
@@ -48,13 +48,13 @@ class ComLanguagesDatabaseRowTable extends Framework\DatabaseRowTable
                         ->values($this->getService('lib://nooku/database.query.select')->table($this->name));
                     $database->execute($query);
                     
-                    $status   = ComLanguagesDatabaseRowTranslation::STATUS_MISSING;
+                    $status   = LanguagesDatabaseRowTranslation::STATUS_MISSING;
                     $original = 0;
                             
                 }
                 else
                 {
-                    $status   = ComLanguagesDatabaseRowTranslation::STATUS_COMPLETED;
+                    $status   = LanguagesDatabaseRowTranslation::STATUS_COMPLETED;
                     $original = 1;
                 }
                 

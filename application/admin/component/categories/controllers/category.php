@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-abstract class ComCategoriesControllerCategory extends ComBaseControllerModel
+abstract class CategoriesControllerCategory extends BaseControllerModel
 { 
     protected function _initialize(Framework\Config $config)
     {

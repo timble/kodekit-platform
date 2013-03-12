@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
+class FilesCommandValidatorFile extends FilesCommandValidatorNode
 {
 	protected function _databaseBeforeSave(Framework\CommandContext $context)
 	{
@@ -31,7 +31,7 @@ class ComFilesCommandValidatorFile extends ComFilesCommandValidatorNode
 				$file->load();
 				$row->contents = $file->contents;
 
-			} catch (ComFilesDatabaseRowUrlException $e) {
+			} catch (FilesDatabaseRowUrlException $e) {
 				throw new \RuntimeException($e->getMessage(), $e->getCode());
 			}
 

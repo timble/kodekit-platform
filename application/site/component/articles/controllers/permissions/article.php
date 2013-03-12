@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerPermissionArticle extends ComBaseControllerPermissionDefault
+class ArticlesControllerPermissionArticle extends BaseControllerPermissionDefault
 {
 
 }

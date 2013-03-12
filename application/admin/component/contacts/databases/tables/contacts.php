@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Contacts   
  */
 
-class ComContactsDatabaseTableContacts extends Framework\DatabaseTableDefault
+class ContactsDatabaseTableContacts extends Framework\DatabaseTableDefault
 {
 	public function _initialize(Framework\Config $config)
 	{

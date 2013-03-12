@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesViewComponentsHtml extends ComBaseViewHtml
+class LanguagesViewComponentsHtml extends BaseViewHtml
 {
     protected function _initialize(Framework\Config $config)
     {

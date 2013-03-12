@@ -18,10 +18,10 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowUser extends Framework\DatabaseRowTable
+class UsersDatabaseRowUser extends Framework\DatabaseRowTable
 {
     /**
-     * @var ComUsersDatabaseRowRole User role object.
+     * @var UsersDatabaseRowRole User role object.
      */
     protected $_role;
 
@@ -51,7 +51,7 @@ class ComUsersDatabaseRowUser extends Framework\DatabaseRowTable
     /**
      * User role getter.
      *
-     * @return ComUsersDatabaseRowRole The user's role row object.
+     * @return UsersDatabaseRowRole The user's role row object.
      */
     public function getRole()
     {

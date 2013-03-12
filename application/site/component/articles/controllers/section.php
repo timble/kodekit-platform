@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerSection extends ComArticlesControllerDefault
+class ArticlesControllerSection extends ArticlesControllerDefault
 {
     public function getRequest()
     {

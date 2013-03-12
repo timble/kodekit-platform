@@ -17,7 +17,7 @@ use Nooku\Component\Versions;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesDatabaseBehaviorRevisable extends Versions\DatabaseBehaviorRevisable
+class ArticlesDatabaseBehaviorRevisable extends Versions\DatabaseBehaviorRevisable
 {
     protected function _selectRevisions($table, $status, Framework\DatabaseQueryInterface $query)
     {

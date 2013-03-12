@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesViewJson extends Framework\ViewJson
+class FilesViewJson extends Framework\ViewJson
 {
     protected function _getRow()
     {

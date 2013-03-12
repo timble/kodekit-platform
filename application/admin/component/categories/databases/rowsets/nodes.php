@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
+class CategoriesDatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
 {
     /**
      * Constructor

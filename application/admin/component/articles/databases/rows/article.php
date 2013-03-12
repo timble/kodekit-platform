@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesDatabaseRowArticle extends Framework\DatabaseRowTable
+class ArticlesDatabaseRowArticle extends Framework\DatabaseRowTable
 {
     public function __get($column)
     {

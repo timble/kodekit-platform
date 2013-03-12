@@ -17,12 +17,12 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowContainer extends Framework\DatabaseRowTable
+class FilesDatabaseRowContainer extends Framework\DatabaseRowTable
 {
 	/**
 	 * A reference to the container configuration
 	 *
-	 * @var ComFilesDatabaseRowConfig
+	 * @var FilesDatabaseRowConfig
 	 *
 	 */
 	protected $_parameters;

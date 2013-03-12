@@ -20,7 +20,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesDatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
+class ArticlesDatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * Track updated status

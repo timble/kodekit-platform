@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksViewCategoriesHtml extends ComCategoriesViewCategoriesHtml
+class WeblinksViewCategoriesHtml extends CategoriesViewCategoriesHtml
 {
 
 }

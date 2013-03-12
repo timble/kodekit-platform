@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class TemplateHelperListbox extends \ComBaseTemplateHelperListbox
+class TemplateHelperListbox extends \BaseTemplateHelperListbox
 {
   	public function sites( $config = array() )
    	{

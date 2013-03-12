@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesControllerMenu extends ComBaseControllerModel
+class PagesControllerMenu extends BaseControllerModel
 {
     protected function _initialize(Framework\Config $config)
     {

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesDatabaseRowsetArticles extends Framework\DatabaseRowsetTable
+class ArticlesDatabaseRowsetArticles extends Framework\DatabaseRowsetTable
 {
 
 }

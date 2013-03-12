@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersTemplateHelperCaptcha extends Framework\TemplateHelperDefault
+class UsersTemplateHelperCaptcha extends Framework\TemplateHelperDefault
 {
     /**
      * Renders the reCAPTCHA widget.

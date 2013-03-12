@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComCommentsDatabaseTableComments extends Framework\DatabaseTableDefault
+class CommentsDatabaseTableComments extends Framework\DatabaseTableDefault
 {
 	protected function _initialize(Framework\Config $config)
     {

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesModelNodes extends ComFilesModelDefault
+class FilesModelNodes extends FilesModelDefault
 {
 	public function createRow(array $options = array())
 	{

@@ -18,10 +18,10 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersControllerBehaviorCaptchable extends Framework\ControllerBehaviorAbstract
+class UsersControllerBehaviorCaptchable extends Framework\ControllerBehaviorAbstract
 {
     /**
-     * @var ComUsersConfigCaptcha Captcha configuration object.
+     * @var UsersConfigCaptcha Captcha configuration object.
      */
     protected $_config;
 

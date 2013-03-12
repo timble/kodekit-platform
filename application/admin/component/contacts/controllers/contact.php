@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComContactsControllerContact extends ComBaseControllerModel
+class ContactsControllerContact extends BaseControllerModel
 { 
     protected function _initialize(Framework\Config $config)
     {

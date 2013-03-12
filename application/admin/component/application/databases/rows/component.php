@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseRowComponent extends Framework\DatabaseRowAbstract
+class ApplicationDatabaseRowComponent extends Framework\DatabaseRowAbstract
 {
     public function isTranslatable()
     {

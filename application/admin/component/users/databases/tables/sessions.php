@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseTableSessions extends Framework\DatabaseTableDefault
+class UsersDatabaseTableSessions extends Framework\DatabaseTableDefault
 {
     protected function _initialize(Framework\Config $config)
     {

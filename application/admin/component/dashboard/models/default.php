@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Dashboard
  */
  
-class ComDashboardModelDefault extends Framework\ModelAbstract
+class DashboardModelDefault extends Framework\ModelAbstract
 {
     
 }

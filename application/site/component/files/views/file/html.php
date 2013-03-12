@@ -10,7 +10,7 @@
 
 use Nooku\Framework;
 
-class ComFilesViewFileHtml extends Framework\ViewFile
+class FilesViewFileHtml extends Framework\ViewFile
 {
     public function render()
     {

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrderableAbstract implements ComPagesDatabaseBehaviorOrderableInterface
+class PagesDatabaseBehaviorOrderableFlat extends PagesDatabaseBehaviorOrderableAbstract implements PagesDatabaseBehaviorOrderableInterface
 {
     protected function _beforeTableInsert(Framework\CommandContext $context)
     {

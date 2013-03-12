@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksDatabaseTableWeblinks extends Framework\DatabaseTableDefault
+class WeblinksDatabaseTableWeblinks extends Framework\DatabaseTableDefault
 {
     public function  _initialize(Framework\Config $config)
     {

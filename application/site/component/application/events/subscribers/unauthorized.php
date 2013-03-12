@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationEventSubscriberUnauthorized extends Framework\EventSubscriberAbstract
+class ApplicationEventSubscriberUnauthorized extends Framework\EventSubscriberAbstract
 {
     protected function _initialize(Framework\Config $config)
     {

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package       Nooku_Server
  * @subpackage    Articles
  */
-class ComArticlesDatabaseBehaviorPageable extends Framework\DatabaseBehaviorAbstract
+class ArticlesDatabaseBehaviorPageable extends Framework\DatabaseBehaviorAbstract
 {
     protected $_constraints;
 

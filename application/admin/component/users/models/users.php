@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersModelUsers extends ComBaseModelDefault
+class UsersModelUsers extends BaseModelDefault
 {
     /**
      * Constructor.

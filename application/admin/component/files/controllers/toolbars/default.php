@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerToolbarDefault extends ComBaseControllerToolbarDefault
+class FilesControllerToolbarDefault extends BaseControllerToolbarDefault
 {
     public function onBeforeControllerRender(Framework\Event $event)
     {     

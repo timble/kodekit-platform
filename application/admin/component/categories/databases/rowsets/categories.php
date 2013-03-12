@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseRowsetCategories extends ComCategoriesDatabaseRowsetNodes
+class CategoriesDatabaseRowsetCategories extends CategoriesDatabaseRowsetNodes
 {
     protected function _initialize(Framework\Config $config)
     {

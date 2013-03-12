@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsViewContactsRss extends Framework\ViewRss
+class ContactsViewContactsRss extends Framework\ViewRss
 {
     public function render()
     {

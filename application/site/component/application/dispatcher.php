@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDispatcher extends Framework\DispatcherApplication
+class ApplicationDispatcher extends Framework\DispatcherApplication
 {
     /**
      * The site identifier.
@@ -393,7 +393,7 @@ class ComApplicationDispatcher extends Framework\DispatcherApplication
      * Get the application router.
      *
      * @param  array $options 	An optional associative array of configuration options.
-     * @return	\ComApplicationRouter
+     * @return	\ApplicationRouter
      */
     public function getRouter(array $options = array())
     {
@@ -404,7 +404,7 @@ class ComApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * Return a reference to the application pathway object
      *
-     * @return object ComApplicationConfigPathway
+     * @return object ApplicationConfigPathway
      */
     public function getPathway()
     {
@@ -413,7 +413,7 @@ class ComApplicationDispatcher extends Framework\DispatcherApplication
             // TODO: Find out why loader tries to load the admin class.
             $this->getService('loader')->loadFile(dirname(__DIR__).'/application/configs/pathway.php');
 
-            $pathway = new ComApplicationConfigPathway();
+            $pathway = new ApplicationConfigPathway();
             $pages   = $this->getService('application.pages');
 
             if($active = $pages->getActive())

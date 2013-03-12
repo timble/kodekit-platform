@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesTemplateHelperListbox extends ComBaseTemplateHelperListbox
+class PagesTemplateHelperListbox extends BaseTemplateHelperListbox
 {
     public function menus($config = array())
     {

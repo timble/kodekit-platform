@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheTemplateHelperListbox extends ComBaseTemplateHelperListbox
+class CacheTemplateHelperListbox extends BaseTemplateHelperListbox
 {
 	public function groups( $config = array())
 	{	

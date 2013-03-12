@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateFilterScript extends Framework\TemplateFilterScript
+class ApplicationTemplateFilterScript extends Framework\TemplateFilterScript
 {
     public function write(&$text)
     {

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseControllerPermissionDefault extends Framework\ControllerPermissionDefault
+class BaseControllerPermissionDefault extends Framework\ControllerPermissionDefault
 {
     /**
      * Generic authorize handler for controller render actions

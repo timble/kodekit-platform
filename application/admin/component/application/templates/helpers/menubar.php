@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateHelperMenubar extends ComPagesTemplateHelperList
+class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
 {
  	/**
      * Render the menubar

@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-interface ComPagesDatabaseBehaviorTypeInterface
+interface PagesDatabaseBehaviorTypeInterface
 {
     public function getTypeTitle();
 

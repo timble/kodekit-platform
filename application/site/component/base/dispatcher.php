@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseDispatcher extends Framework\DispatcherComponent
+class BaseDispatcher extends Framework\DispatcherComponent
 {
     /**
      * Dispatch the controller and redirect

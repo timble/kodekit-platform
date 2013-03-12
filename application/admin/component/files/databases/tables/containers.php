@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseTableContainers extends Framework\DatabaseTableDefault
+class FilesDatabaseTableContainers extends Framework\DatabaseTableDefault
 {
 	protected function _initialize(Framework\Config $config)
 	{

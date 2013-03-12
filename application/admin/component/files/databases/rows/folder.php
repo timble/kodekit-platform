@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
+class FilesDatabaseRowFolder extends FilesDatabaseRowNode
 {
 	/**
 	 * Nodes object or identifier
@@ -142,7 +142,7 @@ class ComFilesDatabaseRowFolder extends ComFilesDatabaseRowNode
 	/**
 	 * Set the parent node
 	 *
-	 * @return ComArticlesDatabaseRowNode
+	 * @return ArticlesDatabaseRowNode
 	 */
 	public function setParent( $node )
 	{

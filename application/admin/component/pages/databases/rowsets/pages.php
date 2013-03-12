@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseRowsetPages extends Framework\DatabaseRowsetTable
+class PagesDatabaseRowsetPages extends Framework\DatabaseRowsetTable
 {
     public function find($needle)
     {

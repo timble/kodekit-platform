@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseControllerDefault extends ComBaseControllerModel
+class BaseControllerDefault extends BaseControllerModel
 {
 
 }

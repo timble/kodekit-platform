@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesControllerArticle extends ComArticlesControllerDefault
+class ArticlesControllerArticle extends ArticlesControllerDefault
 {
     protected function _initialize(Framework\Config $config)
     {

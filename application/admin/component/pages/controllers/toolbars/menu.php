@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesControllerToolbarMenu extends ComBaseControllerToolbarDefault
+class PagesControllerToolbarMenu extends BaseControllerToolbarDefault
 {
     protected function _commandNew(Framework\ControllerToolbarCommand $command)
     {

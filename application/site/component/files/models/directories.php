@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @subpackage  Application
  */
  
-class ComFilesModelDirectories extends Framework\ModelAbstract
+class FilesModelDirectories extends Framework\ModelAbstract
 {
 	public function __construct(Framework\Config $config)
 	{

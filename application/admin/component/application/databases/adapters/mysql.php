@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql implements Framework\ServiceInstantiatable
+class ApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql implements Framework\ServiceInstantiatable
 {
     /**
 	 * The cache object

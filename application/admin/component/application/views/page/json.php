@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Articles
  */
 
-class ComApplicationViewPageJson extends ComApplicationViewHtml
+class ApplicationViewPageJson extends ApplicationViewHtml
 {
     public function render()
     {

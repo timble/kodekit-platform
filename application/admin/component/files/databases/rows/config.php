@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowConfig extends Framework\DatabaseRowAbstract
+class FilesDatabaseRowConfig extends Framework\DatabaseRowAbstract
 {
 	public function __toString()
 	{

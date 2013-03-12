@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseRowNode extends Framework\DatabaseRowTable
+class CategoriesDatabaseRowNode extends Framework\DatabaseRowTable
 {
     /**
      * Nodes object or identifier
@@ -118,7 +118,7 @@ class ComCategoriesDatabaseRowNode extends Framework\DatabaseRowTable
      * Set the parent node
      *
      * @param object $node The parent node
-     * @return \ComCategoriesDatabaseRowNode
+     * @return \CategoriesDatabaseRowNode
      */
 	public function setParent(Framework\DatabaseRowInterface $node )
 	{

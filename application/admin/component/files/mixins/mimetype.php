@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesMixinMimetype extends Framework\Object
+class FilesMixinMimetype extends Framework\Object
 {
 	/**
 	 * Used as a way to continue on the chain when the method is not available.
@@ -62,7 +62,7 @@ class ComFilesMixinMimetype extends Framework\Object
 			$function = '_detect'.ucfirst($adapter);
 			$return = $this->$function($path);
 
-			if (!empty($return) && $return !== ComFilesMixinMimetype::NOT_AVAILABLE) {
+			if (!empty($return) && $return !== FilesMixinMimetype::NOT_AVAILABLE) {
 				$mimetype = $return;
 				break;
 			}
@@ -84,18 +84,18 @@ class ComFilesMixinMimetype extends Framework\Object
 
 	protected function _detectImage($path)
 	{
-		if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), ComFilesDatabaseRowFile::$image_extensions)
+		if (in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), FilesDatabaseRowFile::$image_extensions)
 			&& $info = getimagesize($path)) {
 			return $info['mime'];
 		}
 
-		return ComFilesMixinMimetype::NOT_AVAILABLE;
+		return FilesMixinMimetype::NOT_AVAILABLE;
 	}
 
 	protected function _detectFinfo($path)
 	{
 		if (!class_exists('finfo')) {
-			return ComFilesMixinMimetype::NOT_AVAILABLE;
+			return FilesMixinMimetype::NOT_AVAILABLE;
 		}
 
 		// PHP updated libmagic to v5 in 5.3.11 which broke the old mimetype formats
@@ -104,7 +104,7 @@ class ComFilesMixinMimetype extends Framework\Object
 		$finfo    = @new finfo(FILEINFO_MIME, $database);
 		
 		if (empty($finfo)) {
-		    return ComFilesMixinMimetype::NOT_AVAILABLE;
+		    return FilesMixinMimetype::NOT_AVAILABLE;
 		}
 		
 		$mimetype = $finfo->file($path);
@@ -119,7 +119,7 @@ class ComFilesMixinMimetype extends Framework\Object
 	protected function _detectMime_content_type($path)
 	{
 		if (!function_exists('mime_content_type')) {
-			return ComFilesMixinMimetype::NOT_AVAILABLE;
+			return FilesMixinMimetype::NOT_AVAILABLE;
 		}
 
 		return mime_content_type($path);

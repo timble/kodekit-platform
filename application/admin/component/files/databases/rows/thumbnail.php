@@ -16,7 +16,7 @@ use Nooku\Framework;
   * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesDatabaseRowThumbnail extends Framework\DatabaseRowTable
+class FilesDatabaseRowThumbnail extends Framework\DatabaseRowTable
 {
     protected $_thumbnail_size;
 

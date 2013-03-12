@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationRouter extends Framework\DispatcherRouter
+class ApplicationRouter extends Framework\DispatcherRouter
 {
     public function parse(Framework\HttpUrl $url)
 	{

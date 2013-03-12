@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsDatabaseBehaviorAttachable extends Framework\DatabaseBehaviorAbstract
+class AttachmentsDatabaseBehaviorAttachable extends Framework\DatabaseBehaviorAbstract
 {
 	public function getAttachments()
 	{

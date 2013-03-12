@@ -9,7 +9,7 @@
 
 use Nooku\Framework;
 
-abstract class ComFilesAdapterLocalAbstract extends Framework\Object
+abstract class FilesAdapterLocalAbstract extends Framework\Object
 {
 	/**
 	 * Path to the node

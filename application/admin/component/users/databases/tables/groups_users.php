@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseTableGroups_users extends Framework\DatabaseTableDefault
+class UsersDatabaseTableGroups_users extends Framework\DatabaseTableDefault
 {
     protected function _initialize(Framework\Config $config)
     {

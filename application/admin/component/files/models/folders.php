@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesModelFolders extends ComFilesModelNodes
+class FilesModelFolders extends FilesModelNodes
 {
 	public function __construct(Framework\Config $config)
 	{

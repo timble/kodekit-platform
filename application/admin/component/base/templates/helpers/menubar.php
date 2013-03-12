@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseTemplateHelperMenubar extends Framework\TemplateHelperAbstract
+class BaseTemplateHelperMenubar extends Framework\TemplateHelperAbstract
 {
  	/**
      * Render the menubar

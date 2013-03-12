@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
+class UsersControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
 {
     public function __construct(Framework\Config $config)
     {

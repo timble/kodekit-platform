@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Contacts   
  */
 
-class ComContactsDatabaseRowContact extends Framework\DatabaseRowTable
+class ContactsDatabaseRowContact extends Framework\DatabaseRowTable
 {
 	public function __get($column)
 	{

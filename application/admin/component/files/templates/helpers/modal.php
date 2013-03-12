@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesTemplateHelperModal extends Framework\TemplateHelperAbstract
+class FilesTemplateHelperModal extends Framework\TemplateHelperAbstract
 {
 	public function select($config = array())
 	{

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesControllerToolbarLanguage extends ComBaseControllerToolbarDefault
+class LanguagesControllerToolbarLanguage extends BaseControllerToolbarDefault
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {    

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesFilterFileMimetype extends Framework\FilterAbstract
+class FilesFilterFileMimetype extends Framework\FilterAbstract
 {
 	protected $_walk = false;
 

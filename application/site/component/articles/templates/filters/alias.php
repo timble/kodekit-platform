@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateFilterAlias extends Framework\TemplateFilterAlias
+class ArticlesTemplateFilterAlias extends Framework\TemplateFilterAlias
 {
     public function __construct(Framework\Config $config)
     {

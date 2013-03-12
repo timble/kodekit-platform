@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesModelTypes extends Framework\ModelAbstract
+class PagesModelTypes extends Framework\ModelAbstract
 {
     protected $_rowset;
     

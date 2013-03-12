@@ -21,7 +21,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseFilterIni extends Framework\FilterAbstract
+class BaseFilterIni extends Framework\FilterAbstract
 {
     /**
      * Constructor
@@ -52,11 +52,11 @@ class ComBaseFilterIni extends Framework\FilterAbstract
      * Sanitize a value
      *
      * @param   string  Value to be sanitized
-     * @return  ComBaseConfigIni
+     * @return  BaseConfigIni
      */
     protected function _sanitize($value)
     {
-        if(!$value instanceof ComBaseConfigIni)
+        if(!$value instanceof BaseConfigIni)
         {
             if(is_string($value))
             {
@@ -64,7 +64,7 @@ class ComBaseFilterIni extends Framework\FilterAbstract
                 $value   = (array) $handler->stringToObject($value);
             }
 
-            $value = new ComBaseConfigIni($value);
+            $value = new BaseConfigIni($value);
         }
 
         return $value;

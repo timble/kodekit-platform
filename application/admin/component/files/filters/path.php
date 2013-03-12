@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesFilterPath extends Framework\FilterAbstract
+class FilesFilterPath extends Framework\FilterAbstract
 {
     protected static $_safepath_pattern = array('#(\.){2,}#', '#^\.#');
 

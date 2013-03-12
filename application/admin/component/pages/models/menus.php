@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesModelMenus extends Framework\ModelTable
+class PagesModelMenus extends Framework\ModelTable
 {
     public function __construct(Framework\Config $config)
     {

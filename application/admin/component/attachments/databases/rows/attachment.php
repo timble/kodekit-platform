@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsDatabaseRowAttachment extends Framework\DatabaseRowDefault
+class AttachmentsDatabaseRowAttachment extends Framework\DatabaseRowDefault
 {
 	public function save()
 	{

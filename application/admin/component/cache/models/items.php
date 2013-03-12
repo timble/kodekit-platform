@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class ComCacheModelItems extends Framework\ModelAbstract
+class CacheModelItems extends Framework\ModelAbstract
 {	
     public function __construct(Framework\Config $config)
 	{

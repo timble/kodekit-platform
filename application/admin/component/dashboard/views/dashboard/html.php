@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Dashboard
  */
 
-class ComDashboardViewDashboardHtml extends Framework\ViewHtml
+class DashboardViewDashboardHtml extends Framework\ViewHtml
 {
 
 }

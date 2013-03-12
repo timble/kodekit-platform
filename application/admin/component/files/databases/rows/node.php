@@ -10,7 +10,7 @@
 
 use Nooku\Framework;
 
-class ComFilesDatabaseRowNode extends Framework\DatabaseRowAbstract
+class FilesDatabaseRowNode extends Framework\DatabaseRowAbstract
 {
 	protected $_adapter;
 

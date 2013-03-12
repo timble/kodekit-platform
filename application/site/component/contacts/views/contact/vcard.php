@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsViewContactVcard extends Framework\ViewVcard
+class ContactsViewContactVcard extends Framework\ViewVcard
 {
     public function render()
     {

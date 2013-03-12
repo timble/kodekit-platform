@@ -17,6 +17,6 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesControllerToolbarMenubar extends ComBaseControllerToolbarMenubar
+class FilesControllerToolbarMenubar extends BaseControllerToolbarMenubar
 {
 }

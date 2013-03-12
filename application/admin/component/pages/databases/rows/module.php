@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Extensions    
  */
 
-class ComPagesDatabaseRowModule extends Framework\DatabaseRowTable
+class PagesDatabaseRowModule extends Framework\DatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest

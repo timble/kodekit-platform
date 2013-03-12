@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseTableLanguages extends Framework\DatabaseTableAbstract
+class LanguagesDatabaseTableLanguages extends Framework\DatabaseTableAbstract
 {
     protected function _initialize(Framework\Config $config)
     {

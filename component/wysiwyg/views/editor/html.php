@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ViewEditorHtml extends \ComBaseViewHtml
+class ViewEditorHtml extends \BaseViewHtml
 {
     protected $_editor_settings;
     
@@ -142,4 +142,36 @@ class ViewEditorHtml extends \ComBaseViewHtml
 	    
 	    return $this;
 	}
+
+    /**
+     * Method to set a model object attached to the controller
+     *
+     * @param	mixed	$model An object that implements ServiceInterface, ServiceIdentifier object
+     * 					       or valid identifier string
+     * @return	ViewAbstract
+     */
+    public function setModel($model)
+    {
+        if(!($model instanceof Framework\ModelInterface))
+        {
+            if(is_string($model) && strpos($model, '.') === false )
+            {
+                // Model names are always plural
+                if(Framework\Inflector::isSingular($model)) {
+                    $model = Framework\Inflector::pluralize($model);
+                }
+
+                $identifier			= clone $this->getIdentifier();
+                $identifier->path	= array('model');
+                $identifier->name	= $model;
+            }
+            else $identifier = $this->getIdentifier($model);
+
+            $model = $identifier;
+        }
+
+        $this->_model = $model;
+
+        return $this;
+    }
 }

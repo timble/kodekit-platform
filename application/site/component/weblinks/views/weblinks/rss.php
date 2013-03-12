@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class ComWeblinksViewWeblinksRss extends Framework\ViewRss
+class WeblinksViewWeblinksRss extends Framework\ViewRss
 {
 	public function render()
     {

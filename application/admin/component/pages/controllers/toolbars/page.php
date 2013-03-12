@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesControllerToolbarPage extends ComBaseControllerToolbarDefault
+class PagesControllerToolbarPage extends BaseControllerToolbarDefault
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {

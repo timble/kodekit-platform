@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesTemplateHelperModule extends Framework\TemplateHelperAbstract
+class PagesTemplateHelperModule extends Framework\TemplateHelperAbstract
 {
     /**
      * Database rowset or identifier

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesModelComponents extends Framework\ModelAbstract
+class LanguagesModelComponents extends Framework\ModelAbstract
 {
     
 }

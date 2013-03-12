@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComPagesDatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
+class PagesDatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
 {
     protected $_strategy;
 

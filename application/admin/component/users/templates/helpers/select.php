@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersTemplateHelperSelect extends Framework\TemplateHelperSelect
+class UsersTemplateHelperSelect extends Framework\TemplateHelperSelect
 {    
     public function users($config = array())
     {

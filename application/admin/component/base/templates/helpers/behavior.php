@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseTemplateHelperBehavior extends Framework\TemplateHelperBehavior
+class BaseTemplateHelperBehavior extends Framework\TemplateHelperBehavior
 {
     /**
      * Keep session alive

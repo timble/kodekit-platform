@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Weblinks
  */
-class ComWeblinksTemplateHelperRoute extends ComBaseTemplateHelperRoute
+class WeblinksTemplateHelperRoute extends BaseTemplateHelperRoute
 {
     public function weblink($config = array())
 	{

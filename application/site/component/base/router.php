@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseRouter extends Framework\Object implements Framework\ServiceInstantiatable
+class BaseRouter extends Framework\Object implements Framework\ServiceInstantiatable
 {
 	/**
      * Force creation of a singleton

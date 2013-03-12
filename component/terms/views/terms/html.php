@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Activities
  */
-class ViewTermsHtml extends \ComBaseViewHtml
+class ViewTermsHtml extends \BaseViewHtml
 {
 	public function render()
 	{

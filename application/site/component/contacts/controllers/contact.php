@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsControllerContact extends ComBaseControllerModel
+class ContactsControllerContact extends BaseControllerModel
 {
     public function getRequest()
 	{

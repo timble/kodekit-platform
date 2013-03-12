@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComCategoriesDatabaseBehaviorCascadable extends Framework\DatabaseBehaviorAbstract
+class CategoriesDatabaseBehaviorCascadable extends Framework\DatabaseBehaviorAbstract
 {
     protected function _beforeTableDelete(Framework\CommandContext $context)
     {

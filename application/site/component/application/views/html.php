@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Articles
  */
 
-class ComApplicationViewHtml extends Framework\ViewHtml
+class ApplicationViewHtml extends Framework\ViewHtml
 {
     public function __construct(Framework\Config $config)
     {

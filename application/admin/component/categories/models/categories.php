@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Categories
  */
-class ComCategoriesModelCategories extends ComBaseModelDefault
+class CategoriesModelCategories extends BaseModelDefault
 {
     public function __construct(Framework\Config $config)
 	{

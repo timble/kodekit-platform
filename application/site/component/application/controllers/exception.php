@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Application
  */
 
-class ComApplicationControllerException extends Framework\ControllerView
+class ApplicationControllerException extends Framework\ControllerView
 {
     /**
      * Render an exception

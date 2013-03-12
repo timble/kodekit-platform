@@ -9,7 +9,7 @@
 
 use Nooku\Framework;
 
-class ComFilesModelState extends Framework\ModelState
+class FilesModelState extends Framework\ModelState
 {
 	public function get($name, $default = null)
     {

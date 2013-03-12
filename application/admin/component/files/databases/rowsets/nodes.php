@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
+class FilesDatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
 {
     protected function _initialize(Framework\Config $config)
     {

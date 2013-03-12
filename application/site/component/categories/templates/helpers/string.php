@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Categories
  */
-class ComCategoriesTemplateHelperString extends Framework\TemplateHelperDefault
+class CategoriesTemplateHelperString extends Framework\TemplateHelperDefault
 {
     public function image($config = array())
     {

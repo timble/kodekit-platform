@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesControllerNode extends ComFilesControllerDefault
+class FilesControllerNode extends FilesControllerDefault
 {
 	protected function _initialize(Framework\Config $config)
 	{

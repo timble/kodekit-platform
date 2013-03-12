@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Config
  */
-class ComBaseConfigIni extends Framework\Config
+class BaseConfigIni extends Framework\Config
 {
     /**
      * Returns a string in INI format

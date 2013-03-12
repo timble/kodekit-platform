@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ComFilesIteratorDirectory extends DirectoryIterator
+class FilesIteratorDirectory extends DirectoryIterator
 {
 	/**
 	 *

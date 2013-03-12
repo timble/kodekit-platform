@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComPagesDatabaseRowPage extends Framework\DatabaseRowTable
+class PagesDatabaseRowPage extends Framework\DatabaseRowTable
 {
     protected $_type;
 

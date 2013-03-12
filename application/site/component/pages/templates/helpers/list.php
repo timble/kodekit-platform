@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesTemplateHelperList extends Framework\TemplateHelperAbstract
+class PagesTemplateHelperList extends Framework\TemplateHelperAbstract
 {
     public function pages($config = array())
     {

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsModelMessages extends Framework\ModelAbstract
+class ContactsModelMessages extends Framework\ModelAbstract
 {
 
 }

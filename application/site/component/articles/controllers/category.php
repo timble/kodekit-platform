@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage Articles
  */
 
-class ComArticlesControllerCategory extends ComCategoriesControllerCategory
+class ArticlesControllerCategory extends CategoriesControllerCategory
 {    
 
 }

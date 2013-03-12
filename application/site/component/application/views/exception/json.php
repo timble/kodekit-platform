@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Application
  */
 
-class ComApplicationViewExceptionJson extends Framework\ViewJson
+class ApplicationViewExceptionJson extends Framework\ViewJson
 {
     public function render()
     {

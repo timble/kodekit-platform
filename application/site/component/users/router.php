@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Users
  */
 
-class ComUsersRouter extends ComBaseRouter
+class UsersRouter extends BaseRouter
 {
     public function buildRoute(&$query)
     {

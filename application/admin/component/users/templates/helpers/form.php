@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Users
  */
 
-class ComUsersTemplateHelperForm extends Framework\TemplateHelperDefault
+class UsersTemplateHelperForm extends Framework\TemplateHelperDefault
 {
 
     /**

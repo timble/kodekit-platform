@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Categories    
  */
-class ComCategoriesDatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
+class CategoriesDatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
 {
     protected $_table;
 

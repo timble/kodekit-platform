@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Categories
  */
 
-class ComCategoriesDatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
+class CategoriesDatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
 {
     protected $_table;
 

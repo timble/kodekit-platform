@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ComContactsControllerMessage extends ComBaseControllerView
+class ContactsControllerMessage extends BaseControllerView
 { 
     protected function _actionAdd(Framework\CommandContext $context)
 	{

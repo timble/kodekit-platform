@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package      Nooku_Components
  * @subpackage	 Default
  */
-class ComBaseModuleDefaultTemplateFilterChrome extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
+class BaseModuleDefaultTemplateFilterChrome extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
 {
     /**
      * The chrome styles

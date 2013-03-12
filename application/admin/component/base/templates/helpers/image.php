@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseTemplateHelperImage extends Framework\TemplateHelperListbox
+class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
 {
 	/**
 	 * Generated a HTML images listbox

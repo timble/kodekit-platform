@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDispatcher extends Framework\DispatcherApplication
+class ApplicationDispatcher extends Framework\DispatcherApplication
 {
     /**
      * The site identifier.
@@ -283,7 +283,7 @@ class ComApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * Get the application languages.
      *
-     * @return	\ComLanguagesDatabaseRowsetLanguages
+     * @return	\LanguagesDatabaseRowsetLanguages
      */
     public function loadLanguage(Framework\CommandContext $context)
     {
@@ -323,7 +323,7 @@ class ComApplicationDispatcher extends Framework\DispatcherApplication
      * Get the application router.
      *
      * @param  array $options 	An optional associative array of configuration options.
-     * @return	\ComApplicationRouter
+     * @return	\ApplicationRouter
      */
     public function getRouter(array $options = array())
     {

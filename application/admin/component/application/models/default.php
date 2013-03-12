@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Application
  */
-class ComApplicationModelDefault extends Framework\ModelAbstract
+class ApplicationModelDefault extends Framework\ModelAbstract
 {
 
 }

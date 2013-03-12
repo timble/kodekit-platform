@@ -2,12 +2,12 @@
 
 use Nooku\Framework;
 
-class ComCommentsDatabaseBehaviorDiscussible extends Framework\DatabaseBehaviorAbstract
+class CommentsDatabaseBehaviorDiscussible extends Framework\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of comments
 	 *
-	 * @return ComCommentsRowsetComments
+	 * @return CommentsRowsetComments
 	 */
 	public function getComments()
 	{

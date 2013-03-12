@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-abstract class ComPagesDatabaseBehaviorTypeAbstract extends Framework\DatabaseBehaviorAbstract implements ComPagesDatabaseBehaviorTypeInterface
+abstract class PagesDatabaseBehaviorTypeAbstract extends Framework\DatabaseBehaviorAbstract implements PagesDatabaseBehaviorTypeInterface
 {
     abstract function getTypeTitle();
 

@@ -16,14 +16,14 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationConfigPathway extends Framework\Config
+class ApplicationConfigPathway extends Framework\Config
 {
     /**
      * Add item to pathway
      *
      * @param $name
      * @param null $link
-     * @return ComApplicationConfigPathway
+     * @return ApplicationConfigPathway
      */
     public function addItem($name, $link = null)
     {

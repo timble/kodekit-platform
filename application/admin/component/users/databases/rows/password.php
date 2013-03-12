@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseRowPassword extends Framework\DatabaseRowTable
+class UsersDatabaseRowPassword extends Framework\DatabaseRowTable
 {
     public function __construct(Framework\Config $config)
     {

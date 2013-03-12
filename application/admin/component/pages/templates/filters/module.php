@@ -22,7 +22,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesTemplateFilterModule extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
+class PagesTemplateFilterModule extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
 {
     /**
      * Database rowset or identifier
@@ -88,7 +88,7 @@ class ComPagesTemplateFilterModule extends Framework\TemplateFilterAbstract impl
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
      * @param string $text Block of text to parse
-     * @return ComPagesTemplateFilterModule
+     * @return PagesTemplateFilterModule
      */
     public function write(&$text)
     {

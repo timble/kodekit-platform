@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
+class AttachmentsControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 {
 	/**
 	 * Attachments array coming from $_FILES

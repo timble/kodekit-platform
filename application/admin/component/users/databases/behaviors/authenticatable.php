@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ComUsersDatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
+class UsersDatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
 {
     protected function _initialize(Framework\Config $config)
     {

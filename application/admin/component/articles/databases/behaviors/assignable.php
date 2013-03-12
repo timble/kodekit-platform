@@ -1,5 +1,5 @@
 <?php
-class ComArticlesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
+class ArticlesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
 {
     protected function _beforeTableUpdate(KCommandContext $context)
     {

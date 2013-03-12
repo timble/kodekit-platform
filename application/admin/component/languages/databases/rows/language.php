@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class ComLanguagesDatabaseRowLanguage extends Framework\DatabaseRowTable
+class LanguagesDatabaseRowLanguage extends Framework\DatabaseRowTable
 {
     public function save()
     {
@@ -61,7 +61,7 @@ class ComLanguagesDatabaseRowLanguage extends Framework\DatabaseRowTable
                     ->bind(array(
                         'iso_code' => $this->iso_code,
                         'table' => $table->name,
-                        'status' => ComLanguagesDatabaseRowTranslation::STATUS_MISSING,
+                        'status' => LanguagesDatabaseRowTranslation::STATUS_MISSING,
                         'original' => 0
                     ));
                 

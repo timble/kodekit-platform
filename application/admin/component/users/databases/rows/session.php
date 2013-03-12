@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class ComUsersDatabaseRowSession extends Framework\DatabaseRowTable
+class UsersDatabaseRowSession extends Framework\DatabaseRowTable
 {
     const LOGGED_IN  = 'logged in';
     const LOGGED_OUT = 'logged out';

@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComAttachmentsTemplateHelperAttachment extends Framework\TemplateHelperAbstract
+class AttachmentsTemplateHelperAttachment extends Framework\TemplateHelperAbstract
 {
 	/**
 	 * Builds the file upload control and initializes it's related javascript classes.

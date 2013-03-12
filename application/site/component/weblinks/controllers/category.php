@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts    
  */
-class ComWeblinksControllerCategory extends ComCategoriesControllerCategory
+class WeblinksControllerCategory extends CategoriesControllerCategory
 {    
 
 }

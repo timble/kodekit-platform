@@ -9,7 +9,7 @@
 
 use Nooku\Framework;
 
-class ComFilesTemplateHelperPaginator extends ComBaseTemplateHelperPaginator
+class FilesTemplateHelperPaginator extends BaseTemplateHelperPaginator
 {
     /**
      * Render item pagination

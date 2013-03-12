@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
- class ComFilesControllerProxy extends Framework\ControllerView
+ class FilesControllerProxy extends Framework\ControllerView
 {
 	public function _actionRender(Framework\CommandContext $context)
 	{

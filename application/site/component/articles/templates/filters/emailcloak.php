@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ComArticlesTemplateFilterEmailcloak extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
+class ArticlesTemplateFilterEmailcloak extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
 {
     /**
      * Determines if email address should be linked

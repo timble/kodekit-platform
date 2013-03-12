@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class ComPagesDatabaseBehaviorOrderableClosure extends ComPagesDatabaseBehaviorOrderableAbstract implements ComPagesDatabaseBehaviorOrderableInterface
+class PagesDatabaseBehaviorOrderableClosure extends PagesDatabaseBehaviorOrderableAbstract implements PagesDatabaseBehaviorOrderableInterface
 {
     protected $_columns = array();
 

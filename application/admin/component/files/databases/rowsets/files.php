@@ -17,6 +17,6 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class ComFilesDatabaseRowsetFiles extends ComFilesDatabaseRowsetNodes
+class FilesDatabaseRowsetFiles extends FilesDatabaseRowsetNodes
 {
 }

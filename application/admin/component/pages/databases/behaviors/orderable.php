@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesDatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstract
+class PagesDatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstract
 {
     protected $_strategy;
     
@@ -78,7 +78,7 @@ class ComPagesDatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstra
         return $this->getStrategy()->execute($name, $context);
     }
     
-    public function setStrategy(ComPagesDatabaseBehaviorOrderableInterface $strategy)
+    public function setStrategy(PagesDatabaseBehaviorOrderableInterface $strategy)
     {
         $this->_strategy = $strategy;
     }

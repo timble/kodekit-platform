@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class ComCommentsTemplateHelperGrid extends Framework\TemplateHelperGrid
+class CommentsTemplateHelperGrid extends Framework\TemplateHelperGrid
 {   
     public function gravatar($config = array())
     {

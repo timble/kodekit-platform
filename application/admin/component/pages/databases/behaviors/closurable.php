@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ComPagesDatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
+class PagesDatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
 {
     /**
      * The closure table name

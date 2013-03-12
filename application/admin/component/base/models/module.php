@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseModelModule extends Framework\ModelAbstract
+class BaseModelModule extends Framework\ModelAbstract
 {
 
 }

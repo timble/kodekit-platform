@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseControllerView extends Framework\ControllerView
+class BaseControllerView extends Framework\ControllerView
 {
     /**
      * Constructor.

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ComBaseControllerModel extends Framework\ControllerModel
+class BaseControllerModel extends Framework\ControllerModel
 {
 	/**
 	 * The limit information

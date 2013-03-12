@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationTemplateFilterModule extends ComPagesTemplateFilterModule
+class ApplicationTemplateFilterModule extends PagesTemplateFilterModule
 {
     protected function _initialize(Framework\Config $config)
     {
