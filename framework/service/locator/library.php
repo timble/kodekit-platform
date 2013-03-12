@@ -24,44 +24,36 @@ class ServiceLocatorLibrary extends ServiceLocatorAbstract
 	 */
 	protected $_type = 'lib';
 
-	/**
-	 * Get the classname
-	 *
-	 * @param 	mixed  		 An identifier object - koowa:[path].name
-	 * @return string|false  Return object on success, returns FALSE on failure
-	 */
+    /**
+     * Find the identifier class
+     *
+     * @param ServiceIdentifier$identifier An identifier object
+     * @return string|false  Return the class name on success, returns FALSE on failure
+     */
 	public function findClass(ServiceIdentifier $identifier)
 	{
         $namespace = 'Nooku\Framework';
+        $class     = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).ucfirst($identifier->name);
 
-        $classes   = array();
-        $classname = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).ucfirst($identifier->name);
-
-		if (!class_exists($classname))
+		if (!class_exists($class))
 		{
-            //Add the classname to prevent re-look up
-            $classes[] = $classname;
-
 			// use default class instead
-			$classname = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).'Default';
+			$class = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).'Default';
 
-			if (class_exists($classname)) {
-				$classname = false;
-			} else {
-                $classes[] = $classname;
-            }
+			if (!class_exists($class)) {
+				$class = false;
+			}
 		}
-        else $classes[] = $classname;
 
-		return $classname;
+		return $class;
 	}
 
-	/**
-	 * Get the path
-	 *
-	 * @param  object  	An identifier object - koowa:[path].name
-	 * @return string	Returns the path
-	 */
+    /**
+     * Find the identifier path
+     *
+     * @param  ServiceIdentifier $identifier  	An identifier object
+     * @return string	Returns the path
+     */
 	public function findPath(ServiceIdentifier $identifier)
 	{
 	    $path = '';

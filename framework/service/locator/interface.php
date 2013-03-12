@@ -25,17 +25,17 @@ interface ServiceLocatorInterface
     public function getType();
 
     /**
-	 * Get the classname based on an identifier
-	 *
-	 * @param 	object 			An identifier object - [application::]type.package.[.path].name
-	 * @return 	string|false 	Returns the class on success, returns FALSE on failure
-	 */
+     * Find the identifier class
+     *
+     * @param ServiceIdentifier$identifier An identifier object
+     * @return string|false  Return the class name on success, returns FALSE on failure
+     */
 	public function findClass(ServiceIdentifier $identifier);
 
-	 /**
-     * Get the path based on an identifier
+    /**
+     * Find the identifier path
      *
-     * @param  object   An identifier object - [application::]type.package.[.path].name
+     * @param  ServiceIdentifier $identifier  	An identifier object
      * @return string	Returns the path
      */
     public function findPath(ServiceIdentifier $identifier);
