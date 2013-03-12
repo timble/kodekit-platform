@@ -29,98 +29,78 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   Config $config An optional Config object with configuration options.
      * @return  void
      */
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'fallbacks' => array('ComBase', 'Nooku\Framework\\'),
+            'fallbacks' => array(
+                '<Package><Path>Default',
+                'Nooku\Component\<Package>\<Class>',
+                'Nooku\Component\<Package>\<Path><Name>',
+                'Nooku\Component\<Package>\<Path>Default',
+                'Base<Path><Name>',
+                'Base<Path>Default',
+                'Nooku\Framework\<Path><Name>',
+                'Nooku\Framework\<Path>Default',
+            )
         ));
     }
 
     /**
-     * Get the classname
+     * Find the identifier class
      *
-     * This locator will try to create an generic or default classname on the identifier information
-     * if the actual class cannot be found using the configurable fallback sequence.
-     *
-     * Fallback sequence :
-     *
-     *  -> Named   Class
-     *  -> Default Class
-     *
-     * @param mixed  		 An identifier object - com:[//application/]component.[path].name
-     * @return string|false  Return object on success, returns FALSE on failure
+     * @param ServiceIdentifier$identifier An identifier object
+     * @return string|false  Return the class name on success, returns FALSE on failure
      */
     public function findClass(ServiceIdentifier $identifier)
     {
-        $classes   = array();
-        $path      = Inflector::camelize(implode('_', $identifier->path));
-        $classname = 'Com'.ucfirst($identifier->package).$path.ucfirst($identifier->name);
+        $path  = Inflector::camelize(implode('_', $identifier->path));
+        $class = ucfirst($identifier->package).$path.ucfirst($identifier->name);
 
         //Manually load the class to set the basepath
-        if (!$this->getService('loader')->loadClass($classname, $identifier->basepath.'/component'))
+        if (!$this->getService('loader')->loadClass($class, $identifier->basepath.'/component'))
         {
-            //Fallback on the Nooku\Component namespace
-            $classname = 'Nooku\Component\\'.ucfirst($identifier->package).'\\'.$path.ucfirst($identifier->name);
+            $classname = $path.ucfirst($identifier->name);
+            $classpath = $identifier->path;
+            $classtype = !empty($classpath) ? array_shift($classpath) : '';
 
-            if(!class_exists($classname))
+            //Create the fallback path and make an exception for views and modules
+            if(!in_array($classtype, array('view','module'))) {
+                $path = ucfirst($classtype).Inflector::camelize(implode('_', $classpath));
+            } else {
+                $path = ucfirst($classtype);
+            }
+
+            $name    = ucfirst($identifier->name);
+            $package = ucfirst($identifier->package);
+
+            $class = false;
+            foreach($this->_fallbacks as $fallback)
             {
-                $classpath = $identifier->path;
-                $classtype = !empty($classpath) ? array_shift($classpath) : '';
+                $class = str_replace(
+                    array('<Package>', '<Path>', '<Name>', '<Class>'),
+                    array($package   , $path   , $name   , $classname),
+                    $fallback
+                );
 
-                //Create the fallback path and make an exception for views and modules
-                if(!in_array($classtype, array('view','module'))) {
-                    $path = ucfirst($classtype).Inflector::camelize(implode('_', $classpath));
+                if(!class_exists($class)) {
+                    $class = false;
                 } else {
-                    $path = ucfirst($classtype);
-                }
-
-                /*
-                 * Fallback sequence :
-                 *
-                 *  -> Named   Class
-                 *  -> Default Class
-                 */
-
-                //Add the classname to prevent re-look up
-                $classes[] = $classname;
-
-                //Add the package to look up defaults
-                $fallbacks = $this->_fallbacks;
-                array_unshift($fallbacks, 'Com'.ucfirst($identifier->package));
-
-                $classname = false;
-                foreach($fallbacks as $fallback)
-                {
-                    foreach(array($identifier->name, 'default') as $name)
-                    {
-                        $classname = $fallback.$path.ucfirst($name);
-
-                        if(!in_array($classname, $classes))
-                        {
-                            if(class_exists($classname))
-                            {
-                                $classes[] = $classname;
-                                break(2);
-                            }
-
-                            $classes[] = $classname;
-                        }
-                    }
+                    break;
                 }
             }
-        }
-        else $classes[] = $classname;
 
-        return $classname;
+        }
+
+        return $class;
     }
 
     /**
-     * Get the path
+     * Find the identifier path
      *
-     * @param  object  	An identifier object - com:[//application/]component.[path].name
+     * @param  ServiceIdentifier $identifier  	An identifier object
      * @return string	Returns the path
      */
     public function findPath(ServiceIdentifier $identifier)
