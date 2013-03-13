@@ -108,16 +108,4 @@ class BaseControllerModel extends Framework\ControllerModel
 
         return parent::_actionBrowse($context);
     }
-
-    /**
-     * Render action
-     *
-     * @param   Framework\CommandContext A command context object
-     * @return  Framework\DatabaseRow(set)   A row(set) object containing the data to display
-     */
-    protected function _actionRender(Framework\CommandContext $context)
-    {
-        JFactory::getLanguage()->load($this->getIdentifier()->package);
-        return parent::_actionRender($context);
-    }
 }

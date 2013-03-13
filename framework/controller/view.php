@@ -150,7 +150,7 @@ abstract class ControllerView extends ControllerAbstract
 	 */
 	protected function _actionRender(CommandContext $context)
 	{
-	    $view = $this->getView();
+        $view = $this->getView();
 
         //Push the params in the view
         foreach($context->param as $name => $value) {
@@ -161,6 +161,7 @@ abstract class ControllerView extends ControllerAbstract
         $view->setContent($context->response->getContent());
 
         //Render the view
+        \JFactory::getLanguage()->load($this->getIdentifier()->package);
         $content = $view->render();
 
         //Set the data in the response

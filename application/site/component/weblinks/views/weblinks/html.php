@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class WeblinksViewWeblinksHtml extends BaseViewHtml
+class WeblinksViewWeblinksHtml extends Framework\ViewHtml
 {
     public function render()
     {

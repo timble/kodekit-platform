@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ModelTerms extends \BaseModelDefault
+class ModelTerms extends Framework\ModelTable
 {
 	public function __construct(Framework\Config $config)
 	{

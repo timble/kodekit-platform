@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class WeblinksModelWeblinks extends BaseModelDefault
+class WeblinksModelWeblinks extends Framework\ModelTable
 {
 	public function __construct(Framework\Config $config)
 	{

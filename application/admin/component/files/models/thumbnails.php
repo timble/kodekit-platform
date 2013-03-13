@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesModelThumbnails extends BaseModelDefault
+class FilesModelThumbnails extends Framework\ModelTable
 {
 	public function __construct(Framework\Config $config)
 	{

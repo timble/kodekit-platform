@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class AttachmentsModelAttachments extends BaseModelDefault
+class AttachmentsModelAttachments extends Framework\ModelTable
 {
 	public function __construct(Framework\Config $config)
 	{

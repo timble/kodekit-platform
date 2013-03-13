@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class CommentsModelComments extends BaseModelDefault
+class CommentsModelComments extends Framework\ModelTable
 {
 	public function __construct(Framework\Config $config)
 	{

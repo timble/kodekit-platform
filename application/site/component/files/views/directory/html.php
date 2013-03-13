@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class FilesViewDirectoryHtml extends BaseViewHtml
+class FilesViewDirectoryHtml extends Framework\ViewHtml
 {
 	public function render()
 	{

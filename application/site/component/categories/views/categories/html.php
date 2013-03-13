@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-class CategoriesViewCategoriesHtml extends BaseViewHtml
+class CategoriesViewCategoriesHtml extends Framework\ViewHtml
 {
 	public function render()
 	{

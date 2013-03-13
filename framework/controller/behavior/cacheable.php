@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseControllerBehaviorCacheable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorCacheable extends Framework\ControllerBehaviorAbstract
 {
 	/**
 	 * The cached state of the resource
@@ -70,7 +70,7 @@ class BaseControllerBehaviorCacheable extends Framework\ControllerBehaviorAbstra
 	  
 	        $data  = array();
 	   
-	        //Store the unrendered view output
+	        //Store the un rendered view output
 	        if($view instanceof Framework\ViewTemplate) {
 	            $data['component'] = (string) $view->getTemplate();
 	        } else {

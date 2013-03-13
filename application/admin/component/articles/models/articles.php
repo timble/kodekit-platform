@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ArticlesModelArticles extends BaseModelDefault
+class ArticlesModelArticles extends Framework\ModelTable
 {
     public function __construct(Framework\Config $config)
     {
