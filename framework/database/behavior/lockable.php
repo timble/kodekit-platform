@@ -36,7 +36,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
     {
     	$config->append(array(
 			'priority'   => Command::PRIORITY_HIGH,
-    	    'lifetime'	 => '900' //in seconds
+            'lifetime'   =>  $this->getService('user')->getSession()->getLifetime()
 	  	));
 
 	  	$this->_lifetime = $config->lifetime;
