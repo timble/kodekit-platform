@@ -19,7 +19,9 @@
         <? endif ?>
     </div>
     
-    <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('filter' => array('row' => $article->id, 'table' => 'articles'), 'attribs' => array('class' => 'thumbnail', 'align' => 'right', 'style' => 'margin:0 0 20px 20px;'))); ?>
+    <? if($article->thumbnail): ?>
+        <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
+    <? endif; ?>
     
     <? if ($article->introtext) : ?>
         <?= @highlight($article->introtext) ?>

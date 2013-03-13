@@ -26,22 +26,22 @@
 		<thead>
 			<tr>
                 <? if($state->position && $state->sort == 'ordering' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
-				<th width="10">
+				<th width="1">
 				    <?= @helper('grid.checkall'); ?>
 				</th>
 				<th>
 					<?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Name')) ?>
 				</th>
-				<th nowrap="nowrap" width="7%">
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'published' , 'title' => 'Published')) ?>
 				</th>
-				<th width="80" nowrap="nowrap">
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'ordering' , 'title' => 'Order')) ?>
 				</th>
-				<th nowrap="nowrap" width="5%">
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'pages' , 'title' => 'Pages')) ?>
 				</th>
-				<th nowrap="nowrap" class="title">
+				<th width="1">
 					<?= @helper('grid.sort', array('column' => 'type' , 'title' => 'Type')) ?>
 				</th>
 			</tr>
@@ -59,7 +59,7 @@
 		<? foreach ($modules as $module) : ?>
 			<tr>
                 <? if($state->position && $state->sort == 'ordering' && $state->direction == 'asc') : ?><td class="handle"></td><? endif ?>
-				<td width="20" align="center">
+				<td align="center">
 					<?= @helper('grid.checkbox',array('row' => $module)) ?>
 				</td>
 				<td>
@@ -70,10 +70,10 @@
 					    <span class="label label-important"><?= @text('Registered') ?></span>
 					<? endif; ?>
 				</td>
-				<td align="center" width="15px">
+				<td align="center">
 					<?= @helper('grid.enable', array('row' => $module, 'field' => 'published')) ?>
 				</td>
-				<td class="order">
+				<td align="center">
 					<?= @helper('grid.order', array('row'=> $module))?>
 				</td>
 				<td align="center">

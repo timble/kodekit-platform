@@ -6,6 +6,7 @@
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
  */
+?>
 
 <script src="media://files/site/js/jquery-1.8.0.min.js" />
 <script src="media://files/site/js/bootstrap-modal.js" />

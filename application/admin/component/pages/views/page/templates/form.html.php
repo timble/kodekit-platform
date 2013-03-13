@@ -9,6 +9,7 @@
 ?>
 
 <?= @helper('behavior.keepalive') ?>
+<?= @helper('behavior.validator') ?>
 
 <!--
 <script src="media://koowa/js/koowa.js" />
@@ -39,15 +40,17 @@
             <div id="components-inner">
                 <? foreach($components as $component) : ?>
                 <? if($component->views) : ?>
-                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= $state->type['option'] == $component->name ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->title) ?></a>
+                <a data-component="<?= $component->name ?>" class="component-<?= $component->name ?> <?= ($state->type['name'] == 'component' && $state->type['option'] == $component->name) ? 'active' : '' ?>" href="#"><span class="icon icon-16-component"></span><?= @text($component->title) ?></a>
                 <? endif ?>
                 <? endforeach ?>
             </div>
-            <h3><?= @text('Other') ?></h3>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Page link') ?></a>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('External link') ?></a>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=redirect&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Redirect') ?></a>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Separator') ?></a>
+            <? if($menu->application == 'site') : ?>
+                <h3><?= @text('Other') ?></h3>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Page link') ?></a>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('External link') ?></a>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=redirect&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Redirect') ?></a>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Separator') ?></a>
+            <? endif ?>
         </div>
     </div>
     
@@ -61,7 +64,7 @@
                     <div class="view">
                         <h4><?= @text($view->title) ?></h4>
                         <? foreach($view->layouts as $layout) : ?>
-                        <a class="<?= $state->type['view'] == $view->name && $state->type['layout'] == $layout->name ? 'active' : '' ?>" href="<?= urldecode(@route('menu='.$state->menu.'&type[name]=component&type[option]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
+                        <a class="<?= ($state->type['name'] == 'component' && $state->type['view'] == $view->name && $state->type['layout'] == $layout->name) ? 'active' : '' ?>" href="<?= urldecode(@route('menu='.$state->menu.'&type[name]=component&type[option]='.$component->name.'&type[view]='.$view->name.'&type[layout]='.$layout->name.'&id='.$page->id)) ?>">
                             <?= @text($layout->title) ?>
                             <br />
                             <small><?= @text($layout->description) ?></small>
@@ -79,7 +82,7 @@
     <? if($state->type) : ?>
     <div class="main">
         <div class="title">
-            <input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
+            <input class="required" type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
             <div class="slug">
                 <span class="add-on"><?= @text('Slug'); ?></span>
                 <input type="text" name="slug" maxlength="255" value="<?= $page->slug ?>" />
@@ -87,13 +90,13 @@
         </div>
         <div class="scrollable">
             <?= @template('form_publish.html') ?>
-            <? if($state->type['name'] == 'component' || $state->type['name'] == 'redirect' || $state->type['name'] == 'pagelink') : ?>
+            <? if($menu->application == 'site' && ($state->type['name'] == 'component' || $state->type['name'] == 'redirect' || $state->type['name'] == 'pagelink')) : ?>
                 <fieldset class="form-horizontal">
                     <legend><?= @text('Page') ?></legend>
                     <?= @template('form_page.html') ?>
                 </fieldset>
             <? endif ?>
-            <? if($state->type['name'] == 'component') : ?>
+            <? if($menu->application == 'site' && $state->type['name'] == 'component') : ?>
                 <?= @template('form_modules.html') ?>
             <? endif ?>
         </div>

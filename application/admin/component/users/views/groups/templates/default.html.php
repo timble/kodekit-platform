@@ -20,7 +20,7 @@
     <table>
         <thead>
             <tr>
-                <th width="10">
+                <th width="1">
                     <?= @helper('grid.checkall'); ?>
                 </th>
                 <th>

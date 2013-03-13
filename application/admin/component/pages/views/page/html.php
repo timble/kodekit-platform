@@ -51,6 +51,9 @@ class ComPagesViewPageHtml extends ComDefaultViewHtml
 
         $this->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
+        // Assign menu.
+        $this->menu = $this->getService('com://admin/pages.model.menus')->id($model->menu)->getRow();
+
         return parent::render();
     }
 }
