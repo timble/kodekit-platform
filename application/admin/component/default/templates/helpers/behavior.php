@@ -56,7 +56,8 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
             'option'	=> KRequest::get('get.option', 'cmd'),
             'view'		=> KInflector::singularize(KRequest::get('get.view', 'cmd')),
             'selector'	=> 'table tbody.sortable',
-            'direction' => 'asc'
+            'direction' => 'asc',
+            'url'       => '?format=json'
         ))->append(array(
             'options'	=> array(
                 'handle'	=> 'td.handle',
@@ -65,7 +66,7 @@ class ComDefaultTemplateHelperBehavior extends KTemplateHelperBehavior
                 'adapter'	=> array(
                     'type'		=> 'koowa',
                     'options'	=> array(
-                        'url'		=> '?format=json',
+                        'url'		=> $config->url,
                         'data'	=> array(
                             '_token'	=> $this->getService('user')->getSession()->getToken(),
                             '_action'	=> 'edit'

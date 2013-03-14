@@ -82,6 +82,13 @@ class ComPagesDatabaseBehaviorOrderableFlat extends ComPagesDatabaseBehaviorOrde
         if(!$query instanceof KDatabaseQuerySelect && !$query instanceof KDatabaseQueryUpdate) {
 	        throw new InvalidArgumentException('Query must be an instance of KDatabaseQuerySelect or KDatabaseQueryUpdate');
 	    }
+
+        $identifier = $this->getMixer()->getIdentifier();
+        if($identifier == 'module' && $identifier->package == 'pages')
+        {
+            $query->where('position = :position')->bind(array('position' => $this->position));
+
+        }
     }
     
     protected function _reorder(KCommandContext $context)
