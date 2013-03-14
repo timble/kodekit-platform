@@ -8,6 +8,7 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Files;
 
 /**
  * Thumbnails Json View Class
@@ -16,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesViewThumbnailsJson extends FilesViewJson
+class FilesViewThumbnailsJson extends Files\ViewJson
 {
     protected function _getRowset()
     {
