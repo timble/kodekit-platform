@@ -1,8 +1,23 @@
 <?php
+/**
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
+ */
+
+namespace Nooku\Component\Comments;
 
 use Nooku\Framework;
 
-class CommentsModelComments extends Framework\ModelTable
+/**
+ * Comments Model
+ *
+ * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @package Nooku\Component\Comments
+ */
+class ModelComments extends Framework\ModelTable
 {
 	public function __construct(Framework\Config $config)
 	{
@@ -17,7 +32,8 @@ class CommentsModelComments extends Framework\ModelTable
 	{
 		parent::_buildQueryWhere($query);
 		
-		if(!$this->_state->isUnique()) {
+		if(!$this->_state->isUnique())
+        {
 			if($this->_state->table) {
 				$query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
 			}
