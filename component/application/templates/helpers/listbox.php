@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Application
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Application;
 
 use Nooku\Framework;
 
 /**
- * Listbox Template Helper Class
+ * Listbox Template Helper
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Component\Application
  */
-class ApplicationTemplateHelperListbox extends BaseTemplateHelperListbox
+class TemplateHelperListbox extends BaseTemplateHelperListbox
 {
     public function applications($config = array())
     {
@@ -29,7 +30,7 @@ class ApplicationTemplateHelperListbox extends BaseTemplateHelperListbox
         
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt)));
+            $options[] = $this->option(array('text' => \JText::_($config->prompt)));
         }
         
         foreach($this->getIdentifier()->getNamespaces() as $application => $path) {

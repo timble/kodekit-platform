@@ -1,23 +1,23 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Application
- * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Application;
 
 use Nooku\Framework;
 
 /**
- * Exception Controller Class
+ * Exception Controller
  *   
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Application
  */
- 
-class ApplicationControllerException extends Framework\ControllerView
+class ControllerException extends Framework\ControllerView
 {
     /**
      * Render an exception
@@ -75,8 +75,6 @@ class ApplicationControllerException extends Framework\ControllerView
             $args     = isset($traces[0]['args'])  ? $traces[0]['args']  : '';
             $info     = isset($traces[0]['info'])  ? $traces[0]['info']  : '';
         }
-
-
 
         //Find the real file path
         if($alias = $this->getService('loader')->getAlias($file)) {

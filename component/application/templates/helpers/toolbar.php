@@ -1,22 +1,23 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Application
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Application;
 
 use Nooku\Framework;
 
 /**
- * Template Toolbar Helper
+ * Toolbar Template Helper
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Application
  */
-class ApplicationTemplateHelperToolbar extends Framework\TemplateHelperAbstract
+class TemplateHelperToolbar extends Framework\TemplateHelperAbstract
 {
     /**
      * Render the toolbar
@@ -79,7 +80,7 @@ class ApplicationTemplateHelperToolbar extends Framework\TemplateHelperAbstract
         }
 
         $html  = '<a '.$this->_buildAttributes($command->attribs).'>';
-       	$html .= JText::_($command->label);
+       	$html .= \JText::_($command->label);
        	$html .= '</a>';
 
     	return $html;

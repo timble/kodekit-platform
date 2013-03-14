@@ -1,23 +1,23 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Articles
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Application;
 
 use Nooku\Framework;
 
 /**
- * Html View Class
+ * Html View
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Application
  */
-
-class ApplicationViewHtml extends Framework\ViewHtml
+class ViewHtml extends Framework\ViewHtml
 {
     public function __construct(Framework\Config $config)
     {
