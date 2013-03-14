@@ -1,25 +1,23 @@
 <?php
 /**
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Contacts
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Contacts;
 
 use Nooku\Framework;
 
 /**
- * Contacts Model Class
+ * Contacts Model
  *
- * @author      Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
- * @category	Nooku
- * @package     Nooku_Server
- * @subpackage  Contacts   
+ * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
+ * @package Nooku\Component\Contacts
  */
-
-class ContactsModelContacts extends Framework\ModelTable
+class ModelContacts extends Framework\ModelTable
 {
 	public function __construct(Framework\Config $config)
 	{
