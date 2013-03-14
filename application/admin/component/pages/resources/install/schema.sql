@@ -95,9 +95,9 @@ CREATE TABLE `#__pages_menus` (
 --
 
 CREATE TABLE `#__pages_modules_pages` (
-  `modules_module_id` INT NOT NULL,
+  `pages_module_id` INT NOT NULL,
   `pages_page_id` INT NOT NULL,
-  PRIMARY KEY (`modules_module_id`,`pages_page_id`),
+  PRIMARY KEY (`pages_module_id`,`pages_page_id`),
   INDEX `ix_pages_page_id` (`pages_page_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

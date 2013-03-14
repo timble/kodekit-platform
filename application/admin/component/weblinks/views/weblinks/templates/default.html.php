@@ -33,13 +33,13 @@
             <? if($sortable) : ?>
             <th class="handle"></th>
             <? endif ?>
-			<th width="10">
+			<th width="1">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
 			<th>
 				<?= @helper('grid.sort', array('column' => 'title')) ?>
 			</th>
-			<th width="5%" nowrap="nowrap">
+			<th width="1">
 				<?= @helper('grid.sort', array('column' => 'published')) ?>
 			</th>
 		</tr>
@@ -56,7 +56,7 @@
 		<tr>
             <? if($sortable) : ?>
             <td class="handle">
-                <span class="text-small"><?= $weblink->ordering ?></span>
+                <span class="text-small data-order"><?= $weblink->ordering ?></span>
             </td>
             <? endif ?>
 			<td align="center">

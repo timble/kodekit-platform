@@ -1,6 +1,15 @@
 <?php
 class ComArticlesControllerAttachment extends ComAttachmentsControllerAttachment
 {
+    public function __construct(KConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->getModel()->getTable()->attachBehavior('com://admin/articles.database.behavior.assignable');
+
+        $this->registerCallback(array('after.edit', 'after.delete'), array($this, 'setRedirect'));
+    }
+
     protected function _initialize(KConfig $config)
     {
         $config->append(array(
@@ -13,12 +22,8 @@ class ComArticlesControllerAttachment extends ComAttachmentsControllerAttachment
         parent::_initialize($config);
     }
 
-    protected function _actionDelete(KCommandContext $context)
+    public function setRedirect(KCommandContext $context)
     {
-        $entity = parent::_actionDelete($context);
-
         $context->response->setRedirect($context->request->getReferrer());
-
-        return $entity;
     }
 }

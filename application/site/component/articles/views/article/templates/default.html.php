@@ -23,12 +23,13 @@
 	    <span class="label label-important"><?= @text('Registered') ?></span>
 	    <? endif ?>
 	</div>
-    
-    <?= @helper('com://site/attachments.template.helper.grid.thumbnails', array('filter' => array('row' => $article->id, 'table' => 'articles'), 'attribs' => array('class' => 'thumbnail', 'align' => 'right', 'style' => 'margin:0 0 20px 20px;'))); ?>
-    
+
+    <? if($article->thumbnail): ?>
+        <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
+    <? endif; ?>
+
     <?= $article->introtext . $article->fulltext ?>
     
-    <?= @helper('com://site/attachments.template.helper.grid.files', array('filter' => array('row' => $article->id, 'table' => 'articles'))); ?>
-    
     <?= @template('com://site/terms.view.terms.default.html') ?>
+    <?= @template('com://site/attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>

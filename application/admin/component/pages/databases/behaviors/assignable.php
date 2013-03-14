@@ -54,7 +54,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
             foreach($context->data->modules as $id => $assignments)
             {
                 $data = array();
-                $rel_current = $relations->find(array('modules_module_id' => $id));
+                $rel_current = $relations->find(array('pages_module_id' => $id));
 
                 // Check if current is checked.
                 if(empty($assignments['current']))
@@ -71,7 +71,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
                                 foreach($pages as $page)
                                 {
                                     if($page->id != $data->id) {
-                                        $data[] = array('modules_module_id' => $id, 'pages_page_id' => $page->id);
+                                        $data[] = array('pages_module_id' => $id, 'pages_page_id' => $page->id);
                                     }
                                 }
                                 break;
@@ -84,7 +84,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
                                 foreach($others as $other)
                                 {
                                     if($other != $data->id) {
-                                        $data[] = array('modules_module_id' => $id, 'pages_page_id' => $other);
+                                        $data[] = array('pages_module_id' => $id, 'pages_page_id' => $other);
                                     }
                                 }
                                 break;
@@ -99,7 +99,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
                             foreach($pages as $page)
                             {
                                 if($page->id != $context->data->id) {
-                                    $data[] = array('modules_module_id' => $id, 'pages_page_id' => $page->id);
+                                    $data[] = array('pages_module_id' => $id, 'pages_page_id' => $page->id);
                                 }
                             }
                         }
@@ -119,21 +119,21 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
                         {
                             // Set relation to all.
                             case 'all':
-                                $data[] = array('modules_module_id' => $id, 'pages_page_id' => 0);
+                                $data[] = array('pages_module_id' => $id, 'pages_page_id' => 0);
                                 break;
                             // Add only the current page.
                             case 'none':
-                                $data[] = array('modules_module_id' => $id, 'pages_page_id' => $context->data->id);
+                                $data[] = array('pages_module_id' => $id, 'pages_page_id' => $context->data->id);
                                 break;
                             // Add selected pages and the current one.
                             default:
                                 $others = json_decode($assignments['others']);
                                 foreach($others as $other) {
-                                    $data[] = array('modules_module_id' => $id, 'pages_page_id' => $other);
+                                    $data[] = array('pages_module_id' => $id, 'pages_page_id' => $other);
                                 }
 
                                 if(!in_array($context->data->id, $others)) {
-                                    $data[] = array('modules_module_id' => $id, 'pages_page_id' => $context->data->id);
+                                    $data[] = array('pages_module_id' => $id, 'pages_page_id' => $context->data->id);
                                 }
                                 break;
                         }
@@ -142,7 +142,7 @@ class ComPagesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
                     {
                         // If nothing is set or current page is not set and relations is not set to all, add current.
                         if(!count($rel_current) || !in_array($context->data->id, $rel_current->pages_page_id) && $rel_current->top()->pages_page_id != 0) {
-                            $data[] = array('modules_module_id' => $id, 'pages_page_id' => $context->data->id);
+                            $data[] = array('pages_module_id' => $id, 'pages_page_id' => $context->data->id);
                         }
                     }
                 }

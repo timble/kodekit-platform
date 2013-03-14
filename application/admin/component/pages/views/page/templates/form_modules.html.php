@@ -16,7 +16,7 @@
         <? foreach($modules->available as $module) : ?>
             <input type="hidden" name="modules[<?= $module->id ?>][others]" value="" />
             <label class="checkbox">
-                <? $checked = count($modules->assigned->find(array('modules_module_id' => $module->id))) ? 'checked="checked"' : '' ?>
+                <? $checked = count($modules->assigned->find(array('pages_module_id' => $module->id))) ? 'checked="checked"' : '' ?>
                 <input type="checkbox" name="modules[<?= $module->id ?>][current]" value="1" class="module-<?= $module->id ?>" <?= $checked ?>/>
                 <a class="modal" href="<?= @route('option=com_pages&view=module&layout=modal&tmpl=overlay&id='.$module->id.'&page='.$page->id) ?>" rel="{handler: 'iframe', size: {x: 400, y: 600}}">
                     <?= $module->title ?>

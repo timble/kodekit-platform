@@ -15,6 +15,8 @@
  * @subpackage  Articles
  */
 
+KServiceManager::setAlias('com://site/articles.database.table.articles'  , 'com://admin/articles.database.table.articles');
+
 KServiceManager::setAlias('com://site/articles.model.articles'  , 'com://admin/articles.model.articles');
 KServiceManager::setAlias('com://site/articles.model.categories', 'com://admin/categories.model.categories');
 

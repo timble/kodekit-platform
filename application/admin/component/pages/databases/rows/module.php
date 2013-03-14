@@ -99,7 +99,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 		        $table = $this->getService('com://admin/pages.database.table.modules_pages');
 				$query = $this->getService('lib://nooku/database.query.select')
                     ->columns('pages_page_id')
-                    ->where('modules_module_id = :id')
+                    ->where('pages_module_id = :id')
                     ->bind(array('id' => $this->id));
                 
 				$pages = $table->select($query, KDatabase::FETCH_FIELD_LIST);
@@ -126,7 +126,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 	 * This performs an intelligent insert/update and reloads the properties
 	 * with fresh data from the table on success.
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function save()
 	{
@@ -137,8 +137,8 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 		{
 		    $table = $this->getService('com://admin/pages.database.table.modules');
 		
-		    //Clean up existing assignemnts
-		    $table->select(array('modules_module_id' => $this->id))->delete();
+		    //Clean up existing assignments
+		    $table->select(array('pages_module_id' => $this->id))->delete();
 
 		    if(is_array($this->pages)) 
 		    {
@@ -147,7 +147,7 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 				    $table
 					    ->select(null, KDatabase::FETCH_ROW)
 					    ->setData(array(
-							'modules_module_id' => $this->id,
+							'pages_module_id' => $this->id,
 							'pages_page_id' => $page
 				    	))
 					    ->save();
@@ -168,27 +168,6 @@ class ComPagesDatabaseRowModule extends KDatabaseRowTable
 													
 		return $result;
     }
-
-	/**
-	 * Deletes the row form the database.
-	 *
-	 * Customized in order to implement cascading delete
-	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
-	 */
-	public function delete()
-	{
-		$result = parent::delete();
-		
-		if($this->getStatus() != KDatabase::STATUS_FAILED) 
-		{	
-		    $this->getService('com://admin/pages.database.table.modules')
-			    ->select(array('modules_module_id' => $this->id))
-			    ->delete();
-		}
-
-		return $result;
-	}
 	
 	/**
      * Return an associative array of the data.

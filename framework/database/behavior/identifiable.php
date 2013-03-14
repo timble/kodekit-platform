@@ -110,8 +110,14 @@ class KDatabaseBehaviorIdentifiable extends KDatabaseBehaviorAbstract
      */
     protected function _beforeTableInsert(KCommandContext $context)
     {
-        $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
-        $this->uuid = $this->_uuid($hex);
+        if($this->getMixer() instanceof KDatabaseRowInterface && $this->_auto_generate && !$this->isNew())
+        {
+            if($this->has('uuid') && empty($this->uuid))
+            {
+                $hex = $this->getTable()->getColumn('uuid')->type == 'char' ? false : true;
+                $this->uuid = $this->_uuid($hex);
+            }
+        }
     }
 
     /**

@@ -23,10 +23,10 @@
     <table>
         <thead>
             <tr>
-                <th width="5">
+                <th width="1">
                     <input type="checkbox" name="toggle" value="" onclick="checkAll(<?= count($menus); ?>);" />
                 </th>
-                <th width="100%">
+                <th>
                     <?= @helper('grid.sort', array('column' => 'title' , 'title' => 'Title')); ?>
                 </th>
             </tr>

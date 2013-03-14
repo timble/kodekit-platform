@@ -9,6 +9,7 @@
 ?>
 
 <?= @helper('behavior.keepalive') ?>
+<?= @helper('behavior.validator') ?>
 
 <!--
 <script src="media://koowa/js/koowa.js" />
@@ -43,11 +44,13 @@
                 <? endif ?>
                 <? endforeach ?>
             </div>
-            <h3><?= @text('Other') ?></h3>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Page link') ?></a>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('External link') ?></a>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=redirect&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Redirect') ?></a>
-            <a href="<?= @route('menu='.$state->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Separator') ?></a>
+            <? if($menu->application == 'site') : ?>
+                <h3><?= @text('Other') ?></h3>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=pagelink&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Page link') ?></a>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=url&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('External link') ?></a>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=redirect&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Redirect') ?></a>
+                <a href="<?= @route('menu='.$state->menu.'&type[name]=separator&id='.$page->id) ?>"><span class="icon icon-16-component"></span><?= @text('Separator') ?></a>
+            <? endif ?>
         </div>
     </div>
     
@@ -79,7 +82,7 @@
     <? if($state->type) : ?>
     <div class="main">
         <div class="title">
-            <input type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
+            <input class="required" type="text" name="title" placeholder="<?= @text('Title') ?>" value="<?= $page->title ?>" size="50" maxlength="255" />
             <div class="slug">
                 <span class="add-on"><?= @text('Slug'); ?></span>
                 <input type="text" name="slug" maxlength="255" value="<?= $page->slug ?>" />

@@ -24,35 +24,24 @@
 <table>
 	<thead>
 		<tr>
-			<th width="10">	
-			</th>
-			<th class="title" nowrap="nowrap">
+			<th width="1">
+                <?= @helper( 'grid.checkall'); ?>
+            </th>
+			<th>
 				<?= @helper('grid.sort',  array('column' => 'name', 'title' => 'Key')); ?>
 			</th>
-			<th width="10%" align="center">
+			<th width="1">
 				<?= @helper('grid.sort',  array('column' => 'size')); ?>
 			</th>
-			<th width="5%" align="center">
+			<th width="1">
 				<?= @helper('grid.sort',  array('column' => 'hits')); ?>
 			</th>
-			<th width="10%" align="center">
+			<th width="1">
 				<?= @helper('grid.sort',  array('column' => 'created_on','title' => 'Created')); ?>
 			</th>
-			<th width="10%" align="center">
+			<th width="1">
 				<?= @helper('grid.sort',  array('column' => 'accessed_on','title' => 'Accessed')); ?>
 			</th>
-		</tr>
-		<tr>
-			<td align="center">
-				<?= @helper( 'grid.checkall'); ?>
-			</td>
-			<td>
-				<?= @helper( 'grid.search'); ?>
-			</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
 		</tr>
 	</thead>
 	<tfoot>
