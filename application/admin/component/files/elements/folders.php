@@ -53,9 +53,11 @@ class JElementFolders extends JElement
 
 	protected function _addFolder($folder, &$options)
 	{
-		$padded = str_repeat('&nbsp;', 2*(count(explode('/', $folder->path)))).$folder->name;
+		$padded    = str_repeat('&nbsp;', 2*(count(explode('/', $folder->path)))).$folder->name;
 		$options[] = array('text' => $padded, 'value' => urlencode($folder->path));
-		if ($folder->hasChildren()) {
+
+		if ($folder->hasChildren())
+        {
 			foreach ($folder->getChildren() as $child) {
 				$this->_addFolder($child, $options);
 			}

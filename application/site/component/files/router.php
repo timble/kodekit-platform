@@ -20,25 +20,6 @@ use Nooku\Framework;
 
 class FilesRouter extends BaseRouter
 {
-	protected function _encodeString($string)
-	{
-		$string = str_replace("\'", "'", $string);
-		$string = str_replace('\"', '\"', $string);
-		$string = str_replace('%2F', '/', rawurlencode($string));
-		$string = str_replace('.', '-_-_', $string);
-	
-		return $string;
-	}
-	
-	protected function _decodeString($string)
-	{
-		$string = str_replace('/', '%2F', rawurldecode($string));
-		$string = str_replace('-_-_', '.', $string);
-		$string = str_replace('%20', ' ', $string);
-	
-		return $string;
-	}
-	
 	public function buildRoute(&$query)
 	{
 		$segments = array();

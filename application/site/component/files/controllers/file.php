@@ -22,7 +22,6 @@ class FilesControllerFile extends BaseControllerModel
 	public function getRequest()
 	{
 		$request = parent::getRequest();
-
 		$request->query['container'] = 'files-files';
 		
 		return $request;

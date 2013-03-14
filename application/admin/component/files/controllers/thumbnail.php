@@ -8,6 +8,7 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Files;
 
 /**
  * Thumbnail Controller Class
@@ -27,13 +28,13 @@ class FilesControllerThumbnail extends FilesControllerDefault
         $state_data = $model->getState()->toArray();
         
         $nodes = $this->getService('com://admin/files.model.nodes')->set($state_data)->getRowset();
-       
+
         if (!$model->getState()->files && !$model->getState()->filename) 
         {
         	$needed  = array();
         	foreach ($nodes as $row)
         	{
-        		if ($row instanceof FilesDatabaseRowFile && $row->isImage()) {
+        		if ($row instanceof Files\DatabaseRowFile && $row->isImage()) {
         			$needed[] = $row->name;
         		}
         	}
@@ -44,8 +45,8 @@ class FilesControllerThumbnail extends FilesControllerDefault
 		      ->set($state_data)
 		      ->set('files', $needed);
 
-		$list  = $model->getRowset();
-		
+		$list = $model->getRowset();
+
     	$found = array();
         foreach ($list as $row) {
         	$found[] = $row->filename;
@@ -56,7 +57,7 @@ class FilesControllerThumbnail extends FilesControllerDefault
         	$new = array();
         	foreach ($nodes as $row)
         	{
-        		if ($row instanceof FilesDatabaseRowFile && $row->isImage() && !in_array($row->name, $found))
+        		if ($row instanceof Files\DatabaseRowFile && $row->isImage() && !in_array($row->name, $found))
         		{
 	        		$result = $row->saveThumbnail();
 	        		if ($result) {
