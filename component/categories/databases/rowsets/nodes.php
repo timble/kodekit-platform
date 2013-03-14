@@ -1,35 +1,35 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Categories
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Categories;
 
 use Nooku\Framework;
 
 /**
- * Nodes Database Rowset Class
+ * Nodes Database Rowset
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Categories
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Categories
  */
-
-class CategoriesDatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
+class DatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
 {
     /**
      * Constructor
      *
      * @param Config|null $config  An optional Framework\Config object with configuration options
-     * @return \Framework\DatabaseRowsetAbstract
+     * @return Framework\DatabaseRowsetAbstract
      */
     public function __construct(Framework\Config $config)
     {
         parent::__construct($config);
 
-        $this->_object_set->setIteratorClass('RecursiveArrayIterator');
+        $this->_object_set->setIteratorClass('\RecursiveArrayIterator');
     }
 
     /**
@@ -41,7 +41,7 @@ class CategoriesDatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
      *
 	 * @param  array  	$list An associative array of row data to be inserted.
 	 * @param  boolean	$new If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-	 * @return  \Framework\DatabaseRowsetAbstract
+	 * @return  Framework\DatabaseRowsetAbstract
 	 * @see __construct
      */
 	public function addRow(array $list, $new = true)

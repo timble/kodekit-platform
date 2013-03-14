@@ -1,23 +1,24 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Categories
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+
+namespace Nooku\Component\Categories;
 
 use Nooku\Framework;
 
 /**
- * Node Database Row Class
+ * Node Database Row
  *
- * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Categories
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Categories
  */
-
-class CategoriesDatabaseRowNode extends Framework\DatabaseRowTable
+class DatabaseRowNode extends Framework\DatabaseRowTable
 {
     /**
      * Nodes object or identifier
@@ -57,7 +58,7 @@ class CategoriesDatabaseRowNode extends Framework\DatabaseRowTable
      * The row will be stored by it's identity_column if set or otherwise by it's object handle.
      *
      * @param  object $node A Framework\DatabaseRow object to be inserted
-     * @return \Framework\DatabaseRowsetInterface
+     * @return Framework\DatabaseRowsetInterface
      */
 	public function insertChild(Framework\DatabaseRowInterface $node)
  	{
@@ -83,7 +84,7 @@ class CategoriesDatabaseRowNode extends Framework\DatabaseRowTable
 	/**
      * Get the children rowset
      *
-     * @return	\Framework\DatabaseRowInterface
+     * @return	Framework\DatabaseRowInterface
      */
 	public function getChildren()
 	{
@@ -107,7 +108,7 @@ class CategoriesDatabaseRowNode extends Framework\DatabaseRowTable
 	/**
      * Get the parent node
      *
-     * @return	\Framework\DatabaseRowInterface
+     * @return	Framework\DatabaseRowInterface
      */
 	public function getParent()
 	{
@@ -118,7 +119,7 @@ class CategoriesDatabaseRowNode extends Framework\DatabaseRowTable
      * Set the parent node
      *
      * @param object $node The parent node
-     * @return \CategoriesDatabaseRowNode
+     * @return DatabaseRowNode
      */
 	public function setParent(Framework\DatabaseRowInterface $node )
 	{

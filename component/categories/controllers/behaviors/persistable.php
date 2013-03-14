@@ -1,22 +1,24 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Categories
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+
+namespace Nooku\Component\Categories;
 
 use Nooku\Framework;
 
 /**
- * Persistable Controller Behavior Class
+ * Persistable Controller Behavior
  *
- * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
- * @package     Nooku_Server
- * @subpackage  Categories   
+ * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @package Nooku\Component\Categories
  */
-class CategoriesControllerBehaviorPersistable extends Framework\ControllerBehaviorPersistable
+class ControllerBehaviorPersistable extends Framework\ControllerBehaviorPersistable
 { 
 	/**
 	 * Load the model state from the request

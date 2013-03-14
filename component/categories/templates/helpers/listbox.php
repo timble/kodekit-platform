@@ -1,23 +1,23 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Categories
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Categories;
 
 use Nooku\Framework;
 
 /**
  * Listbox Template Helper
  *
- * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
- * @package     Nooku_Server
- * @subpackage  Categories    
+ * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @package Nooku\Component\Categories
  */
-
-class CategoriesTemplateHelperListbox extends BaseTemplateHelperListbox
+class TemplateHelperListbox extends \BaseTemplateHelperListbox
 {
      public function order($config = array())
      {
@@ -67,7 +67,7 @@ class CategoriesTemplateHelperListbox extends BaseTemplateHelperListbox
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => 0));
+            $options[] = $this->option(array('text' => \JText::_($config->prompt), 'value' => 0));
         }
 
         $list = $this->getService('com://admin/categories.model.categories')
@@ -76,7 +76,7 @@ class CategoriesTemplateHelperListbox extends BaseTemplateHelperListbox
                      ->set('sort', 'title')
                      ->getRowset();
 
-        $iterator = new RecursiveIteratorIterator($list, RecursiveIteratorIterator::SELF_FIRST);
+        $iterator = new \RecursiveIteratorIterator($list, \RecursiveIteratorIterator::SELF_FIRST);
         foreach($iterator as $item)
         {
             if($iterator->getDepth() > $config->max_depth) {

@@ -21,7 +21,7 @@ abstract class CategoriesControllerCategory extends BaseControllerModel
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'model' => 'com://admin/categories.model.categories'
+            'model' => 'com://site/categories.model.categories'
         ));
 
         parent::_initialize($config);
