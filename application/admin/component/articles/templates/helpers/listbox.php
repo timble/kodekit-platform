@@ -90,8 +90,7 @@ class ArticlesTemplateHelperListbox extends BaseTemplateHelperListbox
 
         $options = array();
 
-        foreach($pages as $page)
-        {
+        foreach($pages as $page) {
             $options[] =  $this->option(array('text' => $page->title, 'value' => $page->id));
         }
 
