@@ -12,7 +12,8 @@
 <script src="media://koowa/js/koowa.js" />
 <style src="media://koowa/css/koowa.css" />
 -->
-<?= @helper('behavior.sortable') ?>
+<? /* The application state is necessary in the url to avoid page redirects */ ?>
+<?= @helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>
 
 <?= @template('com://admin/base.view.grid.toolbar.html'); ?>
 

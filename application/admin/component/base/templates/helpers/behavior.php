@@ -58,7 +58,8 @@ class BaseTemplateHelperBehavior extends Framework\TemplateHelperBehavior
             'option'	=> Framework\Request::get('get.option', 'cmd'),
             'view'		=> Framework\Inflector::singularize(Framework\Request::get('get.view', 'cmd')),
             'selector'	=> 'table tbody.sortable',
-            'direction' => 'asc'
+            'direction' => 'asc',
+            'url'       => '?format=json'
         ))->append(array(
             'options'	=> array(
                 'handle'	=> 'td.handle',
@@ -67,7 +68,7 @@ class BaseTemplateHelperBehavior extends Framework\TemplateHelperBehavior
                 'adapter'	=> array(
                     'type'		=> 'koowa',
                     'options'	=> array(
-                        'url'		=> '?format=json',
+                        'url'		=> $config->url,
                         'data'	=> array(
                             '_token'	=> $this->getService('user')->getSession()->getToken(),
                             '_action'	=> 'edit'

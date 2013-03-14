@@ -84,6 +84,13 @@ class PagesDatabaseBehaviorOrderableFlat extends PagesDatabaseBehaviorOrderableA
         if(!$query instanceof Framework\DatabaseQuerySelect && !$query instanceof Framework\DatabaseQueryUpdate) {
 	        throw new \InvalidArgumentException('Query must be an instance of Framework\DatabaseQuerySelect or Framework\DatabaseQueryUpdate');
 	    }
+
+        $identifier = $this->getMixer()->getIdentifier();
+        if($identifier == 'module' && $identifier->package == 'pages')
+        {
+            $query->where('position = :position')->bind(array('position' => $this->position));
+
+        }
     }
     
     protected function _reorder(Framework\CommandContext $context)
