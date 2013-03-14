@@ -10,7 +10,6 @@
 
 <?= @helper('behavior.tooltip'); ?>
 
-<style src="media://default/css/form.css" />
 <style src="media://terms/css/admin.css" />
 
 <form action="" method="post" class="-koowa-form">

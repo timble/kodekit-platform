@@ -8,7 +8,6 @@
  */
 ?>
 
-<style src="media://default/css/admin.css" />
 <style src="media://terms/css/admin.css" />
 
 <form action="" method="post" class="-koowa-grid">
