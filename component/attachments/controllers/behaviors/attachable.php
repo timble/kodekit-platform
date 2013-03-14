@@ -1,8 +1,23 @@
 <?php
+/**
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
+ */
+
+namespace Nooku\Component\Attachments;
 
 use Nooku\Framework;
 
-class AttachmentsControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
+/**
+ * Attachable Controller Behavior
+ *
+ * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
+ * @package Nooku\Component\Attachments
+ */
+class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 {
 	/**
 	 * Attachments array coming from $_FILES
