@@ -32,7 +32,7 @@ class FilesDatabaseRowsetFolders extends FilesDatabaseRowsetNodes
 	/**
      * Returns an iterator for the current entry.
      *
-     * @return	RecursiveIterator
+     * @return	\RecursiveIterator
      */
 	public function getChildren()
 	{

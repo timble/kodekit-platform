@@ -24,7 +24,7 @@ class FilesAdapterLocalFolder extends FilesAdapterLocalAbstract
 		if (is_dir($encoded))
 		{
 			$result = true; // needed for empty directories
-			$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_encoded), RecursiveIteratorIterator::SELF_FIRST);
+			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->_encoded), \RecursiveIteratorIterator::SELF_FIRST);
 			foreach ($iterator as $f)
 			{
 				if ($f->isDir())
@@ -64,7 +64,7 @@ class FilesAdapterLocalFolder extends FilesAdapterLocalAbstract
 		if (is_dir($encoded))
 		{
 			$result = true; // needed for empty directories
-			$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_encoded), RecursiveIteratorIterator::SELF_FIRST);
+			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->_encoded), \RecursiveIteratorIterator::SELF_FIRST);
 			foreach ($iterator as $f)
 			{
 				if ($f->isDir()) {
@@ -95,8 +95,8 @@ class FilesAdapterLocalFolder extends FilesAdapterLocalAbstract
 			return true;
 		}
 
-		$iter = new RecursiveDirectoryIterator($this->_encoded);
-		foreach (new RecursiveIteratorIterator($iter, RecursiveIteratorIterator::CHILD_FIRST) as $f) 
+		$iter = new \RecursiveDirectoryIterator($this->_encoded);
+		foreach (new \RecursiveIteratorIterator($iter, \RecursiveIteratorIterator::CHILD_FIRST) as $f)
 		{
 			if ($f->isDir()) {
 				rmdir($f->getPathname());
