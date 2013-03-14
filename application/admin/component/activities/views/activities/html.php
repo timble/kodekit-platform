@@ -13,7 +13,6 @@ use Nooku\Framework;
  * Activities Html View
  *
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
- * @package Nooku\Component\Activities
  */
 class ActivitiesViewActivitiesHtml extends \BaseViewHtml
 {

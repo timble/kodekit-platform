@@ -7,24 +7,32 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Extensions;
-
 use Nooku\Framework;
 
 /**
- * Component Controller
+ * Setting Controller
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Extensions
  */
-class ControllerComponent extends \BaseControllerModel
-{ 
+class ExtensionsControllerSetting extends BaseControllerModel
+{
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-        	'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
+            'request' => array('view' => 'settings')
         ));
-    
+
         parent::_initialize($config);
+    }
+
+    protected function _actionRead(Framework\CommandContext $context)
+    {
+        $name = ucfirst($this->getView()->getName());
+
+        if(!$this->getModel()->getState()->isUnique()) {
+            throw new Framework\ControllerExceptionNotFound($name.' Not Found');
+        }
+
+        return parent::_actionRead($context);
     }
 }
