@@ -26,6 +26,10 @@ class ComArticlesViewArticleHtml extends ComDefaultViewHtml
             $this->attachments($article->getAttachments());
         }
         
+        if ($article->id && $article->isTaggable()) {
+            $this->terms($article->getTerms()->terms_term_id);
+        }
+        
         return parent::render();
     }
 }

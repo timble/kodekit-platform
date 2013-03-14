@@ -20,7 +20,12 @@ class ComTermsDatabaseTableTerms extends KDatabaseTableDefault
 {
 	protected function _initialize(KConfig $config)
     {
-    	$config->behaviors = array('lockable', 'creatable', 'modifiable', 'sluggable');
+    	$config->append(array(
+            'name'       => 'terms',
+            'behaviors'  => array(
+            	'creatable', 'modifiable', 'lockable', 'sluggable'
+            )
+            ));
 		
 		parent::_initialize($config);
     }

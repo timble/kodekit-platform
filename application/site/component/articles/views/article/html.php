@@ -51,9 +51,12 @@ class ComArticlesViewArticleHtml extends ComArticlesViewHtml
         if ($article->id && $article->isAttachable()) {
             $this->attachments($article->getAttachments());
         }
+        
+        if ($article->id && $article->isTaggable()) {
+            $this->terms($article->getTerms());
+        }
 
         $this->params = $params;
-
         return parent::render();
     }
 
