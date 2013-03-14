@@ -1,24 +1,23 @@
 <?php
 /**
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Articles
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Articles;
 
 use Nooku\Framework;
 
 /**
  * Articles Model Class
  *
- * @author      John Bell <http://nooku.assembla.com/profile/johnbell>
- * @category    Nooku
- * @package     Nooku_Server
- * @subpackage  Articles
+ * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
+ * @package Nooku\Component\Articles
  */
-class ArticlesModelArticles extends Framework\ModelTable
+class ModelArticles extends Framework\ModelTable
 {
     public function __construct(Framework\Config $config)
     {
