@@ -24,52 +24,43 @@ class ModelTerms extends Framework\ModelTable
 		parent::__construct($config);
 		
 		// Set the state
-		$this->_state
-			->insert('row', 'int')
-		 	->insert('table', 'string');
+		$this->getState()
+		 	->insert('table', 'string', $this->getIdentifier()->package);
 	}
 	
-	protected function _buildQueryColumns(Framework\DatabaseQuery $query)
-	{
-		if(!$this->_state->isUnique()) {
-			$query->select('COUNT( relations.terms_term_id ) AS count');
-			$query->select('table');
-		}
-		
-		return parent::_buildQueryColumns($query);
+	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+    {
+        parent::_buildQueryColumns($query);
+        
+        $query->columns(array(
+            'count'    => 'COUNT( relations.terms_term_id )'
+        ));
 	}
 	
-	protected function _buildQueryGroup(Framework\DatabaseQuery $query)
+	protected function _buildQueryGroup(Framework\DatabaseQuerySelect $query)
 	{	
-		if(!$this->_state->isUnique()) {
-			$query->group('relations.terms_term_id');
-		}
-		
-		return parent::_buildQueryGroup($query);
+        $query->group('tbl.terms_term_id');
 	}
 	 
-	protected function _buildQueryJoins(Framework\DatabaseQuery $query)
+	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
 	{
-		if(!$this->_state->isUnique()) {
-			$query->join('LEFT', 'terms_relations AS relations', 'relations.terms_term_id = tbl.terms_term_id');
-		}
-		
-		return parent::_buildQueryJoins($query);
+        parent::_buildQueryJoins($query);
+        
+        $query->join(array('relations' => 'terms_relations'), 'relations.terms_term_id = tbl.terms_term_id');
 	}
 	
-	protected function _buildQueryWhere(Framework\DatabaseQuery $query)
-	{
-		if(!$this->_state->isUnique()) 
-		{
-			if($this->_state->table) {
-				$query->where('relations.table','=', $this->_state->table);
-			}
-		
-			if($this->_state->row) {
-				$query->where('relations.row', 'LIKE',  $this->_state->row);
-			}
-		}
-		
-		parent::_buildQueryWhere($query);
+	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	{                
+        $state = $this->getState();
+
+        if($state->search) {
+            $query->where('tbl.title LIKE %:search%')->bind(array('search' => $state->search));
+        }
+        
+        if($this->_state->table) {
+            $query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
+        }
+        
+        parent::_buildQueryWhere($query);
 	}
 }

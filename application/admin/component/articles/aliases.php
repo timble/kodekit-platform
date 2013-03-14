@@ -17,5 +17,6 @@
 
 use Nooku\Framework\ServiceManager;
 
+ServiceManager::setAlias('com://admin/articles.model.terms', 'com://admin/terms.model.terms');
 ServiceManager::setAlias('com://admin/articles.model.categories', 'com://admin/categories.model.categories');
 ServiceManager::setAlias('com://admin/articles.view.attachment.file', 'com://admin/attachments.view.attachment.file');

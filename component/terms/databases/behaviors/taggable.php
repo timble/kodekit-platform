@@ -24,9 +24,9 @@ class DatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
 	 * 
 	 * @return RowsetTerms
 	 */
-	public function getTags()
+	public function getTerms()
 	{
-		$tags = $this->getService('com://admin/terms.model.terms')
+		return $this->getService('com://admin/terms.model.relations')
 					->row($this->id)
 					->table($this->getTable()->getName())
 					->getRowset();
@@ -46,9 +46,9 @@ class DatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
 		
 		if(!is_null($query)) 
 		{
-			foreach($query->where as $key => $where) 
+            foreach($query->where as $key => $where) 
 			{	
-                if($where['property'] == 'tbl.tag')
+                if($where['condition'] == 'tbl.tag') 
                 {
                     $table = $context->caller;
                                         

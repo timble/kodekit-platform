@@ -25,7 +25,8 @@ class ArticlesControllerArticle extends BaseControllerModel
     	        'com://admin/activities.controller.behavior.loggable',
     	        'com://admin/versions.controller.behavior.revisable',
     		    'com://admin/languages.controller.behavior.translatable',
-                'com://admin/attachments.controller.behavior.attachable'
+                'com://admin/attachments.controller.behavior.attachable',
+                'com://admin/terms.controller.behavior.taggable'
     	        //'cacheable'
     	    )
     	));

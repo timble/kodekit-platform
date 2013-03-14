@@ -124,11 +124,11 @@ VALUES
 	(17, 0),
 	(18, 1),
 	(19, 1),
-	(19, 31),
+	(19, 53),
 	(19, 34),
 	(21, 1),
 	(22, 1),
-	(22, 31),
+	(22, 53),
 	(22, 34),
 	(25, 0),
 	(27, 0),
@@ -154,7 +154,6 @@ VALUES
 
 INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
-	(31, 6, 6),
 	(32, 4, 1),
 	(33, 1, 4),
 	(34, 7, 2),
@@ -175,7 +174,8 @@ VALUES
 	(49, 9, 9),
 	(50, 3, 2),
 	(51, 1, 1),
-	(52, 1, 11);
+	(52, 1, 11),
+    (53, 6, 6);
 
 
 --
@@ -184,7 +184,6 @@ VALUES
 
 INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
-	(31, 31, 0),
 	(32, 32, 0),
 	(33, 33, 0),
 	(34, 34, 0),
@@ -210,7 +209,8 @@ VALUES
 	(49, 49, 0),
 	(50, 50, 0),
 	(51, 51, 0),
-    (52, 52, 0);
+    (52, 52, 0),
+    (53, 53, 0);
 
 --
 -- Dumping data for table `#__pages`
@@ -218,7 +218,6 @@ VALUES
 
 INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
-	(31, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(32, 3, NULL, 'Your Details', 'your-details', 'option=com_user&view=user&task=edit', NULL, 'component', 1, 0, 0, 14, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(33, 3, NULL, 'Logout', 'logout', 'option=com_user&view=login', NULL, 'component', 1, 0, 0, 14, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(34, 1, NULL, 'Joomla! Overview', 'joomla-overview', 'option=com_articles&view=article&id=19', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
@@ -239,8 +238,8 @@ VALUES
 	(49, 1, NULL, 'The News', 'the-news', 'option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(50, 3, NULL, 'Submit an Article', 'submit-an-article', 'option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(51, 1, NULL, 'Search Results', 'search-results', 'option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(52, 1, 0, 'Contacts', 'contacts', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, '2013-02-26 10:05:27', NULL, NULL, NULL, NULL, 0, NULL);
-
+	(52, 1, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+    (53, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 
 --
