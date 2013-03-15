@@ -22,8 +22,8 @@ class DatabaseRowTerm extends Framework\DatabaseRowDefault
 	/**
 	 * Deletes the term form the database.
 	 *
-	 * If only one relationship exists in the actual term will also be deleted.
-	 * Otherwise only the relation will be removed.
+	 * If only one relationship exists in the actual term will also be deleted. Otherwise only the relation will be
+     * removed.
 	 *
 	 * @return TermsRowTerm
 	 */

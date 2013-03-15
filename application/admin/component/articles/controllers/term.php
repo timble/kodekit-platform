@@ -7,16 +7,18 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
- * Category Controller Class
+ * Term Controller Class
  *
  * @author    	Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ComArticlesControllerTerm extends ComTermsControllerTerm
+class ArticlesControllerTerm extends TermsControllerTerm
 { 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
             'model'   => 'com://admin/terms.model.terms',

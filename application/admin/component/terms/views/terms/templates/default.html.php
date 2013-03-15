@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @template('com://admin/default.view.grid.toolbar.html'); ?>
+<?= @template('com://admin/base.view.grid.toolbar.html'); ?>
 
 <form action="" method="post" class="-koowa-grid">
     <?= @template('default_scopebar.html'); ?>

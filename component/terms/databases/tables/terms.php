@@ -19,10 +19,15 @@ use Nooku\Framework;
  */
 class DatabaseTableTerms extends Framework\DatabaseTableDefault
 {
-	protected function _initialize(Framework\Config $config)
+    protected function _initialize(Framework\Config $config)
     {
-    	$config->behaviors = array('lockable', 'creatable', 'modifiable', 'sluggable');
-		
-		parent::_initialize($config);
+        $config->append(array(
+            'name'       => 'terms',
+            'behaviors'  => array(
+                'creatable', 'modifiable', 'lockable', 'sluggable'
+            )
+        ));
+
+        parent::_initialize($config);
     }
 }

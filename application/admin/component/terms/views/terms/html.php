@@ -7,23 +7,25 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Terms;
-
 use Nooku\Framework;
 
 /**
- * Term Controller
- *   
+ * Terms Html View
+ *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Terms
+ * @package Nooku\Component\Activities
  */
-class ControllerTerm extends \BaseControllerDefault
-{	
-	public function __construct(Framework\Config $config)
+class TermsViewTermsHtml extends BaseViewHtml
+{
+	public function render()
 	{
-		parent::__construct($config);
-
-		//Prevent state from being saved
-		$this->unregisterCallback('after.browse'  , array($this, 'saveState'));
+		//If no row exists assign an empty array
+		if($this->getModel()->get('row')) {
+			$this->disabled = false;
+		} else {
+			$this->disabled = true;
+		}
+			
+		return parent::render();
 	}
 }

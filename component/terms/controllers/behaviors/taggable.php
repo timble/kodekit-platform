@@ -1,8 +1,26 @@
 <?php
+/**
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
+ */
 
-class ComTermsControllerBehaviorTaggable extends KControllerBehaviorAbstract
+namespace Nooku\Component\Terms;
+
+use Nooku\Framework;
+
+/**
+ * Taggable Controller Behavior
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Terms
+ */
+class ControllerBehaviorTaggable extends Framework\BehaviorAbstract
 {			
-	protected function _saveRelations(KCommandContext $context) {
+	protected function _saveRelations(Framework\CommandContext $context)
+    {
 		if ($context->error) {
 			return;
 		}
@@ -22,7 +40,8 @@ class ComTermsControllerBehaviorTaggable extends KControllerBehaviorAbstract
         }
         
         // Save terms as relations
-		foreach ($row->terms as $term) {
+		foreach ($row->terms as $term)
+        {
 			$relation = $this->getService('com://admin/terms.database.row.relation');
             $relation->terms_term_id = $term;
             $relation->row		     = $row->id;
@@ -36,19 +55,21 @@ class ComTermsControllerBehaviorTaggable extends KControllerBehaviorAbstract
 		return true;
 	}
 	
-	protected function _afterControllerAdd(KCommandContext $context) {
+	protected function _afterControllerAdd(Framework\CommandContext $context)
+    {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterControllerEdit(KCommandContext $context) {
+	protected function _afterControllerEdit(Framework\CommandContext $context)
+    {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterControllerDelete(KCommandContext $context)
+	protected function _afterControllerDelete(Framework\CommandContext $context)
     {
         $status = $context->result->getStatus();
 
-        if($status == KDatabase::STATUS_DELETED || $status == 'trashed')
+        if($status == Framework\Database::STATUS_DELETED || $status == 'trashed')
         {
             $id = $context->result->get('id');
             $table = $context->result->getTable()->getBase();

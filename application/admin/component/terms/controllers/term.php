@@ -7,6 +7,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Term Controller Class
  *
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Terms
  */
-class ComTermsControllerTerm extends ComDefaultControllerDefault
+abstract class TermsControllerTerm extends BaseControllerModel
 { 
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
         	//'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
@@ -29,12 +31,12 @@ class ComTermsControllerTerm extends ComDefaultControllerDefault
         $config->toolbars = array('menubar', 'com://admin/terms.controller.toolbar.term');
     }
     
-    protected function _actionRender(KCommandContext $context)
+    protected function _actionRender(Framework\CommandContext $context)
     {
         $view = $this->getView();
         
 	    //Set the layout
-        if($view instanceof KViewTemplate) 
+        if($view instanceof Framework\ViewTemplate)
 	    {
 	        $layout = clone $view->getIdentifier();
             $layout->name  = $view->getLayout();

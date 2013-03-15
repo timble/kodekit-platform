@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Framework;
+
 /**
  * Listbox Template Helper
  *
@@ -17,11 +19,11 @@
  * @subpackage  Terms
  */
 
-class ComTermsTemplateHelperListbox extends ComDefaultTemplateHelperListbox
+class TermsTemplateHelperListbox extends BaseTemplateHelperListbox
 {
     public function terms($config = array())
     {
-    	$config = new KConfig($config);
+    	$config = new Framework\Config($config);
     	$config->append(array(
     		'model' 	=> 'terms',
     		'value'		=> 'id',
