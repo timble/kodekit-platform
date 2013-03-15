@@ -1,23 +1,23 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Languages
- * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Languages;
 
 use Nooku\Framework;
 
 /**
- * Translatable Database Behavior Class
+ * Translatable Database Behavior
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Component\Languages
  */
-
-class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract implements Framework\ServiceInstantiatable
+class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract implements Framework\ServiceInstantiatable
 {
     protected $_tables;
     
@@ -110,16 +110,16 @@ class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAb
             if(!$query->isCountQuery() && $state && !$state->isUnique() && isset($state->translated))
             {
                 $query->columns(array(
-                        'translation_status' => 'translations.status',
-                        'translation_original' => 'translations.original',
-                        'translation_deleted' => 'translations.deleted'))
+                        'translation_status'    => 'translations.status',
+                        'translation_original'  => 'translations.original',
+                        'translation_deleted'   => 'translations.deleted'))
                     ->join(array('translations' => 'languages_translations'),
                         'translations.table = :translation_table'.
                         ' AND translations.row = tbl.'.$table->unique_column.
                         ' AND translations.iso_code = :translation_iso_code')
                     ->bind(array(
                         'translation_iso_code' => $active->iso_code,
-                        'translation_table' => $table->name
+                        'translation_table'    => $table->name
                     ));
                 
                 if(!is_null($state->translated))
@@ -153,7 +153,7 @@ class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAb
                 'iso_code'   => $active->iso_code,
                 'table'      => $context->table,
                 'row'        => $context->data->id,
-                'status'     => LanguagesDatabaseRowTranslation::STATUS_COMPLETED,
+                'status'     => DatabaseRowTranslation::STATUS_COMPLETED,
                 'original'   => 1
             );
             
@@ -183,7 +183,7 @@ class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAb
                 {
                     // Insert item into translations table.
                     $translation['iso_code'] = $language->iso_code;
-                    $translation['status']   = LanguagesDatabaseRowTranslation::STATUS_MISSING;
+                    $translation['status']   = DatabaseRowTranslation::STATUS_MISSING;
                     $translation['original'] = 0;
                     
                     $this->getService('com://admin/languages.database.row.translation')
@@ -221,7 +221,7 @@ class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAb
             ), Framework\Database::FETCH_ROW);
         
         $translation->setData(array(
-            'status' => LanguagesDatabaseRowTranslation::STATUS_COMPLETED
+            'status' => DatabaseRowTranslation::STATUS_COMPLETED
         ))->save();
         
         // Set the other items to outdated if they were completed before.
@@ -234,13 +234,13 @@ class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAb
                 'iso_code' => $active->iso_code,
                 'table' => $context->table,
                 'row' => $context->data->id,
-                'status' => LanguagesDatabaseRowTranslation::STATUS_COMPLETED
+                'status' => DatabaseRowTranslation::STATUS_COMPLETED
             ));
         
         $translations = $this->getService('com://admin/languages.database.table.translations')
             ->select($query);
         
-        $translations->status = LanguagesDatabaseRowTranslation::STATUS_OUTDATED;
+        $translations->status = DatabaseRowTranslation::STATUS_OUTDATED;
         $translations->save();
         
         // Copy the item's data to all missing translations.
@@ -251,7 +251,7 @@ class LanguagesDatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAb
             ->where($table->unique_column.' = :unique')
             ->bind(array('unique' => $context->data->id));
         
-        $query->bind(array('status' => LanguagesDatabaseRowTranslation::STATUS_MISSING));
+        $query->bind(array('status' => DatabaseRowTranslation::STATUS_MISSING));
         $translations = $this->getService('com://admin/languages.database.table.translations')
             ->select($query);
         

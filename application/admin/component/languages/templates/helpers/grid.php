@@ -8,6 +8,7 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Languages;
 
 /**
  * Languages Template Helper Grid Class
@@ -29,9 +30,9 @@ class LanguagesTemplateHelperGrid extends Framework\TemplateHelperGrid
         ));
     
         $statuses = array(
-            LanguagesDatabaseRowTranslation::STATUS_COMPLETED => 'Completed',
-            LanguagesDatabaseRowTranslation::STATUS_MISSING   => 'Missing',
-            LanguagesDatabaseRowTranslation::STATUS_OUTDATED  => 'Outdated'
+            DatabaseRowTranslation::STATUS_COMPLETED => 'Completed',
+            DatabaseRowTranslation::STATUS_MISSING   => 'Missing',
+            DatabaseRowTranslation::STATUS_OUTDATED  => 'Outdated'
         );
         
         $text  = $config->original ? 'Original' : $statuses[$config->status];

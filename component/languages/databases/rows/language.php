@@ -1,23 +1,23 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Languages
- * @copyright   Copyright (C) 2011 Timble CVBA and Contributors. (http://www.timble.net).
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
  */
+
+namespace Nooku\Component\Languages;
 
 use Nooku\Framework;
 
 /**
- * Language Database Row Class
+ * Language Database Row
  *
- * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @package     Nooku_Server
- * @subpackage  Languages
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Component\Languages
  */
-
-class LanguagesDatabaseRowLanguage extends Framework\DatabaseRowTable
+class DatabaseRowLanguage extends Framework\DatabaseRowTable
 {
     public function save()
     {
@@ -48,21 +48,21 @@ class LanguagesDatabaseRowLanguage extends Framework\DatabaseRowTable
 
                 // Add items to the translations table.
                 $columns = array(
-                    'iso_code' => ':iso_code',
-                    'table' => ':table',
-                    'row' => 'tbl.'.$table->unique_column,
-                    'status' => ':status',
-                    'original' => ':original'
+                    'iso_code'  => ':iso_code',
+                    'table'     => ':table',
+                    'row'       => 'tbl.'.$table->unique_column,
+                    'status'    => ':status',
+                    'original'  => ':original'
                 );
                 
                 $select = $this->getService('lib://nooku/database.query.select')
                     ->columns($columns)
                     ->table(array('tbl' => $table_name))
                     ->bind(array(
-                        'iso_code' => $this->iso_code,
-                        'table' => $table->name,
-                        'status' => LanguagesDatabaseRowTranslation::STATUS_MISSING,
-                        'original' => 0
+                        'iso_code'  => $this->iso_code,
+                        'table'     => $table->name,
+                        'status'    => DatabaseRowTranslation::STATUS_MISSING,
+                        'original'  => 0
                     ));
                 
                 $insert = $this->getService('lib://nooku/database.query.insert')
