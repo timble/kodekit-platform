@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package       Nooku_Server
  * @subpackage    Search
  */
-class ArticlesModuleSearchHtml extends BaseModuleDefaultHtml
+class ArticlesModuleSearchHtml extends PagesModuleDefaultHtml
 {
     public function render()
     {

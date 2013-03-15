@@ -8,16 +8,17 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Pages;
 
 /**
- * Module Template Helper Class
+ * Module Template Helper
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Application
  */
 
-class ApplicationTemplateHelperModule extends PagesTemplateHelperModule
+class ApplicationTemplateHelperModule extends Pages\TemplateHelperModule
 {
     protected function _initialize(Framework\Config $config)
     {

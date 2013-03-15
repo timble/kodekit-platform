@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesModuleArticlesHtml extends BaseModuleDefaultHtml
+class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
 {
     /**
      * Renders the views output

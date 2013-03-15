@@ -8,6 +8,7 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Pages;
 
 /**
  * Module Template Filter Class
@@ -16,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationTemplateFilterModule extends PagesTemplateFilterModule
+class ApplicationTemplateFilterModule extends Pages\TemplateFilterModule
 {
     protected function _initialize(Framework\Config $config)
     {
