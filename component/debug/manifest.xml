@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install type="component" version="1.0.0">
+<manifest type="component" version="1.0.0">
 	<name>Debug</name>
     <version>13.1</version>
     <date>March 2013</date>
@@ -11,4 +11,4 @@
     <copyright>Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
     <license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
 	<description>This component provides a debug console</description>
-</install>
+</manifest>
