@@ -75,7 +75,16 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $this->mixin(new MixinCommand($config->append(array('mixer' => $this))));
 
         //Attach the filters
-        $this->attachFilter($config->filters);
+        $filters = (array)Config::unbox($config->filters);
+
+        foreach ($filters as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->attachFilter($value);
+            } else {
+                $this->attachFilter($key, $value);
+            }
+        }
 
         //Reset the counter
         $this->_stack = array();
@@ -332,22 +341,19 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Attach one or more filters for template transformation
      *
-     * @param array $filters Array of one or more behaviors to add.
+     * @param   mixed  $filter An object that implements ServiceInterface, ServiceIdentifier object
+     *                         or valid identifier string
+     * @param   array $config  An optional associative array of configuration settings
      * @return TemplateAbstract
      */
-    public function attachFilter($filters)
+    public function attachFilter($filter, $config = array())
     {
-        $filters = (array)Config::unbox($filters);
-
-        foreach ($filters as $filter)
-        {
-            if (!($filter instanceof TemplateFilterInterface)) {
-                $filter = $this->getFilter($filter);
-            }
-
-            //Enqueue the filter in the command chain
-            $this->getCommandChain()->enqueue($filter);
+        if (!($filter instanceof TemplateFilterInterface)) {
+            $filter = $this->getFilter($filter, $config);
         }
+
+        //Enqueue the filter in the command chain
+        $this->getCommandChain()->enqueue($filter);
 
         return $this;
     }

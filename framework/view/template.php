@@ -89,9 +89,16 @@ abstract class ViewTemplate extends ViewAbstract
         //Set the template object
         $this->_template = $config->template;
 
-        //Set the template filters
-        if (!empty($config->template_filters)) {
-            $this->getTemplate()->attachFilter($config->template_filters);
+        //Attach the template filters
+        $filters = (array)Config::unbox($config->template_filters);
+
+        foreach ($filters as $key => $value)
+        {
+            if (is_numeric($key)) {
+                $this->getTemplate()->attachFilter($value);
+            } else {
+                $this->getTemplate()->attachFilter($key, $value);
+            }
         }
 
         //Add alias filter for media:// namespaced

@@ -99,10 +99,12 @@ interface TemplateInterface
     /**
      * Attach one or more filters for template transformation
      *
-     * @param array $filters Array of one or more behaviors to add.
+     * @param   mixed  $filter An object that implements ServiceInterface, ServiceIdentifier object
+     *                         or valid identifier string
+     * @param   array $config  An optional associative array of configuration settings
      * @return TemplateAbstract
      */
-    public function attachFilter($filters);
+    public function attachFilter($filter, $config = array());
 
     /**
      * Get a template helper
