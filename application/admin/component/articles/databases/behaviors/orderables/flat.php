@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Component\Pages;
+
 /**
  * Orderable Database Behavior Class
  *
@@ -15,7 +17,7 @@
  * @subpackage  Articles
  */
 
-class ArticlesDatabaseBehaviorOrderableFlat extends PagesDatabaseBehaviorOrderableFlat
+class ArticlesDatabaseBehaviorOrderableFlat extends Pages\DatabaseBehaviorOrderableFlat
 {
     public function _buildQuery($query)
     {

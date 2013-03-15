@@ -8,6 +8,7 @@
  */
 
 use Nooku\Framework;
+use Nooku\Component\Pages;
 
 /**
  * Orderable Database Behavior Class
@@ -18,7 +19,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ArticlesDatabaseBehaviorOrderable extends PagesDatabaseBehaviorOrderable
+class ArticlesDatabaseBehaviorOrderable extends Pages\DatabaseBehaviorOrderable
 {
     //@TODO this is to make the customized query work
 }
