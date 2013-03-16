@@ -14,7 +14,7 @@ use Nooku\Framework;
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  */
-class ExtensionsiewSettingsHtml extends \BaseViewHtml
+class ExtensionsViewSettingsHtml extends \BaseViewHtml
 {
     public function render()
     {
