@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class UsersModelUsers extends Framework\ModelTable
+class ModelUsers extends Framework\ModelTable
 {
     /**
      * Constructor.
