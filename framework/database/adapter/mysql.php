@@ -123,7 +123,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     public function connect()
     {
         $options = $this->_options;
-        $dsn     = 'mysql:dbname='.$options->database.';host='.$options->host;
+        $dsn     = 'mysql:dbname='.$options->database;
 
         if($options->host)
         {
