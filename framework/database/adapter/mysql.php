@@ -123,7 +123,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
     public function connect()
     {
         $options = $this->_options;
-        $dsn     = 'mysql:dbname='.$options->database;
+        $dsn     = 'mysql:dbname='.$options->database.';charset=utf8';
 
         if($options->host)
         {
@@ -138,8 +138,7 @@ class KDatabaseAdapterMysql extends KDatabaseAdapterAbstract
         }
 
         $dbh = new PDO($dsn, $options->username, $options->password, array(
-            PDO::ATTR_PERSISTENT         => true,
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+            PDO::ATTR_PERSISTENT => true,
         ));
 
         $this->_connection = $dbh;
