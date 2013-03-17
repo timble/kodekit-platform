@@ -24,7 +24,7 @@ class DatabaseTableModules extends Framework\DatabaseTableDefault
         $config->append(array(
             'behaviors'  => array(
                 'creatable', 'modifiable', 'lockable',
-                'com://admin/pages.database.behavior.orderable' => array('strategy' => 'flat')
+                'com:pages.database.behavior.orderable' => array('strategy' => 'flat')
             ),
             'filters' => array(
                 'content' => array('html', 'tidy'),

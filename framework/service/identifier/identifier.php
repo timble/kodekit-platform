@@ -11,7 +11,7 @@ namespace Nooku\Framework;
 /**
  * Service Identifier
  *
- * Wraps identifiers of the form type://namespace/package.[.path].name in an object, providing public accessors
+ * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors
  * and methods for derived formats.
  *
  * @author      Johan Janssens <johan@nooku.org>
@@ -20,13 +20,6 @@ namespace Nooku\Framework;
  */
 class ServiceIdentifier implements ServiceIdentifierInterface
 {
-    /**
-     * An associative array of namespace paths
-     *
-     * @var array
-     */
-    protected static $_namespaces = array();
-
     /**
      * Associative array of identifier adapters
      *
@@ -40,13 +33,6 @@ class ServiceIdentifier implements ServiceIdentifierInterface
      * @var string
      */
     protected $_identifier = '';
-
-    /**
-     * The namespace
-     *
-     * @var string
-     */
-    protected $_namespace = '';
 
     /**
      * The identifier type [com|lib]
@@ -91,13 +77,6 @@ class ServiceIdentifier implements ServiceIdentifierInterface
     protected $_classname = '';
 
     /**
-     * The base path
-     *
-     * @var string
-     */
-    protected $_basepath = '';
-
-    /**
      * Constructor
      *
      * @param   string   $identifier Identifier string or object in type://namespace/package.[.path].name format
@@ -117,11 +96,6 @@ class ServiceIdentifier implements ServiceIdentifierInterface
 
         // Set the type
         $this->type = $parts['scheme'];
-
-        //Set the namespace
-        if(isset($parts['host'])) {
-            $this->namespace = $parts['host'];
-        }
 
         // Set the path
         $this->_path = trim($parts['path'], '/');
@@ -147,13 +121,11 @@ class ServiceIdentifier implements ServiceIdentifierInterface
 	public function serialize()
 	{
         $data = array(
-            'namespace'   => $this->_namespace,
             'type'		  => $this->_type,
             'package'	  => $this->_package,
             'path'		  => $this->_path,
             'name'		  => $this->_name,
             'identifier'  => $this->_identifier,
-            'basepath'    => $this->_basepath,
             'filepath'	  => $this->filepath,
             'classname'   => $this->classname,
         );
@@ -176,42 +148,9 @@ class ServiceIdentifier implements ServiceIdentifierInterface
 	}
 
 	/**
-	 * Set an namespace path
-	 *
-	 * @param string $namespace The name of the namespace
-	 * @param string $path      The path of the namespace
-	 * @return void
-     */
-    public static function setNamespace($namespace, $path)
-    {
-        self::$_namespaces[$namespace] = $path;
-    }
-
-	/**
-	 * Get an namespace path
-	 *
-	 * @param string $namespace The name of the namespace
-	 * @return string The path of the namespace
-     */
-    public static function getNamespace($namespace)
-    {
-        return isset(self::$_namespaces[$namespace]) ? self::$_namespaces[$namespace] : null;
-    }
-
-	/**
-     * Get a list of namespaces
-     *
-     * @return array
-     */
-    public static function getNamespaces()
-    {
-        return self::$_namespaces;
-    }
-
-	/**
      * Add a service locator
      *
-     * @param KServiceLocatorInterface $locator  A ServiceLocator
+     * @param ServiceLocatorInterface $locator  A ServiceLocator
      * @return void
      */
     public static function addLocator(ServiceLocatorInterface $locator)
@@ -248,16 +187,6 @@ class ServiceIdentifier implements ServiceIdentifierInterface
                 if(is_scalar($value)) {
                      $value = (array) $value;
                 }
-            }
-
-            //Set the basepath
-            if($property == 'namespace')
-            {
-               if(!isset(self::$_namespaces[$value])) {
-                    throw new \DomainException('Unknow namespace : '.$value);
-               }
-
-               $this->_basepath = self::$_namespaces[$value];
             }
 
             //Set the type
@@ -319,7 +248,7 @@ class ServiceIdentifier implements ServiceIdentifierInterface
     }
 
     /**
-     * Formats the indentifier as a type://namespace/package.[.path].name string
+     * Formats the identifier as a type://package.[.path].name string
      *
      * @return string
      */
@@ -327,15 +256,8 @@ class ServiceIdentifier implements ServiceIdentifierInterface
     {
         if($this->_identifier == '')
         {
-            if(!empty($this->_type)) {
-                $this->_identifier .= $this->_type;
-            }
-
-            if(!empty($this->_namespace)) {
-                $this->_identifier .= '://'.$this->_namespace.'/';
-            } else {
-                $this->_identifier .= ':';
-            }
+            $this->_identifier .= $this->_type;
+            $this->_identifier .= ':';
 
             if(!empty($this->_package)) {
                 $this->_identifier .= $this->_package;

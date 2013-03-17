@@ -8,7 +8,7 @@ class ArticlesControllerAttachment extends AttachmentsControllerAttachment
     {
         parent::__construct($config);
 
-        $this->getModel()->getTable()->attachBehavior('com://admin/articles.database.behavior.assignable');
+        $this->getModel()->getTable()->attachBehavior('com:articles.database.behavior.assignable');
 
         $this->registerCallback(array('after.edit', 'after.delete'), array($this, 'setRedirect'));
     }
@@ -16,7 +16,7 @@ class ArticlesControllerAttachment extends AttachmentsControllerAttachment
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'model'   => 'com://admin/attachments.model.attachments',
+            'model'   => 'com:attachments.model.attachments',
             'request' => array(
                 'view' => 'attachment'
             )

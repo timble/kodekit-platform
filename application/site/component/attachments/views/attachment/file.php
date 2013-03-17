@@ -9,7 +9,7 @@ class AttachmentsViewAttachmentFile extends Framework\ViewFile
 		$item = $this->getModel()->getRow();
     	$state = $this->getModel()->getState();
     	
-    	$container = $this->getService('com://admin/files.model.containers')
+    	$container = $this->getService('com:files.model.containers')
     		->slug($item->container)
     		->getRow();
 

@@ -18,6 +18,6 @@
 <div class="sidebar">
     <div class="mod_users">
     	<h3><?= @text('Logged in Users'); ?></h3>
-    	<?= @service('com://admin/users.controller.user')->layout('list')->limit(10)->loggedin(true)->render(); ?>
+    	<?= @service('com:users.controller.user')->layout('list')->limit(10)->loggedin(true)->render(); ?>
     </div>
 </div>

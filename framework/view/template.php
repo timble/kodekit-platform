@@ -69,7 +69,7 @@ abstract class ViewTemplate extends ViewAbstract
 
         //Set the media url
         if (!$config->media_url instanceof HttpUrlInterface) {
-            $this->_mediaurl = $this->getService('lib://nooku/http.url', array('url' => $config->media_url));
+            $this->_mediaurl = $this->getService('lib:http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
         }

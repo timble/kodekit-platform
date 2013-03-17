@@ -17,4 +17,4 @@
 
 use Nooku\Framework\ServiceManager;
 
-ServiceManager::setAlias('com://site/weblinks.model.categories', 'com://site/categories.model.categories');;
+ServiceManager::setAlias('com:weblinks.model.categories', 'com:categories.model.categories');;

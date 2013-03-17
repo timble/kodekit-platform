@@ -31,7 +31,7 @@ class ControllerBehaviorTaggable extends Framework\BehaviorAbstract
         // Remove all existing relations
         if($row->id && $row->getTable()->getBase())
         {
-            $rows = $this->getService('com://admin/terms.model.relations')
+            $rows = $this->getService('com:terms.model.relations')
                 ->row($row->id)
                 ->table($table)
                 ->getRowset();
@@ -42,7 +42,7 @@ class ControllerBehaviorTaggable extends Framework\BehaviorAbstract
         // Save terms as relations
 		foreach ($row->terms as $term)
         {
-			$relation = $this->getService('com://admin/terms.database.row.relation');
+			$relation = $this->getService('com:terms.database.row.relation');
             $relation->terms_term_id = $term;
             $relation->row		     = $row->id;
             $relation->table		 = $table;
@@ -76,7 +76,7 @@ class ControllerBehaviorTaggable extends Framework\BehaviorAbstract
 
             if(!empty($id) && $id != 0)
             {
-                $rows = $this->getService('com://admin/terms.model.relations')
+                $rows = $this->getService('com:terms.model.relations')
                     ->row($id)
                     ->table($table)
                     ->getRowset();

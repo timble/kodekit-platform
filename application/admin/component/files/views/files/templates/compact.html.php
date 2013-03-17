@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @template('com://admin/files.views.files.initialize.html'); ?>
+<?= @template('com:files.views.files.initialize.html'); ?>
 
 <script src="media://files/js/files.compact.js" />
 
@@ -90,7 +90,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<?= @template('com://admin/files.view.files.templates_compact.html');?>
+<?= @template('com:files.view.files.templates_compact.html');?>
 
 <div id="files-compact">
 	<?=	@helper('tabs.startPane', array('id' => 'pane_insert')); ?>
@@ -117,7 +117,7 @@ window.addEvent('domready', function() {
 	<?= @helper('tabs.endPanel'); ?>
 	<?= @helper('tabs.startPanel', array('title' => @text('Upload'))); ?>
 
-		<?= @template('com://admin/files.view.files.uploader.html'); ?>
+		<?= @template('com:files.view.files.uploader.html'); ?>
 
 	<?= @helper('tabs.endPanel'); ?>
 	<?= @helper('tabs.endPane'); ?>

@@ -27,10 +27,10 @@ class FilesViewDirectoryHtml extends Framework\ViewHtml
 		$page 	= $this->getService('application.pages')->getActive();
 		$params = new JParameter($page->params);
 
-		$data   = $this->getService('lib://nooku/controller.request', array(
+		$data   = $this->getService('lib:controller.request', array(
 			'query' => array('container' => $state->container, 'folder' => $state->folder, 'name' => $state->name)
 		));
-		$folder = $this->getService('com://admin/files.controller.folder', array(
+		$folder = $this->getService('com:files.controller.folder', array(
 			'request' => $data
 		))->read();
 
@@ -53,7 +53,7 @@ class FilesViewDirectoryHtml extends Framework\ViewHtml
 			$request['types'] = array('image');
 		}
 		
-		$request = $this->getService('lib://nooku/controller.request', array(
+		$request = $this->getService('lib:controller.request', array(
 			'query' => $request
 		));
 
@@ -64,14 +64,14 @@ class FilesViewDirectoryHtml extends Framework\ViewHtml
 			$clone->query['limit'] = 0;
 			$clone->query['offset'] = 0;
 
-			$folders = $this->getService('com://admin/files.controller.folder', array(
+			$folders = $this->getService('com:files.controller.folder', array(
 				'request' => $clone
 			))->browse();
 		}
 		
 		$request->query->set('thumbnails', true);
 
-		$file_controller = $this->getService('com://admin/files.controller.file', array(
+		$file_controller = $this->getService('com:files.controller.file', array(
 			'request' => $request
 		));
 

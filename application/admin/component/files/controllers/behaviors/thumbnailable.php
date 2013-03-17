@@ -32,9 +32,9 @@ class FilesControllerBehaviorThumbnailable extends Framework\ControllerBehaviorA
 			}
 		}
 		
-		$folder = $context->request->query->get('folder', 'com://admin/files.filter.path');
-		$thumbnails = $this->getService('com://admin/files.controller.thumbnail', array(
-			'request' => $this->getService('lib://nooku/controller.request', array(
+		$folder = $context->request->query->get('folder', 'com:files.filter.path');
+		$thumbnails = $this->getService('com:files.controller.thumbnail', array(
+			'request' => $this->getService('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->getModel()->container,
 					'folder' => $folder,

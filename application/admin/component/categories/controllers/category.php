@@ -21,14 +21,14 @@ abstract class CategoriesControllerCategory extends BaseControllerModel
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-        	'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
-            'model'     => 'com://admin/categories.model.categories'
+        	'behaviors' => array('com:activities.controller.behavior.loggable'),
+            'model'     => 'com:categories.model.categories'
         ));
         
         parent::_initialize($config);
         
         //Force the toolbars
-        $config->toolbars = array('menubar', 'com://admin/categories.controller.toolbar.category');
+        $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
     
     protected function _actionRender(Framework\CommandContext $context)

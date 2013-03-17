@@ -35,7 +35,7 @@ class ContactsControllerMessage extends Framework\ControllerView
         $mail_from   = $application->getCfg('mailfrom');
         $from_name   = $application->getCfg('fromname');
 
-        $email_to = $this->getService('com://admin/contacts.model.contacts')
+        $email_to = $this->getService('com:contacts.model.contacts')
             ->id($context->request->query->get('id', 'int'))
             ->getRow()
             ->email_to;

@@ -36,7 +36,7 @@ class ModuleDynamicHtml extends ModuleDefaultHtml implements Framework\ServiceIn
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome))
         {
-            $this->getTemplate()->attachFilter('com://admin/pages.template.filter.chrome', array(
+            $this->getTemplate()->attachFilter('com:pages.template.filter.chrome', array(
                 'module' => $this->getIdentifier(),
                 'styles' => $this->module->chrome
             ));

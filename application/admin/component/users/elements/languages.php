@@ -34,7 +34,7 @@ class JElementLanguages extends JElement
 
 		jimport('joomla.language.helper');
 
-        return  Framework\ServiceManager::get('com://admin/users.template.helper.listbox')->languages(array(
+        return  Framework\ServiceManager::get('com:users.template.helper.listbox')->languages(array(
             'selected'    => $value,
             'application' => $node->attributes('client'),
             'name'        => $control_name . '[' . $name . ']'));

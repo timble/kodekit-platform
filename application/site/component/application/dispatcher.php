@@ -94,8 +94,8 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     {
         $config->append(array(
             'base_url'          => '/',
-            'event_dispatcher'  => 'com://admin/debug.event.dispatcher.debug',
-            'event_subscribers' => array('com://site/application.event.subscriber.unauthorized'),
+            'event_dispatcher'  => 'com:debug.event.dispatcher.debug',
+            'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
             'site'      => null,
             'options'   => array(
                 'session_name' => 'site',
@@ -242,7 +242,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
             //Render the page
             $config = array('response' => $context->response);
 
-            $this->getService('com://site/application.controller.page', $config)
+            $this->getService('com:application.controller.page', $config)
                   ->layout($context->request->query->get('tmpl', 'cmd', 'default'))
                   ->render();
         }
@@ -270,7 +270,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
         $config = array('request'  => $this->getRequest());
         $config = array('response' => $this->getResponse());
 
-        $this->getService('com://admin/application.controller.exception',  $config)
+        $this->getService('com:application.controller.exception',  $config)
             ->render($context->param->getException());
 
         //Send the response
@@ -286,7 +286,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     public function loadConfig(Framework\CommandContext $context)
     {
         // Check if the site exists
-        if($this->getService('com://admin/sites.model.sites')->getRowset()->find($this->getSite()))
+        if($this->getService('com:sites.model.sites')->getRowset()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->_options->toArray());
@@ -323,7 +323,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
         $session->setLifetime($this->getCfg('lifetime', 15) * 60);
 
         //Set Session Handler
-        $session->setHandler('database', array('table' => 'com://admin/users.database.table.sessions'));
+        $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
 
         //Set Session Options
         $session->setOptions(array(
@@ -343,7 +343,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
         if($context->user->isAuthentic() && ($session->site != $this->getSite()))
         {
             //@TODO : Fix this
-            //if(!$this->getService('com://admin/users.controller.session')->add()) {
+            //if(!$this->getService('com:users.controller.session')->add()) {
             //    $session->destroy();
             //}
         }
@@ -397,7 +397,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
      */
     public function getRouter(array $options = array())
     {
-        $router = $this->getService('com://site/application.router', $options);
+        $router = $this->getService('com:application.router', $options);
         return $router;
     }
 
@@ -590,7 +590,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
         $uri  = clone(JURI::getInstance());
 
         $host = $uri->getHost();
-        if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($host))
+        if(!$this->getService('com:sites.model.sites')->getRowset()->find($host))
         {
             // Check folder
             $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -602,7 +602,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
             }
 
             //Check if the site can be found, otherwise use 'default'
-            if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($site)) {
+            if(!$this->getService('com:sites.model.sites')->getRowset()->find($site)) {
                 $site = 'default';
             }
 

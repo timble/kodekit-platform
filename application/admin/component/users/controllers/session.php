@@ -43,7 +43,7 @@ class UsersControllerSession extends BaseControllerModel
     {
         $config->append(array(
             'behaviors' => array(
-                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
+                'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));
 
@@ -57,7 +57,7 @@ class UsersControllerSession extends BaseControllerModel
 
         if(isset($email))
         {
-            $user = $this->getService('com://admin/users.model.users')->email($email)->getRow();
+            $user = $this->getService('com:users.model.users')->email($email)->getRow();
 
             //Authenticate the user
             if($user->id)
@@ -124,7 +124,7 @@ class UsersControllerSession extends BaseControllerModel
             'email'       => $context->user->getEmail(),
             'data'        => '',
             'time'        => time(),
-            'application' => $this->getIdentifier()->namespace,
+            'application' => 'admin',
             'name'        => $context->user->getName()
         );
 
@@ -145,7 +145,7 @@ class UsersControllerSession extends BaseControllerModel
     protected function _actionDelete(Framework\CommandContext $context)
     {
         //Force logout from site and administrator
-        $context->request->query->application = array_keys($this->getIdentifier()->getNamespaces());
+        $context->request->query->application = array_keys('site', 'admin');
 
         //Remove the session from the session store
         $entity = parent::_actionDelete($context);

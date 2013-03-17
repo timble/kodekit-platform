@@ -61,9 +61,8 @@ class BaseControllerToolbarMenubar extends Framework\ControllerToolbarAbstract
 	{
 	    $name     = $this->getController()->getIdentifier()->name;
 	    $package  = $this->getIdentifier()->package;
-        $application = $this->getIdentifier()->namespace;
 
-        $path  = $this->getIdentifier()->getNamespace($application);
+        $path  = $this->getService('loader')->getApplication('admin');
 	    $path .= '/component/'.$package.'/manifest.xml';
 
 	    if(file_exists($path))

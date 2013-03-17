@@ -33,7 +33,7 @@ class AdapterLocalIterator extends Framework\Object
 
 	public function getNodes(array $config = array())
 	{
-		$config['path'] = $this->getService('com://admin/files.adapter.local.folder',
+		$config['path'] = $this->getService('com:files.adapter.local.folder',
 					array('path' => $config['path']))->getRealPath();
 
 		try {

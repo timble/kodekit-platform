@@ -112,14 +112,14 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'command_chain'     => 'lib://nooku/command.chain',
+            'command_chain'     => 'lib:command.chain',
             'dispatch_events'   => true,
-            'event_dispatcher'  => 'lib://nooku/event.dispatcher.default',
+            'event_dispatcher'  => 'lib:event.dispatcher.default',
             'enable_callbacks'  => true,
             'dispatched'        => false,
-            'request'           => 'lib://nooku/controller.request',
-            'response'          => 'lib://nooku/controller.response',
-            'user'              => 'lib://nooku/controller.user',
+            'request'           => 'lib:controller.request',
+            'response'          => 'lib:controller.response',
+            'user'              => 'lib:controller.user',
         ));
 
         parent::_initialize($config);

@@ -36,11 +36,18 @@ class Loader
     protected $_aliases = array();
 
     /**
+     * List of applications
+     *
+     * @var array
+     */
+    protected $_applications = array();
+
+    /**
      * Namespace map
      *
      * @var array
      */
-    protected $_namespace_map = array();
+    protected $_namespaces = array();
 
     /**
      * Constructor
@@ -63,6 +70,7 @@ class Loader
         //Register the framework adapter
         $loader = new LoaderAdapterLibrary();
         $loader->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
+
         $this->addAdapter($loader);
 
         //Auto register the loader
@@ -127,10 +135,10 @@ class Loader
     public function addAdapter(LoaderAdapterInterface $adapter)
     {
         foreach($adapter->getNamespaces() as $namespace => $path) {
-            $this->_namespace_map[$namespace] = $adapter;
+            $this->_namespaces[$namespace] = $adapter;
         }
 
-        krsort($this->_namespace_map, SORT_STRING);
+        krsort($this->_namespaces, SORT_STRING);
     }
 
     /**
@@ -169,10 +177,42 @@ class Loader
     }
 
     /**
+     * Add an application
+     *
+     * @param string $name The name of the application
+     * @param string $path The path of the application
+     * @return void
+     */
+    public function addApplication($name, $path)
+    {
+        $this->_applications[$name] = $path;
+    }
+
+    /**
+     * Get an application path
+     *
+     * @param string $name The name of the application
+     * @return string The path of the application
+     */
+    public function getApplication($name)
+    {
+        return isset($this->_applications[$name]) ? $this->_applications[$name] : null;
+    }
+
+    /**
+     * Get a list of applications
+     *
+     * @return array
+     */
+    public function getApplications()
+    {
+        return $this->_applications;
+    }
+
+    /**
      * Load a class based on a class name
      *
      * @param string    $class    The class name
-     * @param string    $basepath The basepath
      * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
     public function loadClass($class, $basepath = null)
@@ -180,8 +220,7 @@ class Loader
         $result = false;
 
         //Pre-empt further searching for the named class or interface.
-        //Do not use autoload, because this method is registered with
-        //spl_autoload already.
+        //Do not use autoload, because this method is registered with spl_autoload already.
         if (!class_exists($class, false) && !interface_exists($class, false))
         {
             //Get the path
@@ -244,27 +283,21 @@ class Loader
     /**
      * Get the path based on a class name
      *
-     * @param string $class    The class name
-     * @param string $basepath The basepath
-     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
+     * @param   string $class   The class name
+     * @return  string|false    Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function findPath($class, $basepath = null)
+    public function findPath($class)
     {
-        static $base;
+        $result = false;
 
-        //Switch the base
-        $base = $basepath ? $basepath : $base;
-
-        if(!$this->_registry->offsetExists($base.'-'.(string) $class))
+        if(!$this->_registry->offsetExists($class))
         {
-            $result = false;
-
             //Find the adapter
-            foreach($this->_namespace_map as $namespace => $adapter)
+            foreach($this->_namespaces as $namespace => $adapter)
             {
                 if(strpos('\\'.$class, $namespace) === 0)
                 {
-                    $result = $adapter->findPath( $class, $basepath);
+                    $result = $adapter->findPath($class);
                     break;
                 }
             }
@@ -273,11 +306,11 @@ class Loader
             {
                 //Get the canonicalized absolute pathname
                 if($result = realpath($result)) {
-                    $this->_registry->offsetSet($base.'-'.(string) $class, $result);
+                    $this->_registry->offsetSet($class, $result);
                 }
             }
         }
-        else $result = $this->_registry->offsetGet($base.'-'.(string)$class);
+        else $result = $this->_registry->offsetGet($class);
 
         return $result;
     }

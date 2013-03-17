@@ -24,7 +24,7 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
 		if ($config->validator !== false)
 		{
 			if ($config->validator === true) {
-				$config->validator = 'com://admin/files.command.validator.'.$this->getIdentifier()->name;
+				$config->validator = 'com:files.command.validator.'.$this->getIdentifier()->name;
 			}
 
 			$this->getCommandChain()->enqueue($this->getService($config->validator));
@@ -34,9 +34,9 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
 	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
-			'command_chain'     => $this->getService('lib://nooku/command.chain'),
+			'command_chain'     => $this->getService('lib:command.chain'),
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getService('lib://nooku/event.dispatcher.default'),
+			'event_dispatcher'  => $this->getService('lib:event.dispatcher.default'),
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));

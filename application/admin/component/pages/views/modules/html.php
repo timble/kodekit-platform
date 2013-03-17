@@ -25,7 +25,7 @@ class PagesViewModulesHtml extends BaseViewHtml
 		{
 		    foreach($this->getModel()->getRowset() as $module)
 		    {
-                $path = $this->getIdentifier()->getNamespace($module->application);
+                $path = $this->getService('loader')->getApplication($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
 		} 

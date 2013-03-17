@@ -75,7 +75,7 @@ class CommandChain extends ObjectQueue implements CommandChainInterface
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'stack'     => $this->getService('lib://nooku/object.stack'),
+            'stack'     => $this->getService('lib:object.stack'),
             'context'   => new CommandContext(),
             'enabled'   => true,
             'break_condition' => false,

@@ -26,7 +26,7 @@ class ApplicationDatabaseRowsetPages extends Framework\DatabaseRowsetAbstract im
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $pages = $this->getService('com://admin/pages.model.pages')
+        $pages = $this->getService('com:pages.model.pages')
             ->published(true)
             ->application('site')
             ->getRowset();

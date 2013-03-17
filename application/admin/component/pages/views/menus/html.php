@@ -20,7 +20,7 @@ class PagesViewMenusHtml extends BaseViewHtml
 {
     public function render()
     {
-        $this->applications = array_keys($this->getIdentifier()->getNamespaces());
+        $this->applications = array_keys($this->getService('loader')->getApplications());
         return parent::render();
     }
 }

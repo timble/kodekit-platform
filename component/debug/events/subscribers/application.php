@@ -25,10 +25,10 @@ class EventSubscriberApplication extends Framework\EventSubscriberAbstract
 	    if($this->getService('application')->getCfg('debug'))
 	    {
 	        //Replace the event dispatcher
-	        $this->getService()->setAlias('lib://nooku/event.dispatcher.default', 'com://admin/debug.event.profiler');
+	        $this->getService()->setAlias('lib:event.dispatcher.default', 'com:debug.event.profiler');
 	          
 	        //Add the database tracer
-	        $this->getService('application.database')->addEventSubscriber('com://admin/debug.event.subscriber.database');
+	        $this->getService('application.database')->addEventSubscriber('com:debug.event.subscriber.database');
 		}
 		
 		parent::__construct($config);

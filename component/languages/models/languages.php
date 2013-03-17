@@ -27,7 +27,7 @@ class ModelLanguages extends Framework\ModelTable
             ->insert('primary', 'boolean')
             ->insert('enabled', 'boolean')
             ->insert('application', 'word', 'admin', true, array('iso_code'))
-            ->insert('iso_code', 'com://admin/languages.filter.iso', null, true, array('application'));
+            ->insert('iso_code', 'com:languages.filter.iso', null, true, array('application'));
     }
 
     protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)

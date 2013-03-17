@@ -21,6 +21,6 @@ class CommandValidatorFolder extends CommandValidatorNode
 {
 	protected function _databaseBeforeSave($context)
 	{
-		return parent::_databaseBeforeSave($context) && $this->getService('com://admin/files.filter.folder.uploadable')->validate($context);
+		return parent::_databaseBeforeSave($context) && $this->getService('com:files.filter.folder.uploadable')->validate($context);
 	}
 }

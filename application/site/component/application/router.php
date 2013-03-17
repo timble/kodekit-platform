@@ -131,7 +131,7 @@ class ApplicationRouter extends Framework\DispatcherRouter
             if(!empty($route))
             {
                 //Get the router identifier
-                $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
+                $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
                 //Parse the view route
                 $query = $this->getService($identifier)->parseRoute($route);
@@ -174,7 +174,7 @@ class ApplicationRouter extends Framework\DispatcherRouter
         $segments = array();
 
         //Get the router identifier
-        $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
+        $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
         //Build the view route
         $segments = $this->getService($identifier)->buildRoute($url->query);

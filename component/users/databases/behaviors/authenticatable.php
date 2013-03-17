@@ -51,7 +51,7 @@ class DatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
         {
             // Generate a random password
             $params         = $this->getService('application.components')->users->params;
-            $password       = $this->getService('com://admin/users.database.row.password');
+            $password       = $this->getService('com:users.database.row.password');
             $data->password = $password->getRandom($params->get('password_length', 6));
 
             // Set the password row for reset
@@ -99,7 +99,7 @@ class DatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
 
         if (!$this->isNew())
         {
-            $password = $this->getService('com://admin/users.database.row.password')
+            $password = $this->getService('com:users.database.row.password')
                 ->set('id', $this->email);
             $password->load();
         }

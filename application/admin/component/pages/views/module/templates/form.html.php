@@ -11,7 +11,7 @@
 <script src="media://koowa/js/koowa.js" />
 <?= @helper('behavior.validator') ?>
 
-<?= @template('com://admin/base.view.form.toolbar.html') ?>
+<?= @template('com:base.view.form.toolbar.html') ?>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />
@@ -63,7 +63,7 @@
 			<? if($module->name == 'mod_custom') : ?>
 			<fieldset>
 				<legend><?= @text('Custom Output') ?></legend>
-				<?= @service('com://admin/wysiwyg.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
+				<?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
 			</fieldset>
 			<? endif ?>
 		</div>

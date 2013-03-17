@@ -20,8 +20,8 @@ class PagesViewPagesHtml extends BaseViewHtml
 {
     public function render()
     {
-        $this->applications = array_keys($this->getIdentifier()->getNamespaces());
-        $this->menus        = $this->getService('com://admin/pages.model.menus')->getRowset();
+        $this->applications = array_keys($this->getService('loader')->getApplications());
+        $this->menus        = $this->getService('com:pages.model.menus')->getRowset();
         
         return parent::render();
     }

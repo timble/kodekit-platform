@@ -61,7 +61,7 @@ class MixinCommand extends MixinAbstract
         { 
             $this->_mixer->mixin(new MixinEvent($config));
 
-            $command = $this->_command_chain->getService('lib://nooku/command.event', array(
+            $command = $this->_command_chain->getService('lib:command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()
             ));
 

@@ -64,7 +64,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     protected function _buildQuery(Framework\DatabaseRowInterface $row)
     {
         $table = $row->getTable();
-        $query = $this->getService('lib://nooku/database.query.select')
+        $query = $this->getService('lib:database.query.select')
             ->table(array('tbl' => $table->getName()))
             ->join(array('crumbs' => $table->getClosureTable()->getName()), 'crumbs.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->join(array('closures' => $table->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
@@ -180,13 +180,13 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
             ->columns('tbl.'.$table->getIdentityColumn())
             ->order('tbl.'.$column, 'ASC');
         
-        $select = $this->getService('lib://nooku/database.query.select')
+        $select = $this->getService('lib:database.query.select')
             ->columns(array('index' => '@index := @index + 1'))
             ->columns('tbl.*')
             ->table(array('tbl' => $sub_select));
         
         // Create a multi-table update query which uses the select query as join table.
-        $update = $this->getService('lib://nooku/database.query.update')
+        $update = $this->getService('lib:database.query.update')
             ->table(array('tbl' => $table->getOrderingTable()->getBase()))
             ->join(array('ordering' => $select), 'tbl.'.$table->getIdentityColumn().' = ordering.'.$table->getIdentityColumn())
             ->values('tbl.'.$column.' = ordering.index')
@@ -241,7 +241,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
                     $select->bind(array('new' => $new, 'old' => $old, 'id' => $row->id));
 
-                    $update = $this->getService('lib://nooku/database.query.update')
+                    $update = $this->getService('lib:database.query.update')
                         ->table(array('tbl' => $table->getOrderingTable()->getBase()))
                         ->join(array('ordering' => $select), 'tbl.'.$table->getIdentityColumn().' = ordering.'.$table->getIdentityColumn())
                         ->values('tbl.'.$column.' = ordering.index')
@@ -262,7 +262,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                     ->join(array('orderings' => $table->getOrderingTable()->getBase()), 'tbl.'.$table->getIdentityColumn().' = orderings.'.$table->getIdentityColumn(), 'INNER')
                     ->order('index', 'ASC');
 
-                $update = $this->getService('lib://nooku/database.query.update')
+                $update = $this->getService('lib:database.query.update')
                     ->table(array('tbl' => $table->getOrderingTable()->getBase()))
                     ->join(array('ordering' => $select), 'tbl.'.$table->getIdentityColumn().' = ordering.'.$table->getIdentityColumn())
                     ->values('tbl.'.$column.' = ordering.index')

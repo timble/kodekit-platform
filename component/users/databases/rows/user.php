@@ -60,8 +60,8 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         {
             //@TODO : Temporarily using  Framework\ServiceManager::get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
-            $this->_role =  Framework\ServiceManager::get('com://admin/users.model.roles')->id($this->role_id)->getRow();
-            //$this->_role = $this->getService('com://admin/users.model.roles')->id($this->role_id)->getRow();
+            $this->_role =  Framework\ServiceManager::get('com:users.model.roles')->id($this->role_id)->getRow();
+            //$this->_role = $this->getService('com:users.model.roles')->id($this->role_id)->getRow();
         }
         return $this->_role;
     }
@@ -72,7 +72,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         {
             if(!$this->guest)
             {
-                $this->_groups =  Framework\ServiceManager::get('com://admin/users.database.table.groups_users')
+                $this->_groups =  Framework\ServiceManager::get('com:users.database.table.groups_users')
                     ->select(array('users_user_id' => $this->id), Framework\Database::FETCH_FIELD_LIST);
             }
             else $this->_groups = array();
@@ -94,7 +94,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         if ($this->isModified('email'))
         {
             // Validate E-mail
-            if (!$this->getService('lib://nooku/filter.email')->validate($this->email))
+            if (!$this->getService('lib:filter.email')->validate($this->email))
             {
                 $this->setStatus(Framework\Database::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('Please enter a valid E-mail address'));
@@ -102,12 +102,12 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
             }
 
             // Check if E-mail address is not already being used
-            $query = $this->getService('lib://nooku/database.query.select')
+            $query = $this->getService('lib:database.query.select')
                 ->where('email = :email')
                 ->where('users_user_id <> :id')
                 ->bind(array('email' => $this->email, 'id' => $this->id));
 
-            if ($this->getService('com://admin/users.database.table.users')->count($query))
+            if ($this->getService('com:users.database.table.users')->count($query))
             {
                 $this->setStatus(Framework\Database::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('The provided E-mail address is already registered'));
@@ -143,16 +143,16 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         if (!$this->isNew())
         {
             // Load the current user row for checks.
-            $current = $this->getService('com://admin/users.database.table.users')
+            $current = $this->getService('com:users.database.table.users')
                 ->select($this->id, Framework\Database::FETCH_ROW);
 
             // There must be at least one enabled super administrator
             if (($this->isModified('role_id') || ($this->isModified('enabled') && !$this->enabled)) && $current->role_id == 25)
             {
-                $query = $this->getService('lib://nooku/database.query.select')->where('enabled = :enabled')
+                $query = $this->getService('lib:database.query.select')->where('enabled = :enabled')
                     ->where('users_role_id = :role_id')->bind(array('enabled' => 1, 'role_id' => 25));
 
-                if ($this->getService('com://admin/users.database.table.users')->count($query) <= 1)
+                if ($this->getService('com:users.database.table.users')->count($query) <= 1)
                 {
                     $this->setStatus(Framework\Database::STATUS_FAILED);
                     $this->setStatusMessage('There must be at least one enabled super administrator');

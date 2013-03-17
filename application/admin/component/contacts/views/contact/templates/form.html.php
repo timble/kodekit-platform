@@ -15,7 +15,7 @@
 <script src="media://koowa/js/koowa.js" />
 <style src="media://koowa/css/koowa.css" />
 -->
-<?= @template('com://admin/base.view.form.toolbar.html'); ?>
+<?= @template('com:base.view.form.toolbar.html'); ?>
 
 <form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />
@@ -138,7 +138,7 @@
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
 	                <?= @helper('listbox.radiolist', array(
-	                		'list'     => @service('com://admin/categories.model.categories')->sort('title')->table('contacts')->getRowset(),
+	                		'list'     => @service('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
 	                		'selected' => $contact->categories_category_id,
 	                		'name'     => 'categories_category_id',
 	                        'text'     => 'title',

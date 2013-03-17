@@ -23,7 +23,7 @@ class ApplicationDatabaseRowsetComponents extends Framework\DatabaseRowsetAbstra
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $components = $this->getService('com://site/extensions.model.components')
+        $components = $this->getService('com:extensions.model.components')
             ->enabled(true)
             ->getRowset();
 

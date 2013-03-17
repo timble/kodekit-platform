@@ -17,10 +17,10 @@
 
 use Nooku\Framework\ServiceManager;
 
-ServiceManager::setAlias('application'           , 'com://site/application.dispatcher');
-ServiceManager::setAlias('application.components', 'com://site/application.database.rowset.components');
-ServiceManager::setAlias('application.languages' , 'com://site/application.database.rowset.languages');
-ServiceManager::setAlias('application.pages'     , 'com://site/application.database.rowset.pages');
-ServiceManager::setAlias('application.modules'   , 'com://site/application.database.rowset.modules');
+ServiceManager::setAlias('application'           , 'com:application.dispatcher');
+ServiceManager::setAlias('application.components', 'com:application.database.rowset.components');
+ServiceManager::setAlias('application.languages' , 'com:application.database.rowset.languages');
+ServiceManager::setAlias('application.pages'     , 'com:application.database.rowset.pages');
+ServiceManager::setAlias('application.modules'   , 'com:application.database.rowset.modules');
 
-ServiceManager::setAlias('lib://nooku/database.adapter.mysql', 'com://site/application.database.adapter.mysql');
+ServiceManager::setAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');

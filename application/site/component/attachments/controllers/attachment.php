@@ -7,7 +7,7 @@ class AttachmentsControllerAttachment extends BaseControllerModel
 	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
-		    'model'   => 'com://admin/attachments.model.attachments',
+		    'model'   => 'com:attachments.model.attachments',
 			'request' => array(
 				'view' => 'attachment'
 			)
@@ -15,6 +15,6 @@ class AttachmentsControllerAttachment extends BaseControllerModel
 		
 		parent::_initialize($config);
 		
-		$config->view = 'com://admin/attachments.view.'.$config->request->view.'.'.$config->request->format;
+		$config->view = 'com:attachments.view.'.$config->request->view.'.'.$config->request->format;
 	}
 }

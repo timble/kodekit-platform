@@ -72,7 +72,7 @@ class ModelNodes extends ModelDefault
 			$state = $this->_state;
 			$type = !empty($state->types) ? (array) $state->types : array();
 
-			$list = $this->getService('com://admin/files.database.rowset.nodes');
+			$list = $this->getService('com:files.database.rowset.nodes');
 
 			// Special case for limit=0. We set it to -1
 			// So loop goes on till end since limit is a negative value
@@ -82,7 +82,7 @@ class ModelNodes extends ModelDefault
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders = $this->getService('com://admin/files.model.folders')->set($state->toArray());
+				$folders = $this->getService('com:files.model.folders')->set($state->toArray());
 
 				foreach ($folders->getRowset() as $folder)
 				{
@@ -103,7 +103,7 @@ class ModelNodes extends ModelDefault
 				$data = $state->toArray();
 				$data['offset'] = $offset_left < 0 ? 0 : $offset_left;
 
-                $files = $this->getService('com://admin/files.model.files')->set($data);
+                $files = $this->getService('com:files.model.files')->set($data);
 
 				foreach ($files->getRowset() as $file)
 				{

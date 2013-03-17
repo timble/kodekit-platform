@@ -22,7 +22,7 @@ class ArticlesViewArticlesHtml extends BaseViewHtml
     {        
         $state = $this->getModel()->getState();
         
-        $parent_id = $this->getService('com://admin/articles.model.categories')
+        $parent_id = $this->getService('com:articles.model.categories')
                             ->table('articles')
                             ->id($state->category)
                             ->getRow()

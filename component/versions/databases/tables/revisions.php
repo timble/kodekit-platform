@@ -41,7 +41,7 @@ class DatabaseTableRevisions extends Framework\DatabaseTableDefault
      */
     public function insert(Framework\DatabaseRowInterface $row)
     {
-    	$query = $this->getService('lib://nooku/database.query.select')
+    	$query = $this->getService('lib:database.query.select')
             ->where('table', '=', $row->table)
             ->where('row',   '=', $row->row)
             ->order('revision','desc')

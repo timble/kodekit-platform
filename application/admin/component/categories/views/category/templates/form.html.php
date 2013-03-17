@@ -15,7 +15,7 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com://admin/base.view.form.toolbar.html'); ?>
+<?= @template('com:base.view.form.toolbar.html'); ?>
 
 <form action="" method="post" class="-koowa-form" id="category-form">
     <input type="hidden" name="access" value="0" />
@@ -74,7 +74,7 @@
 	        <fieldset class="categories group">
 	            <legend><?= @text('Parent') ?></legend>
 	            <div class="control-group">
-	                <?= @helper('com://admin/categories.template.helper.listbox.categories', array(
+	                <?= @helper('com:categories.template.helper.listbox.categories', array(
 	                'name'      => 'parent_id',
 	                'selected'  => $category->parent_id,
 	                'prompt'    => '- None -',

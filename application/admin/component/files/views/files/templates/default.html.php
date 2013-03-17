@@ -149,7 +149,7 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<?= @template('com://admin/base.view.grid.toolbar.html'); ?>
+<?= @template('com:base.view.grid.toolbar.html'); ?>
 
 <div id="files-app">
 	<?= @template('templates_icons.html'); ?>

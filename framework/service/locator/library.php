@@ -17,12 +17,30 @@ namespace Nooku\Framework;
  */
 class ServiceLocatorLibrary extends ServiceLocatorAbstract
 {
-	/**
-	 * The type
-	 *
-	 * @var string
-	 */
-	protected $_type = 'lib';
+    /**
+     * The type
+     *
+     * @var string
+     */
+    protected $_type = 'lib';
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   Config $config An optional Config object with configuration options.
+     * @return  void
+     */
+    protected function _initialize(Config $config)
+    {
+        $config->append(array(
+            'fallbacks' => array(
+                'Nooku\Framework\<Package><Path><Name>',
+                'Nooku\Framework\<Package><Path>Default',
+            )
+        ));
+    }
 
     /**
      * Find the identifier class
@@ -30,23 +48,32 @@ class ServiceLocatorLibrary extends ServiceLocatorAbstract
      * @param ServiceIdentifier$identifier An identifier object
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
-	public function findClass(ServiceIdentifier $identifier)
-	{
-        $namespace = 'Nooku\Framework';
-        $class     = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).ucfirst($identifier->name);
+    public function findClass(ServiceIdentifier $identifier)
+    {
+        $class   = Inflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
-		if (!class_exists($class))
-		{
-			// use default class instead
-			$class = $namespace.'\\'.ucfirst($identifier->package).Inflector::implode($identifier->path).'Default';
+        $package = ucfirst($identifier->package);
+        $path    = Inflector::camelize(implode('_', $identifier->path));
+        $name    = ucfirst($identifier->name);
 
-			if (!class_exists($class)) {
-				$class = false;
-			}
-		}
+        $result = false;
+        foreach($this->_fallbacks as $fallback)
+        {
+            $result = str_replace(
+                array('<Package>', '<Path>', '<Name>', '<Class>'),
+                array($package   , $path   , $name   , $class),
+                $fallback
+            );
 
-		return $class;
-	}
+            if(!class_exists($result)) {
+                $result = false;
+            } else {
+                break;
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * Find the identifier path
@@ -54,19 +81,19 @@ class ServiceLocatorLibrary extends ServiceLocatorAbstract
      * @param  ServiceIdentifier $identifier  	An identifier object
      * @return string	Returns the path
      */
-	public function findPath(ServiceIdentifier $identifier)
-	{
-	    $path = '';
+    public function findPath(ServiceIdentifier $identifier)
+    {
+        $path = '';
 
-	    if(count($identifier->path)) {
-			$path .= implode('/',$identifier->path);
-		}
+        if(count($identifier->path)) {
+            $path .= implode('/',$identifier->path);
+        }
 
-		if(!empty($identifier->name)) {
-			$path .= '/'.$identifier->name;
-		}
+        if(!empty($identifier->name)) {
+            $path .= '/'.$identifier->name;
+        }
 
-		$path = $identifier->basepath.'/'.$path.'.php';
-		return $path;
-	}
+        $path = JPATH_ROOT.'/framework/'.$path.'.php';
+        return $path;
+    }
 }

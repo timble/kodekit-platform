@@ -24,7 +24,7 @@ class DatabaseTableContainers extends Framework\DatabaseTableDefault
 		$config->append(array(
 			'filters' => array(
 				'slug' 	     => 'cmd',
-				'path'       => 'com://admin/files.filter.path',
+				'path'       => 'com:files.filter.path',
 				'parameters' => 'json'
 			),
 			'behaviors' => array(

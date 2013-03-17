@@ -30,7 +30,7 @@ class DatabaseRowTerm extends Framework\DatabaseRowDefault
 	public function delete()
 	{
 		//Delete the term
-		$relation = $this->getService('com://admin/terms.database.row.relation');
+		$relation = $this->getService('com:terms.database.row.relation');
 		$relation->terms_term_id = $this->id;
 
 		if($relation->count() <= 1) {
@@ -40,7 +40,7 @@ class DatabaseRowTerm extends Framework\DatabaseRowDefault
 		//Delete the relation
 		if($this->row && $this->table)
  		{
-			$relation = $this->getService('com://admin/terms.database.row.relation', array('new' => false));
+			$relation = $this->getService('com:terms.database.row.relation', array('new' => false));
 			$relation->terms_term_id = $this->id;
 	   		$relation->row		   = $this->row;
 			$relation->table		 = $this->table;

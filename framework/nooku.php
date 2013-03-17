@@ -51,8 +51,8 @@ class Nooku
         $service = Nooku\Framework\ServiceManager::getInstance($config);
 
         //Add a 'loader' alias to the service manager
-        $service->set('lib://nooku/loader', $loader);
-        $service->setAlias('loader', 'lib://nooku/loader');
+        $service->set('lib:loader', $loader);
+        $service->setAlias('loader', 'lib:loader');
     }
 
 	/**

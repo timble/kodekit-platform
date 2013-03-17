@@ -73,7 +73,7 @@ class DatabaseRowContainer extends Framework\DatabaseRowTable
 	public function getParameters()
 	{
 		if (empty($this->_parameters)) {
-			$this->_parameters = $this->getService('com://admin/files.database.row.config')
+			$this->_parameters = $this->getService('com:files.database.row.config')
 				->setData(json_decode($this->_data['parameters'], true));
 		}
 
@@ -104,6 +104,6 @@ class DatabaseRowContainer extends Framework\DatabaseRowTable
 
 	public function getAdapter($type, array $config = array())
 	{
-	    return $this->getService('com://admin/files.adapter.'.$this->adapter.'.'.$type, $config);
+	    return $this->getService('com:files.adapter.'.$this->adapter.'.'.$type, $config);
 	}
 }

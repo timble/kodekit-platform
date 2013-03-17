@@ -79,7 +79,6 @@ class ControllerBehaviorLoggable extends Framework\ControllerBehaviorAbstract
 
                          $log = array(
                             'action'	  => $context->action,
-            				'application' => $identifier->namespace,
             				'type'        => $identifier->type,
             				'package'     => $identifier->package,
             				'name'        => $identifier->name,
@@ -115,7 +114,7 @@ class ControllerBehaviorLoggable extends Framework\ControllerBehaviorAbstract
                         $log['ip']  = $context->request->getAddress();
 
 
-                        $this->getService('com://admin/activities.database.row.activity', array('data' => $log))->save();
+                        $this->getService('com:activities.database.row.activity', array('data' => $log))->save();
                     }
                 }
             }

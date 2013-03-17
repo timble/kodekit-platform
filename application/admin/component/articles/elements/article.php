@@ -31,8 +31,8 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = Framework\ServiceManager::get('com://admin/articles.controller.article')->getView()->getTemplate();
-        $html     = Framework\ServiceManager::get('com://admin/articles.template.helper.listbox', array('template' => $template))->articles($config);
+        $template = Framework\ServiceManager::get('com:articles.controller.article')->getView()->getTemplate();
+        $html     = Framework\ServiceManager::get('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
 
         return $html;
     }

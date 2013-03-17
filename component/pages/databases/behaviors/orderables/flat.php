@@ -21,7 +21,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
 {
     protected function _beforeTableInsert(Framework\CommandContext $context)
     {
-        $query = $this->getService('lib://nooku/database.query.select')
+        $query = $this->getService('lib:database.query.select')
             ->columns('MAX(ordering)');
         
         $this->_buildQuery($query);
@@ -40,7 +40,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
 			$new = $new <= 0 ? 1 : $new;
 
 			$table = $context->getSubject();
-			$query = $this->getService('lib://nooku/database.query.update')
+			$query = $this->getService('lib:database.query.update')
 			    ->table($table->getBase());
 
             $this->_buildQuery($query);
@@ -96,7 +96,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         $table = $context->getSubject();
         $table->getAdapter()->execute('SET @index = 0');
 
-        $query = $this->getService('lib://nooku/database.query.update')
+        $query = $this->getService('lib:database.query.update')
             ->table($table->getBase())
             ->values('ordering = (@index := @index + 1)')
             ->order('ordering', 'ASC');

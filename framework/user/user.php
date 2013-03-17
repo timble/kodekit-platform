@@ -197,7 +197,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      */
     public function getSession()
     {
-        return $this->getService('lib://nooku/user.session');
+        return $this->getService('lib:user.session');
     }
 
     /**

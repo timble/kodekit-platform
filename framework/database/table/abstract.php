@@ -134,13 +134,13 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $name = $this->getIdentifier()->name;
 
         $config->append(array(
-            'adapter'           => 'lib://nooku/database.adapter.mysql',
+            'adapter'           => 'lib:database.adapter.mysql',
             'name'              => empty($package) ? $name : $package . '_' . $name,
             'column_map'        => null,
             'filters'           => array(),
             'behaviors'         => array(),
             'identity_column'   => null,
-            'command_chain'     => $this->getService('lib://nooku/command.chain'),
+            'command_chain'     => $this->getService('lib:command.chain'),
             'dispatch_events'   => false,
             'event_dispatcher'  => null,
             'enable_callbacks'  => false,
@@ -487,7 +487,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
         {
             $key = $this->getIdentityColumn();
-            $query = $this->getService('lib://nooku/database.query.select')
+            $query = $this->getService('lib:database.query.select')
                 ->where('tbl.'.$key . ' IN :' . $key)
                 ->bind(array($key => (array)$query));
         }
@@ -495,7 +495,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('lib://nooku/database.query.select');
+            $query = $this->getService('lib:database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -604,7 +604,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('lib://nooku/database.query.select');
+            $query = $this->getService('lib:database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -637,7 +637,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function insert(DatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('lib://nooku/database.query.insert')
+        $query = $this->getService('lib:database.query.insert')
                       ->table($this->getBase());
 
         //Create commandchain context
@@ -686,7 +686,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function update(DatabaseRowTable $row)
     {
         // Create query object.
-        $query = $this->getService('lib://nooku/database.query.update')
+        $query = $this->getService('lib:database.query.update')
                       ->table($this->getBase());
 
         // Create commandchain context.
@@ -740,7 +740,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function delete(DatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('lib://nooku/database.query.delete')
+        $query = $this->getService('lib:database.query.delete')
                       ->table($this->getBase());
 
         //Create commandchain context

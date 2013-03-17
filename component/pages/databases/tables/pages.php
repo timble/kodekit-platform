@@ -25,13 +25,13 @@ class DatabaseTablePages extends Framework\DatabaseTableDefault
             'name' => 'pages',
             'behaviors'  => array(
                 'creatable', /*'modifiable',*/ 'lockable', 'sluggable', 'assignable', 'typable',
-                'com://admin/pages.database.behavior.orderable' => array(
+                'com:pages.database.behavior.orderable' => array(
                     'strategy' => 'closure',
-                    'table'    => 'com://admin/pages.database.table.orderings',
+                    'table'    => 'com:pages.database.table.orderings',
                     'columns'  => array('title', 'custom')
                 ),
-                'com://admin/pages.database.behavior.closurable' => array(
-                    'table' => 'com://admin/pages.database.table.closures'
+                'com:pages.database.behavior.closurable' => array(
+                    'table' => 'com:pages.database.table.closures'
                 )
             ),
             'filters' => array(

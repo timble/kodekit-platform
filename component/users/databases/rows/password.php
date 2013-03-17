@@ -29,7 +29,7 @@ class DatabaseRowPassword extends Framework\DatabaseRowTable
 
     public function save()
     {
-        $user = $this->getService('com://admin/users.model.users')
+        $user = $this->getService('com:users.model.users')
             ->set('email', $this->id)
             ->getRow();
 

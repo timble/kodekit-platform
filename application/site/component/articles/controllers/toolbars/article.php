@@ -21,7 +21,7 @@ class ArticlesControllerToolbarArticle extends BaseControllerToolbarDefault
 {
     protected function _initialize(Framework\Config $config)
     {
-        $config->append(array('controller' => 'com://site/articles.controller.article'));
+        $config->append(array('controller' => 'com:articles.controller.article'));
 
         parent::_initialize($config);
     }

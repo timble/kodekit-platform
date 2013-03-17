@@ -17,4 +17,4 @@
 
 use Nooku\Framework\ServiceManager;
 
-ServiceManager::setAlias('com://site/contacts.model.categories', 'com://site/categories.model.categories');
+ServiceManager::setAlias('com:contacts.model.categories', 'com:categories.model.categories');

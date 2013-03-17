@@ -40,7 +40,7 @@ abstract class FilterAbstract extends Object implements FilterInterface
 	{
 		parent::__construct($config); 
 		 
-	    $this->_chain = $this->getService('lib://nooku/filter.chain');
+	    $this->_chain = $this->getService('lib:filter.chain');
 		$this->addFilter($this);
 	}
 	

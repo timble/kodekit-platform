@@ -3,7 +3,7 @@
 /*
  * Root file - add
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('ercan.txt')
 	->add(array('contents' => 'test'))
@@ -14,7 +14,7 @@ var_dump('Root file - add', $result, file_exists(JPATH_ROOT.'/images/ercan.txt')
 /*
  * Root file - edit
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('ercan.txt')
 	->edit(array('contents' => 'after edit'))
@@ -25,7 +25,7 @@ var_dump('Root file - edit', $result, file_get_contents(JPATH_ROOT.'/images/erca
 /*
  * Root file - delete
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('ercan.txt')
 	->delete()
@@ -36,7 +36,7 @@ var_dump('Root file - delete', $result, !file_exists(JPATH_ROOT.'/images/ercan.t
 /*
  * Nested file - add
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->folder('banners')
 	->name('nested.txt')
@@ -48,7 +48,7 @@ var_dump('Nested file - add', $result, file_exists(JPATH_ROOT.'/images/banners/n
 /*
  * Nested file - delete
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->folder('banners')
 	->name('nested.txt')
@@ -60,7 +60,7 @@ var_dump('Nested file - delete', $result, !file_exists(JPATH_ROOT.'/images/banne
 /*
  * Root folder - add
  */
-$result = KService::get('com://admin/files.controller.folder')
+$result = KService::get('com:files.controller.folder')
 	->container('files-files')
 	->name('ercan_test')
 	->add()
@@ -71,7 +71,7 @@ var_dump('Root folder - add', $result, is_dir(JPATH_ROOT.'/images/ercan_test'));
 /*
  * Root folder - delete
  */
-$result = KService::get('com://admin/files.controller.folder')
+$result = KService::get('com:files.controller.folder')
 	->container('files-files')
 	->name('ercan_test')
 	->delete()
@@ -82,7 +82,7 @@ var_dump('Root folder - delete', $result, !file_exists(JPATH_ROOT.'/images/ercan
 /*
  * Nested folder - add
  */
-$result = KService::get('com://admin/files.controller.folder')
+$result = KService::get('com:files.controller.folder')
 	->container('files-files')
 	->folder('banners')
 	->name('ercan_nested')
@@ -94,7 +94,7 @@ var_dump('Nested folder - add', $result, is_dir(JPATH_ROOT.'/images/banners/erca
 /*
  * Nested folder - delete
  */
-$result = KService::get('com://admin/files.controller.folder')
+$result = KService::get('com:files.controller.folder')
 	->container('files-files')
 	->folder('banners')
 	->name('ercan_nested')

@@ -25,7 +25,7 @@ class PagesDispatcher extends BaseDispatcher
 
         if($view == 'pages' && !$context->request->query->has('menu'))
         {
-            $page = $this->getService('com://admin/pages.database.table.pages')
+            $page = $this->getService('com:pages.database.table.pages')
                           ->select(array('home' => 1), Framework\Database::FETCH_ROW);
 
             $url = clone($context->request->getUrl());

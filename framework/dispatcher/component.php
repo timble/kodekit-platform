@@ -121,7 +121,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
         {
             $token = $context->user->session->getToken();
 
-            $context->response->headers->addCookie($this->getService('lib://nooku/http.cookie', array(
+            $context->response->headers->addCookie($this->getService('lib:http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
                 'path'   => $context->request->getBaseUrl()->getPath()
@@ -143,8 +143,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
 	{
         //Load the component aliases
         $component = $this->getController()->getIdentifier()->package;
-        $namespace = $this->getController()->getIdentifier()->namespace;
-        $this->getService('loader')->loadIdentifier('com://'.$namespace.'/'.$component.'.aliases');
+        $this->getService('loader')->loadIdentifier('com:'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());

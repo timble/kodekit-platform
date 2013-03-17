@@ -115,7 +115,7 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
                 $table = $context->getSubject();
                 $parent_column = $table->mapColumns($parent_column);
 
-                $subquery = $this->getService('lib://nooku/database.query.select')
+                $subquery = $this->getService('lib:database.query.select')
                                  ->columns(array($parent_column, 'order_total' => 'COUNT(ordering)'))
                                  ->table($table->getBase())
                                  ->group($parent_column);

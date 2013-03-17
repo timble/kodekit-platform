@@ -22,9 +22,9 @@ class UsersViewUsersHtml extends BaseViewHtml
 {
 	public function render()
 	{
-	    $this->groups       = $this->getService('com://admin/users.model.groups')->getRowset();
-		$this->roles        = $this->getService('com://admin/users.model.roles')->getRowset();
-		$this->groups_users = $this->getService('com://admin/users.model.groups_users')->set('type', 'custom')->getRowset();
+	    $this->groups       = $this->getService('com:users.model.groups')->getRowset();
+		$this->roles        = $this->getService('com:users.model.roles')->getRowset();
+		$this->groups_users = $this->getService('com:users.model.groups_users')->set('type', 'custom')->getRowset();
 
 		return parent::render();
 	}

@@ -74,9 +74,8 @@ class ServiceManager implements ServiceManagerInterface
         //Create the service container
         self::$_services = new ServiceContainer();
 
-        //Auto-load the koowa adapter
+        //Auto-load the library adapter
         ServiceIdentifier::addLocator(new ServiceLocatorLibrary(new Config()));
-        ServiceIdentifier::setNamespace('nooku', JPATH_ROOT . '/framework');
     }
 
     /**
@@ -93,7 +92,7 @@ class ServiceManager implements ServiceManagerInterface
      * Force creation of a singleton
      *
      * @param  array  $config An optional array with configuration options.
-     * @return KService
+     * @return ServiceManager
      */
     public static function getInstance($config = array())
     {
@@ -372,7 +371,7 @@ class ServiceManager implements ServiceManagerInterface
         $result = null;
 
         //Load the class manually using the basepath
-        if (self::get('loader')->loadClass($identifier->classname, $identifier->basepath))
+        if (self::get('loader')->loadClass($identifier->classname))
         {
             if (!array_key_exists(__NAMESPACE__.'\ServiceInterface', class_implements($identifier->classname, false)))
             {

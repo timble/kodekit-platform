@@ -80,7 +80,7 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
         if(!isset($this->_cache[$url]))
         {
             // Remote resources cannot be processed
-            if($this->getService('lib://nooku/filter.url')->validate($url)) {
+            if($this->getService('lib:filter.url')->validate($url)) {
                 return $this->_cache[$url] = $url;
             }
 

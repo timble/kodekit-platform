@@ -25,7 +25,7 @@ class FilesFilterFolderUploadable extends Framework\FilterAbstract
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com://admin/files.filter.folder.name'), Framework\Command::PRIORITY_HIGH);
+		$this->addFilter($this->getService('com:files.filter.folder.name'), Framework\Command::PRIORITY_HIGH);
 	}
 
 	protected function _validate($context)

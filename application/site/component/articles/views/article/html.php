@@ -65,7 +65,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com://site/articles.model.categories')
+        $category = $this->getService('com:articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
                          ->getRow();

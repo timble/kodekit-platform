@@ -3,12 +3,12 @@
 /*
  * Create test files
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('random_test_file.txt')
 	->post(array('contents' => 'test', 'overwrite' => 1))
 	->toArray();
-$result = KService::get('com://admin/files.controller.folder')
+$result = KService::get('com:files.controller.folder')
 	->container('files-files')
 	->name('random_test_folder')
 	->post()
@@ -17,7 +17,7 @@ $result = KService::get('com://admin/files.controller.folder')
 /*
  * Root file - move
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('random_test_file.txt')
 	->move(array('destination_name' => 'moved_test_file.txt'))
@@ -29,7 +29,7 @@ var_dump('Root file - move', $result,
 /*
  * Root file - copy
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('moved_test_file.txt')
 	->copy(array('destination_name' => 'copied_test_file.txt'))
@@ -41,7 +41,7 @@ var_dump('Root file - copy', $result,
 /*
  * Nested file - move
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('moved_test_file.txt')
 	->move(array('destination_folder' => 'random_test_folder'))
@@ -53,7 +53,7 @@ var_dump('Nested file - move', $result,
 /*
  * Nested file - copy
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('copied_test_file.txt')
 	->copy(array('destination_folder' => 'random_test_folder'))
@@ -65,7 +65,7 @@ var_dump('Nested file - copy', $result,
 /*
  * Nested file - copy with a new name
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('copied_test_file.txt')
 	->copy(array('destination_folder' => 'random_test_folder', 'destination_name' => 'copied_test_file2.txt'))
@@ -77,7 +77,7 @@ var_dump('Nested file - copy with a new name', $result,
 /*
  * Nested file - move with a new name
  */
-$result = KService::get('com://admin/files.controller.file')
+$result = KService::get('com:files.controller.file')
 	->container('files-files')
 	->name('copied_test_file.txt')
 	->move(array('destination_folder' => 'random_test_folder', 'destination_name' => 'moved_test_file2.txt'))
@@ -89,7 +89,7 @@ var_dump('Nested file - move with a new name', $result,
 /*
  * Delete test files
  */
-$result = KService::get('com://admin/files.controller.folder')
+$result = KService::get('com:files.controller.folder')
 	->container('files-files')
 	->name('random_test_folder')
 	->delete()

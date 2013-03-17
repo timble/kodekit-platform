@@ -28,7 +28,7 @@ class CommandValidatorFile extends CommandValidatorNode
 			// remote file
 			try
             {
-				$file = $this->getService('com://admin/files.database.row.url');
+				$file = $this->getService('com:files.database.row.url');
 				$file->setData(array('file' => $row->file));
 				$file->load();
 				$row->contents = $file->contents;
@@ -39,7 +39,7 @@ class CommandValidatorFile extends CommandValidatorNode
 
 			if (empty($row->name))
 			{
-				$uri = $this->getService('lib://nooku/http.url', array('url' => $row->file));
+				$uri = $this->getService('lib:http.url', array('url' => $row->file));
 	        	$path = $uri->toString(Framework\HttpUrl::PATH | Framework\HttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
@@ -49,7 +49,7 @@ class CommandValidatorFile extends CommandValidatorNode
 			}
 		}
 
-		return parent::_databaseBeforeSave($context) && $this->getService('com://admin/files.filter.file.uploadable')->validate($context);
+		return parent::_databaseBeforeSave($context) && $this->getService('com:files.filter.file.uploadable')->validate($context);
 
 	}
 }

@@ -31,7 +31,7 @@ class ModuleDefaultHtml extends Framework\ViewTemplate
     {
         $config->append(array(
             'mimetype'   => 'text/html',
-            'model'      => 'com://admin/pages.model.module',
+            'model'      => 'com:pages.model.module',
             'media_url'  => $this->getService('request')->getBaseUrl()->getPath().'/media',
         ));
 
@@ -48,7 +48,7 @@ class ModuleDefaultHtml extends Framework\ViewTemplate
         //Dynamically attach the chrome filter
         if(!empty($this->module->chrome))
         {
-            $this->getTemplate()->attachFilter('com://admin/pages.template.filter.chrome', array(
+            $this->getTemplate()->attachFilter('com:pages.template.filter.chrome', array(
                 'module' => $this->getIdentifier(),
                 'styles' => $this->module->chrome
             ));

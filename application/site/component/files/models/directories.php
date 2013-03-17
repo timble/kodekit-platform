@@ -33,9 +33,9 @@ class FilesModelDirectories extends Framework\ModelAbstract
             // callback state for JSONP, needs to be filtered as cmd to prevent XSS
             ->insert('callback' , 'cmd')
 
-			->insert('container', 'com://admin/files.filter.container', null)
-			->insert('folder'	, 'com://admin/files.filter.path', '')
-			->insert('name'		, 'com://admin/files.filter.path', '', true)
+			->insert('container', 'com:files.filter.container', null)
+			->insert('folder'	, 'com:files.filter.path', '')
+			->insert('name'		, 'com:files.filter.path', '', true)
 			->insert('types'	, 'cmd', '')
 			;
 	}

@@ -88,7 +88,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
      */
     public function setHeaders($headers)
     {
-        $this->_headers = $this->getService('lib://nooku/http.request.headers', array('headers' => $headers));
+        $this->_headers = $this->getService('lib:http.request.headers', array('headers' => $headers));
         return $this;
     }
 
@@ -134,7 +134,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
         }
 
         if (is_string($url)) {
-            $url = $this->getService('lib://nooku/http.url', array('url' => $url));
+            $url = $this->getService('lib:http.url', array('url' => $url));
         }
 
         $this->_url = $url;

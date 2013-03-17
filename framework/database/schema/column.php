@@ -129,7 +129,7 @@ class DatabaseSchemaColumn extends Object
             }
 
             if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getService('lib://nooku/filter.factory')->instantiate($this->_filter);
+                $this->_filter = $this->getService('lib:filter.factory')->instantiate($this->_filter);
             }
 
             return $this->_filter;

@@ -25,7 +25,7 @@ class DatabaseTableWeblinks extends Framework\DatabaseTableDefault
         	'name'         => 'weblinks',
             'behaviors'    =>  array(
             	'creatable', 'modifiable', 'lockable', 'sluggable',
-        		'com://admin/categories.database.behavior.orderable' => array('parent_column' => 'categories_category_id'),
+        		'com:categories.database.behavior.orderable' => array('parent_column' => 'categories_category_id'),
             ),
           	'filters' => array(
              	'description' => array('html', 'tidy'),

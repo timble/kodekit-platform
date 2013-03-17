@@ -11,7 +11,7 @@
 
 <?= @helper('behavior.validator'); ?>
 
-<?= @template('com://admin/base.view.form.toolbar.html'); ?>
+<?= @template('com:base.view.form.toolbar.html'); ?>
 
 <!--
 <script src="media://koowa/js/koowa.js" />
@@ -62,7 +62,7 @@
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
 	                <?= @helper('listbox.radiolist', array(
-	                		'list'     => @service('com://admin/categories.model.categories')->sort('title')->table('weblinks')->getRowset(),
+	                		'list'     => @service('com:categories.model.categories')->sort('title')->table('weblinks')->getRowset(),
 	                		'selected' => $weblink->categories_category_id,
 	                		'name'     => 'categories_category_id',
 	                        'text'     => 'title',

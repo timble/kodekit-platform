@@ -182,7 +182,7 @@ class Request
         }
 
         if(!($filter instanceof FilterInterface)) {
-            $filter = ServiceManager::get('lib://nooku/filter.factory')->instantiate($filter);
+            $filter = ServiceManager::get('lib:filter.factory')->instantiate($filter);
         }
 
         return $filter->sanitize($result);
@@ -352,13 +352,13 @@ class Request
         if(!isset(self::$_referrer))
         {
             if($referrer = Request::get('server.HTTP_REFERER', 'url')) {
-                self::$_referrer = ServiceManager::get('lib://nooku/http.url', array('url' => $referrer));
+                self::$_referrer = ServiceManager::get('lib:http.url', array('url' => $referrer));
             }
         }
 
         if($isInternal)
         {
-            if(!ServiceManager::get('lib://nooku/filter.internalurl')->validate((string) self::$_referrer)) {
+            if(!ServiceManager::get('lib:filter.internalurl')->validate((string) self::$_referrer)) {
                 return null;
             }
         }
@@ -412,10 +412,10 @@ class Request
         	else $url .= 'koowa';
             
             // Sanitize the url since we can't trust the server var
-            $url = ServiceManager::get('lib://nooku/filter.url')->sanitize($url);
+            $url = ServiceManager::get('lib:filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_url = ServiceManager::get('lib://nooku/http.url', array('url' => $url));
+            self::$_url = ServiceManager::get('lib:http.url', array('url' => $url));
 
         }
 
@@ -443,9 +443,9 @@ class Request
             $path = rtrim(dirname($path), '/\\');
          
             // Sanitize the url since we can't trust the server var
-            $path = ServiceManager::get('lib://nooku/filter.url')->sanitize($path);
+            $path = ServiceManager::get('lib:filter.url')->sanitize($path);
 
-            self::$_base = ServiceManager::get('lib://nooku/http.url', array('url' => $path));
+            self::$_base = ServiceManager::get('lib:http.url', array('url' => $path));
         }
 
         return self::$_base;
@@ -464,7 +464,7 @@ class Request
         if(!is_null($path))
         {
             if(!$path instanceof HttpUrlInterface) {
-                $path = ServiceManager::get('lib://nooku/http.url', array('url' => $path));
+                $path = ServiceManager::get('lib:http.url', array('url' => $path));
             }
 
             self::$_root = $path;

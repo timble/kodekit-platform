@@ -130,7 +130,7 @@ class DatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
      */
     protected function _getQuery()
     {
-        $query = $this->getService('lib://nooku/database.query.update');
+        $query = $this->getService('lib:database.query.update');
         $query->table(array($this->_table));
 
         return $query;

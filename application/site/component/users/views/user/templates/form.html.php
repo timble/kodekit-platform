@@ -44,7 +44,7 @@
         <label class="control-label" for="password"><?= @text('Password') ?></label>
         <div class="controls">
             <input class="inputbox<?=$user->isNew() ?' required ':' ';?>passwordLength:<?=$parameters->get('password_length', 6);?>" type="password" id="password" name="password" value="" size="40" />
-            <?=@helper('com://admin/users.template.helper.form.password');?>
+            <?=@helper('com:users.template.helper.form.password');?>
         </div>
     </div>
 
@@ -59,7 +59,7 @@
     <div class="control-group">
         <label class="control-label"><?=@text('Timezone');?></label>
         <div class="controls">
-            <?= @helper('com://admin/extensions.template.helper.listbox.timezones',
+            <?= @helper('com:extensions.template.helper.listbox.timezones',
             array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true));?>
         </div>
     </div>

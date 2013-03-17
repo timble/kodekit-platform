@@ -26,13 +26,13 @@ class PagesViewModuleHtml extends BaseViewHtml
 
         if($this->getLayout() == 'modal')
         {
-            $this->menus   = $this->getService('com://admin/pages.model.menus')
+            $this->menus   = $this->getService('com:pages.model.menus')
                                   ->sort('title')->getRowset();
 
-            $this->pages   = $this->getService('com://admin/pages.model.pages')
+            $this->pages   = $this->getService('com:pages.model.pages')
                                   ->application('site')->getRowset();
 
-            $this->modules = $this->getService('com://admin/pages.model.modules')
+            $this->modules = $this->getService('com:pages.model.modules')
                                   ->application('site')->getRowset();
         }
 
@@ -44,7 +44,7 @@ class PagesViewModuleHtml extends BaseViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = $this->getIdentifier()->getNamespace($module->application);
+            $path = $this->getService('loader')->getApplication($module->application);
             JFactory::getLanguage()->load(substr($module->component_name, 4), $module->name, $path);
         }
 

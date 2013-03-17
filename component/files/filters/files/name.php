@@ -33,6 +33,6 @@ class FilterFileName extends Framework\FilterAbstract
 
 	protected function _sanitize($value)
 	{
-		return $this->getService('com://admin/files.filter.path')->sanitize($value);
+		return $this->getService('com:files.filter.path')->sanitize($value);
 	}
 }

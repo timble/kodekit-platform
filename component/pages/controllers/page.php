@@ -23,7 +23,7 @@ class ControllerPage extends \BaseControllerModel
     {
     	$config->append(array(
     		'behaviors' => array(
-    		    'com://admin/pages.controller.behavior.closurable'
+    		    'com:pages.controller.behavior.closurable'
     	    )
     	));
     

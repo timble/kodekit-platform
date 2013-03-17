@@ -48,7 +48,7 @@
             <title><?= @escape($contact->name) ?></title>
             <link><?= @helper('route.contact', array('row' => $contact)) ?></link>
             <guid isPermaLink="false"><?= @helper('route.contact', array('row' => $contact)) ?></guid>
-            <description><![CDATA[<?= @template('com://site/contacts.view.contact.hcard.html', array('contact' => $contact)); ?>]]></description>
+            <description><![CDATA[<?= @template('com:contacts.view.contact.hcard.html', array('contact' => $contact)); ?>]]></description>
             <category domain="<?= @helper('route.category', array('row' => $category)) ?>">
                 <![CDATA[<? $category->title; ?>]]>
             </category>

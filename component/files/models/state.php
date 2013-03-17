@@ -25,7 +25,7 @@ class ModelState extends Framework\ModelState
 
         if ($name === 'container' && is_string($result))
         {
-            $result = Framework\ServiceManager::get('com://admin/files.model.containers')->slug($result)->getRow();
+            $result = Framework\ServiceManager::get('com:files.model.containers')->slug($result)->getRow();
 
 	        if (!is_object($result) || $result->isNew()) {
 	            throw new \UnexpectedValueException('Invalid container');

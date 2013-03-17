@@ -268,7 +268,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function setCookies($parameters)
     {
-        $this->_cookies = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
+        $this->_cookies = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -289,7 +289,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function setFiles($parameters)
     {
-        $this->_files = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
+        $this->_files = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -448,10 +448,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             }
 
             // Sanitize the url since we can't trust the server var
-            $url = $this->getService('lib://nooku/filter.url')->sanitize($url);
+            $url = $this->getService('lib:filter.url')->sanitize($url);
 
             // Create the URI object
-            $this->_url = $this->getService('lib://nooku/http.url', array('url' => $url));
+            $this->_url = $this->getService('lib:http.url', array('url' => $url));
 
             //Set the url port
             $port = $_SERVER['SERVER_PORT'];
@@ -487,13 +487,13 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     {
         if(!isset($this->_referrer))
         {
-            $referrer = $this->getService('lib://nooku/filter.url')->sanitize($this->_headers->get('Referer'));
-            $this->_referrer = $this->getService('lib://nooku/http.url', array('url' => $referrer));
+            $referrer = $this->getService('lib:filter.url')->sanitize($this->_headers->get('Referer'));
+            $this->_referrer = $this->getService('lib:http.url', array('url' => $referrer));
         }
 
         if($isInternal)
         {
-            if(!$this->getService('lib://nooku/filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
+            if(!$this->getService('lib:filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
                 return null;
             }
         }
@@ -542,7 +542,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $base = clone $this->getUrl();
             $base->fromString(rtrim((string)$this->_base_url, '/'));
 
-            $this->_base_url = $this->getService('lib://nooku/http.url', array('url' => $base->toString(HttpUrl::BASE)));
+            $this->_base_url = $this->getService('lib:http.url', array('url' => $base->toString(HttpUrl::BASE)));
         }
 
         return $this->_base_url;

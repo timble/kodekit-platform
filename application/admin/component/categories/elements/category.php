@@ -29,7 +29,7 @@ class JElementCategory extends JElement
             'attribs'  => array('class' => 'inputbox'),
         );
 
-        $html = Framework\ServiceManager::get('com://admin/categories.template.helper.listbox')->categories($config);
+        $html = Framework\ServiceManager::get('com:categories.template.helper.listbox')->categories($config);
         return $html;
     }
 }

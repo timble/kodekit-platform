@@ -26,7 +26,7 @@ class DatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
 	 */
 	public function getTerms()
 	{
-		return $this->getService('com://admin/terms.model.relations')
+		return $this->getService('com:terms.model.relations')
 					->row($this->id)
 					->table($this->getTable()->getName())
 					->getRowset();

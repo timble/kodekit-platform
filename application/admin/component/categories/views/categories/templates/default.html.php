@@ -14,7 +14,7 @@
 -->
 <?= @helper('behavior.sortable') ?>
 
-<?= @template('com://admin/base.view.grid.toolbar.html'); ?>
+<?= @template('com:base.view.grid.toolbar.html'); ?>
 
 <? if($state->table == 'articles') : ?>
 <ktml:module position="sidebar">
@@ -23,7 +23,7 @@
 <? endif; ?>
 
 <ktml:module  position="inspector">
-    <?= @template('com://admin/activities.view.activities.simple.html', array('package' => $state->table, 'name' => 'category')); ?>
+    <?= @template('com:activities.view.activities.simple.html', array('package' => $state->table, 'name' => 'category')); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">

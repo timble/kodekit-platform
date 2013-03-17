@@ -49,8 +49,8 @@ $adapter->registerNamespace('\\', JPATH_APPLICATION.'/component');
 $adapter->registerNamespace('Nooku\Component', JPATH_ROOT.'/component');
 
 Framework\ServiceManager::get('loader')->addAdapter($adapter);
+Framework\ServiceManager::get('loader')->addApplication('site' , JPATH_ROOT.'/application/site');
+Framework\ServiceManager::get('loader')->addApplication('admin', JPATH_ROOT.'/application/admin');
 
 //Set the service
-Framework\ServiceIdentifier::addLocator(Framework\ServiceManager::get('lib://nooku/service.locator.component'));
-Framework\ServiceIdentifier::setNamespace('site', JPATH_ROOT.'/application/site');
-Framework\ServiceIdentifier::setNamespace('admin', JPATH_ROOT.'/application/admin');
+Framework\ServiceIdentifier::addLocator(Framework\ServiceManager::get('lib:service.locator.component'));

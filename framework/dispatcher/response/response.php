@@ -60,7 +60,7 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     {
         $config->append(array(
             'transport' => 'default',
-            'request'   => 'lib://nooku/dispatcher.request',
+            'request'   => 'lib:dispatcher.request',
         ));
 
         parent::_initialize($config);
@@ -129,7 +129,7 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
         if(!($transport instanceof DispatcherResponseTransportInterface))
         {
             if(is_string($transport) && strpos($transport, '.') === false ) {
-                $identifier = 'lib://nooku/dispatcher.response.transport.'.$transport;
+                $identifier = 'lib:dispatcher.response.transport.'.$transport;
             } else {
                 $identifier = $this->getIdentifier($transport);
             }

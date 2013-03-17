@@ -14,11 +14,11 @@
 -->
 <?= @helper('behavior.sortable') ?>
 
-<?= @template('com://admin/base.view.grid.toolbar.html'); ?>
+<?= @template('com:base.view.grid.toolbar.html'); ?>
 
 <? if($articles->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">
-        <?= @helper('com://admin/languages.template.helper.listbox.languages') ?>
+        <?= @helper('com:languages.template.helper.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
 
@@ -27,7 +27,7 @@
 </ktml:module>
 
 <ktml:module position="inspector">
-    <?= @template('com://admin/activities.view.activities.simple.html', array('package' => 'articles', 'name' => 'article')); ?>
+    <?= @template('com:activities.view.activities.simple.html', array('package' => 'articles', 'name' => 'article')); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
@@ -97,7 +97,7 @@
                 </td>
                 <? if($article->isTranslatable()) : ?>
                     <td>
-                        <?= @helper('com://admin/languages.template.helper.grid.status', array(
+                        <?= @helper('com:languages.template.helper.grid.status', array(
                             'status'   => $article->translation_status,
                             'original' => $article->translation_original,
                             'deleted'  => $article->translation_deleted));

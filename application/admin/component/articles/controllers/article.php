@@ -22,11 +22,11 @@ class ArticlesControllerArticle extends BaseControllerModel
     {
     	$config->append(array(
     		'behaviors' => array(
-    	        'com://admin/activities.controller.behavior.loggable',
-    	        'com://admin/versions.controller.behavior.revisable',
-    		    'com://admin/languages.controller.behavior.translatable',
-                'com://admin/attachments.controller.behavior.attachable',
-                'com://admin/terms.controller.behavior.taggable'
+    	        'com:activities.controller.behavior.loggable',
+    	        'com:versions.controller.behavior.revisable',
+    		    'com:languages.controller.behavior.translatable',
+                'com:attachments.controller.behavior.attachable',
+                'com:terms.controller.behavior.taggable'
     	        //'cacheable'
     	    )
     	));

@@ -43,9 +43,9 @@ class DatabaseRowTable extends Framework\DatabaseRowTable
                     $database->execute($query);
                     
                     // Copy content of original table into the language specific one.
-                    $query = $this->getService('lib://nooku/atabase.query.insert')
+                    $query = $this->getService('lib:atabase.query.insert')
                         ->table($table)
-                        ->values($this->getService('lib://nooku/database.query.select')->table($this->name));
+                        ->values($this->getService('lib:database.query.select')->table($this->name));
                     $database->execute($query);
                     
                     $status   = DatabaseRowTranslation::STATUS_MISSING;
@@ -59,7 +59,7 @@ class DatabaseRowTable extends Framework\DatabaseRowTable
                 }
                 
                 // Add items to the translations table.
-                $select = $this->getService('lib://nooku/database.query.select')
+                $select = $this->getService('lib:database.query.select')
                     ->columns(array(
                         'iso_code'  => ':iso_code',
                         'table'     => ':table',
@@ -75,7 +75,7 @@ class DatabaseRowTable extends Framework\DatabaseRowTable
                         'original'  => $original
                     ));
                 
-                $query = $this->getService('lib://nooku/database.query.insert')
+                $query = $this->getService('lib:database.query.insert')
                     ->table('languages_translations')
                     ->columns(array('iso_code', 'table', 'row', 'status', 'original'))
                     ->values($select);

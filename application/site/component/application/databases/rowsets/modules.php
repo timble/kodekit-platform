@@ -25,7 +25,7 @@ class ApplicationDatabaseRowsetModules extends Framework\DatabaseRowsetAbstract 
         //TODO : Inject raw data using $config->data
         $page = $this->getService('application.pages')->getActive();
 
-        $modules = $this->getService('com://admin/pages.model.modules')
+        $modules = $this->getService('com:pages.model.modules')
             ->application('site')
             ->published(true)
             ->access((int) $this->getService('user')->isAuthentic())

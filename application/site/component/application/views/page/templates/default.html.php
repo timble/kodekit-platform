@@ -42,7 +42,7 @@
 </div>
 
 <? if(@service('application')->getCfg('debug')) : ?>
-    <?= @service('com://admin/debug.controller.debug')->render(); ?>
+    <?= @service('com:debug.controller.debug')->render(); ?>
 <? endif; ?>
 
 </body>

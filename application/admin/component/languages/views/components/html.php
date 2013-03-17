@@ -30,8 +30,8 @@ class LanguagesViewComponentsHtml extends BaseViewHtml
     
     public function render()
     {
-        $tables     = $this->getService('com://admin/languages.model.tables')->getRowset();
-        $components = $this->getService('com://admin/extensions.model.components')
+        $tables     = $this->getService('com:languages.model.tables')->getRowset();
+        $components = $this->getService('com:extensions.model.components')
             ->id(array_unique($tables->extensions_component_id))
             ->getRowset();
         

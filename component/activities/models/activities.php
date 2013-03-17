@@ -92,7 +92,7 @@ class ModelActivities extends Framework\ModelTable
 		if ($state->start_date && $state->start_date != '0000-00-00')
 		{
 		    // TODO: Sync this code with Date and DatabaseQuery changes.
-			$start_date = $this->getService('lib://nooku/date', array('date' => $this->_state->start_date));
+			$start_date = $this->getService('lib:date', array('date' => $this->_state->start_date));
 			$days_back  = clone $start_date;
 			$start      = $start_date->addDays(1)->addSeconds(-1)->getDate();
 

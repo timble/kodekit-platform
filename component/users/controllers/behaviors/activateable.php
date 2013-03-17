@@ -87,7 +87,7 @@ class ControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstrac
         // Set activation on new records.
         if ($this->_enable)
         {
-            $password = $this->getService('com://admin/users.database.row.password');
+            $password = $this->getService('com:users.database.row.password');
             $context->request->data->activation = $password->getRandom(32);
             $context->request->data->enabled    = 0;
         }

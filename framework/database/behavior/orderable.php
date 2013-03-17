@@ -76,7 +76,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 			$new = $new <= 0 ? 1 : $new;
 
 			$table = $this->getTable();
-			$query = $this->getService('lib://nooku/database.query.update')
+			$query = $this->getService('lib:database.query.update')
 			    ->table($table->getBase());
 			
 			//Build the where query
@@ -124,7 +124,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
         $db    = $table->getAdapter();
         $db->execute('SET @order = '.$base);
         
-        $query = $this->getService('lib://nooku/database.query.update')
+        $query = $this->getService('lib:database.query.update')
             ->table($table->getBase())
             ->values('ordering = (@order := @order + 1)')
             ->order('ordering', 'ASC');
@@ -150,7 +150,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
         $table = $this->getTable();
         $db    = $table->getAdapter();
         
-        $query = $this->getService('lib://nooku/database.query.select')
+        $query = $this->getService('lib:database.query.select')
             ->columns('MAX(ordering)')
             ->table($table->getName());
 

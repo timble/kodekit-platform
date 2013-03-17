@@ -33,7 +33,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
 
         $result = '';
 
-        $menus = $this->getService('com://admin/pages.model.menus')
+        $menus = $this->getService('com:pages.model.menus')
             ->application('admin')
             ->getRowset();
 

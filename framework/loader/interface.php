@@ -71,13 +71,36 @@ interface LoaderInterface
     public function getAliases();
 
     /**
+     * Add an application
+     *
+     * @param string $name The name of the application
+     * @param string $path The path of the application
+     * @return void
+     */
+    public static function addApplication($name, $path);
+
+    /**
+     * Get an application path
+     *
+     * @param string $name The name of the application
+     * @return string The path of the application
+     */
+    public static function getApplication($name);
+
+    /**
+     * Get a list of applications
+     *
+     * @return array
+     */
+    public static function getApplications();
+
+    /**
      * Load a class based on a class name
      *
-     * @param string  $class    The class name
-     * @param string  $basepath The basepath
+     * @param  string   $class  The class name
      * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
-    public function loadClass($class, $basepath = null);
+    public function loadClass($class);
 
 	/**
      * Load a class based on an identifier
@@ -98,9 +121,8 @@ interface LoaderInterface
     /**
      * Get the path based on a class name
      *
-     * @param string $class    The class name
-     * @param string $basepath The basepath
+     * @param string $class   The class name
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function findPath($class, $basepath = null);
+    public function findPath($class);
 }

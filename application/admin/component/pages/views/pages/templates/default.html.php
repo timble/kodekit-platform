@@ -13,14 +13,14 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com://admin/base.view.grid.toolbar.html') ?>
+<?= @template('com:base.view.grid.toolbar.html') ?>
 
 <ktml:module position="sidebar">
     <?= @template('default_sidebar.html') ?>
 </ktml:module>
 
 <ktml:module position="inspector">
-    <?= @template('com://admin/activities.view.activities.simple.html', array('package' => 'pages', 'name' => 'page')); ?>
+    <?= @template('com:activities.view.activities.simple.html', array('package' => 'pages', 'name' => 'page')); ?>
 </ktml:module>
 
 <form id="pages-form" action="" method="get" class="-koowa-grid" >

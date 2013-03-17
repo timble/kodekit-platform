@@ -61,7 +61,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 		));
         
         $this->_file_controller = $this->getService($config->file_controller, array(
-			'request' => $this->getService('lib://nooku/controller.request', array(
+			'request' => $this->getService('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
@@ -69,7 +69,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 		));
         
         $this->_attachment_controller = $this->getService($config->attachment_controller, array(
-			'request' => $this->getService('lib://nooku/controller.request', array(
+			'request' => $this->getService('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
@@ -83,8 +83,8 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 	{
 		$config->append(array(
 			'container' => 'attachments-attachments',
-			'file_controller' => 'com://admin/files.controller.file',
-			'attachment_controller' => 'com://admin/attachments.controller.attachment',
+			'file_controller' => 'com:files.controller.file',
+			'attachment_controller' => 'com:attachments.controller.attachment',
 			'populate_from_request' => true,
 			'attachment_limit' => false
 		));
@@ -179,8 +179,8 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 	
 		$row = $context->result;
         
-        $count = $this->getService('com://admin/attachments.controller.attachment', array(
-			'request' => $this->getService('lib://nooku/controller.request', array(
+        $count = $this->getService('com:attachments.controller.attachment', array(
+			'request' => $this->getService('lib:controller.request', array(
 				'query' => array(
 					'row' => $row->id,
 					'table' => $row->getTable()->getBase()
@@ -232,7 +232,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 
             if(!empty($id) && $id != 0)
             {
-                $rows = $this->getService('com://admin/attachments.model.attachments')
+                $rows = $this->getService('com:attachments.model.attachments')
                     ->row($id)
                     ->table($table)
                     ->getRowset();

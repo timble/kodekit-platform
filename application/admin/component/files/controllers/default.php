@@ -24,7 +24,7 @@ class FilesControllerDefault extends BaseControllerModel
 		$config->append(array(
 			'persistable' => false,
 			'limit' => array('max' => 1000),
-			'request' => $this->getService('lib://nooku/controller.request', array(
+			'request' => $this->getService('lib:controller.request', array(
 				'query' => array('container' => 'files-files')
 			))
 		));

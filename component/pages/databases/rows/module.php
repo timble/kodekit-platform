@@ -55,11 +55,10 @@ class DatabaseRowModule extends Framework\DatabaseRowTable
 
         if($column == 'identifier' && empty($this->_data['identifier']))
         {
-            $application = $this->application;
             $name        = substr( $this->name, 4);
             $package     = substr($this->component_name, 4);
 
-            $this->_data['identifier'] = $this->getIdentifier('com://'.$application.'/'.$package.'.module.'.$name.'.html');
+            $this->_data['identifier'] = $this->getIdentifier('com:'.$package.'.module.'.$name.'.html');
         }
 
         if($column == 'attribs' && empty($this->_data['attribs'])) {
@@ -98,8 +97,8 @@ class DatabaseRowModule extends Framework\DatabaseRowTable
 		{
 		    if(!$this->isNew()) 
 		    {
-		        $table = $this->getService('com://admin/pages.database.table.modules_pages');
-				$query = $this->getService('lib://nooku/database.query.select')
+		        $table = $this->getService('com:pages.database.table.modules_pages');
+				$query = $this->getService('lib:database.query.select')
                     ->columns('pages_page_id')
                     ->where('pages_module_id = :id')
                     ->bind(array('id' => $this->id));
@@ -137,7 +136,7 @@ class DatabaseRowModule extends Framework\DatabaseRowTable
 
 		if(in_array('pages', $modified)) 
 		{
-		    $table = $this->getService('com://admin/pages.database.table.modules');
+		    $table = $this->getService('com:pages.database.table.modules');
 		
 		    //Clean up existing assignemnts
 		    $table->select(array('pages_module_id' => $this->id))->delete();

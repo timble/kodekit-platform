@@ -21,6 +21,6 @@ class ControllerBehaviorRevisable extends Framework\ControllerBehaviorAbstract
 {
 	protected function _beforeControllerRender(Framework\CommandContext $context)
 	{
-	    $this->attachToolbar('com://admin/versions.controller.toolbar.revisable');
+	    $this->attachToolbar('com:versions.controller.toolbar.revisable');
 	}
 }

@@ -105,7 +105,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
 
     protected function _beforeControllerToken(Framework\CommandContext $context)
     {
-        $user = $this->getService('com://site/users.model.users')
+        $user = $this->getService('com:users.model.users')
             ->set('email', $context->request->data->get('email', 'email'))
             ->getRow();
 
@@ -135,7 +135,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         $site_name  = $config->getValue('sitename');
         $from_email = $config->getValue('mailfrom');
         $from_name  = $config->getValue('fromname');
-        $url        = $this->getService('lib://nooku/http.url',
+        $url        = $this->getService('lib:http.url',
             array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
         $url     = $url = $context->request->getUrl()->toString(Framework\HttpUrl::SCHEME | Framework\HttpUrl::HOST | Framework\HttpUrl::PORT) . $url;

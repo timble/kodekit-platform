@@ -21,14 +21,14 @@ abstract class TermsControllerTerm extends BaseControllerModel
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-        	//'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
-            'model'     => 'com://admin/terms.model.terms'
+        	//'behaviors' => array('com:activities.controller.behavior.loggable'),
+            'model'     => 'com:terms.model.terms'
         ));
         
         parent::_initialize($config);
         
         //Force the toolbars
-        $config->toolbars = array('menubar', 'com://admin/terms.controller.toolbar.term');
+        $config->toolbars = array('menubar', 'com:terms.controller.toolbar.term');
     }
     
     protected function _actionRender(Framework\CommandContext $context)

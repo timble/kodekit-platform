@@ -34,8 +34,7 @@ class TemplateHelperListbox extends \BaseTemplateHelperListbox
         //@TODO can be removed when name collisions fixed
         $config->name = 'order'; 
 
-        $app        = $this->getIdentifier()->namespace;
-        $identifier = 'com://'.$app.'/'.$config->package.'.model.'.($config->model ? $config->model : Framework\Inflector::pluralize($config->package));
+        $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Framework\Inflector::pluralize($config->package));
 
         $list = $this->getService($identifier)->set($config->filter)->getRowset();
 
@@ -70,7 +69,7 @@ class TemplateHelperListbox extends \BaseTemplateHelperListbox
             $options[] = $this->option(array('text' => \JText::_($config->prompt), 'value' => 0));
         }
 
-        $list = $this->getService('com://admin/categories.model.categories')
+        $list = $this->getService('com:categories.model.categories')
                      ->set('table', $config->table)
                      ->set('parent', $config->parent)
                      ->set('sort', 'title')

@@ -20,31 +20,30 @@ class LoaderAdapterLibrary extends LoaderAdapterAbstract
     /**
      * Get the path based on a class name
      *
-     * @param  string       $classname The class name
-     * @param  string|false $basepath
-     * @return string  The path on success FALSE on failure
+     * @param  string   $class The class name
+     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-	public function findPath($classname, $basepath = null)
+	public function findPath($class)
 	{
 		$path = false;
 
-        $pos       = strrpos($classname, '\\');
-        $namespace = substr($classname, 0, $pos);
-        $classname = substr($classname, $pos + 1);
+        $pos       = strrpos($class, '\\');
+        $namespace = substr($class, 0, $pos);
+        $class     = substr($class, $pos + 1);
         $basepath  = $this->_namespaces['\\'.$namespace];
 
         /*
          * Exception rule for Exception classes
          *
-         * Transform classname to lower case to always load the exception class from the /exception/ folder.
+         * Transform class to lower case to always load the exception class from the /exception/ folder.
          */
-        if($pos = strpos($classname, 'Exception'))
+        if($pos = strpos($class, 'Exception'))
         {
-            $filename  = substr($classname, $pos + strlen('Exception'));
-            $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
+            $filename  = substr($class, $pos + strlen('Exception'));
+            $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
         }
 
-		$parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $classname));
+		$parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $class));
 	    $path  = strtolower(implode('/', $parts));
 
 		if(count($parts) == 1) {

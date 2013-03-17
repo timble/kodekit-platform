@@ -26,7 +26,7 @@ class ApplicationDatabaseRowsetLanguages extends Framework\DatabaseRowsetAbstrac
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $components = $this->getService('com://admin/languages.model.languages')
+        $components = $this->getService('com:languages.model.languages')
             ->enabled(true)
             ->application('site')
             ->getRowset();

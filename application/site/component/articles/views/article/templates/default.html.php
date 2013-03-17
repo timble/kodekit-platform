@@ -30,6 +30,6 @@
 
     <?= $article->introtext . $article->fulltext ?>
     
-    <?= @template('com://site/terms.view.terms.default.html') ?>
-    <?= @template('com://site/attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+    <?= @template('com:terms.view.terms.default.html') ?>
+    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>

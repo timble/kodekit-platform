@@ -9,4 +9,4 @@
 ?>
 
 <h3><?= @text('Categories')?></h3>
-<?= @template('com://admin/articles.view.categories.list.html', array('categories' => @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getRowset())); ?>
+<?= @template('com:articles.view.categories.list.html', array('categories' => @service('com:articles.model.categories')->sort('title')->table('articles')->getRowset())); ?>

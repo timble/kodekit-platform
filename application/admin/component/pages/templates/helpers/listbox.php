@@ -46,8 +46,8 @@ class PagesTemplateHelperListbox extends BaseTemplateHelperListbox
             $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
-        $menus = $this->getService('com://admin/pages.model.menus')->getRowset();
-        $pages = $this->getService('com://admin/pages.model.pages')->published(true)->getRowset();
+        $menus = $this->getService('com:pages.model.menus')->getRowset();
+        $pages = $this->getService('com:pages.model.pages')->published(true)->getRowset();
 
         foreach($menus as $menu)
         {
@@ -76,7 +76,7 @@ class PagesTemplateHelperListbox extends BaseTemplateHelperListbox
             'menu' => null
         ));
 
-        $pages = $this->getService('com://admin/pages.model.pages')
+        $pages = $this->getService('com:pages.model.pages')
             ->published(true)
             ->menu($config->menu)
             ->limit(0)
@@ -120,7 +120,7 @@ class PagesTemplateHelperListbox extends BaseTemplateHelperListbox
 
         $options = array();
 
-        $path = $this->getIdentifier()->getNamespace('site');
+        $path = $this->getService('loader')->getApplication('site');
         $path = $path.'/public/theme/bootstrap/config.xml';
 
         if (file_exists($path))

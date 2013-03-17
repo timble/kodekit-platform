@@ -142,7 +142,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $query = $this->getService('lib://nooku/database.query.select')
+            $query = $this->getService('lib:database.query.select')
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
 

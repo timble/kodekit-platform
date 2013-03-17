@@ -21,7 +21,7 @@ class ArticlesControllerDefault extends BaseControllerModel
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-        	'behaviors' => array('com://admin/activities.controller.behavior.loggable'),
+        	'behaviors' => array('com:activities.controller.behavior.loggable'),
         ));
     
         parent::_initialize($config);

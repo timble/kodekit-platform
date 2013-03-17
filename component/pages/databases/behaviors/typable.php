@@ -75,7 +75,7 @@ class DatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
                 $name = $fileinfo->getBasename('.php');
                 if($name != 'abstract' && $name != 'interface')
                 {
-                    $strategy = $this->getService('com://admin/pages.database.behavior.type.'.$name);
+                    $strategy = $this->getService('com:pages.database.behavior.type.'.$name);
                     $this->_strategies[$name] = $strategy;
                 }
             }

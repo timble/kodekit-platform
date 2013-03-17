@@ -37,7 +37,7 @@ class TemplateHelperAttachment extends Framework\TemplateHelperAbstract
 
 		if(!$config->allowed_extensions || !$config->allowed_mimetypes)
 		{
-			$container = $this->getService('com://admin/files.database.table.containers')
+			$container = $this->getService('com:files.database.table.containers')
 							  ->select(array('slug' => 'attachments-attachments'), Framework\Database::FETCH_ROW);
 			
 			$config->append(array(

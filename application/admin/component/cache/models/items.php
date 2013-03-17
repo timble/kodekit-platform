@@ -80,7 +80,7 @@ class CacheModelItems extends Framework\ModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		    
-		    $this->_rowset = $this->getService('com://admin/cache.database.rowset.items', array('data' => $data));
+		    $this->_rowset = $this->getService('com:cache.database.rowset.items', array('data' => $data));
         }
         
         return $this->_rowset;

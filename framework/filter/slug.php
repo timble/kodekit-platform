@@ -75,7 +75,7 @@ class FilterSlug extends FilterAbstract
 	 */
 	protected function _validate($value)
 	{
-		return $this->getService('lib://nooku/filter.cmd')->validate($value);
+		return $this->getService('lib:filter.cmd')->validate($value);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class FilterSlug extends FilterAbstract
 		$value = str_replace($this->_separator, ' ', $value);
 
 		//convert to ascii characters
-		$value = $this->getService('lib://nooku/filter.ascii')->sanitize($value);
+		$value = $this->getService('lib:filter.ascii')->sanitize($value);
 
 		//lowercase and trim
 		$value = trim(strtolower($value));

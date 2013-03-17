@@ -27,7 +27,7 @@ class DatabaseTableLanguages extends Framework\DatabaseTableAbstract
                 'sluggable' => array('columns' => array('name'))
             ),
             'filters'   => array(
-                'iso_code'  => array('com://admin/languages.filter.iso'),
+                'iso_code'  => array('com:languages.filter.iso'),
 		    )
         ));
 

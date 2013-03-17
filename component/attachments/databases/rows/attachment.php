@@ -24,7 +24,7 @@ class DatabaseRowAttachment extends Framework\DatabaseRowDefault
 		$return = parent::save();
 			
 		if ($return && $this->row && $this->table) {
-			$relation = $this->getService('com://admin/attachments.database.row.relation');
+			$relation = $this->getService('com:attachments.database.row.relation');
 			$relation->attachments_attachment_id = $this->id;
 			$relation->table = $this->table;
 			$relation->row = $this->row;
@@ -43,13 +43,13 @@ class DatabaseRowAttachment extends Framework\DatabaseRowDefault
 			
 		if ($return)
         {
-			$this->getService('com://admin/files.controller.file', array(
-				'request' => $this->getService('lib://nooku/controller.request', array(
+			$this->getService('com:files.controller.file', array(
+				'request' => $this->getService('lib:controller.request', array(
                                 'query' => array('container' => $this->container, 'name' => $this->path)
                             ))
 			))->delete();
 			
-			$relations = $this->getService('com://admin/attachments.database.table.relations')
+			$relations = $this->getService('com:attachments.database.table.relations')
 				->select(array('attachments_attachment_id' => $this->id));
 			$relations->delete();
 		}
@@ -61,13 +61,13 @@ class DatabaseRowAttachment extends Framework\DatabaseRowDefault
 	{
 	    if($name == 'relation' && !isset($this->relation))
 	    {
-	        $this->relation = $this->getService('com://admin/attachments.database.table.relations')
+	        $this->relation = $this->getService('com:attachments.database.table.relations')
 	            ->select(array('attachments_attachment_id' => $this->id), Framework\Database::FETCH_ROW);
 	    }
         
         if($name == 'file' && !isset($this->file))
 	    {
-	    	$this->file = $this->getService('com://admin/files.model.files')
+	    	$this->file = $this->getService('com:files.model.files')
 	    					->container($this->container)
 	    					->folder($this->path)
 	    					->name($this->name)
@@ -80,7 +80,7 @@ class DatabaseRowAttachment extends Framework\DatabaseRowDefault
 	    	
 	    	if($file && $file->isImage())
 	    	{
-	    		$this->thumbnail = $this->getService('com://admin/files.controller.thumbnail')
+	    		$this->thumbnail = $this->getService('com:files.controller.thumbnail')
 	    				->container($this->container)
 	    				->filename($this->path)
 	    				->read();

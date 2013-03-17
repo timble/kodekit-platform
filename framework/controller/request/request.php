@@ -75,7 +75,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      */
     public function setQuery($parameters)
     {
-        $this->_query = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
+        $this->_query = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
         return $this;
     }
 
@@ -97,7 +97,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      */
     public function setData($parameters)
     {
-        $this->_data = $this->getService('lib://nooku/http.message.parameters', array('parameters' => $parameters));
+        $this->_data = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
         return $this;
     }
 

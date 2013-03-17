@@ -59,7 +59,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
     public function getLink()
     {
-        $link = $this->getService('lib://nooku/http.url', array('url' => '?'.$this->link_url));
+        $link = $this->getService('lib:http.url', array('url' => '?'.$this->link_url));
         $link->query['Itemid'] = $this->id;
 
         return $link;
@@ -166,7 +166,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $xml  = \JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getIdentifier()->getNamespace('admin').'/component/'.substr($type['option'], 4).'/config.xml';
+        $path = $this->getService('loader')->getApplication('admin').'/component/'.substr($type['option'], 4).'/config.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -179,7 +179,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $xml  = \JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getIdentifier()->getNamespace('site').'/component/'.substr($type['option'], 4).'/views/'.$type['view'].'/templates/'.$type['layout'].'.xml';
+        $path = $this->getService('loader')->getApplication('site').'/component/'.substr($type['option'], 4).'/views/'.$type['view'].'/templates/'.$type['layout'].'.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -203,7 +203,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
             // TODO: Get component from application.component.
             // Set component id.
-            $component = $this->getService('com://admin/extensions.database.table.components')
+            $component = $this->getService('com:extensions.database.table.components')
                 ->select(array('name' => $query['option']), Framework\Database::FETCH_ROW);
 
             $this->extensions_component_id = $component->id;

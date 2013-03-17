@@ -23,7 +23,7 @@ class LanguagesControllerComponent extends BaseControllerView
     {
         if($context->request->data->has('id'))
         {
-            $this->getService('com://admin/languages.model.tables')
+            $this->getService('com:languages.model.tables')
                 ->component($context->request->data->get('id', 'int'))
                 ->getRowset()
                 ->setData(array('enabled' => $context->request->data->get('enabled', 'int')))

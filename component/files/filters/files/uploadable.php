@@ -25,11 +25,11 @@ class FilterFileUploadable extends Framework\FilterAbstract
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com://admin/files.filter.file.name'), Framework\Command::PRIORITY_HIGH);
+		$this->addFilter($this->getService('com:files.filter.file.name'), Framework\Command::PRIORITY_HIGH);
 
-		$this->addFilter($this->getService('com://admin/files.filter.file.extension'));
-		$this->addFilter($this->getService('com://admin/files.filter.file.mimetype'));
-		$this->addFilter($this->getService('com://admin/files.filter.file.size'));
+		$this->addFilter($this->getService('com:files.filter.file.extension'));
+		$this->addFilter($this->getService('com:files.filter.file.mimetype'));
+		$this->addFilter($this->getService('com:files.filter.file.size'));
 	}
 
 	protected function _validate($context)

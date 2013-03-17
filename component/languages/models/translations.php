@@ -26,7 +26,7 @@ class ModelTranslations extends Framework\ModelTable
         $this->getState()
             ->insert('table', 'cmd')
             ->insert('row', 'int')
-            ->insert('iso_code', 'com://admin/languages.filter.iso')
+            ->insert('iso_code', 'com:languages.filter.iso')
             ->insert('status', 'int')
             ->insert('deleted', 'boolean', false);
     }

@@ -21,7 +21,7 @@
     });
 </script>
 
-<?= @template('com://admin/base.view.form.toolbar.html'); ?>
+<?= @template('com:base.view.form.toolbar.html'); ?>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
 	<input type="hidden" name="enabled" value="<?= $this->getService('user')->getId() == $user->id ? 1 : 0 ?>" />
@@ -44,7 +44,7 @@
 				<div class="control-group">
 				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
 				    <div class="controls">
-				        <?= @helper('com://admin/extensions.template.helper.listbox.timezones',
+				        <?= @helper('com:extensions.template.helper.listbox.timezones',
 				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'chzn-select'))) ?>
 				    </div>
 				</div>
@@ -55,7 +55,7 @@
 				    <label class="control-label" for="password"><?= @text('Password') ?></label>
 				    <div class="controls">
 				        <input class="passwordLength:<?=$params->get('password_length', 6);?>" id="password" type="password" name="password" maxlength="100" />
-				        <?=@helper('com://admin/users.template.helper.form.password');?>
+				        <?=@helper('com:users.template.helper.form.password');?>
 				    </div>
 				</div>
 				<div class="control-group">
@@ -122,7 +122,7 @@
 				<div class="control-group">
 				    <div class="controls">
 				        <?= @helper('listbox.radiolist', array(
-				        		'list'     => @service('com://admin/users.model.roles')->sort('id')->getRowset(),
+				        		'list'     => @service('com:users.model.roles')->sort('id')->getRowset(),
 				        		'selected' => $user->role_id,
 				        		'name'     => 'role_id',
 				                'text'     => 'name',

@@ -79,7 +79,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		))->append(array(
 			'value'		 => $config->name,
 			'selected'   => $config->{$config->name},
-		    'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
+		    'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(
@@ -129,7 +129,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		))->append(array(
 		    'value'		 => $config->name,
 		    'selected'   => $config->{$config->name},
-			'identifier' => 'com://'.$this->getIdentifier()->namespace.'/'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
+			'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(

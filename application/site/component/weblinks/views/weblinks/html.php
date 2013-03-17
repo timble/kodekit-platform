@@ -53,7 +53,7 @@ class WeblinksViewWeblinksHtml extends Framework\ViewHtml
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com://site/weblinks.model.categories')
+        $category = $this->getService('com:weblinks.model.categories')
             ->table('weblinks')
             ->id($this->getModel()->getState()->category)
             ->getRow();

@@ -25,7 +25,7 @@
     });
 </script>
 
-<?= @template('com://admin/base.view.form.toolbar.html') ?>
+<?= @template('com:base.view.form.toolbar.html') ?>
 
 <form action="" method="post" class="-koowa-form" id="page-form">
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />

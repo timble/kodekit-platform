@@ -18,7 +18,7 @@ namespace Nooku\Framework;
 abstract class ServiceLocatorAbstract extends Object implements ServiceLocatorInterface
 {
     /**
-     * The type
+     * The locator type
      *
      * @var string
      */

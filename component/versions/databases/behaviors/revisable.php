@@ -55,7 +55,7 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-        	'table' => $this->getService('com://admin/versions.database.table.revisions')
+        	'table' => $this->getService('com:versions.database.table.revisions')
         ));
 
         parent::_initialize($config);
@@ -366,7 +366,7 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
     	// Set revision number.
     	if ($status == Framework\Database::STATUS_UPDATED || $status == Framework\Database::STATUS_DELETED)
     	{
-    	    $query = $this->getService('lib://nooku/database.query.select')
+    	    $query = $this->getService('lib:database.query.select')
         	    ->where('table = :table')
         	    ->where('row = :row')
         	    ->order('revision', 'DESC')

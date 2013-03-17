@@ -20,35 +20,19 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
     /**
      * Get the path based on a class name
      *
-     * @param  string       $classname The class name
-     * @param  string|false $basepath
-     * @return string  The path on success FALSE on failure
+     * @param  string   $class The class name
+     * @return string|false   Returns canonicalized absolute pathname or FALSE if the class could not be found.
      */
-	public function findPath($classname, $basepath = null)
+	public function findPath($class)
 	{
-        static $base;
-
         $path = false;
 
-        //Find the classname
-        foreach($this->_namespaces as $namespace => $path)
+        //Find the class
+        foreach($this->_namespaces as $namespace => $basepath)
         {
-            if(strpos('\\'.$classname, $namespace) === 0)
+            if(strpos('\\'.$class, $namespace) === 0)
             {
-                $classname = str_replace(array($namespace, '\\'), '', '\\'.$classname);
-
-                //Set the basepath
-                if($namespace == '\\')
-                {
-                    //Handle basepath switching
-                    if(!empty($basepath)) {
-                        $base = $basepath;
-                    }
-
-                    $basepath = $base;
-                }
-                else  $basepath = $path;
-
+                $class = str_replace(array($namespace, '\\'), '', '\\'.$class);
                 break;
             }
         }
@@ -56,15 +40,15 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
         /*
          * Exception rule for Exception classes
          *
-         * Transform classname to lower case to always load the exception class from the /exception/ folder.
+         * Transform class to lower case to always load the exception class from the /exception/ folder.
          */
-        if($pos = strpos($classname, 'Exception'))
+        if($pos = strpos($class, 'Exception'))
         {
-            $filename  = substr($classname, $pos + strlen('Exception'));
-            $classname = str_replace($filename, ucfirst(strtolower($filename)), $classname);
+            $filename  = substr($class, $pos + strlen('Exception'));
+            $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
         }
 
-		$parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $classname)));
+		$parts = explode(' ', strtolower(preg_replace('/(?<=\\w)([A-Z])/', ' \\1', $class)));
 
         $component = strtolower(array_shift($parts));
 		$file 	   = array_pop($parts);
@@ -84,7 +68,6 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
 		else $path = $file;
 
 		$path = $basepath.'/'.$component.'/'.$path.'.php';
-
 
 		return $path;
 	}

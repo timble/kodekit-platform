@@ -157,7 +157,7 @@ class ModelTable extends ModelAbstract
 
             if($state->isUnique())
             {
-                $query = $this->getService('lib://nooku/database.query.select');
+                $query = $this->getService('lib:database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -189,7 +189,7 @@ class ModelTable extends ModelAbstract
 
             if(!$state->isEmpty())
             {
-                $query = $this->getService('lib://nooku/database.query.select');
+                $query = $this->getService('lib:database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -220,7 +220,7 @@ class ModelTable extends ModelAbstract
         {
             $state = $this->getState();
 
-            $query = $this->getService('lib://nooku/database.query.select');
+            $query = $this->getService('lib:database.query.select');
             $query->columns('COUNT(*)');
 
             $this->_buildQueryTable($query);

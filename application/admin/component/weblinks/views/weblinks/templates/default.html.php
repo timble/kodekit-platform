@@ -15,14 +15,14 @@
 -->
 <?= @helper('behavior.sortable') ?>
 
-<?= @template('com://admin/base.view.grid.toolbar.html'); ?>
+<?= @template('com:base.view.grid.toolbar.html'); ?>
 
 <ktml:module position="sidebar">
 	<?= @template('default_sidebar.html'); ?>
 </ktml:module>
 
 <ktml:module position="inspector">
-    <?= @template('com://admin/activities.view.activities.simple.html', array('package' => 'weblinks', 'name' => 'weblink')); ?>
+    <?= @template('com:activities.view.activities.simple.html', array('package' => 'weblinks', 'name' => 'weblink')); ?>
 </ktml:module>
 
 <form action="" method="get" class="-koowa-grid">

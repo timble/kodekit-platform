@@ -83,7 +83,7 @@ class ViewActivitiesJson extends Framework\ViewJson
 
 			    $items[] = array(
 			    	'id' => implode(',', $id),
-			    	'published' => $this->getService('com://admin/activities.template.helper.date')->format(array(
+			    	'published' => $this->getService('com:activities.template.helper.date')->format(array(
 			    		'date'   => $item->created_on,
 			    		'format' => '%Y-%m-%dT%TZ'
 				    )),

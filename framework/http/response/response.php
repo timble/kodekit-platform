@@ -186,7 +186,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      */
     public function setHeaders($headers)
     {
-        $this->_headers = $this->getService('lib://nooku/http.response.headers', array('headers' => $headers));
+        $this->_headers = $this->getService('lib:http.response.headers', array('headers' => $headers));
         return $this;
     }
 

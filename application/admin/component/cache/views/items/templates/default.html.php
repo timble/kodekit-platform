@@ -14,7 +14,7 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com://admin/base.view.grid.toolbar.html'); ?>
+<?= @template('com:base.view.grid.toolbar.html'); ?>
 
 <ktml:module position="sidebar">
 	<?= @template('default_sidebar.html'); ?>

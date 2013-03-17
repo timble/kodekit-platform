@@ -21,7 +21,7 @@ class ApplicationDatabaseRowComponent extends Framework\DatabaseRowAbstract
     public function isTranslatable()
     {
         $result = false;
-        $tables = $this->getService('com://admin/languages.model.tables')
+        $tables = $this->getService('com:languages.model.tables')
             ->reset()
             ->enabled(true)
             ->getRowset();
@@ -37,7 +37,7 @@ class ApplicationDatabaseRowComponent extends Framework\DatabaseRowAbstract
     {
         if($name == 'params' && !($this->_data['params']) instanceof JParameter)
         {
-            $path = $this->getIdentifier()->getNamespace('admin');
+            $path = $this->getService('loader')->getApplication('admin');
             $file = $path.'/component/'.$this->option.'/resources/config/settings.xml';
 
             $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );

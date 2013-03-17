@@ -28,7 +28,7 @@ class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
  	 *
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'koowa-cache-loader';
+    protected $_cache_prefix = 'nooku-loader-registry';
 
     /**
      * Enable class caching

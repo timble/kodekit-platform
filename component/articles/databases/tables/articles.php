@@ -28,9 +28,9 @@ class DatabaseTableArticles extends Framework\DatabaseTableDefault
                 'orderable' => array(
                     'strategy' => 'flat'
                 ),
-                'com://admin/languages.database.behavior.translatable',
-                'com://admin/attachments.database.behavior.attachable',
-                'com://admin/terms.database.behavior.taggable'
+                'com:languages.database.behavior.translatable',
+                'com:attachments.database.behavior.attachable',
+                'com:terms.database.behavior.taggable'
             ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),

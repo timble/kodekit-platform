@@ -31,8 +31,8 @@ class JElementContact extends JElement
             'autocomplete' => true,
         );
 
-        $template = Framework\ServiceManager::get('com://admin/contacts.controller.contact')->getView()->getTemplate();
-        $html     = Framework\ServiceManager::get('com://admin/contacts.template.helper.listbox', array('template' => $template))->contacts($config);
+        $template = Framework\ServiceManager::get('com:contacts.controller.contact')->getView()->getTemplate();
+        $html     = Framework\ServiceManager::get('com:contacts.template.helper.listbox', array('template' => $template))->contacts($config);
 
         return $html;
 

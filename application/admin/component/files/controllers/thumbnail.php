@@ -27,7 +27,7 @@ class FilesControllerThumbnail extends FilesControllerDefault
     	// Save state data for later
         $state_data = $model->getState()->toArray();
         
-        $nodes = $this->getService('com://admin/files.model.nodes')->set($state_data)->getRowset();
+        $nodes = $this->getService('com:files.model.nodes')->set($state_data)->getRowset();
 
         if (!$model->getState()->files && !$model->getState()->filename) 
         {

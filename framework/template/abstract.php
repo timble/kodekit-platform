@@ -104,7 +104,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             'data'             => array(),
             'filters'          => array(),
             'view'             => null,
-            'command_chain'    => $this->getService('lib://nooku/command.chain'),
+            'command_chain'    => $this->getService('lib:command.chain'),
             'dispatch_events'  => false,
             'enable_callbacks' => false,
         ));
@@ -208,12 +208,12 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     public function loadFile($file, $data = array())
     {
-        if(strpos($file, 'com://') === 0)
+        if(strpos($file, 'com:') === 0)
         {
             $info  = pathinfo( $file );
 
             //Get the filepath based on the identifier
-            $path  = $this->getIdentifier($info['dirname'].'/'.$info['filename'])->filepath;
+            $path  = $this->getIdentifier($info['filename'])->filepath;
 
             //Add the templates folder
             $path = dirname($path).'/templates/'.basename($path);

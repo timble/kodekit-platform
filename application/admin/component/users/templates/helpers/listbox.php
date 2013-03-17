@@ -58,7 +58,7 @@ class UsersTemplateHelperListbox extends BaseTemplateHelperListbox
         $config->append(array(
             'value'      => 'iso_code',
             'text'       => 'name',
-            'identifier' => 'com://admin/languages.model.languages',
+            'identifier' => 'com:languages.model.languages',
             'filter'     => array('application' => 'site', 'enabled' => 1)));
 
         $listbox = parent::_listbox($config);

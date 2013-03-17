@@ -57,8 +57,8 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'adapter' => 'lib://nooku/database.adapter.mysql',
-            'params'  => 'lib://nooku/object.array'
+            'adapter' => 'lib:database.adapter.mysql',
+            'params'  => 'lib:object.array'
         ));
     }
 

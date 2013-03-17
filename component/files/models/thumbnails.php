@@ -24,10 +24,10 @@ class ModelThumbnails extends Framework\ModelTable
 		parent::__construct($config);
 
 		$this->getState()
-			->insert('container' , 'com://admin/files.filter.container', null)
-			->insert('folder'    , 'com://admin/files.filter.path')
-			->insert('filename'  , 'com://admin/files.filter.path', null, true, array('container'))
-			->insert('files'     , 'com://admin/files.filter.path', null)
+			->insert('container' , 'com:files.filter.container', null)
+			->insert('folder'    , 'com:files.filter.path')
+			->insert('filename'  , 'com:files.filter.path', null, true, array('container'))
+			->insert('files'     , 'com:files.filter.path', null)
 			->insert('source'    , 'raw', null, true)
 		    ->insert('types'     , 'cmd', '')
 		    ->insert('config'    , 'json', '');

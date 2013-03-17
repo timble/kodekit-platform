@@ -24,7 +24,7 @@ class UsersViewGroupHtml extends BaseViewHtml
     {
         $group = $this->getModel()->getRow();
 
-        $this->users = $this->getService('com://admin/users.model.groups_users')->group_id($group->id)->getRowset()->user_id;
+        $this->users = $this->getService('com:users.model.groups_users')->group_id($group->id)->getRowset()->user_id;
         
         return parent::render();
     }

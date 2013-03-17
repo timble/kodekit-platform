@@ -32,8 +32,8 @@ class ModelTypes extends Framework\ModelAbstract
     {
         if(!isset($this->_rowset))
         {
-            $table = $this->getService('com://admin/extensions.database.table.components');
-            $query = $this->getService('lib://nooku/database.query.select')
+            $table = $this->getService('com:extensions.database.table.components');
+            $query = $this->getService('lib:database.query.select')
                 ->order('name');
 
             $components = $table->select($query);
@@ -41,7 +41,7 @@ class ModelTypes extends Framework\ModelAbstract
             // Iterate through the components.
             foreach($components as $component)
             {
-                $path  = $this->getIdentifier()->getNamespace($this->getState()->application);
+                $path  = $this->getService('loader')->getApplication($this->getState()->application);
                 $path .= '/component/'.substr($component->name, 4).'/views';
 
                 if(!is_dir($path)) {

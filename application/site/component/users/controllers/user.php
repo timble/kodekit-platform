@@ -33,7 +33,7 @@ class UsersControllerUser extends BaseControllerModel
         $config->append(array(
             'behaviors' => array(
                 'resettable',
-                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
+                'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
                 'activateable')));
 
         parent::_initialize($config);
@@ -87,7 +87,7 @@ class UsersControllerUser extends BaseControllerModel
 
         if ($user->getStatus() == Framework\Database::STATUS_CREATED && $user->activation) {
 
-            $url       = $this->getService('lib://nooku/http.url',
+            $url       = $this->getService('lib:http.url',
                 array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
             $this->getService('application')->getRouter()->build($url);
             $site_url       = $context->request->getUrl()->toString(Framework\HttpUrl::SCHEME | Framework\HttpUrl::HOST | Framework\HttpUrl::PORT);

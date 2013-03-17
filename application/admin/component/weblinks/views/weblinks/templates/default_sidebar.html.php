@@ -10,4 +10,4 @@
 ?>
 
 <h3><?= @text('Categories') ?></h3>
-<?= @template('com://admin/categories.view.categories.list.html', array('categories' => @service('com://admin/weblinks.model.categories')->sort('title')->table('weblinks')->getRowset())); ?>
+<?= @template('com:categories.view.categories.list.html', array('categories' => @service('com:weblinks.model.categories')->sort('title')->table('weblinks')->getRowset())); ?>

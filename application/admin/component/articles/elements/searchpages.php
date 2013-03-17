@@ -30,7 +30,7 @@ class JElementSearchpages extends JElement
 
         );
 
-        $html = Framework\ServiceManager::get('com://admin/articles.template.helper.listbox')->searchpages($config);
+        $html = Framework\ServiceManager::get('com:articles.template.helper.listbox')->searchpages($config);
         return $html;
     }
 }

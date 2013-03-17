@@ -58,7 +58,7 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
         // Get access id.
         $user = $this->getService('user');
 
-        $articles = $this->getService('com://admin/articles.model.articles')
+        $articles = $this->getService('com:articles.model.articles')
             ->set(array(
             'access'    => $user->isAuthentic(),
             'published' => 1,

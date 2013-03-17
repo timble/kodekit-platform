@@ -161,8 +161,8 @@ class ModelModules extends Framework\ModelTable
 
             if($state->installed)
             {
-                $table = $this->getService('com://admin/extensions.database.table.components');
-                $query = $this->getService('lib://nooku/database.query.select')->order('name');
+                $table = $this->getService('com:extensions.database.table.components');
+                $query = $this->getService('lib:database.query.select')->order('name');
 
                 $components = $table->select($query);
 
@@ -170,7 +170,7 @@ class ModelModules extends Framework\ModelTable
                 $modules = array();
                 foreach($components as $component)
                 {
-                    $path  = $this->getIdentifier()->getNamespace('site');
+                    $path  = $this->getService('loader')->getApplication('site');
                     $path .= '/component/'.substr($component->name, 4).'/modules';
 
                     if(!is_dir($path)) {

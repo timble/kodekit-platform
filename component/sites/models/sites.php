@@ -81,7 +81,7 @@ class ModelSites extends Framework\ModelAbstract implements Framework\ServiceIns
                 $data = array_slice($data, $state->offset, $state->limit);
             }
                         
-            $this->_rowset = $this->getService('com://admin/sites.database.rowset.sites', array('data' => $data));
+            $this->_rowset = $this->getService('com:sites.database.rowset.sites', array('data' => $data));
         }
         
         return $this->_rowset;

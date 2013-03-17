@@ -25,7 +25,7 @@ class DatabaseBehaviorCascadable extends Framework\DatabaseBehaviorAbstract
         $result = true;
 
         $table      = $this->table;
-        $identifier = 'com://admin/'.$table.'.database.table.'.$table;
+        $identifier = 'com:'.$table.'.database.table.'.$table;
 
         $rowset = $this->getService($identifier)->select(array('categories_category_id' => $this->id));
 

@@ -24,7 +24,7 @@ class UsersTemplateHelperSelect extends Framework\TemplateHelperSelect
     {
     	$config = new Framework\Config($config);
     	$config->append(array(
-    		'list'      => $this->getService('com://admin/users.model.users')->set('sort', 'name')->getRowset(),
+    		'list'      => $this->getService('com:users.model.users')->set('sort', 'name')->getRowset(),
     		'text'		=> 'name'
     	));
     

@@ -124,7 +124,7 @@ class DatabaseRowUrl extends Framework\DatabaseRowAbstract
 			throw new DatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
-		$uri = $this->getService('lib://nooku/http.url', array('url' => $url));
+		$uri = $this->getService('lib:http.url', array('url' => $url));
 
 		$scheme = $uri->toString(Framework\HttpUrl::SCHEME);
 		$host = $uri->toString(Framework\HttpUrl::HOST);

@@ -35,8 +35,8 @@ class AttachmentsTemplateHelperGrid extends Framework\TemplateHelperDefault
         
         $attribs = $this->_buildAttributes($config->attribs);
 
-        $list = $this->getService('com://admin/attachments.controller.attachment', array(
-			'request' => $this->getService('lib://nooku/controller.request', array(
+        $list = $this->getService('com:attachments.controller.attachment', array(
+			'request' => $this->getService('lib:controller.request', array(
 				'query' => $config->filter
 			))
 		))->browse();
@@ -67,8 +67,8 @@ class AttachmentsTemplateHelperGrid extends Framework\TemplateHelperDefault
             )
         ));
 
-        $list = $this->getService('com://admin/attachments.controller.attachment', array(
-			'request' => $this->getService('lib://nooku/controller.request', array(
+        $list = $this->getService('com:attachments.controller.attachment', array(
+			'request' => $this->getService('lib:controller.request', array(
 				'query' => $config->filter
 			))
 		))->browse();

@@ -33,7 +33,7 @@ class TemplateHelperListbox extends BaseTemplateHelperListbox
             $options[] = $this->option(array('text' => \JText::_($config->prompt)));
         }
         
-        foreach($this->getIdentifier()->getNamespaces() as $application => $path) {
+        foreach($this->getService('loader')->getApplications() as $application => $path) {
             $options[] = $this->option(array('text' => $application, 'value' => $application));
         }
         

@@ -53,7 +53,7 @@ class TemplateFilterPrettyprint extends TemplateFilterAbstract implements Templa
             'drop-proprietary-attributes' => false,
         ));
 
-        $text = $this->getService('lib://nooku/filter.tidy', $config)->sanitize($text);
+        $text = $this->getService('lib:filter.tidy', $config)->sanitize($text);
         return $this;
     }
 }

@@ -52,9 +52,9 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
         $config->append(array(
         	'controller' => $this->getIdentifier()->package,
-            'request'    => 'lib://nooku/dispatcher.request',
-            'response'   => 'lib://nooku/dispatcher.response',
-            'user'       => 'lib://nooku/dispatcher.user',
+            'request'    => 'lib:dispatcher.request',
+            'response'   => 'lib:dispatcher.response',
+            'user'       => 'lib:dispatcher.user',
             'behaviors'  => array($permission),
          ));
 

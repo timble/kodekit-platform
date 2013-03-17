@@ -33,11 +33,11 @@
     }));
 </script>
 
-<?= @template('com://admin/base.view.form.toolbar.html') ?>
+<?= @template('com:base.view.form.toolbar.html') ?>
 
 <? if($article->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">
-        <?= @helper('com://admin/languages.template.helper.listbox.languages') ?>
+        <?= @helper('com:languages.template.helper.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
 
@@ -53,7 +53,7 @@
                 <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" />
             </div>
         </div>
-        <?= @service('com://admin/wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
+        <?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar">        
         <div class="scrollable">
@@ -90,7 +90,7 @@
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Author') ?></label>
                     <div class="controls">
-                        <?= @helper('com://admin/users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
+                        <?= @helper('com:users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
                     </div>
                 </div>
                 <div class="control-group">
@@ -104,7 +104,7 @@
 	        <fieldset class="categories group">
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
-	            <?= @template('form_categories.html', array('categories' =>  @service('com://admin/articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
+	            <?= @template('form_categories.html', array('categories' =>  @service('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
 	            </div>
 	        </fieldset>
 	        <fieldset>
@@ -121,7 +121,7 @@
     	            <? foreach($article->getLanguages() as $language) : ?>
     	                <?= $language->name.':' ?>
     	                <? $translation = $translations->find(array('iso_code' => $language->iso_code)) ?>
-    	                <?= @helper('com://admin/languages.template.helper.grid.status',
+    	                <?= @helper('com:languages.template.helper.grid.status',
     	                    array('status' => $translation->status, 'original' => $translation->original, 'deleted' => $translation->deleted)) ?>
     	            <? endforeach ?>
     	        </fieldset>
@@ -130,9 +130,9 @@
             <fieldset>
                 <legend><?= @text('Attachments') ?></legend>
                 <? if ($article->id) : ?>
-                    <?= @template('com://admin/attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true)) ?>
+                    <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true)) ?>
                 <? endif ?>
-                <?= @template('com://admin/attachments.view.attachments.upload.html') ?>
+                <?= @template('com:attachments.view.attachments.upload.html') ?>
             </fieldset>
             
             <fieldset>
@@ -140,7 +140,7 @@
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Tags') ?></label>
                     <div class="controls">
-                        <?= @helper('com://admin/terms.template.helper.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
+                        <?= @helper('com:terms.template.helper.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
                     </div>
                 </div>
             </fieldset>

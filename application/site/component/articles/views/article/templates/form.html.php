@@ -16,7 +16,7 @@
 -->
 
 <div id="toolbar-box">
-    <?= @helper('com://admin/base.template.helper.toolbar.render', array('toolbar' => $toolbar));?>
+    <?= @helper('com:base.template.helper.toolbar.render', array('toolbar' => $toolbar));?>
 </div>
 
 <form method="post" action="" class="-koowa-form form-horizontal">
@@ -31,7 +31,7 @@
     	        <input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<? echo @escape($article->title); ?>"/>
     	    </div>
     	</div>
-        <?= @service('com://admin/wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
+        <?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </fieldset>
     <fieldset>
         <legend><?= @text('Publishing'); ?></legend>
@@ -62,7 +62,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= @text('Category'); ?></label>
             <div class="controls">
-                <?= @template('com://admin/articles.view.article.form_categories.html', array('categories' =>  @service('com://site/articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
+                <?= @template('com:articles.view.article.form_categories.html', array('categories' =>  @service('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
             </div>
         </div>
     </fieldset>

@@ -63,7 +63,7 @@ class CacheModelGroups extends Framework\ModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		      
-		    $this->_rowset = $this->getService('com://admin/cache.database.rowset.groups', array('data' => $data));
+		    $this->_rowset = $this->getService('com:cache.database.rowset.groups', array('data' => $data));
         }
         
         return $this->_rowset;
@@ -81,7 +81,7 @@ class CacheModelGroups extends Framework\ModelAbstract
     protected function _getData()
     {
         $data = array();
-        $keys = $this->getService('com://admin/cache.model.items')->site($this->_state->site)->getRowset();
+        $keys = $this->getService('com:cache.model.items')->site($this->_state->site)->getRowset();
        
         foreach($keys as $key) 
         {

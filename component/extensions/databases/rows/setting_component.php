@@ -58,7 +58,7 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
     {
         $config->append(array(
             'id'     => '',
-            'table'  => 'com://admin/extensions.database.table.components'
+            'table'  => 'com:extensions.database.table.components'
         ));
 
         parent::_initialize($config);

@@ -61,7 +61,7 @@ class ContactsViewContactHtml extends Framework\ViewHtml
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com://site/contacts.model.categories')
+        $category = $this->getService('com:contacts.model.categories')
                          ->table('contacts')
                          ->id($this->getModel()->getState()->category)
                          ->getRow();

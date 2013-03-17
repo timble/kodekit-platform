@@ -57,7 +57,7 @@
 				</a>
 			</td>
 			<td>
-				<?= @helper('com://admin/files.template.helper.filesize.humanize', array('size' => $file->size));?>
+				<?= @helper('com:files.template.helper.filesize.humanize', array('size' => $file->size));?>
 			</td>
 			<td>
 				<?= $file->extension; ?>

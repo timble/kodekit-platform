@@ -36,9 +36,8 @@ interface LoaderAdapterInterface
     /**
      * Get the path based on a class name
      *
-     * @param  string       $classname The class name
-     * @param  string|false $basepath
-     * @return string  The path on success FALSE on failure
+     * @param  string  $classname The class name
+     * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-    public function findPath($class, $basepath = null);
+    public function findPath($class);
 }

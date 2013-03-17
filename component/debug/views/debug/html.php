@@ -21,8 +21,8 @@ class ViewDebugHtml extends Framework\ViewHtml
 {
     public function render()
     {
-        $database = $this->getService('com://admin/debug.event.subscriber.database');
-        $profiler = $this->getService('com://admin/debug.event.profiler');
+        $database = $this->getService('com:debug.event.subscriber.database');
+        $profiler = $this->getService('com:debug.event.profiler');
         $language = \JFactory::getLanguage();
 
         //Remove the template includes

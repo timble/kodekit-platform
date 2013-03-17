@@ -36,6 +36,7 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
     {
         $config->append(array(
             'fallbacks' => array(
+                '<Package><Class>',
                 '<Package><Path>Default',
                 'Nooku\Component\<Package>\<Class>',
                 'Nooku\Component\<Package>\<Path><Name>',
@@ -56,45 +57,38 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
      */
     public function findClass(ServiceIdentifier $identifier)
     {
-        $path  = Inflector::camelize(implode('_', $identifier->path));
-        $class = ucfirst($identifier->package).$path.ucfirst($identifier->name);
+        $class   = Inflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
-        //Manually load the class to set the basepath
-        if (!$this->getService('loader')->loadClass($class, $identifier->basepath.'/component'))
-        {
-            $classname = $path.ucfirst($identifier->name);
-            $classpath = $identifier->path;
-            $classtype = !empty($classpath) ? array_shift($classpath) : '';
+        $package = ucfirst($identifier->package);
+        $name    = ucfirst($identifier->name);
 
-            //Create the fallback path and make an exception for views and modules
-            if(!in_array($classtype, array('view','module'))) {
-                $path = ucfirst($classtype).Inflector::camelize(implode('_', $classpath));
-            } else {
-                $path = ucfirst($classtype);
-            }
+        //Make an exception for 'view' and 'module' types
+        $path  = $identifier->path;
+        $type  = !empty($path) ? array_shift($path) : '';
 
-            $name    = ucfirst($identifier->name);
-            $package = ucfirst($identifier->package);
-
-            $class = false;
-            foreach($this->_fallbacks as $fallback)
-            {
-                $class = str_replace(
-                    array('<Package>', '<Path>', '<Name>', '<Class>'),
-                    array($package   , $path   , $name   , $classname),
-                    $fallback
-                );
-
-                if(!class_exists($class)) {
-                    $class = false;
-                } else {
-                    break;
-                }
-            }
-
+        if(!in_array($type, array('view','module'))) {
+            $path = ucfirst($type).Inflector::camelize(implode('_', $path));
+        } else {
+            $path = ucfirst($type);
         }
 
-        return $class;
+        $result = false;
+        foreach($this->_fallbacks as $fallback)
+        {
+            $result = str_replace(
+                array('<Package>', '<Path>', '<Name>', '<Class>'),
+                array($package   , $path   , $name   , $class),
+                $fallback
+            );
+
+            if(!class_exists($result)) {
+                $result = false;
+            } else {
+                break;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -129,8 +123,8 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
 
         $path = 'component/'.$component.'/'.$path.'.php';
 
-        if(file_exists($identifier->basepath.'/'.$path)) {
-            $path = $identifier->basepath.'/'.$path;
+        if(file_exists(JPATH_APPLICATION.'/'.$path)) {
+            $path = JPATH_APPLICATION.'/'.$path;
         } else {
             $path = JPATH_ROOT.'/'.$path;
         }

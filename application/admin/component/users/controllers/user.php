@@ -32,7 +32,7 @@ class UsersControllerUser extends BaseControllerModel
     {
         $config->append(array(
             'behaviors' => array(
-                'com://admin/activities.controller.behavior.loggable' => array('title_column' => 'name'),
+                'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));
 
@@ -43,7 +43,7 @@ class UsersControllerUser extends BaseControllerModel
     {
         $entity = parent::_actionDelete($context);
 
-        $this->getService('com://admin/users.model.sessions')
+        $this->getService('com:users.model.sessions')
             ->email($entity->email)
             ->getRowset()
             ->delete();
@@ -70,9 +70,9 @@ class UsersControllerUser extends BaseControllerModel
             $application = $this->getService('application');
 
             /*
-            $url        = $this->getService('lib://nooku/http.url',
+            $url        = $this->getService('lib:http.url',
                 array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
-            $this->getService('com://site/application.router')->build($url);
+            $this->getService('com:application.router')->build($url);
             */
             // TODO Hardcoding URL since AFAIK currently there's no other way to build a frontend route from here.
             // Due to namespacing problems the backend router will always be returned.

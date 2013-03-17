@@ -21,7 +21,7 @@ class ArticlesControllerTerm extends TermsControllerTerm
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'model'   => 'com://admin/terms.model.terms',
+            'model'   => 'com:terms.model.terms',
             'request' => array(
                 'view' => 'term'
             )
