@@ -4246,6 +4246,12 @@ fieldset {
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
+.-koowa-grid .icon-ok {
+  color: #297e52;
+}
+.-koowa-grid .icon-remove {
+  color: #cf1010;
+}
 .pagination {
   float: right;
 }

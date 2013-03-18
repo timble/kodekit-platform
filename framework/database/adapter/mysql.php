@@ -7,8 +7,6 @@
  * @link        http://www.nooku.org
  */
 
-namespace Nooku\Framework;
-
 /**
  * MySQL Database Adapter
  *
@@ -125,7 +123,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     public function connect()
     {
         $options = $this->_options;
-        $dsn     = 'mysql:dbname='.$options->database.';host='.$options->host;
+        $dsn     = 'mysql:dbname='.$options->database.';charset=utf8';
 
         if($options->host)
         {
@@ -139,9 +137,8 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
             $dsn .= ';socket='.$options->socket;
         }
 
-        $dbh = new \PDO($dsn, $options->username, $options->password, array(
-            \PDO::ATTR_PERSISTENT         => true,
-            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
+        $dbh = new PDO($dsn, $options->username, $options->password, array(
+            \PDO::ATTR_PERSISTENT => true,
         ));
 
         $this->_connection = $dbh;
