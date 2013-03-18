@@ -37,11 +37,11 @@ class JConfig
 	*/
 
 	/* Database Settings */
-	var $host = 'localhost';				// This is normally set to localhost
+	var $host = '127.0.0.1';				// This is normally set to 127.0.0.1 or localhost
 	var $user = '';							// MySQL username
 	var $password = '';						// MySQL password
 	var $db = '';							// MySQL database name
-	var $dbprefix = 'jos_';					// Do not change unless you need to!
+	var $dbprefix = 'nf_';					// Do not change unless you need to!
 
 	/* Server Settings */
 	var $secret          = 'FBVtggIk5lAzEU9H'; 	//Change this to something more secure
