@@ -13,7 +13,7 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com:base.view.grid.toolbar.html'); ?>
+<?= @template('com:application.view.grid.toolbar.html'); ?>
 
 <form action="" method="get" class="-koowa-grid">	
 <table>

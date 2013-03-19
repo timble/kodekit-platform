@@ -8,6 +8,6 @@
  */
 ?>
 
-<?= @template('form_script.html') ?>
+<?= @template('default_script.html') ?>
 
 <textarea id="<?= $id ?>" name="<?= $name ?>" class="editable-<?= $id ?> validate-editor" style="visibility:hidden"><?= $text ?></textarea>

@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class PagesViewMenusHtml extends BaseViewHtml
+class PagesViewMenusHtml extends Framework\ViewHtml
 {
     public function render()
     {

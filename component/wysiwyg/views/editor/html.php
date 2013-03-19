@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ViewEditorHtml extends \BaseViewHtml
+class ViewEditorHtml extends Framework\ViewHtml
 {
     protected $_editor_settings;
     

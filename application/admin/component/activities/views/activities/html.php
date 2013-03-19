@@ -14,7 +14,7 @@ use Nooku\Framework;
  *
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  */
-class ActivitiesViewActivitiesHtml extends \BaseViewHtml
+class ActivitiesViewActivitiesHtml extends Framework\ViewHtml
 {
 	public function render()
 	{

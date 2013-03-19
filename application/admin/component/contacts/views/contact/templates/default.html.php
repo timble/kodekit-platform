@@ -15,7 +15,8 @@
 <script src="media://koowa/js/koowa.js" />
 <style src="media://koowa/css/koowa.css" />
 -->
-<?= @template('com:base.view.form.toolbar.html'); ?>
+
+<?= @template('com:application.view.form.toolbar.html') ?>
 
 <form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />

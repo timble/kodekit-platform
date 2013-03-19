@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache    
  */
-class CacheViewItemsHtml extends BaseViewHtml
+class CacheViewItemsHtml extends Framework\ViewHtml
 {
 	public function render()
 	{

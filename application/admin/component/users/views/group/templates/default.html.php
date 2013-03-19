@@ -15,7 +15,7 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com:base.view.form.toolbar.html') ?>
+<?= @template('com:application.view.form.toolbar.html') ?>
 
 <form action="" method="post" class="-koowa-form" id="group-form">
     <div class="main">

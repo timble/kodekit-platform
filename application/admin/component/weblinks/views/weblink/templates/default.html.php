@@ -11,7 +11,7 @@
 
 <?= @helper('behavior.validator'); ?>
 
-<?= @template('com:base.view.form.toolbar.html'); ?>
+<?= @template('com:application.view.form.toolbar.html') ?>
 
 <!--
 <script src="media://koowa/js/koowa.js" />

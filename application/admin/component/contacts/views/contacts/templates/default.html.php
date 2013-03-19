@@ -15,7 +15,7 @@
 -->
 <?= @helper('behavior.sortable') ?>
 
-<?= @template('com:base.view.grid.toolbar.html'); ?>
+<?= @template('com:application.view.grid.toolbar.html'); ?>
 
 <ktml:module position="sidebar">
 	<?= @template('default_sidebar.html'); ?>

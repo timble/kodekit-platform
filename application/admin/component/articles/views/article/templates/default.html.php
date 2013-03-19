@@ -33,7 +33,7 @@
     }));
 </script>
 
-<?= @template('com:base.view.form.toolbar.html') ?>
+<?= @template('com:application.view.form.toolbar.html') ?>
 
 <? if($article->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">
@@ -104,7 +104,7 @@
 	        <fieldset class="categories group">
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
-	            <?= @template('form_categories.html', array('categories' =>  @service('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
+	            <?= @template('default_categories.html', array('categories' =>  @service('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
 	            </div>
 	        </fieldset>
 	        <fieldset>

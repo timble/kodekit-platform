@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Activities
  */
-class TermsViewTermsHtml extends BaseViewHtml
+class TermsViewTermsHtml extends Framework\ViewHtml
 {
 	public function render()
 	{

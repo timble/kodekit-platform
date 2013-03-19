@@ -11,7 +11,7 @@
 <script src="media://koowa/js/koowa.js" />
 <?= @helper('behavior.validator') ?>
 
-<?= @template('com:base.view.form.toolbar.html') ?>
+<?= @template('com:application.view.form.toolbar.html') ?>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />
@@ -43,20 +43,20 @@
 
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Default Parameters' ); ?></legend>
-				<?= @template('form_parameters.html', array('params' => $module->params)) ?>
+				<?= @template('default_parameters.html', array('params' => $module->params)) ?>
 			</fieldset>
 
 			<? if($module->params->getNumParams('advanced')) : ?>
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Advanced Parameters' ); ?></legend>
-				<?= @template('form_parameters.html', array('params' => $module->params, 'group' => 'advanced')) ?>
+				<?= @template('default_parameters.html', array('params' => $module->params, 'group' => 'advanced')) ?>
 			</fieldset>
 			<? endif ?>
 
 			<? if($module->params->getNumParams('other')) : ?>
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Other Parameters' ); ?></legend>
-				<?= @template('form_parameters.html', array('params' => $module->params, 'group' => 'other')) ?>
+				<?= @template('default_parameters.html', array('params' => $module->params, 'group' => 'other')) ?>
 			</fieldset>
 			<? endif ?>
 

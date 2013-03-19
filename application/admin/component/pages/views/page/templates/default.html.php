@@ -25,7 +25,7 @@
     });
 </script>
 
-<?= @template('com:base.view.form.toolbar.html') ?>
+<?= @template('com:application.view.form.toolbar.html') ?>
 
 <form action="" method="post" class="-koowa-form" id="page-form">
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />
@@ -89,15 +89,15 @@
             </div>
         </div>
         <div class="scrollable">
-            <?= @template('form_publish.html') ?>
+            <?= @template('default_publish.html') ?>
             <? if($menu->application == 'site' && ($state->type['name'] == 'component' || $state->type['name'] == 'redirect' || $state->type['name'] == 'pagelink')) : ?>
                 <fieldset class="form-horizontal">
                     <legend><?= @text('Page') ?></legend>
-                    <?= @template('form_page.html') ?>
+                    <?= @template('default_page.html') ?>
                 </fieldset>
             <? endif ?>
             <? if($menu->application == 'site' && $state->type['name'] == 'component') : ?>
-                <?= @template('form_modules.html') ?>
+                <?= @template('default_modules.html') ?>
             <? endif ?>
         </div>
     </div>
