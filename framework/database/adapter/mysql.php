@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Framework;
+
 /**
  * MySQL Database Adapter
  *
@@ -137,7 +139,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
             $dsn .= ';socket='.$options->socket;
         }
 
-        $dbh = new PDO($dsn, $options->username, $options->password, array(
+        $dbh = new \PDO($dsn, $options->username, $options->password, array(
             \PDO::ATTR_PERSISTENT => true,
         ));
 
