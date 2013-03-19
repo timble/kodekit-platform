@@ -183,8 +183,8 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 			if(is_string($controller) && strpos($controller, '.') === false )
 		    {
 		        // Controller names are always singular
-			    if(Inflector::isPlural($controller)) {
-				    $controller = Inflector::singularize($controller);
+			    if(StringInflector::isPlural($controller)) {
+				    $controller = StringInflector::singularize($controller);
 			    }
 
 			    $identifier			= clone $this->getIdentifier();

@@ -35,7 +35,7 @@ class BaseTemplateDefault extends BaseTemplateAbstract
     {
         $view = $this->getView();
 
-        if(Framework\Inflector::isPlural($view->getName()))
+        if(Framework\StringInflector::isPlural($view->getName()))
         {
             if($state = $view->getModel()->getState()) {
                 $params = array_merge( $state->toArray(), $params);

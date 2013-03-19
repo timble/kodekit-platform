@@ -50,10 +50,10 @@ class ServiceLocatorLibrary extends ServiceLocatorAbstract
      */
     public function findClass(ServiceIdentifier $identifier)
     {
-        $class   = Inflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
+        $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
         $package = ucfirst($identifier->package);
-        $path    = Inflector::camelize(implode('_', $identifier->path));
+        $path    = StringInflector::camelize(implode('_', $identifier->path));
         $name    = ucfirst($identifier->name);
 
         $result = false;

@@ -89,7 +89,7 @@ class Command extends Object implements CommandInterface
         }
 
         $parts = explode('.', $name);
-        $method = !empty($type) ? '_' . $type . ucfirst(Inflector::implode($parts)) : '_' . lcfirst(Inflector::implode($parts));
+        $method = !empty($type) ? '_' . $type . ucfirst(StringInflector::implode($parts)) : '_' . lcfirst(StringInflector::implode($parts));
 
         //If the method exists call the method and return the result
         if (in_array($method, $this->getMethods())) {

@@ -435,7 +435,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     {
         $identifier = clone $this->getIdentifier();
         $identifier->path = array('database', 'row');
-        $identifier->name = Inflector::singularize($this->getIdentifier()->name);
+        $identifier->name = StringInflector::singularize($this->getIdentifier()->name);
 
         //Force the table
         $options['table'] = $this;
@@ -875,7 +875,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function __call($method, $arguments)
     {
         // If the method is of the form is[Bahavior] handle it.
-        $parts = Inflector::explode($method);
+        $parts = StringInflector::explode($method);
 
         if ($parts[0] == 'is' && isset($parts[1]))
         {

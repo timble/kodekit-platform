@@ -72,14 +72,14 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		$config->append(array(
 			'name'		  => '',
 			'attribs'	  => array(),
-			'model'		  => Inflector::pluralize($this->getIdentifier()->package),
+			'model'		  => StringInflector::pluralize($this->getIdentifier()->package),
 			'deselect'    => true,
 		    'prompt'      => '- Select -',
 		    'unique'	  => true
 		))->append(array(
 			'value'		 => $config->name,
 			'selected'   => $config->{$config->name},
-		    'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
+		    'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.StringInflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(
@@ -124,12 +124,12 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		$config->append(array(
 		    'name'		 => '',
 			'attribs'	 => array(),
-			'model'		 => Inflector::pluralize($this->getIdentifier()->package),
+			'model'		 => StringInflector::pluralize($this->getIdentifier()->package),
 			'validate'   => true,
 		))->append(array(
 		    'value'		 => $config->name,
 		    'selected'   => $config->{$config->name},
-			'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.Inflector::pluralize($config->model)
+			'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.StringInflector::pluralize($config->model)
 		))->append(array(
 			'text'		=> $config->value,
 		))->append(array(
@@ -166,7 +166,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
         {
             $config = $arguments[0];
             if(!isset($config['name'])) {
-                $config['name']  = Inflector::singularize(strtolower($method));
+                $config['name']  = StringInflector::singularize(strtolower($method));
             }
 
             return $this->_render($config);

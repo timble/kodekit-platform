@@ -22,7 +22,7 @@ class ControllerToolbarTerm extends \BaseControllerToolbarDefault
     protected function _commandNew(Framework\ControllerToolbarCommand $command)
     {
         $option = $this->getController()->getIdentifier()->package;
-		$view	= Framework\Inflector::singularize($this->getIdentifier()->name);
+		$view	= Framework\StringInflector::singularize($this->getIdentifier()->name);
 		$table  = $this->getController()->getModel()->get('table');
 		
         $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;

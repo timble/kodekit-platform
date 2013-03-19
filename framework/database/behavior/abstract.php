@@ -36,7 +36,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Serv
         {
             $identifier = clone $instance->getMixer()->getIdentifier();
             $identifier->path = array('database', 'row');
-            $identifier->name = Inflector::singularize($identifier->name);
+            $identifier->name = StringInflector::singularize($identifier->name);
 
             $manager->addMixin($identifier, $instance);
         }

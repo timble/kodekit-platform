@@ -40,7 +40,7 @@ class TemplateHelperFilesize extends Framework\TemplateHelperAbstract
 		}
 
 		if ($result == 1) {
-			$size = Framework\Inflector::singularize($size);
+			$size = Framework\StringInflector::singularize($size);
 		}
 
 		return sprintf($format, $result, JText::_($size));

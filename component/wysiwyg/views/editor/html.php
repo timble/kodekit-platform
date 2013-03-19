@@ -157,8 +157,8 @@ class ViewEditorHtml extends Framework\ViewHtml
             if(is_string($model) && strpos($model, '.') === false )
             {
                 // Model names are always plural
-                if(Framework\Inflector::isSingular($model)) {
-                    $model = Framework\Inflector::pluralize($model);
+                if(Framework\StringInflector::isSingular($model)) {
+                    $model = Framework\StringInflector::pluralize($model);
                 }
 
                 $identifier			= clone $this->getIdentifier();

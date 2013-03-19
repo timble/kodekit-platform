@@ -417,7 +417,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         }
 
         //Check if a behavior is mixed
-        $parts = Inflector::explode($method);
+        $parts = StringInflector::explode($method);
 
         if ($parts[0] == 'is' && isset($parts[1]))
         {

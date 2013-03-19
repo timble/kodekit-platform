@@ -23,7 +23,7 @@ class ModelNodes extends ModelDefault
 	{
 		$identifier        = clone $this->getIdentifier();
 		$identifier->path  = array('database', 'row');
-		$identifier->name  = Framework\Inflector::singularize($this->getIdentifier()->name);
+		$identifier->name  = Framework\StringInflector::singularize($this->getIdentifier()->name);
 	
 		return $this->getService($identifier, $options);
 	}

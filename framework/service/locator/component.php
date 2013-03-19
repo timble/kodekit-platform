@@ -57,7 +57,7 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
      */
     public function findClass(ServiceIdentifier $identifier)
     {
-        $class   = Inflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
+        $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
         $package = ucfirst($identifier->package);
         $name    = ucfirst($identifier->name);
@@ -67,7 +67,7 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
         $type  = !empty($path) ? array_shift($path) : '';
 
         if(!in_array($type, array('view','module'))) {
-            $path = ucfirst($type).Inflector::camelize(implode('_', $path));
+            $path = ucfirst($type).StringInflector::camelize(implode('_', $path));
         } else {
             $path = ucfirst($type);
         }
@@ -118,10 +118,10 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
                 if(!in_array($parts[0], array('view', 'module')))
                 {
                     foreach($parts as $key => $value) {
-                        $parts[$key] = Inflector::pluralize($value);
+                        $parts[$key] = StringInflector::pluralize($value);
                     }
                 }
-                else $parts[0] = Inflector::pluralize($parts[0]);
+                else $parts[0] = StringInflector::pluralize($parts[0]);
 
                 $path = implode('/', $parts).'/'.strtolower($identifier->name);
             }

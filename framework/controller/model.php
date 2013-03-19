@@ -74,9 +74,9 @@ abstract class ControllerModel extends ControllerView
                     $view = $this->getIdentifier()->name;
 
                     if($this->getModel()->getState()->isUnique()) {
-                        $view = Inflector::singularize($view);
+                        $view = StringInflector::singularize($view);
                     } else {
-                        $view = Inflector::pluralize($view);
+                        $view = StringInflector::pluralize($view);
                     }
                 }
                 else $view = $this->getRequest()->query->get('view', 'cmd');
@@ -140,8 +140,8 @@ abstract class ControllerModel extends ControllerView
             if(is_string($model) && strpos($model, '.') === false )
             {
                 // Model names are always plural
-                if(Inflector::isSingular($model)) {
-                    $model = Inflector::pluralize($model);
+                if(StringInflector::isSingular($model)) {
+                    $model = StringInflector::pluralize($model);
                 }
 
                 $identifier			= clone $this->getIdentifier();
@@ -170,7 +170,7 @@ abstract class ControllerModel extends ControllerView
     protected function _actionRender(CommandContext $context)
     {
         //Check if we are reading or browsing
-        $action = Inflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
+        $action = StringInflector::isSingular($this->getView()->getName()) ? 'read' : 'browse';
 
         //Execute the action
         $this->execute($action, $context);

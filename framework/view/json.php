@@ -46,7 +46,7 @@ class ViewJson extends ViewAbstract
     public function render()
     {
         if (empty($this->_content)) {
-            $this->_content = Inflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
+            $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
         }
 
         if (!is_string($this->_content))
@@ -116,7 +116,7 @@ class ViewJson extends ViewAbstract
                 }
             }
 
-            $name = Inflector::singularize($this->getName());
+            $name = StringInflector::singularize($this->getName());
 
             $items = array();
             foreach ($list as $item)

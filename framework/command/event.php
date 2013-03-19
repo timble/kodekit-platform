@@ -110,7 +110,7 @@ class CommandEvent extends Command
         }
 
         $parts = explode('.', $name);
-        $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . Inflector::implode($parts);
+        $name = 'on' . ucfirst(array_shift($parts)) . ucfirst($type) . StringInflector::implode($parts);
 
         $event = new Event(clone($context));
         $event->setTarget($context->getSubject());

@@ -31,7 +31,7 @@ class ModuleWidgetHtml extends ModuleDefaultHtml
 
         $parts   = $url->getQuery(true);
         $package = substr($parts['option'], 4);
-        $view    = Framework\Inflector::singularize($parts['view']);
+        $view    = Framework\StringInflector::singularize($parts['view']);
 
         $identifier = 'com:'.$package.'.controller.'.$view;
 

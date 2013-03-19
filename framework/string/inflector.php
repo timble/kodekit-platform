@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		Koowa_Inflector
+ * @package		Koowa_StringInflector
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link     	http://www.nooku.org
@@ -9,13 +9,13 @@
 namespace Nooku\Framework;
 
 /**
- * Inflector to pluralize and singularize English nouns.
+ * StringInflector to pluralize and singularize English nouns.
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package		Koowa_Inflector
+ * @package		Koowa_StringInflector
  * @static
  */
-class Inflector
+class StringStringInflector
 {
    	/**
 	 * Rules for pluralizing and singularizing of nouns.

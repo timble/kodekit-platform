@@ -100,7 +100,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
                 $identifier = $controller->getIdentifier();
 
                 $option = 'com_' . $identifier->package;
-                $view = Inflector::pluralize($identifier->name);
+                $view = StringInflector::pluralize($identifier->name);
                 $referrer = $controller->getView()->getRoute('option=' . $option . '&view=' . $view, true, false);
             }
 

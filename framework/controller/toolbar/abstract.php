@@ -209,7 +209,7 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
      */
     public function __call($method, $args)
     {
-        $parts = Inflector::explode($method);
+        $parts = StringInflector::explode($method);
 
         if ($parts[0] == 'add' && isset($parts[1]))
         {

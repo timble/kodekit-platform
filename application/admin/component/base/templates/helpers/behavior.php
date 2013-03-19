@@ -56,7 +56,7 @@ class BaseTemplateHelperBehavior extends Framework\TemplateHelperBehavior
         $config = new Framework\Config($config);
         $config->append(array(
             'option'	=> Framework\Request::get('get.option', 'cmd'),
-            'view'		=> Framework\Inflector::singularize(Framework\Request::get('get.view', 'cmd')),
+            'view'		=> Framework\StringInflector::singularize(Framework\Request::get('get.view', 'cmd')),
             'selector'	=> 'table tbody.sortable',
             'direction' => 'asc',
             'url'       => '?format=json'

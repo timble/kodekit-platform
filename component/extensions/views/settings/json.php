@@ -23,7 +23,7 @@ class ViewSettingsJson extends Framework\ViewJson
     {
         $model = $this->getModel();
 
-        if(Framework\Inflector::isPlural($this->getName())) {
+        if(Framework\StringInflector::isPlural($this->getName())) {
             $data = array('settings' => $model->getRowset()->toArray());
         } else {
             $data = $model->getRow()->toArray();

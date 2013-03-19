@@ -124,7 +124,7 @@ class ModelTable extends ModelAbstract
 		    {
 		        $identifier         = clone $this->getIdentifier();
 		        $identifier->path   = array('database', 'table');
-		        $identifier->name   = Inflector::tableize($table);
+		        $identifier->name   = StringInflector::tableize($table);
 		    }
 		    else  $identifier = $this->getIdentifier($table);
 		    

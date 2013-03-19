@@ -61,7 +61,7 @@ class ViewRss extends ViewTemplate
 		    $name  = $this->getName();
 
 	        //Assign the data of the model to the view
-		    if(Inflector::isPlural($name))
+		    if(StringInflector::isPlural($name))
 			{
 		        $this->$name = $model->getRowset();
 				$this->total = $model->getTotal();

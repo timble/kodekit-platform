@@ -288,7 +288,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     {
         $identifier = clone $this->getIdentifier();
         $identifier->path = array('database', 'row');
-        $identifier->name = Inflector::singularize($this->getIdentifier()->name);
+        $identifier->name = StringInflector::singularize($this->getIdentifier()->name);
 
         //The row default options
         $options['identity_column'] = $this->getIdentityColumn();

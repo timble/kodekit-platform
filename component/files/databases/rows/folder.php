@@ -116,7 +116,7 @@ class DatabaseRowFolder extends DatabaseRowNode
 		{
 			$identifier         = clone $this->getIdentifier();
 			$identifier->path   = array('database', 'rowset');
-			$identifier->name   = Framework\Inflector::pluralize($this->getIdentifier()->name);
+			$identifier->name   = Framework\StringInflector::pluralize($this->getIdentifier()->name);
 
 			//The row default options
 			$options  = array(

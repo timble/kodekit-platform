@@ -205,8 +205,8 @@ abstract class ViewAbstract extends Object implements ViewInterface
             if(is_string($model) && strpos($model, '.') === false )
             {
                 // Model names are always plural
-                if(Inflector::isSingular($model)) {
-                    $model = Inflector::pluralize($model);
+                if(StringInflector::isSingular($model)) {
+                    $model = StringInflector::pluralize($model);
                 }
 
                 $identifier			= clone $this->getIdentifier();

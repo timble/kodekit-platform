@@ -58,10 +58,10 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
             if(!in_array($parts[0], array('view', 'module')))
 	        {
 			    foreach($parts as $key => $value) {
-			        $parts[$key] = Inflector::pluralize($value);
+			        $parts[$key] = StringInflector::pluralize($value);
 		        }
 		    }
-	        else $parts[0] = Inflector::pluralize($parts[0]);
+	        else $parts[0] = StringInflector::pluralize($parts[0]);
 
 			$path = implode('/', $parts).'/'.$file;
 		}

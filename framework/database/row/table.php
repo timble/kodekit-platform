@@ -108,7 +108,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
             {
                 $identifier = clone $this->getIdentifier();
                 $identifier->path = array('database', 'table');
-                $identifier->name = Inflector::tableize($table);
+                $identifier->name = StringInflector::tableize($table);
             }
             else $identifier = $this->getIdentifier($table);
 
@@ -268,7 +268,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
     {
         if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
         {
-            $parts = Inflector::explode($method);
+            $parts = StringInflector::explode($method);
 
             //Check if a behavior is mixed
             if ($parts[0] == 'is' && isset($parts[1]))

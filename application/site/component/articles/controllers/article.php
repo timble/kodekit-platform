@@ -34,7 +34,7 @@ class ArticlesControllerArticle extends ArticlesControllerDefault
 
         $view = $request->query->get('view', 'cmd', null);
 
-        if ($view && Framework\Inflector::isPlural($view))
+        if ($view && Framework\StringInflector::isPlural($view))
         {
             if ($request->getFormat() != 'json')
             {
