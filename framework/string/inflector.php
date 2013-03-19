@@ -15,7 +15,7 @@ namespace Nooku\Framework;
  * @package		Koowa_StringInflector
  * @static
  */
-class StringStringInflector
+class StringInflector
 {
    	/**
 	 * Rules for pluralizing and singularizing of nouns.
