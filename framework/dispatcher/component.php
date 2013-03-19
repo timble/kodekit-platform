@@ -141,6 +141,16 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
 	 */
 	protected function _actionDispatch(CommandContext $context)
 	{
+        //Redirect if no view information can be found in the request
+        if(!$context->request->query->has('view'))
+        {
+            $url = clone($context->request->getUrl());
+            $url->query['view'] = $this->getController()->getView()->getName();
+
+            $context->response->setRedirect($url);
+            return false;
+        }
+
         //Load the component aliases
         $component = $this->getController()->getIdentifier()->package;
         $this->getService('loader')->loadIdentifier('com:'.$component.'.aliases');

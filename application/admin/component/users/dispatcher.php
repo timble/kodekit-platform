@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class UsersDispatcher extends BaseDispatcher
+class UsersDispatcher extends Framework\DispatcherComponent
 {
     public function __construct(Framework\Config $config)
     {

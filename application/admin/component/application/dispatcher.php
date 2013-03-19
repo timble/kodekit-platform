@@ -164,6 +164,15 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
             throw new ControllerExceptionNotFound('Component Not Enabled');
         }
 
+        /*
+         * Disable controller persistency on non-HTTP requests, e.g. AJAX. This avoids changing
+         * the model state session variable of the requested model, which is often undesirable
+         * under these circumstances.
+         */
+        if($this->getRequest()->isGet() && !$this->getRequest()->isAjax()) {
+            $this->getComponent()->attachBehavior('persistable');
+        }
+
         //Dispatch the controller
         parent::_actionDispatch($context);
 

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class PagesDispatcher extends BaseDispatcher
+class PagesDispatcher extends Framework\DispatcherComponent
 {
     protected function _actionDispatch(Framework\CommandContext $context)
     {
