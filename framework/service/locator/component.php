@@ -72,6 +72,13 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
             $path = ucfirst($type);
         }
 
+        //Allow locating default classes if $path is empty.
+        if(empty($path))
+        {
+            $path = $name;
+            $name = '';
+        }
+
         $result = false;
         foreach($this->_fallbacks as $fallback)
         {
