@@ -20,7 +20,7 @@ jQuery(function($) {
 </script>
 
 <div class="com_files files-gallery">
-    <div id="modal-gallery" class="modal modal-fullscreen modal-gallery hide fades in">
+    <div id="modal-gallery" class="modal modal-gallery hide fade">
         <div class="modal-header">
             <a class="close" style="cursor: pointer" data-dismiss="modal">&times;</a>
             <h3 class="modal-title"></h3>
