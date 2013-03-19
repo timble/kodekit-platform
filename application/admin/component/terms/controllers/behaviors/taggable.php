@@ -20,18 +20,20 @@ class ComTermsControllerBehaviorTaggable extends KControllerBehaviorAbstract
 
             $rows->delete();
         }
+       
+        if($row->terms) {
+            // Save terms as relations
+            foreach ($row->terms as $term) {
+                $relation = $this->getService('com://admin/terms.database.row.relation');
+                $relation->terms_term_id = $term;
+                $relation->row		     = $row->id;
+                $relation->table		 = $table;
         
-        // Save terms as relations
-		foreach ($row->terms as $term) {
-			$relation = $this->getService('com://admin/terms.database.row.relation');
-            $relation->terms_term_id = $term;
-            $relation->row		     = $row->id;
-            $relation->table		 = $table;
-    
-            if(!$relation->load()) {
-                $relation->save();
+                if(!$relation->load()) {
+                    $relation->save();
+                }
             }
-		}
+        }
 		
 		return true;
 	}
