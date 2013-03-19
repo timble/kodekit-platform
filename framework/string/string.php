@@ -270,9 +270,9 @@ class String
     */
     public static function strcasecmp($str1, $str2)
     {
-         $strX = self::strtolower($strX);
-         $strY = self::strtolower($strY);
-        return strcmp($strX, $strY);
+         $str1 = self::strtolower($str1);
+         $str2 = self::strtolower($str2);
+        return strcmp($str1, $str2);
     }
 
     /**
