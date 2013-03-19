@@ -25,7 +25,7 @@ class DispatcherRouter extends Object implements DispatcherRouterInterface, Serv
      *
      * @param 	Config                  $config	  A Config object with configuration options
      * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
-     * @return  DispatcherSessionDefault
+     * @return  DispatcherRouter
      */
     public static function getInstance(Config $config, ServiceManagerInterface $manager)
     {
@@ -47,7 +47,6 @@ class DispatcherRouter extends Object implements DispatcherRouterInterface, Serv
      */
     public function parse(HttpUrl $url)
     {
-        $this->_parseRoute($url);
         return true;
     }
 
@@ -60,7 +59,6 @@ class DispatcherRouter extends Object implements DispatcherRouterInterface, Serv
     public function build(HttpUrl $url)
     {
         // Build the url : mysite/route/index.php?var=x
-        $this->_buildRoute($url);
         return true;
     }
 }

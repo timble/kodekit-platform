@@ -17,11 +17,12 @@ use Nooku\Framework;
  * @subpackage  Contacts
  */
 
-class ContactsRouter extends BaseRouter
+class ContactsRouter extends Framework\DispatcherRouter
 {
-    public function buildRoute(&$query)
+    public function build(Framework\HttpUrl $url)
     {
         $segments = array();
+        $query    = &$url->query;
 
         if(isset($query['Itemid'])) {
             $page = $this->getService('application.pages')->getPage($query['Itemid']);
@@ -60,21 +61,22 @@ class ContactsRouter extends BaseRouter
         return $segments;
     }
 
-    public function parseRoute($segments)
+    public function parse(Framework\HttpUrl $url)
     {
         $vars = array();
+        $path = &$url->path;
 
         $page = $this->getService('application.pages')->getActive();
 
         $view  = $page->getLink()->query['view'];
-        $count = count($segments);
+        $count = count($path);
 
         if($view == 'categories')
         {
             if ($count)
             {
                 $count--;
-                $segment = array_shift( $segments );
+                $segment = array_shift( $path );
 
                 $vars['category'] = $segment;
                 $vars['view'] = 'contacts';
@@ -83,7 +85,7 @@ class ContactsRouter extends BaseRouter
             if ($count)
             {
                 $count--;
-                $segment = array_shift( $segments) ;
+                $segment = array_shift( $path ) ;
 
                 $vars['id'] = $segment;
                 $vars['view'] = 'contact';
@@ -92,13 +94,13 @@ class ContactsRouter extends BaseRouter
 
         if($view == 'contacts')
         {
-            $segment = array_shift( $segments) ;
+            $segment = array_shift( $path) ;
 
             $vars['id'] = $segment;
             $vars['view'] = 'contact';
         }
 
-        if(count($segments) && $segments[0] == 'message') {
+        if(count($path) && $path[0] == 'message') {
             $vars['view'] = 'message';
         }
 

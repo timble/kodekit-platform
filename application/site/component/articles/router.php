@@ -17,11 +17,12 @@ use Nooku\Framework;
  * @subpackage Articles
  */
 
-class ArticlesRouter extends BaseRouter
+class ArticlesRouter extends Framework\DispatcherRouter
 {
-    public function buildRoute(&$query)
+    public function build(Framework\HttpUrl $url)
     {
         $segments = array();
+        $query    = &$url->query;
 
         if(isset($query['Itemid'])) {
             $page = $this->getService('application.pages')->getPage($query['Itemid']);
@@ -67,21 +68,22 @@ class ArticlesRouter extends BaseRouter
         return $segments;
     }
 
-    public function parseRoute($segments)
+    public function parse(Framework\HttpUrl $url)
     {
         $vars = array();
+        $path = &$url->path;
 
         $page = $this->getService('application.pages')->getActive();
 
         $view  = $page->getLink()->query['view'];
-        $count = count($segments);
+        $count = count($path);
 
         if($view == 'categories')
         {
             if($count)
             {
                 $count--;
-                $segment = array_shift( $segments );
+                $segment = array_shift( $path );
 
                 $vars['category'] = $segment;
                 $vars['view'] = 'articles';
@@ -90,7 +92,7 @@ class ArticlesRouter extends BaseRouter
             if($count)
             {
                 $count--;
-                $segment = array_shift( $segments) ;
+                $segment = array_shift( $path) ;
 
                 $vars['id']     = $segment;
                 $vars['view']   = 'article';
@@ -100,7 +102,7 @@ class ArticlesRouter extends BaseRouter
 
         if($view == 'articles')
         {
-            $segment = array_shift( $segments) ;
+            $segment = array_shift( $path) ;
 
             $vars['id']     = $segment;
             $vars['view']   = 'article';

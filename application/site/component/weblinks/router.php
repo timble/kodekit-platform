@@ -17,11 +17,12 @@ use Nooku\Framework;
  * @subpackage  Weblinks
  */
 
-class WeblinksRouter extends BaseRouter
+class WeblinksRouter extends Framework\DispatcherRouter
 {
-    public function buildRoute(&$query)
+    public function build(Framework\HttpUrl $url)
     {
         $segments = array();
+        $query    = &$url->query;
 
         if(isset($query['Itemid'])) {
             $page = $this->getService('application.pages')->getPage($query['Itemid']);
@@ -56,20 +57,22 @@ class WeblinksRouter extends BaseRouter
         return $segments;
     }
 
-    public function parseRoute($segments)
+    public function parse(Framework\HttpUrl $url)
     {
         $vars = array();
-        $page = $this->getService('application.pages')->getActive();
+        $path = &$url->path;
 
+        $page = $this->getService('application.pages')->getActive();
         $view  = $page->getLink()->query['view'];
-        $count = count($segments);
+
+        $count = count($path);
 
         if($view == 'categories')
         {
             if($count)
             {
                 $count--;
-                $segment = array_shift( $segments );
+                $segment = array_shift( $path );
 
                 $vars['category'] = $segment;
                 $vars['view'] = 'weblinks';
@@ -78,7 +81,7 @@ class WeblinksRouter extends BaseRouter
             if($count)
             {
                 $count--;
-                $segment = array_shift( $segments) ;
+                $segment = array_shift( $path) ;
 
                 $vars['id'] = $segment;
                 $vars['view'] = 'weblink';
@@ -87,7 +90,7 @@ class WeblinksRouter extends BaseRouter
 
         if($view == 'weblinks')
         {
-            $segment = array_shift( $segments) ;
+            $segment = array_shift( $path) ;
 
             $vars['id'] = $segment;
             $vars['view'] = 'weblink';

@@ -18,11 +18,12 @@ use Nooku\Framework;
  * @subpackage Articles
  */
 
-class FilesRouter extends BaseRouter
+class FilesRouter extends Framework\DispatcherRouter
 {
-	public function buildRoute(&$query)
+	public function build(Framework\HttpUrl $url)
 	{
-		$segments = array();
+        $segments = array();
+        $query    = &$url->query;
 		
 		if (isset($query['Itemid'])) {
 			$page = $this->getService('application.pages')->getPage($query['Itemid']);
@@ -52,13 +53,13 @@ class FilesRouter extends BaseRouter
 				$relative = substr($query['folder'], strlen($menu_query['folder'])+1, strlen($query['folder']));
 				$relative = str_replace($menu_query['folder'].'/', '', $query['folder']);
 		
-				$segments[] = $this->_encodeString($relative);
+				$segments[] = $relative;
 			}
 		}
 
 		if (isset($query['name']))
 		{
-			$name = $this->_encodeString($query['name']);
+			$name = $query['name'];
 			$segments[] = $name;
 		}
 
@@ -69,25 +70,28 @@ class FilesRouter extends BaseRouter
 		return $segments;
 	}
 
-    public function parseRoute($segments)
+    public function parse(Framework\HttpUrl $url)
     {
-		$vars  = array();
+        $vars = array();
+        $path = &$url->path;
+
 		$page  = $this->getService('application.pages')->getActive();
 		$query = $page->getLink()->query;
 		
-		if ($segments[0] === 'file')
+		if ($path[0] === 'file')
 		{ // file view
-			$vars['view']    = array_shift($segments);
-			$vars['name']    = $this->_decodeString(array_pop($segments));
+			$vars['view']    = array_shift($path);
+			$vars['name']    = array_pop($path);
 			$vars['folder']  = $query['folder'] ? $query['folder'].'/' : '';
-			$vars['folder'] .= implode('/', $segments);
+			$vars['folder'] .= implode('/', $path);
 		}
 		else
 		{ // directory view
 			$vars['view']   = 'directory';
 			$vars['layout'] = $query['layout'];
-			$vars['folder'] = $query['folder'].'/'.implode('/', $segments);
+			$vars['folder'] = $query['folder'].'/'.implode('/', $path);
 		}
+
 		$vars['folder'] = str_replace('%2E', '.', $vars['folder']);
 		$vars['layout'] = $query['layout'];
 

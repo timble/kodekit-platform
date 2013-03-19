@@ -34,12 +34,12 @@ class ApplicationRouter extends Framework\DispatcherRouter
 		//Set the route
 		$url->path = trim($path , '/');
 
-		return parent::parse($url);
+		return $this->_parseRoute($url);
 	}
 
 	public function build(Framework\HttpUrl $url)
 	{
-        $result = parent::build($url);
+        $result = $this->_buildRoute($url);
 
 		// Get the path data
 		$route = $url->getPath();
@@ -134,9 +134,9 @@ class ApplicationRouter extends Framework\DispatcherRouter
                 $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
                 //Parse the view route
-                $query = $this->getService($identifier)->parseRoute($route);
+                $query = $this->getService($identifier)->parse($url);
 
-                //Prevent option and/or itemid from being override by the commponent router
+                //Prevent option and/or itemid from being override by the component router
                 $query['option'] = $url->query['option'];
                 $query['Itemid'] = $url->query['Itemid'];
 
@@ -177,7 +177,7 @@ class ApplicationRouter extends Framework\DispatcherRouter
         $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
         //Build the view route
-        $segments = $this->getService($identifier)->buildRoute($url->query);
+        $segments = $this->getService($identifier)->build($url);
 
         return $segments;
     }

@@ -17,11 +17,12 @@ use Nooku\Framework;
  * @subpackage  Users
  */
 
-class UsersRouter extends BaseRouter
+class UsersRouter extends Framework\DispatcherRouter
 {
-    public function buildRoute(&$query)
+    public function build(Framework\HttpUrl $url)
     {
         $segments = array();
+        $query    = &$url->query;
 
         if(isset($query['view']))
         {
@@ -40,17 +41,18 @@ class UsersRouter extends BaseRouter
         return $segments;
     }
 
-    public function parseRoute($segments)
+    public function parse(Framework\HttpUrl $url)
     {
         $vars = array();
+        $path = &$url->path;
 
-        $count = count($segments);
+        $count = count($path);
         if(!empty($count)) {
-            $vars['view'] = $segments[0];
+            $vars['view'] = $path[0];
         }
 
         if($count > 1) {
-            $vars['id'] = $segments[$count - 1];
+            $vars['id'] = $path[$count - 1];
         }
 
         return $vars;

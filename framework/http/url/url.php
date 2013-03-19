@@ -169,7 +169,7 @@ class HttpUrl extends Object
     /**
      * The path portion (for example, 'path/to/index.php').
      *
-     * @var string
+     * @var array
      *
      * @see setPath()
      * @see getPath()
