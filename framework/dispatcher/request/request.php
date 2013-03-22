@@ -667,7 +667,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      * @param string       $format    The format
      * @param string|array $mimeTypes The associated mime types (the preferred one must be the first as it will be used
      *                                as the content type)
-     * @return DispatcherRequestAbstract
+     * @return DispatcherRequest
      */
     public function addFormat($format, $mime_types)
     {
