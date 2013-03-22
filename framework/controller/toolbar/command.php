@@ -150,6 +150,22 @@ class ControllerToolbarCommand extends Config implements ControllerToolbarInterf
     }
 
     /**
+     * Set a configuration item
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set($name, $value)
+    {
+        if (is_array($value)) {
+            $this->_data[$name] = new Config($value);
+        } else {
+            $this->_data[$name] = $value;
+        }
+    }
+
+    /**
      * Get the parent node
      *
      * @return	ControllerToolbarCommand
@@ -163,7 +179,7 @@ class ControllerToolbarCommand extends Config implements ControllerToolbarInterf
      * Set the parent command
      *
      * @param object $node The parent command
-     * @return \KControllerToolbarCommand
+     * @return ControllerToolbarCommand
      */
     public function setParent(ControllerToolbarCommand $command )
     {
@@ -174,7 +190,7 @@ class ControllerToolbarCommand extends Config implements ControllerToolbarInterf
     /**
      * Get the toolbar object
      *
-     * @return  \KControllerToolbarInterface
+     * @return ControllerToolbarInterface
      */
     public function getToolbar()
     {
@@ -185,7 +201,7 @@ class ControllerToolbarCommand extends Config implements ControllerToolbarInterf
      * Set the parent node
      *
      * @param object $node The toolbar this command belongs too
-     * @return \KControllerToolbarCommand
+     * @return ControllerToolbarCommand
      */
     public function setToolbar(ControllerToolbarInterface $toolbar )
     {
