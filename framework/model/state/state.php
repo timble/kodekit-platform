@@ -143,7 +143,7 @@ class ModelState extends Config implements ModelStateInterface
                     if($value !== '')
                     {
                         if(!($filter instanceof FilterInterface)) {
-                            $filter =  ServiceManager::get('lib:filter.factory')->instantiate($filter);
+                            $filter =  ServiceManager::get('lib:filter.factory')->getFilter($filter);
                         }
 
                         $value = $filter->sanitize($value);

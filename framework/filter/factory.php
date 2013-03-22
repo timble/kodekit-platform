@@ -37,22 +37,25 @@ class FilterFactory extends Object implements ServiceInstantiatable
 
 	/**
 	 * Factory method for FilterInterface classes.
+     *
+     * Method accepts an array of filter names, or filter service identifiers and will create a chained filter
+     * using a FIFO approach.
 	 *
-	 * @param	string 	Filter indentifier
+	 * @param	string|array Filter identifier(s)
 	 * @param 	object 	An optional Config object with configuration options
-	 * @return FilterAbstract
+	 * @return  FilterInterface
 	 */
-	public function instantiate($identifier, $config = array())
+	public function getFilter($identifier, $config = array())
 	{
 		//Get the filter(s) we need to create
 		$filters = (array) $identifier;
 
 		//Create the filter chain
 		$filter = array_shift($filters);
-		$filter = $this->_createFilter($filter, $config);
+		$filter = $this->_instantiate($filter, $config);
 
 		foreach($filters as $name) {
-			$filter->addFilter(self::_createFilter($name, $config));
+			$filter->addFilter($this->_instantiate($name, $config));
 		}
 
 		return $filter;
@@ -61,15 +64,15 @@ class FilterFactory extends Object implements ServiceInstantiatable
 	/**
 	 * Create a filter based on it's name
 	 *
-	 * If the filter is not an identifier this function will create it directly instead of going through
-     * the Service identification process.
+	 * If the filter is not an identifier this function will create it directly instead of going through the Service
+     * identification process.
 	 *
 	 * @param 	string	Filter identifier
 	 * @throws	\InvalidArgumentException	When the filter could not be found
      * @throws	\UnexpectedValueException	When the filter does not implement FilterInterface
 	 * @return  FilterInterface
 	 */
-	protected function _createFilter($filter, $config)
+	protected function _instantiate($filter, $config)
 	{
 		try
 		{
@@ -79,7 +82,7 @@ class FilterFactory extends Object implements ServiceInstantiatable
 
 			$filter = $this->getService($filter, $config);
 
-		} catch(KServiceServiceException $e) {
+		} catch(ServiceException $e) {
 			throw new \InvalidArgumentException('Invalid filter: '.$filter);
 		}
 

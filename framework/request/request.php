@@ -182,7 +182,7 @@ class Request
         }
 
         if(!($filter instanceof FilterInterface)) {
-            $filter = ServiceManager::get('lib:filter.factory')->instantiate($filter);
+            $filter = ServiceManager::get('lib:filter.factory')->getFilter($filter);
         }
 
         return $filter->sanitize($result);
