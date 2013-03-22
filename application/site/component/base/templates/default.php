@@ -16,37 +16,87 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseTemplateDefault extends BaseTemplateAbstract
+class BaseTemplateDefault extends Framework\TemplateAbstract
 {
     /**
-     * Load a template helper
+     * The cache object
      *
-     * This function merges the elements of the attached view model state with the parameters passed to the helper
-     * so that the values of one are appended to the end of the previous one.
-     *
-     * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
-     *
-     * @param   string  Name of the helper, dot separated including the helper function to call
-     * @param   mixed   Parameters to be passed to the helper
-     * @return  string  Helper output
+     * @var	JCache
      */
-    public function renderHelper($identifier, $params = array())
+    protected $_cache;
+
+    /**
+     * Constructor
+     *
+     * Prevent creating instances of this class by making the constructor private
+     *
+     * @param 	object 	An optional Framework\Config object with configuration options
+     */
+    public function __construct(Framework\Config $config)
     {
-        $view = $this->getView();
+        parent::__construct($config);
 
-        if(Framework\StringInflector::isPlural($view->getName()))
+        if(JFactory::getConfig()->getValue('config.caching')) {
+            $this->_cache = JFactory::getCache('template', 'output');
+        }
+    }
+
+    /**
+     * Searches for the file
+     *
+     * This function first tries to find a template override, if no override exists it will try to find the default
+     * template
+     *
+     * @param	string	The file path to look for.
+     * @return	mixed	The full path and file name for the target file, or FALSE if the file is not found
+     */
+    public function findFile($file)
+    {
+        //Theme override
+        $theme  = $this->getService('application')->getTheme();
+        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
+        $theme .= str_replace(array(JPATH_ROOT.'/component', '/views', '/templates'), '', $file);
+
+        //Application override
+        $application = str_replace(JPATH_ROOT, JPATH_APPLICATION, $file);
+
+        //Try to find the template
+        foreach(array($theme, $application, $file) as $path)
         {
-            if($state = $view->getModel()->getState()) {
-                $params = array_merge( $state->toArray(), $params);
+            $result = parent::findFile($path);
+            if($result !== false) {
+                break;
             }
         }
-        else
-        {
-            if($item = $view->getModel()->getRow()) {
-                $params = array_merge( $item->getData(), $params);
-            }
-        }
 
-        return parent::renderHelper($identifier, $params);
+        return $result;
+    }
+
+    /**
+     * Parse the template
+     *
+     * This function implements a caching mechanism when reading the template. If the template cannot be found in the
+     * cache it will be filtered and stored in the cache. Otherwise it will be loaded from the cache and returned
+     * directly.
+     *
+     * @param string The template content to parse
+     * @return void
+     */
+    protected function _parse(&$content)
+    {
+        if(isset($this->_cache))
+        {
+            $identifier = md5($this->getPath());
+
+            if (!$this->_cache->get($identifier))
+            {
+                parent::_parse($content);
+
+                //Store the object in the cache
+                $this->_cache->store($content, $identifier);
+            }
+            else $content = $this->_cache->get($identifier);
+        }
+        else parent::_parse($content);
     }
 }
