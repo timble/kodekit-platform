@@ -68,7 +68,7 @@ class ConfigXml extends ConfigFormat
         };
 
         $xml  = simplexml_load_string('<config />');
-        $data = s$this->toArray();
+        $data = $this->toArray();
         array_walk($data, $addChildren, $xml);
 
         return $xml->asXML();
