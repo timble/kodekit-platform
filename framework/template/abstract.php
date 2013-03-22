@@ -396,6 +396,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      * This functions accepts a partial identifier, in the form of helper.function. If a partial identifier is passed a
      * full identifier will be created using the template identifier.
      *
+     * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
+     *
      * @param    string   $identifier Name of the helper, dot separated including the helper function to call
      * @param    array    $params     An optional associative array of functions parameters to be passed to the helper
      * @return   string   Helper output
@@ -412,6 +414,22 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         //Call the helper function
         if (!is_callable(array($helper, $function))) {
             throw new \BadMethodCallException(get_class($helper) . '::' . $function . ' not supported.');
+        }
+
+        //Merge the view state with the helper params
+        $view = $this->getView();
+
+        if(StringInflector::isPlural($view->getName()))
+        {
+            if($state = $view->getModel()->getState()) {
+                $params = array_merge( $state->toArray(), $params);
+            }
+        }
+        else
+        {
+            if($item = $view->getModel()->getRow()) {
+                $params = array_merge( $item->toArray(), $params);
+            }
         }
 
         return $helper->$function($params);
