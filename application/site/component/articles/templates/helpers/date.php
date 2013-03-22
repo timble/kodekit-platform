@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesTemplateHelperDate extends BaseTemplateHelperDate
+class ArticlesTemplateHelperDate extends Framework\TemplateHelperDate
 {
     public function timestamp($config = array())
     {
