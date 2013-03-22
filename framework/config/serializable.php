@@ -9,7 +9,7 @@
 namespace Nooku\Framework;
 
 /**
- * Config Formattable Interface
+ * Config Serializable Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
@@ -36,7 +36,7 @@ interface ConfigSerializable
      * Read from a file and create an array
      *
      * @param  string $filename
-     * @return ConfigFormattable
+     * @return ConfigSerializable
      * @throws \RuntimeException
      */
     public static function fromFile($filename);

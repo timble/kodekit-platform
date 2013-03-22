@@ -81,7 +81,7 @@ class ConfigFactory extends Object implements ServiceInstantiatable
      *
      * @param  string $name The format name
      * @throws \InvalidArgumentException    If the format isn't registered
-     * @throws	\UnexpectedValueException	If the format object doesn't implement the ConfigFormattable
+     * @throws	\UnexpectedValueException	If the format object doesn't implement the ConfigSerializable
      * @return	ConfigFactory
      */
     public function getConfig($format)
@@ -94,7 +94,7 @@ class ConfigFactory extends Object implements ServiceInstantiatable
 
         $format = $this->_formats[$format];
 
-        if(!($format instanceof ConfigFormattable))
+        if(!($format instanceof ConfigSerializable))
         {
             if(is_string($format) && strpos($format, '.') === false )
             {
@@ -106,10 +106,10 @@ class ConfigFactory extends Object implements ServiceInstantiatable
 
             $format = $this->getService($identifier);
 
-            if(!$format instanceof ConfigFormattable)
+            if(!$format instanceof ConfigSerializable)
             {
                 throw new \UnexpectedValueException(
-                    'Format: '.get_class($format).' does not implement ConfigFormatInterface'
+                    'Format: '.get_class($format).' does not implement ConfigSerializable Interface'
                 );
             }
 
