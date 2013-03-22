@@ -29,7 +29,7 @@ class Config implements ConfigInterface
      * Constructor
      *
      * @param Config|null $config  An optional Config object with configuration options
-     * @return \Config
+     * @return Config
      */
     public function __construct( $config = array() )
     {
@@ -43,7 +43,7 @@ class Config implements ConfigInterface
         if (is_array($data))
         {
             foreach ($data as $key => $value) {
-                $this->__set($key, $value);
+                $this->set($key, $value);
             }
         }
     }
@@ -75,7 +75,7 @@ class Config implements ConfigInterface
     public function set($name, $value)
     {
         if (is_array($value)) {
-            $this->_data[$name] = new self($value);
+            $this->_data[$name] = new static($value);
         } else {
             $this->_data[$name] = $value;
         }
@@ -130,7 +130,7 @@ class Config implements ConfigInterface
      * zero in the result array.
      *
      * @param  Config|array $config  A Config object or an array of values to be appended
-     * @return \Config
+     * @return Config
      */
     public function append($config)
     {
@@ -168,7 +168,7 @@ class Config implements ConfigInterface
     /**
      * Get a new iterator
      *
-     * @return  ArrayIterator
+     * @return  \ArrayIterator
      */
     public function getIterator()
     {
@@ -275,16 +275,6 @@ class Config implements ConfigInterface
         return $array;
     }
 
- 	/**
-     * Returns a string with the encapsulated data in JSON format
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return json_encode($this->toArray());
-    }
-
     /**
      * Retrieve a configuration element
      *
@@ -348,15 +338,5 @@ class Config implements ConfigInterface
         }
 
         $this->_data = $array;
-    }
-
-    /**
-     * Returns a string with the encapsulated data in JSON format
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->toString();
     }
 }

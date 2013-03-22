@@ -78,11 +78,4 @@ interface ConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
      * @return array
      */
     public function toArray();
-
- 	/**
-     * Returns a string with the encapsulated data in JSON format
-     *
-     * @return string   returns the data encoded to JSON
-     */
-    public function toString();
 }
