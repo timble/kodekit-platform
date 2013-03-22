@@ -38,19 +38,22 @@ class ControllerBehaviorTaggable extends Framework\BehaviorAbstract
 
             $rows->delete();
         }
-        
-        // Save terms as relations
-		foreach ($row->terms as $term)
+
+        if($row->terms)
         {
-			$relation = $this->getService('com:terms.database.row.relation');
-            $relation->terms_term_id = $term;
-            $relation->row		     = $row->id;
-            $relation->table		 = $table;
+            // Save terms as relations
+		    foreach ($row->terms as $term)
+            {
+			    $relation = $this->getService('com:terms.database.row.relation');
+                $relation->terms_term_id = $term;
+                $relation->row		     = $row->id;
+                $relation->table		 = $table;
     
-            if(!$relation->load()) {
-                $relation->save();
-            }
-		}
+                if(!$relation->load()) {
+                    $relation->save();
+                }
+		    }
+        }
 		
 		return true;
 	}
