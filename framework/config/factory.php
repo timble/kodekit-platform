@@ -66,10 +66,10 @@ class ConfigFactory extends Object implements ServiceInstantiatable
     {
         $config->append(array(
             'formats' => array(
-                'ini'  => 'ini',
-                'json' => 'json',
-                'xml'  => 'xml',
-                'yaml' => 'yaml'
+                'ini'  => 'Nooku\Framework\ConfigIni',
+                'json' => 'jNooku\Framework\ConfigJson',
+                'xml'  => 'Nooku\Framework\ConfigXml',
+                'yaml' => 'Nooku\Framework\ConfigYaml'
             )
         ));
 
@@ -96,15 +96,7 @@ class ConfigFactory extends Object implements ServiceInstantiatable
 
         if(!($format instanceof ConfigSerializable))
         {
-            if(is_string($format) && strpos($format, '.') === false )
-            {
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('format');
-                $identifier->name	= $format;
-            }
-            else $identifier = $this->getIdentifier($format);
-
-            $format = $this->getService($identifier);
+            $format = new $format();
 
             if(!$format instanceof ConfigSerializable)
             {
@@ -127,10 +119,15 @@ class ConfigFactory extends Object implements ServiceInstantiatable
      * @param mixed	$identifier An object that implements ServiceInterface, ServiceIdentifier object
      * 					        or valid identifier string
      * @return	ConfigFactory
+     * throws \InvalidArgumentException If the class does not exist.
      */
-    public function registerFormat($format, $identifier)
+    public function registerFormat($format, $class)
     {
-        $this->_formats[$format] = $identifier;
+        if(!class_exists($class, true)) {
+            throw new \InvalidArgumentException('Class : $class cannot does not exist.');
+        }
+
+        $this->_formats[$format] = $class;
         return $this;
     }
 
