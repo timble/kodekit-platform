@@ -58,7 +58,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $config = new ConfigJson($config);
         $config->append(array(
             'selector' => 'a.modal',
-            'options' => array('disableFx' => true)
+            'options'  => array('disableFx' => true)
         ));
 
         $html = '';
@@ -182,25 +182,34 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function keepalive($config = array())
     {
+        $config = new ConfigJson($config);
+        $config->append(array(
+            'refresh' => 15 * 60000, //default refresh is 15min
+            'url'     => $this->getTemplate()->getView()->getRoute('', false, false),
+        ));
+
         $html = '';
 
         // Only load once
         if (!isset(self::$_loaded['keepalive']))
         {
-            $config = new ConfigJson($config);
-            $config->append(array(
-                'refresh' => 15 * 60000, //15min
-                'url' => $this->getTemplate()->getView()->getRoute('', false, false)
-            ));
+            $session = $this->getService('user')->getSession();
+            if($session->isActive())
+            {
+                //Get the config session lifetime
+                $lifetime = $session->getLifetime() * 1000;
 
-            $refresh = (int)$config->refresh;
+                //Refresh time is 1 minute less than the lifetime
+                $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
+            }
+            else $refresh = (int) $config->refresh;
 
             // Longest refresh period is one hour to prevent integer overflow.
             if ($refresh > 3600000 || $refresh <= 0) {
                 $refresh = 3600000;
             }
 
-            // Build the keepalive script.
+            // Build the keep alive script.
             $html =
                 "<script>
 				Koowa.keepalive =  function() {
@@ -232,9 +241,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $config = new ConfigJson($config);
         $config->append(array(
             'selector' => '.-koowa-form',
-            'options' => array(
+            'options'  => array(
                 'scrollToErrorsOnChange' => true,
-                'scrollToErrorsOnBlur' => true
+                'scrollToErrorsOnBlur'   => true
             )
         ));
 
@@ -277,29 +286,29 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     {
         $config = new ConfigJson($config);
         $config->append(array(
-            'identifier' => null,
-            'element' => null,
-            'path' => 'name',
-            'filter' => array(),
-            'validate' => true,
-            'selected' => null,
-            'name' => $config->value
+            'identifier'    => null,
+            'element'       => null,
+            'path'          => 'name',
+            'filter'        => array(),
+            'validate'      => true,
+            'selected'      => null,
+            'name'          => $config->value
         ))->append(array(
             'value_element' => $config->element . '-value',
             'attribs' => array(
-                'id' => $config->element,
-                'type' => 'text',
+                'id'    => $config->element,
+                'type'  => 'text',
                 'class' => 'inputbox value',
-                'size' => 60
+                'size'  => 60
             ),
         ))->append(array(
             'options' => array(
                 'valueField' => $config->value_element,
-                'filter' => array('path' => $config->path),
+                'filter'     => array('path' => $config->path),
                 'requestOptions' => array('method' => 'get'),
-                'urlOptions' => array(
+                'urlOptions'    => array(
                     'queryVarName' => 'search',
-                    'extraParams' => Config::unbox($config->filter)
+                    'extraParams'  => Config::unbox($config->filter)
                 )
             )
         ));
@@ -346,6 +355,66 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     }
 
     /**
+     * Drag and Drop Sortables Behavior
+     *
+     * @param 	array 	An optional array with configuration options
+     * @return	string 	Html
+     */
+    public function sortable($config = array())
+    {
+        $config = new ConfigJson($config);
+        $config->append(array(
+            'option'	=> Request::get('get.option', 'cmd'),
+            'view'		=> StringInflector::singularize(Request::get('get.view', 'cmd')),
+            'selector'	=> 'table tbody.sortable',
+            'direction' => 'asc',
+            'url'       => '?format=json'
+        ))->append(array(
+                'options'	=> array(
+                    'handle'	=> 'td.handle',
+                    'numcolumn'	=> '.grid-count',
+                    'direction' => $config->direction,
+                    'adapter'	=> array(
+                        'type'		=> 'koowa',
+                        'options'	=> array(
+                            'url'		=> $config->url,
+                            'data'	=> array(
+                                '_token'	=> $this->getService('user')->getSession()->getToken(),
+                                '_action'	=> 'edit'
+                            ),
+                            'key'		=> 'order',
+                            'offset'	=> 'relative'
+                        )
+                    )
+                )
+            ));
+
+        $html = '';
+
+        $signature = md5(serialize(array($config->selector,$config->options)));
+        if (!isset($this->_loaded[$signature]))
+        {
+            $options = !empty($config->options) ? $config->options->toArray() : array();
+            $html .= "
+                <script src=\"/administrator/theme/bootstrap/js/sortables.js\" />
+                <style src=\"/administrator/theme/bootstrap/css/sortables.css\" />
+				<script>
+				(function(){
+					var sortable = function() {
+						$$('".$config->selector."').sortable(".json_encode($options).");
+					};
+					window.addEvents({domready: sortable, request: sortable});
+				})();
+				</script>
+			";
+
+            $this->_loaded[$signature] = true;
+        }
+
+        return $html;
+    }
+
+    /**
      * Loads the calendar behavior and attaches it to a specified element
      *
      * @return string    The html output
@@ -354,10 +423,10 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     {
         $config = new ConfigJson($config);
         $config->append(array(
-            'date' => gmdate("M d Y H:i:s"),
-            'name' => '',
-            'format' => '%Y-%m-%d %H:%M:%S',
-            'attribs' => array('size' => 25, 'maxlenght' => 19),
+            'date'       => gmdate("M d Y H:i:s"),
+            'name'       => '',
+            'format'     => '%Y-%m-%d %H:%M:%S',
+            'attribs'    => array('size' => 25, 'maxlenght' => 19),
             'gmt_offset' => \JFactory::getConfig()->getValue('config.offset') * 3600
         ));
 
