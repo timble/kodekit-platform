@@ -26,7 +26,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
      */
     public function startPane( $config = array() )
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'id'      => 'pane',
             'attribs' => array(),
@@ -75,7 +75,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
      */
     public function startPanel( $config = array())
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'title'     => '',
             'attribs'   => array(),

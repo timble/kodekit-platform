@@ -36,7 +36,7 @@ class BaseTemplateHelperBehavior extends Framework\TemplateHelperBehavior
             //Refresh time is 1 minute less than the liftime
             $refresh =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 
-            $config = new Framework\Config($config);
+            $config = new Framework\ConfigJson($config);
             $config->append(array(
                 'refresh' => $refresh
             ));
@@ -53,7 +53,7 @@ class BaseTemplateHelperBehavior extends Framework\TemplateHelperBehavior
      */
     public function sortable($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Framework\ConfigJson($config);
         $config->append(array(
             'option'	=> Framework\Request::get('get.option', 'cmd'),
             'view'		=> Framework\StringInflector::singularize(Framework\Request::get('get.view', 'cmd')),

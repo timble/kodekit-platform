@@ -37,7 +37,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
 
         // Only load once
-        if (!isset(self::$_loaded['mootools'])) {
+        if (!isset(self::$_loaded['mootools']))
+        {
             $config = new Config($config);
 
             $html .= '<script src="media://koowa/js/mootools.js" />';
@@ -54,7 +55,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function modal($config = array())
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'selector' => 'a.modal',
             'options' => array('disableFx' => true)
@@ -71,7 +72,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         }
 
         $signature = 'modal-' . $config->selector;
-        if (!isset(self::$_loaded[$signature])) {
+        if (!isset(self::$_loaded[$signature]))
+        {
             $options = !empty($config->options) ? $config->options->toArray() : array();
             $html .= "
 			<script>
@@ -97,7 +99,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function tooltip($config = array())
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'selector' => '.hasTip',
             'options' => array()
@@ -106,7 +108,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
 
         $signature = 'tooltip-' . $config->selector;
-        if (!isset(self::$_loaded[$signature])) {
+        if (!isset(self::$_loaded[$signature]))
+        {
             //Don't pass an empty array as options
             $options = $config->options->toArray() ? ', ' . $config->options : '';
             $html .= "
@@ -127,7 +130,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function overlay($config = array())
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'url' => '',
             'options' => array(),
@@ -136,7 +139,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         $html = '';
         // Load the necessary files if they haven't yet been loaded
-        if (!isset(self::$_loaded['overlay'])) {
+        if (!isset(self::$_loaded['overlay']))
+        {
             $html .= '<script src="media://koowa/js/koowa.js" />';
             $html .= '<style src="media://koowa/css/koowa.css" />';
 
@@ -181,8 +185,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
 
         // Only load once
-        if (!isset(self::$_loaded['keepalive'])) {
-            $config = new Config($config);
+        if (!isset(self::$_loaded['keepalive']))
+        {
+            $config = new ConfigJson($config);
             $config->append(array(
                 'refresh' => 15 * 60000, //15min
                 'url' => $this->getTemplate()->getView()->getRoute('', false, false)
@@ -224,7 +229,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function validator($config = array())
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'selector' => '.-koowa-form',
             'options' => array(
@@ -243,7 +248,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         }
 
         $signature = 'validator-' . $config->selector;
-        if (!isset(self::$_loaded[$signature])) {
+        if (!isset(self::$_loaded[$signature]))
+        {
             //Don't pass an empty array as options
             $options = $config->options->toArray() ? ', ' . $config->options : '';
             $html .= "<script>
@@ -269,7 +275,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function autocomplete($config = array())
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'identifier' => null,
             'element' => null,
@@ -298,12 +304,14 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
             )
         ));
 
-        if ($config->validate) {
+        if ($config->validate)
+        {
             $config->attribs['data-value'] = $config->element . '-value';
             $config->attribs['class'] .= ' ma-required';
         }
 
-        if (!isset($config->url)) {
+        if (!isset($config->url))
+        {
             $identifier = $this->getIdentifier($config->identifier);
             $config->url = $this->getTemplate()->getView()->getRoute(
                 'option=com_' . $identifier->package . '&view=' . $identifier->name . '&format=json', false, false
@@ -322,7 +330,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html .= "
 		<script>
 			window.addEvent('domready', function(){				
-				new Koowa.Autocomplete($('" . $config->element . "'), " . json_encode((string)$config->url) . ", " . json_encode(Config::unbox($config->options)) . ");
+				new Koowa.Autocomplete($('" . $config->element . "'), " . json_encode((string)$config->url) . ", " . $config->options . ");
 			});
 		</script>";
 
@@ -344,7 +352,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function calendar($config = array())
     {
-        $config = new Config($config);
+        $config = new ConfigJson($config);
         $config->append(array(
             'date' => gmdate("M d Y H:i:s"),
             'name' => '',
@@ -359,7 +367,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         $html = '';
         // Load the necessary files if they haven't yet been loaded
-        if (!isset(self::$_loaded['calendar'])) {
+        if (!isset(self::$_loaded['calendar']))
+        {
             $html .= '<script src="media://koowa/js/calendar.js" />';
             $html .= '<script src="media://koowa/js/calendar-setup.js" />';
             $html .= '<style src="media://koowa/css/calendar.css" />';
