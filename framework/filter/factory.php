@@ -77,7 +77,7 @@ class FilterFactory extends Object implements ServiceInstantiatable
 		try
 		{
 			if(is_string($filter) && strpos($filter, '.') === false ) {
-				$filter = 'com:base.filter.'.trim($filter);
+				$filter = 'lib:filter.'.trim($filter);
 			}
 
 			$filter = $this->getService($filter, $config);
