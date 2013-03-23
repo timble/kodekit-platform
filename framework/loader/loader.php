@@ -108,24 +108,6 @@ class Loader
         return $this->_registry;
     }
 
-    /**
-     * Get a path from an file
-     *
-     * Function will check if the path is an alias and return the real file path
-     *
-     * @param  string $path The path
-     * @return string The file path
-     */
-    public function getFile($path)
-    {
-        //Find the path by checking the alias map
-        while(array_key_exists($path, $this->_aliases)) {
-            $path = $this->_aliases[$path];
-        }
-
-        return $path;
-    }
-
  	/**
      * Add a loader adapter
      *
@@ -156,14 +138,14 @@ class Loader
     }
 
     /**
-     * Get the path alias
+     * Get the path from an alias
      *
      * @param  string $path The path
-     * @return string Return the file alias if one exists. Otherwise return FALSE.
+     * @return string|false Return the file alias if one exists. Otherwise returns FALSE.
      */
-    public function getAlias($path)
+    public function getAlias($alias)
     {
-        return array_search($path, $this->_aliases);
+        return isset($this->_aliases[$alias]) ? $this->_aliases[$alias] : false;
     }
 
     /**
@@ -266,11 +248,10 @@ class Loader
     public function loadFile($path)
     {
         $result = false;
-        $path   = $this->getFile($path);
+        $path   = $this->realPath($path);
 
         //Don't re-include files and stat the file if it exists.
-        //Realpath is needed to resolve symbolic links.
-        if (!in_array(realpath($path), get_included_files()) && file_exists($path))
+        if (!in_array($path, get_included_files()) && file_exists($path))
         {
             if($included = include $path) {
                 $result = true;
@@ -313,5 +294,24 @@ class Loader
         else $result = $this->_registry->offsetGet($class);
 
         return $result;
+    }
+
+    /**
+     * Get a path from an file
+     *
+     * Function will check if the path is an alias and return the real file path
+     *
+     * @param  string $path The path
+     * @return string The real file path
+     */
+    public function realPath($path)
+    {
+        //Find the path by checking the alias map
+        if(isset($this->_aliases[$path])) {
+            $path = $this->_aliases[$path];
+        }
+
+        //Realpath is needed to resolve symbolic links.
+        return realpath($path);
     }
 }

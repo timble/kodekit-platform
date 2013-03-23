@@ -38,16 +38,6 @@ interface LoaderInterface
     public function getRegistry();
 
     /**
-     * Get a path from an file
-     *
-     * Function will check if the path is an alias and return the real file path
-     *
-     * @param  string $path The path
-     * @return string The file path
-     */
-    public function getFile($path);
-
-    /**
      * Set an file path alias
      *
      * @param string  $alias    The alias
@@ -56,12 +46,12 @@ interface LoaderInterface
     public function setAlias($alias, $path);
 
     /**
-     * Get the path alias
+     * Get the path from an alias
      *
      * @param  string $path The path
-     * @return string Return the file alias if one exists. Otherwise return FALSE.
+     * @return string|false Return the file alias if one exists. Otherwise returns FALSE.
      */
-    public function getAlias($path);
+    public function getAlias($alias);
 
     /**
      * Get a list of path aliases
@@ -125,4 +115,14 @@ interface LoaderInterface
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
     public function findPath($class);
+
+    /**
+     * Get the real path
+     *
+     * Function will check if the path is an alias and return the real file path
+     *
+     * @param  string $path The path
+     * @return string The file path
+     */
+    public function realPath($path);
 }
