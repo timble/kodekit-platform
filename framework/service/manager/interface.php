@@ -111,6 +111,15 @@ interface ServiceManagerInterface
 	 */
 	public static function setAlias($alias, $identifier);
 
+    /**
+     * Get the identifier for an alias
+     *
+     * @param string $alias The alias
+     * @return mixed|false An object that implements ServiceInterface, ServiceIdentifier object
+     *                     or valid identifier string
+     */
+    public function getAlias($alias);
+
 	/**
      * Get a list of aliases
      *

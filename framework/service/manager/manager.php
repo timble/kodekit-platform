@@ -279,6 +279,18 @@ class ServiceManager implements ServiceManagerInterface
     }
 
     /**
+     * Get the identifier for an alias
+     *
+     * @param string $alias The alias
+     * @return mixed|false An object that implements ServiceInterface, ServiceIdentifier object
+     *                     or valid identifier string
+     */
+    public function getAlias($alias)
+    {
+        return isset(self::$_aliases[$alias]) ? self::$_aliases[$alias] : false;
+    }
+
+    /**
      * Get a list of aliases
      *
      * @return array
