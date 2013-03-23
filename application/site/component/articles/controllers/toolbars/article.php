@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage Articles
  */
 
-class ArticlesControllerToolbarArticle extends BaseControllerToolbarDefault
+class ArticlesControllerToolbarArticle extends Framework\ControllerToolbarModel
 {
     protected function _initialize(Framework\Config $config)
     {

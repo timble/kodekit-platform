@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Categories
  */
-class ControllerToolbarCategory extends \BaseControllerToolbarDefault
+class ControllerToolbarCategory extends Framework\ControllerToolbarModel
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {    

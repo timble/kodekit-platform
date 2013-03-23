@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class ControllerToolbarMenu extends \BaseControllerToolbarDefault
+class ControllerToolbarMenu extends Framework\ControllerToolbarModel
 {
     protected function _commandNew(Framework\ControllerToolbarCommand $command)
     {

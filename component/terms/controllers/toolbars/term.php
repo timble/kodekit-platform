@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Nooku\Component\Terms
  */
-class ControllerToolbarTerm extends \BaseControllerToolbarDefault
+class ControllerToolbarTerm extends Framework\ControllerToolbarModel
 {    
     protected function _commandNew(Framework\ControllerToolbarCommand $command)
     {

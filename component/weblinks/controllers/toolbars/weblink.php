@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @package Nooku\Component\Weblinks
  */
-class ControllerToolbarWeblink extends \BaseControllerToolbarDefault
+class ControllerToolbarWeblink extends Framework\ControllerToolbarModel
 {
     public function onAfterControllerBrowse(Framework\Event $event)
     {

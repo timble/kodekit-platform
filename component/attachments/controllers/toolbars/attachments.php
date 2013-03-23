@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class ControllerToolbarAttachments extends BaseControllerToolbarDefault
+class ControllerToolbarAttachments extends Framework\ControllerToolbarModel
 {
 	public function getCommands()
 	{

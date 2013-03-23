@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class CacheControllerToolbarDefault extends BaseControllerToolbarDefault
+class CacheControllerToolbarDefault extends Framework\ControllerToolbarModel
 {
     public function getCommands()
     {
