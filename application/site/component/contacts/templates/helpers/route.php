@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Weblinks
  */
-class ContactsTemplateHelperRoute extends BaseTemplateHelperRoute
+class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 {
     public function contact($config = array())
 	{

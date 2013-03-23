@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesTemplateHelperRoute extends BaseTemplateHelperRoute
+class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 {
 	public function article($config = array())
 	{
