@@ -197,7 +197,7 @@ class Loader
      * @param string    $class    The class name
      * @return boolean  Returns TRUE if the class could be loaded, otherwise returns FALSE.
      */
-    public function loadClass($class, $basepath = null)
+    public function loadClass($class)
     {
         $result = false;
 
@@ -206,7 +206,7 @@ class Loader
         if (!class_exists($class, false) && !interface_exists($class, false))
         {
             //Get the path
-            $path = self::findPath( $class, $basepath );
+            $path = self::findPath( $class );
 
             if ($path !== false) {
                 $result = $this->loadFile($path);
@@ -307,8 +307,8 @@ class Loader
     public function realPath($path)
     {
         //Find the path by checking the alias map
-        if(isset($this->_aliases[$path])) {
-            $path = $this->_aliases[$path];
+        while(array_key_exists((string) $path, $this->_aliases)) {
+            $path = $this->_aliases[(string) $path];
         }
 
         //Realpath is needed to resolve symbolic links.
