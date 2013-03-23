@@ -43,7 +43,7 @@ class BaseControllerToolbarMenubar extends Framework\ControllerToolbarAbstract
         
         $controller = $this->getController();
         
-        if($controller->isEditable() && Framework\StringStringInflector::isSingular($controller->getView()->getName())) {
+        if($controller->isEditable() && Framework\StringInflector::isSingular($controller->getView()->getName())) {
             $command->disabled = true;
         }
         
@@ -75,7 +75,7 @@ class BaseControllerToolbarMenubar extends Framework\ControllerToolbarAbstract
 	            {
 	                parse_str($command['href'], $href);
 	                if(!isset($command['active'])) {
-	                    $command['active'] = ($name == Framework\StringStringInflector::singularize($href['view']));
+	                    $command['active'] = ($name == Framework\StringInflector::singularize($href['view']));
 	                }
 
 	                $this->addCommand(JText::_((string)$command), array(
