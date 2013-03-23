@@ -18,7 +18,73 @@ namespace Nooku\Framework;
  */
 class TemplateHelperListbox extends TemplateHelperSelect
 {
-	/**
+    /**
+     * Generates an HTML enabled listbox
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
+    public function enabled( $config = array())
+    {
+        $config = new Config($config);
+        $config->append(array(
+            'name'      => 'enabled',
+            'attribs'   => array(),
+            'deselect'  => true,
+            'prompt'    => '- Select -',
+        ))->append(array(
+                'selected'  => $config->{$config->name}
+            ));
+
+        $options = array();
+
+        if($config->deselect) {
+            $options[] = $this->option(array('text' => \JText::_($config->prompt), 'value' => ''));
+        }
+
+        $options[] = $this->option(array('text' => \JText::_( 'Enabled' ) , 'value' => 1 ));
+        $options[] = $this->option(array('text' => \JText::_( 'Disabled' ), 'value' => 0 ));
+
+        //Add the options to the config object
+        $config->options = $options;
+
+        return $this->optionlist($config);
+    }
+
+    /**
+     * Generates an HTML published listbox
+     *
+     * @param   array   An optional array with configuration options
+     * @return  string  Html
+     */
+    public function published( $config = array())
+    {
+        $config = new Config($config);
+        $config->append(array(
+            'name'      => 'enabled',
+            'attribs'   => array(),
+            'deselect'  => true,
+            'prompt'    => '- Select -',
+        ))->append(array(
+                'selected'  => $config->{$config->name}
+            ));
+
+        $options = array();
+
+        if($config->deselect) {
+            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => ''));
+        }
+
+        $options[] = $this->option(array('text' => \JText::_( 'Published' ) , 'value' => 1 ));
+        $options[] = $this->option(array('text' => \JText::_( 'Draft' ), 'value' => 0 ));
+
+        //Add the options to the config object
+        $config->options = $options;
+
+        return $this->optionlist($config);
+    }
+
+    /**
 	 * Generates an HTML optionlist based on the distinct data from a model column.
 	 *
 	 * The column used will be defined by the name -> value => column options in
