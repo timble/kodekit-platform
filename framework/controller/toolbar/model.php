@@ -1,29 +1,28 @@
 <?php
 /**
- * @package     Nooku_Components
- * @subpackage  Default
- * @copyright  	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license   	GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * @package      Koowa_Controller
+ * @subpackage 	 Toolbar
+ * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
-use Nooku\Framework;
+namespace Nooku\Framework;
 
 /**
- * Default Toolbar
+ * Model Controller Toolbar Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * @package     Koowa_Controller
+ * @subpackage 	Toolbar
  */
-class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
+class ControllerToolbarModel extends ControllerToolbarAbstract
 {
 	/**
 	 * Push the toolbar into the view
 	 * .
-	 * @param	Framework\Event	A event object
+	 * @param Event	A event object
 	 */
-    public function onBeforeControllerRender(Framework\Event $event)
+    public function onBeforeControllerRender(Event $event)
     {
         $event->getTarget()->getView()->toolbar = $this;
     }
@@ -31,9 +30,9 @@ class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
-	 * @param	Framework\Event	A event object
+	 * @param	Event	A event object
 	 */
-    public function onAfterControllerRead(Framework\Event $event)
+    public function onAfterControllerRead(Event $event)
     {
         $name = ucfirst($this->getController()->getIdentifier()->name);
 
@@ -60,9 +59,9 @@ class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
     /**
 	 * Add default toolbar commands
 	 * .
-	 * @param	Framework\Event	A event object
+	 * @param	Event	A event object
 	 */
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Event $event)
     {
         if($this->getController()->canAdd())
         {
@@ -80,10 +79,10 @@ class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
     /**
      * Enable toolbar command
      *
-     * @param   object  A Framework\ControllerToolbarCommand object
+     * @param   object  A ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandEnable(Framework\ControllerToolbarCommand $command)
+    protected function _commandEnable(ControllerToolbarCommand $command)
     {
         $command->icon = 'icon-32-publish';
 
@@ -98,10 +97,10 @@ class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
     /**
      * Disable toolbar command
      *
-     * @param   object  A Framework\ControllerToolbarCommand object
+     * @param   object  A ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandDisable(Framework\ControllerToolbarCommand $command)
+    protected function _commandDisable(ControllerToolbarCommand $command)
     {
         $command->icon = 'icon-32-unpublish';
 
@@ -116,10 +115,10 @@ class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
     /**
      * Export toolbar command
      *
-     * @param   object  A Framework\ControllerToolbarCommand object
+     * @param   object  A ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandExport(Framework\ControllerToolbarCommand $command)
+    protected function _commandExport(ControllerToolbarCommand $command)
     {
         //Get the states
         $states = $this->getController()->getModel()->getState()->toArray();
@@ -140,10 +139,10 @@ class BaseControllerToolbarDefault extends Framework\ControllerToolbarDefault
     /**
      * Dialog toolbar command
      *
-     * @param   object  A Framework\ControllerToolbarCommand object
+     * @param   object  A ControllerToolbarCommand object
      * @return  void
      */
-    protected function _commandDialog(Framework\ControllerToolbarCommand $command)
+    protected function _commandDialog(ControllerToolbarCommand $command)
     {
         $option = $this->getIdentifier()->package;
 
