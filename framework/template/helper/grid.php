@@ -27,7 +27,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	 */
 	public function checkbox($config = array())
 	{
-		$config = new Config($config);
+		$config = new ConfigJson($config);
 		$config->append(array(
 			'row'    => null,
 	    ))->append(array( 
@@ -59,7 +59,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	 */
 	public function search($config = array())
 	{
-	    $config = new Config($config);
+	    $config = new ConfigJson($config);
 		$config->append(array(
 			'search'      => null,
 			'results'     => 5,
@@ -81,7 +81,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	 */
 	public function checkall($config = array())
 	{
-		$config = new Config($config);
+		$config = new ConfigJson($config);
 
 		$html = '<input type="checkbox" class="-koowa-grid-checkall" />';
 		return $html;
@@ -95,7 +95,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	 */
 	public function sort( $config = array())
 	{
-		$config = new Config($config);
+		$config = new ConfigJson($config);
 		$config->append(array(
 			'title'   	    => '',
 			'column'  	    => '',
@@ -161,7 +161,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	 */
 	public function enable($config = array())
 	{
-		$config = new Config($config);
+		$config = new ConfigJson($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'enabled'
@@ -189,7 +189,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	 */
 	public function order($config = array())
 	{
-		$config = new Config($config);
+		$config = new ConfigJson($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'total'		=> null,
@@ -226,7 +226,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	 */
 	public function access($config = array())
 	{
-		$config = new Config($config);
+		$config = new ConfigJson($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'access'
