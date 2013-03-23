@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Categories
  */
-class TemplateHelperListbox extends \BaseTemplateHelperListbox
+class TemplateHelperListbox extends Framework\TemplateHelperListbox
 {
      public function order($config = array())
      {

@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class TemplateHelperListbox extends \BaseTemplateHelperListbox
+class TemplateHelperListbox extends Framework\TemplateHelperListbox
 {
     public function list_limits($config = array())
     {

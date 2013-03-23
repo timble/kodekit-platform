@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Terms
  */
 
-class TermsTemplateHelperListbox extends BaseTemplateHelperListbox
+class TermsTemplateHelperListbox extends Framework\TemplateHelperListbox
 {
     public function terms($config = array())
     {

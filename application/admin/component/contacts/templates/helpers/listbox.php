@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ContactsTemplateHelperListbox extends BaseTemplateHelperListbox
+class ContactsTemplateHelperListbox extends Framework\TemplateHelperListbox
 {
     public function contacts($config = array())
     {

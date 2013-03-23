@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Application
  */
-class TemplateHelperListbox extends BaseTemplateHelperListbox
+class TemplateHelperListbox extends Framework\TemplateHelperListbox
 {
     public function applications($config = array())
     {

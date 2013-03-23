@@ -17,17 +17,17 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class TemplateHelperListbox extends \BaseTemplateHelperListbox
+class TemplateHelperListbox extends Framework\TemplateHelperListbox
 {
   	public function sites( $config = array() )
    	{
      	$config = new Framework\Config($config);
        	$config->append(array(
-          	'model' => 'sites',
-           	'name' => 'site',
-            'value' => 'name',
-        	'text' => 'name',
-          	'deselect' => false
+          	'model'     => 'sites',
+           	'name'      => 'site',
+            'value'     => 'name',
+        	'text'      => 'name',
+          	'deselect'  => false
        	));
 
       	return parent::_listbox($config);

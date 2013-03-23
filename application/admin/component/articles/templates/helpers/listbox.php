@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Articles
  */
 
-class ArticlesTemplateHelperListbox extends BaseTemplateHelperListbox
+class ArticlesTemplateHelperListbox extends Framework\TemplateHelperListbox
 {
     public function articles($config = array())
     {
