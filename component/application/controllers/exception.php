@@ -77,7 +77,9 @@ class ControllerException extends Framework\ControllerView
         }
 
         //Find the real file path
-        if($alias = $this->getService('loader')->getAlias($file)) {
+        $aliases = $this->getService('loader')->getAliases();
+
+        if($alias = array_search($file, $aliases)) {
             $file = $alias;
         };
 
