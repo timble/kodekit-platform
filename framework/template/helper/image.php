@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+namespace Nooku\Framework;
 
 /**
  * Image Helper
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
+class TemplateHelperImage extends TemplateHelperListbox
 {
 	/**
 	 * Generated a HTML images listbox
@@ -36,7 +36,7 @@ class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
 	 */
 	public function listbox($config = array())
 	{
-  		$config = new Framework\Config($config);
+  		$config = new Config($config);
   		$config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',
@@ -44,14 +44,14 @@ class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
    			'deselect'	=> true,
   		    'preview'   => true
   		))->append(array(
-                        'selected'  => $config->{$config->name}
+            'selected'  => $config->{$config->name}
 		))->append(array(
 			'attribs' => array(
-			'id' => $config->name,
-			'class' => 'inputbox'
+			'id'      => $config->name,
+			'class'   => 'inputbox'
 			)));
 
-	    $root = JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory);
+	    $root = \JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory);
 
 		$html = "
 		<script>
@@ -64,11 +64,12 @@ class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
 		</script>";
 
 		if($config->deselect) {
-			$options[] = $this->option(array('text' => '- '.JText::_( 'Select' ).' -', 'value' => ''));
+			$options[] = $this->option(array('text' => '- '.\JText::_( 'Select' ).' -', 'value' => ''));
   		}
 
 		$files = array();
-  		foreach(new \DirectoryIterator($config->directory) as $file) {
+  		foreach(new \DirectoryIterator($config->directory) as $file)
+        {
    			if(in_array(pathinfo($file, PATHINFO_EXTENSION), $config->filetypes->toArray() )) {
     				$files[] = (string) $file;
    			}
@@ -78,12 +79,11 @@ class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
 			$options[] = $this->option(array('text' => (string) $file, 'value' => (string) $file));
  		}
 
-
   		$list = $this->optionlist(array(
-   			'options' => $options,
-   			'name'  => $config->name,
-   			'attribs' => $config->attribs,
-   			'selected' => $config->selected
+   			'options'   => $options,
+   			'name'      => $config->name,
+   			'attribs'   => $config->attribs,
+   			'selected'  => $config->selected
   		));
 
   		$html .= $config->preview ? $list.'<br />'.$this->preview($config) : $list;
@@ -109,7 +109,7 @@ class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
  	 */
  	public function preview($config = array())
  	{
- 	    $config = new Framework\Config($config);
+ 	    $config = new Config($config);
  	    $config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',
@@ -121,7 +121,7 @@ class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
             'selected'  => $config->{$config->name}
  	    ));
 
- 	    $image = JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
+ 	    $image = \JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
 
  	    $path = $config->selected ? $image : 'media://koowa/images/blank.png';
   		$html = '<img '.$this->_buildAttributes(array(
@@ -131,7 +131,7 @@ class BaseTemplateHelperImage extends Framework\TemplateHelperListbox
   			'width'		=> $config->width,
   			'height'	=> $config->height,
   			'border'	=> $config->border,
-  			'alt'		=> JText::_('Preview'),
+  			'alt'		=> \JText::_('Preview'),
   			'style'		=> $config->style
   		)).' />';
 
