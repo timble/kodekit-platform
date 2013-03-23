@@ -1,22 +1,22 @@
 <?php
 /**
- * @package     Nooku_Components
- * @subpackage  Default
- * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link        http://www.nooku.org
+ * @package		Koowa_Template
+ * @subpackage	Helper
+ * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link     	http://www.nooku.org
  */
 
-use Nooku\Framework;
+namespace Nooku\Framework;
 
 /**
  * Template Toolbar Helper
  *
- * @author      Johan Janssens <johan@nooku.org>
- * @package     Nooku_Components
- * @subpackage  Default
+ * @author		Johan Janssens <johan@nooku.org>
+ * @package		Koowa_Template
+ * @subpackage	Helper
  */
-class BaseTemplateHelperToolbar extends Framework\TemplateHelperAbstract
+class TemplateHelperToolbar extends TemplateHelperAbstract
 {
     /**
      * Render the toolbar
@@ -26,7 +26,7 @@ class BaseTemplateHelperToolbar extends Framework\TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Config($config);
         $config->append(array(
             'toolbar' => null,
             'attribs' => array('class' => array('toolbar'))
@@ -61,7 +61,7 @@ class BaseTemplateHelperToolbar extends Framework\TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Config($config);
         $config->append(array(
         	'command' => array('attribs' => array('class' => array('btn', 'toolbar')))
         ));
@@ -82,7 +82,7 @@ class BaseTemplateHelperToolbar extends Framework\TemplateHelperAbstract
         }
 
         $html  = '<a '.$this->_buildAttributes($command->attribs).'>';
-       	$html .= JText::_($command->label);
+       	$html .= \JText::_($command->label);
        	$html .= '</a>';
 
     	return $html;
@@ -96,7 +96,7 @@ class BaseTemplateHelperToolbar extends Framework\TemplateHelperAbstract
      */
     public function separator($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Config($config);
         $config->append(array(
             'command' => array('attribs' => array('class' => array('btn-group')))
         ));
@@ -116,7 +116,7 @@ class BaseTemplateHelperToolbar extends Framework\TemplateHelperAbstract
      */
     public function dialog($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Config($config);
         $config->append(array(
         	'command' => NULL
         ));
