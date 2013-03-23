@@ -75,7 +75,8 @@ class AttachmentsTemplateHelperGrid extends Framework\TemplateHelperDefault
         
         $html = array();
 
-        if(count($list)) {
+        if(count($list))
+        {
             $html[] = '<ul>';
             foreach($list as $item) {
                 if(!$item->file->isImage()) {
