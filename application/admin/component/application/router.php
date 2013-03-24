@@ -71,7 +71,7 @@ class ApplicationRouter extends Framework\DispatcherRouter
             $segments[] = $site;
         }
 
-	    //Build commponent route
+	    //Build component route
         if(isset($query['option']))
         {
             $segments[] = substr($query['option'], 4);
