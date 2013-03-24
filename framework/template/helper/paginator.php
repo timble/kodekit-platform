@@ -48,7 +48,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 		}
 		$html .=  $this->pages($config);
 		if($config->show_count) {
-		    $html .= '<div class="count"> '.\JText::_('Page').' '.$config->current.' '.JText::_('of').' '.$config->count.'</div>';
+		    $html .= '<div class="count"> '.\JText::_('Page').' '.$config->current.' '.\JText::_('of').' '.$config->count.'</div>';
 		}
 		$html .= '</div>';
 
