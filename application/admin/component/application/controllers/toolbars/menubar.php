@@ -23,18 +23,5 @@ class ApplicationControllerToolbarMenubar extends Framework\ControllerToolbarAbs
     {   
         $event->getTarget()->getView()->menubar = $this;
     }
-
-    public function getCommand($name, $config = array())
-    {
-        $command = parent::getCommand($name, $config);
-
-        if($this->getService('component')->getController()->getView()->getLayout() == 'form') {
-            $command->disabled = true;
-        }
-
-        return $command;
-    }
-
-
 }
 
