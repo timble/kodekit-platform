@@ -37,12 +37,9 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
         $config->append(array(
             'fallbacks' => array(
                 '<Package><Class>',
-                '<Package><Path>Default',
                 'Nooku\Component\<Package>\<Class>',
                 'Nooku\Component\<Package>\<Path><Name>',
-                'Nooku\Component\<Package>\<Path>Default',
-                'Base<Path><Name>',
-                'Base<Path>Default',
+                'Application<Path>Default',
                 'Nooku\Framework\<Path><Name>',
                 'Nooku\Framework\<Path>Default',
             )
