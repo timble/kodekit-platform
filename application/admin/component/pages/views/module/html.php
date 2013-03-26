@@ -36,7 +36,7 @@ class PagesViewModuleHtml extends Framework\ViewHtml
                                   ->application('site')->getRowset();
         }
 
-        if($this->getLayout() == 'form')
+        if($this->getModel()->getState()->isUnique())
         {
             if($module->isNew())
             {
