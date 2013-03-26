@@ -10,13 +10,13 @@
 use Nooku\Framework;
 
 /**
- * Default Controller Permission Class
+ * Controller Permission Default Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseControllerPermissionDefault extends Framework\ControllerPermissionDefault
+class ApplicationControllerPermissionDefault extends Framework\ControllerPermissionAbstract
 {
     /**
      * Generic authorize handler for controller add actions

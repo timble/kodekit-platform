@@ -17,12 +17,10 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class LanguagesControllerPermissionDefault extends BaseControllerPermissionDefault
+class LanguagesControllerPermissionComponent extends ApplicationControllerPermissionDefault
 {
     public function canEdit()
     {
-        $name = $this->getMixer()->getIdentifier()->name;
-        
-        return $name == 'component' ? true : parent::canEdit();
+        return true;
     }
 }

@@ -16,7 +16,37 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesControllerPermissionArticle extends BaseControllerPermissionDefault
+class ArticlesControllerPermissionArticle extends ApplicationControllerPermissionDefault
 {
+    public function canRead()
+    {
+        $result  = true;
+        $article = $this->getModel()->getRow();
 
+        if (!$article->isNew())
+        {
+            if ($article->access > $this->getUser()->isAuthentic())
+            {
+                //If user doesn't have access to it, deny access.
+                $result = false;
+            }
+            elseif ($article->created_by == $this->getUser()->getId())
+            {
+                // Users can read their own articles regardless of the state
+                $result = true;
+            }
+            elseif ($article->published == 0 && !$this->canEdit())
+            {
+                // Only published articles can be read. An exception is made for editors and above.
+                $result = false;
+            }
+            else $result = true;
+
+            // Set article editable status.
+            $article->editable = $this->canEdit();
+        }
+        else $result = $this->canAdd();
+
+        return $result;
+    }
 }

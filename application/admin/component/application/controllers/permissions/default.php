@@ -10,13 +10,13 @@
 use Nooku\Framework;
 
 /**
- * Default Controller Executable Behavior
+ * Controller Permission Default Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseControllerPermissionDefault extends Framework\ControllerPermissionDefault
+class ApplicationControllerPermissionDefault extends Framework\ControllerPermissionAbstract
 {
     /**
      * Generic authorize handler for controller render actions
@@ -27,7 +27,6 @@ class BaseControllerPermissionDefault extends Framework\ControllerPermissionDefa
     {
         return $this->getUser()->getRole() > 22;
     }
-
 
     /**
      * Generic authorize handler for controller read actions
