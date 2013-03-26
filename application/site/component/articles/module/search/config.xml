@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params addpath="/application/admin/component/articles/element">
+        <param name="item_id" type="searchpages" default="" label="Search page" description="The page where the search results will be rendered"/>
+		<param name="form_class" type="text" default="" label="Form class" description="HTML class of the form element" />
+		<param name="input_class" type="text" default="" label="Input class" description="HTML class of the input field" />
+        <param name="button_class" type="text" default="" label="Button class" description="HTML class of the submit button" />
+        <param name="placeholder" type="text" default="" label="Placeholder" description="Placeholder of the input field" />
+	</params>
+</config>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="Table layout">
+        <message>
+            <![CDATA[]]>
+        </message>
+    </layout>
+    <state>
+        <name>Table Layout</name>
+        <description></description>
+        <url addpath="/application/admin/component/files/element">
+        	<param name="folder" type="folders" default="" label="Folder" />
+        	<!-- TODO: take this out when page manager correctly adds the layout to the menu item -->
+        	<param name="layout" type="hidden" default="table" />
+        </url>
+        <params>
+        	<param name="show_folders" type="radio" default="1" label="Show subfolders">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="humanize_filenames" type="radio" default="1" label="Humanized file names">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			<param name="limit" type="list" default="-1" label="Files per page">
+				<option value="-1">System Default</option>
+				<option value="0">Unlimited</option>
+			</param>
+			<param name="sort" type="list" default="name" label="Sort by">
+				<option value="name">Sort by name</option>
+				<option value="modified_on">Sort by modified date</option>
+			</param>
+			<param name="direction" type="list" default="asc" label="Sort direction">
+				<option value="asc">Ascending</option>
+				<option value="desc">Descending</option>
+			</param>
+        </params>
+    </state>
+</metadata>
+
+			

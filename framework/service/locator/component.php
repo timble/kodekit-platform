@@ -110,19 +110,11 @@ class ServiceLocatorComponent extends ServiceLocatorAbstract
 
         if(!empty($identifier->name))
         {
-            if(count($parts))
-            {
-                if(!in_array($parts[0], array('view', 'module')))
-                {
-                    foreach($parts as $key => $value) {
-                        $parts[$key] = StringInflector::pluralize($value);
-                    }
-                }
-                else $parts[0] = StringInflector::pluralize($parts[0]);
-
+            if(count($parts)) {
                 $path = implode('/', $parts).'/'.strtolower($identifier->name);
+            } else {
+                $path  = strtolower($identifier->name);
             }
-            else $path  = strtolower($identifier->name);
         }
 
         $path = 'component/'.$component.'/'.$path.'.php';

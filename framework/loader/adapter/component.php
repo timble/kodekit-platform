@@ -53,19 +53,11 @@ class LoaderAdapterComponent extends LoaderAdapterAbstract
         $component = strtolower(array_shift($parts));
 		$file 	   = array_pop($parts);
 
-		if(count($parts))
-		{
-            if(!in_array($parts[0], array('view', 'module')))
-	        {
-			    foreach($parts as $key => $value) {
-			        $parts[$key] = StringInflector::pluralize($value);
-		        }
-		    }
-	        else $parts[0] = StringInflector::pluralize($parts[0]);
-
+		if(count($parts)){
 			$path = implode('/', $parts).'/'.$file;
-		}
-		else $path = $file;
+		} else {
+            $path = $file;
+        }
 
 		$path = $basepath.'/'.$component.'/'.$path.'.php';
 
