@@ -23,19 +23,19 @@ class PagesTemplateHelperList extends Framework\TemplateHelperAbstract
     {
         $config = new Framework\Config($config);
         $config->append(array(
-            'pages'   => array(),
-            'active'  => null,
-            'attribs' => array('class' => array('nav'))
+            'pages'    => array(),
+            'active'   => null,
+            'attribs'  => array('class' => array('nav')),
+            'disabled' => false,
         ));
+
+        if($config->disabled) {
+            $config->append(array('attribs' => array('class' => array('disabled'))));
+        }
         
         $result     = '';
         $first      = true;
         $last_depth = 0;
-        
-        $disabled = $this->getService('component')->getController()->getView()->getLayout() == 'form';
-        if($disabled) {
-            $config->append(array('attribs' => array('class' => array('disabled'))));
-        }
         
         foreach($config->pages as $page)
         {
@@ -68,32 +68,32 @@ class PagesTemplateHelperList extends Framework\TemplateHelperAbstract
             {
                 case 'component':
                     $link = $this->getTemplate()->getView()->getRoute($page->getLink()->getQuery());
-    				$result .= $disabled ? '<span class="nolink">' : '<a href="'.(string) $link.'">';
+    				$result .= $config->disabled ? '<span class="nolink">' : '<a href="'.(string) $link.'">';
                     $result .= $page->title;
-                    $result .= $disabled ? '</span>' : '</a>';
+                    $result .= $config->disabled ? '</span>' : '</a>';
     				break;
     				
     		    case 'menulink':
     		        $page_linked = $this->getService('application.pages')->getPage($page->getLink()->query['Itemid']);
-    		        $result .= $disabled ? '<span class="nolink">' : '<a href="'.$page_linked->getLink().'">';
+    		        $result .= $config->disabled ? '<span class="nolink">' : '<a href="'.$page_linked->getLink().'">';
                     $result .= $page->title;
-                    $result .= $disabled ? '</span>' : '</a>';
+                    $result .= $config->disabled ? '</span>' : '</a>';
     				break;
     				
                 case 'separator':
-    				$result .= '<span class="separator '.($disabled ? 'nolink' : '').'">'.$page->title.'</span>';
+    				$result .= '<span class="separator '.($config->disabled ? 'nolink' : '').'">'.$page->title.'</span>';
     				break;
     
     			case 'url':
-    				$result .= $disabled ? '<span class="nolink">' : '<a href="'.$page->getLink().'">';
+    				$result .= $config->disabled ? '<span class="nolink">' : '<a href="'.$page->getLink().'">';
                     $result .= $page->title;
-                    $result .= $disabled ? '</span>' : '</a>';
+                    $result .= $config->disabled ? '</span>' : '</a>';
     				break;
     				
     	        case 'redirect':
-    	            $result .= $disabled ? '<span class="nolink">' : '<a href="'.$page->route.'">';
+    	            $result .= $config->disabled ? '<span class="nolink">' : '<a href="'.$page->route.'">';
     	            $result .= $page->title;
-    	            $result .= $disabled ? '</span>' : '</a>';
+    	            $result .= $config->disabled ? '</span>' : '</a>';
             }
         }
         
