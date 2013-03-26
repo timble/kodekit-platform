@@ -10,13 +10,13 @@
 use Nooku\Framework;
 
 /**
- * Template Menubar Helper
+ * Template Tabbar Helper
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseTemplateHelperMenubar extends Framework\TemplateHelperAbstract
+class ApplicationTemplateHelperTabbar extends Framework\TemplateHelperAbstract
 {
  	/**
      * Render the menubar
@@ -28,25 +28,29 @@ class BaseTemplateHelperMenubar extends Framework\TemplateHelperAbstract
     {
         $config = new Framework\Config($config);
         $config->append(array(
-        	'menubar' => null,
+        	'tabbar'  => null,
             'attribs' => array(),
         ));
 
-        $html = '<ul '.$this->_buildAttributes($config->attribs).'>';
-	    foreach ($config->menubar->getCommands() as $command)
-	    {
-	        $html .= '<li>';
-            $name = $command->getName();
+        $html = '';
+        if(isset($config->tabbar))
+        {
+            $html = '<ul '.$this->_buildAttributes($config->attribs).'>';
+            foreach ($config->tabbar->getCommands() as $command)
+            {
+                $html .= '<li>';
+                $name = $command->getName();
 
-            if(method_exists($this, $name)) {
-                $html .= $this->$name(array('command' => $command));
-            } else {
-                $html .= $this->command(array('command' => $command));
+                if(method_exists($this, $name)) {
+                    $html .= $this->$name(array('command' => $command));
+                } else {
+                    $html .= $this->command(array('command' => $command));
+                }
+                $html .= '</li>';
             }
-            $html .= '</li>';
-        }
 
-        $html .= '</ul>';
+            $html .= '</ul>';
+        }
 
 		return $html;
     }
