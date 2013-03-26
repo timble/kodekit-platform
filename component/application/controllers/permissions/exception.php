@@ -12,12 +12,12 @@ namespace Nooku\Component\Application;
 use Nooku\Framework;
 
 /**
- * Default Controller Permission
+ * Exception Controller Permission
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ControllerPermissionDefault extends Framework\ControllerPermissionAbstract
+class ControllerPermissionException extends Framework\ControllerPermissionAbstract
 {
     public function canRender()
     {
