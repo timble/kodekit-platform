@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseTemplateHelperPaginator extends Framework\TemplateHelperPaginator
+class ApplicationTemplateHelperPaginator extends Framework\TemplateHelperPaginator
 {
     /**
      * Render item pagination
