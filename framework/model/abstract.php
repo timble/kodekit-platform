@@ -162,8 +162,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
     public function reset($default = true)
     {
         $this->_rowset = null;
-        $this->_row = null;
-        $this->_total = null;
+        $this->_row    = null;
+        $this->_total  = null;
 
         $this->_state->reset($default);
 
