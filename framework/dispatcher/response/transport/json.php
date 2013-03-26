@@ -18,7 +18,7 @@ namespace Nooku\Framework;
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class DispatcherResponseTransportJson extends DispatcherResponseTransportDefault
+class DispatcherResponseTransportJson extends DispatcherResponseTransportAbstract
 {
     /**
      * The padding for JSONP

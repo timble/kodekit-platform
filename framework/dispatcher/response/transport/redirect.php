@@ -16,7 +16,7 @@ namespace Nooku\Framework;
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class DispatcherResponseTransportRedirect extends DispatcherResponseTransportDefault
+class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbstract
 {
     /**
      * Sends content for the current web response.
