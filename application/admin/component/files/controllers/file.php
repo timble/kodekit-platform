@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerFile extends FilesControllerDefault
+class FilesControllerFile extends FilesControllerAbstract
 {
 	public function __construct(Framework\Config $config)
 	{

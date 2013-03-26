@@ -14,7 +14,7 @@ use Nooku\Framework;
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  */
-class ExtensionsControllerSetting extends BaseControllerModel
+class ExtensionsControllerSetting extends ApplicationControllerDefault
 {
     protected function _initialize(Framework\Config $config)
     {

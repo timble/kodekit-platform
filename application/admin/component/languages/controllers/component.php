@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class LanguagesControllerComponent extends BaseControllerView
+class LanguagesControllerComponent extends Framework\ControllerView
 {
     protected function _actionEdit(Framework\CommandContext $context)
     {

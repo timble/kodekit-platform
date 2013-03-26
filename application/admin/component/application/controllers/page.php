@@ -16,8 +16,22 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationControllerPage extends BaseControllerView
+class ApplicationControllerPage extends Framework\ControllerView
 {
+    /**
+     * Constructor.
+     *
+     * @param   object  An optional Framework\Config object with configuration options.
+     */
+    protected function  _initialize(Framework\Config $config)
+    {
+        $config->append(array(
+            'toolbars'  => array('menubar', 'tabbar', 'toolbar'),
+        ));
+
+        parent::_initialize($config);
+    }
+
     protected function _actionRender(Framework\CommandContext $context)
     {
         $content = parent::_actionRender($context);

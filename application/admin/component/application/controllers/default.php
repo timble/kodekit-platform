@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseControllerModel extends Framework\ControllerModel
+class ApplicationControllerDefault extends Framework\ControllerModel
 {
 	/**
 	 * The limit information
@@ -48,7 +48,7 @@ class BaseControllerModel extends Framework\ControllerModel
     protected function _initialize(Framework\Config $config)
     {
         $config->append(array(
-            'toolbars' => array('menubar', $this->getIdentifier()->name),
+            'toolbars' => array($this->getIdentifier()->name),
             'limit'    => array('max' => 100, 'default' => $this->getService('application')->getCfg('list_limit'))
         ));
 

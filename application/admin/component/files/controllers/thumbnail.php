@@ -17,7 +17,7 @@ use Nooku\Component\Files;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerThumbnail extends FilesControllerDefault
+class FilesControllerThumbnail extends FilesControllerAbstract
 {
     protected function _actionBrowse(Framework\CommandContext $context)
     {

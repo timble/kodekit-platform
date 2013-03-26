@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class WeblinksControllerWeblink extends BaseControllerModel
+class WeblinksControllerWeblink extends ApplicationControllerDefault
 { 
     protected function _initialize(Framework\Config $config)
     {

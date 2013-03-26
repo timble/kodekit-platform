@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class CommentsControllerComment extends BaseControllerDefault
+class CommentsControllerComment extends ApplicationControllerDefault
 {
     public function __construct(Framework\Config $config)
     {

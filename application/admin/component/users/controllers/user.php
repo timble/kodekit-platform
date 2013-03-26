@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class UsersControllerUser extends BaseControllerModel
+class UsersControllerUser extends ApplicationControllerDefault
 { 
     public function __construct(Framework\Config $config)
     {

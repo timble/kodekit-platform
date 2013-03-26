@@ -17,13 +17,13 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class FilesControllerDefault extends BaseControllerModel
+abstract class FilesControllerAbstract extends ApplicationControllerDefault
 {
 	protected function _initialize(Framework\Config $config)
 	{
 		$config->append(array(
-			'persistable' => false,
-			'limit' => array('max' => 1000),
+			'persistable'   => false,
+			'limit'         => array('max' => 1000),
 			'request' => $this->getService('lib:controller.request', array(
 				'query' => array('container' => 'files-files')
 			))

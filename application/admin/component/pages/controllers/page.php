@@ -7,8 +7,6 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Pages;
-
 use Nooku\Framework;
 
 /**
@@ -17,14 +15,12 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class ControllerPage extends \BaseControllerModel
+class PagesControllerPage extends ApplicationControllerDefault
 {
     protected function _initialize(Framework\Config $config)
     {
     	$config->append(array(
-    		'behaviors' => array(
-    		    'com:pages.controller.behavior.closurable'
-    	    )
+    		'behaviors' => array('closurable')
     	));
     
     	parent::_initialize($config);

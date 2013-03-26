@@ -10,18 +10,19 @@
 use Nooku\Framework;
 
 /**
- * Component Controller
+ * Page Controller
  *
- * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
+ * @package Nooku\Component\Pages
  */
-class ExtensionsControllerComponent extends ApplicationControllerDefault
-{ 
+class PagesControllerPage extends ApplicationControllerDefault
+{
     protected function _initialize(Framework\Config $config)
     {
-        $config->append(array(
-        	'behaviors' => array('com:activities.controller.behavior.loggable'),
-        ));
+    	$config->append(array(
+    		'behaviors' => array('closurable')
+    	));
     
-        parent::_initialize($config);
+    	parent::_initialize($config);
     }
 }

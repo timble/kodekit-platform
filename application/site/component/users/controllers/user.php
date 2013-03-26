@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class UsersControllerUser extends BaseControllerModel
+class UsersControllerUser extends ApplicationControllerDefault
 {
     public function __construct(Framework\Config $config)
     {
@@ -43,7 +43,7 @@ class UsersControllerUser extends BaseControllerModel
     {
         $request = parent::getRequest();
 
-        if($request->query->get('layout', 'alpha') == 'form') {
+        if($this->getModel()->getState()->isUnique()) {
             $request->id = $this->getUser()->getId();
         }
 

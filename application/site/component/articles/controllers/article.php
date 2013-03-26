@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesControllerArticle extends ArticlesControllerDefault
+class ArticlesControllerArticle extends ApplicationControllerDefault
 {
     protected function _initialize(Framework\Config $config)
     {
@@ -31,6 +31,10 @@ class ArticlesControllerArticle extends ArticlesControllerDefault
     public function getRequest()
     {
         $request = parent::getRequest();
+
+        if (!$this->getUser()->isAuthentic()) {
+            $request->query->access = 0;
+        }
 
         $view = $request->query->get('view', 'cmd', null);
 

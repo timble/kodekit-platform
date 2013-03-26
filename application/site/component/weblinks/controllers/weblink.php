@@ -16,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class WeblinksControllerWeblink extends BaseControllerModel
+class WeblinksControllerWeblink extends ApplicationControllerDefault
 {
     public function getRequest()
 	{

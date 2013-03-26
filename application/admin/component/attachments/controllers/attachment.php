@@ -2,7 +2,7 @@
 
 use Nooku\Framework;
 
-class AttachmentsControllerAttachment extends BaseControllerModel
+class AttachmentsControllerAttachment extends ApplicationControllerDefault
 {
 	protected function _initialize(Framework\Config $config)
 	{

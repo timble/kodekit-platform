@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Terms
  */
-abstract class TermsControllerTerm extends BaseControllerModel
+abstract class TermsControllerTerm extends ApplicationControllerDefault
 { 
     protected function _initialize(Framework\Config $config)
     {
