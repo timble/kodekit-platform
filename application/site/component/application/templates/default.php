@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class BaseTemplateDefault extends Framework\TemplateAbstract
+class ApplicationTemplateDefault extends Framework\TemplateAbstract
 {
     /**
      * The cache object
