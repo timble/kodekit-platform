@@ -19,7 +19,7 @@ class Nooku
      *
      * @var string
      */
-    const VERSION = '12.3';
+    const VERSION = '13.1';
 
     /**
      * Path to Nooku libraries
