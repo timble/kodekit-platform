@@ -32,23 +32,27 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
             'attribs' => array('class' => array('toolbar'))
         ));
 
-        //Force the id
-        $config->attribs['id'] = 'toolbar-'.$config->toolbar->getName();
+        $html = '';
+        if(isset($config->toolbar))
+        {
+            //Force the id
+            $config->attribs['id'] = 'toolbar-'.$config->toolbar->getName();
 
-        $html  = '<div '.$this->_buildAttributes($config->attribs).'>';
-        $html .= '<div class="btn-group">';
-	    foreach ($config->toolbar->getCommands() as $command)
-	    {
-            $name = $command->getName();
+            $html  = '<div '.$this->_buildAttributes($config->attribs).'>';
+            $html .= '<div class="btn-group">';
+            foreach ($config->toolbar->getCommands() as $command)
+            {
+                $name = $command->getName();
 
-	        if(method_exists($this, $name)) {
-                $html .= $this->$name(array('command' => $command));
-            } else {
-                $html .= $this->command(array('command' => $command));
+                if(method_exists($this, $name)) {
+                    $html .= $this->$name(array('command' => $command));
+                } else {
+                    $html .= $this->command(array('command' => $command));
+                }
             }
-       	}
-        $html .= '</div>';
-		$html .= '</div>';
+            $html .= '</div>';
+            $html .= '</div>';
+        }
 
 		return $html;
     }
