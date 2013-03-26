@@ -77,7 +77,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'model'    => $this->getName(),
+            'model'    => 'lib:model.empty',
             'contents' => '',
             'mimetype' => '',
             'base_url' => '',
