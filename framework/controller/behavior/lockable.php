@@ -48,7 +48,7 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
 
             if ($view instanceof ViewTemplate)
             {
-                if ($view->getLayout() == 'form' && $context->result->isLockable()) {
+                if($this->getModel()->getState()->isUnique() && $context->result->isLockable()) {
                     $context->result->lock();
                 }
             }
