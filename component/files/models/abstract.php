@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelDefault extends Framework\ModelAbstract
+abstract class ModelAbstract extends Framework\ModelAbstract
 {
 	public function __construct(Framework\Config $config)
 	{

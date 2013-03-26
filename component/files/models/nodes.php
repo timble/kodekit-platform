@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelNodes extends ModelDefault
+class ModelNodes extends ModelAbstract
 {
 	public function createRow(array $options = array())
 	{
