@@ -11,7 +11,9 @@
 <script src="media://koowa/js/koowa.js" />
 <?= @helper('behavior.validator') ?>
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="<?= @route('id='.$module->id.'&application='.$state->application) ?>" method="post" class="-koowa-form">
 	<input type="hidden" name="access" value="0" />

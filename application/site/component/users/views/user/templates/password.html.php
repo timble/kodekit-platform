@@ -23,7 +23,7 @@
 
         <div class="controls">
             <input class="minLength:<?=$parameters->get('password_length', 6);?>" type="password" id="password" name="password" value=""/>
-            <?=@helper('com:users.template.helper.form.password');?>
+            <?=@helper('com:users.form.password');?>
         </div>
     </div>
     <div class="control-group">

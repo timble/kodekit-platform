@@ -14,7 +14,9 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com:application.view.grid.toolbar.html'); ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <ktml:module position="sidebar">
 	<?= @template('default_sidebar.html'); ?>
@@ -47,7 +49,7 @@
 	<tfoot>
 			<tr>
 				<td colspan="13">
-					<?= @helper('paginator.pagination', array('total' => $total)); ?>
+					<?= @helper('com:application.paginator.pagination', array('total' => $total)); ?>
 				</td>
 			</tr>
 		</tfoot>

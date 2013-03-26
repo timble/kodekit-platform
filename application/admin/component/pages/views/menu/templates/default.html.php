@@ -14,7 +14,9 @@
 <script src="media://koowa/js/koowa.js" />
 -->
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="<?= @route('&id='.$menu->id)?>" method="post" class="-koowa-form">
     <input type="hidden" name="application" value="site" />
@@ -28,7 +30,7 @@
             <input type="text" name="slug" size="30" maxlength="25" value="<?= $menu->slug ?>" />
 
             <label for="description"><?= @text('Application') ?>:</label>
-            <?= @helper('com:application.template.helper.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application)) ?>
+            <?= @helper('com:application.listbox.applications', array('selected' => $menu->isNew() ? $state->application : $menu->application)) ?>
             
             <label for="description"><?= @text('Description') ?>:</label>
             <textarea name="description" rows="3" placeholder="<?= @text('Description') ?>" maxlength="255"><?= $menu->description ?></textarea>

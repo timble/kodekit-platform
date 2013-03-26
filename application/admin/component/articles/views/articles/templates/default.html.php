@@ -14,11 +14,13 @@
 -->
 <?= @helper('behavior.sortable') ?>
 
-<?= @template('com:application.view.grid.toolbar.html'); ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <? if($articles->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">
-        <?= @helper('com:languages.template.helper.listbox.languages') ?>
+        <?= @helper('com:languages.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
 
@@ -60,7 +62,7 @@
         <tfoot>
             <tr>
                 <td colspan="7">
-                    <?= @helper('paginator.pagination', array('total' => $total)) ?>
+                    <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
                 </td>
             </tr>
         </tfoot>
@@ -97,7 +99,7 @@
                 </td>
                 <? if($article->isTranslatable()) : ?>
                     <td>
-                        <?= @helper('com:languages.template.helper.grid.status', array(
+                        <?= @helper('com:languages.grid.status', array(
                             'status'   => $article->translation_status,
                             'original' => $article->translation_original,
                             'deleted'  => $article->translation_deleted));

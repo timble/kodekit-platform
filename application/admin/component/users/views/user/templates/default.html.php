@@ -21,7 +21,9 @@
     });
 </script>
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
 	<input type="hidden" name="enabled" value="<?= $this->getService('user')->getId() == $user->id ? 1 : 0 ?>" />
@@ -44,7 +46,7 @@
 				<div class="control-group">
 				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
 				    <div class="controls">
-				        <?= @helper('com:extensions.template.helper.listbox.timezones',
+				        <?= @helper('com:extensions.listbox.timezones',
 				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'chzn-select'))) ?>
 				    </div>
 				</div>
@@ -55,7 +57,7 @@
 				    <label class="control-label" for="password"><?= @text('Password') ?></label>
 				    <div class="controls">
 				        <input class="passwordLength:<?=$params->get('password_length', 6);?>" id="password" type="password" name="password" maxlength="100" />
-				        <?=@helper('com:users.template.helper.form.password');?>
+				        <?=@helper('com:users.form.password');?>
 				    </div>
 				</div>
 				<div class="control-group">

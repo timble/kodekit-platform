@@ -15,7 +15,9 @@
 <? /* The application state is necessary in the url to avoid page redirects */ ?>
 <?= @helper('behavior.sortable', array('url' => '?format=json&application='.$state->application)) ?>
 
-<?= @template('com:application.view.grid.toolbar.html'); ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <ktml:module position="sidebar">
 	<?= @template('default_sidebar.html'); ?>
@@ -51,7 +53,7 @@
 			<? if ($modules) : ?>
 			<tr>
 				<td colspan="20">
-					<?= @helper('paginator.pagination', array('total' => $total)) ?>
+					<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 			<? endif ?>

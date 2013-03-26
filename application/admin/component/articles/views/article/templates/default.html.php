@@ -33,11 +33,13 @@
     }));
 </script>
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <? if($article->isTranslatable()) : ?>
     <ktml:module position="toolbar" content="append">
-        <?= @helper('com:languages.template.helper.listbox.languages') ?>
+        <?= @helper('com:languages.listbox.languages') ?>
     </ktml:module>
 <? endif ?>
 
@@ -90,7 +92,7 @@
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Author') ?></label>
                     <div class="controls">
-                        <?= @helper('com:users.template.helper.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
+                        <?= @helper('com:users.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
                     </div>
                 </div>
                 <div class="control-group">
@@ -121,7 +123,7 @@
     	            <? foreach($article->getLanguages() as $language) : ?>
     	                <?= $language->name.':' ?>
     	                <? $translation = $translations->find(array('iso_code' => $language->iso_code)) ?>
-    	                <?= @helper('com:languages.template.helper.grid.status',
+    	                <?= @helper('com:languages.grid.status',
     	                    array('status' => $translation->status, 'original' => $translation->original, 'deleted' => $translation->deleted)) ?>
     	            <? endforeach ?>
     	        </fieldset>
@@ -140,7 +142,7 @@
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Tags') ?></label>
                     <div class="controls">
-                        <?= @helper('com:terms.template.helper.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
+                        <?= @helper('com:terms.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
                     </div>
                 </div>
             </fieldset>

@@ -31,7 +31,7 @@
     <div class="control-group">
         <label class="control-label" for="access"><?= @text('Group') ?></label>
         <div class="controls">
-            <?= @helper('com:users.template.helper.listbox.groups', array('selected' => $page->users_group_id, 'name' => 'users_group_id')) ?>
+            <?= @helper('com:users.listbox.groups', array('selected' => $page->users_group_id, 'name' => 'users_group_id')) ?>
         </div>
     </div>
     <div class="control-group">

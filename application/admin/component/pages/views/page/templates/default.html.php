@@ -25,7 +25,9 @@
     });
 </script>
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="" method="post" class="-koowa-form" id="page-form">
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />

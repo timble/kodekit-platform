@@ -10,4 +10,4 @@
 
 <? $title = $show_title ? $module->title : null; ?>
 
-<?= @helper('com:pages.template.helper.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>
+<?= @helper('com:pages.list.pages', array('pages' => $pages, 'active' => $active, 'title' => $title, 'attribs' => array('class' => $class))) ?>

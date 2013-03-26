@@ -13,7 +13,9 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com:application.view.grid.toolbar.html'); ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="" method="post" class="-koowa-form" >
 <?= @helper('tabs.startPane') ?>

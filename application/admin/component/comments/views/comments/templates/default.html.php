@@ -36,7 +36,7 @@
 			<tfoot>
 				<tr>
 					<td colspan="20">
-						<?= @helper('paginator.pagination', array('total' => $total)) ?>
+						<?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
 					</td>
 				</tr>
 			</tfoot>

@@ -16,7 +16,9 @@
 <style src="media://koowa/css/koowa.css" />
 -->
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="" method="post" id="contact-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $contact->id; ?>" />

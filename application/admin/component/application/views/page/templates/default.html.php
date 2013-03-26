@@ -23,7 +23,7 @@
 	</div>
 
     <div id="panel-navigation">
-		<ktml:modules position="menubar" />
+        <?= @helper('tabbar.render', array('tabbar' => $tabbar, 'attribs' => array('id' => 'menubar')))?>
 	</div>
 
     <ktml:modules position="toolbar">

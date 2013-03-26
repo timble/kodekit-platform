@@ -149,7 +149,9 @@ window.addEvent('domready', function() {
 });
 </script>
 
-<?= @template('com:application.view.grid.toolbar.html'); ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <div id="files-app">
 	<?= @template('templates_icons.html'); ?>

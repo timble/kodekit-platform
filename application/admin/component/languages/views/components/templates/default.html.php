@@ -11,7 +11,9 @@
 <script src="media://koowa/js/koowa.js" />
 <style src="media://koowa/css/koowa.css" />
 
-<?= @template('com:application.view.grid.toolbar.html'); ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar.html') ?>
@@ -32,7 +34,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="2">
-					 <?= @helper('paginator.pagination', array('total' => $total)) ?>
+					 <?= @helper('com:application.paginator.pagination', array('total' => $total)) ?>
 				</td>
 			</tr>
 		</tfoot>

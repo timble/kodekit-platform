@@ -10,7 +10,7 @@
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
 	    <? if ($article->editable) : ?>
-	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
+	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article)) ?>">
 	        <i class="icon-edit"></i>
 	    </a>
 	    <? endif; ?>

@@ -57,7 +57,7 @@ window.addEvent('domready', function(){
 	
 				<label for="user"><?=@text( 'User' )?></label>
 				<div>
-					<?= @helper('com:users.template.helper.listbox.users',
+					<?= @helper('com:users.listbox.users',
 							array(
 								'autocomplete' => true,
 								'name'		   => 'user',

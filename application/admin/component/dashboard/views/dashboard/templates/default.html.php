@@ -9,10 +9,6 @@
  */
 ?>
 
-<ktml:module position="toolbar">
-	<?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
-</ktml:module>
-
 <?= @overlay(array('url' => @route('option=com_activities&view=activities&layout=list'))); ?>
 
 <div class="sidebar">

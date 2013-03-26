@@ -13,7 +13,9 @@
 
 <script src="media://koowa/js/koowa.js" />
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <form action="" method="post" class="-koowa-form">
     <input type="hidden" name="enabled" value="0" />

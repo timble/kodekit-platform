@@ -19,7 +19,7 @@
 <? if($category->image || $category->description) : ?>
 <div class="clearfix well">
     <? if ($category->image) : ?>
-    <?= @helper('com:categories.template.helper.string.image', array('row' => $category)) ?>
+    <?= @helper('com:categories.string.image', array('row' => $category)) ?>
     <? endif; ?>
     
     <? if ($category->description) : ?>

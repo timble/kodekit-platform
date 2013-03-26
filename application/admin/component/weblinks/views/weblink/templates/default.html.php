@@ -11,7 +11,9 @@
 
 <?= @helper('behavior.validator'); ?>
 
-<?= @template('com:application.view.form.toolbar.html') ?>
+<ktml:module position="toolbar">
+    <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
+</ktml:module>
 
 <!--
 <script src="media://koowa/js/koowa.js" />
