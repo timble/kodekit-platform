@@ -14,7 +14,4 @@ namespace Nooku\Framework;
   * @author		Johan Janssens <johan@nooku.org>
   * @package	Koowa_Template
   */
-class TemplateDefault extends TemplateAbstract
-{
-
-}
+final class TemplateDefault extends TemplateAbstract { }

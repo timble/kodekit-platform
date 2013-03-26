@@ -16,7 +16,4 @@ namespace Nooku\Framework;
  * @package     Koowa_Database
  * @subpackage  Row
  */
-class DatabaseRowDefault extends DatabaseRowTable
-{
-
-}
+final class DatabaseRowDefault extends DatabaseRowTable { }

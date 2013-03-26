@@ -16,4 +16,4 @@ namespace Nooku\Framework;
  * @package     Koowa_Database
  * @subpackage  Rowset
  */
-class DatabaseRowsetDefault extends DatabaseRowsetTable {}
+final class DatabaseRowsetDefault extends DatabaseRowsetTable {}

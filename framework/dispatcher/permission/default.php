@@ -16,7 +16,4 @@ namespace Nooku\Framework;
  * @package     Koowa_Dispatcher
  * @subpackage	Permission
  */
-class DispatcherPermissionDefault extends DispatcherPermissionAbstract
-{
-
-}
+final class DispatcherPermissionDefault extends DispatcherPermissionAbstract { }

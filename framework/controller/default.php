@@ -14,7 +14,4 @@ namespace Nooku\Framework;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-class ControllerDefault extends ControllerModel
-{
-
-}
+final class ControllerDefault extends ControllerModel { }

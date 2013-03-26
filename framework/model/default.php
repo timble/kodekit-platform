@@ -14,7 +14,4 @@ namespace Nooku\Framework;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
  */
-class ModelDefault extends ModelTable
-{
-
-}
+final class ModelDefault extends ModelTable { }

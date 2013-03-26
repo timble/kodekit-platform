@@ -393,8 +393,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Load a template helper
      *
-     * This functions accepts a partial identifier, in the form of helper.function. If a partial identifier is passed a
-     * full identifier will be created using the template identifier.
+     * This function accepts a partial identifier, in the form of helper.function or schema:package.helper.function. If
+     * a partial identifier is passed a full identifier will be created using the template identifier.
      *
      * If the view state have the same string keys, then the parameter value for that key will overwrite the state.
      *
@@ -405,11 +405,17 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     public function renderHelper($identifier, $params = array())
     {
-        //Get the function to call based on the $identifier
-        $parts    = explode('.', $identifier);
-        $function = array_pop($parts);
+        //Get the function and helper based on the identifier
+        $parts      = explode('.', $identifier);
+        $function   = array_pop($parts);
+        $identifier = array_pop($parts);
 
-        $helper = $this->getHelper(implode('.', $parts), $params);
+        //Handle schema:package.helper.function identifiers
+        if(!empty($parts)) {
+            $identifier = implode('.', $parts).'.template.helper.'.$identifier;
+        }
+
+        $helper = $this->getHelper($identifier, $params);
 
         //Call the helper function
         if (!is_callable(array($helper, $function))) {

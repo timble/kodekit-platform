@@ -16,7 +16,4 @@ namespace Nooku\Framework;
  * @package     Koowa_Event
  * @subpackage 	Dispatcher
  */
-class EventDispatcherDefault extends EventDispatcherAbstract
-{
-
-}
+final class EventDispatcherDefault extends EventDispatcherAbstract { }

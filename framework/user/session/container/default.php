@@ -17,7 +17,4 @@ namespace Nooku\Framework;
  * @package     Koowa_Session
  * @subpackage  Container
  */
-class UserSessionContainerDefault extends UserSessionContainerAbstract
-{
-
-}
+final class UserSessionContainerDefault extends UserSessionContainerAbstract { }

@@ -16,7 +16,4 @@ namespace Nooku\Framework;
  * @package     Koowa_Controller
  * @subpackage	Permission
  */
-class ControllerPermissionDefault extends ControllerPermissionAbstract
-{
-
-}
+final class ControllerPermissionDefault extends ControllerPermissionAbstract { }

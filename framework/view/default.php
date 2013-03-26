@@ -14,7 +14,4 @@ namespace Nooku\Framework;
  * @author		Johan Janssens <johan@nooku.org>
  * @package		Koowa_View
  */
-class ViewDefault extends ViewHtml
-{
-	
-}
+final class ViewDefault extends ViewHtml { }

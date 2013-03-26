@@ -15,7 +15,4 @@ namespace Nooku\Framework;
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  */
-class ControllerToolbarDefault extends ControllerToolbarModel
-{
-
-}
+final class ControllerToolbarDefault extends ControllerToolbarModel { }
