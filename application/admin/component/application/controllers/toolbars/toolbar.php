@@ -10,13 +10,13 @@
 use Nooku\Framework;
 
 /**
- * Page Toolbar Class
+ * Page Toolbar
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationControllerToolbarPage extends Framework\ControllerToolbarAbstract
+class ApplicationControllerToolbar extends Framework\ControllerToolbarAbstract
 {
     public function onBeforeControllerRender(Framework\Event $event)
     {
