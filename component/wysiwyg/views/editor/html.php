@@ -142,36 +142,4 @@ class ViewEditorHtml extends Framework\ViewHtml
 	    
 	    return $this;
 	}
-
-    /**
-     * Method to set a model object attached to the controller
-     *
-     * @param	mixed	$model An object that implements ServiceInterface, ServiceIdentifier object
-     * 					       or valid identifier string
-     * @return	ViewAbstract
-     */
-    public function setModel($model)
-    {
-        if(!($model instanceof Framework\ModelInterface))
-        {
-            if(is_string($model) && strpos($model, '.') === false )
-            {
-                // Model names are always plural
-                if(Framework\StringInflector::isSingular($model)) {
-                    $model = Framework\StringInflector::pluralize($model);
-                }
-
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('model');
-                $identifier->name	= $model;
-            }
-            else $identifier = $this->getIdentifier($model);
-
-            $model = $identifier;
-        }
-
-        $this->_model = $model;
-
-        return $this;
-    }
 }
