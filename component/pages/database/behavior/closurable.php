@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Closurable Database Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
 {
     /**
      * The closure table name
@@ -29,10 +29,10 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Constructor
      *
-     * @param  object   A Framework\Config object with configuration options.
+     * @param  object   A Library\Config object with configuration options.
      * @return void
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
         
@@ -46,13 +46,13 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  object   A Framework\Config object with configuration options.
+     * @param  object   A Library\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-            'priority'   => Framework\Command::PRIORITY_HIGH,
+            'priority'   => Library\Command::PRIORITY_HIGH,
             'auto_mixin' => true,
             'table'      => null
         ));
@@ -88,11 +88,11 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Get closure table object
      * 
-     * @return Framework\DatabaseTableAbstract
+     * @return Library\DatabaseTableAbstract
      */
     public function getClosureTable()
     {
-        if(!$this->_table instanceof Framework\DatabaseTableInterface) {
+        if(!$this->_table instanceof Library\DatabaseTableInterface) {
             $this->_table = $this->getService($this->_table);
         }
 
@@ -102,7 +102,7 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Get the siblings of the row
      *
-     * @return Framework\DatabaseRowsetAbstract
+     * @return Library\DatabaseRowsetAbstract
      */
     public function getSiblings()
     {
@@ -127,14 +127,14 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Get the first ancestor of the row
      *
-     * @return Framework\DatabaseRowAbstract Parent row or empty if there is no parent.
+     * @return Library\DatabaseRowAbstract Parent row or empty if there is no parent.
      */
     public function getParent()
     {
         $table = $this->getTable();
         
         if($this->level > 1) {
-            $result = $table->select(end(array_values($this->getParentIds())), Framework\Database::FETCH_ROW);
+            $result = $table->select(end(array_values($this->getParentIds())), Library\Database::FETCH_ROW);
         } else {
             $result = $table->getRow();
         }
@@ -145,7 +145,7 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Get ancestors of the row
      *
-     * @return Framework\DatabaseRowsetAbstract A rowset containing all ancestors.
+     * @return Library\DatabaseRowsetAbstract A rowset containing all ancestors.
      */
     public function getAncestors()
     {
@@ -170,7 +170,7 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Get ancestors of the row
      *
-     * @return Framework\DatabaseRowsetAbstract A rowset containing all ancestors.
+     * @return Library\DatabaseRowsetAbstract A rowset containing all ancestors.
      */
     public function getDescendants()
     {
@@ -190,10 +190,10 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Checks if the current row is a descendant of the given one
      *
-     * @param  Framework\DatabaseRowAbstract $row
+     * @param  Library\DatabaseRowAbstract $row
      * @return boolean
      */
-    public function isDescendantOf(Framework\DatabaseRowAbstract $row)
+    public function isDescendantOf(Library\DatabaseRowAbstract $row)
     {
         return in_array($row->id, $this->getParentIds());
     }
@@ -201,10 +201,10 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Checks if the current row is an ancestor of the given one
      *
-     * @param  Framework\DatabaseRowAbstract $row
+     * @param  Library\DatabaseRowAbstract $row
      * @return boolean
      */
-    public function isAncestorOf(Framework\DatabaseRowAbstract $row)
+    public function isAncestorOf(Library\DatabaseRowAbstract $row)
     {
         return in_array($this->id, $row->getParentIds());
     }
@@ -212,10 +212,10 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Add level and path columns to the query
      * 
-     * @param  Framework\CommandContext $context A command context object.
+     * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _beforeTableSelect(Framework\CommandContext $context)
+    protected function _beforeTableSelect(Library\CommandContext $context)
     {
         $query = $context->query;
         if($query && !$query->isCountQuery())
@@ -249,10 +249,10 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Insert relations into the relation table
      * 
-     * @param  Framework\CommandContext $context A command context object.
+     * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure.
      */
-    protected function _afterTableInsert(Framework\CommandContext $context)
+    protected function _afterTableInsert(Library\CommandContext $context)
     {
         if($context->affected !== false)
         {
@@ -270,7 +270,7 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
             // Set path and level for the current row.
             if($data->parent_id)
             {
-                $parent = $table->select($data->parent_id, Framework\Database::FETCH_ROW);
+                $parent = $table->select($data->parent_id, Library\Database::FETCH_ROW);
                 $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
 
                 // Insert child relations.
@@ -296,10 +296,10 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
      * 
      * @link http://www.mysqlperformanceblog.com/2011/02/14/moving-subtrees-in-closure-table/
      * 
-     * @param  Framework\CommandContext $context A command context object.
+     * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         if($context->affected !== false)
         {
@@ -310,11 +310,11 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
                 
                 if($row->parent_id)
                 {
-                    $parent = $table->select((int) $row->parent_id, Framework\Database::FETCH_ROW);
+                    $parent = $table->select((int) $row->parent_id, Library\Database::FETCH_ROW);
                     if($parent->isDescendantOf($row))
                     {
                         $this->setStatusMessage(JText::_('You cannot move a node under one of its descendants'));
-                        $this->setStatus(Framework\Database::STATUS_FAILED);
+                        $this->setStatus(Library\Database::STATUS_FAILED);
                         return false;
                     }
                 }
@@ -356,10 +356,10 @@ class DatabaseBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
     /**
      * Delete the row and its children
      *
-     * @param  Framework\CommandContext $context A command context object.
+     * @param  Library\CommandContext $context A command context object.
      * @return boolean True on success, false on failure. 
      */
-    protected function _beforeTableDelete(Framework\CommandContext $context)
+    protected function _beforeTableDelete(Library\CommandContext $context)
     {
         $table         = $context->getSubject();
         $id_column     = $table->getIdentityColumn();

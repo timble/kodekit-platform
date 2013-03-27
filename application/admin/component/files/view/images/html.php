@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Files Html View Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class FilesViewImagesHtml extends Framework\ViewHtml
+class FilesViewImagesHtml extends Library\ViewHtml
 {
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'auto_assign' => false

@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Article Element Class
@@ -31,8 +31,8 @@ class JElementArticle extends JElement
             'autocomplete' => true,
         );
 
-        $template = Framework\ServiceManager::get('com:articles.controller.article')->getView()->getTemplate();
-        $html     = Framework\ServiceManager::get('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
+        $template = Library\ServiceManager::get('com:articles.controller.article')->getView()->getTemplate();
+        $html     = Library\ServiceManager::get('com:articles.template.helper.listbox', array('template' => $template))->articles($config);
 
         return $html;
     }

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Folder Uploadable Filter
@@ -17,15 +17,15 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilesFilterFolderUploadable extends Framework\FilterAbstract
+class FilesFilterFolderUploadable extends Library\FilterAbstract
 {
 	protected $_walk = false;
 
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com:files.filter.folder.name'), Framework\Command::PRIORITY_HIGH);
+		$this->addFilter($this->getService('com:files.filter.folder.name'), Library\Command::PRIORITY_HIGH);
 	}
 
 	protected function _validate($context)

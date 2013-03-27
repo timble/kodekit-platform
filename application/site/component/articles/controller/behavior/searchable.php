@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Searchable Controller Behavior Class.
@@ -16,9 +16,9 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesControllerBehaviorSearchable extends Framework\ControllerBehaviorAbstract
+class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbstract
 {
-    protected function _beforeControllerBrowse(Framework\CommandContext $context)
+    protected function _beforeControllerBrowse(Library\CommandContext $context)
     {
         $request = $this->getRequest();
         if ($searchword = $request->query->get('searchword', 'string')) {

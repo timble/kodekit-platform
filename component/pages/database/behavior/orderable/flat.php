@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Flat Orderable Database Behavior
@@ -19,18 +19,18 @@ use Nooku\Framework;
  */
 class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract implements DatabaseBehaviorOrderableInterface
 {
-    protected function _beforeTableInsert(Framework\CommandContext $context)
+    protected function _beforeTableInsert(Library\CommandContext $context)
     {
         $query = $this->getService('lib:database.query.select')
             ->columns('MAX(ordering)');
         
         $this->_buildQuery($query);
         
-        $max = (int) $context->getSubject()->select($query, Framework\Database::FETCH_FIELD);
+        $max = (int) $context->getSubject()->select($query, Library\Database::FETCH_FIELD);
         $context->data->ordering = $max + 1;
     }
     
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $row = $context->data;
         if($row->order)
@@ -65,14 +65,14 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         }
     }
     
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         if($context->affected === false) {
             $this->_reorder($context);
         }
     }
     
-    protected function _afterTableDelete(Framework\CommandContext $context)
+    protected function _afterTableDelete(Library\CommandContext $context)
     {
         if($context->affected) {
             $this->_reorder($context);
@@ -81,8 +81,8 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
     
     protected function _buildQuery($query)
     {
-        if(!$query instanceof Framework\DatabaseQuerySelect && !$query instanceof Framework\DatabaseQueryUpdate) {
-	        throw new \InvalidArgumentException('Query must be an instance of Framework\DatabaseQuerySelect or Framework\DatabaseQueryUpdate');
+        if(!$query instanceof Library\DatabaseQuerySelect && !$query instanceof Library\DatabaseQueryUpdate) {
+	        throw new \InvalidArgumentException('Query must be an instance of Library\DatabaseQuerySelect or Library\DatabaseQueryUpdate');
 	    }
 
         $identifier = $this->getMixer()->getIdentifier();
@@ -91,7 +91,7 @@ class DatabaseBehaviorOrderableFlat extends DatabaseBehaviorOrderableAbstract im
         }
     }
     
-    protected function _reorder(Framework\CommandContext $context)
+    protected function _reorder(Library\CommandContext $context)
     {
         $table = $context->getSubject();
         $table->getAdapter()->execute('SET @index = 0');

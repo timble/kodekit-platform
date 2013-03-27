@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Application Database MySQLi Adapter Class
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql implements Framework\ServiceInstantiatable
+class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ServiceInstantiatable
 {
     /**
 	 * The cache object
@@ -30,9 +30,9 @@ class ApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql imp
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 *
-	 * @param 	object 	An optional Framework\Config object with configuration options
+	 * @param 	object 	An optional Library\Config object with configuration options
 	 */
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -48,10 +48,10 @@ class ApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql imp
      * Force creation of a singleton
      *
      * @param 	Config                  $config  An optional Config object with configuration options
-     * @param 	ServiceManagerInterfac  $manager A Framework\ServiceManagerInterface object
+     * @param 	ServiceManagerInterfac  $manager A Library\ServiceManagerInterface object
      * @return  DatabaseTableInterface
      */
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {
@@ -68,10 +68,10 @@ class ApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql imp
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Framework\Config object with configuration options.
+     * @param 	object 	An optional Library\Config object with configuration options.
      * @return  void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $application = $this->getService('application');
 
@@ -95,7 +95,7 @@ class ApplicationDatabaseAdapterMysql extends Framework\DatabaseAdapterMysql imp
 	 * the table schema will be retrieved from the database and stored in the cache.
 	 *
 	 * @param 	string 	A table name or a list of table names
-	 * @return	Framework\DatabaseSchemaTable
+	 * @return	Library\DatabaseSchemaTable
 	 */
 	public function getTableSchema($table)
 	{

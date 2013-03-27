@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Orderable Database Behavior Interfce

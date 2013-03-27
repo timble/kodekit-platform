@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Sites;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Site Database Rowset
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class DatabaseRowsetSites extends Framework\DatabaseRowsetAbstract
+class DatabaseRowsetSites extends Library\DatabaseRowsetAbstract
 {       
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'identity_column'   => 'name'

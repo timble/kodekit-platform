@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Sites;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class TemplateHelperListbox extends Framework\TemplateHelperListbox
+class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
   	public function sites( $config = array() )
    	{
-     	$config = new Framework\Config($config);
+     	$config = new Library\Config($config);
        	$config->append(array(
           	'model'     => 'sites',
            	'name'      => 'site',

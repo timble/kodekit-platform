@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Thumbnail Template Helper Class
@@ -16,11 +16,11 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Attachments
  */
-class AttachmentsTemplateHelperGrid extends Framework\TemplateHelperDefault
+class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
 {
     public function thumbnails($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'attribs'   => array(
                 'class'    => 'thumbnail',
@@ -58,7 +58,7 @@ class AttachmentsTemplateHelperGrid extends Framework\TemplateHelperDefault
     
     public function files($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'filter'   => array(
                 'row'      => '',

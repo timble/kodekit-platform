@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Menus Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Nooku\Component\Pages
  */
-class DatabaseTableMenus extends Framework\DatabaseTableDefault
+class DatabaseTableMenus extends Library\DatabaseTableDefault
 {
-    public function  _initialize(Framework\Config $config)
+    public function  _initialize(Library\Config $config)
     {		
         $config->append(array(
             'behaviors'  => array(

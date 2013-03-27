@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Components Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class DatabaseTableComponents extends Framework\DatabaseTableDefault
+class DatabaseTableComponents extends Library\DatabaseTableDefault
 {
-    public function  _initialize(Framework\Config $config)
+    public function  _initialize(Library\Config $config)
     {
         $config->append(array(
             'filters'  => array('params' => 'ini')

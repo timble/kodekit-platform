@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Specialized exception for remote file adapters

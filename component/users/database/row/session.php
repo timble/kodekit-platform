@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Session Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Users
  */
-class DatabaseRowSession extends Framework\DatabaseRowTable
+class DatabaseRowSession extends Library\DatabaseRowTable
 {
     const LOGGED_IN  = 'logged in';
     const LOGGED_OUT = 'logged out';

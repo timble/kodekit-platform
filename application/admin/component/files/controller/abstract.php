@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Node Controller Class
@@ -19,7 +19,7 @@ use Nooku\Framework;
 
 abstract class FilesControllerAbstract extends ApplicationControllerDefault
 {
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'persistable'   => false,
@@ -44,54 +44,54 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 		return $request;
 	}
 
-	protected function _actionCopy(Framework\CommandContext $context)
+	protected function _actionCopy(Library\CommandContext $context)
 	{
 		$entity = $this->getModel()->getRow();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Framework\Config::unbox($context->request->data->toArray()));
+			$entity->setData(Library\Config::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->copy() === false)
 			{
 				$error = $entity->getStatusMessage();
-                throw new Framework\ControllerExceptionActionFailed($error ? $error : 'Copy Action Failed');
+                throw new Library\ControllerExceptionActionFailed($error ? $error : 'Copy Action Failed');
 			}
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Framework\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
+                    $entity->getStatus() === Library\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
                 );
             }
 		}
-		else throw new Framework\ControllerExceptionNotFound('Resource Not Found');
+		else throw new Library\ControllerExceptionNotFound('Resource Not Found');
 
 		return $entity;
 	}
 
-	protected function _actionMove(Framework\CommandContext $context)
+	protected function _actionMove(Library\CommandContext $context)
 	{
 		$entity = $this->getModel()->getRow();
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Framework\Config::unbox($context->request->data->toArray()));
+			$entity->setData(Library\Config::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->move() === false)
 			{
 				$error = $entity->getStatusMessage();
-                throw new Framework\ControllerExceptionActionFailed($error ? $error : 'Move Action Failed');
+                throw new Library\ControllerExceptionActionFailed($error ? $error : 'Move Action Failed');
 			}
 			else
             {
                 $context->response->setStatus(
-                    $entity->getStatus() === Framework\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
+                    $entity->getStatus() === Library\Database::STATUS_CREATED ? self::STATUS_CREATED : self::STATUS_UNCHANGED
                 );
             }
 		}
-		else throw new Framework\ControllerExceptionNotFound('Resource Not Found');
+		else throw new Library\ControllerExceptionNotFound('Resource Not Found');
 
 		return $entity;
 	}
@@ -99,7 +99,7 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 	/**
 	 * Overridden method to be able to use it with both resource and service controllers
 	 */
-	protected function _actionRender(Framework\CommandContext $context)
+	protected function _actionRender(Library\CommandContext $context)
 	{
 		if ($this->getIdentifier()->name == 'image' || ($this->getIdentifier()->name == 'file' && $context->request->getFormat() == 'html'))
 		{
@@ -129,9 +129,9 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 	/**
 	 * Copied to allow 0 as a limit
 	 * 
-	 * @param Framework\CommandContext $context
+	 * @param Library\CommandContext $context
 	 */
-	protected function _actionBrowse(Framework\CommandContext $context)
+	protected function _actionBrowse(Library\CommandContext $context)
 	{
 	    if($this->isDispatched())
 	    {

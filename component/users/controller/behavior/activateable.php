@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Activateable Controller Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class ControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 {
     /**
      * Determines whether new created items need activation or not.
@@ -26,14 +26,14 @@ class ControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstrac
      */
     protected $_enable;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         $this->_enable = $config->enable;
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $parameters = $this->getService('application.components')->users->params;
 
@@ -44,7 +44,7 @@ class ControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstrac
         parent::_initialize($config);
     }
 
-    protected function _afterControllerRead(Framework\CommandContext $context)
+    protected function _afterControllerRead(Library\CommandContext $context)
     {
         $item = $context->result;
 
@@ -53,19 +53,19 @@ class ControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstrac
         }
     }
 
-    protected function _beforeControllerActivate(Framework\CommandContext $context)
+    protected function _beforeControllerActivate(Library\CommandContext $context)
     {
         $activation = $context->request->data->get('activation', 'string');
         $item       = $this->getModel()->getRow();
 
         if ($activation !== $item->activation)
         {
-            $context->response->setRedirect(Framework\Request::root(), 'Wrong activation token');
+            $context->response->setRedirect(Library\Request::root(), 'Wrong activation token');
             return false;
         }
     }
 
-    protected function _actionActivate(Framework\CommandContext $context)
+    protected function _actionActivate(Library\CommandContext $context)
     {
         $item             = $this->getModel()->getRow();
         $item->activation = '';
@@ -77,12 +77,12 @@ class ControllerBehaviorActivateable extends Framework\ControllerBehaviorAbstrac
             $context->response->setRedirect($url, 'Activation successfully completed');
             $result = true;
         }
-        else throw new Framework\ControllerExceptionActionFailed('Unable to activate user');
+        else throw new Library\ControllerExceptionActionFailed('Unable to activate user');
 
         return $result;
     }
 
-    protected function _beforeControllerAdd(Framework\CommandContext $context)
+    protected function _beforeControllerAdd(Library\CommandContext $context)
     {
         // Set activation on new records.
         if ($this->_enable)

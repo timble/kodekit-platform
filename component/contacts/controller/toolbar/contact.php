@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Contacts;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contact Controller Toolbar
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class ControllerToolbarContact extends Framework\ControllerToolbarModel
+class ControllerToolbarContact extends Library\ControllerToolbarModel
 {
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
         

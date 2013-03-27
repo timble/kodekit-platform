@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Modules Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Pages
  */
-class DatabaseTableModules extends Framework\DatabaseTableDefault
+class DatabaseTableModules extends Library\DatabaseTableDefault
 {
-    public function  _initialize(Framework\Config $config)
+    public function  _initialize(Library\Config $config)
     {
         $config->append(array(
             'behaviors'  => array(

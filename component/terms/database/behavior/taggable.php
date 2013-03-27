@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Terms;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Taggable Database Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class DatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of tags
@@ -40,7 +40,7 @@ class DatabaseBehaviorTaggable extends Framework\DatabaseBehaviorAbstract
 	 * If the query's where information includes a tag propery, auto-join the terms tables
 	 * with the query and select all the rows that are tagged with the term.
 	 */
-	protected function _beforeTableSelect(Framework\CommandContext $context)
+	protected function _beforeTableSelect(Library\CommandContext $context)
 	{
 		$query = $context->query;
 		

@@ -1,10 +1,10 @@
 <?php
 
-use Nooku\Framework;
+use Nooku\Library;
 
 class ArticlesControllerAttachment extends AttachmentsControllerAttachment
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -13,7 +13,7 @@ class ArticlesControllerAttachment extends AttachmentsControllerAttachment
         $this->registerCallback(array('after.edit', 'after.delete'), array($this, 'setRedirect'));
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'model'   => 'com:attachments.model.attachments',
@@ -25,7 +25,7 @@ class ArticlesControllerAttachment extends AttachmentsControllerAttachment
         parent::_initialize($config);
     }
 
-    public function setRedirect(Framework\CommandContext $context)
+    public function setRedirect(Library\CommandContext $context)
     {
         $context->response->setRedirect($context->request->getReferrer());
     }

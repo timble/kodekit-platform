@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Contacts;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contacts Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class DatabaseTableContacts extends Framework\DatabaseTableDefault
+class DatabaseTableContacts extends Library\DatabaseTableDefault
 {
-	public function _initialize(Framework\Config $config)
+	public function _initialize(Library\Config $config)
 	{
         $config->append(array(
             'name' => 'contacts',

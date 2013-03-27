@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Folder Database Row Class
@@ -50,9 +50,9 @@ class DatabaseRowFolder extends DatabaseRowNode
 		}
 
 		if ($context->result === false) {
-			$this->setStatus(Framework\Database::STATUS_FAILED);
+			$this->setStatus(Library\Database::STATUS_FAILED);
 		} else {
-            $this->setStatus($is_new ? Framework\Database::STATUS_CREATED : Framework\Database::STATUS_UPDATED);
+            $this->setStatus($is_new ? Library\Database::STATUS_CREATED : Library\Database::STATUS_UPDATED);
         }
 
 		return $context->result;
@@ -82,14 +82,14 @@ class DatabaseRowFolder extends DatabaseRowNode
 	{
 		$result = parent::getData($modified);
 
-		if (isset($result['children']) && $result['children'] instanceof Framework\DatabaseRowsetInterface) {
+		if (isset($result['children']) && $result['children'] instanceof Library\DatabaseRowsetInterface) {
 			$result['children'] = $result['children']->getData();
 		}
 
 		return $result;
 	}
 
-	public function insertChild(Framework\DatabaseRowInterface $node)
+	public function insertChild(Library\DatabaseRowInterface $node)
 	{
 		//Track the parent
 		$node->setParent($this);
@@ -112,11 +112,11 @@ class DatabaseRowFolder extends DatabaseRowNode
 	 */
 	public function getChildren()
 	{
-		if(!($this->_children instanceof Framework\DatabaseRowsetInterface))
+		if(!($this->_children instanceof Library\DatabaseRowsetInterface))
 		{
 			$identifier         = clone $this->getIdentifier();
 			$identifier->path   = array('database', 'rowset');
-			$identifier->name   = Framework\StringInflector::pluralize($this->getIdentifier()->name);
+			$identifier->name   = Library\StringInflector::pluralize($this->getIdentifier()->name);
 
 			//The row default options
 			$options  = array(

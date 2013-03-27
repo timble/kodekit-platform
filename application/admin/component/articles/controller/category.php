@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Category Controller Class

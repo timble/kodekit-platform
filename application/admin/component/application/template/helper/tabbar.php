@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Template Tabbar Helper
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationTemplateHelperTabbar extends Framework\TemplateHelperAbstract
+class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
 {
  	/**
      * Render the menubar
@@ -26,7 +26,7 @@ class ApplicationTemplateHelperTabbar extends Framework\TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
         	'tabbar'  => null,
             'attribs' => array(),
@@ -63,7 +63,7 @@ class ApplicationTemplateHelperTabbar extends Framework\TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
         	'command' => null
         ));

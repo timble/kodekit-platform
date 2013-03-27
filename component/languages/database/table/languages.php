@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Languages Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseTableLanguages extends Framework\DatabaseTableAbstract
+class DatabaseTableLanguages extends Library\DatabaseTableAbstract
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'name'      => 'languages',

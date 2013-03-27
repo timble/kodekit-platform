@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * User Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class DatabaseRowUser extends Framework\DatabaseRowTable
+class DatabaseRowUser extends Library\DatabaseRowTable
 {
     /**
      * User role object.
@@ -58,9 +58,9 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
     {
         if (!$this->_role)
         {
-            //@TODO : Temporarily using  Framework\ServiceManager::get since User object is not yet properly set on session when
+            //@TODO : Temporarily using  Library\ServiceManager::get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
-            $this->_role =  Framework\ServiceManager::get('com:users.model.roles')->id($this->role_id)->getRow();
+            $this->_role =  Library\ServiceManager::get('com:users.model.roles')->id($this->role_id)->getRow();
             //$this->_role = $this->getService('com:users.model.roles')->id($this->role_id)->getRow();
         }
         return $this->_role;
@@ -72,8 +72,8 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         {
             if(!$this->guest)
             {
-                $this->_groups =  Framework\ServiceManager::get('com:users.database.table.groups_users')
-                    ->select(array('users_user_id' => $this->id), Framework\Database::FETCH_FIELD_LIST);
+                $this->_groups =  Library\ServiceManager::get('com:users.database.table.groups_users')
+                    ->select(array('users_user_id' => $this->id), Library\Database::FETCH_FIELD_LIST);
             }
             else $this->_groups = array();
         }
@@ -86,7 +86,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         // Validate name
         if ($this->isModified('name') && trim($this->name) == '')
         {
-            $this->setStatus(Framework\Database::STATUS_FAILED);
+            $this->setStatus(Library\Database::STATUS_FAILED);
             $this->setStatusMessage(\JText::_('Please enter a name'));
             return false;
         }
@@ -96,7 +96,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
             // Validate E-mail
             if (!$this->getService('lib:filter.email')->validate($this->email))
             {
-                $this->setStatus(Framework\Database::STATUS_FAILED);
+                $this->setStatus(Library\Database::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('Please enter a valid E-mail address'));
                 return false;
             }
@@ -109,7 +109,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
 
             if ($this->getService('com:users.database.table.users')->count($query))
             {
-                $this->setStatus(Framework\Database::STATUS_FAILED);
+                $this->setStatus(Library\Database::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('The provided E-mail address is already registered'));
                 return false;
             }
@@ -118,7 +118,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         // Check if the attached role exists
         if ($this->isModified('role_id') && $this->getRole()->isNew())
         {
-            $this->setStatus(Framework\Database::STATUS_FAILED);
+            $this->setStatus(Library\Database::STATUS_FAILED);
             $this->setStatusMessage('Invalid role');
             return false;
         }
@@ -144,7 +144,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
         {
             // Load the current user row for checks.
             $current = $this->getService('com:users.database.table.users')
-                ->select($this->id, Framework\Database::FETCH_ROW);
+                ->select($this->id, Library\Database::FETCH_ROW);
 
             // There must be at least one enabled super administrator
             if (($this->isModified('role_id') || ($this->isModified('enabled') && !$this->enabled)) && $current->role_id == 25)
@@ -154,7 +154,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
 
                 if ($this->getService('com:users.database.table.users')->count($query) <= 1)
                 {
-                    $this->setStatus(Framework\Database::STATUS_FAILED);
+                    $this->setStatus(Library\Database::STATUS_FAILED);
                     $this->setStatusMessage('There must be at least one enabled super administrator');
                     return false;
                 }
@@ -209,7 +209,7 @@ class DatabaseRowUser extends Framework\DatabaseRowTable
      */
     public function notify($config = array()) {
 
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $application = $this->getService('application');
         $user        = $this->getService('user');

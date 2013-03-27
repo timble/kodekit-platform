@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Contacts;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contact Database Row Class
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class DatabaseRowContact extends Framework\DatabaseRowTable
+class DatabaseRowContact extends Library\DatabaseRowTable
 {
 	public function __get($column)
 	{

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Terms;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Terms Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ModelTerms extends Framework\ModelTable
+class ModelTerms extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -28,7 +28,7 @@ class ModelTerms extends Framework\ModelTable
 		 	->insert('table', 'string', $this->getIdentifier()->package);
 	}
 	
-	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
         
@@ -37,19 +37,19 @@ class ModelTerms extends Framework\ModelTable
         ));
 	}
 	
-	protected function _buildQueryGroup(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryGroup(Library\DatabaseQuerySelect $query)
 	{	
         $query->group('tbl.terms_term_id');
 	}
 	 
-	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
         parent::_buildQueryJoins($query);
         
         $query->join(array('relations' => 'terms_relations'), 'relations.terms_term_id = tbl.terms_term_id');
 	}
 	
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{                
         $state = $this->getState();
 

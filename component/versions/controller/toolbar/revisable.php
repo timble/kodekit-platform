@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Versions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Revisable Controller Toolbar
@@ -17,18 +17,18 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ControllerToolbarRevisable extends Framework\ControllerToolbarAbstract
+class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-    		'priority'  => Framework\Command::PRIORITY_LOW
+    		'priority'  => Library\Command::PRIORITY_LOW
         ));
 
         parent::_initialize($config);
     }
     
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {     
         $state = $this->getController()->getModel()->getState();
         $name  = $this->getController()->getIdentifier()->name;
@@ -49,7 +49,7 @@ class ControllerToolbarRevisable extends Framework\ControllerToolbarAbstract
         } 
     }
     
-    protected function _commandRestore(Framework\ControllerToolbarCommand $command)
+    protected function _commandRestore(Library\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(
@@ -58,7 +58,7 @@ class ControllerToolbarRevisable extends Framework\ControllerToolbarAbstract
         )); 
     }
     
-    protected function _commandDelete(Framework\ControllerToolbarCommand $command)
+    protected function _commandDelete(Library\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs'  => array(

@@ -7,14 +7,14 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Settings Html View
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  */
-class ExtensionsViewSettingsHtml extends Framework\ViewHtml
+class ExtensionsViewSettingsHtml extends Library\ViewHtml
 {
     public function render()
     {

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Application;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Link Template Filter
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class TemplateFilterLink extends Framework\TemplateFilterLink
+class TemplateFilterLink extends Library\TemplateFilterLink
 {
     public function write(&$text)
     {

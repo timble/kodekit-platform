@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Passwords Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class DatabaseTablePasswords extends Framework\DatabaseTableDefault
+class DatabaseTablePasswords extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array('behaviors' => array('expirable')));
         parent::_initialize($config);

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Application;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Html View
@@ -17,20 +17,20 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ViewHtml extends Framework\ViewHtml
+class ViewHtml extends Library\ViewHtml
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         $path  = $this->getService('request')->getBaseUrl()->getPath();
         $path .= '/theme/'.$this->getService('application')->getTheme().'/';
         $this->getTemplate()->getFilter('alias')->addAlias(
-            array($this->_mediaurl.'/application/' => $path), Framework\TemplateFilter::MODE_READ | Framework\TemplateFilter::MODE_WRITE
+            array($this->_mediaurl.'/application/' => $path), Library\TemplateFilter::MODE_READ | Library\TemplateFilter::MODE_WRITE
         );
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'auto_assign' => false,

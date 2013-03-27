@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Activities;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Activities Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ModelActivities extends Framework\ModelTable
+class ModelActivities extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -42,7 +42,7 @@ class ModelActivities extends Framework\ModelTable
 		$this->getState()->sort = 'created_on';
 	}
 
-	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
 	{
 	    $state = $this->getState();
 	    
@@ -59,12 +59,12 @@ class ModelActivities extends Framework\ModelTable
 		}
 	}
 
-	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
 		$query->join(array('users' => 'users'), 'users.users_user_id = tbl.created_by');
 	}
 
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
 		$state = $this->getState();
@@ -109,7 +109,7 @@ class ModelActivities extends Framework\ModelTable
 		}
 	}
 
-	protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
 	{
 		if($this->getState()->distinct && !empty($this->getState()->column)) {
 			$query->order('package', 'asc');

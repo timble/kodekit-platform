@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Closurable Controller Behavior Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class ControllerBehaviorClosurable extends Framework\DatabaseBehaviorAbstract
+class ControllerBehaviorClosurable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _beforeControllerGet(Framework\CommandContext $context)
+    protected function _beforeControllerGet(Library\CommandContext $context)
     {
         $model = $this->getModel();
         if($model->getTable()->isClosurable())

@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contact Element Class
@@ -31,8 +31,8 @@ class JElementContact extends JElement
             'autocomplete' => true,
         );
 
-        $template = Framework\ServiceManager::get('com:contacts.controller.contact')->getView()->getTemplate();
-        $html     = Framework\ServiceManager::get('com:contacts.template.helper.listbox', array('template' => $template))->contacts($config);
+        $template = Library\ServiceManager::get('com:contacts.controller.contact')->getView()->getTemplate();
+        $html     = Library\ServiceManager::get('com:contacts.template.helper.listbox', array('template' => $template))->contacts($config);
 
         return $html;
 

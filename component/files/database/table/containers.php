@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Containers Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseTableContainers extends Framework\DatabaseTableDefault
+class DatabaseTableContainers extends Library\DatabaseTableDefault
 {
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'filters' => array(

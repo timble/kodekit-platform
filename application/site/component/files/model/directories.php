@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Default Directories Class
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @subpackage  Application
  */
  
-class FilesModelDirectories extends Framework\ModelAbstract
+class FilesModelDirectories extends Library\ModelAbstract
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 

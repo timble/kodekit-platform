@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Component Controller Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class LanguagesControllerComponent extends Framework\ControllerView
+class LanguagesControllerComponent extends Library\ControllerView
 {
-    protected function _actionEdit(Framework\CommandContext $context)
+    protected function _actionEdit(Library\CommandContext $context)
     {
         if($context->request->data->has('id'))
         {

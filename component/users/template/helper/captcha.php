@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Captcha Template Helper
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class UsersTemplateHelperCaptcha extends Framework\TemplateHelperDefault
+class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
 {
     /**
      * Renders the reCAPTCHA widget.
@@ -29,7 +29,7 @@ class UsersTemplateHelperCaptcha extends Framework\TemplateHelperDefault
      */
     public function render($config = array()) {
 
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $params = $this->getService('application.components')->users->params;
 
@@ -64,7 +64,7 @@ class UsersTemplateHelperCaptcha extends Framework\TemplateHelperDefault
 
         // Use options if any.
         if (count($options = $captcha->options)) {
-            $options = Framework\Config::unbox($options);
+            $options = Library\Config::unbox($options);
             $html .= '<script type="text/javascript">';
             $html .= 'var RecaptchaOptions = ' . json_encode($options);
             $html .= '</script> ';

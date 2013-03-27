@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Articles;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Publishable Database Behavior
@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Articles
  */
-class DatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
 {
     /**
      * Track updated status
@@ -41,19 +41,19 @@ class DatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
     /**
      * The current date.
      *
-     * @var Framework\Date The current date.
+     * @var Library\Date The current date.
      */
     protected $_date;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
         
         $this->_table = $config->table;
-        $this->_date  = new Framework\Date(array('timezone' => 'GMT'));
+        $this->_date  = new Library\Date(array('timezone' => 'GMT'));
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'table'=> 'articles'
@@ -62,11 +62,11 @@ class DatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _afterTableSelect(Framework\CommandContext $context)
+    protected function _afterTableSelect(Library\CommandContext $context)
     {
         $data = $context->data;
 
-        if ($data instanceof Framework\DatabaseRowsetInterface && !$this->_uptodate)
+        if ($data instanceof Library\DatabaseRowsetInterface && !$this->_uptodate)
         {
             $this->_publishItems();
             $this->_unpublishItems();
@@ -75,13 +75,13 @@ class DatabaseBehaviorPublishable extends Framework\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableInsert(Framework\CommandContext $context)
+    protected function _beforeTableInsert(Library\CommandContext $context)
     {
         // Same as update.
         $this->_beforeTableUpdate($context);
     }
 
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $data = $context->data;
 

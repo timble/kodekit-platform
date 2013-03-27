@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Components Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ModelComponents extends Framework\ModelTable
+class ModelComponents extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 	
@@ -29,7 +29,7 @@ class ModelComponents extends Framework\ModelTable
             ->insert('sort', 'tbl.name');
 	}
 	
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryWhere($query);
 

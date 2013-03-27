@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Menus Html View Class
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class PagesViewMenusHtml extends Framework\ViewHtml
+class PagesViewMenusHtml extends Library\ViewHtml
 {
     public function render()
     {

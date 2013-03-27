@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Email Cloak Template Filter Class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesTemplateFilterEmailcloak extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite
+class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract implements Library\TemplateFilterWrite
 {
     /**
      * Determines if email address should be linked
@@ -37,14 +37,14 @@ class ArticlesTemplateFilterEmailcloak extends Framework\TemplateFilterAbstract 
         'query' => '(?:[?&][^?&"]+)*'
     );
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         $this->_linkable = $config->linkable;
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array('linkable' => true));
         parent::_initialize($config);

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Debug;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Debug Event Dispatcher
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class EventDispatcherDebug extends Framework\EventDispatcherException
+class EventDispatcherDebug extends Library\EventDispatcherException
 {
     /**
      * Debug modes
@@ -36,9 +36,9 @@ class EventDispatcherDebug extends Framework\EventDispatcherException
     /**
      * Constructor.
      *
-     * @param   object  An optional Framework\Config object with configuration options
+     * @param   object  An optional Library\Config object with configuration options
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -50,10 +50,10 @@ class EventDispatcherDebug extends Framework\EventDispatcherException
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Framework\Config object with configuration options.
+     * @param   object  An optional Library\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'debug_level' => self::PRODUCTION,

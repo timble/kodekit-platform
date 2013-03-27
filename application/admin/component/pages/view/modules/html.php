@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Modules Html View Class
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class PagesViewModulesHtml extends Framework\ViewHtml
+class PagesViewModulesHtml extends Library\ViewHtml
 {
 	public function render()
 	{

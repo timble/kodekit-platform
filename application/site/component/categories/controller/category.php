@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Category Controller Class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  */
 abstract class CategoriesControllerCategory extends ApplicationControllerDefault
 { 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'model' => 'com:categories.model.categories'
@@ -27,12 +27,12 @@ abstract class CategoriesControllerCategory extends ApplicationControllerDefault
         parent::_initialize($config);
     }
     
-    protected function _actionRender(Framework\CommandContext $context)
+    protected function _actionRender(Library\CommandContext $context)
     {
         $view = $this->getView();
 
         //Set the layout
-        if($view instanceof Framework\ViewTemplate)
+        if($view instanceof Library\ViewTemplate)
         {
             $layout = clone $view->getIdentifier();
             $layout->name  = $view->getLayout();

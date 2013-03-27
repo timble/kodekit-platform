@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Weblink Router
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage  Weblinks
  */
 
-class WeblinksRouter extends Framework\DispatcherRouter
+class WeblinksRouter extends Library\DispatcherRouter
 {
-    public function build(Framework\HttpUrl $url)
+    public function build(Library\HttpUrl $url)
     {
         $segments = array();
         $query    = &$url->query;
@@ -57,7 +57,7 @@ class WeblinksRouter extends Framework\DispatcherRouter
         return $segments;
     }
 
-    public function parse(Framework\HttpUrl $url)
+    public function parse(Library\HttpUrl $url)
     {
         $vars = array();
         $path = &$url->path;

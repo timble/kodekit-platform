@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Modules Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Pages
  */
-class DatabaseRowModule extends Framework\DatabaseRowTable
+class DatabaseRowModule extends Library\DatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest
@@ -103,7 +103,7 @@ class DatabaseRowModule extends Framework\DatabaseRowTable
                     ->where('pages_module_id = :id')
                     ->bind(array('id' => $this->id));
                 
-				$pages = $table->select($query, Framework\Database::FETCH_FIELD_LIST);
+				$pages = $table->select($query, Library\Database::FETCH_FIELD_LIST);
 				
 				if(count($pages) == 1 && $pages[0] == 0) {
 		            $pages = 'all';
@@ -146,7 +146,7 @@ class DatabaseRowModule extends Framework\DatabaseRowTable
                 foreach($this->pages as $page)
 			    {
 				    $table
-					    ->select(null, Framework\Database::FETCH_ROW)
+					    ->select(null, Library\Database::FETCH_ROW)
 					    ->setData(array(
 							'pages_module_id' => $this->id,
 							'pages_page_id' => $page
@@ -158,7 +158,7 @@ class DatabaseRowModule extends Framework\DatabaseRowTable
 		    elseif($this->pages == 'all') 
 		    {
                 $table
-				    ->select(null, Framework\Database::FETCH_ROW)
+				    ->select(null, Library\Database::FETCH_ROW)
 				    ->setData(array(
 						'moduleid'	=> $this->id,
 						'menuid'	=> 0

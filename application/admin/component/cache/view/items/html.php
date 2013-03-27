@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Items HTML View class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache    
  */
-class CacheViewItemsHtml extends Framework\ViewHtml
+class CacheViewItemsHtml extends Library\ViewHtml
 {
 	public function render()
 	{

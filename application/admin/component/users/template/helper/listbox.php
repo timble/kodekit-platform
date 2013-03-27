@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper Class
@@ -18,11 +18,11 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class UsersTemplateHelperListbox extends Framework\TemplateHelperListbox
+class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function groups( $config = array())
     {
-    	$config = new Framework\Config($config);
+    	$config = new Library\Config($config);
     	$config->append(array(
     		'model' 	=> 'groups',
     		'value'		=> 'id',
@@ -34,7 +34,7 @@ class UsersTemplateHelperListbox extends Framework\TemplateHelperListbox
     
     public function users($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 		$config->append(array(
 			'model'		=> 'users',
 			'name'		=> 'id',
@@ -53,7 +53,7 @@ class UsersTemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function languages($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $config->append(array(
             'value'      => 'iso_code',

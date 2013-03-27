@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Typable Database Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class DatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
 {
     protected $_strategy;
 
@@ -39,14 +39,14 @@ class DatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
         'getLink'
     );
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         $this->_populateStrategies();
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'auto_mixin' => true
@@ -55,7 +55,7 @@ class DatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
@@ -104,7 +104,7 @@ class DatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
         return array_fill_keys($this->_methods, $this);
     }
 
-    public function getMixableMethods(Framework\Object $mixer = null)
+    public function getMixableMethods(Library\Object $mixer = null)
     {
         $methods = array_fill_keys($this->_mixable_methods, $this);
         $methods['is'.ucfirst($this->getIdentifier()->name)] = function() { return true; };
@@ -112,7 +112,7 @@ class DatabaseBehaviorTypable extends Framework\DatabaseBehaviorAbstract
         return $methods;
     }
 
-    public function execute($name, Framework\CommandContext $context)
+    public function execute($name, Library\CommandContext $context)
     {
         if($name == 'before.insert' || $name == 'before.update')
         {

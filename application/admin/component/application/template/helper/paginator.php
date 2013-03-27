@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Default Paginator Helper
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationTemplateHelperPaginator extends Framework\TemplateHelperPaginator
+class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
 {
     /**
      * Render item pagination
@@ -27,7 +27,7 @@ class ApplicationTemplateHelperPaginator extends Framework\TemplateHelperPaginat
      */
     public function pagination($config = array())
     { 
-        $config = new Framework\ModelPaginator($config);
+        $config = new Library\ModelPaginator($config);
         $config->append(array(
             'total'      => 0,
             'display'    => 4,
@@ -61,7 +61,7 @@ class ApplicationTemplateHelperPaginator extends Framework\TemplateHelperPaginat
      */
     public function pages($config = array())
     {
-        $config = new Framework\ModelPaginator($config);
+        $config = new Library\ModelPaginator($config);
 		$config->append(array(
 			'total'      => 0,
 			'display'    => 4,
@@ -93,7 +93,7 @@ class ApplicationTemplateHelperPaginator extends Framework\TemplateHelperPaginat
      */
    public function link($config)
    {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 		$config->append(array(
 			'title'   => '',
 			'current' => false,

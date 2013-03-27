@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Debug;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Debug Html View
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class ViewDebugHtml extends Framework\ViewHtml
+class ViewDebugHtml extends Library\ViewHtml
 {
     public function render()
     {

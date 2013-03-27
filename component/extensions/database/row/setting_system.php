@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * System Setting Database Row
@@ -24,10 +24,10 @@ class DatabaseRowSetting_System extends DatabaseRowSetting
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Framework\Config object with configuration options.
+     * @param   object  An optional Library\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
              'name' => 'system',
@@ -54,12 +54,12 @@ class DatabaseRowSetting_System extends DatabaseRowSetting
 		    if (file_put_contents($this->getPath(), $config->toString('PHP', 'config', array('class' => 'JConfig'))) === false) 
 		    {
 			    $this->setStatusMessage(\JText::_('ERRORCONFIGFILE'));
-			    $this->setStatus(Framework\Database::STATUS_FAILED);
+			    $this->setStatus(Library\Database::STATUS_FAILED);
 			
 			    return false;
 		    }     
 		
-		    $this->setStatus(Framework\Database::STATUS_UPDATED);
+		    $this->setStatus(Library\Database::STATUS_UPDATED);
         }
         
         return true;

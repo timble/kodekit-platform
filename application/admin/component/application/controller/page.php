@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Page Controller Class
@@ -16,14 +16,14 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationControllerPage extends Framework\ControllerView
+class ApplicationControllerPage extends Library\ControllerView
 {
     /**
      * Constructor.
      *
-     * @param   object  An optional Framework\Config object with configuration options.
+     * @param   object  An optional Library\Config object with configuration options.
      */
-    protected function  _initialize(Framework\Config $config)
+    protected function  _initialize(Library\Config $config)
     {
         $config->append(array(
             'toolbars'  => array('menubar', 'tabbar', 'toolbar'),
@@ -32,7 +32,7 @@ class ApplicationControllerPage extends Framework\ControllerView
         parent::_initialize($config);
     }
 
-    protected function _actionRender(Framework\CommandContext $context)
+    protected function _actionRender(Library\CommandContext $context)
     {
         $content = parent::_actionRender($context);
 

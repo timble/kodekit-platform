@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Article controller toolbar class.
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage Articles
  */
 
-class ArticlesControllerToolbarArticle extends Framework\ControllerToolbarModel
+class ArticlesControllerToolbarArticle extends Library\ControllerToolbarModel
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array('controller' => 'com:articles.controller.article'));
 

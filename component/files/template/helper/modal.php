@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Modal Helper
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class TemplateHelperModal extends Framework\TemplateHelperAbstract
+class TemplateHelperModal extends Library\TemplateHelperAbstract
 {
 	public function select($config = array())
 	{
-		$config = new Framework\Config($config);
+		$config = new Library\Config($config);
 		$config->append(array(
 			'name'      => '',
 			'visible'   => true,

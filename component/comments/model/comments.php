@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Comments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Comments Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Comments
  */
-class ModelComments extends Framework\ModelTable
+class ModelComments extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -28,7 +28,7 @@ class ModelComments extends Framework\ModelTable
 			->insert('row', 'int');
 	}
 	
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
 		

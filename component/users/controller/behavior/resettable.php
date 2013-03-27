@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Resettable Controller Behavior
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -28,7 +28,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         $this->getService('loader')->loadFile(JPATH_ROOT . '/component/users/legacy.php');
     }
 
-    protected function _beforeControllerRead(Framework\CommandContext $context)
+    protected function _beforeControllerRead(Library\CommandContext $context)
     {
         if ($token = $context->request->query->get('token', 'cmd'))
         {
@@ -46,7 +46,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         }
     }
 
-    protected function _beforeControllerReset(Framework\CommandContext $context)
+    protected function _beforeControllerReset(Library\CommandContext $context)
     {
         $password = $this->getModel()->getRow();
 
@@ -67,7 +67,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionReset(Framework\CommandContext $context)
+    protected function _actionReset(Library\CommandContext $context)
     {
         $password = $context->password;
 
@@ -75,7 +75,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         $password->reset    = '';
         $password->save();
 
-        if ($password->getStatus() == Framework\Database::STATUS_FAILED)
+        if ($password->getStatus() == Library\Database::STATUS_FAILED)
         {
             $context->response->setRedirect($context->request->getReferrer());
             //@TODO : Set message in session
@@ -103,7 +103,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _beforeControllerToken(Framework\CommandContext $context)
+    protected function _beforeControllerToken(Library\CommandContext $context)
     {
         $user = $this->getService('com:users.model.users')
             ->set('email', $context->request->data->get('email', 'email'))
@@ -125,7 +125,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         return $result;
     }
 
-    protected function _actionToken(Framework\CommandContext $context)
+    protected function _actionToken(Library\CommandContext $context)
     {
         $user     = $context->user;
         $password = $user->getPassword();
@@ -138,7 +138,7 @@ class ControllerBehaviorResettable extends Framework\ControllerBehaviorAbstract
         $url        = $this->getService('lib:http.url',
             array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
         $this->getService('application')->getRouter()->build($url);
-        $url     = $url = $context->request->getUrl()->toString(Framework\HttpUrl::SCHEME | Framework\HttpUrl::HOST | Framework\HttpUrl::PORT) . $url;
+        $url     = $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
         $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
         $body    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);

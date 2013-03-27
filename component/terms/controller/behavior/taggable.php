@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Terms;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Taggable Controller Behavior
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class ControllerBehaviorTaggable extends Framework\BehaviorAbstract
+class ControllerBehaviorTaggable extends Library\BehaviorAbstract
 {			
-	protected function _saveRelations(Framework\CommandContext $context)
+	protected function _saveRelations(Library\CommandContext $context)
     {
 		if ($context->error) {
 			return;
@@ -58,21 +58,21 @@ class ControllerBehaviorTaggable extends Framework\BehaviorAbstract
 		return true;
 	}
 	
-	protected function _afterControllerAdd(Framework\CommandContext $context)
+	protected function _afterControllerAdd(Library\CommandContext $context)
     {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterControllerEdit(Framework\CommandContext $context)
+	protected function _afterControllerEdit(Library\CommandContext $context)
     {
 		$this->_saveRelations($context);
 	}
 	
-	protected function _afterControllerDelete(Framework\CommandContext $context)
+	protected function _afterControllerDelete(Library\CommandContext $context)
     {
         $status = $context->result->getStatus();
 
-        if($status == Framework\Database::STATUS_DELETED || $status == 'trashed')
+        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
         {
             $id = $context->result->get('id');
             $table = $context->result->getTable()->getBase();

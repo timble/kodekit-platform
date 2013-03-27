@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Page Controller Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage  Application
  */
  
-class ApplicationControllerPage extends Framework\ControllerView
+class ApplicationControllerPage extends Library\ControllerView
 {
-    protected function _actionRender(Framework\CommandContext $context)
+    protected function _actionRender(Library\CommandContext $context)
     {
         $content = parent::_actionRender($context);
 

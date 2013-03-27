@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Path Filter
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterPath extends Framework\FilterAbstract
+class FilterPath extends Library\FilterAbstract
 {
     protected static $_safepath_pattern = array('#(\.){2,}#', '#^\.#');
 

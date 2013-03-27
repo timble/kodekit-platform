@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Expirable Database Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class DatabaseBehaviorExpirable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
 {
     /**
      * The Expiration period
@@ -33,7 +33,7 @@ class DatabaseBehaviorExpirable extends Framework\DatabaseBehaviorAbstract
      */
     protected $_expirable;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -41,7 +41,7 @@ class DatabaseBehaviorExpirable extends Framework\DatabaseBehaviorAbstract
         $this->_expirable     = $config->expirable;
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $params = $this->getService('application.components')->users->params;
 
@@ -54,7 +54,7 @@ class DatabaseBehaviorExpirable extends Framework\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeTableInsert(Framework\CommandContext $context)
+    protected function _beforeTableInsert(Library\CommandContext $context)
     {
         if ($this->_expirable) {
             $this->resetExpiration(false);

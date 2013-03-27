@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Terms Html View
@@ -15,7 +15,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Activities
  */
-class TermsViewTermsHtml extends Framework\ViewHtml
+class TermsViewTermsHtml extends Library\ViewHtml
 {
 	public function render()
 	{

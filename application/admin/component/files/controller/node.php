@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Node Controller Class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  */
 class FilesControllerNode extends FilesControllerAbstract
 {
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'behaviors' => array('thumbnailable')

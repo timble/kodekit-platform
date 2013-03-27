@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Application;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Html Page View
@@ -19,7 +19,7 @@ use Nooku\Framework;
  */
 class ViewPageHtml extends ViewHtml
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'template_filters' => array('expire','module'),

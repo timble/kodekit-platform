@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Attachments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Attachments Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class DatabaseTableAttachments extends Framework\DatabaseTableDefault
+class DatabaseTableAttachments extends Library\DatabaseTableDefault
 {
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
     {
     	$config->append(array(
     		'name'      => 'attachments',

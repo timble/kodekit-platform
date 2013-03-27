@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Select Template Helper
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class TemplateHelperSelect extends Framework\TemplateHelperSelect
+class TemplateHelperSelect extends Library\TemplateHelperSelect
 {
 	public function booleanlist( $config = array())
 	{
-		$config = new Framework\Config($config);
+		$config = new Library\Config($config);
 		$config->append(array(
 			'name'   	=> '',
 			'attribs'	=> array(),

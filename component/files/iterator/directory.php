@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Custom directory iterator with additional filters and callbacks.
@@ -51,7 +51,7 @@ class IteratorDirectory extends \DirectoryIterator
 	 */
 	public static function getNodes($config = array())
 	{
-		$config = new Framework\Config($config);
+		$config = new Library\Config($config);
 		$config->append(array(
 			'path' 		=> null, // path to the directory
 			'type' 		=> null, // folders or files, null for both
@@ -64,9 +64,9 @@ class IteratorDirectory extends \DirectoryIterator
 			'return_raw'=> false
 		));
 
-		$exclude = Framework\Config::unbox($config->exclude);
-		$filter  = Framework\Config::unbox($config->filter);
-		$map     = Framework\Config::unbox($config->map);
+		$exclude = Library\Config::unbox($config->exclude);
+		$filter  = Library\Config::unbox($config->filter);
+		$map     = Library\Config::unbox($config->map);
 		$recurse = $config->recurse;
 
 		$results = array();

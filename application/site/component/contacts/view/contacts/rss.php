@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contacts Rss View
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ContactsViewContactsRss extends Framework\ViewRss
+class ContactsViewContactsRss extends Library\ViewRss
 {
     public function render()
     {

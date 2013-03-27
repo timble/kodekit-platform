@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Chrome Filter
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterChrome extends Framework\TemplateFilterAbstract implements Framework\TemplateFilterWrite, Framework\ServiceInstantiatable
+class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterWrite, Library\ServiceInstantiatable
 {
     /**
      * The chrome styles
@@ -29,9 +29,9 @@ class TemplateFilterChrome extends Framework\TemplateFilterAbstract implements F
     /**
      * Constructor.
      *
-     * @param   object  An optional Framework\Config object with configuration options
+     * @param   object  An optional Library\Config object with configuration options
      */
-    public function __construct( Framework\Config $config )
+    public function __construct( Library\Config $config )
     {
         parent::__construct($config);
 
@@ -43,10 +43,10 @@ class TemplateFilterChrome extends Framework\TemplateFilterAbstract implements F
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Framework\Config object with configuration options
+     * @param   object  An optional Library\Config object with configuration options
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'styles'  => array(),
@@ -58,11 +58,11 @@ class TemplateFilterChrome extends Framework\TemplateFilterAbstract implements F
     /**
      * Check for overrides of the filter
      *
-     * @param   Framework\Config         	        $config  An optional Framework\Config object with configuration options
-     * @param 	Framework\ServiceManagerInterface	$manager A Framework\ServiceManagerInterface object
+     * @param   Library\Config         	        $config  An optional Library\Config object with configuration options
+     * @param 	Library\ServiceManagerInterface	$manager A Library\ServiceManagerInterface object
      * @return  TemplateHelperChrome
      */
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         $identifier = clone $config->service_identifier;
         $identifier->package = $config->module->package;

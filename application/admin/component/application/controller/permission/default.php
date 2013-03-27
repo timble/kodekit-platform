@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Controller Permission Default Class
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationControllerPermissionDefault extends Framework\ControllerPermissionAbstract
+class ApplicationControllerPermissionDefault extends Library\ControllerPermissionAbstract
 {
     /**
      * Generic authorize handler for controller render actions

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Abstract Local Adapter
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author   Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-abstract class AdapterLocalAbstract extends Framework\Object
+abstract class AdapterLocalAbstract extends Library\Object
 {
 	/**
 	 * Path to the node
@@ -29,14 +29,14 @@ abstract class AdapterLocalAbstract extends Framework\Object
 	 */
 	protected $_handle = null;
 
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
 		$this->setPath($config->path);
 	}
 
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'path' => ''

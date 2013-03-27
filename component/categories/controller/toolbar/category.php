@@ -10,7 +10,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Categories Toolbar Class
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Categories
  */
-class ControllerToolbarCategory extends Framework\ControllerToolbarModel
+class ControllerToolbarCategory extends Library\ControllerToolbarModel
 {
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
         
@@ -29,10 +29,10 @@ class ControllerToolbarCategory extends Framework\ControllerToolbarModel
 	    $this->addDisable(array('label' => 'unpublish'));
     }  
     
-    protected function _commandNew(Framework\ControllerToolbarCommand $command)
+    protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $option = $this->getController()->getIdentifier()->package;
-		$view	= Framework\StringInflector::singularize($this->getIdentifier()->name);
+		$view	= Library\StringInflector::singularize($this->getIdentifier()->name);
 		$table  = $this->getController()->getModel()->get('table');
 		
         $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;

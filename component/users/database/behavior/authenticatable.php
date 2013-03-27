@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Authenticatable Database Behavior
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class DatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'auto_mixin' => true
@@ -28,7 +28,7 @@ class DatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         $data = $context->data;
 
@@ -43,7 +43,7 @@ class DatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableInsert(Framework\CommandContext $context)
+    protected function _beforeTableInsert(Library\CommandContext $context)
     {
         $data = $context->data;
 
@@ -59,7 +59,7 @@ class DatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $data = $context->data;
 
@@ -70,18 +70,18 @@ class DatabaseBehaviorAuthenticatable extends Framework\DatabaseBehaviorAbstract
 
             if (!$password->setData(array('password' => $data->password))->save())
             {
-                $this->setStatus(Framework\Database::STATUS_FAILED);
+                $this->setStatus(Library\Database::STATUS_FAILED);
                 $this->setStatusMessage($password->getStatusMessage());
                 return false;
             }
         }
     }
 
-    protected function _afterTableInsert(Framework\CommandContext $context)
+    protected function _afterTableInsert(Library\CommandContext $context)
     {
         $data = $context->data;
 
-        if ($data->getStatus() == Framework\Database::STATUS_CREATED)
+        if ($data->getStatus() == Library\Database::STATUS_CREATED)
         {
             // Create a password row for the user.
             $data->getPassword()

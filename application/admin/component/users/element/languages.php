@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Languages Element Class
@@ -23,7 +23,7 @@ class JElementLanguages extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$user =  Framework\ServiceManager::get('user');
+		$user =  Library\ServiceManager::get('user');
 
 		/*
 		 * @TODO: change to acl_check method
@@ -34,7 +34,7 @@ class JElementLanguages extends JElement
 
 		jimport('joomla.language.helper');
 
-        return  Framework\ServiceManager::get('com:users.template.helper.listbox')->languages(array(
+        return  Library\ServiceManager::get('com:users.template.helper.listbox')->languages(array(
             'selected'    => $value,
             'application' => $node->attributes('client'),
             'name'        => $control_name . '[' . $name . ']'));

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Groups Users Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class DatabaseTableGroups_users extends Framework\DatabaseTableDefault
+class DatabaseTableGroups_users extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'column_map' => array('group_id' => 'users_group_id', 'user_id' => 'users_user_id'))

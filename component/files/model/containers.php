@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Containers Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelContainers extends Framework\ModelTable
+class ModelContainers extends Library\ModelTable
 {
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryWhere($query);
 

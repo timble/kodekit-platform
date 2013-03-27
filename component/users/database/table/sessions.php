@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Sessions Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class DatabaseTableSessions extends Framework\DatabaseTableDefault
+class DatabaseTableSessions extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'identity_column' => 'users_session_id',

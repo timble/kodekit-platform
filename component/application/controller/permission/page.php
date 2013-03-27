@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Application;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Page Controller Permission
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ControllerPermissionPage extends Framework\ControllerPermissionAbstract
+class ControllerPermissionPage extends Library\ControllerPermissionAbstract
 {
     public function canRender()
     {

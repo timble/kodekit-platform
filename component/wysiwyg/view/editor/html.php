@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Wysiwyg;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Editor Html View Class
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ViewEditorHtml extends Framework\ViewHtml
+class ViewEditorHtml extends Library\ViewHtml
 {
     protected $_editor_settings;
     
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -37,7 +37,7 @@ class ViewEditorHtml extends Framework\ViewHtml
         }
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $language = \JFactory::getLanguage();
 
@@ -63,7 +63,7 @@ class ViewEditorHtml extends Framework\ViewHtml
 			'invalid_elements'						=> 'script,applet,iframe',
 			'relative_urls'							=> false,
 			'remove_script_host'					=> true,
-			'document_base_url'						=>  Framework\Request::root().'/sites/'.$this->getService('application')->getSite(),
+			'document_base_url'						=>  Library\Request::root().'/sites/'.$this->getService('application')->getSite(),
 			'theme_advanced_toolbar_location'		=> 'top',
 			'theme_advanced_toolbar_align'			=> 'left',
 			'theme_advanced_source_editor_height'	=> '400',
@@ -104,7 +104,7 @@ class ViewEditorHtml extends Framework\ViewHtml
     
 	public function render()
 	{
-		$options = new Framework\Config(array(
+		$options = new Library\Config(array(
 			'lang' => array(
 				'html'		=> \JText::_('HTML'),
 				'visual'	=> \JText::_('Visual')
@@ -122,7 +122,7 @@ class ViewEditorHtml extends Framework\ViewHtml
 		
 		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
-		$this->options    = Framework\Config::unbox($options);
+		$this->options    = Library\Config::unbox($options);
 		$this->settings   = $this->getEditorSettings();
 		$this->codemirror = $this->codemirror;
 
@@ -131,7 +131,7 @@ class ViewEditorHtml extends Framework\ViewHtml
 	
     public function getEditorSettings()
 	{
-	    return Framework\Config::unbox($this->_editor_settings);
+	    return Library\Config::unbox($this->_editor_settings);
 	}
 	
 	public function setEditorSettings(array $settings = array())

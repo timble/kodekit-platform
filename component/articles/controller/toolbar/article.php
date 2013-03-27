@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Articles;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Article Controller Toolbar
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Articles
  */
-class ControllerToolbarArticle extends Framework\ControllerToolbarModel
+class ControllerToolbarArticle extends Library\ControllerToolbarModel
 {
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
         

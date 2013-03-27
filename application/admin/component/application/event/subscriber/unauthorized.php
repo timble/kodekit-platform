@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Unauthorized Event Subscriber Class
@@ -16,20 +16,20 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationEventSubscriberUnauthorized extends Framework\EventSubscriberAbstract
+class ApplicationEventSubscriberUnauthorized extends Library\EventSubscriberAbstract
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-            'priority' => Framework\Event::PRIORITY_HIGH
+            'priority' => Library\Event::PRIORITY_HIGH
         ));
 
         parent::_initialize($config);
     }
 
-    public function onException(Framework\EventException $event)
+    public function onException(Library\EventException $event)
     {
-        if($event->getException() instanceof Framework\ControllerExceptionUnauthorized)
+        if($event->getException() instanceof Library\ControllerExceptionUnauthorized)
         {
             $application = $this->getService('application');
 

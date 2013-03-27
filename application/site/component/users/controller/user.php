@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * User Controller Class
@@ -20,7 +20,7 @@ use Nooku\Framework;
  */
 class UsersControllerUser extends ApplicationControllerDefault
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -28,7 +28,7 @@ class UsersControllerUser extends ApplicationControllerDefault
              ->registerCallback('after.add', array($this, 'notify'));
 	}
     
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -50,7 +50,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $request;
     }
 
-    public function _actionRender(Framework\CommandContext $context)
+    public function _actionRender(Library\CommandContext $context)
     {
         if($context->request->query-get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
@@ -62,7 +62,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         return parent::_actionRender($context);
     }
 
-    protected function _actionAdd(Framework\CommandContext $context) {
+    protected function _actionAdd(Library\CommandContext $context) {
 
         $params = $this->getService('application.components')->users->params;
         $context->request->data->role_id = $params->get('new_usertype', 18);
@@ -70,7 +70,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         return parent::_actionAdd($context);
     }
     
-    protected function _actionEdit(Framework\CommandContext $context)
+    protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
         
@@ -81,16 +81,16 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $entity;
     }
 
-    public function notify(Framework\CommandContext $context)
+    public function notify(Library\CommandContext $context)
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Framework\Database::STATUS_CREATED && $user->activation) {
+        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation) {
 
             $url       = $this->getService('lib:http.url',
                 array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
             $this->getService('application')->getRouter()->build($url);
-            $site_url       = $context->request->getUrl()->toString(Framework\HttpUrl::SCHEME | Framework\HttpUrl::HOST | Framework\HttpUrl::PORT);
+            $site_url       = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT);
             $activation_url = $site_url . '/' . $url;
 
             $subject = JText::_('User Account Activation');
@@ -101,7 +101,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         }
     }
 
-    public function sanitizeRequest(Framework\CommandContext $context)
+    public function sanitizeRequest(Library\CommandContext $context)
     {
         // Unset some variables because of security reasons.
         foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {

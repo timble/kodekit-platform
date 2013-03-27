@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Group Users Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Nooku\Component\Users
  */
-class ModelGroups_users extends Framework\ModelTable
+class ModelGroups_users extends Library\ModelTable
 {
-	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryColumns($query);
 	
@@ -28,12 +28,12 @@ class ModelGroups_users extends Framework\ModelTable
 		));
 	}
 	
-	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
 		$query->join(array('group' => 'users_groups'), 'group.users_group_id = tbl.users_group_id');
 	}
 	
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryWhere($query);
 		$state = $this->getState();

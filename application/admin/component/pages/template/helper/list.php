@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * List Template Helper Class
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class PagesTemplateHelperList extends Framework\TemplateHelperAbstract
+class PagesTemplateHelperList extends Library\TemplateHelperAbstract
 {
     public function pages($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'pages'    => array(),
             'active'   => null,

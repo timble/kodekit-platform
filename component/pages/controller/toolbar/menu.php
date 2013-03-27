@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Menu Controller Toolbar
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class ControllerToolbarMenu extends Framework\ControllerToolbarModel
+class ControllerToolbarMenu extends Library\ControllerToolbarModel
 {
-    protected function _commandNew(Framework\ControllerToolbarCommand $command)
+    protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $application = $this->getController()->getModel()->application;
         $command->href = 'option=com_pages&view=menu&application='.$application;

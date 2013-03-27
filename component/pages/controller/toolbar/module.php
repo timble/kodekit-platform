@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Module Controller Toolbar
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Pages
  */
-class PagesControllerToolbarModule extends Framework\ControllerToolbarModel
+class PagesControllerToolbarModule extends Library\ControllerToolbarModel
 {
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {
         parent::onAfterControllerBrowse($event);
         
@@ -28,7 +28,7 @@ class PagesControllerToolbarModule extends Framework\ControllerToolbarModel
         $this->addDisable(array('label' => 'unpublish'));
     }
     
-    protected function _commandNew(Framework\ControllerToolbarCommand &$command)
+    protected function _commandNew(Library\ControllerToolbarCommand &$command)
     {
         $command = $this->getCommand('dialog', array('label' => 'new'));
         $command->href = 'option=com_pages&view=modules&layout=list&installed=1&tmpl=dialog';

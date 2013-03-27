@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Group HTML view class.
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Users
  */
-class UsersViewGroupHtml extends Framework\ViewHtml
+class UsersViewGroupHtml extends Library\ViewHtml
 {
     public function render()
     {

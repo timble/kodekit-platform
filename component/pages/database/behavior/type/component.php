@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Component Typable Database Behavior
@@ -21,7 +21,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 {
     protected $_type_title;
 
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
@@ -188,7 +188,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
         return $xml;
     }
 
-    protected function _setLinkBeforeSave(Framework\CommandContext $context)
+    protected function _setLinkBeforeSave(Library\CommandContext $context)
     {
         if($this->isModified('link_url'))
         {
@@ -204,18 +204,18 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
             // TODO: Get component from application.component.
             // Set component id.
             $component = $this->getService('com:extensions.database.table.components')
-                ->select(array('name' => $query['option']), Framework\Database::FETCH_ROW);
+                ->select(array('name' => $query['option']), Library\Database::FETCH_ROW);
 
             $this->extensions_component_id = $component->id;
         }
     }
 
-    protected function _beforeTableInsert(Framework\CommandContext $context)
+    protected function _beforeTableInsert(Library\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }
 
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }

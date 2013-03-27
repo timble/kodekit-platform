@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Login HTML View Class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class UsersViewSessionHtml extends Framework\ViewHtml
+class UsersViewSessionHtml extends Library\ViewHtml
 {
     public function render()
     {

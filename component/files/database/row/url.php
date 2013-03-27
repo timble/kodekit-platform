@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Url Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseRowUrl extends Framework\DatabaseRowAbstract
+class DatabaseRowUrl extends Library\DatabaseRowAbstract
 {
 	/**
 	 * Adapters to use for remote access
@@ -25,7 +25,7 @@ class DatabaseRowUrl extends Framework\DatabaseRowAbstract
 	 */
 	protected $_adapters = array();
 
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -34,7 +34,7 @@ class DatabaseRowUrl extends Framework\DatabaseRowAbstract
 		}
 	}
 
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		if (empty($config->adapters)) {
 			$config->adapters = array('curl', 'fsockopen', 'fopen');
@@ -126,10 +126,10 @@ class DatabaseRowUrl extends Framework\DatabaseRowAbstract
 
 		$uri = $this->getService('lib:http.url', array('url' => $url));
 
-		$scheme = $uri->toString(Framework\HttpUrl::SCHEME);
-		$host = $uri->toString(Framework\HttpUrl::HOST);
-		$port = $uri->toString(Framework\HttpUrl::PORT);
-		$path = $uri->toString(Framework\HttpUrl::PATH | Framework\HttpUrl::FORMAT | Framework\HttpUrl::QUERY | Framework\HttpUrl::FRAGMENT);
+		$scheme = $uri->toString(Library\HttpUrl::SCHEME);
+		$host = $uri->toString(Library\HttpUrl::HOST);
+		$port = $uri->toString(Library\HttpUrl::PORT);
+		$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT | Library\HttpUrl::QUERY | Library\HttpUrl::FRAGMENT);
 
 		if ($scheme == 'https://')
         {

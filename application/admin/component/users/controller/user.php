@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * User Controller Class
@@ -20,7 +20,7 @@ use Nooku\Framework;
  */
 class UsersControllerUser extends ApplicationControllerDefault
 { 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -28,7 +28,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         $this->registerCallback('after.edit', array($this, 'reset'));
     }
     
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -39,7 +39,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         parent::_initialize($config);
     }
 
-    protected function _actionDelete(Framework\CommandContext $context)
+    protected function _actionDelete(Library\CommandContext $context)
     {
         $entity = parent::_actionDelete($context);
 
@@ -51,7 +51,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $entity;
     }
 
-    public function reset(Framework\CommandContext $context)
+    public function reset(Library\CommandContext $context)
     {
         if ($context->response->getStatusCode() == self::STATUS_RESET)
         {
@@ -60,12 +60,12 @@ class UsersControllerUser extends ApplicationControllerDefault
         }
     }
 
-    public function notify(Framework\CommandContext $context)
+    public function notify(Library\CommandContext $context)
     {
         $user = $context->result;
         $reset = $user->reset;
 
-        if(($user->getStatus() != Framework\Database::STATUS_FAILED) && $reset)
+        if(($user->getStatus() != Library\Database::STATUS_FAILED) && $reset)
         {
             $application = $this->getService('application');
 
@@ -77,7 +77,7 @@ class UsersControllerUser extends ApplicationControllerDefault
             // TODO Hardcoding URL since AFAIK currently there's no other way to build a frontend route from here.
             // Due to namespacing problems the backend router will always be returned.
             $url = "/component/users/user?layout=password&uuid={$user->uuid}&reset={$reset}";
-            $url = $context->request->getUrl()->toString(Framework\HttpUrl::SCHEME | Framework\HttpUrl::HOST | Framework\HttpUrl::PORT) . $url;
+            $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
             $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $url);

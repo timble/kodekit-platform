@@ -8,9 +8,9 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
-class FilesViewFileHtml extends Framework\ViewFile
+class FilesViewFileHtml extends Library\ViewFile
 {
     public function render()
     {
@@ -25,7 +25,7 @@ class FilesViewFileHtml extends Framework\ViewFile
         }
 
         if (!file_exists($this->path)) {
-        	throw new Framework\ViewException(JText::_('File not found'));
+        	throw new Library\ViewException(JText::_('File not found'));
         }
 
         return parent::render();

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Component Setting Database Row
@@ -36,9 +36,9 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
     /**
      * Constructor
      *
-     * @param   object  An optional Framework\Config object with configuration options.
+     * @param   object  An optional Library\Config object with configuration options.
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -51,10 +51,10 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Framework\Config object with configuration options.
+     * @param   object  An optional Library\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'id'     => '',
@@ -73,7 +73,7 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
     {
         if(!empty($this->_modified))
         {
-            $row = $this->getService($this->_table)->select($this->_id, Framework\Database::FETCH_ROW);
+            $row = $this->getService($this->_table)->select($this->_id, Library\Database::FETCH_ROW);
             $row->params = $this->_data;
 
             return (bool) $row->save();

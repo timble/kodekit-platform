@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * File Controller Class
@@ -18,14 +18,14 @@ use Nooku\Framework;
  */
 class FilesControllerFile extends FilesControllerAbstract
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
 		$this->registerCallback(array('before.add', 'before.edit'), array($this, 'addFile'));
 	}
 	
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'behaviors' => array('thumbnailable')
@@ -34,17 +34,17 @@ class FilesControllerFile extends FilesControllerAbstract
 		parent::_initialize($config);
 	}
 
-	public function addFile(Framework\CommandContext $context)
+	public function addFile(Library\CommandContext $context)
 	{
 		$file = $context->request->data->get('file', 'raw');
 		$name = $context->request->data->get('name', 'raw');
 
-		if (empty($file) && Framework\Request::has('files.file.tmp_name'))
+		if (empty($file) && Library\Request::has('files.file.tmp_name'))
 		{
-			$context->request->data->set('file', Framework\Request::get('files.file.tmp_name', 'raw'));
+			$context->request->data->set('file', Library\Request::get('files.file.tmp_name', 'raw'));
 			
 			if (empty($name)) {
-				$context->request->data->set('name', Framework\Request::get('files.file.name', 'raw'));
+				$context->request->data->set('name', Library\Request::get('files.file.name', 'raw'));
 			}
 
 		}

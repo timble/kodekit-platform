@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Components Model
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class ModelComponents extends Framework\ModelAbstract
+class ModelComponents extends Library\ModelAbstract
 {
     
 }

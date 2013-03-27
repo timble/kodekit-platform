@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * File Validator Command Class
@@ -19,7 +19,7 @@ use Nooku\Framework;
  */
 class CommandValidatorFile extends CommandValidatorNode
 {
-	protected function _databaseBeforeSave(Framework\CommandContext $context)
+	protected function _databaseBeforeSave(Library\CommandContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -40,7 +40,7 @@ class CommandValidatorFile extends CommandValidatorNode
 			if (empty($row->name))
 			{
 				$uri = $this->getService('lib:http.url', array('url' => $row->file));
-	        	$path = $uri->toString(Framework\HttpUrl::PATH | Framework\HttpUrl::FORMAT);
+	        	$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
 	        	}

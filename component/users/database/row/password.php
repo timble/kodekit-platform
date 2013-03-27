@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Password Database Row
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class DatabaseRowPassword extends Framework\DatabaseRowTable
+class DatabaseRowPassword extends Library\DatabaseRowTable
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -36,7 +36,7 @@ class DatabaseRowPassword extends Framework\DatabaseRowTable
         // Check if referenced user actually exists.
         if ($user->isNew())
         {
-            $this->setStatus(Framework\Database::STATUS_FAILED);
+            $this->setStatus(Library\Database::STATUS_FAILED);
             $this->setStatusMessage(\JText::sprintf('USER NOT FOUND', $this->id));
             return false;
         }
@@ -49,7 +49,7 @@ class DatabaseRowPassword extends Framework\DatabaseRowTable
 
             if (strlen($password) < $length)
             {
-                $this->setStatus(Framework\Database::STATUS_FAILED);
+                $this->setStatus(Library\Database::STATUS_FAILED);
                 $this->setStatusMessage(\JText::sprintf('PASSWORD TOO SHORT', $length));
                 return false;
             }
@@ -59,7 +59,7 @@ class DatabaseRowPassword extends Framework\DatabaseRowTable
                 // Check if new and current hashes are the same.
                 if ($this->verify($password))
                 {
-                    $this->setStatus(Framework\Database::STATUS_FAILED);
+                    $this->setStatus(Library\Database::STATUS_FAILED);
                     $this->setStatusMessage(\JText::_('New and old passwords are the same'));
                     return false;
                 }

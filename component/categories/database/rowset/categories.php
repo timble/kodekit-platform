@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Categories Database Rowset
@@ -19,7 +19,7 @@ use Nooku\Framework;
  */
 class DatabaseRowsetCategories extends DatabaseRowsetNodes
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'new'               => false,

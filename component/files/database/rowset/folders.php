@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Folders Database Rowset
@@ -47,7 +47,7 @@ class DatabaseRowsetFolders extends DatabaseRowsetNodes
      *
 	 * @param  array  	An associative array of row data to be inserted.
 	 * @param  boolean	If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-	 * @return  Framework\DatabaseRowsetAbstract
+	 * @return  Library\DatabaseRowsetAbstract
 	 * @see __construct
      */
 	public function addRow(array $list, $new = true)
@@ -60,7 +60,7 @@ class DatabaseRowsetFolders extends DatabaseRowsetNodes
 		    //Create a row prototype and clone it this is faster then instanciating a new row
 			$instance = $this->getRow()
 							->setData($row)
-							->setStatus($new ? NULL : Framework\Database::STATUS_LOADED);
+							->setStatus($new ? NULL : Library\Database::STATUS_LOADED);
 
         	if($hierarchy)
         	{

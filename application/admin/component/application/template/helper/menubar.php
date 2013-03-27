@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Template Menubar Helper
@@ -26,7 +26,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
      */
     public function render($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'attribs' => array('class' => array())
         ));

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Language Controller Toolbar
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class ControllerToolbarLanguage extends Framework\ControllerToolbarModel
+class ControllerToolbarLanguage extends Library\ControllerToolbarModel
 {
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {    
         parent::onAfterControllerBrowse($event);
 

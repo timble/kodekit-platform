@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Attachments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Attachments Controller Toolbar
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class ControllerToolbarAttachments extends Framework\ControllerToolbarModel
+class ControllerToolbarAttachments extends Library\ControllerToolbarModel
 {
 	public function getCommands()
 	{

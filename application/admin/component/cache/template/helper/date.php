@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Cache Date Helper
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class CacheTemplateHelperDate extends Framework\TemplateHelperDate
+class CacheTemplateHelperDate extends Library\TemplateHelperDate
 {
     /**
      * Returns human readable date.
@@ -31,7 +31,7 @@ class CacheTemplateHelperDate extends Framework\TemplateHelperDate
      */
     public function humanize($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'gmt_offset'  => date_offset_get(new DateTime)
         ));

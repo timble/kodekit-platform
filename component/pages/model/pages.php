@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Pages Model
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class ModelPages extends Framework\ModelTable
+class ModelPages extends Library\ModelTable
 {
     protected $_page_xml;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -37,7 +37,7 @@ class ModelPages extends Framework\ModelTable
             ->insert('application', 'word');
     }
 
-    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
@@ -46,7 +46,7 @@ class ModelPages extends Framework\ModelTable
         }
     }
 
-    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
 
@@ -60,7 +60,7 @@ class ModelPages extends Framework\ModelTable
         }
     }
 
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();

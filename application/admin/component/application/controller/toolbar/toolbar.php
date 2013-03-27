@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Page Toolbar
@@ -16,9 +16,9 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationControllerToolbarToolbar extends Framework\ControllerToolbarAbstract
+class ApplicationControllerToolbarToolbar extends Library\ControllerToolbarAbstract
 {
-    public function onBeforeControllerRender(Framework\Event $event)
+    public function onBeforeControllerRender(Library\Event $event)
     {
         $event->getTarget()->getView()->toolbar = $this;
 
@@ -27,7 +27,7 @@ class ApplicationControllerToolbarToolbar extends Framework\ControllerToolbarAbs
         $this->addCommand('logout');
     }
 
-    protected function _commandPreview(Framework\ControllerToolbarCommand $command)
+    protected function _commandPreview(Library\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(
@@ -38,12 +38,12 @@ class ApplicationControllerToolbarToolbar extends Framework\ControllerToolbarAbs
         $command->href = JURI::root();
     }
 
-    protected function _commandProfile(Framework\ControllerToolbarCommand $command)
+    protected function _commandProfile(Library\ControllerToolbarCommand $command)
     {
         $command->href = 'option=com_users&view=user&id='.$this->getController()->getUser()->getId();
     }
 
-    protected function _commandLogout(Framework\ControllerToolbarCommand $command)
+    protected function _commandLogout(Library\ControllerToolbarCommand $command)
     {
         $controller = $this->getController();
         $session    = $controller->getUser()->getSession();

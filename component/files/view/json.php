@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Json View
@@ -17,14 +17,14 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ViewJson extends Framework\ViewJson
+class ViewJson extends Library\ViewJson
 {
     protected function _getRow()
     {
         $row  = $this->getModel()->getRow();
         $data = parent::_getRow();
 
-        $status = $row->getStatus() !== Framework\Database::STATUS_FAILED;
+        $status = $row->getStatus() !== Library\Database::STATUS_FAILED;
 		$data['status'] = $status;
         if ($data === false){
             $data['error'] = $row->getStatusMessage();

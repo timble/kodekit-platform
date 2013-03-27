@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Form Template Helper Class
@@ -16,17 +16,17 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesTemplateHelperForm extends Framework\TemplateHelperDefault
+class ArticlesTemplateHelperForm extends Library\TemplateHelperDefault
 {
     public function publish($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $article = $config->row;
 
         if ($article->isNew())
         {
-            $date       = new Framework\Date();
+            $date       = new Library\Date();
             $publish_on = $date->format('Y-m-d H:i:s');
         }
         else $publish_on = $article->publish_on;
@@ -42,7 +42,7 @@ class ArticlesTemplateHelperForm extends Framework\TemplateHelperDefault
 
     public function unpublish($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $article = $config->row;
 

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Versions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Revision Database Row
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class DatabaseRowRevision extends Framework\DatabaseRowTable
+class DatabaseRowRevision extends Library\DatabaseRowTable
 {
 	public function __get($column)
     {

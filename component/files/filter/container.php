@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Filter class for validating containers
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterContainer extends Framework\FilterAbstract
+class FilterContainer extends Library\FilterAbstract
 {
     protected $_walk = false;
 

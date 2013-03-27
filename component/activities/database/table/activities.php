@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Activities;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Activities Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class DatabaseTableActivities extends Framework\DatabaseTableDefault
+class DatabaseTableActivities extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'behaviors' => array('creatable', 'identifiable')

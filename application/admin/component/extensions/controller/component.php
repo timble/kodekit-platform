@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Component Controller
@@ -16,7 +16,7 @@ use Nooku\Framework;
  */
 class ExtensionsControllerComponent extends ApplicationControllerDefault
 { 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
         	'behaviors' => array('com:activities.controller.behavior.loggable'),

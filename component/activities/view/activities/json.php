@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Activities;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Activities JSON View Class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package Nooku\Component\Activities
  * @see 	http://activitystrea.ms/specs/json/1.0/
  */
-class ViewActivitiesJson extends Framework\ViewJson
+class ViewActivitiesJson extends Library\ViewJson
 {
 	/**
 	 * Get the list data
@@ -52,7 +52,7 @@ class ViewActivitiesJson extends Framework\ViewJson
 			'href'     => (string) $route->setQuery($state->toArray()),
 			'url'      => array(
 				'type'     => 'application/json',
-				'template' => (string) $route->get(Framework\HttpUrl::BASE).'?{&'.implode(',', $vars).'}',
+				'template' => (string) $route->get(Library\HttpUrl::BASE).'?{&'.implode(',', $vars).'}',
 			),
 			'offset'   => (int) $paginator->offset,
 			'limit'    => (int) $paginator->limit,
@@ -77,7 +77,7 @@ class ViewActivitiesJson extends Framework\ViewJson
 			foreach($list as $item)
 			{
 			    $id = array(
-			    	'tag:'.$this->getService('request')->getUrl()->toString(Framework\HttpUrl::BASE),
+			    	'tag:'.$this->getService('request')->getUrl()->toString(Library\HttpUrl::BASE),
 			    	'id:'.$item->id
 				);
 

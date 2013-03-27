@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Application Menubar
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationControllerToolbarMenubar extends Framework\ControllerToolbarAbstract
+class ApplicationControllerToolbarMenubar extends Library\ControllerToolbarAbstract
 {
-    public function onBeforeControllerRender(Framework\Event $event)
+    public function onBeforeControllerRender(Library\Event $event)
     {   
         $event->getTarget()->getView()->menubar = $this;
     }

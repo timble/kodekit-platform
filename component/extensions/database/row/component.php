@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Component Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class DatabaseRowComponent extends Framework\DatabaseRowTable
+class DatabaseRowComponent extends Library\DatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest

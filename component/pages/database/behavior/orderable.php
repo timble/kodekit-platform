@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Orderable Database Behavior Class
@@ -19,11 +19,11 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
 {
     protected $_strategy;
     
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         // Need to set strategy before parent::__construct, otherwise strategy won't be available in getMixableMethods().
         if($config->strategy)
@@ -32,16 +32,16 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstract
             $identifier->path = array('database', 'behavior', 'orderable');
             $identifier->name = $config->strategy;
             
-            $this->setStrategy($config->service_manager->get($identifier, Framework\Config::unbox($config)));
+            $this->setStrategy($config->service_manager->get($identifier, Library\Config::unbox($config)));
         }
         
         parent::__construct($config);
     }
     
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-            'priority'   => Framework\Command::PRIORITY_LOWEST,
+            'priority'   => Library\Command::PRIORITY_LOWEST,
             'auto_mixin' => true,
             'strategy'   => 'flat',
             'table'      => null,
@@ -65,7 +65,7 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstract
         return $methods;
     }
     
-    public function getMixableMethods(Framework\Object $mixer = null)
+    public function getMixableMethods(Library\Object $mixer = null)
     {
         $methods = array_merge(parent::getMixableMethods($mixer), $this->getStrategy()->getMixableMethods($mixer));
         
@@ -74,7 +74,7 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorAbstract
         return $methods;
     }
     
-    public function execute($name, Framework\CommandContext $context)
+    public function execute($name, Library\CommandContext $context)
     {
         return $this->getStrategy()->execute($name, $context);
     }

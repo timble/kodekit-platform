@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Comments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Dissusible Controller Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Comments
  */
-class DatabaseBehaviorDiscussible extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorDiscussible extends Library\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of comments

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Articles;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Articles Model Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Articles
  */
-class ModelArticles extends Framework\ModelTable
+class ModelArticles extends Library\ModelTable
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -35,7 +35,7 @@ class ModelArticles extends Framework\ModelTable
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'ordering');
     }
 
-    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
@@ -48,7 +48,7 @@ class ModelArticles extends Framework\ModelTable
         ));
     }
 
-    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
 
@@ -58,7 +58,7 @@ class ModelArticles extends Framework\ModelTable
               ->join(array('thumbnails'  => 'files_thumbnails'), 'thumbnails.filename = tbl.image');
     }
 
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         
@@ -102,7 +102,7 @@ class ModelArticles extends Framework\ModelTable
         }
     }
 
-    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
 

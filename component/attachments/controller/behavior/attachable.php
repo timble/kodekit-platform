@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Attachments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Attachable Controller Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 {
 	/**
 	 * Attachments array coming from $_FILES
@@ -49,7 +49,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 	 */
 	protected $_attachment_limit = false;
 	
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -79,7 +79,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 		$this->_attachment_limit = $config->attachment_limit;
 	}
 	
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'container' => 'attachments-attachments',
@@ -104,11 +104,11 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 		return $this->_attachments;
 	}
 	
-	protected function _populateFilesFromRequest(Framework\CommandContext $context)
+	protected function _populateFilesFromRequest(Library\CommandContext $context)
 	{
 		if ($this->_populate_from_request)
         {
-			$attachments = Framework\Request::get('files.attachments', 'raw');
+			$attachments = Library\Request::get('files.attachments', 'raw');
 			$files = array();
 	
 			if (is_array($attachments['name']))
@@ -134,7 +134,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 		}
 	}
 	
-	protected function _saveFile(Framework\CommandContext $context, $attachment)
+	protected function _saveFile(Library\CommandContext $context, $attachment)
 	{
 		$row = $context->result;
 		
@@ -163,7 +163,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 			$model->reset(false)->set($data);
 			$this->_attachment_controller->getModel()->reset(false);
 		}
-		catch (Framework\ControllerException $e) {
+		catch (Library\ControllerException $e) {
 			$context->response->setStatus($e->getCode() , $e->getMessage());
 			return false;
 		}
@@ -171,7 +171,7 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 		return true;
 	}
 	
-	protected function _saveFiles(Framework\CommandContext $context)
+	protected function _saveFiles(Library\CommandContext $context)
     {
 		if ($context->error) {
 			return;
@@ -205,27 +205,27 @@ class ControllerBehaviorAttachable extends Framework\ControllerBehaviorAbstract
 		return true;
 	}
 	
-	protected function _beforeControllerAdd(Framework\CommandContext $context) {
+	protected function _beforeControllerAdd(Library\CommandContext $context) {
 		$this->_populateFilesFromRequest($context);
 	}
 	
-	protected function _beforeControllerEdit(Framework\CommandContext $context) {
+	protected function _beforeControllerEdit(Library\CommandContext $context) {
 		$this->_populateFilesFromRequest($context);
 	}
 	
-	protected function _afterControllerAdd(Framework\CommandContext $context) {
+	protected function _afterControllerAdd(Library\CommandContext $context) {
 		$this->_saveFiles($context);
 	}
 	
-	protected function _afterControllerEdit(Framework\CommandContext $context) {
+	protected function _afterControllerEdit(Library\CommandContext $context) {
 		$this->_saveFiles($context);
 	}
 	
-	protected function _afterControllerDelete(Framework\CommandContext $context)
+	protected function _afterControllerDelete(Library\CommandContext $context)
     {
         $status = $context->result->getStatus();
 
-        if($status == Framework\Database::STATUS_DELETED || $status == 'trashed')
+        if($status == Library\Database::STATUS_DELETED || $status == 'trashed')
         {
             $id = $context->result->get('id');
             $table = $context->result->getTable()->getBase();

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Attachments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Attachable Database Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class DatabaseBehaviorAttachable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
 {
 	public function getAttachments()
 	{

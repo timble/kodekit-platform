@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Wysiwyg;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Editor Controller
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Wysiwyg
  */
-class ControllerEditor extends Framework\ControllerView
+class ControllerEditor extends Library\ControllerView
 {
 
 }

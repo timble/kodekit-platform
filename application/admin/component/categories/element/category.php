@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Category Element Class
@@ -29,7 +29,7 @@ class JElementCategory extends JElement
             'attribs'  => array('class' => 'inputbox'),
         );
 
-        $html = Framework\ServiceManager::get('com:categories.template.helper.listbox')->categories($config);
+        $html = Library\ServiceManager::get('com:categories.template.helper.listbox')->categories($config);
         return $html;
     }
 }

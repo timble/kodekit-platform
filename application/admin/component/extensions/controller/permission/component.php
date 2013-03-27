@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Default Controller Permissions

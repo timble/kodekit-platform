@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Dashboard Controller
@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Dashboard
  */
  
-class DashboardControllerDashboard extends Framework\ControllerView
+class DashboardControllerDashboard extends Library\ControllerView
 {
 	
 }

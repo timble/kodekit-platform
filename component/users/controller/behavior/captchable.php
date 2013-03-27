@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Captchable Controller Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class ControllerBehaviorCaptchable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
 {
     /**
      * Captcha configuration object.
@@ -31,7 +31,7 @@ class ControllerBehaviorCaptchable extends Framework\ControllerBehaviorAbstract
      */
     protected $_error_message;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -42,7 +42,7 @@ class ControllerBehaviorCaptchable extends Framework\ControllerBehaviorAbstract
         $this->_config = $config->captcha;
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $params = $this->getService('application.components')->users->params;
 
@@ -126,13 +126,13 @@ class ControllerBehaviorCaptchable extends Framework\ControllerBehaviorAbstract
         return (string) $this->_error_message;
     }
 
-    protected function _beforeControllerEdit(Framework\CommandContext $context)
+    protected function _beforeControllerEdit(Library\CommandContext $context)
     {
         // Same as add.
         return $this->_beforeControllerAdd($context);
     }
 
-    protected function _beforeControllerAdd(Framework\CommandContext $context)
+    protected function _beforeControllerAdd(Library\CommandContext $context)
     {
         $challenge = $context->request->data->get('recaptcha_challenge_field', 'string');
         $answer    = $context->request->data->get('recaptcha_response_field', 'string');

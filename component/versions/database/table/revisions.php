@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Versions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Revisions Database Table
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class DatabaseTableRevisions extends Framework\DatabaseTableDefault
+class DatabaseTableRevisions extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {     
         $config->append(array(
             'behaviors' => array('creatable'),
@@ -37,9 +37,9 @@ class DatabaseTableRevisions extends Framework\DatabaseTableDefault
      * 
      * Takes care of automatically incrementing the revision number
      *
-     * @param Framework\DatabaseRowInterface $row
+     * @param Library\DatabaseRowInterface $row
      */
-    public function insert(Framework\DatabaseRowInterface $row)
+    public function insert(Library\DatabaseRowInterface $row)
     {
     	$query = $this->getService('lib:database.query.select')
             ->where('table', '=', $row->table)
@@ -47,7 +47,7 @@ class DatabaseTableRevisions extends Framework\DatabaseTableDefault
             ->order('revision','desc')
             ->limit(1);
 
-       	$latest = $this->select($query, Framework\Database::FETCH_ROW);
+       	$latest = $this->select($query, Library\Database::FETCH_ROW);
 
      	if (!$latest->isNew()) {
             $row->revision = $latest->revision + 1;

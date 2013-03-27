@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Application Tabbar
@@ -16,14 +16,14 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationControllerToolbarTabbar extends Framework\ControllerToolbarAbstract
+class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstract
 {
 	/**
 	 * Push the tabbar into the view
 	 * .
-	 * @param	Framework\Event	A event object
+	 * @param	Library\Event	A event object
 	 */
-    public function onBeforeControllerRender(Framework\Event $event)
+    public function onBeforeControllerRender(Library\Event $event)
     {
         $event->getTarget()->getView()->tabbar = $this;
     }
@@ -35,7 +35,7 @@ class ApplicationControllerToolbarTabbar extends Framework\ControllerToolbarAbst
      *
      * @param   string	The command name
      * @param	mixed	Parameters to be passed to the command
-     * @return  Framework\ControllerToolbarCommand
+     * @return  Library\ControllerToolbarCommand
      */
     public function addCommand($name, $config = array())
     {
@@ -43,7 +43,7 @@ class ApplicationControllerToolbarTabbar extends Framework\ControllerToolbarAbst
         
         $controller = $this->getController();
         
-        if($controller->isEditable() && Framework\StringInflector::isSingular($controller->getView()->getName())) {
+        if($controller->isEditable() && Library\StringInflector::isSingular($controller->getView()->getName())) {
             $command->disabled = true;
         }
         
@@ -81,7 +81,7 @@ class ApplicationControllerToolbarTabbar extends Framework\ControllerToolbarAbst
                 {
                     $this->addCommand(JText::_((string) $page->title), array(
                         'href'   => (string) $page->link_url,
-                        'active' => (string) $view == Framework\StringInflector::singularize($page->getLink()->query['view'])
+                        'active' => (string) $view == Library\StringInflector::singularize($page->getLink()->query['view'])
                     ));
                 }
             }

@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Cache Item Row Class
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class CacheDatabaseRowItem extends Framework\DatabaseRowAbstract
+class CacheDatabaseRowItem extends Library\DatabaseRowAbstract
 {	
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'identity_column'   => 'hash'

@@ -15,7 +15,7 @@
  * @subpackage  Application
  */
 
-use Nooku\Framework\ServiceManager;
+use Nooku\Library\ServiceManager;
 
 ServiceManager::setAlias('application'           , 'com:application.dispatcher');
 ServiceManager::setAlias('application.components', 'com:application.database.rowset.components');

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Terms;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Term Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class DatabaseRowTerm extends Framework\DatabaseRowTable
+class DatabaseRowTerm extends Library\DatabaseRowTable
 {
 	/**
 	 * Deletes the term form the database.

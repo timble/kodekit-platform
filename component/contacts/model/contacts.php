@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Contacts;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contacts Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class ModelContacts extends Framework\ModelTable
+class ModelContacts extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -30,7 +30,7 @@ class ModelContacts extends Framework\ModelTable
             ->insert('sort', 'cmd', 'ordering');
 	}
 
-	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryColumns($query);
 		
@@ -39,14 +39,14 @@ class ModelContacts extends Framework\ModelTable
 		));
 	}
 
-	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
 		parent::_buildQueryJoins($query);
 		
 		$query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id');
 	}
 
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 	    parent::_buildQueryWhere($query);
 		$state = $this->getState();

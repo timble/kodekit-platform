@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * File Database Row
@@ -21,7 +21,7 @@ class DatabaseRowFile extends DatabaseRowNode
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -43,9 +43,9 @@ class DatabaseRowFile extends DatabaseRowNode
         }
 
 		if ($context->result === false) {
-			$this->setStatus(Framework\Database::STATUS_FAILED);
+			$this->setStatus(Library\Database::STATUS_FAILED);
 		} else {
-            $this->setStatus($is_new ? Framework\Database::STATUS_CREATED : Framework\Database::STATUS_UPDATED);
+            $this->setStatus($is_new ? Library\Database::STATUS_CREATED : Library\Database::STATUS_UPDATED);
         }
 
 		return $context->result;
@@ -162,7 +162,7 @@ class DatabaseRowFile extends DatabaseRowNode
 		}
 	}
 
-	public function saveThumbnail(Framework\CommandContext $context = null)
+	public function saveThumbnail(Library\CommandContext $context = null)
 	{
 		$result = null;
 		if ($this->isImage() && $this->container->getParameters()->thumbnails)
@@ -178,7 +178,7 @@ class DatabaseRowFile extends DatabaseRowNode
 		return $result;
 	}
 
-	public function deleteThumbnail(Framework\CommandContext $context = null)
+	public function deleteThumbnail(Library\CommandContext $context = null)
 	{
 		$thumb = $this->getService('com:files.model.thumbnails')
 			->source($this)

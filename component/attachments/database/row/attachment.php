@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Attachments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Attachment Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class DatabaseRowAttachment extends Framework\DatabaseRowDefault
+class DatabaseRowAttachment extends Library\DatabaseRowDefault
 {
 	public function save()
 	{
@@ -62,7 +62,7 @@ class DatabaseRowAttachment extends Framework\DatabaseRowDefault
 	    if($name == 'relation' && !isset($this->relation))
 	    {
 	        $this->relation = $this->getService('com:attachments.database.table.relations')
-	            ->select(array('attachments_attachment_id' => $this->id), Framework\Database::FETCH_ROW);
+	            ->select(array('attachments_attachment_id' => $this->id), Library\Database::FETCH_ROW);
 	    }
         
         if($name == 'file' && !isset($this->file))

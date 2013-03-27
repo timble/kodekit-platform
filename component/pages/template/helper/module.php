@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Module Template Helper
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class TemplateHelperModule extends Framework\TemplateHelperAbstract
+class TemplateHelperModule extends Library\TemplateHelperAbstract
 {
     /**
      * Database rowset or identifier
@@ -29,9 +29,9 @@ class TemplateHelperModule extends Framework\TemplateHelperAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional Framework\Config object with configuration options
+     * @param   object  An optional Library\Config object with configuration options
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -43,10 +43,10 @@ class TemplateHelperModule extends Framework\TemplateHelperAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Framework\Config object with configuration options
+     * @param   object  An optional Library\Config object with configuration options
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'modules' => null,
@@ -58,19 +58,19 @@ class TemplateHelperModule extends Framework\TemplateHelperAbstract
     /**
      * Get the modules
      *
-     * @throws	\UnexpectedValueException	If the request doesn't implement the Framework\DatabaseRowsetInterface
-     * @return Framework\DatabaseRowsetInterface
+     * @throws	\UnexpectedValueException	If the request doesn't implement the Library\DatabaseRowsetInterface
+     * @return Library\DatabaseRowsetInterface
      */
     public function getModules()
     {
-        if(!$this->_modules instanceof Framework\DatabaseRowsetInterface)
+        if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
         {
             $this->_modules = $this->getService($this->_modules);
 
-            if(!$this->_modules instanceof Framework\DatabaseRowsetInterface)
+            if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Modules: '.get_class($this->_modules).' does not implement Framework\DatabaseRowsetInterface'
+                    'Modules: '.get_class($this->_modules).' does not implement Library\DatabaseRowsetInterface'
                 );
             }
         }

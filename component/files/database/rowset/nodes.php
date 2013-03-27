@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Nodes Database Rowset
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
+class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'identity_column' => 'name'

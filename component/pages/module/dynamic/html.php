@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Dynamic Module Html View
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class ModuleDynamicHtml extends ModuleDefaultHtml implements Framework\ServiceInstantiatable
+class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ServiceInstantiatable
 {
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

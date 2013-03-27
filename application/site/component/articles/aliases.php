@@ -15,7 +15,7 @@
  * @subpackage  Articles
  */
 
-use Nooku\Framework\ServiceManager;
+use Nooku\Library\ServiceManager;
 
 ServiceManager::setAlias('com:articles.model.categories', 'com:categories.model.categories');
 

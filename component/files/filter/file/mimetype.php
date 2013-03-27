@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * File Mimetype Filter
@@ -17,14 +17,14 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFileMimetype extends Framework\FilterAbstract
+class FilterFileMimetype extends Library\FilterAbstract
 {
 	protected $_walk = false;
 
 	protected function _validate($context)
 	{
 		$row = $context->getSubject();
-		$mimetypes = Framework\Config::unbox($row->container->parameters->allowed_mimetypes);
+		$mimetypes = Library\Config::unbox($row->container->parameters->allowed_mimetypes);
 
 		if (is_array($mimetypes))
 		{

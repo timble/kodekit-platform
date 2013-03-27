@@ -8,7 +8,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Files Html View Class
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class FilesViewDirectoryHtml extends Framework\ViewHtml
+class FilesViewDirectoryHtml extends Library\ViewHtml
 {
 	public function render()
 	{

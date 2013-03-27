@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Articles;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Articles Database Rowset
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Articles
  */
-class DatabaseRowsetArticles extends Framework\DatabaseRowsetTable
+class DatabaseRowsetArticles extends Library\DatabaseRowsetTable
 {
 
 }

@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
@@ -30,10 +30,10 @@ class ApplicationTemplateFilterModule extends Pages\TemplateFilterModule
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Framework\Config object with configuration options
+     * @param   object  An optional Library\Config object with configuration options
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'modules' => 'application.modules',

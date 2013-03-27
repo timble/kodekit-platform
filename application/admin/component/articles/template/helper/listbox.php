@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper
@@ -19,11 +19,11 @@ use Nooku\Framework;
  * @subpackage  Articles
  */
 
-class ArticlesTemplateHelperListbox extends Framework\TemplateHelperListbox
+class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function articles($config = array())
     {
-    	$config = new Framework\Config($config);
+    	$config = new Library\Config($config);
     	$config->append(array(
     		'model' 	=> 'articles',
     		'value'		=> 'id',
@@ -35,7 +35,7 @@ class ArticlesTemplateHelperListbox extends Framework\TemplateHelperListbox
     
     public function authors($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 		$config->append(array(
 			'model'		=> 'articles',
 			'name' 		=> 'created_by',
@@ -48,7 +48,7 @@ class ArticlesTemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function ordering($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         if (!$config->row instanceof ArticlesDatabaseRowArticle) {
             throw new \InvalidArgumentException('The row is missing.');
@@ -82,7 +82,7 @@ class ArticlesTemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function searchpages($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $pages = $this->getService('com:pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
         $pages = $pages->find(array(

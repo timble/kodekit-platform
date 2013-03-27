@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Thumbnails Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelThumbnails extends Framework\ModelTable
+class ModelThumbnails extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -33,7 +33,7 @@ class ModelThumbnails extends Framework\ModelTable
 		    ->insert('config'    , 'json', '');
 	}
 	
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'state' => new ModelState()
@@ -53,33 +53,33 @@ class ModelThumbnails extends Framework\ModelTable
 		return $item;
 	}
 
-	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
     	parent::_buildQueryColumns($query);
 
     	$state = $this->getState();
     	
-    	if ($state->source instanceof Framework\DatabaseRowInterface || $state->container) {
+    	if ($state->source instanceof Library\DatabaseRowInterface || $state->container) {
     		$query->columns(array('container' => 'containers.slug'));
     	}
     }
 	
-	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
     	parent::_buildQueryJoins($query);
 
     	$state = $this->getState();
     	
-    	if ($state->source instanceof Framework\DatabaseRowInterface || $state->container) {
+    	if ($state->source instanceof Library\DatabaseRowInterface || $state->container) {
     		$query->join(array('containers' => 'files_containers'), 'containers.files_container_id = tbl.files_container_id');
     	}
     }
 
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
         
-		if ($state->source instanceof Framework\DatabaseRowInterface)
+		if ($state->source instanceof Library\DatabaseRowInterface)
         {
 			$source = $state->source;
 
@@ -110,7 +110,7 @@ class ModelThumbnails extends Framework\ModelTable
 		}
 	}
 	
-	protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
 	{
 		$sort      = $this->_state->sort;
 		$direction = strtoupper($this->_state->direction);

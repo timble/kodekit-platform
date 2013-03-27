@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 use Nooku\Component\Activities;
 
 /**
@@ -24,7 +24,7 @@ class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity
 {
     public function message($config = array())
 	{
-	    $config = new Framework\Config($config);
+	    $config = new Library\Config($config);
 		$config->append(array(
 			'row'      => ''
 		));

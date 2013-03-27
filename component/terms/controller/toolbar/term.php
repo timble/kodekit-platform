@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Terms;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Term Controller Toolbar
@@ -17,12 +17,12 @@ use Nooku\Framework;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Nooku\Component\Terms
  */
-class ControllerToolbarTerm extends Framework\ControllerToolbarModel
+class ControllerToolbarTerm extends Library\ControllerToolbarModel
 {    
-    protected function _commandNew(Framework\ControllerToolbarCommand $command)
+    protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $option = $this->getController()->getIdentifier()->package;
-		$view	= Framework\StringInflector::singularize($this->getIdentifier()->name);
+		$view	= Library\StringInflector::singularize($this->getIdentifier()->name);
 		$table  = $this->getController()->getModel()->get('table');
 		
         $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;

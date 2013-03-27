@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Attachments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Attachment Template Helper
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class TemplateHelperAttachment extends Framework\TemplateHelperAbstract
+class TemplateHelperAttachment extends Library\TemplateHelperAbstract
 {
 	/**
 	 * Builds the file upload control and initializes it's related javascript classes.
@@ -26,11 +26,11 @@ class TemplateHelperAttachment extends Framework\TemplateHelperAbstract
      * types and any corresponding extension.
 	 * @see http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#attr-input-accept
 	 * 
-	 * @param 	object 	An optional Framework\Config object with configuration options
+	 * @param 	object 	An optional Library\Config object with configuration options
 	 */
 	public function upload($config = array())
 	{
-		$config = new Framework\Config($config);
+		$config = new Library\Config($config);
 		$config->append(array(
 				'container'	 		 => 'document.body'
 		));
@@ -38,7 +38,7 @@ class TemplateHelperAttachment extends Framework\TemplateHelperAbstract
 		if(!$config->allowed_extensions || !$config->allowed_mimetypes)
 		{
 			$container = $this->getService('com:files.database.table.containers')
-							  ->select(array('slug' => 'attachments-attachments'), Framework\Database::FETCH_ROW);
+							  ->select(array('slug' => 'attachments-attachments'), Library\Database::FETCH_ROW);
 			
 			$config->append(array(
 					'allowed_extensions'  => $container->parameters->allowed_extensions,

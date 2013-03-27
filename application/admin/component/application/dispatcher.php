@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Application Dispatcher Class
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDispatcher extends Framework\DispatcherApplication
+class ApplicationDispatcher extends Library\DispatcherApplication
 {
     /**
      * The site identifier.
@@ -35,21 +35,21 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * The application options
      *
-     * @var Framework\Config
+     * @var Library\Config
      */
     protected $_options = null;
 
     /**
      * Constructor.
      *
-     * @param 	object 	An optional Framework\Config object with configuration options.
+     * @param 	object 	An optional Library\Config object with configuration options.
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'exception'), Framework\Event::PRIORITY_LOW);
+        $this->addEventListener('onException', array($this, 'exception'), Library\Event::PRIORITY_LOW);
 
         //Set callbacks
         $this->registerCallback('before.run', array($this, 'loadConfig'));
@@ -63,7 +63,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
         $this->getRequest()->setBaseUrl($config->base_url);
 
         //Setup the request
-        Framework\Request::root(str_replace('/administrator', '', Framework\Request::base()));
+        Library\Request::root(str_replace('/administrator', '', Library\Request::base()));
 
         //Set the site name
         if(empty($config->site)) {
@@ -78,10 +78,10 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Framework\Config object with configuration options.
+     * @param 	object 	An optional Library\Config object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'base_url'          => '/administrator',
@@ -103,9 +103,9 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * Run the application
      *
-     * @param Framework\CommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionRun(Framework\CommandContext $context)
+    protected function _actionRun(Library\CommandContext $context)
     {
         //Set the site error reporting
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
@@ -128,9 +128,9 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * Route the request
      *
-     * @param Framework\CommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionRoute(Framework\CommandContext $context)
+    protected function _actionRoute(Library\CommandContext $context)
     {
         $url = clone $context->request->getUrl();
 
@@ -154,9 +154,9 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * Dispatch the request
      *
-     * @param Framework\CommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionDispatch(Framework\CommandContext $context)
+    protected function _actionDispatch(Library\CommandContext $context)
     {
         $component = $this->getController()->getIdentifier()->package;
 
@@ -193,16 +193,16 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * Render an exception
      *
-     * @throws InvalidArgumentException If the action parameter is not an instance of Framework\Exception
-     * @param Framework\CommandContext $context	A command context object
+     * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionException(Framework\CommandContext $context)
+    protected function _actionException(Library\CommandContext $context)
     {
         //Check an exception was passed
         if(!isset($context->param) && !$context->param instanceof Exception)
         {
             throw new \InvalidArgumentException(
-                "Action parameter 'exception' [Framework\EventException] is required"
+                "Action parameter 'exception' [Library\EventException] is required"
             );
         }
 
@@ -218,10 +218,10 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
     /**
      * Load the configuration
      *
-     * @param Framework\CommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      * @return	void
      */
-    public function loadConfig(Framework\CommandContext $context)
+    public function loadConfig(Library\CommandContext $context)
     {
         // Check if the site exists
         if($this->getService('com:sites.model.sites')->getRowset()->find($this->getSite()))
@@ -248,10 +248,10 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
      * then the last access time is updated. If a new session, a session id is generated and a record is created
      * in the #__users_sessions table.
      *
-     * @param Framework\CommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      * @return	void
      */
-    public function loadSession(Framework\CommandContext $context)
+    public function loadSession(Library\CommandContext $context)
     {
         $session = $context->user->session;
 
@@ -293,7 +293,7 @@ class ApplicationDispatcher extends Framework\DispatcherApplication
      *
      * @return	\LanguagesDatabaseRowsetLanguages
      */
-    public function loadLanguage(Framework\CommandContext $context)
+    public function loadLanguage(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $language = null;

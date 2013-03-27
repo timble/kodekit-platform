@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Cache Default Controller
@@ -21,7 +21,7 @@ use Nooku\Framework;
  
 class CacheControllerGroup extends ApplicationControllerDefault
 { 
-    protected function _actionPurge(Framework\CommandContext $context)
+    protected function _actionPurge(Library\CommandContext $context)
     {
         //Purge the cache
         if(JFactory::getCache('')->gc()) {

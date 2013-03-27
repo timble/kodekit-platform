@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Categories Model Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
-class ModelCategories extends Framework\ModelTable
+class ModelCategories extends Library\ModelTable
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
 	{
         parent::__construct($config);
 
@@ -34,7 +34,7 @@ class ModelCategories extends Framework\ModelTable
             ->insert('sort', 'cmd', 'ordering');
     }
 
-    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
         
@@ -57,7 +57,7 @@ class ModelCategories extends Framework\ModelTable
         parent::_buildQueryJoins($query);
     }
 
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         
@@ -96,7 +96,7 @@ class ModelCategories extends Framework\ModelTable
         }
     }
 
-    protected function _buildQueryGroup(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryGroup(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
         if( $state->distinct ) 

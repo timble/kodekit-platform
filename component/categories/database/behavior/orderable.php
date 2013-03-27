@@ -10,7 +10,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Orderable Database Behavior
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Categories
  */
-class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
+class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
 {
     protected $_table;
 
@@ -31,7 +31,7 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
      */
     protected $_parent_column;
 
-    public function __construct( Framework\Config $config)
+    public function __construct( Library\Config $config)
     {
         $config->append(array('parent_column' => null));
         $this->_parent_column = $config->parent_column;
@@ -58,9 +58,9 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
      * unchanged.
      * Inserts space in order sequence of new section if section changed.
      *
-     * @param   Framework\CommandContext Context
+     * @param   Library\CommandContext Context
      */
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if(isset($this->ordering))
@@ -86,9 +86,9 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
     /**
      * Reorders the old section if record has changed sections
      *
-     * @param   Framework\CommandContext Context
+     * @param   Library\CommandContext Context
      */
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if (isset($this->old_parent) && $this->old_parent != $this->{$this->_parent_column} )
@@ -104,7 +104,7 @@ class DatabaseBehaviorOrderable extends Framework\DatabaseBehaviorOrderable
      *
      * If the $this->_parent_column is set, this will modify the query to add the column needed by the behavior
      */
-    protected function _beforeTableSelect(Framework\CommandContext $context)
+    protected function _beforeTableSelect(Library\CommandContext $context)
     {
         $this->_table = $context->getSubject();
         if($parent_column = $this->_parent_column)

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Filesize Helper
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class TemplateHelperFilesize extends Framework\TemplateHelperAbstract
+class TemplateHelperFilesize extends Library\TemplateHelperAbstract
 {
 	public function humanize($config = array())
 	{
-		$config = new Framework\Config($config);
+		$config = new Library\Config($config);
 		$config->append(array(
 			'sizes' => array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB')
 		));
@@ -40,7 +40,7 @@ class TemplateHelperFilesize extends Framework\TemplateHelperAbstract
 		}
 
 		if ($result == 1) {
-			$size = Framework\StringInflector::singularize($size);
+			$size = Library\StringInflector::singularize($size);
 		}
 
 		return sprintf($format, $result, JText::_($size));

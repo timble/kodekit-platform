@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Weblinks;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Weblink Controller Toolbar
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @package Nooku\Component\Weblinks
  */
-class ControllerToolbarWeblink extends Framework\ControllerToolbarModel
+class ControllerToolbarWeblink extends Library\ControllerToolbarModel
 {
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {
         parent::onAfterControllerBrowse($event);
 

@@ -15,7 +15,7 @@
  * @subpackage  Contacts
  */
 
-use Nooku\Framework\ServiceManager;
+use Nooku\Library\ServiceManager;
 
 ServiceManager::setAlias('com:articles.model.terms', 'com:terms.model.terms');
 ServiceManager::setAlias('com:articles.model.categories', 'com:categories.model.categories');

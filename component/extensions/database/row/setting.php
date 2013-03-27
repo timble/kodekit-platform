@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Setting Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-abstract class DatabaseRowSetting extends Framework\DatabaseRowAbstract
+abstract class DatabaseRowSetting extends Library\DatabaseRowAbstract
 {
     /**
      * The setting name
@@ -36,9 +36,9 @@ abstract class DatabaseRowSetting extends Framework\DatabaseRowAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Framework\Config object with configuration options.
+     * @param   object  An optional Library\Config object with configuration options.
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
          parent::__construct($config);
          
@@ -51,10 +51,10 @@ abstract class DatabaseRowSetting extends Framework\DatabaseRowAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Framework\Config object with configuration options.
+     * @param   object  An optional Library\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
              'new'    => false,

@@ -10,7 +10,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Category Database Row

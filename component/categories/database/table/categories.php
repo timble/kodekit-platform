@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Categories Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Categories
  */
-class DatabaseTableCategories extends Framework\DatabaseTableDefault
+class DatabaseTableCategories extends Library\DatabaseTableDefault
 {
-    public function  _initialize(Framework\Config $config)
+    public function  _initialize(Library\Config $config)
     {
         $config->append(array(
             'name'       => 'categories',

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Translatable Database Behavior
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract implements Framework\ServiceInstantiatable
+class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ServiceInstantiatable
 {
     protected $_tables;
     
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
         
@@ -30,7 +30,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
             ->getRowset();
     }
     
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         if(!$manager->has($config->service_identifier))
         {
@@ -45,7 +45,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
     public function getHandle()
     {
         // If table is not enabled, return null to prevent enqueueing.
-        $table = $this->getMixer() instanceof Framework\DatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
+        $table = $this->getMixer() instanceof Library\DatabaseTableInterface ? $this->getMixer() : $this->getMixer()->getTable();
         $needle = array(
             'name' => $table->getBase(),
             'component_name' => 'com_'.$table->getIdentifier()->package
@@ -54,14 +54,14 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
         return count($this->_tables->find($needle)) ? parent::getHandle() : null;
     }
     
-    public function getMixableMethods(Framework\Object $mixer = null)
+    public function getMixableMethods(Library\Object $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
         
         if(!is_null($mixer))
         {
             // If table is not enabled, don't mix the methods.
-            $table  = $mixer instanceof Framework\DatabaseTableInterface ? $mixer : $mixer->getTable();
+            $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
             $needle = array(
                 'name' => $table->getBase(),
                 'component_name' => 'com_'.$table->getIdentifier()->package
@@ -96,7 +96,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
         return $translations;
     }
     
-    protected function _beforeTableSelect(Framework\CommandContext $context)
+    protected function _beforeTableSelect(Library\CommandContext $context)
     {
         if($query = $context->query)
         {
@@ -141,7 +141,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
         }
     }
     
-    protected function _afterTableInsert(Framework\CommandContext $context)
+    protected function _afterTableInsert(Library\CommandContext $context)
     {
         if($context->affected)
         {
@@ -194,7 +194,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
         }
     }
     
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $active    = $languages->getActive();
@@ -205,7 +205,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
         }
     }
     
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $primary   = $languages->getPrimary();
@@ -218,7 +218,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
                 'iso_code' => $active->iso_code,
                 'table'    => $context->table,
                 'row'      => $context->data->id
-            ), Framework\Database::FETCH_ROW);
+            ), Library\Database::FETCH_ROW);
         
         $translation->setData(array(
             'status' => DatabaseRowTranslation::STATUS_COMPLETED
@@ -263,7 +263,7 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
         }
     }
     
-    protected function _beforeTableDelete(Framework\CommandContext $context)
+    protected function _beforeTableDelete(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $active    = $languages->getActive();
@@ -274,9 +274,9 @@ class DatabaseBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract im
         }
     }
     
-    protected function _afterTableDelete(Framework\CommandContext $context)
+    protected function _afterTableDelete(Library\CommandContext $context)
     {
-        if($context->data->getStatus() == Framework\Database::STATUS_DELETED)
+        if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
             $languages = $this->getService('application.languages');
             $primary   = $languages->getPrimary();

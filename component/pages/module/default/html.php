@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Default Module
@@ -17,17 +17,17 @@ use Nooku\Framework;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class ModuleDefaultHtml extends Framework\ViewTemplate
+class ModuleDefaultHtml extends Library\ViewTemplate
 {
     /**
      * Initializes the default configuration for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $config An optional Framework\Config object with configuration options
+     * @param   Config $config An optional Library\Config object with configuration options
      * @return  void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'mimetype'   => 'text/html',

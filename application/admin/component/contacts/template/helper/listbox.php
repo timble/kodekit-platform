@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper
@@ -18,11 +18,11 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ContactsTemplateHelperListbox extends Framework\TemplateHelperListbox
+class ContactsTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function contacts($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'model' 	=> 'contacts',
             'value'		=> 'id',

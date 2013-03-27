@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Article controller class.
@@ -18,7 +18,7 @@ use Nooku\Framework;
  */
 class ArticlesControllerArticle extends ApplicationControllerDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
                 'toolbars'  => array('article'),
@@ -38,7 +38,7 @@ class ArticlesControllerArticle extends ApplicationControllerDefault
 
         $view = $request->query->get('view', 'cmd', null);
 
-        if ($view && Framework\StringInflector::isPlural($view))
+        if ($view && Library\StringInflector::isPlural($view))
         {
             if ($request->getFormat() != 'json')
             {
@@ -70,7 +70,7 @@ class ArticlesControllerArticle extends ApplicationControllerDefault
         return $request;
     }
 
-    protected function _actionAdd(Framework\CommandContext $context)
+    protected function _actionAdd(Library\CommandContext $context)
     {
         //Force article to unpublished if you cannot edit
         if (!$this->canEdit()) {

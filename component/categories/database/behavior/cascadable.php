@@ -10,7 +10,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Cascadable Database Behavior Class
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
-class DatabaseBehaviorCascadable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorCascadable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _beforeTableDelete(Framework\CommandContext $context)
+    protected function _beforeTableDelete(Library\CommandContext $context)
     {
         $result = true;
 

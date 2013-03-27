@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Language Database Row
@@ -17,14 +17,14 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseRowLanguage extends Framework\DatabaseRowTable
+class DatabaseRowLanguage extends Library\DatabaseRowTable
 {
     public function save()
     {
         $modified = $this->isModified('enabled');
         $result   = parent::save();
         
-        if($this->getStatus() == Framework\Database::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
+        if($this->getStatus() == Library\Database::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
             $tables   = $this->getService('com:languages.model.tables')->getRowset();
             $database = $this->getTable()->getAdapter();

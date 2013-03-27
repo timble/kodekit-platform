@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Translation Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseRowTranslation extends Framework\DatabaseRowTable
+class DatabaseRowTranslation extends Library\DatabaseRowTable
 {
     /**
      * Status = completed

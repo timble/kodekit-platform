@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Session Controller Class
@@ -20,7 +20,7 @@ use Nooku\Framework;
  */
 class UsersControllerSession extends ApplicationControllerDefault
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -39,7 +39,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         }
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -50,7 +50,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         parent::_initialize($config);
     }
 
-    public function authenticate(Framework\CommandContext $context)
+    public function authenticate(Library\CommandContext $context)
     {
         //Load the user
         $email = $context->request->data->get('email', 'email');
@@ -65,10 +65,10 @@ class UsersControllerSession extends ApplicationControllerDefault
                 $password = $user->getPassword();
 
                 if(!$password->verify($context->request->data->get('password', 'string'))) {
-                    throw new Framework\ControllerExceptionUnauthorized('Wrong password');
+                    throw new Library\ControllerExceptionUnauthorized('Wrong password');
                 }
             }
-            else throw new Framework\ControllerExceptionUnauthorized('Wrong email');
+            else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 
             //Start the session (if not started already)
             $context->user->session->start();
@@ -89,29 +89,29 @@ class UsersControllerSession extends ApplicationControllerDefault
 
             $context->user->fromArray($data);
         }
-        else throw new Framework\ControllerExceptionUnauthorized('Wrong email');
+        else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 
         return true;
     }
 
-    public function authorize(Framework\CommandContext $context)
+    public function authorize(Library\CommandContext $context)
     {
         //If the user is blocked, redirect with an error
         if (!$context->user->isEnabled()) {
-            throw new Framework\ControllerExceptionForbidden('Account disabled');
+            throw new Library\ControllerExceptionForbidden('Account disabled');
         }
 
         return true;
     }
 
-    protected function _actionAdd(Framework\CommandContext $context)
+    protected function _actionAdd(Library\CommandContext $context)
     {
         //Start the session (if not started already)
         $session = $context->user->session;
 
         //Insert the session into the database
         if(!$session->isActive()) {
-            throw new Framework\ControllerExceptionActionFailed('Session could not be stored. No active session');
+            throw new Library\ControllerExceptionActionFailed('Session could not be stored. No active session');
         }
 
         //Fork the session to prevent session fixation issues
@@ -142,7 +142,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         return $entity;
     }
 
-    protected function _actionDelete(Framework\CommandContext $context)
+    protected function _actionDelete(Library\CommandContext $context)
     {
         //Force logout from site and administrator
         $context->request->query->application = array_keys('site', 'admin');

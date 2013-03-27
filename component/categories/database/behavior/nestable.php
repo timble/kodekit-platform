@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Nestable Database Behavior
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
-class DatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 {
     protected $_table;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -30,7 +30,7 @@ class DatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(
             array('table' => null)
@@ -39,9 +39,9 @@ class DatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _beforeTableSelect(Framework\CommandContext $context)
+    protected function _beforeTableSelect(Library\CommandContext $context)
     {
-        if($context->query instanceof Framework\DatabaseQuerySelect && $context->mode == Framework\Database::FETCH_ROWSET)
+        if($context->query instanceof Library\DatabaseQuerySelect && $context->mode == Library\Database::FETCH_ROWSET)
         {
             $this->_table = $context->getSubject();
 
@@ -51,7 +51,7 @@ class DatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _afterTableSelect(Framework\CommandContext $context)
+    protected function _afterTableSelect(Library\CommandContext $context)
     {
         if(isset($this->_table))
         {
@@ -63,7 +63,7 @@ class DatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _beforeAdapterSelect(Framework\CommandContext $context)
+    protected function _beforeAdapterSelect(Library\CommandContext $context)
     {
         $context->limit  = $context->query->limit;
         $context->offset = $context->query->offset;
@@ -71,10 +71,10 @@ class DatabaseBehaviorNestable extends Framework\DatabaseBehaviorAbstract
         $context->query->limit(0);
     }
 
-    protected function _afterAdapterSelect(Framework\CommandContext $context)
+    protected function _afterAdapterSelect(Library\CommandContext $context)
     {
         //Get the data
-        $rows = Framework\Config::unbox($context->result);
+        $rows = Library\Config::unbox($context->result);
 
         if(is_array($rows))
         {

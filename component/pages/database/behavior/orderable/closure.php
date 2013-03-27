@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Closure Orderable Database Behavior
@@ -25,12 +25,12 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
     protected $_old_row;
     
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         if($config->columns) {
-            $this->_columns = Framework\Config::unbox($config->columns);
+            $this->_columns = Library\Config::unbox($config->columns);
         }
 
         if($config->table) {
@@ -38,10 +38,10 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-            'priority'   => Framework\Command::PRIORITY_LOWEST,
+            'priority'   => Library\Command::PRIORITY_LOWEST,
             'auto_mixin' => true,
             'columns'    => array(),
             'table'      => null
@@ -52,16 +52,16 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
     
     public function getOrderingTable()
     {
-        if(!$this->_table instanceof Framework\DatabaseTableInterface)
+        if(!$this->_table instanceof Library\DatabaseTableInterface)
         {
-            $table = $this->getMixer() instanceof Framework\DatabaseTableInterface ? $this : $this->getTable();
+            $table = $this->getMixer() instanceof Library\DatabaseTableInterface ? $this : $this->getTable();
             $this->_table = $this->getService($this->_table, array('identity_column' => $table->getIdentityColumn()));
         }
         
         return $this->_table;
     }
     
-    protected function _buildQuery(Framework\DatabaseRowInterface $row)
+    protected function _buildQuery(Library\DatabaseRowInterface $row)
     {
         $table = $row->getTable();
         $query = $this->getService('lib:database.query.select')
@@ -83,7 +83,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         return $query;
     }
     
-    protected function _beforeTableSelect(Framework\CommandContext $context)
+    protected function _beforeTableSelect(Library\CommandContext $context)
     {
         if($query = $context->query)
         {
@@ -113,10 +113,10 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableInsert(Framework\CommandContext $context)
+    protected function _afterTableInsert(Library\CommandContext $context)
     {
         $row = $context->data;
-        if($row->getStatus() != Framework\Database::STATUS_FAILED)
+        if($row->getStatus() != Library\Database::STATUS_FAILED)
         {
             // Insert empty row into ordering table.
             $table = $row->getTable();
@@ -130,18 +130,18 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
 
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $row = $context->data;
         if($row->isModified('parent_id')) {
-            $this->_old_row = $row->getTable()->select($row->id, Framework\Database::FETCH_ROW);
+            $this->_old_row = $row->getTable()->select($row->id, Library\Database::FETCH_ROW);
         }
     }
     
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         $row = $context->data;
-        if($row->getStatus() != Framework\Database::STATUS_FAILED)
+        if($row->getStatus() != Library\Database::STATUS_FAILED)
         {
             foreach($this->_columns as $column) {
                 call_user_func(array($this, '_reorder'.ucfirst($column)), $row, $column, $context->operation);
@@ -157,10 +157,10 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _afterTableDelete(Framework\CommandContext $context)
+    protected function _afterTableDelete(Library\CommandContext $context)
     {
         $row = $context->data;
-        if($row->getStatus() != Framework\Database::STATUS_FAILED)
+        if($row->getStatus() != Library\Database::STATUS_FAILED)
         {
             foreach($this->_columns as $column) {
                 call_user_func(array($this, '_reorder'.ucfirst($column)), $row, $column, $context->operation);
@@ -168,7 +168,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _reorderDefault(Framework\DatabaseRowInterface $row, $column, $operation)
+    protected function _reorderDefault(Library\DatabaseRowInterface $row, $column, $operation)
     {
         $table = $row->getTable();
 
@@ -195,13 +195,13 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         $table->getAdapter()->update($update);
     }
 
-    protected function _reorderCustom(Framework\DatabaseRowInterface $row, $column, $operation)
+    protected function _reorderCustom(Library\DatabaseRowInterface $row, $column, $operation)
     {
         $table = $row->getTable();
 
         switch($operation)
         {
-            case Framework\Database::OPERATION_INSERT:
+            case Library\Database::OPERATION_INSERT:
             {
                 $query = $this->_buildQuery($row)
                     ->columns('orderings.custom')
@@ -209,12 +209,12 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                     ->order('orderings.custom', 'DESC')
                     ->limit(1);
 
-                $max = (int) $table->getAdapter()->select($query, Framework\Database::FETCH_FIELD);
-                $table->getOrderingTable()->select($row->id, Framework\Database::FETCH_ROW)
+                $max = (int) $table->getAdapter()->select($query, Library\Database::FETCH_FIELD);
+                $table->getOrderingTable()->select($row->id, Library\Database::FETCH_ROW)
                     ->setData(array('custom' => $max + 1))->save();
             } break;
 
-            case Framework\Database::OPERATION_UPDATE:
+            case Library\Database::OPERATION_UPDATE:
             {
                 if($row->order)
                 {
@@ -251,7 +251,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
                 }
             } break;
 
-            case Framework\Database::OPERATION_DELETE:
+            case Library\Database::OPERATION_DELETE:
             {
                 $table->getAdapter()->execute('SET @index := 0');
 

@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Languages Template Helper Listbox Class
@@ -16,11 +16,11 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Languages
  */
-class LanguagesTemplateHelperListbox extends Framework\TemplateHelperListbox
+class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function languages($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 		$config->append(array(
 			'name'      => 'language'
 		));

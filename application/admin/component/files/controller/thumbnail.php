@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 use Nooku\Component\Files;
 
 /**
@@ -19,7 +19,7 @@ use Nooku\Component\Files;
  */
 class FilesControllerThumbnail extends FilesControllerAbstract
 {
-    protected function _actionBrowse(Framework\CommandContext $context)
+    protected function _actionBrowse(Library\CommandContext $context)
     {
     	// Clone to make cacheable work since we change model states
         $model = clone $this->getModel();

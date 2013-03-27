@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Versions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Revisions Model
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ModelRevisions extends Framework\ModelTable
+class ModelRevisions extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -35,7 +35,7 @@ class ModelRevisions extends Framework\ModelTable
      * a complete row. This is done because revision X always contains just the changes from the previous revision,
      * so the rest needs to be built.
      *
-     * @return Framework\DatabaseRowInterface
+     * @return Library\DatabaseRowInterface
      */
     public function getRow()
     {
@@ -52,7 +52,7 @@ class ModelRevisions extends Framework\ModelTable
     /**
      * Get a complete revision row, merging data from all previous revisions
      *
-     * @return Framework\DatabaseRowInterface
+     * @return Library\DatabaseRowInterface
      */
     public function getRevision()
     {
@@ -73,14 +73,14 @@ class ModelRevisions extends Framework\ModelTable
         return $revision;
     }
 
-    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         $query->columns[] = 'u.name AS user_name';
 
         parent::_buildQueryColumns($query);
     }
 
-    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         $query->join('RIGHT', 'users u', 'tbl.created_by = u.id');
     }
@@ -91,9 +91,9 @@ class ModelRevisions extends Framework\ModelTable
      * When getting a revision X > 1, we need to get all revisions from 1 to X, and combine the data from these into
      * one row.
      *
-     * @param Framework\DatabaseQuerySelect $query
+     * @param Library\DatabaseQuerySelect $query
      */
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
     	parent::_buildQueryWhere($query);
 
@@ -116,7 +116,7 @@ class ModelRevisions extends Framework\ModelTable
         }
     }
 
-    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
     {
         $query->order('tbl.revision', 'desc');
     }

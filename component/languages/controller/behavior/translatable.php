@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Translatable Controller Behavior
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class ControllerBehaviorTranslatable extends Framework\DatabaseBehaviorAbstract
+class ControllerBehaviorTranslatable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _beforeControllerGet(Framework\CommandContext $context)
+    protected function _beforeControllerGet(Library\CommandContext $context)
     {
         $model = $this->getModel();
 

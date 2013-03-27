@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Modules Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Pages
  */
-class ModelModules extends Framework\ModelTable
+class ModelModules extends Library\ModelTable
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -35,14 +35,14 @@ class ModelModules extends Framework\ModelTable
             ->insert('name'       , 'cmd');
     }
 
-    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
         $query->columns(array('component_name' => 'components.name'));
     }
 
-    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         $query
             ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.pages_module_id = tbl.pages_module_id')
@@ -51,7 +51,7 @@ class ModelModules extends Framework\ModelTable
         parent::_buildQueryJoins($query);
     }
 
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
 
@@ -88,7 +88,7 @@ class ModelModules extends Framework\ModelTable
         }
     }
 
-    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
 
@@ -114,7 +114,7 @@ class ModelModules extends Framework\ModelTable
      *
      * This method is customized in order to set the default module type on new rows.
      *
-     * @return Framework\DatabaseRow
+     * @return Library\DatabaseRow
      */
     public function getRow()
     {
@@ -151,7 +151,7 @@ class ModelModules extends Framework\ModelTable
      * If the installed state is TRUE this function will return a list of the installed
      * modules.
      *
-     * @return Framework\DatabaseRowsetInterface
+     * @return Library\DatabaseRowsetInterface
      */
     public function getRowset()
     {

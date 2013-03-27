@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 use Nooku\Component\Languages;
 
 /**
@@ -18,11 +18,11 @@ use Nooku\Component\Languages;
  * @subpackage  Languages
  */
 
-class LanguagesTemplateHelperGrid extends Framework\TemplateHelperGrid
+class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
 {
     public function status($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'status'   => '',
             'original' => 0,

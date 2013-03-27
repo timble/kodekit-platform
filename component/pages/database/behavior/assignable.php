@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Assignable Database Behavior
@@ -17,25 +17,25 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class DatabaseBehaviorAssignable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _afterTableInsert(Framework\CommandContext $context)
+    protected function _afterTableInsert(Library\CommandContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         if($context->affected !== false) {
             $this->_assign($context);
         }
     }
 
-    protected function _afterTableDelete(Framework\CommandContext $context)
+    protected function _afterTableDelete(Library\CommandContext $context)
     {
-        if($context->data->getStatus() == Framework\Database::STATUS_DELETED)
+        if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
             $this->getService('com:pages.database.table.modules_pages')
                 ->select(array('pages_page_id' => $context->data->id))
@@ -43,7 +43,7 @@ class DatabaseBehaviorAssignable extends Framework\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _assign(Framework\CommandContext $context)
+    protected function _assign(Library\CommandContext $context)
     {
         if($context->data->modules)
         {

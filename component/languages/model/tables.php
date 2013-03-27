@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Tables Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class ModelTables extends Framework\ModelTable
+class ModelTables extends Library\ModelTable
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -28,21 +28,21 @@ class ModelTables extends Framework\ModelTable
             ->insert('component', 'int');
     }
     
-    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
         
         $query->columns(array('component_name' => 'components.name'));
     }
     
-    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryJoins($query);
         
         $query->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
     }
 
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();

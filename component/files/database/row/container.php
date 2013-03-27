@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Container Database Row
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package Nooku\Component\Files
  */
 
-class DatabaseRowContainer extends Framework\DatabaseRowTable
+class DatabaseRowContainer extends Library\DatabaseRowTable
 {
 	/**
 	 * A reference to the container configuration

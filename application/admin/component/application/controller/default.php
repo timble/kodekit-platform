@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Model Controller
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationControllerDefault extends Framework\ControllerModel
+class ApplicationControllerDefault extends Library\ControllerModel
 {
 	/**
 	 * The limit information
@@ -28,9 +28,9 @@ class ApplicationControllerDefault extends Framework\ControllerModel
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional Framework\Config object with configuration options.
+	 * @param 	object 	An optional Library\Config object with configuration options.
 	 */
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -42,10 +42,10 @@ class ApplicationControllerDefault extends Framework\ControllerModel
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Framework\Config object with configuration options.
+     * @param 	object 	An optional Library\Config object with configuration options.
      * @return void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'toolbars' => array($this->getIdentifier()->name),
@@ -61,9 +61,9 @@ class ApplicationControllerDefault extends Framework\ControllerModel
      * This functions implements an extra check to hide the main menu is the view name
      * is singular (item views)
      *
-     *  @return Framework\DatabaseRow    A row object containing the selected row
+     *  @return Library\DatabaseRow    A row object containing the selected row
      */
-    protected function _actionRead(Framework\CommandContext $context)
+    protected function _actionRead(Library\CommandContext $context)
     {
         //Perform the read action
         $row = parent::_actionRead($context);
@@ -84,10 +84,10 @@ class ApplicationControllerDefault extends Framework\ControllerModel
      *
      * Use the application default limit if no limit exists in the model and limit the limit to a maximum.
      *
-     * @param   Framework\CommandContext A command context object
-     * @return  Framework\DatabaseRow(set)   A row(set) object containing the data to display
+     * @param   Library\CommandContext A command context object
+     * @return  Library\DatabaseRow(set)   A row(set) object containing the data to display
      */
-    protected function _actionBrowse(Framework\CommandContext $context)
+    protected function _actionBrowse(Library\CommandContext $context)
     {
         if($this->isDispatched())
         {

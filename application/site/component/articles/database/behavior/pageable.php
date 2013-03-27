@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Pageable Database Behavior Class.
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package       Nooku_Server
  * @subpackage    Articles
  */
-class ArticlesDatabaseBehaviorPageable extends Framework\DatabaseBehaviorAbstract
+class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 {
     protected $_constraints;
 
@@ -27,19 +27,19 @@ class ArticlesDatabaseBehaviorPageable extends Framework\DatabaseBehaviorAbstrac
      */
     protected $_user;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         $this->_user = $this->getService('com:users.model.users')->id($config->user)->getRow();
     }
 
-    protected function _beforeTableSelect(Framework\CommandContext $context)
+    protected function _beforeTableSelect(Library\CommandContext $context)
     {
         $this->_filterByPages($context);
     }
 
-    protected function _filterByPages(Framework\CommandContext $context)
+    protected function _filterByPages(Library\CommandContext $context)
     {
         $base_where = '';
 

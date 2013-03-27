@@ -7,14 +7,14 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Activities Html View
  *
  * @author      Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  */
-class ActivitiesViewActivitiesHtml extends Framework\ViewHtml
+class ActivitiesViewActivitiesHtml extends Library\ViewHtml
 {
 	public function render()
 	{

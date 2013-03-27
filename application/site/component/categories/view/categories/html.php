@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Categories Html View
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-class CategoriesViewCategoriesHtml extends Framework\ViewHtml
+class CategoriesViewCategoriesHtml extends Library\ViewHtml
 {
 	public function render()
 	{

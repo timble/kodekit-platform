@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Group Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Nooku\Component\Users
  */
-class DatabaseRowGroup extends Framework\DatabaseRowTable
+class DatabaseRowGroup extends Library\DatabaseRowTable
 {   
     public function save()
     {

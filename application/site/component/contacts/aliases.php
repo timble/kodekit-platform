@@ -15,6 +15,6 @@
  * @subpackage  Newsfeeds
  */
 
-use Nooku\Framework\ServiceManager;
+use Nooku\Library\ServiceManager;
 
 ServiceManager::setAlias('com:contacts.model.categories', 'com:categories.model.categories');

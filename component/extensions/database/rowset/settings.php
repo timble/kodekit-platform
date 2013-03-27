@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Settings Database Rowset
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class DatabaseRowsetSettings extends Framework\DatabaseRowsetAbstract
+class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
 {       
 	/**
      * Test existence of a key
@@ -47,7 +47,7 @@ class DatabaseRowsetSettings extends Framework\DatabaseRowsetAbstract
      * @param   array   An associative array of data
      * @param   boolean If TRUE, update the modified information for each column being set.
      *                  Default TRUE
-     * @return  Framework\DatabaseRowsetAbstract
+     * @return  Library\DatabaseRowsetAbstract
      */
      public function setData( $data, $modified = true )
      { 

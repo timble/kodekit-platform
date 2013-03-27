@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Activities;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Loggable Controller Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class ControllerBehaviorLoggable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 {
     /**
      * List of actions to log
@@ -33,18 +33,18 @@ class ControllerBehaviorLoggable extends Framework\ControllerBehaviorAbstract
      */
     protected $_title_column;
 
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
-        $this->_actions      = Framework\Config::unbox($config->actions);
-        $this->_title_column = Framework\Config::unbox($config->title_column);
+        $this->_actions      = Library\Config::unbox($config->actions);
+        $this->_title_column = Library\Config::unbox($config->title_column);
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-            'priority'     => Framework\Command::PRIORITY_LOWEST,
+            'priority'     => Library\Command::PRIORITY_LOWEST,
             'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => array('title', 'name'),
         ));
@@ -52,17 +52,17 @@ class ControllerBehaviorLoggable extends Framework\ControllerBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public function execute($name, Framework\CommandContext $context)
+    public function execute($name, Library\CommandContext $context)
     {
         if(in_array($name, $this->_actions))
         {
             $entity = $context->result;
 
-            if($entity instanceof Framework\DatabaseRowInterface || $entity instanceof Framework\DatabaseRowsetInterface )
+            if($entity instanceof Library\DatabaseRowInterface || $entity instanceof Library\DatabaseRowsetInterface )
             {
                 $rowset = array();
 
-                if ($entity instanceof Framework\DatabaseRowInterface) {
+                if ($entity instanceof Library\DatabaseRowInterface) {
                     $rowset[] = $entity;
                 } else {
                     $rowset = $entity;
@@ -123,6 +123,6 @@ class ControllerBehaviorLoggable extends Framework\ControllerBehaviorAbstract
 
     public function getHandle()
     {
-        return Framework\MixinAbstract::getHandle();
+        return Library\MixinAbstract::getHandle();
     }
 }

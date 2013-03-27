@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Module Login View
@@ -19,7 +19,7 @@ use Nooku\Framework;
  
 class UsersModuleLoginHtml extends PagesModuleDefaultHtml
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     { 
         $config->append(array(
             'layout' => $this->getService('user')->isAuthentic() ? 'logout' : 'login'

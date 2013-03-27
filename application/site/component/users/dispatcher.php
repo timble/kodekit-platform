@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Users Dispatcher Class
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class UsersDispatcher extends Framework\DispatcherComponent
+class UsersDispatcher extends Library\DispatcherComponent
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         parent::_initialize($config);
 
@@ -35,7 +35,7 @@ class UsersDispatcher extends Framework\DispatcherComponent
         }
     }
 	
-    protected function _actionDispatch(Framework\CommandContext $context)
+    protected function _actionDispatch(Library\CommandContext $context)
 	{        	
         if($context->user->isAuthentic())
         {  

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Application;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Meta Template Filter
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class TemplateFilterMeta extends Framework\TemplateFilterMeta
+class TemplateFilterMeta extends Library\TemplateFilterMeta
 {
     public function write(&$text)
     {

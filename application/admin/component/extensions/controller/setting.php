@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Setting Controller
@@ -16,7 +16,7 @@ use Nooku\Framework;
  */
 class ExtensionsControllerSetting extends ApplicationControllerDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'request' => array('view' => 'settings')
@@ -25,12 +25,12 @@ class ExtensionsControllerSetting extends ApplicationControllerDefault
         parent::_initialize($config);
     }
 
-    protected function _actionRead(Framework\CommandContext $context)
+    protected function _actionRead(Library\CommandContext $context)
     {
         $name = ucfirst($this->getView()->getName());
 
         if(!$this->getModel()->getState()->isUnique()) {
-            throw new Framework\ControllerExceptionNotFound($name.' Not Found');
+            throw new Library\ControllerExceptionNotFound($name.' Not Found');
         }
 
         return parent::_actionRead($context);

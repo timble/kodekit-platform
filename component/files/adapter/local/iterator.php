@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Iterator Local Adapter
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class AdapterLocalIterator extends Framework\Object
+class AdapterLocalIterator extends Library\Object
 {
 	public function getFiles(array $config = array())
 	{

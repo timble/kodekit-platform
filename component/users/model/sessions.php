@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Sessions Model
@@ -17,14 +17,14 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class ModelSessions extends Framework\ModelTable
+class ModelSessions extends Library\ModelTable
 {
     /**
      * Constructor.
      *
-     * @param   Config  An optional Framework\Config object with configuration options.
+     * @param   Config  An optional Library\Config object with configuration options.
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -40,10 +40,10 @@ class ModelSessions extends Framework\ModelTable
     /**
      * Builds SELECT columns list for the query.
      *
-     * @param   Framework\DatabaseQuerySelect  A query object.
+     * @param   Library\DatabaseQuerySelect  A query object.
      * @return  void
      */
-    protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryColumns($query);
 
@@ -55,10 +55,10 @@ class ModelSessions extends Framework\ModelTable
     /**
      * Builds LEFT JOINS clauses for the query.
      *
-     * @param   Framework\DatabaseQuerySelect  A query object.
+     * @param   Library\DatabaseQuerySelect  A query object.
      * @return  void
      */
-    protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         $state = $this->getState();
 
@@ -68,10 +68,10 @@ class ModelSessions extends Framework\ModelTable
     /**
      * Builds a WHERE clause for the query.
      *
-     * @param   Framework\DatabaseQuerySelect  A query object.
+     * @param   Library\DatabaseQuerySelect  A query object.
      * @return  void
      */
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();

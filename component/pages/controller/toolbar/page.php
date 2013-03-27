@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Pages Controller Toolbar
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class ControllerToolbarPage extends Framework\ControllerToolbarModel
+class ControllerToolbarPage extends Library\ControllerToolbarModel
 {
-    public function onAfterControllerBrowse(Framework\Event $event)
+    public function onAfterControllerBrowse(Library\Event $event)
     {
         parent::onAfterControllerBrowse($event);
 
@@ -31,7 +31,7 @@ class ControllerToolbarPage extends Framework\ControllerToolbarModel
         $this->addDefault();
     }
 
-    protected function _commandDefault(Framework\ControllerToolbarCommand $command)
+    protected function _commandDefault(Library\ControllerToolbarCommand $command)
     {
         $command->label = \JText::_('Make Default');
 
@@ -43,7 +43,7 @@ class ControllerToolbarPage extends Framework\ControllerToolbarModel
         ));
     }
 
-    protected function _commandRestore(Framework\ControllerToolbarCommand $command)
+    protected function _commandRestore(Library\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(
@@ -52,7 +52,7 @@ class ControllerToolbarPage extends Framework\ControllerToolbarModel
         ));
     }
     
-    protected function _commandNew(Framework\ControllerToolbarCommand $command)
+    protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $menu = $this->getController()->getModel()->menu;
         $command->href = 'option=com_pages&view=page&menu='.$menu;

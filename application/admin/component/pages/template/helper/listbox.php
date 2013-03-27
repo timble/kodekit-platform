@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper Class
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @subpackage  Pages
  */
 
-class PagesTemplateHelperListbox extends Framework\TemplateHelperListbox
+class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function menus($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 		$config->append(array(
 			'model'		=> 'menus',
 			'name' 		=> 'pages_menu_id',
@@ -34,7 +34,7 @@ class PagesTemplateHelperListbox extends Framework\TemplateHelperListbox
     
     public function pages($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'deselect' => true,
             'prompt' => '- Select -',
@@ -57,7 +57,7 @@ class PagesTemplateHelperListbox extends Framework\TemplateHelperListbox
                 $options[] = $this->option(array(
                     'text' => str_repeat(str_repeat('&nbsp;', 4), $page->level).$page->title,
                     'value' => $page->id,
-                    'disable' => in_array($page->type, Framework\Config::unbox($config->disable))
+                    'disable' => in_array($page->type, Library\Config::unbox($config->disable))
                 ));
             }
         }
@@ -69,7 +69,7 @@ class PagesTemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function parents($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name' => 'parent_id',
             'page' => null,
@@ -113,7 +113,7 @@ class PagesTemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function positions($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name' => 'position',
         ));

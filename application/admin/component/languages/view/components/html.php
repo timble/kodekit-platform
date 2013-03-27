@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Compponents Html View Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage  Languages
  */
 
-class LanguagesViewComponentsHtml extends Framework\ViewHtml
+class LanguagesViewComponentsHtml extends Library\ViewHtml
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'auto_assign' => false

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Nodes Model
@@ -23,7 +23,7 @@ class ModelNodes extends ModelAbstract
 	{
 		$identifier        = clone $this->getIdentifier();
 		$identifier->path  = array('database', 'row');
-		$identifier->name  = Framework\StringInflector::singularize($this->getIdentifier()->name);
+		$identifier->name  = Library\StringInflector::singularize($this->getIdentifier()->name);
 	
 		return $this->getService($identifier, $options);
 	}

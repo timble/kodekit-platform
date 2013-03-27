@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Term Controller Class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  */
 abstract class TermsControllerTerm extends ApplicationControllerDefault
 { 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
         	//'behaviors' => array('com:activities.controller.behavior.loggable'),
@@ -31,12 +31,12 @@ abstract class TermsControllerTerm extends ApplicationControllerDefault
         $config->toolbars = array('menubar', 'com:terms.controller.toolbar.term');
     }
     
-    protected function _actionRender(Framework\CommandContext $context)
+    protected function _actionRender(Library\CommandContext $context)
     {
         $view = $this->getView();
         
 	    //Set the layout
-        if($view instanceof Framework\ViewTemplate)
+        if($view instanceof Library\ViewTemplate)
 	    {
 	        $layout = clone $view->getIdentifier();
             $layout->name  = $view->getLayout();

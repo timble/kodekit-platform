@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Dashboard View
@@ -19,7 +19,7 @@ use Nooku\Framework;
  * @subpackage  Dashboard
  */
 
-class DashboardViewDashboardHtml extends Framework\ViewHtml
+class DashboardViewDashboardHtml extends Library\ViewHtml
 {
 
 }

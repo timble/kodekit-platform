@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Versions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Revisable Controller Behavior
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class ControllerBehaviorRevisable extends Framework\ControllerBehaviorAbstract
+class ControllerBehaviorRevisable extends Library\ControllerBehaviorAbstract
 {
-	protected function _beforeControllerRender(Framework\CommandContext $context)
+	protected function _beforeControllerRender(Library\CommandContext $context)
 	{
 	    $this->attachToolbar('com:versions.controller.toolbar.revisable');
 	}

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Model State
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelState extends Framework\ModelState
+class ModelState extends Library\ModelState
 {
 	public function get($name, $default = null)
     {
@@ -25,7 +25,7 @@ class ModelState extends Framework\ModelState
 
         if ($name === 'container' && is_string($result))
         {
-            $result = Framework\ServiceManager::get('com:files.model.containers')->slug($result)->getRow();
+            $result = Library\ServiceManager::get('com:files.model.containers')->slug($result)->getRow();
 
 	        if (!is_object($result) || $result->isNew()) {
 	            throw new \UnexpectedValueException('Invalid container');
@@ -45,7 +45,7 @@ class ModelState extends Framework\ModelState
         $data = parent::toArray($unique);
         unset($data['config']);
 
-        if (!empty($data['container']) && $data['container'] instanceof Framework\DatabaseRowInterface) {
+        if (!empty($data['container']) && $data['container'] instanceof Library\DatabaseRowInterface) {
             $data['container'] = $data['container']->slug;
         }
 

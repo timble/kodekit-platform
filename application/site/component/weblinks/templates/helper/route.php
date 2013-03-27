@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Route Template Helper Class
@@ -20,7 +20,7 @@ class WeblinksTemplateHelperRoute extends PagesTemplateHelperRoute
 {
     public function weblink($config = array())
 	{
-        $config   = new Framework\Config($config);
+        $config   = new Library\Config($config);
         $config->append(array(
            'layout'    => null,
         ));
@@ -48,7 +48,7 @@ class WeblinksTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new Framework\Config($config);
+        $config   = new Library\Config($config);
         $config->append(array(
             'layout' => null
         ));

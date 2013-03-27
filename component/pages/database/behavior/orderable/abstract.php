@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Abstract Orderable Database Behavior
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class DatabaseBehaviorOrderableAbstract extends Framework\DatabaseBehaviorAbstract implements DatabaseBehaviorOrderableInterface
+class DatabaseBehaviorOrderableAbstract extends Library\DatabaseBehaviorAbstract implements DatabaseBehaviorOrderableInterface
 {
-    public function getMixableMethods(Framework\Object $mixer = null)
+    public function getMixableMethods(Library\Object $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
         unset($methods['is'.ucfirst($this->getIdentifier()->name)]);

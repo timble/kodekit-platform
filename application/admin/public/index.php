@@ -17,5 +17,5 @@ define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once(__DIR__.'/bootstrap.php' );
 
-Nooku\Framework\ServiceManager::get('loader')->loadIdentifier('com:application.aliases');
-Nooku\Framework\ServiceManager::get('application')->run();
+Nooku\Library\ServiceManager::get('loader')->loadIdentifier('com:application.aliases');
+Nooku\Library\ServiceManager::get('application')->run();

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Weblinks;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Weblinks Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @package Nooku\Component\Weblinks
  */
-class DatabaseTableWeblinks extends Framework\DatabaseTableDefault
+class DatabaseTableWeblinks extends Library\DatabaseTableDefault
 {
-    public function  _initialize(Framework\Config $config)
+    public function  _initialize(Library\Config $config)
     {
         $config->append(array(
         	'name'         => 'weblinks',

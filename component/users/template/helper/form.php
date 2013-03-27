@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Users;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Form Template Helper
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class TemplateHelperForm extends Framework\TemplateHelperDefault
+class TemplateHelperForm extends Library\TemplateHelperDefault
 {
     /**
      * Provides a password strength check layout.
@@ -27,7 +27,7 @@ class TemplateHelperForm extends Framework\TemplateHelperDefault
      */
     public function password($config = array()) {
 
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $config->append(array(
             'class'                    => 'help-block',

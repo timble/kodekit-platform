@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Message Controller
@@ -16,9 +16,9 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ContactsControllerMessage extends Framework\ControllerView
+class ContactsControllerMessage extends Library\ControllerView
 { 
-    protected function _actionAdd(Framework\CommandContext $context)
+    protected function _actionAdd(Library\CommandContext $context)
 	{
         // Set parts of the mail.
         $data        = $context->request->data;

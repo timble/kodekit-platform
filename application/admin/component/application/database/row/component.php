@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Component Database Row Class
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowComponent extends Framework\DatabaseRowAbstract
+class ApplicationDatabaseRowComponent extends Library\DatabaseRowAbstract
 {
     public function isTranslatable()
     {

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Config Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseRowConfig extends Framework\DatabaseRowAbstract
+class DatabaseRowConfig extends Library\DatabaseRowAbstract
 {
 	public function __toString()
 	{

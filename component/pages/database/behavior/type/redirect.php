@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Redirect Database Behavior Interface
@@ -23,7 +23,7 @@ class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
 
     protected $_type_description;
 
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
@@ -52,19 +52,19 @@ class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
         return $this->_type_description;
     }
 
-    protected function _setLinkBeforeSave(Framework\CommandContext $context)
+    protected function _setLinkBeforeSave(Library\CommandContext $context)
     {
         if($this->link_type) {
             $this->link_type == 'id' ? $this->link_url = null : $this->link_id = null;
         }
     }
 
-    protected function _beforeTableInsert(Framework\CommandContext $context)
+    protected function _beforeTableInsert(Library\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }
 
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         $this->_setLinkBeforeSave($context);
     }

@@ -1,19 +1,19 @@
 <?php
 
-use Nooku\Framework;
+use Nooku\Library;
 
 class CommentsControllerComment extends ApplicationControllerDefault
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
         
         $this->registerCallback('after.add', array($this, 'redirect'));
     }
     
-    public function redirect(Framework\CommandContext $context)
+    public function redirect(Library\CommandContext $context)
     {
-        $url = ($referrer = Framework\Request::get('post.referrer', 'base64')) ? base64_decode($referrer) : Framework\Request::referrer();
+        $url = ($referrer = Library\Request::get('post.referrer', 'base64')) ? base64_decode($referrer) : Library\Request::referrer();
         $this->setRedirect($url);
     }
 }

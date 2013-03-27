@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Users Dispatcher Class
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class UsersDispatcher extends Framework\DispatcherComponent
+class UsersDispatcher extends Library\DispatcherComponent
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -28,7 +28,7 @@ class UsersDispatcher extends Framework\DispatcherComponent
         $this->getService('loader')->loadFile(JPATH_ROOT.'/application/admin/component/users/legacy/password.php');
     }
     
-    protected function _actionDispatch(Framework\CommandContext $context)
+    protected function _actionDispatch(Library\CommandContext $context)
 	{
         if($context->user->isAuthentic() && $context->request->isGet())
         {

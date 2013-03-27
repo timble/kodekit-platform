@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Comments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Comments Database Table
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Comments
  */
-class DatabaseTableComments extends Framework\DatabaseTableDefault
+class DatabaseTableComments extends Library\DatabaseTableDefault
 {
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
     {
     	$config->append(array(
     		'name'      => 'comments',

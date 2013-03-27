@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * File Validator Command Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class CommandValidatorNode extends Framework\Command
+class CommandValidatorNode extends Library\Command
 {
-	protected function _databaseBeforeSave(Framework\CommandContext $context)
+	protected function _databaseBeforeSave(Library\CommandContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -32,7 +32,7 @@ class CommandValidatorNode extends Framework\Command
 		return true;
 	}
 
-	protected function _databaseBeforeCopy(Framework\CommandContext $context)
+	protected function _databaseBeforeCopy(Library\CommandContext $context)
 	{
 		$row = $context->getSubject();
 
@@ -67,7 +67,7 @@ class CommandValidatorNode extends Framework\Command
 		return true;
 	}
 
-	protected function _databaseBeforeMove(Framework\CommandContext $context)
+	protected function _databaseBeforeMove(Library\CommandContext $context)
 	{
 		return $this->_databaseBeforeCopy($context);
 	}

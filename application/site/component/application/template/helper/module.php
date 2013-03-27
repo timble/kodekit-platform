@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 use Nooku\Component\Pages;
 
 /**
@@ -20,7 +20,7 @@ use Nooku\Component\Pages;
 
 class ApplicationTemplateHelperModule extends Pages\TemplateHelperModule
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'modules' => 'application.modules',

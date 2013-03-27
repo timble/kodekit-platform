@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Translations Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class ModelTranslations extends Framework\ModelTable
+class ModelTranslations extends Library\ModelTable
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
         
@@ -31,7 +31,7 @@ class ModelTranslations extends Framework\ModelTable
             ->insert('deleted', 'boolean', false);
     }
 
-    protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
         $state = $this->getState();
@@ -64,7 +64,7 @@ class ModelTranslations extends Framework\ModelTable
         }
     }
     
-    protected function _buildQueryOrder(Framework\DatabaseQuerySelect $query)
+    protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
     {
         if($this->sort == 'table')
         {

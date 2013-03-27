@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Helper Class
@@ -18,11 +18,11 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class CacheTemplateHelperListbox extends Framework\TemplateHelperListbox
+class CacheTemplateHelperListbox extends Library\TemplateHelperListbox
 {
 	public function groups( $config = array())
 	{	
-	    $config = new Framework\Config($config);
+	    $config = new Library\Config($config);
 		$config->append(array(
 			'model'		=> 'groups',
 			'name' 		=> 'group',

@@ -7,7 +7,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contacts Router Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage  Contacts
  */
 
-class ContactsRouter extends Framework\DispatcherRouter
+class ContactsRouter extends Library\DispatcherRouter
 {
-    public function build(Framework\HttpUrl $url)
+    public function build(Library\HttpUrl $url)
     {
         $segments = array();
         $query    = &$url->query;
@@ -61,7 +61,7 @@ class ContactsRouter extends Framework\DispatcherRouter
         return $segments;
     }
 
-    public function parse(Framework\HttpUrl $url)
+    public function parse(Library\HttpUrl $url)
     {
         $vars = array();
         $path = &$url->path;

@@ -7,7 +7,7 @@
 * @link			http://www.nooku.org
 */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contact Html View
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ContactsViewContactHtml extends Framework\ViewHtml
+class ContactsViewContactHtml extends Library\ViewHtml
 {
     public function render()
     {

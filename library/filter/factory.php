@@ -1,0 +1,96 @@
+<?php
+/**
+* @package      Koowa_Filter
+* @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+* @license      GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+* @link 		http://www.nooku.org
+*/
+
+namespace Nooku\Library;
+
+/**
+ * Filter Factory
+ *
+ * @author		Johan Janssens <johan@nooku.org>
+ * @package     Koowa_Filter
+ */
+class FilterFactory extends Object implements ServiceInstantiatable
+{
+	/**
+     * Force creation of a singleton
+     *
+     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @return FilterFactory
+     */
+    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    {
+        if (!$manager->has($config->service_identifier))
+        {
+            $classname = $config->service_identifier->classname;
+            $instance  = new $classname($config);
+            $manager->set($config->service_identifier, $instance);
+        }
+
+        return $manager->get($config->service_identifier);
+    }
+
+	/**
+	 * Factory method for FilterInterface classes.
+     *
+     * Method accepts an array of filter names, or filter service identifiers and will create a chained filter
+     * using a FIFO approach.
+	 *
+	 * @param	string|array Filter identifier(s)
+	 * @param 	object 	An optional Config object with configuration options
+	 * @return  FilterInterface
+	 */
+	public function getFilter($identifier, $config = array())
+	{
+		//Get the filter(s) we need to create
+		$filters = (array) $identifier;
+
+		//Create the filter chain
+		$filter = array_shift($filters);
+		$filter = $this->_instantiate($filter, $config);
+
+		foreach($filters as $name) {
+			$filter->addFilter($this->_instantiate($name, $config));
+		}
+
+		return $filter;
+	}
+
+	/**
+	 * Create a filter based on it's name
+	 *
+	 * If the filter is not an identifier this function will create it directly instead of going through the Service
+     * identification process.
+	 *
+	 * @param 	string	Filter identifier
+	 * @throws	\InvalidArgumentException	When the filter could not be found
+     * @throws	\UnexpectedValueException	When the filter does not implement FilterInterface
+	 * @return  FilterInterface
+	 */
+	protected function _instantiate($filter, $config)
+	{
+		try
+		{
+			if(is_string($filter) && strpos($filter, '.') === false ) {
+				$filter = 'lib:filter.'.trim($filter);
+			}
+
+			$filter = $this->getService($filter, $config);
+
+		} catch(ServiceException $e) {
+			throw new \InvalidArgumentException('Invalid filter: '.$filter);
+		}
+
+	    //Check the filter interface
+		if(!($filter instanceof FilterInterface)) {
+			throw new \UnexpectedValueException('Filter:'.get_class($filter).' does not implement FilterInterface');
+		}
+
+		return $filter;
+	}
+}

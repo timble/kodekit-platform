@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Mimetype Mixin Class
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class MixinMimetype extends Framework\Object
+class MixinMimetype extends Library\Object
 {
 	/**
 	 * Used as a way to continue on the chain when the method is not available.
@@ -31,16 +31,16 @@ class MixinMimetype extends Framework\Object
 	 */
 	protected $_adapters = array();
 
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
 		if (isset($config->adapters)) {
-			$this->_adapters = Framework\Config::unbox($config->adapters);
+			$this->_adapters = Library\Config::unbox($config->adapters);
 		}
 	}
 
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		if (empty($config->adapters)) {
 			$config->adapters = array('image', 'finfo');

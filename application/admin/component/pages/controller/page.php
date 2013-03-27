@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Page Controller
@@ -17,7 +17,7 @@ use Nooku\Framework;
  */
 class PagesControllerPage extends ApplicationControllerDefault
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
     	$config->append(array(
     		'behaviors' => array('closurable')

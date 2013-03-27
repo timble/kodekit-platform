@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Editable Controller Behavior
@@ -17,16 +17,16 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ControllerBehaviorEditable extends Framework\ControllerBehaviorEditable
+class ControllerBehaviorEditable extends Library\ControllerBehaviorEditable
 {  
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     { 
         parent::__construct($config);
         
         $this->registerCallback('before.browse' , array($this, 'setReferrer'));
     }
     
-	protected function _actionSave(Framework\CommandContext $context)
+	protected function _actionSave(Library\CommandContext $context)
 	{
 		$entity = $context->getSubject()->execute('edit', $context);
 	    
@@ -34,13 +34,13 @@ class ControllerBehaviorEditable extends Framework\ControllerBehaviorEditable
 		return $entity;
 	}
     
-	protected function _actionCancel(Framework\CommandContext $context)
+	protected function _actionCancel(Library\CommandContext $context)
 	{
         $context->response->setRedirect($this->getReferrer($context));
 		return;
 	}
 
-	protected function _actionApply(Framework\CommandContext $context)
+	protected function _actionApply(Library\CommandContext $context)
 	{
 		$entity = $context->getSubject()->execute('edit', $context);
 

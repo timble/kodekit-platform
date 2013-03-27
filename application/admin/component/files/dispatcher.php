@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Dispatcher Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @subpackage  Files
  */
 
-class FilesDispatcher extends Framework\DispatcherComponent
+class FilesDispatcher extends Library\DispatcherComponent
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 	
@@ -27,7 +27,7 @@ class FilesDispatcher extends Framework\DispatcherComponent
 		$this->registerCallback('after.post' , array($this, 'renderResponse'));
 	}
 	
-	public function renderResponse(Framework\CommandContext $context)
+	public function renderResponse(Library\CommandContext $context)
 	{
 		if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
 			$this->getController()->execute('render', $context);
@@ -37,12 +37,12 @@ class FilesDispatcher extends Framework\DispatcherComponent
     /**
      * Overloaded execute function to handle exceptions in JSON requests
      */
-    public function execute($action, Framework\CommandContext $context)
+    public function execute($action, Library\CommandContext $context)
     {
         try {
             return parent::execute($action, $context);
         }
-        catch (Framework\ControllerException $e) {
+        catch (Library\ControllerException $e) {
             $this->_handleException($e);
         }
         catch (UnexpectedValueException $e) {

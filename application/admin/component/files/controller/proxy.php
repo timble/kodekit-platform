@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Proxy Controller Class
@@ -19,9 +19,9 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
- class FilesControllerProxy extends Framework\ControllerView
+ class FilesControllerProxy extends Library\ControllerView
 {
-	public function _actionRender(Framework\CommandContext $context)
+	public function _actionRender(Library\CommandContext $context)
 	{
         $data = array(
 			'url'            => $context->request->query->get('url', 'url'),

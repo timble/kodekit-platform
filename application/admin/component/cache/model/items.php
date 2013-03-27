@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Cache Group Model
@@ -18,9 +18,9 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class CacheModelItems extends Framework\ModelAbstract
+class CacheModelItems extends Library\ModelAbstract
 {	
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
 	{
 	    parent::__construct($config);
 		

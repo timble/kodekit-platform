@@ -10,7 +10,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Node Database Row
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
-class DatabaseRowNode extends Framework\DatabaseRowTable
+class DatabaseRowNode extends Library\DatabaseRowTable
 {
     /**
      * Nodes object or identifier
@@ -39,10 +39,10 @@ class DatabaseRowNode extends Framework\DatabaseRowTable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Framework\Config object with configuration options
+     * @param   Config $object An optional Library\Config object with configuration options
      * @return  void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'children'  => null,
@@ -57,10 +57,10 @@ class DatabaseRowNode extends Framework\DatabaseRowTable
      *
      * The row will be stored by it's identity_column if set or otherwise by it's object handle.
      *
-     * @param  object $node A Framework\DatabaseRow object to be inserted
-     * @return Framework\DatabaseRowsetInterface
+     * @param  object $node A Library\DatabaseRow object to be inserted
+     * @return Library\DatabaseRowsetInterface
      */
-	public function insertChild(Framework\DatabaseRowInterface $node)
+	public function insertChild(Library\DatabaseRowInterface $node)
  	{
  		//Track the parent
  		$node->setParent($this);
@@ -84,15 +84,15 @@ class DatabaseRowNode extends Framework\DatabaseRowTable
 	/**
      * Get the children rowset
      *
-     * @return	Framework\DatabaseRowInterface
+     * @return	Library\DatabaseRowInterface
      */
 	public function getChildren()
 	{
-		if(!($this->_children instanceof Framework\DatabaseRowsetInterface))
+		if(!($this->_children instanceof Library\DatabaseRowsetInterface))
         {
             $identifier         = clone $this->getIdentifier();
             $identifier->path   = array('database', 'rowset');
-            $identifier->name   = Framework\StringInflector::pluralize($this->getIdentifier()->name);
+            $identifier->name   = Library\StringInflector::pluralize($this->getIdentifier()->name);
             
             //The row default options
             $options  = array(
@@ -108,7 +108,7 @@ class DatabaseRowNode extends Framework\DatabaseRowTable
 	/**
      * Get the parent node
      *
-     * @return	Framework\DatabaseRowInterface
+     * @return	Library\DatabaseRowInterface
      */
 	public function getParent()
 	{
@@ -121,7 +121,7 @@ class DatabaseRowNode extends Framework\DatabaseRowTable
      * @param object $node The parent node
      * @return DatabaseRowNode
      */
-	public function setParent(Framework\DatabaseRowInterface $node )
+	public function setParent(Library\DatabaseRowInterface $node )
 	{
 		$this->_parent = $node;
 		return $this;

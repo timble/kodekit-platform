@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Default Template
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationTemplateDefault extends Framework\TemplateAbstract
+class ApplicationTemplateDefault extends Library\TemplateAbstract
 {
     /**
      * The cache object
@@ -31,9 +31,9 @@ class ApplicationTemplateDefault extends Framework\TemplateAbstract
      *
      * Prevent creating instances of this class by making the constructor private
      *
-     * @param 	object 	An optional Framework\Config object with configuration options
+     * @param 	object 	An optional Library\Config object with configuration options
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 

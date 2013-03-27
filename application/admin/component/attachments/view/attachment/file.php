@@ -1,8 +1,8 @@
 <?php
 
-use Nooku\Framework;
+use Nooku\Library;
 
-class AttachmentsViewAttachmentFile extends Framework\ViewFile
+class AttachmentsViewAttachmentFile extends Library\ViewFile
 {
 	public function render()
 	{
@@ -17,7 +17,7 @@ class AttachmentsViewAttachmentFile extends Framework\ViewFile
         $this->filename = $item->name;
 
         if (!file_exists($this->path)) {
-        	throw new Framework\ViewException('File not found');
+        	throw new Library\ViewException('File not found');
         }
 
         return parent::render();

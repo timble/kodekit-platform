@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Debug;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Debug Controller
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Debug
  */
-class ControllerDebug extends Framework\ControllerView
+class ControllerDebug extends Library\ControllerView
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         parent::_initialize($config);
 

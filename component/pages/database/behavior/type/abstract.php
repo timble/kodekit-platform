@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Abstract Typable Database Behavior
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-abstract class DatabaseBehaviorTypeAbstract extends Framework\DatabaseBehaviorAbstract implements DatabaseBehaviorTypeInterface
+abstract class DatabaseBehaviorTypeAbstract extends Library\DatabaseBehaviorAbstract implements DatabaseBehaviorTypeInterface
 {
     abstract function getTypeTitle();
 
@@ -33,18 +33,18 @@ abstract class DatabaseBehaviorTypeAbstract extends Framework\DatabaseBehaviorAb
         return null;
     }
 
-    protected function _beforeTableInsert(Framework\CommandContext $context)
+    protected function _beforeTableInsert(Library\CommandContext $context)
     {
         return null;
     }
 
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
         // Set home.
         if($this->isModified('home') && $this->home == 1)
         {
             $page = $this->getService('com:pages.database.table.pages')
-                ->select(array('home' => 1), Framework\Database::FETCH_ROW);
+                ->select(array('home' => 1), Library\Database::FETCH_ROW);
 
             $page->home = 0;
             $page->save();

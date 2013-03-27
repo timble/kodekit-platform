@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Thumbnail Database Row
@@ -17,20 +17,20 @@ use Nooku\Framework;
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseRowThumbnail extends Framework\DatabaseRowTable
+class DatabaseRowThumbnail extends Library\DatabaseRowTable
 {
     protected $_thumbnail_size;
 
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
-		$this->setThumbnailSize(Framework\Config::unbox($config->thumbnail_size));
+		$this->setThumbnailSize(Library\Config::unbox($config->thumbnail_size));
 	}
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
-    	$size = Framework\Config::unbox($config->thumbnail_size);
+    	$size = Library\Config::unbox($config->thumbnail_size);
     	
 		if (empty($size)) {
 			$config->thumbnail_size = array('x' => 200, 'y' => 150);

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Sites;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Sites Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ModelSites extends Framework\ModelAbstract implements Framework\ServiceInstantiatable
+class ModelSites extends Library\ModelAbstract implements Library\ServiceInstantiatable
 {	
-     public function __construct(Framework\Config $config)
+     public function __construct(Library\Config $config)
      {
          parent::__construct($config);
          
@@ -32,7 +32,7 @@ class ModelSites extends Framework\ModelAbstract implements Framework\ServiceIns
              ->insert('search'    , 'string');
     }
 
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

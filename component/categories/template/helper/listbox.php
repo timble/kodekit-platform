@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Categories
  */
-class TemplateHelperListbox extends Framework\TemplateHelperListbox
+class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
      public function order($config = array())
      {
-         $config = new Framework\Config($config);
+         $config = new Library\Config($config);
          $config->append(array(
              'name'          => 'order',
              'state'         => null,
@@ -34,7 +34,7 @@ class TemplateHelperListbox extends Framework\TemplateHelperListbox
         //@TODO can be removed when name collisions fixed
         $config->name = 'order'; 
 
-        $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Framework\StringInflector::pluralize($config->package));
+        $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Library\StringInflector::pluralize($config->package));
 
         $list = $this->getService($identifier)->set($config->filter)->getRowset();
 
@@ -54,7 +54,7 @@ class TemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function categories($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name'      => 'category',
             'deselect'  => true,

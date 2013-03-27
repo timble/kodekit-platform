@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Categories;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Nodes Database Rowset
@@ -17,15 +17,15 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Categories
  */
-class DatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
+class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
 {
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Framework\Config object with configuration options
-     * @return Framework\DatabaseRowsetAbstract
+     * @param Config|null $config  An optional Library\Config object with configuration options
+     * @return Library\DatabaseRowsetAbstract
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -41,7 +41,7 @@ class DatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
      *
 	 * @param  array  	$list An associative array of row data to be inserted.
 	 * @param  boolean	$new If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
-	 * @return  Framework\DatabaseRowsetAbstract
+	 * @return  Library\DatabaseRowsetAbstract
 	 * @see __construct
      */
 	public function addRow(array $list, $new = true)
@@ -50,7 +50,7 @@ class DatabaseRowsetNodes extends Framework\DatabaseRowsetAbstract
 		{
 		    $options = array(
             	'data'   => $row,
-                'status' => $new ? NULL : Framework\Database::STATUS_LOADED,
+                'status' => $new ? NULL : Library\Database::STATUS_LOADED,
                 'new'    => $new,   
             );
 		    

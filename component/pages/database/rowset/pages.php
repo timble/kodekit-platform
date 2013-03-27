@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Pages Database Rowset
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class DatabaseRowsetPages extends Framework\DatabaseRowsetTable
+class DatabaseRowsetPages extends Library\DatabaseRowsetTable
 {
     public function find($needle)
     {

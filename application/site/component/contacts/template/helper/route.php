@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Route Template Helper Class
@@ -20,7 +20,7 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 {
     public function contact($config = array())
 	{
-        $config   = new Framework\Config($config);
+        $config   = new Library\Config($config);
         $config->append(array(
             'layout'   => null,
             'category' => null
@@ -49,7 +49,7 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new Framework\Config($config);
+        $config   = new Library\Config($config);
         $config->append(array(
             'layout' => null
         ));

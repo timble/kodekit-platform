@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Debug;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Application Event Subscriber
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author		Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Debug
  */
-class EventSubscriberApplication extends Framework\EventSubscriberAbstract
+class EventSubscriberApplication extends Library\EventSubscriberAbstract
 {
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
 	{
 	    //Intercept the events for profiling
 	    if($this->getService('application')->getCfg('debug'))

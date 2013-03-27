@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Articles;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Article Database Row
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Articles
  */
-class DatabaseRowArticle extends Framework\DatabaseRowTable
+class DatabaseRowArticle extends Library\DatabaseRowTable
 {
     public function __get($column)
     {
@@ -50,7 +50,7 @@ class DatabaseRowArticle extends Framework\DatabaseRowTable
         //Validate the title
         if(empty($this->title))
         {
-            $this->_status          = Framework\Database::STATUS_FAILED;
+            $this->_status          = Library\Database::STATUS_FAILED;
             $this->_status_message  = JText::_('Article must have a title');
 
             return false;

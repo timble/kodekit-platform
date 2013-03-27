@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Application;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Exception Controller
@@ -17,21 +17,21 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class ControllerException extends Framework\ControllerView
+class ControllerException extends Library\ControllerView
 {
     /**
      * Render an exception
      *
-     * @throws InvalidArgumentException If the action parameter is not an instance of Framework\Exception
-     * @param Framework\CommandContext $context	A command context object
+     * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionRender(Framework\CommandContext $context)
+    protected function _actionRender(Library\CommandContext $context)
     {
         //Check an exception was passed
-        if(!isset($context->param) && !$context->param instanceof Framework\Exception)
+        if(!isset($context->param) && !$context->param instanceof Library\Exception)
         {
             throw new \InvalidArgumentException(
-                "Action parameter 'exception' [Framework\Exception] is required"
+                "Action parameter 'exception' [Library\Exception] is required"
             );
         }
 
@@ -40,11 +40,11 @@ class ControllerException extends Framework\ControllerView
 
         //If the error code does not correspond to a status message, use 500
         $code = $exception->getCode();
-        if(!isset(Framework\HttpResponse::$status_messages[$code])) {
+        if(!isset(Library\HttpResponse::$status_messages[$code])) {
             $code = '500';
         }
 
-        $message = Framework\HttpResponse::$status_messages[$code];
+        $message = Library\HttpResponse::$status_messages[$code];
         $traces = $exception->getTrace();
 
         //Traverse up the trace stack to find the actual function that was not found

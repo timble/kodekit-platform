@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Activities;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Activity Template Helper
@@ -17,16 +17,16 @@ use Nooku\Framework;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class TemplateHelperActivity extends Framework\TemplateHelperDefault implements Framework\ServiceInstantiatable
+class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ServiceInstantiatable
 {
 	/**
      * Check for overrides of the helper
      *
-     * @param   Framework\Config         	        $config  An optional Framework\Config object with configuration options
-     * @param 	Framework\ServiceManagerInterface	$manager A Framework\ServiceManagerInterface object
+     * @param   Library\Config         	        $config  An optional Library\Config object with configuration options
+     * @param 	Library\ServiceManagerInterface	$manager A Library\ServiceManagerInterface object
      * @return  TemplateHelperActivity
      */
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         $identifier = clone $config->service_identifier;
         $identifier->package = $config->row->package;
@@ -45,7 +45,7 @@ class TemplateHelperActivity extends Framework\TemplateHelperDefault implements 
     
     public function message($config = array())
 	{
-	    $config = new Framework\Config($config);
+	    $config = new Library\Config($config);
 		$config->append(array(
 			'row'      => ''
 		));

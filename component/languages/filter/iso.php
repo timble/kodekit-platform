@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Languages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Iso Code Filter
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class LanguagesFilterIso extends Framework\FilterCmd
+class LanguagesFilterIso extends Library\FilterCmd
 {
     protected function _validate($value)
     {

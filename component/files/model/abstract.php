@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Default Model Class
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-abstract class ModelAbstract extends Framework\ModelAbstract
+abstract class ModelAbstract extends Library\ModelAbstract
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
@@ -40,7 +40,7 @@ abstract class ModelAbstract extends Framework\ModelAbstract
 			;
 	}
 
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'state' => new ModelState()

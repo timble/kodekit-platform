@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Pages;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Url Database Behavior Interface
@@ -23,7 +23,7 @@ class DatabaseBehaviorTypeUrl extends DatabaseBehaviorTypeAbstract
 
     protected $_type_description;
 
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 

@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Specialized exception for remote files
@@ -17,4 +17,4 @@ use Nooku\Framework;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseRowUrlException extends \Exception implements Framework\Exception {}
+class DatabaseRowUrlException extends \Exception implements Library\Exception {}

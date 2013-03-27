@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Contacts;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Contact Vcard View
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Contacts
  */
-class ViewContactVcard extends Framework\ViewVcard
+class ViewContactVcard extends Library\ViewVcard
 {
     public function render()
     {

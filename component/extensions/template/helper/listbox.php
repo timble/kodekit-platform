@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class TemplateHelperListbox extends Framework\TemplateHelperListbox
+class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function list_limits($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name'		=> 'list_limit',
             'attribs'	=> array()
@@ -48,7 +48,7 @@ class TemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function cache_handlers($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name'		=> 'cache_handler',
             'attribs'	=> array()
@@ -73,7 +73,7 @@ class TemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function timezones($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name'		=> 'timezone',
             'attribs'	=> array(),
@@ -114,7 +114,7 @@ class TemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function error_reportings($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name'		=> 'error_reporting',
             'attribs'	=> array()
@@ -136,7 +136,7 @@ class TemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function mailers($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name'		=> 'mailer',
             'attribs'	=> array()
@@ -158,7 +158,7 @@ class TemplateHelperListbox extends Framework\TemplateHelperListbox
 
     public function smtpsecure($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'name'		=> 'smtpsecure',
             'attribs'	=> array()

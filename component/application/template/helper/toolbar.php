@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Application;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Toolbar Template Helper
@@ -17,7 +17,7 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Application
  */
-class TemplateHelperToolbar extends Framework\TemplateHelperAbstract
+class TemplateHelperToolbar extends Library\TemplateHelperAbstract
 {
     /**
      * Render the toolbar
@@ -27,7 +27,7 @@ class TemplateHelperToolbar extends Framework\TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
         	'toolbar' => null,
             'attribs' => array()
@@ -59,7 +59,7 @@ class TemplateHelperToolbar extends Framework\TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
         	'command' => array()
         ));

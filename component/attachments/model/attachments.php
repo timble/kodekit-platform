@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Attachments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Attachments Database Model
@@ -17,9 +17,9 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class ModelAttachments extends Framework\ModelTable
+class ModelAttachments extends Library\ModelTable
 {
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 		
@@ -28,7 +28,7 @@ class ModelAttachments extends Framework\ModelTable
 		 	->insert('table', 'string');
 	}
 
-	protected function _buildQueryColumns(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) {
 			$query->columns(array('count' => 'COUNT(relations.attachments_attachment_id)'))
@@ -39,7 +39,7 @@ class ModelAttachments extends Framework\ModelTable
 		return parent::_buildQueryColumns($query);
 	}
 	
-	protected function _buildQueryGroup(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryGroup(Library\DatabaseQuerySelect $query)
 	{	
 		if(!$this->_state->isUnique()) {
 			$query->group('relations.attachments_attachment_id');
@@ -48,7 +48,7 @@ class ModelAttachments extends Framework\ModelTable
 		return parent::_buildQueryGroup($query);
 	}	
 	
-	protected function _buildQueryJoins(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) {
 			$query->join(array('relations' => 'attachments_relations'), 'relations.attachments_attachment_id = tbl.attachments_attachment_id', 'LEFT');
@@ -57,7 +57,7 @@ class ModelAttachments extends Framework\ModelTable
 		return parent::_buildQueryJoins($query);
 	}	
 	
-	protected function _buildQueryWhere(Framework\DatabaseQuerySelect $query)
+	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
 		if(!$this->_state->isUnique()) 
 		{

@@ -15,6 +15,6 @@
  * @subpackage  Weblinks
  */
 
-use Nooku\Framework\ServiceManager;
+use Nooku\Library\ServiceManager;
 
 ServiceManager::setAlias('com:weblinks.model.categories', 'com:categories.model.categories');

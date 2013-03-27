@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Toolbar Class
@@ -16,9 +16,9 @@ use Nooku\Framework;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerToolbarFile extends Framework\ControllerToolbarModel
+class FilesControllerToolbarFile extends Library\ControllerToolbarModel
 {
-    public function onBeforeControllerRender(Framework\Event $event)
+    public function onBeforeControllerRender(Library\Event $event)
     {     
         parent::onBeforeControllerRender($event);
         

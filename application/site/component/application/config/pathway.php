@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Application Pathway Config
@@ -16,7 +16,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationConfigPathway extends Framework\Config
+class ApplicationConfigPathway extends Library\Config
 {
     /**
      * Add item to pathway

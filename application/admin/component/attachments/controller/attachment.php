@@ -1,10 +1,10 @@
 <?php
 
-use Nooku\Framework;
+use Nooku\Library;
 
 class AttachmentsControllerAttachment extends ApplicationControllerDefault
 {
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'request' => array(

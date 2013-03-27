@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Cache Groups Rowset Class
@@ -19,9 +19,9 @@ use Nooku\Framework;
  * @subpackage  Cache
  */
  
-class CacheDatabaseRowsetGroups extends Framework\DatabaseRowsetAbstract
+class CacheDatabaseRowsetGroups extends Library\DatabaseRowsetAbstract
 {	
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'identity_column'   => 'name'

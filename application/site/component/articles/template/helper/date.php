@@ -7,7 +7,7 @@
  * @link           http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Article Template Helper Class
@@ -16,11 +16,11 @@ use Nooku\Framework;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesTemplateHelperDate extends Framework\TemplateHelperDate
+class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
 {
     public function timestamp($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
 
         $config->append(array('parameters' => $this->getService('application.components')->articles->params))
                ->append(array(

@@ -9,17 +9,17 @@
 
 namespace Nooku\Component\Files;
 
-use Nooku\Framework;
+use Nooku\Library;
 
-class DatabaseRowNode extends Framework\DatabaseRowAbstract
+class DatabaseRowNode extends Library\DatabaseRowAbstract
 {
 	protected $_adapter;
 
-	public function __construct(Framework\Config $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
-		$this->mixin(new Framework\MixinCommand($config->append(array('mixer' => $this))));
+		$this->mixin(new Library\MixinCommand($config->append(array('mixer' => $this))));
 
 		if ($config->validator !== false)
 		{
@@ -31,7 +31,7 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
 		}
 	}
 
-	protected function _initialize(Framework\Config $config)
+	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
 			'command_chain'     => $this->getService('lib:command.chain'),
@@ -62,7 +62,7 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
 
 		if ($context->result === false)
 		{
-			$this->setStatus(Framework\Database::STATUS_FAILED);
+			$this->setStatus(Library\Database::STATUS_FAILED);
 		}
 		else
 		{
@@ -73,7 +73,7 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
 				$this->name = $this->destination_name;
 			}
 
-			$this->setStatus($this->overwritten ? Framework\Database::STATUS_UPDATED : Framework\Database::STATUS_CREATED);
+			$this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
 		}
 
 		return $context->result;
@@ -92,7 +92,7 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
 
 		if ($context->result === false)
 		{
-			$this->setStatus(Framework\Database::STATUS_FAILED);
+			$this->setStatus(Library\Database::STATUS_FAILED);
 		}
 		else
 		{
@@ -103,7 +103,7 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
 				$this->name = $this->destination_name;
 			}
 
-			$this->setStatus($this->overwritten ? Framework\Database::STATUS_UPDATED : Framework\Database::STATUS_CREATED);
+			$this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
 		}
 
 		return $context->result;
@@ -121,9 +121,9 @@ class DatabaseRowNode extends Framework\DatabaseRowAbstract
         }
 
 		if ($context->result === false) {
-			$this->setStatus(Framework\Database::STATUS_FAILED);
+			$this->setStatus(Library\Database::STATUS_FAILED);
 		} else {
-            $this->setStatus(Framework\Database::STATUS_DELETED);
+            $this->setStatus(Library\Database::STATUS_DELETED);
         }
 
 		return $context->result;

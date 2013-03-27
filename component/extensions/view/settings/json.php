@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Extensions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Settings Json View
@@ -17,13 +17,13 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ViewSettingsJson extends Framework\ViewJson
+class ViewSettingsJson extends Library\ViewJson
 {
     public function render()
     {
         $model = $this->getModel();
 
-        if(Framework\StringInflector::isPlural($this->getName())) {
+        if(Library\StringInflector::isPlural($this->getName())) {
             $data = array('settings' => $model->getRowset()->toArray());
         } else {
             $data = $model->getRow()->toArray();

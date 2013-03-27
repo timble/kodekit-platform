@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Versions;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Revisable Database Behavior
@@ -18,21 +18,21 @@ use Nooku\Framework;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
-class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
+class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 {
     /**
      * The versions_revisions table object
      *
-     * @var Framework\DatabaseTableDefault
+     * @var Library\DatabaseTableDefault
      */
     protected $_table;
 
     /**
      * Constructor
      *
-     * @param Framework\Config $config
+     * @param Library\Config $config
      */
-    public function __construct(Framework\Config $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -49,10 +49,10 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config  $config An optional Framework\Config object with configuration options
+     * @param   Config  $config An optional Library\Config object with configuration options
      * @return  void
      */
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
         	'table' => $this->getService('com:versions.database.table.revisions')
@@ -71,17 +71,17 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      * @param     object    The command context
      * @return    boolean   Can return both true or false.
      */
-    public function execute($name, Framework\CommandContext $context)
+    public function execute($name, Library\CommandContext $context)
     {
         $parts = explode('.', $name);
         if($parts[0] == 'after')
         {
-            if ($context->data instanceof Framework\DatabaseRowInterface) {
+            if ($context->data instanceof Library\DatabaseRowInterface) {
                 $this->setMixer(clone $context->data);
             }
         }
 
-        return Framework\BehaviorAbstract::execute($name, $context);
+        return Library\BehaviorAbstract::execute($name, $context);
     }
 
 	/**
@@ -92,14 +92,14 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
 	 *
 	 * @return void|false
 	 */
-	protected function _beforeTableSelect(Framework\CommandContext $context)
+	protected function _beforeTableSelect(Library\CommandContext $context)
 	{
         $query = $context->query;
 
         if($context->query->params->has('deleted'))
         {
             $table     = $context->getSubject();
-            $revisions = $this->_selectRevisions($table, Framework\Database::STATUS_DELETED, $query);
+            $revisions = $this->_selectRevisions($table, Library\Database::STATUS_DELETED, $query);
 
             if (!$query->isCountQuery())
             {
@@ -130,12 +130,12 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      * Add a new revision of the row. We store a revision for a row that was just created to be able to create a
      * diff history later.
      *
-     * @param   Framework\CommandContext $context
+     * @param   Library\CommandContext $context
      * @return  void
      */
-    protected function _afterTableInsert(Framework\CommandContext $context)
+    protected function _afterTableInsert(Library\CommandContext $context)
     {
-        if($this->_countRevisions(Framework\Database::STATUS_CREATED) == 0) {
+        if($this->_countRevisions(Library\Database::STATUS_CREATED) == 0) {
     		$this->_insertRevision();
     	}
     }
@@ -145,16 +145,16 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      *
      * Add a new revision if the row exists and it hasn't been revised yet. If the row was deleted revert it.
      *
-     * @param  Framework\CommandContext $context
+     * @param  Library\CommandContext $context
      * @return void
      */
-    protected function _beforeTableUpdate(Framework\CommandContext $context)
+    protected function _beforeTableUpdate(Library\CommandContext $context)
     {
     	if(!$context->getSubject()->count($context->data->id))
     	{
             $this->setMixer($context->data);
 
-            if($this->_countRevisions(Framework\Database::STATUS_DELETED) == 1)
+            if($this->_countRevisions(Library\Database::STATUS_DELETED) == 1)
             {
                 //Restore the row
                 $table = clone $context->getSubject();
@@ -165,7 +165,7 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
                 $context->data->setStatus('restored');
 
                 //Delete the revision
-                $context->affected = $this->_deleteRevisions(Framework\Database::STATUS_DELETED);
+                $context->affected = $this->_deleteRevisions(Library\Database::STATUS_DELETED);
 
                 //Prevent the item from being updated
                 return false;
@@ -184,10 +184,10 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      *
      * Add a new revision if the row was succesfully updated
      *
-     * @param   Framework\CommandContext $context
+     * @param   Library\CommandContext $context
      * @return  void
      */
-    protected function _afterTableUpdate(Framework\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         // Only insert new revision if the database was updated
         if ((bool) $context->affected) {
@@ -201,22 +201,22 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      * Add a new revision if the row exists and it hasn't been revised yet. Delete the revisions for the row, if the
      * row was previously deleted.
      *
-     * @param  Framework\CommandContext $context
+     * @param  Library\CommandContext $context
      * @return void
      */
-    protected function _beforeTableDelete(Framework\CommandContext $context)
+    protected function _beforeTableDelete(Library\CommandContext $context)
     {
    		if (!$context->getSubject()->count($context->data->id))
    		{
             $this->setMixer($context->data);
 
-            if($this->_countRevisions(Framework\Database::STATUS_DELETED) == 1)
+            if($this->_countRevisions(Library\Database::STATUS_DELETED) == 1)
             {
                 //Delete the revision
                 $context->affected = $this->_deleteRevisions();
 
                 //Set the status
-                $context->data->setStatus(Framework\Database::STATUS_DELETED);
+                $context->data->setStatus(Library\Database::STATUS_DELETED);
 
                 //Prevent the item from being deleted
                 return false;
@@ -235,10 +235,10 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      *
      * After a row has been deleted, save the previously preseved data as revision with status deleted.
      *
-     * @param  Framework\CommandContext $context
+     * @param  Library\CommandContext $context
      * @return void
      */
-    protected function _afterTableDelete(Framework\CommandContext $context)
+    protected function _afterTableDelete(Library\CommandContext $context)
     {
     	//Insert the revision
         $this->_insertRevision();
@@ -252,10 +252,10 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
      *
      * @param  object  $table   A database table object
      * @param  string  $status  The row status
-     * @param  Framework\DatabaseQueryInterface  $query   A database query object
-     * @return Framework\DatabaseRowsetInterface
+     * @param  Library\DatabaseQueryInterface  $query   A database query object
+     * @return Library\DatabaseRowsetInterface
      */
-    protected function _selectRevisions($table, $status, Framework\DatabaseQueryInterface $query)
+    protected function _selectRevisions($table, $status, Library\DatabaseQueryInterface $query)
     {
         $columns = array(
         	'table'  => $table->getName(),
@@ -321,7 +321,7 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
     	$table = $this->getTable();
 
     	// Get the row data
-    	if ($this->getStatus() == Framework\Database::STATUS_UPDATED) {
+    	if ($this->getStatus() == Library\Database::STATUS_UPDATED) {
             $data = $this->getData(true);
         } else {
             $data = $this->getData();
@@ -329,8 +329,8 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
 
         //Get the row status
         $status = $this->getStatus();
-        if ($status == Framework\Database::STATUS_LOADED) {
-            $status = Framework\Database::STATUS_CREATED;
+        if ($status == Library\Database::STATUS_LOADED) {
+            $status = Library\Database::STATUS_CREATED;
         }
 
     	// Create the new revision
@@ -364,7 +364,7 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
     	}
     	
     	// Set revision number.
-    	if ($status == Framework\Database::STATUS_UPDATED || $status == Framework\Database::STATUS_DELETED)
+    	if ($status == Library\Database::STATUS_UPDATED || $status == Library\Database::STATUS_DELETED)
     	{
     	    $query = $this->getService('lib:database.query.select')
         	    ->where('table = :table')
@@ -375,7 +375,7 @@ class DatabaseBehaviorRevisable extends Framework\DatabaseBehaviorAbstract
         	        'row'   => $this->id
         	    ));
         	
-        	$revision->revision = $this->_table->select($query, Framework\Database::FETCH_ROW)->revision + 1;
+        	$revision->revision = $this->_table->select($query, Library\Database::FETCH_ROW)->revision + 1;
     	}
 
         // Store the revision

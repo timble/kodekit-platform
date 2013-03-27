@@ -9,7 +9,7 @@
 
 namespace Nooku\Component\Comments;
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Image Template Helper
@@ -17,11 +17,11 @@ use Nooku\Framework;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Comments
  */
-class TemplateHelperImage extends Framework\TemplateHelperAbstract
+class TemplateHelperImage extends Library\TemplateHelperAbstract
 {   
     public function gravatar($config = array())
     {
-        $config = new Framework\Config($config);
+        $config = new Library\Config($config);
         $config->append(array(
             'email'  => '',
             'size'  => '32',

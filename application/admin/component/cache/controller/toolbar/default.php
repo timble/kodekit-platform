@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Default Toolbar Class
@@ -18,7 +18,7 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class CacheControllerToolbarDefault extends Framework\ControllerToolbarModel
+class CacheControllerToolbarDefault extends Library\ControllerToolbarModel
 {
     public function getCommands()
     {
@@ -27,7 +27,7 @@ class CacheControllerToolbarDefault extends Framework\ControllerToolbarModel
         return parent::getCommands();
     }
      
-    protected function _commandPurge(Framework\ControllerToolbarCommand $command)
+    protected function _commandPurge(Library\ControllerToolbarCommand $command)
     {
         $command->append(array(
             'attribs' => array(

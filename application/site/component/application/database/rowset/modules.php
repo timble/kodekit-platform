@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Modules Database Rowset Class
@@ -16,9 +16,9 @@ use Nooku\Framework;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetModules extends Framework\DatabaseRowsetAbstract implements Framework\ServiceInstantiatable
+class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ServiceInstantiatable
 {
-    public function __construct(Framework\Config $config )
+    public function __construct(Library\Config $config )
     {
         parent::__construct($config);
 
@@ -35,13 +35,13 @@ class ApplicationDatabaseRowsetModules extends Framework\DatabaseRowsetAbstract 
         $this->merge($modules);
     }
 
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
     }
 
-    public static function getInstance(Framework\Config $config, Framework\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
     {
         if (!$manager->has($config->service_identifier))
         {

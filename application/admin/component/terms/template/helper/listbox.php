@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Listbox Template Helper
@@ -19,11 +19,11 @@ use Nooku\Framework;
  * @subpackage  Terms
  */
 
-class TermsTemplateHelperListbox extends Framework\TemplateHelperListbox
+class TermsTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function terms($config = array())
     {
-    	$config = new Framework\Config($config);
+    	$config = new Library\Config($config);
     	$config->append(array(
     		'model' 	=> 'terms',
     		'value'		=> 'id',

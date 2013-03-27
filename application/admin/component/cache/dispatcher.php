@@ -8,7 +8,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Framework;
+use Nooku\Library;
 
 /**
  * Cache Dispatcher Class
@@ -19,9 +19,9 @@ use Nooku\Framework;
  * @subpackage  Cache
  */
  
-class CacheDispatcher extends Framework\DispatcherComponent
+class CacheDispatcher extends Library\DispatcherComponent
 {
-    protected function _initialize(Framework\Config $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
         	'controller' => 'items',
