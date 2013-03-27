@@ -41,7 +41,7 @@
         </div>
         </ktml:modules>
 
-        <div id="panel-content" class="<?= $layout ?> row-fluid">
+        <div id="panel-content" class="row-fluid">
             <ktml:content />
 	    </div>
 
