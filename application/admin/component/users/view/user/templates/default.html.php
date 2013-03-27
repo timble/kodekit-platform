@@ -9,9 +9,9 @@
  */
 ?>
 
-<script src="media://koowa/js/koowa.js" />
+<script src="media://js/koowa.js" />
 <script src="media://users/js/user.js" />
-<style src="media://koowa/css/koowa.css" />
+<style src="media://css/koowa.css" />
 
 <?= @helper('behavior.validator') ?>
 

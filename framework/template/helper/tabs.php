@@ -38,7 +38,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['tabs']))
         {
-            $html .= '<script src="media://koowa/js/tabs.js" />';
+            $html .= '<script src="media://js/tabs.js" />';
             self::$_loaded['tabs'] = true;
         }
 

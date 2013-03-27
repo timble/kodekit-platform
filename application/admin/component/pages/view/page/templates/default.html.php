@@ -12,7 +12,7 @@
 <?= @helper('behavior.validator') ?>
 
 <!--
-<script src="media://koowa/js/koowa.js" />
+<script src="media://js/koowa.js" />
 <script src="media://pages/js/widget.js" />
 <script src="media://pages/js/page.js" />
 -->

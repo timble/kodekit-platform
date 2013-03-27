@@ -11,8 +11,8 @@
 <?= @helper('behavior.validator') ?>
 
 <!--
-<script src="media://koowa/js/koowa.js" />
-<style src="media://koowa/css/koowa.css" />
+<script src="media://js/koowa.js" />
+<style src="media://css/koowa.css" />
 -->
 
 <ktml:module position="toolbar">

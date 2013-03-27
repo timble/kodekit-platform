@@ -21,7 +21,7 @@
 
     <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <script src="media://koowa/js/mootools.js" />
+    <script src="media://js/mootools.js" />
     <script src="media://application/js/application.js" />
     <script src="media://application/js/chromatable.js" />
 

@@ -16,8 +16,8 @@
 </ktml:module>
 
 <!--
-<script src="media://koowa/js/koowa.js" />
-<style src="media://koowa/css/koowa.css" />
+<script src="media://js/koowa.js" />
+<style src="media://css/koowa.css" />
 -->
 <form action="" method="post" id="weblink-form" class="-koowa-form">
 	<input type="hidden" name="id" value="<?= $weblink->id ?>" />

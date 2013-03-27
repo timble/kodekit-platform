@@ -57,7 +57,7 @@ class TemplateHelperImage extends TemplateHelperListbox
 		<script>
 		window.addEvent('domready', function(){
 			$('".$config->name."').addEvent('change', function(){
-				var value = this.value ? ('".$root."/' + this.value) : 'media://koowa/images/blank.png';
+				var value = this.value ? ('".$root."/' + this.value) : 'media://images/blank.png';
 				$('".$config->name."-preview').src = value;
 			});
 		});
@@ -123,7 +123,7 @@ class TemplateHelperImage extends TemplateHelperListbox
 
  	    $image = \JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
 
- 	    $path = $config->selected ? $image : 'media://koowa/images/blank.png';
+ 	    $path = $config->selected ? $image : 'media://images/blank.png';
   		$html = '<img '.$this->_buildAttributes(array(
   			'src'		=> $path,
   			'id'		=> $config->name.'-preview',

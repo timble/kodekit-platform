@@ -41,7 +41,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $config = new Config($config);
 
-            $html .= '<script src="media://koowa/js/mootools.js" />';
+            $html .= '<script src="media://js/mootools.js" />';
             self::$_loaded['mootools'] = true;
         }
 
@@ -65,8 +65,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['modal'])) {
-            $html .= '<script src="media://koowa/js/modal.js" />';
-            $html .= '<style src="media://koowa/css/modal.css" />';
+            $html .= '<script src="media://js/modal.js" />';
+            $html .= '<style src="media://css/modal.css" />';
 
             self::$_loaded['modal'] = true;
         }
@@ -141,8 +141,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['overlay']))
         {
-            $html .= '<script src="media://koowa/js/koowa.js" />';
-            $html .= '<style src="media://koowa/css/koowa.css" />';
+            $html .= '<script src="media://js/koowa.js" />';
+            $html .= '<style src="media://css/koowa.css" />';
 
             self::$_loaded['overlay'] = true;
         }
@@ -250,8 +250,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         $html = '';
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['validator'])) {
-            $html .= '<script src="media://koowa/js/validator-1.2.js" />';
-            $html .= '<script src="media://koowa/js/patch.validator.js" />';
+            $html .= '<script src="media://js/validator-1.2.js" />';
+            $html .= '<script src="media://js/patch.validator.js" />';
 
             self::$_loaded['validator'] = true;
         }
@@ -331,9 +331,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
 
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['autocomplete'])) {
-            $html .= '<script src="media://koowa/js/autocomplete.js" />';
-            $html .= '<script src="media://koowa/js/patch.autocomplete.js" />';
-            $html .= '<style src="media://koowa/css/autocomplete.css" />';
+            $html .= '<script src="media://js/autocomplete.js" />';
+            $html .= '<script src="media://js/patch.autocomplete.js" />';
+            $html .= '<style src="media://css/autocomplete.css" />';
         }
 
         $html .= "
@@ -438,9 +438,9 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Load the necessary files if they haven't yet been loaded
         if (!isset(self::$_loaded['calendar']))
         {
-            $html .= '<script src="media://koowa/js/calendar.js" />';
-            $html .= '<script src="media://koowa/js/calendar-setup.js" />';
-            $html .= '<style src="media://koowa/css/calendar.css" />';
+            $html .= '<script src="media://js/calendar.js" />';
+            $html .= '<script src="media://js/calendar-setup.js" />';
+            $html .= '<style src="media://css/calendar.css" />';
 
             $html .= '<script>' . $this->_calendarTranslation() . '</script>';
 

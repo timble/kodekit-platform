@@ -12,8 +12,8 @@
 <h1><?= @text('Administration Login') ?></h1>
 
 <!--
-<script src="media://koowa/js/koowa.js" />
-<style src="media://koowa/css/koowa.css" />
+<script src="media://js/koowa.js" />
+<style src="media://css/koowa.css" />
 -->
 
 <form action="" method="post" name="login" id="form-login">
