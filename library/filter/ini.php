@@ -58,6 +58,8 @@ class FilterIni extends FilterAbstract
         {
             if(is_string($value)) {
                 $value = ConfigIni::fromString($value);
+            } else {
+                $value = new ConfigIni($value);
             }
         }
 
