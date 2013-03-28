@@ -54,6 +54,22 @@ class Event extends Config implements EventInterface
      * @var EventDispatcher
      */
     protected $_dispatcher;
+
+    /**
+     * Set an event property
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set($name, $value)
+    {
+        if (is_array($value)) {
+            $this->_data[$name] = new Config($value);
+        } else {
+            $this->_data[$name] = $value;
+        }
+    }
          
     /**
      * Get the event name

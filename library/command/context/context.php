@@ -46,4 +46,20 @@ class CommandContext extends Config implements CommandContextInterface
         $this->_subject = $subject;
         return $this;
     }
+
+    /**
+     * Set a command property
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set($name, $value)
+    {
+        if (is_array($value)) {
+            $this->_data[$name] = new Config($value);
+        } else {
+            $this->_data[$name] = $value;
+        }
+    }
 }
