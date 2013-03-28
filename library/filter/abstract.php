@@ -74,7 +74,9 @@ abstract class FilterAbstract extends Object implements FilterInterface
 	final public function execute($name, CommandContext $context)
 	{	
 		$function = '_'.$name;
-		return $this->$function($context->data);
+        $data     = Config::unbox($context->data);
+
+		return $this->$function($data);
 	}
 
 	/**
@@ -136,9 +138,9 @@ abstract class FilterAbstract extends Object implements FilterInterface
 		}
 		else
 		{
-			$context = $this->_chain->getContext();
+            $context = $this->_chain->getContext();
 			$context->data = $data;
-			
+
 			$data = $this->_chain->run('sanitize', $context);
 		}
 		
