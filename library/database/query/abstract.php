@@ -116,7 +116,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
      * Gets the database adapter
      *
      * @throws	\UnexpectedValueException	If the adapter doesn't implement DatabaseAdapterInterface
-     * @return \DatabaseAdapterInterface
+     * @return DatabaseAdapterInterface
      */
     public function getAdapter()
     {
@@ -169,7 +169,8 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
         $key   = substr($matches[0], 1);
         $value = $this->_params[$key];
 
-        if(!$value instanceof DatabaseQuerySelect) {
+        if(!$value instanceof DatabaseQuerySelect)
+        {
             $value = is_object($value) ? (string) $value : $value;
             $replacement = $this->getAdapter()->quoteValue($value);
         }
