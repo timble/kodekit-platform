@@ -31,7 +31,6 @@ class ModuleDefaultHtml extends Library\ViewTemplate
     {
         $config->append(array(
             'mimetype'   => 'text/html',
-            'model'      => 'com:pages.model.module',
             'media_url'  => $this->getService('request')->getBaseUrl()->getPath().'/media',
         ));
 
