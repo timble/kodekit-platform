@@ -17,30 +17,12 @@ use Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class ModuleDefaultHtml extends Library\ViewTemplate
+class ModuleDefaultHtml extends Library\ViewHtml
 {
-    /**
-     * Initializes the default configuration for the object
-     *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param   Config $config An optional Library\Config object with configuration options
-     * @return  void
-     */
-    protected function _initialize(Library\Config $config)
-    {
-        $config->append(array(
-            'mimetype'   => 'text/html',
-            'media_url'  => $this->getService('request')->getBaseUrl()->getPath().'/media',
-        ));
-
-        parent::_initialize($config);
-    }
-
     /**
      * Renders and echo's the views output
      *
-     * @return DefaultHtml
+     * @return ModuleDefaultHtml
      */
     public function render()
     {
@@ -54,25 +36,5 @@ class ModuleDefaultHtml extends Library\ViewTemplate
         }
 
         return parent::render();
-    }
-
-    /**
-     * Get a route based on a full or partial query string.
-     *
-     * This function force the route to be not fully qualified and not escaped
-     *
-     * @param   string  $route      The query string used to create the route
-     * @param   boolean $fqr        If TRUE create a fully qualified route. Default FALSE.
-     * @param   boolean $escape     If TRUE escapes the route for xml compliance. Default FALSE.
-     * @return  string  The route
-     */
-    public function getRoute($route = '', $fqr = null, $escape = null)
-    {
-        //If not set force to false
-        if ($fqr === null) {
-            $fqr = false;
-        }
-
-        return parent::getRoute($route, $fqr, $escape);
     }
 }
