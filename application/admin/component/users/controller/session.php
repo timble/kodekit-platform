@@ -145,7 +145,7 @@ class UsersControllerSession extends ApplicationControllerDefault
     protected function _actionDelete(Library\CommandContext $context)
     {
         //Force logout from site and administrator
-        $context->request->query->application = array_keys('site', 'admin');
+        $context->request->query->application = array('site', 'admin');
 
         //Remove the session from the session store
         $entity = parent::_actionDelete($context);
