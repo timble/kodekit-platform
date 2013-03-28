@@ -7,7 +7,7 @@
  * @link 		http://www.nooku.org
  */
 
-use Nooku\Library;
+namespace Nooku\Library;
 
 /**
  * Ini filter
@@ -15,14 +15,14 @@ use Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Koowa_Filter
  */
-class FilterIni extends Library\FilterAbstract
+class FilterIni extends FilterAbstract
 {
     /**
      * Constructor
      *
      * @param   object  An optional Library\Config object with configuration options
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Config $config)
     {
         parent::__construct($config);
 
