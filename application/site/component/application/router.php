@@ -199,10 +199,8 @@ class ApplicationRouter extends Library\DispatcherRouter
         if(!$page->home)
         {
             if($page->getLink()->query['option'] == $url->query['option']) {
-                $segments = $page->route;
+                $segments = explode('/', $page->route);
             }
-
-            $segments = explode('/', $segments);
         }
 
         return $segments;
