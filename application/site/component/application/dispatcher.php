@@ -58,9 +58,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         //Register the default exception handler
         $this->addEventListener('onException', array($this, 'exception'), Library\Event::PRIORITY_LOW);
 
-        //Set callbacks
-        $this->registerCallback('before.dispatch', array($this, 'authorizeRequest'));
-
         $this->registerCallback('before.run', array($this, 'loadConfig'));
         $this->registerCallback('before.run', array($this, 'loadSession'));
         $this->registerCallback('before.run', array($this, 'loadLanguage'));
@@ -106,31 +103,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         ));
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Authorize the request
-     *
-     * @param Library\CommandContext $context	A command context object
-     */
-    public function authorizeRequest(Library\CommandContext $context)
-    {
-        $user = $context->user;
-
-        if(!($this->getCfg('offline') && !$user->isAuthentic()))
-        {
-            $page = $context->request->query->get('Itemid', 'int');
-
-            if(!$this->getService('application.pages')->isAuthorized($page, $user))
-            {
-                if(!$user->isAuthentic()) {
-                    throw new Library\ControllerExceptionUnauthorized('ALERTNOTAUTH');
-                } else {
-                    throw new Library\ControllerExceptionForbidden('ALERTNOTAUTH');
-                }
-            }
-        }
-        else throw new Library\ControllerExceptionUnauthorized('ALERTNOTAUTH');
     }
 
     /**
@@ -227,7 +199,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     protected function _actionDispatch(Library\CommandContext $context)
     {
-        $component = $this->getController()->getIdentifier()->package;
+        $component = $this->getComponent()->getIdentifier()->package;
 
         if (!$this->getService('application.components')->isEnabled($component)) {
             throw new Library\ControllerExceptionNotFound('Component Not Enabled');
@@ -242,9 +214,14 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             //Render the page
             $config = array('response' => $context->response);
 
+            $layout = $context->request->query->get('tmpl', 'cmd', 'default');
+            if($this->getCfg('offline') && !$this->getUser()->isAuthentic()) {
+                $layout = 'login';
+            }
+
             $this->getService('com:application.controller.page', $config)
-                  ->layout($context->request->query->get('tmpl', 'cmd', 'default'))
-                  ->render();
+                ->layout($layout)
+                ->render();
         }
 
         //Send the response
@@ -327,7 +304,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
 
         //Set Session Options
         $session->setOptions(array(
-            'cookie_path'   => (string) Library\Request::base(),
+            'cookie_path'   => (string) $context->request->getBaseUrl()->getPath(),
             'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
         ));
 
