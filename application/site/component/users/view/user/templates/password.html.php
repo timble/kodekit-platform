@@ -14,7 +14,7 @@
 <script src="media://js/koowa.js"/>
 
 <div class="page-header">
-    <h1><?=@text('Set your password');?></h1>
+    <h1><?= @text('Set your password');?></h1>
 </div>
 
 <form action="" method="post" class="-koowa-form form-horizontal">
@@ -22,8 +22,8 @@
         <label class="control-label" for="password"><?= @text('Password') ?></label>
 
         <div class="controls">
-            <input class="minLength:<?=$parameters->get('password_length', 6);?>" type="password" id="password" name="password" value=""/>
-            <?=@helper('com:users.form.password');?>
+            <input class="minLength:<?= $parameters->get('password_length', 6); ?>" type="password" id="password" name="password" value=""/>
+            <?= @helper('com:users.form.password');?>
         </div>
     </div>
     <div class="control-group">
@@ -39,5 +39,5 @@
     <? if (isset($reset)): ?>
     <input type="hidden" name="reset" value="<?=$reset;?>"/>
     <? endif;?>
-    <input type="hidden" name="action" value="<?=isset($reset) ? 'reset' : 'save';?>"/>
+    <input type="hidden" name="action" value="<?= isset($reset) ? 'reset' : 'save';?>"/>
 </form>
