@@ -43,7 +43,7 @@ class WeblinksTemplateHelperRoute extends PagesTemplateHelperRoute
 			$route['Itemid'] = $item->id;
 		};
 
-		return $this->getTemplate()->getView()->getRoute(http_build_query($route, '', '&'));
+		return $this->getTemplate()->getView()->getRoute($route);
 	}
 
     public function category($config = array())
@@ -74,6 +74,6 @@ class WeblinksTemplateHelperRoute extends PagesTemplateHelperRoute
             $route['Itemid'] = $page->id;
         };
 
-        return $this->getTemplate()->getView()->getRoute(http_build_query($route, '', '&'));
+        return $this->getTemplate()->getView()->getRoute($route);
     }
 }

@@ -53,17 +53,20 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 
         $constraints = $this->_getConstraints();
 
-        if ($categories = $constraints['categories']) {
+        if ($categories = $constraints['categories'])
+        {
             $context->query->where('categories.categories_category_id IN :categories')
                 ->bind(array('categories' => $categories));
         }
 
-        if ($parents = $constraints['category_parents']) {
+        if ($parents = $constraints['category_parents'])
+        {
             $context->query->where('(categories.parent_id IN :parents' . $base_where . ')', 'OR')
                 ->bind(array('parents' => $parents));
         }
 
-        if ($articles = $constraints['articles']) {
+        if ($articles = $constraints['articles'])
+        {
             $context->query->where('(tbl.articles_article_id IN :articles' . $base_where . ')', 'OR')
                 ->bind(array('articles' => $articles));
         }
@@ -75,10 +78,10 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 
             $constraints = array('categories' => array(), 'articles' => array(), 'category_parents' => array());
 
-            if ($pages = $this->_getPages()) {
-
-                foreach ($pages as $page) {
-
+            if ($pages = $this->_getPages())
+            {
+                foreach ($pages as $page)
+                {
                     $link = $page->getLink();
 
                     // Particular case ... all articles from all categories.
@@ -115,21 +118,22 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
 
     protected function _getPages()
     {
-        if (!$this->_pages) {
-
+        if (!$this->_pages)
+        {
             $user = $this->_user;
 
             $needles = array(
                 'users_group_id' => array_merge(array(0), $user->getGroups()),
-                'component_name' => 'com_' . $this->getMixer()
-                    ->getIdentifier()->package);
+                'component_name' => 'com_'.$this->getMixer()->getIdentifier()->package);
 
             if ($user->guest) {
                 $needles['access'] = 0;
             }
 
-            $pages = $this->getService('com:pages.model.pages')->application('site')->published(true)
-                ->getRowset()->find($needles);
+            $pages = $this->getService('com:pages.model.pages')
+                           ->application('site')
+                           ->published(true)
+                           ->getRowset()->find($needles);
 
             $this->_pages = $pages;
         }
@@ -141,8 +145,8 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
     {
         $page = null;
 
-        if (!$this->isNew()) {
-
+        if (!$this->isNew())
+        {
             $pages = $this->_getPages();
 
             $needles = array(

@@ -21,14 +21,13 @@ class ArticlesControllerBehaviorSearchable extends Library\ControllerBehaviorAbs
     protected function _beforeControllerBrowse(Library\CommandContext $context)
     {
         $request = $this->getRequest();
-        if ($searchword = $request->query->get('searchword', 'string')) {
-            $view = $this->getView();
 
-            $view->setLayout('search');
+        if ($searchword = $request->query->get('searchword', 'string'))
+        {
+            $this->getView()->setLayout('search');
 
             $this->getModel()->getTable()
-                ->attachBehavior('com:articles.database.behavior.pageable',
-                array('user' => $this->getUser()->getId()));
+                ->attachBehavior('com:articles.database.behavior.pageable', array('user' => $this->getUser()->getId()));
         }
     }
 }
