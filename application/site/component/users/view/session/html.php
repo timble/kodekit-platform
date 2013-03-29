@@ -25,7 +25,7 @@ class UsersViewSessionHtml extends Library\ViewHtml
         $title = JText::_('Login');
 
         $this->getService('application')->getPathway()->addItem($title);
-        JFactory::getDocument()->setTitle($title);
+        //JFactory::getDocument()->setTitle($title);
         
         $this->user       = $this->getService('user');;
         $this->parameters = $this->getParameters();
