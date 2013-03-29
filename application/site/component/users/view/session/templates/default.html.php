@@ -17,7 +17,7 @@
     <h1><?= @escape($parameters->get('page_title')) ?></h1>
 </div>
 
-<form action="" method="post" id="com-form-login" class="-koowa-form form-horizontal">
+<form action="<?= @helper('route.session'); ?>" method="post" id="com-form-login" class="-koowa-form form-horizontal">
     <? if($parameters->get('description_login_text')) : ?>
     <p><?= $parameters->get('description_login_text' ) ?></p>
     <? endif ?>
@@ -34,7 +34,7 @@
         <div class="controls">
             <input id="password" class="required" type="password" name="password" alt="password" />
             <span class="help-block">
-                <small><a href="<?= @route('view=password&layout=token') ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
+                <small><a href="<?= @helper('route.user', array('layout' => 'reset')); ?>"><?= @text('FORGOT_YOUR_PASSWORD'); ?></a></small>
             </span>
         </div>
     </div>
@@ -43,7 +43,7 @@
         <button type="submit" class="validate btn btn-primary"><?= @text('Sign in') ?></button>
         <? if($parameters->get('registration')) : ?>
         	<?= @text('or') ?>
-        	<a href="<?= @route('view=user&layout=form') ?>"><?= @text('Sign up'); ?></a>
+        	<a href="<?= @helper('route.user', array('layout' => 'form')); ?>"><?= @text('Sign up'); ?></a>
         <?php endif; ?>
     </div>
 </form>

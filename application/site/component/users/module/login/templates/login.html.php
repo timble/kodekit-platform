@@ -12,7 +12,7 @@
 <?=@helper('behavior.mootools')?>
 <?=@helper('behavior.validator')?>
 
-<form action="<?= @route('option=com_users&view=session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
+<form action="<?= @helper('route.session'); ?>" method="post" name="login" id="form-login" class="-koowa-form">
 	<? if($show_title) : ?>
 	<h3><?= $module->title ?></h3>
 	<? endif ?>
@@ -29,7 +29,7 @@
 		<div class="controls">
 			<input id="modlgn_passwd" class="required" type="password" name="password" />
 			<span class="help-block">
-			    <small><a href="<?= @route( 'option=com_users&view=user&layout=reset' ); ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
+			    <small><a href="<?= @helper('route.user', array('layout' => 'reset')); ?>"><?php echo JText::_('FORGOT_YOUR_PASSWORD'); ?></a></small>
 			</span>
 		</div>
 	</div>
@@ -37,7 +37,7 @@
 		<input type="submit" name="Submit" class="btn" value="<?= @text('Sign in') ?>" />
 		<?php if ($allow_registration) : ?>
 			<?= @text('or') ?>
-			<a href="<?= @route( 'option=com_users&view=user&layout=form' ); ?>"><?= @text('Sign up'); ?></a>
+			<a href="<?= @helper('route.user', array('layout' => 'form')); ?>"><?= @text('Sign up'); ?></a>
 		<?php endif; ?>
 	</div>
 	</fieldset>
