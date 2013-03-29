@@ -13,7 +13,7 @@
 <style src="media://css/koowa.css" />
 -->
 
-<form action="<?= @route('tmpl=component') ?>" method="get" class="-koowa-grid">
+<form action="" method="get" class="-koowa-grid">
 	<table>
 		<thead>
 			<tr>
