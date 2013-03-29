@@ -218,8 +218,8 @@ VALUES
 
 INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
-	(32, 3, NULL, 'Your Details', 'your-details', 'option=com_user&view=user&task=edit', NULL, 'component', 1, 0, 0, 14, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
-	(33, 3, NULL, 'Logout', 'logout', 'option=com_user&view=login', NULL, 'component', 1, 0, 0, 14, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+	(32, 3, NULL, 'Your Details', 'your-details', 'option=com_users&view=user', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+	(33, 3, NULL, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 1, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(34, 1, NULL, 'Joomla! Overview', 'joomla-overview', 'option=com_articles&view=article&id=19', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(35, 4, NULL, 'About Joomla!', 'about-joomla', 'option=com_articles&view=article&id=25', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(36, 4, NULL, 'Features', 'features', 'option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
