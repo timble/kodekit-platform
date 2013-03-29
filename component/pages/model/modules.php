@@ -79,7 +79,7 @@ class ModelModules extends Library\ModelTable
             }
 
             if (is_numeric($state->access)) {
-                $query->where('tbl.access = :access')->bind(array('access' => $state->access));
+                $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
             }
 
             if (is_numeric($state->page)) {

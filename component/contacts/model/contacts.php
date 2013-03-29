@@ -26,8 +26,8 @@ class ModelContacts extends Library\ModelTable
 		$this->getState()
 			->insert('published', 'boolean')
 			->insert('category' , 'slug')
-			->insert('access', 'int')
-            ->insert('sort', 'cmd', 'ordering');
+			->insert('access'   , 'int')
+            ->insert('sort'     , 'cmd', 'ordering');
 	}
 
 	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
@@ -64,7 +64,7 @@ class ModelContacts extends Library\ModelTable
 		}
 		
 		if (is_numeric($state->access)) {
-		    $query->where('tbl.access = :access')->bind(array('access' => $state->access));
+		    $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
 		}
 	}
 }

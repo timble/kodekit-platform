@@ -29,9 +29,9 @@ class ModelCategories extends Library\ModelTable
             ->insert('parent'    , 'int')
             ->insert('published' , 'boolean')
             ->insert('distinct'  , 'string')
-            ->insert('access'    , 'boolean')
+            ->insert('access'    , 'int')
             ->insert('category'  , 'int')
-            ->insert('sort', 'cmd', 'ordering');
+            ->insert('sort'      , 'cmd', 'ordering');
     }
 
     protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
@@ -83,7 +83,8 @@ class ModelCategories extends Library\ModelTable
         {
             $query->where('tbl.published = :published');
 
-            if ($state->table) {
+            if ($state->table)
+            {
                 //@TODO : com_articles doesn't have a published column need to fix this
                 //$query->where('content.published = :published');
             }
@@ -92,7 +93,7 @@ class ModelCategories extends Library\ModelTable
         }
 
         if (is_bool($state->access)) {
-            $query->where('tbl.access = :access')->bind(array('access' => (int) $state->access));
+            $query->where('tbl.access <= :access')->bind(array('access' => (int) $state->access));
         }
     }
 
