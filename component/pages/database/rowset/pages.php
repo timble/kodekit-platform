@@ -27,6 +27,7 @@ class DatabaseRowsetPages extends Library\DatabaseRowsetTable
             unset($needle['link']);
 
             $pages = parent::find($needle);
+
             foreach($pages as $page)
             {
                 foreach($query as $parts)
