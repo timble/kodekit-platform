@@ -283,7 +283,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context->operation = Database::OPERATION_SELECT;
         $context->mode      = $mode;
 
-        // Excute the insert operation
         if ($this->getCommandChain()->run('before.select', $context) !== false)
         {
             if ($result = $this->execute($context->query, Database::RESULT_USE))
@@ -338,7 +337,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context->operation = Database::OPERATION_INSERT;
         $context->query = $query;
 
-        //Excute the insert operation
         if ($this->getCommandChain()->run('before.insert', $context) !== false)
         {
             //Check if we have valid data to insert, if not return false
@@ -369,7 +367,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context->operation = Database::OPERATION_UPDATE;
         $context->query     = $query;
 
-        //Excute the update operation
         if ($this->getCommandChain()->run('before.update', $context) !== false)
         {
             if (!empty($context->query->values))
@@ -398,7 +395,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $context->operation = Database::OPERATION_DELETE;
         $context->query     = $query;
 
-        //Excute the delete operation
         if ($this->getCommandChain()->run('before.delete', $context) !== false)
         {
             //Execute the query
@@ -409,40 +405,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         }
 
         return $context->affected;
-    }
-
-    /**
-     * Use and other queries that don't return rows
-     *
-     * @param  string      The query to run. Data inside the query should be properly escaped.
-     * @param  integer     The result made, either the constant Database::RESULT_USE or Database::RESULT_STORE
-     *                     depending on the desired behavior. By default, Database::RESULT_STORE is used. If you
-     *                     use Database::RESULT_USE all subsequent calls will return error Commands out of sync
-     *                     unless you free the result first.
-     * @throws \RuntimeException If the query could not be executed
-     * @return boolean     For SELECT, SHOW, DESCRIBE or EXPLAIN will return a result object.
-     *                     For other successful queries  return TRUE.
-     */
-    public function execute($query, $mode = Database::RESULT_STORE)
-    {
-        // Add or replace the database table prefix.
-        if (!($query instanceof DatabaseQueryAbstract)) {
-            $query = $this->replaceTableNeedle($query);
-        }
-
-        $result = $this->getConnection()->query((string)$query, $mode);
-
-        if ($result === false)
-        {
-            throw new \RuntimeException(
-                $this->getConnection()->error . ' of the following query : ' . $query, $this->getConnection()->errno
-            );
-        }
-
-        $this->_affected_rows = $this->getConnection()->affected_rows;
-        $this->_insert_id = $this->getConnection()->insert_id;
-
-        return $result;
     }
 
     /**
