@@ -20,21 +20,6 @@ use Nooku\Library;
  */
 class UsersDispatcher extends Library\DispatcherComponent
 {
-    protected function _initialize(Library\Config $config)
-    {
-        parent::_initialize($config);
-
-        //Force the view to prevent a redirect
-        if($this->getUser()->isAuthentic() && $this->getRequest()->isGet())
-        {  
-            $view = $this->getRequest()->get('view', 'alpha');
-            
-		    if(!in_array($view, array('session', 'remind', 'reset', 'user'))) {
-                $this->getRequest()->query->set('view', 'session');
-            }
-        }
-    }
-	
     protected function _actionDispatch(Library\CommandContext $context)
 	{        	
         if($context->user->isAuthentic())
