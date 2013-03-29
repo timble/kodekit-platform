@@ -32,9 +32,9 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $config->append(array(
             'behaviors' => array(
-                'resettable',
+                'resettable', 'activateable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
-                'activateable')));
+        )));
 
         parent::_initialize($config);
     }
@@ -50,9 +50,17 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $request;
     }
 
+    public function sanitizeRequest(Library\CommandContext $context)
+    {
+        // Unset some variables because of security reasons.
+        foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
+            $context->request->data->remove($variable);
+        }
+    }
+
     public function _actionRender(Library\CommandContext $context)
     {
-        if($context->request->query-get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
+        if($context->request->query->get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
             $url =  '?Itemid='.$this->getService('application.pages')->getHome()->id;
             $context->response->setRedirect($url, 'You are already registered');
@@ -62,8 +70,8 @@ class UsersControllerUser extends ApplicationControllerDefault
         return parent::_actionRender($context);
     }
 
-    protected function _actionAdd(Library\CommandContext $context) {
-
+    protected function _actionAdd(Library\CommandContext $context)
+    {
         $params = $this->getService('application.components')->users->params;
         $context->request->data->role_id = $params->get('new_usertype', 18);
 
@@ -85,8 +93,8 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation) {
-
+        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
+        {
             $url       = $this->getService('lib:http.url',
                 array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
             $this->getService('application')->getRouter()->build($url);
@@ -98,14 +106,6 @@ class UsersControllerUser extends ApplicationControllerDefault
                 $this->getService('application')->getCfg('sitename'), $activation_url, $site_url);
 
             $user->notify(array('subject' => $subject, 'message' => $message));
-        }
-    }
-
-    public function sanitizeRequest(Library\CommandContext $context)
-    {
-        // Unset some variables because of security reasons.
-        foreach(array('enabled', 'role_id', 'created_on', 'created_by', 'activation') as $variable) {
-            $context->request->data->remove($variable);
         }
     }
 }
