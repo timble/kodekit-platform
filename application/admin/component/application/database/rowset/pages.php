@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Pages Database Rowset Class
@@ -16,7 +17,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetPages extends Library\DatabaseRowsetAbstract implements Library\ServiceInstantiatable
+class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ServiceInstantiatable
 {
     public function __construct(Library\Config $config )
     {
