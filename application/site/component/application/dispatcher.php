@@ -215,7 +215,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             $config = array('response' => $context->response);
 
             $layout = $context->request->query->get('tmpl', 'cmd', 'default');
-            if($this->getCfg('offline') && !$this->getUser()->isAuthentic()) {
+            if(!$this->isPermitted('render')) {
                 $layout = 'login';
             }
 
