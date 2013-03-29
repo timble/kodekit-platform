@@ -181,8 +181,13 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         {
             $config = array('response' => $context->response);
 
+            $layout = $context->request->query->get('tmpl', 'cmd', 'default');
+            if(!$this->getUser()->isAuthentic()) {
+                $layout = 'login';
+            }
+
             $this->getService('com:application.controller.page', $config)
-                 ->layout($context->request->query->get('tmpl', 'cmd', 'default'))
+                 ->layout($layout)
                  ->render();
         }
 
@@ -206,7 +211,10 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             );
         }
 
-        $config = array('request'  => $this->getRequest(), 'response' => $this->getResponse());
+        $config = array(
+            'request'  => $this->getRequest(),
+            'response' => $this->getResponse()
+        );
 
         $this->getService('com:application.controller.exception',  $config)
              ->render($context->param->getException());
@@ -291,7 +299,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     /**
      * Get the application languages.
      *
-     * @return	\LanguagesDatabaseRowsetLanguages
+     * @return	LanguagesDatabaseRowsetLanguages
      */
     public function loadLanguage(Library\CommandContext $context)
     {
