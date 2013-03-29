@@ -19,6 +19,29 @@ use Nooku\Library;
 class ApplicationControllerPermissionDefault extends Library\ControllerPermissionAbstract
 {
     /**
+     * Generic authorize handler for controller render actions
+     *
+     * @return  boolean     Can return both true or false.
+     */
+    public function canRender()
+    {
+        $application = $this->getService('application');
+        $user        = $this->getUser();
+        $request     = $this->getRequest();
+
+        if(!($application->getCfg('offline') && !$user->isAuthentic()))
+        {
+            $page = $request->query->get('Itemid', 'int');
+
+            if($this->getService('application.pages')->isAuthorized($page, $user)) {
+               return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Generic authorize handler for controller add actions
      *
      * @return  boolean     Can return both true or false.
