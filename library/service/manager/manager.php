@@ -233,7 +233,7 @@ class ServiceManager implements ServiceManagerInterface
      *
      * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
-     * @return KServiceIdentifier
+     * @return ServiceIdentifier
      */
     public static function getIdentifier($identifier)
     {
