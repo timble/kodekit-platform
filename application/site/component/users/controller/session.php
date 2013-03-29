@@ -157,13 +157,15 @@ class UsersControllerSession extends ApplicationControllerDefault
         //Remove the session from the session store
         $entity = parent::_actionDelete($context);
 
-        if(!$context->hasError())
+        if(!$context->response->isError())
         {
             // Destroy the php session for this user if we are logging out ourselves
             if($context->user->getEmail() == $entity->email) {
                 $context->user->session->destroy();
             }
         }
+        //Redirect to caller
+        $context->response->setRedirect($context->request->getReferrer());
 
         return $entity;
     }
