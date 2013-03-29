@@ -7,16 +7,17 @@
  * @link		http://www.nooku.org
  */
 
+namespace Nooku\Component\Application;
+
 use Nooku\Library;
 
 /**
- * Unauthorized Event Subscriber Class
+ * Unauthorized Event Subscriber
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Application
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Application
  */
-class ApplicationEventSubscriberUnauthorized extends Library\EventSubscriberAbstract
+class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
 {
     protected function _initialize(Library\Config $config)
     {
