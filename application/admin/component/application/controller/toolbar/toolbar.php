@@ -21,21 +21,8 @@ class ApplicationControllerToolbarToolbar extends Library\ControllerToolbarAbstr
     public function onBeforeControllerRender(Library\Event $event)
     {
         $event->getTarget()->getView()->toolbar = $this;
-
-        $this->addCommand('preview');
         $this->addCommand('profile');
         $this->addCommand('logout');
-    }
-
-    protected function _commandPreview(Library\ControllerToolbarCommand $command)
-    {
-        $command->append(array(
-            'attribs' => array(
-                'target' => '_blank',
-            )
-        ));
-
-        $command->href = JURI::root();
     }
 
     protected function _commandProfile(Library\ControllerToolbarCommand $command)
