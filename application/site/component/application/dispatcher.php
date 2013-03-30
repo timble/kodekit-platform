@@ -387,9 +387,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     {
         if(!isset($this->_pathway))
         {
-            // TODO: Find out why loader tries to load the admin class.
-            $this->getService('loader')->loadFile(dirname(__DIR__).'/application/config/pathway.php');
-
             $pathway = new ApplicationConfigPathway();
             $pages   = $this->getService('application.pages');
 
