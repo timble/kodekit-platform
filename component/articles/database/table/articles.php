@@ -38,6 +38,16 @@ class DatabaseTableArticles extends Library\DatabaseTableDefault
 		    )
         ));
 
+        $params = $this->getService('application.components')->articles->params;
+
+        if ($params->get('discussible')) {
+            $config->append(array(
+                'behaviors'  => array(
+                    'com:comments.database.behavior.discussible'
+                )
+            ));
+        }
+
         parent::_initialize($config);
     }
 }

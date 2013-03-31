@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <params>
+        <param name="discussible" type="radio" default="1" label="Allow comments" description="">
+            <option value="0">NO</option>
+            <option value="1">YES</option>
+        </param>
+    </params>
+</config>

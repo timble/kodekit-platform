@@ -33,3 +33,10 @@
     <?= @template('com:terms.view.terms.default.html') ?>
     <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
+
+<? if($article->isDiscussible()) : ?>
+<div class="comments">
+    <?= @template('com:comments.view.comment.form.html') ?>
+    <?= @template('com:comments.view.comments.default.html', array('comments' => $comments)) ?>
+</div>
+<? endif ?>
