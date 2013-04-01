@@ -2,6 +2,6 @@
     <input type="hidden" name="row" value="<?= $state->row ?>" />
     <input type="hidden" name="table" value="<?= $state->table ?>" />
 
-    <textarea type="text" name="text" placeholder="<?= @text('Add new comment here ...') ?>" id="new-comment-text" class="input-block-level"></textarea>
+    <textarea type="text" name="text" placeholder="<?= @text('Write a comment...') ?>" id="new-comment-text" class="input-block-level"></textarea>
     <input class="btn btn-primary" type="submit" value="<?= @text('Comment') ?>"/>
 </form>

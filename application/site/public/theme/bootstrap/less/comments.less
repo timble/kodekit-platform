@@ -7,8 +7,10 @@
 
     form {
         padding: 19px;
+        margin-bottom: 0;
         background-color: @wellBackground;
-        border-bottom: 1px solid darken(@wellBackground, 7%);
+        border-top: 1px solid darken(@wellBackground, 7%);
+        .border-radius(0 0 @baseBorderRadius @baseBorderRadius);
 
         textarea {
             resize: vertical;

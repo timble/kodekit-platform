@@ -36,7 +36,7 @@
 
 <? if($article->isDiscussible()) : ?>
 <div class="comments">
-    <?= @template('com:comments.view.comment.form.html') ?>
     <?= @template('com:comments.view.comments.default.html', array('comments' => $comments)) ?>
+    <?= @template('com:comments.view.comment.form.html') ?>
 </div>
 <? endif ?>
