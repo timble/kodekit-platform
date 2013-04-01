@@ -9,7 +9,7 @@
  */
 ?>
 
-<h1><?= @text('Administration Login') ?></h1>
+<h1><?= @text('Administrator Login') ?></h1>
 
 <!--
 <script src="media://js/koowa.js" />
@@ -30,4 +30,5 @@
        </div>
    </div>
    <input type="submit" class="btn btn-large btn-block" value="<?= @text('Login') ?>" />
+   <p><a class="return" href="/"><?= @text('Go to site homepage.'); ?></a></p>
 </form>

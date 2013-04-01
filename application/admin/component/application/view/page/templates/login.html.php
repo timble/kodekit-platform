@@ -13,17 +13,11 @@
 
 <?= @template('page_head.html') ?>
 
-<body class="com_<?= $component ?> login">
+<body class="login">
 <div id="container">
-    <div id="login-box" class="login">
-		<img src="media://application/images/nooku-server_logo.png" alt="Nooku Server logo">
+    <div class="login-box">
 		<?= @template('page_message.html') ?>
-		<div id="section-box">
-            <ktml:content />
-		</div>
-		<a class="return" href="/">
-			<?= @text('Go to site home page.'); ?>
-		</a>
+        <ktml:content />
 	</div>
 </div>
 
