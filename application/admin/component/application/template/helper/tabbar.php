@@ -38,7 +38,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
             $commands = $config->tabbar->getCommands();
 
             if(count($commands)) {
-                $html = '<div id="panel-navigation">';
+                $html = '<div id="panel-tabbar">';
                 $html .= '<ul '.$this->_buildAttributes($config->attribs).'>';
                 foreach ($commands as $command)
                 {
