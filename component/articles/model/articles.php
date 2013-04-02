@@ -68,9 +68,12 @@ class ModelArticles extends Library\ModelTable
         	$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
         }
 
-        if ($state->search || $state->searchword) {
-            $search = $state->searchword ? $state->searchword : $state->search;
-            $query->where('(tbl.title LIKE :search OR tbl.introtext LIKE :search OR tbl.fulltext LIKE :search)')->bind(array('search' => '%' . $search . '%'));
+        if ($state->search) {
+            $query->where('(tbl.title LIKE :search)')->bind(array('search' => '%' . $state->search . '%'));
+        }
+
+        if ($state->searchword) {
+            $query->where('(tbl.title LIKE :search OR tbl.introtext LIKE :search OR tbl.fulltext LIKE :search)')->bind(array('search' => '%' . $state->searchword . '%'));
         }
 
         if(is_numeric($state->category) || $state->category)
