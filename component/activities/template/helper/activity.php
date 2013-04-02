@@ -57,10 +57,10 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a> '; 
 		$message  .= $row->status;
        
-		if ($row->status != 'deleted') {
+		if ($row->status != 'trashed') {
 			$message .= ' <a href="'.$item.'">'.$row->title.'</a>';
 		} else {
-			$message .= ' <span class="deleted">'.$row->title.'</span>';
+			$message .= ' <span class="trashed">'.$row->title.'</span>';
 		}
 		
 		$message .= ' '.$row->name; 
