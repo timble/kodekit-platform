@@ -30,6 +30,8 @@ class PagesViewPageHtml extends Library\ViewHtml
         
         // Load components.
         $model = $this->getModel();
+        $page  = $model->getRow();
+
         $menu  = $this->getService('com:pages.model.menus')
             ->id($model->menu)
             ->getRow();
@@ -46,7 +48,7 @@ class PagesViewPageHtml extends Library\ViewHtml
 
         $query = $this->getService('lib:database.query.select')
             ->where('tbl.pages_page_id IN :id')
-            ->bind(array('id' => array((int) $model->getRow()->id, 0)));
+            ->bind(array('id' => array((int) $page->id, 0)));
 
         $assigned = $this->getService('com:pages.database.table.modules_pages')
             ->select($query);
@@ -55,6 +57,9 @@ class PagesViewPageHtml extends Library\ViewHtml
 
         // Assign menu.
         $this->menu = $this->getService('com:pages.model.menus')->id($model->menu)->getRow();
+
+        // Assign parent ID
+        $this->parent_id = $page->getParentId();
 
         return parent::render();
     }

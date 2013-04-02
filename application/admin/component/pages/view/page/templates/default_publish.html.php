@@ -43,7 +43,7 @@
     <div class="control-group">
         <label class="control-label" for="parent"><?= @text('Parent') ?></label>
         <div id="pages-parent" class="controls">
-            <?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $page->parent_id, 'attribs')) ?>
+            <?= @helper('listbox.parents', array('page' => $page, 'menu' => $state->menu, 'selected' => $parent_id, 'attribs')) ?>
         </div>
     </div>
 </fieldset>
