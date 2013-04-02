@@ -107,6 +107,9 @@ class ModelActivities extends Library\ModelTable
 		if ($state->ip) {
 			$query->where('tbl.ip '.(in_array($state->ip) ? 'IN' : '=').' :ip')->bind(array('ip' => $state->ip)); 
 		}
+
+        // TODO: Implement a better way to exclude information based on package/name
+        $query->where('tbl.name != :name')->bind(array('name' => 'session'));
 	}
 
 	protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
