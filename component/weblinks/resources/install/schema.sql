@@ -1,10 +1,10 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__weblinks`
+-- Table structure for table `weblinks`
 --
 
-CREATE TABLE `#__weblinks` (
+CREATE TABLE `weblinks` (
   `weblinks_weblink_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `categories_category_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(250) NOT NULL DEFAULT '',

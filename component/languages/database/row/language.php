@@ -28,14 +28,13 @@ class DatabaseRowLanguage extends Library\DatabaseRowTable
         {
             $tables   = $this->getService('com:languages.model.tables')->getRowset();
             $database = $this->getTable()->getAdapter();
-            $prefix   = $database->getTablePrefix();
             
             foreach($tables as $table)
             {
                 $table_name = strtolower($this->iso_code).'_'.$table->name;
                 
                 // Add language specific table and copy the content of the original table.
-                $database->execute('CREATE TABLE '.$database->quoteIdentifier($prefix.$table_name).' LIKE '.$database->quoteIdentifier($prefix.$table->name));
+                $database->execute('CREATE TABLE '.$database->quoteIdentifier($table_name).' LIKE '.$database->quoteIdentifier($table->name));
                 
                 $select = $this->getService('lib:database.query.select')
                     ->table($table->name);

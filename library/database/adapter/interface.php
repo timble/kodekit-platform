@@ -161,39 +161,6 @@ interface DatabaseAdapterInterface
      */
     public function getTableSchema($table);
 
-	/**
-	 * Set the table prefix
-	 *
-	 * @param string The table prefix
-	 * @return DatabaseAdapterAbstract
-	 * @see DatabaseAdapterAbstract::replaceTableNeedle
-	 */
-	public function setTablePrefix($prefix);
-
- 	/**
-	 * Get the table prefix
-	 *
-	 * @return string The table prefix
-	 * @see DatabaseAdapterAbstract::replaceTableNeedle
-	 */
-	public function getTablePrefix();
-	
-	/**
-	 * Get the table needle
-	 *
-	 * @return string The table needle
-	 * @see DatabaseAdapterAbstract::replaceTableNeedle
-	 */
-	public function getTableNeedle();
-
-	/**
-	 * This function replaces the table needles in a query string with the actual table prefix.
-	 *
-	 * @param  string 	The SQL query string
-	 * @return string	The SQL query string
-	 */
-	public function replaceTableNeedle( $sql );
-
     /**
      * Safely quotes a value for an SQL statement.
      *

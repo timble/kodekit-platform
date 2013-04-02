@@ -1,10 +1,10 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages`
+-- Table structure for table `pages`
 --
 
-CREATE TABLE `#__pages` (
+CREATE TABLE `pages` (
   `pages_page_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
   `users_group_id` INT UNSIGNED NOT NULL,
@@ -26,8 +26,8 @@ CREATE TABLE `#__pages` (
   `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `params` TEXT,
   PRIMARY KEY (`pages_page_id`),
-  CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
-  CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
   INDEX `ix_extensions_component_id` (`extensions_component_id`),
   INDEX `ix_home` (`home`)
@@ -36,32 +36,32 @@ CREATE TABLE `#__pages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_orderings`
+-- Table structure for table `pages_orderings`
 --
 
-CREATE TABLE `#__pages_orderings` (
+CREATE TABLE `pages_orderings` (
   `pages_page_id` int(11) unsigned NOT NULL,
   `title` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
   `custom` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
   PRIMARY KEY (`pages_page_id`),
   KEY `ix_title` (`title`),
   KEY `ix_custom` (`custom`),
-  CONSTRAINT `#__pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE
+  CONSTRAINT `pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_closures`
+-- Table structure for table `pages_closures`
 --
 
-CREATE TABLE `#__pages_closures` (
+CREATE TABLE `pages_closures` (
   `ancestor_id` INT UNSIGNED NOT NULL,
   `descendant_id` INT UNSIGNED NOT NULL,
   `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`ancestor_id`, `descendant_id`),
-  CONSTRAINT `#__pages_closures__ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
-  CONSTRAINT `#__pages_closures__descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages_closures__ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages_closures__descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_level` (`level`),
   INDEX `ix_descendant_id` (`descendant_id`)
 ) ENGINE=InnoDB CHARSET = utf8;
@@ -69,10 +69,10 @@ CREATE TABLE `#__pages_closures` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_menus`
+-- Table structure for table `pages_menus`
 --
 
-CREATE TABLE `#__pages_menus` (
+CREATE TABLE `pages_menus` (
   `pages_menu_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `application` varchar(50) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -91,10 +91,10 @@ CREATE TABLE `#__pages_menus` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_modules`
+-- Table structure for table `pages_modules`
 --
 
-CREATE TABLE `#__pages_modules_pages` (
+CREATE TABLE `pages_modules_pages` (
   `pages_module_id` INT NOT NULL,
   `pages_page_id` INT NOT NULL,
   PRIMARY KEY (`pages_module_id`,`pages_page_id`),
@@ -104,10 +104,10 @@ CREATE TABLE `#__pages_modules_pages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_modules`
+-- Table structure for table `pages_modules`
 --
 
-CREATE TABLE `#__pages_modules` (
+CREATE TABLE `pages_modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `content` text NOT NULL,

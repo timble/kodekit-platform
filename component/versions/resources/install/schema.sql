@@ -1,10 +1,10 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__versions_revisions`
+-- Table structure for table `versions_revisions`
 --
 
-CREATE TABLE `#__versions_revisions` (
+CREATE TABLE `versions_revisions` (
   `table` varchar(64) NOT NULL,
   `row` bigint(20) unsigned NOT NULL,
   `revision` bigint(20) unsigned NOT NULL DEFAULT '1',

@@ -1,10 +1,10 @@
 
 -- --------------------------------------------------------
 --
--- Table structure for table `#__activities`
+-- Table structure for table `activities`
 --
 
-CREATE TABLE `#__activities` (
+CREATE TABLE `activities` (
     `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
     `application` VARCHAR(10) NOT NULL DEFAULT '',

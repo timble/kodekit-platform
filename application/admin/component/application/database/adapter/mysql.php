@@ -81,8 +81,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
                 'username'	   => $application->getCfg('user'),
                 'password'     => $application->getCfg('password'),
                 'database'	   => $application->getCfg('db'),
-            ),
-            'table_prefix' => $application->getCfg('dbprefix')
+            )
         ));
 
         parent::_initialize($config);

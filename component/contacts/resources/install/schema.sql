@@ -2,10 +2,10 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__contacts`
+-- Table structure for table `contacts`
 --
 
-CREATE TABLE `#__contacts` (
+CREATE TABLE `contacts` (
   `contacts_contact_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) DEFAULT NULL,

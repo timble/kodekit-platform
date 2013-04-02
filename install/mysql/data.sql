@@ -3,10 +3,10 @@ SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00';
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
 --
--- Dumping data for table `#__extensions_components`
+-- Dumping data for table `extensions_components`
 --
 
-INSERT INTO `#__extensions_components` (`extensions_component_id`, `title`, `name`, `params`, `enabled`)
+INSERT INTO `extensions_components` (`extensions_component_id`, `title`, `name`, `params`, `enabled`)
 VALUES
     (4, 'Web Links', 'com_weblinks', 'show_comp_description=1\ncomp_description=\nshow_link_hits=1\nshow_link_description=1\nshow_other_cats=1\nshow_headings=1\nshow_page_title=1\nlink_target=0\nlink_icons=\n\n', 1),
     (7, 'Contacts', 'com_contacts', 'contact_icons=0\nicon_address=\nicon_email=\nicon_telephone=\nicon_fax=\nicon_misc=\nshow_headings=1\nshow_position=1\nshow_email=0\nshow_telephone=1\nshow_mobile=1\nshow_fax=1\nbannedEmail=\nbannedSubject=\nbannedText=\nsession=1\ncustomReply=0\n\n', 1),
@@ -21,44 +21,44 @@ VALUES
     (35, 'Dashboard', 'com_dashboard', '', 1);   
 
 --
--- Dumping data for table `#__languages`
+-- Dumping data for table `languages`
 --
 
-INSERT INTO `#__languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)
+INSERT INTO `languages` (`languages_language_id`, `application`, `name`, `native_name`, `iso_code`, `slug`, `enabled`, `primary`)
 VALUES
     (1, 'admin', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1),
     (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1);
 
 --
--- Dumping data for table `#__languages_components`
+-- Dumping data for table `languages_components`
 --
 
-INSERT INTO `#__languages_tables` (`extensions_component_id`, `name`, `unique_column`, `enabled`)
+INSERT INTO `languages_tables` (`extensions_component_id`, `name`, `unique_column`, `enabled`)
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
 
 --
--- Dumping data for table `#__pages_menus`
+-- Dumping data for table `pages_menus`
 --
 
-INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
+INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
 VALUES
 	(1, 'site', 'Main Menu', 'mainmenu', 'The main menu for the site', 1, NULL, NULL, NULL, NULL, NULL),
 	(2, 'admin', 'Menubar', 'menubar', '1', 1, NULL, NULL, NULL, NULL, NULL);
 
 
 --
--- Dumping data for table `#__pages_modules_pages`
+-- Dumping data for table `pages_modules_pages`
 --
 
-INSERT INTO `#__pages_modules_pages` (`pages_module_id`, `pages_page_id`) VALUES (1, 0);
+INSERT INTO `pages_modules_pages` (`pages_module_id`, `pages_page_id`) VALUES (1, 0);
 
 --
--- Dumping data for table `#__pages_orderings`
+-- Dumping data for table `pages_orderings`
 --
 
-INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
+INSERT INTO `pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
 	(1, 2, 1),
 	(2, 3, 1),
@@ -94,10 +94,10 @@ VALUES
 
 
 --
--- Dumping data for table `#__pages_closures`
+-- Dumping data for table `pages_closures`
 --
 
-INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
+INSERT INTO `pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
 	(1, 1, 0),
 	(2, 2, 0),
@@ -167,18 +167,18 @@ VALUES
 
 
 --
--- Dumping data for table `#__pages_modules`
+-- Dumping data for table `pages_modules`
 --
 
-INSERT INTO `#__pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
 	(1, 'Main Menu', '', 2, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 0, 'menu_id=1\nshow_title=1\nclass=nav nav-list', 25, 'site');
 
 --
--- Dumping data for table `#__pages`
+-- Dumping data for table `pages`
 --
 
-INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
 	(1, 1, NULL, 'Home', 'home', 'option=com_articles&view=articles', NULL, 'component', 1, 0, 1, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(2, 2, NULL, 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', NULL, 'component', 1, 0, 0, 35, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
@@ -214,26 +214,26 @@ VALUES
 
 
 --
--- Dumping data for table `#__files_containers`
+-- Dumping data for table `files_containers`
 --
 
-INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`)
+INSERT INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`)
 VALUES
     (NULL, 'files-files', 'Images', 'images', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}'),
 	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": true,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');
 --
--- Dumping data for table `#__users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `#__users` (`users_user_id`, `name`, `email`, `enabled`, `send_email`, `users_role_id`, `last_visited_on`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `activation`, `params`, `uuid`)
+INSERT INTO `users` (`users_user_id`, `name`, `email`, `enabled`, `send_email`, `users_role_id`, `last_visited_on`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `activation`, `params`, `uuid`)
 VALUES
 	(1, 'Administrator', 'admin@localhost.home', 1, 1, 25, '', NULL, NULL, NULL, NULL, NOW(), '', '', '', UUID());
 
 --
--- Dumping data for table `#__users_groups`
+-- Dumping data for table `users_groups`
 --
 
-INSERT INTO `#__users_roles` (`users_role_id`, `name`, `description`)
+INSERT INTO `users_roles` (`users_role_id`, `name`, `description`)
 VALUES
     (18, 'Registered', ''),
     (19, 'Author', ''),
@@ -244,10 +244,10 @@ VALUES
     (25, 'Super Administrator', '');
 
 --
--- Dumping data for table `#__passwords`
+-- Dumping data for table `passwords`
 --
 
-INSERT INTO `#__users_passwords` (`email`, `expiration`, `hash`, `reset`) VALUES
+INSERT INTO `users_passwords` (`email`, `expiration`, `hash`, `reset`) VALUES
 ('admin@localhost.home', NULL, '$2y$10$UT7uLipGnbJbTcjZ6D.OAeVByFn.2ZpPmd.thZ5e5xHLwKXAxdvNG', '');
 
 

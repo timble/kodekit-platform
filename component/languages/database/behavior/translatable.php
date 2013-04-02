@@ -257,7 +257,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         
         foreach($translations as $translation)
         {
-            $prefix = $database->getTablePrefix().($translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code.'_') : '');
+            $prefix = $translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code.'_') : '';
             $query = 'REPLACE INTO '.$database->quoteIdentifier($prefix.$table->name).' '.$select;
             $database->execute($query);
         }

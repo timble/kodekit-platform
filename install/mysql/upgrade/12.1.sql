@@ -1,7 +1,7 @@
 # -----------------------------------------------------------
 # This script will update a Joomla 1.5 database to Nooku 12.1
 
-CREATE TABLE `#__versions_revisions` (
+CREATE TABLE `versions_revisions` (
   `table` varchar(64) NOT NULL,
   `row` bigint(20) unsigned NOT NULL,
   `revision` bigint(20) unsigned NOT NULL DEFAULT '1',
@@ -14,9 +14,9 @@ CREATE TABLE `#__versions_revisions` (
 
 # --------------------------------------------------------
 
-DROP TABLE IF EXISTS `#__files_paths`;
+DROP TABLE IF EXISTS `files_paths`;
 
-CREATE TABLE `#__files_containers` (
+CREATE TABLE `files_containers` (
   `files_container_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -26,10 +26,10 @@ CREATE TABLE `#__files_containers` (
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `#__files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`) VALUES
+INSERT INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`) VALUES
 (NULL, 'files-files', 'Images', 'images', '{"thumbnails": true,"maximum_size":"10485760","allowed_extensions": ["bmp", "csv", "doc", "gif", "ico", "jpg", "jpeg", "odg", "odp", "ods", "odt", "pdf", "png", "ppt", "swf", "txt", "xcf", "xls"],"allowed_mimetypes": ["image/jpeg", "image/gif", "image/png", "image/bmp", "application/x-shockwave-flash", "application/msword", "application/excel", "application/pdf", "application/powerpoint", "text/plain", "application/x-zip"],"allowed_media_usergroup":3}');
 
-CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
+CREATE TABLE IF NOT EXISTS `files_thumbnails` (
   `files_thumbnail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `files_container_id` varchar(255) NOT NULL,
   `folder` varchar(255) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `#__files_thumbnails` (
 # --------------------------------------------------------
 # com_activities schema changes
 
-CREATE TABLE IF NOT EXISTS `#__activities_activities` (
+CREATE TABLE IF NOT EXISTS `activities_activities` (
 	`activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`application` VARCHAR(10) NOT NULL DEFAULT '',
 	`type` VARCHAR(3) NOT NULL DEFAULT '',
@@ -60,25 +60,25 @@ CREATE TABLE IF NOT EXISTS `#__activities_activities` (
 # --------------------------------------------------------
 
 -- Remove tables
-DROP TABLE `#__core_log_items`;
-DROP TABLE `#__core_log_searches`;
-DROP TABLE `#__messages`;
-DROP TABLE `#__messages_cfg`;
-DROP TABLE `#__stats_agents`;
-DROP TABLE `#__migration_backlinks`;
-DROP TABLE `#__templates_menu`;
-DROP TABLE `#__content_rating`;
-DROP TABLE `#__bannerclient`;
-DROP TABLE `#__bannertrack`;
+DROP TABLE `core_log_items`;
+DROP TABLE `core_log_searches`;
+DROP TABLE `messages`;
+DROP TABLE `messages_cfg`;
+DROP TABLE `stats_agents`;
+DROP TABLE `migration_backlinks`;
+DROP TABLE `templates_menu`;
+DROP TABLE `content_rating`;
+DROP TABLE `bannerclient`;
+DROP TABLE `bannertrack`;
 
 -- Remove com_poll
-DELETE FROM `#__components` WHERE `option` = 'com_poll';
-DROP TABLE  `#__polls`, `#__poll_data`, `#__poll_date`, `#__poll_menu`;
-DELETE FROM `#__modules` WHERE `module` = 'mod_poll';
+DELETE FROM `components` WHERE `option` = 'com_poll';
+DROP TABLE  `polls`, `poll_data`, `poll_date`, `poll_menu`;
+DELETE FROM `modules` WHERE `module` = 'mod_poll';
 
 -- Make sure email and username are unique fields
-ALTER TABLE `#__users` DROP INDEX `email`;
-ALTER TABLE `#__users` ADD UNIQUE `email` (`email`);
-ALTER TABLE `#__users` DROP INDEX `username`;
-ALTER TABLE `#__users` ADD UNIQUE `username` (`username`);
+ALTER TABLE `users` DROP INDEX `email`;
+ALTER TABLE `users` ADD UNIQUE `email` (`email`);
+ALTER TABLE `users` DROP INDEX `username`;
+ALTER TABLE `users` ADD UNIQUE `username` (`username`);
 

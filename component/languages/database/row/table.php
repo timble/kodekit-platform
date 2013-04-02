@@ -27,7 +27,6 @@ class DatabaseRowTable extends Library\DatabaseRowTable
         if($this->getStatus() == Library\Database::STATUS_UPDATED && $modified && $this->enabled)
         {
             $database  = $this->getTable()->getAdapter();
-            $prefix    = $database->getTablePrefix();
             $languages = $this->getService('application.languages');
             $primary   = $languages->getPrimary();
 
@@ -38,8 +37,8 @@ class DatabaseRowTable extends Library\DatabaseRowTable
                     $table = strtolower($language->iso_code).'_'.$this->name;
                     
                     // Create language specific table.
-                    $query = 'CREATE TABLE '.$database->quoteIdentifier($prefix.$table).
-                        ' LIKE '.$database->quoteIdentifier($prefix.$this->name);
+                    $query = 'CREATE TABLE '.$database->quoteIdentifier($table).
+                        ' LIKE '.$database->quoteIdentifier($this->name);
                     $database->execute($query);
                     
                     // Copy content of original table into the language specific one.

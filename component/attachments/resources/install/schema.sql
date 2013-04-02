@@ -1,10 +1,10 @@
 
 -- --------------------------------------------------------
 --
--- Table structure for table `#__attachments`
+-- Table structure for table `attachments`
 --
 
-CREATE TABLE `#__attachments` (
+CREATE TABLE `attachments` (
   `attachments_attachment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `container` varchar(255) NOT NULL,
@@ -22,13 +22,13 @@ CREATE TABLE `#__attachments` (
 
 -- --------------------------------------------------------
 --
--- Table structure for table `#__attachments_relations`
+-- Table structure for table `attachments_relations`
 --
 
-CREATE TABLE `#__attachments_relations` (
+CREATE TABLE `attachments_relations` (
   `attachments_attachment_id` int(10) unsigned NOT NULL,
   `table` varchar(64) NOT NULL,
   `row` int(10) unsigned NOT NULL,
   KEY `attachments_attachment_id` (`attachments_attachment_id`),
-  CONSTRAINT `#__attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments_attachments` (`attachments_attachment_id`) ON DELETE CASCADE
+  CONSTRAINT `attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `attachments_attachments` (`attachments_attachment_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

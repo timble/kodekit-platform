@@ -231,7 +231,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      */
     public function lock($table)
     {
-        $query = 'LOCK TABLES '.$this->quoteIdentifier($this->getTableNeedle().$table).' WRITE';
+        $query = 'LOCK TABLES '.$this->quoteIdentifier($table).' WRITE';
 
         // Create command chain context.
         $context = $this->getCommandContext();
