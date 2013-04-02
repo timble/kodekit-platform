@@ -28,10 +28,6 @@
     <?= @template('default_sidebar.html'); ?>
 </ktml:module>
 
-<ktml:module position="inspector">
-    <?= @template('com:activities.view.activities.simple.html', array('package' => 'articles', 'name' => 'article')); ?>
-</ktml:module>
-
 <form action="" method="get" class="-koowa-grid">
     <?= @template('default_scopebar.html'); ?>
     <table>

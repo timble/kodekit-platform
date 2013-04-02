@@ -21,10 +21,6 @@
     <?= @template('default_sidebar.html') ?>
 </ktml:module>
 
-<ktml:module position="inspector">
-    <?= @template('com:activities.view.activities.simple.html', array('package' => 'pages', 'name' => 'page')); ?>
-</ktml:module>
-
 <form id="pages-form" action="" method="get" class="-koowa-grid" >
     <?= @template('default_scopebar.html') ?>
     <table>

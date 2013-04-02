@@ -24,10 +24,6 @@
 </ktml:module>
 <? endif; ?>
 
-<ktml:module  position="inspector">
-    <?= @template('com:activities.view.activities.simple.html', array('package' => $state->table, 'name' => 'category')); ?>
-</ktml:module>
-
 <form action="" method="get" class="-koowa-grid">
     <input type="hidden" name="section" value="<?= $state->section;?>" />
     <input type="hidden" name="type" value="<?= $state->type;?>" />
