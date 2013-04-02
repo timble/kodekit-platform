@@ -82,14 +82,9 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
             				'type'        => $identifier->type,
             				'package'     => $identifier->package,
             				'name'        => $identifier->name,
-                    		'status'      => $status
+                    		'status'      => $status,
+                            'created_by'  => $context->user->getId()
                         );
-
-                        if (!empty($row->created_by)) {
-                            $log['created_by'] = $row->created_by;
-                        } else {
-                            $log['created_by'] = $context->user->getId();
-                        }
 
                         if (is_array($this->_title_column))
                         {
