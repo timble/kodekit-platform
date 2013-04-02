@@ -31,7 +31,7 @@
 	
 	<div class="main">
 		<div class="title">
-			<input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" />
+			<input class="required" type="text" id="name" name="name" value="<?= $user->name ?>" placeholder="<?= @text('Name') ?>" />
 		</div>
 		
 		<div class="scrollable">
