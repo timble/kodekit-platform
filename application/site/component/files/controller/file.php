@@ -26,4 +26,13 @@ class FilesControllerFile extends ApplicationControllerDefault
 		
 		return $request;
 	}
+
+    protected function _initialize(Library\Config $config)
+    {
+        $config->append(array(
+            'behaviors' => array('thumbnailable')
+        ));
+
+        parent::_initialize($config);
+    }
 }
