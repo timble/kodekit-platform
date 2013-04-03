@@ -28,11 +28,9 @@ jQuery(function($) {
         <div class="modal-body"><div class="modal-image"></div></div>
     </div>
 
-    <? if ($params->get('show_page_title', 1)): ?>
 	<div class="page-header">
 		<h1><?= @escape($params->get('page_title')); ?></h1>
 	</div>
-	<? endif; ?>
 
     <? if ($parent !== null): ?>
 	<div class="btn-toolbar">
