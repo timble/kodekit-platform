@@ -26,13 +26,13 @@
     <script src="media://application/js/chromatable.js" />
 
     <? if(true) : ?>
-    <style src="media://application/css/default.css" />
+    <style src="media://application/stylesheets/default.css" />
     <? else : ?>
     <script src="media://application/js/sidebar.js" />
-    <style src="media://application/css/legacy.css" />
+    <style src="media://application/stylesheets/legacy.css" />
     <? endif; ?>
 
-    <style src="media://application/css/system.css"  />
+    <style src="media://application/stylesheets/system.css"  />
 
     <script src="media://application/js/jquery.js" /></script>
     <script type="text/javascript">
