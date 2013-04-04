@@ -10,7 +10,6 @@
 
 <style src="media://files/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" />
 
-<script src="media://files/plupload/jquery-1.6.4.min.js" />
 <script src="media://files/plupload/plupload.core.html5.flash.queue.js" />
 
 <script>
