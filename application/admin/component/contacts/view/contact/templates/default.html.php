@@ -112,7 +112,7 @@
 				<div class="control-group">
 				    <label class="control-label" for="image"><?= @text( 'Image' ); ?></label>
 				    <div class="controls">
-				        <?= @helper('image.listbox', array('name' => 'image', 'attribs' => array('class' => 'chzn-select'))); ?>
+				        <?= @helper('image.listbox', array('name' => 'image', 'attribs' => array('class' => 'select-image', 'style' => 'width:220px'))); ?>
 				    </div>
 				</div>
 			</fieldset>
@@ -158,3 +158,5 @@
 	</div>
 	
 </form>
+
+<script data-inline> $jquery(".select-image").select2(); </script>

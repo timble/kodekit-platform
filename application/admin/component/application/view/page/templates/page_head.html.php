@@ -33,4 +33,10 @@
     <? endif; ?>
 
     <style src="media://application/css/system.css"  />
+
+    <script src="media://application/js/jquery.js" /></script>
+    <script type="text/javascript">
+        var $jquery = jQuery.noConflict();
+    </script>
+    <script src="media://application/js/select2.js" /></script>
 </head>

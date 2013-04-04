@@ -47,7 +47,7 @@
 				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
 				    <div class="controls">
 				        <?= @helper('com:extensions.listbox.timezones',
-				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'chzn-select'))) ?>
+				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'select-timezone', 'style' => 'width:220px'))) ?>
 				    </div>
 				</div>
 			</fieldset>
@@ -136,3 +136,5 @@
 		</div>
 	</div>
 </form>
+
+<script data-inline> $jquery(".select-timezone").select2(); </script>

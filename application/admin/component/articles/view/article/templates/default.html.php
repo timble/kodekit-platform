@@ -142,10 +142,12 @@
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Tags') ?></label>
                     <div class="controls">
-                        <?= @helper('com:terms.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'chzn-select', 'multiple' => 'multiple'))) ?>
+                        <?= @helper('com:terms.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-terms', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
                     </div>
                 </div>
             </fieldset>
         </div>
     </div>
 </form>
+
+<script data-inline> $jquery(".select-terms").select2(); </script>
