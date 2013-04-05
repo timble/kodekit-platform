@@ -64,7 +64,7 @@ class ArticlesControllerArticle extends ApplicationControllerDefault
             }
 
             //Always show child category articles
-            $request->query->category_recurse = true;
+            $request->query->category_recurse = false;
         }
 
         return $request;

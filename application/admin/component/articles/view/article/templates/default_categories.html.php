@@ -17,14 +17,20 @@
 ?>
 
 <? foreach($categories as $category) : ?>
-	<span class="section"><?= @escape($category->title); ?></span><br />
-	<? if($category->hasChildren()) : ?>
-		<?= @helper('listbox.radiolist', array(
+	<span class="section"></span><br />
+    <label class="radio" for="categories_category_id<?= $category->id ?>">
+        <input type="radio" name="categories_category_id" id="categories_category_id<?= $category->id ?>" value="<?= $category->id ?>" class="">
+        <?= @escape($category->title); ?>
+    </label>
+    <? if($category->hasChildren()) : ?>
+        <div style="margin-left: 16px">
+        <?= @helper('listbox.radiolist', array(
 				'list'     => $category->getChildren(),
 				'selected' => $article->categories_category_id,
 				'name'     => 'categories_category_id',
 		        'text'     => 'title',
 			));
 		?>
+        </div>
 	<? endif; ?>
 <? endforeach ?>

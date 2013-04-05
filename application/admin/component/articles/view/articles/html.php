@@ -24,14 +24,8 @@ class ArticlesViewArticlesHtml extends Library\ViewHtml
     {        
         $state = $this->getModel()->getState();
         
-        $parent_id = $this->getService('com:articles.model.categories')
-                            ->table('articles')
-                            ->id($state->category)
-                            ->getRow()
-                            ->parent_id;
-        
         // Enable sortable
-        $this->sortable = $parent_id && $state->sort == 'ordering' && $state->direction == 'asc';
+        $this->sortable = $state->category && $state->sort == 'ordering' && $state->direction == 'asc';
         
         return parent::render();
     }
