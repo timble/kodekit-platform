@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilesFilterFolderUploadable extends Library\FilterAbstract
+class FilterFolderUploadable extends Library\FilterAbstract
 {
 	protected $_walk = false;
 

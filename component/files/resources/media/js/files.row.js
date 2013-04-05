@@ -100,7 +100,7 @@ Files.File = new Class({
 					}
 					else {
 						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : Files._('An error occurred during request');
+                        error = Files.getResponseError(response) || Files._('An error occurred during request');
 						alert(error);
 					}
 
@@ -139,15 +139,15 @@ Files.Image = new Class({
 					}
 				},
 				onFailure: function(xhr) {
-					response = xhr.responseText;
+					var response = xhr.responseText;
 
 					if (typeof failure == 'function') {
 						failure(xhr);
 					}
 					else {
-						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : Files._('An error occurred during request');
-						alert(error);
+                        response = JSON.decode(xhr.responseText, true);
+
+                        alert(Files.getResponseError(response) || Files._('An error occurred during request'));
 					}
 				}
 			});
@@ -172,8 +172,11 @@ Files.Folder = new Class({
 			url = $extend(url, extra_vars);
 		}
 		
-		var url = url_builder ? url_builder(url) : Files.app.createRoute(url);
-		
+		url = url_builder ? url_builder(url) : Files.app.createRoute(url);
+
+        if (Files.Folder.Request.running) {
+            Files.Folder.Request.cancel();
+        }
 
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
@@ -199,15 +202,15 @@ Files.Folder = new Class({
 					that.fireEvent('afterAddRow', {status: true, response: response, request: this});
 				},
 				onFailure: function(xhr) {
-					response = xhr.responseText;
+					var response = xhr.responseText;
 
 					if (typeof failure == 'function') {
 						failure(xhr);
 					}
 					else {
-						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : Files._('An error occurred during request');
-						alert(error);
+                        response = JSON.decode(xhr.responseText, true);
+
+                        alert(Files.getResponseError(response) || Files._('An error occurred during request'));
 					}
 
 					that.fireEvent('afterAddRow', {status: false, response: response, request: this, xhr: xhr});
@@ -236,15 +239,16 @@ Files.Folder = new Class({
 						// Mootools thinks it failed, weird
 						return this.onSuccess();
 					}
-					response = xhr.responseText;
+
+					var response = xhr.responseText;
 
 					if (typeof failure == 'function') {
 						failure(xhr);
 					}
 					else {
-						response = JSON.decode(xhr.responseText, true);
-						error = response && response.error ? response.error : Files._('An error occurred during request');
-						alert(error);
+                        response = JSON.decode(xhr.responseText, true);
+
+                        alert(Files.getResponseError(response) || Files._('An error occurred during request'));
 					}
 
 					that.fireEvent('afterDeleteRow', {status: false, response: response, request: this, xhr: xhr});
@@ -267,8 +271,9 @@ Files.Folder.Request = new Request.JSON({
 			this._onFailure(xhr);
 		}
 		else {
-			resp = JSON.decode(xhr.responseText, true);
-			error = resp && resp.error ? resp.error : Files._('An error occurred during request');
+			var response = JSON.decode(xhr.responseText, true),
+                error = Files.getResponseError(response) || Files._('An error occurred during request');
+
 			alert(error);
 		}
 	}

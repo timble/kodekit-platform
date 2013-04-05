@@ -210,10 +210,7 @@ Files.App = new Class({
 					that.grid.insertRows(resp.items);
 
 					that.fireEvent('afterSelect', resp);
-				} else {
-					alert(resp.error);
 				}
-
 			};
 
 		this.folder = new Files.Folder({'folder': folder, 'name': name});
