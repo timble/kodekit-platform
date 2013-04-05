@@ -95,7 +95,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         $this->expiration = date('Y-m-d');
 
         if ($autosave) {
-            $this->save();
+            $result = $this->save();
         } else {
             $result = $this->getMixer();
         }
