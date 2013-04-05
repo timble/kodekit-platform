@@ -172,8 +172,11 @@ Files.Folder = new Class({
 			url = $extend(url, extra_vars);
 		}
 		
-		var url = url_builder ? url_builder(url) : Files.app.createRoute(url);
-		
+		url = url_builder ? url_builder(url) : Files.app.createRoute(url);
+
+        if (Files.Folder.Request.running) {
+            Files.Folder.Request.cancel();
+        }
 
 		Files.Folder.Request._onSuccess = success;
 		Files.Folder.Request._onFailure = failure;
