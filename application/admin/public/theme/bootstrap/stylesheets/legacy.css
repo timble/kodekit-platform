@@ -3788,7 +3788,6 @@ fieldset {
   box-shadow: inset rgba(0, 0, 0, 0.1) 0px -2px 2px;
 }
 #panel-toolbar {
-  height: 41px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -4960,6 +4959,9 @@ body.login .form #password-check.score5 {
   color: #333;
   z-index: 1000;
 }
+#attachments-attachments-upload ul li {
+  margin-left: 20px;
+}
 #attachments-attachments-upload ul li:nth-last-child(2) {
   margin-bottom: 20px;
   padding-bottom: 10px;
@@ -4967,7 +4969,6 @@ body.login .form #password-check.score5 {
 }
 #attachments-attachments-upload ul li:last-of-type {
   list-style: none;
-  margin-left: -20px;
 }
 /*!
  * Overrides for bootstrap/forms.less
@@ -4990,6 +4991,12 @@ select {
 }
 textarea {
   height: auto;
+}
+.form-horizontal .control-label {
+  width: 120px;
+}
+.form-horizontal .controls {
+  margin-left: 140px;
 }
 .input-prepend .add-on,
 .input-append .add-on {

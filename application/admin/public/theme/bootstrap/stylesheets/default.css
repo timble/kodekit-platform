@@ -3815,7 +3815,6 @@ fieldset {
   box-shadow: inset rgba(0, 0, 0, 0.1) 0px -2px 2px;
 }
 #panel-toolbar {
-  height: 41px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -4987,6 +4986,9 @@ body.login .form #password-check.score5 {
   color: #333;
   z-index: 1000;
 }
+#attachments-attachments-upload ul li {
+  margin-left: 20px;
+}
 #attachments-attachments-upload ul li:nth-last-child(2) {
   margin-bottom: 20px;
   padding-bottom: 10px;
@@ -4994,7 +4996,6 @@ body.login .form #password-check.score5 {
 }
 #attachments-attachments-upload ul li:last-of-type {
   list-style: none;
-  margin-left: -20px;
 }
 /*!
  * Overrides for bootstrap/forms.less
@@ -5017,6 +5018,12 @@ select {
 }
 textarea {
   height: auto;
+}
+.form-horizontal .control-label {
+  width: 120px;
+}
+.form-horizontal .controls {
+  margin-left: 140px;
 }
 .input-prepend .add-on,
 .input-append .add-on {
@@ -5248,9 +5255,10 @@ body #container {
   -webkit-flex-direction: row;
   -moz-flex-direction: row;
   flex-direction: row;
-  -webkit-flex: 20px 0;
-  -moz-flex: 20px 0;
-  flex: 20px 0;
+  -webkit-flex: 37px 0;
+  -moz-flex: 37px 0;
+  flex: 37px 0;
+  min-height: auto;
 }
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
@@ -5320,6 +5328,7 @@ body #container {
   min-height: 100%;
 }
 #panel-content .-koowa-form .main .title {
+  min-height: 64px;
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
