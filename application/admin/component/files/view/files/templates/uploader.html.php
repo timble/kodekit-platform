@@ -215,7 +215,6 @@ window.addEvent('domready', function() {
 			}
 			Files.app.fireEvent('uploadFile', [row]);
 		} else {
-            console.log(response, Files.getResponseError(json));
 			failed[file.id] = Files.getResponseError(json) || Files._('Unknown error');
 		}
 	});
