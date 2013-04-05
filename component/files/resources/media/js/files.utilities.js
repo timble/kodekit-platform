@@ -53,3 +53,20 @@ Files.getFileType = function(extension) {
 	});
 	return type;
 };
+
+/**
+ * Returns the first error message in a response object
+ * @param response
+ * @returns null|string
+ */
+Files.getResponseError = function(response) {
+    var error;
+
+    if (response && typeof response.errors === 'object' && response.errors instanceof Array) {
+        if (response.errors.length) {
+            error = response.errors[0].message;
+        }
+    }
+
+    return error;
+}

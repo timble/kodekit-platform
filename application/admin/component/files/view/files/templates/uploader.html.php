@@ -215,9 +215,8 @@ window.addEvent('domready', function() {
 			}
 			Files.app.fireEvent('uploadFile', [row]);
 		} else {
-			var error = json.error ? json.error : 'Unknown error';
-
-			failed[file.id] = error;
+            console.log(response, Files.getResponseError(json));
+			failed[file.id] = Files.getResponseError(json) || Files._('Unknown error');
 		}
 	});
 
@@ -419,8 +418,7 @@ window.addEvent('domready', function() {
 				form.reset();
 				input.set('placeholder', Files._('Uploaded successfully!')).addClass('success');
 			} else {
-				var error = json.error ? json.error : Files._('Unknown error');
-				alert(Files._('An error occurred: ') + error);
+				alert(Files._('An error occurred: ') + Files.getResponseError(json) || Files._('Unknown error'));
 			}
 		},
 		onFailure: function(xhr) {

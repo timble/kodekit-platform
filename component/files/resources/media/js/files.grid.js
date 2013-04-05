@@ -107,10 +107,11 @@ Files.Grid = new Class({
 
 		that.addEvent('afterDeleteNodeFail', function(context) {
 			var xhr = context.xhr,
-				response = JSON.decode(xhr.responseText, true);
+				response = JSON.decode(xhr.responseText, true),
+                error = Files.getResponseError(response);
 
-			if (response && response.error) {
-				alert(response.error);
+			if (error) {
+				alert(error);
 			}
 		});
 
