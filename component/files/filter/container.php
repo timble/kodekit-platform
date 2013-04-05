@@ -24,7 +24,7 @@ class FilterContainer extends Library\FilterAbstract
     protected function _validate($data)
     {
         if (is_string($data)) {
-            return $this->getService('lib:filter.cmd')->validate($value);
+            return $this->getService('lib:filter.cmd')->validate($data);
         } else if (is_object($data)) {
             return true;
         }
