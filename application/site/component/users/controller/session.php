@@ -98,18 +98,24 @@ class UsersControllerSession extends ApplicationControllerDefault
 
     public function redirect(Library\CommandContext $context)
     {
-        if ($context->result !== false)
-        {
-            $user = $context->user;
-            if ($user->getPassword()->expired())
-            {
-                $url = '?option=com_users&view=user&layout=password&id=' . $user->id;
-                $url = $this->getService('lib:http.url', array('url' => $url));
+        if ($context->result !== false) {
+            $user     = $context->user;
+            $password = $this->getService('com:users.database.row.password')->set('id', $user->getEmail())->load();
+            if ($password->expired()) {
+                $component = $this->getService('application.components')->getComponent('users');
+                $pages     = $this->getService('application.pages');
+
+                $page = $pages->find(array(
+                    'extensions_component_id' => $component->id,
+                    'link'                    => array(array('view' => 'user'))));
+
+                $url                  = $page->getLink();
+                $url->query['layout'] = 'password';
+                $url->query['id']     = $user->getId();
 
                 $this->getService('application')->getRouter()->build($url);
                 $context->response->setRedirect($url);
-            }
-            else $context->response->setRedirect($context->request->getReferrer());
+            } else $context->response->setRedirect($context->request->getReferrer());
         }
     }
 
