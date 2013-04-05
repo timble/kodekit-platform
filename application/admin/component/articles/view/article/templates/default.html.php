@@ -150,4 +150,4 @@
     </div>
 </form>
 
-<script data-inline> $jquery(".select-terms").select2(); </script>
+<script data-inline> $jQuery(".select-terms").select2(); </script>
