@@ -31,7 +31,7 @@
 
     <script src="media://application/js/jquery.js" /></script>
     <script type="text/javascript">
-        var $jquery = jQuery.noConflict();
+        var $jQuery = jQuery.noConflict();
     </script>
     <script src="media://application/js/select2.js" /></script>
 </head>

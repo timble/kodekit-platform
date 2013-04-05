@@ -4816,30 +4816,11 @@ body.login .form #password-check.score5 {
 .com_extensions #toolbar-box {
   border-bottom: 1px solid #dddddd;
 }
-.com_extensions dl.tabs {
-  min-width: 200px;
-  border-right: 1px solid #E1E1E1;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  background-color: #F9F9F9;
-  float: none !important;
-  margin: 0 !important;
-  /* override default tabs styling */
-
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex: 0;
-  -moz-flex: 0;
-  flex: 0;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+.com_extensions .tabs {
+  position: relative;
+  -webkit-flex: 1;
 }
-.com_extensions dl.tabs h3 {
+.com_extensions .tabs h3 {
   color: #666;
   font-size: 11px;
   padding: 6px 0;
@@ -4847,18 +4828,12 @@ body.login .form #password-check.score5 {
   margin: 0;
   text-transform: uppercase;
 }
-.com_extensions dl.tabs dt {
-  float: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: 0 none !important;
-  background: none !important;
-  /* override default tabs styling */
-
+.com_extensions .tab {
+  z-index: 1;
 }
-.com_extensions dl.tabs dt span {
-  display: block;
-  padding: 6px 0 6px 22px;
+.com_extensions .tab > label {
+  padding: 0px 0 0px 22px;
+  line-height: 26px;
   color: #444;
   border-top: 1px solid #F9F9F9;
   font-weight: bold;
@@ -4866,7 +4841,7 @@ body.login .form #password-check.score5 {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.com_extensions dl.tabs dt span:hover {
+.com_extensions .tab > label:hover {
   color: #444;
   border-top-color: #c4dbf2;
   background-color: #c8def3;
@@ -4879,8 +4854,24 @@ body.login .form #password-check.score5 {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9e8f6', endColorstr='#ffafceed', GradientType=0);
   text-decoration: none;
 }
-.com_extensions dl.tabs dt.open span,
-.com_extensions dl.tabs dt.open span:hover {
+.com_extensions .tab > [type=radio] {
+  display: none;
+}
+.com_extensions .content {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 200px;
+  background: white;
+  right: 0;
+  bottom: 0;
+  border-left: 1px solid #E1E1E1;
+  overflow: scroll;
+}
+.com_extensions .content > * {
+  opacity: 0;
+}
+.com_extensions [type=radio]:checked ~ label {
   color: #FFF;
   border-top-color: #5c9bda;
   background-color: #5594d2;
@@ -4895,28 +4886,13 @@ body.login .form #password-check.score5 {
   -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
+  z-index: 2;
 }
-.com_extensions .current {
-  padding: 0 !important;
-  border: 0 none !important;
-  /* override default tabs styling */
-
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+.com_extensions [type=radio]:checked ~ label ~ .content {
+  z-index: 10;
 }
-.com_extensions .current dd {
-  padding: 14px 20px !important;
-  /* override default tabs styling */
-
-}
-.com_extensions .current dd h2 {
-  border-bottom: 1px solid #EEE;
-  color: #53637D;
-  padding-bottom: 4px;
-  margin-bottom: 20px;
+.com_extensions [type=radio]:checked ~ label ~ .content > * {
+  opacity: 1;
 }
 .com_pages #components {
   width: 200px;

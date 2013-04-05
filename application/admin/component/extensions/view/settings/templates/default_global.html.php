@@ -92,4 +92,4 @@
 	</div>
 </fieldset>
 
-<script data-inline> $jquery(".select-timezone").select2(); </script>
+<script data-inline> $jQuery(".select-timezone").select2(); </script>

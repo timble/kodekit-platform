@@ -159,4 +159,4 @@
 	
 </form>
 
-<script data-inline> $jquery(".select-image").select2(); </script>
+<script data-inline> $jQuery(".select-image").select2(); </script>
