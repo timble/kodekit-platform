@@ -25,6 +25,8 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 	{
 		parent::__construct($config);
 
+        spl_autoload_register(array($this, '__autoload'));
+
 		$this->setThumbnailSize(Library\Config::unbox($config->thumbnail_size));
 	}
 
@@ -39,42 +41,77 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
         parent::_initialize($config);
     }
 
+    /**
+     * Autoloader for Imagine library
+     *
+     * @param $className
+     *
+     * @return bool
+     */
+    private function __autoload($className)
+    {
+        $className = ltrim($className, '\\');
+        $fileName  = '';
+        $namespace = '';
+        if ($lastNsPos = strrpos($className, '\\')) {
+            $namespace = substr($className, 0, $lastNsPos);
+            $className = substr($className, $lastNsPos + 1);
+            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+        }
+        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
+        $fileName = JPATH_VENDOR.'/imagine/lib/'.$fileName;
+
+        if (file_exists($fileName)) {
+            require $fileName;
+            return true;
+        }
+
+        return false;
+    }
+
     public function generateThumbnail()
     {
 		@ini_set('memory_limit', '256M');
 
     	$source = $this->source;
-    	if ($source && !$source->isNew())
-		{
-			//Load the phpthumb library
-		    require_once JPATH_VENDOR.'/phpthumb/phpthumb.php';
 
-		    //Create the thumb
-		    $image = \PhpThumbFactory::create($source->fullpath)
-		        ->setOptions(array('jpegQuality' => 50));
+        if (!$source || $source->isNew()) {
+            return false;
+        }
 
-			if ($this->_thumbnail_size['x'] && $this->_thumbnail_size['y'])
-            {
-				// Resize then crop to the provided resolution.
-				$image->adaptiveResize($this->_thumbnail_size['x'], $this->_thumbnail_size['y']);
-			}
+        try
+        {
+            $x = isset($this->_thumbnail_size['x']) ? $this->_thumbnail_size['x'] : 0;
+            $y = isset($this->_thumbnail_size['y']) ? $this->_thumbnail_size['y'] : 0;
+
+            if (!$x && !$y) {
+                return false;
+            }
+
+            $imagine = new \Imagine\Gd\Imagine();
+            $image   = $imagine->open($source->fullpath);
+
+            if ($x && $y) {
+                $size = new \Imagine\Image\Box($x, $y);
+            }
             else
             {
-				$width = isset($this->_thumbnail_size['x'])?$this->_thumbnail_size['x']:0;
-				$height = isset($this->_thumbnail_size['y'])?$this->_thumbnail_size['y']:0;
-				// PhpThumb will calculate the missing side while preserving the aspect ratio.
-				$image->resize($width, $height);
-			}
+                $image_size = $image->getSize();
+                $larger     = max($image_size->getWidth(), $image_size->getHeight());
+                $scale      = max($x, $y);
 
-		    ob_start();
-		    echo $image->getImageAsString();
-		    $str = ob_get_clean();
-		    $str = sprintf('data:%s;base64,%s', $source->mimetype, base64_encode($str));
+                $size       = $image_size->scale(1/($larger/$scale));
+            }
 
-	    	return $str;
-		}
+            $thumbnail = $image->thumbnail($size, \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND);
+            $string    = sprintf('data:image/png;base64,%s', base64_encode((string)$thumbnail));
 
-		return false;
+            return $string;
+        }
+        catch (Exception $e) {
+            return false;
+        }
     }
 
 	public function save()
