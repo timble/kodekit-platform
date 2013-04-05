@@ -25,12 +25,7 @@
     <script src="media://application/js/application.js" />
     <script src="media://application/js/chromatable.js" />
 
-    <? if(true) : ?>
     <style src="media://application/stylesheets/default.css" />
-    <? else : ?>
-    <script src="media://application/js/sidebar.js" />
-    <style src="media://application/stylesheets/legacy.css" />
-    <? endif; ?>
 
     <style src="media://application/stylesheets/system.css"  />
 
