@@ -14,11 +14,8 @@ $params->loadArray($settings->toArray());
 ?>
 
 <? if($params = $params->render('settings['.$settings->getName().']')) : ?>
-<?= @helper('tabs.startPanel', array('id' => $settings->getName(), 'title' => @text(ucfirst($settings->getName())))) ?>
-	
 	<fieldset class="form-horizontal">
 	    <legend><?=  @text(ucfirst($settings->getName())); ?></legend>
 		<?= $params; ?>
 	</fieldset>
-<?= @helper('tabs.endPanel') ?>
 <? endif ?>

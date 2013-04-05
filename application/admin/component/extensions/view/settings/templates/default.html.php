@@ -18,15 +18,46 @@
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" >
-<?= @helper('tabs.startPane') ?>
-<h3><?= @text('Settings')?></h3>
-<?= @template('default_system.html', array('settings' => $settings->system)); ?>
+    <div class="tabs">
+        <h3><?= @text('System')?></h3>
+        <div class="tab">
+            <input type="radio" id="tab-1" name="tab-group-1" checked="">
+            <label for="tab-1"><?= @text('Global') ?></label>
+            <div class="content">
+                <?= @template('default_global.html'); ?>
+            </div>
+        </div>
 
-<h3><?= @text('Extensions')?></h3>
-<? foreach($settings as $name => $setting) : ?>
-	<? if($setting->getType() == 'component' && $setting->getPath()) : ?>
-	    <?= @template('default_extension.html', array('settings' => $setting)); ?>
-	<? endif; ?>
-<? endforeach; ?>
-<?= @helper('tabs.endPane') ?>
+        <div class="tab">
+            <input type="radio" id="tab-2" name="tab-group-1">
+            <label for="tab-2"><?= @text('Site') ?></label>
+            <div class="content">
+                <?= @template('default_site.html'); ?>
+            </div>
+        </div>
+
+        <div class="tab">
+            <input type="radio" id="tab-3" name="tab-group-1">
+            <label for="tab-3"><?= @text('Mail') ?></label>
+            <div class="content">
+                <?= @template('default_mail.html'); ?>
+            </div>
+        </div>
+
+        <h3><?= @text('Extensions')?></h3>
+        <? foreach($settings as $name => $setting) : ?>
+        <? if($setting->getType() == 'component' && $setting->getPath()) : ?>
+        <div class="tab">
+            <input type="radio" id="tab-<?= $setting->getName() ?>" name="tab-group-1">
+            <label for="tab-<?= $setting->getName() ?>"><?= @text(ucfirst($setting->getName())) ?></label>
+            <div class="content">
+                <?= @template('default_extension.html', array('settings' => $setting)); ?>
+            </div>
+        </div>
+        <? endif; ?>
+        <? endforeach; ?>
+    </div>
 </form>
+
+
+
