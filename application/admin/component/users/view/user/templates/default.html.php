@@ -10,7 +10,7 @@
 ?>
 
 <script src="media://js/koowa.js" />
-<script src="media://users/js/user.js" />
+<script src="media://users/js/users.js" />
 <style src="media://css/koowa.css" />
 
 <?= @helper('behavior.validator') ?>
