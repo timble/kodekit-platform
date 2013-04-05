@@ -228,6 +228,10 @@ Files.App = new Class({
 		var setter = function(item) {
 			this.fireEvent('beforeSetContainer', {container: item});
 
+            if (item.slug === 'files-files') {
+                item.relative_path = 'files/default/images';
+            }
+
 			this.container = item;
 			this.baseurl = Files.sitebase + '/' + item.relative_path;
 

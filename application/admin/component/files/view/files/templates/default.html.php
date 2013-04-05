@@ -12,7 +12,7 @@
 
 <script>
 
-Files.sitebase = window.location.pathname;
+Files.sitebase = '';
 Files.token = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
