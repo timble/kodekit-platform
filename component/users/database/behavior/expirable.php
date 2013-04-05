@@ -92,7 +92,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
      */
     public function expire($autosave = true)
     {
-        $this->expiration = date('Y-m-d');
+        $this->expiration = gmdate('Y-m-d');
 
         if ($autosave) {
             $result = $this->save();
@@ -114,7 +114,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
 
         if (empty($this->expiration)) {
             $result = null;
-        } elseif (strtotime(date('Y-m-d')) < strtotime($this->expiration)) {
+        } elseif (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration)) {
             $result = false;
         }
 
