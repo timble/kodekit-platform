@@ -67,7 +67,7 @@ class ApplicationRouter extends Library\DispatcherRouter
 
         //Build site route
         $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(HttpUrl::HOST)) {
+        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
             $segments[] = $site;
         }
 
