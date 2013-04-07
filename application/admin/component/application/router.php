@@ -37,6 +37,16 @@ class ApplicationRouter extends Library\DispatcherRouter
         $path = str_replace($url->query['site'], '', $path);
         $path = ltrim($path, '/');
 
+        // Parse language.
+        $languages = $this->getService('application.languages');
+        if(count($languages) > 1)
+        {
+            $language  = $languages->find(array('slug' => strtok($path, '/')));
+            if(count($language)) {
+                $path = substr($path, strlen(strtok($path, '/')) + 1);
+            }
+        }
+
         //Parse component route
         if(!empty($path))
         {
@@ -108,7 +118,13 @@ class ApplicationRouter extends Library\DispatcherRouter
             }
         }
 
-        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
+        // Add language.
+        $languages = $this->getService('application.languages');
+        if(count($languages) > 1) {
+            $route = $languages->getActive()->slug.'/'.$route;
+        }
+
+        $url->setPath($this->getService('request')->getBaseUrl()->getPath().'/'.$route);
 
         // Removed unused query variables
         unset($url->query['Itemid']);

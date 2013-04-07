@@ -92,7 +92,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             'options'  => array(
                 'session_name' => 'admin',
                 'config_file'  => JPATH_ROOT.'/config/config.php',
-                'language'     => null,
                 'theme'        => 'bootstrap'
             ),
         ));
@@ -304,34 +303,39 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     public function loadLanguage(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
-        $language = null;
+        $primary   = $languages->getPrimary();
 
-        // If a language was specified it has priority.
-        if($iso_code = $this->_options->language)
+        // Set content language.
+        if(count($languages) > 1)
         {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if(count($result) == 1) {
-                $language = $result->top();
+            $url      = clone $context->request->getUrl();
+            $path     = explode('/', $url->getPath());
+            $language = isset($path[2]) ? $languages->find(array('slug' => $path[2])) : array();
+
+            // If language slug is not in the path, make a redirect.
+            if(!count($language))
+            {
+                $url->setPath(implode('/', array_merge(array_slice($path, 0, 2), array($primary->slug), array_slice($path, 2))));
+                $context->response->setRedirect($url);
+                $languages->setActive($primary);
+            }
+            else
+            {
+                $language = $language->top();
+                $languages->setActive($language);
             }
         }
+        else $languages->setActive($primary);
 
-        // Otherwise use user language setting.
-        if(!$language && $iso_code = $context->user->get('language'))
-        {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if(count($result) == 1) {
-                $language = $result->top();
-            }
-        }
+        // Set application language.
+        $language = $languages->find(array('iso_code' => $context->user->get('language')));
 
-        // If language still not set, use the primary.
-        if(!$language) {
+        if(count($language)) {
+            $language = $language->top();
+        } else {
             $language = $languages->getPrimary();
         }
 
-        $languages->setActive($language);
-
-        // TODO: Remove this.
         JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
