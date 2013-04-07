@@ -25,9 +25,6 @@ class JElementLanguages extends JElement
 	{
 		$user =  Library\ServiceManager::get('user');
 
-		/*
-		 * @TODO: change to acl_check method
-		 */
 		if(!($user->getRole() >= 23) && $node->attributes('client') == 'administrator') {
 			return JText::_('No Access');
 		}
