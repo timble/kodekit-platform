@@ -29,7 +29,7 @@ class JElementMenu extends JElement
             'deselect' => false
         );
 
-        $html = KServiceManager::get('com:pages.template.helper.listbox')->menus($config);
+        $html = Library\ServiceManager::get('com:pages.template.helper.listbox')->menus($config);
         return $html;
     }
 }
