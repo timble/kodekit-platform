@@ -34,11 +34,9 @@
 			<th width="1">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
+            <th width="1"></th>
 			<th>
 				<?= @helper('grid.sort', array('column' => 'title')) ?>
-			</th>
-			<th width="1">
-				<?= @helper('grid.sort', array('column' => 'published')) ?>
 			</th>
 		</tr>
 	</thead>
@@ -60,11 +58,11 @@
 			<td align="center">
 				<?= @helper('grid.checkbox', array('row' => $weblink))?>
 			</td>
+            <td align="center">
+                <?= @helper('grid.enable', array('row' => $weblink, 'field' => 'published')) ?>
+            </td>
 			<td>
 				<a href="<?= @route( 'view=weblink&id='. $weblink->id ); ?>"><?= @escape($weblink->title); ?></a>
-			</td>
-			<td align="center">
-				<?= @helper('grid.enable', array('row' => $weblink, 'field' => 'published')) ?>
 			</td>
 		</tr>
 		<? endforeach; ?>

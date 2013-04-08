@@ -39,11 +39,9 @@
                 <th width="1">
                 	 <?= @helper('grid.checkall') ?>
                 </th>
+                <th width="1"></th>
                 <th>
                     <?= @helper('grid.sort', array('column' => 'title')) ?>
-                </th>
-                <th width="1">
-                    <?= @helper('grid.sort', array('column' => 'published', 'title' => 'Published')) ?>
                 </th>
                 <th width="1">
                     <?= @helper('grid.sort', array('title' => 'Last modified', 'column' => 'last_activity_on')) ?>
@@ -73,6 +71,9 @@
                 <td align="center">
                     <?= @helper('grid.checkbox' , array('row' => $article)) ?>
                 </td>
+                <td align="center">
+                    <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
+                </td>
                 <td class="ellipsis">
                 	<?if($article->getStatus() != 'deleted') : ?>
                     	<a href="<?= @route('view=article&id='.$article->id) ?>">
@@ -84,9 +85,6 @@
                      <? if($article->access) : ?>
                          <span class="label label-important"><?= @text('Registered') ?></span>
                      <? endif; ?>
-                </td>
-                <td align="center">
-                    <?= @helper('grid.enable', array('row' => $article, 'field' => 'published')) ?>
                 </td>
                 <td>
                     <?= @helper('date.humanize', array('date' => $article->last_activity_on)) ?> by <a href="<?= @route('option=com_users&view=user&id='.$article->created_by) ?>">
