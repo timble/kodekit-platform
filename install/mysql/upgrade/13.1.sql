@@ -77,8 +77,8 @@ UPDATE `categories` SET `section` = 'com_contacts' WHERE `section` = 'com_contac
 UPDATE `users` SET `params` = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(`params`, 'timezone=-12', 'timezone=Etc/GMT-12'), 'timezone=-11', 'timezone=Pacific/Midway'), 'timezone=-10', 'timezone=Pacific/Honolulu'), 'timezone=-9.5', 'timezone=Pacific/Marquesas'), 'timezone=-9', 'timezone=US/Alaska'), 'timezone=-8', 'timezone=US/Pacific'), 'timezone=-7', 'timezone=US/Mountain'), 'timezone=-6', 'timezone=US/Central'), 'timezone=-5', 'timezone=US/Eastern'), 'timezone=-4.5', 'timezone=America/Caracas'), 'timezone=-4', 'timezone=America/Barbados'), 'timezone=-3.5', 'timezone=Canada/Newfoundland'), 'timezone=-3', 'timezone=America/Buenos_Aires'), 'timezone=-2', 'timezone=Atlantic/South_Georgia'), 'timezone=-1', 'timezone=Atlantic/Azores'), 'timezone=0', 'timezone=Europe/London'), 'timezone=1', 'timezone=Europe/Amsterdam'), 'timezone=2', 'timezone=Europe/Istanbul'), 'timezone=3', 'timezone=Asia/Riyadh'), 'timezone=3.5', 'timezone=Asia/Tehran'), 'timezone=4', 'timezone=Asia/Muscat'), 'timezone=4.5', 'timezone=Asia/Kabul'), 'timezone=5', 'timezone=Asia/Karachi'), 'timezone=5.5', 'timezone=Asia/Calcutta'), 'timezone=5.75', 'timezone=Asia/Katmandu'), 'timezone=6', 'timezone=Asia/Dhaka'), 'timezone=6.5', 'timezone=Indian/Cocos'), 'timezone=7', 'timezone=Asia/Bangkok'), 'timezone=8', 'timezone=Australia/Perth'), 'timezone=8.75', 'timezone=Australia/West'), 'timezone=9', 'timezone=Asia/Tokyo'), 'timezone=9.5', 'timezone=Australia/Adelaide'), 'timezone=10', 'timezone=Australia/Brisbane'), 'timezone=10.5', 'timezone=Australia/Lord_Howe'), 'timezone=11', 'timezone=Pacific/Kosrae'), 'timezone=11.5', 'timezone=Pacific/Norfolk'), 'timezone=12', 'timezone=Pacific/Auckland'), 'timezone=12.75', 'timezone=Pacific/Chatham'), 'timezone=13', 'timezone=Pacific/Tongatapu'), 'timezone=14', 'timezone=Pacific/Kiritimati');
 
 -- Remove unused indexes
-ALTER TABLE #__users DROP INDEX idx_name;
-ALTER TABLE #__users DROP INDEX gid_block;
+ALTER TABLE `users` DROP INDEX idx_name;
+ALTER TABLE `users` DROP INDEX gid_block;
 
 -- Update schema to follow conventions
 
@@ -140,7 +140,7 @@ VALUES
 ALTER TABLE `session` ENGINE InnoDB;
 RENAME TABLE`session` TO  `users_sessions`;
 
--- Remove unused columns from #__session
+-- Remove unused columns from session
 ALTER TABLE `users_sessions` DROP `username`;
 ALTER TABLE `users_sessions` DROP `usertype`;
 ALTER TABLE `users_sessions` DROP `gid`;
@@ -161,7 +161,7 @@ UPDATE `modules` SET `extensions_component_id` = 20 WHERE `name` = 'mod_articles
 
 -- Rename tables to follow conventions
 RENAME TABLE `content` TO `articles`;
-DROP TABLE #__content_frontpage;
+DROP TABLE `content_frontpage`;
 
 -- Clean trash
 DELETE FROM `articles` WHERE `state` = '-2';
@@ -226,15 +226,15 @@ UPDATE `categories` SET `parent_id` = `section` , `section` = 'com_articles' WHE
 UPDATE `categories` SET `section` = REPLACE(`section`,'com_','');
 
 -- Migrate date from sections to categories
-ALTER TABLE #__categories ADD old_id int(11) NOT NULL;
+ALTER TABLE `categories` ADD `old_id` int(11) NOT NULL;
 
-INSERT INTO #__categories (parent_id, title, alias, image, `section`, description, published, checked_out, checked_out_time, ordering, access, count, params, old_id)
-SELECT 0, title, alias, image, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM #__sections;
+INSERT INTO `categories` (`parent_id`, `title`, `alias`, `image`, `section`, `description`, `published`, `checked_out`, `checked_out_time`, `ordering`, `access`, `count`, `params`, `old_id`)
+SELECT 0, title, alias, image, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM sections;
 
-UPDATE #__categories a, #__categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
-UPDATE #__menu a, #__categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
-ALTER TABLE #__categories DROP old_id;
-DROP TABLE #__sections;
+UPDATE categories a, categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
+UPDATE menu a, categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
+ALTER TABLE categories DROP old_id;
+DROP TABLE sections;
 
 -- Update schema to follow conventions
 ALTER TABLE `categories` CHANGE  `section` `table` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
@@ -444,6 +444,7 @@ INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `des
 VALUES
     (NULL, 'admin', 'Menubar', 'menubar', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+ALTER TABLE `pages_modules` CHANGE `id` `pages_module_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `pages_modules` ADD `created_by` INT(11) UNSIGNED AFTER `position`;
 ALTER TABLE `pages_modules` ADD `created_on` DATETIME AFTER `created_by`;
 ALTER TABLE `pages_modules` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
@@ -535,7 +536,7 @@ CREATE TABLE IF NOT EXISTS `pages_closures` (
 DROP PROCEDURE IF EXISTS `convert_adjacency_to_closure`;
 
 DELIMITER //
-CREATE PROCEDURE #__convert_adjacency_to_closure()
+CREATE PROCEDURE convert_adjacency_to_closure()
 BEGIN
     DECLARE distance TINYINT UNSIGNED DEFAULT 0;
     DECLARE max_level TINYINT UNSIGNED;
@@ -555,8 +556,8 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL #__convert_adjacency_to_closure();
-DROP PROCEDURE #__convert_adjacency_to_closure;
+CALL convert_adjacency_to_closure();
+DROP PROCEDURE convert_adjacency_to_closure;
 
 -- Add orderings table
 CREATE TABLE `pages_orderings` (
@@ -576,7 +577,7 @@ INSERT INTO `pages_orderings` (`pages_page_id`, `custom`) SELECT `pages_page_id`
 DROP PROCEDURE IF EXISTS `populate_ordering_title`;
 
 DELIMITER //
-CREATE PROCEDURE #__populate_ordering_title()
+CREATE PROCEDURE populate_ordering_title()
 BEGIN
     DECLARE menu_id INT;
     DECLARE distance TINYINT UNSIGNED DEFAULT 0;
@@ -608,8 +609,8 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL #__populate_ordering_title();
-DROP PROCEDURE #__populate_ordering_title;
+CALL populate_ordering_title();
+DROP PROCEDURE populate_ordering_title;
 
 -- Drop unnecessary columns
 ALTER TABLE `pages` DROP COLUMN `menutype`;
