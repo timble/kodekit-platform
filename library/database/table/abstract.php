@@ -554,8 +554,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 {
                     if (isset($data) && !empty($data))
                     {
-                        $options['data'] = $data;
-                        $options['new'] = false;
+                        $options['data']   = $data;
+                        $options['new']    = false;
                         $options['status'] = Database::STATUS_LOADED;
                     }
 
@@ -568,7 +568,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                     if (isset($data) && !empty($data))
                     {
                         $options['data'] = $data;
-                        $options['new'] = false;
+                        $options['new']  = false;
                     }
 
                     $context->data = $this->getRowset($options);
