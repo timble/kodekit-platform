@@ -662,7 +662,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             {
                 if ($context->affected)
                 {
-                    if ($this->getIdentityColumn()) {
+                    if(($column = $this->getColumn($this->getIdentityColumn())) && $column->autoinc) {
                         $data[$this->getIdentityColumn()] = $this->getAdapter()->getInsertId();
                     }
 
