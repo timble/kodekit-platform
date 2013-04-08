@@ -38,11 +38,9 @@
                 <th width="1">
                     <?= @helper('grid.checkall'); ?>
                 </th>
+                <th width="1"></th>
                 <th>
                     <?= @helper('grid.sort',  array('column' => 'title')); ?>
-                </th>
-                <th width="1">
-                    <?= @helper('grid.sort',  array('column' => 'published')); ?>
                 </th>
                 <th width="1">
                     <?= @helper('grid.sort',  array( 'title' => 'Articles', 'column' => 'count')); ?>
@@ -69,6 +67,9 @@
                     <td align="center">
                         <?= @helper( 'grid.checkbox' , array('row' => $category)); ?>
                     </td>
+                    <td align="center">
+                        <?= @helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
+                    </td>
                     <td>
                         <a href="<?= @route( 'view=category&id='.$category->id ); ?>">
                             <?= @escape($category->title); ?>
@@ -76,9 +77,6 @@
                          <? if($category->access) : ?>
                              <span class="label label-important"><?= @text('Registered') ?></span>
                          <? endif; ?>
-                    </td>
-                    <td align="center">
-                        <?= @helper('grid.enable', array('row' => $category, 'field' => 'published')) ?>
                     </td>
                     <td align="center">
                         <?= $category->count; ?>
