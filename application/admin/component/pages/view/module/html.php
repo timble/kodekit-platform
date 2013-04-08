@@ -48,6 +48,15 @@ class PagesViewModuleHtml extends Library\ViewHtml
             JFactory::getLanguage()->load(substr($module->component_name, 4), $module->name, $path);
         }
 
+        // Build path to module config file
+        $path  = $this->getService('loader')->getApplication('site');
+        $path .= '/component/'.substr($module->component_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
+
+        $params = new \JParameter( null, $path );
+        $params->loadArray($module->params->toArray());
+
+        $this->params = $params;
+
         return parent::render();
     }
 }
