@@ -459,42 +459,42 @@ ALTER TABLE `pages_modules_pages` ADD CONSTRAINT `pages_modules_pages__pages_mod
 ALTER TABLE `pages_modules_pages` ADD CONSTRAINT `pages_modules_pages__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `pages` (`pages_page_id`) ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- Add admin menubar pages
-INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`)
-VALUES
-    ('menubar', 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_dashboard'), 1, 0, 0);
+INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`, `params`)
+  VALUES
+  ('menubar', 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_dashboard'), 1, 0, 0, '');
 
 SET @base = LAST_INSERT_ID();
 
-INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`)
-VALUES
-    ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 2, 0, 0),
-    ('menubar', 'Content', 'content', NULL, 'separator', 1, NULL, 3, 0, 0),
-    ('menubar', 'Files', 'files', 'option=com_files&view=files', 'component', 1, 19, 4, 0, 0),
-    ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 5, 0, 0),
-    ('menubar', 'Extensions', 'extensions', NULL, 'separator', 1, NULL, 6, 0, 0),
-    ('menubar', 'Settings', 'settings', 'option=com_extensions&view=settings', 'component', 1, 28, 1, @base + 5, 1),
-    ('menubar', 'Tools', 'tools', NULL, 'separator', 1, NULL, 7, 0, 0),
-    ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_activities'), 1, @base + 7, 1),
-    ('menubar', 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', 'component', 1, 32, 2, @base + 7, 1),
-    ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 2, 1),
-    ('menubar', 'Web Links', 'web-links', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 2, @base + 2, 1),
-    ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 3, @base + 2, 1),
-    ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 4, @base + 2, 1),
-    ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 10, 2),
-    ('menubar', 'Categories', 'categories', 'option=com_articles&view=categories', 'component', 1, 20, 2, @base + 10, 2),
-    ('menubar', 'Web Links', 'weblinks', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 1, @base + 11, 2),
-    ('menubar', 'Categories', 'categories', 'option=com_weblinks&view=categories', 'component', 1, 4, 2, @base + 11, 2),
-    ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 1, @base + 12, 2),
-    ('menubar', 'Categories', 'categories', 'option=com_contacts&view=categories', 'component', 1, 7, 2, @base + 12, 2),
-    ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 1, @base + 13, 2),
-    ('menubar', 'Components', 'components', 'option=com_languages&view=components', 'component', 1, 23, 2, @base + 13, 2),
-    ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 1, @base + 1, 1),
-    ('menubar', 'Menus', 'menus', 'option=com_pages&view=menus', 'component', 1, 25, 2, @base + 1, 1),
-    ('menubar', 'Modules', 'modules', 'option=com_pages&view=modules', 'component', 1, 25, 3, @base + 1, 1),
-    ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 1, @base + 4, 1),
-    ('menubar', 'Groups', 'groups', 'option=com_users&view=groups', 'component', 1, 31, 2, @base + 4, 1),
-    ('menubar', 'Items', 'items', 'option=com_cache&view=items', 'component', 1, 32, 1, @base + 9, 2),
-    ('menubar', 'Groups', 'groups', 'option=com_cache&view=groups', 'component', 1, 32, 2, @base + 9, 2);
+INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`, `params`)
+  VALUES
+  ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 2, 0, 0, ''),
+  ('menubar', 'Content', 'content', NULL, 'separator', 1, NULL, 3, 0, 0, ''),
+  ('menubar', 'Files', 'files', 'option=com_files&view=files', 'component', 1, 19, 4, 0, 0, ''),
+  ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 5, 0, 0, ''),
+  ('menubar', 'Extensions', 'extensions', NULL, 'separator', 1, NULL, 6, 0, 0, ''),
+  ('menubar', 'Settings', 'settings', 'option=com_extensions&view=settings', 'component', 1, 28, 1, @base + 5, 1, ''),
+  ('menubar', 'Tools', 'tools', NULL, 'separator', 1, NULL, 7, 0, 0, ''),
+  ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_activities'), 1, @base + 7, 1, ''),
+  ('menubar', 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', 'component', 1, 32, 2, @base + 7, 1, ''),
+  ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 2, 1, ''),
+  ('menubar', 'Web Links', 'web-links', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 2, @base + 2, 1, ''),
+  ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 3, @base + 2, 1, ''),
+  ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 4, @base + 2, 1, ''),
+  ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 10, 2, ''),
+  ('menubar', 'Categories', 'categories', 'option=com_articles&view=categories', 'component', 1, 20, 2, @base + 10, 2, ''),
+  ('menubar', 'Web Links', 'weblinks', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 1, @base + 11, 2, ''),
+  ('menubar', 'Categories', 'categories', 'option=com_weblinks&view=categories', 'component', 1, 4, 2, @base + 11, 2, ''),
+  ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 1, @base + 12, 2, ''),
+  ('menubar', 'Categories', 'categories', 'option=com_contacts&view=categories', 'component', 1, 7, 2, @base + 12, 2, ''),
+  ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 1, @base + 13, 2, ''),
+  ('menubar', 'Components', 'components', 'option=com_languages&view=components', 'component', 1, 23, 2, @base + 13, 2, ''),
+  ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 1, @base + 1, 1, ''),
+  ('menubar', 'Menus', 'menus', 'option=com_pages&view=menus', 'component', 1, 25, 2, @base + 1, 1, ''),
+  ('menubar', 'Modules', 'modules', 'option=com_pages&view=modules', 'component', 1, 25, 3, @base + 1, 1, ''),
+  ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 1, @base + 4, 1, ''),
+  ('menubar', 'Groups', 'groups', 'option=com_users&view=groups', 'component', 1, 31, 2, @base + 4, 1, ''),
+  ('menubar', 'Items', 'items', 'option=com_cache&view=items', 'component', 1, 32, 1, @base + 9, 2, ''),
+  ('menubar', 'Groups', 'groups', 'option=com_cache&view=groups', 'component', 1, 32, 2, @base + 9, 2, '');
 
 ALTER TABLE `pages` ADD COLUMN `pages_menu_id` INT UNSIGNED NOT NULL AFTER `pages_page_id`;
 UPDATE `pages` AS `pages`, `pages_menus` AS `menus` SET `pages`.`pages_menu_id` = `menus`.`pages_menu_id` WHERE `menus`.`slug` = `pages`.`menutype`;
