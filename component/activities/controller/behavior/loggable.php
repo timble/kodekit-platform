@@ -79,7 +79,6 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
                          $log = array(
                             'action'	  => $context->action,
-            				'type'        => $identifier->type,
             				'package'     => $identifier->package,
             				'name'        => $identifier->name,
                     		'status'      => $status,
@@ -96,8 +95,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                                 }
                             }
                         }
-                        elseif($row->{$this->_title_column})
-                        {
+                        elseif($row->{$this->_title_column}) {
                             $log['title'] = $row->{$this->_title_column};
                         }
 
