@@ -51,7 +51,7 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 		));
 	
 		$row  = $config->row;
-		$item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
+		$item = $this->getTemplate()->getView()->getRoute('option=com_'.$row->package.'&view='.$row->name.'&id='.$row->row);
 		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$row->created_by); 
 		
 		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a> '; 

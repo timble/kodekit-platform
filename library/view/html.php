@@ -50,13 +50,13 @@ class ViewHtml extends ViewTemplate
         $this->state = $model->getState();
 
         //Auto-assign the data from the model
-        if ($this->_auto_assign)
+        if($this->_auto_assign)
         {
             //Get the view name
             $name = $this->getName();
 
             //Assign the data of the model to the view
-            if (StringInflector::isPlural($name))
+            if(!$model->getState()->isUnique())
             {
                 $this->$name = $model->getRowset();
                 $this->total = $model->getTotal();

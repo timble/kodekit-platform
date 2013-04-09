@@ -25,7 +25,6 @@ class ModelActivities extends Library\ModelTable
 
 		$this->getState()
 			->insert('application' , 'cmd')
-			->insert('type'        , 'cmd')
 			->insert('package'     , 'cmd')
 			->insert('name'        , 'cmd')
 			->insert('action'      , 'cmd')
@@ -71,10 +70,6 @@ class ModelActivities extends Library\ModelTable
 
 		if ($state->application) {
 			$query->where('tbl.application = :application')->bind(array('application' => $state->application));
-		}
-
-		if ($state->type) {
-			$query->where('tbl.type = :type')->bind(array('type' => $state->type));
 		}
 
 		if ($state->package && !($state->distinct && !empty($state->column))) {

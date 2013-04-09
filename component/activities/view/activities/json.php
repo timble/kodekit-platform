@@ -89,10 +89,10 @@ class ViewActivitiesJson extends Library\ViewJson
 				    )),
 		    		'verb' => $item->action,
 	        		'object' => array(
-	        			'url' => $this->getRoute('option='.$item->type.'_'.$item->package.'&view='.$item->name.'&id='.$item->row),
+	        			'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name.'&id='.$item->row),
 	                ),
 			    	'target' => array(
-			    		'url' => $this->getRoute('option='.$item->type.'_'.$item->package.'&view='.$item->name),
+			    		'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name),
 				    ),
 				    'actor' => array(
 				    	'url' => $this->getRoute('option=com_users&view=user&id='.$item->created_by),

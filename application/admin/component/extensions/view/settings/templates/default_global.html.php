@@ -81,15 +81,4 @@
 	</div>
 </fieldset>
 
-<fieldset class="form-horizontal">
-	<legend><?= @text( 'Url' ); ?></legend>
-	<div class="control-group">
-	    <label class="control-label" for=""><?= @text( 'Add suffix to URLs' ); ?></label>
-	    <div class="controls">
-	        <?= @helper('select.booleanlist' , array('name' => 'settings[system][sef_suffix]', 'selected' => $settings->sef_suffix));?>
-	        <p class="help-block"><?= @text('TIPURLSUFFIX'); ?></p>
-	    </div>
-	</div>
-</fieldset>
-
 <script data-inline> $jQuery(".select-timezone").select2(); </script>
