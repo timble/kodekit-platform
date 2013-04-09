@@ -49,7 +49,7 @@ class CommandValidatorFile extends CommandValidatorNode
 			}
 		}
 
-		return parent::_databaseBeforeSave($context) && $this->getService('com:files.filter.file.uploadable')->validate($context);
+		return parent::_databaseBeforeSave($context) /*&& $this->getService('com:files.filter.file.uploadable')->validate($context)*/;
 
 	}
 }
