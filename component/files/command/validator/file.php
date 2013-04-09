@@ -33,13 +33,13 @@ class CommandValidatorFile extends CommandValidatorNode
 				$file->load();
 				$row->contents = $file->contents;
 
-			} catch (FilesDatabaseRowUrlException $e) {
+			} catch (DatabaseRowUrlException $e) {
 				throw new \RuntimeException($e->getMessage(), $e->getCode());
 			}
 
 			if (empty($row->name))
 			{
-				$uri = $this->getService('lib:http.url', array('url' => $row->file));
+				$uri  = $this->getService('lib:http.url', array('url' => $row->file));
 	        	$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
