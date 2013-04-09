@@ -219,8 +219,13 @@ DELETE FROM `categories` WHERE `section` = 'com_content';
 DELETE FROM `categories` WHERE `section` = 'com_newsfeeds';
 DELETE FROM `categories` WHERE `section` = 'com_banner';
 
+-- Remove unused columns
+ALTER TABLE `categories` DROP `image_position`;
+ALTER TABLE `categories` DROP `name`;
+ALTER TABLE `categories` DROP `editor`;
+
 -- Set parent_id of com_articles categories to the section
-UPDATE `categories` SET `parent_id` = `section` , `section` = 'com_articles' WHERE `section` > 0;
+UPDATE `categories` SET `parent_id` = `section` , `section` = 'com_articles' WHERE `section` REGEXP '^-?[0-9]+$';
 
 -- Remove the com_ prefix, the section now refers to the table
 UPDATE `categories` SET `section` = REPLACE(`section`,'com_','');
@@ -250,11 +255,6 @@ ALTER TABLE `categories` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `categories` CHANGE `checked_out_time` `locked_on` DATETIME;
 ALTER TABLE `categories` DROP INDEX `idx_checkout`;
 
--- Remove unused columns
-ALTER TABLE `categories` DROP `image_position`;
-ALTER TABLE `categories` DROP `name`;
-ALTER TABLE `categories` DROP `editor`;
-
 # --------------------------------------------------------
 
 -- Remove com_newsfeeds
@@ -266,6 +266,11 @@ DELETE FROM `modules` WHERE `name` = 'mod_feed';
 
 -- Remove menu links to newsfeeds component
 DELETE FROM `menu` WHERE `componentid` = 11;
+
+# --------------------------------------------------------
+
+-- Remove com_wrapper
+DELETE FROM `menu` WHERE `componentid` = 17;
 
 # --------------------------------------------------------
 
