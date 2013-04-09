@@ -87,28 +87,22 @@ class ApplicationRouter extends Library\DispatcherRouter
             }
         }
 
-        $url->query  = $query;
-
-        //Build the route
-        $route  = implode('/', $segments);
+        $url->query = $query;
 
         //Add the format to the uri
-        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
-
-        if($this->getService('application')->getCfg('sef_suffix'))
+        if(isset($url->query['format']))
         {
-            $url->format = $format;
+            $format = $url->query['format'];
+
+            if($format != 'html') {
+                $url->format = $format;
+            }
+
             unset($url->query['format']);
         }
-        else
-        {
-            $url->format = '';
-            if($format == 'html') {
-                unset($url->query['format']);
-            }
-        }
 
-        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
+        //Build the route
+        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'. implode('/', $segments);
 
         // Removed unused query variables
         unset($url->query['Itemid']);
