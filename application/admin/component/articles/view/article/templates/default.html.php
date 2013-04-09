@@ -128,24 +128,28 @@
     	            <? endforeach ?>
     	        </fieldset>
 	        <? endif ?>
-            
+
+            <? if($article->isAttachable()) : ?>
             <fieldset>
                 <legend><?= @text('Attachments') ?></legend>
-                <? if ($article->id) : ?>
+                <? if (!$article->isNew()) : ?>
                     <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true)) ?>
                 <? endif ?>
                 <?= @template('com:attachments.view.attachments.upload.html') ?>
             </fieldset>
-            
+            <? endif ?>
+
+            <? if($article->isTaggable()) : ?>
             <fieldset>
                 <legend><?= @text('Tags') ?></legend>
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Tags') ?></label>
                     <div class="controls">
-                        <?= @helper('com:terms.listbox.terms', array('name' => 'terms[]', 'selected' => $terms, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-terms', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
+                        <?= @helper('com:terms.listbox.terms', array('name' => 'terms[]', 'selected' => $article->getTerms()->terms_term_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-terms', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
                     </div>
                 </div>
             </fieldset>
+            <? endif ?>
         </div>
     </div>
 </form>
