@@ -78,4 +78,12 @@ interface ConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
      * @return array
      */
     public function toArray();
+
+    /**
+     * Return a Config object from an array
+     *
+     * @param  array $array
+     * @return Config Returns a Config object
+     */
+    public static function fromArray(array $array);
 }

@@ -276,6 +276,17 @@ class Config implements ConfigInterface
     }
 
     /**
+     * Return a Config object from an array
+     *
+     * @param  array $array
+     * @return Config Returns a Config object
+     */
+    public static function fromArray(array $array)
+    {
+        return new static($array);
+    }
+
+    /**
      * Retrieve a configuration element
      *
      * @param string $name
