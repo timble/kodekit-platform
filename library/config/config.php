@@ -138,9 +138,9 @@ class Config implements ConfigInterface
 
         if(is_array($config))
         {
-            if(!is_numeric(key($config)))
+            foreach($config as $key => $value)
             {
-                foreach($config as $key => $value)
+                if(!is_numeric($key))
                 {
                     if(array_key_exists($key, $this->_data))
                     {
@@ -150,15 +150,12 @@ class Config implements ConfigInterface
                     }
                     else $this->__set($key, $value);
                 }
-            }
-            else
-            {
-                foreach($config as $value)
+                else
                 {
-                    if (!in_array($value, $this->_data, true)) {
+                    if(!in_array($value, $this->_data, true)) {
                         $this->_data[] = $value;
                     }
-                 }
+                }
             }
         }
 
