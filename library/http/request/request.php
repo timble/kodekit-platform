@@ -289,4 +289,16 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
         $str .= $this->getContent();
         return $str;
     }
+
+    /**
+     * Deep clone of this instance
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        parent::__clone();
+
+        $this->_headers = clone $this->_url;
+    }
 }

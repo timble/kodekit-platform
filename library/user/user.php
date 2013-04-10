@@ -193,7 +193,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      *
      * This function will create a session object if it hasn't been created yet.
      *
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function getSession()
     {
@@ -235,8 +235,8 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Get an user attribute
      *
-     * @param   string  Attribute identifier, eg .foo.bar
-     * @param   mixed   Default value when the attribute doesn't exist
+     * @param   string  $identifier Attribute identifier, eg .foo.bar
+     * @param   mixed   $value      Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null)
@@ -247,8 +247,8 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Set an user attribute
      *
-     * @param   mixed   Attribute identifier, eg foo.bar
-     * @param   mixed   Attribute value
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $value Attribute value
      * @return User
      */
     public function set($identifier, $value)
@@ -260,7 +260,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Check if a user attribute exists
      *
-     * @param   string  Attribute identifier, eg foo.bar
+     * @param   string  $identifier Attribute identifier, eg foo.bar
      * @return  boolean
      */
     public function has($identifier)

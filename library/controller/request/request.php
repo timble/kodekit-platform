@@ -160,4 +160,17 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
 
         return parent::__get($name);
     }
+
+    /**
+     * Deep clone of this instance
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        parent::__clone();
+
+        $this->_data  = clone $this->_data;
+        $this->_query = clone $this->_query;
+    }
 }
