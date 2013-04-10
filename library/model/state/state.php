@@ -120,7 +120,7 @@ class ModelState extends Config implements ModelStateInterface
     }
 
     /**
-     * Set the state data
+     * Set the state values from an array
      *
      * This function will only filter values if we have a value. If the value is an empty string it will be filtered
      * to NULL.
@@ -128,9 +128,8 @@ class ModelState extends Config implements ModelStateInterface
      * @param   array An associative array of state values by name
      * @return  ModelState
      */
-    public function fromArray(array $data)
+    public function values(array $data)
     {
-        // Filter data
         foreach($data as $key => $value)
         {
             if(isset($this->_data[$key]))

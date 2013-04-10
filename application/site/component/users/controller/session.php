@@ -79,7 +79,7 @@ class UsersControllerSession extends ApplicationControllerDefault
                 'session'    => true,
             );
 
-            $context->user->fromArray($data);
+            $context->user->values($data);
         }
         else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 

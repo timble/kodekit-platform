@@ -32,7 +32,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
         parent::__construct($config);
 
         //Set the user properties and attributes
-        $this->fromArray(Config::unbox($config));
+        $this->values(Config::unbox($config));
     }
 
     /**
@@ -216,7 +216,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      * @param  array $data An associative array of data
      * @return User
      */
-    public function fromArray(array $data)
+    public function values(array $data)
     {
         //Re-initialize the object
         $data = new Config($data);

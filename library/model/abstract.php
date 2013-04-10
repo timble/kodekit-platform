@@ -103,7 +103,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
                 }
             }
 
-            $this->_state->fromArray($name);
+            $this->_state->values($name);
         }
         else
         {
