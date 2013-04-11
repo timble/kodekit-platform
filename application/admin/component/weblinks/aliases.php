@@ -15,4 +15,6 @@
  * @subpackage  Weblinks
  */
 
-KServiceManager::setAlias('com://admin/weblinks.model.categories', 'com://admin/categories.model.categories');
+use Nooku\Library\ServiceManager;
+
+ServiceManager::setAlias('com:weblinks.model.categories', 'com:categories.model.categories');

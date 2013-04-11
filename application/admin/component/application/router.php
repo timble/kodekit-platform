@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Application Router Class
 .*
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationRouter extends KDispatcherRouter
+class ApplicationRouter extends Library\DispatcherRouter
 {
-    public function parse(KHttpUrl $url)
+    public function parse(Library\HttpUrl $url)
 	{
         $vars = array();
         $path = trim($url->getPath(), '/');
@@ -58,18 +60,18 @@ class ComApplicationRouter extends KDispatcherRouter
         return true;
 	}
 
-	public function build(KHttpUrl $url)
+	public function build(Library\HttpUrl $url)
 	{
         $query    = $url->query;
         $segments = array();
 
         //Build site route
         $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(KHttpUrl::HOST)) {
+        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
             $segments[] = $site;
         }
 
-	    //Build commponent route
+	    //Build component route
         if(isset($query['option']))
         {
             $segments[] = substr($query['option'], 4);
@@ -85,28 +87,22 @@ class ComApplicationRouter extends KDispatcherRouter
             }
         }
 
-        $url->query  = $query;
-
-        //Build the route
-        $route  = implode('/', $segments);
+        $url->query = $query;
 
         //Add the format to the uri
-        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
-
-        if($this->getService('application')->getCfg('sef_suffix'))
+        if(isset($url->query['format']))
         {
-            $url->format = $format;
+            $format = $url->query['format'];
+
+            if($format != 'html') {
+                $url->format = $format;
+            }
+
             unset($url->query['format']);
         }
-        else
-        {
-            $url->format = '';
-            if($format == 'html') {
-                unset($url->query['format']);
-            }
-        }
 
-        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
+        //Build the route
+        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'. implode('/', $segments);
 
         // Removed unused query variables
         unset($url->query['Itemid']);

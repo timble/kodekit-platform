@@ -8,6 +8,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Cache Dispatcher Class
  *
@@ -17,9 +19,9 @@
  * @subpackage  Cache
  */
  
-class ComCacheDispatcher extends ComDefaultDispatcher
+class CacheDispatcher extends Library\DispatcherComponent
 {
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
         	'controller' => 'items',

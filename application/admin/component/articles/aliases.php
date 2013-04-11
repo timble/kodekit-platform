@@ -15,5 +15,8 @@
  * @subpackage  Contacts
  */
 
-KServiceManager::setAlias('com://admin/articles.model.categories', 'com://admin/categories.model.categories');
-KServiceManager::setAlias('com://admin/articles.view.attachment.file', 'com://admin/attachments.view.attachment.file');
+use Nooku\Library\ServiceManager;
+
+ServiceManager::setAlias('com:articles.model.terms', 'com:terms.model.terms');
+ServiceManager::setAlias('com:articles.model.categories', 'com:categories.model.categories');
+ServiceManager::setAlias('com:articles.view.attachment.file', 'com:attachments.view.attachment.file');

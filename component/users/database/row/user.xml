@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<params addpath="/application/admin/component/users/element">
+		<param name="admin_language" type="languages" client="administrator" default="" label="Back-end" />
+		<param name="language" type="languages" client="site" default="" label="Front-end" />
+	</params>
+</form>

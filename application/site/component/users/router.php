@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Users Router
  *
@@ -15,11 +17,12 @@
  * @subpackage  Users
  */
 
-class ComUsersRouter extends ComDefaultRouter
+class UsersRouter extends Library\DispatcherRouter
 {
-    public function buildRoute(&$query)
+    public function build(Library\HttpUrl $url)
     {
         $segments = array();
+        $query    = &$url->query;
 
         if(isset($query['view']))
         {
@@ -38,17 +41,18 @@ class ComUsersRouter extends ComDefaultRouter
         return $segments;
     }
 
-    public function parseRoute($segments)
+    public function parse(Library\HttpUrl $url)
     {
         $vars = array();
+        $path = &$url->path;
 
-        $count = count($segments);
+        $count = count($path);
         if(!empty($count)) {
-            $vars['view'] = $segments[0];
+            $vars['view'] = $path[0];
         }
 
         if($count > 1) {
-            $vars['id'] = $segments[$count - 1];
+            $vars['id'] = $path[$count - 1];
         }
 
         return $vars;

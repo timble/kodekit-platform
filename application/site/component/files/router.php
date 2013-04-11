@@ -8,6 +8,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Files router class.
  *
@@ -16,30 +18,12 @@
  * @subpackage Articles
  */
 
-class ComFilesRouter extends ComDefaultRouter
+class FilesRouter extends Library\DispatcherRouter
 {
-	protected function _encodeString($string)
+	public function build(Library\HttpUrl $url)
 	{
-		$string = str_replace("\'", "'", $string);
-		$string = str_replace('\"', '\"', $string);
-		$string = str_replace('%2F', '/', rawurlencode($string));
-		$string = str_replace('.', '-_-_', $string);
-	
-		return $string;
-	}
-	
-	protected function _decodeString($string)
-	{
-		$string = str_replace('/', '%2F', rawurldecode($string));
-		$string = str_replace('-_-_', '.', $string);
-		$string = str_replace('%20', ' ', $string);
-	
-		return $string;
-	}
-	
-	public function buildRoute(&$query)
-	{
-		$segments = array();
+        $segments = array();
+        $query    = &$url->query;
 		
 		if (isset($query['Itemid'])) {
 			$page = $this->getService('application.pages')->getPage($query['Itemid']);
@@ -66,17 +50,13 @@ class ComFilesRouter extends ComDefaultRouter
 				// do nothing
 			}
 			else if (strpos($query['folder'], $menu_query['folder']) === 0) {
-				$relative = substr($query['folder'], strlen($menu_query['folder'])+1, strlen($query['folder']));
-				$relative = str_replace($menu_query['folder'].'/', '', $query['folder']);
-		
-				$segments[] = $this->_encodeString($relative);
+				$segments[] = str_replace($menu_query['folder'].'/', '', $query['folder']);
 			}
 		}
 
 		if (isset($query['name']))
 		{
-			$name = $this->_encodeString($query['name']);
-			$segments[] = $name;
+			$segments[] = $query['name'];
 		}
 
 		unset($query['view']);
@@ -86,25 +66,28 @@ class ComFilesRouter extends ComDefaultRouter
 		return $segments;
 	}
 
-    public function parseRoute($segments)
+    public function parse(Library\HttpUrl $url)
     {
-		$vars  = array();
+        $vars = array();
+        $path = &$url->path;
+
 		$page  = $this->getService('application.pages')->getActive();
 		$query = $page->getLink()->query;
 		
-		if ($segments[0] === 'file')
+		if ($path[0] === 'file')
 		{ // file view
-			$vars['view']    = array_shift($segments);
-			$vars['name']    = $this->_decodeString(array_pop($segments));
+			$vars['view']    = array_shift($path);
+			$vars['name']    = array_pop($path).'.'.$url->getFormat();
 			$vars['folder']  = $query['folder'] ? $query['folder'].'/' : '';
-			$vars['folder'] .= implode('/', $segments);
+			$vars['folder'] .= implode('/', $path);
 		}
 		else
 		{ // directory view
 			$vars['view']   = 'directory';
 			$vars['layout'] = $query['layout'];
-			$vars['folder'] = $query['folder'].'/'.implode('/', $segments);
+			$vars['folder'] = $query['folder'].'/'.implode('/', $path);
 		}
+
 		$vars['folder'] = str_replace('%2E', '.', $vars['folder']);
 		$vars['layout'] = $query['layout'];
 

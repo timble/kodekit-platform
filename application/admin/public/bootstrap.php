@@ -15,6 +15,8 @@
  * @package     Nooku_Server
  */
 
+use Nooku\Library;
+
 //Installation check
 if (!file_exists(JPATH_ROOT . '/config/config.php') || (filesize(JPATH_ROOT . '/config/config.php') < 10)) {
     echo 'No configuration file found. Exciting...';
@@ -33,16 +35,22 @@ jimport('joomla.language.language');
 require_once JPATH_ROOT . '/config/config.php';
 $config = new JConfig();
 
-require_once(JPATH_ROOT . '/framework/nooku.php');
-Nooku::getInstance(array(
+require_once(JPATH_ROOT . '/library/nooku.php');
+\Nooku::getInstance(array(
     'cache_prefix' => md5($config->secret) . '-cache-koowa',
     'cache_enabled' => $config->caching
 ));
 
 unset($config);
 
-KServiceManager::get('loader')->addAdapter(new KLoaderAdapterComponent(array('basepath' => JPATH_APPLICATION)));
-KServiceIdentifier::addLocator(KServiceManager::get('lib://nooku/service.locator.component'));
+//Setup the loader
+$adapter = new Library\LoaderAdapterComponent();
+$adapter->registerNamespace('\\', JPATH_APPLICATION.'/component');
+$adapter->registerNamespace('Nooku\Component', JPATH_ROOT.'/component');
 
-KServiceIdentifier::setNamespace('site' , JPATH_ROOT . '/application/site');
-KServiceIdentifier::setNamespace('admin', JPATH_ROOT . '/application/admin');
+Library\ServiceManager::get('loader')->addAdapter($adapter);
+Library\ServiceManager::get('loader')->addApplication('site' , JPATH_ROOT.'/application/site');
+Library\ServiceManager::get('loader')->addApplication('admin', JPATH_ROOT.'/application/admin');
+
+//Set the service
+Library\ServiceIdentifier::addLocator(Library\ServiceManager::get('lib:service.locator.component'));

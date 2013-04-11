@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <params>
+        <param name="show_title" type="radio" default="0" label="Module title" description="">
+        	<option value="1">Show</option>
+        	<option value="0">Hide</option>
+        </param>
+    </params>
+</config>

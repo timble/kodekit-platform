@@ -7,6 +7,8 @@
  * @link           http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Articles router class.
  *
@@ -15,11 +17,12 @@
  * @subpackage Articles
  */
 
-class ComArticlesRouter extends ComDefaultRouter
+class ArticlesRouter extends Library\DispatcherRouter
 {
-    public function buildRoute(&$query)
+    public function build(Library\HttpUrl $url)
     {
         $segments = array();
+        $query    = &$url->query;
 
         if(isset($query['Itemid'])) {
             $page = $this->getService('application.pages')->getPage($query['Itemid']);
@@ -65,21 +68,22 @@ class ComArticlesRouter extends ComDefaultRouter
         return $segments;
     }
 
-    public function parseRoute($segments)
+    public function parse(Library\HttpUrl $url)
     {
         $vars = array();
+        $path = &$url->path;
 
         $page = $this->getService('application.pages')->getActive();
 
         $view  = $page->getLink()->query['view'];
-        $count = count($segments);
+        $count = count($path);
 
         if($view == 'categories')
         {
             if($count)
             {
                 $count--;
-                $segment = array_shift( $segments );
+                $segment = array_shift( $path );
 
                 $vars['category'] = $segment;
                 $vars['view'] = 'articles';
@@ -88,7 +92,7 @@ class ComArticlesRouter extends ComDefaultRouter
             if($count)
             {
                 $count--;
-                $segment = array_shift( $segments) ;
+                $segment = array_shift( $path) ;
 
                 $vars['id']     = $segment;
                 $vars['view']   = 'article';
@@ -98,7 +102,7 @@ class ComArticlesRouter extends ComDefaultRouter
 
         if($view == 'articles')
         {
-            $segment = array_shift( $segments) ;
+            $segment = array_shift( $path) ;
 
             $vars['id']     = $segment;
             $vars['view']   = 'article';

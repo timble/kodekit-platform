@@ -2,13 +2,13 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 SET @OLD_TIME_ZONE=@@TIME_ZONE, TIME_ZONE='+00:00';
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 
-UPDATE `#__pages` SET `link_url` = REPLACE(`link_url`, 'view=articles', 'view=articles&category=1') WHERE `pages_page_id` = 1;
+UPDATE `pages` SET `link_url` = REPLACE(`link_url`, 'view=articles', 'view=articles&category=1') WHERE `pages_page_id` = 1;
 
 --
--- Dumping data for table `#__articles`
+-- Dumping data for table `articles`
 --
 
-INSERT INTO `#__articles` (`articles_article_id`, `title`, `slug`, `introtext`, `fulltext`, `published`, `categories_category_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `publish_on`, `unpublish_on`, `params`, `ordering`, `description`, `access`)
+INSERT INTO `articles` (`articles_article_id`, `title`, `slug`, `introtext`, `fulltext`, `published`, `categories_category_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `publish_on`, `unpublish_on`, `params`, `ordering`, `description`, `access`)
 VALUES
 	(1, 'Welcome to Joomla!', 'welcome-to-joomla', '<div align=\"left\"><strong>Joomla! is a free open source framework and content publishing system designed for quickly creating highly interactive multi-language Web sites, online communities, media portals, blogs and eCommerce applications. <br /></strong></div><p><strong><br /></strong><img src=\"images/stories/powered_by.png\" border=\"0\" alt=\"Joomla! Logo\" title=\"Example Caption\" hspace=\"6\" vspace=\"0\" width=\"165\" height=\"68\" align=\"left\" />Joomla! provides an easy-to-use graphical user interface that simplifies the management and publishing of large volumes of content including HTML, documents, and rich media.  Joomla! is used by organisations of all sizes for intranets and extranets and is supported by a community of tens of thousands of users. </p>', 'With a fully documented library of developer resources, Joomla! allows the customisation of every aspect of a Web site including presentation, layout, administration, and the rapid integration with third-party applications.<p>Joomla! now provides more developer power while making the user experience all the more friendly. For those who always wanted increased extensibility, Joomla! 1.5 can make this happen.</p><p>A new framework, ground-up refactoring, and a highly-active development team brings the excitement of \'the next generation CMS\' to your fingertips.  Whether you are a systems architect or a complete \'noob\' Joomla! can take you to the next level of content delivery. \'More than a CMS\' is something we have been playing with as a catchcry because the new Joomla! API has such incredible power and flexibility, you are free to take whatever direction your creative mind takes you and Joomla! can help you get there so much more easily than ever before.</p><p>Thinking Web publishing? Think Joomla!</p>', 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 0),
 	(2, 'Newsflash 1', 'newsflash-1', '<p>Joomla! makes it easy to launch a Web site of any kind. Whether you want a brochure site or you are building a large online community, Joomla! allows you to deploy a new site in minutes and add extra functionality as you need it. The hundreds of available Extensions will help to expand your site and allow you to deliver new services that extend your reach into the Internet.</p>', '', 1, 3, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, 0),
@@ -31,7 +31,7 @@ VALUES
 	(21, 'Joomla! Facts', 'joomla-facts', '<p>Here are some interesting facts about Joomla!</p><ul><li><span>Over 210,000 active registered Users on the <a href=\"http://forum.joomla.org\" target=\"_blank\" title=\"Joomla Forums\">Official Joomla! community forum</a> and more on the many international community sites.</span><ul><li><span>over 1,000,000 posts in over 200,000 topics</span></li><li>over 1,200 posts per day</li><li>growing at 150 new participants each day!</li></ul></li><li><span>1168 Projects on the JoomlaCode (<a href=\"http://joomlacode.org/\" target=\"_blank\" title=\"JoomlaCode\">joomlacode.org</a> ). All for open source addons by third party developers.</span><ul><li><span>Well over 6,000,000 downloads of Joomla! since the migration to JoomlaCode in March 2007.<br /></span></li></ul></li><li><span>Nearly 4,000 extensions for Joomla! have been registered on the <a href=\"http://extensions.joomla.org\" target=\"_blank\" title=\"http://extensions.joomla.org\">Joomla! Extension Directory</a>  </span></li><li><span>Joomla.org exceeds 2 TB of traffic per month!</span></li></ul>', '', 1, 30, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 0),
 	(22, 'What\'s New in 1.5?', 'whats-new-in-15', '<p>As with previous releases, Joomla! provides a unified and easy-to-use framework for delivering content for Web sites of all kinds. To support the changing nature of the Internet and emerging Web technologies, Joomla! required substantial restructuring of its core functionality and we also used this effort to simplify many challenges within the current user interface. Joomla! 1.5 has many new features.</p>', '<p style=\"margin-bottom: 0in\">In Joomla! 1.5, you\'ll notice: </p>    <ul><li>     <p style=\"margin-bottom: 0in\">       Substantially improved usability, manageability, and scalability far beyond the original Mambo foundations</p>   </li><li>     <p style=\"margin-bottom: 0in\"> Expanded accessibility to support internationalisation, double-byte characters and right-to-left support for Arabic, Farsi, and Hebrew languages among others</p>   </li><li>     <p style=\"margin-bottom: 0in\"> Extended integration of external applications through Web services and remote authentication such as the Lightweight Directory Access Protocol (LDAP)</p>   </li><li>     <p style=\"margin-bottom: 0in\"> Enhanced content delivery, template and presentation capabilities to support accessibility standards and content delivery to any destination</p>   </li><li>     <p style=\"margin-bottom: 0in\">       A more sustainable and flexible framework for Component and Extension developers</p>   </li><li>     <p style=\"margin-bottom: 0in\">Backward compatibility with previous releases of Components, Templates, Modules, and other Extensions</p></li></ul>', 1, 29, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 0);
 
-INSERT INTO `#__articles` (`articles_article_id`, `title`, `slug`, `introtext`, `fulltext`, `published`, `categories_category_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `publish_on`, `unpublish_on`, `params`, `ordering`, `description`, `access`)
+INSERT INTO `articles` (`articles_article_id`, `title`, `slug`, `introtext`, `fulltext`, `published`, `categories_category_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `publish_on`, `unpublish_on`, `params`, `ordering`, `description`, `access`)
 VALUES
 	(23, 'Platforms and Open Standards', 'platforms-and-open-standards', '<p class=\"MsoNormal\">Joomla! runs on any platform including Windows, most flavours of Linux, several Unix versions, and the Apple OS/X platform.  Joomla! depends on PHP and the MySQL database to deliver dynamic content.  </p>            <p class=\"MsoNormal\">The minimum requirements are:</p>      <ul><li>Apache 1.x, 2.x and higher</li><li>PHP 4.3 and higher</li><li>MySQL 3.23 and higher</li></ul>It will also run on alternative server platforms such as Windows IIS - provided they support PHP and MySQL - but these require additional configuration in order for the Joomla! core package to be successful installed and operated.', '', 1, 25, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, NULL, 0),
 	(24, 'Content Layouts', 'content-layouts', '<p>Joomla! provides plenty of flexibility when displaying your Web content. Whether you are using Joomla! for a blog site, news or a Web site for a company, you\'ll find one or more content styles to showcase your information. You can also change the style of content dynamically depending on your preferences. Joomla! calls how a page is laid out a <strong>layout</strong>. Use the guide below to understand which layouts are available and how you might use them. </p> <h2>Content </h2> <p>Joomla! makes it extremely easy to add and display content. All content  is placed where your mainbody tag in your template is located. There are three main types of layouts available in Joomla! and all of them can be customised via parameters. The display and parameters are set in the Menu Item used to display the content your working on. You create these layouts by creating a Menu Item and choosing how you want the content to display.</p> <h3>Blog Layout<br /> </h3> <p>Blog layout will show a listing of all Articles of the selected blog type (Section or Category) in the mainbody position of your template. It will give you the standard title, and Intro of each Article in that particular Category and/or Section. You can customise this layout via the use of the Preferences and Parameters, (See Article Parameters) this is done from the Menu not the Section Manager!</p> <h3>Blog Archive Layout<br /> </h3> <p>A Blog Archive layout will give you a similar output of Articles as the normal Blog Display but will add, at the top, two drop down lists for month and year plus a search button to allow Users to search for all Archived Articles from a specific month and year.</p> <h3>List Layout<br /> </h3> <p>Table layout will simply give you a <em>tabular </em>list<em> </em>of all the titles in that particular Section or Category. No Intro text will be displayed just the titles. You can set how many titles will be displayed in this table by Parameters. The table layout will also provide a filter Section so that Users can reorder, filter, and set how many titles are listed on a single page (up to 50)</p> <h2>Wrapper</h2> <p>Wrappers allow you to place stand alone applications and Third Party Web sites inside your Joomla! site. The content within a Wrapper appears within the primary content area defined by the \"mainbody\" tag and allows you to display their content as a part of your own site. A Wrapper will place an IFRAME into the content Section of your Web site and wrap your standard template navigation around it so it appears in the same way an Article would.</p> <h2>Content Parameters</h2> <p>The parameters for each layout type can be found on the right hand side of the editor boxes in the Menu Item configuration screen. The parameters available depend largely on what kind of layout you are configuring.</p>', '', 1, 29, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, 0),
@@ -50,7 +50,7 @@ VALUES
 	(37, 'Where did the Mambots go?', 'where-did-the-mambots-go', '<p>Mambots have been renamed as Plugins. </p><p>Mambots were introduced in Mambo and offered possibilities to add plug-in logic to your site mainly for the purpose of manipulating content. In Joomla! 1.5, Plugins will now have much broader capabilities than Mambots. Plugins are able to extend functionality at the framework layer as well.</p>', '', 1, 28, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, NULL, 0),
 	(38, 'I installed with my own language, but the Back-end is still in English', 'i-installed-with-my-own-language-but-the-back-end-is-still-in-english', '<p>A lot of different languages are available for the Back-end, but by default this language may not be installed. If you want a translated Back-end, get your language pack and install it using the Extension Installer. After this, go to the Extensions Menu, select Language Manager and make your language the default one. Your Back-end will be translated immediately.</p><p>Users who have access rights to the Back-end may choose the language they prefer in their Personal Details parameters. This is of also true for the Front-end language.</p><p> A good place to find where to download your languages and localised versions of Joomla! is <a href=\"http://extensions.joomla.org/index.php?option=com_mtree&task=listcats&cat_id=1837&Itemid=35\" target=\"_blank\" title=\"Translations for Joomla!\">Translations for Joomla!</a> on JED.</p>', '', 1, 32, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 0);
 
-INSERT INTO `#__articles` (`articles_article_id`, `title`, `slug`, `introtext`, `fulltext`, `published`, `categories_category_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `publish_on`, `unpublish_on`, `params`, `ordering`, `description`, `access`)
+INSERT INTO `articles` (`articles_article_id`, `title`, `slug`, `introtext`, `fulltext`, `published`, `categories_category_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `publish_on`, `unpublish_on`, `params`, `ordering`, `description`, `access`)
 VALUES
 	(39, 'How do I remove an Article?', 'how-do-i-remove-an-article', '<p>To completely remove an Article, select the Articles that you want to delete and move them to the Trash. Next, open the Article Trash in the Content Menu and select the Articles you want to delete. After deleting an Article, it is no longer available as it has been deleted from the database and it is not possible to undo this operation.  </p>', '', 1, 27, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL, 0),
 	(40, 'What is the difference between Archiving and Trashing an Article? ', 'what-is-the-difference-between-archiving-and-trashing-an-article', '<p>When you <em>Archive </em>an Article, the content is put into a state which removes it from your site as published content. The Article is still available from within the Control Panel and can be <em>retrieved </em>for editing or republishing purposes. Trashed Articles are just one step from being permanently deleted but are still available until you Remove them from the Trash Manager. You should use Archive if you consider an Article important, but not current. Trash should be used when you want to delete the content entirely from your site and from future search results.  </p>', '', 1, 27, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 0),
@@ -61,10 +61,10 @@ VALUES
 	(45, 'Joomla! Community Portal', 'joomla-community-portal', '<p>The <a href=\"http://community.joomla.org/\" target=\"_blank\" title=\"Joomla! Community Portal\">Joomla! Community Portal</a> is now online. There, you will find a constant source of information about the activities of contributors powering the Joomla! Project. Learn about <a href=\"http://community.joomla.org/events.html\" target=\"_blank\" title=\"Joomla! Events\">Joomla! Events</a> worldwide, and see if there is a <a href=\"http://community.joomla.org/user-groups.html\" target=\"_blank\" title=\"Joomla! User Groups\">Joomla! User Group</a> nearby.</p><p>The <a href=\"http://magazine.joomla.org/\" target=\"_blank\" title=\"Joomla! Community Magazine\">Joomla! Community Magazine</a> promises an interesting overview of feature articles, community accomplishments, learning topics, and project updates each month. Also, check out <a href=\"http://community.joomla.org/connect.html\" target=\"_blank\" title=\"JoomlaConnect\">JoomlaConnect&#0153;</a>. This aggregated RSS feed brings together Joomla! news from all over the world in your language. Get the latest and greatest by clicking <a href=\"http://community.joomla.org/connect.html\" target=\"_blank\" title=\"JoomlaConnect\">here</a>.</p>', '', 1, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL, 0);
 
 --
--- Dumping data for table `#__categories`
+-- Dumping data for table `categories`
 --
 
-INSERT INTO `#__categories` (`categories_category_id`, `parent_id`, `title`, `slug`, `image`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
+INSERT INTO `categories` (`categories_category_id`, `parent_id`, `title`, `slug`, `image`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
 VALUES
 	(1, 34, 'Latest', 'latest-news', 'taking_notes.jpg', 'articles', 'The latest news from the Joomla! Team', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
 	(2, 0, 'Joomla! Specific Links', 'joomla-specific-links', 'clock.jpg', 'weblinks', 'A selection of links that are all related to the Joomla! Project.', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
@@ -83,18 +83,18 @@ VALUES
 	(36, 0, 'About Joomla!', 'about-joomla', '', 'articles', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, '');
 
 --
--- Dumping data for table `#__contacts`
+-- Dumping data for table `contacts`
 --
 
-INSERT INTO `#__contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `image`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`, `webpage`)
+INSERT INTO `contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `image`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`, `webpage`)
 VALUES
 	(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'email@example.com', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, '', 12, 0, '', '');
 
 --
--- Dumping data for table `#__pages_menus`
+-- Dumping data for table `pages_menus`
 --
 
-INSERT INTO `#__pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
+INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`)
 VALUES
 	(3, 'site', 'User Menu', 'usermenu', 'A Menu for logged in Users', 1, NULL, NULL, NULL, NULL, NULL),
 	(4, 'site', 'Top Menu', 'topmenu', 'Top level navigation', 1, NULL, NULL, NULL, NULL, NULL);
@@ -102,10 +102,10 @@ VALUES
 
 
 --
--- Dumping data for table `#__pages_modules`
+-- Dumping data for table `pages_modules`
 --
 
-INSERT INTO `#__pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
 VALUES
 	(17, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 25, 'site'),
 	(18, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
@@ -116,19 +116,19 @@ VALUES
 	(35, 'Breadcrumbs', '', 1, 'breadcrumb', 1, NULL, NULL, NULL, 0, '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 0, 'showHome=1\nhomeText=Home\nshowLast=1', 25, 'site');
 
 --
--- Dumping data for table `#__pages_modules`
+-- Dumping data for table `pages_modules`
 --
 
-INSERT INTO `#__pages_modules_pages` (`pages_module_id`, `pages_page_id`)
+INSERT INTO `pages_modules_pages` (`pages_module_id`, `pages_page_id`)
 VALUES
 	(17, 0),
 	(18, 1),
 	(19, 1),
-	(19, 31),
+	(19, 53),
 	(19, 34),
 	(21, 1),
 	(22, 1),
-	(22, 31),
+	(22, 53),
 	(22, 34),
 	(25, 0),
 	(27, 0),
@@ -149,12 +149,11 @@ VALUES
 
 
 --
--- Dumping data for table `#__pages_orderings`
+-- Dumping data for table `pages_orderings`
 --
 
-INSERT INTO `#__pages_orderings` (`pages_page_id`, `title`, `custom`)
+INSERT INTO `pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
-	(31, 6, 6),
 	(32, 4, 1),
 	(33, 1, 4),
 	(34, 7, 2),
@@ -175,16 +174,16 @@ VALUES
 	(49, 9, 9),
 	(50, 3, 2),
 	(51, 1, 1),
-	(52, 1, 11);
+	(52, 1, 11),
+    (53, 6, 6);
 
 
 --
--- Dumping data for table `#__pages_closures`
+-- Dumping data for table `pages_closures`
 --
 
-INSERT INTO `#__pages_closures` (`ancestor_id`, `descendant_id`, `level`)
+INSERT INTO `pages_closures` (`ancestor_id`, `descendant_id`, `level`)
 VALUES
-	(31, 31, 0),
 	(32, 32, 0),
 	(33, 33, 0),
 	(34, 34, 0),
@@ -210,17 +209,17 @@ VALUES
 	(49, 49, 0),
 	(50, 50, 0),
 	(51, 51, 0),
-    (52, 52, 0);
+    (52, 52, 0),
+    (53, 53, 0);
 
 --
--- Dumping data for table `#__pages`
+-- Dumping data for table `pages`
 --
 
-INSERT INTO `#__pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
 VALUES
-	(31, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(32, 3, NULL, 'Your Details', 'your-details', 'option=com_user&view=user&task=edit', NULL, 'component', 1, 0, 0, 14, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
-	(33, 3, NULL, 'Logout', 'logout', 'option=com_user&view=login', NULL, 'component', 1, 0, 0, 14, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+	(32, 3, NULL, 'Your Details', 'your-details', 'option=com_users&view=user', NULL, 'component', 1, 0, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
+	(33, 3, NULL, 'Login', 'login', 'option=com_users&view=session', NULL, 'component', 1, 1, 0, 31, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(34, 1, NULL, 'Joomla! Overview', 'joomla-overview', 'option=com_articles&view=article&id=19', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(35, 4, NULL, 'About Joomla!', 'about-joomla', 'option=com_articles&view=article&id=25', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(36, 4, NULL, 'Features', 'features', 'option=com_articles&view=article&id=22', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
@@ -239,15 +238,15 @@ VALUES
 	(49, 1, NULL, 'The News', 'the-news', 'option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(50, 3, NULL, 'Submit an Article', 'submit-an-article', 'option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(51, 1, NULL, 'Search Results', 'search-results', 'option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(52, 1, 0, 'Contacts', 'contacts', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, '2013-02-26 10:05:27', NULL, NULL, NULL, NULL, 0, NULL);
-
+	(52, 1, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+    (53, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 
 --
--- Dumping data for table `#__weblinks`
+-- Dumping data for table `weblinks`
 --
 
-INSERT INTO `#__weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `slug`, `url`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `published`, `locked_by`, `locked_on`, `ordering`, `params`)
+INSERT INTO `weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `slug`, `url`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `published`, `locked_by`, `locked_on`, `ordering`, `params`)
 VALUES
 	(1, 2, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', 1, NULL, NULL, NULL, 1, 0, 'NULL', 1, ''),
 	(2, 2, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', 1, NULL, NULL, NULL, 1, 0, 'NULL', 3, ''),
@@ -260,15 +259,15 @@ VALUES
 --
 -- Update creation date to today (this very moment)
 --
-UPDATE `#__articles` SET `created_on` = now();
-UPDATE `#__categories` SET `created_on` = now();
-UPDATE `#__contacts` SET `created_on` = now();
-UPDATE `#__articles` SET `created_on` = now();
-UPDATE `#__pages` SET `created_on` = now();
-UPDATE `#__pages_menus` SET `created_on` = now();
-UPDATE `#__pages_modules` SET `created_on` = now();
-UPDATE `#__users` SET `created_on` = now();
-UPDATE `#__weblinks` SET `created_on` = now();
+UPDATE `articles` SET `created_on` = now();
+UPDATE `categories` SET `created_on` = now();
+UPDATE `contacts` SET `created_on` = now();
+UPDATE `articles` SET `created_on` = now();
+UPDATE `pages` SET `created_on` = now();
+UPDATE `pages_menus` SET `created_on` = now();
+UPDATE `pages_modules` SET `created_on` = now();
+UPDATE `users` SET `created_on` = now();
+UPDATE `weblinks` SET `created_on` = now();
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

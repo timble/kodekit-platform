@@ -8,6 +8,8 @@
  * @link		http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Users Dispatcher Class
  *
@@ -16,9 +18,9 @@
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class ComUsersDispatcher extends ComDefaultDispatcher
+class UsersDispatcher extends Library\DispatcherComponent
 {
-    public function __construct(KConfig $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
@@ -26,7 +28,7 @@ class ComUsersDispatcher extends ComDefaultDispatcher
         $this->getService('loader')->loadFile(JPATH_ROOT.'/application/admin/component/users/legacy/password.php');
     }
     
-    protected function _actionDispatch(KCommandContext $context)
+    protected function _actionDispatch(Library\CommandContext $context)
 	{
         if($context->user->isAuthentic() && $context->request->isGet())
         {

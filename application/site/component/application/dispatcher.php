@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Application Dispatcher Class
 .*
@@ -14,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationDispatcher extends KDispatcherApplication
+class ApplicationDispatcher extends Library\DispatcherApplication
 {
     /**
      * The site identifier.
@@ -33,7 +35,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
     /**
      * The application options
      *
-     * @var KConfig
+     * @var Library\Config
      */
     protected $_options = null;
 
@@ -47,17 +49,14 @@ class ComApplicationDispatcher extends KDispatcherApplication
     /**
      * Constructor.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Library\Config object with configuration options.
      */
-    public function __construct(KConfig $config)
+    public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'exception'), KEvent::PRIORITY_LOW);
-
-        //Set callbacks
-        $this->registerCallback('before.dispatch', array($this, 'authorizeRequest'));
+        $this->addEventListener('onException', array($this, 'exception'), Library\Event::PRIORITY_LOW);
 
         $this->registerCallback('before.run', array($this, 'loadConfig'));
         $this->registerCallback('before.run', array($this, 'loadSession'));
@@ -70,7 +69,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
         $this->getRequest()->setBaseUrl($config->base_url);
 
         //Setup the request
-        KRequest::root(str_replace('/site', '', KRequest::base()));
+        Library\Request::root(str_replace('/site', '', Library\Request::base()));
 
         //Set the site name
         if(empty($config->site)) {
@@ -85,15 +84,15 @@ class ComApplicationDispatcher extends KDispatcherApplication
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional KConfig object with configuration options.
+     * @param 	object 	An optional Library\Config object with configuration options.
      * @return 	void
      */
-    protected function _initialize(KConfig $config)
+    protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'base_url'          => '/',
-            'event_dispatcher'  => 'com://admin/debug.event.dispatcher.debug',
-            'event_subscribers' => array('com://site/application.event.subscriber.unauthorized'),
+            'event_dispatcher'  => 'com:debug.event.dispatcher.debug',
+            'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
             'site'      => null,
             'options'   => array(
                 'session_name' => 'site',
@@ -107,36 +106,11 @@ class ComApplicationDispatcher extends KDispatcherApplication
     }
 
     /**
-     * Authorize the request
-     *
-     * @param KCommandContext $context	A command context object
-     */
-    public function authorizeRequest(KCommandContext $context)
-    {
-        $user = $context->user;
-
-        if(!($this->getCfg('offline') && !$user->isAuthentic()))
-        {
-            $page = $context->request->query->get('Itemid', 'int');
-
-            if(!$this->getService('application.pages')->isAuthorized($page, $user))
-            {
-                if(!$user->isAuthentic()) {
-                    throw new KControllerExceptionUnauthorized('ALERTNOTAUTH');
-                } else {
-                    throw new KControllerExceptionForbidden('ALERTNOTAUTH');
-                }
-            }
-        }
-        else throw new KControllerExceptionUnauthorized('ALERTNOTAUTH');
-    }
-
-    /**
      * Run the application
      *
-     * @param KCommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionRun(KCommandContext $context)
+    protected function _actionRun(Library\CommandContext $context)
     {
         //Set the site error reporting
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
@@ -149,7 +123,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
         define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
         // Set timezone to user's setting, falling back to global configuration.
-        $timezone = new DateTimeZone($context->user->get('timezone', $this->getCfg('timezone')));
+        $timezone = new \DateTimeZone($context->user->get('timezone', $this->getCfg('timezone')));
         date_default_timezone_set($timezone->getName());
 
         //Route the request
@@ -159,9 +133,9 @@ class ComApplicationDispatcher extends KDispatcherApplication
     /**
      * Route the request
      *
-     * @param KCommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionRoute(KCommandContext $context)
+    protected function _actionRoute(Library\CommandContext $context)
     {
         $url = clone $context->request->getUrl();
 
@@ -175,7 +149,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
         {
             // Get the route based on the path
             $search = array($context->request->getBasePath(), $this->getSite());
-            $route  = trim(str_replace($search, '', $url->toString(KHttpURL::PATH + KHttpURL::FORMAT)), '/');
+            $route  = trim(str_replace($search, '', $url->toString(Library\HttpURL::PATH + Library\HttpURL::FORMAT)), '/');
 
             //Redirect to the default menu item if the route is empty
             if(strpos($route, $pages->getHome()->route) === 0 && $context->request->getFormat() == 'html')
@@ -185,7 +159,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
 
                 $this->getRouter()->build($url);
 
-                $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
+                $context->response->setRedirect($url, Library\HttpResponse::MOVED_PERMANENTLY);
                 $this->send($context);
             }
         }
@@ -200,7 +174,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
             }
             else $url = $page->link_url;
 
-            $context->response->setRedirect($url, KHttpResponse::MOVED_PERMANENTLY);
+            $context->response->setRedirect($url, Library\HttpResponse::MOVED_PERMANENTLY);
             $this->send($context);
         }
 
@@ -221,14 +195,14 @@ class ComApplicationDispatcher extends KDispatcherApplication
     /**
      * Dispatch the request
      *
-     * @param KCommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionDispatch(KCommandContext $context)
+    protected function _actionDispatch(Library\CommandContext $context)
     {
-        $component = $this->getController()->getIdentifier()->package;
+        $component = $this->getComponent()->getIdentifier()->package;
 
         if (!$this->getService('application.components')->isEnabled($component)) {
-            throw new KControllerExceptionNotFound('Component Not Enabled');
+            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
         }
 
         //Dispatch the controller
@@ -240,9 +214,14 @@ class ComApplicationDispatcher extends KDispatcherApplication
             //Render the page
             $config = array('response' => $context->response);
 
-            $this->getService('com://site/application.controller.page', $config)
-                  ->layout($context->request->query->get('tmpl', 'cmd', 'default'))
-                  ->render();
+            $layout = $context->request->query->get('tmpl', 'cmd', 'default');
+            if(!$this->isPermitted('render')) {
+                $layout = 'login';
+            }
+
+            $this->getService('com:application.controller.page', $config)
+                ->layout($layout)
+                ->render();
         }
 
         //Send the response
@@ -252,23 +231,23 @@ class ComApplicationDispatcher extends KDispatcherApplication
     /**
      * Render an exception
      *
-     * @throws InvalidArgumentException If the action parameter is not an instance of KException
-     * @param KCommandContext $context	A command context object
+     * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
+     * @param Library\CommandContext $context	A command context object
      */
-    protected function _actionException(KCommandContext $context)
+    protected function _actionException(Library\CommandContext $context)
     {
         //Check an exception was passed
-        if(!isset($context->param) && !$context->param instanceof KException)
+        if(!isset($context->param) && !$context->param instanceof Library\Exception)
         {
-            throw new InvalidArgumentException(
-                "Action parameter 'exception' [KException] is required"
+            throw new \InvalidArgumentException(
+                "Action parameter 'exception' [Library\Exception] is required"
             );
         }
 
         $config = array('request'  => $this->getRequest());
         $config = array('response' => $this->getResponse());
 
-        $this->getService('com://admin/application.controller.exception',  $config)
+        $this->getService('com:application.controller.exception',  $config)
             ->render($context->param->getException());
 
         //Send the response
@@ -278,13 +257,13 @@ class ComApplicationDispatcher extends KDispatcherApplication
     /**
      * Load the configuration
      *
-     * @param KCommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      * @return	void
      */
-    public function loadConfig(KCommandContext $context)
+    public function loadConfig(Library\CommandContext $context)
     {
         // Check if the site exists
-        if($this->getService('com://admin/sites.model.sites')->getRowset()->find($this->getSite()))
+        if($this->getService('com:sites.model.sites')->getRowset()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->_options->toArray());
@@ -297,7 +276,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
             require_once( JPATH_SITES.'/'.$this->getSite().'/config/config.php');
             JFactory::getConfig()->loadObject(new JSiteConfig());
         }
-        else throw new KControllerExceptionNotFound('Site :'.$this->getSite().' not found');
+        else throw new Library\ControllerExceptionNotFound('Site :'.$this->getSite().' not found');
     }
 
     /**
@@ -307,10 +286,10 @@ class ComApplicationDispatcher extends KDispatcherApplication
      * the last access time is updated. If a new session, a session id is generated and a record is created in the
      * #__users_sessions table.
      *
-     * @param KCommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      * @return	void
      */
-    public function loadSession( KCommandContext $context )
+    public function loadSession( Library\CommandContext $context )
     {
         $session = $context->user->session;
 
@@ -321,11 +300,11 @@ class ComApplicationDispatcher extends KDispatcherApplication
         $session->setLifetime($this->getCfg('lifetime', 15) * 60);
 
         //Set Session Handler
-        $session->setHandler('database', array('table' => 'com://admin/users.database.table.sessions'));
+        $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
 
         //Set Session Options
         $session->setOptions(array(
-            'cookie_path'   => (string) KRequest::base(),
+            'cookie_path'   => (string) $context->request->getBaseUrl()->getPath(),
             'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
         ));
 
@@ -341,7 +320,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
         if($context->user->isAuthentic() && ($session->site != $this->getSite()))
         {
             //@TODO : Fix this
-            //if(!$this->getService('com://admin/users.controller.session')->add()) {
+            //if(!$this->getService('com:users.controller.session')->add()) {
             //    $session->destroy();
             //}
         }
@@ -350,10 +329,10 @@ class ComApplicationDispatcher extends KDispatcherApplication
     /**
      * Load the application language
      *
-     * @param KCommandContext $context	A command context object
+     * @param Library\CommandContext $context	A command context object
      * @return	void
      */
-    public function loadLanguage(KCommandContext $context)
+    public function loadLanguage(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $language = null;
@@ -391,27 +370,24 @@ class ComApplicationDispatcher extends KDispatcherApplication
      * Get the application router.
      *
      * @param  array $options 	An optional associative array of configuration options.
-     * @return	\ComApplicationRouter
+     * @return	\ApplicationRouter
      */
     public function getRouter(array $options = array())
     {
-        $router = $this->getService('com://site/application.router', $options);
+        $router = $this->getService('com:application.router', $options);
         return $router;
     }
 
     /**
      * Return a reference to the application pathway object
      *
-     * @return object ComApplicationConfigPathway
+     * @return object ApplicationConfigPathway
      */
     public function getPathway()
     {
         if(!isset($this->_pathway))
         {
-            // TODO: Find out why loader tries to load the admin class.
-            $this->getService('loader')->loadFile(dirname(__DIR__).'/application/configs/pathway.php');
-
-            $pathway = new ComApplicationConfigPathway();
+            $pathway = new ApplicationConfigPathway();
             $pages   = $this->getService('application.pages');
 
             if($active = $pages->getActive())
@@ -588,7 +564,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
         $uri  = clone(JURI::getInstance());
 
         $host = $uri->getHost();
-        if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($host))
+        if(!$this->getService('com:sites.model.sites')->getRowset()->find($host))
         {
             // Check folder
             $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -600,7 +576,7 @@ class ComApplicationDispatcher extends KDispatcherApplication
             }
 
             //Check if the site can be found, otherwise use 'default'
-            if(!$this->getService('com://admin/sites.model.sites')->getRowset()->find($site)) {
+            if(!$this->getService('com:sites.model.sites')->getRowset()->find($site)) {
                 $site = 'default';
             }
 

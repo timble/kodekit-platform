@@ -8,14 +8,14 @@
 
 define('JPATH_ROOT'         , $_SERVER['DOCUMENT_ROOT']);
 define('JPATH_APPLICATION'  , JPATH_ROOT.'/application/admin');
-define('JPATH_BASE'         , JPATH_APPLICATION );
-
 define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
 define('JPATH_SITES'        , JPATH_ROOT.'/sites');
+
+define('JPATH_BASE'         , JPATH_APPLICATION );
 
 define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once(__DIR__.'/bootstrap.php' );
 
-KServiceManager::get('loader')->loadIdentifier('com://admin/application.aliases');
-KServiceManager::get('application')->run();
+Nooku\Library\ServiceManager::get('loader')->loadIdentifier('com:application.aliases');
+Nooku\Library\ServiceManager::get('application')->run();

@@ -15,5 +15,6 @@
  * @subpackage  Newsfeeds
  */
 
-KServiceManager::setAlias('com://site/contacts.model.categories', 'com://admin/categories.model.categories');
-KServiceManager::setAlias('com://site/contacts.model.contacts'  , 'com://admin/contacts.model.contacts');
+use Nooku\Library\ServiceManager;
+
+ServiceManager::setAlias('com:contacts.model.categories', 'com:categories.model.categories');

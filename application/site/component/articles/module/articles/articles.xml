@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+    <name>Articles</name>
+    <author>Nooku Project</author>
+    <creationDate>June 2012</creationDate>
+    <copyright>Copyright (C) 2010 Timble CVBA and Contributors. (http://www.timble.net).</copyright>
+    <license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+    <authorEmail>info@nooku.org</authorEmail>
+    <authorUrl>www.nooku.org</authorUrl>
+    <version>12.2</version>
+    <description>A module for displaying articles</description>
+</install>

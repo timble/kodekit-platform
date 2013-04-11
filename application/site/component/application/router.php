@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Application Router Class
 .*
@@ -14,9 +16,9 @@
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ComApplicationRouter extends KDispatcherRouter
+class ApplicationRouter extends Library\DispatcherRouter
 {
-    public function parse(KHttpUrl $url)
+    public function parse(Library\HttpUrl $url)
 	{
 		// Get the path
         $path = trim($url->getPath(), '/');
@@ -32,33 +34,30 @@ class ComApplicationRouter extends KDispatcherRouter
 		//Set the route
 		$url->path = trim($path , '/');
 
-		return parent::parse($url);
+		return $this->_parseRoute($url);
 	}
 
-	public function build(KHttpUrl $url)
+	public function build(Library\HttpUrl $url)
 	{
-        $result = parent::build($url);
+        $result = $this->_buildRoute($url);
 
 		// Get the path data
 		$route = $url->getPath();
 
-		//Add the format to the uri
-        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
+        //Add the format to the uri
+        if(isset($url->query['format']))
+        {
+            $format = $url->query['format'];
 
-	    if($this->getService('application')->getCfg('sef_suffix'))
-		{
-            $url->format = $format;
+            if($format != 'html') {
+                $url->format = $format;
+            }
+
             unset($url->query['format']);
-	    }
-		else
-		{
-	        $url->format = '';
-            if($format == 'html') {
-			    unset($url->query['format']);
-			}
-	    }
+        }
 
-        $url->path   = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
+        //Build the route
+        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
 		return $result;
 	}
 
@@ -129,12 +128,12 @@ class ComApplicationRouter extends KDispatcherRouter
             if(!empty($route))
             {
                 //Get the router identifier
-                $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
+                $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
                 //Parse the view route
-                $query = $this->getService($identifier)->parseRoute($route);
+                $query = $this->getService($identifier)->parse($url);
 
-                //Prevent option and/or itemid from being override by the commponent router
+                //Prevent option and/or itemid from being override by the component router
                 $query['option'] = $url->query['option'];
                 $query['Itemid'] = $url->query['Itemid'];
 
@@ -172,10 +171,10 @@ class ComApplicationRouter extends KDispatcherRouter
         $segments = array();
 
         //Get the router identifier
-        $identifier = 'com://site/'.substr($url->query['option'], 4).'.router';
+        $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
         //Build the view route
-        $segments = $this->getService($identifier)->buildRoute($url->query);
+        $segments = $this->getService($identifier)->build($url);
 
         return $segments;
     }
@@ -197,10 +196,8 @@ class ComApplicationRouter extends KDispatcherRouter
         if(!$page->home)
         {
             if($page->getLink()->query['option'] == $url->query['option']) {
-                $segments = $page->route;
+                $segments = explode('/', $page->route);
             }
-
-            $segments = explode('/', $segments);
         }
 
         return $segments;
@@ -211,7 +208,7 @@ class ComApplicationRouter extends KDispatcherRouter
         $segments = array();
 
         $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(KHttpUrl::HOST)) {
+        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
             $segments[] = $site;
         }
 

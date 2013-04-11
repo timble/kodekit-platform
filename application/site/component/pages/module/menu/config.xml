@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params addpath="/application/admin/component/pages/element">
+		<param name="menu_id" type="menu" default="" label="Menu" description="" />
+		<param name="show_title" type="radio" default="0" label="Module title" description="">
+			<option value="1">Show</option>
+			<option value="0">Hide</option>
+		</param>
+		<param name="start_level" type="text" default="0" size="5" label="Start Level" description="Level to start rendering the menu at" />
+		<param name="end_level" type="text" default="0" size="5" label="End Level" description="Level to stop rendering the menu at." />
+		<param name="show_children" type="radio" default="active" label="Show submenu items" description="Display all sub-menu items regardless of whether or not parent is active.">
+			<option value="active">When parent is active</option>
+			<option value="always">Always</option>
+		</param>
+	</params>
+	<params group="advanced">
+		<param name="class" type="text" default="0" label="HTML class" description="" />
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+	</params>
+</config>

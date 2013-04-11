@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Dispatcher Class
  *
@@ -15,16 +17,16 @@
  * @subpackage  Pages
  */
 
-class ComPagesDispatcher extends ComDefaultDispatcher
+class PagesDispatcher extends Library\DispatcherComponent
 {
-    protected function _actionDispatch(KCommandContext $context)
+    protected function _actionDispatch(Library\CommandContext $context)
     {
         $view = $context->request->query->get('view', 'cmd', $this->_controller);
 
         if($view == 'pages' && !$context->request->query->has('menu'))
         {
-            $page = $this->getService('com://admin/pages.database.table.pages')
-                          ->select(array('home' => 1), KDatabase::FETCH_ROW);
+            $page = $this->getService('com:pages.database.table.pages')
+                          ->select(array('home' => 1), Library\Database::FETCH_ROW);
 
             $url = clone($context->request->getUrl());
             $url->query['view'] = $view;

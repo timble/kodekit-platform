@@ -33,7 +33,7 @@ class JFactory
      */
     function &getApplication($id = null, $config = array(), $prefix = 'J')
     {
-        $instance = KServiceManager::get('application');
+        $instance =  Nooku\Library\ServiceManager::get('application');
         return $instance;
     }
 
@@ -49,7 +49,7 @@ class JFactory
      */
     function &getSession($options = array())
     {
-        $instance = KServiceManager::get('user')->getSession();
+        $instance = Nooku\Library\ServiceManager::get('user')->getSession();
         return $instance;
     }
 
@@ -67,13 +67,13 @@ class JFactory
     function &getUser($id = null)
     {        
         if (is_null($id)) {
-            $session = KServiceManager::get('user')->getSession();
+            $session = Nooku\Library\ServiceManager::get('user')->getSession();
             $instance = $session->user;
 
-            if (!$instance instanceof ComUsersDatabaseRowUser) {
-                $instance = KServiceManager::get('com://admin/users.database.row.user');
+            if (!$instance instanceof UsersDatabaseRowUser) {
+                $instance = Nooku\Library\ServiceManager::get('com:users.database.row.user');
             }
-        } else $instance = KServiceManager::get('com://admin/users.database.row.user')->set('id', $id)->load();
+        } else $instance = Nooku\Library\ServiceManager::get('com:users.database.row.user')->set('id', $id)->load();
 
         return $instance;
     }

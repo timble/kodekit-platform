@@ -210,10 +210,7 @@ Files.App = new Class({
 					that.grid.insertRows(resp.items);
 
 					that.fireEvent('afterSelect', resp);
-				} else {
-					alert(resp.error);
 				}
-
 			};
 
 		this.folder = new Files.Folder({'folder': folder, 'name': name});
@@ -230,6 +227,10 @@ Files.App = new Class({
 	setContainer: function(container) {
 		var setter = function(item) {
 			this.fireEvent('beforeSetContainer', {container: item});
+
+            if (item.slug === 'files-files') {
+                item.relative_path = 'files/default/images';
+            }
 
 			this.container = item;
 			this.baseurl = Files.sitebase + '/' + item.relative_path;

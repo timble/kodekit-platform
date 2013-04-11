@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest type="component" version="1.0.0">
+    <name>Categories</name>
+    <version>13.1</version>
+    <date>March 2013</date>
+    <author>
+        <name>Nooku Project</name>
+        <email>info@nooku.org</email>
+        <link>www.nooku.org</link>
+    </author>
+    <copyright>Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+    <license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+    <description>This component provides category management</description>
+</manifest>

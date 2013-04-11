@@ -1,0 +1,38 @@
+<?php
+/**
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		git://git.assembla.com/nooku-framework.git
+ */
+
+namespace Nooku\Component\Articles;
+
+use Nooku\Library;
+use Nooku\Component\Versions;
+
+/**
+ * Revisable Database Behavior
+ *
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Articles
+ */
+class DatabaseBehaviorRevisable extends Versions\DatabaseBehaviorRevisable
+{
+    protected function _selectRevisions($table, $status, Library\DatabaseQueryInterface $query)
+    {
+        $result = parent::_selectRevisions($table, $status, $query);
+
+        //Filter the rowset based on the category id
+        if($query->params->has('categories_category_id'))
+        {
+            $needle = array();
+            $needle['categories_category_id'] = $query->params->get('categories_category_id');
+
+            $result = $result->find($needle);
+        }
+
+        return $result;
+    }
+}

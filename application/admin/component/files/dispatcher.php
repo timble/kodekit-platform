@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+use Nooku\Library;
+
 /**
  * Dispatcher Class
  *
@@ -15,56 +17,35 @@
  * @subpackage  Files
  */
 
-class ComFilesDispatcher extends ComDefaultDispatcher
+class FilesDispatcher extends Library\DispatcherComponent
 {
-	public function __construct(KConfig $config)
+	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 	
 		// Return JSON response when possible
 		$this->registerCallback('after.post' , array($this, 'renderResponse'));
+
+        // Return correct status code for plupload
+        $this->getService('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
 	}
 	
-	public function renderResponse(KCommandContext $context) 
+	public function renderResponse(Library\CommandContext $context)
 	{
 		if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
 			$this->getController()->execute('render', $context);
 		}
 	}
-	
+
     /**
-     * Overloaded execute function to handle exceptions in JSON requests
+     * We need to return 200 even if an error happens in requests using Plupload.
+     * Otherwise we cannot get the error message and display it to the user interface
      */
-    public function execute($action, KCommandContext $context)
+    public function setStatusForPlupload($context)
     {
-        try {
-            return parent::execute($action, $context);
-        }
-        catch (KControllerException $e) {
-            $this->_handleException($e);
-        }
-        catch (UnexpectedValueException $e) {
-            $this->_handleException($e);
-        }
-    }
-
-    protected function _handleException(Exception $e) 
-    {
-    	if ($this->getRequest()->getFormat() == 'json')
+        if ($context->request->getFormat() == 'json' && $context->request->query->get('plupload', 'int'))
         {
-    		$obj = new stdClass;
-    		$obj->status = false;
-    		$obj->error  = $e->getMessage();
-    		$obj->code   = $e->getCode();
-
-    		// Plupload does not pass the error to our application if the status code is not 200
-    		$code = $this->getRequest()->query->get('plupload', 'int') ? 200 : $e->getCode();
-
-            $this->getResponse()->setStatus($code, $e->getMessage());
-
-    		echo json_encode($obj);
-    		exit(0);
-    	}
-    	else throw $e;
+            $context->response->setStatus('200');
+        }
     }
 }
