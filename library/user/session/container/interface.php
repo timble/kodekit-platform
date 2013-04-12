@@ -60,19 +60,19 @@ interface UserSessionContainerInterface
     public function clear();
 
     /**
-     * Get all attributes
-     *
-     * @return  array  An array of attributes
-     */
-    public function toArray();
-
-    /**
      * Adds new attributes
      *
      * @param array $attributes An array of attributes
      * @return  UserSessionContainerInterface
      */
-    public function fromArray(array $attributes);
+    public function values(array $attributes);
+
+    /**
+     * Get all attributes
+     *
+     * @return  array  An array of attributes
+     */
+    public function toArray();
 
     /**
      * Get the session attributes namespace

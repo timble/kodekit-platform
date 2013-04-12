@@ -20,46 +20,51 @@ use Nooku\Library;
  */
 class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 {
+    /**
+     * @var string The token filter.
+     */
+    protected $_filter;
+
     public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         //@TODO Remove when PHP 5.5 becomes a requirement.
-        $this->getService('loader')->loadFile(JPATH_ROOT . '/component/users/legacy.php');
+        //$this->getService('loader')->loadFile(JPATH_ROOT . '/component/users/legacy.php');
+
+        $this->_filter = $config->filter;
+    }
+
+    protected function _initialize(Library\Config $config) {
+        $config->append(array('filter' => 'alnum'));
+        parent::_initialize($config);
     }
 
     protected function _beforeControllerRead(Library\CommandContext $context)
     {
-        if ($token = $context->request->query->get('token', 'cmd'))
-        {
-            if ($this->_tokenValid($token))
-            {
-                $this->getView()->token = $token; // Push the token to the view.
-            }
-            else
-            {
-                $context->response->setRedirect($this->getService('application.pages')->getHome->url);
-                //@TODO : Set message in session
-                //$context->response->setRedirect($this->getService('application.pages')->getHome->url, JText::_('INVALID_TOKEN'),'error');
-                return false;
-            }
+        if ($token = $context->request->query->get('token', $this->_filter)) {
+            // Push the token to the view.
+            $this->getView()->token = $token;
         }
     }
 
     protected function _beforeControllerReset(Library\CommandContext $context)
     {
-        $password = $this->getModel()->getRow();
+        $user = $this->getModel()->getRow();
+        $password = $user->getPassword();
 
-        if ($this->_tokenValid($context->request->data->get('token', 'string')))
+        if (!$user->isNew() && $this->_tokenValid($context->request->data->get('token', $this->_filter), $password))
         {
             $context->password = $password;
             $result  = true;
         }
         else
         {
-            $context->response->setRedirect($this->getService('application.pages')->getHome->url);
+            $url = $this->getService('application.pages')->getHome()->getLink();
+            $this->getService('application')->getRouter()->build($url);
+            $context->response->setRedirect($url);
             //@TODO : Set message in session
-            //$context->response->setRedirect($this->getService('application.pages')->getHome->url, JText::_('INVALID_TOKEN'),'error');
+            //$context->response->setRedirect($url, JText::_('INVALID_REQUEST'),'error');
 
             $result = false;
         }
@@ -72,7 +77,6 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $password = $context->password;
 
         $password->password = $context->request->data->get('password', 'string');
-        $password->reset    = '';
         $password->save();
 
         if ($password->getStatus() == Library\Database::STATUS_FAILED)
@@ -84,17 +88,20 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         }
         else
         {
-            $context->response->setRedirect($this->getService('application.pages')->getHome()->url, JText::_('PASSWORD_RESET_SUCCESS'));
+            $url = $this->getService('application.pages')->getHome()->getLink();
+            $this->getService('application')->getRouter()->build($url);
+            $context->response->setRedirect($url);
+            //@TODO : Set message in session
+            //$context->response->setRedirect($url, JText::_('PASSWORD_RESET_SUCCESS'));
             $result = true;
         }
 
         return $result;
     }
 
-    protected function _tokenValid($token)
+    protected function _tokenValid($token, DatabaseRowPassword $password)
     {
         $result   = false;
-        $password = $this->getModel()->getRow();
 
         if ($password->reset && ($password->verify($token, $password->reset))) {
             $result = true;
@@ -128,22 +135,31 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     protected function _actionToken(Library\CommandContext $context)
     {
         $user     = $context->user;
-        $password = $user->getPassword();
-        $token    = $password->setReset();
+        $token = $user->getPassword()->setReset();
 
-        $config     = \JFactory::getConfig();
-        $site_name  = $config->getValue('sitename');
-        $from_email = $config->getValue('mailfrom');
-        $from_name  = $config->getValue('fromname');
-        $url        = $this->getService('lib:http.url',
-            array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
-        $this->getService('application')->getRouter()->build($url);
-        $url     = $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+        $component = $this->getService('application.components')->getComponent('users');
+        $page = $this->getService('application.pages')->find(array(
+            'extensions_component_id' => $component->id,
+            'link'                    => array(array('view' => 'user'))));
+
+        $url = $page->getLink();
+        $url->query['layout'] = 'password';
+        $url->query['token'] = $token;
+        $url->query['uuid'] = $user->uuid;
+
+        $router = $this->getService('application')->getRouter();
+        $router->build($url);
+
+        $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+
+        $site_name = \JFactory::getConfig()->getValue('sitename');
 
         $subject = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $site_name);
-        $body    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+        // TODO Fix when language package is re-factored.
+        //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
+        $message = $url;
 
-        if (!JUtility::sendMail($from_email, $from_name, $user->email, $subject, $body))
+        if (!$user->notify(array('subject' => $subject, 'message' => $message)))
         {
             $context->response->setRedirect($context->request->getReferrer());
             //@TODO : Set message in session
@@ -152,7 +168,11 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         }
         else
         {
-            $context->response->setRedirect($this->getService('application.pages')->getHome()->url, \JText::_('CONFIRMATION_EMAIL_SENT'));
+            $url = $this->getService('application.pages')->getHome()->getLink();
+            $router->build($url);
+            $context->response->setRedirect($url);
+            //@TODO : Set message in session
+            //$context->response->setRedirect($url, \JText::_('CONFIRMATION_EMAIL_SENT'));
             $result = true;
         }
 

@@ -174,7 +174,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Get a new iterator
      *
-     * @return  ArrayIterator
+     * @return  \ArrayIterator
      */
     public function getIterator()
     {
@@ -220,13 +220,12 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Set the data from an array
      *
-     * @param array An associative array of data
+     * @param array $data An associative array of data
      * @return ObjectArray
      */
-    public function fromArray(array $data)
+    public static function fromArray(array $data)
     {
-        $this->_data = $data;
-        return $this;
+        return new self(new Config(array('data' => $data)));
     }
 
     /**

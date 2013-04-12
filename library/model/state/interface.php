@@ -81,7 +81,7 @@ interface ModelStateInterface
      * @param   array An associative array of state values by name
      * @return  ModelState
      */
-    public function fromArray(array $data);
+    public function values(array $data);
 
     /**
      * Get the state data

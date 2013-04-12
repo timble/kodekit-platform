@@ -211,7 +211,9 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
     }
 
     /**
-     * Clones the object instance.
+     * Deep clone of this instance
+     *
+     * @return void
      */
     public function __clone()
     {

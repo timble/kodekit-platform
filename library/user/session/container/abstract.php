@@ -187,7 +187,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      * @param array $attributes An array of attributes
      * @return UserSessionContainerAbstract
      */
-    public function fromArray(array $attributes)
+    public function values(array $attributes)
     {
         foreach ($attributes as $key => $values) {
             $this->set($key, $values);
