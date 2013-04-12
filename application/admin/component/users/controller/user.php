@@ -67,20 +67,23 @@ class UsersControllerUser extends ApplicationControllerDefault
 
         if(($user->getStatus() != Library\Database::STATUS_FAILED) && $reset)
         {
-            $application = $this->getService('application');
+            $component = $this->getService('application.components')->getComponent('users');
+            $page     = $this->getService('application.pages')->find(array(
+                'extensions_component_id' => $component->id,
+                'link'                   => array(array('view' => 'user'))));
 
-            /*
-            $url        = $this->getService('lib:http.url',
-                array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
-            $this->getService('com:application.router')->build($url);
-            */
-            // TODO Hardcoding URL since AFAIK currently there's no other way to build a frontend route from here.
-            // Due to namespacing problems the backend router will always be returned.
-            $url = "/component/users/user?layout=password&uuid={$user->uuid}&reset={$reset}";
-            $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
+            $link = clone $page->getLink();
+            $link->query['layout'] = 'password';
+            $link->query['uuid'] = $user->uuid;
+            $link->query['token'] = $user->reset;
+
+            // TODO Route URL after backend routing of frontent URLs is made possible.
+            //$this->getService('application')->getRouter()->build($link);
 
             $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $url);
+            // TODO Fix following lines after language package is re-factored.
+            //$message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $link);
+            $message = $link;
 
            $user->notify(array('subject' => $subject, 'message' => $message));
         }
