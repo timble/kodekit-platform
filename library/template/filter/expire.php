@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFilterWrite
+class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
     /**
      * Quick lookup cache, mostly useful for <img /> and url() rewrites as there are often duplicates on page
@@ -33,7 +33,7 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param  Config $config  An optional Config object with configuration options
      * @return void
      */
     protected function _initialize(Config $config)
@@ -48,10 +48,10 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
     /**
      * Filter the template output
      *
-     * @param string
-     * @return TemplateFilterForm
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         // Stylesheets, favicons etc
         $text = preg_replace_callback('#<link.*href="([^"]+)".*\/>#iU', array($this, '_replace'), $text);
@@ -67,12 +67,12 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
 
         // Inline CSS URIs within style tags
         $text = preg_replace_callback('#<style.*>(.*)<\/style>#siU', array($this, '_replaceInlineCSS'), $text);
-        return $this;
     }
 
     /**
      * Adds 'modified' query variable to resource URI when possible, makes browsers caching useful and failsafe
      *
+     * @param string $url
      * @return string
      */
     protected function _processResourceURL($url)

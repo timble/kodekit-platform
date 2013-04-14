@@ -16,14 +16,14 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class TemplateFilterSpaceless extends TemplateFilterAbstract implements TemplateFilterWrite
+class TemplateFilterSpaceless extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
     /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param Config $config  An optional Config object with configuration options
      * @return void
      */
     protected function _initialize(Config $config)
@@ -38,12 +38,11 @@ class TemplateFilterSpaceless extends TemplateFilterAbstract implements Template
     /**
      * Remove all spaces from the template output
      *
-     * @param string
-     * @return TemplateFilterForm
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         $text = trim(preg_replace('/>\s+</', '><', $text));
-        return $this;
     }
 }

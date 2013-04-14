@@ -16,14 +16,14 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-abstract class TemplateFilterTag extends TemplateFilterAbstract implements TemplateFilterWrite
+abstract class TemplateFilterTag extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
 	/**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param  Config $config  An optional Config object with configuration options
      * @return void
      */
     protected function _initialize(Config $config)
@@ -40,24 +40,21 @@ abstract class TemplateFilterTag extends TemplateFilterAbstract implements Templ
      *
      * This function will pre-pend the tags to the content
 	 *
-	 * @param string Block of text to parse
-	 * @return TemplateFilterTag
+	 * @param string $text  The text to parse
 	 */
-	public function write(&$text)
+	public function render(&$text)
 	{
 		//Parse the tags
 		$tags = $this->_parseTags($text);
 
 		//Prepend the tags again to the text
 		$text = $tags.$text;
-
-		return $this;
 	}
 
 	/**
 	 * Parse the text for the tags
 	 *
-	 * @param string Block of text to parse
+	 * @param string $text  The text to parse
 	 * @return string
 	 */
 	abstract protected function _parseTags(&$text);
@@ -65,8 +62,8 @@ abstract class TemplateFilterTag extends TemplateFilterAbstract implements Templ
     /**
      * Render the tag
      *
-     * @param 	array	Associative array of attributes
-     * @param 	string	The element content
+     * @param 	array	$attribs Associative array of attributes
+     * @param 	string	$content The element content
      * @return string
      */
 	abstract protected function _renderTag($attribs = array(), $content = null);

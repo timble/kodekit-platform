@@ -56,7 +56,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
     }
 
     /**
-     * Add a filter based on priority
+     * Add a filter to the queue based on priority
      *
      * @param FilterInterface 	$filter A Filter
      * @param integer	        $priority The command priority, usually between 1 (high priority) and 5 (lowest),
@@ -87,7 +87,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
     }
 
     /**
-     * Attach a filter to the chain
+     * Attach a filter to the queue
      *
      * The priority parameter can be used to override the filter priority while enqueueing the filter.
      *
@@ -109,7 +109,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
     }
 
     /**
-     * Removes a command from the queue
+     * Removes a filter from the queue
      *
      * @param   FilterInterface   $filter
      * @return  boolean    TRUE on success FALSE on failure
@@ -125,7 +125,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
     }
 
     /**
-     * Check if the queue does contain a given object
+     * Check if the queue does contain a given filter
      *
      * @param   FilterInterface   $filter
      * @return bool

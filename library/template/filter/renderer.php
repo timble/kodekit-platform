@@ -10,21 +10,21 @@
 namespace Nooku\Library;
 
 /**
- * Template Write Filter Interface
+ * Template Renderer Filter Interface
  *
- * Process the template on output
+ * Filter will parse and render to the template to an HTML string
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-interface TemplateFilterWrite
+interface TemplateFilterRenderer
 {
     /**
-     * Parse the text and filter it
+     * Parse the text and render it
      *
-     * @param string Block of text to parse
-     * @return TemplateFilterWrite
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function write(&$text);
+    public function render(&$text);
 }

@@ -23,7 +23,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterModule extends Library\TemplateFilterAbstract implements Library\TemplateFilterWrite
+class TemplateFilterModule extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
 {
     /**
      * Database rowset or identifier
@@ -66,14 +66,12 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
      * @param string Block of text to parse
-     * @return TemplateFilterModule
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         $this->_parseModuleTags($text);
         $this->_parseModulesTags($text);
-
-        return $this;
     }
 
     /**
