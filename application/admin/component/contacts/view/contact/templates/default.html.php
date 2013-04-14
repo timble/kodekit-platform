@@ -27,7 +27,7 @@
 	
 	<div class="main">
 		<div class="title">
-		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
+		    <input class="required" type="text" name="name" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
 		    <div class="slug">
 		        <span class="add-on"><?= @text('Slug'); ?></span>
 		        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug ?>" />
