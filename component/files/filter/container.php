@@ -17,9 +17,9 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterContainer extends Library\FilterAbstract
+class FilterContainer extends Library\FilterRecursive
 {
-    protected $_walk = false;
+    protected $_traverse = false;
 
     protected function _validate($data)
     {

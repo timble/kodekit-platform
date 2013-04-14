@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterNumeric extends FilterAbstract
+class FilterNumeric extends FilterRecursive
 {
 	/**
 	 * Validate whether the given variable is numeric. Numeric strings consist of optional sign, any
@@ -23,7 +23,7 @@ class FilterNumeric extends FilterAbstract
  	 * valid numeric value. Hexadecimal notation (0xFF) is allowed too but only without sign, decimal
  	 * and exponential part
 	 *
-	 * @param	scalar	Value to be validated
+     * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
 	protected function _validate($value)
@@ -34,7 +34,7 @@ class FilterNumeric extends FilterAbstract
 	/**
 	 * Sanitize non-numeric characters from the value.
 	 *
-	 * @param	scalar	Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
 	 * @return	float
 	 */
 	protected function _sanitize($value)

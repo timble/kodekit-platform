@@ -17,14 +17,14 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterPath extends FilterAbstract
+class FilterPath extends FilterRecursive
 {
 	const PATTERN = '#^(?:[a-z]:/|~*/)[a-z0-9_\.-\s/~]*$#i';
 
     /**
      * Validate a value
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
     protected function _validate($value)
@@ -36,7 +36,7 @@ class FilterPath extends FilterAbstract
     /**
      * Sanitize a value
      *
-     * @param   mixed   Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
      * @return  string
      */
     protected function _sanitize($value)

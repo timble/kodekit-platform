@@ -14,12 +14,12 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterEmail extends FilterAbstract
+class FilterEmail extends FilterRecursive
 {
 	/**
 	 * Validate a value
 	 *
-	 * @param	scalar	Value to be validated
+     * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
 	protected function _validate($value)
@@ -33,7 +33,7 @@ class FilterEmail extends FilterAbstract
 	 *
 	 * Remove all characters except letters, digits and !#$%&'*+-/=?^_`{|}~@.[].
 	 *
-	 * @param	scalar	Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
 	 * @return	string
 	 */
 	protected function _sanitize($value)
