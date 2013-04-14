@@ -29,7 +29,7 @@ class TemplateFilterPrettyprint extends TemplateFilterAbstract implements Templa
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority' => Command::PRIORITY_LOWEST,
+            'priority' => TemplateFilterChain::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);
