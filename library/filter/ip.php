@@ -14,12 +14,12 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterIP extends FilterAbstract
+class FilterIP extends FilterRecursive
 {
 	/**
 	 * Validate a value
 	 *
-	 * @param	scalar	Value to be validated
+     * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
 	protected function _validate($value)
@@ -31,7 +31,7 @@ class FilterIP extends FilterAbstract
 	/**
 	 * Sanitize a value
 	 *
-	 * @param	scalar	Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
 	 * @return	string
 	 */
 	protected function _sanitize($value)

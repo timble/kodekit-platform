@@ -17,22 +17,9 @@ namespace Nooku\Library;
 class FilterJson extends FilterAbstract
 {
     /**
-     * Constructor
-     *
-     * @param   object  An optional Config object with configuration options
-     */
-    public function __construct(Config $config)
-    {
-        parent::__construct($config);
-
-        //Don't walk the incoming data array or object
-        $this->_walk = false;
-    }
-
-    /**
      * Validate a value
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
     protected function _validate($value)
@@ -45,7 +32,7 @@ class FilterJson extends FilterAbstract
      *
      * The value passed will be encoded to JSON format.
      *
-     * @param   scalar  Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
      * @return  string
      */
     protected function _sanitize($value)

@@ -16,12 +16,12 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterRaw extends FilterAbstract
+class FilterRaw extends FilterRecursive
 {
     /**
      * Validate a value
      *
-     * @param   scalar  Variable to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
     protected function _validate($value)
@@ -32,7 +32,7 @@ class FilterRaw extends FilterAbstract
     /**
      * Sanitize a value
      *
-     * @param   scalar  Variable to be sanitized
+     * @param   scalar  $value Value to be sanitized
      * @return  mixed
      */
     protected function _sanitize($value)

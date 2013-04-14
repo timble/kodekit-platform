@@ -120,7 +120,7 @@ class FilterHtml extends FilterTidy
     /**
      * Validate a value
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
     protected function _validate($value)
@@ -134,7 +134,7 @@ class FilterHtml extends FilterTidy
     /**
      * Sanitize a value
      *
-     * @param   scalar  Input string/array-of-string to be 'cleaned'
+     * @param   scalar  $value Value to be sanitized
      * @return  mixed   'Cleaned' version of input parameter
      */
     protected function _sanitize($value)
