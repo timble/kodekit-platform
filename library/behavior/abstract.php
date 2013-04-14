@@ -74,7 +74,7 @@ abstract class BehaviorAbstract extends MixinAbstract implements BehaviorInterfa
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority' => Command::PRIORITY_NORMAL,
+            'priority' => CommandChain::PRIORITY_NORMAL,
             'auto_mixin' => false
         ));
 

@@ -29,7 +29,7 @@ abstract class ControllerPermissionAbstract extends ControllerBehaviorAbstract i
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority'   => Command::PRIORITY_HIGH,
+            'priority'   => CommandChain::PRIORITY_HIGH,
             'auto_mixin' => true
         ));
 

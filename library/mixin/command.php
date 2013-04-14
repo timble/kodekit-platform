@@ -83,9 +83,9 @@ class MixinCommand extends MixinAbstract
             'command_chain'     => null,
             'event_dispatcher'  => null,
             'dispatch_events'   => true,
-            'event_priority'    => Command::PRIORITY_LOWEST,
+            'event_priority'    => CommandChain::PRIORITY_LOWEST,
             'enable_callbacks'  => false,
-            'callback_priority' => Command::PRIORITY_HIGH,
+            'callback_priority' => CommandChain::PRIORITY_HIGH,
         ));
         
         parent::_initialize($config);
