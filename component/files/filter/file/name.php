@@ -19,9 +19,9 @@ use Nooku\Library;
  */
 class FilterFileName extends Library\FilterAbstract
 {
-	public function validate($context)
+	public function validate($row)
 	{
-		$value = $this->_sanitize($context->getSubject()->name);
+		$value = $this->sanitize($row->name);
 
 		if ($value == '') {
 			return $this->_error(\JText::_('Invalid file name'));

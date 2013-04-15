@@ -19,15 +19,15 @@ use Nooku\Library;
  */
 class FilterFolderName extends Library\FilterAbstract
 {
-	public function validate($context)
+	public function validate($row)
 	{
-		$value = $context->getSubject()->name;
+		$value = $row->name;
 
 		if (strpos($value, '/') !== false) {
 			return $this->_error(\JText::_('Folder names cannot contain slashes'));
 		}
 
-		if ($this->_sanitize($value) == '') {
+		if ($this->sanitize($value) == '') {
 			return $this->_error(\JText::_('Invalid folder name'));
 		}
 	}

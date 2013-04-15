@@ -19,9 +19,8 @@ use Nooku\Library;
  */
 class FilterFileMimetype extends Library\FilterAbstract
 {
-	public function validate($context)
+	public function validate($row)
 	{
-		$row       = $context->getSubject();
 		$mimetypes = Library\Config::unbox($row->container->parameters->allowed_mimetypes);
 
 		if (is_array($mimetypes))

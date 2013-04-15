@@ -19,10 +19,10 @@ use Nooku\Library;
  */
 class FilterFileExtension extends Library\FilterAbstract
 {
-	public function validate($context)
+	public function validate($row)
 	{
-		$allowed = $context->getSubject()->container->parameters->allowed_extensions;
-		$value   = $context->getSubject()->extension;
+		$allowed = $row->container->parameters->allowed_extensions;
+		$value   = $row->extension;
 
 		if (is_array($allowed) && (empty($value) || !in_array(strtolower($value), $allowed))) {
 			return $this->_error(\JText::_('Invalid file extension'));
