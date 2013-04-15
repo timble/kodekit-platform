@@ -55,6 +55,13 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected $_stack;
 
     /**
+     * The filter chain
+     *
+     * @var	TemplateFilterChain
+     */
+    protected $_chain = null;
+
+    /**
      * Constructor
      *
      * Prevent creating instances of this class by making the constructor private
@@ -71,8 +78,8 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         // Set the template data
         $this->_data = $config->data;
 
-        // Mixin a command chain
-        $this->mixin(new MixinCommand($config->append(array('mixer' => $this))));
+        //Set the filter chain
+        $this->_chain = $config->filter_chain;
 
         //Attach the filters
         $filters = (array)Config::unbox($config->filters);
@@ -101,12 +108,10 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'data'             => array(),
-            'filters'          => array(),
-            'view'             => null,
-            'command_chain'    => $this->getService('lib:command.chain'),
-            'dispatch_events'  => false,
-            'enable_callbacks' => false,
+            'data'          => array(),
+            'view'          => null,
+            'filter_chain'  => $this->getService('lib:template.filter.chain'),
+            'filters'       => array(),
         ));
 
         parent::_initialize($config);
@@ -353,7 +358,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
 
         //Enqueue the filter in the command chain
-        $this->getCommandChain()->enqueue($filter);
+        $this->_chain->enqueue($filter);
 
         return $this;
     }
@@ -462,7 +467,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
 
         // The substr() check added to make sure that the realpath()
-        // results in a directory registered so that non-registered directores
+        // results in a directory registered so that non-registered directories
         // are not accessible via directory traversal attempts.
         if (file_exists($file) && substr($file, 0, strlen($path)) == $path) {
             $result = $file;
@@ -481,11 +486,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     protected function _parse(&$content)
     {
-        $context = $this->getCommandContext();
-
-        $context->data = $content;
-        $this->getCommandChain()->run(TemplateFilter::MODE_READ, $context);
-        $content = $context->data;
+        $this->_chain->compile($content);
     }
 
     /**
@@ -526,11 +527,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     protected function _process(&$content)
     {
-        $context = $this->getCommandContext();
-
-        $context->data = $content;
-        $this->getCommandChain()->run(TemplateFilter::MODE_WRITE, $context);
-        $content = $context->data;
+        $this->_chain->render($content);
     }
 
     /**

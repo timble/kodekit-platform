@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilterRead, TemplateFilterWrite
+class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilterCompiler, TemplateFilterRenderer
 {
     /**
      * The alias read map
@@ -45,16 +45,17 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
     /**
      * Append an alias
      *
-     * @param array     An array of aliases to be appended
+     * @param array $alias An array of aliases to be appended
+     * @param int  $mode   The template mode
      * @return TemplateFilterAlias
      */
-    public function addAlias(array $alias, $mode = TemplateFilter::MODE_READ)
+    public function addAlias(array $alias, $mode = TemplateFilter::MODE_COMPILE)
     {
-        if($mode & TemplateFilter::MODE_READ) {
+        if($mode & TemplateFilter::MODE_COMPILE) {
             $this->_alias_read = array_merge($this->_alias_read, $alias);
         }
 
-        if($mode & TemplateFilter::MODE_WRITE) {
+        if($mode & TemplateFilter::MODE_RENDER) {
             $this->_alias_write = array_merge($this->_alias_write, $alias);
         }
 
@@ -64,32 +65,28 @@ class TemplateFilterAlias extends TemplateFilterAbstract implements TemplateFilt
     /**
      * Convert the alias
      *
-     * @param string
-     * @return TemplateFilterAlias
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function read(&$text)
+    public function compile(&$text)
     {
         $text = str_replace(
             array_keys($this->_alias_read),
             array_values($this->_alias_read),
             $text);
-
-        return $this;
     }
 
     /**
      * Convert the alias
      *
-     * @param string
-     * @return TemplateFilterAlias
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         $text = str_replace(
             array_keys($this->_alias_write),
             array_values($this->_alias_write),
             $text);
-
-        return $this;
     }
 }

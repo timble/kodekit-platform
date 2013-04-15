@@ -25,10 +25,10 @@ class FilterDate extends FilterTimestamp
      * itself is valid (for example, no Feb 30).
      *
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         // Look for Ymd keys?
         if (is_array($value)) {
@@ -44,11 +44,11 @@ class FilterDate extends FilterTimestamp
     /**
      * Forces the value to an ISO-8601 formatted date ("yyyy-mm-dd").
      *
-     * @param string The value to be sanitized.  If an integer, it is used as a Unix timestamp;
-     *               otherwise, converted to a Unix timestamp using [[php::strtotime() | ]].
+     * @param   scalar  $value Value to be sanitized  If an integer, it is used as a Unix timestamp;
+     *                  otherwise, converted to a Unix timestamp using [[php::strtotime() | ]].
      * @return  string The sanitized value.
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
          // Look for Ymd keys?
         if (is_array($value)) {

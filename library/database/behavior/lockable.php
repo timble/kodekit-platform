@@ -35,7 +35,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	protected function _initialize(Config $config)
     {
     	$config->append(array(
-			'priority'   => Command::PRIORITY_HIGH,
+			'priority'   => CommandChain::PRIORITY_HIGH,
             'lifetime'   =>  $this->getService('user')->getSession()->getLifetime()
 	  	));
 

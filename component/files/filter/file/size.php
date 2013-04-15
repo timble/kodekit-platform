@@ -19,16 +19,14 @@ use Nooku\Library;
  */
 class FilterFileSize extends Library\FilterAbstract
 {
-	protected $_walk = false;
-
-	protected function _validate($context)
+	public function validate($row)
 	{
-		$row = $context->getSubject();
 		$max = $row->container->parameters->maximum_size;
 
 		if ($max)
 		{
 			$size = $row->contents ? strlen($row->contents) : false;
+
 			if (!$size && is_uploaded_file($row->file)) {
 				$size = filesize($row->file);
 			} elseif ($row->file instanceof \SplFileInfo && $row->file->isFile()) {
@@ -36,14 +34,8 @@ class FilterFileSize extends Library\FilterAbstract
 			}
 
 			if ($size && $size > $max) {
-				$context->setError(\JText::_('File is too big'));
-				return false;
+				return $this->_error(\JText::_('File is too big'));
 			}
 		}
-	}
-
-	protected function _sanitize($value)
-	{
-		return false;
 	}
 }

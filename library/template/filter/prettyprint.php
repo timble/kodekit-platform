@@ -16,20 +16,20 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class TemplateFilterPrettyprint extends TemplateFilterAbstract implements TemplateFilterWrite
+class TemplateFilterPrettyprint extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
     /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param Config $config  An optional Config object with configuration options
      * @return void
      */
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'priority' => Command::PRIORITY_LOWEST,
+            'priority' => TemplateFilterChain::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);
@@ -38,10 +38,10 @@ class TemplateFilterPrettyprint extends TemplateFilterAbstract implements Templa
     /**
      * Prettyprint the template output
      *
-     * @param string
-     * @return TemplateFilterForm
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         $config = array('options' => array(
             'clean'          => false,

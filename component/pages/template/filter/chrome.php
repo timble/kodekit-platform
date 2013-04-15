@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterWrite, Library\ServiceInstantiatable
+class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ServiceInstantiatable
 {
     /**
      * The chrome styles
@@ -115,9 +115,9 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      * Render the module chrome
      *
      * @param string Block of text to parse
-     * @return TemplateFilterChrome
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         $data = (object) $this->getTemplate()->getData();
 
@@ -132,8 +132,6 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
                 $text = $this->$method($data->module);
             }
         }
-
-        return $this;
     }
 
     protected function _styleWrapped($module)

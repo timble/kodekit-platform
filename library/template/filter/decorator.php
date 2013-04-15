@@ -18,15 +18,15 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class TemplateFilterDecorator extends TemplateFilterAbstract implements TemplateFilterWrite
+class TemplateFilterDecorator extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
     /**
 	 * Replace <ktml:content /> with the view contents
 	 *
-	 * @param string
-	 * @return TemplateFilterDecorator
+	 * @param string $text  The text to parse
+	 * @return void
 	 */
-	public function write(&$text)
+	public function render(&$text)
 	{
         $matches = array();
         if(preg_match_all('#<ktml:content(.*)\/>#iU', $text, $matches))
@@ -35,7 +35,5 @@ class TemplateFilterDecorator extends TemplateFilterAbstract implements Template
                 $text = str_replace($matches[0][$key], $this->getTemplate()->getView()->getContent(), $text);
             }
         }
-
-		return $this;
 	}
 }

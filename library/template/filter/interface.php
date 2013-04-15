@@ -17,12 +17,12 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-interface TemplateFilterInterface  extends CommandInterface
+interface TemplateFilterInterface extends ObjectHandlable
 {
-  	/**
+    /**
      * Get the template object
      *
-     * @return  object	The template object
+     * @return  TemplateInterface	The template object
      */
     public function getTemplate();
 }

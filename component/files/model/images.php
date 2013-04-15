@@ -12,24 +12,11 @@ namespace Nooku\Component\Files;
 use Nooku\Library;
 
 /**
- * File Name Filter
+ * Containers Model
  *
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFileName extends Library\FilterAbstract
+class ModelImages extends Library\ModelAbstract
 {
-	public function validate($row)
-	{
-		$value = $this->sanitize($row->name);
-
-		if ($value == '') {
-			return $this->_error(\JText::_('Invalid file name'));
-		}
-	}
-
-    public function sanitize($value)
-	{
-		return $this->getService('com:files.filter.path')->sanitize($value);
-	}
 }

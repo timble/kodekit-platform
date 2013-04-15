@@ -16,15 +16,15 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterWord extends FilterAbstract
+class FilterWord extends FilterRecursive
 {
     /**
      * Validate a value
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         $value = trim($value);
         $pattern = '/^[A-Za-z_]*$/';
@@ -34,10 +34,10 @@ class FilterWord extends FilterAbstract
     /**
      * Sanitize a value
      *
-     * @param   scalar  Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
      * @return  string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value = trim($value);
         $pattern    = '/[^A-Za-z_]*/';

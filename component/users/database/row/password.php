@@ -71,6 +71,9 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
             // Create hash.
             $this->hash = $this->getHash($password);
 
+            // Clear reset.
+            $this->reset = '';
+
             // Unset plain text password for allowing subsequent save calls.
             unset($this->password);
         }

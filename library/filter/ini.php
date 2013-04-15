@@ -18,25 +18,12 @@ namespace Nooku\Library;
 class FilterIni extends FilterAbstract
 {
     /**
-     * Constructor
-     *
-     * @param   object  An optional Library\Config object with configuration options
-     */
-    public function __construct(Config $config)
-    {
-        parent::__construct($config);
-
-        //Don't walk the incoming data array or object
-        $this->_walk = false;
-    }
-
-    /**
      * Validate a value
      *
-     * @param    scalar Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return   bool   True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         try {
             $config = ConfigIni::fromString($value);
@@ -49,10 +36,10 @@ class FilterIni extends FilterAbstract
     /**
      * Sanitize a value
      *
-     * @param   string  Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
      * @return  Config
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         if(!$value instanceof Config)
         {

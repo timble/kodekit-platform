@@ -21,7 +21,7 @@ class TemplateFilterScript extends TemplateFilterTag
 	/**
 	 * Parse the text for script tags
 	 *
-	 * @param string Block of text to parse
+	 * @param string $text  The text to parse
 	 * @return string
 	 */
 	protected function _parseTags(&$text)
@@ -65,8 +65,8 @@ class TemplateFilterScript extends TemplateFilterTag
     /**
      * Render the tag
      *
-     * @param 	array	Associative array of attributes
-     * @param 	string	The tag content
+     * @param 	array	$attribs Associative array of attributes
+     * @param 	string	$content The tag content
      * @return string
      */
     protected function _renderTag($attribs = array(), $content = null)

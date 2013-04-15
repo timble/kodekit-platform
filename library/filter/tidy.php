@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package     Koowa_Filter
  * @see         http://tidy.sourceforge.net/docs/quickref.html
  */
-class FilterTidy extends FilterAbstract
+class FilterTidy extends FilterRecursive
 {
     /**
      * A tidy object
@@ -83,10 +83,10 @@ class FilterTidy extends FilterAbstract
     /**
      * Validate a variable
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         return (is_string($value));
     }
@@ -94,10 +94,10 @@ class FilterTidy extends FilterAbstract
     /**
      * Sanitize a variable
      *
-     * @param   scalar  Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
      * @return  string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         //Tidy is not installed, return the input
         if($tidy = $this->getTidy($value))
