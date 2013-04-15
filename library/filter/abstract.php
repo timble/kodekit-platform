@@ -72,7 +72,7 @@ abstract class FilterAbstract extends Object implements FilterInterface, Service
      */
     public function sanitize($value)
     {
-        return false;
+        return $value;
     }
 
     /**
