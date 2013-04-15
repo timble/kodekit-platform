@@ -19,9 +19,8 @@ use Nooku\Library;
  */
 class FilterFileSize extends Library\FilterAbstract
 {
-	public function validate($context)
+	public function validate($row)
 	{
-		$row = $context->getSubject();
 		$max = $row->container->parameters->maximum_size;
 
 		if ($max)
