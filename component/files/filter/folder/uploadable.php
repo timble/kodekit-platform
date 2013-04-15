@@ -17,24 +17,12 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFolderUploadable extends Library\FilterRecursive
+class FilterFolderUploadable extends Library\FilterChain
 {
-	protected $_traverse = false;
-
 	public function __construct(Library\Config $config)
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com:files.filter.folder.name'), Library\Command::PRIORITY_HIGH);
-	}
-
-	protected function _validate($context)
-	{
-
-	}
-
-	protected function _sanitize($context)
-	{
-
+		$this->addFilter($this->getService('com:files.filter.folder.name'), self::PRIORITY_HIGH);
 	}
 }

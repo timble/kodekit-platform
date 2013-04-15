@@ -32,7 +32,7 @@ class FilterPath extends Library\FilterRecursive
      * @param	scalar	$value Value to be validated
      * @return	bool	True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         $value     = trim(str_replace('\\', '/', $value));
         $sanitized = $this->sanitize($value);
@@ -46,14 +46,10 @@ class FilterPath extends Library\FilterRecursive
      * @param	mixed	$value Value to be sanitized
      * @return	string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value = trim(str_replace('\\', '/', $value));
         $value = preg_replace(self::$_safepath_pattern, '', $value);
-
-        return $value;
-
-        $value = str_replace(self::$_special_chars, '', $value);
 
 		return $value;
     }

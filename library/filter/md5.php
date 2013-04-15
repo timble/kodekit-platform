@@ -24,7 +24,7 @@ class FilterMd5 extends FilterRecursive
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         $value = trim($value);
         $pattern = '/^[a-f0-9]{32}$/';
@@ -37,7 +37,7 @@ class FilterMd5 extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
      * @return  string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value      = trim(strtolower($value));
         $pattern    = '/[^a-f0-9]*/';

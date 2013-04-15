@@ -23,7 +23,7 @@ class FilterInt extends FilterRecursive
      * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		return empty($value) || (false !== filter_var($value, FILTER_VALIDATE_INT));
 	}
@@ -34,7 +34,7 @@ class FilterInt extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
 	 * @return	int
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		return (int) filter_var($value, FILTER_SANITIZE_NUMBER_INT);
 	}

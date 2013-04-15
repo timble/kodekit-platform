@@ -26,30 +26,11 @@ abstract class FilterAbstract extends Object implements FilterInterface, Service
     const PRIORITY_LOWEST  = 5;
 
     /**
-     * The filter chain
-     *
-     * @var	FilterChain
-     */
-    protected $_chain = null;
-
-    /**
      * The filter errors
      *
      * @var	array
      */
     protected $_errors = array();
-
-    /**
-     * Constructor
-     *
-     * @param 	object	$config An optional Config object with configuration options
-     */
-    public function __construct(Config $config)
-    {
-        parent::__construct($config);
-
-        $this->_chain = $this->getService('lib:filter.chain');
-    }
 
     /**
      * Force creation of a singleton
@@ -71,105 +52,27 @@ abstract class FilterAbstract extends Object implements FilterInterface, Service
     }
 
     /**
-     * Validate a scalar or traversable data
+     * Validate a scalar or traversable value
      *
-     * NOTE: This should always be a simple yes/no question (is $data valid?), so only true or false should be returned
+     * NOTE: This should always be a simple yes/no question (is $value valid?), so only true or false should be returned
      *
-     * @param   mixed   $data Value to be validated
-     * @return  bool    True when the data is valid. False otherwise.
+     * @param   mixed   $value Value to be validated
+     * @return  bool    True when the value is valid. False otherwise.
      */
-    public function validate($data)
+    public function validate($value)
     {
-        $result = true;
-
-        //Run the filter chain
-        if(!$this->_chain->isEmpty())
-        {
-            $result = $this->_chain->validate($data);
-
-            //Get the errors
-            if($result === false) {
-                $this->_errors += $this->_chain->getErrors();
-            }
-        }
-
-        //Validate the value
-        try
-        {
-            if($this->_validate($data) === false) {
-                $result = false;
-            };
-        }
-        catch(FilterException $e)
-        {
-            $this->_errors[] = $e;
-            $result = false;
-        }
-
-
-        return $result;
+        return false;
     }
 
     /**
-     * Sanitize a scalar or traversable data
+     * Sanitize a scalar or traversable value
      *
-     * @param   mixed   $data Value to be sanitized
+     * @param   mixed   $value Value to be sanitized
      * @return  mixed   The sanitized value
      */
-    public function sanitize($data)
+    public function sanitize($value)
     {
-        //Run the filter chain
-        if(!$this->_chain->isEmpty())
-        {
-            $data = $this->_chain->sanitize($data);
-
-            //Get the errors
-            if($data === false) {
-                $this->_errors+= $this->_chain->getErrors();
-            }
-        }
-
-        //Sanitize the value
-        try
-        {
-            $data = $this->_sanitize($data);
-        }
-        catch(FilterException $e)
-        {
-            $this->_errors[] = $e;
-            $data = false;
-        }
-
-        return $data;
-    }
-
-    /**
-     * Add a filter based on priority
-     *
-     * @param FilterInterface 	$filter A Filter
-     * @param integer	        $priority The command priority, usually between 1 (high priority) and 5 (lowest),
-     *                                    default is 3. If no priority is set, the command priority will be used
-     *                                    instead.
-     *
-     * @return FilterAbstract
-     */
-    public function addFilter(FilterInterface $filter, $priority = null)
-    {
-        $this->_chain->addFilter($filter, $priority);
-        return $this;
-    }
-
-    /**
-     * Get a handle for this object
-     *
-     * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
-     * or for identifying an object
-     *
-     * @return string A string that is unique
-     */
-    public function getHandle()
-    {
-        return spl_object_hash( $this );
+        return false;
     }
 
     /**
@@ -179,26 +82,17 @@ abstract class FilterAbstract extends Object implements FilterInterface, Service
      */
     public function getErrors()
     {
-        return $this->_errors;
+        return (array) $this->_errors;
     }
 
     /**
-     * Validate a variable
+     * Add an error message
      *
-     * Variable passed to this function will always be a scalar
-     *
-     * @param	scalar	$value Value to be validated
-     * @return	bool	True when the value is valid. False otherwise.
+     * @param $message
      */
-    abstract protected function _validate($value);
-
-    /**
-     * Sanitize a variable only
-     *
-     * Variable passed to this function will always be a scalar
-     *
-     * @param	scalar	$value Value to be sanitized
-     * @return	mixed
-     */
-    abstract protected function _sanitize($value);
+    protected function _error($message)
+    {
+        $this->_errors[] = $message;
+        return false;
+    }
 }

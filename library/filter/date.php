@@ -28,7 +28,7 @@ class FilterDate extends FilterTimestamp
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         // Look for Ymd keys?
         if (is_array($value)) {
@@ -48,7 +48,7 @@ class FilterDate extends FilterTimestamp
      *                  otherwise, converted to a Unix timestamp using [[php::strtotime() | ]].
      * @return  string The sanitized value.
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
          // Look for Ymd keys?
         if (is_array($value)) {

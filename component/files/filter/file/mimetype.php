@@ -17,13 +17,11 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFileMimetype extends Library\FilterRecursive
+class FilterFileMimetype extends Library\FilterAbstract
 {
-	protected $_traverse = false;
-
-	protected function _validate($context)
+	public function validate($context)
 	{
-		$row = $context->getSubject();
+		$row       = $context->getSubject();
 		$mimetypes = Library\Config::unbox($row->container->parameters->allowed_mimetypes);
 
 		if (is_array($mimetypes))
@@ -42,16 +40,9 @@ class FilterFileMimetype extends Library\FilterRecursive
 				}
 			}
 
-			if ($mimetype && !in_array($mimetype, $mimetypes))
-            {
-				$context->setError(\JText::_('Invalid Mimetype'));
-				return false;
+			if ($mimetype && !in_array($mimetype, $mimetypes)) {
+				return $this->_error(\JText::_('Invalid Mimetype'));
 			}
 		}
-	}
-
-	protected function _sanitize($value)
-	{
-		return false;
 	}
 }

@@ -23,7 +23,7 @@ class FilterUrl extends FilterRecursive
      * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		$value = trim($value);
 		return (false !== filter_var($value, FILTER_VALIDATE_URL));
@@ -35,7 +35,7 @@ class FilterUrl extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
 	 * @return	string
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		return filter_var($value, FILTER_SANITIZE_URL);
 	}

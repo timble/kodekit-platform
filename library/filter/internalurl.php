@@ -24,7 +24,7 @@ class FilterInternalurl extends FilterRecursive
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         if(!is_string($value)) {
             return false;
@@ -43,7 +43,7 @@ class FilterInternalurl extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
      * @return  string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         //TODO : internal url's should not only have path and query information
         return filter_var($value, FILTER_SANITIZE_URL);

@@ -50,13 +50,18 @@ class FilterFactory extends Object implements ServiceInstantiatable
 		//Get the filter(s) we need to create
 		$filters = (array) $identifier;
 
-		//Create the filter chain
-		$filter = array_shift($filters);
-		$filter = $this->_instantiate($filter, $config);
+        //Create a filter chain
+        if(count($filters) > 1)
+        {
+            $filter = $this->getService('lib:filter.chain');
 
-		foreach($filters as $name) {
-			$filter->addFilter($this->_instantiate($name, $config));
-		}
+            foreach($filters as $name)
+            {
+                $instance = $this->_instantiate($name, $config);
+                $filter->addFilter($instance);
+            }
+        }
+        else $filter = $this->_instantiate($filters[0], $config);
 
 		return $filter;
 	}

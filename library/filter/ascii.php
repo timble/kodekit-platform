@@ -24,7 +24,7 @@ class FilterAscii extends FilterRecursive
 	 * @param	mixed	$value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		return (preg_match('/(?:[^\x00-\x7F])/', $value) !== 1);
 	}
@@ -35,7 +35,7 @@ class FilterAscii extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
 	 * @return	scalar
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		$string = htmlentities(utf8_decode($value));
 		$string = preg_replace(

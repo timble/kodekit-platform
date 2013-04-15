@@ -31,7 +31,7 @@ class FilterTimestamp extends FilterRecursive
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         // look for YmdHis keys?
         if (is_array($value)) {
@@ -74,7 +74,7 @@ class FilterTimestamp extends FilterRecursive
      *                      sanitizing.
      * @return  string The sanitized value.
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         // look for YmdHis keys?
         if (is_array($value)) {

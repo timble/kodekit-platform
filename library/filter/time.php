@@ -27,7 +27,7 @@ class FilterTime extends FilterTimestamp
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
          // look for His keys?
         if (is_array($value)) {
@@ -46,7 +46,7 @@ class FilterTime extends FilterTimestamp
      *                          to a Unix timestamp using [[php::strtotime() | ]].
      * @return string The sanitized value
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         // look for His keys?
         if (is_array($value)) {

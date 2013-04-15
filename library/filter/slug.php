@@ -73,7 +73,7 @@ class FilterSlug extends FilterRecursive
      * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		return $this->getService('lib:filter.cmd')->validate($value);
 	}
@@ -87,7 +87,7 @@ class FilterSlug extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
 	 * @return	scalar
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		//remove any '-' from the string they will be used as concatonater
 		$value = str_replace($this->_separator, ' ', $value);

@@ -17,21 +17,18 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFileName extends Library\FilterRecursive
+class FilterFileName extends Library\FilterAbstract
 {
-	protected $_traverse = false;
-
-	protected function _validate($context)
+	public function validate($context)
 	{
 		$value = $this->_sanitize($context->getSubject()->name);
 
 		if ($value == '') {
-			$context->setError(\JText::_('Invalid file name'));
-			return false;
+			return $this->_error(\JText::_('Invalid file name'));
 		}
 	}
 
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		return $this->getService('com:files.filter.path')->sanitize($value);
 	}

@@ -17,11 +17,9 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFileSize extends Library\FilterRecursive
+class FilterFileSize extends Library\FilterAbstract
 {
-	protected $_traverse = false;
-
-	protected function _validate($context)
+	public function validate($context)
 	{
 		$row = $context->getSubject();
 		$max = $row->container->parameters->maximum_size;
@@ -29,6 +27,7 @@ class FilterFileSize extends Library\FilterRecursive
 		if ($max)
 		{
 			$size = $row->contents ? strlen($row->contents) : false;
+
 			if (!$size && is_uploaded_file($row->file)) {
 				$size = filesize($row->file);
 			} elseif ($row->file instanceof \SplFileInfo && $row->file->isFile()) {
@@ -36,14 +35,8 @@ class FilterFileSize extends Library\FilterRecursive
 			}
 
 			if ($size && $size > $max) {
-				$context->setError(\JText::_('File is too big'));
-				return false;
+				return $this->_error(\JText::_('File is too big'));
 			}
 		}
-	}
-
-	protected function _sanitize($value)
-	{
-		return false;
 	}
 }

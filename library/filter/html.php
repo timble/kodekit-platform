@@ -123,7 +123,7 @@ class FilterHtml extends FilterTidy
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         return (is_string($value)
         // this is too strict, html is usually sanitized
@@ -137,12 +137,12 @@ class FilterHtml extends FilterTidy
      * @param   scalar  $value Value to be sanitized
      * @return  mixed   'Cleaned' version of input parameter
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value = (string) $value;
 
         //Tidy the value first.
-        $value = parent::_sanitize($value);
+        $value = parent::sanitize($value);
 
         // Filter var for XSS and other 'bad' code etc.
         if (!empty ($value)) {

@@ -37,18 +37,6 @@ interface FilterInterface extends ObjectHandlable
     public function sanitize($value);
 
     /**
-     * Add a filter based on priority
-     *
-     * @param FilterInterface 	$filter A Filter
-     * @param integer	        $priority The command priority, usually between 1 (high priority) and 5 (lowest),
-     *                                    default is 3. If no priority is set, the filter priority will be used
-     *                                    instead.
-     *
-     * @return FilterInterface
-     */
-    public function addFilter(FilterInterface $filter, $priority = null);
-
-    /**
      * Get a list of error that occurred during sanitize or validate
      *
      * @return array

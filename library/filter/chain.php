@@ -19,6 +19,15 @@ namespace Nooku\Library;
 class FilterChain extends ObjectQueue implements FilterInterface
 {
     /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
+    /**
      * Validate a scalar or traversable value
      *
      * NOTE: This should always be a simple yes/no question (is $value valid?), so only true or false should be returned
@@ -80,7 +89,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
     {
         $errors = array();
         foreach($this as $filter) {
-            $errors += $filter->getErrors();
+            $errors = array_merge($errors, $filter->getErrors());
         }
 
         return $errors;
@@ -104,7 +113,7 @@ class FilterChain extends ObjectQueue implements FilterInterface
             throw new \InvalidArgumentException('Filter needs to implement FilterInterface');
         }
 
-        $priority = is_int($priority) ? $priority : $filter::PRIORITY_NORMAL;
+        $priority = is_int($priority) ? $priority : FilterChain::PRIORITY_NORMAL;
         return parent::enqueue($filter, $priority);
     }
 

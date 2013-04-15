@@ -26,7 +26,7 @@ class FilterNumeric extends FilterRecursive
      * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		return (is_string($value) && is_numeric($value));
 	}
@@ -37,7 +37,7 @@ class FilterNumeric extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
 	 * @return	float
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		return (string) filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT,
 			FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND | FILTER_FLAG_ALLOW_SCIENTIFIC);

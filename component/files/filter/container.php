@@ -17,11 +17,9 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterContainer extends Library\FilterRecursive
+class FilterContainer extends Library\FilterAbstract
 {
-    protected $_traverse = false;
-
-    protected function _validate($data)
+    public function validate($data)
     {
         if (is_string($data)) {
             return $this->getService('lib:filter.cmd')->validate($data);
@@ -32,7 +30,7 @@ class FilterContainer extends Library\FilterRecursive
         return false;
     }
 
-    protected function _sanitize($data)
+    public function sanitize($data)
     {
         if (is_string($data)) {
             return $this->getService('lib:filter.cmd')->sanitize($data);

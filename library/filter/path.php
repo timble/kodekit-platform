@@ -27,7 +27,7 @@ class FilterPath extends FilterRecursive
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         $value = trim(str_replace('\\', '/', $value));
         return (is_string($value) && (preg_match(self::PATTERN, $value)) == 1);
@@ -39,7 +39,7 @@ class FilterPath extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
      * @return  string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value = trim(str_replace('\\', '/', $value));
         preg_match(self::PATTERN, $value, $matches);

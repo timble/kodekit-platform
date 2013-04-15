@@ -24,7 +24,7 @@ class FilterLang extends FilterRecursive
      * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         $value = trim($value);
         $pattern = '/^[a-z]{2}-[A-Z]{2}$/';
@@ -38,7 +38,7 @@ class FilterLang extends FilterRecursive
      * @param   scalar  $value Value to be sanitized
      * @return  string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value = trim($value);
 

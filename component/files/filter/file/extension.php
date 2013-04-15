@@ -17,23 +17,15 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFileExtension extends Library\FilterRecursive
+class FilterFileExtension extends Library\FilterAbstract
 {
-	protected $_traverse = false;
-
-	protected function _validate($context)
+	public function validate($context)
 	{
 		$allowed = $context->getSubject()->container->parameters->allowed_extensions;
 		$value   = $context->getSubject()->extension;
 
 		if (is_array($allowed) && (empty($value) || !in_array(strtolower($value), $allowed))) {
-			$context->setError(\JText::_('Invalid file extension'));
-			return false;
+			return $this->_error(\JText::_('Invalid file extension'));
 		}
-	}
-
-	protected function _sanitize($value)
-	{
-		return false;
 	}
 }
