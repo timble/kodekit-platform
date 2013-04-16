@@ -19,13 +19,6 @@ namespace Nooku\Library;
 class FilterIterator extends ObjectDecorator implements FilterInterface
 {
     /**
-     * The filter data
-     *
-     * @var	array
-     */
-    protected $_data;
-
-    /**
      * Validate a scalar or traversable data
      *
      * NOTE: This should always be a simple yes/no question (is $data valid?), so only true or false should be returned
@@ -61,8 +54,6 @@ class FilterIterator extends ObjectDecorator implements FilterInterface
     {
         if(is_array($data) || $data instanceof Traversable)
         {
-            $this->_data = $data; //set the data
-
             foreach((array)$data as $key => $value)
             {
                 if(is_array($data)) {
