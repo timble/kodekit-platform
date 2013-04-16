@@ -9,14 +9,14 @@
 namespace Nooku\Library;
 
 /**
- * Recursive Filter
+ * Filter Iterator
  *
- * If the data passed is an array or is traversable the filter will recurse over it and filter each individual value.
+ * If the data passed is an array or is traversable the filter will iterate over it and filter each individual value.
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-abstract class FilterRecursive extends FilterAbstract
+class FilterIterator extends ObjectDecorator implements FilterInterface
 {
     /**
      * Validate a scalar or traversable data
@@ -28,16 +28,18 @@ abstract class FilterRecursive extends FilterAbstract
      */
     public function validate($data)
     {
+        $result = true;
+
         if(is_array($data) || $data instanceof Traversable)
         {
-            foreach((array)$data as $value)
+            foreach($data as $value)
             {
                 if($this->validate($value) ===  false) {
                     $result = false;
                 }
             }
         }
-        else $result = parent::validate($data);
+        else $result = $this->getObject()->validate($data);
 
         return $result;
     }
@@ -61,8 +63,18 @@ abstract class FilterRecursive extends FilterAbstract
                 }
             }
         }
-        else  $data = parent::sanitize($data);
+        else  $data = $this->getObject()->sanitize($data);
 
         return $data;
+    }
+
+    /**
+     * Get a list of error that occurred during sanitize or validate
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->getObject()->getErrors();
     }
 }

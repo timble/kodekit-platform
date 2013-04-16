@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterTrim extends FilterRecursive
+class FilterTrim extends FilterAbstract implements FilterTraversable
 {
 	/**
      * List of characters provided to the trim() function

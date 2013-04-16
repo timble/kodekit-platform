@@ -11,13 +11,12 @@ namespace Nooku\Library;
 /**
  * Command filter.
  *
- * A 'command' is a string containing only the characters [A-Za-z0-9.-_]. Used
- * for names of views, controllers, etc
+ * A 'command' is a string containing only the characters [A-Za-z0-9.-_]. Used for names of views, controllers, etc
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterCmd extends FilterRecursive
+class FilterCmd extends FilterAbstract implements FilterTraversable
 {
     /**
      * Validate a value

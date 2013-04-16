@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterNumeric extends FilterRecursive
+class FilterNumeric extends FilterAbstract implements FilterTraversable
 {
 	/**
 	 * Validate whether the given variable is numeric. Numeric strings consist of optional sign, any

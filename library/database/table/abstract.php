@@ -333,8 +333,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         }
 
         return $result;
-
-
     }
 
     /**

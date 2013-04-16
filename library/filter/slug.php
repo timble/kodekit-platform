@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterSlug extends FilterRecursive
+class FilterSlug extends FilterAbstract implements FilterTraversable
 {
 	/**
 	 * Separator character / string to use for replacing non alphabetic characters

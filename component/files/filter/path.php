@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterPath extends Library\FilterRecursive
+class FilterPath extends Library\FilterAbstract implements Library\FilterTraversable
 {
     protected static $_safepath_pattern = array('#(\.){2,}#', '#^\.#');
 
