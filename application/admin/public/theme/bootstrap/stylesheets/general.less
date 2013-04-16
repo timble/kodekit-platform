@@ -116,7 +116,7 @@ fieldset {
 
 		a {
 			min-width: 50px;
-			padding: 4px 12px;
+			padding: 6px 12px;
 		 }
 	}
 
@@ -125,6 +125,7 @@ fieldset {
 		color: #333; // bootstrap override
 		font-weight: bold;  // bootstrap override
 		border: 1px solid #BBB;  // bootstrap override
+        font-size: @baseFontSize - 1px;
 	}
 }
 
@@ -151,8 +152,8 @@ fieldset {
 		vertical-align: middle;
 
 		color: @gray;
-		font-size: 11px;
-		font-weight: bold;
+		font-size: @baseFontSize - 1px;
+		font-weight: 600;
 		text-indent: 12px;
 		text-transform: uppercase;
 
@@ -239,19 +240,19 @@ fieldset {
 		a {
 			display: block;
 			padding: 7px 0 6px 22px;
-			color: #444;
+			color: #333;
+            font-weight: 500;
 
 			.ellipsis();
 
             .badge {
-                 float: right;
+                float: right;
                 margin-right: 8px;
             }
         }
 
 		a:hover {
 			padding-top: 6px;
-			color: #444;
 			border-top: 1px solid lighten(@blueDark, 40%);
 			#gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
 			text-decoration: none;
@@ -276,9 +277,11 @@ fieldset {
 	border-bottom: 1px solid @grayLighter;
 	border-top: 1px solid @grayLighter;
 
+    font-size: @baseFontSize - 1px;
+
 	.scopebar-group {
 		border-right: 1px solid #BBB;
-		padding-top: 6px;
+		padding-top: 5px;
 		padding-right: 10px;
 		margin-right: 10px;
 
@@ -360,6 +363,7 @@ fieldset {
 				color: #666;
 				border-bottom: 1px solid @grayLighter;
 				border-left: 1px solid @grayLighter;
+                font-size: @baseFontSize - 1px;
 
 				a {
 					display: block;
@@ -395,7 +399,7 @@ fieldset {
 			tr:nth-child(even):not(.no-hover):hover td,
 			tr:nth-child(odd):not(.no-hover):hover td  { background-color: #EAF3FA; }
 
-			tr td 	   { height: 25px; border-top: 1px solid #FFF; }
+			tr td 	   { height: 26px; border-top: 1px solid #FFF; }
 
 			tr.selected td,
 			tr.selected:hover td {
@@ -427,6 +431,11 @@ fieldset {
 
 .pagination {
 	float: right;
+    font-size: @baseFontSize - 1px;
+
+    .btn {
+        font-size: @baseFontSize - 1px;
+    }
 
 	> div {
 		float: left;
