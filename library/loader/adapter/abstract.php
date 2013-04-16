@@ -28,13 +28,13 @@ abstract class LoaderAdapterAbstract implements LoaderAdapterInterface
      * Register a namespace
      *
      * @param  string $namespace
-     * @param  string $paths The location(s) of the namespace
+     * @param  string|array $paths The location(s) of the namespace
      * @return LoaderAdapterInterface
      */
     public function registerNamespace($namespace, $paths)
     {
         $namespace = trim($namespace, '\\');
-        $this->_namespaces['\\'.$namespace] = $paths;
+        $this->_namespaces['\\'.$namespace] = (array) $paths;
 
         krsort($this->_namespaces, SORT_STRING);
 

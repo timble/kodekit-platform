@@ -31,13 +31,6 @@ interface LoaderInterface
     public function unregister();
 
     /**
-     * Get the class registry object
-     *
-     * @return LoaderRegistry
-     */
-    public function getRegistry();
-
-    /**
      * Set an file path alias
      *
      * @param string  $alias    The alias
@@ -59,30 +52,6 @@ interface LoaderInterface
      * @return array
      */
     public function getAliases();
-
-    /**
-     * Add an application
-     *
-     * @param string $name The name of the application
-     * @param string $path The path of the application
-     * @return void
-     */
-    public static function addApplication($name, $path);
-
-    /**
-     * Get an application path
-     *
-     * @param string $name The name of the application
-     * @return string The path of the application
-     */
-    public static function getApplication($name);
-
-    /**
-     * Get a list of applications
-     *
-     * @return array
-     */
-    public static function getApplications();
 
     /**
      * Load a class based on a class name

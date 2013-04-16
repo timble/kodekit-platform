@@ -30,7 +30,7 @@ class LoaderAdapterLibrary extends LoaderAdapterAbstract
         $pos       = strrpos($class, '\\');
         $namespace = substr($class, 0, $pos);
         $class     = substr($class, $pos + 1);
-        $basepath  = $this->_namespaces['\\'.$namespace];
+        $paths     = $this->_namespaces['\\'.$namespace];
 
         /*
          * Exception rule for Exception classes
@@ -50,12 +50,19 @@ class LoaderAdapterLibrary extends LoaderAdapterAbstract
 			$path = $path.'/'.$path;
 		}
 
-		if(!is_file($basepath.'/'.$path.'.php')) {
-			$path = $path.'/'.strtolower(array_pop($parts));
-		}
+        foreach ($paths as $basepath)
+        {
+            $file = $basepath.'/'.$path.'.php';
+            if(is_file($file)) {
+                return $file;
+            }
 
-		$path = $basepath.'/'.$path.'.php';
+            $file = $basepath.'/'.$path.'/'.strtolower(array_pop($parts)).'.php';
+            if (is_file($file)) {
+                return $file;
+            }
+        }
 
-		return $path;
+		return false;
 	}
 }
