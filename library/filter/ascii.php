@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterAscii extends FilterRecursive
+class FilterAscii extends FilterAbstract implements FilterTraversable
 {
 	/**
 	 * Validate a variable

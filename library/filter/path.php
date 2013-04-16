@@ -17,7 +17,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterPath extends FilterRecursive
+class FilterPath extends FilterAbstract implements FilterTraversable
 {
 	const PATTERN = '#^(?:[a-z]:/|~*/)[a-z0-9_\.-\s/~]*$#i';
 

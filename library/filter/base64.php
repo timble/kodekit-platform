@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterBase64 extends FilterRecursive
+class FilterBase64 extends FilterAbstract implements FilterTraversable
 {
 	/**
 	 * Validate a value

@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package     Koowa_Filter
  * @see         http://tidy.sourceforge.net/docs/quickref.html
  */
-class FilterTidy extends FilterRecursive
+class FilterTidy extends FilterAbstract implements FilterTraversable
 {
     /**
      * A tidy object

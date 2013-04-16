@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterTimestamp extends FilterRecursive
+class FilterTimestamp extends FilterAbstract implements FilterTraversable
 {
     /**
      * Validates that the value is an ISO 8601 timestamp string.

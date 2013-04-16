@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterMd5 extends FilterRecursive
+class FilterMd5 extends FilterAbstract implements FilterTraversable
 {
     /**
      * Validate a value

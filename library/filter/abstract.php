@@ -45,6 +45,11 @@ abstract class FilterAbstract extends Object implements FilterInterface, Service
         {
             $classname = $config->service_identifier->classname;
             $instance  = new $classname($config);
+
+            if(array_key_exists(__NAMESPACE__.'\FilterTraversable', class_implements($classname, false))) {
+                $instance = $manager->get('lib:filter.iterator', array('object' => $instance));
+            }
+
             $manager->set($config->service_identifier, $instance);
         }
 
