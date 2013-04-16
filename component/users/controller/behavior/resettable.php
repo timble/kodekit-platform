@@ -134,6 +134,8 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
     protected function _actionToken(Library\CommandContext $context)
     {
+        $result = true;
+
         $user     = $context->user;
         $token = $user->getPassword()->setReset();
 
@@ -147,8 +149,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $url->query['token'] = $token;
         $url->query['uuid'] = $user->uuid;
 
-        $router = $this->getService('application')->getRouter();
-        $router->build($url);
+        $this->getService('application')->getRouter()->build($url);
 
         $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
 
@@ -165,15 +166,6 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             //@TODO : Set message in session
             //$context->response->setRedirect($context->request->getReferrer(), JText::_('ERROR_SENDING_CONFIRMATION_EMAIL'), 'error');
             $result = false;
-        }
-        else
-        {
-            $url = $this->getService('application.pages')->getHome()->getLink();
-            $router->build($url);
-            $context->response->setRedirect($url);
-            //@TODO : Set message in session
-            //$context->response->setRedirect($url, \JText::_('CONFIRMATION_EMAIL_SENT'));
-            $result = true;
         }
 
         return $result;
