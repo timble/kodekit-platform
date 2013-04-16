@@ -25,8 +25,6 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 	{
 		parent::__construct($config);
 
-        spl_autoload_register(array($this, '__autoload'));
-
 		$this->setThumbnailSize(Library\Config::unbox($config->thumbnail_size));
 	}
 
@@ -39,35 +37,6 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 		}
 
         parent::_initialize($config);
-    }
-
-    /**
-     * Autoloader for Imagine library
-     *
-     * @param $className
-     *
-     * @return bool
-     */
-    private function __autoload($className)
-    {
-        $className = ltrim($className, '\\');
-        $fileName  = '';
-        $namespace = '';
-        if ($lastNsPos = strrpos($className, '\\')) {
-            $namespace = substr($className, 0, $lastNsPos);
-            $className = substr($className, $lastNsPos + 1);
-            $fileName  = str_replace('\\', DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-        }
-        $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
-
-        $fileName = JPATH_VENDOR.'/imagine/lib/'.$fileName;
-
-        if (file_exists($fileName)) {
-            require $fileName;
-            return true;
-        }
-
-        return false;
     }
 
     public function generateThumbnail()
