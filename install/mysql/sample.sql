@@ -175,7 +175,8 @@ VALUES
 	(50, 3, 2),
 	(51, 1, 1),
 	(52, 1, 11),
-    (53, 6, 6);
+  (53, 6, 6),
+  (54, 2, 3);
 
 
 --
@@ -209,8 +210,9 @@ VALUES
 	(49, 49, 0),
 	(50, 50, 0),
 	(51, 51, 0),
-    (52, 52, 0),
-    (53, 53, 0);
+  (52, 52, 0),
+  (53, 53, 0),
+  (54, 54, 0);
 
 --
 -- Dumping data for table `pages`
@@ -239,7 +241,9 @@ VALUES
 	(50, 3, NULL, 'Submit an Article', 'submit-an-article', 'option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(51, 1, NULL, 'Search Results', 'search-results', 'option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(52, 1, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-    (53, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL);
+  (53, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
+	(54, 3, NULL, 'User', 'user', 'option=com_users&view=user', NULL, 'component', 1, 1, 0, 31, 1, '2013-04-17 08:06:47', NULL, NULL, NULL, NULL, 0, NULL);
+
 
 
 --

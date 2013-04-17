@@ -15,7 +15,7 @@ VALUES
     (23, 'Languages', 'com_languages', '', 1),
     (25, 'Pages', 'com_pages', '', 1),
     (28, 'Extensions', 'com_extensions', '', 1),
-    (31, 'Users', 'com_users', 'allowUserRegistration=1\nnew_usertype=18\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
+    (31, 'Users', 'com_users', 'allowUserRegistration=1\nnew_usertype=Registered\nuseractivation=1\nfrontend_userparams=1\n\n', 1),
     (32, 'Cache', 'com_cache', '', 1),
     (34, 'Activities', 'com_activities', '', 1),
     (35, 'Dashboard', 'com_dashboard', '', 1);   
