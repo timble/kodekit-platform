@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class LanguagesFilterIso extends Library\FilterCmd
+class FilterIso extends Library\FilterCmd
 {
     protected function _validate($value)
     {

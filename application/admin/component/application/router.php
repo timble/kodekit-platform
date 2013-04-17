@@ -81,6 +81,12 @@ class ApplicationRouter extends Library\DispatcherRouter
             $segments[] = $site;
         }
 
+        //Build language route
+        $languages = $this->getService('application.languages');
+        if(count($languages) > 1) {
+            $segments[] = $languages->getActive()->slug;
+        }
+
 	    //Build component route
         if(isset($query['option']))
         {
@@ -111,14 +117,8 @@ class ApplicationRouter extends Library\DispatcherRouter
             unset($url->query['format']);
         }
 
-        // Add language.
-        $languages = $this->getService('application.languages');
-        if(count($languages) > 1) {
-            $route = $languages->getActive()->slug.'/'.$route;
-        }
-
         //Build the route
-        $url->setPath($this->getService('request')->getBaseUrl()->getPath().'/'.$route);
+        $url->setPath($this->getService('request')->getBaseUrl()->getPath().'/'. implode('/', $segments));
 
         // Removed unused query variables
         unset($url->query['Itemid']);
