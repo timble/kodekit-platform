@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
  */
-interface ObjectInterface extends ObjectHandlable, ObjectMixable
+interface ObjectInterface extends ObjectHandlable, ObjectMixable, ObjectDecoratable
 {
 
 }

@@ -100,15 +100,65 @@ class Object extends Service implements ObjectInterface
             else $identifier = $mixin;
 
             $mixin = new $identifier->classname(new Config($config));
+
+            if(!$mixin instanceof MixinInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Mixin: '.get_class($identifier).' does not implement MixinInterface'
+                );
+            }
         }
 
         //Set the mixed methods and overwrite existing methods
         $this->_mixed_methods = array_merge($this->_mixed_methods, $mixin->getMixableMethods($this));
 
-        //Notify the mixin it's being mixed.
+        //Notify the mixin
         $mixin->onMixin($this);
 
         return $this;
+    }
+
+    /**
+     * Decorate the object
+     *
+     * When using decorate(), the object will be decorated by the decorator
+     *
+     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ServiceIdentifier object
+     *                              or valid identifier string
+     * @param    array $config  An optional associative array of configuration options
+     * @return   ObjectDecoratable
+     */
+    public function decorate($decorator, $config = array())
+    {
+        if (!($decorator instanceof ObjectDecorator))
+        {
+            if (!($decorator instanceof ServiceIdentifier))
+            {
+                //Create the complete identifier if a partial identifier was passed
+                if (is_string($decorator) && strpos($decorator, '.') === false)
+                {
+                    $identifier = clone $this->getIdentifier();
+                    $identifier->path = 'decorator';
+                    $identifier->name = $decorator;
+                }
+                else $identifier = $this->getIdentifier($decorator);
+            }
+            else $identifier = $decorator;
+
+            $decorator = new $identifier->classname(new Config($config));
+
+            if(!$decorator instanceof ObjectDecoratorInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Decorator: '.get_class($identifier).' does not implement ObjectDecoratorInterface'
+                );
+            }
+        }
+
+        //Notify the decorator
+        $decorator->onDecorate($this);
+
+        return $decorator;
     }
 
     /**
