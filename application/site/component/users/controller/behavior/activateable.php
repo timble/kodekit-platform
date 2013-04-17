@@ -49,6 +49,7 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
         $component = $this->getService('application.components')->getComponent('users');
         $page      = $this->getService('application.pages')->find(array(
             'extensions_component_id' => $component->id,
+            'access'                  => 0,
             'link'                    => array(array('view' => 'user'))));
 
         $url                      = $page->getLink();
