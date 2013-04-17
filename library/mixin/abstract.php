@@ -11,9 +11,8 @@ namespace Nooku\Library;
 /**
  * Abstract mixing class
  *
- * This class does not extend from Object and acts as a special core
- * class that is intended to offer semi-multiple inheritance features
- * to Object derived classes.
+ * This class does not extend from Object and acts as a special core class that is intended to offer semi-multiple
+ * inheritance features to Object derived classes.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Mixin
@@ -23,7 +22,7 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * The object doing the mixin
      *
-     * @var object
+     * @var Object
      */
     protected $_mixer;
 
@@ -44,7 +43,7 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * Object constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param Config $config An optional Config object with configuration options
      */
     public function __construct(Config $config)
     {
@@ -60,7 +59,7 @@ abstract class MixinAbstract implements MixinInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param  Config $config An optional Config object with configuration options
      * @return void
      */
     protected function _initialize(Config $config)
@@ -83,7 +82,7 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * Set the mixer object
      *
-     * @param object The mixer object
+     * @param object $mixer The mixer object
      * @return MixinAbstract
      */
     public function setMixer($mixer)
@@ -95,8 +94,8 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * Get a handle for this object
      *
-     * This function returns an unique identifier for the object. This id can be used as
-     * a hash key for storing objects or for identifying an object
+     * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
+     * or for identifying an object
      *
      * @return string A string that is unique
      */
@@ -134,7 +133,7 @@ abstract class MixinAbstract implements MixinInterface
      *
      * Only public methods can be mixed
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param Object $mixer The mixer requesting the mixable methods.
      * @return array An array of public methods
      */
     public function getMixableMethods(Object $mixer = null)
@@ -181,8 +180,8 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * Overloaded set function
      *
-     * @param  string   The variable name
-     * @param  mixed    The variable value.
+     * @param  string $key   The variable name
+     * @param  mixed  $value The variable value.
      * @return mixed
      */
     public function __set($key, $value)
@@ -193,7 +192,7 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * Overloaded get function
      *
-     * @param  string   The variable name.
+     * @param  string $key The variable name.
      * @return mixed
      */
     public function __get($key)
@@ -206,7 +205,7 @@ abstract class MixinAbstract implements MixinInterface
      *
      * Allows testing with empty() and isset() functions
      *
-     * @param  string   The variable name
+     * @param  string  $key The variable name
      * @return boolean
      */
     public function __isset($key)
@@ -219,7 +218,7 @@ abstract class MixinAbstract implements MixinInterface
      *
      * Allows unset() on object properties to work
      *
-     * @param string    The variable name.
+     * @param string    $key The variable name.
      * @return void
      */
     public function __unset($key)
@@ -232,8 +231,8 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * Search the mixin method map and call the method or trigger an error
      *
-     * @param  string   The function name
-     * @param  array    The function arguments
+     * @param  string $method    The function name
+     * @param  array  $arguments The function arguments
      * @throws \BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */
