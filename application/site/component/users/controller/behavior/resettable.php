@@ -9,7 +9,7 @@
 
 use Nooku\Library, Nooku\Component\Users;
 
-class UserControllerBehaviorResettable extends Users\ControllerBehaviorResettable
+class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettable
 {
     protected function _afterControllerToken(Library\CommandContext $context)
     {
