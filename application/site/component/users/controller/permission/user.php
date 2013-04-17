@@ -20,19 +20,6 @@ use Nooku\Library;
  */
 class UsersControllerPermissionUser extends ApplicationControllerPermissionDefault
 {
-    public function canRender()
-    {
-        $view = $this->getView();
-
-        if ($view->getName() == 'user' && in_array($view->getLayout(), array('reset', 'password', 'form'))) {
-            // Make the page available for password reset.
-            $result = true;
-        } else {
-            $result = parent::canRender();
-        }
-        return $result;
-    }
-
     public function canRead()
     {
         $result = true;
