@@ -116,7 +116,7 @@ class Loader
      */
     public function addAdapter(LoaderAdapterInterface $adapter)
     {
-        foreach($adapter->getNamespaces() as $namespace => $path) {
+        foreach($adapter->getNamespaces() as $namespace => $paths) {
             $this->_namespaces[$namespace] = $adapter;
         }
 
@@ -199,20 +199,14 @@ class Loader
      */
     public function loadClass($class)
     {
-        $result = false;
+        //Get the path
+        $path = self::findPath( $class );
 
-        //Pre-empt further searching for the named class or interface.
-        //Do not use autoload, because this method is registered with spl_autoload already.
-        if (!class_exists($class, false) && !interface_exists($class, false))
-        {
-            //Get the path
-            $path = self::findPath( $class );
-
-            if ($path !== false) {
-                $result = $this->loadFile($path);
-            }
+        if ($path !== false) {
+            $result = $this->loadFile($path);
+        } else {
+            $result = false;
         }
-        else $result = true;
 
         return $result;
     }
@@ -247,18 +241,12 @@ class Loader
      */
     public function loadFile($path)
     {
-        $result = false;
-        $path   = $this->realPath($path);
-
         //Don't re-include files and stat the file if it exists.
-        if (!in_array($path, get_included_files()) && file_exists($path))
-        {
-            if($included = include $path) {
-                $result = true;
-            };
+        if (!in_array($path, get_included_files()) && file_exists($path)) {
+            require $path;
         }
 
-        return $result;
+        return true;
     }
 
     /**
@@ -313,5 +301,18 @@ class Loader
 
         //Realpath is needed to resolve symbolic links.
         return realpath($path);
+    }
+
+    /**
+     * Tells if a class, interface or trait exists.
+     *
+     * @params string $class
+     * @return boolean
+     */
+    public function isDeclared($class)
+    {
+        return class_exists($class, false)
+            || interface_exists($class, false)
+            || (function_exists('trait_exists') && trait_exists($class, false));
     }
 }

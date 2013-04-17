@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterSlug extends FilterAbstract
+class FilterSlug extends FilterAbstract implements FilterTraversable
 {
 	/**
 	 * Separator character / string to use for replacing non alphabetic characters
@@ -70,10 +70,10 @@ class FilterSlug extends FilterAbstract
 	 * Returns true if the string only contains US-ASCII and does not contain
 	 * any spaces
 	 *
-	 * @param	mixed	Variable to be validated
+     * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		return $this->getService('lib:filter.cmd')->validate($value);
 	}
@@ -84,10 +84,10 @@ class FilterSlug extends FilterAbstract
 	 * Replace all accented UTF-8 characters by unaccented ASCII-7 "equivalents",
 	 * replace whitespaces by hyphens and lowercase the result.
 	 *
-	 * @param	scalar	Variable to be sanitized
+     * @param   scalar  $value Value to be sanitized
 	 * @return	scalar
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		//remove any '-' from the string they will be used as concatonater
 		$value = str_replace($this->_separator, ' ', $value);

@@ -44,23 +44,20 @@ class ApplicationRouter extends Library\DispatcherRouter
 		// Get the path data
 		$route = $url->getPath();
 
-		//Add the format to the uri
-        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
+        //Add the format to the uri
+        if(isset($url->query['format']))
+        {
+            $format = $url->query['format'];
 
-	    if($this->getService('application')->getCfg('sef_suffix'))
-		{
-            $url->format = $format;
+            if($format != 'html') {
+                $url->format = $format;
+            }
+
             unset($url->query['format']);
-	    }
-		else
-		{
-	        $url->format = '';
-            if($format == 'html') {
-			    unset($url->query['format']);
-			}
-	    }
+        }
 
-        $url->path   = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
+        //Build the route
+        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
 		return $result;
 	}
 

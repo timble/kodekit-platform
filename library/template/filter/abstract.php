@@ -34,13 +34,13 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param Config $config An optional Config object with configuration options
      */
     public function __construct(Config $config)
     {
         parent::__construct($config);
 
-        /*if (is_null($config->template))
+        if (is_null($config->template))
         {
             throw new \InvalidArgumentException(
                 'template [TemplateInterface] config option is required'
@@ -52,7 +52,7 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
             throw new \UnexpectedValueException(
                 'Template: '.get_class($config->template).' does not implement TemplateInterface'
             );
-        }*/
+        }
 
         $this->_priority = $config->priority;
         $this->_template = $config->template;
@@ -63,14 +63,14 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param  Cpnfig $config An optional Config object with configuration options
      * @return void
      */
     protected function _initialize(Config $config)
     {
         $config->append(array(
             'template' => null,
-            'priority' => Command::PRIORITY_NORMAL,
+            'priority' => TemplateFilterChain::PRIORITY_NORMAL,
         ));
 
         parent::_initialize($config);
@@ -89,38 +89,11 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Get the template object
      *
-     * @return  object    The template object
+     * @return TemplateInterface The template object
      */
     public function getTemplate()
     {
         return $this->_template;
-    }
-
-    /**
-     * Command handler
-     *
-     * @param   string      The command name
-     * @param   object      The command context
-     * @return  boolean     Always returns TRUE
-     */
-    final public function execute($name, CommandContext $context)
-    {
-        //Set the data
-        $data = $context->data;
-
-        if (($name & TemplateFilter::MODE_READ) && $this instanceof TemplateFilterRead) {
-            $this->read($data);
-        }
-
-        if (($name & TemplateFilter::MODE_WRITE) && $this instanceof TemplateFilterWrite) {
-            $this->write($data);
-        }
-
-        //Get the data
-        $context->data = $data;
-
-        //@TODO : Allows filters to return false and halt the filter chain
-        return true;
     }
 
     /**
@@ -133,7 +106,8 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     {
         $result = array();
 
-        if (!empty($string)) {
+        if (!empty($string))
+        {
             $attr = array();
 
             preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);

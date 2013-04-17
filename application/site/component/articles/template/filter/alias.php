@@ -22,6 +22,6 @@ class ArticlesTemplateFilterAlias extends Library\TemplateFilterAlias
     {
         parent::__construct($config);
 
-        $this->addAlias(array('@highlight(' => '$this->getView()->highlight('), Library\TemplateFilter::MODE_READ);
+        $this->addAlias(array('@highlight(' => '$this->getView()->highlight('), Library\TemplateFilter::MODE_COMPILE);
     }
 }

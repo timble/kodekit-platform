@@ -51,17 +51,17 @@ class CommandValidatorNode extends Library\Command
 		$dest_adapter = $row->container->getAdapter($row->getIdentifier()->name, array(
 			'path' => $row->destination_fullpath
 		));
+
 		$exists = $dest_adapter->exists();
 
 		if ($exists)
 		{
-			if (!$row->overwrite) {
+			if (!$row->overwrite)
+            {
                 $row->setStatusMessage(\JText::_('Destination resource already exists.'));
 				return false;
-			} else {
-				$row->overwritten = true;
-
 			}
+            else $row->overwritten = true;
 		}
 
 		return true;

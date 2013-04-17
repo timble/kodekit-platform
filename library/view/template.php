@@ -103,7 +103,7 @@ abstract class ViewTemplate extends ViewAbstract
 
         //Add alias filter for media:// namespaced
         $this->getTemplate()->getFilter('alias')->addAlias(
-            array('media://' => (string)$this->_mediaurl . '/'), TemplateFilter::MODE_READ | TemplateFilter::MODE_WRITE
+            array('media://' => (string)$this->_mediaurl . '/'), TemplateFilter::MODE_COMPILE | TemplateFilter::MODE_RENDER
         );
     }
 

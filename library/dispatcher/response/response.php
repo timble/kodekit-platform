@@ -203,4 +203,17 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
 
         $this->getTransport()->send();
     }
+
+    /**
+     * Deep clone of this instance
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        parent::__clone();
+
+        $this->_transport  = clone $this->_transport;
+        $this->_request    = clone $this->_request;
+    }
 }

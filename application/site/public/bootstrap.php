@@ -47,8 +47,14 @@ unset($config);
 $adapter = new Library\LoaderAdapterComponent();
 $adapter->registerNamespace('\\', JPATH_APPLICATION.'/component');
 $adapter->registerNamespace('Nooku\Component', JPATH_ROOT.'/component');
-
 Library\ServiceManager::get('loader')->addAdapter($adapter);
+
+//Setup the vendor loader
+$adapter = new Library\LoaderAdapterStandard();
+$adapter->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/lib');
+Library\ServiceManager::get('loader')->addAdapter($adapter);
+
+//Add the different applications
 Library\ServiceManager::get('loader')->addApplication('site' , JPATH_ROOT.'/application/site');
 Library\ServiceManager::get('loader')->addApplication('admin', JPATH_ROOT.'/application/admin');
 

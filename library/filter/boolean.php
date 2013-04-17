@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterBoolean extends FilterAbstract
+class FilterBoolean extends FilterAbstract implements FilterTraversable
 {
 	/**
 	 * Validate a value
@@ -22,10 +22,10 @@ class FilterBoolean extends FilterAbstract
 	 *  Returns TRUE for boolean values: "1", "true", "on" and "yes", "0",
 	 * "false", "off", "no", and "". Returns FALSE for all non-boolean values.
 	 *
-	 * @param	scalar	Value to be validated
+     * @param   scalar  $value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		return (null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) );
 	}
@@ -35,10 +35,10 @@ class FilterBoolean extends FilterAbstract
 	 *
 	 * Returns TRUE for "1", "true", "on" and "yes". Returns FALSE for all other values.
 	 *
-	 * @param	scalar	Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
 	 * @return	bool
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		return (bool) filter_var($value, FILTER_VALIDATE_BOOLEAN);
 	}

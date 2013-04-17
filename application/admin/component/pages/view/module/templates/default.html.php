@@ -43,22 +43,24 @@
 				</div>
 			</fieldset>
 
-			<fieldset class="form-horizontal">
+            <? if($params_rendered = $params->render('params')) : ?>
+            <fieldset class="form-horizontal">
 				<legend><?= @text( 'Default Parameters' ); ?></legend>
-				<?= @template('default_parameters.html', array('params' => $module->params)) ?>
+                <?= $params_rendered; ?>
 			</fieldset>
+            <? endif ?>
 
-			<? if($module->params->getNumParams('advanced')) : ?>
+            <? if($params_rendered = $params->render('params', 'advanced')) : ?>
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Advanced Parameters' ); ?></legend>
-				<?= @template('default_parameters.html', array('params' => $module->params, 'group' => 'advanced')) ?>
+                <?= $params_rendered; ?>
 			</fieldset>
 			<? endif ?>
 
-			<? if($module->params->getNumParams('other')) : ?>
+            <? if($params_rendered = $params->render('params', 'other')) : ?>
 			<fieldset class="form-horizontal">
 				<legend><?= @text( 'Other Parameters' ); ?></legend>
-				<?= @template('default_parameters.html', array('params' => $module->params, 'group' => 'other')) ?>
+                <?= $params_rendered; ?>
 			</fieldset>
 			<? endif ?>
 

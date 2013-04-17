@@ -10,21 +10,21 @@
 namespace Nooku\Library;
 
 /**
- * Template Write Filter Interface
+ * Template Compiler Filter Interface
  *
- * Processes the template on input
+ * Filter will parse and compile to the template to executable PHP code.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-interface TemplateFilterRead
+interface TemplateFilterCompiler
 {
     /**
-     * Parse the text and filter it
+     * Parse the text and compile it to PHP
      *
-     * @param string Block of text to parse
-     * @return TemplateFilterRead
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function read(&$text);
+    public function compile(&$text);
 }

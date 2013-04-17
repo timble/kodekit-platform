@@ -133,17 +133,19 @@ interface UserInterface
     public function remove($identifier);
 
     /**
+     * Set the user data from an array
+     *
+     * @param  array $data An associative array of data
+     * @return User
+     */
+    public function values(array $data);
+
+    /**
      * Get the user data as an array
      *
      * @return array An associative array of data
      */
     public function toArray();
 
-    /**
-     * Set the user data from an array
-     *
-     * @param  array $data An associative array of data
-     * @return User
-     */
-    public function fromArray(array $data);
+
 }

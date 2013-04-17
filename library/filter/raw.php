@@ -18,25 +18,5 @@ namespace Nooku\Library;
  */
 class FilterRaw extends FilterAbstract
 {
-    /**
-     * Validate a value
-     *
-     * @param   scalar  Variable to be validated
-     * @return  bool    True when the variable is valid
-     */
-    protected function _validate($value)
-    {
-        return true;
-    }
 
-    /**
-     * Sanitize a value
-     *
-     * @param   scalar  Variable to be sanitized
-     * @return  mixed
-     */
-    protected function _sanitize($value)
-    {
-        return $value;
-    }
 }

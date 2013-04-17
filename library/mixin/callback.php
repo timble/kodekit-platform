@@ -61,7 +61,7 @@ class MixinCallback extends MixinAbstract implements CommandInterface
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'callback_priority' => Command::PRIORITY_HIGH
+            'callback_priority' => CommandChain::PRIORITY_HIGH
         ));
 
         parent::_initialize($config);

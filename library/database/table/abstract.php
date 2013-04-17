@@ -333,8 +333,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         }
 
         return $result;
-
-
     }
 
     /**
@@ -554,8 +552,8 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                 {
                     if (isset($data) && !empty($data))
                     {
-                        $options['data'] = $data;
-                        $options['new'] = false;
+                        $options['data']   = $data;
+                        $options['new']    = false;
                         $options['status'] = Database::STATUS_LOADED;
                     }
 
@@ -568,7 +566,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                     if (isset($data) && !empty($data))
                     {
                         $options['data'] = $data;
-                        $options['new'] = false;
+                        $options['new']  = false;
                     }
 
                     $context->data = $this->getRowset($options);
@@ -662,7 +660,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             {
                 if ($context->affected)
                 {
-                    if ($this->getIdentityColumn()) {
+                    if(($column = $this->getIdentityColumn()) && $this->getColumn($this->mapColumns($column, true), true)->autoinc) {
                         $data[$this->getIdentityColumn()] = $this->getAdapter()->getInsertId();
                     }
 

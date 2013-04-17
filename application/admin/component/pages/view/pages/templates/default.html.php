@@ -26,12 +26,12 @@
     <table>
         <thead>
             <tr>
+                <th width="1">
+                    <?= @helper('grid.checkall'); ?>
+                </th>
                 <th width="1"></th>
                 <th>
                     <?= @helper('grid.sort', array('column' => 'title')); ?>
-                </th>
-                <th width="1">
-                    <?= @helper('grid.sort', array('column' => 'published' , 'title' => 'Published')); ?>
                 </th>
                 <th width="1">
                     <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
@@ -54,6 +54,9 @@
             <tr class="sortable">
                 <td align="center">
                     <?= @helper('grid.checkbox',array('row' => $page)); ?>
+                </td>
+                <td align="center">
+                    <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
                 </td>
                 <td>
                     <?
@@ -81,9 +84,6 @@
                     <? if($page->hidden) : ?>
                         <span class="label label-info"><?= @text('Hidden') ?></span>
                     <? endif; ?>
-                </td>
-                <td align="center">
-                    <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>

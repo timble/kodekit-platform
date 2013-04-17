@@ -27,5 +27,5 @@
     <div class="form-actions">
         <button type="submit" class="btn btn-primary"><?=@text('Submit');?></button>
     </div>
-    <input type="hidden" name="action" value="token"/>
+    <input type="hidden" name="_action" value="token"/>
 </form>

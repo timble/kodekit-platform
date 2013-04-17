@@ -19,11 +19,9 @@ use Nooku\Library;
  */
 class TemplateFilterLink extends Library\TemplateFilterLink
 {
-    public function write(&$text)
+    public function render(&$text)
     {
         $links = $this->_parseTags($text);
         $text = str_replace('<ktml:link />'."\n", $links, $text);
-
-        return $this;
     }
 }

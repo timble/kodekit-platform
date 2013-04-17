@@ -834,4 +834,17 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
 
         return $accepts;
     }
+
+    /**
+     * Deep clone of this instance
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        parent::__clone();
+
+        $this->_cookies = clone $this->_cookies;
+        $this->_files   = clone $this->_files;
+    }
 }

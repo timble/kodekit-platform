@@ -77,8 +77,8 @@ UPDATE `categories` SET `section` = 'com_contacts' WHERE `section` = 'com_contac
 UPDATE `users` SET `params` = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(`params`, 'timezone=-12', 'timezone=Etc/GMT-12'), 'timezone=-11', 'timezone=Pacific/Midway'), 'timezone=-10', 'timezone=Pacific/Honolulu'), 'timezone=-9.5', 'timezone=Pacific/Marquesas'), 'timezone=-9', 'timezone=US/Alaska'), 'timezone=-8', 'timezone=US/Pacific'), 'timezone=-7', 'timezone=US/Mountain'), 'timezone=-6', 'timezone=US/Central'), 'timezone=-5', 'timezone=US/Eastern'), 'timezone=-4.5', 'timezone=America/Caracas'), 'timezone=-4', 'timezone=America/Barbados'), 'timezone=-3.5', 'timezone=Canada/Newfoundland'), 'timezone=-3', 'timezone=America/Buenos_Aires'), 'timezone=-2', 'timezone=Atlantic/South_Georgia'), 'timezone=-1', 'timezone=Atlantic/Azores'), 'timezone=0', 'timezone=Europe/London'), 'timezone=1', 'timezone=Europe/Amsterdam'), 'timezone=2', 'timezone=Europe/Istanbul'), 'timezone=3', 'timezone=Asia/Riyadh'), 'timezone=3.5', 'timezone=Asia/Tehran'), 'timezone=4', 'timezone=Asia/Muscat'), 'timezone=4.5', 'timezone=Asia/Kabul'), 'timezone=5', 'timezone=Asia/Karachi'), 'timezone=5.5', 'timezone=Asia/Calcutta'), 'timezone=5.75', 'timezone=Asia/Katmandu'), 'timezone=6', 'timezone=Asia/Dhaka'), 'timezone=6.5', 'timezone=Indian/Cocos'), 'timezone=7', 'timezone=Asia/Bangkok'), 'timezone=8', 'timezone=Australia/Perth'), 'timezone=8.75', 'timezone=Australia/West'), 'timezone=9', 'timezone=Asia/Tokyo'), 'timezone=9.5', 'timezone=Australia/Adelaide'), 'timezone=10', 'timezone=Australia/Brisbane'), 'timezone=10.5', 'timezone=Australia/Lord_Howe'), 'timezone=11', 'timezone=Pacific/Kosrae'), 'timezone=11.5', 'timezone=Pacific/Norfolk'), 'timezone=12', 'timezone=Pacific/Auckland'), 'timezone=12.75', 'timezone=Pacific/Chatham'), 'timezone=13', 'timezone=Pacific/Tongatapu'), 'timezone=14', 'timezone=Pacific/Kiritimati');
 
 -- Remove unused indexes
-ALTER TABLE #__users DROP INDEX idx_name;
-ALTER TABLE #__users DROP INDEX gid_block;
+ALTER TABLE `users` DROP INDEX idx_name;
+ALTER TABLE `users` DROP INDEX gid_block;
 
 -- Update schema to follow conventions
 
@@ -140,7 +140,7 @@ VALUES
 ALTER TABLE `session` ENGINE InnoDB;
 RENAME TABLE`session` TO  `users_sessions`;
 
--- Remove unused columns from #__session
+-- Remove unused columns from session
 ALTER TABLE `users_sessions` DROP `username`;
 ALTER TABLE `users_sessions` DROP `usertype`;
 ALTER TABLE `users_sessions` DROP `gid`;
@@ -161,7 +161,7 @@ UPDATE `modules` SET `extensions_component_id` = 20 WHERE `name` = 'mod_articles
 
 -- Rename tables to follow conventions
 RENAME TABLE `content` TO `articles`;
-DROP TABLE #__content_frontpage;
+DROP TABLE `content_frontpage`;
 
 -- Clean trash
 DELETE FROM `articles` WHERE `state` = '-2';
@@ -219,22 +219,27 @@ DELETE FROM `categories` WHERE `section` = 'com_content';
 DELETE FROM `categories` WHERE `section` = 'com_newsfeeds';
 DELETE FROM `categories` WHERE `section` = 'com_banner';
 
+-- Remove unused columns
+ALTER TABLE `categories` DROP `image_position`;
+ALTER TABLE `categories` DROP `name`;
+ALTER TABLE `categories` DROP `editor`;
+
 -- Set parent_id of com_articles categories to the section
-UPDATE `categories` SET `parent_id` = `section` , `section` = 'com_articles' WHERE `section` > 0;
+UPDATE `categories` SET `parent_id` = `section` , `section` = 'com_articles' WHERE `section` REGEXP '^-?[0-9]+$';
 
 -- Remove the com_ prefix, the section now refers to the table
 UPDATE `categories` SET `section` = REPLACE(`section`,'com_','');
 
 -- Migrate date from sections to categories
-ALTER TABLE #__categories ADD old_id int(11) NOT NULL;
+ALTER TABLE `categories` ADD `old_id` int(11) NOT NULL;
 
-INSERT INTO #__categories (parent_id, title, alias, image, `section`, description, published, checked_out, checked_out_time, ordering, access, count, params, old_id)
-SELECT 0, title, alias, image, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM #__sections;
+INSERT INTO `categories` (`parent_id`, `title`, `alias`, `image`, `section`, `description`, `published`, `checked_out`, `checked_out_time`, `ordering`, `access`, `count`, `params`, `old_id`)
+SELECT 0, title, alias, image, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM sections;
 
-UPDATE #__categories a, #__categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
-UPDATE #__menu a, #__categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
-ALTER TABLE #__categories DROP old_id;
-DROP TABLE #__sections;
+UPDATE categories a, categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
+UPDATE menu a, categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
+ALTER TABLE categories DROP old_id;
+DROP TABLE sections;
 
 -- Update schema to follow conventions
 ALTER TABLE `categories` CHANGE  `section` `table` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
@@ -250,11 +255,6 @@ ALTER TABLE `categories` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `categories` CHANGE `checked_out_time` `locked_on` DATETIME;
 ALTER TABLE `categories` DROP INDEX `idx_checkout`;
 
--- Remove unused columns
-ALTER TABLE `categories` DROP `image_position`;
-ALTER TABLE `categories` DROP `name`;
-ALTER TABLE `categories` DROP `editor`;
-
 # --------------------------------------------------------
 
 -- Remove com_newsfeeds
@@ -266,6 +266,11 @@ DELETE FROM `modules` WHERE `name` = 'mod_feed';
 
 -- Remove menu links to newsfeeds component
 DELETE FROM `menu` WHERE `componentid` = 11;
+
+# --------------------------------------------------------
+
+-- Remove com_wrapper
+DELETE FROM `menu` WHERE `componentid` = 17;
 
 # --------------------------------------------------------
 
@@ -444,6 +449,7 @@ INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `des
 VALUES
     (NULL, 'admin', 'Menubar', 'menubar', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
+ALTER TABLE `pages_modules` CHANGE `id` `pages_module_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `pages_modules` ADD `created_by` INT(11) UNSIGNED AFTER `position`;
 ALTER TABLE `pages_modules` ADD `created_on` DATETIME AFTER `created_by`;
 ALTER TABLE `pages_modules` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
@@ -458,42 +464,42 @@ ALTER TABLE `pages_modules_pages` ADD CONSTRAINT `pages_modules_pages__pages_mod
 ALTER TABLE `pages_modules_pages` ADD CONSTRAINT `pages_modules_pages__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `pages` (`pages_page_id`) ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- Add admin menubar pages
-INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`)
-VALUES
-    ('menubar', 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_dashboard'), 1, 0, 0);
+INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`, `params`)
+  VALUES
+  ('menubar', 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_dashboard'), 1, 0, 0, '');
 
 SET @base = LAST_INSERT_ID();
 
-INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`)
-VALUES
-    ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 2, 0, 0),
-    ('menubar', 'Content', 'content', NULL, 'separator', 1, NULL, 3, 0, 0),
-    ('menubar', 'Files', 'files', 'option=com_files&view=files', 'component', 1, 19, 4, 0, 0),
-    ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 5, 0, 0),
-    ('menubar', 'Extensions', 'extensions', NULL, 'separator', 1, NULL, 6, 0, 0),
-    ('menubar', 'Settings', 'settings', 'option=com_extensions&view=settings', 'component', 1, 28, 1, @base + 5, 1),
-    ('menubar', 'Tools', 'tools', NULL, 'separator', 1, NULL, 7, 0, 0),
-    ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_activities'), 1, @base + 7, 1),
-    ('menubar', 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', 'component', 1, 32, 2, @base + 7, 1),
-    ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 2, 1),
-    ('menubar', 'Web Links', 'web-links', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 2, @base + 2, 1),
-    ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 3, @base + 2, 1),
-    ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 4, @base + 2, 1),
-    ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 10, 2),
-    ('menubar', 'Categories', 'categories', 'option=com_articles&view=categories', 'component', 1, 20, 2, @base + 10, 2),
-    ('menubar', 'Web Links', 'weblinks', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 1, @base + 11, 2),
-    ('menubar', 'Categories', 'categories', 'option=com_weblinks&view=categories', 'component', 1, 4, 2, @base + 11, 2),
-    ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 1, @base + 12, 2),
-    ('menubar', 'Categories', 'categories', 'option=com_contacts&view=categories', 'component', 1, 7, 2, @base + 12, 2),
-    ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 1, @base + 13, 2),
-    ('menubar', 'Components', 'components', 'option=com_languages&view=components', 'component', 1, 23, 2, @base + 13, 2),
-    ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 1, @base + 1, 1),
-    ('menubar', 'Menus', 'menus', 'option=com_pages&view=menus', 'component', 1, 25, 2, @base + 1, 1),
-    ('menubar', 'Modules', 'modules', 'option=com_pages&view=modules', 'component', 1, 25, 3, @base + 1, 1),
-    ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 1, @base + 4, 1),
-    ('menubar', 'Groups', 'groups', 'option=com_users&view=groups', 'component', 1, 31, 2, @base + 4, 1),
-    ('menubar', 'Items', 'items', 'option=com_cache&view=items', 'component', 1, 32, 1, @base + 9, 2),
-    ('menubar', 'Groups', 'groups', 'option=com_cache&view=groups', 'component', 1, 32, 2, @base + 9, 2);
+INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`, `params`)
+  VALUES
+  ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 2, 0, 0, ''),
+  ('menubar', 'Content', 'content', NULL, 'separator', 1, NULL, 3, 0, 0, ''),
+  ('menubar', 'Files', 'files', 'option=com_files&view=files', 'component', 1, 19, 4, 0, 0, ''),
+  ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 5, 0, 0, ''),
+  ('menubar', 'Extensions', 'extensions', NULL, 'separator', 1, NULL, 6, 0, 0, ''),
+  ('menubar', 'Settings', 'settings', 'option=com_extensions&view=settings', 'component', 1, 28, 1, @base + 5, 1, ''),
+  ('menubar', 'Tools', 'tools', NULL, 'separator', 1, NULL, 7, 0, 0, ''),
+  ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_activities'), 1, @base + 7, 1, ''),
+  ('menubar', 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', 'component', 1, 32, 2, @base + 7, 1, ''),
+  ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 2, 1, ''),
+  ('menubar', 'Web Links', 'web-links', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 2, @base + 2, 1, ''),
+  ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 3, @base + 2, 1, ''),
+  ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 4, @base + 2, 1, ''),
+  ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 10, 2, ''),
+  ('menubar', 'Categories', 'categories', 'option=com_articles&view=categories', 'component', 1, 20, 2, @base + 10, 2, ''),
+  ('menubar', 'Web Links', 'weblinks', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 1, @base + 11, 2, ''),
+  ('menubar', 'Categories', 'categories', 'option=com_weblinks&view=categories', 'component', 1, 4, 2, @base + 11, 2, ''),
+  ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 1, @base + 12, 2, ''),
+  ('menubar', 'Categories', 'categories', 'option=com_contacts&view=categories', 'component', 1, 7, 2, @base + 12, 2, ''),
+  ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 1, @base + 13, 2, ''),
+  ('menubar', 'Components', 'components', 'option=com_languages&view=components', 'component', 1, 23, 2, @base + 13, 2, ''),
+  ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 1, @base + 1, 1, ''),
+  ('menubar', 'Menus', 'menus', 'option=com_pages&view=menus', 'component', 1, 25, 2, @base + 1, 1, ''),
+  ('menubar', 'Modules', 'modules', 'option=com_pages&view=modules', 'component', 1, 25, 3, @base + 1, 1, ''),
+  ('menubar', 'Users', 'users', 'option=com_users&view=users', 'component', 1, 31, 1, @base + 4, 1, ''),
+  ('menubar', 'Groups', 'groups', 'option=com_users&view=groups', 'component', 1, 31, 2, @base + 4, 1, ''),
+  ('menubar', 'Items', 'items', 'option=com_cache&view=items', 'component', 1, 32, 1, @base + 9, 2, ''),
+  ('menubar', 'Groups', 'groups', 'option=com_cache&view=groups', 'component', 1, 32, 2, @base + 9, 2, '');
 
 ALTER TABLE `pages` ADD COLUMN `pages_menu_id` INT UNSIGNED NOT NULL AFTER `pages_page_id`;
 UPDATE `pages` AS `pages`, `pages_menus` AS `menus` SET `pages`.`pages_menu_id` = `menus`.`pages_menu_id` WHERE `menus`.`slug` = `pages`.`menutype`;
@@ -535,7 +541,7 @@ CREATE TABLE IF NOT EXISTS `pages_closures` (
 DROP PROCEDURE IF EXISTS `convert_adjacency_to_closure`;
 
 DELIMITER //
-CREATE PROCEDURE #__convert_adjacency_to_closure()
+CREATE PROCEDURE convert_adjacency_to_closure()
 BEGIN
     DECLARE distance TINYINT UNSIGNED DEFAULT 0;
     DECLARE max_level TINYINT UNSIGNED;
@@ -555,8 +561,8 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL #__convert_adjacency_to_closure();
-DROP PROCEDURE #__convert_adjacency_to_closure;
+CALL convert_adjacency_to_closure();
+DROP PROCEDURE convert_adjacency_to_closure;
 
 -- Add orderings table
 CREATE TABLE `pages_orderings` (
@@ -576,7 +582,7 @@ INSERT INTO `pages_orderings` (`pages_page_id`, `custom`) SELECT `pages_page_id`
 DROP PROCEDURE IF EXISTS `populate_ordering_title`;
 
 DELIMITER //
-CREATE PROCEDURE #__populate_ordering_title()
+CREATE PROCEDURE populate_ordering_title()
 BEGIN
     DECLARE menu_id INT;
     DECLARE distance TINYINT UNSIGNED DEFAULT 0;
@@ -608,8 +614,8 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL #__populate_ordering_title();
-DROP PROCEDURE #__populate_ordering_title;
+CALL populate_ordering_title();
+DROP PROCEDURE populate_ordering_title;
 
 -- Drop unnecessary columns
 ALTER TABLE `pages` DROP COLUMN `menutype`;
@@ -741,3 +747,30 @@ CREATE TABLE `attachments_relations` (
 INSERT INTO `files_containers` (`files_container_id`, `slug`, `title`, `path`, `parameters`)
 VALUES
 	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": true,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');
+
+
+-- Add terms support
+CREATE TABLE `terms` (
+  `terms_term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `table` varchar(50) NOT NULL,
+  `created_by` int(10) unsigned DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `modified_by` int(10) unsigned DEFAULT NULL,
+  `modified_on` datetime DEFAULT NULL,
+  `locked_by` int(10) unsigned DEFAULT NULL,
+  `locked_on` datetime DEFAULT NULL,
+  `params` text NOT NULL,
+  PRIMARY KEY (`terms_term_id`),
+  UNIQUE KEY `slug` (`slug`),
+  UNIQUE KEY `title` (`title`),
+  KEY `table` (`table`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `terms_relations` (
+  `terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
+  `row` BIGINT(20) UNSIGNED NOT NULL,
+  `table` VARCHAR( 255 ) NOT NULL,
+  PRIMARY KEY  (`terms_term_id`,`row`,`table`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

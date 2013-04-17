@@ -22,17 +22,20 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
 {
     public function canRead()
     {
-    	$parameters = $this->getService('application.components')->users->params;
+        $result = true;
 
-        if($parameters->get('allowUserRegistration') == '0')
-        {
-	        $view = $this->getView();
-	    	if ($view->getLayout() === 'register') {
-	    		return false;
-	    	}
+        $layout       = $this->getView()->getLayout();
+        $row        = $this->getModel()->getRow();
+        $parameters = $this->getService('application.components')->users->params;
+
+        if (!$row->isNew() && $layout != 'password') {
+            $result = $this->canEdit();
+        } elseif ($parameters->get('allowUserRegistration') == '0' && $layout == 'form') {
+            // Restrict registrations if these are disabled.
+            $result = false;
         }
 
-        return true;
+        return $result;
     }
     
     public function canBrowse()
@@ -42,13 +45,15 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
 
     public function canEdit()
     {
-        $id = $this->getRequest()->query->get('id', 'int');
+        $result = false;
 
-        if( $id == 0 || $id != $this->getUser()->getId()) {
-            return false;
+        $row  = $this->getModel()->getRow();
+        $user = $this->getUser();
+
+        if ($row->id == $user->getId() || $this->canDelete()) {
+            $result = true;
         }
 
-        $result = $this->getUser()->isAuthentic();
         return $result;
     }
 

@@ -97,25 +97,18 @@ class ApplicationRouter extends Library\DispatcherRouter
             }
         }
 
-        $url->query  = $query;
-
-        //Build the route
-        $route  = implode('/', $segments);
+        $url->query = $query;
 
         //Add the format to the uri
-        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
+        if(isset($url->query['format']))
+        {
+            $format = $url->query['format'];
 
-        if($this->getService('application')->getCfg('sef_suffix'))
-        {
-            $url->format = $format;
-            unset($url->query['format']);
-        }
-        else
-        {
-            $url->format = '';
-            if($format == 'html') {
-                unset($url->query['format']);
+            if($format != 'html') {
+                $url->format = $format;
             }
+
+            unset($url->query['format']);
         }
 
         // Add language.
@@ -124,6 +117,7 @@ class ApplicationRouter extends Library\DispatcherRouter
             $route = $languages->getActive()->slug.'/'.$route;
         }
 
+        //Build the route
         $url->setPath($this->getService('request')->getBaseUrl()->getPath().'/'.$route);
 
         // Removed unused query variables

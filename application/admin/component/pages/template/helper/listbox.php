@@ -121,7 +121,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
         $options = array();
 
         $path = $this->getService('loader')->getApplication('site');
-        $path = $path.'/public/theme/bootstrap/config.xml';
+        $path = $path.'/public/theme/'.$this->getService('application')->getCfg('theme').'/config.xml';
 
         if (file_exists($path))
         {

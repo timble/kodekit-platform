@@ -41,8 +41,8 @@ class FilterFactory extends Object implements ServiceInstantiatable
      * Method accepts an array of filter names, or filter service identifiers and will create a chained filter
      * using a FIFO approach.
 	 *
-	 * @param	string|array Filter identifier(s)
-	 * @param 	object 	An optional Config object with configuration options
+	 * @param	string|array $identifier Filter identifier(s)
+	 * @param 	object 	     $config     An optional Config object with configuration options
 	 * @return  FilterInterface
 	 */
 	public function getFilter($identifier, $config = array())
@@ -50,13 +50,18 @@ class FilterFactory extends Object implements ServiceInstantiatable
 		//Get the filter(s) we need to create
 		$filters = (array) $identifier;
 
-		//Create the filter chain
-		$filter = array_shift($filters);
-		$filter = $this->_instantiate($filter, $config);
+        //Create a filter chain
+        if(count($filters) > 1)
+        {
+            $filter = $this->getService('lib:filter.chain');
 
-		foreach($filters as $name) {
-			$filter->addFilter($this->_instantiate($name, $config));
-		}
+            foreach($filters as $name)
+            {
+                $instance = $this->_instantiate($name, $config);
+                $filter->addFilter($instance);
+            }
+        }
+        else $filter = $this->_instantiate($filters[0], $config);
 
 		return $filter;
 	}
@@ -67,7 +72,8 @@ class FilterFactory extends Object implements ServiceInstantiatable
 	 * If the filter is not an identifier this function will create it directly instead of going through the Service
      * identification process.
 	 *
-	 * @param 	string	Filter identifier
+	 * @param 	string	$filter Filter identifier
+     * @param   array   $config An array of configuration options.
 	 * @throws	\InvalidArgumentException	When the filter could not be found
      * @throws	\UnexpectedValueException	When the filter does not implement FilterInterface
 	 * @return  FilterInterface

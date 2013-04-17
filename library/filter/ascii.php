@@ -14,17 +14,17 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterAscii extends FilterAbstract
+class FilterAscii extends FilterAbstract implements FilterTraversable
 {
 	/**
 	 * Validate a variable
 	 *
 	 * Returns true if the string only contains US-ASCII
 	 *
-	 * @param	mixed	Variable to be validated
+	 * @param	mixed	$value Value to be validated
 	 * @return	bool	True when the variable is valid
 	 */
-	protected function _validate($value)
+    public function validate($value)
 	{
 		return (preg_match('/(?:[^\x00-\x7F])/', $value) !== 1);
 	}
@@ -32,10 +32,10 @@ class FilterAscii extends FilterAbstract
 	/**
 	 * Transliterate all unicode characters to US-ASCII. The string must be well-formed UTF8
 	 *
-	 * @param	scalar	Variable to be sanitized
+     * @param   scalar  $value Value to be sanitized
 	 * @return	scalar
 	 */
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		$string = htmlentities(utf8_decode($value));
 		$string = preg_replace(

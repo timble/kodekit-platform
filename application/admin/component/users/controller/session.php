@@ -87,7 +87,7 @@ class UsersControllerSession extends ApplicationControllerDefault
                 'attributes' => $user->params->toArray(),
             );
 
-            $context->user->fromArray($data);
+            $context->user->values($data);
         }
         else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 

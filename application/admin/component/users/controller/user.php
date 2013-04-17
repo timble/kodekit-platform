@@ -24,7 +24,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.add' , array($this, 'notify'));
+        $this->registerCallback(array('after.add','after.edit'), array($this, 'expire'));
         $this->registerCallback('after.edit', array($this, 'reset'));
     }
     
@@ -32,6 +32,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $config->append(array(
             'behaviors' => array(
+                'resettable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));
@@ -60,29 +61,14 @@ class UsersControllerUser extends ApplicationControllerDefault
         }
     }
 
-    public function notify(Library\CommandContext $context)
+    public function expire(Library\CommandContext $context)
     {
         $user = $context->result;
-        $reset = $user->reset;
-
-        if(($user->getStatus() != Library\Database::STATUS_FAILED) && $reset)
-        {
-            $application = $this->getService('application');
-
-            /*
-            $url        = $this->getService('lib:http.url',
-                array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
-            $this->getService('com:application.router')->build($url);
-            */
-            // TODO Hardcoding URL since AFAIK currently there's no other way to build a frontend route from here.
-            // Due to namespacing problems the backend router will always be returned.
-            $url = "/component/users/user?layout=password&uuid={$user->uuid}&reset={$reset}";
-            $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
-
-            $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $url);
-
-           $user->notify(array('subject' => $subject, 'message' => $message));
+        // Expire the user's password if a password change was requested.
+        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
+            'bool')
+        ) {
+            $user->getPassword()->expire();
         }
     }
 }
