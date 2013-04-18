@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -12,9 +13,10 @@ namespace Nooku\Library;
  * Toolbar Mixin Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  */
-class MixinToolbar extends MixinAbstract
+class ObjectMixinToolbar extends ObjectMixinAbstract
 {
     /**
      * List of toolbars
@@ -28,7 +30,7 @@ class MixinToolbar extends MixinAbstract
     /**
      * Constructor
      *
-     * @param     object     An optional Config object with configuration options.
+     * @param Config $config  An optional Config object with configuration options.
      */
     public function __construct(Config $config)
     {
@@ -52,7 +54,7 @@ class MixinToolbar extends MixinAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options.
+     * @param Config $config  An optional Config object with configuration options.
      * @return void
      */
     protected function _initialize(Config $config)
@@ -67,9 +69,13 @@ class MixinToolbar extends MixinAbstract
     /**
      * Add one or more toolbars
      *
-     * @param   mixed    An object that implements ServiceInterface, ServiceIdentifier object
-     *                   or valid identifier string
-     * @return  Object  The mixer object
+     * @param   mixed $toolbar An object that implements ServiceInterface, ServiceIdentifier object
+     *                         or valid identifier string
+     * @param  array  $config   An optional associative array of configuration settings
+     * @param  integer $priority The event priority, usually between 1 (high priority) and 5 (lowest),
+     *                 default is 3. If no priority is set, the command priority will be used
+     *                 instead.
+     * @return  Object The mixer object
      */
     public function attachToolbar($toolbar, $config = array(), $priority = Event::PRIORITY_NORMAL)
     {
@@ -77,7 +83,7 @@ class MixinToolbar extends MixinAbstract
             $toolbar = $this->getToolbar($toolbar, $config);
         }
 
-        if ($this->inherits('Nooku\Library\MixinEvent')) {
+        if ($this->inherits('Nooku\Library\ObjectMixinEvent')) {
             $this->addEventSubscriber($toolbar, $priority);
         }
 
@@ -87,8 +93,8 @@ class MixinToolbar extends MixinAbstract
     /**
      * Check if a toolbar exists
      *
-     * @param     string    The name of the toolbar
-     * @return  boolean    TRUE if the toolbar exists, FALSE otherwise
+     * @param   string   $toolbar The name of the toolbar
+     * @return  boolean  TRUE if the toolbar exists, FALSE otherwise
      */
     public function hasToolbar($toolbar)
     {
@@ -134,7 +140,7 @@ class MixinToolbar extends MixinAbstract
     /**
      * Gets the toolbars
      *
-     * @return array  An asscociate array of toolbars, keys are the toolbar names
+     * @return array  An associative array of toolbars, keys are the toolbar names
      */
     public function getToolbars()
     {

@@ -25,9 +25,8 @@ class UsersControllerUser extends ApplicationControllerDefault
         parent::__construct($config);
 
         $this->registerCallback(array('after.add','after.edit'), array($this, 'expire'));
-        $this->registerCallback('after.edit', array($this, 'reset'));
     }
-    
+
     protected function _initialize(Library\Config $config)
     {
         $config->append(array(
@@ -52,23 +51,27 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $entity;
     }
 
-    public function reset(Library\CommandContext $context)
+    protected function _actionEdit(Library\CommandContext $context)
     {
-        if ($context->response->getStatusCode() == self::STATUS_RESET)
-        {
-            $user = $context->result;
-            JFactory::getUser($user->id)->setData($user->getData());
+        $entity = parent::_actionEdit($context);
+        $user = $this->getService('user');
+
+        if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
+            // Logged user changed. Updated in memory/session user object.
+            $user->values($entity->getSessionData($user->isAuthentic()));
         }
+
+        return $entity;
     }
 
     public function expire(Library\CommandContext $context)
     {
-        $user = $context->result;
+        $entity = $context->result;
         // Expire the user's password if a password change was requested.
-        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
+        if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
             'bool')
         ) {
-            $user->getPassword()->expire();
+            $entity->getPassword()->expire();
         }
     }
 }

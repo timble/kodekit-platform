@@ -52,7 +52,7 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      * @param object The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
 

@@ -1,6 +1,7 @@
 <?php
 /**
  * @package     Koowa_Object
+ * @subpackage  Decorator
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -9,12 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * An Object Decorator Class
+ * Object Decorator Class
  *
- * @author  Johan Janssens <johan@nooku.org>
- * @package Koowa_Object
+ * @author      Johan Janssens <johan@nooku.org>
+ * @package     Koowa_Object
+ * @subpackage  Decorator
  */
-class ObjectDecorator extends Object
+class ObjectDecorator extends Object implements ObjectDecoratorInterface
 {
     /**
      * Class methods
@@ -24,44 +26,58 @@ class ObjectDecorator extends Object
     private $__methods = array();
 
     /**
-     * The decorated object
+     *  The object being decorated
      *
-     * @var object
+     * @var Object
      */
-    protected $_object;
+    protected $_delegate;
 
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param Config $config  An optional Config object with configuration options
      * @return ObjectDecorator
      */
     public function __construct(Config $config)
     {
         parent::__construct($config);
 
-        $this->_object = $config->object;
+        $this->_delegate = $config->delegate;
     }
 
     /**
      * Get the decorated object
      *
-     * @return    object The decorated object
+     * @return ObjectDecoratable The decorated object
      */
-    public function getObject()
+    public function getDelegate()
     {
-        return $this->_object;
+        return $this->_delegate;
     }
 
     /**
      * Set the decorated object
      *
-     * @param   object $object
+     * @param   ObjectDecoratable $delegate The decorated object
      * @return  ObjectDecorator
      */
-    public function setObject($object)
+    public function setDelegate(ObjectDecoratable $delegate)
     {
-        $this->_object = $object;
+        $this->_delegate = $delegate;
+        return $this;
+    }
+
+    /**
+     * Decorate Notifier
+     *
+     * This function is called when an object is being decorated. It will get the object passed in.
+     *
+     * @param ObjectDecoratable $delegate The object being decorated
+     * @return ObjectMixinInterface
+     */
+    public function onDecorate(ObjectDecoratable $delegate)
+    {
+        $this->setDelegate($delegate);
         return $this;
     }
 
@@ -78,7 +94,7 @@ class ObjectDecorator extends Object
         if (!$this->__methods)
         {
             $methods = array();
-            $object = $this->getObject();
+            $object = $this->getDelegate();
 
             if (!($object instanceof ObjectMixable))
             {
@@ -104,7 +120,7 @@ class ObjectDecorator extends Object
     public function inherits($class)
     {
         $result = false;
-        $object = $this->getObject();
+        $object = $this->getDelegate();
 
         if ($object instanceof ObjectMixable) {
             $result = $object->inherits($class);
@@ -124,7 +140,7 @@ class ObjectDecorator extends Object
      */
     public function __set($key, $value)
     {
-        $this->getObject()->$key = $value;
+        $this->getDelegate()->$key = $value;
     }
 
     /**
@@ -135,7 +151,7 @@ class ObjectDecorator extends Object
      */
     public function __get($key)
     {
-        return $this->getObject()->$key;
+        return $this->getDelegate()->$key;
     }
 
     /**
@@ -148,7 +164,7 @@ class ObjectDecorator extends Object
      */
     public function __isset($key)
     {
-        return isset($this->getObject()->$key);
+        return isset($this->getDelegate()->$key);
     }
 
     /**
@@ -161,8 +177,8 @@ class ObjectDecorator extends Object
      */
     public function __unset($key)
     {
-        if (isset($this->getObject()->$key)) {
-            unset($this->getObject()->$key);
+        if (isset($this->getDelegate()->$key)) {
+            unset($this->getDelegate()->$key);
         }
     }
 
@@ -176,7 +192,7 @@ class ObjectDecorator extends Object
      */
     public function __call($method, $arguments)
     {
-        $object = $this->getObject();
+        $object = $this->getDelegate();
 
         //Check if the method exists
         if ($object instanceof ObjectMixable)

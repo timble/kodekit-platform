@@ -23,10 +23,10 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 	 * This functions conditionaly mixes the behavior. Only if the mixer
 	 * has a 'ordering' property the behavior will be mixed in.
 	 *
-	 * @param object The mixer requesting the mixable methods.
+	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
 	 * @return array An array of methods
 	 */
-	public function getMixableMethods(Object $mixer = null)
+	public function getMixableMethods(ObjectMixable $mixer = null)
 	{
 		$methods = array();
 

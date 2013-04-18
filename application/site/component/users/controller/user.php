@@ -78,16 +78,16 @@ class UsersControllerUser extends ApplicationControllerDefault
 
         return parent::_actionAdd($context);
     }
-    
+
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
-        
-        if ($context->getSubject()->getStatus() == self::STATUS_RESET) {
-            $this->getService('user')->setData($entity->getData());
+        $user = $this->getService('user');
+
+        if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
+            // Logged user changed. Updated in memory/session user object.
+            $user->values($entity->getSessionData($user->isAuthentic()));
         }
-        
-        return $entity;
     }
 
     public function redirect(Library\CommandContext $context)

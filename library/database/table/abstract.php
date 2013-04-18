@@ -114,10 +114,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         $config->mixer = $this;
 
         // Mixin the command interface
-        $this->mixin(new MixinCommand($config));
+        $this->mixin(new ObjectMixinCommand($config));
 
         // Mixin the behavior interface
-        $this->mixin(new MixinBehavior($config));
+        $this->mixin(new ObjectMixinBehavior($config));
     }
 
     /**

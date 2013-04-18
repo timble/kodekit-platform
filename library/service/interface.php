@@ -29,7 +29,7 @@ interface ServiceInterface
 	 *
 	 * @param	string|object	$identifier The class identifier or identifier object
 	 * @param	array  			$config     An optional associative array of configuration settings.
-	 * @return	object  		Return object on success, throws exception on failure
+	 * @return	Service Return object on success, throws exception on failure
 	 */
 	public function getService($identifier = null, array $config = array());
 

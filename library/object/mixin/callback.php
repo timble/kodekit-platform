@@ -1,9 +1,10 @@
 <?php
 /**
- * @package        Koowa_Mixin
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * @package     Koowa_Object
+ * @subpackage  Mixin
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 namespace Nooku\Library;
@@ -11,10 +12,11 @@ namespace Nooku\Library;
 /**
  * Callback Command Mixin
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Mixin
+ * @author      Johan Janssens <johan@nooku.org>
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  */
-class MixinCallback extends MixinAbstract implements CommandInterface
+class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterface
 {
     /**
      * Array of callbacks
@@ -40,7 +42,7 @@ class MixinCallback extends MixinAbstract implements CommandInterface
     /**
      * Object constructor
      *
-     * @param     object     An optional Config object with configuration options
+     * @param Config $config    An optional Config object with configuration options
      */
     public function __construct(Config $config)
     {
@@ -55,7 +57,7 @@ class MixinCallback extends MixinAbstract implements CommandInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options
+     * @param  Config $config   An optional Config object with configuration options
      * @return  void
      */
     protected function _initialize(Config $config)
@@ -70,8 +72,8 @@ class MixinCallback extends MixinAbstract implements CommandInterface
     /**
      * Command handler
      *
-     * @param string  The command name
-     * @param object  The command context
+     * @param string          $name    The command name
+     * @param CommandContext  $context The command context
      *
      * @return boolean
      */
@@ -107,8 +109,8 @@ class MixinCallback extends MixinAbstract implements CommandInterface
     /**
      * Get the registered callbacks for a command
      *
-     * @param      string    The method to return the functions for
-     * @return  array    A list of registered functions
+     * @param   string $command The method to return the functions for
+     * @return  array  A list of registered functions
      */
     public function getCallbacks($command)
     {
@@ -131,9 +133,9 @@ class MixinCallback extends MixinAbstract implements CommandInterface
      * context of the command chain and passed along. If they are passed as an indexed array they
      * will be passed to the callback directly.
      *
-     * @param   string|array    The command name to register the callback for or an array of command names
-     * @param   callback        The callback function to register
-     * @param   array|object    An associative array of config parameters or a Config object
+     * @param   string|array $commands The command name to register the callback for or an array of command names
+     * @param   callback     $callback The callback function to register
+     * @param   array|Config $params   An associative array of config parameters or a Config object
      * @return  Object    The mixer object
      */
     public function registerCallback($commands, $callback, $params = array())
@@ -168,8 +170,8 @@ class MixinCallback extends MixinAbstract implements CommandInterface
     /**
      * Unregister a callback function
      *
-     * @param   string|array    The method name to unregister the callback from or an array of method names
-     * @param   callback        The callback function to unregister
+     * @param   string|array $commands The method name to unregister the callback from or an array of method names
+     * @param   callback     $callback The callback function to unregister
      * @return  Object The mixer object
      */
     public function unregisterCallback($commands, $callback)
@@ -194,12 +196,13 @@ class MixinCallback extends MixinAbstract implements CommandInterface
     /**
      * Get the methods that are available for mixin.
      *
-     * This functions overloads MixinAbstract::getMixableMethods and excludes the execute()
-     * function from the list of available mixable methods.
+     * This functions overloads ObjectMixinAbstract::getMixableMethods and excludes the execute() function from the
+     * list of available mixable methods.
      *
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = parent::getMixableMethods();
 
@@ -212,7 +215,7 @@ class MixinCallback extends MixinAbstract implements CommandInterface
     /**
      * Get the priority of a behavior
      *
-     * @return    integer The command priority
+     * @return integer The command priority
      */
     public function getPriority()
     {

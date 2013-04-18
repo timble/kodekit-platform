@@ -110,10 +110,10 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Serv
      * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
      * behavior is callable.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectInterface The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
 

@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Koowa_Behavior
  */
-abstract class BehaviorAbstract extends MixinAbstract implements BehaviorInterface
+abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorInterface
 {
     /**
      * The behavior priority
@@ -94,7 +94,7 @@ abstract class BehaviorAbstract extends MixinAbstract implements BehaviorInterfa
     /**
      * Command handler
      *
-     * This function transmlated the command name to a command handler function of the format '_before[Command]' or
+     * This function translated the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
      * @param   string           $name     The command name
@@ -149,10 +149,10 @@ abstract class BehaviorAbstract extends MixinAbstract implements BehaviorInterfa
      * This function also dynamically adds a function of format is[Behavior] to allow client code to check if the
      * behavior is callable.
      *
-     * @param KOject $mxier The mixer requesting the mixable methods.
+     * @param  ObjectInterface $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
         $methods['is' . ucfirst($this->getIdentifier()->name)] = function() { return true; };
@@ -171,8 +171,8 @@ abstract class BehaviorAbstract extends MixinAbstract implements BehaviorInterfa
      *
      * @param    string|object    $identifier The class identifier or identifier object
      * @param    array            $config     An optional associative array of configuration settings.
-     * @throws   RuntimeException If the service manager has not been defined.
-     * @return   object          Return object on success, throws exception on failure
+     * @throws   \RuntimeException If the service manager has not been defined.
+     * @return   Service Return object on success, throws exception on failure
      * @see      ServiceInterface
      */
     final public function getService($identifier = null, array $config = array())
