@@ -5,7 +5,7 @@
             <option value="0">No</option>
             <option value="1">Yes</option>
         </param>
-        <param name="new_usertype" type="list" default="Registered" label="New User Registration Type" description="TIPNEWUSERTYPE">
+        <param name="new_usertype" type="list" default="18" label="New User Registration Type" description="TIPNEWUSERTYPE">
             <option value="18">Registered</option>
             <option value="19">Author</option>
             <option value="20">Editor</option>

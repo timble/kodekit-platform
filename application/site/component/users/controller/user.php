@@ -25,7 +25,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         parent::__construct($config);
 
         $this->registerCallback(array('before.edit', 'before.add'), array($this, 'sanitizeRequest'))
-             ->registerCallback('after.add', array($this, 'notify'));
+             ->registerCallback('after.add', array($this, 'redirect'));
 	}
     
     protected function _initialize(Library\Config $config)
@@ -43,8 +43,9 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $request = parent::getRequest();
 
-        if($this->getModel()->getState()->isUnique()) {
-            $request->id = $this->getUser()->getId();
+        if (!$request->query->get('id','int') && ($id = $this->getUser()->getId())) {
+            // Set request so that actions are made against logged user if none was given.
+            $request->query->id = $id;
         }
 
         return $request;
@@ -89,23 +90,14 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $entity;
     }
 
-    public function notify(Library\CommandContext $context)
+    public function redirect(Library\CommandContext $context)
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
-        {
-            $url       = $this->getService('lib:http.url',
-                array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
+        if ($user->getStatus() == Library\Database::STATUS_CREATED) {
+            $url = $this->getService('application.pages')->getHome()->getLink();
             $this->getService('application')->getRouter()->build($url);
-            $site_url       = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT);
-            $activation_url = $site_url . '/' . $url;
-
-            $subject = JText::_('User Account Activation');
-            $message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
-                $this->getService('application')->getCfg('sitename'), $activation_url, $site_url);
-
-            $user->notify(array('subject' => $subject, 'message' => $message));
+            $context->response->setRedirect($url);
         }
     }
 }

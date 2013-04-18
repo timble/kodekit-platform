@@ -23,7 +23,7 @@
 
 <form action="" method="post" autocomplete="off" class="-koowa-form form-horizontal">
     <div class="page-header">
-        <h1><?= @escape($parameters->get('page_title')) ?></h1>
+        <h1><?= @escape($page->access ? $parameters->get('page_title') : @text('Registration')) ?></h1>
     </div>
 
     <div class="control-group">

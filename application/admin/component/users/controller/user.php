@@ -24,7 +24,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.add' , array($this, 'notify'));
+        $this->registerCallback(array('after.add','after.edit'), array($this, 'expire'));
         $this->registerCallback('after.edit', array($this, 'reset'));
     }
     
@@ -32,6 +32,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $config->append(array(
             'behaviors' => array(
+                'resettable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));
@@ -60,32 +61,14 @@ class UsersControllerUser extends ApplicationControllerDefault
         }
     }
 
-    public function notify(Library\CommandContext $context)
+    public function expire(Library\CommandContext $context)
     {
         $user = $context->result;
-        $reset = $user->reset;
-
-        if(($user->getStatus() != Library\Database::STATUS_FAILED) && $reset)
-        {
-            $component = $this->getService('application.components')->getComponent('users');
-            $page     = $this->getService('application.pages')->find(array(
-                'extensions_component_id' => $component->id,
-                'link'                   => array(array('view' => 'user'))));
-
-            $link = clone $page->getLink();
-            $link->query['layout'] = 'password';
-            $link->query['uuid'] = $user->uuid;
-            $link->query['token'] = $user->reset;
-
-            // TODO Route URL after backend routing of frontent URLs is made possible.
-            //$this->getService('application')->getRouter()->build($link);
-
-            $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            // TODO Fix following lines after language package is re-factored.
-            //$message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $link);
-            $message = $link;
-
-           $user->notify(array('subject' => $subject, 'message' => $message));
+        // Expire the user's password if a password change was requested.
+        if ($user->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
+            'bool')
+        ) {
+            $user->getPassword()->expire();
         }
     }
 }
