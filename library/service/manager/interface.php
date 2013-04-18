@@ -19,11 +19,11 @@ namespace Nooku\Library;
 interface ServiceManagerInterface
 {
 	/**
-	 * Get an instance of a class based on a class identifier only creating it if it doesn't exist yet.
+	 * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
 	 *
 	 * @param	string|object	$identifier The class identifier or identifier object
 	 * @param	array  			$config     An optional associative array of configuration settings.
-	 * @throws	ServiceServiceException
+	 * @throws	ServiceException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
 	public static function get($identifier, array $config = array());
@@ -44,14 +44,15 @@ interface ServiceManagerInterface
 	 */
 	public static function has($identifier);
 
-	/**
+    /**
      * Set a mixin or an array of mixins for an identifier
      *
-     * The mixins are mixed when the indentified object is first instantiated see {@link get}
-     * Mixins are also added to objects that already exist in the object registry.
+     * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to
+     * services that already exist in the service registry.
      *
-     * @param  string|object $identifier An identifier string or KIdentfier object
-     * @param  string|array  $mixins     A mixin identifier or a array of mixin identifiers
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
+     * @param  string A mixin identifier string
      * @see Object::mixin()
      */
     public static function addMixin($identifier, $mixins);
@@ -59,10 +60,33 @@ interface ServiceManagerInterface
     /**
      * Get the mixins for an identifier
      *
-     * @param  string|object $identifier An identifier string or KIdentfier object
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
      * @return array An array of mixins
      */
     public static function getMixins($identifier);
+
+    /**
+     * Set a decorator or an array of decorators for an identifier
+     *
+     * The object is decorated when it's first instantiated see {@link get} Decorators are also added to services that
+     * already exist in the service registry.
+     *
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
+     * @param  string $decorator  A decorator identifier
+     * @see Object::decorate()
+     */
+    public static function addDecorator($identifier, $decorators);
+
+    /**
+     * Get the decorators for an identifier
+     *
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
+     * @return array An array of decorators
+     */
+    public static function getDecorators($identifier);
 
     /**
      * Returns an identifier object.
@@ -92,7 +116,7 @@ interface ServiceManagerInterface
 	 *
 	 * @param mixed	$identifier An object that implements ServiceInterface, ServiceIdentifier object
 	 * 				            or valid identifier string
-	 *  @param array  An associative array of configuration options
+	 * @return array  An associative array of configuration options
 	 */
 	public static function getConfig($identifier);
 
