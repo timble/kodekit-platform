@@ -35,7 +35,7 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param Config $config  An optional Config object with configuration options
      * @return ObjectDecorator
      */
     public function __construct(Config $config)
@@ -48,7 +48,7 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
     /**
      * Get the decorated object
      *
-     * @return Object The decorated object
+     * @return ObjectDecoratable The decorated object
      */
     public function getDelegate()
     {
@@ -58,10 +58,10 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
     /**
      * Set the decorated object
      *
-     * @param   Object $delegate The decorated object
+     * @param   ObjectDecoratable $delegate The decorated object
      * @return  ObjectDecorator
      */
-    public function setDelegate(Object $delegate)
+    public function setDelegate(ObjectDecoratable $delegate)
     {
         $this->_delegate = $delegate;
         return $this;
@@ -72,12 +72,12 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
      *
      * This function is called when an object is being decorated. It will get the object passed in.
      *
-     * @param Object $object The object being decorated
-     * @return MixinInterface
+     * @param ObjectDecoratable $delegate The object being decorated
+     * @return ObjectMixinInterface
      */
-    public function onDecorate(Object $object)
+    public function onDecorate(ObjectDecoratable $delegate)
     {
-        $this->setDelegate($object);
+        $this->setDelegate($delegate);
         return $this;
     }
 
