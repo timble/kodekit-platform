@@ -78,22 +78,16 @@ class UsersControllerUser extends ApplicationControllerDefault
 
         return parent::_actionAdd($context);
     }
-    
+
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
-
         $user = $this->getService('user');
-        
+
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
-            // Logged user changed. Update in memory user object.
-            $data = $entity->getData();
-            // User is already authenticated, failing to set this property will effectively log him out.
-            $data['authentic'] = true;
-            $this->getService('user')->values($data);
+            // Logged user changed. Updated in memory/session user object.
+            $user->values($entity->getSessionData($user->isAuthentic()));
         }
-        
-        return $entity;
     }
 
     public function redirect(Library\CommandContext $context)
