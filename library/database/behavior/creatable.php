@@ -24,10 +24,10 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      * has a 'created_by' or 'created_on' property the behavior will be
      * mixed in.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = array();
 

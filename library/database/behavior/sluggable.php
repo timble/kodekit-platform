@@ -107,10 +107,10 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      * This function conditionally mixes the behavior. Only if the mixer
      * has a 'slug' property the behavior will be mixed in.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = array();
 

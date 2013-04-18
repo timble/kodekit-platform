@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -15,9 +16,10 @@ namespace Nooku\Library;
  * inheritance features to Object derived classes.
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  */
-abstract class MixinAbstract implements MixinInterface
+abstract class ObjectMixinAbstract implements ObjectMixinInterface
 {
     /**
      * The object doing the mixin
@@ -51,7 +53,9 @@ abstract class MixinAbstract implements MixinInterface
         $this->_initialize($config);
 
         //Set the mixer
-        $this->setMixer($config->mixer);
+        if(isset($config->mixer)) {
+            $this->setMixer($config->mixer);
+        }
     }
 
     /**
@@ -65,14 +69,14 @@ abstract class MixinAbstract implements MixinInterface
     protected function _initialize(Config $config)
     {
         $config->append(array(
-            'mixer' => $this,
+            'mixer' => null,
         ));
     }
 
     /**
      * Get the mixer object
      *
-     * @return object     The mixer object
+     * @return ObjectMixable The mixer object
      */
     public function getMixer()
     {
@@ -82,10 +86,10 @@ abstract class MixinAbstract implements MixinInterface
     /**
      * Set the mixer object
      *
-     * @param object $mixer The mixer object
-     * @return MixinAbstract
+     * @param ObjectMixable $mixer The mixer object
+     * @return ObjectMixinAbstract
      */
-    public function setMixer($mixer)
+    public function setMixer(ObjectMixable $mixer)
     {
         $this->_mixer = $mixer;
         return $this;
@@ -133,10 +137,10 @@ abstract class MixinAbstract implements MixinInterface
      *
      * Only public methods can be mixed
      *
-     * @param Object $mixer The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of public methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         if (!$this->__mixable_methods)
         {
@@ -168,10 +172,10 @@ abstract class MixinAbstract implements MixinInterface
      *
      * This function is called when the mixin is being mixed. It will get the mixer passed in.
      *
-     * @param object $mixer The mixer object
-     * @return MixinInterface
+     * @param ObjectMixable $mixer The mixer object
+     * @return ObjectMixinInterface
      */
-    public function onMixin(Object $mixer)
+    public function onMixin(ObjectMixable $mixer)
     {
         $this->setMixer($mixer);
         return $this;

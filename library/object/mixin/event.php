@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -11,13 +12,14 @@ namespace Nooku\Library;
 /**
  * Event Mixin
  *
- * Class can be used as a mixin in classes that want to implement a an
- * event dispatcher and allow adding and removing listeners.
+ * Class can be used as a mixin in classes that want to implement a an event dispatcher and allow adding and removing
+ * listeners.
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  */
-class MixinEvent extends MixinAbstract
+class ObjectMixinEvent extends ObjectMixinAbstract
 {
     /**
      * Event dispatcher object
@@ -39,14 +41,14 @@ class MixinEvent extends MixinAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param Config $config  An optional Config object with configuration options
      */
     public function __construct(Config $config)
     {
         parent::__construct($config);
 
         if (is_null($config->event_dispatcher)) {
-            throw new InvalidArgumentException('event_dispatcher [EventDispatcherInterface] config option is required');
+            throw new \InvalidArgumentException('event_dispatcher [EventDispatcherInterface] config option is required');
         }
 
         //Set the event dispatcher
@@ -75,7 +77,7 @@ class MixinEvent extends MixinAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   Config $config  An optional Config object with configuration options
      * @return  void
      */
     protected function _initialize(Config $config)
@@ -92,7 +94,7 @@ class MixinEvent extends MixinAbstract
     /**
      * Get the event dispatcher
      *
-     * @return  EventDispatcher
+     * @return  EventDispatcherInterface
      */
     public function getEventDispatcher()
     {
@@ -115,10 +117,10 @@ class MixinEvent extends MixinAbstract
     /**
      * Set the chain of command object
      *
-     * @param   object         An event dispatcher object
-     * @return  Object     The mixer object
+     * @param   object  $dispatcher An event dispatcher object
+     * @return  Object  The mixer object
      */
-    public function setEventDispatcher(EventDispatcher $dispatcher)
+    public function setEventDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->_event_dispatcher = $dispatcher;
         return $this->getMixer();
@@ -156,9 +158,10 @@ class MixinEvent extends MixinAbstract
     /**
      * Add an event subscriber
      *
-     * @param   mixed  An object that implements ServiceInterface, ServiceIdentifier object
-     *                 or valid identifier string
-     * @param  integer The event priority, usually between 1 (high priority) and 5 (lowest),
+     * @param   mixed  $subscriber An object that implements ServiceInterface, ServiceIdentifier object
+     *                            or valid identifier string
+     * @param  array  $config   An optional associative array of configuration settings
+     * @param  integer $priority The event priority, usually between 1 (high priority) and 5 (lowest),
      *                 default is 3. If no priority is set, the command priority will be used
      *                 instead.
      * @return  Object    The mixer object
@@ -178,8 +181,8 @@ class MixinEvent extends MixinAbstract
     /**
      * Remove an event subscriber
      *
-     * @param   mixed  An object that implements ServiceInterface, ServiceIdentifier object
-     *                 or valid identifier string
+     * @param   mixed  $subscriber An object that implements ServiceInterface, ServiceIdentifier object
+     *                             or valid identifier string
      * @return  Object  The mixer object
      */
     public function removeEventSubscriber($subscriber)
@@ -195,9 +198,9 @@ class MixinEvent extends MixinAbstract
     /**
      * Get a event subscriber by identifier
      *
-     * @param  mixed    An object that implements ServiceInterface, ServiceIdentifier object
-     *                  or valid identifier string
-     * @param  array    An optional associative array of configuration settings
+     * @param  mixed $subscriber An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
+     * @param  array  $config   An optional associative array of configuration settings
      * @throws \DomainException    If the subscriber is not implementing the EventSubscriberInterface
      * @return EventSubscriberInterface
      */

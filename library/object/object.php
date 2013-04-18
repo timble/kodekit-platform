@@ -77,14 +77,14 @@ class Object extends Service implements ObjectInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements MixinInterface, ServiceIdentifier object
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ServiceIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
      * @return  ObjectInterface
      */
     public function mixin($mixin, $config = array())
     {
-        if (!($mixin instanceof MixinInterface))
+        if (!($mixin instanceof ObjectMixinInterface))
         {
             if (!($mixin instanceof ServiceIdentifier))
             {
@@ -101,10 +101,10 @@ class Object extends Service implements ObjectInterface
 
             $mixin = new $identifier->classname(new Config($config));
 
-            if(!$mixin instanceof MixinInterface)
+            if(!$mixin instanceof ObjectMixinInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Mixin: '.get_class($identifier).' does not implement MixinInterface'
+                    'Mixin: '.get_class($identifier).' does not implement ObjectMixinInterface'
                 );
             }
         }

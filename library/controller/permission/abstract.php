@@ -80,7 +80,7 @@ abstract class ControllerPermissionAbstract extends ControllerBehaviorAbstract i
      */
     public function getHandle()
     {
-        return MixinAbstract::getHandle();
+        return ObjectMixinAbstract::getHandle();
     }
 
     /**

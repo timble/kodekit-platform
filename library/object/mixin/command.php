@@ -1,6 +1,7 @@
 <?php
 /**
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  * @copyright   Copyright (C) 2007 - 2010 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -11,12 +12,13 @@ namespace Nooku\Library;
 /**
  * Command Mixin
  * 
- * Class can be used as a mixin in classes that want to implement a chain of responsability or chain of command pattern.
+ * Class can be used as a mixin in classes that want to implement a chain of responsibility or chain of command pattern.
  *  
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Mixin
+ * @package     Koowa_Object
+ * @subpackage  Mixin
  */
-class MixinCommand extends MixinAbstract
+class ObjectMixinCommand extends ObjectMixinAbstract
 {   
     /**
      * Chain of command object
@@ -47,7 +49,7 @@ class MixinCommand extends MixinAbstract
         //Mixin the callback mixer if callbacks have been enabled
         if($config->enable_callbacks)
         {
-            $callback = new MixinCallback($config);
+            $callback = new ObjectMixinCallback($config);
 
             //Mixin the callback mixin
             $this->_mixer->mixin($callback);
@@ -59,7 +61,7 @@ class MixinCommand extends MixinAbstract
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) 
         { 
-            $this->_mixer->mixin(new MixinEvent($config));
+            $this->_mixer->mixin(new ObjectMixinEvent($config));
 
             $command = $this->_command_chain->getService('lib:command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()
