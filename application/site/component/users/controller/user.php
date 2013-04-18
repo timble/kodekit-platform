@@ -82,9 +82,15 @@ class UsersControllerUser extends ApplicationControllerDefault
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
+
+        $user = $this->getService('user');
         
-        if ($context->getSubject()->getStatus() == self::STATUS_RESET) {
-            $this->getService('user')->setData($entity->getData());
+        if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
+            // Logged user changed. Update in memory user object.
+            $data = $entity->getData();
+            // User is already authenticated, failing to set this property will effectively log him out.
+            $data['authentic'] = true;
+            $this->getService('user')->values($data);
         }
         
         return $entity;
