@@ -65,21 +65,7 @@ class UsersControllerSession extends ApplicationControllerDefault
             $context->user->session->start();
 
             //Set user data in context
-            $data = array(
-                'id'         => $user->id,
-                'email'      => $user->email,
-                'name'       => $user->name,
-                'role'       => $user->role_id,
-                'groups'     => $user->getGroups(),
-                'password'   => $user->getPassword()->password,
-                'salt'       => $user->getPassword()->salt,
-                'authentic'  => true,
-                'enabled'    => $user->enabled,
-                'attributes' => $user->params->toArray(),
-                'session'    => true,
-            );
-
-            $context->user->values($data);
+            $context->user->values($user->getSessionData(true));
         }
         else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 
