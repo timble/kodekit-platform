@@ -45,11 +45,11 @@ class UsersControllerSession extends ApplicationControllerDefault
 
     public function authenticate(Library\CommandContext $context)
     {
-        $email = $context->request->data->get('email', 'email');
+        $user = $this->getService('com:users.model.users')->email($context->request->data->get('email', 'email'))
+            ->getRow();
 
-        if(isset($email))
+        if(!$user->isNew())
         {
-            $user = $this->getService('com:users.model.users')->email($email)->getRow();
 
             //Authenticate the user
             if($user->id)
