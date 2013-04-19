@@ -14,7 +14,7 @@
     <div class="control-group">
         <label class="control-label" for="enabled"><?= @text('Enable User') ?></label>
         <div class="controls">
-            <input <?=$this->getService('user')->getId() == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
+            <input <?= @object('user')->getId() == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
         </div>
     </div>
     <div class="control-group">
