@@ -75,27 +75,7 @@
 
 	<div class="sidebar">
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
-				<legend><?= @text('Publish') ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="published"><?= @text('Published') ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="published" value="1" <?= $module->published ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Position') ?></label>
-				    <div class="controls">
-                        <?= @helper('listbox.positions', array('name' => 'position', 'selected' => $module->position, 'application' => $state->application, 'deselect' => false)) ?>
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for="access"><?= @text('Registered') ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="access" value="1" <?= $module->access ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-			</fieldset>
+            <?= @template('default_sidebar.html'); ?>
 		</div>
 	</div>
 </form>
