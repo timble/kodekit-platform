@@ -83,8 +83,16 @@ class ApplicationRouter extends Library\DispatcherRouter
 
         //Build language route
         $languages = $this->getService('application.languages');
-        if(count($languages) > 1) {
-            $segments[] = $languages->getActive()->slug;
+        if(count($languages) > 1)
+        {
+            if(isset($query['language']))
+            {
+                $language = $query['language'];
+                unset($query['language']);
+            }
+            else $language = $languages->getActive()->slug;
+
+            $segments[] = $language;
         }
 
 	    //Build component route
