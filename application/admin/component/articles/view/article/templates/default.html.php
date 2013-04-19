@@ -59,6 +59,7 @@
     </div>
     <div class="sidebar">        
         <div class="scrollable">
+<<<<<<< HEAD
 	        <fieldset class="form-horizontal">
 	        	<legend><?= @text('Publish') ?></legend>
 	            <div class="control-group">
@@ -150,6 +151,9 @@
                 </div>
             </fieldset>
             <? endif ?>
+=======
+            <?= @template('default_sidebar.html'); ?>
+>>>>>>> develop
         </div>
     </div>
 </form>

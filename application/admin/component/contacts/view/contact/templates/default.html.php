@@ -121,6 +121,7 @@
 
 	<div class="sidebar">
 		<div class="scrollable">
+<<<<<<< HEAD
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Publish'); ?></legend>
 				<div class="control-group">
@@ -154,6 +155,9 @@
 				<legend><?= @text('Parameters'); ?></legend>
 				<?= $contact->params->render(); ?>
 			</fieldset>
+=======
+            <?= @template('default_sidebar.html'); ?>
+>>>>>>> develop
 		</div>
 	</div>
 	
