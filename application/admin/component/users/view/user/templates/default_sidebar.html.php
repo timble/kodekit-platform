@@ -47,7 +47,7 @@
     <div class="control-group">
         <div class="controls">
             <?= @helper('listbox.radiolist', array(
-                'list'     => @service('com:users.model.roles')->sort('id')->getRowset(),
+                'list'     => @object('com:users.model.roles')->sort('id')->getRowset(),
                 'selected' => $user->role_id,
                 'name'     => 'role_id',
                 'text'     => 'name',
