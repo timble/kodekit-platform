@@ -93,7 +93,6 @@ class UsersControllerSession extends ApplicationControllerDefault
 
                 $page = $pages->find(array(
                     'extensions_component_id' => $component->id,
-                    'access' => 1,
                     'link'                    => array(array('view' => 'user'))));
 
                 $url                  = $page->getLink();
@@ -102,7 +101,6 @@ class UsersControllerSession extends ApplicationControllerDefault
 
                 $this->getObject('application')->getRouter()->build($url);
                 $context->response->setRedirect($url);
-                // TODO Set a message in session explaining that password must be changed since it has expired.
             } else $context->response->setRedirect($context->request->getReferrer());
         }
     }
