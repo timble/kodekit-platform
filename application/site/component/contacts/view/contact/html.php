@@ -21,7 +21,7 @@ class ContactsViewContactHtml extends Library\ViewHtml
     public function render()
     {
         //Get the parameters
-        $params = $this->getService('application')->getParams();
+        $params = $this->getObject('application')->getParams();
         
         //Get the contact
         $contact = $this->getModel()->getData();
@@ -30,7 +30,7 @@ class ContactsViewContactHtml extends Library\ViewHtml
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if ($page = $this->getService('application.pages')->getActive())
+        if ($page = $this->getObject('application.pages')->getActive())
         {
             $menu_params = new JParameter( $page->params );
             if (!$menu_params->get( 'page_title')) {
@@ -43,7 +43,7 @@ class ContactsViewContactHtml extends Library\ViewHtml
         //JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the breadcrumbs
-        $pathway =$this->getService('application')->getPathway();
+        $pathway =$this->getObject('application')->getPathway();
 
         if($page->getLink()->query['view'] == 'categories' ) {
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
@@ -61,7 +61,7 @@ class ContactsViewContactHtml extends Library\ViewHtml
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com:contacts.model.categories')
+        $category = $this->getObject('com:contacts.model.categories')
                          ->table('contacts')
                          ->id($this->getModel()->getState()->category)
                          ->getRow();

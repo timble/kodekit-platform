@@ -80,18 +80,18 @@ abstract class ControllerView extends ControllerAbstract
         if(!$this->_view instanceof ViewInterface)
 		{
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof ServiceIdentifier)) {
+		    if(!($this->_view instanceof ObjectIdentifier)) {
 		        $this->setView($this->_view);
 			}
 
 			//Create the view
 			$config = array(
-                'media_url' => $this->getService('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getService('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
+                'media_url' => $this->getObject('request')->getBaseUrl()->getPath().'/media',
+			    'base_url'	=> $this->getObject('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
                 'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
-			$this->_view = $this->getService($this->_view, $config);
+			$this->_view = $this->getObject($this->_view, $config);
 
             //Make sure the view implements ViewInterface
             if(!$this->_view instanceof ViewInterface)
@@ -116,7 +116,7 @@ abstract class ControllerView extends ControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
+	 * @param	mixed	An object that implements ObjectInterface, ObjectIdentifier object
 	 * 					or valid identifier string
 	 * @return	ControllerView
 	 */

@@ -77,12 +77,12 @@ class DatabaseRowTable extends DatabaseRowAbstract
             if (!($this->_table instanceof DatabaseTableInterface))
             {
                 //Make sure we have a table identifier
-                if (!($this->_table instanceof ServiceIdentifier)) {
+                if (!($this->_table instanceof ObjectIdentifier)) {
                     $this->setTable($this->_table);
                 }
 
                 try {
-                    $this->_table = $this->getService($this->_table);
+                    $this->_table = $this->getObject($this->_table);
                 } catch (\RuntimeException $e) {
                     $this->_table = false;
                 }
@@ -95,7 +95,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    An object that implements ServiceInterface, ServiceIdentifier object
+     * @param    mixed    An object that implements ObjectInterface, ObjectIdentifier object
      *                    or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  DatabaseRowsetAbstract

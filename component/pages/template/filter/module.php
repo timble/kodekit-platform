@@ -84,7 +84,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     {
         if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
         {
-            $this->_modules = $this->getService($this->_modules);
+            $this->_modules = $this->getObject($this->_modules);
 
             if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
             {
@@ -219,7 +219,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
             $module->attribs = array_merge($module->attribs, $attribs);
 
             //Render the module
-            $content = $this->getService($module->identifier)
+            $content = $this->getObject($module->identifier)
                 ->data(array('module' => $module))
                 ->content($module->content)
                 ->render();

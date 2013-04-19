@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @service('com:files.controller.file')
+<?= @object('com:files.controller.file')
 	->container('files-files')
 	->layout('compact')
 	->types(array('image'))

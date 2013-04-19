@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ServiceInstantiatable
+class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiatable
 {
     /**
      * The chrome styles
@@ -59,12 +59,12 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      * Check for overrides of the filter
      *
      * @param   Library\Config         	        $config  An optional Library\Config object with configuration options
-     * @param 	Library\ServiceManagerInterface	$manager A Library\ServiceManagerInterface object
+     * @param 	Library\ObjectManagerInterface	$manager A Library\ObjectManagerInterface object
      * @return  TemplateHelperChrome
      */
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
-        $identifier = clone $config->service_identifier;
+        $identifier = clone $config->object_identifier;
         $identifier->package = $config->module->package;
 
         $identifier = $manager->getIdentifier($identifier);
@@ -72,7 +72,7 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
         if(file_exists($identifier->filepath)) {
             $classname = $identifier->classname;
         } else {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
         }
 
         $instance  = new $classname($config);

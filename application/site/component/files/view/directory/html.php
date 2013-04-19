@@ -24,13 +24,13 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		$state 	= $this->getModel()->getState();
 		$state->container = 'files-files';
 		
-		$page 	= $this->getService('application.pages')->getActive();
+		$page 	= $this->getObject('application.pages')->getActive();
 		$params = new JParameter($page->params);
 
-		$data   = $this->getService('lib:controller.request', array(
+		$data   = $this->getObject('lib:controller.request', array(
 			'query' => array('container' => $state->container, 'folder' => $state->folder, 'name' => $state->name)
 		));
-		$folder = $this->getService('com:files.controller.folder', array(
+		$folder = $this->getObject('com:files.controller.folder', array(
 			'request' => $data
 		))->read();
 
@@ -53,7 +53,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 			$request['types'] = array('image');
 		}
 		
-		$request = $this->getService('lib:controller.request', array(
+		$request = $this->getObject('lib:controller.request', array(
 			'query' => $request
 		));
 
@@ -64,14 +64,14 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 			$clone->query['limit'] = 0;
 			$clone->query['offset'] = 0;
 
-			$folders = $this->getService('com:files.controller.folder', array(
+			$folders = $this->getObject('com:files.controller.folder', array(
 				'request' => $clone
 			))->browse();
 		}
 		
 		$request->query->set('thumbnails', true);
 
-		$file_controller = $this->getService('com:files.controller.file', array(
+		$file_controller = $this->getObject('com:files.controller.file', array(
 			'request' => $request
 		));
 
@@ -119,7 +119,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		if ($this->parent !== null)
 		{
 			$state   = $this->getModel()->getState();
-			$pathway = $this->getService('application')->getPathway();
+			$pathway = $this->getObject('application')->getPathway();
 			$path    = $this->folder->path;
 			$query   = $this->page->getLink()->query;
 		

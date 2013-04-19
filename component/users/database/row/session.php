@@ -41,7 +41,7 @@ class DatabaseRowSession extends Library\DatabaseRowTable
             if($result = parent::save())
             {
                 // Hit the user last visit field
-                $row = $this->getService('com:users.database.row.user')
+                $row = $this->getObject('com:users.database.row.user')
                             ->setData(array('email' => $this->email))
                             ->load();
 

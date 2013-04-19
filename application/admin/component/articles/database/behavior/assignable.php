@@ -7,11 +7,11 @@ class ArticlesDatabaseBehaviorAssignable extends KDatabaseBehaviorAbstract
 
         if($data->assign)
         {
-            $attachment =  $this->getService('com:attachments.model.attachments')
+            $attachment =  $this->getObject('com:attachments.model.attachments')
                                 ->id($data->id)
                                 ->getRow();
 
-            $article =  $this->getService('com:articles.model.articles')
+            $article =  $this->getObject('com:articles.model.articles')
                             ->id($attachment->relation->row)
                             ->getRow();
 

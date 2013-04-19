@@ -31,7 +31,7 @@ class ViewPageHtml extends ViewHtml
     public function render()
     {
         // Build the sorted message list
-        $messages = $this->getService('application')->getMessageQueue();
+        $messages = $this->getObject('application')->getMessageQueue();
         if (is_array($messages) && count($messages))
         {
             foreach ($messages as $message)
@@ -44,8 +44,8 @@ class ViewPageHtml extends ViewHtml
         else  $this->messages = array();
 
         //Set the component and layout information
-        $this->component = $this->getService('application')->getController()->getIdentifier()->package;
-        $this->layout    = $this->getService('component')->getController()->getView()->getLayout();
+        $this->component = $this->getObject('application')->getController()->getIdentifier()->package;
+        $this->layout    = $this->getObject('component')->getController()->getView()->getLayout();
 
         return parent::render();
     }

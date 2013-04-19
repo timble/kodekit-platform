@@ -13,7 +13,7 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
 {
     protected function _initialize(Library\Config $config)
     {
-        $parameters = $this->getService('application.components')->users->params;
+        $parameters = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'enable' => $parameters->get('useractivation', '1')
@@ -34,7 +34,7 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
             // TODO Uncomment and fix after Langauge support is re-factored.
             //$subject = JText::_('User Account Activation');
             //$message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
-            //    $this->getService('application')->getCfg('sitename'), $url, $site_url);
+            //    $this->getObject('application')->getCfg('sitename'), $url, $site_url);
             $subject = 'User Account Activation';
             $message = $url;
 
@@ -46,8 +46,8 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
     {
         $user = $this->getModel()->getRow();
 
-        $component = $this->getService('application.components')->getComponent('users');
-        $page      = $this->getService('application.pages')->find(array(
+        $component = $this->getObject('application.components')->getComponent('users');
+        $page      = $this->getObject('application.pages')->find(array(
             'extensions_component_id' => $component->id,
             'access'                  => 0,
             'link'                    => array(array('view' => 'user'))));
@@ -58,7 +58,7 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
         // We need to append a publicly available layout, same as registration works.
         $url->query['layout'] = 'form';
 
-        $this->getService('application')->getRouter()->build($url);
+        $this->getObject('application')->getRouter()->build($url);
 
         return $url;
     }

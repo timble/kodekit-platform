@@ -193,7 +193,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         }
 
         //Create the filter
-        $filter = $this->getService('lib:filter.slug', $config);
+        $filter = $this->getObject('lib:filter.slug', $config);
         return $filter;
     }
 
@@ -253,7 +253,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         if ($this->_unique && $table->count(array('slug' => $this->slug)))
         {
             $db = $table->getAdapter();
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->columns('slug')
                 ->where('slug LIKE :slug')
                 ->bind(array('slug' => $this->slug . '-%'));

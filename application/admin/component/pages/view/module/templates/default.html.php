@@ -67,7 +67,7 @@
 			<? if($module->name == 'mod_custom') : ?>
 			<fieldset>
 				<legend><?= @text('Custom Output') ?></legend>
-				<?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
+				<?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
 			</fieldset>
 			<? endif ?>
 		</div>

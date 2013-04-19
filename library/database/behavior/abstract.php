@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @package     Koowa_Database
  * @subpackage     Behavior
  */
-abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ServiceInstantiatable
+abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiatable
 {
     /**
      * Instantiate the object
@@ -23,12 +23,12 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Serv
      * If the behavior is auto mixed also lazy mix it into related row objects.
      *
      * @param 	Config                 $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return  object
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ObjectManagerInterface $manager)
     {
-        $classname = $config->service_identifier->classname;
+        $classname = $config->object_identifier->classname;
         $instance  = new $classname($config);
 
         //If the behavior is auto mixed also lazy mix it into related row objects.

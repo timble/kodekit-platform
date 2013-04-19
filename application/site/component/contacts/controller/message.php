@@ -27,7 +27,7 @@ class ContactsControllerMessage extends Library\ControllerView
 	    $body        = $data->get('text', 'string');
 	    $subject     = $data->get('subject', 'string');
 
-	    $application = $this->getService('application');
+	    $application = $this->getObject('application');
         $site_name   = $application->getCfg('sitename');
 
         $prefix      = JText::sprintf('ENQUIRY_TEXT', JURI::base());
@@ -35,7 +35,7 @@ class ContactsControllerMessage extends Library\ControllerView
         $mail_from   = $application->getCfg('mailfrom');
         $from_name   = $application->getCfg('fromname');
 
-        $email_to = $this->getService('com:contacts.model.contacts')
+        $email_to = $this->getObject('com:contacts.model.contacts')
             ->id($context->request->query->get('id', 'int'))
             ->getRow()
             ->email_to;

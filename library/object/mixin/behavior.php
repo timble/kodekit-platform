@@ -80,7 +80,7 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
     /**
      * Add a behavior
      *
-     * @param   mixed $behavior   An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed $behavior   An object that implements ObjectInterface, ObjectIdentifier object
      *                            or valid identifier string
      * @param   array $config    An optional associative array of configuration settings
      * @return  Object The mixer object
@@ -119,7 +119,7 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
     /**
      * Get a behavior by identifier
      *
-     * @param   mixed    An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed    An object that implements ObjectInterface, ObjectIdentifier object
      *                   or valid identifier string
      * @param   array   An optional associative array of configuration settings
      * @throws \UnexpectedValueException    If the behavior does not implement the BehaviorInterface
@@ -127,7 +127,7 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
      */
     public function getBehavior($behavior, $config = array())
     {
-        if (!($behavior instanceof ServiceIdentifier))
+        if (!($behavior instanceof ObjectIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($behavior) && strpos($behavior, '.') === false)
@@ -150,7 +150,7 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
         {
             $config['mixer'] = $this->getMixer();
 
-            $behavior = $this->getService($identifier, $config);
+            $behavior = $this->getObject($identifier, $config);
 
             if (!($behavior instanceof BehaviorInterface)) {
                 throw new \UnexpectedValueException("Behavior $identifier does not implement BehaviorInterface");

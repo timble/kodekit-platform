@@ -116,7 +116,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the paths
-        $params = $this->getService('application.components')->files->params;
+        $params = $this->getObject('application.components')->files->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
@@ -142,7 +142,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         //Parse the route
         $this->getRouter()->parse($url);
 
-        $pages = $this->getService('application.pages');
+        $pages = $this->getObject('application.pages');
 
         //Redirect the default page
         if(!$context->request->isAjax())
@@ -201,7 +201,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     {
         $component = $this->getComponent()->getIdentifier()->package;
 
-        if (!$this->getService('application.components')->isEnabled($component)) {
+        if (!$this->getObject('application.components')->isEnabled($component)) {
             throw new Library\ControllerExceptionNotFound('Component Not Enabled');
         }
 
@@ -219,7 +219,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
                 $layout = 'login';
             }
 
-            $this->getService('com:application.controller.page', $config)
+            $this->getObject('com:application.controller.page', $config)
                 ->layout($layout)
                 ->render();
         }
@@ -247,7 +247,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         $config = array('request'  => $this->getRequest());
         $config = array('response' => $this->getResponse());
 
-        $this->getService('com:application.controller.exception',  $config)
+        $this->getObject('com:application.controller.exception',  $config)
             ->render($context->param->getException());
 
         //Send the response
@@ -263,7 +263,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     public function loadConfig(Library\CommandContext $context)
     {
         // Check if the site exists
-        if($this->getService('com:sites.model.sites')->getRowset()->find($this->getSite()))
+        if($this->getObject('com:sites.model.sites')->getRowset()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->_options->toArray());
@@ -320,7 +320,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         if($context->user->isAuthentic() && ($session->site != $this->getSite()))
         {
             //@TODO : Fix this
-            //if(!$this->getService('com:users.controller.session')->add()) {
+            //if(!$this->getObject('com:users.controller.session')->add()) {
             //    $session->destroy();
             //}
         }
@@ -334,7 +334,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     public function loadLanguage(Library\CommandContext $context)
     {
-        $languages = $this->getService('application.languages');
+        $languages = $this->getObject('application.languages');
         $language = null;
 
         // If a language was specified it has priority.
@@ -374,7 +374,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     public function getRouter(array $options = array())
     {
-        $router = $this->getService('com:application.router', $options);
+        $router = $this->getObject('com:application.router', $options);
         return $router;
     }
 
@@ -388,7 +388,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         if(!isset($this->_pathway))
         {
             $pathway = new ApplicationConfigPathway();
-            $pages   = $this->getService('application.pages');
+            $pages   = $this->getObject('application.pages');
 
             if($active = $pages->getActive())
             {
@@ -449,10 +449,10 @@ class ApplicationDispatcher extends Library\DispatcherApplication
                 $option = $this->getRequest()->getQuery()->get('option', 'cmd');
             }
 
-            $params[$hash] = $this->getService('application.components')->getComponent(substr( $option, 4))->params;
+            $params[$hash] = $this->getObject('application.components')->getComponent(substr( $option, 4))->params;
 
             // Get menu parameters
-            $page = $this->getService('application.pages')->getActive();
+            $page = $this->getObject('application.pages')->getActive();
 
             $title  = htmlspecialchars_decode($this->getCfg('sitename' ));
 
@@ -564,7 +564,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         $uri  = clone(JURI::getInstance());
 
         $host = $uri->getHost();
-        if(!$this->getService('com:sites.model.sites')->getRowset()->find($host))
+        if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
         {
             // Check folder
             $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -576,7 +576,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             }
 
             //Check if the site can be found, otherwise use 'default'
-            if(!$this->getService('com:sites.model.sites')->getRowset()->find($site)) {
+            if(!$this->getObject('com:sites.model.sites')->getRowset()->find($site)) {
                 $site = 'default';
             }
 

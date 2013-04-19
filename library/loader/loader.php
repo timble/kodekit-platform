@@ -221,7 +221,7 @@ class Loader
     {
         $result = false;
 
-        $identifier = ServiceManager::getIdentifier($identifier);
+        $identifier = ObjectManager::getIdentifier($identifier);
 
         //Get the path
         $path = $identifier->filepath;

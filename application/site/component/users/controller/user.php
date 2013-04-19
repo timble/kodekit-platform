@@ -63,7 +63,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         if($context->request->query->get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
-            $url =  '?Itemid='.$this->getService('application.pages')->getHome()->id;
+            $url =  '?Itemid='.$this->getObject('application.pages')->getHome()->id;
             $context->response->setRedirect($url, 'You are already registered');
             return false;
         }
@@ -73,7 +73,7 @@ class UsersControllerUser extends ApplicationControllerDefault
 
     protected function _actionAdd(Library\CommandContext $context)
     {
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
         $context->request->data->role_id = $params->get('new_usertype', 18);
 
         return parent::_actionAdd($context);
@@ -82,7 +82,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
-        $user = $this->getService('user');
+        $user = $this->getObject('user');
 
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
             // Logged user changed. Updated in memory/session user object.
@@ -95,8 +95,8 @@ class UsersControllerUser extends ApplicationControllerDefault
         $user = $context->result;
 
         if ($user->getStatus() == Library\Database::STATUS_CREATED) {
-            $url = $this->getService('application.pages')->getHome()->getLink();
-            $this->getService('application')->getRouter()->build($url);
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
             $context->response->setRedirect($url);
         }
     }

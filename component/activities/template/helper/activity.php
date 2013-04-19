@@ -17,18 +17,18 @@ use Nooku\Library;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ServiceInstantiatable
+class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ObjectInstantiatable
 {
 	/**
      * Check for overrides of the helper
      *
      * @param   Library\Config         	        $config  An optional Library\Config object with configuration options
-     * @param 	Library\ServiceManagerInterface	$manager A Library\ServiceManagerInterface object
+     * @param 	Library\ObjectManagerInterface	$manager A Library\ObjectManagerInterface object
      * @return  TemplateHelperActivity
      */
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
-        $identifier = clone $config->service_identifier;
+        $identifier = clone $config->object_identifier;
         $identifier->package = $config->row->package;
        
         $identifier = $manager->getIdentifier($identifier);
@@ -36,7 +36,7 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
         if(file_exists($identifier->filepath)) {
             $classname = $identifier->classname;    
         } else {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
         }
         
         $instance  = new $classname($config);               

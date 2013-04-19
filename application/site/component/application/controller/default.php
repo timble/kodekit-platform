@@ -48,7 +48,7 @@ class ApplicationControllerDefault extends Library\ControllerModel
     protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-            'limit' => array('max' => 100, 'default' => $this->getService('application')->getCfg('list_limit'))
+            'limit' => array('max' => 100, 'default' => $this->getObject('application')->getCfg('list_limit'))
         ));
 
         parent::_initialize($config);

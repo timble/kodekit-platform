@@ -28,7 +28,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
         // Need to set strategy before parent::__construct, otherwise strategy won't be available in getMixableMethods().
         if($config->strategy)
         {
-            $identifier = clone $config->service_identifier;
+            $identifier = clone $config->object_identifier;
             $identifier->path = array('database', 'behavior', 'orderable');
             $identifier->name = $config->strategy;
             

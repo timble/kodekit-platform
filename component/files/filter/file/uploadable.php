@@ -23,10 +23,10 @@ class FilterFileUploadable extends Library\FilterChain
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com:files.filter.file.name'), self::PRIORITY_HIGH);
+		$this->addFilter($this->getObject('com:files.filter.file.name'), self::PRIORITY_HIGH);
 
-		$this->addFilter($this->getService('com:files.filter.file.extension'));
-		$this->addFilter($this->getService('com:files.filter.file.mimetype'));
-		$this->addFilter($this->getService('com:files.filter.file.size'));
+		$this->addFilter($this->getObject('com:files.filter.file.extension'));
+		$this->addFilter($this->getObject('com:files.filter.file.mimetype'));
+		$this->addFilter($this->getObject('com:files.filter.file.size'));
 	}
 }

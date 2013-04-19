@@ -23,8 +23,8 @@ class ViewHtml extends Library\ViewHtml
     {
         parent::__construct($config);
 
-        $path  = $this->getService('request')->getBaseUrl()->getPath();
-        $path .= '/theme/'.$this->getService('application')->getTheme().'/';
+        $path  = $this->getObject('request')->getBaseUrl()->getPath();
+        $path .= '/theme/'.$this->getObject('application')->getTheme().'/';
         $this->getTemplate()->getFilter('alias')->addAlias(
             array($this->_mediaurl.'/application/' => $path), Library\TemplateFilter::MODE_COMPILE | Library\TemplateFilter::MODE_RENDER
         );

@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class ConfigFactory extends Object implements ServiceInstantiatable
+class ConfigFactory extends Object implements ObjectInstantiatable
 {
     /**
      * Registered config file formats.
@@ -27,19 +27,19 @@ class ConfigFactory extends Object implements ServiceInstantiatable
      * Force creation of a singleton
      *
      * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return  ConfigFactory
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
+        if (!$manager->has($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
 
     /**
@@ -116,7 +116,7 @@ class ConfigFactory extends Object implements ServiceInstantiatable
      * Register config format
      *
      * @param string $format    The name of the format
-     * @param mixed	$identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
      * 					        or valid identifier string
      * @return	ConfigFactory
      * throws \InvalidArgumentException If the class does not exist.

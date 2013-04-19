@@ -147,7 +147,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
             self::$_loaded['overlay'] = true;
         }
 
-        $url = $this->getService('lib:http.url', array('url' => $config->url));
+        $url = $this->getObject('lib:http.url', array('url' => $config->url));
 
         //Force tmpl to overlay
         $url->query['tmpl'] = 'overlay';
@@ -193,7 +193,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Only load once
         if (!isset(self::$_loaded['keepalive']))
         {
-            $session = $this->getService('user')->getSession();
+            $session = $this->getObject('user')->getSession();
             if($session->isActive())
             {
                 //Get the config session lifetime
@@ -379,7 +379,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
                         'options'	=> array(
                             'url'		=> $config->url,
                             'data'	=> array(
-                                '_token'	=> $this->getService('user')->getSession()->getToken(),
+                                '_token'	=> $this->getObject('user')->getSession()->getToken(),
                                 '_action'	=> 'edit'
                             ),
                             'key'		=> 'order',

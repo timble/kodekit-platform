@@ -64,7 +64,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
                 'direction' => 'ASC',
                 'category'  => $article->category_id)));
 
-        $list = $this->getService('com:articles.model.articles')
+        $list = $this->getObject('com:articles.model.articles')
                      ->set($config->filter)
                      ->getRowset();
 
@@ -84,7 +84,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\Config($config);
 
-        $pages = $this->getService('com:pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
+        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
         $pages = $pages->find(array(
             'link_url' => 'option=com_articles&view=articles&layout=search'));
 

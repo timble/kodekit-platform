@@ -107,7 +107,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                         $log['ip']  = $context->request->getAddress();
 
 
-                        $this->getService('com:activities.database.row.activity', array('data' => $log))->save();
+                        $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();
                     }
                 }
             }

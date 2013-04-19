@@ -55,7 +55,7 @@
                 <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" />
             </div>
         </div>
-        <?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
+        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar">        
         <div class="scrollable">
@@ -92,7 +92,7 @@
                 <div class="control-group">
                     <label class="control-label" for="created_by"><?= @text('Author') ?></label>
                     <div class="controls">
-                        <?= @helper('com:users.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @service('user')->getId())) ?>
+                        <?= @helper('com:users.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @object('user')->getId())) ?>
                     </div>
                 </div>
                 <div class="control-group">
@@ -106,7 +106,7 @@
 	        <fieldset class="categories group">
 	            <legend><?= @text('Category') ?></legend>
 	            <div class="control-group">
-	            <?= @template('default_categories.html', array('categories' =>  @service('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
+	            <?= @template('default_categories.html', array('categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
 	            </div>
 	        </fieldset>
 	        <fieldset>

@@ -16,19 +16,19 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ServiceInstantiatable
+class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ObjectInstantiatable
 {
     public function __construct(Library\Config $config )
     {
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $page = $this->getService('application.pages')->getActive();
+        $page = $this->getObject('application.pages')->getActive();
 
-        $modules = $this->getService('com:pages.model.modules')
+        $modules = $this->getObject('com:pages.model.modules')
             ->application('site')
             ->published(true)
-            ->access((int) $this->getService('user')->isAuthentic())
+            ->access((int) $this->getObject('user')->isAuthentic())
             ->page($page->id)
             ->getRowset();
 
@@ -41,15 +41,15 @@ class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract im
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
+        if (!$manager->has($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
 }

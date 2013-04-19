@@ -8,19 +8,19 @@
  */
 
 /**
- * Service Aliases
+ * Object Aliases
  *
  * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Application
  */
 
-use Nooku\Library\ServiceManager;
+use Nooku\Library\ObjectManager;
 
-ServiceManager::setAlias('application'           , 'com:application.dispatcher');
-ServiceManager::setAlias('application.components', 'com:application.database.rowset.components');
-ServiceManager::setAlias('application.languages' , 'com:application.database.rowset.languages');
-ServiceManager::setAlias('application.pages'     , 'com:application.database.rowset.pages');
-ServiceManager::setAlias('application.modules'   , 'com:application.database.rowset.modules');
+ObjectManager::setAlias('application'           , 'com:application.dispatcher');
+ObjectManager::setAlias('application.components', 'com:application.database.rowset.components');
+ObjectManager::setAlias('application.languages' , 'com:application.database.rowset.languages');
+ObjectManager::setAlias('application.pages'     , 'com:application.database.rowset.pages');
+ObjectManager::setAlias('application.modules'   , 'com:application.database.rowset.modules');
 
-ServiceManager::setAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');
+ObjectManager::setAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');

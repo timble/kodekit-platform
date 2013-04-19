@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Dispatcher
  * @subpackage  Request
  */
-interface DispatcherRequestInterface extends ControllerRequestInterface, ServiceInstantiatable
+interface DispatcherRequestInterface extends ControllerRequestInterface, ObjectInstantiatable
 {
     /**
      * Set the request cookies

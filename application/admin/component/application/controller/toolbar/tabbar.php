@@ -59,18 +59,18 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
 	 */
 	public function getCommands()
 	{
-        $menu = $this->getService('com:pages.model.menus')
+        $menu = $this->getObject('com:pages.model.menus')
             ->application('admin')
             ->getRowset()
             ->find(array('slug' => 'menubar'));
 
         if(count($menu))
         {
-            $package    = $this->getService('component')->getIdentifier()->package;
-            $view       = $this->getService('component')->getController()->getIdentifier()->name;
-            $component  = $this->getService('application.components')->getComponent($package);
+            $package    = $this->getObject('component')->getIdentifier()->package;
+            $view       = $this->getObject('component')->getController()->getIdentifier()->name;
+            $component  = $this->getObject('application.components')->getComponent($package);
 
-            $pages     = $this->getService('application.pages')->find(array(
+            $pages     = $this->getObject('application.pages')->find(array(
                 'pages_menu_id'           => $menu->top()->id,
                 'extensions_component_id' => $component->id
             ));

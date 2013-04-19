@@ -24,10 +24,10 @@ class UsersViewSessionHtml extends Library\ViewHtml
     {
         $title = JText::_('Login');
 
-        $this->getService('application')->getPathway()->addItem($title);
+        $this->getObject('application')->getPathway()->addItem($title);
         //JFactory::getDocument()->setTitle($title);
         
-        $this->user       = $this->getService('user');;
+        $this->user       = $this->getObject('user');;
         $this->parameters = $this->getParameters();
 
         return parent::render();
@@ -35,7 +35,7 @@ class UsersViewSessionHtml extends Library\ViewHtml
     
     public function getParameters()
     {
-        $active = $this->getService('application.pages')->getActive();
+        $active = $this->getObject('application.pages')->getActive();
         $parameters = new JParameter($active->params);
 
         if(!$parameters->get('page_title')) {
@@ -43,7 +43,7 @@ class UsersViewSessionHtml extends Library\ViewHtml
         }
 
         $parameters->def('description_login_text', JText::_('LOGIN_DESCRIPTION'));
-        $parameters->def('registration', $this->getService('application.components')->users->params->get('allowUserRegistration'));
+        $parameters->def('registration', $this->getObject('application.components')->users->params->get('allowUserRegistration'));
 
         return $parameters;
     }

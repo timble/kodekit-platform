@@ -44,7 +44,7 @@ class Event extends Config implements EventInterface
     /**
      * Target of the event
      *
-     * @var ServiceInterface
+     * @var ObjectInterface
      */
     protected $_target;
     
@@ -109,7 +109,7 @@ class Event extends Config implements EventInterface
      * @param object $target The event target
      * @return Event
      */
-    public function setTarget(ServiceInterface $target)
+    public function setTarget(ObjectInterface $target)
     {
         $this->_target = $target;
         return $this;

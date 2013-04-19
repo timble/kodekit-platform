@@ -65,8 +65,8 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $item       = $this->getModel()->getRow();
 
         if ($activation !== $item->activation) {
-            $url = $this->getService('application.pages')->getHome()->getLink();
-            $this->getService('application')->getRouter()->build($url);
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
             $context->response->setRedirect($url);
             // TODO Set message in session.
             //$context->response->setRedirect(Library\Request::root(), 'Wrong activation token');
@@ -90,8 +90,8 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 
     protected function _afterControllerActivate(Library\CommandContext $context)
     {
-        $url = $this->getService('application.pages')->getHome()->getLink();
-        $this->getService('application')->getRouter()->build($url);
+        $url = $this->getObject('application.pages')->getHome()->getLink();
+        $this->getObject('application')->getRouter()->build($url);
         $context->response->setRedirect($url);
 
         if ($context->result === true) {
@@ -107,7 +107,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
     {
         // Set activation on new records.
         if ($this->_enable) {
-            $context->request->data->activation = $this->getService('com:users.database.row.password')->getRandom(32);
+            $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
             $context->request->data->enabled    = 0;
         }
     }

@@ -63,7 +63,7 @@ class ObjectMixinCommand extends ObjectMixinAbstract
         { 
             $this->_mixer->mixin(new ObjectMixinEvent($config));
 
-            $command = $this->_command_chain->getService('lib:command.event', array(
+            $command = $this->_command_chain->getObject('lib:command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()
             ));
 
@@ -117,7 +117,7 @@ class ObjectMixinCommand extends ObjectMixinAbstract
     {
         if(!$this->_command_chain instanceof CommandChainInterface)
         {
-            $this->_command_chain = $this->getService($this->_command_chain);
+            $this->_command_chain = $this->getObject($this->_command_chain);
 
             //Make sure the request implements ControllerRequestInterface
             if(!$this->_command_chain instanceof CommandChainInterface)

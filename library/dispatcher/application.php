@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class DispatcherApplication extends DispatcherAbstract implements ServiceInstantiatable
+class DispatcherApplication extends DispatcherAbstract implements ObjectInstantiatable
 {
     /**
      * Constructor.
@@ -50,20 +50,20 @@ class DispatcherApplication extends DispatcherAbstract implements ServiceInstant
      * Force creation of a singleton
      *
      * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherApplication
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ObjectManagerInterface $manager)
     {
         // Check if an instance with this identifier already exists
         if (!$manager->has('application'))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('application', $config->service_identifier);
+            $manager->setAlias('application', $config->object_identifier);
         }
 
         return $manager->get('application');
@@ -95,7 +95,7 @@ class DispatcherApplication extends DispatcherAbstract implements ServiceInstant
     /**
      * Method to set a dispatcher object
      *
-     * @param	mixed	$component  An object that implements ControllerInterface, ServiceIdentifier object
+     * @param	mixed	$component  An object that implements ControllerInterface, ObjectIdentifier object
      * 					            or valid identifier string
      * @return	DispatcherAbstract
      */

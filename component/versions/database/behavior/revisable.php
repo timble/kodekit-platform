@@ -55,7 +55,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\Config $config)
     {
         $config->append(array(
-        	'table' => $this->getService('com:versions.database.table.revisions')
+        	'table' => $this->getObject('com:versions.database.table.revisions')
         ));
 
         parent::_initialize($config);
@@ -366,7 +366,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     	// Set revision number.
     	if ($status == Library\Database::STATUS_UPDATED || $status == Library\Database::STATUS_DELETED)
     	{
-    	    $query = $this->getService('lib:database.query.select')
+    	    $query = $this->getObject('lib:database.query.select')
         	    ->where('table = :table')
         	    ->where('row = :row')
         	    ->order('revision', 'DESC')

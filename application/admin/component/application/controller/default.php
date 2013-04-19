@@ -49,7 +49,7 @@ class ApplicationControllerDefault extends Library\ControllerModel
     {
         $config->append(array(
             'toolbars' => array($this->getIdentifier()->name),
-            'limit'    => array('max' => 100, 'default' => $this->getService('application')->getCfg('list_limit'))
+            'limit'    => array('max' => 100, 'default' => $this->getObject('application')->getCfg('list_limit'))
         ));
 
         parent::_initialize($config);
@@ -72,7 +72,7 @@ class ApplicationControllerDefault extends Library\ControllerModel
         if(isset($row))
         {
             if($row->isLockable() && $row->locked()) {
-                $this->getService('application')->enqueueMessage($row->lockMessage(), 'notice');
+                $this->getObject('application')->enqueueMessage($row->lockMessage(), 'notice');
             }
         }
 

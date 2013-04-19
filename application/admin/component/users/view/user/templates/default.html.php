@@ -26,7 +26,7 @@
 </ktml:module>
 
 <form action="" method="post" id="user-form" class="-koowa-form">
-	<input type="hidden" name="enabled" value="<?= $this->getService('user')->getId() == $user->id ? 1 : 0 ?>" />
+	<input type="hidden" name="enabled" value="<?= $this->getObject('user')->getId() == $user->id ? 1 : 0 ?>" />
 	<input type="hidden" name="send_email" value="0" />
 	
 	<div class="main">
@@ -91,7 +91,7 @@
 				<div class="control-group">
 				    <label class="control-label" for="enabled"><?= @text('Enable User') ?></label>
 				    <div class="controls">
-				        <input <?=$this->getService('user')->getId() == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
+				        <input <?=$this->getObject('user')->getId() == $user->id ? 'disabled="disabled"' : ''?> type="checkbox" id="enabled" name="enabled" value="1" <?= $user->enabled ? 'checked="checked"' : '' ?> />
 				    </div>
 				</div>
 				<div class="control-group">
@@ -124,7 +124,7 @@
 				<div class="control-group">
 				    <div class="controls">
 				        <?= @helper('listbox.radiolist', array(
-				        		'list'     => @service('com:users.model.roles')->sort('id')->getRowset(),
+				        		'list'     => @object('com:users.model.roles')->sort('id')->getRowset(),
 				        		'selected' => $user->role_id,
 				        		'name'     => 'role_id',
 				                'text'     => 'name',

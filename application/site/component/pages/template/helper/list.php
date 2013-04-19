@@ -98,7 +98,7 @@ class PagesTemplateHelperList extends Library\TemplateHelperAbstract
     				break;
     				
     		    case 'menulink':
-    		        $page_linked = $this->getService('application.pages')->getPage($page->getLink()->query['Itemid']);
+    		        $page_linked = $this->getObject('application.pages')->getPage($page->getLink()->query['Itemid']);
     		        $result .= '<a href="'.$page_linked->getLink().'">';
                     $result .= $page->title;
                     $result .= '</a>';

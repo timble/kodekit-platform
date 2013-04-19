@@ -35,8 +35,8 @@ class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
         }
 
         $folder = $context->request->query->get('folder', 'com:files.filter.path');
-        $thumbnails = $this->getService('com:files.controller.thumbnail', array(
-            'request' => $this->getService('lib:controller.request', array(
+        $thumbnails = $this->getObject('com:files.controller.thumbnail', array(
+            'request' => $this->getObject('lib:controller.request', array(
                 'query' => array(
                     'container' => $this->getModel()->container,
                     'folder' => $folder,

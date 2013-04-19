@@ -38,7 +38,7 @@ class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 		';
 	    
 		$options   = array();
-		$languages = $this->getService('application.languages');
+		$languages = $this->getObject('application.languages');
 		$active    = $languages->getActive();
 		
 		foreach($languages as $language)

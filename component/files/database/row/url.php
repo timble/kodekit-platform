@@ -124,7 +124,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 			throw new DatabaseRowUrlAdapterException('Adapter does not exist');
 		}
 
-		$uri = $this->getService('lib:http.url', array('url' => $url));
+		$uri = $this->getObject('lib:http.url', array('url' => $url));
 
 		$scheme = $uri->toString(Library\HttpUrl::SCHEME);
 		$host = $uri->toString(Library\HttpUrl::HOST);

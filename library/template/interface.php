@@ -61,7 +61,7 @@ interface TemplateInterface
     /**
      * Method to set a view object attached to the template
      *
-     * @param mixed  $view An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed  $view An object that implements ObjectInterface, ObjectIdentifier object
      *                     or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a view identifier
      * @return TemplateAbstract
@@ -89,7 +89,7 @@ interface TemplateInterface
     /**
      * Get a filter by identifier
      *
-     * @param   mixed    $filter    An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
                                     or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
      * @return TemplateFilterInterface
@@ -99,7 +99,7 @@ interface TemplateInterface
     /**
      * Attach one or more filters for template transformation
      *
-     * @param   mixed  $filter An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
      * @param   array $config  An optional associative array of configuration settings
      * @return TemplateAbstract
@@ -109,7 +109,7 @@ interface TemplateInterface
     /**
      * Get a template helper
      *
-     * @param    mixed    $helper ServiceIdentifierInterface
+     * @param    mixed    $helper ObjectIdentifierInterface
      * @param    array    $config An optional associative array of configuration settings
      * @return  TemplateHelperInterface
      */

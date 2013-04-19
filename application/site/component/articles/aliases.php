@@ -8,14 +8,14 @@
  */
 
 /**
- * Service Aliases
+ * Object Aliases
  *
  * @author      Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package     Nooku_Server
  * @subpackage  Articles
  */
 
-use Nooku\Library\ServiceManager;
+use Nooku\Library\ObjectManager;
 
-ServiceManager::setAlias('com:articles.model.categories', 'com:categories.model.categories');
+ObjectManager::setAlias('com:articles.model.categories', 'com:categories.model.categories');
 

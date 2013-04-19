@@ -53,7 +53,7 @@ class ApplicationTemplateDefault extends Library\TemplateAbstract
     public function findFile($file)
     {
         //Theme override
-        $theme  = $this->getService('application')->getTheme();
+        $theme  = $this->getObject('application')->getTheme();
         $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
         $theme .= str_replace(array(JPATH_ROOT.'/component', '/view', '/templates'), '', $file);
 

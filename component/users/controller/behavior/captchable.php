@@ -44,7 +44,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
 
     protected function _initialize(Library\Config $config)
     {
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'auto_mixin'        => true,

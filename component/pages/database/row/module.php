@@ -97,8 +97,8 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 		{
 		    if(!$this->isNew()) 
 		    {
-		        $table = $this->getService('com:pages.database.table.modules_pages');
-				$query = $this->getService('lib:database.query.select')
+		        $table = $this->getObject('com:pages.database.table.modules_pages');
+				$query = $this->getObject('lib:database.query.select')
                     ->columns('pages_page_id')
                     ->where('pages_module_id = :id')
                     ->bind(array('id' => $this->id));
@@ -136,7 +136,7 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 
 		if(in_array('pages', $modified)) 
 		{
-		    $table = $this->getService('com:pages.database.table.modules');
+		    $table = $this->getObject('com:pages.database.table.modules');
 		
 		    //Clean up existing assignemnts
 		    $table->select(array('pages_module_id' => $this->id))->delete();

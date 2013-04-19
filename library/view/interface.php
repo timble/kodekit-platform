@@ -79,7 +79,7 @@ interface ViewInterface
 	/**
 	 * Method to set a model object attached to the view
 	 *
-	 * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
+	 * @param	mixed	An object that implements ObjectInterface, ObjectIdentifier object
 	 * 					or valid identifier string
 	 * @throws	\UnexpectedValueException	If the identifier is not a model identifier
 	 * @return	ViewAbstract

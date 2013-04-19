@@ -65,7 +65,7 @@ class TemplateHelperModule extends Library\TemplateHelperAbstract
     {
         if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
         {
-            $this->_modules = $this->getService($this->_modules);
+            $this->_modules = $this->getObject($this->_modules);
 
             if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
             {

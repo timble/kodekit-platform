@@ -14,7 +14,31 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
  */
-interface ObjectInterface extends ObjectHandlable, ObjectMixable, ObjectDecoratable
+interface ObjectInterface
 {
+    /**
+     * Constructor
+     *
+     * Allow configuration of the object via the constructor.
+     *
+     * @param Config  $config  A Config object with optional configuration options
+     */
+    public function __construct(Config $config);
 
+    /**
+     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     *
+     * @param	string|object	$identifier The class identifier or identifier object
+     * @param	array  			$config     An optional associative array of configuration settings.
+     * @return	Object Return object on success, throws exception on failure
+     */
+    public function getObject($identifier = null, array $config = array());
+
+    /**
+     * Get a service identifier.
+     *
+     * @param	string|object	$identifier The class identifier or identifier object
+     * @return	ObjectIdentifier
+     */
+    public function getIdentifier($identifier = null);
 }

@@ -27,7 +27,7 @@ class DatabaseRowTable extends Library\DatabaseRowTable
         if($this->getStatus() == Library\Database::STATUS_UPDATED && $modified && $this->enabled)
         {
             $database  = $this->getTable()->getAdapter();
-            $languages = $this->getService('application.languages');
+            $languages = $this->getObject('application.languages');
             $primary   = $languages->getPrimary();
 
             foreach($languages as $language)
@@ -42,9 +42,9 @@ class DatabaseRowTable extends Library\DatabaseRowTable
                     $database->execute($query);
                     
                     // Copy content of original table into the language specific one.
-                    $query = $this->getService('lib:atabase.query.insert')
+                    $query = $this->getObject('lib:atabase.query.insert')
                         ->table($table)
-                        ->values($this->getService('lib:database.query.select')->table($this->name));
+                        ->values($this->getObject('lib:database.query.select')->table($this->name));
                     $database->execute($query);
                     
                     $status   = DatabaseRowTranslation::STATUS_MISSING;
@@ -58,7 +58,7 @@ class DatabaseRowTable extends Library\DatabaseRowTable
                 }
                 
                 // Add items to the translations table.
-                $select = $this->getService('lib:database.query.select')
+                $select = $this->getObject('lib:database.query.select')
                     ->columns(array(
                         'iso_code'  => ':iso_code',
                         'table'     => ':table',
@@ -74,7 +74,7 @@ class DatabaseRowTable extends Library\DatabaseRowTable
                         'original'  => $original
                     ));
                 
-                $query = $this->getService('lib:database.query.insert')
+                $query = $this->getObject('lib:database.query.insert')
                     ->table('languages_translations')
                     ->columns(array('iso_code', 'table', 'row', 'status', 'original'))
                     ->values($select);

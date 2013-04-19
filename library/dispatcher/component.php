@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class DispatcherComponent extends DispatcherAbstract implements ServiceInstantiatable
+class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiatable
 {
 	/**
 	 * Constructor.
@@ -60,22 +60,22 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
      * Force creation of a singleton
      *
      * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherComponent
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
+        if (!$manager->has($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('component', $config->service_identifier);
+            $manager->setAlias('component', $config->object_identifier);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
 
     /**
@@ -121,7 +121,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
         {
             $token = $context->user->session->getToken();
 
-            $context->response->headers->addCookie($this->getService('lib:http.cookie', array(
+            $context->response->headers->addCookie($this->getObject('lib:http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
                 'path'   => $context->request->getBaseUrl()->getPath()
@@ -153,7 +153,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
 
         //Load the component aliases
         $component = $this->getController()->getIdentifier()->package;
-        $this->getService('loader')->loadIdentifier('com:'.$component.'.aliases');
+        $this->getObject('loader')->loadIdentifier('com:'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());

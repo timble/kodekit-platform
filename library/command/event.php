@@ -71,7 +71,7 @@ class CommandEvent extends Command
     {
         if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
         {
-            $this->_event_dispatcher = $this->getService($this->_event_dispatcher);
+            $this->_event_dispatcher = $this->getObject($this->_event_dispatcher);
 
             //Make sure the request implements ControllerRequestInterface
             if(!$this->_event_dispatcher instanceof EventDispatcherInterface)

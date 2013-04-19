@@ -23,6 +23,6 @@ class FilterFolderUploadable extends Library\FilterChain
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com:files.filter.folder.name'), self::PRIORITY_HIGH);
+		$this->addFilter($this->getObject('com:files.filter.folder.name'), self::PRIORITY_HIGH);
 	}
 }

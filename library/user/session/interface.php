@@ -81,7 +81,7 @@ interface UserSessionInterface
     /**
      * Method to set a session handler object
      *
-     * @param mixed $handler An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $handler An object that implements ObjectInterface, ObjectIdentifier object
      *                       or valid identifier string
      * @param array $config An optional associative array of configuration settings
      * @return UserSession
@@ -109,7 +109,7 @@ interface UserSessionInterface
      *
      * If the container does not exist a container will be created on the fly.
      *
-     * @param   mixed $name An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed $name An object that implements ObjectInterface, ObjectIdentifier object
      *                      or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a session container identifier
      * @return UserSessionContainerInterface

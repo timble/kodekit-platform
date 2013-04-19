@@ -2,8 +2,8 @@
 
 <nav class="scrollable">
 <ul class="nav nav-list">
-<? foreach(@service('com:pages.model.menus')->sort('title')->getRowset() as $menu) : ?>
-    <? $menu_pages = @service('com:pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
+<? foreach(@object('com:pages.model.menus')->sort('title')->getRowset() as $menu) : ?>
+    <? $menu_pages = @object('com:pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
     <? if(count($menu_pages)) : ?>
         <li class="nav-header"><?= $menu->title ?></li>
 		<? $first = true; $last_depth = 0; ?>
@@ -37,7 +37,7 @@
 						<? break ?>
 						
 				    <? case 'menulink': ?>
-				        <? $page_linked = @service('application.pages')->getPage($page->getLink()->query['Itemid']); ?>
+				        <? $page_linked = @object('application.pages')->getPage($page->getLink()->query['Itemid']); ?>
 				        <a href="<?= $page_linked->getLink() ?>">
 		                    <span><?= $page->title ?></span>
 		                </a>

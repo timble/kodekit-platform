@@ -87,7 +87,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     {
         if(!$this->_params instanceof ObjectArray)
         {
-            $this->_params = $this->getService($this->_params);
+            $this->_params = $this->getObject($this->_params);
 
             if(!$this->_params instanceof ObjectArray)
             {
@@ -122,7 +122,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     {
         if(!$this->_adapter instanceof DatabaseAdapterInterface)
         {
-            $this->_adapter = $this->getService($this->_adapter);
+            $this->_adapter = $this->getObject($this->_adapter);
 
             if(!$this->_adapter instanceof DatabaseAdapterInterface)
             {

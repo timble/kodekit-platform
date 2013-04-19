@@ -39,7 +39,7 @@ class CacheControllerItem extends ApplicationControllerDefault
 		$request = parent::getRequest();
 		
 	    //Force the site
-	    //$request->site = $this->getService('application')->getSite();
+	    //$request->site = $this->getObject('application')->getSite();
 	    
 	    return $request;
 	}

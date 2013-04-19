@@ -32,8 +32,8 @@ class ModelTypes extends Library\ModelAbstract
     {
         if(!isset($this->_rowset))
         {
-            $table = $this->getService('com:extensions.database.table.components');
-            $query = $this->getService('lib:database.query.select')
+            $table = $this->getObject('com:extensions.database.table.components');
+            $query = $this->getObject('lib:database.query.select')
                 ->order('name');
 
             $components = $table->select($query);
@@ -41,7 +41,7 @@ class ModelTypes extends Library\ModelAbstract
             // Iterate through the components.
             foreach($components as $component)
             {
-                $path  = $this->getService('loader')->getApplication($this->getState()->application);
+                $path  = $this->getObject('loader')->getApplication($this->getState()->application);
                 $path .= '/component/'.substr($component->name, 4).'/view';
 
                 if(!is_dir($path)) {

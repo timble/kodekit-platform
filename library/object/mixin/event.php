@@ -100,7 +100,7 @@ class ObjectMixinEvent extends ObjectMixinAbstract
     {
         if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
         {
-            $this->_event_dispatcher = $this->getService($this->_event_dispatcher);
+            $this->_event_dispatcher = $this->getObject($this->_event_dispatcher);
 
             //Make sure the request implements ControllerRequestInterface
             if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
@@ -158,7 +158,7 @@ class ObjectMixinEvent extends ObjectMixinAbstract
     /**
      * Add an event subscriber
      *
-     * @param   mixed  $subscriber An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed  $subscriber An object that implements ObjectInterface, ObjectIdentifier object
      *                            or valid identifier string
      * @param  array  $config   An optional associative array of configuration settings
      * @param  integer $priority The event priority, usually between 1 (high priority) and 5 (lowest),
@@ -181,7 +181,7 @@ class ObjectMixinEvent extends ObjectMixinAbstract
     /**
      * Remove an event subscriber
      *
-     * @param   mixed  $subscriber An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed  $subscriber An object that implements ObjectInterface, ObjectIdentifier object
      *                             or valid identifier string
      * @return  Object  The mixer object
      */
@@ -198,7 +198,7 @@ class ObjectMixinEvent extends ObjectMixinAbstract
     /**
      * Get a event subscriber by identifier
      *
-     * @param  mixed $subscriber An object that implements ServiceInterface, ServiceIdentifier object
+     * @param  mixed $subscriber An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  array  $config   An optional associative array of configuration settings
      * @throws \DomainException    If the subscriber is not implementing the EventSubscriberInterface
@@ -206,7 +206,7 @@ class ObjectMixinEvent extends ObjectMixinAbstract
      */
     public function getEventSubscriber($subscriber, $config = array())
     {
-        if (!($subscriber instanceof ServiceIdentifier))
+        if (!($subscriber instanceof ObjectIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($subscriber) && strpos($subscriber, '.') === false)
@@ -222,7 +222,7 @@ class ObjectMixinEvent extends ObjectMixinAbstract
         if (!isset($this->_event_subscribers[(string)$identifier]))
         {
             $config['event_dispatcher'] = $this->getEventDispatcher();
-            $subscriber = $this->getService($identifier, $config);
+            $subscriber = $this->getObject($identifier, $config);
 
             //Check the event subscriber interface
             if (!($subscriber instanceof EventSubscriberInterface))

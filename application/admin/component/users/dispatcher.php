@@ -25,7 +25,7 @@ class UsersDispatcher extends Library\DispatcherComponent
         parent::__construct($config);
 
         //@TODO Remove when PHP 5.5 becomes a requirement.
-        $this->getService('loader')->loadFile(JPATH_ROOT.'/application/admin/component/users/legacy/password.php');
+        $this->getObject('loader')->loadFile(JPATH_ROOT.'/application/admin/component/users/legacy/password.php');
     }
     
     protected function _actionDispatch(Library\CommandContext $context)

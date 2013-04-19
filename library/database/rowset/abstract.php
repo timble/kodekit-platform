@@ -293,7 +293,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         //The row default options
         $options['identity_column'] = $this->getIdentityColumn();
 
-        return $this->getService($identifier, $options);
+        return $this->getObject($identifier, $options);
     }
 
     /**

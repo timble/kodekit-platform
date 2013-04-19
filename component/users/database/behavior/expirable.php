@@ -43,7 +43,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
 
     protected function _initialize(Library\Config $config)
     {
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'expirable'     => $params->get('password_expire', 0),

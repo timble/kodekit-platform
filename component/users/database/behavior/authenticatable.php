@@ -35,8 +35,8 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         if(!$data->password)
         {
             // Generate a random password
-            $params         = $this->getService('application.components')->users->params;
-            $password       = $this->getService('com:users.database.row.password');
+            $params         = $this->getObject('application.components')->users->params;
+            $password       = $this->getObject('com:users.database.row.password');
             $data->password = $password->getRandom($params->get('password_length', 6));
         }
     }
@@ -78,7 +78,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
         if (!$this->isNew())
         {
-            $password = $this->getService('com:users.database.row.password')
+            $password = $this->getObject('com:users.database.row.password')
                 ->set('id', $this->email);
             $password->load();
         }

@@ -55,15 +55,15 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->has($config->service_identifier)) {
-            $manager->set($config->service_identifier, $instance);
+        if(!$manager->has($config->object_identifier)) {
+            $manager->set($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
 
     protected function _populateStrategies()
@@ -75,7 +75,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
                 $name = $fileinfo->getBasename('.php');
                 if($name != 'abstract' && $name != 'interface')
                 {
-                    $strategy = $this->getService('com:pages.database.behavior.type.'.$name);
+                    $strategy = $this->getObject('com:pages.database.behavior.type.'.$name);
                     $this->_strategies[$name] = $strategy;
                 }
             }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		Koowa_Service
+ * @package		Koowa_Object
  * @subpackage  Manager
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,20 +10,20 @@
 namespace Nooku\Library;
 
 /**
- * Service Manager Interface
+ * Object Manager Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Service
+ * @package     Koowa_Object
  * @subpackage  Manager
  */
-interface ServiceManagerInterface
+interface ObjectManagerInterface
 {
 	/**
 	 * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
 	 *
 	 * @param	string|object	$identifier The class identifier or identifier object
 	 * @param	array  			$config     An optional associative array of configuration settings.
-	 * @throws	ServiceException
+	 * @throws	ObjectException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
 	public static function get($identifier, array $config = array());
@@ -50,7 +50,7 @@ interface ServiceManagerInterface
      * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to
      * services that already exist in the service registry.
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  string A mixin identifier string
      * @see Object::mixin()
@@ -60,7 +60,7 @@ interface ServiceManagerInterface
     /**
      * Get the mixins for an identifier
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @return array An array of mixins
      */
@@ -72,7 +72,7 @@ interface ServiceManagerInterface
      * The object is decorated when it's first instantiated see {@link get} Decorators are also added to services that
      * already exist in the service registry.
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $decorator  A decorator identifier
      * @see Object::decorate()
@@ -82,7 +82,7 @@ interface ServiceManagerInterface
     /**
      * Get the decorators for an identifier
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @return array An array of decorators
      */
@@ -92,20 +92,20 @@ interface ServiceManagerInterface
      * Returns an identifier object.
 	 *
 	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements ServiceInterface, or a ServiceIdentifier object, or valid identifier string.
+     * implements ObjectInterface, or a ObjectIdentifier object, or valid identifier string.
      *
      * Function will also check for identifier mappings and return the mapped identifier.
 	 *
-	 * @param	mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+	 * @param	mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
 	 * 					         or valid identifier string
-	 * @return ServiceIdentifier
+	 * @return ObjectIdentifier
 	 */
 	public static function getIdentifier($identifier);
 
 	/**
 	 * Set the configuration options for an identifier
 	 *
-	 * @param mixed	$identifier An object that implements ServiceInterface, ServiceIdentifier object
+	 * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
 	 * 				            or valid identifier string
 	 * @param array	$config An associative array of configuration options
 	 */
@@ -114,7 +114,7 @@ interface ServiceManagerInterface
 	/**
 	 * Get the configuration options for an identifier
 	 *
-	 * @param mixed	$identifier An object that implements ServiceInterface, ServiceIdentifier object
+	 * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
 	 * 				            or valid identifier string
 	 * @return array  An associative array of configuration options
 	 */
@@ -139,7 +139,7 @@ interface ServiceManagerInterface
      * Get the identifier for an alias
      *
      * @param string $alias The alias
-     * @return mixed|false An object that implements ServiceInterface, ServiceIdentifier object
+     * @return mixed|false An object that implements ObjectInterface, ObjectIdentifier object
      *                     or valid identifier string
      */
     public function getAlias($alias);

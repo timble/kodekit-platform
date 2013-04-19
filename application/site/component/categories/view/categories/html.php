@@ -20,7 +20,7 @@ class CategoriesViewCategoriesHtml extends Library\ViewHtml
 {
 	public function render()
 	{
-		$this->params = $this->getService('application')->getParams();
+		$this->params = $this->getObject('application')->getParams();
 		return parent::render();
 	}
 }

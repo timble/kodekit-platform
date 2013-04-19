@@ -38,10 +38,10 @@ class CommandContext extends Config implements CommandContextInterface
     /**
     * Set the command subject
     *
-    * @param ServiceInterface $subject The command subject
+    * @param ObjectInterface $subject The command subject
     * @return CommandContext
     */
-    public function setSubject(ServiceInterface $subject)
+    public function setSubject(ObjectInterface $subject)
     {
         $this->_subject = $subject;
         return $this;

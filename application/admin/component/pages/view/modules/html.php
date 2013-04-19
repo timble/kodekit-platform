@@ -25,7 +25,7 @@ class PagesViewModulesHtml extends Library\ViewHtml
 		{
 		    foreach($this->getModel()->getRowset() as $module)
 		    {
-                $path = $this->getService('loader')->getApplication($module->application);
+                $path = $this->getObject('loader')->getApplication($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
 		} 

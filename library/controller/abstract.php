@@ -184,7 +184,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed    An object that implements ObjectMixinInterface, ServiceIdentifier object
+     * @@param   mixed    An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                     or valid identifier string
      * @param    array An optional associative array of configuration options
      * @return  Object
@@ -252,7 +252,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_request instanceof ControllerRequestInterface)
         {
-            $this->_request = $this->getService($this->_request);
+            $this->_request = $this->getObject($this->_request);
 
             if(!$this->_request instanceof ControllerRequestInterface)
             {
@@ -287,7 +287,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_response instanceof ControllerResponseInterface)
         {
-            $this->_response = $this->getService($this->_response);
+            $this->_response = $this->getObject($this->_response);
 
             if(!$this->_response instanceof ControllerResponseInterface)
             {
@@ -322,7 +322,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_user instanceof ControllerUserInterface)
         {
-            $this->_user = $this->getService($this->_user);
+            $this->_user = $this->getObject($this->_user);
 
             if(!$this->_user instanceof ControllerUserInterface)
             {

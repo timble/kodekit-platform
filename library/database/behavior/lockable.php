@@ -36,7 +36,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
     {
     	$config->append(array(
 			'priority'   => CommandChain::PRIORITY_HIGH,
-            'lifetime'   =>  $this->getService('user')->getSession()->getLifetime()
+            'lifetime'   =>  $this->getObject('user')->getSession()->getLifetime()
 	  	));
 
 	  	$this->_lifetime = $config->lifetime;
@@ -76,7 +76,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 		//Prevent lock take over, only an saved and unlocked row and be locked
 		if(!$this->isNew() && !$this->locked())
 		{
-			$this->locked_by = (int) $this->getService('user')->getId();
+			$this->locked_by = (int) $this->getObject('user')->getId();
 			$this->locked_on = gmdate('Y-m-d H:i:s');
 			$this->save();
 		}
@@ -93,7 +93,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 */
 	public function unlock()
 	{
-		$userid = $this->getService('user')->getId();
+		$userid = $this->getObject('user')->getId();
 
 		//Only an saved row can be unlocked by the user who locked it
 		if(!$this->isNew() && $this->locked_by != 0 && $this->locked_by == $userid)
@@ -125,7 +125,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
                 //Check if the lock has gone stale
                 if($current - $locked < $this->_lifetime)
 			    {
-                    $userid = $this->getService('user')->getId();
+                    $userid = $this->getObject('user')->getId();
 			        if($this->locked_by != 0 && $this->locked_by != $userid) {
 			            $result= true;
                     }
@@ -148,7 +148,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 		if($this->locked())
 		{
 	        $user = \JFactory::getUser($this->locked_by);
-			$date = $this->getService('com:base.template.helper.date')->humanize(array('date' => $this->locked_on));
+			$date = $this->getObject('com:base.template.helper.date')->humanize(array('date' => $this->locked_on));
 
 			$message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date);
 		}

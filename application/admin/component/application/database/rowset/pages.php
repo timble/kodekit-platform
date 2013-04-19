@@ -17,14 +17,14 @@ use Nooku\Component\Pages;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ServiceInstantiatable
+class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ObjectInstantiatable
 {
     public function __construct(Library\Config $config )
     {
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $pages = $this->getService('com:pages.model.pages')
+        $pages = $this->getObject('com:pages.model.pages')
             ->published(true)
             ->getRowset();
 
@@ -37,16 +37,16 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
-        if(!$manager->has($config->service_identifier))
+        if(!$manager->has($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
 
     public function getPage($id)

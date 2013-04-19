@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ModelSites extends Library\ModelAbstract implements Library\ServiceInstantiatable
+class ModelSites extends Library\ModelAbstract implements Library\ObjectInstantiatable
 {	
      public function __construct(Library\Config $config)
      {
@@ -32,16 +32,16 @@ class ModelSites extends Library\ModelAbstract implements Library\ServiceInstant
              ->insert('search'    , 'string');
     }
 
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
+        if (!$manager->has($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
         }
         
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
     
     public function getRowset()
@@ -81,7 +81,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ServiceInstant
                 $data = array_slice($data, $state->offset, $state->limit);
             }
                         
-            $this->_rowset = $this->getService('com:sites.database.rowset.sites', array('data' => $data));
+            $this->_rowset = $this->getObject('com:sites.database.rowset.sites', array('data' => $data));
         }
         
         return $this->_rowset;

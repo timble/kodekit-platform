@@ -35,6 +35,6 @@ class FilterFolderName extends Library\FilterAbstract
     public function sanitize($value)
 	{
 		$value = str_replace('/', '', $value);
-		return $this->getService('com:files.filter.path')->sanitize($value);
+		return $this->getObject('com:files.filter.path')->sanitize($value);
 	}
 }

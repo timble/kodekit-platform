@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ServiceInstantiatable
+class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectInstantiatable
 {
     /**
 	 * The cache object
@@ -47,20 +47,20 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
 	/**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config  An optional Config object with configuration options
-     * @param 	ServiceManagerInterfac  $manager A Library\ServiceManagerInterface object
+     * @param 	Config                   $config  An optional Config object with configuration options
+     * @param 	ObjectManagerInterface  $manager A Library\ObjectManagerInterface object
      * @return  DatabaseTableInterface
      */
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
+        if (!$manager->has($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
 
     /**
@@ -73,7 +73,7 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
      */
     protected function _initialize(Library\Config $config)
     {
-        $application = $this->getService('application');
+        $application = $this->getObject('application');
 
         $config->append(array(
             'options'	=> array(

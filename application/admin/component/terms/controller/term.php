@@ -44,7 +44,7 @@ abstract class TermsControllerTerm extends ApplicationControllerDefault
             $alias = clone $layout;
             $alias->package = 'terms';
 
-	        $this->getService()->setAlias($layout, $alias);
+	        $this->getObject()->setAlias($layout, $alias);
 	    }
 	        
         return parent::_actionRender($context);

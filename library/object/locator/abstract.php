@@ -1,6 +1,6 @@
 <?php
 /**
- * @package        Koowa_Service
+ * @package        Koowa_Object
  * @subpackage     Locator
  * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -9,13 +9,13 @@
 namespace Nooku\Library;
 
 /**
- * Service Abstract Locator
+ * Object Abstract Locator
  *
- * @author        Johan Janssens <johan@nooku.org>
- * @package     Koowa_Service
- * @subpackage     Locator
+ * @author      Johan Janssens <johan@nooku.org>
+ * @package     Koowa_Object
+ * @subpackage  Locator
  */
-abstract class ServiceLocatorAbstract extends Object implements ServiceLocatorInterface
+abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInterface
 {
     /**
      * The locator type
@@ -34,7 +34,7 @@ abstract class ServiceLocatorAbstract extends Object implements ServiceLocatorIn
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param Config $config  An optional Config object with configuration options
      */
     public function __construct(Config $config)
     {
@@ -48,7 +48,7 @@ abstract class ServiceLocatorAbstract extends Object implements ServiceLocatorIn
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param  Config $config An optional Config object with configuration options.
      * @return  void
      */
     protected function _initialize(Config $config)

@@ -46,8 +46,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
-        $menus = $this->getService('com:pages.model.menus')->getRowset();
-        $pages = $this->getService('com:pages.model.pages')->published(true)->getRowset();
+        $menus = $this->getObject('com:pages.model.menus')->getRowset();
+        $pages = $this->getObject('com:pages.model.pages')->published(true)->getRowset();
 
         foreach($menus as $menu)
         {
@@ -76,7 +76,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             'menu' => null
         ));
 
-        $pages = $this->getService('com:pages.model.pages')
+        $pages = $this->getObject('com:pages.model.pages')
             ->published(true)
             ->menu($config->menu)
             ->limit(0)
@@ -120,8 +120,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
 
-        $path = $this->getService('loader')->getApplication('site');
-        $path = $path.'/public/theme/'.$this->getService('application')->getCfg('theme').'/config.xml';
+        $path = $this->getObject('loader')->getApplication('site');
+        $path = $path.'/public/theme/'.$this->getObject('application')->getCfg('theme').'/config.xml';
 
         if (file_exists($path))
         {

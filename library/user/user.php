@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_User
  */
-class User extends Object implements UserInterface, ServiceInstantiatable
+class User extends Object implements UserInterface, ObjectInstantiatable
 {
     /**
      * Constructor
@@ -66,18 +66,18 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      * Force creation of a singleton
      *
      * @param 	Config                 $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ObjectManagerInterface $manager)
     {
         if (!$manager->has('user'))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
 
-            $manager->setAlias('user', $config->service_identifier);
+            $manager->setAlias('user', $config->object_identifier);
         }
 
         return $manager->get('user');
@@ -197,7 +197,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      */
     public function getSession()
     {
-        return $this->getService('lib:user.session');
+        return $this->getObject('lib:user.session');
     }
 
     /**
@@ -224,7 +224,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
 
         unset($data['mixins']);
         unset($data['service_manager']);
-        unset($data['service_identifier']);
+        unset($data['object_identifier']);
 
         //Set the user data
         $this->getSession()->set('user', Config::unbox($data));

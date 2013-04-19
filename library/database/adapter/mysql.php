@@ -327,7 +327,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     {
         if(!isset($this->_database))
         {
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->columns('DATABASE');
 
             $this->_database = $this->select($query, Database::FETCH_FIELD);
@@ -412,7 +412,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     protected function _fetchTableInfo($table)
     {
         $return = null;
-        $query  = $this->getService('lib:database.query.show')
+        $query  = $this->getObject('lib:database.query.show')
             ->show('TABLE STATUS')
             ->like(':like')
             ->bind(array('like' => $table));
@@ -433,7 +433,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     protected function _fetchTableColumns($table)
     {
         $return = array();
-        $query  = $this->getService('lib:database.query.show')
+        $query  = $this->getObject('lib:database.query.show')
             ->show('FULL COLUMNS')
             ->from($table);
 
@@ -461,7 +461,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     protected function _fetchTableIndexes($table)
     {
         $return = array();
-        $query  = $this->getService('lib:database.query.show')
+        $query  = $this->getObject('lib:database.query.show')
             ->show('INDEX')
             ->from($table);
 
@@ -483,7 +483,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
      */
     protected function _parseTableInfo($info)
     {
-        $table              = $this->getService('lib:database.schema.table');
+        $table              = $this->getObject('lib:database.schema.table');
         $table->name        = $info->Name;
         $table->engine      = $info->Engine;
         $table->type        = $info->Comment == 'VIEW' ? 'VIEW' : 'BASE';
@@ -506,7 +506,7 @@ class DatabaseAdapterMysql extends DatabaseAdapterAbstract
     {
         list($type, $length, $scope) = $this->_parseColumnType($info->Type);
 
-        $column = $this->getService('lib:database.schema.column');
+        $column = $this->getObject('lib:database.schema.column');
         $column->name     = $info->Field;
         $column->type     = $type;
         $column->length   = $length ? $length : null;

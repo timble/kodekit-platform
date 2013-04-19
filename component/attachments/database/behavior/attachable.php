@@ -26,7 +26,7 @@ class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
      */
     public function getAttachments()
 	{
-        $model = $this->getService('com:attachments.model.attachments');
+        $model = $this->getObject('com:attachments.model.attachments');
 
         if(!$this->isNew())
         {

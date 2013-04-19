@@ -242,19 +242,19 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      * Force creation of a singleton
      *
      * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(Config $config, ObjectManagerInterface $manager)
     {
         if (!$manager->has('request'))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->set($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('request', $config->service_identifier);
+            $manager->setAlias('request', $config->object_identifier);
         }
 
         return $manager->get('request');
@@ -268,7 +268,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function setCookies($parameters)
     {
-        $this->_cookies = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
+        $this->_cookies = $this->getObject('lib:http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -289,7 +289,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function setFiles($parameters)
     {
-        $this->_files = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
+        $this->_files = $this->getObject('lib:http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -448,10 +448,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             }
 
             // Sanitize the url since we can't trust the server var
-            $url = $this->getService('lib:filter.url')->sanitize($url);
+            $url = $this->getObject('lib:filter.url')->sanitize($url);
 
             // Create the URI object
-            $this->_url = $this->getService('lib:http.url', array('url' => $url));
+            $this->_url = $this->getObject('lib:http.url', array('url' => $url));
 
             //Set the url port
             $port = $_SERVER['SERVER_PORT'];
@@ -487,13 +487,13 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     {
         if(!isset($this->_referrer))
         {
-            $referrer = $this->getService('lib:filter.url')->sanitize($this->_headers->get('Referer'));
-            $this->_referrer = $this->getService('lib:http.url', array('url' => $referrer));
+            $referrer = $this->getObject('lib:filter.url')->sanitize($this->_headers->get('Referer'));
+            $this->_referrer = $this->getObject('lib:http.url', array('url' => $referrer));
         }
 
         if($isInternal)
         {
-            if(!$this->getService('lib:filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
+            if(!$this->getObject('lib:filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
                 return null;
             }
         }
@@ -542,7 +542,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $base = clone $this->getUrl();
             $base->fromString(rtrim((string)$this->_base_url, '/'));
 
-            $this->_base_url = $this->getService('lib:http.url', array('url' => $base->toString(HttpUrl::BASE)));
+            $this->_base_url = $this->getObject('lib:http.url', array('url' => $base->toString(HttpUrl::BASE)));
         }
 
         return $this->_base_url;

@@ -134,7 +134,7 @@ class ModelModules extends Library\ModelTable
                 {
                     $this->_row->extensions_component_id = $state->component;
 
-                    $this->_row->component_name = $this->getService('application.components')
+                    $this->_row->component_name = $this->getObject('application.components')
                         ->find(array('id' => $state->component))
                         ->top()
                         ->name;
@@ -161,8 +161,8 @@ class ModelModules extends Library\ModelTable
 
             if($state->installed)
             {
-                $table = $this->getService('com:extensions.database.table.components');
-                $query = $this->getService('lib:database.query.select')->order('name');
+                $table = $this->getObject('com:extensions.database.table.components');
+                $query = $this->getObject('lib:database.query.select')->order('name');
 
                 $components = $table->select($query);
 
@@ -170,7 +170,7 @@ class ModelModules extends Library\ModelTable
                 $modules = array();
                 foreach($components as $component)
                 {
-                    $path  = $this->getService('loader')->getApplication('site');
+                    $path  = $this->getObject('loader')->getApplication('site');
                     $path .= '/component/'.substr($component->name, 4).'/modules';
 
                     if(!is_dir($path)) {

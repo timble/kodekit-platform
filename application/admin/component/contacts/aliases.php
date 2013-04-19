@@ -8,13 +8,13 @@
  */
 
 /**
- * Service Aliases
+ * Object Aliases
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
 
-use Nooku\Library\ServiceManager;
+use Nooku\Library\ObjectManager;
 
-ServiceManager::setAlias('com:contacts.model.categories', 'com:categories.model.categories');
+ObjectManager::setAlias('com:contacts.model.categories', 'com:categories.model.categories');

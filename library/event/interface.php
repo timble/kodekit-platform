@@ -44,7 +44,7 @@ interface EventInterface
      * @param object	The event target
      * @return Event
      */
-    public function setTarget(ServiceInterface $target);
+    public function setTarget(ObjectInterface $target);
     
     /**
      * Stores the EventDispatcher that dispatches this Event

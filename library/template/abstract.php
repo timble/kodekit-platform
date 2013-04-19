@@ -110,7 +110,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $config->append(array(
             'data'          => array(),
             'view'          => null,
-            'filter_chain'  => $this->getService('lib:template.filter.chain'),
+            'filter_chain'  => $this->getObject('lib:template.filter.chain'),
             'filters'       => array(),
         ));
 
@@ -158,11 +158,11 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         if(!$this->_view instanceof ViewInterface)
         {
             //Make sure we have a view identifier
-            if(!($this->_view instanceof ServiceIdentifier)) {
+            if(!($this->_view instanceof ObjectIdentifier)) {
                 $this->setView($this->_view);
             }
 
-            $this->_view = $this->getService($this->_view);
+            $this->_view = $this->getObject($this->_view);
 
             //Make sure the view implements ViewInterface
             if(!$this->_view instanceof ViewInterface)
@@ -179,7 +179,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Method to set a view object attached to the controller
      *
-     * @param	mixed	$view An object that implements ServiceInterface, ServiceIdentifier object
+     * @param	mixed	$view An object that implements ObjectInterface, ObjectIdentifier object
      * 					      or valid identifier string
      * @return TemplateAbstract
      */
@@ -309,7 +309,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Get a filter by identifier
      *
-     * @param   mixed    $filter    An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed    $filter    An object that implements ObjectInterface, ObjectIdentifier object
                                     or valid identifier string
      * @param   array    $config    An optional associative array of configuration settings
      * @return TemplateFilterInterface
@@ -327,7 +327,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
 
         if (!isset($this->_filters[$identifier->name]))
         {
-            $filter = $this->getService($identifier, array_merge($config, array('template' => $this)));
+            $filter = $this->getObject($identifier, array_merge($config, array('template' => $this)));
 
             if (!($filter instanceof TemplateFilterInterface))
             {
@@ -346,7 +346,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Attach one or more filters for template transformation
      *
-     * @param   mixed  $filter An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed  $filter An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
      * @param   array $config  An optional associative array of configuration settings
      * @return TemplateAbstract
@@ -366,7 +366,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     /**
      * Get a template helper
      *
-     * @param    mixed    $helper ServiceIdentifierInterface
+     * @param    mixed    $helper ObjectIdentifierInterface
      * @param    array    $config An optional associative array of configuration settings
      * @return  TemplateHelperInterface
      */
@@ -382,7 +382,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         else $identifier = $this->getIdentifier($helper);
 
         //Create the template helper
-        $helper = $this->getService($identifier, array_merge($config, array('template' => $this)));
+        $helper = $this->getObject($identifier, array_merge($config, array('template' => $this)));
 
         //Check the helper interface
         if (!($helper instanceof TemplateHelperInterface))
@@ -501,7 +501,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     {
         //Create temporary file
         $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
-        $this->getService('loader')->setAlias($this->getPath(), $tempfile);
+        $this->getObject('loader')->setAlias($this->getPath(), $tempfile);
 
         //Write the template to the file
         $handle = fopen($tempfile, "w+");

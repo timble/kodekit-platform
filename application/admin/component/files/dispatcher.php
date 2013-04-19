@@ -27,7 +27,7 @@ class FilesDispatcher extends Library\DispatcherComponent
 		$this->registerCallback('after.post' , array($this, 'renderResponse'));
 
         // Return correct status code for plupload
-        $this->getService('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
+        $this->getObject('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
 	}
 	
 	public function renderResponse(Library\CommandContext $context)

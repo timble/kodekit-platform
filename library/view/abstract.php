@@ -55,7 +55,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
 
         //set the base url
         if (!$config->base_url instanceof HttpUrlInterface) {
-            $this->_baseurl = $this->getService('lib:http.url', array('url' => $config->base_url));
+            $this->_baseurl = $this->getObject('lib:http.url', array('url' => $config->base_url));
         } else {
             $this->_baseurl = $config->base_url;
         }
@@ -174,11 +174,11 @@ abstract class ViewAbstract extends Object implements ViewInterface
     {
         if(!$this->_model instanceof ModelInterface)
         {
-            if(!($this->_model instanceof ServiceIdentifier)) {
+            if(!($this->_model instanceof ObjectIdentifier)) {
                 $this->setModel($this->_model);
             }
 
-            $this->_model = $this->getService($this->_model);
+            $this->_model = $this->getObject($this->_model);
 
             if(!$this->_model instanceof ModelInterface)
             {
@@ -194,7 +194,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Method to set a model object attached to the controller
      *
-     * @param	mixed	$model An object that implements ServiceInterface, ServiceIdentifier object
+     * @param	mixed	$model An object that implements ObjectInterface, ObjectIdentifier object
      * 					       or valid identifier string
      * @return	ViewAbstract
      */
@@ -274,7 +274,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
         }
 
         //Create the route
-        $route = $this->getService('lib:dispatcher.router.route', array(
+        $route = $this->getObject('lib:dispatcher.router.route', array(
             'url'    => '?'.http_build_query($parts),
             'escape' => $escape === null || $escape === true ? true : false
         ));

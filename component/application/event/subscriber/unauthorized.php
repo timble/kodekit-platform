@@ -32,7 +32,7 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
     {
         if($event->getException() instanceof Library\ControllerExceptionUnauthorized)
         {
-            $application = $this->getService('application');
+            $application = $this->getObject('application');
 
             if($application->getRequest()->getFormat() == 'html')
             {

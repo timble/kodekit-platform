@@ -27,16 +27,16 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 				$config->validator = 'com:files.command.validator.'.$this->getIdentifier()->name;
 			}
 
-			$this->getCommandChain()->enqueue($this->getService($config->validator));
+			$this->getCommandChain()->enqueue($this->getObject($config->validator));
 		}
 	}
 
 	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
-			'command_chain'     => $this->getService('lib:command.chain'),
+			'command_chain'     => $this->getObject('lib:command.chain'),
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getService('lib:event.dispatcher.default'),
+			'event_dispatcher'  => $this->getObject('lib:event.dispatcher.default'),
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));

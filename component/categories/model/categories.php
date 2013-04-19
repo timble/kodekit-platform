@@ -45,7 +45,7 @@ class ModelCategories extends Library\ModelTable
             {
                 $query->columns(array('count'));
 
-                $subquery = $this->getService('lib:database.query.select')
+                $subquery = $this->getObject('lib:database.query.select')
                                  ->columns(array('categories_category_id', 'count' => 'COUNT(categories_category_id)'))
                                  ->table($state->table)
                                  ->group('categories_category_id');

@@ -69,7 +69,7 @@ class ObjectMixinToolbar extends ObjectMixinAbstract
     /**
      * Add one or more toolbars
      *
-     * @param   mixed $toolbar An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed $toolbar An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
      * @param  array  $config   An optional associative array of configuration settings
      * @param  integer $priority The event priority, usually between 1 (high priority) and 5 (lowest),
@@ -108,7 +108,7 @@ class ObjectMixinToolbar extends ObjectMixinAbstract
      */
     public function getToolbar($toolbar, $config = array())
     {
-        if (!($toolbar instanceof ServiceIdentifier))
+        if (!($toolbar instanceof ObjectIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($toolbar) && strpos($toolbar, '.') === false)
@@ -124,7 +124,7 @@ class ObjectMixinToolbar extends ObjectMixinAbstract
         if (!isset($this->_toolbars[$identifier->name]))
         {
             $config['controller'] = $this->getMixer();
-            $toolbar = $this->getService($identifier, $config);
+            $toolbar = $this->getObject($identifier, $config);
 
             if (!($toolbar instanceof ControllerToolbarInterface)) {
                 throw new \UnexpectedValueException("Controller toolbar $identifier does not implement ControllerToolbarInterface");

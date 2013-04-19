@@ -140,7 +140,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             'filters'           => array(),
             'behaviors'         => array(),
             'identity_column'   => null,
-            'command_chain'     => $this->getService('lib:command.chain'),
+            'command_chain'     => $this->getObject('lib:command.chain'),
             'dispatch_events'   => false,
             'event_dispatcher'  => null,
             'enable_callbacks'  => false,
@@ -161,7 +161,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     {
         if(!$this->_adapter instanceof DatabaseAdapterInterface)
         {
-            $this->_adapter = $this->getService($this->_adapter);
+            $this->_adapter = $this->getObject($this->_adapter);
 
             if(!$this->_adapter instanceof DatabaseAdapterInterface)
             {
@@ -443,7 +443,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
         }
 
-        return $this->getService($identifier, $options);
+        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -465,7 +465,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
         }
 
-        return $this->getService($identifier, $options);
+        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -485,7 +485,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
         {
             $key = $this->getIdentityColumn();
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->where('tbl.'.$key . ' IN :' . $key)
                 ->bind(array($key => (array)$query));
         }
@@ -493,7 +493,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('lib:database.query.select');
+            $query = $this->getObject('lib:database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -602,7 +602,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('lib:database.query.select');
+            $query = $this->getObject('lib:database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -635,7 +635,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function insert(DatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('lib:database.query.insert')
+        $query = $this->getObject('lib:database.query.insert')
                       ->table($this->getBase());
 
         //Create commandchain context
@@ -684,7 +684,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function update(DatabaseRowTable $row)
     {
         // Create query object.
-        $query = $this->getService('lib:database.query.update')
+        $query = $this->getObject('lib:database.query.update')
                       ->table($this->getBase());
 
         // Create commandchain context.
@@ -738,7 +738,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function delete(DatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('lib:database.query.delete')
+        $query = $this->getObject('lib:database.query.delete')
                       ->table($this->getBase());
 
         //Create commandchain context

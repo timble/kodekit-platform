@@ -135,9 +135,9 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $config->append(array(
             'options'          => array(),
             'charset'          => 'UTF8',
-            'command_chain'    => $this->getService('lib:command.chain'),
+            'command_chain'    => $this->getObject('lib:command.chain'),
             'dispatch_events'  => true,
-            'event_dispatcher' => $this->getService('lib:event.dispatcher.default'),
+            'event_dispatcher' => $this->getObject('lib:event.dispatcher.default'),
             'enable_callbacks' => false,
             'connection'       => null,
         ));

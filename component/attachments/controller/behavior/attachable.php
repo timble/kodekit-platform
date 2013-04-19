@@ -56,20 +56,20 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 		$this->_container = $config->container;
 		$this->_populate_from_request = $config->populate_from_request;
 		
-		$this->_file_controller = $this->getService($config->file_controller, array(
+		$this->_file_controller = $this->getObject($config->file_controller, array(
 			'request' => array('container' => $this->_container)
 		));
         
-        $this->_file_controller = $this->getService($config->file_controller, array(
-			'request' => $this->getService('lib:controller.request', array(
+        $this->_file_controller = $this->getObject($config->file_controller, array(
+			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
 			))
 		));
         
-        $this->_attachment_controller = $this->getService($config->attachment_controller, array(
-			'request' => $this->getService('lib:controller.request', array(
+        $this->_attachment_controller = $this->getObject($config->attachment_controller, array(
+			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
@@ -179,8 +179,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	
 		$row = $context->result;
         
-        $count = $this->getService('com:attachments.controller.attachment', array(
-			'request' => $this->getService('lib:controller.request', array(
+        $count = $this->getObject('com:attachments.controller.attachment', array(
+			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
 					'row' => $row->id,
 					'table' => $row->getTable()->getBase()
@@ -232,7 +232,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
             if(!empty($id) && $id != 0)
             {
-                $rows = $this->getService('com:attachments.model.attachments')
+                $rows = $this->getObject('com:attachments.model.attachments')
                     ->row($id)
                     ->table($table)
                     ->getRowset();

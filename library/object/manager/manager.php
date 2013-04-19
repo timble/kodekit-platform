@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Koowa_Service
+ * @package     Koowa_Object
  * @subpackage  Manager
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,13 +10,13 @@
 namespace Nooku\Library;
 
 /**
- * Service Manager Class
+ * Object Manager Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Service
+ * @package     Koowa_Object
  * @subpackage  Manager
  */
-class ServiceManager implements ServiceManagerInterface
+class ObjectManager implements ObjectManagerInterface
 {
     /**
      * The identifier registry
@@ -68,7 +68,7 @@ class ServiceManager implements ServiceManagerInterface
     final private function __construct(Config $config)
     {
         //Create the identifier registry
-        self::$_identifiers = new ServiceIdentifierRegistry();
+        self::$_identifiers = new ObjectIdentifierRegistry();
 
         if (isset($config['cache_prefix'])) {
             self::$_identifiers->setCachePrefix($config['cache_prefix']);
@@ -79,10 +79,10 @@ class ServiceManager implements ServiceManagerInterface
         }
 
         //Create the service container
-        self::$_services = new ServiceContainer();
+        self::$_services = new ObjectContainer();
 
         //Auto-load the library adapter
-        ServiceIdentifier::addLocator(new ServiceLocatorLibrary(new Config()));
+        ObjectIdentifier::addLocator(new ObjectLocatorLibrary(new Config()));
     }
 
     /**
@@ -99,7 +99,7 @@ class ServiceManager implements ServiceManagerInterface
      * Force creation of a singleton
      *
      * @param  array  $config An optional array with configuration options.
-     * @return ServiceManager
+     * @return ObjectManager
      */
     public static function getInstance($config = array())
     {
@@ -121,7 +121,7 @@ class ServiceManager implements ServiceManagerInterface
      * Get an instance of a class based on a class identifier only creating it
      * if it doesn't exist yet.
      *
-     * @param  mixed  $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param  mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                            or valid identifier string
      * @param  array   $config    An optional associative array of configuration settings.
      * @return object  Return object on success, throws exception on failure
@@ -150,7 +150,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Insert the object instance using the identifier
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param object $object    The object instance to store
      */
@@ -165,7 +165,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Check if the object instance exists based on the identifier
      *
-     * @param  mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param  mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
      * @return boolean Returns TRUE on success or FALSE on failure.
      */
@@ -189,7 +189,7 @@ class ServiceManager implements ServiceManagerInterface
      * The mixins are mixed when the indentified object is first instantiated see {@link get} Mixins are also added to
      * services that already exist in the service registry.
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  string A mixin identifier string
      * @see Object::mixin()
@@ -217,7 +217,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Get the mixins for an identifier
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @return array An array of mixins
      */
@@ -240,7 +240,7 @@ class ServiceManager implements ServiceManagerInterface
      * The object is decorated when it's first instantiated see {@link get} Decorators are also added to services that
      * already exist in the service registry.
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $decorator  A decorator identifier
      * @see Object::decorate()
@@ -268,7 +268,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Get the decorators for an identifier
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @return array An array of decorators
      */
@@ -289,19 +289,19 @@ class ServiceManager implements ServiceManagerInterface
      * Returns an identifier object.
      *
      * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements ServiceInterface, or a ServiceIdentifier object, or valid identifier string.
+     * implements ObjectInterface, or a ObjectIdentifier object, or valid identifier string.
      *
      * Function will also check for identifier aliases and return the real identifier.
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
-     * @return ServiceIdentifier
+     * @return ObjectIdentifier
      */
     public static function getIdentifier($identifier)
     {
         if (!is_string($identifier))
         {
-            if ($identifier instanceof ServiceInterface) {
+            if ($identifier instanceof ObjectInterface) {
                 $identifier = $identifier->getIdentifier();
             }
         }
@@ -315,7 +315,7 @@ class ServiceManager implements ServiceManagerInterface
         if (!self::$_identifiers->offsetExists((string)$identifier))
         {
             if (is_string($identifier)) {
-                $identifier = new ServiceIdentifier($identifier);
+                $identifier = new ObjectIdentifier($identifier);
             }
 
             self::$_identifiers->offsetSet((string)$identifier, $identifier);
@@ -329,7 +329,7 @@ class ServiceManager implements ServiceManagerInterface
      * Set an alias for an identifier
      *
      * @param string $alias      The alias
-     * @param mixed  $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
      */
     public static function setAlias($alias, $identifier)
@@ -344,7 +344,7 @@ class ServiceManager implements ServiceManagerInterface
      * Get the identifier for an alias
      *
      * @param string $alias The alias
-     * @return mixed|false An object that implements ServiceInterface, ServiceIdentifier object
+     * @return mixed|false An object that implements ObjectInterface, ObjectIdentifier object
      *                     or valid identifier string
      */
     public function getAlias($alias)
@@ -365,7 +365,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Set the configuration options for an identifier
      *
-     * @param mixed  $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
      * @param array $config      An associative array of configuration options
      */
@@ -384,7 +384,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Get the configuration options for an identifier
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param array An associative array of configuration options
      */
@@ -409,7 +409,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Perform the actual mixin of all registered mixins for an object
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  object $instance A Object instance to used as the mixer
      * @return void
@@ -428,7 +428,7 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Perform the actual decoration of all registered decorators for an object
      *
-     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  object $instance A Object instance to used as the mixer
      * @return void
@@ -447,24 +447,24 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * Get an instance of a class based on a class identifier
      *
-     * @param   object $identifier A ServiceIdentifier object
+     * @param   object $identifier A ObjectIdentifier object
      * @param   array  $config     An optional associative array of configuration settings.
-     * @throws	ServiceExceptionInvalidService	    If the object doesn't implement the ServiceInterface
-     * @throws  ServiceExceptionNotFound           If service cannot be loaded
-     * @throws  ServiceExceptionNotInstantiated    If service cannot be instantiated
+     * @throws	ObjectExceptionInvalidObject	    If the object doesn't implement the ObjectInterface
+     * @throws  ObjectExceptionNotFound           If service cannot be loaded
+     * @throws  ObjectExceptionNotInstantiated    If service cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
      */
-    protected static function _instantiate(ServiceIdentifier $identifier, array $config = array())
+    protected static function _instantiate(ObjectIdentifier $identifier, array $config = array())
     {
         $result = null;
 
         //Load the class manually using the basepath
         if (self::get('loader')->loadClass($identifier->classname))
         {
-            if (!array_key_exists(__NAMESPACE__.'\ServiceInterface', class_implements($identifier->classname, false)))
+            if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->classname, false)))
             {
-                throw new ServiceExceptionInvalidService(
-                    'Object: '.$identifier->classname.' does not implement ServiceInterface'
+                throw new ObjectExceptionInvalidObject(
+                    'Object: '.$identifier->classname.' does not implement ObjectInterface'
                 );
             }
 
@@ -473,10 +473,10 @@ class ServiceManager implements ServiceManagerInterface
 
             //Set the service container and identifier
             $config->service_manager    = self::getInstance();
-            $config->service_identifier = $identifier;
+            $config->object_identifier = $identifier;
 
             // Delegate object instantiation.
-            if (array_key_exists(__NAMESPACE__.'\ServiceInstantiatable', class_implements($identifier->classname, false))) {
+            if (array_key_exists(__NAMESPACE__.'\ObjectInstantiatable', class_implements($identifier->classname, false))) {
                 $result = call_user_func(array($identifier->classname, 'getInstance'), $config, self::getInstance());
             } else {
                 $result = new $identifier->classname($config);
@@ -484,10 +484,10 @@ class ServiceManager implements ServiceManagerInterface
 
             //Thrown an error if no object was instantiated
             if (!is_object($result)) {
-                throw new ServiceExceptionNotInstantiated('Cannot instantiate service object: ' . $identifier->classname);
+                throw new ObjectExceptionNotInstantiated('Cannot instantiate service object: ' . $identifier->classname);
             }
         }
-        else throw new ServiceExceptionNotFound('Cannot load service identifier: '. $identifier);
+        else throw new ObjectExceptionNotFound('Cannot load service identifier: '. $identifier);
 
         return $result;
     }

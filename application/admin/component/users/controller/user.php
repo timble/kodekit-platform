@@ -43,7 +43,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $entity = parent::_actionDelete($context);
 
-        $this->getService('com:users.model.sessions')
+        $this->getObject('com:users.model.sessions')
             ->email($entity->email)
             ->getRowset()
             ->delete();
@@ -54,7 +54,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
-        $user = $this->getService('user');
+        $user = $this->getObject('user');
 
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
             // Logged user changed. Updated in memory/session user object.

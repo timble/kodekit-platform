@@ -73,7 +73,7 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
     {
         if(!empty($this->_modified))
         {
-            $row = $this->getService($this->_table)->select($this->_id, Library\Database::FETCH_ROW);
+            $row = $this->getObject($this->_table)->select($this->_id, Library\Database::FETCH_ROW);
             $row->params = $this->_data;
 
             return (bool) $row->save();

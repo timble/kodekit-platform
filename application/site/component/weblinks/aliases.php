@@ -8,13 +8,13 @@
  */
 
 /**
- * Service Aliases
+ * Object Aliases
  *
  * @author    	Jeremy Wilken <http://nooku.assembla.com/profile/gnomeontherun>
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
 
-use Nooku\Library\ServiceManager;
+use Nooku\Library\ObjectManager;
 
-ServiceManager::setAlias('com:weblinks.model.categories', 'com:categories.model.categories');;
+ObjectManager::setAlias('com:weblinks.model.categories', 'com:categories.model.categories');;

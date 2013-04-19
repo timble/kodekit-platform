@@ -27,7 +27,7 @@ interface DispatcherInterface extends ControllerInterface
     /**
      * Method to set a controller object attached to the dispatcher
      *
-     * @param	mixed	$controller An object that implements ControllerInterface, ServiceIdentifier object
+     * @param	mixed	$controller An object that implements ControllerInterface, ObjectIdentifier object
      * 					            or valid identifier string
      * @return	DispatcherInterface
      */

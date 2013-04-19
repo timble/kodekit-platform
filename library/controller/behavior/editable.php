@@ -42,7 +42,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function lockReferrer(CommandContext $context)
     {
-        $cookie = $this->getService('lib:http.cookie', array(
+        $cookie = $this->getObject('lib:http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
             'path'   => $context->request->getBaseUrl()->getPath()
@@ -73,7 +73,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     {
         $identifier = $this->getMixer()->getIdentifier();
 
-        $referrer = $this->getService('lib:http.url',
+        $referrer = $this->getObject('lib:http.url',
             array('url' => $context->request->cookies->get('referrer', 'url'))
         );
 
@@ -105,7 +105,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             }
 
             //Add the referrer cookie
-            $cookie = $this->getService('lib:http.cookie', array(
+            $cookie = $this->getObject('lib:http.cookie', array(
                 'name'   => 'referrer',
                 'value'  => $referrer,
                 'path'   => $context->request->getBaseUrl()->getPath()

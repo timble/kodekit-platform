@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		Koowa_Service
+ * @package		Koowa_Object
  * @subpackage  Identifier
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -9,16 +9,16 @@
 namespace Nooku\Library;
 
 /**
- * Service Identifier
+ * Object Identifier
  *
- * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors
- * and methods for derived formats.
+ * Wraps identifiers of the form type://package.[.path].name in an object, providing public accessors and methods for
+ * derived formats.
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Service
+ * @package     Koowa_Object
  * @subpackage  Identifier
  */
-class ServiceIdentifier implements ServiceIdentifierInterface
+class ObjectIdentifier implements ObjectIdentifierInterface
 {
     /**
      * Associative array of identifier adapters
@@ -80,18 +80,18 @@ class ServiceIdentifier implements ServiceIdentifierInterface
      * Constructor
      *
      * @param   string   $identifier Identifier string or object in type://namespace/package.[.path].name format
-     * @throws  ServiceExceptionInvalidIdentifier If the identifier is not valid
+     * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
     public function __construct($identifier)
     {
         //Check if the identifier is valid
         if(strpos($identifier, ':') === FALSE) {
-            throw new ServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
         }
 
         //Get the parts
         if(false === $parts = parse_url($identifier)) {
-            throw new ServiceExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
+            throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
         }
 
         // Set the type
@@ -150,10 +150,10 @@ class ServiceIdentifier implements ServiceIdentifierInterface
 	/**
      * Add a service locator
      *
-     * @param ServiceLocatorInterface $locator  A ServiceLocator
+     * @param ObjectLocatorInterface $locator  A ObjectLocator
      * @return void
      */
-    public static function addLocator(ServiceLocatorInterface $locator)
+    public static function addLocator(ObjectLocatorInterface $locator)
     {
         self::$_locators[$locator->getType()] = $locator;
     }

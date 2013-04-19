@@ -26,7 +26,7 @@ class DatabaseRowLanguage extends Library\DatabaseRowTable
         
         if($this->getStatus() == Library\Database::STATUS_UPDATED && $modified && $this->enabled && $this->application == 'site')
         {
-            $tables   = $this->getService('com:languages.model.tables')->getRowset();
+            $tables   = $this->getObject('com:languages.model.tables')->getRowset();
             $database = $this->getTable()->getAdapter();
             
             foreach($tables as $table)
@@ -36,10 +36,10 @@ class DatabaseRowLanguage extends Library\DatabaseRowTable
                 // Add language specific table and copy the content of the original table.
                 $database->execute('CREATE TABLE '.$database->quoteIdentifier($table_name).' LIKE '.$database->quoteIdentifier($table->name));
                 
-                $select = $this->getService('lib:database.query.select')
+                $select = $this->getObject('lib:database.query.select')
                     ->table($table->name);
                 
-                $insert = $this->getService('lib:database.query.insert')
+                $insert = $this->getObject('lib:database.query.insert')
                     ->table($table_name)
                     ->values($select);
                 
@@ -54,7 +54,7 @@ class DatabaseRowLanguage extends Library\DatabaseRowTable
                     'original'  => ':original'
                 );
                 
-                $select = $this->getService('lib:database.query.select')
+                $select = $this->getObject('lib:database.query.select')
                     ->columns($columns)
                     ->table(array('tbl' => $table_name))
                     ->bind(array(
@@ -64,7 +64,7 @@ class DatabaseRowLanguage extends Library\DatabaseRowTable
                         'original'  => 0
                     ));
                 
-                $insert = $this->getService('lib:database.query.insert')
+                $insert = $this->getObject('lib:database.query.insert')
                     ->table('languages_translations')
                     ->columns(array_keys($columns))
                     ->values($select);

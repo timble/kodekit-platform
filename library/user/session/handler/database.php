@@ -142,7 +142,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
 
@@ -163,11 +163,11 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
         if (!($this->_table instanceof DatabaseTableInterface))
         {
             //Make sure we have a table identifier
-            if (!($this->_table instanceof ServiceIdentifier)) {
+            if (!($this->_table instanceof ObjectIdentifier)) {
                 $this->setTable($this->_table);
             }
 
-            $this->_table = $this->getService($this->_table);
+            $this->_table = $this->getObject($this->_table);
 
             if (!($this->_table instanceof DatabaseTableInterface))
             {
@@ -183,7 +183,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
     /**
      * Set a table object attached to the handler
      *
-     * @param   mixed   $table An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed   $table An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
      * @return UserSessionHandlerDatabase
      */

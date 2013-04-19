@@ -8,15 +8,15 @@
  */
 
 /**
- * Service Aliases
+ * Object Aliases
  *
  * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
 
-use Nooku\Library\ServiceManager;
+use Nooku\Library\ObjectManager;
 
-ServiceManager::setAlias('com:articles.model.terms', 'com:terms.model.terms');
-ServiceManager::setAlias('com:articles.model.categories', 'com:categories.model.categories');
-ServiceManager::setAlias('com:articles.view.attachment.file', 'com:attachments.view.attachment.file');
+ObjectManager::setAlias('com:articles.model.terms', 'com:terms.model.terms');
+ObjectManager::setAlias('com:articles.model.categories', 'com:categories.model.categories');
+ObjectManager::setAlias('com:articles.view.attachment.file', 'com:attachments.view.attachment.file');

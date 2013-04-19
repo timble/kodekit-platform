@@ -25,16 +25,16 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     /**
      * The service identifier
      *
-     * @var ServiceIdentifier
+     * @var ObjectIdentifier
      */
-    private $__service_identifier;
+    private $__object_identifier;
 
     /**
      * The service manager
      *
-     * @var ServiceManager
+     * @var ObjectManager
      */
-    private $__service_manager;
+    private $__object_manager;
 
     /**
      * Constructor.
@@ -45,12 +45,12 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     {
         //Set the service container
         if (isset($config->service_manager)) {
-            $this->__service_manager = $config->service_manager;
+            $this->__object_manager = $config->service_manager;
         }
 
         //Set the service identifier
-        if (isset($config->service_identifier)) {
-            $this->__service_identifier = $config->service_identifier;
+        if (isset($config->object_identifier)) {
+            $this->__object_identifier = $config->object_identifier;
         }
 
         parent::__construct($config);
@@ -161,7 +161,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
         unset($methods['getIdentifier']);
         unset($methods['getPriority']);
         unset($methods['getHandle']);
-        unset($methods['getService']);
+        unset($methods['getObject']);
 
         return $methods;
     }
@@ -172,23 +172,23 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * @param    string|object    $identifier The class identifier or identifier object
      * @param    array            $config     An optional associative array of configuration settings.
      * @throws   \RuntimeException If the service manager has not been defined.
-     * @return   Service Return object on success, throws exception on failure
-     * @see      ServiceInterface
+     * @return   Object Return object on success, throws exception on failure
+     * @see      ObjectInterface
      */
-    final public function getService($identifier = null, array $config = array())
+    final public function getObject($identifier = null, array $config = array())
     {
         if (isset($identifier))
         {
-            if (!isset($this->__service_manager))
+            if (!isset($this->__object_manager))
             {
                 throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getService(). No service_manager object defined."
+                    "Failed to call " . get_class($this) . "::getObject(). No service_manager object defined."
                 );
             }
 
-            $result = $this->__service_manager->get($identifier, $config);
+            $result = $this->__object_manager->get($identifier, $config);
         }
-        else $result = $this->__service_manager;
+        else $result = $this->__object_manager;
 
         return $result;
     }
@@ -198,23 +198,23 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      *
      * @param   string|object     $identifier The class identifier or identifier object
      * @throws  \RuntimeException If the service manager has not been defined.
-     * @return  ServiceIdentifier
-     * @see     ServiceInterface
+     * @return  ObjectIdentifier
+     * @see     ObjectInterface
      */
     final public function getIdentifier($identifier = null)
     {
         if (isset($identifier))
         {
-            if (!isset($this->__service_manager))
+            if (!isset($this->__object_manager))
             {
                 throw new \RuntimeException(
                     "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
                 );
             }
 
-            $result = $this->__service_manager->getIdentifier($identifier);
+            $result = $this->__object_manager->getIdentifier($identifier);
         }
-        else  $result = $this->__service_identifier;
+        else  $result = $this->__object_identifier;
 
         return $result;
     }

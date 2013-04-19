@@ -99,7 +99,7 @@ class DatabaseRowNode extends Library\DatabaseRowTable
                 'identity_column' => $this->getIdentityColumn()
             );
                
-            $this->_children = $this->getService($identifier, $options); 
+            $this->_children = $this->getObject($identifier, $options);
         }
         
 	    return $this->_children;

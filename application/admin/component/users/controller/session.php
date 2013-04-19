@@ -53,7 +53,7 @@ class UsersControllerSession extends ApplicationControllerDefault
     public function authenticate(Library\CommandContext $context)
     {
         //Load the user
-        $user = $this->getService('com:users.model.users')->email($context->request->data->get('email', 'email'))->getRow();
+        $user = $this->getObject('com:users.model.users')->email($context->request->data->get('email', 'email'))->getRow();
 
         if(!$user->isNew())
         {
@@ -119,7 +119,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         $entity = parent::_actionAdd($context);
 
         //Set the session data
-        $session->site = $this->getService('application')->getSite();
+        $session->site = $this->getObject('application')->getSite();
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());

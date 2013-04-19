@@ -35,7 +35,7 @@ class FilterFileMimetype extends Library\FilterAbstract
 					$mimetype = $info ? $info['mime'] : false;
 				}
                 elseif ($row->file instanceof SplFileInfo) {
-					$mimetype = $this->getService('com:files.mixin.mimetype')->getMimetype($row->file->getPathname());
+					$mimetype = $this->getObject('com:files.mixin.mimetype')->getMimetype($row->file->getPathname());
 				}
 			}
 

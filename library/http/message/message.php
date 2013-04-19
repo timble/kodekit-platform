@@ -94,7 +94,7 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      */
     public function setHeaders($headers)
     {
-        $this->_headers = $this->getService('lib:http.message.headers', array('headers' => $headers));
+        $this->_headers = $this->getObject('lib:http.message.headers', array('headers' => $headers));
         return $this;
     }
 

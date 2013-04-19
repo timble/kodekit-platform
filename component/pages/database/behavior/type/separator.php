@@ -23,15 +23,15 @@ class DatabaseBehaviorTypeSeparator extends DatabaseBehaviorTypeAbstract
 
     protected $_type_description;
 
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->has($config->service_identifier)) {
-            $manager->set($config->service_identifier, $instance);
+        if(!$manager->has($config->object_identifier)) {
+            $manager->set($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->get($config->object_identifier);
     }
 
     public function getTypeTitle()

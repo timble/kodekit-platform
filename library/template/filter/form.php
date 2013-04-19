@@ -81,7 +81,7 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     protected function _tokenValue($force = false)
     {
         if (empty($this->_token_value) || $force) {
-            $this->_token_value = $this->getService('user')->getSession()->getToken($force);
+            $this->_token_value = $this->getObject('user')->getSession()->getToken($force);
         }
 
         return $this->_token_value;

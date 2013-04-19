@@ -13,7 +13,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-interface BehaviorInterface extends CommandInterface, ServiceInterface
+interface BehaviorInterface extends CommandInterface, ObjectInterface
 {
 	
 }

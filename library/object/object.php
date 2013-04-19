@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @category    Koowa
  * @package     Koowa_Object
  */
-class Object extends Service implements ObjectInterface
+class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
 {
     /**
      * Class methods
@@ -23,6 +23,20 @@ class Object extends Service implements ObjectInterface
      * @var array
      */
     private $__methods = array();
+
+    /**
+     * The object identifier
+     *
+     * @var ObjectIdentifier
+     */
+    private $__object_identifier;
+
+    /**
+     * The service manager
+     *
+     * @var ObjectManager
+     */
+    private $__object_manager;
 
     /**
      * Mixed in methods
@@ -39,7 +53,15 @@ class Object extends Service implements ObjectInterface
      */
     public function __construct(Config $config)
     {
-        parent::__construct($config);
+        //Set the service container
+        if (isset($config->service_manager)) {
+            $this->__object_manager = $config->service_manager;
+        }
+
+        //Set the service identifier
+        if (isset($config->object_identifier)) {
+            $this->__object_identifier = $config->object_identifier;
+        }
 
         //Initialise the object
         $this->_initialize($config);
@@ -77,7 +99,7 @@ class Object extends Service implements ObjectInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ServiceIdentifier object
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
      * @return  ObjectInterface
@@ -86,7 +108,7 @@ class Object extends Service implements ObjectInterface
     {
         if (!($mixin instanceof ObjectMixinInterface))
         {
-            if (!($mixin instanceof ServiceIdentifier))
+            if (!($mixin instanceof ObjectIdentifier))
             {
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($mixin) && strpos($mixin, '.') === false)
@@ -123,7 +145,7 @@ class Object extends Service implements ObjectInterface
      *
      * When using decorate(), the object will be decorated by the decorator
      *
-     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ServiceIdentifier object
+     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
      *                              or valid identifier string
      * @param    array $config  An optional associative array of configuration options
      * @return   ObjectDecoratable
@@ -132,7 +154,7 @@ class Object extends Service implements ObjectInterface
     {
         if (!($decorator instanceof ObjectDecorator))
         {
-            if (!($decorator instanceof ServiceIdentifier))
+            if (!($decorator instanceof ObjectIdentifier))
             {
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($decorator) && strpos($decorator, '.') === false)
@@ -220,6 +242,59 @@ class Object extends Service implements ObjectInterface
         }
 
         return $this->__methods;
+    }
+
+    /**
+     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     *
+     * @param    string|object    $identifier The class identifier or identifier object
+     * @param    array            $config     An optional associative array of configuration settings.
+     * @throws   \RuntimeException If the service manager has not been defined.
+     * @return   object            Return object on success, throws exception on failure
+     * @see      ObjectInterface
+     */
+    final public function getObject($identifier = null, array $config = array())
+    {
+        if (isset($identifier))
+        {
+            if (!isset($this->__object_manager))
+            {
+                throw new \RuntimeException(
+                    "Failed to call " . get_class($this) . "::getObject(). No service_manager object defined."
+                );
+            }
+
+            $result = $this->__object_manager->get($identifier, $config);
+        }
+        else $result = $this->__object_manager;
+
+        return $result;
+    }
+
+    /**
+     * Gets the service identifier.
+     *
+     * @param   string|object    $identifier The class identifier or identifier object
+     * @throws  \RuntimeException If the service manager has not been defined.
+     * @return  ObjectIdentifier
+     * @see     ObjectInterface
+     */
+    final public function getIdentifier($identifier = null)
+    {
+        if (isset($identifier))
+        {
+            if (!isset($this->__object_manager))
+            {
+                throw new \RuntimeException(
+                    "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
+                );
+            }
+
+            $result = $this->__object_manager->getIdentifier($identifier);
+        }
+        else  $result = $this->__object_identifier;
+
+        return $result;
     }
 
     /**

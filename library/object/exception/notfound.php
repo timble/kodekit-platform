@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Koowa_Service
+ * @package     Koowa_Object
  * @subpackage  Exception
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
@@ -10,10 +10,10 @@
 namespace Nooku\Library;
 
 /**
- * Service Exception Not Found Class
+ * Object Exception Not Found Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  * @subpackage  Exception
  */
-class ServiceExceptionNotFound extends \RuntimeException implements ServiceException {}
+class ObjectExceptionNotFound extends \RuntimeException implements ObjectException {}

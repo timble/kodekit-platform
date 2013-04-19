@@ -70,7 +70,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 		if(!empty($modified))
 		{
 			if($this->has('modified_by')) {
-				$this->modified_by = (int) $this->getService('user')->getId();
+				$this->modified_by = (int) $this->getObject('user')->getId();
 			}
 
 			if($this->has('modified_on')) {
