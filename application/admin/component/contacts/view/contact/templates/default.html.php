@@ -121,39 +121,7 @@
 
 	<div class="sidebar">
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
-				<legend><?= @text('Publish'); ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="published"><?= @text( 'Published' ); ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="published" value="1" <?= $contact->published ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for="access"><?= @text('Registered') ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="access" value="1" <?= $contact->access ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-			</fieldset>
-	
-	        <fieldset class="categories group">
-	            <legend><?= @text('Category') ?></legend>
-	            <div class="control-group">
-	                <?= @helper('listbox.radiolist', array(
-	                		'list'     => @object('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
-	                		'selected' => $contact->categories_category_id,
-	                		'name'     => 'categories_category_id',
-	                        'text'     => 'title',
-	                	));
-	                ?>
-	            </div>
-	        </fieldset>
-			
-			<fieldset class="form-horizontal">
-				<legend><?= @text('Parameters'); ?></legend>
-				<?= $contact->params->render(); ?>
-			</fieldset>
+            <?= @template('default_sidebar.html'); ?>
 		</div>
 	</div>
 	
