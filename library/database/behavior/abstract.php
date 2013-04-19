@@ -38,7 +38,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
             $identifier->path = array('database', 'row');
             $identifier->name = StringInflector::singularize($identifier->name);
 
-            $manager->addMixin($identifier, $instance);
+            $manager->registerMixin($identifier, $instance);
         }
 
         return $instance;

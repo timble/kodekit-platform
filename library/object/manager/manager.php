@@ -184,17 +184,17 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
-     * Set a mixin or an array of mixins for an identifier
+     * Register a mixin or an array of mixins for an identifier
      *
      * The mixins are mixed when the indentified object is first instantiated see {@link get} Mixins are also added to
-     * services that already exist in the service registry.
+     * services that already exist in the object registry.
      *
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
-     * @param  string A mixin identifier string
+     * @param  string $mixin    A mixin identifier string
      * @see Object::mixin()
      */
-    public static function addMixin($identifier, $mixin)
+    public static function registerMixin($identifier, $mixin)
     {
         $objIdentifier = self::getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
@@ -235,17 +235,17 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
-     * Set a decorator or an array of decorators for an identifier
+     * Register a decorator or an array of decorators for an identifier
      *
-     * The object is decorated when it's first instantiated see {@link get} Decorators are also added to services that
-     * already exist in the service registry.
+     * The object is decorated when it's first instantiated see {@link get} Decorators are also added to objects that
+     * already exist in the object registry.
      *
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $decorator  A decorator identifier
      * @see Object::decorate()
      */
-    public static function addDecorator($identifier, $decorator)
+    public static function registerDecorator($identifier, $decorator)
     {
         $objIdentifier = self::getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
