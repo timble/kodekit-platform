@@ -10,13 +10,13 @@
 use Nooku\Library;
 
 /**
- * Application Pathway Config
+ * Application Pathway ObjectConfig
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationConfigPathway extends Library\Config
+class ApplicationConfigPathway extends Library\ObjectConfig
 {
     /**
      * Add item to pathway

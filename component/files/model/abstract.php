@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 abstract class ModelAbstract extends Library\ModelAbstract
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -40,7 +40,7 @@ abstract class ModelAbstract extends Library\ModelAbstract
 			;
 	}
 
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'state' => new ModelState()

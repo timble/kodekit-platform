@@ -45,7 +45,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
      */
     protected $_date;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
         
@@ -53,7 +53,7 @@ class DatabaseBehaviorPublishable extends Library\DatabaseBehaviorAbstract
         $this->_date  = new Library\Date(array('timezone' => 'GMT'));
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'table'=> 'articles'

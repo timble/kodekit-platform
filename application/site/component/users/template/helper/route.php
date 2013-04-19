@@ -20,7 +20,7 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
 {
 	public function session($config = array())
 	{
-        $config   = new Library\Config($config);
+        $config   = new Library\ObjectConfig($config);
         $config->append(array(
            'layout' => null
         ));
@@ -47,7 +47,7 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function user($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'access' => null,
             'layout' => null

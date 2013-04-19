@@ -48,10 +48,10 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Constructor
      *
-     * @param Config  $config  A Config object with optional configuration options
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
      * @return Object
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         //Set the service container
         if (isset($config->service_manager)) {
@@ -67,7 +67,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
         $this->_initialize($config);
 
         //Add the mixins
-        $mixins = (array)Config::unbox($config->mixins);
+        $mixins = (array)ObjectConfig::unbox($config->mixins);
 
         foreach ($mixins as $key => $value)
         {
@@ -84,10 +84,10 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'mixins' => array(),
@@ -121,7 +121,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             }
             else $identifier = $mixin;
 
-            $mixin = new $identifier->classname(new Config($config));
+            $mixin = new $identifier->classname(new ObjectConfig($config));
 
             if(!$mixin instanceof ObjectMixinInterface)
             {
@@ -167,7 +167,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             }
             else $identifier = $decorator;
 
-            $decorator = new $identifier->classname(new Config($config));
+            $decorator = new $identifier->classname(new ObjectConfig($config));
 
             if(!$decorator instanceof ObjectDecoratorInterface)
             {

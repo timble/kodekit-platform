@@ -19,7 +19,7 @@ use Nooku\Library;
  
 class UsersModuleLoginHtml extends PagesModuleDefaultHtml
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     { 
         $config->append(array(
             'layout' => $this->getObject('user')->isAuthentic() ? 'logout' : 'login'

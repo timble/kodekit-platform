@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectInstantiatable
 {
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {

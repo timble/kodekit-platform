@@ -30,10 +30,10 @@ class ApplicationTemplateFilterModule extends Pages\TemplateFilterModule
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\Config object with configuration options
+     * @param   object  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'modules' => 'application.modules',

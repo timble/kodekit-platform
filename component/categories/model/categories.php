@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelCategories extends Library\ModelTable
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
 	{
         parent::__construct($config);
 
@@ -83,10 +83,8 @@ class ModelCategories extends Library\ModelTable
         {
             $query->where('tbl.published = :published');
 
-            if ($state->table)
-            {
-                //@TODO : com_articles doesn't have a published column need to fix this
-                //$query->where('content.published = :published');
+            if ($state->table) {
+                $query->where('content.published = :published');
             }
 
             $query->bind(array('published' => (int) $state->published));

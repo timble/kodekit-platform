@@ -21,7 +21,7 @@ class DatabaseRowFile extends DatabaseRowNode
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 

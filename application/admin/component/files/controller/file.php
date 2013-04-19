@@ -18,14 +18,14 @@ use Nooku\Library;
  */
 class FilesControllerFile extends FilesControllerAbstract
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
 		$this->registerCallback(array('before.add', 'before.edit'), array($this, 'addFile'));
 	}
 	
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'behaviors' => array('thumbnailable')

@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelSites extends Library\ModelAbstract implements Library\ObjectInstantiatable
 {	
-     public function __construct(Library\Config $config)
+     public function __construct(Library\ObjectConfig $config)
      {
          parent::__construct($config);
          
@@ -32,7 +32,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectInstanti
              ->insert('search'    , 'string');
     }
 
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {

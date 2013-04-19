@@ -21,7 +21,7 @@ class PagesTemplateHelperList extends Library\TemplateHelperAbstract
 {
     public function pages($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'pages'    => array(),
             'active'   => null,

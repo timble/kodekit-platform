@@ -31,7 +31,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      */
     protected $_parent_column;
 
-    public function __construct( Library\Config $config)
+    public function __construct( Library\ObjectConfig $config)
     {
         $config->append(array('parent_column' => null));
         $this->_parent_column = $config->parent_column;

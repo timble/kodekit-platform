@@ -37,9 +37,9 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
     /**
      * Constructor
      *
-     * @param Config $object    An optional Config object with configuration options.
+     * @param ObjectConfig $object    An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -47,7 +47,7 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
         $this->_auto_mixin = $config->auto_mixin;
 
         //Add the behaviors
-        $behaviors = (array)Config::unbox($config->behaviors);
+        $behaviors = (array)ObjectConfig::unbox($config->behaviors);
 
         foreach ($behaviors as $key => $value)
         {
@@ -64,10 +64,10 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config   An optional Config object with configuration options.
+     * @param  ObjectConfig $config   An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         parent::_initialize($config);
 

@@ -65,10 +65,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     /**
      * Object constructor
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @throrws \RuntimeException If the table does not exist.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -106,7 +106,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (!empty($config->filters))
         {
             foreach ($config->filters as $column => $filter) {
-                $this->getColumn($column, true)->filter = Config::unbox($filter);
+                $this->getColumn($column, true)->filter = ObjectConfig::unbox($filter);
             }
         }
 
@@ -125,10 +125,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $package = $this->getIdentifier()->package;
         $name = $this->getIdentifier()->name;
@@ -177,7 +177,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     /**
      * Set the database adapter
      *
-     * @param DatabaseAdpaterInterface $adapter
+     * @param DatabaseAdapterInterface $adapter
      * @return DatabaseQueryInterface
      */
     public function setAdapter(DatabaseAdapterInterface $adapter)
@@ -259,7 +259,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * Get a column by name
      *
      * @param  boolean  If TRUE, get the column information from the base table.
-     * @return DatabaseColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
+     * @return DatabaseSchemaColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
      */
     public function getColumn($columnname, $base = false)
     {
@@ -542,7 +542,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                             $data[$key] = $this->mapColumns($value, true);
                         }
                     }
-                    else $data = $this->mapColumns(Config::unbox($data), true);
+                    else $data = $this->mapColumns(ObjectConfig::unbox($data), true);
                 }
             }
 
@@ -580,7 +580,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $this->getCommandChain()->run('after.select', $context);
         }
 
-        return Config::unbox($context->data);
+        return ObjectConfig::unbox($context->data);
     }
 
     /**

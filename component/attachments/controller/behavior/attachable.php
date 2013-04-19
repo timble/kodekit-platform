@@ -49,7 +49,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	 */
 	protected $_attachment_limit = false;
 	
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 		
@@ -79,7 +79,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 		$this->_attachment_limit = $config->attachment_limit;
 	}
 	
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'container' => 'attachments-attachments',

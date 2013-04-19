@@ -19,9 +19,9 @@ class DispatcherApplication extends DispatcherAbstract implements ObjectInstanti
     /**
      * Constructor.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param 	object 	An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -34,10 +34,10 @@ class DispatcherApplication extends DispatcherAbstract implements ObjectInstanti
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param 	object 	An optional ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
         	'component' => $this->getIdentifier()->package,
@@ -49,11 +49,11 @@ class DispatcherApplication extends DispatcherAbstract implements ObjectInstanti
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherApplication
      */
-    public static function getInstance(Config $config, ObjectManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
         // Check if an instance with this identifier already exists
         if (!$manager->has('application'))

@@ -9,12 +9,12 @@
 namespace Nooku\Library;
 
 /**
- * Config Factory
+ * ObjectConfig Factory
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class ConfigFactory extends Object implements ObjectInstantiatable
+class ObjectConfigFactory extends Object implements ObjectInstantiatable
 {
     /**
      * Registered config file formats.
@@ -26,11 +26,11 @@ class ConfigFactory extends Object implements ObjectInstantiatable
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  ConfigFactory
+     * @return  ObjectConfigFactory
      */
-    public static function getInstance(Config $config, ObjectManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {
@@ -45,9 +45,9 @@ class ConfigFactory extends Object implements ObjectInstantiatable
     /**
      * Constructor
      *
-     * @param Config $config An optional Config object with configuration options.
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -59,17 +59,17 @@ class ConfigFactory extends Object implements ObjectInstantiatable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param 	object 	An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'formats' => array(
-                'ini'  => 'Nooku\Library\ConfigIni',
-                'json' => 'jNooku\Library\ConfigJson',
-                'xml'  => 'Nooku\Library\ConfigXml',
-                'yaml' => 'Nooku\Library\ConfigYaml'
+                'ini'  => 'Nooku\Library\Object\ObjectConfigIni',
+                'json' => 'jNooku\Library\Object\ObjectConfigJson',
+                'xml'  => 'Nooku\Library\Object\ObjectConfigXml',
+                'yaml' => 'Nooku\Library\Object\ObjectConfigYaml'
             )
         ));
 
@@ -79,10 +79,10 @@ class ConfigFactory extends Object implements ObjectInstantiatable
     /**
      * Get a registered config object.
      *
-     * @param  string $name The format name
+     * @param  string $format The format name
      * @throws \InvalidArgumentException    If the format isn't registered
-     * @throws	\UnexpectedValueException	If the format object doesn't implement the ConfigSerializable
-     * @return	ConfigFactory
+     * @throws	\UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
+     * @return	ObjectConfigFactory
      */
     public function getConfig($format)
     {
@@ -94,14 +94,14 @@ class ConfigFactory extends Object implements ObjectInstantiatable
 
         $format = $this->_formats[$format];
 
-        if(!($format instanceof ConfigSerializable))
+        if(!($format instanceof ObjectConfigSerializable))
         {
             $format = new $format();
 
-            if(!$format instanceof ConfigSerializable)
+            if(!$format instanceof ObjectConfigSerializable)
             {
                 throw new \UnexpectedValueException(
-                    'Format: '.get_class($format).' does not implement ConfigSerializable Interface'
+                    'Format: '.get_class($format).' does not implement ObjectConfigSerializable Interface'
                 );
             }
 
@@ -118,7 +118,7 @@ class ConfigFactory extends Object implements ObjectInstantiatable
      * @param string $format    The name of the format
      * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
      * 					        or valid identifier string
-     * @return	ConfigFactory
+     * @return	ObjectConfigFactory
      * throws \InvalidArgumentException If the class does not exist.
      */
     public function registerFormat($format, $class)
@@ -135,7 +135,7 @@ class ConfigFactory extends Object implements ObjectInstantiatable
      * Read a config from a file.
      *
      * @param  string  $filename
-     * @return Config
+     * @return ObjectConfig
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
@@ -158,11 +158,11 @@ class ConfigFactory extends Object implements ObjectInstantiatable
      * Writes a config to a file
      *
      * @param string $filename
-     * @param Config $config
+     * @param ObjectConfig $config
      * @return boolean TRUE on success. FALSE on failure
      * @throws \RuntimeException
      */
-    public function toFile($filename, Config $config)
+    public function toFile($filename, ObjectConfig $config)
     {
         $pathinfo = pathinfo($filename);
 

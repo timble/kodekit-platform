@@ -61,9 +61,9 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -78,7 +78,7 @@ abstract class ViewTemplate extends ViewAbstract
         $this->_auto_assign = $config->auto_assign;
 
         //Set the data
-        $this->_data = Config::unbox($config->data);
+        $this->_data = ObjectConfig::unbox($config->data);
 
         //Set the user-defined escaping callback
         $this->setEscape($config->escape);
@@ -90,7 +90,7 @@ abstract class ViewTemplate extends ViewAbstract
         $this->_template = $config->template;
 
         //Attach the template filters
-        $filters = (array)Config::unbox($config->template_filters);
+        $filters = (array)ObjectConfig::unbox($config->template_filters);
 
         foreach ($filters as $key => $value)
         {
@@ -112,10 +112,10 @@ abstract class ViewTemplate extends ViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         //Clone the identifier
         $identifier = clone $this->getIdentifier();

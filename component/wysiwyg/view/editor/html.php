@@ -21,7 +21,7 @@ class ViewEditorHtml extends Library\ViewHtml
 {
     protected $_editor_settings;
     
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -37,7 +37,7 @@ class ViewEditorHtml extends Library\ViewHtml
         }
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $language = \JFactory::getLanguage();
 
@@ -104,7 +104,7 @@ class ViewEditorHtml extends Library\ViewHtml
     
 	public function render()
 	{
-		$options = new Library\Config(array(
+		$options = new Library\ObjectConfig(array(
 			'lang' => array(
 				'html'		=> \JText::_('HTML'),
 				'visual'	=> \JText::_('Visual')
@@ -122,7 +122,7 @@ class ViewEditorHtml extends Library\ViewHtml
 		
 		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
-		$this->options    = Library\Config::unbox($options);
+		$this->options    = Library\ObjectConfig::unbox($options);
 		$this->settings   = $this->getEditorSettings();
 		$this->codemirror = $this->codemirror;
 
@@ -131,7 +131,7 @@ class ViewEditorHtml extends Library\ViewHtml
 	
     public function getEditorSettings()
 	{
-	    return Library\Config::unbox($this->_editor_settings);
+	    return Library\ObjectConfig::unbox($this->_editor_settings);
 	}
 	
 	public function setEditorSettings(array $settings = array())

@@ -26,7 +26,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
      */
     public function enabled( $config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
@@ -59,7 +59,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
      */
     public function published( $config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
@@ -102,7 +102,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	 */
     protected function _render($config = array())
  	{
- 	    $config = new Config($config);
+ 	    $config = new ObjectConfig($config);
  	    $config->append(array(
  	        'autocomplete' => false
  	    ));
@@ -134,7 +134,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	 */
 	protected function _listbox($config = array())
  	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'name'		  => '',
 			'attribs'	  => array(),
@@ -186,7 +186,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	 */
 	protected function _autocomplete($config = array())
  	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 		    'name'		 => '',
 			'attribs'	 => array(),

@@ -25,7 +25,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 	 */
 	protected $_adapters = array();
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -34,7 +34,7 @@ class DatabaseRowUrl extends Library\DatabaseRowAbstract
 		}
 	}
 
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		if (empty($config->adapters)) {
 			$config->adapters = array('curl', 'fsockopen', 'fopen');

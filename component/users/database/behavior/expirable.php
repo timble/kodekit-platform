@@ -33,7 +33,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
      */
     protected $_expirable;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -41,7 +41,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         $this->_expirable     = $config->expirable;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $params = $this->getObject('application.components')->users->params;
 

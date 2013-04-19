@@ -27,7 +27,7 @@ class TemplateHelperForm extends Library\TemplateHelperDefault
      */
     public function password($config = array()) {
 
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
         $config->append(array(
             'class'                    => 'help-block',

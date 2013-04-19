@@ -25,12 +25,12 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
     protected $_old_row;
     
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         if($config->columns) {
-            $this->_columns = Library\Config::unbox($config->columns);
+            $this->_columns = Library\ObjectConfig::unbox($config->columns);
         }
 
         if($config->table) {
@@ -38,7 +38,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         }
     }
     
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'priority'   => Library\CommandChain::PRIORITY_LOWEST,

@@ -19,7 +19,7 @@ use Nooku\Library;
 
 abstract class FilesControllerAbstract extends ApplicationControllerDefault
 {
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'persistable'   => false,
@@ -50,7 +50,7 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\Config::unbox($context->request->data->toArray()));
+			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->copy() === false)
@@ -76,7 +76,7 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\Config::unbox($context->request->data->toArray()));
+			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->move() === false)

@@ -34,13 +34,13 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     /**
      * Constructor.
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_fallbacks = Config::unbox($config->fallbacks);
+        $this->_fallbacks = ObjectConfig::unbox($config->fallbacks);
     }
 
     /**
@@ -48,10 +48,10 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config An optional Config object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'fallbacks' => array(),

@@ -41,9 +41,9 @@ class ObjectMixinEvent extends ObjectMixinAbstract
     /**
      * Object constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -60,7 +60,7 @@ class ObjectMixinEvent extends ObjectMixinAbstract
         }
 
         //Add the event handlers
-        $subscribers = (array)Config::unbox($config->event_subscribers);
+        $subscribers = (array)ObjectConfig::unbox($config->event_subscribers);
 
         foreach ($subscribers as $key => $value)
         {
@@ -77,10 +77,10 @@ class ObjectMixinEvent extends ObjectMixinAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $config  An optional Config object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'event_dispatcher'  => null,

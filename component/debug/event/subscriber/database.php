@@ -36,11 +36,11 @@ class EventSubscriberDatabase extends Library\EventSubscriberAbstract implements
 	/**
      * Force creation of a singleton
      *
-     * @param 	Library\Config                     $config	  A Library\Config object with configuration options
+     * @param 	Library\ObjectConfig                     $config	  A Library\ObjectConfig object with configuration options
      * @param 	Library\ObjectManagerInterface	$manager      ObjectInterface object
      * @return  ProfilerEvents
      */
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {

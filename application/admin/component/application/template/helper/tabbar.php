@@ -26,7 +26,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'tabbar'  => null,
             'attribs' => array(),
@@ -68,7 +68,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'command' => null
         ));

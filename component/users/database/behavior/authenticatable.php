@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'auto_mixin' => true

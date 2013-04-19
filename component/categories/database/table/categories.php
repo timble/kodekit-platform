@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseTableCategories extends Library\DatabaseTableDefault
 {
-    public function  _initialize(Library\Config $config)
+    public function  _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'name'       => 'categories',

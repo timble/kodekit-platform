@@ -36,9 +36,9 @@ class EventProfiler extends Library\EventDispatcherAbstract
  	/**
      * Constructor.
      *
-     * @param	object  An optional Library\Config object with configuration options
+     * @param	object  An optional Library\ObjectConfig object with configuration options
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {          
         parent::__construct($config);
         
@@ -50,10 +50,10 @@ class EventProfiler extends Library\EventDispatcherAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\Config object with configuration options
+     * @param   object  An optional Library\ObjectConfig object with configuration options
      * @return void
 	 */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
         	'start'   => microtime(true),
@@ -103,7 +103,7 @@ class EventProfiler extends Library\EventDispatcherAbstract
      * This function will add a mark to the profiler for each event dispatched
      *
      * @param   string  The event name
-     * @param   object|array   An array, a Library\Config or a Library\Event object
+     * @param   object|array   An array, a Library\ObjectConfig or a Library\Event object
      * @return  Library\EventDispatcher
      */
     public function dispatchEvent($name, $event = array())

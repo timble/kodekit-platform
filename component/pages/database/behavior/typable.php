@@ -39,14 +39,14 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         'getLink'
     );
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_populateStrategies();
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'auto_mixin' => true
@@ -55,7 +55,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 

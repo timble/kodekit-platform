@@ -18,9 +18,9 @@ interface ObjectInstantiatable
     /**
      * Instantiate the object
      *
-     *  @param 	Config                  $config	  A Config object with configuration options
+     *  @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return  object
      */
-    public static function getInstance(Config $config, ObjectManagerInterface $manager);
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager);
 }

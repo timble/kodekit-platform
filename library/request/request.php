@@ -68,7 +68,7 @@ class Request
      *
      * Prevent creating instances of this class by making the contructor private
      */
-    final private function __construct(Config $config)
+    final private function __construct(ObjectConfig $config)
     {
         $content = self::content();
 
@@ -132,8 +132,8 @@ class Request
 
         if ($instance === NULL)
         {
-            if(!$config instanceof Config) {
-                $config = new Config($config);
+            if(!$config instanceof ObjectConfig) {
+                $config = new ObjectConfig($config);
             }
 
             $instance = new self($config);

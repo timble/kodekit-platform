@@ -9,18 +9,18 @@
 namespace Nooku\Library;
 
 /**
- * Config Serializable Interface
+ * ObjectConfig Serializable Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-interface ConfigSerializable
+interface ObjectConfigSerializable
 {
     /**
-     * Read from a string and create a Config object
+     * Read from a string and create a ObjectConfig object
      *
      * @param  string $string
-     * @return Config|false   Returns a Config object. False on failure.
+     * @return ObjectConfig|false   Returns a ObjectConfig object. False on failure.
      * @throws \RuntimeException
      */
     public static function fromString($string);
@@ -36,7 +36,7 @@ interface ConfigSerializable
      * Read from a file and create an array
      *
      * @param  string $filename
-     * @return ConfigSerializable
+     * @return ObjectConfigSerializable
      * @throws \RuntimeException
      */
     public static function fromFile($filename);

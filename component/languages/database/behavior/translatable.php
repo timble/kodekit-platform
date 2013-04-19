@@ -21,7 +21,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
 {
     protected $_tables;
     
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
         
@@ -30,7 +30,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ->getRowset();
     }
     
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         if(!$manager->has($config->object_identifier))
         {

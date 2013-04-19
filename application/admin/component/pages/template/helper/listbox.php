@@ -21,7 +21,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function menus($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'model'		=> 'menus',
 			'name' 		=> 'pages_menu_id',
@@ -34,7 +34,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
     
     public function pages($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'deselect' => true,
             'prompt' => '- Select -',
@@ -57,7 +57,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
                 $options[] = $this->option(array(
                     'text' => str_repeat(str_repeat('&nbsp;', 4), $page->level).$page->title,
                     'value' => $page->id,
-                    'disable' => in_array($page->type, Library\Config::unbox($config->disable))
+                    'disable' => in_array($page->type, Library\ObjectConfig::unbox($config->disable))
                 ));
             }
         }
@@ -69,7 +69,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function parents($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name' => 'parent_id',
             'page' => null,
@@ -113,7 +113,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function positions($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name' => 'position',
         ));

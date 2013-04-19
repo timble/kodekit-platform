@@ -10,19 +10,19 @@
 namespace Nooku\Library;
 
 /**
- * Config Format Ini
+ * ObjectConfig Format Ini
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  * @subpackage  Format
  */
-class ConfigIni extends ConfigFormat
+class ObjectConfigIni extends ObjectConfigFormat
 {
     /**
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ConfigIni|false   Returns a Config object. False on failure.
+     * @return ObjectConfigIni|false   Returns a ObjectConfig object. False on failure.
      * @throws \RuntimeException
      */
     public static function fromString($string)
@@ -49,7 +49,7 @@ class ConfigIni extends ConfigFormat
      * There is no way to have ini values nested further than two levels deep.  Therefore we will only go through the
      * first two levels of the object.
      *
-     * @param  Config $config
+     * @param  ObjectConfig $config
      * @return string|false   Returns a INI encoded string on success. False on failure.
      */
     public function toString()

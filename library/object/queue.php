@@ -38,10 +38,10 @@ class ObjectQueue extends Object implements \Iterator, \Countable
     /**
      * Constructor
      *
-     * @param Config $config  A Config object with configuration options
+     * @param ObjectConfig $config  A ObjectConfig object with configuration options
      * @return ObjectQueue
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 

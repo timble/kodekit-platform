@@ -22,11 +22,11 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
 	/**
      * Check for overrides of the helper
      *
-     * @param   Library\Config         	        $config  An optional Library\Config object with configuration options
+     * @param   Library\ObjectConfig         	        $config  An optional Library\ObjectConfig object with configuration options
      * @param 	Library\ObjectManagerInterface	$manager A Library\ObjectManagerInterface object
      * @return  TemplateHelperActivity
      */
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $identifier = clone $config->object_identifier;
         $identifier->package = $config->row->package;
@@ -45,7 +45,7 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
     
     public function message($config = array())
 	{
-	    $config = new Library\Config($config);
+	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'row'      => ''
 		));

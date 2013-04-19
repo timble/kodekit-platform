@@ -26,7 +26,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'toolbar' => null,
             'attribs' => array('class' => array('toolbar'))
@@ -65,7 +65,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
         	'command' => array('attribs' => array('class' => array('btn', 'toolbar')))
         ));
@@ -100,7 +100,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
      */
     public function separator($config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'command' => array('attribs' => array('class' => array('btn-group')))
         ));
@@ -120,7 +120,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
      */
     public function dialog($config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
         	'command' => NULL
         ));

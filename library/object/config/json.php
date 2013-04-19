@@ -10,19 +10,19 @@
 namespace Nooku\Library;
 
 /**
- * Config Format Json
+ * ObjectConfig Format Json
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  * @subpackage  Format
  */
-class ConfigJson extends ConfigFormat
+class ObjectConfigJson extends ObjectConfigFormat
 {
     /**
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ConfigJson|false   Returns a Config object. False on failure.
+     * @return ObjectConfigJson|false   Returns a ObjectConfig object. False on failure.
      * @throws \RuntimeException
      */
     public static function fromString($string)
@@ -46,7 +46,7 @@ class ConfigJson extends ConfigFormat
     /**
      * Write a config object to a string.
      *
-     * @param  Config $config
+     * @param  ObjectConfig $config
      * @return string|false     Returns a JSON encoded string on success. False on failure.
      */
     public function toString()

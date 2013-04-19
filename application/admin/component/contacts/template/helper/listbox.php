@@ -22,7 +22,7 @@ class ContactsTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function contacts($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'model' 	=> 'contacts',
             'value'		=> 'id',

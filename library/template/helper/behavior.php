@@ -39,7 +39,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Only load once
         if (!isset(self::$_loaded['mootools']))
         {
-            $config = new Config($config);
+            $config = new ObjectConfig($config);
 
             $html .= '<script src="media://js/mootools.js" />';
             self::$_loaded['mootools'] = true;
@@ -55,7 +55,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function modal($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'selector' => 'a.modal',
             'options'  => array('disableFx' => true)
@@ -99,7 +99,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function tooltip($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'selector' => '.hasTip',
             'options' => array()
@@ -130,7 +130,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function overlay($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'url' => '',
             'options' => array(),
@@ -182,7 +182,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function keepalive($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'refresh' => 15 * 60000, //default refresh is 15min
             'url'     => $this->getTemplate()->getView()->getRoute('', false, false),
@@ -238,7 +238,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function validator($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'selector' => '.-koowa-form',
             'options'  => array(
@@ -284,7 +284,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function autocomplete($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'identifier'    => null,
             'element'       => null,
@@ -308,7 +308,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
                 'requestOptions' => array('method' => 'get'),
                 'urlOptions'    => array(
                     'queryVarName' => 'search',
-                    'extraParams'  => Config::unbox($config->filter)
+                    'extraParams'  => ObjectConfig::unbox($config->filter)
                 )
             )
         ));
@@ -362,7 +362,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function sortable($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'option'	=> Request::get('get.option', 'cmd'),
             'view'		=> StringInflector::singularize(Request::get('get.view', 'cmd')),
@@ -421,7 +421,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      */
     public function calendar($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'date'       => gmdate("M d Y H:i:s"),
             'name'       => '',

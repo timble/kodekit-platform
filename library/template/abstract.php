@@ -66,9 +66,9 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * Prevent creating instances of this class by making the constructor private
      *
-     * @param Config $config   An optional Config object with configuration options
+     * @param ObjectConfig $config   An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -82,7 +82,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         $this->_chain = $config->filter_chain;
 
         //Attach the filters
-        $filters = (array)Config::unbox($config->filters);
+        $filters = (array)ObjectConfig::unbox($config->filters);
 
         foreach ($filters as $key => $value)
         {
@@ -102,10 +102,10 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config  An optional Config object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'data'          => array(),

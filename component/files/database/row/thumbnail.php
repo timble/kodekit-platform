@@ -21,16 +21,16 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 {
     protected $_thumbnail_size;
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->setThumbnailSize(Library\Config::unbox($config->thumbnail_size));
+		$this->setThumbnailSize(Library\ObjectConfig::unbox($config->thumbnail_size));
 	}
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
-    	$size = Library\Config::unbox($config->thumbnail_size);
+    	$size = Library\ObjectConfig::unbox($config->thumbnail_size);
     	
 		if (empty($size)) {
 			$config->thumbnail_size = array('x' => 200, 'y' => 150);

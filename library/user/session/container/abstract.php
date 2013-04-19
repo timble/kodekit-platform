@@ -41,10 +41,10 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  UserSessionContainerAbstract
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -63,10 +63,10 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'namespace' => '_koowa_'.$this->getIdentifier()->name,

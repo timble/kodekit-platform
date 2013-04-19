@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class EventSubscriberApplication extends Library\EventSubscriberAbstract
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
 	{
 	    //Intercept the events for profiling
 	    if($this->getObject('application')->getCfg('debug'))

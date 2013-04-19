@@ -21,7 +21,7 @@ class TemplateHelperImage extends Library\TemplateHelperAbstract
 {   
     public function gravatar($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'email'  => '',
             'size'  => '32',

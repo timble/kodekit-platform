@@ -9,14 +9,14 @@
 namespace Nooku\Library;
 
 /**
- * Config Interface
+ * ObjectConfig Interface
  *
- * Config provides a property based interface to an array
+ * ObjectConfig provides a property based interface to an array
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-interface ConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
+interface ObjectConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
 {
     /**
      * Retrieve a configuration item and return $default if there is no element set.
@@ -58,16 +58,16 @@ interface ConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
      * This function only adds keys that don't exist and it filters out any duplicate values
      *
      * @param  mixed    A value of an or array of values to be appended
-     * @return Config
+     * @return ObjectConfig
      */
     public function append($config);
 
     /**
-     * Unbox a Config object
+     * Unbox a ObjectConfig object
      *
-     * If the data being passed is an instance of Config the data will be transformed to an associative array.
+     * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
      *
-     * @param  Config|mxied $data
+     * @param  ObjectConfig|mxied $data
      * @return array|mixed
      */
     public static function unbox($data);
@@ -80,10 +80,10 @@ interface ConfigInterface extends \IteratorAggregate, \ArrayAccess, \Countable
     public function toArray();
 
     /**
-     * Return a Config object from an array
+     * Return a ObjectConfig object from an array
      *
      * @param  array $array
-     * @return Config Returns a Config object
+     * @return ObjectConfig Returns a ObjectConfig object
      */
     public static function fromArray(array $array);
 }

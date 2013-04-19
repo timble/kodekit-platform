@@ -22,7 +22,7 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
 {    
     public function users($config = array())
     {
-    	$config = new Library\Config($config);
+    	$config = new Library\ObjectConfig($config);
     	$config->append(array(
     		'list'      => $this->getObject('com:users.model.users')->set('sort', 'name')->getRowset(),
     		'text'		=> 'name'

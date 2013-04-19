@@ -47,9 +47,9 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Constructor
      *
-     * @param     object     An optional Config object with configuration options
+     * @param     object     An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -71,10 +71,10 @@ abstract class ViewAbstract extends Object implements ViewInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options
+     * @param     object     An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'model'    => 'lib:model.empty',

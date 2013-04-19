@@ -10,19 +10,19 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Config Format
+ * Abstract ObjectConfig Format
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  * @subpackage  Format
  */
-abstract class ConfigFormat extends Config implements ConfigSerializable
+abstract class ObjectConfigFormat extends ObjectConfig implements ObjectConfigSerializable
 {
     /**
      * Read from a file and create a config object
      *
      * @param  string $filename
-     * @return ConfigFormat
+     * @return ObjectConfigFormat
      * @throws \RuntimeException
      */
     public static function fromFile($filename)

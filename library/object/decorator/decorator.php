@@ -35,10 +35,10 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return ObjectDecorator
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 

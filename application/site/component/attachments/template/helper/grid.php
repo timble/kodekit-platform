@@ -20,7 +20,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
 {
     public function thumbnails($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'attribs'   => array(
                 'class'    => 'thumbnail',
@@ -58,7 +58,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
     
     public function files($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'filter'   => array(
                 'row'      => '',

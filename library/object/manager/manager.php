@@ -37,7 +37,7 @@ class ObjectManager implements ObjectManagerInterface
      *
      * @var array
      */
-    protected static $_services = null;
+    protected static $_objects = null;
 
     /**
      * The object mixins
@@ -65,7 +65,7 @@ class ObjectManager implements ObjectManagerInterface
      *
      * Prevent creating instances of this class by making the constructor private
      */
-    final private function __construct(Config $config)
+    final private function __construct(ObjectConfig $config)
     {
         //Create the identifier registry
         self::$_identifiers = new ObjectIdentifierRegistry();
@@ -79,10 +79,10 @@ class ObjectManager implements ObjectManagerInterface
         }
 
         //Create the service container
-        self::$_services = new ObjectContainer();
+        self::$_objects = new ObjectContainer();
 
         //Auto-load the library adapter
-        ObjectIdentifier::addLocator(new ObjectLocatorLibrary(new Config()));
+        ObjectIdentifier::addLocator(new ObjectLocatorLibrary(new ObjectConfig()));
     }
 
     /**
@@ -107,8 +107,8 @@ class ObjectManager implements ObjectManagerInterface
 
         if ($instance === NULL)
         {
-            if (!$config instanceof Config) {
-                $config = new Config($config);
+            if (!$config instanceof ObjectConfig) {
+                $config = new ObjectConfig($config);
             }
 
             $instance = new self($config);
@@ -131,7 +131,7 @@ class ObjectManager implements ObjectManagerInterface
         $objIdentifier = self::getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
 
-        if (!self::$_services->offsetExists($strIdentifier))
+        if (!self::$_objects->offsetExists($strIdentifier))
         {
             //Instantiate
             $instance = self::_instantiate($objIdentifier, $config);
@@ -142,7 +142,7 @@ class ObjectManager implements ObjectManagerInterface
             //Decorate
             self::_decorate($strIdentifier, $instance);
         }
-        else $instance = self::$_services->offsetGet($strIdentifier);
+        else $instance = self::$_objects->offsetGet($strIdentifier);
 
         return $instance;
     }
@@ -159,7 +159,7 @@ class ObjectManager implements ObjectManagerInterface
         $objIdentifier = self::getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
 
-        self::$_services->offsetSet($strIdentifier, $object);
+        self::$_objects->offsetSet($strIdentifier, $object);
     }
 
     /**
@@ -174,7 +174,7 @@ class ObjectManager implements ObjectManagerInterface
         try {
             $objIdentifier = self::getIdentifier($identifier);
             $strIdentifier = (string)$objIdentifier;
-            $result = (bool)self::$_services->offsetExists($strIdentifier);
+            $result = (bool)self::$_objects->offsetExists($strIdentifier);
 
         } catch (\InvalidArgumentException $e) {
             $result = false;
@@ -207,9 +207,9 @@ class ObjectManager implements ObjectManagerInterface
         self::$_mixins[$strIdentifier][(string) self::getIdentifier($mixin)] = $mixin;
 
         //If the identifier already exists mixin the mixin
-        if (self::$_services->offsetExists($strIdentifier))
+        if (self::$_objects->offsetExists($strIdentifier))
         {
-            $instance = self::$_services->offsetGet($strIdentifier);
+            $instance = self::$_objects->offsetGet($strIdentifier);
             self::_mixin($strIdentifier, $instance);
         }
     }
@@ -258,9 +258,9 @@ class ObjectManager implements ObjectManagerInterface
         self::$_decorators[$strIdentifier][(string) self::getIdentifier($decorator)] = $decorator;
 
         //If the identifier already exists decorate
-        if (self::$_services->offsetExists($strIdentifier))
+        if (self::$_objects->offsetExists($strIdentifier))
         {
-            $instance = self::$_services->offsetGet($strIdentifier);
+            $instance = self::$_objects->offsetGet($strIdentifier);
             self::_decorate($strIdentifier, $instance);
         }
     }
@@ -377,7 +377,7 @@ class ObjectManager implements ObjectManagerInterface
         if (isset(self::$_configs[$strIdentifier])) {
             self::$_configs[$strIdentifier] = self::$_configs[$strIdentifier]->append($config);
         } else {
-            self::$_configs[$strIdentifier] = new Config($config);
+            self::$_configs[$strIdentifier] = new ObjectConfig($config);
         }
     }
 
@@ -469,7 +469,7 @@ class ObjectManager implements ObjectManagerInterface
             }
 
             //Create the configuration object
-            $config = new Config(array_merge(self::getConfig($identifier), $config));
+            $config = new ObjectConfig(array_merge(self::getConfig($identifier), $config));
 
             //Set the service container and identifier
             $config->service_manager    = self::getInstance();

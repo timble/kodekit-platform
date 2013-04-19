@@ -39,9 +39,9 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     /**
      * Constructor.
      *
-     * @param  Config $config  A Config object with configuration options
+     * @param  ObjectConfig $config  A ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         //Set the service container
         if (isset($config->service_manager)) {
@@ -68,10 +68,10 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config A Config object with configuration options
+     * @param  ObjectConfig $config A ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'priority' => CommandChain::PRIORITY_NORMAL,

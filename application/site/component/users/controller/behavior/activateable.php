@@ -11,7 +11,7 @@ use Nooku\Library, Nooku\Component\Users;
 
 class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActivateable
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $parameters = $this->getObject('application.components')->users->params;
 

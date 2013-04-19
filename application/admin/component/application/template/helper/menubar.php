@@ -26,7 +26,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
      */
     public function render($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'attribs' => array('class' => array())
         ));

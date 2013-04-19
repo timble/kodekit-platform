@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Event
  */
-class Event extends Config implements EventInterface
+class Event extends ObjectConfig implements EventInterface
 {
  	/**
      * Priority levels
@@ -65,7 +65,7 @@ class Event extends Config implements EventInterface
     public function set($name, $value)
     {
         if (is_array($value)) {
-            $this->_data[$name] = new Config($value);
+            $this->_data[$name] = new ObjectConfig($value);
         } else {
             $this->_data[$name] = $value;
         }

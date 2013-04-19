@@ -21,9 +21,9 @@ interface ObjectInterface
      *
      * Allow configuration of the object via the constructor.
      *
-     * @param Config  $config  A Config object with optional configuration options
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
      */
-    public function __construct(Config $config);
+    public function __construct(ObjectConfig $config);
 
     /**
      * Get an instance of a class based on a class identifier only creating it if it does not exist yet.

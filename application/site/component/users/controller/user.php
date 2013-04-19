@@ -20,7 +20,7 @@ use Nooku\Library;
  */
 class UsersControllerUser extends ApplicationControllerDefault
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -28,7 +28,7 @@ class UsersControllerUser extends ApplicationControllerDefault
              ->registerCallback('after.add', array($this, 'redirect'));
 	}
     
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(

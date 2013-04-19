@@ -18,7 +18,7 @@ use Nooku\Library;
  */
 class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ObjectInstantiatable
 {
-    public function __construct(Library\Config $config )
+    public function __construct(Library\ObjectConfig $config )
     {
         parent::__construct($config);
 
@@ -35,13 +35,13 @@ class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract im
         $this->merge($modules);
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {

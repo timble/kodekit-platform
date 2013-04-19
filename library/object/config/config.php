@@ -9,14 +9,14 @@
 namespace Nooku\Library;
 
 /**
- * Config Class
+ * ObjectConfig Class
  *
- * Config provides a property based interface to an array
+ * ObjectConfig provides a property based interface to an array
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class Config implements ConfigInterface
+class ObjectConfig implements ObjectConfigInterface
 {
     /**
      * The data container
@@ -28,12 +28,12 @@ class Config implements ConfigInterface
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
-     * @return Config
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
+     * @return ObjectConfig
      */
     public function __construct( $config = array() )
     {
-        if ($config instanceof Config) {
+        if ($config instanceof ObjectConfig) {
             $data = $config->toArray();
         } else {
             $data = $config;
@@ -104,22 +104,22 @@ class Config implements ConfigInterface
     }
 
 	/**
-     * Unbox a Config object
+     * Unbox a ObjectConfig object
      *
-     * If the data being passed is an instance of Config the data will be transformed to an associative array.
+     * If the data being passed is an instance of ObjectConfig the data will be transformed to an associative array.
      *
-     * @param  Config|mxied $data
+     * @param  ObjectConfig|mxied $data
      * @return array|mixed
      */
     public static function unbox($data)
     {
-        return ($data instanceof Config) ? $data->toArray() : $data;
+        return ($data instanceof ObjectConfig) ? $data->toArray() : $data;
     }
 
     /**
      * Append an array or Object recursively
      *
-     * Merges the elements of an array or Config object recursively so that the values of one are appended.
+     * Merges the elements of an array or ObjectConfig object recursively so that the values of one are appended.
      *
      * If the input arrays has string keys, then the value for that key will be not overwrite the previous one. Instead
      * the values for these keys are transformed into Objects and merged together, and this is done recursively, so
@@ -129,12 +129,12 @@ class Config implements ConfigInterface
      * appended. Values in the input array with numeric keys will be renumbered with incrementing keys starting from
      * zero in the result array.
      *
-     * @param  Config|array $config  A Config object or an array of values to be appended
-     * @return Config
+     * @param  ObjectConfig|array $config  A ObjectConfig object or an array of values to be appended
+     * @return ObjectConfig
      */
     public function append($config)
     {
-        $config = Config::unbox($config);
+        $config = ObjectConfig::unbox($config);
 
         if(is_array($config))
         {
@@ -144,7 +144,7 @@ class Config implements ConfigInterface
                 {
                     if(array_key_exists($key, $this->_data))
                     {
-                        if(!empty($value) && ($this->_data[$key] instanceof Config)) {
+                        if(!empty($value) && ($this->_data[$key] instanceof ObjectConfig)) {
                             $this->_data[$key] = $this->_data[$key]->append($value);
                         }
                     }
@@ -211,7 +211,7 @@ class Config implements ConfigInterface
         if(isset($this->_data[$offset]))
         {
             $result = $this->_data[$offset];
-            if($result instanceof Config) {
+            if($result instanceof ObjectConfig) {
                 $result = $result->toArray();
             }
         }
@@ -226,7 +226,7 @@ class Config implements ConfigInterface
      *
      * @param   int     $offset
      * @param   mixed   $value
-     * @return  Config
+     * @return  ObjectConfig
      */
     public function offsetSet($offset, $value)
     {
@@ -243,7 +243,7 @@ class Config implements ConfigInterface
      * Required by interface ArrayAccess
      *
      * @param   int  $offset
-     * @return  Config
+     * @return  ObjectConfig
      */
     public function offsetUnset($offset)
     {
@@ -262,7 +262,7 @@ class Config implements ConfigInterface
         $data  = $this->_data;
         foreach ($data as $key => $value)
         {
-            if ($value instanceof Config) {
+            if ($value instanceof ObjectConfig) {
                 $array[$key] = $value->toArray();
             } else {
                 $array[$key] = $value;
@@ -273,10 +273,10 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Return a Config object from an array
+     * Return a ObjectConfig object from an array
      *
      * @param  array $array
-     * @return Config Returns a Config object
+     * @return ObjectConfig Returns a ObjectConfig object
      */
     public static function fromArray(array $array)
     {
@@ -329,7 +329,7 @@ class Config implements ConfigInterface
     }
 
  	/**
-     * Deep clone of this instance to ensure that nested Config objects are also cloned.
+     * Deep clone of this instance to ensure that nested ObjectConfig objects are also cloned.
      *
      * @return void
      */
@@ -338,7 +338,7 @@ class Config implements ConfigInterface
         $array = array();
         foreach ($this->_data as $key => $value)
         {
-            if ($value instanceof Config || $value instanceof \stdClass) {
+            if ($value instanceof ObjectConfig || $value instanceof \stdClass) {
                 $array[$key] = clone $value;
             } else {
                 $array[$key] = $value;

@@ -21,7 +21,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
 {
     protected $_table;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -30,7 +30,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
         }
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(
             array('table' => null)
@@ -74,7 +74,7 @@ class DatabaseBehaviorNestable extends Library\DatabaseBehaviorAbstract
     protected function _afterAdapterSelect(Library\CommandContext $context)
     {
         //Get the data
-        $rows = Library\Config::unbox($context->result);
+        $rows = Library\ObjectConfig::unbox($context->result);
 
         if(is_array($rows))
         {

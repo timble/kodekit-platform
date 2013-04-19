@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewHtml extends Library\ViewHtml
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -30,7 +30,7 @@ class ViewHtml extends Library\ViewHtml
         );
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'auto_assign' => false,

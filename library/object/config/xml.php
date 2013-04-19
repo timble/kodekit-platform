@@ -10,18 +10,18 @@
 namespace Nooku\Library;
 
 /**
- * Config Format Xml
+ * ObjectConfig Format Xml
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class ConfigXml extends ConfigFormat
+class ObjectConfigXml extends ObjectConfigFormat
 {
     /**
      * Read from a string and create an array
      *
      * @param  string $string
-     * @return ConfigXml|false   Returns a Config object. False on failure.
+     * @return ObjectConfigXml|false   Returns a ObjectConfig object. False on failure.
      * @throws \RuntimeException
      */
     public static function fromString($string)
@@ -44,7 +44,7 @@ class ConfigXml extends ConfigFormat
     /**
      * Write a config object to a string.
      *
-     * @param  Config $config
+     * @param  ObjectConfig $config
      * @return string|false   Returns a XML encoded string on success. False on failure.
      */
     public function toString()

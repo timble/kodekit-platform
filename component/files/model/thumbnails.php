@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelThumbnails extends Library\ModelTable
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -33,7 +33,7 @@ class ModelThumbnails extends Library\ModelTable
 		    ->insert('config'    , 'json', '');
 	}
 	
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'state' => new ModelState()

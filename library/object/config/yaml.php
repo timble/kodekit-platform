@@ -9,18 +9,18 @@
 namespace Nooku\Library;
 
 /**
- * Config Yaml
+ * ObjectConfig Yaml
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class ConfigYaml extends ConfigFormat
+class ObjectConfigYaml extends ObjectConfigFormat
 {
     /**
      * Read from a YAML string and create a config object
      *
      * @param  string $string
-     * @return ConfigYaml|false   Returns a Config object. False on failure.
+     * @return ObjectConfigYaml|false   Returns a ObjectConfig object. False on failure.
      * @throws \RuntimeException
      */
     public static function fromString($string)
@@ -49,7 +49,7 @@ class ConfigYaml extends ConfigFormat
     /**
      * Write a config object to a YAML string.
      *
-     * @param  Config $config
+     * @param  ObjectConfig $config
      * @return string|false     Returns a YAML encoded string on success. False on failure.
      */
     public function toString()

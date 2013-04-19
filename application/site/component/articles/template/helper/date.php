@@ -20,7 +20,7 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
 {
     public function timestamp($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
         $config->append(array('parameters' => $this->getObject('application.components')->articles->params))
                ->append(array(

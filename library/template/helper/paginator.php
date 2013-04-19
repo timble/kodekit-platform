@@ -63,7 +63,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 	 */
 	public function limit($config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'limit'	  	=> 0,
             'page_rows' => array(10, 20, 50, 100),
@@ -129,7 +129,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 	 */
     public function link($config)
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
 		$config->append(array(
 			'title'   => '',
 			'current' => false,

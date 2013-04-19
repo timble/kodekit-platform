@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewPageHtml extends ViewHtml
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'template_filters' => array('expire','module'),

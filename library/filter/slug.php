@@ -36,9 +36,9 @@ class FilterSlug extends FilterAbstract implements FilterTraversable
 	/**
 	 * Constructor
 	 *
-	 * @param 	object	An optional Config object with configuration options
+	 * @param 	object	An optional ObjectConfig object with configuration options
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -51,10 +51,10 @@ class FilterSlug extends FilterAbstract implements FilterTraversable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options
+     * @param 	object 	An optional ObjectConfig object with configuration options
      * @return void
      */
-	protected function _initialize(Config $config)
+	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
     		'separator' => '-',

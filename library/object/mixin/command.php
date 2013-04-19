@@ -30,9 +30,9 @@ class ObjectMixinCommand extends ObjectMixinAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
         
@@ -76,10 +76,10 @@ class ObjectMixinCommand extends ObjectMixinAbstract
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'command_chain'     => null,
@@ -119,7 +119,6 @@ class ObjectMixinCommand extends ObjectMixinAbstract
         {
             $this->_command_chain = $this->getObject($this->_command_chain);
 
-            //Make sure the request implements ControllerRequestInterface
             if(!$this->_command_chain instanceof CommandChainInterface)
             {
                 throw new \UnexpectedValueException(

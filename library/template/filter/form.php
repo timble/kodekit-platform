@@ -40,9 +40,9 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     /**
      * Constructor.
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -55,10 +55,10 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config An optional Config object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'token_value' => '',

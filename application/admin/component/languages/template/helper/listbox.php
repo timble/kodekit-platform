@@ -20,7 +20,7 @@ class LanguagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function languages($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'name'      => 'language'
 		));

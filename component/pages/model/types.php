@@ -21,7 +21,7 @@ class ModelTypes extends Library\ModelAbstract
 {
     protected $_rowset;
     
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
         

@@ -36,7 +36,7 @@ class TemplateHelperImage extends TemplateHelperListbox
 	 */
 	public function listbox($config = array())
 	{
-  		$config = new Config($config);
+  		$config = new ObjectConfig($config);
   		$config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',
@@ -109,7 +109,7 @@ class TemplateHelperImage extends TemplateHelperListbox
  	 */
  	public function preview($config = array())
  	{
- 	    $config = new Config($config);
+ 	    $config = new ObjectConfig($config);
  	    $config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',

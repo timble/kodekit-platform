@@ -19,7 +19,7 @@ use Nooku\Library;
 
 class ArticlesControllerToolbarArticle extends Library\ControllerToolbarModel
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array('controller' => 'com:articles.controller.article'));
 

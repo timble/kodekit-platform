@@ -23,7 +23,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
 {
     protected $_strategy;
     
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         // Need to set strategy before parent::__construct, otherwise strategy won't be available in getMixableMethods().
         if($config->strategy)
@@ -32,13 +32,13 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
             $identifier->path = array('database', 'behavior', 'orderable');
             $identifier->name = $config->strategy;
             
-            $this->setStrategy($config->service_manager->get($identifier, Library\Config::unbox($config)));
+            $this->setStrategy($config->service_manager->get($identifier, Library\ObjectConfig::unbox($config)));
         }
         
         parent::__construct($config);
     }
     
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'priority'   => Library\CommandChain::PRIORITY_LOWEST,

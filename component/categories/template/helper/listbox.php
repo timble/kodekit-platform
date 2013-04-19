@@ -21,7 +21,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
      public function order($config = array())
      {
-         $config = new Library\Config($config);
+         $config = new Library\ObjectConfig($config);
          $config->append(array(
              'name'          => 'order',
              'state'         => null,
@@ -54,7 +54,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function categories($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'      => 'category',
             'deselect'  => true,

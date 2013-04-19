@@ -20,7 +20,7 @@ use Nooku\Library;
  */
 class UsersDispatcher extends Library\DispatcherComponent
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 

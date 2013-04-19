@@ -22,11 +22,11 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      *
      * If the behavior is auto mixed also lazy mix it into related row objects.
      *
-     * @param 	Config                 $config	  A Config object with configuration options
+     * @param 	ObjectConfig                 $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return  object
      */
-    public static function getInstance(Config $config, ObjectManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
         $classname = $config->object_identifier->classname;
         $instance  = new $classname($config);

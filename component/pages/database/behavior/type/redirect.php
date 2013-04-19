@@ -23,7 +23,7 @@ class DatabaseBehaviorTypeRedirect extends DatabaseBehaviorTypeAbstract
 
     protected $_type_description;
 
-    public static function getInstance(Library\Config $config, Library\ObjectManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 

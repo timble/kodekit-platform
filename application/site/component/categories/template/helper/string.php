@@ -20,7 +20,7 @@ class CategoriesTemplateHelperString extends Library\TemplateHelperDefault
 {
     public function image($config = array())
     {
-        $config   = new Library\Config($config);
+        $config   = new Library\ObjectConfig($config);
         $config->append(array(
            'align' => 'right',
            'class' => 'thumbnail'

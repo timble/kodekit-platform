@@ -19,11 +19,11 @@ class FilterFactory extends Object implements ObjectInstantiatable
 	/**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return FilterFactory
      */
-    public static function getInstance(Config $config, ObjectManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {
@@ -42,7 +42,7 @@ class FilterFactory extends Object implements ObjectInstantiatable
      * using a FIFO approach.
 	 *
 	 * @param	string|array $identifier Filter identifier(s)
-	 * @param 	object 	     $config     An optional Config object with configuration options
+	 * @param 	object 	     $config     An optional ObjectConfig object with configuration options
 	 * @return  FilterInterface
 	 */
 	public function getFilter($identifier, $config = array())

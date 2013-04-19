@@ -35,11 +35,11 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
+     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return FilterInterface
      */
-    public static function getInstance(Config $config, ObjectManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {

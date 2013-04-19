@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Model
  * @subpackage  State
  */
-class ModelState extends Config implements ModelStateInterface
+class ModelState extends ObjectConfig implements ModelStateInterface
 {
     /**
      * Insert a new state

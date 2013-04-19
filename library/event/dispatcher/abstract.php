@@ -48,9 +48,9 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -62,7 +62,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
      * Dispatches an event by dispatching arguments to all listeners that handle the event.
      *
      * @param   string  The event name
-     * @param   object|array   An array, a Config or a Event object
+     * @param   object|array   An array, a ObjectConfig or a Event object
      * @return  Event
      */
     public function dispatchEvent($name, $event = array())

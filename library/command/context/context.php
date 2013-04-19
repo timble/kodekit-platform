@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Command
  * @subpackage  Context
  */
-class CommandContext extends Config implements CommandContextInterface
+class CommandContext extends ObjectConfig implements CommandContextInterface
 {
     /**
      * The command subject
@@ -57,7 +57,7 @@ class CommandContext extends Config implements CommandContextInterface
     public function set($name, $value)
     {
         if (is_array($value)) {
-            $this->_data[$name] = new Config($value);
+            $this->_data[$name] = new ObjectConfig($value);
         } else {
             $this->_data[$name] = $value;
         }

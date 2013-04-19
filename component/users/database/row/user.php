@@ -238,7 +238,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
      */
     public function notify($config = array()) {
 
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
         $application = $this->getObject('application');
         $user        = $this->getObject('user');

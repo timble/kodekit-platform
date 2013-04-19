@@ -30,14 +30,14 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return ObjectArray
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_data = Config::unbox($config->data);
+        $this->_data = ObjectConfig::unbox($config->data);
     }
 
     /**
@@ -45,10 +45,10 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'data' => array(),
@@ -225,7 +225,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      */
     public static function fromArray(array $data)
     {
-        return new self(new Config(array('data' => $data)));
+        return new self(new ObjectConfig(array('data' => $data)));
     }
 
     /**

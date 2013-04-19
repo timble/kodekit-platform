@@ -22,7 +22,7 @@ class CacheTemplateHelperListbox extends Library\TemplateHelperListbox
 {
 	public function groups( $config = array())
 	{	
-	    $config = new Library\Config($config);
+	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'model'		=> 'groups',
 			'name' 		=> 'group',

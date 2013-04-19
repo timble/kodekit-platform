@@ -20,7 +20,7 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 {
     public function contact($config = array())
 	{
-        $config   = new Library\Config($config);
+        $config   = new Library\ObjectConfig($config);
         $config->append(array(
             'layout'   => null,
             'category' => null
@@ -49,7 +49,7 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new Library\Config($config);
+        $config   = new Library\ObjectConfig($config);
         $config->append(array(
             'layout' => null
         ));

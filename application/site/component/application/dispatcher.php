@@ -35,7 +35,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     /**
      * The application options
      *
-     * @var Library\Config
+     * @var Library\ObjectConfig
      */
     protected $_options = null;
 
@@ -49,9 +49,9 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     /**
      * Constructor.
      *
-     * @param 	object 	An optional Library\Config object with configuration options.
+     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -84,10 +84,10 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\Config object with configuration options.
+     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'base_url'          => '/',

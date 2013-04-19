@@ -21,11 +21,11 @@ class DatabaseTableDefault extends DatabaseTableAbstract implements ObjectInstan
 	/**
      * Force creation of a singleton
      *
-     * @param 	ConfigI                 $config	  A Config object with configuration options
+     * @param 	ConfigI                 $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DatabaseTableDefault
      */
-    public static function getInstance(Config $config, ObjectManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
         if (!$manager->has($config->object_identifier))
         {

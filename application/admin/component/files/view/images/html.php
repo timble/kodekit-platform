@@ -19,7 +19,7 @@ use Nooku\Library;
 
 class FilesViewImagesHtml extends Library\ViewHtml
 {
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'auto_assign' => false

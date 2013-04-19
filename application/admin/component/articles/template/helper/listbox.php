@@ -23,7 +23,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function articles($config = array())
     {
-    	$config = new Library\Config($config);
+    	$config = new Library\ObjectConfig($config);
     	$config->append(array(
     		'model' 	=> 'articles',
     		'value'		=> 'id',
@@ -35,7 +35,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     
     public function authors($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'model'		=> 'articles',
 			'name' 		=> 'created_by',
@@ -48,7 +48,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function ordering($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
         if (!$config->row instanceof ArticlesDatabaseRowArticle) {
             throw new \InvalidArgumentException('The row is missing.');
@@ -82,7 +82,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function searchpages($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
         $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
         $pages = $pages->find(array(
