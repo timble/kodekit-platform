@@ -22,7 +22,7 @@ class CommandEvent extends Command
     /**
      * The event dispatcher object
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $_dispatcher;
 
@@ -65,7 +65,7 @@ class CommandEvent extends Command
     /**
      * Get the event dispatcher
      *
-     * @return  EventDispatcher
+     * @return  EventDispatcherInterface
      */
     public function getEventDispatcher()
     {
@@ -90,8 +90,8 @@ class CommandEvent extends Command
      *
      * This functions returns void to prevent is from breaking the chain.
      *
-     * @param   string      The command name
-     * @param   object      The command context
+     * @param   string  $name    The command name
+     * @param   object  $context The command context
      * @return  void
      */
     public function execute($name, CommandContext $context)

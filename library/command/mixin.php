@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package     Koowa_Object
  * @subpackage  Mixin
  */
-class ObjectMixinCommand extends ObjectMixinAbstract
+class CommandMixin extends ObjectMixinAbstract
 {   
     /**
      * Chain of command object
@@ -61,7 +61,7 @@ class ObjectMixinCommand extends ObjectMixinAbstract
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) 
         { 
-            $this->_mixer->mixin(new ObjectMixinEvent($config));
+            $this->_mixer->mixin(new EventMixin($config));
 
             $command = $this->_command_chain->getObject('lib:command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()

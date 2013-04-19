@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Object
  * @subpackage  Mixin
  */
-class ObjectMixinToolbar extends ObjectMixinAbstract
+class ControllerToolbarMixin extends ObjectMixinAbstract
 {
     /**
      * List of toolbars
@@ -83,7 +83,7 @@ class ObjectMixinToolbar extends ObjectMixinAbstract
             $toolbar = $this->getToolbar($toolbar, $config);
         }
 
-        if ($this->inherits('Nooku\Library\ObjectMixinEvent')) {
+        if ($this->inherits('Nooku\Library\EventMixin')) {
             $this->addEventSubscriber($toolbar, $priority);
         }
 

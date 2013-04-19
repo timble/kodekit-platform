@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @package     Koowa_Behavior
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -13,10 +12,9 @@ namespace Nooku\Library;
  * Behavior Mixin Class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Object
- * @subpackage  Mixin
+ * @package     Koowa_Behavior
  */
-class ObjectMixinBehavior extends ObjectMixinAbstract
+class BehaviorMixin extends ObjectMixinAbstract
 {
     /**
      * List of behaviors
@@ -37,7 +35,7 @@ class ObjectMixinBehavior extends ObjectMixinAbstract
     /**
      * Constructor
      *
-     * @param ObjectConfig $object    An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $object An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {

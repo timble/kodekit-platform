@@ -95,10 +95,10 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         $config->mixer = $this;
 
         // Mixin the command interface
-        $this->mixin(new ObjectMixinCommand($config));
+        $this->mixin(new CommandMixin($config));
 
         // Mixin the behavior interface
-        $this->mixin(new ObjectMixinBehavior($config));
+        $this->mixin(new BehaviorMixin($config));
     }
 
     /**
@@ -338,11 +338,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Get the command chain context
      *
-     * Overrides ObjectMixinCommand::getCommandContext() to insert the request and response objects into the controller
+     * Overrides CommandMixin::getCommandContext() to insert the request and response objects into the controller
      * command context.
      *
      * @return  CommandContext
-     * @see ObjectMixinCommand::getCommandContext
+     * @see CommandMixin::getCommandContext
      */
     public function getCommandContext()
     {

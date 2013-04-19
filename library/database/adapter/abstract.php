@@ -109,7 +109,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         $config->mixer = $this;
 
         // Mixin the command interface
-        $this->mixin(new ObjectMixinCommand($config));
+        $this->mixin(new CommandMixin($config));
     }
 
     /**
