@@ -25,8 +25,8 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->has($config->object_identifier)) {
-            $manager->set($config->object_identifier, $instance);
+        if(!$manager->isRegistered($config->object_identifier)) {
+            $manager->register($config->object_identifier, $instance);
         }
 
         return $manager->get($config->object_identifier);
@@ -166,7 +166,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $xml  = \JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getObject('loader')->getApplication('admin').'/component/'.substr($type['option'], 4).'/config.xml';
+        $path = Library\ClassLoader::getInstance()->getApplication('admin').'/component/'.substr($type['option'], 4).'/config.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -179,7 +179,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $xml  = \JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getObject('loader')->getApplication('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
+        $path = Library\ClassLoader::getInstance()->getApplication('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);

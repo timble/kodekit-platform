@@ -21,11 +21,11 @@ class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectInsta
 {
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->object_identifier))
+        if (!$manager->isRegistered($config->object_identifier))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
         }
 
         return $manager->get($config->object_identifier);

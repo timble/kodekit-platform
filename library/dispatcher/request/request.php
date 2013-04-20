@@ -247,11 +247,11 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('request'))
+        if (!$manager->isRegistered('request'))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
             $manager->setAlias('request', $config->object_identifier);

@@ -19,18 +19,18 @@ namespace Nooku\Library;
 class ObjectManager implements ObjectManagerInterface
 {
     /**
+     * Object registry
+     *
+     * @var ObjectRegistry
+     */
+    protected $_registry = null;
+
+    /**
      * The object locators
      *
      * @var array
      */
     protected $_locators = array();
-
-    /**
-     * The services
-     *
-     * @var ObjectRegistry
-     */
-    protected $_objects = null;
 
     /**
      * The identifier registry
@@ -72,7 +72,7 @@ class ObjectManager implements ObjectManagerInterface
      *
      * Prevent creating instances of this class by making the constructor private
      */
-    public function __construct(ObjectConfig $config)
+    protected function __construct(ObjectConfig $config)
     {
         //Create the identifier registry
         $this->_identifiers = new ObjectIdentifierRegistry();
@@ -86,7 +86,7 @@ class ObjectManager implements ObjectManagerInterface
         }
 
         //Create the service container
-        $this->_objects = new ObjectRegistry();
+        $this->_registry = new ObjectRegistry();
 
         //Auto-load the library adapter
         $this->registerLocator(new ObjectLocatorLibrary(new ObjectConfig()));
@@ -99,7 +99,7 @@ class ObjectManager implements ObjectManagerInterface
      */
     final private function __clone()
     {
-
+        throw new \Exception("An instance of ".get_called_class()." cannot be cloned.");
     }
 
     /**
@@ -108,7 +108,7 @@ class ObjectManager implements ObjectManagerInterface
      * @param  array  $config An optional array with configuration options.
      * @return ObjectManager
      */
-    public static function getInstance($config = array())
+    final public static function getInstance($config = array())
     {
         static $instance;
 
@@ -125,20 +125,19 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
-     * Get an instance of a class based on a class identifier only creating it
-     * if it doesn't exist yet.
+     * Get an object instance based on an object identifier only creating it if it does not exist yet.
      *
-     * @param  mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                            or valid identifier string
-     * @param  array   $config    An optional associative array of configuration settings.
-     * @return object  Return object on success, throws exception on failure
+     * @param	string|object	$identifier The identifier string or identifier object
+     * @param	array  			$config     An optional associative array of configuration settings.
+     * @throws	ObjectException
+     * @return	ObjectInterface  Return object on success, throws exception on failure
      */
     public function get($identifier, array $config = array())
     {
         $objIdentifier = $this->getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
 
-        if (!$this->_objects->offsetExists($strIdentifier))
+        if (!$this->_registry->offsetExists($strIdentifier))
         {
             //Instantiate
             $instance = $this->_instantiate($objIdentifier, $config);
@@ -149,45 +148,9 @@ class ObjectManager implements ObjectManagerInterface
             //Decorate
             $this->_decorate($strIdentifier, $instance);
         }
-        else $instance = $this->_objects->offsetGet($strIdentifier);
+        else $instance = $this->_registry->offsetGet($strIdentifier);
 
         return $instance;
-    }
-
-    /**
-     * Insert the object instance using the identifier
-     *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param object $object    The object instance to store
-     */
-    public function set($identifier, $object)
-    {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
-
-        $this->_objects->offsetSet($strIdentifier, $object);
-    }
-
-    /**
-     * Check if the object instance exists based on the identifier
-     *
-     * @param  mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                           or valid identifier string
-     * @return boolean Returns TRUE on success or FALSE on failure.
-     */
-    public function has($identifier)
-    {
-        try {
-            $objIdentifier = $this->getIdentifier($identifier);
-            $strIdentifier = (string)$objIdentifier;
-            $result = (bool)$this->_objects->offsetExists($strIdentifier);
-
-        } catch (\InvalidArgumentException $e) {
-            $result = false;
-        }
-
-        return $result;
     }
 
     /**
@@ -205,8 +168,43 @@ class ObjectManager implements ObjectManagerInterface
         //Get the path
         $path = $identifier->filepath;
 
-        if ($path !== false && $this->has('loader')) {
-            $result = $this->get('loader')->loadFile($path);
+        if ($path !== false) {
+            $result = ClassLoader::getInstance()->loadFile($path);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Register an object instance for a specific object identifier
+     *
+     * @param string|object	 $identifier The identifier string or identifier object
+     * @param ObjectInterface $config     The object instance to store
+     */
+    public function register($identifier, ObjectInterface $object)
+    {
+        $objIdentifier = $this->getIdentifier($identifier);
+        $strIdentifier = (string)$objIdentifier;
+
+        $this->_registry->offsetSet($strIdentifier, $object);
+    }
+
+    /**
+     * Check if the object instance exists based on the identifier
+     *
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @return boolean Returns TRUE on success or FALSE on failure.
+     */
+    public function isRegistered($identifier)
+    {
+        try {
+            $objIdentifier = $this->getIdentifier($identifier);
+            $strIdentifier = (string)$objIdentifier;
+            $result = (bool)$this->_registry->offsetExists($strIdentifier);
+
+        } catch (\InvalidArgumentException $e) {
+            $result = false;
         }
 
         return $result;
@@ -236,9 +234,9 @@ class ObjectManager implements ObjectManagerInterface
         $this->_mixins[$strIdentifier][(string) $this->getIdentifier($mixin)] = $mixin;
 
         //If the identifier already exists mixin the mixin
-        if ($this->_objects->offsetExists($strIdentifier))
+        if ($this->_registry->offsetExists($strIdentifier))
         {
-            $instance = $this->_objects->offsetGet($strIdentifier);
+            $instance = $this->_registry->offsetGet($strIdentifier);
             $this->_mixin($strIdentifier, $instance);
         }
     }
@@ -287,9 +285,9 @@ class ObjectManager implements ObjectManagerInterface
         $this->_decorators[$strIdentifier][(string) $this->getIdentifier($decorator)] = $decorator;
 
         //If the identifier already exists decorate
-        if ($this->_objects->offsetExists($strIdentifier))
+        if ($this->_registry->offsetExists($strIdentifier))
         {
-            $instance = $this->_objects->offsetGet($strIdentifier);
+            $instance = $this->_registry->offsetGet($strIdentifier);
             $this->_decorate($strIdentifier, $instance);
         }
     }
@@ -509,7 +507,7 @@ class ObjectManager implements ObjectManagerInterface
         $result = null;
 
         //Load the class manually using the basepath
-        if ($this->get('loader')->loadClass($identifier->classname))
+        if (ClassLoader::getInstance()->loadClass($identifier->classname))
         {
             if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->classname, false)))
             {

@@ -19,38 +19,39 @@ namespace Nooku\Library;
 interface ObjectManagerInterface
 {
 	/**
-	 * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+	 * Get an object instance based on an identifier only creating it if it does not exist yet.
 	 *
-	 * @param	string|object	$identifier The class identifier or identifier object
+	 * @param	string|object	$identifier The identifier string or identifier object
 	 * @param	array  			$config     An optional associative array of configuration settings.
 	 * @throws	ObjectException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
 	public function get($identifier, array $config = array());
 
+    /**
+     * Load a file based on an identifier
+     *
+     * @param string|object	$identifier The identifier string or identifier object
+     * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
+     * @see ClassLoader::loadFile();
+     */
+    public function load($identifier);
+
 	/**
-	 * Insert the object instance using the identifier
+	 * Register an object instance for a specific object identifier
 	 *
-	 * @param mixed  $identifier The class identifier
-	 * @param object $config     The object instance to store
+	 * @param string|object	$identifier   The identifier string or identifier object
+	 * @param ObjectInterface $config     The object instance to store
 	 */
-	public function set($identifier, $object);
+	public function register($identifier, ObjectInterface $object);
 
 	/**
 	 * Check if the object instance exists based on the identifier
 	 *
-	 * @param mixed $identifier The class identifier
+	 * @param string|object	$identifier The identifier string or identifier object
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
-	public function has($identifier);
-
-    /**
-     * Load a file based on an identifier
-     *
-     * @param string|object $identifier The identifier or identifier object
-     * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
-     */
-    public function load($identifier);
+	public function isRegistered($identifier);
 
     /**
      * Register a mixin or an array of mixins for an identifier
@@ -58,7 +59,7 @@ interface ObjectManagerInterface
      * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to
      * objects that already exist in the service registry.
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, on ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $mixin    A mixin identifier string
      * @see Object::mixin()
@@ -68,7 +69,7 @@ interface ObjectManagerInterface
     /**
      * Get the mixins for an identifier
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
      *                          or valid identifier string
      * @return array An array of mixins
      */
@@ -80,7 +81,7 @@ interface ObjectManagerInterface
      * The object is decorated when it's first instantiated see {@link get} Decorators are also added to objects that
      * already exist in the object registry.
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface,an  ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $decorator  A decorator identifier
      * @see Object::decorate()
@@ -90,7 +91,7 @@ interface ObjectManagerInterface
     /**
      * Get the decorators for an identifier
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     * @param mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
      *                          or valid identifier string
      * @return array An array of decorators
      */
@@ -104,7 +105,7 @@ interface ObjectManagerInterface
      *
      * Function will also check for identifier mappings and return the mapped identifier.
 	 *
-	 * @param	mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+	 * @param	mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
 	 * 					         or valid identifier string
 	 * @return ObjectIdentifier
 	 */
@@ -113,7 +114,7 @@ interface ObjectManagerInterface
 	/**
 	 * Set the configuration options for an identifier
 	 *
-	 * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
+	 * @param mixed	$identifier An object that implements ObjectInterface, an ObjectIdentifier object
 	 * 				            or valid identifier string
 	 * @param array	$config An associative array of configuration options
 	 */
@@ -122,7 +123,7 @@ interface ObjectManagerInterface
 	/**
 	 * Get the configuration options for an identifier
 	 *
-	 * @param mixed	$identifier An object that implements ObjectInterface, ObjectIdentifier object
+	 * @param mixed	$identifier An object that implements ObjectInterface, an ObjectIdentifier object
 	 * 				            or valid identifier string
 	 * @return array  An associative array of configuration options
 	 */
@@ -147,7 +148,7 @@ interface ObjectManagerInterface
      * Get the identifier for an alias
      *
      * @param string $alias The alias
-     * @return mixed|false An object that implements ObjectInterface, ObjectIdentifier object
+     * @return mixed|false An object that implements ObjectInterface, an ObjectIdentifier object
      *                     or valid identifier string
      */
     public function getAlias($alias);

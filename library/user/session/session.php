@@ -160,11 +160,11 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('session'))
+        if (!$manager->isRegistered('session'))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
 
             $manager->setAlias('session', $config->object_identifier);
         }

@@ -27,11 +27,11 @@ class DatabaseTableDefault extends DatabaseTableAbstract implements ObjectInstan
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->object_identifier))
+        if (!$manager->isRegistered($config->object_identifier))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
         }
 
         return $manager->get($config->object_identifier);

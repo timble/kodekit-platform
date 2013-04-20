@@ -26,12 +26,12 @@ class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract im
 
     public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->object_identifier))
+        if (!$manager->isRegistered($config->object_identifier))
         {
             //Create the singleton
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
         }
 
         return $manager->get($config->object_identifier);

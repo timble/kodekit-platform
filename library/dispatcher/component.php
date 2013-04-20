@@ -65,11 +65,11 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiat
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->object_identifier))
+        if (!$manager->isRegistered($config->object_identifier))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
             $manager->setAlias('component', $config->object_identifier);

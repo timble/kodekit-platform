@@ -56,11 +56,11 @@ class DispatcherApplication extends DispatcherAbstract implements ObjectInstanti
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
         // Check if an instance with this identifier already exists
-        if (!$manager->has('application'))
+        if (!$manager->isRegistered('application'))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
             $manager->setAlias('application', $config->object_identifier);

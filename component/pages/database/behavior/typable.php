@@ -59,8 +59,8 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->has($config->object_identifier)) {
-            $manager->set($config->object_identifier, $instance);
+        if(!$manager->isRegistered($config->object_identifier)) {
+            $manager->register($config->object_identifier, $instance);
         }
 
         return $manager->get($config->object_identifier);

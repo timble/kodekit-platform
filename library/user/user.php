@@ -71,11 +71,11 @@ class User extends Object implements UserInterface, ObjectInstantiatable
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('user'))
+        if (!$manager->isRegistered('user'))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
 
             $manager->setAlias('user', $config->object_identifier);
         }

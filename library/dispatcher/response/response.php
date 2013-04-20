@@ -75,12 +75,12 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('response'))
+        if (!$manager->isRegistered('response'))
         {
             //Create the singleton
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
             $manager->setAlias('response', $config->object_identifier);

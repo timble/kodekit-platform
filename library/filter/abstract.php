@@ -41,7 +41,7 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->object_identifier))
+        if (!$manager->isRegistered($config->object_identifier))
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
@@ -50,7 +50,7 @@ abstract class FilterAbstract extends Object implements FilterInterface, ObjectI
                 $instance = $instance->decorate('lib:filter.iterator');
             }
 
-            $manager->set($config->object_identifier, $instance);
+            $manager->register($config->object_identifier, $instance);
         }
 
         return $manager->get($config->object_identifier);
