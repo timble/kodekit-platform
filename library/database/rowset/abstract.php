@@ -377,7 +377,8 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
             foreach ($this as $i => $row)
             {
-                if (!$row->save()) {
+                if (!$row->save())
+                {
                     // Set current row status message as rowset status message.
                     $this->setStatusMessage($row->getStatusMessage());
                     $result = false;
@@ -403,7 +404,8 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
             foreach ($this as $i => $row)
             {
-                if (!$row->delete()) {
+                if (!$row->delete())
+                {
                     // Set current row status message as rowset status message.
                     $this->setStatusMessage($row->getStatusMessage());
                     $result = false;
