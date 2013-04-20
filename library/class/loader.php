@@ -54,7 +54,7 @@ class ClassLoader
      *
      * @param array $config Array of configuration options.
      */
-    public function __construct($config = array())
+    final private function __construct($config = array())
     {
         //Create the class registry
         $this->_registry = new ClassRegistry();
@@ -75,6 +75,33 @@ class ClassLoader
 
         //Auto register the loader
         $this->register();
+    }
+
+    /**
+     * Clone
+     *
+     * Prevent creating clones of this class
+     */
+    final private function __clone()
+    {
+        throw new \Exception("An instance of ".get_called_class()." cannot be cloned.");
+    }
+
+    /**
+     * Force creation of a singleton
+     *
+     * @param  array  $config An optional array with configuration options.
+     * @return ClassLoader
+     */
+    final public static function getInstance($config = array())
+    {
+        static $instance;
+
+        if ($instance === NULL) {
+            $instance = new self($config);
+        }
+
+        return $instance;
     }
 
     /**

@@ -20,7 +20,7 @@ class PagesViewMenusHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $this->applications = array_keys($this->getObject('loader')->getApplications());
+        $this->applications = array_keys(Library\ClassLoader::getInstance()->getApplications());
         return parent::render();
     }
 }
