@@ -223,7 +223,7 @@ class User extends Object implements UserInterface, ObjectInstantiatable
         $this->_initialize($data);
 
         unset($data['mixins']);
-        unset($data['service_manager']);
+        unset($data['object_manager']);
         unset($data['object_identifier']);
 
         //Set the user data

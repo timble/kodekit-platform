@@ -520,7 +520,7 @@ class ObjectManager implements ObjectManagerInterface
             $config = new ObjectConfig(array_merge($this->getConfig($identifier), $config));
 
             //Set the service container and identifier
-            $config->service_manager    = $this;
+            $config->object_manager    = $this;
             $config->object_identifier = $identifier;
 
             // Delegate object instantiation.

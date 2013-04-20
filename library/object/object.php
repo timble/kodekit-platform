@@ -54,8 +54,8 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     public function __construct(ObjectConfig $config)
     {
         //Set the service container
-        if (isset($config->service_manager)) {
-            $this->__object_manager = $config->service_manager;
+        if (isset($config->object_manager)) {
+            $this->__object_manager = $config->object_manager;
         }
 
         //Set the service identifier
@@ -260,7 +260,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             if (!isset($this->__object_manager))
             {
                 throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getObject(). No service_manager object defined."
+                    "Failed to call " . get_class($this) . "::getObject(). No object_manager object defined."
                 );
             }
 
@@ -286,7 +286,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             if (!isset($this->__object_manager))
             {
                 throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
+                    "Failed to call " . get_class($this) . "::getIdentifier(). No object_manager object defined."
                 );
             }
 
