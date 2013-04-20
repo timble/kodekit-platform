@@ -47,15 +47,15 @@ unset($config);
 $locator = new Library\ClassLocatorComponent();
 $locator->registerNamespace('\\', JPATH_APPLICATION.'/component');
 $locator->registerNamespace('Nooku\Component', JPATH_ROOT.'/component');
-Library\ObjectManager::get('loader')->registerLocator($locator);
+Library\ObjectManager::getInstance()->get('loader')->registerLocator($locator);
 
 //Setup the vendor locator
 $locator = new Library\ClassLocatorStandard();
 $locator->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/lib');
-Library\ObjectManager::get('loader')->registerLocator($locator);
+Library\ObjectManager::getInstance()->get('loader')->registerLocator($locator);
 //Add the different applications
-Library\ObjectManager::get('loader')->addApplication('site' , JPATH_ROOT.'/application/site');
-Library\ObjectManager::get('loader')->addApplication('admin', JPATH_ROOT.'/application/admin');
+Library\ObjectManager::getInstance()->get('loader')->addApplication('site' , JPATH_ROOT.'/application/site');
+Library\ObjectManager::getInstance()->get('loader')->addApplication('admin', JPATH_ROOT.'/application/admin');
 
 //Set the service
-Library\ObjectIdentifier::registerLocator(Library\ObjectManager::get('lib:object.locator.component'));
+Library\ObjectManager::getInstance()->registerLocator(Library\ObjectManager::getInstance()->get('lib:object.locator.component'));

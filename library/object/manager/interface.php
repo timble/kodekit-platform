@@ -26,7 +26,7 @@ interface ObjectManagerInterface
 	 * @throws	ObjectException
 	 * @return	object  		Return object on success, throws exception on failure
 	 */
-	public static function get($identifier, array $config = array());
+	public function get($identifier, array $config = array());
 
 	/**
 	 * Insert the object instance using the identifier
@@ -34,7 +34,7 @@ interface ObjectManagerInterface
 	 * @param mixed  $identifier The class identifier
 	 * @param object $config     The object instance to store
 	 */
-	public static function set($identifier, $object);
+	public function set($identifier, $object);
 
 	/**
 	 * Check if the object instance exists based on the identifier
@@ -42,7 +42,7 @@ interface ObjectManagerInterface
 	 * @param mixed $identifier The class identifier
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
-	public static function has($identifier);
+	public function has($identifier);
 
     /**
      * Load a file based on an identifier
@@ -50,7 +50,7 @@ interface ObjectManagerInterface
      * @param string|object $identifier The identifier or identifier object
      * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
      */
-    public static function load($identifier);
+    public function load($identifier);
 
     /**
      * Register a mixin or an array of mixins for an identifier
@@ -63,7 +63,7 @@ interface ObjectManagerInterface
      * @param  string $mixin    A mixin identifier string
      * @see Object::mixin()
      */
-    public static function registerMixin($identifier, $mixins);
+    public function registerMixin($identifier, $mixins);
 
     /**
      * Get the mixins for an identifier
@@ -72,7 +72,7 @@ interface ObjectManagerInterface
      *                          or valid identifier string
      * @return array An array of mixins
      */
-    public static function getMixins($identifier);
+    public function getMixins($identifier);
 
     /**
      * Register a decorator or an array of decorators for an identifier
@@ -85,7 +85,7 @@ interface ObjectManagerInterface
      * @param  string $decorator  A decorator identifier
      * @see Object::decorate()
      */
-    public static function registerDecorator($identifier, $decorators);
+    public function registerDecorator($identifier, $decorators);
 
     /**
      * Get the decorators for an identifier
@@ -94,7 +94,7 @@ interface ObjectManagerInterface
      *                          or valid identifier string
      * @return array An array of decorators
      */
-    public static function getDecorators($identifier);
+    public function getDecorators($identifier);
 
     /**
      * Returns an identifier object.
@@ -108,7 +108,7 @@ interface ObjectManagerInterface
 	 * 					         or valid identifier string
 	 * @return ObjectIdentifier
 	 */
-	public static function getIdentifier($identifier);
+	public function getIdentifier($identifier);
 
 	/**
 	 * Set the configuration options for an identifier
@@ -117,7 +117,7 @@ interface ObjectManagerInterface
 	 * 				            or valid identifier string
 	 * @param array	$config An associative array of configuration options
 	 */
-	public static function setConfig($identifier, array $config);
+	public function setConfig($identifier, array $config);
 
 	/**
 	 * Get the configuration options for an identifier
@@ -126,14 +126,14 @@ interface ObjectManagerInterface
 	 * 				            or valid identifier string
 	 * @return array  An associative array of configuration options
 	 */
-	public static function getConfig($identifier);
+	public function getConfig($identifier);
 
 	/**
      * Get the configuration options for all the identifiers
      *
      * @return array  An associative array of configuration options
      */
-    public static function getConfigs();
+    public function getConfigs();
 
 	/**
 	 * Set an alias for an identifier
@@ -141,7 +141,7 @@ interface ObjectManagerInterface
 	 * @param string $alias      The alias
 	 * @param mixed  $identifier The class identifier or identifier object
 	 */
-	public static function setAlias($alias, $identifier);
+	public function setAlias($alias, $identifier);
 
     /**
      * Get the identifier for an alias
@@ -157,5 +157,5 @@ interface ObjectManagerInterface
      *
      * @return array
      */
-    public static function getAliases();
+    public function getAliases();
 }

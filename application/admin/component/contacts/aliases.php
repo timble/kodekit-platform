@@ -17,4 +17,4 @@
 
 use Nooku\Library\ObjectManager;
 
-ObjectManager::setAlias('com:contacts.model.categories', 'com:categories.model.categories');
+ObjectManager::getInstance()->setAlias('com:contacts.model.categories', 'com:categories.model.categories');

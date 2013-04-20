@@ -32,7 +32,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     private $__object_identifier;
 
     /**
-     * The service manager
+     * The object manager
      *
      * @var ObjectManager
      */

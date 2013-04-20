@@ -21,9 +21,16 @@ namespace Nooku\Library;
 interface ObjectIdentifierInterface extends \Serializable
 {
     /**
-     * Formats the indentifier as a [application::]type.component.[.path].name string
+     * Formats the identifier as a [application::]type.component.[.path].name string
      *
      * @return string
      */
     public function toString();
+
+    /**
+     * Get the object locator for the identifier
+     *
+     * @return  ObjectLocatorInterface Return object locator or FALSE if no locator can be found.
+     */
+    public function getLocator();
 }

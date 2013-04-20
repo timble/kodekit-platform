@@ -142,7 +142,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
                     if($value !== '')
                     {
                         if(!($filter instanceof FilterInterface)) {
-                            $filter =  ObjectManager::get('lib:filter.factory')->getFilter($filter);
+                            $filter =  ObjectManager::getInstance()->get('lib:filter.factory')->getFilter($filter);
                         }
 
                         $value = $filter->sanitize($value);

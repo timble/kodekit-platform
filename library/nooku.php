@@ -48,7 +48,7 @@ class Nooku
         $loader = new Nooku\Library\ClassLoader($config);
 
         //Create the service manager
-        $service = Nooku\Library\ObjectManager::getInstance($config);
+        $service = Nooku\Library\ObjectManager::getInstance()->getInstance($config);
 
         //Add a 'loader' alias to the service manager
         $service->set('lib:class.loader', $loader);

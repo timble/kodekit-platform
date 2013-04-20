@@ -182,7 +182,7 @@ class Request
         }
 
         if(!($filter instanceof FilterInterface)) {
-            $filter = ObjectManager::get('lib:filter.factory')->getFilter($filter);
+            $filter = ObjectManager::getInstance()->get('lib:filter.factory')->getFilter($filter);
         }
 
         return $filter->sanitize($result);
@@ -352,13 +352,13 @@ class Request
         if(!isset(self::$_referrer))
         {
             if($referrer = Request::get('server.HTTP_REFERER', 'url')) {
-                self::$_referrer = ObjectManager::get('lib:http.url', array('url' => $referrer));
+                self::$_referrer = ObjectManager::getInstance()->get('lib:http.url', array('url' => $referrer));
             }
         }
 
         if($isInternal)
         {
-            if(!ObjectManager::get('lib:filter.internalurl')->validate((string) self::$_referrer)) {
+            if(!ObjectManager::getInstance()->get('lib:filter.internalurl')->validate((string) self::$_referrer)) {
                 return null;
             }
         }
@@ -412,10 +412,10 @@ class Request
         	else $url .= 'koowa';
             
             // Sanitize the url since we can't trust the server var
-            $url = ObjectManager::get('lib:filter.url')->sanitize($url);
+            $url = ObjectManager::getInstance()->get('lib:filter.url')->sanitize($url);
 
             // Create the URI object
-            self::$_url = ObjectManager::get('lib:http.url', array('url' => $url));
+            self::$_url = ObjectManager::getInstance()->get('lib:http.url', array('url' => $url));
 
         }
 
@@ -443,9 +443,9 @@ class Request
             $path = rtrim(dirname($path), '/\\');
          
             // Sanitize the url since we can't trust the server var
-            $path = ObjectManager::get('lib:filter.url')->sanitize($path);
+            $path = ObjectManager::getInstance()->get('lib:filter.url')->sanitize($path);
 
-            self::$_base = ObjectManager::get('lib:http.url', array('url' => $path));
+            self::$_base = ObjectManager::getInstance()->get('lib:http.url', array('url' => $path));
         }
 
         return self::$_base;
@@ -464,7 +464,7 @@ class Request
         if(!is_null($path))
         {
             if(!$path instanceof HttpUrlInterface) {
-                $path = ObjectManager::get('lib:http.url', array('url' => $path));
+                $path = ObjectManager::getInstance()->get('lib:http.url', array('url' => $path));
             }
 
             self::$_root = $path;

@@ -33,7 +33,7 @@ class JFactory
      */
     function &getApplication($id = null, $config = array(), $prefix = 'J')
     {
-        $instance =  Nooku\Library\ObjectManager::get('application');
+        $instance =  Nooku\Library\ObjectManager::getInstance()->get('application');
         return $instance;
     }
 
@@ -49,7 +49,7 @@ class JFactory
      */
     function &getSession($options = array())
     {
-        $instance = Nooku\Library\ObjectManager::get('user')->getSession();
+        $instance = Nooku\Library\ObjectManager::getInstance()->get('user')->getSession();
         return $instance;
     }
 
@@ -67,13 +67,13 @@ class JFactory
     function &getUser($id = null)
     {        
         if (is_null($id)) {
-            $session = Nooku\Library\ObjectManager::get('user')->getSession();
+            $session = Nooku\Library\ObjectManager::getInstance()->get('user')->getSession();
             $instance = $session->user;
 
             if (!$instance instanceof UsersDatabaseRowUser) {
-                $instance = Nooku\Library\ObjectManager::get('com:users.database.row.user');
+                $instance = Nooku\Library\ObjectManager::getInstance()->get('com:users.database.row.user');
             }
-        } else $instance = Nooku\Library\ObjectManager::get('com:users.database.row.user')->set('id', $id)->load();
+        } else $instance = Nooku\Library\ObjectManager::getInstance()->get('com:users.database.row.user')->set('id', $id)->load();
 
         return $instance;
     }
