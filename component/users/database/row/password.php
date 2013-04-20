@@ -24,7 +24,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
         parent::__construct($config);
 
         // TODO Remove when PHP 5.5 becomes a requirement.
-        $this->getObject('loader')->loadFile(JPATH_ROOT.'/component/users/legacy/password.php');
+        Library\ClassLoader::getInstance()->loadFile(JPATH_ROOT.'/component/users/legacy/password.php');
     }
 
     public function save()

@@ -501,7 +501,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     {
         //Create temporary file
         $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
-        $this->getObject('loader')->setAlias($this->getPath(), $tempfile);
+        ClassLoader::getInstance()->setAlias($this->getPath(), $tempfile);
 
         //Write the template to the file
         $handle = fopen($tempfile, "w+");

@@ -30,7 +30,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         parent::__construct($config);
 
         //@TODO Remove when PHP 5.5 becomes a requirement.
-        //$this->getObject('loader')->loadFile(JPATH_ROOT . '/component/users/legacy.php');
+        //Library\ClassLoader::getInstance()->loadFile(JPATH_ROOT . '/component/users/legacy.php');
 
         $this->_filter = $config->filter;
     }

@@ -41,7 +41,7 @@ class ModelTypes extends Library\ModelAbstract
             // Iterate through the components.
             foreach($components as $component)
             {
-                $path  = $this->getObject('loader')->getApplication($this->getState()->application);
+                $path  = Library\ClassLoader::getInstance()->getApplication($this->getState()->application);
                 $path .= '/component/'.substr($component->name, 4).'/view';
 
                 if(!is_dir($path)) {
