@@ -45,6 +45,14 @@ interface ObjectManagerInterface
 	public static function has($identifier);
 
     /**
+     * Load a file based on an identifier
+     *
+     * @param string|object $identifier The identifier or identifier object
+     * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
+     */
+    public static function load($identifier);
+
+    /**
      * Register a mixin or an array of mixins for an identifier
      *
      * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to

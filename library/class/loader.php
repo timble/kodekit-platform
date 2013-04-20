@@ -211,28 +211,6 @@ class ClassLoader
         return $result;
     }
 
-	/**
-     * Load a class based on an identifier
-     *
-     * @param string|object $identifier The identifier or identifier object
-     * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
-     */
-    public function loadIdentifier($identifier)
-    {
-        $result = false;
-
-        $identifier = ObjectManager::getIdentifier($identifier);
-
-        //Get the path
-        $path = $identifier->filepath;
-
-        if ($path !== false) {
-            $result = $this->loadFile($path);
-        }
-
-        return $result;
-    }
-
     /**
      * Load a class based on a path
      *

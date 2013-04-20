@@ -159,7 +159,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
 	/**
-     * Get the registered service locators
+     * Get the registered object locators
      *
      * @return array
      */

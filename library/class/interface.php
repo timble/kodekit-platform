@@ -61,14 +61,6 @@ interface ClassLoaderInterface
      */
     public function loadClass($class);
 
-	/**
-     * Load a class based on an identifier
-     *
-     * @param string|object $identifier The identifier or identifier object
-     * @return boolean Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
-     */
-    public function loadIdentifier($identifier);
-
     /**
      * Load a class based on a path
      *

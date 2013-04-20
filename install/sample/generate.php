@@ -44,7 +44,7 @@ define('DS', DIRECTORY_SEPARATOR);
 
 require_once JPATH_APPLICATION.'/bootstrap.php';
 
-Library\ObjectManager::get('loader')->loadIdentifier('com:application.aliases');
+Library\ObjectManager::load('com:application.aliases');
 $application =  Library\ObjectManager::get('com:application.dispatcher');
 $application->loadConfig(new Library\CommandContext());
 $application->loadSession(new Library\CommandContext());
