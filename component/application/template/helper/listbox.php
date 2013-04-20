@@ -33,7 +33,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('text' => \JText::_($config->prompt)));
         }
         
-        foreach($this->getObject('loader')->getApplications() as $application => $path) {
+        foreach(Library\ClassLoader::getInstance()->getApplications() as $application => $path) {
             $options[] = $this->option(array('text' => $application, 'value' => $application));
         }
         

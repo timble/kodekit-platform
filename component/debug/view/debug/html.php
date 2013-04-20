@@ -31,7 +31,7 @@ class ViewDebugHtml extends Library\ViewHtml
         foreach($includes as $key => $value)
         {
             //Find the real file path
-            if($alias = $this->getObject('loader')->getAlias($value)) {
+            if($alias = Library\ClassLoader::getInstance()->getAlias($value)) {
                 $includes[$key] = $alias;
             };
         }

@@ -170,7 +170,7 @@ class ModelModules extends Library\ModelTable
                 $modules = array();
                 foreach($components as $component)
                 {
-                    $path  = $this->getObject('loader')->getApplication('site');
+                    $path  = Library\ClassLoader::getInstance()->getApplication('site');
                     $path .= '/component/'.substr($component->name, 4).'/modules';
 
                     if(!is_dir($path)) {

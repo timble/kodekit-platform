@@ -20,7 +20,7 @@ class PagesViewPagesHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $this->applications = array_keys($this->getObject('loader')->getApplications());
+        $this->applications = array_keys(Library\ClassLoader::getInstance()->getApplications());
         $this->menus        = $this->getObject('com:pages.model.menus')->getRowset();
         
         return parent::render();
