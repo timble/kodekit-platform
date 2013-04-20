@@ -1,7 +1,7 @@
 <?php
 /**
- * @package		Koowa_Loader
- * @subpackage 	Adapter
+ * @package		Koowa_Class
+ * @subpackage 	Locator
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
@@ -9,15 +9,15 @@
 namespace Nooku\Library;
 
 /**
- * Standard Loader Adapter
+ * Standard Class Locator
  *
  * PSR-0 compliant autoloader. Allows autoloading of namespaced classes.
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Loader
- * @subpackage 	Adapter
+ * @package     Koowa_Class
+ * @subpackage 	Locator
  */
-class LoaderAdapterStandard extends LoaderAdapterAbstract
+class ClassLocatorStandard extends ClassLocatorAbstract
 {
     /**
      * Get the path based on a class name
@@ -25,7 +25,7 @@ class LoaderAdapterStandard extends LoaderAdapterAbstract
      * @param  string   $class The class name
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-	public function findPath($class)
+	public function locate($class)
 	{
         //Find the class
         foreach($this->_namespaces as $namespace => $paths)

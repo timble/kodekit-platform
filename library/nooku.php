@@ -44,15 +44,15 @@ class Nooku
         require_once $this->_path.'/legacy.php';
 
         //Create the loader
-        require_once $this->_path.'/loader/loader.php';
-        $loader = new Nooku\Library\Loader($config);
+        require_once $this->_path.'/class/loader.php';
+        $loader = new Nooku\Library\ClassLoader($config);
 
         //Create the service manager
         $service = Nooku\Library\ObjectManager::getInstance($config);
 
         //Add a 'loader' alias to the service manager
-        $service->set('lib:loader', $loader);
-        $service->setAlias('loader', 'lib:loader');
+        $service->set('lib:class.loader', $loader);
+        $service->setAlias('loader', 'lib:class.loader');
     }
 
 	/**

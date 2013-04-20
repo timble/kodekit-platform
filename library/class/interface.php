@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		Koowa_Loader
+ * @package		Koowa_Class
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
@@ -8,12 +8,12 @@
 namespace Nooku\Library;
 
 /**
- * Loader Interface
+ * Class Loader Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Loader
+ * @package     Koowa_Class
  */
-interface LoaderInterface
+interface ClassLoaderInterface
 {
     /**
      * Registers the loader with the PHP autoloader.

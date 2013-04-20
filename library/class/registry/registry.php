@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		Koowa_Loader
+ * @package		Koowa_Class
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
@@ -8,13 +8,12 @@
 namespace Nooku\Library;
 
 /**
- * Loader Registry Class
+ * Class Registry
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @category    Koowa
- * @package     Koowa_Loader
+ * @package     Koowa_Class
  */
-class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
+class ClassRegistry extends \ArrayObject implements ClassRegistryInterface
 {
  	/**
  	 * Cache
@@ -28,17 +27,17 @@ class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
  	 *
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'nooku-loader-registry';
+    protected $_cache_prefix = 'nooku-registry-class';
 
     /**
      * Enable class caching
      *
-     * @param  boolean	Enable or disable the cache. Default is TRUE.
+     * @param  boolean	$enable Enable or disable the cache. Default is TRUE.
      * @return boolean	TRUE if caching is enabled. FALSE otherwise.
      */
-	public function enableCache($enabled = true)
+	public function enableCache($enable = true)
 	{
-	    if($enabled && extension_loaded('apc')) {
+	    if($enable && extension_loaded('apc')) {
             $this->_cache = true;
         } else {
             $this->_cache = false;
@@ -50,7 +49,7 @@ class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
 	/**
      * Set the cache prefix
      *
-     * @param string The cache prefix
+     * @param string $prefix The cache prefix
      * @return void
      */
 	public function setCachePrefix($prefix)
@@ -71,7 +70,7 @@ class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
  	/**
      * Get an item from the array by offset
      *
-     * @param   int     The offset
+     * @param   int     $offset The offset
      * @return  mixed   The item from the array
      */
     public function offsetGet($offset)
@@ -92,8 +91,8 @@ class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
     /**
      * Set an item in the array
      *
-     * @param   int     The offset of the item
-     * @param   mixed   The item's value
+     * @param   int     $offset The offset of the item
+     * @param   mixed   $value  The item's value
      * @return  object  ObjectArray
      */
     public function offsetSet($offset, $value)
@@ -108,7 +107,7 @@ class LoaderRegistry extends \ArrayObject implements LoaderRegistryInterface
 	/**
      * Check if the offset exists
      *
-     * @param   int     The offset
+     * @param   int   $offset The offset
      * @return  bool
      */
     public function offsetExists($offset)

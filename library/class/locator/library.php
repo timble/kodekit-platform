@@ -1,7 +1,7 @@
 <?php
 /**
- * @package		Koowa_Loader
- * @subpackage 	Adapter
+ * @package		Koowa_Class
+ * @subpackage 	Locator
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
@@ -9,21 +9,21 @@
 namespace Nooku\Library;
 
 /**
- * Loader Adapter for framework libraries
+ * Class Locator Library
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Loader
+ * @package     Koowa_Class
  * @subpackage 	Adapter
  */
-class LoaderAdapterLibrary extends LoaderAdapterAbstract
+class ClassLocatorLibrary extends ClassLocatorAbstract
 {
     /**
-     * Get the path based on a class name
+     *  Get a fully qualified path based on a class name
      *
      * @param  string   $class The class name
      * @return string|false   Returns canonicalized absolute pathname or FALSE of the class could not be found.
      */
-	public function findPath($class)
+	public function locate($class)
 	{
 		$path = false;
 

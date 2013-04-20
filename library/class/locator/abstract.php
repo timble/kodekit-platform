@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Koowa_Loader
- * @subpackage  Adapter
+ * @package     Koowa_Class
+ * @subpackage  Locator
  * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
@@ -9,13 +9,13 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Loader Adapter
+ * Abstract ClassLoader Adapter
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Loader
- * @subpackage  Adapter
+ * @package     Koowa_Class
+ * @subpackage  Locator
  */
-abstract class LoaderAdapterAbstract implements LoaderAdapterInterface
+abstract class ClassLocatorAbstract implements ClassLocatorInterface
 {
     /**
      * Namespace/directory pairs to search

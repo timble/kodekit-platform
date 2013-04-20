@@ -1,25 +1,25 @@
 <?php
 /**
- * @package		Koowa_Loader
+ * @package		Koowa_Class
  * @copyright	Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  */
 
 namespace Nooku\Library;
 
-require_once dirname(__FILE__).'/adapter/interface.php';
-require_once dirname(__FILE__).'/adapter/abstract.php';
-require_once dirname(__FILE__).'/adapter/library.php';
+require_once dirname(__FILE__).'/locator/interface.php';
+require_once dirname(__FILE__).'/locator/abstract.php';
+require_once dirname(__FILE__).'/locator/library.php';
 require_once dirname(__FILE__).'/registry/interface.php';
 require_once dirname(__FILE__).'/registry/registry.php';
 
 /**
- * Loader class
+ * ClassLoader class
  *
  * @author      Johan Janssens <johan@nooku.org>
- * @package     Koowa_Loader
+ * @package     Koowa_Class
  */
-class Loader
+class ClassLoader
 {
     /**
      * The file container
@@ -57,7 +57,7 @@ class Loader
     public function __construct($config = array())
     {
         //Create the class registry
-        $this->_registry = new LoaderRegistry();
+        $this->_registry = new ClassRegistry();
 
         if(isset($config['cache_prefix'])) {
             $this->_registry->setCachePrefix($config['cache_prefix']);
@@ -68,10 +68,10 @@ class Loader
         }
 
         //Register the framework adapter
-        $loader = new LoaderAdapterLibrary();
-        $loader->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
+        $locator = new ClassLocatorLibrary();
+        $locator->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
 
-        $this->addAdapter($loader);
+        $this->registerLocator($locator);
 
         //Auto register the loader
         $this->register();
@@ -101,7 +101,7 @@ class Loader
     /**
      * Get the class registry object
      *
-     * @return LoaderRegistry
+     * @return ClassRegistry
      */
     public function getRegistry()
     {
@@ -109,15 +109,15 @@ class Loader
     }
 
  	/**
-     * Add a loader adapter
+     * Register a class locator
      *
-     * @param LoaderAdapterInterface $adapter
+     * @param ClassLocatorInterface $locator
      * @return void
      */
-    public function addAdapter(LoaderAdapterInterface $adapter)
+    public function registerLocator(ClassLocatorInterface $locator)
     {
-        foreach($adapter->getNamespaces() as $namespace => $paths) {
-            $this->_namespaces[$namespace] = $adapter;
+        foreach($locator->getNamespaces() as $namespace => $paths) {
+            $this->_namespaces[$namespace] = $locator;
         }
 
         krsort($this->_namespaces, SORT_STRING);
@@ -262,11 +262,11 @@ class Loader
         if(!$this->_registry->offsetExists($class))
         {
             //Find the adapter
-            foreach($this->_namespaces as $namespace => $adapter)
+            foreach($this->_namespaces as $namespace => $locator)
             {
                 if(strpos('\\'.$class, $namespace) === 0)
                 {
-                    $result = $adapter->findPath($class);
+                    $result = $locator->locate($class);
                     break;
                 }
             }
