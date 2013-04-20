@@ -29,7 +29,7 @@ class ObjectIdentifierRegistry extends \ArrayObject
  	 *
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'koowa-cache-identifier';
+    protected $_cache_prefix = 'nooku-registry-identifier';
 
 	/**
      * Enable class caching

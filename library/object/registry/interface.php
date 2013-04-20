@@ -9,13 +9,13 @@
 namespace Nooku\Library;
 
 /**
- * Object Container Class
+ * Object Container Interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
  * @subpackage  Container
  */
-class ObjectContainer extends \ArrayObject implements ObjectContainerInterface
+interface ObjectRegistryInterface
 {
 
 }

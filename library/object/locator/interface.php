@@ -25,18 +25,10 @@ interface ObjectLocatorInterface
     public function getType();
 
     /**
-     * Find the identifier class
+     * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier$identifier An identifier object
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
-	public function findClass(ObjectIdentifier $identifier);
-
-    /**
-     * Find the identifier path
-     *
-     * @param  ObjectIdentifier $identifier  	An identifier object
-     * @return string	Returns the path
-     */
-    public function findPath(ObjectIdentifier $identifier);
+	public function locate(ObjectIdentifier $identifier);
 }

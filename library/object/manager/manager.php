@@ -79,10 +79,10 @@ class ObjectManager implements ObjectManagerInterface
         }
 
         //Create the service container
-        self::$_objects = new ObjectContainer();
+        self::$_objects = new ObjectRegistry();
 
         //Auto-load the library adapter
-        ObjectIdentifier::addLocator(new ObjectLocatorLibrary(new ObjectConfig()));
+        ObjectIdentifier::registerLocator(new ObjectLocatorLibrary(new ObjectConfig()));
     }
 
     /**
@@ -186,7 +186,7 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Register a mixin or an array of mixins for an identifier
      *
-     * The mixins are mixed when the indentified object is first instantiated see {@link get} Mixins are also added to
+     * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to
      * services that already exist in the object registry.
      *
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
@@ -450,8 +450,8 @@ class ObjectManager implements ObjectManagerInterface
      * @param   object $identifier A ObjectIdentifier object
      * @param   array  $config     An optional associative array of configuration settings.
      * @throws	ObjectExceptionInvalidObject	    If the object doesn't implement the ObjectInterface
-     * @throws  ObjectExceptionNotFound           If service cannot be loaded
-     * @throws  ObjectExceptionNotInstantiated    If service cannot be instantiated
+     * @throws  ObjectExceptionNotFound           If object cannot be loaded
+     * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
      */
     protected static function _instantiate(ObjectIdentifier $identifier, array $config = array())
@@ -468,7 +468,7 @@ class ObjectManager implements ObjectManagerInterface
                 );
             }
 
-            //Create the configuration object
+            //Create the object configuration
             $config = new ObjectConfig(array_merge(self::getConfig($identifier), $config));
 
             //Set the service container and identifier
@@ -484,10 +484,10 @@ class ObjectManager implements ObjectManagerInterface
 
             //Thrown an error if no object was instantiated
             if (!is_object($result)) {
-                throw new ObjectExceptionNotInstantiated('Cannot instantiate service object: ' . $identifier->classname);
+                throw new ObjectExceptionNotInstantiated('Cannot instantiate object from identifier: ' . $identifier->classname);
             }
         }
-        else throw new ObjectExceptionNotFound('Cannot load service identifier: '. $identifier);
+        else throw new ObjectExceptionNotFound('Cannot load object from identifier: '. $identifier);
 
         return $result;
     }

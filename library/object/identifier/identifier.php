@@ -153,7 +153,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      * @param ObjectLocatorInterface $locator  A ObjectLocator
      * @return void
      */
-    public static function addLocator(ObjectLocatorInterface $locator)
+    public static function registerLocator(ObjectLocatorInterface $locator)
     {
         self::$_locators[$locator->getType()] = $locator;
     }
@@ -224,7 +224,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
             }
 
             if($property == 'classname' && empty($this->_classname)) {
-                $this->_classname = self::$_locators[$this->_type]->findClass($this);
+                $this->_classname = self::$_locators[$this->_type]->locate($this);
             }
 
             $result =& $this->{'_'.$property};

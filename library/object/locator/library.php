@@ -43,12 +43,12 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     }
 
     /**
-     * Find the identifier class
+     * Returns a fully qualified class name for a given identifier.
      *
      * @param ObjectIdentifier$identifier An identifier object
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
-    public function findClass(ObjectIdentifier $identifier)
+    public function locate(ObjectIdentifier $identifier)
     {
         $class   = StringInflector::camelize(implode('_', $identifier->path)).ucfirst($identifier->name);
 
