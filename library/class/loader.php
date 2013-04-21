@@ -7,6 +7,7 @@
 
 namespace Nooku\Library;
 
+require_once dirname(__FILE__).'/interface.php';
 require_once dirname(__FILE__).'/locator/interface.php';
 require_once dirname(__FILE__).'/locator/abstract.php';
 require_once dirname(__FILE__).'/locator/library.php';
@@ -19,7 +20,7 @@ require_once dirname(__FILE__).'/registry/registry.php';
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Class
  */
-class ClassLoader
+class ClassLoader implements ClassLoaderInterface
 {
     /**
      * The file container
