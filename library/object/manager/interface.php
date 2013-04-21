@@ -194,4 +194,19 @@ interface ObjectManagerInterface
      * @return array
      */
     public function getAliases();
+
+    /**
+     * Get the class loader
+     *
+     * @return ClassLoaderInterface
+     */
+    public function getClassLoader();
+
+    /**
+     * Set the class loader
+     *
+     * @param ClassLoaderInterface $loader
+     * @return ObjectManagerInterface
+     */
+    public function setClassLoader(ClassLoaderInterface $loader);
 }

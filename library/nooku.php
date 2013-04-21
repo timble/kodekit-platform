@@ -47,8 +47,9 @@ class Nooku
         require_once $this->_path.'/class/loader.php';
         $loader = Nooku\Library\ClassLoader::getInstance($config);
 
-        //Create the service manager
-        $service = Nooku\Library\ObjectManager::getInstance()->getInstance($config);
+        //Create the object manager
+        $manager = Nooku\Library\ObjectManager::getInstance($config);
+        $manager->setClassLoader($loader);
     }
 
 	/**

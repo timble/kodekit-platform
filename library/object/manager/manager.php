@@ -67,6 +67,13 @@ class ObjectManager implements ObjectManagerInterface
      */
     protected $_configs = array();
 
+    /*
+     * The class loader
+     *
+     * @var ClassLoader
+     */
+    protected $_loader = null;
+
     /**
      * Constructor
      *
@@ -83,6 +90,10 @@ class ObjectManager implements ObjectManagerInterface
 
         if (isset($config['cache_enabled'])) {
             $this->_identifiers->enableCache($config['cache_enabled']);
+        }
+
+        if(isset($config['class_loader'])) {
+            $this->setClassLoader($config['class_loader']);
         }
 
         //Create the service container
@@ -517,6 +528,28 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
+     * Get the class loader
+     *
+     * @return ClassLoaderInterface
+     */
+    public function getClassLoader()
+    {
+        return $this->_loader;
+    }
+
+    /**
+     * Set the class loader
+     *
+     * @param ClassLoaderInterface $loader
+     * @return ObjectManagerInterface
+     */
+    public function setClassLoader(ClassLoaderInterface $loader)
+    {
+        $this->_loader = $loader;
+        return $this;
+    }
+
+    /**
      * Perform the actual mixin of all registered mixins for an object
      *
      * @param  ObjectIdentifier $identifier
@@ -582,7 +615,7 @@ class ObjectManager implements ObjectManagerInterface
      * Get an instance of a class based on a class identifier
      *
      * @param   ObjectIdentifier $identifier
-     * @param   array            $config        An optional associative array of configuration settings.
+     * @param   array            $config    An optional associative array of configuration settings.
      * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
@@ -592,7 +625,7 @@ class ObjectManager implements ObjectManagerInterface
     {
         $result = null;
 
-        if (ClassLoader::getInstance()->loadClass($identifier->classname))
+        if ($this->_loader->loadClass($identifier->classname))
         {
             if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->classname, false)))
             {
