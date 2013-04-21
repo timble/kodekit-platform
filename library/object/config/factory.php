@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class ObjectConfigFactory extends Object implements ObjectSingleton
+class ObjectConfigFactory extends ObjectFactoryAbstract implements ObjectSingleton
 {
     /**
      * Registered config file formats.
@@ -48,7 +48,7 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
         $config->append(array(
             'formats' => array(
                 'ini'  => 'Nooku\Library\Object\ObjectConfigIni',
-                'json' => 'jNooku\Library\Object\ObjectConfigJson',
+                'json' => 'Nooku\Library\Object\ObjectConfigJson',
                 'xml'  => 'Nooku\Library\Object\ObjectConfigXml',
                 'yaml' => 'Nooku\Library\Object\ObjectConfigYaml'
             )
@@ -61,11 +61,12 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
      * Get a registered config object.
      *
      * @param  string $format The format name
+     * @param  array  $config A optional array of configuration options
      * @throws \InvalidArgumentException    If the format isn't registered
-     * @throws	\UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
-     * @return	ObjectConfigFactory
+     * @throws \UnexpectedValueException	If the format object doesn't implement the ObjectConfigSerializable
+     * @return ObjectConfig
      */
-    public function getConfig($format)
+    public function getInstance($format, $config = array())
     {
         $format = strtolower($format);
 
@@ -131,7 +132,7 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
             ));
         }
 
-        $config = $this->getConfig($pathinfo['extension'])->fromFile($filename);
+        $config = $this->getIntance($pathinfo['extension'])->fromFile($filename);
         return $config;
     }
 
@@ -154,6 +155,6 @@ class ObjectConfigFactory extends Object implements ObjectSingleton
             ));
         }
 
-        return $this->getConfig($pathinfo['extension'])->toFile($filename, $config);
+        return $this->getInstance($pathinfo['extension'])->toFile($filename, $config);
     }
 }
