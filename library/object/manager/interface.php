@@ -60,6 +60,14 @@ interface ObjectManagerInterface
 	public function isRegistered($identifier);
 
     /**
+     * Check if the object is a singleton
+     *
+     * @param string|object	$identifier The identifier string or identifier object
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isSingleton($identifier);
+
+    /**
      * Register a mixin or an array of mixins for an identifier
      *
      * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to

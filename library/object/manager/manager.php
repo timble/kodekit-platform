@@ -210,15 +210,33 @@ class ObjectManager implements ObjectManagerInterface
     public function isRegistered($identifier)
     {
         try {
-            $objIdentifier = $this->getIdentifier($identifier);
-            $strIdentifier = (string)$objIdentifier;
-            $result = (bool)$this->_objects->offsetExists($strIdentifier);
+            $identifier = (string) $this->getIdentifier($identifier);
+            $result     = (bool)$this->_objects->offsetExists($identifier);
 
         } catch (\InvalidArgumentException $e) {
             $result = false;
         }
 
         return $result;
+    }
+
+    /**
+     * Check if the object is a singleton
+     *
+     * @param string|object	$identifier The identifier string or identifier object
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isSingleton($identifier)
+    {
+        try {
+            $identifier = $this->getIdentifier($identifier);
+            $classname  = $identifier->classname;
+
+            $result = array_key_exists(__NAMESPACE__.'\ObjectSingleton', class_implements($classname));
+
+        } catch (\InvalidArgumentException $e) {
+            $result = false;
+        }
     }
 
     /**
