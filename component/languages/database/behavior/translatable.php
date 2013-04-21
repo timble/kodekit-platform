@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectInstantiatable
+class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectSingleton
 {
     protected $_tables;
     
@@ -29,19 +29,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ->enabled(true)
             ->getRowset();
     }
-    
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        if(!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
 
-        return $manager->get($config->object_identifier);
-    }
-    
     public function getHandle()
     {
         // If table is not enabled, return null to prevent enqueueing.

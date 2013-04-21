@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectInstantiatable
+class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectSingleton
 {
     /**
 	 * The cache object
@@ -43,25 +43,6 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
         //Auto connect to the database
         $this->connect();
 	}
-
-	/**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig                  $config  An optional ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterfac  $manager A Library\ObjectManagerInterface object
-     * @return  DatabaseTableInterface
-     */
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-
-        return $manager->get($config->object_identifier);
-    }
 
     /**
      * Initializes the options for the object

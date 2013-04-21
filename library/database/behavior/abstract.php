@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @package     Koowa_Database
  * @subpackage     Behavior
  */
-abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiatable
+abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements ObjectInstantiable
 {
     /**
      * Instantiate the object

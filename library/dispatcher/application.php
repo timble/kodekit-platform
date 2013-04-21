@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class DispatcherApplication extends DispatcherAbstract implements ObjectInstantiatable
+class DispatcherApplication extends DispatcherAbstract implements ObjectInstantiable
 {
     /**
      * Constructor.

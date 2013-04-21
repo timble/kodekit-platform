@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_User
  */
-class User extends Object implements UserInterface, ObjectInstantiatable
+class User extends Object implements UserInterface, ObjectInstantiable
 {
     /**
      * Constructor

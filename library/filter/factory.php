@@ -14,27 +14,8 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterFactory extends Object implements ObjectInstantiatable
+class FilterFactory extends Object implements ObjectSingleton
 {
-	/**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return FilterFactory
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-
-        return $manager->get($config->object_identifier);
-    }
-
 	/**
 	 * Factory method for FilterInterface classes.
      *

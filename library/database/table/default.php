@@ -16,24 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Database
  * @subpackage  Table
  */
-class DatabaseTableDefault extends DatabaseTableAbstract implements ObjectInstantiatable
+class DatabaseTableDefault extends DatabaseTableAbstract implements ObjectSingleton
 {
-	/**
-     * Force creation of a singleton
-     *
-     * @param 	ConfigI                 $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DatabaseTableDefault
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
 
-        return $manager->get($config->object_identifier);
-    }
 }

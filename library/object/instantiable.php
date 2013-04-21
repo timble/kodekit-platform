@@ -8,12 +8,15 @@
 namespace Nooku\Library;
 
 /**
- * Object Instantiatable Interface
+ * Object Instantiable Interface
+ *
+ * The interface signals the ObjectManager to delegate object instantiation.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
+ * @see         ObjectManager::get()
  */
-interface ObjectInstantiatable
+interface ObjectInstantiable
 {
     /**
      * Instantiate the object

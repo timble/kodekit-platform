@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ObjectInstantiatable
+class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ObjectInstantiable
 {
 	/**
      * Check for overrides of the helper

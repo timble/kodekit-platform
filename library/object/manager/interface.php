@@ -19,7 +19,13 @@ namespace Nooku\Library;
 interface ObjectManagerInterface
 {
 	/**
-	 * Get an object instance based on an identifier only creating it if it does not exist yet.
+	 * Get an object instance based on an object identifier
+     *
+     * If the object implements the ObjectSingleton interface the object will be automatically registered in the
+     * object registry.
+     *
+     * If the object implements the ObjectInstantiable interface the manager will delegate object instantiation
+     * to the object itself.
 	 *
 	 * @param	string|object	$identifier The identifier string or identifier object
 	 * @param	array  			$config     An optional associative array of configuration settings.

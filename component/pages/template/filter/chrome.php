@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiatable
+class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiable
 {
     /**
      * The chrome styles

@@ -18,27 +18,8 @@ namespace Nooku\Library;
  * @package     Koowa_Dispatcher
  * @subpackage  Router
  */
-class DispatcherRouter extends Object implements DispatcherRouterInterface, ObjectInstantiatable
+class DispatcherRouter extends Object implements DispatcherRouterInterface, ObjectSingleton
 {
-    /**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  DispatcherRouter
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-
-        return $manager->get($config->object_identifier);
-    }
-
     /**
      * Function to convert a route to an internal URI
      *

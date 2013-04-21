@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Debug
  */
-class EventSubscriberDatabase extends Library\EventSubscriberAbstract implements Library\ObjectInstantiatable
+class EventSubscriberDatabase extends Library\EventSubscriberAbstract implements Library\ObjectSingleton
 {    
     /**
      * The start time
@@ -32,25 +32,7 @@ class EventSubscriberDatabase extends Library\EventSubscriberAbstract implements
      * @var array
      */
     protected $_queries = array();
-    
-	/**
-     * Force creation of a singleton
-     *
-     * @param 	Library\ObjectConfig                     $config	  A Library\ObjectConfig object with configuration options
-     * @param 	Library\ObjectManagerInterface	$manager      ObjectInterface object
-     * @return  ProfilerEvents
-     */
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $instance = new self($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-        
-        return $manager->get($config->object_identifier);
-    }
-    
+
     /**
      * Get queries
      *

@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ModelSites extends Library\ModelAbstract implements Library\ObjectInstantiatable
+class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleton
 {	
      public function __construct(Library\ObjectConfig $config)
      {
@@ -30,18 +30,6 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectInstanti
              ->insert('sort'      , 'cmd')
              ->insert('direction' , 'word', 'asc')
              ->insert('search'    , 'string');
-    }
-
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-        
-        return $manager->get($config->object_identifier);
     }
     
     public function getRowset()

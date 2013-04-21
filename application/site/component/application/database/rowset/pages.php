@@ -17,7 +17,7 @@ use Nooku\Component\Pages;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ObjectInstantiatable
+class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implements Library\ObjectSingleton
 {
     protected $_active;
     protected $_home;
@@ -52,18 +52,6 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
-    }
-
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-
-        return $manager->get($config->object_identifier);
     }
 
     public function getPage($id)

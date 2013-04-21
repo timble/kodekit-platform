@@ -125,7 +125,13 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
-     * Get an object instance based on an object identifier only creating it if it does not exist yet.
+     * Get an object instance based on an object identifier
+     *
+     * If the object implements the ObjectSingleton interface the object will be automatically registered in the
+     * object registry.
+     *
+     * If the object implements the ObjectInstantiable interface the manager will delegate object instantiation
+     * to the object itself.
      *
      * @param	string|object	$identifier The identifier string or identifier object
      * @param	array  			$config     An optional associative array of configuration settings.
@@ -139,14 +145,19 @@ class ObjectManager implements ObjectManagerInterface
 
         if (!$this->_registry->offsetExists($strIdentifier))
         {
-            //Instantiate
+            //Instantiate the object
             $instance = $this->_instantiate($objIdentifier, $config);
 
-            //Mix
+            //Mix the object
             $this->_mixin($strIdentifier, $instance);
 
-            //Decorate
+            //Decorate the object
             $this->_decorate($strIdentifier, $instance);
+
+            //Register the object
+            if($instance instanceof ObjectSingleton) {
+                $this->register($objIdentifier, $instance);
+            }
         }
         else $instance = $this->_registry->offsetGet($strIdentifier);
 
@@ -495,9 +506,9 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Get an instance of a class based on a class identifier
      *
-     * @param   object $identifier A ObjectIdentifier object
-     * @param   array  $config     An optional associative array of configuration settings.
-     * @throws	ObjectExceptionInvalidObject	    If the object doesn't implement the ObjectInterface
+     * @param   ObjectIdentifier $identifier
+     * @param   array            $config        An optional associative array of configuration settings.
+     * @throws	ObjectExceptionInvalidObject	  If the object doesn't implement the ObjectInterface
      * @throws  ObjectExceptionNotFound           If object cannot be loaded
      * @throws  ObjectExceptionNotInstantiated    If object cannot be instantiated
      * @return  object  Return object on success, throws exception on failure
@@ -506,7 +517,6 @@ class ObjectManager implements ObjectManagerInterface
     {
         $result = null;
 
-        //Load the class manually using the basepath
         if (ClassLoader::getInstance()->loadClass($identifier->classname))
         {
             if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->classname, false)))
@@ -524,7 +534,7 @@ class ObjectManager implements ObjectManagerInterface
             $config->object_identifier = $identifier;
 
             // Delegate object instantiation.
-            if (array_key_exists(__NAMESPACE__.'\ObjectInstantiatable', class_implements($identifier->classname, false))) {
+            if (array_key_exists(__NAMESPACE__.'\ObjectInstantiable', class_implements($identifier->classname, false))) {
                 $result = call_user_func(array($identifier->classname, 'getInstance'), $config, $this);
             } else {
                 $result = new $identifier->classname($config);

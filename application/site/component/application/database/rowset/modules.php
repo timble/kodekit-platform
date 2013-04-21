@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ObjectInstantiatable
+class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ObjectSingleton
 {
     public function __construct(Library\ObjectConfig $config )
     {
@@ -39,17 +39,5 @@ class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract im
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
-    }
-
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-
-        return $manager->get($config->object_identifier);
     }
 }

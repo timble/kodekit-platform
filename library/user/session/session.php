@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package     Koowa_User
  * @subpackage  Session
  */
-class UserSession extends Object implements UserSessionInterface, ObjectInstantiatable
+class UserSession extends Object implements UserSessionInterface, ObjectInstantiable
 {
     /**
      * Is the session active

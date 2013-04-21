@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class DispatcherResponse extends ControllerResponse implements DispatcherResponseInterface
+class DispatcherResponse extends ControllerResponse implements DispatcherResponseInterface, ObjectInstantiable
 {
     /**
      * Transport object or identifier

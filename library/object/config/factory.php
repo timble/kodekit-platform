@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Config
  */
-class ObjectConfigFactory extends Object implements ObjectInstantiatable
+class ObjectConfigFactory extends Object implements ObjectSingleton
 {
     /**
      * Registered config file formats.
@@ -22,25 +22,6 @@ class ObjectConfigFactory extends Object implements ObjectInstantiatable
      * @var array
      */
     protected $_formats;
-
-    /**
-     * Force creation of a singleton
-     *
-     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
-     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return  ObjectConfigFactory
-     */
-    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
-    {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
-        }
-
-        return $manager->get($config->object_identifier);
-    }
 
     /**
      * Constructor
