@@ -60,14 +60,16 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     /**
      * Get a value by key
      *
-     * @param   string  $key The key name.
+     * @param   string  $key     The key name.
+     * @param   mixed   $default Default value when the key doesn't exist
      * @return  string  The corresponding value.
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
-        $result = null;
         if (isset($this->_data[$key])) {
             $result = $this->_data[$key];
+        } else {
+            $result = $default;
         }
 
         return $result;
