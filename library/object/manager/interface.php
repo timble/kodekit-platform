@@ -48,6 +48,7 @@ interface ObjectManagerInterface
 	 *
 	 * @param string|object	$identifier   The identifier string or identifier object
 	 * @param ObjectInterface $config     The object instance to store
+     * @return ObjectManagerInterface
 	 */
 	public function register($identifier, ObjectInterface $object);
 
@@ -76,6 +77,7 @@ interface ObjectManagerInterface
      * @param mixed $identifier An object that implements ObjectInterface, on ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $mixin    A mixin identifier string
+     * @return ObjectManagerInterface
      * @see Object::mixin()
      */
     public function registerMixin($identifier, $mixins);
@@ -98,6 +100,7 @@ interface ObjectManagerInterface
      * @param mixed $identifier An object that implements ObjectInterface,an  ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $decorator  A decorator identifier
+     * @return ObjectManagerInterface
      * @see Object::decorate()
      */
     public function registerDecorator($identifier, $decorators);
@@ -110,6 +113,22 @@ interface ObjectManagerInterface
      * @return array An array of decorators
      */
     public function getDecorators($identifier);
+
+    /**
+     * Register an object locator
+     *
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @return ObjectManager
+     */
+    public function registerLocator($identifier);
+
+    /**
+     * Get the registered object locators
+     *
+     * @return array
+     */
+    public function getLocators();
 
     /**
      * Returns an identifier object.
@@ -131,6 +150,7 @@ interface ObjectManagerInterface
 	 * @param mixed	$identifier An object that implements ObjectInterface, an ObjectIdentifier object
 	 * 				            or valid identifier string
 	 * @param array	$config An associative array of configuration options
+     * @return ObjectManagerInterface
 	 */
 	public function setConfig($identifier, array $config);
 
@@ -155,6 +175,7 @@ interface ObjectManagerInterface
 	 *
 	 * @param string $alias      The alias
 	 * @param mixed  $identifier The class identifier or identifier object
+     * @return ObjectManagerInterface
 	 */
 	public function setAlias($alias, $identifier);
 

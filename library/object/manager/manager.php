@@ -191,6 +191,7 @@ class ObjectManager implements ObjectManagerInterface
      *
      * @param string|object	 $identifier The identifier string or identifier object
      * @param ObjectInterface $config     The object instance to store
+     * @return ObjectManager
      */
     public function register($identifier, ObjectInterface $object)
     {
@@ -198,6 +199,8 @@ class ObjectManager implements ObjectManagerInterface
         $strIdentifier = (string)$objIdentifier;
 
         $this->_objects->offsetSet($strIdentifier, $object);
+
+        return $this;
     }
 
     /**
@@ -237,6 +240,8 @@ class ObjectManager implements ObjectManagerInterface
         } catch (\InvalidArgumentException $e) {
             $result = false;
         }
+
+        return $result;
     }
 
     /**
@@ -248,6 +253,7 @@ class ObjectManager implements ObjectManagerInterface
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $mixin    A mixin identifier string
+     * @return ObjectManager
      * @see Object::mixin()
      */
     public function registerMixin($identifier, $mixin)
@@ -268,6 +274,8 @@ class ObjectManager implements ObjectManagerInterface
             $instance = $this->_objects->offsetGet($strIdentifier);
             $this->_mixin($objIdentifier, $instance);
         }
+
+        return $this;
     }
 
     /**
@@ -299,6 +307,7 @@ class ObjectManager implements ObjectManagerInterface
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param  string $decorator  A decorator identifier
+     * @return ObjectManager
      * @see Object::decorate()
      */
     public function registerDecorator($identifier, $decorator)
@@ -319,6 +328,8 @@ class ObjectManager implements ObjectManagerInterface
             $instance = $this->_objects->offsetGet($strIdentifier);
             $this->_decorate($objIdentifier, $instance);
         }
+
+        return $this;
     }
 
     /**
@@ -344,12 +355,28 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Register an object locator
      *
-     * @param ObjectLocatorInterface $locator  An object locator
-     * @return void
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @return ObjectManager
      */
-    public function registerLocator(ObjectLocatorInterface $locator)
+    public function registerLocator($identifier)
     {
+        if(!$identifier instanceof ObjectLocatorInterface)
+        {
+            $locator = $this->get($identifier);
+
+            if(!$locator instanceof ObjectLocatorInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Locator: '.get_class($locator).' does not implement ObjectLocatorInterface'
+                );
+            }
+        }
+        else $locator = $identifier;
+
         $this->_locators[$locator->getType()] = $locator;
+
+        return $this;
     }
 
     /**
@@ -408,6 +435,7 @@ class ObjectManager implements ObjectManagerInterface
      * @param string $alias      The alias
      * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
+     *  @return ObjectManager
      */
     public function setAlias($alias, $identifier)
     {
@@ -415,6 +443,8 @@ class ObjectManager implements ObjectManagerInterface
         $identifier = $this->getIdentifier($identifier);
 
         $this->_aliases[$alias] = $identifier;
+
+        return $this;
     }
 
     /**
@@ -445,6 +475,7 @@ class ObjectManager implements ObjectManagerInterface
      * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
      * @param array $config      An associative array of configuration options
+     * @return ObjectManager
      */
     public function setConfig($identifier, array $config)
     {
@@ -456,6 +487,8 @@ class ObjectManager implements ObjectManagerInterface
         } else {
             $this->_configs[$strIdentifier] = new ObjectConfig($config);
         }
+
+        return $this;
     }
 
     /**
