@@ -149,10 +149,10 @@ class ObjectManager implements ObjectManagerInterface
             $instance = $this->_instantiate($objIdentifier, $config);
 
             //Mix the object
-            $this->_mixin($strIdentifier, $instance);
+            $this->_mixin($objIdentifier, $instance);
 
             //Decorate the object
-            $this->_decorate($strIdentifier, $instance);
+            $this->_decorate($objIdentifier, $instance);
 
             //Register the object
             if($instance instanceof ObjectSingleton) {
@@ -248,7 +248,7 @@ class ObjectManager implements ObjectManagerInterface
         if ($this->_registry->offsetExists($strIdentifier))
         {
             $instance = $this->_registry->offsetGet($strIdentifier);
-            $this->_mixin($strIdentifier, $instance);
+            $this->_mixin($objIdentifier, $instance);
         }
     }
 
@@ -299,7 +299,7 @@ class ObjectManager implements ObjectManagerInterface
         if ($this->_registry->offsetExists($strIdentifier))
         {
             $instance = $this->_registry->offsetGet($strIdentifier);
-            $this->_decorate($strIdentifier, $instance);
+            $this->_decorate($objIdentifier, $instance);
         }
     }
 
@@ -468,18 +468,19 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Perform the actual mixin of all registered mixins for an object
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param  object $instance A Object instance to used as the mixer
+     * @param  ObjectIdentifier $identifier
+     * @param  ObjectMixable    $instance
      * @return void
      */
-    protected function _mixin($identifier, $instance)
+    protected function _mixin(ObjectIdentifier $identifier, $mixer)
     {
-        if (isset($this->_mixins[$identifier]) && $instance instanceof ObjectMixable)
+        $identifier = (string) $identifier;
+
+        if (isset($this->_mixins[$identifier]) && $mixer instanceof ObjectMixable)
         {
             $mixins = $this->_mixins[$identifier];
             foreach ($mixins as $mixin) {
-                $instance->mixin($mixin);
+                $mixer->mixin($mixin);
             }
         }
     }
@@ -492,15 +493,38 @@ class ObjectManager implements ObjectManagerInterface
      * @param  object $instance A Object instance to used as the mixer
      * @return void
      */
-    protected function _decorate($identifier, $instance)
+    protected function _decorate(ObjectIdentifier $identifier, $delegate)
     {
-        if (isset($this->_decorators[$identifier]) && $instance instanceof ObjectDecoratable)
+        $identifier = (string) $identifier;
+
+        if (isset($this->_decorators[$identifier]) && $delegate instanceof ObjectDecoratable)
         {
             $decorators = $this->_decorators[$identifier];
             foreach ($decorators as $decorator) {
-                $instance = $instance->decorate($decorator);
+                $delegate = $delegate->decorate($decorator);
             }
         }
+    }
+
+    /**
+     * Configure an identifier
+     *
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @param array $config
+     *
+     * @return ObjectConfig
+     */
+    protected function _configure(ObjectIdentifier $identifier, $config)
+    {
+        //Create the object configuration
+        $config = new ObjectConfig(array_merge($this->getConfig($identifier), $config));
+
+        //Set the service container and identifier
+        $config->object_manager    = $this;
+        $config->object_identifier = $identifier;
+
+        return $config;
     }
 
     /**
@@ -526,12 +550,8 @@ class ObjectManager implements ObjectManagerInterface
                 );
             }
 
-            //Create the object configuration
-            $config = new ObjectConfig(array_merge($this->getConfig($identifier), $config));
-
-            //Set the service container and identifier
-            $config->object_manager    = $this;
-            $config->object_identifier = $identifier;
+            //Configure the identifier
+            $config = $this->_configure($identifier, $config);
 
             // Delegate object instantiation.
             if (array_key_exists(__NAMESPACE__.'\ObjectInstantiable', class_implements($identifier->classname, false))) {
