@@ -18,6 +18,13 @@ namespace Nooku\Library;
 interface ClassLocatorInterface
 {
     /**
+     * Constructor
+     *
+     * @param array $config Array of configuration options.
+     */
+    public function __construct($config = array());
+
+    /**
      * Register a namespace
      *
      * @param  string $namespace
