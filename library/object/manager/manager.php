@@ -94,6 +94,8 @@ class ObjectManager implements ObjectManagerInterface
 
         if(isset($config['class_loader'])) {
             $this->setClassLoader($config['class_loader']);
+        } else {
+            $this->setClassLoader(ClassLoader::getInstance());
         }
 
         //Create the service container
@@ -191,7 +193,7 @@ class ObjectManager implements ObjectManagerInterface
         $path = $identifier->filepath;
 
         if ($path !== false) {
-            $result = ClassLoader::getInstance()->loadFile($path);
+            $result = $this->getClassLoader()->loadFile($path);
         }
 
         return $result;
@@ -625,7 +627,7 @@ class ObjectManager implements ObjectManagerInterface
     {
         $result = null;
 
-        if ($this->_loader->loadClass($identifier->classname))
+        if ($this->getClassLoader()->loadClass($identifier->classname))
         {
             if (!array_key_exists(__NAMESPACE__.'\ObjectInterface', class_implements($identifier->classname, false)))
             {
