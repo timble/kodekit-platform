@@ -65,7 +65,7 @@ class User extends Object implements UserInterface, ObjectInstantiable
     /**
      * Force creation of a singleton
      *
-     * @param 	ObjectConfig                 $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
