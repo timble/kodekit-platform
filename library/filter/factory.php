@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterFactory extends Object implements ObjectSingleton
+class FilterFactory extends ObjectFactoryAbstract implements ObjectSingleton
 {
 	/**
 	 * Factory method for FilterInterface classes.
@@ -23,10 +23,10 @@ class FilterFactory extends Object implements ObjectSingleton
      * using a FIFO approach.
 	 *
 	 * @param	string|array $identifier Filter identifier(s)
-	 * @param 	object 	     $config     An optional ObjectConfig object with configuration options
+	 * @param 	object|array $config     An optional ObjectConfig object with configuration options
 	 * @return  FilterInterface
 	 */
-	public function getFilter($identifier, $config = array())
+	public function getInstance($identifier, $config = array())
 	{
 		//Get the filter(s) we need to create
 		$filters = (array) $identifier;

@@ -182,7 +182,7 @@ class Request
         }
 
         if(!($filter instanceof FilterInterface)) {
-            $filter = ObjectManager::getInstance()->get('lib:filter.factory')->getFilter($filter);
+            $filter = ObjectManager::getInstance()->get('lib:filter.factory')->getInstance($filter);
         }
 
         return $filter->sanitize($result);
