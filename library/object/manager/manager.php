@@ -23,7 +23,7 @@ class ObjectManager implements ObjectManagerInterface
      *
      * @var ObjectRegistry
      */
-    protected $_registry = null;
+    protected $_objects = null;
 
     /**
      * The object locators
@@ -86,7 +86,7 @@ class ObjectManager implements ObjectManagerInterface
         }
 
         //Create the service container
-        $this->_registry = new ObjectRegistry();
+        $this->_objects = new ObjectRegistry();
 
         //Auto-load the library adapter
         $this->registerLocator(new ObjectLocatorLibrary(new ObjectConfig()));
@@ -143,7 +143,7 @@ class ObjectManager implements ObjectManagerInterface
         $objIdentifier = $this->getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
 
-        if (!$this->_registry->offsetExists($strIdentifier))
+        if (!$this->_objects->offsetExists($strIdentifier))
         {
             //Instantiate the object
             $instance = $this->_instantiate($objIdentifier, $config);
@@ -159,7 +159,7 @@ class ObjectManager implements ObjectManagerInterface
                 $this->register($objIdentifier, $instance);
             }
         }
-        else $instance = $this->_registry->offsetGet($strIdentifier);
+        else $instance = $this->_objects->offsetGet($strIdentifier);
 
         return $instance;
     }
@@ -197,7 +197,7 @@ class ObjectManager implements ObjectManagerInterface
         $objIdentifier = $this->getIdentifier($identifier);
         $strIdentifier = (string)$objIdentifier;
 
-        $this->_registry->offsetSet($strIdentifier, $object);
+        $this->_objects->offsetSet($strIdentifier, $object);
     }
 
     /**
@@ -212,7 +212,7 @@ class ObjectManager implements ObjectManagerInterface
         try {
             $objIdentifier = $this->getIdentifier($identifier);
             $strIdentifier = (string)$objIdentifier;
-            $result = (bool)$this->_registry->offsetExists($strIdentifier);
+            $result = (bool)$this->_objects->offsetExists($strIdentifier);
 
         } catch (\InvalidArgumentException $e) {
             $result = false;
@@ -245,9 +245,9 @@ class ObjectManager implements ObjectManagerInterface
         $this->_mixins[$strIdentifier][(string) $this->getIdentifier($mixin)] = $mixin;
 
         //If the identifier already exists mixin the mixin
-        if ($this->_registry->offsetExists($strIdentifier))
+        if ($this->_objects->offsetExists($strIdentifier))
         {
-            $instance = $this->_registry->offsetGet($strIdentifier);
+            $instance = $this->_objects->offsetGet($strIdentifier);
             $this->_mixin($objIdentifier, $instance);
         }
     }
@@ -296,9 +296,9 @@ class ObjectManager implements ObjectManagerInterface
         $this->_decorators[$strIdentifier][(string) $this->getIdentifier($decorator)] = $decorator;
 
         //If the identifier already exists decorate
-        if ($this->_registry->offsetExists($strIdentifier))
+        if ($this->_objects->offsetExists($strIdentifier))
         {
-            $instance = $this->_registry->offsetGet($strIdentifier);
+            $instance = $this->_objects->offsetGet($strIdentifier);
             $this->_decorate($objIdentifier, $instance);
         }
     }
