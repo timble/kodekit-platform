@@ -69,15 +69,15 @@ interface ObjectManagerInterface
     public function isSingleton($identifier);
 
     /**
-     * Register a mixin or an array of mixins for an identifier
+     * Register a mixin for an identifier
      *
-     * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to
-     * objects that already exist in the service registry.
+     * The mixin is mixed when the identified object is first instantiated see {@link get} The mixin is also mixed with
+     * with the represented by the identifier if the object is registered in the object manager. This mostly applies to
+     * singletons but can also apply to other objects that are manually registered.
      *
-     * @param mixed $identifier An object that implements ObjectInterface, on ObjectIdentifier object
-     *                          or valid identifier string
-     * @param  string $mixin    A mixin identifier string
-     * @return ObjectManagerInterface
+     * @param mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier or an identifier string
+     * @param mixed $mixin      An object that implements ObjectMixerInterface, an ObjectIdentifier or an identifier string
+     * @return ObjectManager
      * @see Object::mixin()
      */
     public function registerMixin($identifier, $mixins);
@@ -87,32 +87,51 @@ interface ObjectManagerInterface
      *
      * @param mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
      *                          or valid identifier string
-     * @return array An array of mixins
+     * @return ObjectRegistry   An array of mixins
      */
     public function getMixins($identifier);
 
     /**
-     * Register a decorator or an array of decorators for an identifier
+     * Register a decorator for an identifier
      *
-     * The object is decorated when it's first instantiated see {@link get} Decorators are also added to objects that
-     * already exist in the object registry.
+     * The object is decorated when it's first instantiated see {@link get} The object represented by the identifier is
+     * also decorated if the object is registered in the object manager. This mostly applies to singletons but can also
+     * apply to other objects that are manually registered.
      *
-     * @param mixed $identifier An object that implements ObjectInterface,an  ObjectIdentifier object
-     *                          or valid identifier string
-     * @param  string $decorator  A decorator identifier
+     * @param mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier or an identifier string
+     * @param mixed $decorator  An object that implements ObjectDecoratorInterface, an ObjectIdentifier or an identifier string
+     * @param  string $decorator A decorator identifier
      * @return ObjectManagerInterface
      * @see Object::decorate()
      */
-    public function registerDecorator($identifier, $decorators);
+    public function registerDecorator($identifier, $decorator);
 
     /**
      * Get the decorators for an identifier
      *
      * @param mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
      *                          or valid identifier string
-     * @return array An array of decorators
+     * ObjectRegistry   An array of decorators
      */
     public function getDecorators($identifier);
+
+    /**
+     * Register an alias for an identifier
+     *
+     * @param string $alias      The alias
+     * @param mixed  $identifier The class identifier or identifier object
+     * @return ObjectManagerInterface
+     */
+    public function registerAlias($alias, $identifier);
+
+    /**
+     * Get the aliases for an identifier
+     *
+     * @param mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
+     *                          or valid identifier string
+     * @return array   An array of aliases
+     */
+    public function getAliases($identifier);
 
     /**
      * Register an object locator
@@ -169,31 +188,6 @@ interface ObjectManagerInterface
      * @return array  An associative array of configuration options
      */
     public function getConfigs();
-
-	/**
-	 * Set an alias for an identifier
-	 *
-	 * @param string $alias      The alias
-	 * @param mixed  $identifier The class identifier or identifier object
-     * @return ObjectManagerInterface
-	 */
-	public function setAlias($alias, $identifier);
-
-    /**
-     * Get the identifier for an alias
-     *
-     * @param string $alias The alias
-     * @return mixed|false An object that implements ObjectInterface, an ObjectIdentifier object
-     *                     or valid identifier string
-     */
-    public function getAlias($alias);
-
-	/**
-     * Get a list of aliases
-     *
-     * @return array
-     */
-    public function getAliases();
 
     /**
      * Get the class loader

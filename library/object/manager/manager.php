@@ -19,11 +19,11 @@ namespace Nooku\Library;
 class ObjectManager implements ObjectManagerInterface
 {
     /**
-     * Object registry
+     * The object registry
      *
      * @var ObjectRegistry
      */
-    protected $_objects = null;
+    protected $_registry;
 
     /**
      * The object locators
@@ -32,47 +32,33 @@ class ObjectManager implements ObjectManagerInterface
      */
     protected $_locators = array();
 
-    /**
-     * The identifier registry
-     *
-     * @var ObjectIdentifierRegistry
-     */
-    protected $_identifiers = null;
-
-    /**
-     * The object mixins
-     *
-     * @var    array
-     */
-    protected $_mixins = array();
-
-    /**
-     * The object decorators
-     *
-     * @var    array
-     */
-    protected $_decorators = array();
-
-    /**
-     * The identifier aliases
-     *
-     * @var    array
-     */
-    protected $_aliases = array();
-
-    /**
-     * The object configs
-     *
-     * @var    array
-     */
-    protected $_configs = array();
-
     /*
      * The class loader
      *
      * @var ClassLoader
      */
-    protected $_loader = null;
+    protected $_loader;
+
+    /**
+     * The object mixins
+     *
+     * @var ObjectRegistry
+     */
+    protected $_mixins;
+
+    /**
+     * The object decorators
+     *
+     * @var ObjectRegistry
+     */
+    protected $_decorators;
+
+    /**
+     * The object configs
+     *
+     * @var  ObjectRegistry
+     */
+    protected $_configs;
 
     /**
      * Constructor
@@ -82,15 +68,13 @@ class ObjectManager implements ObjectManagerInterface
     protected function __construct(ObjectConfig $config)
     {
         //Create the identifier registry
-        $this->_identifiers = new ObjectIdentifierRegistry();
-
-        if (isset($config['cache_prefix'])) {
-            $this->_identifiers->setCachePrefix($config['cache_prefix']);
+        /*if (isset($config['cache_prefix'])) {
+            $this->_registry->setCachePrefix($config['cache_prefix']);
         }
 
         if (isset($config['cache_enabled'])) {
-            $this->_identifiers->enableCache($config['cache_enabled']);
-        }
+            $this->_registry->enableCache($config['cache_enabled']);
+        }*/
 
         if(isset($config['class_loader'])) {
             $this->setClassLoader($config['class_loader']);
@@ -98,11 +82,15 @@ class ObjectManager implements ObjectManagerInterface
             $this->setClassLoader(ClassLoader::getInstance());
         }
 
-        //Create the service container
-        $this->_objects = new ObjectRegistry();
-
         //Auto-load the library adapter
         $this->registerLocator(new ObjectLocatorLibrary(new ObjectConfig()));
+
+        //Create the registries
+        $this->_registry = new ObjectRegistry();
+
+        $this->_mixins      = new ObjectRegistry();
+        $this->_decorators  = new ObjectRegistry();
+        $this->_configs     = new ObjectRegistry();
     }
 
     /**
@@ -153,26 +141,25 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function get($identifier, array $config = array())
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
+        $identifier = $this->getIdentifier($identifier);
 
-        if (!$this->_objects->offsetExists($strIdentifier))
+        if (!$this->isRegistered($identifier))
         {
             //Instantiate the object
-            $instance = $this->_instantiate($objIdentifier, $config);
+            $instance = $this->_instantiate($identifier, $config);
 
             //Mix the object
-            $this->_mixin($objIdentifier, $instance);
+            $this->_mixin($identifier, $instance);
 
             //Decorate the object
-            $this->_decorate($objIdentifier, $instance);
+            $this->_decorate($identifier, $instance);
 
-            //Register the object
+            //Auto register the object
             if($instance instanceof ObjectSingleton) {
-                $this->register($objIdentifier, $instance);
+                $this->register($identifier, $instance);
             }
         }
-        else $instance = $this->_objects->offsetGet($strIdentifier);
+        else $instance = $this->_registry->get($identifier);
 
         return $instance;
     }
@@ -190,7 +177,7 @@ class ObjectManager implements ObjectManagerInterface
         $identifier = $this->getIdentifier($identifier);
 
         //Get the path
-        $path = $identifier->filepath;
+        $path = $identifier->classpath;
 
         if ($path !== false) {
             $result = $this->getClassLoader()->loadFile($path);
@@ -208,16 +195,14 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function register($identifier, ObjectInterface $object)
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
-
-        $this->_objects->offsetSet($strIdentifier, $object);
+        $$identifier = $this->getIdentifier($identifier);
+        $this->_registry->set($identifier, $object);
 
         return $this;
     }
 
     /**
-     * Check if the object instance exists based on the identifier
+     * Check if an object instance was registered for the identifier
      *
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
@@ -225,11 +210,18 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function isRegistered($identifier)
     {
-        try {
-            $identifier = (string) $this->getIdentifier($identifier);
-            $result     = (bool)$this->_objects->offsetExists($identifier);
+        try
+        {
+            $object = $this->_registry->get($this->getIdentifier($identifier));
 
-        } catch (\InvalidArgumentException $e) {
+            //If the object implements ObjectInterface we have registered an object
+            if($object instanceof ObjectInterface) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+        } catch (ObjectExceptionInvalidIdentifier $e) {
             $result = false;
         }
 
@@ -245,12 +237,8 @@ class ObjectManager implements ObjectManagerInterface
     public function isSingleton($identifier)
     {
         try {
-            $identifier = $this->getIdentifier($identifier);
-            $classname  = $identifier->classname;
-
-            $result = array_key_exists(__NAMESPACE__.'\ObjectSingleton', class_implements($classname));
-
-        } catch (\InvalidArgumentException $e) {
+            $result = $this->getIdentifier($identifier)->isSingleton();
+        } catch (ObjectExceptionInvalidIdentifier $e) {
             $result = false;
         }
 
@@ -271,21 +259,20 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function registerMixin($identifier, $mixin)
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
+        $identifier = $this->getIdentifier($identifier);
 
-        if (!isset($this->_mixins[$strIdentifier])) {
-            $this->_mixins[$strIdentifier] = array();
+        if (!$this->_mixins->has($identifier)) {
+            $this->_mixins->set($identifier, new ObjectRegistry());
         }
 
         //Prevent mixins from being added twice
-        $this->_mixins[$strIdentifier][(string) $this->getIdentifier($mixin)] = $mixin;
+        $this->_mixins->get($identifier)->set($this->getIdentifier($mixin), $mixin);
 
         //If the identifier already exists mixin the mixin
-        if ($this->_objects->offsetExists($strIdentifier))
+        if ($this->isRegistered($identifier))
         {
-            $instance = $this->_objects->offsetGet($strIdentifier);
-            $this->_mixin($objIdentifier, $instance);
+            $instance = $this->_registry->get($identifier);
+            $this->_mixin($identifier, $instance);
         }
 
         return $this;
@@ -296,16 +283,15 @@ class ObjectManager implements ObjectManagerInterface
      *
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
-     * @return array An array of mixins
+     * @return ObjectRegistry   An array of mixins
      */
     public function getMixins($identifier)
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string) $objIdentifier;
+        $identifier = $this->getIdentifier($identifier);
 
         $result = array();
-        if (isset($this->_mixins[$strIdentifier])) {
-            $result = $this->_mixins[$strIdentifier];
+        if ($this->_mixins->has($identifier)) {
+            $result = $this->_mixins->get($identifier);
         }
 
         return $result;
@@ -325,21 +311,20 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function registerDecorator($identifier, $decorator)
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
+        $identifier = $this->getIdentifier($identifier);
 
-        if (!isset($this->_decorators[$strIdentifier])) {
-            $this->_decorators[$strIdentifier] = array();
+        if (!$this->_mixins->has($identifier)) {
+            $this->_mixins->set($identifier, new ObjectRegistry());
         }
 
         //Prevent decorators from being added twice
-        $this->_decorators[$strIdentifier][(string) $this->getIdentifier($decorator)] = $decorator;
+        $this->_decorators->get($identifier)->set($this->getIdentifier($decorator), $decorator);
 
         //If the identifier already exists decorate
-        if ($this->_objects->offsetExists($strIdentifier))
+        if ($this->isRegistered($identifier))
         {
-            $instance = $this->_objects->offsetGet($strIdentifier);
-            $this->_decorate($objIdentifier, $instance);
+            $instance = $this->_registry->get($identifier);
+            $this->_decorate($identifier, $instance);
         }
 
         return $this;
@@ -350,16 +335,15 @@ class ObjectManager implements ObjectManagerInterface
      *
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
-     * @return array An array of decorators
+     * @return ObjectRegistry   An array of mixins
      */
     public function getDecorators($identifier)
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
+        $identifier = $this->getIdentifier($identifier);
 
         $result = array();
-        if (isset($this->_decorators[$strIdentifier])) {
-            $result = $this->_decorators[$strIdentifier];
+        if ($this->_decorators->has($identifier)) {
+            $result = $this->_decorators->get($identifier);
         }
 
         return $result;
@@ -423,63 +407,49 @@ class ObjectManager implements ObjectManagerInterface
             }
         }
 
-        //Find the identifier by checking the alias map
-        while(array_key_exists((string) $identifier, $this->_aliases)) {
-            $identifier = $this->_aliases[(string) $identifier];
-        }
-
         //Get the identifier object
-        if (!$this->_identifiers->offsetExists((string)$identifier))
+        if (!$result = $this->_registry->find($identifier))
         {
             if (is_string($identifier)) {
-                $identifier = new ObjectIdentifier($identifier, $this);
+                $result = new ObjectIdentifier($identifier, $this);
+            } else {
+                $result = $identifier;
             }
 
-            $this->_identifiers->offsetSet((string)$identifier, $identifier);
+            $this->_registry->set($result);
         }
-        else $identifier = $this->_identifiers->offsetGet((string)$identifier);
 
-        return $identifier;
+        return $result;
     }
 
     /**
-     * Set an alias for an identifier
+     * Register an alias for an identifier
      *
      * @param string $alias      The alias
      * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
      *  @return ObjectManager
      */
-    public function setAlias($alias, $identifier)
+    public function registerAlias($alias, $identifier)
     {
-        $alias = trim((string)$alias);
+        $alias      = trim((string) $alias);
         $identifier = $this->getIdentifier($identifier);
 
-        $this->_aliases[$alias] = $identifier;
+        $this->_registry->alias($alias, $identifier);
 
         return $this;
     }
 
     /**
-     * Get the identifier for an alias
+     * Get the aliases for an identifier
      *
-     * @param string $alias The alias
-     * @return mixed|false An object that implements ObjectInterface, ObjectIdentifier object
-     *                     or valid identifier string
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @return array An array of aliases
      */
-    public function getAlias($alias)
+    public function getAliases($identifier)
     {
-        return isset($this->_aliases[$alias]) ? $this->_aliases[$alias] : false;
-    }
-
-    /**
-     * Get a list of aliases
-     *
-     * @return array
-     */
-    public function getAliases()
-    {
-        return $this->_aliases;
+        return array_search((string) $identifier, $this->_registry->getAliases());
     }
 
     /**
@@ -492,13 +462,12 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function setConfig($identifier, array $config)
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
+        $identifier = $this->getIdentifier($identifier);
 
-        if (isset($this->_configs[$strIdentifier])) {
-            $this->_configs[$strIdentifier] = $this->_configs[$strIdentifier]->append($config);
+        if ($this->_configs->has($identifier)) {
+            $this->_configs->set($identifier, $this->_configs->get($identifier)->append($config));
         } else {
-            $this->_configs[$strIdentifier] = new ObjectConfig($config);
+            $this->_configs->set($identifier, new ObjectConfig($config));
         }
 
         return $this;
@@ -513,10 +482,9 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function getConfig($identifier)
     {
-        $objIdentifier = $this->getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
+        $identifier = $this->getIdentifier($identifier);
 
-        return isset($this->_configs[$strIdentifier]) ? $this->_configs[$strIdentifier]->toArray() : array();
+        return $this->_configs->has($identifier) ? $this->_configs->get($identifier)->toArray() : array();
     }
 
     /**
@@ -560,11 +528,9 @@ class ObjectManager implements ObjectManagerInterface
      */
     protected function _mixin(ObjectIdentifier $identifier, $mixer)
     {
-        $identifier = (string) $identifier;
-
-        if (isset($this->_mixins[$identifier]) && $mixer instanceof ObjectMixable)
+        if ($this->_mixins->has($identifier) && $mixer instanceof ObjectMixable)
         {
-            $mixins = $this->_mixins[$identifier];
+            $mixins = $this->_mixins->get($identifier);
             foreach ($mixins as $mixin) {
                 $mixer->mixin($mixin);
             }
@@ -581,11 +547,9 @@ class ObjectManager implements ObjectManagerInterface
      */
     protected function _decorate(ObjectIdentifier $identifier, $delegate)
     {
-        $identifier = (string) $identifier;
-
-        if (isset($this->_decorators[$identifier]) && $delegate instanceof ObjectDecoratable)
+        if ($this->_decorators->has($identifier) && $delegate instanceof ObjectDecoratable)
         {
-            $decorators = $this->_decorators[$identifier];
+            $decorators = $this->_decorators->get($identifier);
             foreach ($decorators as $decorator) {
                 $delegate = $delegate->decorate($decorator);
             }
