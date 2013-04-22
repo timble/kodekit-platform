@@ -15,15 +15,5 @@
 		    <?= $contact->name; ?>
 		</a>
 	</td>
-    <? if ($params->get('show_email')) : ?>
-	<td nowrap="nowrap">
-	    <?= $contact->email_to; ?>
-	</td>
-    <? endif; ?>
-    <? if ($params->get('show_telephone')) : ?>
-    <td nowrap="nowrap">
-        <?= @escape($contact->telephone); ?>
-    </td>
-    <? endif; ?>
 </tr>
 <? endforeach; ?>
