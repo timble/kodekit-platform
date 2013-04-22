@@ -63,7 +63,7 @@ class DispatcherApplication extends DispatcherAbstract implements ObjectInstanti
             $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('application', $config->object_identifier);
+            $manager->registerAlias('application', $config->object_identifier);
         }
 
         return $manager->get('application');

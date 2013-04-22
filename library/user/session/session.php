@@ -166,7 +166,7 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
             $instance  = new $classname($config);
             $manager->register($config->object_identifier, $instance);
 
-            $manager->setAlias('session', $config->object_identifier);
+            $manager->registerAlias('session', $config->object_identifier);
         }
 
         return $manager->get('session');

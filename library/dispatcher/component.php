@@ -72,7 +72,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('component', $config->object_identifier);
+            $manager->registerAlias('component', $config->object_identifier);
         }
 
         return $manager->get($config->object_identifier);

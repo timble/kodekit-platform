@@ -17,10 +17,10 @@
 
 use Nooku\Library\ObjectManager;
 
-ObjectManager::getInstance()->setAlias('application'           , 'com:application.dispatcher');
-ObjectManager::getInstance()->setAlias('application.components', 'com:application.database.rowset.components');
-ObjectManager::getInstance()->setAlias('application.languages' , 'com:application.database.rowset.languages');
-ObjectManager::getInstance()->setAlias('application.pages'     , 'com:application.database.rowset.pages');
-ObjectManager::getInstance()->setAlias('application.modules'   , 'com:application.database.rowset.modules');
+ObjectManager::getInstance()->registerAlias('application'           , 'com:application.dispatcher');
+ObjectManager::getInstance()->registerAlias('application.components', 'com:application.database.rowset.components');
+ObjectManager::getInstance()->registerAlias('application.languages' , 'com:application.database.rowset.languages');
+ObjectManager::getInstance()->registerAlias('application.pages'     , 'com:application.database.rowset.pages');
+ObjectManager::getInstance()->registerAlias('application.modules'   , 'com:application.database.rowset.modules');
 
-ObjectManager::getInstance()->setAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');
+ObjectManager::getInstance()->registerAlias('lib:database.adapter.mysql', 'com:application.database.adapter.mysql');

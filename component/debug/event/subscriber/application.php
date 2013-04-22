@@ -25,7 +25,7 @@ class EventSubscriberApplication extends Library\EventSubscriberAbstract
 	    if($this->getObject('application')->getCfg('debug'))
 	    {
 	        //Replace the event dispatcher
-	        $this->getObject()->setAlias('lib:event.dispatcher.default', 'com:debug.event.profiler');
+	        $this->getObject()->registerAlias('lib:event.dispatcher.default', 'com:debug.event.profiler');
 	          
 	        //Add the database tracer
 	        $this->getObject('application.database')->addEventSubscriber('com:debug.event.subscriber.database');

@@ -17,5 +17,5 @@
 
 use Nooku\Library\ObjectManager;
 
-ObjectManager::getInstance()->setAlias('com:articles.model.categories', 'com:categories.model.categories');
+ObjectManager::getInstance()->registerAlias('com:articles.model.categories', 'com:categories.model.categories');
 

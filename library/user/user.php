@@ -77,7 +77,7 @@ class User extends Object implements UserInterface, ObjectInstantiable
             $instance  = new $classname($config);
             $manager->register($config->object_identifier, $instance);
 
-            $manager->setAlias('user', $config->object_identifier);
+            $manager->registerAlias('user', $config->object_identifier);
         }
 
         return $manager->get('user');

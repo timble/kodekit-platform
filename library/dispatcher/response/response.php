@@ -83,7 +83,7 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
             $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('response', $config->object_identifier);
+            $manager->registerAlias('response', $config->object_identifier);
         }
 
         return $manager->get('response');

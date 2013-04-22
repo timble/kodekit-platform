@@ -254,7 +254,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $manager->register($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('request', $config->object_identifier);
+            $manager->registerAlias('request', $config->object_identifier);
         }
 
         return $manager->get('request');

@@ -17,6 +17,6 @@
 
 use Nooku\Library\ObjectManager;
 
-ObjectManager::getInstance()->setAlias('com:articles.model.terms', 'com:terms.model.terms');
-ObjectManager::getInstance()->setAlias('com:articles.model.categories', 'com:categories.model.categories');
-ObjectManager::getInstance()->setAlias('com:articles.view.attachment.file', 'com:attachments.view.attachment.file');
+ObjectManager::getInstance()->registerAlias('com:articles.model.terms', 'com:terms.model.terms');
+ObjectManager::getInstance()->registerAlias('com:articles.model.categories', 'com:categories.model.categories');
+ObjectManager::getInstance()->registerAlias('com:articles.view.attachment.file', 'com:attachments.view.attachment.file');
