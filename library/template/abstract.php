@@ -218,7 +218,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
             $info  = pathinfo( $file );
 
             //Get the filepath based on the identifier
-            $path  = $this->getIdentifier($info['filename'])->filepath;
+            $path  = $this->getIdentifier($info['filename'])->classpath;
 
             //Add the templates folder
             $path = dirname($path).'/templates/'.basename($path);

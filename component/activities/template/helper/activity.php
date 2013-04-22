@@ -33,7 +33,7 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
        
         $identifier = $manager->getIdentifier($identifier);
         
-        if(file_exists($identifier->filepath)) {
+        if(file_exists($identifier->classpath)) {
             $classname = $identifier->classname;    
         } else {
             $classname = $config->object_identifier->classname;

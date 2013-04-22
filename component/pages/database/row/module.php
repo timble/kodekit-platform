@@ -71,7 +71,7 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 
 	    if($column == 'manifest' && empty($this->_data['manifest']))
 		{
-            $path = dirname($this->identifier->filepath);
+            $path = dirname($this->identifier->classpath);
             $file = $path.'/'.basename($path).'.xml';
 
             if(file_exists($file)) {
@@ -87,7 +87,7 @@ class DatabaseRowModule extends Library\DatabaseRowTable
         
 	    if($column == 'params' && !($this->_data['params']) instanceof \JParameter)
         {
-            $path = dirname($this->identifier->filepath);
+            $path = dirname($this->identifier->classpath);
             $file = $path.'/config.xml';
 
 	        $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'module' );

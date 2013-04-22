@@ -104,7 +104,7 @@ abstract class ControllerView extends ControllerAbstract
 			//Make sure the view exists if we are dispatching this controller
             if($this->isDispatched())
             {
-                //if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
+                //if(!file_exists(dirname($this->_view->getIdentifier()->classpath))) {
                 //    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
                 //}
             }
