@@ -29,7 +29,7 @@ interface HttpUrlInterface
      * Set the URL scheme
      *
      * @param  string $scheme
-     * @return  HttpUrl
+     * @return  HttpUrlInterface
      */
     public function setScheme($scheme);
 
@@ -44,7 +44,7 @@ interface HttpUrlInterface
      * Set the URL user
      *
      * @param  string $user
-     * @return HttpUrl
+     * @return HttpUrlInterface
      */
     public function setUser($user);
 
@@ -59,7 +59,7 @@ interface HttpUrlInterface
      * Set the URL password
      *
      * @param  string $user
-     * @return KHttpUrl
+     * @return HttpUrlInterface
      */
     public function setPass($password);
 
@@ -74,7 +74,7 @@ interface HttpUrlInterface
      * Set the URL Host
      *
      * @param  string $host
-     * @return KHttpUrl
+     * @return HttpUrlInterface
      */
     public function setHost($host);
 
@@ -89,7 +89,7 @@ interface HttpUrlInterface
      * Set the port part of the URL
      *
      * @param  integer $port
-     * @return KHttpUrl
+     * @return HttpUrlInterface
      */
     public function setPort($port);
 
@@ -109,7 +109,7 @@ interface HttpUrlInterface
      * @param   string|array  $path The path string or array of elements to use; for example,"/foo/bar/baz/dib".
      *                              A leading slash will *not* create an empty first element; if the string has a
      *                              leading slash, it is ignored.
-     * @return  KHttpUrl
+     * @return  HttpUrlInterface
      */
     public function setPath($path);
 
@@ -127,7 +127,7 @@ interface HttpUrlInterface
      *
      * @param   string|array  $query  The query string to use; for example `foo=bar&baz=dib`.
      * @param   boolean       $merge  If TRUE the data in $query will be merged instead of replaced. Default FALSE.
-     * @return  KHttpUrl
+     * @return  HttpUrlInterface
      */
     public function setQuery($query, $merge = false);
 
@@ -142,7 +142,7 @@ interface HttpUrlInterface
      * Set the URL format
      *
      * @param  string $format
-     * @return KHttpUrl
+     * @return HttpUrlInterface
      */
     public function setFormat($format);
 
@@ -157,7 +157,7 @@ interface HttpUrlInterface
      * Set the URL fragment part
      *
      * @param  string $fragment
-     * @return KHttpUrl
+     * @return HttpUrlInterface
      */
     public function setFragment($fragment);
 
@@ -167,7 +167,7 @@ interface HttpUrlInterface
      * Partial URLs are also accepted,froString tries its best to parse them correctly.
      *
      * @param   string  $url
-     * @return  KHttpUrl
+     * @return  HttpUrlInterface
      * @see     parse_url()
      */
     public function fromString($url);
@@ -178,7 +178,7 @@ interface HttpUrlInterface
      * Using scheme://user:pass@host/path?query#fragment';
      *
      * @param integer $parts A bitmask of binary or'ed HTTP_URL constants; FULL is the default
-     * @return  string
+     * @return string
      */
     public function toString($parts = self::FULL);
 }
