@@ -67,9 +67,9 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      *
      * @var string
      */
-    protected $_filepath = '';
+    protected $_classpath = '';
 
-     /**
+    /**
      * The classname
      *
      * @var string
@@ -111,141 +111,124 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         if(count($this->_path)) {
             $this->_name = array_pop($this->_path);
         }
-
-        //Cache the identifier to increase performance
-        $this->_identifier = $identifier;
     }
 
     /**
-     * Get the object locator for the identifier
+     * Get the identifier type
      *
-     * @return  ObjectLocatorInterface Return object locator or FALSE if no locator can be found.
+     * @return string
      */
-    final public function getLocator()
+    public function getType()
     {
-        $locator = null;
-
-        $locators = $this->__object_manager->getLocators();
-        if(isset($locators[$this->_type])) {
-            $locator = $locators[$this->_type];
-        }
-
-        return $locator;
-    }
-
-	/**
-	 * Serialize the identifier
-	 *
-	 * @return string 	The serialised identifier
-	 */
-	public function serialize()
-	{
-        $data = array(
-            'type'		  => $this->_type,
-            'package'	  => $this->_package,
-            'path'		  => $this->_path,
-            'name'		  => $this->_name,
-            'identifier'  => $this->_identifier,
-            'filepath'	  => $this->filepath,
-            'classname'   => $this->classname,
-        );
-
-        return serialize($data);
-	}
-
-	/**
-	 * Unserialize the identifier
-	 *
-	 * @return string $data	The serialised identifier
-	 */
-	public function unserialize($data)
-	{
-	    $data = unserialize($data);
-
-	    foreach($data as $property => $value) {
-	        $this->{'_'.$property} = $value;
-	    }
-	}
-
-    /**
-     * Implements the virtual class properties
-     *
-     * This functions creates a string representation of the identifier.
-     *
-     * @param   string  $property The virtual property to set.
-     * @param   string  $value    Set the virtual property to this value.
-     * @throws \DomainException If the namespace or type are unknown
-     */
-    public function __set($property, $value)
-    {
-        if(isset($this->{'_'.$property}))
-        {
-            //Force the path to an array
-            if($property == 'path')
-            {
-                if(is_scalar($value)) {
-                     $value = (array) $value;
-                }
-            }
-
-            //Set the type
-            if($property == 'type')
-            {
-                $this->_type = $value;
-
-                //Check the type
-                if(!$this->getLocator())  {
-                    throw new \DomainException('Unknow type : '.$value);
-                }
-            }
-
-            //Set the properties
-            $this->{'_'.$property} = $value;
-
-            //Unset the properties
-            $this->_identifier = '';
-            $this->_classname  = '';
-            $this->_filepath   = '';
-        }
+        return $this->_type;
     }
 
     /**
-     * Implements access to virtual properties by reference so that it appears to be a public property.
+     * Set the identifier type
      *
-     * @param   string  $property The virtual property to return.
-     * @return  array   The value of the virtual property.
+     * @param  string $type
+     * @return  ObjectIdentifierInterface
      */
-    public function &__get($property)
+    public function setType($type)
     {
-        $result = null;
-        if(isset($this->{'_'.$property}))
-        {
-            if($property == 'filepath' && empty($this->_filepath)) {
-                $this->_filepath = $this->getLocator()->findPath($this);
-            }
-
-            if($property == 'classname' && empty($this->_classname)) {
-                $this->_classname = $this->getLocator()->locate($this);
-            }
-
-            $result =& $this->{'_'.$property};
-        }
-
-        return $result;
+        $this->type = $type;
+        return $this;
     }
 
     /**
-     * This function checks if a virtual property is set.
+     * Get the identifier package
      *
-     * @param   string  $property The virtual property to return.
-     * @return  boolean True if it exists otherwise false.
+     * @return string
      */
-    public function __isset($property)
+    public function getPackage()
     {
-        $name = ltrim($property, '_');
-        $vars = get_object_vars($this);
+        return $this->_package;
+    }
 
-        return isset($vars['_'.$name]);
+    /**
+     * Set the identifier package
+     *
+     * @param  string $package
+     * @return  ObjectIdentifierInterface
+     */
+    public function setPackage($package)
+    {
+        $this->package = $package;
+        return $this;
+    }
+
+    /**
+     * Get the identifier package
+     *
+     * @return array
+     */
+    public function getPath()
+    {
+        return $this->_path;
+    }
+
+    /**
+     * Set the identifier path
+     *
+     * @param  string $path
+     * @return  ObjectIdentifierInterface
+     */
+    public function setPath(array $path)
+    {
+        $this->_path = $path;
+        return $this;
+    }
+
+    /**
+     * Get the identifier package
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_name;
+    }
+
+    /**
+     * Set the identifier name
+     *
+     * @param  string $name
+     * @return  ObjectIdentifierInterface
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Get the identifier class name
+     *
+     * @return string
+     */
+    public function getClassName()
+    {
+        return $this->classname;
+    }
+
+    /**
+     * Get the identifier file path
+     *
+     * @return string
+     */
+    public function getClassPath()
+    {
+        return $this->classpath;
+    }
+
+    /**
+     * Check if the object is a singleton
+     *
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isSingleton()
+    {
+        return array_key_exists(__NAMESPACE__.'\ObjectSingleton', class_implements($this->classname));
     }
 
     /**
@@ -274,6 +257,125 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         }
 
         return $this->_identifier;
+    }
+
+	/**
+	 * Serialize the identifier
+	 *
+	 * @return string 	The serialised identifier
+	 */
+	public function serialize()
+	{
+        $data = array(
+            'type'		 => $this->_type,
+            'package'	 => $this->_package,
+            'path'		 => $this->_path,
+            'name'		 => $this->_name,
+            'identifier' => $this->_identifier,
+            'classpath'  => $this->classpath,
+            'classname'  => $this->classname,
+        );
+
+        return serialize($data);
+	}
+
+	/**
+	 * Unserialize the identifier
+	 *
+	 * @return string $data	The serialised identifier
+	 */
+	public function unserialize($data)
+	{
+	    $data = unserialize($data);
+
+	    foreach($data as $property => $value) {
+	        $this->{'_'.$property} = $value;
+	    }
+	}
+
+    /**
+     * Implements the virtual class properties
+     *
+     * This functions creates a string representation of the identifier.
+     *
+     * @param   string  $property The virtual property to set.
+     * @param   string  $value    Set the virtual property to this value.
+     * @throws \DomainException If the type is unknown
+     */
+    public function __set($property, $value)
+    {
+        if(isset($this->{'_'.$property}))
+        {
+            //Force the path to an array
+            if($property == 'path')
+            {
+                if(is_scalar($value)) {
+                     $value = (array) $value;
+                }
+            }
+
+            //Set the type
+            if($property == 'type')
+            {
+                $locators = $this->__object_manager->getLocators();
+                if(!isset($locators[$value])) {
+                    throw new \DomainException('Unknow type : '.$value);
+                }
+
+                $this->_type = $value;
+            }
+
+            //Set the properties
+            $this->{'_'.$property} = $value;
+
+            //Reset the properties
+            $this->_identifier = '';
+            $this->_classname  = '';
+            $this->_classpath  = '';
+        }
+    }
+
+    /**
+     * Implements access to virtual properties by reference so that it appears to be a public property.
+     *
+     * @param   string  $property The virtual property to return.
+     * @return  array   The value of the virtual property.
+     */
+    public function &__get($property)
+    {
+        $result = null;
+        if(isset($this->{'_'.$property}))
+        {
+            if($property == 'classpath' && empty($this->_classpath))
+            {
+                $locators = $this->__object_manager->getLocators();
+                $this->_classpath = $locators[$this->_type]->findPath($this);
+            }
+
+            if($property == 'classname' && empty($this->_classname))
+            {
+                $locators = $this->__object_manager->getLocators();
+                $this->_classname = $locators[$this->_type]->locate($this);
+            }
+
+            $result =& $this->{'_'.$property};
+        }
+
+        return $result;
+    }
+
+    /**
+     * This function checks if a virtual property is set.
+     *
+     * @param   string  $property The virtual property to return.
+     * @return  boolean True if it exists otherwise false.
+     */
+    public function __isset($property)
+    {
+        $name = ltrim($property, '_');
+        $vars = get_object_vars($this);
+
+        return isset($vars['_'.$name]);
     }
 
     /**

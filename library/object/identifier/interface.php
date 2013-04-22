@@ -21,16 +21,91 @@ namespace Nooku\Library;
 interface ObjectIdentifierInterface extends \Serializable
 {
     /**
+     * Get the identifier type
+     *
+     * @return string
+     */
+    public function getType();
+
+    /**
+     * Set the identifier type
+     *
+     * @param  string $type
+     * @return  ObjectIdentifierInterface
+     * @throws \DomainException If the type is unknown
+     */
+    public function setType($type);
+
+    /**
+     * Get the identifier package
+     *
+     * @return string
+     */
+    public function getPackage();
+
+    /**
+     * Set the identifier package
+     *
+     * @param  string $package
+     * @return  ObjectIdentifierInterface
+     */
+    public function setPackage($package);
+
+    /**
+     * Get the identifier package
+     *
+     * @return array
+     */
+    public function getPath();
+
+    /**
+     * Set the identifier path
+     *
+     * @param  string $path
+     * @return  ObjectIdentifierInterface
+     */
+    public function setPath(array $path);
+
+    /**
+     * Get the identifier package
+     *
+     * @return string
+     */
+    public function getName();
+
+    /**
+     * Set the identifier name
+     *
+     * @param  string $name
+     * @return  ObjectIdentifierInterface
+     */
+    public function setName($name);
+
+    /**
+     * Get the identifier class name
+     *
+     * @return string
+     */
+    public function getClassName();
+
+    /**
+     * Get the identifier file path
+     *
+     * @return string
+     */
+    public function getClassPath();
+
+    /**
+     * Check if the object is a singleton
+     *
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isSingleton();
+
+    /**
      * Formats the identifier as a [application::]type.component.[.path].name string
      *
      * @return string
      */
     public function toString();
-
-    /**
-     * Get the object locator for the identifier
-     *
-     * @return  ObjectLocatorInterface Return object locator or FALSE if no locator can be found.
-     */
-    public function getLocator();
 }
