@@ -539,7 +539,7 @@ class HttpUrl extends Object
      * Partial URLs are also accepted,froString tries its best to parse them correctly.
      *
      * @param   string  $url
-     * @throws  UnexpectedValueException If the url is not a string or cannot be casted to one.
+     * @throws  \UnexpectedValueException If the url is not a string or cannot be casted to one.
      * @return  HttpUrl
      * @see     parse_url()
      */
