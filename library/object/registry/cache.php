@@ -9,13 +9,13 @@
 namespace Nooku\Library;
 
 /**
- * Object Identifier Registry Class
+ * Cached Object Registry
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Object
  * @subpackage  Identifier
  */
-class ObjectIdentifierRegistry extends \ArrayObject
+class ObjectRegistryCache extends ObjectRegistry
 {
  	/**
  	 * Cache
@@ -29,7 +29,7 @@ class ObjectIdentifierRegistry extends \ArrayObject
  	 *
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'nooku-registry-identifier';
+    protected $_cache_prefix = 'nooku-registry';
 
 	/**
      * Enable class caching
