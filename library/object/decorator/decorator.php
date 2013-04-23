@@ -178,7 +178,7 @@ class ObjectDecorator implements ObjectDecoratorInterface
      */
     public function mixin($mixin, $config = array())
     {
-        $this->getDelegate($mixin, $config);
+        $this->getDelegate->mixin($mixin, $config);
         return $this;
     }
 
@@ -194,32 +194,9 @@ class ObjectDecorator implements ObjectDecoratorInterface
      */
     public function decorate($decorator, $config = array())
     {
-        if (!($decorator instanceof ObjectDecorator))
-        {
-            if (!($decorator instanceof ObjectIdentifier))
-            {
-                //Create the complete identifier if a partial identifier was passed
-                if (is_string($decorator) && strpos($decorator, '.') === false)
-                {
-                    $identifier = clone $this->getIdentifier();
-                    $identifier->path = 'decorator';
-                    $identifier->name = $decorator;
-                }
-                else $identifier = $this->getIdentifier($decorator);
-            }
-            else $identifier = $decorator;
+        $decorator = $this->getDelegate($decorator, $config);
 
-            $decorator = new $identifier->classname(new ObjectConfig($config));
-
-            if(!$decorator instanceof ObjectDecoratorInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'Decorator: '.get_class($identifier).' does not implement ObjectDecoratorInterface'
-                );
-            }
-        }
-
-        //Notify the decorator
+        //Notify the decorator and set the delegate
         $decorator->onDecorate($this);
 
         return $decorator;
