@@ -339,7 +339,7 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
             else $identifier = $this->getIdentifier($handler);
 
             //Set the configuration
-            $this->getObject()->setConfig($identifier, $config);
+            $identifier->setConfig($config);
 
             $handler = $identifier;
         }

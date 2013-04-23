@@ -194,7 +194,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 		    else $identifier = $this->getIdentifier($controller);
 
             //Set the configuration
-            $this->getObject()->setConfig($identifier, $config);
+            $identifier->setConfig($config);
 
 			$controller = $identifier;
 		}
