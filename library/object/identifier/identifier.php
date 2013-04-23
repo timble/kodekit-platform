@@ -77,6 +77,13 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     protected $_classname = '';
 
     /**
+     * The config
+     *
+     * @var ObjectConfig
+     */
+    protected $_config;
+
+    /**
      * Constructor
      *
      * @param   string $identifier Identifier string or object in type://namespace/package.[.path].name format
@@ -198,6 +205,42 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Get the config
+     *
+     * This function will lazy create a config object is one does not exist yet.
+     *
+     * @return ObjectConfig
+     */
+    public function getConfig()
+    {
+        if(!isset($this->_config)) {
+            $this->_config = new ObjectConfig();
+        }
+
+        return $this->_config;
+    }
+
+    /**
+     * Set the config
+     *
+     * @param   array    $data   A ObjectConfig object or a an array of configuration options
+     * @param   boolean  $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
+     * @return  ObjectIdentifierInterface
+     */
+    public function setConfig($data, $merge = true)
+    {
+        $config = $this->getConfig();
+
+        if($merge) {
+            $config->append($data);
+        } else {
+            $config = new ObjectConfig($data);
+        }
+
         return $this;
     }
 

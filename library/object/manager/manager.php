@@ -54,13 +54,6 @@ class ObjectManager implements ObjectManagerInterface
     protected $_decorators;
 
     /**
-     * The object configs
-     *
-     * @var  ObjectRegistry
-     */
-    protected $_configs;
-
-    /**
      * Constructor
      *
      * Prevent creating instances of this class by making the constructor private
@@ -90,7 +83,6 @@ class ObjectManager implements ObjectManagerInterface
 
         $this->_mixins      = new ObjectRegistry();
         $this->_decorators  = new ObjectRegistry();
-        $this->_configs     = new ObjectRegistry();
     }
 
     /**
@@ -202,47 +194,55 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
-     * Check if an object instance was registered for the identifier
+     * Returns an identifier object.
+     *
+     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
+     * implements ObjectInterface, or a ObjectIdentifier object, or valid identifier string.
+     *
+     * Function will also check for identifier aliases and return the real identifier.
      *
      * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
      *                          or valid identifier string
-     * @return boolean Returns TRUE on success or FALSE on failure.
+     * @return ObjectIdentifier
      */
-    public function isRegistered($identifier)
+    public function getIdentifier($identifier)
     {
-        try
+        if (!is_string($identifier))
         {
-            $object = $this->_registry->get($this->getIdentifier($identifier));
+            if ($identifier instanceof ObjectInterface) {
+                $identifier = $identifier->getIdentifier();
+            }
+        }
 
-            //If the object implements ObjectInterface we have registered an object
-            if($object instanceof ObjectInterface) {
-                $result = true;
+        //Get the identifier object
+        if (!$result = $this->_registry->find($identifier))
+        {
+            if (is_string($identifier)) {
+                $result = new ObjectIdentifier($identifier, $this);
             } else {
-                $result = false;
+                $result = $identifier;
             }
 
-        } catch (ObjectExceptionInvalidIdentifier $e) {
-            $result = false;
+            $this->_registry->set($result);
         }
 
         return $result;
     }
 
     /**
-     * Check if the object is a singleton
+     * Set the configuration options for an identifier
      *
-     * @param string|object	$identifier The identifier string or identifier object
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     *                           or valid identifier string
+     * @param array $config      An associative array of configuration options
+     * @return ObjectManager
      */
-    public function isSingleton($identifier)
+    public function setIdentifier($identifier, array $config)
     {
-        try {
-            $result = $this->getIdentifier($identifier)->isSingleton();
-        } catch (ObjectExceptionInvalidIdentifier $e) {
-            $result = false;
-        }
+        $identifier = $this->getIdentifier($identifier);
+        $identifier->setConfig($config, false);
 
-        return $result;
+        return $this;
     }
 
     /**
@@ -387,42 +387,6 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
-     * Returns an identifier object.
-     *
-     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements ObjectInterface, or a ObjectIdentifier object, or valid identifier string.
-     *
-     * Function will also check for identifier aliases and return the real identifier.
-     *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @return ObjectIdentifier
-     */
-    public function getIdentifier($identifier)
-    {
-        if (!is_string($identifier))
-        {
-            if ($identifier instanceof ObjectInterface) {
-                $identifier = $identifier->getIdentifier();
-            }
-        }
-
-        //Get the identifier object
-        if (!$result = $this->_registry->find($identifier))
-        {
-            if (is_string($identifier)) {
-                $result = new ObjectIdentifier($identifier, $this);
-            } else {
-                $result = $identifier;
-            }
-
-            $this->_registry->set($result);
-        }
-
-        return $result;
-    }
-
-    /**
      * Register an alias for an identifier
      *
      * @param string $alias      The alias
@@ -453,51 +417,6 @@ class ObjectManager implements ObjectManagerInterface
     }
 
     /**
-     * Set the configuration options for an identifier
-     *
-     * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                           or valid identifier string
-     * @param array $config      An associative array of configuration options
-     * @return ObjectManager
-     */
-    public function setConfig($identifier, array $config)
-    {
-        $identifier = $this->getIdentifier($identifier);
-
-        if ($this->_configs->has($identifier)) {
-            $this->_configs->set($identifier, $this->_configs->get($identifier)->append($config));
-        } else {
-            $this->_configs->set($identifier, new ObjectConfig($config));
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the configuration options for an identifier
-     *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param array An associative array of configuration options
-     */
-    public function getConfig($identifier)
-    {
-        $identifier = $this->getIdentifier($identifier);
-
-        return $this->_configs->has($identifier) ? $this->_configs->get($identifier)->toArray() : array();
-    }
-
-    /**
-     * Get the configuration options for all the identifiers
-     *
-     * @return array  An associative array of configuration options
-     */
-    public function getConfigs()
-    {
-        return $this->_configs;
-    }
-
-    /**
      * Get the class loader
      *
      * @return ClassLoaderInterface
@@ -517,6 +436,50 @@ class ObjectManager implements ObjectManagerInterface
     {
         $this->_loader = $loader;
         return $this;
+    }
+
+    /**
+     * Check if an object instance was registered for the identifier
+     *
+     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @return boolean Returns TRUE on success or FALSE on failure.
+     */
+    public function isRegistered($identifier)
+    {
+        try
+        {
+            $object = $this->_registry->get($this->getIdentifier($identifier));
+
+            //If the object implements ObjectInterface we have registered an object
+            if($object instanceof ObjectInterface) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+        } catch (ObjectExceptionInvalidIdentifier $e) {
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if the object is a singleton
+     *
+     * @param string|object	$identifier The identifier string or identifier object
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isSingleton($identifier)
+    {
+        try {
+            $result = $this->getIdentifier($identifier)->isSingleton();
+        } catch (ObjectExceptionInvalidIdentifier $e) {
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
@@ -565,10 +528,13 @@ class ObjectManager implements ObjectManagerInterface
      *
      * @return ObjectConfig
      */
-    protected function _configure(ObjectIdentifier $identifier, $config)
+    protected function _configure(ObjectIdentifier $identifier, $data)
     {
-        //Create the object configuration
-        $config = new ObjectConfig(array_merge($this->getConfig($identifier), $config));
+        //Prevent config settings from being stored in the identifier
+        $config = clone $identifier->getConfig();
+
+        //Merge the config data
+        $config->append($data);
 
         //Set the service container and identifier
         $config->object_manager    = $this;

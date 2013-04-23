@@ -82,6 +82,22 @@ interface ObjectIdentifierInterface extends \Serializable
     public function setName($name);
 
     /**
+     * Get the config
+     *
+     * @return ObjectConfig
+     */
+    public function getConfig();
+
+    /**
+     * Set the config
+     *
+     * @param  ObjectConfig|array $config   A ObjectConfig object or a an array of configuration options
+     * @param   boolean           $merge    If TRUE the data in $config will be merged instead of replaced. Default TRUE.
+     * @return  ObjectIdentifierInterface
+     */
+    public function setConfig($data, $merge = true);
+
+    /**
      * Get the identifier class name
      *
      * @return string

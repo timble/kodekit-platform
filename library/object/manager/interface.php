@@ -52,21 +52,29 @@ interface ObjectManagerInterface
 	 */
 	public function register($identifier, ObjectInterface $object);
 
-	/**
-	 * Check if the object instance exists based on the identifier
-	 *
-	 * @param string|object	$identifier The identifier string or identifier object
-	 * @return boolean Returns TRUE on success or FALSE on failure.
-	 */
-	public function isRegistered($identifier);
+    /**
+     * Returns an identifier object.
+     *
+     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
+     * implements ObjectInterface, or a ObjectIdentifier object, or valid identifier string.
+     *
+     * Function will also check for identifier mappings and return the mapped identifier.
+     *
+     * @param	mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
+     * 					         or valid identifier string
+     * @return ObjectIdentifier
+     */
+    public function getIdentifier($identifier);
 
     /**
-     * Check if the object is a singleton
+     * Set the configuration options for an identifier
      *
-     * @param string|object	$identifier The identifier string or identifier object
-     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     * @param mixed	$identifier An object that implements ObjectInterface, an ObjectIdentifier object
+     * 				            or valid identifier string
+     * @param array	$config     An associative array of configuration options
+     * @return ObjectManagerInterface
      */
-    public function isSingleton($identifier);
+    public function setIdentifier($identifier, array $config);
 
     /**
      * Register a mixin for an identifier
@@ -150,46 +158,6 @@ interface ObjectManagerInterface
     public function getLocators();
 
     /**
-     * Returns an identifier object.
-	 *
-	 * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements ObjectInterface, or a ObjectIdentifier object, or valid identifier string.
-     *
-     * Function will also check for identifier mappings and return the mapped identifier.
-	 *
-	 * @param	mixed $identifier An object that implements ObjectInterface, an ObjectIdentifier object
-	 * 					         or valid identifier string
-	 * @return ObjectIdentifier
-	 */
-	public function getIdentifier($identifier);
-
-	/**
-	 * Set the configuration options for an identifier
-	 *
-	 * @param mixed	$identifier An object that implements ObjectInterface, an ObjectIdentifier object
-	 * 				            or valid identifier string
-	 * @param array	$config An associative array of configuration options
-     * @return ObjectManagerInterface
-	 */
-	public function setConfig($identifier, array $config);
-
-	/**
-	 * Get the configuration options for an identifier
-	 *
-	 * @param mixed	$identifier An object that implements ObjectInterface, an ObjectIdentifier object
-	 * 				            or valid identifier string
-	 * @return array  An associative array of configuration options
-	 */
-	public function getConfig($identifier);
-
-	/**
-     * Get the configuration options for all the identifiers
-     *
-     * @return array  An associative array of configuration options
-     */
-    public function getConfigs();
-
-    /**
      * Get the class loader
      *
      * @return ClassLoaderInterface
@@ -203,4 +171,20 @@ interface ObjectManagerInterface
      * @return ObjectManagerInterface
      */
     public function setClassLoader(ClassLoaderInterface $loader);
+
+    /**
+     * Check if the object instance exists based on the identifier
+     *
+     * @param string|object	$identifier The identifier string or identifier object
+     * @return boolean Returns TRUE on success or FALSE on failure.
+     */
+    public function isRegistered($identifier);
+
+    /**
+     * Check if the object is a singleton
+     *
+     * @param string|object	$identifier The identifier string or identifier object
+     * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
+     */
+    public function isSingleton($identifier);
 }
