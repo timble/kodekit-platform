@@ -53,12 +53,12 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      */
     public function __construct(ObjectConfig $config)
     {
-        //Set the service container
+        //Set the object manager
         if (isset($config->object_manager)) {
             $this->__object_manager = $config->object_manager;
         }
 
-        //Set the service identifier
+        //Set the object identifier
         if (isset($config->object_identifier)) {
             $this->__object_identifier = $config->object_identifier;
         }
@@ -90,7 +90,9 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'mixins' => array(),
+            'object_identifier' => null,
+            'object_manager'    => null,
+            'mixins'            => array(),
         ));
     }
 
@@ -102,7 +104,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return  ObjectInterface
+     * @return  ObjectMixinInterface
      */
     public function mixin($mixin, $config = array())
     {
@@ -121,7 +123,10 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             }
             else $identifier = $mixin;
 
-            $mixin = new $identifier->classname(new ObjectConfig($config));
+            $config = new ObjectConfig($config);
+            $config->mixer = $this;
+
+            $mixin = new $identifier->classname($config);
 
             if(!$mixin instanceof ObjectMixinInterface)
             {
@@ -137,7 +142,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
         //Notify the mixin
         $mixin->onMixin($this);
 
-        return $this;
+        return $mixin;
     }
 
     /**
@@ -148,7 +153,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
      *                              or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return   ObjectDecorator
+     * @return   ObjectDecoratorInterface
      */
     public function decorate($decorator, $config = array())
     {
@@ -167,7 +172,10 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             }
             else $identifier = $decorator;
 
-            $decorator = new $identifier->classname(new ObjectConfig($config));
+            $config = new ObjectConfig($config);
+            $config->delegate = $this;
+
+            $decorator = new $identifier->classname($config);
 
             if(!$decorator instanceof ObjectDecoratorInterface)
             {

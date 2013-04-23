@@ -26,19 +26,18 @@ interface ObjectInterface
     public function __construct(ObjectConfig $config);
 
     /**
-     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     * Get an instance of an object identifier
      *
-     * @param	string|object	$identifier The class identifier or identifier object
-     * @param	array  			$config     An optional associative array of configuration settings.
-     * @return	Object Return object on success, throws exception on failure
+     * @param ObjectIdentifier|string $identifier An ObjectIdentifier or valid identifier string
+     * @param array  			      $config     An optional associative array of configuration settings.
+     * @return ObjectInterface  Return object on success, throws exception on failure.
      */
     public function getObject($identifier = null, array $config = array());
 
     /**
-     * Get a service identifier.
+     * Get the object identifier.
      *
-     * @param	string|object	$identifier The class identifier or identifier object
-     * @return	ObjectIdentifier
+     * @return ObjectIdentifier
      */
-    public function getIdentifier($identifier = null);
+    public function getIdentifier();
 }

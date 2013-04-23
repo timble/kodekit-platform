@@ -39,19 +39,6 @@ class ObjectManager implements ObjectManagerInterface
      */
     protected $_loader;
 
-    /**
-     * The object mixins
-     *
-     * @var ObjectRegistry
-     */
-    protected $_mixins;
-
-    /**
-     * The object decorators
-     *
-     * @var ObjectRegistry
-     */
-    protected $_decorators;
 
     /**
      * Constructor
@@ -80,9 +67,6 @@ class ObjectManager implements ObjectManagerInterface
 
         //Create the registries
         $this->_registry = new ObjectRegistry();
-
-        $this->_mixins      = new ObjectRegistry();
-        $this->_decorators  = new ObjectRegistry();
     }
 
     /**
@@ -126,7 +110,7 @@ class ObjectManager implements ObjectManagerInterface
      * If the object implements the ObjectInstantiable interface the manager will delegate object instantiation
      * to the object itself.
      *
-     * @param	string|object	$identifier The identifier string or identifier object
+     * @param	string|object	$identifier  An ObjectIdentifier or identifier string
      * @param	array  			$config     An optional associative array of configuration settings.
      * @throws	ObjectException
      * @return	ObjectInterface  Return object on success, throws exception on failure
@@ -159,8 +143,9 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Load a file based on an identifier
      *
-     * @param string|object $identifier The identifier or identifier object
+     * @param string|object $identifier  An ObjectIdentifier or identifier string
      * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
+     * @see ClassLoader::loadFile();
      */
     public function load($identifier)
     {
@@ -181,8 +166,8 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Register an object instance for a specific object identifier
      *
-     * @param string|object	 $identifier The identifier string or identifier object
-     * @param ObjectInterface $config     The object instance to store
+     * @param string|object	 $identifier  The identifier string or identifier object
+     * @param ObjectInterface $object     An object that implements ObjectInterface
      * @return ObjectManager
      */
     public function register($identifier, ObjectInterface $object)
@@ -196,13 +181,9 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Returns an identifier object.
      *
-     * Accepts various types of parameters and returns a valid identifier. Parameters can either be an object that
-     * implements ObjectInterface, or a ObjectIdentifier object, or valid identifier string.
-     *
      * Function will also check for identifier aliases and return the real identifier.
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectIdentifier
      */
     public function getIdentifier($identifier)
@@ -232,8 +213,7 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Set the configuration options for an identifier
      *
-     * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                           or valid identifier string
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param array $config      An associative array of configuration options
      * @return ObjectManager
      */
@@ -248,112 +228,61 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Register a mixin or an array of mixins for an identifier
      *
-     * The mixins are mixed when the identified object is first instantiated see {@link get} Mixins are also added to
-     * services that already exist in the object registry.
+     * The mixin is mixed when the identified object is first instantiated see {@link get} The mixin is also mixed with
+     * with the represented by the identifier if the object is registered in the object manager. This mostly applies to
+     * singletons but can also apply to other objects that are manually registered.
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param  string $mixin    A mixin identifier string
-     * @return ObjectManager
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param mixed $mixin      An ObjectIdentifier, identifier string or object implementing ObjectMixinInterface
+     * @return ObjectManagerInterface
      * @see Object::mixin()
      */
     public function registerMixin($identifier, $mixin)
     {
         $identifier = $this->getIdentifier($identifier);
-
-        if (!$this->_mixins->has($identifier)) {
-            $this->_mixins->set($identifier, new ObjectRegistry());
-        }
-
-        //Prevent mixins from being added twice
-        $this->_mixins->get($identifier)->set($this->getIdentifier($mixin), $mixin);
+        $identifier->addMixin($mixin);
 
         //If the identifier already exists mixin the mixin
         if ($this->isRegistered($identifier))
         {
-            $instance = $this->_registry->get($identifier);
-            $this->_mixin($identifier, $instance);
+            $mixer = $this->_registry->get($identifier);
+            $this->_mixin($identifier, $mixer);
         }
 
         return $this;
     }
 
     /**
-     * Get the mixins for an identifier
-     *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @return ObjectRegistry   An array of mixins
-     */
-    public function getMixins($identifier)
-    {
-        $identifier = $this->getIdentifier($identifier);
-
-        $result = array();
-        if ($this->_mixins->has($identifier)) {
-            $result = $this->_mixins->get($identifier);
-        }
-
-        return $result;
-    }
-
-    /**
      * Register a decorator or an array of decorators for an identifier
      *
-     * The object is decorated when it's first instantiated see {@link get} Decorators are also added to objects that
-     * already exist in the object registry.
+     * The object is decorated when it's first instantiated see {@link get} The object represented by the identifier is
+     * also decorated if the object is registered in the object manager. This mostly applies to singletons but can also
+     * apply to other objects that are manually registered.
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param  string $decorator  A decorator identifier
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param mixed $decorator  An ObjectIdentifier, identifier string or object implementing ObjectDecoratorInterface
      * @return ObjectManager
      * @see Object::decorate()
      */
     public function registerDecorator($identifier, $decorator)
     {
         $identifier = $this->getIdentifier($identifier);
+        $identifier->addDecorator($decorator);
 
-        if (!$this->_mixins->has($identifier)) {
-            $this->_mixins->set($identifier, new ObjectRegistry());
-        }
-
-        //Prevent decorators from being added twice
-        $this->_decorators->get($identifier)->set($this->getIdentifier($decorator), $decorator);
-
-        //If the identifier already exists decorate
+        //If the identifier already exists decorate it
         if ($this->isRegistered($identifier))
         {
-            $instance = $this->_registry->get($identifier);
-            $this->_decorate($identifier, $instance);
+            $delegate = $this->_registry->get($identifier);
+            $this->_decorate($identifier, $delegate);
         }
 
         return $this;
     }
 
     /**
-     * Get the decorators for an identifier
-     *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @return ObjectRegistry   An array of mixins
-     */
-    public function getDecorators($identifier)
-    {
-        $identifier = $this->getIdentifier($identifier);
-
-        $result = array();
-        if ($this->_decorators->has($identifier)) {
-            $result = $this->_decorators->get($identifier);
-        }
-
-        return $result;
-    }
-
-    /**
      * Register an object locator
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
+     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
      * @return ObjectManager
      */
     public function registerLocator($identifier)
@@ -390,9 +319,8 @@ class ObjectManager implements ObjectManagerInterface
      * Register an alias for an identifier
      *
      * @param string $alias      The alias
-     * @param mixed  $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                           or valid identifier string
-     *  @return ObjectManager
+     * @param mixed  $identifier The class identifier or identifier object
+     * @return ObjectManagerInterface
      */
     public function registerAlias($alias, $identifier)
     {
@@ -407,9 +335,8 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Get the aliases for an identifier
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @return array An array of aliases
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return array   An array of aliases
      */
     public function getAliases($identifier)
     {
@@ -441,8 +368,7 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Check if an object instance was registered for the identifier
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
+     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
      * @return boolean Returns TRUE on success or FALSE on failure.
      */
     public function isRegistered($identifier)
@@ -468,7 +394,7 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Check if the object is a singleton
      *
-     * @param string|object	$identifier The identifier string or identifier object
+     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
      * @return boolean Returns TRUE if the object is a singleton, FALSE otherwise.
      */
     public function isSingleton($identifier)
@@ -486,14 +412,15 @@ class ObjectManager implements ObjectManagerInterface
      * Perform the actual mixin of all registered mixins for an object
      *
      * @param  ObjectIdentifier $identifier
-     * @param  ObjectMixable    $instance
+     * @param  ObjectMixable    $mixer
      * @return void
      */
     protected function _mixin(ObjectIdentifier $identifier, $mixer)
     {
-        if ($this->_mixins->has($identifier) && $mixer instanceof ObjectMixable)
+        if ($mixer instanceof ObjectMixable)
         {
-            $mixins = $this->_mixins->get($identifier);
+            $mixins = $identifier->getMixins();
+
             foreach ($mixins as $mixin) {
                 $mixer->mixin($mixin);
             }
@@ -503,16 +430,16 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Perform the actual decoration of all registered decorators for an object
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
-     * @param  object $instance A Object instance to used as the mixer
+     * @param ObjectIdentifier $identifier
+     * @param ObjectDecoratable $delegate
      * @return void
      */
     protected function _decorate(ObjectIdentifier $identifier, $delegate)
     {
-        if ($this->_decorators->has($identifier) && $delegate instanceof ObjectDecoratable)
+        if ($delegate instanceof ObjectDecoratable)
         {
-            $decorators = $this->_decorators->get($identifier);
+            $decorators = $identifier->getDecorators();
+
             foreach ($decorators as $decorator) {
                 $delegate = $delegate->decorate($decorator);
             }
@@ -522,10 +449,8 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Configure an identifier
      *
-     * @param mixed $identifier An object that implements ObjectInterface, ObjectIdentifier object
-     *                          or valid identifier string
+     * @param ObjectIdentifier $identifier
      * @param array $config
-     *
      * @return ObjectConfig
      */
     protected function _configure(ObjectIdentifier $identifier, $data)

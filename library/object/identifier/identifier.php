@@ -28,7 +28,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     private $__object_manager;
 
     /**
-     * The identifier
+     * The object identifier
      *
      * @var string
      */
@@ -77,11 +77,25 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     protected $_classname = '';
 
     /**
-     * The config
+     * The object config
      *
      * @var ObjectConfig
      */
-    protected $_config;
+    protected $_config = null;
+
+    /**
+     * The object mixins
+     *
+     * @var array
+     */
+    protected $_mixins = array();
+
+    /**
+     * The object decorators
+     *
+     * @var array
+     */
+    protected $_decorators = array();
 
     /**
      * Constructor
@@ -242,6 +256,52 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Add a mixin
+     *
+     * @param mixed $mixin      An ObjectIdentifier, identifier string or object implementing ObjectMixinInterface
+     * @return ObjectIdentifierInterface
+     * @see Object::mixin()
+     */
+    public function addMixin($mixin)
+    {
+        $this->_mixins[] = $mixin;
+        return $this;
+    }
+
+    /**
+     * Get the mixin registry
+     *
+     * @return array
+     */
+    public function getMixins()
+    {
+        return $this->_mixins;
+    }
+
+    /**
+     * Add a decorator
+     *
+     * @param mixed $decorator  An ObjectIdentifier, identifier string or object implementing ObjectDecoratorInterface
+     * @return ObjectIdentifierInterface
+     * @see Object::decorate()
+     */
+    public function addDecorator($decorator)
+    {
+        $this->_decorators[] = $decorator;
+        return $this;
+    }
+
+    /**
+     * Get the decorators
+     *
+     *  @return array
+     */
+    public function getDecorators()
+    {
+        return $this->_decorators;
     }
 
     /**

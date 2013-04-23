@@ -91,11 +91,43 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Set the config
      *
-     * @param  ObjectConfig|array $config   A ObjectConfig object or a an array of configuration options
-     * @param   boolean           $merge    If TRUE the data in $config will be merged instead of replaced. Default TRUE.
+     * @param  ObjectConfig|array $data   A ObjectConfig object or a an array of configuration options
+     * @param   boolean           $merge  If TRUE the data in $config will be merged instead of replaced. Default TRUE.
      * @return  ObjectIdentifierInterface
      */
     public function setConfig($data, $merge = true);
+
+    /**
+     * Add a mixin
+     *
+     * @param mixed $mixin      An ObjectIdentifier, identifier string or object implementing ObjectMixinInterface
+     * @return ObjectIdentifierInterface
+     * @see Object::mixin()
+     */
+    public function addMixin($mixin);
+
+    /**
+     * Get the mixins
+     *
+     *  @return array
+     */
+    public function getMixins();
+
+    /**
+     * Add a decorator
+     *
+     * @param mixed $decorator  An ObjectIdentifier, identifier string or object implementing ObjectDecoratorInterface
+     * @return ObjectIdentifierInterface
+     * @see Object::decorate()
+     */
+    public function addDecorator($decorator);
+
+    /**
+     * Get the decorators
+     *
+     *  @return array
+     */
+    public function getDecorators();
 
     /**
      * Get the identifier class name
