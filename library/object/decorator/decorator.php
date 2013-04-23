@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Object
  * @subpackage  Decorator
  */
-class ObjectDecorator extends Object implements ObjectDecoratorInterface
+class ObjectDecorator implements ObjectDecoratorInterface
 {
     /**
      * Class methods
@@ -35,12 +35,13 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
     /**
      * Constructor
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
      * @return ObjectDecorator
      */
     public function __construct(ObjectConfig $config)
     {
-        parent::__construct($config);
+        //Initialise the object
+        $this->_initialize($config);
 
         //Set the delegate
         if(isset($config->delegate)) {
@@ -91,12 +92,25 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
      * This function is called when an object is being decorated. It will get the object passed in.
      *
      * @param ObjectDecoratable $delegate The object being decorated
-     * @return ObjectMixinInterface
+     * @return ObjectDecorator
      */
     public function onDecorate(ObjectDecoratable $delegate)
     {
         $this->setDelegate($delegate);
         return $this;
+    }
+
+    /**
+     * Get a handle for this object
+     *
+     * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
+     * or for identifying an object
+     *
+     * @return string A string that is unique
+     */
+    public function getHandle()
+    {
+        return $this->getDelegate()->getHandle();
     }
 
     /**
@@ -127,6 +141,88 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
         }
 
         return $this->__methods;
+    }
+
+    /**
+     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     *
+     * @param	string|object	$identifier The class identifier or identifier object
+     * @param	array  			$config     An optional associative array of configuration settings.
+     * @return	Object Return object on success, throws exception on failure
+     */
+    public function getObject($identifier = null, array $config = array())
+    {
+        return $this->getDelegate()->getObject($identifier, $config);
+    }
+
+    /**
+     * Get a service identifier.
+     *
+     * @param	string|object	$identifier The class identifier or identifier object
+     * @return	ObjectIdentifier
+     */
+    public function getIdentifier($identifier = null)
+    {
+        return $this->getDelegate()->getIdentifier($identifier);
+    }
+
+    /**
+     * Mixin an object
+     *
+     * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
+     *
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @param    array $config  An optional associative array of configuration options
+     * @return  ObjectInterface
+     */
+    public function mixin($mixin, $config = array())
+    {
+        $this->getDelegate($mixin, $config);
+        return $this;
+    }
+
+    /**
+     * Decorate the object
+     *
+     * When using decorate(), the object will be decorated by the decorator
+     *
+     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
+     *                              or valid identifier string
+     * @param    array $config  An optional associative array of configuration options
+     * @return   ObjectDecorator
+     */
+    public function decorate($decorator, $config = array())
+    {
+        if (!($decorator instanceof ObjectDecorator))
+        {
+            if (!($decorator instanceof ObjectIdentifier))
+            {
+                //Create the complete identifier if a partial identifier was passed
+                if (is_string($decorator) && strpos($decorator, '.') === false)
+                {
+                    $identifier = clone $this->getIdentifier();
+                    $identifier->path = 'decorator';
+                    $identifier->name = $decorator;
+                }
+                else $identifier = $this->getIdentifier($decorator);
+            }
+            else $identifier = $decorator;
+
+            $decorator = new $identifier->classname(new ObjectConfig($config));
+
+            if(!$decorator instanceof ObjectDecoratorInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Decorator: '.get_class($identifier).' does not implement ObjectDecoratorInterface'
+                );
+            }
+        }
+
+        //Notify the decorator
+        $decorator->onDecorate($this);
+
+        return $decorator;
     }
 
     /**
