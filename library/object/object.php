@@ -148,7 +148,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
      *                              or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return   ObjectDecoratable
+     * @return   ObjectDecorator
      */
     public function decorate($decorator, $config = array())
     {
