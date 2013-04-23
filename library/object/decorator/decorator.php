@@ -42,7 +42,25 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
     {
         parent::__construct($config);
 
-        $this->_delegate = $config->delegate;
+        //Set the delegate
+        if(isset($config->delegate)) {
+            $this->setDelegate($config->delegate);
+        }
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'delegate' => null,
+        ));
     }
 
     /**
