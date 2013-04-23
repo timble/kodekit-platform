@@ -597,8 +597,8 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
     /**
      * Get a session attribute
      *
-     * @param   string  Attribute identifier, eg .foo.bar
-     * @param   mixed   Default value when the attribute doesn't exist
+     * @param   string  $identifier Attribute identifier, eg .foo.bar
+     * @param   mixed   $default    Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null)
@@ -609,8 +609,8 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
     /**
      * Set a session attribute
      *
-     * @param   mixed   Attribute identifier, eg foo.bar
-     * @param   mixed   Attribute value
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $value      Attribute value
      * @return User
      */
     public function set($identifier, $value)
@@ -621,7 +621,7 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
     /**
      * Check if a session attribute exists
      *
-     * @param   string  Attribute identifier, eg foo.bar
+     * @param   string  $identifier Attribute identifier, eg foo.bar
      * @return  boolean
      */
     public function has($identifier)
