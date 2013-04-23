@@ -24,9 +24,6 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 		$config->append(array(
 			'persistable'   => false,
 			'limit'         => array('max' => 1000),
-			'request' => $this->getObject('lib:controller.request', array(
-				'query' => array('container' => 'files-files')
-			))
 		));
 
 		parent::_initialize($config);
@@ -36,10 +33,15 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 	{
 		$request = parent::getRequest();
 
-		// "config" state is only used in HMVC requests and passed to the JS application
+		//The "config" state is only used in HMVC requests and passed to the JS application
 		if ($this->isDispatched()) {
 			unset($request->query->config);
 		}
+
+        //Make sure we have a default container in the request.
+        if(!$request->query->has('container')) {
+            $request->query->container = 'files-files';
+        }
 
 		return $request;
 	}
