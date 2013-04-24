@@ -37,7 +37,7 @@ abstract class ControllerView extends ControllerAbstract
 
 		// Mixin the toolbar
 		if($config->dispatch_events) {
-            $this->mixin(new ControllerToolbarMixin($config->append(array('mixer' => $this))));
+            $this->mixin('lib:controller.toolbar.mixin', $config);
 		}
 	}
 	

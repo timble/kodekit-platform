@@ -91,14 +91,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         //Set the dispatched state
         $this->_dispatched = $config->dispatched;
 
-        //Set the mixer in the config
-        $config->mixer = $this;
-
         // Mixin the command interface
-        $this->mixin(new CommandMixin($config));
+        $this->mixin('lib:command.mixin', $config);
 
         // Mixin the behavior interface
-        $this->mixin(new BehaviorMixin($config));
+        $this->mixin('lib:behavior.mixin', $config);
     }
 
     /**

@@ -19,7 +19,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 	{
 		parent::__construct($config);
 
-		$this->mixin(new Library\CommandMixin($config->append(array('mixer' => $this))));
+		$this->mixin('lib:command.mixin', $config);
 
 		if ($config->validator !== false)
 		{
