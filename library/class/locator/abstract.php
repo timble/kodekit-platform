@@ -45,7 +45,7 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
      *
      * @param  string $namespace
      * @param  string|array $paths The location(s) of the namespace
-     * @return LoaderAdapterInterface
+     * @return ClassLocatorInterface
      */
     public function registerNamespace($namespace, $paths)
     {
