@@ -21,11 +21,11 @@ namespace Nooku\Library;
 class ObjectIdentifier implements ObjectIdentifierInterface
 {
     /**
-     * The object manager
+     * The object locators
      *
-     * @var ObjectManager
+     * @var array
      */
-    private $__object_manager;
+    protected static $_locators = array();
 
     /**
      * The object identifier
@@ -101,13 +101,10 @@ class ObjectIdentifier implements ObjectIdentifierInterface
      * Constructor
      *
      * @param   string $identifier Identifier string or object in type://namespace/package.[.path].name format
-     * @param 	ObjectManagerInterface	$manager  A ObjectManagerInterface object
      * @throws  ObjectExceptionInvalidIdentifier If the identifier is not valid
      */
-    public function __construct($identifier, ObjectManagerInterface $manager)
+    public function __construct($identifier)
     {
-        $this->__object_manager = $manager;
-
         //Check if the identifier is valid
         if(strpos($identifier, ':') === FALSE) {
             throw new ObjectExceptionInvalidIdentifier('Malformed identifier : '.$identifier);
@@ -305,6 +302,42 @@ class ObjectIdentifier implements ObjectIdentifierInterface
     }
 
     /**
+     * Add a object locator
+     *
+     * @param ObjectLocatorInterface $locator
+     * @return ObjectIdentifierInterface
+     */
+    public static function addLocator(ObjectLocatorInterface $locator)
+    {
+        self::$_locators[$locator->getType()] = $locator;
+    }
+
+    /**
+     * Get the object locator
+     *
+     * @return ObjectLocatorInterface|null  Returns the object locator or NULL if the locator can not be found.
+     */
+    public function getLocator()
+    {
+        $result = null;
+        if(isset(self::$_locators[$this->_type])) {
+            $result = self::$_locators[$this->_type];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the decorators
+     *
+     *  @return array
+     */
+    public static function getLocators()
+    {
+        return self::$_locators;
+    }
+
+    /**
      * Get the identifier class name
      *
      * @return string
@@ -417,15 +450,15 @@ class ObjectIdentifier implements ObjectIdentifierInterface
                 }
             }
 
-            //Set the type
+            //Check if the type for a valid locator
             if($property == 'type')
             {
-                $locators = $this->__object_manager->getLocators();
-                if(!isset($locators[$value])) {
+                //Set the type first then check if a locator can be found
+                $this->_type = $value;
+
+                if(!$this->getLocator()) {
                     throw new \DomainException('Unknow type : '.$value);
                 }
-
-                $this->_type = $value;
             }
 
             //Set the properties
@@ -449,16 +482,12 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         $result = null;
         if(isset($this->{'_'.$property}))
         {
-            if($property == 'classpath' && empty($this->_classpath))
-            {
-                $locators = $this->__object_manager->getLocators();
-                $this->_classpath = $locators[$this->_type]->findPath($this);
+            if($property == 'classpath' && empty($this->_classpath)) {
+                $this->_classpath = $this->getLocator()->findPath($this);
             }
 
-            if($property == 'classname' && empty($this->_classname))
-            {
-                $locators = $this->__object_manager->getLocators();
-                $this->_classname = $locators[$this->_type]->locate($this);
+            if($property == 'classname' && empty($this->_classname)) {
+                $this->_classname = $this->getLocator()->locate($this);
             }
 
             $result =& $this->{'_'.$property};

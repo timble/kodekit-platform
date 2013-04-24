@@ -130,6 +130,28 @@ interface ObjectIdentifierInterface extends \Serializable
     public function getDecorators();
 
     /**
+     * Add a object locator
+     *
+     * @param ObjectLocatorInterface $locator
+     * @return ObjectIdentifierInterface
+     */
+    public static function addLocator(ObjectLocatorInterface $locator);
+
+    /**
+     * Get the object locator
+     *
+     * @return ObjectLocatorInterface|null  Returns the object locator or NULL if the locator can not be found.
+     */
+    public function getLocator();
+
+    /**
+     * Get the decorators
+     *
+     *  @return array
+     */
+    public static function getLocators();
+
+    /**
      * Get the identifier class name
      *
      * @return string

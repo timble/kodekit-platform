@@ -25,20 +25,12 @@ class ObjectManager implements ObjectManagerInterface
      */
     protected $_registry;
 
-    /**
-     * The object locators
-     *
-     * @var array
-     */
-    protected $_locators = array();
-
     /*
      * The class loader
      *
      * @var ClassLoader
      */
     protected $_loader;
-
 
     /**
      * Constructor
@@ -63,7 +55,8 @@ class ObjectManager implements ObjectManagerInterface
         }
 
         //Auto-load the library adapter
-        $this->registerLocator(new ObjectLocatorLibrary(new ObjectConfig()));
+        $locator = new ObjectLocatorLibrary(new ObjectConfig());
+        $this->registerLocator($locator);
 
         //Create the registries
         $this->_registry = new ObjectRegistry();
@@ -300,7 +293,8 @@ class ObjectManager implements ObjectManagerInterface
         }
         else $locator = $identifier;
 
-        $this->_locators[$locator->getType()] = $locator;
+        //Add the locator
+        ObjectIdentifier::addLocator($locator);
 
         return $this;
     }
@@ -312,7 +306,7 @@ class ObjectManager implements ObjectManagerInterface
      */
     public function getLocators()
     {
-        return $this->_locators;
+        return ObjectIdentifier::getLocators();
     }
 
     /**
