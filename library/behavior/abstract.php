@@ -43,15 +43,23 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      */
     public function __construct(ObjectConfig $config)
     {
-        //Set the service container
-        if (isset($config->object_manager)) {
-            $this->__object_manager = $config->object_manager;
+        //Set the object manager
+        if (!$config->object_manager instanceof ObjectManagerInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_manager [ObjectManagerInterface] config option is required, "'.gettype($config->object_manager).'" given.'
+            );
         }
+        else $this->__object_manager = $config->object_manager;
 
-        //Set the service identifier
-        if (isset($config->object_identifier)) {
-            $this->__object_identifier = $config->object_identifier;
+        //Set the object identifier
+        if (!$config->object_identifier instanceof ObjectIdentifierInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_identifier [ObjectIdentifierInterface] config option is required, "'.gettype($config->object_identifier).'" given.'
+            );
         }
+        else $this->__object_identifier = $config->object_identifier;
 
         parent::__construct($config);
 
@@ -172,23 +180,16 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * @param    string|object    $identifier The class identifier or identifier object
      * @param    array            $config     An optional associative array of configuration settings.
      * @throws   \RuntimeException If the service manager has not been defined.
-     * @return   Object Return object on success, throws exception on failure
+     * @return   object            Return object on success, throws exception on failure
      * @see      ObjectInterface
      */
     final public function getObject($identifier = null, array $config = array())
     {
-        if (isset($identifier))
-        {
-            if (!isset($this->__object_manager))
-            {
-                throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getObject(). No object_manager object defined."
-                );
-            }
-
+        if (isset($identifier)) {
             $result = $this->__object_manager->get($identifier, $config);
+        } else {
+            $result = $this->__object_manager;
         }
-        else $result = $this->__object_manager;
 
         return $result;
     }
@@ -196,25 +197,18 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     /**
      * Gets the service identifier.
      *
-     * @param   string|object     $identifier The class identifier or identifier object
+     * @param   string|object    $identifier The class identifier or identifier object
      * @throws  \RuntimeException If the service manager has not been defined.
      * @return  ObjectIdentifier
      * @see     ObjectInterface
      */
     final public function getIdentifier($identifier = null)
     {
-        if (isset($identifier))
-        {
-            if (!isset($this->__object_manager))
-            {
-                throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getIdentifier(). No object_manager object defined."
-                );
-            }
-
+        if (isset($identifier)) {
             $result = $this->__object_manager->getIdentifier($identifier);
+        } else {
+            $result = $this->__object_identifier;
         }
-        else  $result = $this->__object_identifier;
 
         return $result;
     }

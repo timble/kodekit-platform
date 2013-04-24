@@ -54,14 +54,22 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     public function __construct(ObjectConfig $config)
     {
         //Set the object manager
-        if (isset($config->object_manager)) {
-            $this->__object_manager = $config->object_manager;
+        if (!$config->object_manager instanceof ObjectManagerInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_manager [ObjectManagerInterface] config option is required, "'.gettype($config->object_manager).'" given.'
+            );
         }
+        else $this->__object_manager = $config->object_manager;
 
         //Set the object identifier
-        if (isset($config->object_identifier)) {
-            $this->__object_identifier = $config->object_identifier;
+        if (!$config->object_identifier instanceof ObjectIdentifierInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_identifier [ObjectIdentifierInterface] config option is required, "'.gettype($config->object_identifier).'" given.'
+            );
         }
+        else $this->__object_identifier = $config->object_identifier;
 
         //Initialise the object
         $this->_initialize($config);
@@ -131,7 +139,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             if(!$mixin instanceof ObjectMixinInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Mixin: '.get_class($identifier).' does not implement ObjectMixinInterface'
+                    'Mixin: '.get_class($mixin).' does not implement ObjectMixinInterface'
                 );
             }
         }
@@ -157,7 +165,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      */
     public function decorate($decorator, $config = array())
     {
-        if (!($decorator instanceof ObjectDecorator))
+        if (!($decorator instanceof ObjectDecoratorInterface))
         {
             if (!($decorator instanceof ObjectIdentifier))
             {
@@ -180,7 +188,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             if(!$decorator instanceof ObjectDecoratorInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Decorator: '.get_class($identifier).' does not implement ObjectDecoratorInterface'
+                    'Decorator: '.get_class($decorator).' does not implement ObjectDecoratorInterface'
                 );
             }
         }
@@ -263,18 +271,11 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      */
     final public function getObject($identifier = null, array $config = array())
     {
-        if (isset($identifier))
-        {
-            if (!isset($this->__object_manager))
-            {
-                throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getObject(). No object_manager object defined."
-                );
-            }
-
+        if (isset($identifier)) {
             $result = $this->__object_manager->get($identifier, $config);
+        } else {
+            $result = $this->__object_manager;
         }
-        else $result = $this->__object_manager;
 
         return $result;
     }
@@ -289,18 +290,11 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      */
     final public function getIdentifier($identifier = null)
     {
-        if (isset($identifier))
-        {
-            if (!isset($this->__object_manager))
-            {
-                throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getIdentifier(). No object_manager object defined."
-                );
-            }
-
+        if (isset($identifier)) {
             $result = $this->__object_manager->getIdentifier($identifier);
+        } else {
+            $result = $this->__object_identifier;
         }
-        else  $result = $this->__object_identifier;
 
         return $result;
     }
