@@ -267,12 +267,11 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @param    array            $config     An optional associative array of configuration settings.
      * @throws   \RuntimeException If the service manager has not been defined.
      * @return   object            Return object on success, throws exception on failure
-     * @see      ObjectInterface
      */
     final public function getObject($identifier = null, array $config = array())
     {
         if (isset($identifier)) {
-            $result = $this->__object_manager->get($identifier, $config);
+            $result = $this->__object_manager->getObject($identifier, $config);
         } else {
             $result = $this->__object_manager;
         }
@@ -283,10 +282,11 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Gets the service identifier.
      *
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
      * @param   string|object    $identifier The class identifier or identifier object
-     * @throws  \RuntimeException If the service manager has not been defined.
      * @return  ObjectIdentifier
-     * @see     ObjectInterface
      */
     final public function getIdentifier($identifier = null)
     {

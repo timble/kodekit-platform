@@ -68,13 +68,13 @@ class ClassLoader implements ClassLoaderInterface
             $this->_registry->enableCache($config['cache_enabled']);
         }
 
-        //Register the framework adapter
+        //Manually register the library locator
         $locator = new ClassLocatorLibrary();
         $locator->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
 
         $this->registerLocator($locator);
 
-        //Auto register the loader
+        //Register the loader with the PHP autoloader
         $this->register();
     }
 

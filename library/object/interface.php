@@ -35,9 +35,13 @@ interface ObjectInterface
     public function getObject($identifier = null, array $config = array());
 
     /**
-     * Get the object identifier.
+     * Gets the object identifier.
      *
-     * @return ObjectIdentifier
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
+     * @param   string|object    $identifier The class identifier or identifier object
+     * @return  ObjectIdentifier
      */
-    public function getIdentifier();
+    public function getIdentifier($identifier = null);
 }

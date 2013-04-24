@@ -60,7 +60,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         {
             //@TODO : Temporarily using  Library\ObjectManager::getInstance()->get since User object is not yet properly set on session when
             // getting it with JFactory::getUser.
-            $this->_role =  Library\ObjectManager::getInstance()->get('com:users.model.roles')->id($this->role_id)->getRow();
+            $this->_role =  Library\ObjectManager::getInstance()->getObject('com:users.model.roles')->id($this->role_id)->getRow();
             //$this->_role = $this->getObject('com:users.model.roles')->id($this->role_id)->getRow();
         }
         return $this->_role;
@@ -72,7 +72,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         {
             if(!$this->guest)
             {
-                $this->_groups =  Library\ObjectManager::getInstance()->get('com:users.database.table.groups_users')
+                $this->_groups =  Library\ObjectManager::getInstance()->getObject('com:users.database.table.groups_users')
                     ->select(array('users_user_id' => $this->id), Library\Database::FETCH_FIELD_LIST);
             }
             else $this->_groups = array();

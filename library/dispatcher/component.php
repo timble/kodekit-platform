@@ -69,13 +69,13 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
         {
             $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->register($config->object_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
             $manager->registerAlias('component', $config->object_identifier);
         }
 
-        return $manager->get($config->object_identifier);
+        return $manager->getObject($config->object_identifier);
     }
 
     /**
@@ -153,7 +153,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 
         //Load the component aliases
         $component = $this->getController()->getIdentifier()->package;
-        $this->getObject()->load('com:'.$component.'.aliases');
+        $this->getObject()->loadFile('com:'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());

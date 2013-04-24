@@ -32,16 +32,7 @@ interface ObjectManagerInterface
      * @throws	ObjectException
      * @return	ObjectInterface  Return object on success, throws exception on failure
      */
-	public function get($identifier, array $config = array());
-
-    /**
-     * Load a file based on an identifier
-     *
-     * @param string|object $identifier  An ObjectIdentifier or identifier string
-     * @return boolean      Returns TRUE if the identifier could be loaded, otherwise returns FALSE.
-     * @see ClassLoader::loadFile();
-     */
-    public function load($identifier);
+    public function getObject($identifier = null, array $config = array());
 
     /**
      * Register an object instance for a specific object identifier
@@ -50,17 +41,18 @@ interface ObjectManagerInterface
      * @param ObjectInterface $object     An object that implements ObjectInterface
      * @return ObjectManagerInterface
      */
-	public function register($identifier, ObjectInterface $object);
+	public function setObject($identifier, ObjectInterface $object);
 
     /**
      * Returns an identifier object.
      *
-     * Function will also recursively resolve identifier aliases and return the aliased identifier.
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectIdentifier
      */
-    public function getIdentifier($identifier);
+    public function getIdentifier($identifier = null);
 
     /**
      * Set the configuration options for an identifier

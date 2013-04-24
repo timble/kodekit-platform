@@ -175,18 +175,16 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     }
 
     /**
-     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     * Get an instance of an object identifier
      *
-     * @param    string|object    $identifier The class identifier or identifier object
-     * @param    array            $config     An optional associative array of configuration settings.
-     * @throws   \RuntimeException If the service manager has not been defined.
-     * @return   object            Return object on success, throws exception on failure
-     * @see      ObjectInterface
+     * @param ObjectIdentifier|string $identifier An ObjectIdentifier or valid identifier string
+     * @param array  			      $config     An optional associative array of configuration settings.
+     * @return ObjectInterface  Return object on success, throws exception on failure.
      */
     final public function getObject($identifier = null, array $config = array())
     {
         if (isset($identifier)) {
-            $result = $this->__object_manager->get($identifier, $config);
+            $result = $this->__object_manager->getObject($identifier, $config);
         } else {
             $result = $this->__object_manager;
         }
@@ -197,10 +195,11 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     /**
      * Gets the service identifier.
      *
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
      * @param   string|object    $identifier The class identifier or identifier object
-     * @throws  \RuntimeException If the service manager has not been defined.
      * @return  ObjectIdentifier
-     * @see     ObjectInterface
      */
     final public function getIdentifier($identifier = null)
     {

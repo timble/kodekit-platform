@@ -32,7 +32,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
             $identifier->path = array('database', 'behavior', 'orderable');
             $identifier->name = $config->strategy;
             
-            $this->setStrategy($config->object_manager->get($identifier, Library\ObjectConfig::unbox($config)));
+            $this->setStrategy($config->object_manager->getObject($identifier, Library\ObjectConfig::unbox($config)));
         }
         
         parent::__construct($config);
