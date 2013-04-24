@@ -275,7 +275,7 @@ class ObjectManager implements ObjectManagerInterface
     /**
      * Register an object locator
      *
-     * @param mixed $identifier An object that implements the ObjectInterface, an ObjectIdentifier or valid identifier string
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectLocatorInterface
      * @return ObjectManager
      */
     public function registerLocator($identifier)
