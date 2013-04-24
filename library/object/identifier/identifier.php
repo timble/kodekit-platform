@@ -456,7 +456,8 @@ class ObjectIdentifier implements ObjectIdentifierInterface
                 //Set the type first then check if a locator can be found
                 $this->_type = $value;
 
-                if(!$this->getLocator()) {
+                //Make exception for 'lib' locator
+                if($value != 'lib' && !$this->getLocator()) {
                     throw new \DomainException('Unknow type : '.$value);
                 }
             }
