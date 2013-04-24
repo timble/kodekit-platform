@@ -54,12 +54,16 @@ class ObjectManager implements ObjectManagerInterface
             $this->setClassLoader(ClassLoader::getInstance());
         }
 
-        //Auto-load the library adapter
-        $locator = new ObjectLocatorLibrary(new ObjectConfig());
-        $this->registerLocator($locator);
-
-        //Create the registries
+        //Create the object registry
         $this->_registry = new ObjectRegistry();
+
+        //Manually register the library loader
+        $config = new ObjectConfig(array(
+            'object_manager'    => $this,
+            'object_identifier' => new ObjectIdentifier('lib:object.locator.library')
+        ));
+
+        $this->registerLocator(new ObjectLocatorLibrary($config));
     }
 
     /**
@@ -278,11 +282,11 @@ class ObjectManager implements ObjectManagerInterface
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectLocatorInterface
      * @return ObjectManager
      */
-    public function registerLocator($identifier)
+    public function registerLocator($identifier, array $config = array())
     {
         if(!$identifier instanceof ObjectLocatorInterface)
         {
-            $locator = $this->get($identifier);
+            $locator = $this->get($identifier, $config);
 
             if(!$locator instanceof ObjectLocatorInterface)
             {

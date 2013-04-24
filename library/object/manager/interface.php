@@ -122,7 +122,7 @@ interface ObjectManagerInterface
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectLocatorInterface
      * @return ObjectManagerInterface
      */
-    public function registerLocator($identifier);
+    public function registerLocator($identifier, array $config = array());
 
     /**
      * Get the registered object locators
