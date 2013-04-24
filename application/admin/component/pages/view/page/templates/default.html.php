@@ -46,7 +46,9 @@
     <input type="hidden" name="access" value="0" />
     <input type="hidden" name="published" value="0" />
     <input type="hidden" name="hidden" value="0" />
+    <? if($state->type['name'] == 'component') : ?>
     <input type="hidden" name="link_url" value="<?= http_build_query($query) ?>" />
+    <? endif ?>
 
     <div id="components">
         <div class="scrollable">
