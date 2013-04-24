@@ -61,10 +61,20 @@ abstract class ObjectLocatorAbstract extends Object implements ObjectLocatorInte
     /**
      * Get the type
      *
-     * @return string    Returns the type
+     * @return string
      */
     public function getType()
     {
         return $this->_type;
+    }
+
+    /**
+     * Get the locator fallbacks
+     *
+     * @return array
+     */
+    public function getFallbacks()
+    {
+        return $this->_fallbacks;
     }
 }

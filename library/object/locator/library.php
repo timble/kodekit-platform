@@ -45,7 +45,7 @@ class ObjectLocatorLibrary extends ObjectLocatorAbstract
     /**
      * Returns a fully qualified class name for a given identifier.
      *
-     * @param ObjectIdentifier$identifier An identifier object
+     * @param ObjectIdentifier $identifier An identifier object
      * @return string|false  Return the class name on success, returns FALSE on failure
      */
     public function locate(ObjectIdentifier $identifier)
