@@ -37,7 +37,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
      *
      * Prevent creating instances of this class by making the constructor private
      */
-    final public function __construct(ObjectConfig $config)
+    public function __construct(ObjectConfig $config)
     {
         //Create the identifier registry
         /*if (isset($config['cache_prefix'])) {
@@ -68,6 +68,10 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
         ));
 
         $this->registerLocator(new ObjectLocatorLibrary($config));
+
+        //Register self and set a 'manager' alias
+        $this->setObject('lib:object.manager', $this);
+        $this->registerAlias('manager', 'lib:object.manager');
     }
 
     /**
@@ -116,7 +120,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
      * @throws	ObjectException
      * @return	ObjectInterface  Return object on success, throws exception on failure
      */
-    public function getObject($identifier = null, array $config = array())
+    public function getObject($identifier, array $config = array())
     {
         $identifier = $this->getIdentifier($identifier);
 
@@ -150,7 +154,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
      */
     public function setObject($identifier, ObjectInterface $object)
     {
-        $$identifier = $this->getIdentifier($identifier);
+        $identifier = $this->getIdentifier($identifier);
         $this->_registry->set($identifier, $object);
 
         return $this;

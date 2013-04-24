@@ -32,7 +32,7 @@ interface ObjectManagerInterface
      * @throws	ObjectException
      * @return	ObjectInterface  Return object on success, throws exception on failure
      */
-    public function getObject($identifier = null, array $config = array());
+    public function getObject($identifier, array $config = array());
 
     /**
      * Register an object instance for a specific object identifier

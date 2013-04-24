@@ -40,7 +40,7 @@ abstract class CategoriesControllerCategory extends ApplicationControllerDefault
             $alias = clone $layout;
             $alias->package = 'categories';
 
-            $this->getObject()->registerAlias($layout, $alias);
+            $this->getObject('manager')->registerAlias($layout, $alias);
         }
 
         return parent::_actionRender($context);

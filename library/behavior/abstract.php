@@ -181,14 +181,9 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      * @param array  			      $config     An optional associative array of configuration settings.
      * @return ObjectInterface  Return object on success, throws exception on failure.
      */
-    final public function getObject($identifier = null, array $config = array())
+    final public function getObject($identifier, array $config = array())
     {
-        if (isset($identifier)) {
-            $result = $this->__object_manager->getObject($identifier, $config);
-        } else {
-            $result = $this->__object_manager;
-        }
-
+        $result = $this->__object_manager->getObject($identifier, $config);
         return $result;
     }
 

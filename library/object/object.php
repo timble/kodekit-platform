@@ -268,14 +268,9 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
      * @throws   \RuntimeException If the service manager has not been defined.
      * @return   object            Return object on success, throws exception on failure
      */
-    final public function getObject($identifier = null, array $config = array())
+    final public function getObject($identifier, array $config = array())
     {
-        if (isset($identifier)) {
-            $result = $this->__object_manager->getObject($identifier, $config);
-        } else {
-            $result = $this->__object_manager;
-        }
-
+        $result = $this->__object_manager->getObject($identifier, $config);
         return $result;
     }
 
