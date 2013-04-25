@@ -7,22 +7,23 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
- * Files Html View Class
+ * Node Controller Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-
-class FilesViewImagesHtml extends Library\ViewHtml
+class ControllerNode extends ControllerAbstract
 {
 	protected function _initialize(Library\Config $config)
 	{
 		$config->append(array(
-			'auto_assign' => false
+			'behaviors' => array('thumbnailable')
 		));
 
 		parent::_initialize($config);

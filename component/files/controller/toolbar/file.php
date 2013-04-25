@@ -7,23 +7,26 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
- * Node Controller Class
+ * Toolbar Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerNode extends FilesControllerAbstract
+class ControllerToolbarFile extends Library\ControllerToolbarModel
 {
-	protected function _initialize(Library\Config $config)
-	{
-		$config->append(array(
-			'behaviors' => array('thumbnailable')
-		));
-
-		parent::_initialize($config);
-	}
+    public function onBeforeControllerRender(Library\Event $event)
+    {     
+        parent::onBeforeControllerRender($event);
+        
+        $this->addCommand('upload');
+        $this->addNew(array('label' => 'New Folder'));
+        
+        $this->addDelete();
+    }
 }
