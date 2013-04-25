@@ -55,13 +55,13 @@ interface ObjectManagerInterface
     public function getIdentifier($identifier = null);
 
     /**
-     * Set the configuration options for an identifier
+     * Register and identifier
      *
      * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param array $config      An associative array of configuration options
+     * @param array $config      An optional associative array of configuration options
      * @return ObjectManagerInterface
      */
-    public function setIdentifier($identifier, array $config);
+    public function setIdentifier($identifier, array $config = null);
 
     /**
      * Register a mixin or an array of mixins for an identifier

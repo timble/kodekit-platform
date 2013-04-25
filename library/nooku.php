@@ -45,9 +45,10 @@ class Nooku
 
         //Create the loader
         require_once $this->_path.'/class/loader.php';
-        Nooku\Library\ClassLoader::getInstance($config);
+        $loader = Nooku\Library\ClassLoader::getInstance($config);
 
         //Create the object manager
+        $config['class_loader'] = $loader;
         Nooku\Library\ObjectManager::getInstance($config);
     }
 

@@ -39,6 +39,15 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
      */
     public function __construct(ObjectConfig $config)
     {
+        //Set the class loader
+        if (!$config->class_loader instanceof ClassLoaderInterface)
+        {
+            throw new \InvalidArgumentException(
+                'class_loader [ClassLoaderInterface] config option is required, "'.gettype($config->class_loader).'" given.'
+            );
+        }
+        else $this->setClassLoader($config['class_loader']);
+
         //Create the identifier registry
         /*if (isset($config['cache_prefix'])) {
             $this->_registry->setCachePrefix($config['cache_prefix']);
@@ -47,13 +56,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
         if (isset($config['cache_enabled'])) {
             $this->_registry->enableCache($config['cache_enabled']);
         }*/
-
-        //Set the class loader, or create it if it was not injected
-        if(isset($config['class_loader'])) {
-            $this->setClassLoader($config['class_loader']);
-        } else {
-            $this->setClassLoader(ClassLoader::getInstance());
-        }
 
         //Create the object registry
         $this->_registry = new ObjectRegistry();
@@ -72,6 +74,21 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
         //Register self and set a 'manager' alias
         $this->setObject('lib:object.manager', $this);
         $this->registerAlias('manager', 'lib:object.manager');
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'class_loader' => null
+        ));
     }
 
     /**
@@ -184,9 +201,10 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
     }
 
     /**
-     * Returns an identifier object.
+     * Get an identifier object based on an object identifier.
      *
-     * Function will also check for identifier aliases and return the real identifier.
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
      *
      * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @return ObjectIdentifier
@@ -226,7 +244,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
      * @param array $config      An associative array of configuration options
      * @return ObjectManager
      */
-    public function setIdentifier($identifier, array $config)
+    public function setIdentifier($identifier, array $config = array())
     {
         $identifier = $this->getIdentifier($identifier);
         $identifier->setConfig($config, false);
