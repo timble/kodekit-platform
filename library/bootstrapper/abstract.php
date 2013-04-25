@@ -57,10 +57,7 @@ abstract class BootstrapperAbstract extends Object implements BootstrapperInterf
      *
      * @return void
      */
-    public function bootstrap()
-    {
-
-    }
+    abstract public function bootstrap();
 
     /**
      * Get the object manager
