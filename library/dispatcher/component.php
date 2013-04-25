@@ -151,10 +151,6 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             return false;
         }
 
-        //Load the component aliases
-        $component = $this->getController()->getIdentifier()->package;
-        $this->getObject('manager')->loadFile('com:'.$component.'.aliases');
-
         //Execute the component method
         $method = strtolower($context->request->getMethod());
 	    $result = $this->execute($method, $context);

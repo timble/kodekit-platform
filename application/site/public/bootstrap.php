@@ -66,5 +66,10 @@ Library\ClassLoader::getInstance()->registerLocator(
 Library\ClassLoader::getInstance()->addApplication('site' , JPATH_ROOT.'/application/site');
 Library\ClassLoader::getInstance()->addApplication('admin', JPATH_ROOT.'/application/admin');
 
-//Set the service
+//Register the component locator
 Library\ObjectManager::getInstance()->registerLocator('lib:object.locator.component');
+
+//Bootstrap the components
+Library\ObjectManager::getInstance()->getObject('lib:bootstrapper.application', array(
+    'directory' => JPATH_APPLICATION.'/component'
+))->bootstrap();
