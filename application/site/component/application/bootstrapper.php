@@ -16,13 +16,17 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
- class ApplicationBootstrapper extends Library\BootstrapperAbstract
+class ApplicationBootstrapper extends Library\BootstrapperAbstract
 {
-    /**
-     * Bootstrap the component
-     *
-     * @return void
-     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'priority' => Library\BootstrapperChain::PRIORITY_LOW,
+        ));
+
+        parent::_initialize($config);
+    }
+
     public function bootstrap()
     {
         $manager = $this->getObjectManager();

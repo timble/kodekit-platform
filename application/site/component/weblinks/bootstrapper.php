@@ -18,11 +18,6 @@ use Nooku\Library;
  */
  class WeblinksBootstrapper extends Library\BootstrapperAbstract
 {
-    /**
-     * Bootstrap the component
-     *
-     * @return void
-     */
     public function bootstrap()
     {
         $manager = $this->getObjectManager();

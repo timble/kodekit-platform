@@ -18,11 +18,6 @@ use Nooku\Library;
  */
  class ArticlesBootstrapper extends Library\BootstrapperAbstract
 {
-    /**
-     * Bootstrap the object manager
-     *
-     * @return void
-     */
     public function bootstrap()
     {
         $manager = $this->getObjectManager();
