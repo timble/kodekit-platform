@@ -46,7 +46,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
         if($this->_parent_column)
         {
             $parent = $this->_parent ? $this->_parent : $this->{$this->_parent_column};   
-            $query->where($this->_table->mapColumns($this->_parent_column).' = :parent')->bind(array('parent' => $parent));
+            $query->where($this->getTable()->mapColumns($this->_parent_column).' = :parent')->bind(array('parent' => $parent));
         }
 
         $query->where('table = :table')->bind(array('table' => $this->table));

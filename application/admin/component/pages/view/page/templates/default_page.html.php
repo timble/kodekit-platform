@@ -9,18 +9,7 @@
 ?>
 
 <? if($state->type['name'] == 'component') : ?>
-<?
-$query = array(
-    'option' => $state->type['option'],
-    'view'   => $state->type['view']
-);
 
-if(!empty($state->type['layout']) && $state->layout != 'default') {
-    $query['layout'] = $state->layout;
-}
-?>
-
-<input type="hidden" name="link_url" value="<?= http_build_query($query) ?>" />
 <? $model = $this->getView()->getModel() ?>
 
 <?= $page->getParams('url')->render('urlparams') ?>

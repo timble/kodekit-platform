@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 use Nooku\Component\Files;
 
@@ -17,7 +19,7 @@ use Nooku\Component\Files;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerThumbnail extends FilesControllerAbstract
+class ControllerThumbnail extends ControllerAbstract
 {
     protected function _actionBrowse(Library\CommandContext $context)
     {

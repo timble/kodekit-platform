@@ -33,16 +33,6 @@
             <th width="100%">
                 <?= @text('Name'); ?>
         	</th>
-            <? if ($params->get('show_email', false)) : ?>
-            <th>
-                <?= @text('Email'); ?>
-        	</th>
-            <? endif; ?>
-            <? if ($params->get('show_telephone', true)) : ?>
-        	<th>
-                <?= @text('Phone'); ?>
-        	</th>
-        	<? endif; ?>
         </tr>
     </thead>
     <tbody>

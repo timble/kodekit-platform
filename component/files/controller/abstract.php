@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
@@ -17,7 +19,7 @@ use Nooku\Library;
  * @subpackage  Files
  */
 
-abstract class FilesControllerAbstract extends ApplicationControllerDefault
+abstract class ControllerAbstract extends \ApplicationControllerDefault
 {
 	protected function _initialize(Library\Config $config)
 	{
@@ -103,7 +105,7 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 	{
 		if ($this->getIdentifier()->name == 'image' || ($this->getIdentifier()->name == 'file' && $context->request->getFormat() == 'html'))
 		{
-            JFactory::getLanguage()->load($this->getIdentifier()->package);
+            \JFactory::getLanguage()->load($this->getIdentifier()->package);
 
 			$view = $this->getView();
 
@@ -114,7 +116,7 @@ abstract class FilesControllerAbstract extends ApplicationControllerDefault
 	
 	        //Render the view
 	        $content = $view->render();
-	
+
 	        //Set the data in the response
 	        $context->response
 	                ->setContent($content)

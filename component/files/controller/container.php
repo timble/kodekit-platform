@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
@@ -16,6 +18,6 @@ use Nooku\Library;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerContainer extends ApplicationControllerDefault
+class ControllerContainer extends \ApplicationControllerDefault
 {
 }
