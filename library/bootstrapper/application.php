@@ -54,7 +54,8 @@ class BootstrapperApplication extends BootstrapperChain
     {
         foreach (new \DirectoryIterator($this->_directory) as $dir)
         {
-            if ($dir->isDot()) {
+            //Only get the component directory names
+            if ($dir->isDot() || !$dir->isDir() || !preg_match('/[^[a-zA-Z]*/', $dir->getBasename())) {
                 continue;
             }
 
