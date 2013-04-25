@@ -95,10 +95,10 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         $config->mixer = $this;
 
         // Mixin the command interface
-        $this->mixin(new MixinCommand($config));
+        $this->mixin(new ObjectMixinCommand($config));
 
         // Mixin the behavior interface
-        $this->mixin(new MixinBehavior($config));
+        $this->mixin(new ObjectMixinBehavior($config));
     }
 
     /**
@@ -184,7 +184,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed    An object that implements MixinInterface, ServiceIdentifier object
+     * @@param   mixed    An object that implements ObjectMixinInterface, ServiceIdentifier object
      *                     or valid identifier string
      * @param    array An optional associative array of configuration options
      * @return  Object
@@ -338,11 +338,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Get the command chain context
      *
-     * Overrides MixinCommand::getCommandContext() to insert the request and response objects into the controller
+     * Overrides ObjectMixinCommand::getCommandContext() to insert the request and response objects into the controller
      * command context.
      *
      * @return  CommandContext
-     * @see MixinCommand::getCommandContext
+     * @see ObjectMixinCommand::getCommandContext
      */
     public function getCommandContext()
     {

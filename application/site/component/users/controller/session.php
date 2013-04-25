@@ -45,11 +45,11 @@ class UsersControllerSession extends ApplicationControllerDefault
 
     public function authenticate(Library\CommandContext $context)
     {
-        $email = $context->request->data->get('email', 'email');
+        $user = $this->getService('com:users.model.users')->email($context->request->data->get('email', 'email'))
+            ->getRow();
 
-        if(isset($email))
+        if(!$user->isNew())
         {
-            $user = $this->getService('com:users.model.users')->email($email)->getRow();
 
             //Authenticate the user
             if($user->id)
@@ -65,21 +65,7 @@ class UsersControllerSession extends ApplicationControllerDefault
             $context->user->session->start();
 
             //Set user data in context
-            $data = array(
-                'id'         => $user->id,
-                'email'      => $user->email,
-                'name'       => $user->name,
-                'role'       => $user->role_id,
-                'groups'     => $user->getGroups(),
-                'password'   => $user->getPassword()->password,
-                'salt'       => $user->getPassword()->salt,
-                'authentic'  => true,
-                'enabled'    => $user->enabled,
-                'attributes' => $user->params->toArray(),
-                'session'    => true,
-            );
-
-            $context->user->values($data);
+            $context->user->values($user->getSessionData(true));
         }
         else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 
@@ -107,6 +93,7 @@ class UsersControllerSession extends ApplicationControllerDefault
 
                 $page = $pages->find(array(
                     'extensions_component_id' => $component->id,
+                    'access' => 1,
                     'link'                    => array(array('view' => 'user'))));
 
                 $url                  = $page->getLink();
@@ -115,6 +102,7 @@ class UsersControllerSession extends ApplicationControllerDefault
 
                 $this->getService('application')->getRouter()->build($url);
                 $context->response->setRedirect($url);
+                // TODO Set a message in session explaining that password must be changed since it has expired.
             } else $context->response->setRedirect($context->request->getReferrer());
         }
     }

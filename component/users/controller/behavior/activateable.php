@@ -2,9 +2,9 @@
 /**
  * Nooku Framework - http://www.nooku.org
  *
- * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
- * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		git://git.assembla.com/nooku-framework.git
+ * @copyright      Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link           git://git.assembla.com/nooku-framework.git
  */
 
 namespace Nooku\Component\Users;
@@ -26,69 +26,88 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
      */
     protected $_enable;
 
+    /**
+     * @var string The filter to be used on activation tokens.
+     */
+    protected $_filter;
+
     public function __construct(Library\Config $config)
     {
         parent::__construct($config);
 
         $this->_enable = $config->enable;
+        $this->_filter = $config->filter;
     }
 
     protected function _initialize(Library\Config $config)
     {
-        $parameters = $this->getService('application.components')->users->params;
-
         $config->append(array(
-            'enable' => $parameters->get('useractivation', '1')
+            'enable' => true,
+            'filter' => 'alnum'
         ));
 
         parent::_initialize($config);
     }
 
-    protected function _afterControllerRead(Library\CommandContext $context)
+    protected function _beforeControllerRender(Library\CommandContext $context)
     {
-        $item = $context->result;
+        $item = $this->getModel()->getRow();
 
-        if ($activation = $context->request->query->get('activation', 'cmd') && $item->activation) {
+        if (($activation = $context->request->query->get('activation', $this->_filter)) && $item->activation) {
             $this->activate(array('activation' => $activation));
+            return false;
         }
     }
 
     protected function _beforeControllerActivate(Library\CommandContext $context)
     {
-        $activation = $context->request->data->get('activation', 'string');
+        $activation = $context->request->data->get('activation', $this->_filter);
         $item       = $this->getModel()->getRow();
 
-        if ($activation !== $item->activation)
-        {
-            $context->response->setRedirect(Library\Request::root(), 'Wrong activation token');
+        if ($activation !== $item->activation) {
+            $url = $this->getService('application.pages')->getHome()->getLink();
+            $this->getService('application')->getRouter()->build($url);
+            $context->response->setRedirect($url);
+            // TODO Set message in session.
+            //$context->response->setRedirect(Library\Request::root(), 'Wrong activation token');
             return false;
         }
     }
 
     protected function _actionActivate(Library\CommandContext $context)
     {
-        $item             = $this->getModel()->getRow();
-        $item->activation = '';
-        $item->enabled    = 1;
+        $result = true;
 
-        if ($item->save())
-        {
-            $url = $this->getService('application.pages')->home->getLink();
-            $context->response->setRedirect($url, 'Activation successfully completed');
-            $result = true;
+        $item = $this->getModel()->getRow();
+        $item->setData(array('activation' => '', 'enabled' => 1));
+
+        if (!$item->save()) {
+            $result = false;
         }
-        else throw new Library\ControllerExceptionActionFailed('Unable to activate user');
 
         return $result;
+    }
+
+    protected function _afterControllerActivate(Library\CommandContext $context)
+    {
+        $url = $this->getService('application.pages')->getHome()->getLink();
+        $this->getService('application')->getRouter()->build($url);
+        $context->response->setRedirect($url);
+
+        if ($context->result === true) {
+            //@TODO : Set message in session
+            // 'Activation successfully completed'
+        } else {
+            //@TODO : Set message in session
+            // 'Activation failed'
+        }
     }
 
     protected function _beforeControllerAdd(Library\CommandContext $context)
     {
         // Set activation on new records.
-        if ($this->_enable)
-        {
-            $password = $this->getService('com:users.database.row.password');
-            $context->request->data->activation = $password->getRandom(32);
+        if ($this->_enable) {
+            $context->request->data->activation = $this->getService('com:users.database.row.password')->getRandom(32);
             $context->request->data->enabled    = 0;
         }
     }

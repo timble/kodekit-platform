@@ -25,7 +25,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         parent::__construct($config);
 
         $this->registerCallback(array('before.edit', 'before.add'), array($this, 'sanitizeRequest'))
-             ->registerCallback('after.add', array($this, 'notify'));
+             ->registerCallback('after.add', array($this, 'redirect'));
 	}
     
     protected function _initialize(Library\Config $config)
@@ -43,8 +43,9 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $request = parent::getRequest();
 
-        if($this->getModel()->getState()->isUnique()) {
-            $request->id = $this->getUser()->getId();
+        if (!$request->query->get('id','int') && ($id = $this->getUser()->getId())) {
+            // Set request so that actions are made against logged user if none was given.
+            $request->query->id = $id;
         }
 
         return $request;
@@ -77,35 +78,26 @@ class UsersControllerUser extends ApplicationControllerDefault
 
         return parent::_actionAdd($context);
     }
-    
+
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
-        
-        if ($context->getSubject()->getStatus() == self::STATUS_RESET) {
-            $this->getService('user')->setData($entity->getData());
+        $user = $this->getService('user');
+
+        if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
+            // Logged user changed. Updated in memory/session user object.
+            $user->values($entity->getSessionData($user->isAuthentic()));
         }
-        
-        return $entity;
     }
 
-    public function notify(Library\CommandContext $context)
+    public function redirect(Library\CommandContext $context)
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
-        {
-            $url       = $this->getService('lib:http.url',
-                array('url' => "option=com_users&view=user&id={$user->id}&activation=" . $user->activation));
+        if ($user->getStatus() == Library\Database::STATUS_CREATED) {
+            $url = $this->getService('application.pages')->getHome()->getLink();
             $this->getService('application')->getRouter()->build($url);
-            $site_url       = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT);
-            $activation_url = $site_url . '/' . $url;
-
-            $subject = JText::_('User Account Activation');
-            $message = sprintf(JText::_('SEND_MSG_ACTIVATE'), $user->name,
-                $this->getService('application')->getCfg('sitename'), $activation_url, $site_url);
-
-            $user->notify(array('subject' => $subject, 'message' => $message));
+            $context->response->setRedirect($url);
         }
     }
 }

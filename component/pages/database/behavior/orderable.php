@@ -65,7 +65,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorAbstract
         return $methods;
     }
     
-    public function getMixableMethods(Library\Object $mixer = null)
+    public function getMixableMethods(Library\ObjectMixable $mixer = null)
     {
         $methods = array_merge(parent::getMixableMethods($mixer), $this->getStrategy()->getMixableMethods($mixer));
         

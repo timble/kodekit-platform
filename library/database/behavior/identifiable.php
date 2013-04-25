@@ -62,13 +62,13 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     /**
      * Get the methods that are available for mixin based
      *
-     * This function conditionaly mixes of the behavior. Only if the mixer
+     * This function conditionally mixes of the behavior. Only if the mixer
      * has a 'uuid' property the behavior will be mixed in.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = array();
 

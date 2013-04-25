@@ -24,14 +24,14 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.add' , array($this, 'notify'));
-        $this->registerCallback('after.edit', array($this, 'reset'));
+        $this->registerCallback(array('after.add','after.edit'), array($this, 'expire'));
     }
-    
+
     protected function _initialize(Library\Config $config)
     {
         $config->append(array(
             'behaviors' => array(
+                'resettable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));
@@ -51,41 +51,27 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $entity;
     }
 
-    public function reset(Library\CommandContext $context)
+    protected function _actionEdit(Library\CommandContext $context)
     {
-        if ($context->response->getStatusCode() == self::STATUS_RESET)
-        {
-            $user = $context->result;
-            JFactory::getUser($user->id)->setData($user->getData());
+        $entity = parent::_actionEdit($context);
+        $user = $this->getService('user');
+
+        if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
+            // Logged user changed. Updated in memory/session user object.
+            $user->values($entity->getSessionData($user->isAuthentic()));
         }
+
+        return $entity;
     }
 
-    public function notify(Library\CommandContext $context)
+    public function expire(Library\CommandContext $context)
     {
-        $user = $context->result;
-        $reset = $user->reset;
-
-        if(($user->getStatus() != Library\Database::STATUS_FAILED) && $reset)
-        {
-            $component = $this->getService('application.components')->getComponent('users');
-            $page     = $this->getService('application.pages')->find(array(
-                'extensions_component_id' => $component->id,
-                'link'                   => array(array('view' => 'user'))));
-
-            $link = clone $page->getLink();
-            $link->query['layout'] = 'password';
-            $link->query['uuid'] = $user->uuid;
-            $link->query['token'] = $user->reset;
-
-            // TODO Route URL after backend routing of frontent URLs is made possible.
-            //$this->getService('application')->getRouter()->build($link);
-
-            $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            // TODO Fix following lines after language package is re-factored.
-            //$message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $link);
-            $message = $link;
-
-           $user->notify(array('subject' => $subject, 'message' => $message));
+        $entity = $context->result;
+        // Expire the user's password if a password change was requested.
+        if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
+            'boolean')
+        ) {
+            $entity->getPassword()->expire();
         }
     }
 }

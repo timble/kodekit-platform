@@ -28,21 +28,6 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    protected function _afterTableUpdate(Library\CommandContext $context)
-    {
-        $data = $context->data;
-
-        // Force a password change on next login.
-        if ($data->password_change) {
-            $data->getPassword()->expire();
-        }
-
-        // Set the user password for reset and keep a copy of the token on the context
-        if ($context->password_reset) {
-            $data->reset = $data->getPassword()->setReset();
-        }
-    }
-
     protected function _beforeTableInsert(Library\CommandContext $context)
     {
         $data = $context->data;
@@ -53,9 +38,6 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
             $params         = $this->getService('application.components')->users->params;
             $password       = $this->getService('com:users.database.row.password');
             $data->password = $password->getRandom($params->get('password_length', 6));
-
-            // Set the password row for reset
-            $context->password_reset = true;
         }
     }
 
@@ -87,9 +69,6 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
             $data->getPassword()
                   ->setData(array('id' => $data->email, 'password' => $data->password))
                   ->save();
-
-            // Same as update.
-            $this->_afterTableUpdate($context);
         }
     }
 

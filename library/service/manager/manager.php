@@ -35,16 +35,23 @@ class ServiceManager implements ServiceManagerInterface
     /**
      * The services
      *
-     * @var    array
+     * @var array
      */
     protected static $_services = null;
 
     /**
-     * The mixins
+     * The object mixins
      *
      * @var    array
      */
     protected static $_mixins = array();
+
+    /**
+     * The object decorators
+     *
+     * @var    array
+     */
+    protected static $_decorators = array();
 
     /**
      * The configs
@@ -98,7 +105,8 @@ class ServiceManager implements ServiceManagerInterface
     {
         static $instance;
 
-        if ($instance === NULL) {
+        if ($instance === NULL)
+        {
             if (!$config instanceof Config) {
                 $config = new Config($config);
             }
@@ -125,11 +133,14 @@ class ServiceManager implements ServiceManagerInterface
 
         if (!self::$_services->offsetExists($strIdentifier))
         {
-            //Instantiate the identifier
+            //Instantiate
             $instance = self::_instantiate($objIdentifier, $config);
 
-            //Perform the mixin
+            //Mix
             self::_mixin($strIdentifier, $instance);
+
+            //Decorate
+            self::_decorate($strIdentifier, $instance);
         }
         else $instance = self::$_services->offsetGet($strIdentifier);
 
@@ -173,10 +184,10 @@ class ServiceManager implements ServiceManagerInterface
     }
 
     /**
-     * Add a mixin or an array of mixins for an identifier
+     * Set a mixin or an array of mixins for an identifier
      *
-     * The mixins are mixed when the indentified object is first instantiated see {@link get}
-     * Mixins are also added to objects that already exist in the service container.
+     * The mixins are mixed when the indentified object is first instantiated see {@link get} Mixins are also added to
+     * services that already exist in the service registry.
      *
      * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
@@ -213,11 +224,62 @@ class ServiceManager implements ServiceManagerInterface
     public static function getMixins($identifier)
     {
         $objIdentifier = self::getIdentifier($identifier);
-        $strIdentifier = (string)$objIdentifier;
+        $strIdentifier = (string) $objIdentifier;
 
         $result = array();
         if (isset(self::$_mixins[$strIdentifier])) {
             $result = self::$_mixins[$strIdentifier];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set a decorator or an array of decorators for an identifier
+     *
+     * The object is decorated when it's first instantiated see {@link get} Decorators are also added to services that
+     * already exist in the service registry.
+     *
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
+     * @param  string $decorator  A decorator identifier
+     * @see Object::decorate()
+     */
+    public static function addDecorator($identifier, $decorator)
+    {
+        $objIdentifier = self::getIdentifier($identifier);
+        $strIdentifier = (string)$objIdentifier;
+
+        if (!isset(self::$_decorators[$strIdentifier])) {
+            self::$_decorators[$strIdentifier] = array();
+        }
+
+        //Prevent decorators from being added twice
+        self::$_decorators[$strIdentifier][(string) self::getIdentifier($decorator)] = $decorator;
+
+        //If the identifier already exists decorate
+        if (self::$_services->offsetExists($strIdentifier))
+        {
+            $instance = self::$_services->offsetGet($strIdentifier);
+            self::_decorate($strIdentifier, $instance);
+        }
+    }
+
+    /**
+     * Get the decorators for an identifier
+     *
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
+     * @return array An array of decorators
+     */
+    public static function getDecorators($identifier)
+    {
+        $objIdentifier = self::getIdentifier($identifier);
+        $strIdentifier = (string)$objIdentifier;
+
+        $result = array();
+        if (isset(self::$_decorators[$strIdentifier])) {
+            $result = self::$_decorators[$strIdentifier];
         }
 
         return $result;
@@ -345,7 +407,7 @@ class ServiceManager implements ServiceManagerInterface
     }
 
     /**
-     * Perform the actual mixin of all registered mixins with an object
+     * Perform the actual mixin of all registered mixins for an object
      *
      * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
      *                          or valid identifier string
@@ -354,16 +416,30 @@ class ServiceManager implements ServiceManagerInterface
      */
     protected static function _mixin($identifier, $instance)
     {
-        if (isset(self::$_mixins[$identifier]) && $instance instanceof ObjectInterface)
+        if (isset(self::$_mixins[$identifier]) && $instance instanceof ObjectMixable)
         {
             $mixins = self::$_mixins[$identifier];
-            foreach ($mixins as $mixin)
-            {
-                if(!$mixin instanceof MixinInterface) {
-                    $mixin = self::get($mixin, array('mixer' => $instance));
-                }
-
+            foreach ($mixins as $mixin) {
                 $instance->mixin($mixin);
+            }
+        }
+    }
+
+    /**
+     * Perform the actual decoration of all registered decorators for an object
+     *
+     * @param mixed $identifier An object that implements ServiceInterface, ServiceIdentifier object
+     *                          or valid identifier string
+     * @param  object $instance A Object instance to used as the mixer
+     * @return void
+     */
+    protected static function _decorate($identifier, $instance)
+    {
+        if (isset(self::$_decorators[$identifier]) && $instance instanceof ObjectDecoratable)
+        {
+            $decorators = self::$_decorators[$identifier];
+            foreach ($decorators as $decorator) {
+                $instance = $instance->decorate($decorator);
             }
         }
     }

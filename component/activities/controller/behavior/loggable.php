@@ -116,6 +116,6 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
     public function getHandle()
     {
-        return Library\MixinAbstract::getHandle();
+        return Library\ObjectMixinAbstract::getHandle();
     }
 }

@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterIterator extends ObjectDecorator implements FilterInterface
+class FilterIterator extends ObjectDecorator implements FilterInterface, FilterTraversable
 {
     /**
      * Validate a scalar or traversable data
@@ -30,7 +30,7 @@ class FilterIterator extends ObjectDecorator implements FilterInterface
     {
         $result = true;
 
-        if(is_array($data) || $data instanceof Traversable)
+        if(is_array($data) || $data instanceof \Traversable)
         {
             foreach($data as $value)
             {
@@ -39,7 +39,7 @@ class FilterIterator extends ObjectDecorator implements FilterInterface
                 }
             }
         }
-        else $result = $this->getObject()->validate($data);
+        else $result = $this->getDelegate()->validate($data);
 
         return $result;
     }
@@ -52,7 +52,7 @@ class FilterIterator extends ObjectDecorator implements FilterInterface
      */
     public function sanitize($data)
     {
-        if(is_array($data) || $data instanceof Traversable)
+        if(is_array($data) || $data instanceof \Traversable)
         {
             foreach((array)$data as $key => $value)
             {
@@ -63,7 +63,7 @@ class FilterIterator extends ObjectDecorator implements FilterInterface
                 }
             }
         }
-        else  $data = $this->getObject()->sanitize($data);
+        else  $data = $this->getDelegate()->sanitize($data);
 
         return $data;
     }
@@ -75,6 +75,6 @@ class FilterIterator extends ObjectDecorator implements FilterInterface
      */
     public function getErrors()
     {
-        return $this->getObject()->getErrors();
+        return $this->getDelegate()->getErrors();
     }
 }
