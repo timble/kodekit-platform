@@ -14,4 +14,15 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Bootstrapper
  */
-final class BootstrapperDefault extends BootstrapperAbstract { }
+final class BootstrapperDefault extends BootstrapperAbstract
+{
+    /**
+     * Bootstrap the object manager
+     *
+     * @return void
+     */
+    public function bootstrap()
+    {
+        //do nothing
+    }
+}
