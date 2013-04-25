@@ -299,6 +299,8 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     {
         parent::__clone();
 
-        $this->_url = clone $this->_url;
+        if($this->_url instanceof HttpUrl) {
+            $this->_url = clone $this->_url;
+        }
     }
 }
