@@ -143,9 +143,6 @@ var Editors = new Hash,
                 // the 22 offset is for the .editor-toolbar
                 this.settings.height = height - offset;
 
-                //@TODO fix in css
-                document.html.setStyle('overflow', 'hidden');
-
                 window.addEvent('resize', function(){
                     var newHeight = parent.getSize().y, relativeHeight = height - newHeight;
                     if(!iframeHeight) iframeHeight = tinymce.DOM.getStyle(editor + '_ifr', 'height').toInt();
