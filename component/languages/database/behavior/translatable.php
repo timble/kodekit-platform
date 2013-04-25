@@ -146,32 +146,8 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             }
         }
     }
-
-    protected function _beforeAdapterSelect(Library\CommandContext $context)
-    {
-        if($query = $context->query)
-        {
-            $languages = $this->getService('application.languages');
-            $active    = $languages->getActive();
-            $primary   = $languages->getPrimary();
-
-            // Modify table in the query if active language is not the primary.
-            if($active->iso_code != $primary->iso_code)
-            {
-                $table = $query->table;
-                if(is_string($table))
-                {
-                    $table = $this->_tables->find(array('name' => $table));
-                    if(count($table) && $table->top()->enabled) {
-                        $query->table[key($query->table)] = strtolower($active->iso_code).'_'.$query->table[key($query->table)];
-                    }
-
-                }
-            }
-        }
-    }
     
-    protected function _afterDatabaseInsert(Library\CommandContext $context)
+    protected function _afterTableInsert(Library\CommandContext $context)
     {
         if($context->affected)
         {
@@ -191,24 +167,9 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $this->getService('com:languages.database.row.translation')
                 ->setData($translation)
                 ->save();
-            
-            // Insert item into language specific tables.
-            $table = $this->_tables->find(array('name' => $context->table))->top();
-            
+
             foreach($languages as $language)
             {
-                if($language->iso_code != $primary->iso_code)
-                {
-                    $query = clone $context->query;
-                    $query->table(strtolower($language->iso_code).'_'.$query->table);
-                    
-                    if(($key = array_search($table->unique_column, $query->columns)) !== false) {
-                        $query->values[0][$key] = $context->data->id;
-                    }
-                    
-                    $this->getTable()->getAdapter()->insert($query);
-                }
-                
                 if($language->iso_code != $active->iso_code)
                 {
                     // Insert item into translations table.
@@ -224,18 +185,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _beforeDatabaseUpdate(Library\CommandContext $context)
-    {
-        $languages = $this->getService('application.languages');
-        $active    = $languages->getActive();
-        $primary   = $languages->getPrimary();
-        
-        if($active->iso_code != $primary->iso_code) {
-            $context->query->table(strtolower($active->iso_code).'_'.$context->query->table);
-        }
-    }
-    
-    protected function _afterDatabaseUpdate(Library\CommandContext $context)
+    protected function _afterTableUpdate(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $primary   = $languages->getPrimary();
@@ -280,11 +230,11 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ->table($prefix.$table->name)
             ->where($table->unique_column.' = :unique')
             ->bind(array('unique' => $context->data->id));
-        
+
         $query->bind(array('status' => DatabaseRowTranslation::STATUS_MISSING));
         $translations = $this->getService('com:languages.database.table.translations')
             ->select($query);
-        
+
         foreach($translations as $translation)
         {
             $prefix = $translation->iso_code != $primary->iso_code ? strtolower($translation->iso_code.'_') : '';
@@ -293,7 +243,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _beforeDatabaseDelete(Library\CommandContext $context)
+    protected function _beforeAdapterDelete(Library\CommandContext $context)
     {
         $languages = $this->getService('application.languages');
         $active    = $languages->getActive();
@@ -304,7 +254,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         }
     }
     
-    protected function _afterDatabaseDelete(Library\CommandContext $context)
+    protected function _afterAdapterDelete(Library\CommandContext $context)
     {
         if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {

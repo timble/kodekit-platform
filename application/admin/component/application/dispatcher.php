@@ -324,8 +324,8 @@ class ApplicationDispatcher extends Library\DispatcherApplication
                 $language = $language->top();
                 $languages->setActive($language);
 
-                $behavior = $this->getService('com:languages.database.behavior.translatable');
-                $this->getService('lib:database.adapter.mysql')->getCommandChain()->enqueue($behavior);
+                $chain = $this->getService('com:languages.command.translation');
+                $this->getService('lib:database.adapter.mysql')->getCommandChain()->enqueue($chain);
             }
         }
         else $languages->setActive($primary);
