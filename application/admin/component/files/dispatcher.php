@@ -7,8 +7,6 @@
  * @link        http://www.nooku.org
  */
 
-namespace Nooku\Component\Files;
-
 use Nooku\Library;
 
 /**
@@ -19,7 +17,7 @@ use Nooku\Library;
  * @subpackage  Files
  */
 
-class Dispatcher extends Library\DispatcherComponent
+class FilesDispatcher extends Library\DispatcherComponent
 {
 	public function __construct(Library\ObjectConfig $config)
 	{
