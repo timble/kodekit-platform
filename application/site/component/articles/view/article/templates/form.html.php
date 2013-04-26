@@ -15,7 +15,7 @@
 <script src="media://js/koowa.js"/>
 -->
 
-<div id="toolbar-box">
+<div class="btn-toolbar">
     <?= @helper('com:base.toolbar.render', array('toolbar' => $toolbar));?>
 </div>
 
@@ -24,13 +24,7 @@
     <input type="hidden" name="access" value="0" />
     
     <fieldset>
-    	<legend><?= @text('Article'); ?></legend>
-    	<div class="control-group">
-    	    <label class="control-label" for="title"><?= @text('Title') ?></label>
-    	    <div class="controls">
-    	        <input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<? echo @escape($article->title); ?>"/>
-    	    </div>
-    	</div>
+        <input class="input-block-level" type="text" name="title" maxlength="100" value="<? echo @escape($article->title); ?>" style="margin-bottom: 10px"/>
         <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </fieldset>
     <fieldset>

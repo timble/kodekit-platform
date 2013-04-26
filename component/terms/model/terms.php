@@ -25,7 +25,8 @@ class ModelTerms extends Library\ModelTable
 		
 		// Set the state
 		$this->getState()
-		 	->insert('table', 'string', $this->getIdentifier()->package);
+		 	->insert('table', 'string', $this->getIdentifier()->package)
+            ->insert('search', 'string');
 	}
 	
 	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
@@ -54,7 +55,7 @@ class ModelTerms extends Library\ModelTable
         $state = $this->getState();
 
         if($state->search) {
-            $query->where('tbl.title LIKE %:search%')->bind(array('search' => $state->search));
+            $query->where('tbl.title LIKE :search')->bind(array('search' => '%' . $state->search . '%'));
         }
         
         if($this->_state->table) {
