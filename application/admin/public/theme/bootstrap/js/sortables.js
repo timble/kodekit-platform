@@ -397,6 +397,15 @@ Table.Sortable = new Class({
 		}
 	},
 
+    initialize: function(lists, options){
+
+        this.parent(lists, options);
+
+        //To allow scrolling the list without draggables getting messed up
+        lists.getParent().setStyle('position', 'relative');
+        console.warn(this, lists, options);
+    },
+
 	start: function(event, element){
 
 		this.parent(event, element);
