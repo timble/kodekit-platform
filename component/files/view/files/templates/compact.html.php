@@ -21,8 +21,9 @@
 </style>
 
 <script>
-Files.sitebase = '';
-Files.token = '<?= $token; ?>';
+Files.sitebase = '<?= $sitebase; ?>';
+Files.base     = '<?= $base; ?>';
+Files.token    = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
@@ -35,7 +36,7 @@ window.addEvent('domready', function() {
 			},
 			editor: <?= json_encode($state->editor); ?>,
 			tree: {
-				theme: 'media://com_files/images/mootree.png'
+				theme: 'media://files/images/mootree.png'
 			},
 			types: <?= json_encode($state->types); ?>,
 			container: <?= json_encode($state->container ? $state->container->slug : null); ?>

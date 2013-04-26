@@ -12,8 +12,9 @@
 
 <script>
 
-Files.sitebase = '';
-Files.token = '<?= $token; ?>';
+Files.sitebase = '<?= $sitebase; ?>';
+Files.base     = '<?= $base; ?>';
+Files.token    = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
