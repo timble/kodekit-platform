@@ -8,7 +8,7 @@
  */
 ?>
 
-<?= @template('com:files.views.files.initialize.html'); ?>
+<?= @template('com:files.view.files.initialize.html'); ?>
 
 <script src="media://files/js/files.compact.js" />
 

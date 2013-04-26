@@ -7,16 +7,17 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
- * Image Controller Class
+ * Container Controller Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerImage extends FilesControllerAbstract
+class ControllerContainer extends \ApplicationControllerDefault
 {
-
 }

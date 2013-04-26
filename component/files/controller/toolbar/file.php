@@ -7,15 +7,26 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
- * Container Controller Class
+ * Toolbar Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerContainer extends ApplicationControllerDefault
+class ControllerToolbarFile extends Library\ControllerToolbarModel
 {
+    public function onBeforeControllerRender(Library\Event $event)
+    {     
+        parent::onBeforeControllerRender($event);
+        
+        $this->addCommand('upload');
+        $this->addNew(array('label' => 'New Folder'));
+        
+        $this->addDelete();
+    }
 }

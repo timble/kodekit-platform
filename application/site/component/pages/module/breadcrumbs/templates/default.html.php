@@ -17,7 +17,7 @@
 			<? else : ?>
 				<li><?= @escape($item->name) ?></li>
 			<? endif ?>
-			<span class="divider">/</span>
+			<span class="divider">&rsaquo;</span>
 		<? else : ?>
 		    <li><?= @escape($item->name) ?></li>
 		<? endif ?>

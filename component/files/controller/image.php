@@ -7,23 +7,18 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
- * Node Controller Class
+ * Image Controller Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerNode extends FilesControllerAbstract
+class ControllerImage extends ControllerAbstract
 {
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'behaviors' => array('thumbnailable')
-		));
 
-		parent::_initialize($config);
-	}
 }

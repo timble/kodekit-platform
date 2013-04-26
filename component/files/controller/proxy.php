@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
@@ -19,7 +21,7 @@ use Nooku\Library;
  * @package     Nooku_Components
  * @subpackage  Files
  */
- class FilesControllerProxy extends Library\ControllerView
+ class ControllerProxy extends Library\ControllerView
 {
 	public function _actionRender(Library\CommandContext $context)
 	{

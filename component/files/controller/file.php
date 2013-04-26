@@ -7,6 +7,8 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
@@ -16,7 +18,7 @@ use Nooku\Library;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerFile extends FilesControllerAbstract
+class ControllerFile extends ControllerAbstract
 {
 	public function __construct(Library\ObjectConfig $config)
 	{

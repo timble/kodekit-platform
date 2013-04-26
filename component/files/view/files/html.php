@@ -7,24 +7,38 @@
  * @link        http://www.nooku.org
  */
 
+namespace Nooku\Component\Files;
+
 use Nooku\Library;
 
 /**
  * Files Html View Class
  *
  * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
- * @package     Nooku_Components
+ * @category	Nooku
+ * @package     Nooku_Server
  * @subpackage  Files
  */
 
-class FilesViewImagesHtml extends Library\ViewHtml
+class ViewFilesHtml extends Library\ViewHtml
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{
-		$config->append(array(
-			'auto_assign' => false
-		));
+		$config->auto_assign = false;
 
 		parent::_initialize($config);
+	}
+
+	public function render()
+	{
+	    $state = $this->getModel()->getState();
+	    if (empty($state->limit)) {
+	        $state->limit = $this->getObject('application')->getCfg('list_limit');
+	    }
+	    
+		$this->token     = $this->getObject('user')->getSession()->getToken();
+		$this->container = $this->getModel()->getState()->container;
+
+		return parent::render();
 	}
 }
