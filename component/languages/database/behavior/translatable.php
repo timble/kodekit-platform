@@ -17,31 +17,19 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ServiceInstantiatable
+class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectSingleton
 {
     protected $_tables;
     
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
         
-        $this->_tables = $this->getService('com:languages.model.tables')
+        $this->_tables = $this->getObject('com:languages.model.tables')
             ->enabled(true)
             ->getRowset();
     }
-    
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
-    {
-        if(!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
-        }
 
-        return $manager->get($config->service_identifier);
-    }
-    
     public function getHandle()
     {
         // If table is not enabled, return null to prevent enqueueing.
@@ -83,12 +71,12 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     
     public function getLanguages()
     {
-        return $this->getService('application.languages');
+        return $this->getObject('application.languages');
     }
     
     public function getTranslations()
     {
-        $translations = $this->getService('com:languages.model.translations')
+        $translations = $this->getObject('com:languages.model.translations')
             ->table($this->getMixer()->getIdentifier()->package)
             ->row($this->id)
             ->getRowset();
@@ -101,7 +89,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         if($query = $context->query)
         {
             $table     = $this->_tables->find(array('name' => $context->table))->top();
-            $languages = $this->getService('application.languages');
+            $languages = $this->getObject('application.languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
             
@@ -145,7 +133,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         if($context->affected)
         {
-            $languages = $this->getService('application.languages');
+            $languages = $this->getObject('application.languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
             
@@ -158,7 +146,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             );
             
             // Insert item into the translations table.
-            $this->getService('com:languages.database.row.translation')
+            $this->getObject('com:languages.database.row.translation')
                 ->setData($translation)
                 ->save();
             
@@ -186,7 +174,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                     $translation['status']   = DatabaseRowTranslation::STATUS_MISSING;
                     $translation['original'] = 0;
                     
-                    $this->getService('com:languages.database.row.translation')
+                    $this->getObject('com:languages.database.row.translation')
                         ->setData($translation)
                         ->save();
                 }
@@ -196,7 +184,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     
     protected function _beforeTableUpdate(Library\CommandContext $context)
     {
-        $languages = $this->getService('application.languages');
+        $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
         $primary   = $languages->getPrimary();
         
@@ -207,13 +195,13 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     
     protected function _afterTableUpdate(Library\CommandContext $context)
     {
-        $languages = $this->getService('application.languages');
+        $languages = $this->getObject('application.languages');
         $primary   = $languages->getPrimary();
         $active    = $languages->getActive();
         
         // Update item in the translations table.
         $table = $this->_tables->find(array('name' => $context->table))->top();
-        $translation  = $this->getService('com:languages.database.table.translations')
+        $translation  = $this->getObject('com:languages.database.table.translations')
             ->select(array(
                 'iso_code' => $active->iso_code,
                 'table'    => $context->table,
@@ -225,7 +213,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         ))->save();
         
         // Set the other items to outdated if they were completed before.
-        $query = $this->getService('lib:database.query.select')
+        $query = $this->getObject('lib:database.query.select')
             ->where('iso_code <> :iso_code')
             ->where('table = :table')
             ->where('row = :row')
@@ -237,7 +225,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 'status' => DatabaseRowTranslation::STATUS_COMPLETED
             ));
         
-        $translations = $this->getService('com:languages.database.table.translations')
+        $translations = $this->getObject('com:languages.database.table.translations')
             ->select($query);
         
         $translations->status = DatabaseRowTranslation::STATUS_OUTDATED;
@@ -246,13 +234,13 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         // Copy the item's data to all missing translations.
         $database = $this->getTable()->getAdapter();
         $prefix = $active->iso_code != $primary->iso_code ? strtolower($active->iso_code.'_') : '';
-        $select = $this->getService('lib:database.query.select')
+        $select = $this->getObject('lib:database.query.select')
             ->table($prefix.$table->name)
             ->where($table->unique_column.' = :unique')
             ->bind(array('unique' => $context->data->id));
         
         $query->bind(array('status' => DatabaseRowTranslation::STATUS_MISSING));
-        $translations = $this->getService('com:languages.database.table.translations')
+        $translations = $this->getObject('com:languages.database.table.translations')
             ->select($query);
         
         foreach($translations as $translation)
@@ -265,7 +253,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     
     protected function _beforeTableDelete(Library\CommandContext $context)
     {
-        $languages = $this->getService('application.languages');
+        $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
         $primary   = $languages->getPrimary();
         
@@ -278,7 +266,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
     {
         if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
-            $languages = $this->getService('application.languages');
+            $languages = $this->getObject('application.languages');
             $primary   = $languages->getPrimary();
             $active    = $languages->getActive();
             
@@ -297,7 +285,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             }
             
             // Mark item as deleted in translations table.
-            $this->getService('com:languages.database.table.translations')
+            $this->getObject('com:languages.database.table.translations')
                 ->select(array('table' => $context->table, 'row' => $context->data->id))
                 ->setData(array('deleted' => 1))
                 ->save(); 

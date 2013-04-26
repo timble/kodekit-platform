@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ServiceInstantiatable
+class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer, Library\ObjectInstantiable
 {
     /**
      * The chrome styles
@@ -29,9 +29,9 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\Config object with configuration options
+     * @param   object  An optional Library\ObjectConfig object with configuration options
      */
-    public function __construct( Library\Config $config )
+    public function __construct( Library\ObjectConfig $config )
     {
         parent::__construct($config);
 
@@ -43,10 +43,10 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\Config object with configuration options
+     * @param   object  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'styles'  => array(),
@@ -58,21 +58,21 @@ class TemplateFilterChrome extends Library\TemplateFilterAbstract implements Lib
     /**
      * Check for overrides of the filter
      *
-     * @param   Library\Config         	        $config  An optional Library\Config object with configuration options
-     * @param 	Library\ServiceManagerInterface	$manager A Library\ServiceManagerInterface object
+     * @param   Library\ObjectConfig         	        $config  An optional Library\ObjectConfig object with configuration options
+     * @param 	Library\ObjectManagerInterface	$manager A Library\ObjectManagerInterface object
      * @return  TemplateHelperChrome
      */
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
-        $identifier = clone $config->service_identifier;
+        $identifier = clone $config->object_identifier;
         $identifier->package = $config->module->package;
 
         $identifier = $manager->getIdentifier($identifier);
 
-        if(file_exists($identifier->filepath)) {
+        if(file_exists($identifier->classpath)) {
             $classname = $identifier->classname;
         } else {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
         }
 
         $instance  = new $classname($config);

@@ -65,10 +65,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     /**
      * Object constructor
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @throrws \RuntimeException If the table does not exist.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -106,18 +106,15 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (!empty($config->filters))
         {
             foreach ($config->filters as $column => $filter) {
-                $this->getColumn($column, true)->filter = Config::unbox($filter);
+                $this->getColumn($column, true)->filter = ObjectConfig::unbox($filter);
             }
         }
 
-        //Set the mixer in the config
-        $config->mixer = $this;
-
         // Mixin the command interface
-        $this->mixin(new ObjectMixinCommand($config));
+        $this->mixin('lib:command.mixin', $config);
 
         // Mixin the behavior interface
-        $this->mixin(new ObjectMixinBehavior($config));
+        $this->mixin('lib:behavior.mixin', $config);
     }
 
     /**
@@ -125,10 +122,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $package = $this->getIdentifier()->package;
         $name = $this->getIdentifier()->name;
@@ -140,7 +137,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             'filters'           => array(),
             'behaviors'         => array(),
             'identity_column'   => null,
-            'command_chain'     => $this->getService('lib:command.chain'),
+            'command_chain'     => $this->getObject('lib:command.chain'),
             'dispatch_events'   => false,
             'event_dispatcher'  => null,
             'enable_callbacks'  => false,
@@ -161,7 +158,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     {
         if(!$this->_adapter instanceof DatabaseAdapterInterface)
         {
-            $this->_adapter = $this->getService($this->_adapter);
+            $this->_adapter = $this->getObject($this->_adapter);
 
             if(!$this->_adapter instanceof DatabaseAdapterInterface)
             {
@@ -177,7 +174,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     /**
      * Set the database adapter
      *
-     * @param DatabaseAdpaterInterface $adapter
+     * @param DatabaseAdapterInterface $adapter
      * @return DatabaseQueryInterface
      */
     public function setAdapter(DatabaseAdapterInterface $adapter)
@@ -259,7 +256,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * Get a column by name
      *
      * @param  boolean  If TRUE, get the column information from the base table.
-     * @return DatabaseColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
+     * @return DatabaseSchemaColumn  Returns a DatabaseSchemaColumn object or NULL if the column does not exist
      */
     public function getColumn($columnname, $base = false)
     {
@@ -443,7 +440,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
         }
 
-        return $this->getService($identifier, $options);
+        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -465,7 +462,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $options['identity_column'] = $this->mapColumns($this->getIdentityColumn(), true);
         }
 
-        return $this->getService($identifier, $options);
+        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -485,7 +482,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_numeric($query) || is_string($query) || (is_array($query) && is_numeric(key($query))))
         {
             $key = $this->getIdentityColumn();
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->where('tbl.'.$key . ' IN :' . $key)
                 ->bind(array($key => (array)$query));
         }
@@ -493,7 +490,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('lib:database.query.select');
+            $query = $this->getObject('lib:database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -542,7 +539,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                             $data[$key] = $this->mapColumns($value, true);
                         }
                     }
-                    else $data = $this->mapColumns(Config::unbox($data), true);
+                    else $data = $this->mapColumns(ObjectConfig::unbox($data), true);
                 }
             }
 
@@ -580,7 +577,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             $this->getCommandChain()->run('after.select', $context);
         }
 
-        return Config::unbox($context->data);
+        return ObjectConfig::unbox($context->data);
     }
 
     /**
@@ -602,7 +599,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if (is_array($query) && !is_numeric(key($query)))
         {
             $columns = $this->mapColumns($query);
-            $query = $this->getService('lib:database.query.select');
+            $query = $this->getObject('lib:database.query.select');
 
             foreach ($columns as $column => $value)
             {
@@ -635,7 +632,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function insert(DatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('lib:database.query.insert')
+        $query = $this->getObject('lib:database.query.insert')
                       ->table($this->getBase());
 
         //Create commandchain context
@@ -684,7 +681,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function update(DatabaseRowTable $row)
     {
         // Create query object.
-        $query = $this->getService('lib:database.query.update')
+        $query = $this->getObject('lib:database.query.update')
                       ->table($this->getBase());
 
         // Create commandchain context.
@@ -738,7 +735,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
     public function delete(DatabaseRowInterface $row)
     {
         // Create query object.
-        $query = $this->getService('lib:database.query.delete')
+        $query = $this->getObject('lib:database.query.delete')
                       ->table($this->getBase());
 
         //Create commandchain context

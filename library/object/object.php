@@ -15,7 +15,7 @@ namespace Nooku\Library;
  * @category    Koowa
  * @package     Koowa_Object
  */
-class Object extends Service implements ObjectInterface
+class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
 {
     /**
      * Class methods
@@ -23,6 +23,20 @@ class Object extends Service implements ObjectInterface
      * @var array
      */
     private $__methods = array();
+
+    /**
+     * The object identifier
+     *
+     * @var ObjectIdentifier
+     */
+    private $__object_identifier;
+
+    /**
+     * The object manager
+     *
+     * @var ObjectManager
+     */
+    private $__object_manager;
 
     /**
      * Mixed in methods
@@ -34,18 +48,34 @@ class Object extends Service implements ObjectInterface
     /**
      * Constructor
      *
-     * @param Config  $config  A Config object with optional configuration options
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
      * @return Object
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
-        parent::__construct($config);
+        //Set the object manager
+        if (!$config->object_manager instanceof ObjectManagerInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_manager [ObjectManagerInterface] config option is required, "'.gettype($config->object_manager).'" given.'
+            );
+        }
+        else $this->__object_manager = $config->object_manager;
+
+        //Set the object identifier
+        if (!$config->object_identifier instanceof ObjectIdentifierInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_identifier [ObjectIdentifierInterface] config option is required, "'.gettype($config->object_identifier).'" given.'
+            );
+        }
+        else $this->__object_identifier = $config->object_identifier;
 
         //Initialise the object
         $this->_initialize($config);
 
         //Add the mixins
-        $mixins = (array)Config::unbox($config->mixins);
+        $mixins = (array)ObjectConfig::unbox($config->mixins);
 
         foreach ($mixins as $key => $value)
         {
@@ -62,13 +92,15 @@ class Object extends Service implements ObjectInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'mixins' => array(),
+            'object_identifier' => null,
+            'object_manager'    => null,
+            'mixins'            => array(),
         ));
     }
 
@@ -77,16 +109,16 @@ class Object extends Service implements ObjectInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ServiceIdentifier object
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return  ObjectInterface
+     * @return  ObjectMixinInterface
      */
     public function mixin($mixin, $config = array())
     {
         if (!($mixin instanceof ObjectMixinInterface))
         {
-            if (!($mixin instanceof ServiceIdentifier))
+            if (!($mixin instanceof ObjectIdentifier))
             {
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($mixin) && strpos($mixin, '.') === false)
@@ -99,12 +131,15 @@ class Object extends Service implements ObjectInterface
             }
             else $identifier = $mixin;
 
-            $mixin = new $identifier->classname(new Config($config));
+            $config = new ObjectConfig($config);
+            $config->mixer = $this;
+
+            $mixin = new $identifier->classname($config);
 
             if(!$mixin instanceof ObjectMixinInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Mixin: '.get_class($identifier).' does not implement ObjectMixinInterface'
+                    'Mixin: '.get_class($mixin).' does not implement ObjectMixinInterface'
                 );
             }
         }
@@ -115,7 +150,7 @@ class Object extends Service implements ObjectInterface
         //Notify the mixin
         $mixin->onMixin($this);
 
-        return $this;
+        return $mixin;
     }
 
     /**
@@ -123,16 +158,16 @@ class Object extends Service implements ObjectInterface
      *
      * When using decorate(), the object will be decorated by the decorator
      *
-     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ServiceIdentifier object
+     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
      *                              or valid identifier string
      * @param    array $config  An optional associative array of configuration options
-     * @return   ObjectDecoratable
+     * @return   ObjectDecoratorInterface
      */
     public function decorate($decorator, $config = array())
     {
-        if (!($decorator instanceof ObjectDecorator))
+        if (!($decorator instanceof ObjectDecoratorInterface))
         {
-            if (!($decorator instanceof ServiceIdentifier))
+            if (!($decorator instanceof ObjectIdentifier))
             {
                 //Create the complete identifier if a partial identifier was passed
                 if (is_string($decorator) && strpos($decorator, '.') === false)
@@ -145,12 +180,15 @@ class Object extends Service implements ObjectInterface
             }
             else $identifier = $decorator;
 
-            $decorator = new $identifier->classname(new Config($config));
+            $config = new ObjectConfig($config);
+            $config->delegate = $this;
+
+            $decorator = new $identifier->classname($config);
 
             if(!$decorator instanceof ObjectDecoratorInterface)
             {
                 throw new \UnexpectedValueException(
-                    'Decorator: '.get_class($identifier).' does not implement ObjectDecoratorInterface'
+                    'Decorator: '.get_class($decorator).' does not implement ObjectDecoratorInterface'
                 );
             }
         }
@@ -220,6 +258,40 @@ class Object extends Service implements ObjectInterface
         }
 
         return $this->__methods;
+    }
+
+    /**
+     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     *
+     * @param    string|object    $identifier The class identifier or identifier object
+     * @param    array            $config     An optional associative array of configuration settings.
+     * @throws   \RuntimeException If the service manager has not been defined.
+     * @return   object            Return object on success, throws exception on failure
+     */
+    final public function getObject($identifier, array $config = array())
+    {
+        $result = $this->__object_manager->getObject($identifier, $config);
+        return $result;
+    }
+
+    /**
+     * Gets the service identifier.
+     *
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
+     * @param   string|object    $identifier The class identifier or identifier object
+     * @return  ObjectIdentifier
+     */
+    final public function getIdentifier($identifier = null)
+    {
+        if (isset($identifier)) {
+            $result = $this->__object_manager->getIdentifier($identifier);
+        } else {
+            $result = $this->__object_identifier;
+        }
+
+        return $result;
     }
 
     /**

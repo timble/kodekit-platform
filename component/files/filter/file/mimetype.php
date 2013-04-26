@@ -21,7 +21,7 @@ class FilterFileMimetype extends Library\FilterAbstract
 {
 	public function validate($row)
 	{
-		$mimetypes = Library\Config::unbox($row->container->parameters->allowed_mimetypes);
+		$mimetypes = Library\ObjectConfig::unbox($row->container->parameters->allowed_mimetypes);
 
 		if (is_array($mimetypes))
 		{
@@ -35,7 +35,7 @@ class FilterFileMimetype extends Library\FilterAbstract
 					$mimetype = $info ? $info['mime'] : false;
 				}
                 elseif ($row->file instanceof SplFileInfo) {
-					$mimetype = $this->getService('com:files.mixin.mimetype')->getMimetype($row->file->getPathname());
+					$mimetype = $this->getObject('com:files.mixin.mimetype')->getMimetype($row->file->getPathname());
 				}
 			}
 

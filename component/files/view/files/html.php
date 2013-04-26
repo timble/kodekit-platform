@@ -22,7 +22,7 @@ use Nooku\Library;
 
 class ViewFilesHtml extends Library\ViewHtml
 {
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->auto_assign = false;
 
@@ -33,10 +33,10 @@ class ViewFilesHtml extends Library\ViewHtml
 	{
 	    $state = $this->getModel()->getState();
 	    if (empty($state->limit)) {
-	        $state->limit = $this->getService('application')->getCfg('list_limit');
+	        $state->limit = $this->getObject('application')->getCfg('list_limit');
 	    }
 	    
-		$this->token     = $this->getService('user')->getSession()->getToken();
+		$this->token     = $this->getObject('user')->getSession()->getToken();
 		$this->container = $this->getModel()->getState()->container;
 
 		return parent::render();

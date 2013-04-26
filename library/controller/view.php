@@ -26,9 +26,9 @@ abstract class ControllerView extends ControllerAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional Config object with configuration options.
+	 * @param 	object 	An optional ObjectConfig object with configuration options.
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -37,7 +37,7 @@ abstract class ControllerView extends ControllerAbstract
 
 		// Mixin the toolbar
 		if($config->dispatch_events) {
-            $this->mixin(new ObjectMixinToolbar($config->append(array('mixer' => $this))));
+            $this->mixin('lib:controller.toolbar.mixin', $config);
 		}
 	}
 	
@@ -46,10 +46,10 @@ abstract class ControllerView extends ControllerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param 	object 	An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         //Create permission identifier
         $permission       = clone $this->getIdentifier();
@@ -80,18 +80,18 @@ abstract class ControllerView extends ControllerAbstract
         if(!$this->_view instanceof ViewInterface)
 		{
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof ServiceIdentifier)) {
+		    if(!($this->_view instanceof ObjectIdentifier)) {
 		        $this->setView($this->_view);
 			}
 
 			//Create the view
 			$config = array(
-                'media_url' => $this->getService('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getService('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
+                'media_url' => $this->getObject('request')->getBaseUrl()->getPath().'/media',
+			    'base_url'	=> $this->getObject('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
                 'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
-			$this->_view = $this->getService($this->_view, $config);
+			$this->_view = $this->getObject($this->_view, $config);
 
             //Make sure the view implements ViewInterface
             if(!$this->_view instanceof ViewInterface)
@@ -104,7 +104,7 @@ abstract class ControllerView extends ControllerAbstract
 			//Make sure the view exists if we are dispatching this controller
             if($this->isDispatched())
             {
-                //if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
+                //if(!file_exists(dirname($this->_view->getIdentifier()->classpath))) {
                 //    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
                 //}
             }
@@ -116,7 +116,7 @@ abstract class ControllerView extends ControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
+	 * @param	mixed	An object that implements ObjectInterface, ObjectIdentifier object
 	 * 					or valid identifier string
 	 * @return	ControllerView
 	 */

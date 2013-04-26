@@ -30,7 +30,7 @@ class FilterInternalurl extends FilterAbstract implements FilterTraversable
             return false;
         }
 
-        if(stripos($value, (string)  $this->getService('request')->getUrl()->toString(HttpUrl::SCHEME | HttpUrl::HOST)) !== 0) {
+        if(stripos($value, (string)  $this->getObject('request')->getUrl()->toString(HttpUrl::SCHEME | HttpUrl::HOST)) !== 0) {
             return false;
         }
 

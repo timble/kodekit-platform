@@ -28,7 +28,7 @@ class CommandValidatorFile extends CommandValidatorNode
 			// remote file
 			try
             {
-				$file = $this->getService('com:files.database.row.url');
+				$file = $this->getObject('com:files.database.row.url');
 				$file->setData(array('file' => $row->file));
 				$file->load();
 				$row->contents = $file->contents;
@@ -39,7 +39,7 @@ class CommandValidatorFile extends CommandValidatorNode
 
 			if (empty($row->name))
 			{
-				$uri  = $this->getService('lib:http.url', array('url' => $row->file));
+				$uri  = $this->getObject('lib:http.url', array('url' => $row->file));
 	        	$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
@@ -53,7 +53,7 @@ class CommandValidatorFile extends CommandValidatorNode
 
         if ($result)
         {
-            $filter = $this->getService('com:files.filter.file.uploadable');
+            $filter = $this->getObject('com:files.filter.file.uploadable');
             $result = $filter->validate($context->getSubject());
             if ($result === false)
             {

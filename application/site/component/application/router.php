@@ -24,7 +24,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $path = trim($url->getPath(), '/');
 
         //Remove base path
-        $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBaseUrl()->getPath()));
+        $path = substr_replace($path, '', 0, strlen($this->getObject('request')->getBaseUrl()->getPath()));
 
         // Set the format
         if(!empty($url->format)) {
@@ -57,7 +57,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         }
 
         //Build the route
-        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
+        $url->path = $this->getObject('request')->getBaseUrl()->getPath().'/'.$route;
 		return $result;
 	}
 
@@ -75,7 +75,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $route = $url->getPath();
 
         //Find the site
-        $url->query['site']  = $this->getService('application')->getSite();
+        $url->query['site']  = $this->getObject('application')->getSite();
 
         $route = str_replace($url->query['site'], '', $route);
         $url->path = ltrim($route, '/');
@@ -86,7 +86,7 @@ class ApplicationRouter extends Library\DispatcherRouter
     protected function _parsePageRoute($url)
     {
         $route = $url->getPath();
-        $pages = $this->getService('application.pages');
+        $pages = $this->getObject('application.pages');
 
         //Find the page
         if(!empty($route))
@@ -131,7 +131,7 @@ class ApplicationRouter extends Library\DispatcherRouter
                 $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
                 //Parse the view route
-                $query = $this->getService($identifier)->parse($url);
+                $query = $this->getObject($identifier)->parse($url);
 
                 //Prevent option and/or itemid from being override by the component router
                 $query['option'] = $url->query['option'];
@@ -174,7 +174,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $identifier = 'com:'.substr($url->query['option'], 4).'.router';
 
         //Build the view route
-        $segments = $this->getService($identifier)->build($url);
+        $segments = $this->getObject($identifier)->build($url);
 
         return $segments;
     }
@@ -186,11 +186,11 @@ class ApplicationRouter extends Library\DispatcherRouter
         //Find the page
         if(!isset($url->query['Itemid']))
         {
-            $page = $this->getService('application.pages')->getActive();
+            $page = $this->getObject('application.pages')->getActive();
             $url->query['Itemid'] = $page->id;
         }
 
-        $page = $this->getService('application.pages')->getPage($url->query['Itemid']);
+        $page = $this->getObject('application.pages')->getPage($url->query['Itemid']);
 
         //Set the page route in the url
         if(!$page->home)
@@ -207,8 +207,8 @@ class ApplicationRouter extends Library\DispatcherRouter
     {
         $segments = array();
 
-        $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
+        $site = $this->getObject('application')->getSite();
+        if($site != 'default' && $site != $this->getObject('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
             $segments[] = $site;
         }
 

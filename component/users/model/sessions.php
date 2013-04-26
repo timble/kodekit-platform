@@ -22,9 +22,9 @@ class ModelSessions extends Library\ModelTable
     /**
      * Constructor.
      *
-     * @param   Config  An optional Library\Config object with configuration options.
+     * @param   ObjectConfig  An optional Library\ObjectConfig object with configuration options.
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 

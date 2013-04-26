@@ -8,8 +8,6 @@
  */
 ?>
 
-<style src="media://files/css/files-layout-icons.css" />
-
 <textarea style="display: none" id="file_preview">
     <div class="files-preview">
         <div class="preview extension-[%=metadata.extension%]">

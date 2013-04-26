@@ -17,7 +17,7 @@ use Nooku\Library;
  */
 class PagesControllerPage extends ApplicationControllerDefault
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
     	$config->append(array(
     		'behaviors' => array('closurable')

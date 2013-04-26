@@ -25,14 +25,14 @@ class HttpMessageHeaders extends ObjectArray
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return ObjectArray
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $headers = Config::unbox($config->headers);
+        $headers = ObjectConfig::unbox($config->headers);
         foreach ($headers as $key => $values) {
             $this->set($key, $values);
         }
@@ -43,10 +43,10 @@ class HttpMessageHeaders extends ObjectArray
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'headers' => array(),

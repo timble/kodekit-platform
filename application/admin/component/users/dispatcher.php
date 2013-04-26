@@ -20,12 +20,12 @@ use Nooku\Library;
  */
 class UsersDispatcher extends Library\DispatcherComponent
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         //@TODO Remove when PHP 5.5 becomes a requirement.
-        $this->getService('loader')->loadFile(JPATH_ROOT.'/application/admin/component/users/legacy/password.php');
+        Library\ClassLoader::getInstance()->loadFile(JPATH_ROOT.'/application/admin/component/users/legacy/password.php');
     }
     
     protected function _actionDispatch(Library\CommandContext $context)

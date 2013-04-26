@@ -61,15 +61,15 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         //Set the media url
         if (!$config->media_url instanceof HttpUrlInterface) {
-            $this->_mediaurl = $this->getService('lib:http.url', array('url' => $config->media_url));
+            $this->_mediaurl = $this->getObject('lib:http.url', array('url' => $config->media_url));
         } else {
             $this->_mediaurl = $config->media_url;
         }
@@ -78,7 +78,7 @@ abstract class ViewTemplate extends ViewAbstract
         $this->_auto_assign = $config->auto_assign;
 
         //Set the data
-        $this->_data = Config::unbox($config->data);
+        $this->_data = ObjectConfig::unbox($config->data);
 
         //Set the user-defined escaping callback
         $this->setEscape($config->escape);
@@ -90,7 +90,7 @@ abstract class ViewTemplate extends ViewAbstract
         $this->_template = $config->template;
 
         //Attach the template filters
-        $filters = (array)Config::unbox($config->template_filters);
+        $filters = (array)ObjectConfig::unbox($config->template_filters);
 
         foreach ($filters as $key => $value)
         {
@@ -112,10 +112,10 @@ abstract class ViewTemplate extends ViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         //Clone the identifier
         $identifier = clone $this->getIdentifier();
@@ -258,7 +258,7 @@ abstract class ViewTemplate extends ViewAbstract
         if (!$this->_template instanceof TemplateInterface)
         {
             //Make sure we have a template identifier
-            if (!($this->_template instanceof ServiceIdentifier)) {
+            if (!($this->_template instanceof ObjectIdentifier)) {
                 $this->setTemplate($this->_template);
             }
 
@@ -266,7 +266,7 @@ abstract class ViewTemplate extends ViewAbstract
                 'view' => $this
             );
 
-            $this->_template = $this->getService($this->_template, $options);
+            $this->_template = $this->getObject($this->_template, $options);
 
             if(!$this->_template instanceof TemplateInterface)
             {
@@ -282,8 +282,8 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Method to set a template object attached to the view
      *
-     * @param   mixed   An object that implements ServiceInterface, an object that
-     *                  implements ServiceIdentifierInterface or valid identifier string
+     * @param   mixed   An object that implements ObjectInterface, an object that
+     *                  implements ObjectIdentifierInterface or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  ViewAbstract
      */

@@ -20,7 +20,7 @@ use Nooku\Component\Pages;
 
 class ApplicationTemplateHelperModule extends Pages\TemplateHelperModule
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'modules' => 'application.modules',

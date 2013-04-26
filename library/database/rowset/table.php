@@ -28,10 +28,10 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return DatabaseRowsetTable
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -51,10 +51,10 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'table' => $this->getIdentifier()->name
@@ -78,12 +78,12 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
             if (!($this->_table instanceof DatabaseTableInterface))
             {
                 //Make sure we have a table identifier
-                if (!($this->_table instanceof ServiceIdentifier)) {
+                if (!($this->_table instanceof ObjectIdentifier)) {
                     $this->setTable($this->_table);
                 }
 
                 try {
-                    $this->_table = $this->getService($this->_table);
+                    $this->_table = $this->getObject($this->_table);
                 } catch (\RuntimeException $e) {
                     $this->_table = false;
                 }
@@ -96,7 +96,7 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    $table  An object that implements ServiceInterface, ServiceIdentifier object or valid
+     * @param    mixed    $table  An object that implements ObjectInterface, ObjectIdentifier object or valid
      *                            identifier string
      * @throws  \UnexpectedValueException If the identifier is not a table identifier
      * @return  DatabaseRowsetAbstract

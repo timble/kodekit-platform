@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-abstract class FilterAbstract extends Object implements FilterInterface, ServiceInstantiatable
+abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable, ObjectSingleton
 {
     /**
      * Priority levels
@@ -35,25 +35,19 @@ abstract class FilterAbstract extends Object implements FilterInterface, Service
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return FilterInterface
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
+        $instance = new static($config);
 
-            if(array_key_exists(__NAMESPACE__.'\FilterTraversable', class_implements($classname, false))) {
-                $instance = $instance->decorate('lib:filter.iterator');
-            }
-
-            $manager->set($config->service_identifier, $instance);
+        if($instance instanceof FilterTraversable) {
+            $instance = $instance->decorate('lib:filter.iterator');
         }
 
-        return $manager->get($config->service_identifier);
+        return $instance;
     }
 
     /**

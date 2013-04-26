@@ -28,7 +28,7 @@ class ArticlesViewArticlesRss extends Library\ViewRss
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com:articles.model.categories')
+        $category = $this->getObject('com:articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
                          ->getRow();

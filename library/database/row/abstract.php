@@ -59,9 +59,9 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -78,7 +78,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
 
         // Set the row data
         if (isset($config->data)) {
-            $this->setData((array)Config::unbox($config->data), $this->__new);
+            $this->setData((array)ObjectConfig::unbox($config->data), $this->__new);
         }
 
         //Set the status
@@ -97,10 +97,10 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'data'   => null,

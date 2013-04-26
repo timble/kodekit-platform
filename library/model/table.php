@@ -28,9 +28,9 @@ class ModelTable extends ModelAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -55,10 +55,10 @@ class ModelTable extends ModelAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'table' => $this->getIdentifier()->name,
@@ -98,11 +98,11 @@ class ModelTable extends ModelAbstract
         if(!($this->_table instanceof DatabaseTableInterface))
 		{
             //Make sure we have a table identifier
-            if(!($this->_table instanceof ServiceIdentifier)) {
+            if(!($this->_table instanceof ObjectIdentifier)) {
                 $this->setTable($this->_table);
             }
 
-            $this->_table = $this->getService($this->_table);
+            $this->_table = $this->getObject($this->_table);
         }
 
         return $this->_table;
@@ -111,7 +111,7 @@ class ModelTable extends ModelAbstract
     /**
      * Method to set a table object attached to the model
      *
-     * @param	mixed	$table An object that implements ServiceInterface, ServiceIdentifier object
+     * @param	mixed	$table An object that implements ObjectInterface, ObjectIdentifier object
 	 * 					       or valid identifier string
      * @throws  \UnexpectedValueException   If the identifier is not a table identifier
      * @return  ModelTable
@@ -157,7 +157,7 @@ class ModelTable extends ModelAbstract
 
             if($state->isUnique())
             {
-                $query = $this->getService('lib:database.query.select');
+                $query = $this->getObject('lib:database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -189,7 +189,7 @@ class ModelTable extends ModelAbstract
 
             if(!$state->isEmpty())
             {
-                $query = $this->getService('lib:database.query.select');
+                $query = $this->getObject('lib:database.query.select');
 
                 $this->_buildQueryColumns($query);
                 $this->_buildQueryTable($query);
@@ -220,7 +220,7 @@ class ModelTable extends ModelAbstract
         {
             $state = $this->getState();
 
-            $query = $this->getService('lib:database.query.select');
+            $query = $this->getObject('lib:database.query.select');
             $query->columns('COUNT(*)');
 
             $this->_buildQueryTable($query);

@@ -10,7 +10,7 @@
 
 <head>
     <base href="<?= @url(); ?>" />
-    <title><?= @escape(@service('application')->getCfg('sitename' )) ?></title>
+    <title><?= @escape(@object('application')->getCfg('sitename' )) ?></title>
 
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

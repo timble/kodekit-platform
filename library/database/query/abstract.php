@@ -35,10 +35,10 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return ObjectDecorator
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -51,10 +51,10 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'adapter' => 'lib:database.adapter.mysql',
@@ -87,7 +87,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     {
         if(!$this->_params instanceof ObjectArray)
         {
-            $this->_params = $this->getService($this->_params);
+            $this->_params = $this->getObject($this->_params);
 
             if(!$this->_params instanceof ObjectArray)
             {
@@ -122,7 +122,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     {
         if(!$this->_adapter instanceof DatabaseAdapterInterface)
         {
-            $this->_adapter = $this->getService($this->_adapter);
+            $this->_adapter = $this->getObject($this->_adapter);
 
             if(!$this->_adapter instanceof DatabaseAdapterInterface)
             {

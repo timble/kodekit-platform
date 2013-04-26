@@ -8,7 +8,7 @@ window.addEvent('domready', function() {
     new Attachments.List({
         container: 'attachments-list',
         action: '<?= @route('view=attachments') ?>',
-        token: '<?= $this->getService('user')->getSession()->getToken() ?>'
+        token: '<?= $this->getObject('user')->getSession()->getToken() ?>'
     });
 });
 </script>

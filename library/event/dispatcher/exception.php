@@ -28,9 +28,9 @@ class EventDispatcherException extends EventDispatcherAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -54,10 +54,10 @@ class EventDispatcherException extends EventDispatcherAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'catch_exceptions'  => true,
@@ -170,7 +170,7 @@ class EventDispatcherException extends EventDispatcherAbstract
      *
      * @link    http://www.php.net/manual/en/function.set-exception-handler.php#88082
      * @param   string  The event name
-     * @param   object|array   An array, a Config or a Event object
+     * @param   object|array   An array, a ObjectConfig or a Event object
      * @return  EventException
      */
     public function dispatchException($name, $event = array())

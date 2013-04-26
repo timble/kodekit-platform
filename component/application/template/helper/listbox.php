@@ -21,7 +21,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function applications($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'     => 'application',
             'deselect' => true,
@@ -33,7 +33,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('text' => \JText::_($config->prompt)));
         }
         
-        foreach($this->getService('loader')->getApplications() as $application => $path) {
+        foreach(Library\ClassLoader::getInstance()->getApplications() as $application => $path) {
             $options[] = $this->option(array('text' => $application, 'value' => $application));
         }
         

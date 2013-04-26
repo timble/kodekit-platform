@@ -70,9 +70,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -91,14 +91,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         //Set the dispatched state
         $this->_dispatched = $config->dispatched;
 
-        //Set the mixer in the config
-        $config->mixer = $this;
-
         // Mixin the command interface
-        $this->mixin(new ObjectMixinCommand($config));
+        $this->mixin('lib:command.mixin', $config);
 
         // Mixin the behavior interface
-        $this->mixin(new ObjectMixinBehavior($config));
+        $this->mixin('lib:behavior.mixin', $config);
     }
 
     /**
@@ -106,10 +103,10 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'command_chain'     => 'lib:command.chain',
@@ -184,7 +181,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed    An object that implements ObjectMixinInterface, ServiceIdentifier object
+     * @@param   mixed    An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                     or valid identifier string
      * @param    array An optional associative array of configuration options
      * @return  Object
@@ -252,7 +249,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_request instanceof ControllerRequestInterface)
         {
-            $this->_request = $this->getService($this->_request);
+            $this->_request = $this->getObject($this->_request);
 
             if(!$this->_request instanceof ControllerRequestInterface)
             {
@@ -287,7 +284,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_response instanceof ControllerResponseInterface)
         {
-            $this->_response = $this->getService($this->_response);
+            $this->_response = $this->getObject($this->_response);
 
             if(!$this->_response instanceof ControllerResponseInterface)
             {
@@ -322,7 +319,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_user instanceof ControllerUserInterface)
         {
-            $this->_user = $this->getService($this->_user);
+            $this->_user = $this->getObject($this->_user);
 
             if(!$this->_user instanceof ControllerUserInterface)
             {
@@ -338,11 +335,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Get the command chain context
      *
-     * Overrides ObjectMixinCommand::getCommandContext() to insert the request and response objects into the controller
+     * Overrides CommandMixin::getCommandContext() to insert the request and response objects into the controller
      * command context.
      *
      * @return  CommandContext
-     * @see ObjectMixinCommand::getCommandContext
+     * @see CommandMixin::getCommandContext
      */
     public function getCommandContext()
     {

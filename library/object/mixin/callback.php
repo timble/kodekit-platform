@@ -26,7 +26,7 @@ class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterfac
     protected $_callbacks = array();
 
     /**
-     * Config passed to the callbacks
+     * ObjectConfig passed to the callbacks
      *
      * @var array
      */
@@ -42,9 +42,9 @@ class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterfac
     /**
      * Object constructor
      *
-     * @param Config $config    An optional Config object with configuration options
+     * @param ObjectConfig $config    An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -57,10 +57,10 @@ class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterfac
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config   An optional Config object with configuration options
+     * @param  ObjectConfig $config   An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'callback_priority' => CommandChain::PRIORITY_HIGH
@@ -129,19 +129,19 @@ class ObjectMixinCallback extends ObjectMixinAbstract implements CommandInterfac
      *
      * If the callback has already been registered. It will not be re-registered.
      *
-     * If params are passed as a associative array or as a Config object they will be merged with the
+     * If params are passed as a associative array or as a ObjectConfig object they will be merged with the
      * context of the command chain and passed along. If they are passed as an indexed array they
      * will be passed to the callback directly.
      *
      * @param   string|array $commands The command name to register the callback for or an array of command names
      * @param   callback     $callback The callback function to register
-     * @param   array|Config $params   An associative array of config parameters or a Config object
+     * @param   array|ObjectConfig $params   An associative array of config parameters or a ObjectConfig object
      * @return  Object    The mixer object
      */
     public function registerCallback($commands, $callback, $params = array())
     {
         $commands = (array)$commands;
-        $params   = (array)Config::unbox($params);
+        $params   = (array)ObjectConfig::unbox($params);
 
         foreach ($commands as $command)
         {

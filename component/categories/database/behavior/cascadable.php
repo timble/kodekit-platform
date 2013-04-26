@@ -27,7 +27,7 @@ class DatabaseBehaviorCascadable extends Library\DatabaseBehaviorAbstract
         $table      = $this->table;
         $identifier = 'com:'.$table.'.database.table.'.$table;
 
-        $rowset = $this->getService($identifier)->select(array('categories_category_id' => $this->id));
+        $rowset = $this->getObject($identifier)->select(array('categories_category_id' => $this->id));
 
         if($rowset->count()) {
             $result = $rowset->delete();

@@ -21,7 +21,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
   	public function sites( $config = array() )
    	{
-     	$config = new Library\Config($config);
+     	$config = new Library\ObjectConfig($config);
        	$config->append(array(
           	'model'     => 'sites',
            	'name'      => 'site',

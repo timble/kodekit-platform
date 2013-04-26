@@ -26,9 +26,9 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional Config object with configuration options.
+	 * @param 	object 	An optional ObjectConfig object with configuration options.
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -41,10 +41,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param 	object 	An optional ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         //Create permission identifier
         $permission       = clone $this->getIdentifier();
@@ -144,7 +144,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         if(!($this->_controller instanceof ControllerInterface))
 		{
 		    //Make sure we have a controller identifier
-		    if(!($this->_controller instanceof ServiceIdentifier)) {
+		    if(!($this->_controller instanceof ObjectIdentifier)) {
 		        $this->setController($this->_controller);
 			}
 
@@ -155,7 +155,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 			    'dispatched' => true
         	);
 
-			$this->_controller = $this->getService($this->_controller, $config);
+			$this->_controller = $this->getObject($this->_controller, $config);
 
             //Make sure the controller implements ControllerInterface
             if(!$this->_controller instanceof ControllerInterface)
@@ -172,7 +172,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	/**
 	 * Method to set a controller object attached to the dispatcher
 	 *
-	 * @param	mixed	$controller An object that implements ControllerInterface, ServiceIdentifier object
+	 * @param	mixed	$controller An object that implements ControllerInterface, ObjectIdentifier object
 	 * 					            or valid identifier string
 	 * @return	DispatcherAbstract
 	 */
@@ -194,7 +194,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 		    else $identifier = $this->getIdentifier($controller);
 
             //Set the configuration
-            $this->getService()->setConfig($identifier, $config);
+            $identifier->setConfig($config);
 
 			$controller = $identifier;
 		}

@@ -49,27 +49,27 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	 */
 	protected $_attachment_limit = false;
 	
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 		
 		$this->_container = $config->container;
 		$this->_populate_from_request = $config->populate_from_request;
 		
-		$this->_file_controller = $this->getService($config->file_controller, array(
+		$this->_file_controller = $this->getObject($config->file_controller, array(
 			'request' => array('container' => $this->_container)
 		));
         
-        $this->_file_controller = $this->getService($config->file_controller, array(
-			'request' => $this->getService('lib:controller.request', array(
+        $this->_file_controller = $this->getObject($config->file_controller, array(
+			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
 			))
 		));
         
-        $this->_attachment_controller = $this->getService($config->attachment_controller, array(
-			'request' => $this->getService('lib:controller.request', array(
+        $this->_attachment_controller = $this->getObject($config->attachment_controller, array(
+			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
 					'container' => $this->_container
 				)
@@ -79,14 +79,14 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 		$this->_attachment_limit = $config->attachment_limit;
 	}
 	
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'container' => 'attachments-attachments',
-			'file_controller' => 'com:files.controller.file',
+			'container'             => 'attachments-attachments',
+			'file_controller'       => 'com:files.controller.file',
 			'attachment_controller' => 'com:attachments.controller.attachment',
 			'populate_from_request' => true,
-			'attachment_limit' => false
+			'attachment_limit'      => false
 		));
 		
 		parent::_initialize($config);
@@ -108,13 +108,14 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	{
 		if ($this->_populate_from_request)
         {
-			$attachments = Library\Request::get('files.attachments', 'raw');
+			$attachments = $context->request->files->get('attachments', 'raw');
 			$files = array();
 	
 			if (is_array($attachments['name']))
             {
 				// Why do you return such a weird array for files PHP? why?
-				for ($i = 0, $n = count($attachments['name']); $i < $n; $i++) {
+				for ($i = 0, $n = count($attachments['name']); $i < $n; $i++)
+                {
 					if ($attachments['error'][$i] === UPLOAD_ERR_NO_FILE) {
 						continue;
 					}
@@ -125,7 +126,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 					}
 				
 					$files[] = $file;
-				}	
+				}
+
 			} elseif (is_array($attachments)) {
 				$files[] = $attachments;
 			}
@@ -179,8 +181,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	
 		$row = $context->result;
         
-        $count = $this->getService('com:attachments.controller.attachment', array(
-			'request' => $this->getService('lib:controller.request', array(
+        $count = $this->getObject('com:attachments.controller.attachment', array(
+			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
 					'row' => $row->id,
 					'table' => $row->getTable()->getBase()
@@ -232,7 +234,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 
             if(!empty($id) && $id != 0)
             {
-                $rows = $this->getService('com:attachments.model.attachments')
+                $rows = $this->getObject('com:attachments.model.attachments')
                     ->row($id)
                     ->table($table)
                     ->getRowset();

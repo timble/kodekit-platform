@@ -37,8 +37,8 @@ class FilterJson extends FilterAbstract
      */
     public function sanitize($value)
     {
-        // If instance of Config casting to string will make it encode itself to JSON
-        if($value instanceof Config) {
+        // If instance of ObjectConfig casting to string will make it encode itself to JSON
+        if($value instanceof ObjectConfig) {
             $result = (string) $value;
         }
         else

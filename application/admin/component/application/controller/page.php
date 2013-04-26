@@ -21,9 +21,9 @@ class ApplicationControllerPage extends Library\ControllerView
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\Config object with configuration options.
+     * @param   object  An optional Library\ObjectConfig object with configuration options.
      */
-    protected function  _initialize(Library\Config $config)
+    protected function  _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'toolbars'  => array('menubar', 'tabbar', 'toolbar'),
@@ -37,8 +37,8 @@ class ApplicationControllerPage extends Library\ControllerView
         $content = parent::_actionRender($context);
 
         //Make images paths absolute
-        $base = $this->getService('request')->getBaseUrl();
-        $site = $this->getService('application')->getSite();
+        $base = $this->getObject('request')->getBaseUrl();
+        $site = $this->getObject('application')->getSite();
 
         $path = $base->getPath().'/files/'.$site.'/images/';
 

@@ -31,7 +31,7 @@ class CacheTemplateHelperDate extends Library\TemplateHelperDate
      */
     public function humanize($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'gmt_offset'  => date_offset_get(new DateTime)
         ));

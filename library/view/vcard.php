@@ -32,10 +32,10 @@ class ViewVcard extends ViewFile
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'mimetype'    => 'text/x-vcard; version=2.1',
@@ -52,7 +52,7 @@ class ViewVcard extends ViewFile
     public function render()
     {
         //Set the filename
-        $filename = $this->getService('lib:filter.filename')->sanitize($this->_properties['FN']);
+        $filename = $this->getObject('lib:filter.filename')->sanitize($this->_properties['FN']);
         $this->filename = !empty($filename) ? $filename.'.vcf' : 'vcard.vcf';
 
         //Render the vcard

@@ -42,10 +42,10 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return DatabaseRowsetAbstract
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -75,10 +75,10 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'data' => null,
@@ -293,7 +293,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         //The row default options
         $options['identity_column'] = $this->getIdentityColumn();
 
-        return $this->getService($identifier, $options);
+        return $this->getObject($identifier, $options);
     }
 
     /**
@@ -377,7 +377,8 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
             foreach ($this as $i => $row)
             {
-                if (!$row->save()) {
+                if (!$row->save())
+                {
                     // Set current row status message as rowset status message.
                     $this->setStatusMessage($row->getStatusMessage());
                     $result = false;
@@ -403,7 +404,8 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
             foreach ($this as $i => $row)
             {
-                if (!$row->delete()) {
+                if (!$row->delete())
+                {
                     // Set current row status message as rowset status message.
                     $this->setStatusMessage($row->getStatusMessage());
                     $result = false;

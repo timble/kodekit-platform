@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package     Koowa_User
  * @subpackage  Session
  */
-class UserSession extends Object implements UserSessionInterface, ServiceInstantiatable
+class UserSession extends Object implements UserSessionInterface, ObjectInstantiable
 {
     /**
      * Is the session active
@@ -81,10 +81,10 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return UserSession
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -112,7 +112,7 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
         $this->getContainer('metadata')->setLifetime($config->lifetime);
 
         //Set the session handler
-        $this->setHandler($config->handler, Config::unbox($config));
+        $this->setHandler($config->handler, ObjectConfig::unbox($config));
     }
 
     /**
@@ -120,10 +120,10 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
      *
      * Called from {@link __construct()} as a first step of object instantiation
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'handler'    => 'file',
@@ -154,22 +154,22 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('session'))
+        if (!$manager->isRegistered('session'))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
-            $manager->setAlias('session', $config->service_identifier);
+            $manager->registerAlias('session', $config->object_identifier);
         }
 
-        return $manager->get('session');
+        return $manager->getObject('session');
     }
 
     /**
@@ -321,7 +321,7 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
     /**
      * Method to set a session handler object
      *
-     * @param mixed $handler An object that implements UserSessionHandlerInterface, ServiceIdentifier object
+     * @param mixed $handler An object that implements UserSessionHandlerInterface, ObjectIdentifier object
      *                       or valid identifier string
      * @param array $config An optional associative array of configuration settings
      * @return UserSession
@@ -339,7 +339,7 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
             else $identifier = $this->getIdentifier($handler);
 
             //Set the configuration
-            $this->getService()->setConfig($identifier, $config);
+            $identifier->setConfig($config);
 
             $handler = $identifier;
         }
@@ -358,7 +358,7 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
     {
         if(!$this->_handler instanceof UserSessionHandlerInterface)
         {
-            $this->_handler = $this->getService($this->_handler);
+            $this->_handler = $this->getObject($this->_handler);
 
             if(!$this->_handler instanceof UserSessionHandlerInterface)
             {
@@ -387,14 +387,14 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
      *
      * If the container does not exist a container will be created on the fly.
      *
-     * @param   mixed $name An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed $name An object that implements ObjectInterface, ObjectIdentifier object
      *                      or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a session container identifier
      * @return UserSessionContainerInterface
      */
     public function getContainer($name)
     {
-        if (!($name instanceof ServiceIdentifier))
+        if (!($name instanceof ObjectIdentifier))
         {
             //Create the complete identifier if a partial identifier was passed
             if (is_string($name) && strpos($name, '.') === false)
@@ -409,7 +409,7 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
 
         if (!isset($this->_containers[$identifier->name]))
         {
-            $container = $this->getService($identifier);
+            $container = $this->getObject($identifier);
 
             if (!($container instanceof UserSessionContainerInterface))
             {
@@ -597,8 +597,8 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
     /**
      * Get a session attribute
      *
-     * @param   string  Attribute identifier, eg .foo.bar
-     * @param   mixed   Default value when the attribute doesn't exist
+     * @param   string  $identifier Attribute identifier, eg .foo.bar
+     * @param   mixed   $default    Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null)
@@ -609,8 +609,8 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
     /**
      * Set a session attribute
      *
-     * @param   mixed   Attribute identifier, eg foo.bar
-     * @param   mixed   Attribute value
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $value      Attribute value
      * @return User
      */
     public function set($identifier, $value)
@@ -621,7 +621,7 @@ class UserSession extends Object implements UserSessionInterface, ServiceInstant
     /**
      * Check if a session attribute exists
      *
-     * @param   string  Attribute identifier, eg foo.bar
+     * @param   string  $identifier Attribute identifier, eg foo.bar
      * @return  boolean
      */
     public function has($identifier)

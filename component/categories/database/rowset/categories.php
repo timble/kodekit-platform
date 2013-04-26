@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseRowsetCategories extends DatabaseRowsetNodes
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'new'               => false,

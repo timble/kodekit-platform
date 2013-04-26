@@ -21,7 +21,7 @@ interface ModelPaginatorInterface
     /**
      * Get the pages
      *
-     * @return Config A Config object that holds the page information
+     * @return ObjectConfig A ObjectConfig object that holds the page information
      */
     public function getPages();
 }

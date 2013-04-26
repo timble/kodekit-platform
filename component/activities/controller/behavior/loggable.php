@@ -33,15 +33,15 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
      */
     protected $_title_column;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_actions      = Library\Config::unbox($config->actions);
-        $this->_title_column = Library\Config::unbox($config->title_column);
+        $this->_actions      = Library\ObjectConfig::unbox($config->actions);
+        $this->_title_column = Library\ObjectConfig::unbox($config->title_column);
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'priority'     => Library\CommandChain::PRIORITY_LOWEST,
@@ -107,7 +107,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                         $log['ip']  = $context->request->getAddress();
 
 
-                        $this->getService('com:activities.database.row.activity', array('data' => $log))->save();
+                        $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();
                     }
                 }
             }

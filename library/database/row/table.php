@@ -28,9 +28,9 @@ class DatabaseRowTable extends DatabaseRowAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -50,10 +50,10 @@ class DatabaseRowTable extends DatabaseRowAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options.
+     * @param     object     An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'table' => $this->getIdentifier()->name
@@ -77,12 +77,12 @@ class DatabaseRowTable extends DatabaseRowAbstract
             if (!($this->_table instanceof DatabaseTableInterface))
             {
                 //Make sure we have a table identifier
-                if (!($this->_table instanceof ServiceIdentifier)) {
+                if (!($this->_table instanceof ObjectIdentifier)) {
                     $this->setTable($this->_table);
                 }
 
                 try {
-                    $this->_table = $this->getService($this->_table);
+                    $this->_table = $this->getObject($this->_table);
                 } catch (\RuntimeException $e) {
                     $this->_table = false;
                 }
@@ -95,7 +95,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    An object that implements ServiceInterface, ServiceIdentifier object
+     * @param    mixed    An object that implements ObjectInterface, ObjectIdentifier object
      *                    or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  DatabaseRowsetAbstract

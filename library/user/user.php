@@ -19,20 +19,20 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_User
  */
-class User extends Object implements UserInterface, ServiceInstantiatable
+class User extends Object implements UserInterface, ObjectInstantiable
 {
     /**
      * Constructor
      *
-     * @param Config $config An optional Config object with configuration options.
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return User
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         //Set the user properties and attributes
-        $this->values(Config::unbox($config));
+        $this->values(ObjectConfig::unbox($config));
     }
 
     /**
@@ -40,10 +40,10 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config An optional Config object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'id'         => 0,
@@ -65,22 +65,22 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                 $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('user'))
+        if (!$manager->isRegistered('user'))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
-            $manager->setAlias('user', $config->service_identifier);
+            $manager->registerAlias('user', $config->object_identifier);
         }
 
-        return $manager->get('user');
+        return $manager->getObject('user');
     }
 
     /**
@@ -197,7 +197,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      */
     public function getSession()
     {
-        return $this->getService('lib:user.session');
+        return $this->getObject('lib:user.session');
     }
 
     /**
@@ -219,15 +219,15 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     public function values(array $data)
     {
         //Re-initialize the object
-        $data = new Config($data);
+        $data = new ObjectConfig($data);
         $this->_initialize($data);
 
         unset($data['mixins']);
-        unset($data['service_manager']);
-        unset($data['service_identifier']);
+        unset($data['object_manager']);
+        unset($data['object_identifier']);
 
         //Set the user data
-        $this->getSession()->set('user', Config::unbox($data));
+        $this->getSession()->set('user', ObjectConfig::unbox($data));
 
         return $this;
     }

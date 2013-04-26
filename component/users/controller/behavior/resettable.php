@@ -25,17 +25,17 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
      */
     protected $_filter;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         //@TODO Remove when PHP 5.5 becomes a requirement.
-        //$this->getService('loader')->loadFile(JPATH_ROOT . '/component/users/legacy.php');
+        //Library\ClassLoader::getInstance()->loadFile(JPATH_ROOT . '/component/users/legacy.php');
 
         $this->_filter = $config->filter;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array('filter' => 'alnum'));
         parent::_initialize($config);
@@ -58,8 +58,8 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             $context->password = $password;
             $result            = true;
         } else {
-            $url = $this->getService('application.pages')->getHome()->getLink();
-            $this->getService('application')->getRouter()->build($url);
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
             $context->response->setRedirect($url);
             //@TODO : Set message in session
             //$context->response->setRedirect($url, JText::_('INVALID_REQUEST'),'error');
@@ -83,8 +83,8 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             //$context->response->setRedirect($context->request->getReferrer(), $password->getStatusMessage(), 'error');
             $result = false;
         } else {
-            $url = $this->getService('application.pages')->getHome()->getLink();
-            $this->getService('application')->getRouter()->build($url);
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
             $context->response->setRedirect($url);
             //@TODO : Set message in session
             //$context->response->setRedirect($url, JText::_('PASSWORD_RESET_SUCCESS'));
@@ -107,7 +107,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
     protected function _beforeControllerToken(Library\CommandContext $context)
     {
-        $user = $this->getService('com:users.model.users')
+        $user = $this->getObject('com:users.model.users')
             ->set('email', $context->request->data->get('email', 'email'))
             ->getRow();
 
@@ -131,8 +131,8 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $user  = $context->user;
         $token = $user->getPassword()->setReset();
 
-        $component = $this->getService('application.components')->getComponent('users');
-        $page      = $this->getService('application.pages')->find(array(
+        $component = $this->getObject('application.components')->getComponent('users');
+        $page      = $this->getObject('application.pages')->find(array(
             'extensions_component_id' => $component->id,
             'access'                  => 0,
             'link'                    => array(array('view' => 'user'))));
@@ -142,7 +142,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $url->query['token']  = $token;
         $url->query['uuid']   = $user->uuid;
 
-        $this->getService('application')->getRouter()->build($url);
+        $this->getObject('application')->getRouter()->build($url);
 
         $url = $context->request->getUrl()
             ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;

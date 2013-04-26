@@ -25,7 +25,7 @@ class CommandValidatorFolder extends CommandValidatorNode
 
         if ($result)
         {
-            $filter = $this->getService('com:files.filter.folder.uploadable');
+            $filter = $this->getObject('com:files.filter.folder.uploadable');
             $result = $filter->validate($context->getSubject());
             if ($result === false)
             {

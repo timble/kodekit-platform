@@ -21,7 +21,7 @@ use Nooku\Library;
  
 class CacheDispatcher extends Library\DispatcherComponent
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
         	'controller' => 'items',

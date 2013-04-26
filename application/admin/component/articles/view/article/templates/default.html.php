@@ -55,7 +55,7 @@
                 <input type="text" name="slug" maxlength="255" value="<?= $article->slug ?>" />
             </div>
         </div>
-        <?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
+        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
     <div class="sidebar">        
         <div class="scrollable">

@@ -26,7 +26,7 @@ class TemplateHelperAccordion extends TemplateHelperBehavior
 	 */
 	public function startPane( $config = array() )
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 
 		$config->append(array(
 			'id'	=> 'accordions',
@@ -97,7 +97,7 @@ class TemplateHelperAccordion extends TemplateHelperBehavior
 	 */
 	public function startPanel($config = array())
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 
 		$config->append(array(
 			'title'		=> 'Slide',

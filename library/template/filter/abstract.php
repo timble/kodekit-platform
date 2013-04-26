@@ -34,9 +34,9 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     /**
      * Constructor.
      *
-     * @param Config $config An optional Config object with configuration options
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -63,10 +63,10 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Cpnfig $config An optional Config object with configuration options
+     * @param  Cpnfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'template' => null,
@@ -133,8 +133,8 @@ abstract class TemplateFilterAbstract extends Object implements TemplateFilterIn
     {
         $output = array();
 
-        if ($array instanceof Config) {
-            $array = Config::unbox($array);
+        if ($array instanceof ObjectConfig) {
+            $array = ObjectConfig::unbox($array);
         }
 
         if (is_array($array)) {

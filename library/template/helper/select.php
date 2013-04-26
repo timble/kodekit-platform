@@ -26,7 +26,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	 */
 	public function option( $config = array() )
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'value' 	=> null,
 			'text'   	=> '',
@@ -53,7 +53,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	 */
 	public function optionlist($config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'options' 	=> array(),
 			'name'   	=> 'id',
@@ -89,7 +89,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 
 			if(!is_null($config->selected))
 			{
-				if ($config->selected instanceof Config)
+				if ($config->selected instanceof ObjectConfig)
 				{
 					foreach ($config->selected as $selected)
 					{
@@ -120,7 +120,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	 */
 	public function radiolist( $config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'list' 		=> null,
 			'name'   	=> 'id',
@@ -160,7 +160,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	 */
 	public function checklist( $config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'list' 		=> null,
 			'name'   	=> 'id',
@@ -183,7 +183,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 
 			$extra = '';
 
-			if ($config->selected instanceof Config)
+			if ($config->selected instanceof ObjectConfig)
 			{
 				foreach ($config->selected as $value)
 				{
@@ -214,7 +214,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	 */
 	public function booleanlist( $config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'name'   	=> '',
 			'attribs'	=> array(),

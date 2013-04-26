@@ -21,14 +21,11 @@ use Nooku\Library;
 
 abstract class ControllerAbstract extends \ApplicationControllerDefault
 {
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'persistable'   => false,
 			'limit'         => array('max' => 1000),
-			'request' => $this->getService('lib:controller.request', array(
-				'query' => array('container' => 'files-files')
-			))
 		));
 
 		parent::_initialize($config);
@@ -38,10 +35,15 @@ abstract class ControllerAbstract extends \ApplicationControllerDefault
 	{
 		$request = parent::getRequest();
 
-		// "config" state is only used in HMVC requests and passed to the JS application
+		//The "config" state is only used in HMVC requests and passed to the JS application
 		if ($this->isDispatched()) {
 			unset($request->query->config);
 		}
+
+        //Make sure we have a default container in the request.
+        if(!$request->query->has('container')) {
+            $request->query->container = 'files-files';
+        }
 
 		return $request;
 	}
@@ -52,7 +54,7 @@ abstract class ControllerAbstract extends \ApplicationControllerDefault
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\Config::unbox($context->request->data->toArray()));
+			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->copy() === false)
@@ -78,7 +80,7 @@ abstract class ControllerAbstract extends \ApplicationControllerDefault
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\Config::unbox($context->request->data->toArray()));
+			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->move() === false)

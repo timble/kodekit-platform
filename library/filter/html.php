@@ -61,20 +61,20 @@ class FilterHtml extends FilterTidy
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         // List of user-defined tags
         if(isset($config->tag_list)) {
-            $this->_tagsArray = array_map('strtolower', (array) Config::unbox($config->tag_list));
+            $this->_tagsArray = array_map('strtolower', (array) ObjectConfig::unbox($config->tag_list));
         }
 
         // List of user-defined attributes
         if(isset($config->attrib_list)) {
-            $this->_attrArray = array_map('strtolower', (array) Config::unbox($config->attrib_list));
+            $this->_attrArray = array_map('strtolower', (array) ObjectConfig::unbox($config->attrib_list));
         }
 
         // WhiteList method = 0, BlackList method = 1
@@ -98,10 +98,10 @@ class FilterHtml extends FilterTidy
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'tag_list'      => array(),

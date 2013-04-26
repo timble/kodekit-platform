@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ServiceInstantiatable
+class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql implements Library\ObjectSingleton
 {
     /**
 	 * The cache object
@@ -30,9 +30,9 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
 	 *
 	 * Prevent creating instances of this class by making the contructor private
 	 *
-	 * @param 	object 	An optional Library\Config object with configuration options
+	 * @param 	object 	An optional Library\ObjectConfig object with configuration options
 	 */
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -44,36 +44,17 @@ class ApplicationDatabaseAdapterMysql extends Library\DatabaseAdapterMysql imple
         $this->connect();
 	}
 
-	/**
-     * Force creation of a singleton
-     *
-     * @param 	Config                  $config  An optional Config object with configuration options
-     * @param 	ServiceManagerInterfac  $manager A Library\ServiceManagerInterface object
-     * @return  DatabaseTableInterface
-     */
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
-    {
-        if (!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
-        }
-
-        return $manager->get($config->service_identifier);
-    }
-
     /**
      * Initializes the options for the object
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\Config object with configuration options.
+     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
      * @return  void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        $application = $this->getService('application');
+        $application = $this->getObject('application');
 
         $config->append(array(
             'options'	=> array(

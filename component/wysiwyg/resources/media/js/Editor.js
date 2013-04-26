@@ -143,9 +143,6 @@ var Editors = new Hash,
                 // the 22 offset is for the .editor-toolbar
                 this.settings.height = height - offset;
 
-                //@TODO fix in css
-                document.html.setStyle('overflow', 'hidden');
-
                 window.addEvent('resize', function(){
                     var newHeight = parent.getSize().y, relativeHeight = height - newHeight;
                     if(!iframeHeight) iframeHeight = tinymce.DOM.getStyle(editor + '_ifr', 'height').toInt();
@@ -238,11 +235,11 @@ var Editors = new Hash,
 		});	
 		
 		this.getEditor().addCommand('image', function() {
-			SqueezeBox.open((Editor.baseurl ? Editor.baseurl : '')+'?option=com_files&container=files-files&view=images&tmpl=dialog&e_name='+this.identifier, {handler: 'iframe', size: {x: 770, y: 500}});
+			SqueezeBox.open((Editor.baseurl ? Editor.baseurl : '')+'?option=com_files&container=files-files&view=images&tmpl=dialog&editor='+this.identifier, {handler: 'iframe', size: {x: 770, y: 500}});
 		}.bind(this));
 
 		this.getEditor().addButton('readmore', {
-			title : 'Read more�',
+			title : 'Read more',
 			image : this.getEditor().baseURI.relative + '/themes/advanced/skins/nooku/img/more.gif',
 			cmd : 'Readmore'
 		});	
@@ -264,7 +261,7 @@ var Editors = new Hash,
 		});	
 		
 		this.getEditor().addCommand('Article', function() {
-			SqueezeBox.open('?option=com_articles&view=articles&layout=link&tmpl=component&e_name='+this.identifier, {handler: 'iframe', size: {x: 800, y: 600}});
+			SqueezeBox.open('?option=com_articles&view=articles&layout=link&tmpl=component&editor='+this.identifier, {handler: 'iframe', size: {x: 800, y: 600}});
 		}.bind(this));*/
 
 		if(this.getEditor().settings.theme_advanced_buttons2) {

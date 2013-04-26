@@ -35,7 +35,7 @@
 
         <? if($category->image) : ?>
         <image>
-            <url><?= @service('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
+            <url><?= @object('request')->getUrl()->setPath(str_replace(JPATH_ROOT.DS, '', $category->image->path))->toString(Library\HttpUrl::BASE) ?></url>
             <title><?= @escape($category->title) ?></title>
             <link><?= @route() ?></link>
             <width><?= $category->image->width ?></width>

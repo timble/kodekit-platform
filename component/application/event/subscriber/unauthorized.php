@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'priority' => Library\Event::PRIORITY_HIGH
@@ -32,7 +32,7 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
     {
         if($event->getException() instanceof Library\ControllerExceptionUnauthorized)
         {
-            $application = $this->getService('application');
+            $application = $this->getObject('application');
 
             if($application->getRequest()->getFormat() == 'html')
             {

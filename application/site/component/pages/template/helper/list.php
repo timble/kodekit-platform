@@ -21,7 +21,7 @@ class PagesTemplateHelperList extends Library\TemplateHelperAbstract
 {
     public function pages($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'pages'   => array(),
             'active'  => null,
@@ -98,7 +98,7 @@ class PagesTemplateHelperList extends Library\TemplateHelperAbstract
     				break;
     				
     		    case 'menulink':
-    		        $page_linked = $this->getService('application.pages')->getPage($page->getLink()->query['Itemid']);
+    		        $page_linked = $this->getObject('application.pages')->getPage($page->getLink()->query['Itemid']);
     		        $result .= '<a href="'.$page_linked->getLink().'">';
                     $result .= $page->title;
                     $result .= '</a>';

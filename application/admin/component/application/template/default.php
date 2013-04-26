@@ -31,9 +31,9 @@ class ApplicationTemplateDefault extends Library\TemplateAbstract
      *
      * Prevent creating instances of this class by making the constructor private
      *
-     * @param 	object 	An optional Library\Config object with configuration options
+     * @param 	object 	An optional Library\ObjectConfig object with configuration options
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -55,7 +55,7 @@ class ApplicationTemplateDefault extends Library\TemplateAbstract
     public function findFile($file)
     {
         //Theme override
-        $theme  = $this->getService('application')->getTheme();
+        $theme  = $this->getObject('application')->getTheme();
         $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
         $theme .= str_replace(array(JPATH_ROOT.'/component', '/view', '/templates'), '', $file);
 

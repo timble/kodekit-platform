@@ -25,33 +25,41 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     /**
      * The service identifier
      *
-     * @var ServiceIdentifier
+     * @var ObjectIdentifier
      */
-    private $__service_identifier;
+    private $__object_identifier;
 
     /**
      * The service manager
      *
-     * @var ServiceManager
+     * @var ObjectManager
      */
-    private $__service_manager;
+    private $__object_manager;
 
     /**
      * Constructor.
      *
-     * @param  Config $config  A Config object with configuration options
+     * @param  ObjectConfig $config  A ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
-        //Set the service container
-        if (isset($config->service_manager)) {
-            $this->__service_manager = $config->service_manager;
+        //Set the object manager
+        if (!$config->object_manager instanceof ObjectManagerInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_manager [ObjectManagerInterface] config option is required, "'.gettype($config->object_manager).'" given.'
+            );
         }
+        else $this->__object_manager = $config->object_manager;
 
-        //Set the service identifier
-        if (isset($config->service_identifier)) {
-            $this->__service_identifier = $config->service_identifier;
+        //Set the object identifier
+        if (!$config->object_identifier instanceof ObjectIdentifierInterface)
+        {
+            throw new \InvalidArgumentException(
+                'object_identifier [ObjectIdentifierInterface] config option is required, "'.gettype($config->object_identifier).'" given.'
+            );
         }
+        else $this->__object_identifier = $config->object_identifier;
 
         parent::__construct($config);
 
@@ -68,10 +76,10 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config A Config object with configuration options
+     * @param  ObjectConfig $config A ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'priority' => CommandChain::PRIORITY_NORMAL,
@@ -161,60 +169,40 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
         unset($methods['getIdentifier']);
         unset($methods['getPriority']);
         unset($methods['getHandle']);
-        unset($methods['getService']);
+        unset($methods['getObject']);
 
         return $methods;
     }
 
     /**
-     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     * Get an instance of an object identifier
      *
-     * @param    string|object    $identifier The class identifier or identifier object
-     * @param    array            $config     An optional associative array of configuration settings.
-     * @throws   \RuntimeException If the service manager has not been defined.
-     * @return   Service Return object on success, throws exception on failure
-     * @see      ServiceInterface
+     * @param ObjectIdentifier|string $identifier An ObjectIdentifier or valid identifier string
+     * @param array  			      $config     An optional associative array of configuration settings.
+     * @return ObjectInterface  Return object on success, throws exception on failure.
      */
-    final public function getService($identifier = null, array $config = array())
+    final public function getObject($identifier, array $config = array())
     {
-        if (isset($identifier))
-        {
-            if (!isset($this->__service_manager))
-            {
-                throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getService(). No service_manager object defined."
-                );
-            }
-
-            $result = $this->__service_manager->get($identifier, $config);
-        }
-        else $result = $this->__service_manager;
-
+        $result = $this->__object_manager->getObject($identifier, $config);
         return $result;
     }
 
     /**
      * Gets the service identifier.
      *
-     * @param   string|object     $identifier The class identifier or identifier object
-     * @throws  \RuntimeException If the service manager has not been defined.
-     * @return  ServiceIdentifier
-     * @see     ServiceInterface
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
+     * @param   string|object    $identifier The class identifier or identifier object
+     * @return  ObjectIdentifier
      */
     final public function getIdentifier($identifier = null)
     {
-        if (isset($identifier))
-        {
-            if (!isset($this->__service_manager))
-            {
-                throw new \RuntimeException(
-                    "Failed to call " . get_class($this) . "::getIdentifier(). No service_manager object defined."
-                );
-            }
-
-            $result = $this->__service_manager->getIdentifier($identifier);
+        if (isset($identifier)) {
+            $result = $this->__object_manager->getIdentifier($identifier);
+        } else {
+            $result = $this->__object_identifier;
         }
-        else  $result = $this->__service_identifier;
 
         return $result;
     }

@@ -21,7 +21,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
      public function order($config = array())
      {
-         $config = new Library\Config($config);
+         $config = new Library\ObjectConfig($config);
          $config->append(array(
              'name'          => 'order',
              'state'         => null,
@@ -36,7 +36,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Library\StringInflector::pluralize($config->package));
 
-        $list = $this->getService($identifier)->set($config->filter)->getRowset();
+        $list = $this->getObject($identifier)->set($config->filter)->getRowset();
 
         $options = array();
         foreach($list as $item) {
@@ -54,7 +54,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function categories($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'      => 'category',
             'deselect'  => true,
@@ -69,7 +69,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('text' => \JText::_($config->prompt), 'value' => 0));
         }
 
-        $list = $this->getService('com:categories.model.categories')
+        $list = $this->getObject('com:categories.model.categories')
                      ->set('table', $config->table)
                      ->set('parent', $config->parent)
                      ->set('sort', 'title')

@@ -26,14 +26,14 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
      */
     public function render($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'attribs' => array('class' => array())
         ));
 
         $result = '';
 
-        $menus = $this->getService('com:pages.model.menus')
+        $menus = $this->getObject('com:pages.model.menus')
             ->application('admin')
             ->getRowset();
 
@@ -41,7 +41,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
 
         if(count($menu))
         {
-            $pages  = $this->getService('application.pages')->find(array('pages_menu_id' => $menu->top()->id));
+            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->top()->id));
             $result = $this->pages(array('pages' => $pages, 'attribs' => $config->attribs));
         }
 

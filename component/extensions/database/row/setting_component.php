@@ -36,9 +36,9 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
     /**
      * Constructor
      *
-     * @param   object  An optional Library\Config object with configuration options.
+     * @param   object  An optional Library\ObjectConfig object with configuration options.
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -51,10 +51,10 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\Config object with configuration options.
+     * @param   object  An optional Library\ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'id'     => '',
@@ -73,7 +73,7 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
     {
         if(!empty($this->_modified))
         {
-            $row = $this->getService($this->_table)->select($this->_id, Library\Database::FETCH_ROW);
+            $row = $this->getObject($this->_table)->select($this->_id, Library\Database::FETCH_ROW);
             $row->params = $this->_data;
 
             return (bool) $row->save();

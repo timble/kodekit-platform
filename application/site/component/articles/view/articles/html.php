@@ -21,13 +21,13 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
     public function render()
     {
         //Get the parameters
-        $params = $this->getService('application')->getParams();
+        $params = $this->getObject('application')->getParams();
 
         //Get the category
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if($page = $this->getService('application.pages')->getActive())
+        if($page = $this->getObject('application.pages')->getActive())
         {
             $menu_params = new JParameter($page->params);
             if(!$menu_params->get('page_title')) {
@@ -38,7 +38,7 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
 
         //Set the pathway
         if($page->getLink()->query['view'] == 'categories' ) {
-            $this->getService('application')->getPathway()->addItem($category->title, '');
+            $this->getObject('application')->getPathway()->addItem($category->title, '');
         }
 
         $this->params   = $params;
@@ -50,7 +50,7 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com:articles.model.categories')
+        $category = $this->getObject('com:articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
                          ->getRow();

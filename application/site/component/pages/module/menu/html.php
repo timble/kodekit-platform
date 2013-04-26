@@ -23,7 +23,7 @@ class PagesModuleMenuHtml extends PagesModuleDefaultHtml
         $start    = $this->module->params->get('start_level');
         $end      = $this->module->params->get('end_level');
         $children = $this->module->params->get('show_children', 'active');
-        $pages    = $this->getService('application.pages');
+        $pages    = $this->getObject('application.pages');
         $groups   = JFactory::getUser()->getGroups();
 
         // Make sure that pages without an assigned group are also included.

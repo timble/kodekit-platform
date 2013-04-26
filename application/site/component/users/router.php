@@ -28,7 +28,7 @@ class UsersRouter extends Library\DispatcherRouter
         {
             if(!empty($query['Itemid']))
             {
-                $page = $this->getService('application.pages')->getPage($query['Itemid'] );
+                $page = $this->getObject('application.pages')->getPage($query['Itemid'] );
                 if(!isset($page->getLink()->query['view']) || $page->getLink()->query['view'] != $query['view']) {
                     $segments[] = $query['view'];
                 }

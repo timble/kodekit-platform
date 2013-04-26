@@ -19,17 +19,17 @@ use Nooku\Library;
  */
 class DatabaseRowPassword extends Library\DatabaseRowTable
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         // TODO Remove when PHP 5.5 becomes a requirement.
-        $this->getService('loader')->loadFile(JPATH_ROOT.'/component/users/legacy/password.php');
+        Library\ClassLoader::getInstance()->loadFile(JPATH_ROOT.'/component/users/legacy/password.php');
     }
 
     public function save()
     {
-        $user = $this->getService('com:users.model.users')
+        $user = $this->getObject('com:users.model.users')
             ->set('email', $this->id)
             ->getRow();
 
@@ -44,7 +44,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
         if ($password = $this->password)
         {
             // Check the password length.
-            $params = $this->getService('application.components')->users->params;
+            $params = $this->getObject('application.components')->users->params;
             $length = $params->get('password_length', 5);
 
             if (strlen($password) < $length)

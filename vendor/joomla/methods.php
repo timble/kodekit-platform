@@ -38,7 +38,7 @@ class JRoute
 	function _($url, $xhtml = true, $ssl = null)
 	{
 		//Create the route
-        $url = Nooku\Library\ServiceManager::get('lib:http.url', array('url' => $url));
+        $url = Nooku\Library\ObjectManager::getInstance()->getObject('lib:http.url', array('url' => $url));
 
         JFactory::getApplication()->getRouter()->build($url);
 

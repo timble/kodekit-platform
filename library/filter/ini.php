@@ -26,7 +26,7 @@ class FilterIni extends FilterAbstract
     public function validate($value)
     {
         try {
-            $config = ConfigIni::fromString($value);
+            $config = ObjectConfigIni::fromString($value);
         } catch(\RuntimeException $e) {
             $config = null;
         }
@@ -37,16 +37,16 @@ class FilterIni extends FilterAbstract
      * Sanitize a value
      *
      * @param   scalar  $value Value to be sanitized
-     * @return  Config
+     * @return  ObjectConfig
      */
     public function sanitize($value)
     {
-        if(!$value instanceof Config)
+        if(!$value instanceof ObjectConfig)
         {
             if(is_string($value)) {
-                $value = ConfigIni::fromString($value);
+                $value = ObjectConfigIni::fromString($value);
             } else {
-                $value = new ConfigIni($value);
+                $value = new ObjectConfigIni($value);
             }
         }
 

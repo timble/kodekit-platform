@@ -21,7 +21,7 @@ use Nooku\Library;
  
 class CacheDatabaseRowsetItems extends Library\DatabaseRowsetAbstract
 {	
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'identity_column' => 'hash'

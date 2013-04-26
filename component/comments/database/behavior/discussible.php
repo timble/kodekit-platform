@@ -26,7 +26,7 @@ class DatabaseBehaviorDiscussible extends Library\DatabaseBehaviorAbstract
 	 */
 	public function getComments()
 	{
-		$comments = $this->getService('com:comments.model.comments')
+		$comments = $this->getObject('com:comments.model.comments')
 					->row($this->id)
 					->table($this->getTable()->getName())
 					->getRowset();

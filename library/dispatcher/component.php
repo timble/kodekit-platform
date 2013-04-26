@@ -14,14 +14,14 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class DispatcherComponent extends DispatcherAbstract implements ServiceInstantiatable
+class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiable
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional Config object with configuration options.
+	 * @param 	object 	An optional ObjectConfig object with configuration options.
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -44,10 +44,10 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param 	object 	An optional ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
@@ -59,23 +59,23 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherComponent
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
+        if (!$manager->isRegistered($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('component', $config->service_identifier);
+            $manager->registerAlias('component', $config->object_identifier);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->getObject($config->object_identifier);
     }
 
     /**
@@ -121,7 +121,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
         {
             $token = $context->user->session->getToken();
 
-            $context->response->headers->addCookie($this->getService('lib:http.cookie', array(
+            $context->response->headers->addCookie($this->getObject('lib:http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
                 'path'   => $context->request->getBaseUrl()->getPath()
@@ -150,10 +150,6 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
             $context->response->setRedirect($url);
             return false;
         }
-
-        //Load the component aliases
-        $component = $this->getController()->getIdentifier()->package;
-        $this->getService('loader')->loadIdentifier('com:'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());

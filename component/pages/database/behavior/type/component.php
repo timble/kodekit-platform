@@ -21,15 +21,15 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 {
     protected $_type_title;
 
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->has($config->service_identifier)) {
-            $manager->set($config->service_identifier, $instance);
+        if(!$manager->isRegistered($config->object_identifier)) {
+            $manager->setObject($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->getObject($config->object_identifier);
     }
 
     public function getTypeTitle()
@@ -59,7 +59,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
     public function getLink()
     {
-        $link = $this->getService('lib:http.url', array('url' => '?'.$this->link_url));
+        $link = $this->getObject('lib:http.url', array('url' => '?'.$this->link_url));
         $link->query['Itemid'] = $this->id;
 
         return $link;
@@ -166,7 +166,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $xml  = \JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getService('loader')->getApplication('admin').'/component/'.substr($type['option'], 4).'/config.xml';
+        $path = Library\ClassLoader::getInstance()->getApplication('admin').'/component/'.substr($type['option'], 4).'/config.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -179,7 +179,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     {
         $xml  = \JFactory::getXMLParser('simple');
         $type = $this->getType();
-        $path = $this->getService('loader')->getApplication('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
+        $path = Library\ClassLoader::getInstance()->getApplication('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -203,7 +203,7 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
 
             // TODO: Get component from application.component.
             // Set component id.
-            $component = $this->getService('com:extensions.database.table.components')
+            $component = $this->getObject('com:extensions.database.table.components')
                 ->select(array('name' => $query['option']), Library\Database::FETCH_ROW);
 
             $this->extensions_component_id = $component->id;
