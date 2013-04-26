@@ -18,7 +18,7 @@ use Nooku\Library;
  */
 abstract class TermsControllerTerm extends ApplicationControllerDefault
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'model' => 'com:terms.model.terms'
