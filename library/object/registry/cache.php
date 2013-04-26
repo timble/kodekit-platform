@@ -17,36 +17,25 @@ namespace Nooku\Library;
  */
 class ObjectRegistryCache extends ObjectRegistry
 {
- 	/**
- 	 * Cache
- 	 *
- 	 * @var boolean
- 	 */
-    protected $_cache = false;
-
     /**
  	 * Cache Prefix
  	 *
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'nooku-registry';
+    protected $_cache_prefix = 'nooku-registry-object';
 
-	/**
-     * Enable class caching
+    /**
+     * Constructor
      *
-     * @param  boolean	$enable Enable or disable the cache. Default is TRUE.
-     * @return boolean	TRUE if caching is enabled. FALSE otherwise.
+     * @return ObjectRegistryCache
+     * @throws \RuntimeException    If the APC PHP extension is not enabled or available
      */
-	public function enableCache($enable = true)
-	{
-	    if($enable && extension_loaded('apc')) {
-            $this->_cache = true;
-        } else {
-            $this->_cache = false;
+    public function __construct()
+    {
+        if (!extension_loaded('apc')) {
+            throw new \RuntimeException('Unable to use ObjectRegistryCache as APC is not enabled.');
         }
-
-        return $this->_cache;
-	}
+    }
 
 	/**
      * Set the cache prefix
@@ -77,15 +66,11 @@ class ObjectRegistryCache extends ObjectRegistry
      */
     public function offsetGet($offset)
     {
-        if(!parent::offsetExists($offset))
-        {
-            if($this->_cache) {
-                $result = unserialize(apc_fetch($this->_cache_prefix.'-'.$offset));
-            } else {
-                $result = false;
-            }
+        if(!parent::offsetExists($offset)) {
+            $result = unserialize(apc_fetch($this->_cache_prefix.'-'.$offset));
+        } else {
+            $result = parent::offsetGet($offset);
         }
-        else $result = parent::offsetGet($offset);
 
         return $result;
     }
@@ -99,9 +84,7 @@ class ObjectRegistryCache extends ObjectRegistry
      */
     public function offsetSet($offset, $value)
     {
-        if($this->_cache) {
-            apc_store($this->_cache_prefix.'-'.$offset, serialize($value));
-        }
+        apc_store($this->_cache_prefix.'-'.$offset, serialize($value));
 
         parent::offsetSet($offset, $value);
     }
@@ -114,11 +97,8 @@ class ObjectRegistryCache extends ObjectRegistry
      */
     public function offsetExists($offset)
     {
-        if(false === $result = parent::offsetExists($offset))
-        {
-            if($this->_cache) {
-                $result = apc_exists($this->_cache_prefix.'-'.$offset);
-            }
+        if(false === $result = parent::offsetExists($offset)) {
+            $result = apc_exists($this->_cache_prefix.'-'.$offset);
         }
 
         return $result;
