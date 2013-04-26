@@ -150,9 +150,11 @@ window.addEvent('domready', function() {
 });
 </script>
 
+<? if (isset($toolbar)): ?>
 <ktml:module position="toolbar">
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
 </ktml:module>
+<? endif; ?>
 
 <div id="files-app">
 	<?= @template('templates_icons.html'); ?>
