@@ -114,9 +114,27 @@ Drag.Sortable = new Class({
 		this.clone.set('morph', {duration: this.options.fx.duration, transition: this.options.fx.transition}).morph(this.options.fx.from);
 
         if(this.options.nested) {
+            var spacing = this.element.getParents('table')[0].getStyle('border-spacing').split(' ')[0].toInt(),
+                cells = this.clone.getChildren();
             var current = this.element, nexts = new Elements;
             while(current.getNext() && current.getNext().getProperty('data-sortable-parent').toInt() !== this.element.getProperty('data-sortable-parent').toInt() && current.getNext().getProperty('data-sortable-level').toInt() > this.element.getProperty('data-sortable-level').toInt()) {
-                current = current.getNext();
+                current = current.getNext().addClass('clone');
+
+                current.getChildren().each(function(cell, i){
+                    cell.setStyles({
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        minHeight: 'auto',
+                        minWidth: 'auto',
+                        width: this._getOffsetSize(cell),
+                        height: this._getOffsetSize(cell, true),
+                        paddingTop: cell.getStyle('padding-top'),
+                        paddingRight: cell.getStyle('padding-right'),
+                        paddingBottom: cell.getStyle('padding-bottom'),
+                        paddingLeft: cell.getStyle('padding-left')
+                    });
+                }, this);
+
                 nexts.include(current);
             }
             this.drag.addEvent('drag', function(el, event){
@@ -131,7 +149,20 @@ Drag.Sortable = new Class({
             });
             this.drag.addEvent('complete', function(el, event){
 
-                nexts.setStyles({position: '', top: ''});
+                nexts.setStyles({position: '', top: ''}).removeClass('clone').getChildren().forEach(function(el){
+                    el.setStyles({
+                        maxWidth: '',
+                        maxHeight: '',
+                        minHeight: '',
+                        minWidth: '',
+                        width: '',
+                        height: '',
+                        paddingTop: '',
+                        paddingRight: '',
+                        paddingBottom: '',
+                        paddingLeft: ''
+                    });
+                });
                 nexts.inject(element, 'after');
             });
         }
