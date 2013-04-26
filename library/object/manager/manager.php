@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Object
  * @subpackage  Manager
  */
-class ObjectManager implements ObjectInterface, ObjectManagerInterface
+class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSingleton
 {
     /**
      * The object registry
@@ -48,17 +48,13 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
         }
         else $this->setClassLoader($config['class_loader']);
 
-        //Create the identifier registry
-        /*if (isset($config['cache_prefix'])) {
-            $this->_registry->setCachePrefix($config['cache_prefix']);
-        }
-
-        if (isset($config['cache_enabled'])) {
-            $this->_registry->enableCache($config['cache_enabled']);
-        }*/
-
         //Create the object registry
-        $this->_registry = new ObjectRegistry();
+        if($config->cache_enabled)
+        {
+            $this->_registry = new ObjectRegistryCache();
+            $this->_registry->setCachePrefix($config->cache_prefix);
+        }
+        else $this->_registry = new ObjectRegistry();
 
         //Create the object identifier
         $this->__object_identifier = $this->getIdentifier('lib:object.manager');
@@ -70,6 +66,9 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
         ));
 
         $this->registerLocator(new ObjectLocatorLibrary($config));
+
+        //Register the component locator
+        $this->registerLocator('lib:object.locator.component');
 
         //Register self and set a 'manager' alias
         $this->setObject('lib:object.manager', $this);
@@ -87,7 +86,9 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'class_loader' => null
+            'class_loader'  => null,
+            'cache_enabled' => false,
+            'cache_prefix'  => 'nooku-registry-object'
         ));
     }
 
@@ -334,13 +335,21 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface
     }
 
     /**
-     * Get the registered object locators
+     * Get a registered object locator based on his type
      *
-     * @return array
+     * @param string $type The locator type
+     * @return ObjectLocatorInterface|null  Returns the object locator or NULL if it cannot be found.
      */
-    public function getLocators()
+    public function getLocator($type)
     {
-        return ObjectIdentifier::getLocators();
+        $result = null;
+
+        $locators = ObjectIdentifier::getLocators();
+        if(isset($locators[$type])) {
+            $result = $locators[$type];
+        }
+
+        return $result;
     }
 
     /**

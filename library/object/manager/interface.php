@@ -117,11 +117,12 @@ interface ObjectManagerInterface
     public function registerLocator($identifier, array $config = array());
 
     /**
-     * Get the registered object locators
+     * Get a registered object locator based on his type
      *
-     * @return array
+     * @param string $type The locator type
+     * @return ObjectLocatorInterface|null  Returns the object locator or NULL if it cannot be found.
      */
-    public function getLocators();
+    public function getLocator($type);
 
     /**
      * Get the class loader
