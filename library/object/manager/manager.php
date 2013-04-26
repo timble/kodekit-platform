@@ -148,10 +148,10 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
             $instance = $this->_instantiate($identifier, $config);
 
             //Mix the object
-            $this->_mixin($identifier, $instance);
+            $instance = $this->_mixin($identifier, $instance);
 
             //Decorate the object
-            $this->_decorate($identifier, $instance);
+            $instance = $this->_decorate($identifier, $instance);
 
             //Auto register the object
             if($instance instanceof ObjectSingleton) {
@@ -450,7 +450,7 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
      *
      * @param  ObjectIdentifier $identifier
      * @param  ObjectMixable    $mixer
-     * @return void
+     * @return ObjectMixable    The mixed object
      */
     protected function _mixin(ObjectIdentifier $identifier, $mixer)
     {
@@ -462,14 +462,16 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
                 $mixer->mixin($mixin);
             }
         }
+
+        return $mixer;
     }
 
     /**
      * Perform the actual decoration of all registered decorators for an object
      *
-     * @param ObjectIdentifier $identifier
+     * @param ObjectIdentifier  $identifier
      * @param ObjectDecoratable $delegate
-     * @return void
+     * @return ObjectDecorator  The decorated object
      */
     protected function _decorate(ObjectIdentifier $identifier, $delegate)
     {
@@ -481,6 +483,8 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
                 $delegate = $delegate->decorate($decorator);
             }
         }
+
+        return $delegate;
     }
 
     /**
