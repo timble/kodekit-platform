@@ -113,6 +113,12 @@ Drag.Sortable = new Class({
 
 		this.clone.set('morph', {duration: this.options.fx.duration, transition: this.options.fx.transition}).morph(this.options.fx.from);
 
+        if(this.options.nested) {
+            this.drag.addEvent('drag', function(el, event){
+
+                console.warn('drag', this.value.now.y);
+            });
+        }
 	},
 
 	reset: function(){
@@ -153,7 +159,19 @@ Drag.Sortable = new Class({
 		var index = params.index;
 		if (this.lists.length == 1) index = 0;
 		return $chk(index) && index >= 0 && index < this.lists.length ? serial[index] : serial;
-	}
+	},
+
+    getDroppables: function(){
+        var droppables = this.parent();
+        //Perhaps a bit daring to rely on this.element being set already
+        if(this.options.nested) {
+            var group = parseInt(this.element.getProperty('data-sortable-parent'), 10);
+            droppables = droppables.filter(function(item){
+                return parseInt(item.getProperty('data-sortable-parent'), 10) === group;
+            });
+        }
+        return droppables;
+    }
 
 });
 
@@ -403,7 +421,6 @@ Table.Sortable = new Class({
 
         //To allow scrolling the list without draggables getting messed up
         lists.getParent().setStyle('position', 'relative');
-        console.warn(this, lists, options);
     },
 
 	start: function(event, element){

@@ -12,7 +12,7 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
-<?= @helper('behavior.sortable', array('options' => array('nested' => true))) ?>
+<?= @helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
 <ktml:module position="toolbar">
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
