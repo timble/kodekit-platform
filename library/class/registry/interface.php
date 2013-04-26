@@ -15,26 +15,5 @@ namespace Nooku\Library;
  */
 interface ClassRegistryInterface
 {
-    /**
-     * Enable class caching
-     *
-     * @param  boolean	$enable Enable or disable the cache. Default is TRUE.
-     * @return boolean	TRUE if caching is enabled. FALSE otherwise.
-     */
-	public function enableCache($enable = true);
 
-	/**
-     * Set the cache prefix
-     *
-     * @param string $prefix The cache prefix
-     * @return void
-     */
-	public function setCachePrefix($prefix);
-
-	/**
-     * Get the cache prefix
-     *
-     * @return string	The cache prefix
-     */
-	public function getCachePrefix();
 }
