@@ -85,7 +85,7 @@ var ChromaTable = new Class({
 										.addClass('_thead')
 										.injectBefore(inner)
 										.adopt(
-											this.thead.setStyle('position', 'absolute')
+											this.thead.setStyles({'position': 'absolute', 'z-index': 1})
 										);
 
             var cloned = this.thead.clone();
