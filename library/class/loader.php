@@ -23,6 +23,13 @@ require_once dirname(__FILE__).'/registry/registry.php';
 class ClassLoader implements ClassLoaderInterface
 {
     /**
+     * The class locators
+     *
+     * @var array
+     */
+    protected $_locators = array();
+
+    /**
      * The file container
      *
      * @var array
@@ -44,13 +51,6 @@ class ClassLoader implements ClassLoaderInterface
     protected $_applications = array();
 
     /**
-     * Namespace map
-     *
-     * @var array
-     */
-    protected $_namespaces = array();
-
-    /**
      * Constructor
      *
      * @param array $config Array of configuration options.
@@ -58,24 +58,30 @@ class ClassLoader implements ClassLoaderInterface
     final private function __construct($config = array())
     {
         //Create the class registry
-        $this->_registry = new ClassRegistry();
+        if(isset($config['cache_enabled']) && $config['cache_enabled'])
+        {
+            $this->_registry = new ClassRegistryCache();
 
-        if(isset($config['cache_prefix'])) {
-            $this->_registry->setCachePrefix($config['cache_prefix']);
+            if(isset($config['cache_prefix'])) {
+                $this->_registry->setCachePrefix($config['cache_prefix']);
+            }
         }
+        else $this->_registry = new ClassRegistry();
 
-        if(isset($config['cache_enabled'])) {
-            $this->_registry->enableCache($config['cache_enabled']);
-        }
+        //Register the library locator
+        $this->registerLocator(new ClassLocatorLibrary());
 
-        //Manually register the library locator
-        $locator = new ClassLocatorLibrary();
-        $locator->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
-
-        $this->registerLocator($locator);
+        //Register the Nooku\Library namesoace
+        $this->getLocator('lib')->registerNamespace(__NAMESPACE__, dirname(dirname(__FILE__)));
 
         //Register the loader with the PHP autoloader
         $this->register();
+
+        //Register the component locator
+        $this->registerLocator(new ClassLocatorComponent());
+
+        //Register the standard locator
+        $this->registerLocator(new ClassLocatorStandard());
     }
 
     /**
@@ -144,11 +150,24 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function registerLocator(ClassLocatorInterface $locator)
     {
-        foreach($locator->getNamespaces() as $namespace => $paths) {
-            $this->_namespaces[$namespace] = $locator;
+        $this->_locators[$locator->getType()] = $locator;
+    }
+
+    /**
+     * Get a registered class locator based on his type
+     *
+     * @param string $type The locator type
+     * @return ClassLocatorInterface|null  Returns the object locator or NULL if it cannot be found.
+     */
+    public function getLocator($type)
+    {
+        $result = null;
+
+        if(isset($this->_locators[$type])) {
+            $result = $this->_locators[$type];
         }
 
-        krsort($this->_namespaces, SORT_STRING);
+        return $result;
     }
 
     /**
@@ -267,14 +286,12 @@ class ClassLoader implements ClassLoaderInterface
 
         if(!$this->_registry->offsetExists($class))
         {
-            //Find the adapter
-            foreach($this->_namespaces as $namespace => $locator)
+            //Locate the class
+            foreach($this->_locators as $locator)
             {
-                if(strpos('\\'.$class, $namespace) === 0)
-                {
-                    $result = $locator->locate($class);
+                if(false !== $result = $locator->locate($class)) {
                     break;
-                }
+                };
             }
 
             if ($result !== false)

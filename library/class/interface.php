@@ -31,6 +31,22 @@ interface ClassLoaderInterface
     public function unregister();
 
     /**
+     * Register a class locator
+     *
+     * @param ClassLocatorInterface $locator
+     * @return void
+     */
+    public function registerLocator(ClassLocatorInterface $locator);
+
+    /**
+     * Get a registered class locator based on his type
+     *
+     * @param string $type The locator type
+     * @return ClassLocatorInterface|null  Returns the object locator or NULL if it cannot be found.
+     */
+    public function getLocator($type);
+
+    /**
      * Set an file path alias
      *
      * @param string  $alias    The alias
