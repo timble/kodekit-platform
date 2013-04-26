@@ -82,11 +82,11 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'container' => 'attachments-attachments',
-			'file_controller' => 'com:files.controller.file',
+			'container'             => 'attachments-attachments',
+			'file_controller'       => 'com:files.controller.file',
 			'attachment_controller' => 'com:attachments.controller.attachment',
 			'populate_from_request' => true,
-			'attachment_limit' => false
+			'attachment_limit'      => false
 		));
 		
 		parent::_initialize($config);
@@ -108,13 +108,14 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	{
 		if ($this->_populate_from_request)
         {
-			$attachments = Library\Request::get('files.attachments', 'raw');
+			$attachments = $context->request->files->get('attachments', 'raw');
 			$files = array();
 	
 			if (is_array($attachments['name']))
             {
 				// Why do you return such a weird array for files PHP? why?
-				for ($i = 0, $n = count($attachments['name']); $i < $n; $i++) {
+				for ($i = 0, $n = count($attachments['name']); $i < $n; $i++)
+                {
 					if ($attachments['error'][$i] === UPLOAD_ERR_NO_FILE) {
 						continue;
 					}
@@ -125,7 +126,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 					}
 				
 					$files[] = $file;
-				}	
+				}
+
 			} elseif (is_array($attachments)) {
 				$files[] = $attachments;
 			}

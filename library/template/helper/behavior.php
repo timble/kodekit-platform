@@ -364,8 +364,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     {
         $config = new ObjectConfigJson($config);
         $config->append(array(
-            'option'	=> Request::get('get.option', 'cmd'),
-            'view'		=> StringInflector::singularize(Request::get('get.view', 'cmd')),
+            'option'	=> 'com_'.$this->getIdentifier()->getPackage(),
+            'view'		=> StringInflector::singularize($this->getTemplate()->getView()->getName()),
             'selector'	=> 'table tbody.sortable',
             'direction' => 'asc',
             'url'       => '?format=json'

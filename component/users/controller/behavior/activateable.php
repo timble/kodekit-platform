@@ -64,12 +64,13 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $activation = $context->request->data->get('activation', $this->_filter);
         $item       = $this->getModel()->getRow();
 
-        if ($activation !== $item->activation) {
+        if ($activation !== $item->activation)
+        {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
             $context->response->setRedirect($url);
             // TODO Set message in session.
-            //$context->response->setRedirect(Library\Request::root(), 'Wrong activation token');
+            //$context->response->setRedirect($context->request->getBaseUrl(), 'Wrong activation token');
             return false;
         }
     }

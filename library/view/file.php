@@ -171,12 +171,13 @@ class ViewFile extends ViewAbstract
         $this->end_point = $this->filesize - 1;
     
         $this->_setHeaders();
-        
-        if (Request::get('server.HTTP_RANGE', 'cmd'))
+
+        if ($this->getObject('request')->headers->has('Range'))
         {
             // Partial download
-            $range = Request::get('server.HTTP_RANGE', 'cmd');
+            $range = $this->getObject('request')->headers->get('Range');
             $parts = explode('-', substr($range, strlen('bytes=')));
+
             $this->start_point = $parts[0];
             if (isset($parts[0])) {
                 $this->start_point = $parts[0];

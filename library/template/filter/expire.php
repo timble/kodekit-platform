@@ -84,14 +84,14 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
                 return $this->_cache[$url] = $url;
             }
 
-            /**
-             * The count is a referenced value, so need to be passed as a variable.
-             * And the count is needed to prevent the root to be replaced multiple times in a longer path.
-             */
+            //Strip the base path from the url
             $count = 1;
-            $src   = JPATH_ROOT.str_replace(Request::root(), '', $url, $count);
+            $path  = str_replace($this->getObject('request')->getBaseUrl()->getPath(), '', $url, $count);
 
-            if(file_exists($src) && $modified = filemtime($src))
+            //Create the fully qualified file path
+            $file  = $this->getObject('request')->getBasePath(true).$path;
+
+            if(file_exists($file) && $modified = filemtime($file))
             {
                 $join  = strpos($url, '?') ? '&' : '?';
                 $this->_cache[$url] = $url.$join.$modified;
@@ -115,8 +115,9 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
     protected function _replaceInlineCSSMatch($matches)
     {
         $match = trim($matches[1], '"\'');
+
         if(strpos($match, '..') === 0) {
-            $match = Request::root().ltrim($match, '.');
+            $match = $this->getObject('request')->getBaseUrl()->getPath().ltrim($match, '.');
         }
 
         return str_replace($matches[1], $this->_processResourceURL($match), $matches[0]);
