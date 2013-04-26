@@ -18,6 +18,13 @@ namespace Nooku\Library;
 class ClassLocatorLibrary extends ClassLocatorAbstract
 {
     /**
+     * The type
+     *
+     * @var string
+     */
+    protected $_type = 'lib';
+
+    /**
      *  Get a fully qualified path based on a class name
      *
      * @param  string   $class The class name
@@ -27,40 +34,48 @@ class ClassLocatorLibrary extends ClassLocatorAbstract
 	{
 		$path = false;
 
-        $pos       = strrpos($class, '\\');
-        $namespace = substr($class, 0, $pos);
-        $class     = substr($class, $pos + 1);
-        $paths     = $this->_namespaces['\\'.$namespace];
-
-        /*
-         * Exception rule for Exception classes
-         *
-         * Transform class to lower case to always load the exception class from the /exception/ folder.
-         */
-        if($pos = strpos($class, 'Exception'))
+        foreach($this->_namespaces as $namespace => $paths)
         {
-            $filename  = substr($class, $pos + strlen('Exception'));
-            $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
-        }
-
-		$parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $class));
-	    $path  = strtolower(implode('/', $parts));
-
-		if(count($parts) == 1) {
-			$path = $path.'/'.$path;
-		}
-
-        foreach ($paths as $basepath)
-        {
-            $file = $basepath.'/'.$path.'.php';
-            if(is_file($file)) {
-                return $file;
+            if(strpos('\\'.$class, $namespace) !== 0) {
+                continue;
             }
 
-            $file = $basepath.'/'.$path.'/'.strtolower(array_pop($parts)).'.php';
-            if (is_file($file)) {
-                return $file;
+            $pos       = strrpos($class, '\\');
+            $namespace = substr($class, 0, $pos);
+            $class     = substr($class, $pos + 1);
+            $paths     = $this->_namespaces['\\'.$namespace];
+
+            /*
+             * Exception rule for Exception classes
+             *
+             * Transform class to lower case to always load the exception class from the /exception/ folder.
+             */
+            if($pos = strpos($class, 'Exception'))
+            {
+                $filename  = substr($class, $pos + strlen('Exception'));
+                $class = str_replace($filename, ucfirst(strtolower($filename)), $class);
             }
+
+            $parts = explode(' ', preg_replace('/(?<=\\w)([A-Z])/', ' \\1',  $class));
+            $path  = strtolower(implode('/', $parts));
+
+            if(count($parts) == 1) {
+                $path = $path.'/'.$path;
+            }
+
+            foreach ($paths as $basepath)
+            {
+                $file = $basepath.'/'.$path.'.php';
+                if(is_file($file)) {
+                    return $file;
+                }
+
+                $file = $basepath.'/'.$path.'/'.strtolower(array_pop($parts)).'.php';
+                if (is_file($file)) {
+                    return $file;
+                }
+            }
+
         }
 
 		return false;

@@ -20,6 +20,13 @@ namespace Nooku\Library;
 class ClassLocatorStandard extends ClassLocatorAbstract
 {
     /**
+     * The type
+     *
+     * @var string
+     */
+    protected $_type = 'psr';
+
+    /**
      * Get the path based on a class name
      *
      * @param  string   $class The class name

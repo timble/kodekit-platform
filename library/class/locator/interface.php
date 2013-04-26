@@ -34,11 +34,26 @@ interface ClassLocatorInterface
     public function registerNamespace($namespace, $paths);
 
     /**
+     * Registers an array of namespaces
+     *
+     * @param array $namespaces An array of namespaces (namespaces as keys and locations as values)
+     * @return ClassLocatorInterface
+     */
+    public function registerNamespaces(array $namespaces);
+
+    /**
      * Get the registered namespaces
      *
      * @return array An array with namespaces as keys and path as values
      */
     public function getNamespaces();
+
+    /**
+     * Get the locator type
+     *
+     * @return string
+     */
+    public function getType();
 
     /**
      * Get a fully qualified path based on a class name

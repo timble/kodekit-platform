@@ -18,6 +18,13 @@ namespace Nooku\Library;
 class ClassLocatorComponent extends ClassLocatorAbstract
 {
     /**
+     * The type
+     *
+     * @var string
+     */
+    protected $_type = 'com';
+
+    /**
      *  Get a fully qualified path based on a class name
      *
      * @param  string   $class The class name

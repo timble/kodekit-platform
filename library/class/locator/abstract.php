@@ -18,6 +18,13 @@ namespace Nooku\Library;
 abstract class ClassLocatorAbstract implements ClassLocatorInterface
 {
     /**
+     * The locator type
+     *
+     * @var string
+     */
+    protected $_type = '';
+
+    /**
      * Namespace/directory pairs to search
      *
      * @var array
@@ -43,7 +50,7 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
     /**
      * Register a namespace
      *
-     * @param  string $namespace
+     * @param  string|array $namespaces
      * @param  string|array $paths The location(s) of the namespace
      * @return ClassLocatorInterface
      */
@@ -55,6 +62,35 @@ abstract class ClassLocatorAbstract implements ClassLocatorInterface
         krsort($this->_namespaces, SORT_STRING);
 
         return $this;
+    }
+
+    /**
+     * Registers an array of namespaces
+     *
+     * @param array $namespaces An array of namespaces (namespaces as keys and locations as values)
+     * @return ClassLocatorInterface
+     */
+    public function registerNamespaces(array $namespaces)
+    {
+        foreach ($namespaces as $namespace => $paths)
+        {
+            $namespace = trim($namespace, '\\');
+            $this->_namespaces['\\'.$namespace] = (array) $paths;
+        }
+
+        krsort($this->_namespaces, SORT_STRING);
+
+        return $this;
+    }
+
+    /**
+     * Get the type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_type;
     }
 
     /**
