@@ -19,6 +19,35 @@ use Nooku\Library;
 
 class FilesDispatcher extends Library\DispatcherComponent
 {
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        // Return JSON response when possible
+        $this->registerCallback('after.post' , array($this, 'renderResponse'));
+
+        // Return correct status code for plupload
+        $this->getObject('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
+    }
+
+    public function renderResponse(Library\CommandContext $context)
+    {
+        if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
+            $this->getController()->execute('render', $context);
+        }
+    }
+
+    /**
+     * We need to return 200 even if an error happens in requests using Plupload.
+     * Otherwise we cannot get the error message and display it to the user interface
+     */
+    public function setStatusForPlupload(Library\CommandContext $context)
+    {
+        if ($context->request->getFormat() == 'json' && $context->request->query->get('plupload', 'int')) {
+            $context->response->setStatus('200');
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
