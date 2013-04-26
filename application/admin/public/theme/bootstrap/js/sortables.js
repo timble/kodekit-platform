@@ -114,9 +114,25 @@ Drag.Sortable = new Class({
 		this.clone.set('morph', {duration: this.options.fx.duration, transition: this.options.fx.transition}).morph(this.options.fx.from);
 
         if(this.options.nested) {
+            var current = this.element, nexts = new Elements;
+            while(current.getNext() && current.getNext().getProperty('data-sortable-parent').toInt() !== this.element.getProperty('data-sortable-parent').toInt() && current.getNext().getProperty('data-sortable-level').toInt() > this.element.getProperty('data-sortable-level').toInt()) {
+                current = current.getNext();
+                nexts.include(current);
+            }
             this.drag.addEvent('drag', function(el, event){
 
+                var top = this.value.now.y + el.getScrollSize().y;
+                nexts.setStyles({position: 'absolute', width: element.getScrollSize().x});
+                nexts.forEach(function(element){
+                    element.setStyle('top', top);
+                    top += element.getScrollSize().y;
+                });
                 console.warn('drag', this.value.now.y);
+            });
+            this.drag.addEvent('complete', function(el, event){
+
+                nexts.setStyles({position: '', top: ''});
+                nexts.inject(element, 'after');
             });
         }
 	},

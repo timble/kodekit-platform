@@ -54,7 +54,7 @@
         <tbody class="sortable">
         <? $tbody = null; foreach($pages as $page) : ?>
             <? if(!$page->getParentId() && $page->getParentId() != $tbody) $tbody = $page->getParentId(); ?>
-            <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>">
+            <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>" data-sortable-level="<?= (int)$page->level ?>">
                 <? if($state->sort == 'custom' && $state->direction == 'asc') : ?>
                     <td class="handle">
                         <span class="text-small data-order"><?= $page->ordering ?></span>
