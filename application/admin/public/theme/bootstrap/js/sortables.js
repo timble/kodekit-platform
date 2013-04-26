@@ -23,6 +23,7 @@ Drag.Sortable = new Class({
 	Extends: Sortables,
 
 	options: {
+        nested: false, //activate a special nested mode
 		revert: true,
 		clone: true,
 		fx: {
@@ -299,7 +300,7 @@ Drag.Sortable.Adapter.Koowa = new Class({
     },
 
 	store: function(instance, order){
-		var backup = this.options.url, value, id = instance.dragged.getElement('[name^=id]').value;
+		var backup = this.options.url, value, id = instance.element.getElement('[name^=id]').value;
 		this.getRows().each(function(item, index){
 			if(this.options.offset == 'relative') offset = index - parseInt(item.getProperty('data-order'), 10);
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
@@ -359,7 +360,7 @@ Table.Sortable = new Class({
 
 
 		onSort: function(){
-
+            console.log('sort', arguments, this);
 			this.clone.inject(this.element, 'before');
 			this.ghost.inject(this.element, 'after');
 
@@ -405,6 +406,10 @@ Table.Sortable = new Class({
 
 		this.element.getChildren().each(function(cell, i){
 			cells[i].setStyles({
+                maxWidth: '100%',
+                maxHeight: '100%',
+                minHeight: 'auto',
+                minWidth: 'auto',
 				width: this._getOffsetSize(cell),
 				height: this._getOffsetSize(cell, true),
 				paddingTop: cell.getStyle('padding-top'),
