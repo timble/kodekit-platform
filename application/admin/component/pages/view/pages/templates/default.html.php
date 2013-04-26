@@ -12,7 +12,7 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
-<?= @helper('behavior.sortable', array('nested' => true)) ?>
+<?= @helper('behavior.sortable', array('options' => array('nested' => true))) ?>
 
 <ktml:module position="toolbar">
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
@@ -54,7 +54,7 @@
         <tbody class="sortable">
         <? $tbody = null; foreach($pages as $page) : ?>
             <? if(!$page->getParentId() && $page->getParentId() != $tbody) $tbody = $page->getParentId(); ?>
-            <tr class="sortable" data-sortable-group="<?= (int)$page->getParentId() ?>">
+            <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>">
                 <? if($state->sort == 'custom' && $state->direction == 'asc') : ?>
                     <td class="handle">
                         <span class="text-small data-order"><?= $page->ordering ?></span>
