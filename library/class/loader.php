@@ -246,13 +246,18 @@ class ClassLoader implements ClassLoaderInterface
      */
     public function loadClass($class)
     {
-        //Get the path
-        $path = self::findPath( $class );
+        $result = true;
 
-        if ($path !== false) {
-            $result = $this->loadFile($path);
-        } else {
-            $result = false;
+        if(!$this->isDeclared($class))
+        {
+            //Get the path
+            $path = self::findPath( $class );
+
+            if ($path !== false) {
+                $result = $this->loadFile($path);
+            } else {
+                $result = false;
+            }
         }
 
         return $result;
