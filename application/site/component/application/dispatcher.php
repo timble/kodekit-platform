@@ -558,7 +558,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected function _findSite()
     {
         // Check URL host
-        $uri  = clone(JURI::getInstance());
+        $uri  = clone($this->getRequest()->getUrl());
 
         $host = $uri->getHost();
         if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
