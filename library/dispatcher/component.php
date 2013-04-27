@@ -134,9 +134,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 	/**
 	 * Dispatch the http method
 	 *
-	 * @param   object	$context A command context object
-     * @throws  DispatcherExceptionActionNotImplemented If the action is not implemented and the request cannot be
-     *                                                   full filled.
+	 * @param   CommandContext	$context A command context object
 	 * @return	mixed
 	 */
 	protected function _actionDispatch(CommandContext $context)
