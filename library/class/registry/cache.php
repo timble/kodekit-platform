@@ -16,11 +16,11 @@ namespace Nooku\Library;
 class ClassRegistryCache extends ClassRegistry
 {
     /**
- 	 * Cache Prefix
+ 	 * The registry cache namespace
  	 *
  	 * @var boolean
  	 */
-    protected $_cache_prefix = 'nooku-registry-class';
+    protected $_namespace = 'nooku-registry-class';
 
     /**
      * Constructor
@@ -35,26 +35,26 @@ class ClassRegistryCache extends ClassRegistry
         }
     }
 
-	/**
-     * Set the cache prefix
+    /**
+     * Get the registry cache namespace
      *
-     * @param string $prefix The cache prefix
+     * @param string $namespace
      * @return void
      */
-	public function setCachePrefix($prefix)
-	{
-	    $this->_cache_prefix = $prefix;
-	}
+    public function seNamespace($namespace)
+    {
+        $this->_namespace = $namespace;
+    }
 
-	/**
-     * Get the cache prefix
+    /**
+     * Get the registry cache namespace
      *
-     * @return string	The cache prefix
+     * @return string
      */
-	public function getCachePrefix()
-	{
-	    return $this->_cache_prefix;
-	}
+    public function getNamespace()
+    {
+        return $this->_namespace;
+    }
 
  	/**
      * Get an item from the array by offset
@@ -65,7 +65,7 @@ class ClassRegistryCache extends ClassRegistry
     public function offsetGet($offset)
     {
         if(!parent::offsetExists($offset)) {
-            $result = apc_fetch($this->_cache_prefix.'-'.$offset);
+            $result = apc_fetch($this->_namespace.'-'.$offset);
         } else {
             $result = parent::offsetGet($offset);
         }
@@ -82,7 +82,7 @@ class ClassRegistryCache extends ClassRegistry
      */
     public function offsetSet($offset, $value)
     {
-        apc_store($this->_cache_prefix.'-'.$offset, $value);
+        apc_store($this->_namespace.'-'.$offset, $value);
 
         parent::offsetSet($offset, $value);
     }
@@ -96,7 +96,7 @@ class ClassRegistryCache extends ClassRegistry
     public function offsetExists($offset)
     {
         if(false === $result = parent::offsetExists($offset)) {
-            $result = apc_exists($this->_cache_prefix.'-'.$offset);
+            $result = apc_exists($this->_namespace.'-'.$offset);
         }
 
         return $result;
