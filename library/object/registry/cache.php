@@ -18,11 +18,11 @@ namespace Nooku\Library;
 class ObjectRegistryCache extends ObjectRegistry
 {
     /**
- 	 * Cache Prefix
- 	 *
- 	 * @var boolean
- 	 */
-    protected $_cache_prefix = 'nooku-registry-object';
+     * The root registry namespace
+     *
+     * @var string
+     */
+    protected $_namespace = 'nooku-registry-object';
 
     /**
      * Constructor
@@ -38,24 +38,24 @@ class ObjectRegistryCache extends ObjectRegistry
     }
 
 	/**
-     * Set the cache prefix
+     * Get the registry cache namespace
      *
-     * @param string $prefix The cache prefix
+     * @param string $namespace
      * @return void
      */
-	public function setCachePrefix($prefix)
+	public function seNamespace($namespace)
 	{
-	    $this->_cache_prefix = $prefix;
+	    $this->_namespace = $namespace;
 	}
 
 	/**
-     * Get the cache prefix
+     * Get the registry cache namespace
      *
-     * @return string	The cache prefix
+     * @return string
      */
-	public function getCachePrefix()
+	public function getNamespace()
 	{
-	    return $this->_cache_prefix;
+	    return $this->_namespace;
 	}
 
  	/**
@@ -67,7 +67,7 @@ class ObjectRegistryCache extends ObjectRegistry
     public function offsetGet($offset)
     {
         if(!parent::offsetExists($offset)) {
-            $result = unserialize(apc_fetch($this->_cache_prefix.'-'.$offset));
+            $result = unserialize(apc_fetch($this->_namespace.'-'.$offset));
         } else {
             $result = parent::offsetGet($offset);
         }
@@ -80,11 +80,11 @@ class ObjectRegistryCache extends ObjectRegistry
      *
      * @param   int     $offset The offset of the item
      * @param   mixed   $value  The item's value
-     * @return  object  ObjectArray
+     * @return  object  ObjectRegistryCache
      */
     public function offsetSet($offset, $value)
     {
-        apc_store($this->_cache_prefix.'-'.$offset, serialize($value));
+        apc_store($this->_namespace.'-'.$offset, serialize($value));
 
         parent::offsetSet($offset, $value);
     }
@@ -98,7 +98,7 @@ class ObjectRegistryCache extends ObjectRegistry
     public function offsetExists($offset)
     {
         if(false === $result = parent::offsetExists($offset)) {
-            $result = apc_exists($this->_cache_prefix.'-'.$offset);
+            $result = apc_exists($this->_namespace.'-'.$offset);
         }
 
         return $result;
