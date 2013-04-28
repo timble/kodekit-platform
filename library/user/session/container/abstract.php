@@ -49,7 +49,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
         parent::__construct($config);
 
         //Set the attribute session namespace
-        $this->_namespace = $config->namespace;
+        $this->setNamespace($config->namespace);
 
         //Set the attribute session separator
         $this->_separator = $config->separator;
@@ -69,7 +69,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'namespace' => '_nooku_'.$this->getIdentifier()->name,
+            'namespace' => '__nooku_'.$this->getIdentifier()->name,
             'separator' => '.',
         ));
 
@@ -160,6 +160,18 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     }
 
     /**
+     * Set the session attributes namespace
+     *
+     * @param string $namespace The session attributes namespace
+     * @return UserSessionContainerAbstract
+     */
+    public function setNamespace($namespace)
+    {
+        $this->_namespace = $namespace.'_'.$this->getIdentifier()->name;
+        return $this;
+    }
+
+    /**
      * Get the session attributes namespace
      *
      * @return string The session attributes namespace
@@ -197,7 +209,6 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
         }
 
         $this->_data = &$session[$this->_namespace];
-
         return $this;
     }
 

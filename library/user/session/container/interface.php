@@ -75,6 +75,14 @@ interface UserSessionContainerInterface
     public function toArray();
 
     /**
+     * Set the session attributes namespace
+     *
+     * @param string $namespace The session attributes namespace
+     * @return UserSessionContainerAbstract
+     */
+    public function setNamespace($namespace);
+
+    /**
      * Get the session attributes namespace
      *
      * @return string The session attributes namespace
