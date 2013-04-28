@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Table Row Class
  *
- * @author        Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Row
  */
@@ -28,7 +28,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
     /**
      * Object constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {
@@ -50,7 +50,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -95,8 +95,8 @@ class DatabaseRowTable extends DatabaseRowAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    An object that implements ObjectInterface, ObjectIdentifier object
-     *                    or valid identifier string
+     * @param    mixed    $table An object that implements ObjectInterface, ObjectIdentifier object
+     *                           or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  DatabaseRowsetAbstract
      */
@@ -236,19 +236,19 @@ class DatabaseRowTable extends DatabaseRowAbstract
      *
      * This function will reset required column to their default value, not required fields will be unset.
      *
-     * @param    string  The column name.
-     * @return    void
+     * @param    string  $column The column name.
+     * @return   void
      */
-    public function __unset($column)
+    public function offsetUnset($column)
     {
         if ($this->isConnected())
         {
             $field = $this->getTable()->getColumn($column);
 
             if (isset($field) && $field->required) {
-                $this->_data[$column] = $field->default;
+                parent::offsetSet($this->_data[$column], $field->default);
             } else {
-                parent::__unset($column);
+                parent::offsetUnset($column);
             }
         }
     }
@@ -259,8 +259,8 @@ class DatabaseRowTable extends DatabaseRowAbstract
      * This function implements a just in time mixin strategy. Available table behaviors are only mixed when needed.
      * Lazy mixing is triggered by calling DatabaseRowsetTable::is[Behaviorable]();
      *
-     * @param  string     The function name
-     * @param  array      The function arguments
+     * @param  string     $method   The function name
+     * @param  array      $argument The function arguments
      * @throws \BadMethodCallException     If method could not be found
      * @return mixed The result of the function
      */

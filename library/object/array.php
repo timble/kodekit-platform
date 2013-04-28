@@ -58,19 +58,6 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     }
 
     /**
-     * Check if the offset exists
-     *
-     * Required by interface ArrayAccess
-     *
-     * @param   int   $offset
-     * @return  bool
-     */
-    public function offsetExists($offset)
-    {
-        return $this->__isset($offset);
-    }
-
-    /**
      * Get an item from the array by offset
      *
      * Required by interface ArrayAccess
@@ -80,7 +67,13 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      */
     public function offsetGet($offset)
     {
-        return $this->__get($offset);
+        $result = null;
+
+        if (isset($this->_data[$offset])) {
+            $result = $this->_data[$offset];
+        }
+
+        return $result;
     }
 
     /**
@@ -90,17 +83,28 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      *
      * @param   int     $offset
      * @param   mixed   $value
-     * @return  ObjectArray
+     * @return  void
      */
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
             $this->_data[] = $value;
         } else {
-            $this->__set($offset, $value);
+            $this->_data[$offset] = $value;
         }
+    }
 
-        return $this;
+    /**
+     * Check if the offset exists
+     *
+     * Required by interface ArrayAccess
+     *
+     * @param   int   $offset
+     * @return  bool
+     */
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->_data);
     }
 
     /**
@@ -111,12 +115,11 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      * Required by interface ArrayAccess
      *
      * @param   int     $offset
-     * @return  ObjectArray
+     * @return  void
      */
     public function offsetUnset($offset)
     {
-        $this->__unset($offset);
-        return $this;
+        unset($this->_data[$offset]);
     }
 
     /**
@@ -194,7 +197,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      */
     public function __get($key)
     {
-        return $this->get($key);
+        return $this->offsetGet($key);
     }
 
     /**
@@ -206,7 +209,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      */
     public function __set($key, $value)
     {
-        $this->set($key, $value);
+        $this->offsetSet($key, $value);
     }
 
     /**
@@ -217,7 +220,7 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      */
     public function __isset($key)
     {
-        return $this->has($key) && !is_null($this->_data[$key]);
+        return $this->offsetExists($key);
     }
 
     /**
@@ -228,6 +231,6 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
      */
     public function __unset($key)
     {
-        $this->remove($key);
+        $this->offsetUnset($key);
     }
 }

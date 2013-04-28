@@ -59,13 +59,7 @@ class DatabaseQueryParameters extends ObjectArray
      */
     public function get($name)
     {
-        $result = null;
-
-        if (isset($this->_data[$name])) {
-            $result = $this->_data[$name];
-        }
-
-        return $result;
+        return $this->offsetGet($name);
     }
 
     /**
@@ -77,7 +71,7 @@ class DatabaseQueryParameters extends ObjectArray
      */
     public function set($name, $value)
     {
-        $this->_data[$name] = $value;
+        $this->offsetSet($name, $value);
         return $this;
     }
 
@@ -89,7 +83,7 @@ class DatabaseQueryParameters extends ObjectArray
      */
     public function has($name)
     {
-        return array_key_exists($name, $this->_data);
+        return $this->offsetExists($name);
     }
 
     /**
@@ -100,7 +94,7 @@ class DatabaseQueryParameters extends ObjectArray
      */
     public function remove($name)
     {
-        unset($this->_data[$key]);
+        $this->offsetUnset($name);
         return $this;
     }
 }
