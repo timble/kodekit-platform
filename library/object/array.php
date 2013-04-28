@@ -58,60 +58,6 @@ class ObjectArray extends Object implements \IteratorAggregate, \ArrayAccess, \S
     }
 
     /**
-     * Get a value by key
-     *
-     * @param   string  $key     The key name.
-     * @param   mixed   $default Default value when the key doesn't exist
-     * @return  string  The corresponding value.
-     */
-    public function get($key, $default = null)
-    {
-        if (isset($this->_data[$key])) {
-            $result = $this->_data[$key];
-        } else {
-            $result = $default;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Set a value by key
-     *
-     * @param   string  $key   The key name
-     * @param   mixed   $value The value for the key
-     * @return  ObjectArray
-     */
-    public function set($key, $value)
-    {
-        $this->_data[$key] = $value;
-        return $this;
-    }
-
-    /**
-     * Test existence of a key
-     *
-     * @param  string  $key The key name
-     * @return boolean
-     */
-    public function has($key)
-    {
-        return array_key_exists($key, $this->_data);
-    }
-
-    /**
-     * Unset a key
-     *
-     * @param   string  $key The key name
-     * @return  ObjectArray
-     */
-    public function remove($key)
-    {
-        unset($this->_data[$key]);
-        return $this;
-    }
-
-    /**
      * Check if the offset exists
      *
      * Required by interface ArrayAccess

@@ -122,6 +122,18 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $this->addFormat($format, $mimetypes);
         }
 
+        //Set document root for IIS
+        if(!isset($_SERVER['DOCUMENT_ROOT']))
+        {
+            if(isset($_SERVER['SCRIPT_FILENAME'])) {
+                $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF'])));
+            }
+
+            if(isset($_SERVER['PATH_TRANSLATED'])) {
+                $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF'])));
+            }
+         }
+
         //Set the authorization
         if (!isset($_SERVER['PHP_AUTH_USER']))
         {
@@ -563,9 +575,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Returns the base path of the request.
      *
+     * @param   boolean  If TRUE create a fully qualified path. Default TRUE.
      * @return  string
      */
-    public function getBasePath()
+    public function getBasePath($fqp = false)
     {
         if(!isset($this->_base_path))
         {
@@ -579,7 +592,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $this->_base_path = rtrim(dirname($path), '/\\');
         }
 
-        return $this->_base_path;
+        return $fqp ? $_SERVER['DOCUMENT_ROOT'].$this->_base_path : $this->_base_path;
     }
 
     /**

@@ -23,6 +23,7 @@ Drag.Sortable = new Class({
 	Extends: Sortables,
 
 	options: {
+        nested: false, //activate a special nested mode
 		revert: true,
 		clone: true,
 		fx: {
@@ -112,6 +113,59 @@ Drag.Sortable = new Class({
 
 		this.clone.set('morph', {duration: this.options.fx.duration, transition: this.options.fx.transition}).morph(this.options.fx.from);
 
+        if(this.options.nested) {
+            var spacing = this.element.getParents('table')[0].getStyle('border-spacing').split(' ')[0].toInt(),
+                cells = this.clone.getChildren();
+            var current = this.element, nexts = new Elements;
+            while(current.getNext() && current.getNext().getProperty('data-sortable-parent').toInt() !== this.element.getProperty('data-sortable-parent').toInt() && current.getNext().getProperty('data-sortable-level').toInt() > this.element.getProperty('data-sortable-level').toInt()) {
+                current = current.getNext().addClass('clone');
+
+                current.getChildren().each(function(cell, i){
+                    cell.setStyles({
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        minHeight: 'auto',
+                        minWidth: 'auto',
+                        width: this._getOffsetSize(cell),
+                        height: this._getOffsetSize(cell, true),
+                        paddingTop: cell.getStyle('padding-top'),
+                        paddingRight: cell.getStyle('padding-right'),
+                        paddingBottom: cell.getStyle('padding-bottom'),
+                        paddingLeft: cell.getStyle('padding-left')
+                    });
+                }, this);
+
+                nexts.include(current);
+            }
+            this.drag.addEvent('drag', function(el, event){
+
+                var top = this.value.now.y + el.getScrollSize().y;
+                nexts.setStyles({position: 'absolute', width: element.getScrollSize().x});
+                nexts.forEach(function(element){
+                    element.setStyle('top', top);
+                    top += element.getScrollSize().y;
+                });
+                console.warn('drag', this.value.now.y);
+            });
+            this.drag.addEvent('complete', function(el, event){
+
+                nexts.setStyles({position: '', top: ''}).removeClass('clone').getChildren().forEach(function(el){
+                    el.setStyles({
+                        maxWidth: '',
+                        maxHeight: '',
+                        minHeight: '',
+                        minWidth: '',
+                        width: '',
+                        height: '',
+                        paddingTop: '',
+                        paddingRight: '',
+                        paddingBottom: '',
+                        paddingLeft: ''
+                    });
+                });
+                nexts.inject(element, 'after');
+            });
+        }
 	},
 
 	reset: function(){
@@ -152,7 +206,19 @@ Drag.Sortable = new Class({
 		var index = params.index;
 		if (this.lists.length == 1) index = 0;
 		return $chk(index) && index >= 0 && index < this.lists.length ? serial[index] : serial;
-	}
+	},
+
+    getDroppables: function(){
+        var droppables = this.parent();
+        //Perhaps a bit daring to rely on this.element being set already
+        if(this.options.nested) {
+            var group = parseInt(this.element.getProperty('data-sortable-parent'), 10);
+            droppables = droppables.filter(function(item){
+                return parseInt(item.getProperty('data-sortable-parent'), 10) === group;
+            });
+        }
+        return droppables;
+    }
 
 });
 
@@ -299,7 +365,7 @@ Drag.Sortable.Adapter.Koowa = new Class({
     },
 
 	store: function(instance, order){
-		var backup = this.options.url, value, id = instance.dragged.getElement('[name^=id]').value;
+		var backup = this.options.url, value, id = instance.element.getElement('[name^=id]').value;
 		this.getRows().each(function(item, index){
 			if(this.options.offset == 'relative') offset = index - parseInt(item.getProperty('data-order'), 10);
 			if(this.options.offset == 'absolute') offset = instance.elements.indexOf(item);
@@ -359,7 +425,7 @@ Table.Sortable = new Class({
 
 
 		onSort: function(){
-
+            console.log('sort', arguments, this);
 			this.clone.inject(this.element, 'before');
 			this.ghost.inject(this.element, 'after');
 
@@ -396,6 +462,14 @@ Table.Sortable = new Class({
 		}
 	},
 
+    initialize: function(lists, options){
+
+        this.parent(lists, options);
+
+        //To allow scrolling the list without draggables getting messed up
+        lists.getParent().setStyle('position', 'relative');
+    },
+
 	start: function(event, element){
 
 		this.parent(event, element);
@@ -405,6 +479,10 @@ Table.Sortable = new Class({
 
 		this.element.getChildren().each(function(cell, i){
 			cells[i].setStyles({
+                maxWidth: '100%',
+                maxHeight: '100%',
+                minHeight: 'auto',
+                minWidth: 'auto',
 				width: this._getOffsetSize(cell),
 				height: this._getOffsetSize(cell, true),
 				paddingTop: cell.getStyle('padding-top'),

@@ -114,20 +114,37 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
+     * Get a row field value
+     *
+     * @param   string  $column The column name.
+     * @return  string  The corresponding value.
+     */
+    public function get($column)
+    {
+        $result = null;
+
+        if (isset($this->_data[$column])) {
+            $result = $this->_data[$column];
+        }
+
+        return $result;
+    }
+
+    /**
      * Set row field value
      *
      * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
      * If the row is new the value will be (re)set and marked as modified
      *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
+     * @param   string  $column The column name.
+     * @param   mixed   $value  The column value.
      * @return  DatabaseRowAbstract
      */
     public function set($column, $value)
     {
         if ($this->isNew() || !array_key_exists($column, $this->_data) || ($this->_data[$column] != $value))
         {
-            parent::set($column, $value);
+            $this->_data[$column]    = $value;
             $this->_modified[$column] = $column;
         }
 
@@ -135,14 +152,25 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
+     * Test existence of a column
+     *
+     * @param  string  $column The column name.
+     * @return boolean
+     */
+    public function has($column)
+    {
+        return array_key_exists($column, $this->_data);
+    }
+
+    /**
      * Remove a row field
      *
-     * @param   string  The column name.
+     * @param   string  $column The column name.
      * @return  DatabaseRowAbstract
      */
     public function remove($column)
     {
-        parent::remove($column);
+        unset($this->_data[$column]);
         unset($this->_modified[$column]);
 
         return $this;

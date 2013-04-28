@@ -48,7 +48,7 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 <? endif ?>
 		
 <script>
-Editor.baseurl = <?= json_encode(JURI::root()); ?>;
+Editor.baseurl = '';
 
 new Editor(<?= json_encode($id) ?>, <?= json_encode($options) ?>, <?= json_encode($settings) ?>);
 </script>

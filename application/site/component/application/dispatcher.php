@@ -68,9 +68,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         //Set the base url in the request
         $this->getRequest()->setBaseUrl($config->base_url);
 
-        //Setup the request
-        Library\Request::root(str_replace('/site', '', Library\Request::base()));
-
         //Set the site name
         if(empty($config->site)) {
             $this->_site = $this->_findSite();
@@ -561,7 +558,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected function _findSite()
     {
         // Check URL host
-        $uri  = clone(JURI::getInstance());
+        $uri  = clone($this->getRequest()->getUrl());
 
         $host = $uri->getHost();
         if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))

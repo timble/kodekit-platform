@@ -63,7 +63,7 @@ class ViewEditorHtml extends Library\ViewHtml
 			'invalid_elements'						=> 'script,applet,iframe',
 			'relative_urls'							=> false,
 			'remove_script_host'					=> true,
-			'document_base_url'						=>  Library\Request::root().'/sites/'.$this->getObject('application')->getSite(),
+			'document_base_url'						=>  $this->getObject('request')->getBaseUrl()->getPath().'/sites/'.$this->getObject('application')->getSite(),
 			'theme_advanced_toolbar_location'		=> 'top',
 			'theme_advanced_toolbar_align'			=> 'left',
 			'theme_advanced_source_editor_height'	=> '400',

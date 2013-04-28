@@ -41,12 +41,12 @@ class ControllerFile extends ControllerAbstract
 		$file = $context->request->data->get('file', 'raw');
 		$name = $context->request->data->get('name', 'raw');
 
-		if (empty($file) && Library\Request::has('files.file.tmp_name'))
+		if (empty($file) && $context->request->files->has('file.tmp_name'))
 		{
-			$context->request->data->set('file', Library\Request::get('files.file.tmp_name', 'raw'));
+			$context->request->data->set('file', $context->request->files->get('file.tmp_name', 'raw'));
 			
 			if (empty($name)) {
-				$context->request->data->set('name', Library\Request::get('files.file.name', 'raw'));
+				$context->request->data->set('name', $context->request->files->get('file.name', 'raw'));
 			}
 
 		}

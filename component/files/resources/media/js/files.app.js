@@ -48,6 +48,7 @@ Files.App = new Class({
 		},
 		router: {
 			defaults: {
+                option: 'com_files',
 				format: 'json'
 			}
 		},
@@ -502,6 +503,8 @@ Files.App = new Class({
 		this.fireEvent('afterSetTitle', {title: title});
 	},
 	createRoute: function(query) {
+        var base = Files.sitebase;
+
 		query = $merge(this.options.router.defaults, query || {});
 
 		if (query.container !== false && !query.container && this.container) {
@@ -514,7 +517,12 @@ Files.App = new Class({
 			delete query.format;
 		}
 
-		return Files.sitebase+'?'+new Hash(query).filter(function(value, key) {
+        if (query.option == 'com_files') {
+            base = Files.base;
+            delete query.option;
+        }
+
+		return base+'?'+new Hash(query).filter(function(value, key) {
 				return typeof value !== 'function';
 		}).toQueryString();
 	}
