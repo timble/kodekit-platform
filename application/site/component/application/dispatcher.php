@@ -26,13 +26,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected $_site;
 
     /**
-     * The application message queue.
-     *
-     * @var	array
-     */
-    protected $_message_queue = array();
-
-    /**
      * The application options
      *
      * @var Library\ObjectConfig
@@ -498,53 +491,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     public function getTheme()
     {
         return $this->getCfg('theme');
-    }
-
-    /**
-     * Enqueue a system message.
-     *
-     * @param	string 	$msg 	The message to enqueue.
-     * @param	string	$type	The message type.
-     */
-    function enqueueMessage( $msg, $type = 'message' )
-    {
-        // For empty queue, if messages exists in the session, enqueue them first
-        if (!count($this->_message_queue))
-        {
-            $session = $this->getUser()->getSession();
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        // Enqueue the message
-        $this->_message_queue[] = array('message' => $msg, 'type' => strtolower($type));
-    }
-
-    /**
-     * Get the system message queue.
-     *
-     * @return	The system message queue.
-     */
-    function getMessageQueue()
-    {
-        // For empty queue, if messages exists in the session, enqueue them
-        if (!count($this->_message_queue))
-        {
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        return $this->_message_queue;
     }
 
     /**
