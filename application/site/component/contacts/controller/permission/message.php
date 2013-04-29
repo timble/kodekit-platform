@@ -18,6 +18,15 @@ use Nooku\Library;
  */
 class ContactsControllerPermissionMessage extends Library\ControllerPermissionAbstract
 {
+    public function canRender()
+    {
+        if($this->isDispatched()) {
+            throw new Library\ControllerExceptionNotImplemented("Can't execute render method: render does not exist");
+        }
+
+        return true;
+    }
+
     public function canAdd()
     {
         return true;
