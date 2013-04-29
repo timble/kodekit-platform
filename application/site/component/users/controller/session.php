@@ -103,9 +103,8 @@ class UsersControllerSession extends ApplicationControllerDefault
                 $url->query['id']     = $user->getId();
 
                 $this->getObject('application')->getRouter()->build($url);
-                $context->response->setRedirect($url);
+                $this->getObject('application')->redirect($url);
             }
-            else $context->response->setRedirect($context->request->getReferrer());
         }
     }
 
@@ -160,8 +159,6 @@ class UsersControllerSession extends ApplicationControllerDefault
                 $context->user->session->destroy();
             }
         }
-        //Redirect to caller
-        $context->response->setRedirect($context->request->getReferrer());
 
         return $entity;
     }
