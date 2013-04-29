@@ -175,7 +175,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     protected function _actionGet(CommandContext $context)
     {
         $controller = $this->getController();
-        return $controller->render($context);
+        return $controller->execute('render', $context);
     }
 
     /**
@@ -201,7 +201,6 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             if(in_array($action, array('browse', 'read', 'render'))) {
                 throw new DispatcherExceptionActionNotAllowed('Action: '.$action.' not allowed');
             }
-
         }
         else $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
 
