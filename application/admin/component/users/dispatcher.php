@@ -27,20 +27,4 @@ class UsersDispatcher extends Library\DispatcherComponent
         //@TODO Remove when PHP 5.5 becomes a requirement.
         Library\ClassLoader::getInstance()->loadFile(JPATH_ROOT.'/application/admin/component/users/legacy/password.php');
     }
-    
-    protected function _actionDispatch(Library\CommandContext $context)
-	{
-        if($context->user->isAuthentic() && $context->request->isGet())
-        {
-            //Redirect if user is already logged in
-            if($context->request->query->get('view', 'alpha') == 'session')
-            {
-                //@TODO : Fix the redirect
-                //$context->response->setRedirect($context->request->getReferrer(), 'You are already logged in!');
-                //return false;
-            }
-        }
-       
-        return parent::_actionDispatch($context);
-	}
 }
