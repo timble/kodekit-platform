@@ -143,8 +143,14 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
     {
         $response = $this->getResponse();
 
-        if (in_array($response->getStatusCode(), array(204, 304))) {
+        //Make sure we do not have body content for 204 and 305 status codes
+        if (in_array($response->getStatusCode(), array(HttpResponse::NO_CONTENT, HttpResponse::NOT_MODIFIED))) {
             $response->setContent(null);
+        }
+
+        //Remove location header if we are not redirecting
+        if(!$response->isRedirect() && $response->headers->has('Location')) {
+           $response->headers->remove('Location');
         }
 
         //Add the version header
