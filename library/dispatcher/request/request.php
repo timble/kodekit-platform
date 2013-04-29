@@ -763,6 +763,16 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     }
 
     /**
+     * Is this a POST method request?
+     *
+     * @return bool
+     */
+    public function isPost()
+    {
+        return (strtoupper($_SERVER['REQUEST_METHOD']) === self::POST);
+    }
+
+    /**
      * Checks whether the request is secure or not.
      *
      * @return  string

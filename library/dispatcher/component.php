@@ -152,6 +152,11 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             return $this->redirect($url);
         }
 
+        //Set default RAP (redirect after post) to the referrer for POST requests
+        if($context->request->isPost() && !$context->request->isAjax()) {
+            $context->response->setRedirect($context->request->getReferrer());
+        }
+
         //Execute the component method
         $method = strtolower($context->request->getMethod());
 	    $result = $this->execute($method, $context);
@@ -253,6 +258,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     protected function _actionDelete(CommandContext $context)
     {
         $controller = $this->getController();
+
         return $controller->execute('delete', $context);
     }
 
