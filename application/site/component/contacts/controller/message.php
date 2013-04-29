@@ -30,7 +30,7 @@ class ContactsControllerMessage extends Library\ControllerView
 	    $application = $this->getObject('application');
         $site_name   = $application->getCfg('sitename');
 
-        $prefix      = JText::sprintf('ENQUIRY_TEXT', $context->getRequest()->getBaseUrl());
+        $prefix      = JText::sprintf('ENQUIRY_TEXT', $context->request->getBaseUrl());
         $body        = $prefix."\n".$name.' <'.$email_from.'>'."\r\n\r\n".stripslashes($body);
         $mail_from   = $application->getCfg('mailfrom');
         $from_name   = $application->getCfg('fromname');
