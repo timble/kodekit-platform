@@ -355,9 +355,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Register (map) an action to a method in the class.
      *
-     * @param   string  The action.
-     * @param   string  The name of the method in the derived class to perform
-     *                  for this action.
+     * @param   string  $alias   The action.
+     * @param   string  $action  The name of the method in the derived class to perform for this action.
      * @return  ControllerAbstract
      */
     public function registerActionAlias($alias, $action)
@@ -380,8 +379,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      * Function is also capable of checking is a behavior has been mixed successfully using is[Behavior]
      * function. If the behavior exists the function will return TRUE, otherwise FALSE.
      *
-     * @param   string  Method name
-     * @param   array   Array containing all the arguments for the original call
+     * @param   string  $method Method name
+     * @param   array   $args   Array containing all the arguments for the original call
      * @see execute()
      */
     public function __call($method, $args)

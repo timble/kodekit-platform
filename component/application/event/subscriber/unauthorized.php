@@ -37,7 +37,8 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
             if($application->getRequest()->getFormat() == 'html')
             {
                 $application->getRequest()->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
-                $application->setComponent('users')->dispatch();
+                $application->forward('users');
+                $application->dispatch();
 
                 $event->stopPropagation();
             }

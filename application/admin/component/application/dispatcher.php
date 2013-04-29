@@ -26,13 +26,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected $_site;
 
     /**
-     * The application message queue.
-     *
-     * @var	array
-     */
-    protected $_message_queue = array();
-
-    /**
      * The application options
      *
      * @var Library\ObjectConfig
@@ -81,8 +74,8 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
+            'controller'        => 'page',
             'base_url'          => '/administrator',
-            'component'         => 'dashboard',
             'event_dispatcher'  => 'com:debug.event.dispatcher.debug',
             'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
             'site'     => null,
@@ -137,45 +130,43 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         //Set the request
         $context->request->query->add($url->query);
 
-        //Set the controller to dispatch
-        if($context->request->query->has('option'))
-        {
-            $component = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->setComponent($component);
-        }
+        //Forward the request
+        $component = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
+        $this->forward($component);
 
         //Dispatch the request
         $this->dispatch();
     }
 
     /**
-     * Dispatch the request
+     * Forward to the component
+     *
+     * @param Library\CommandContext $context	A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionForward(Library\CommandContext $context)
+    {
+        //Set the controller to dispatch
+        $component = (string) $context->param;
+
+        if (!$this->getObject('application.components')->isEnabled($component)) {
+            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
+        }
+
+        parent::_actionForward($context);
+    }
+
+    /**
+     * Dispatch the controller
      *
      * @param Library\CommandContext $context	A command context object
      */
     protected function _actionDispatch(Library\CommandContext $context)
     {
-        $component = $this->getController()->getIdentifier()->package;
-
-        if (!$this->getObject('application.components')->isEnabled($component)) {
-            throw new ControllerExceptionNotFound('Component Not Enabled');
-        }
-
-        /*
-         * Disable controller persistency on non-HTTP requests, e.g. AJAX. This avoids changing
-         * the model state session variable of the requested model, which is often undesirable
-         * under these circumstances.
-         */
-        if($this->getRequest()->isGet() && !$this->getRequest()->isAjax()) {
-            $this->getComponent()->attachBehavior('persistable');
-        }
-
-        //Dispatch the controller
-        parent::_actionDispatch($context);
-
         //Render the page
         if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
         {
+            //Render the page
             $config = array('response' => $context->response);
 
             $layout = $context->request->query->get('tmpl', 'cmd', 'default');
@@ -184,12 +175,11 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             }
 
             $this->getObject('com:application.controller.page', $config)
-                 ->layout($layout)
-                 ->render();
+                ->layout($layout)
+                ->render();
         }
 
-        //Send the response
-        $this->send($context);
+        parent::_actionDispatch($context);
     }
 
     /**
@@ -374,52 +364,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     public function getTheme()
     {
         return $this->_options->theme;
-    }
-
-    /**
-     * Enqueue a system message.
-     *
-     * @param	string 	$msg 	The message to enqueue.
-     * @param	string	$type	The message type.
-     */
-    function enqueueMessage( $msg, $type = 'message' )
-    {
-        // For empty queue, if messages exists in the session, enqueue them first
-        if (!count($this->_message_queue))
-        {
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        // Enqueue the message
-        $this->_message_queue[] = array('message' => $msg, 'type' => strtolower($type));
-    }
-
-    /**
-     * Get the system message queue.
-     *
-     * @return	The system message queue.
-     */
-    function getMessageQueue()
-    {
-        // For empty queue, if messages exists in the session, enqueue them
-        if (!count($this->_message_queue))
-        {
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->set('application.queue', null);
-            }
-        }
-
-        return $this->_message_queue;
     }
 
     /**

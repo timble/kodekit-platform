@@ -26,13 +26,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected $_site;
 
     /**
-     * The application message queue.
-     *
-     * @var	array
-     */
-    protected $_message_queue = array();
-
-    /**
      * The application options
      *
      * @var Library\ObjectConfig
@@ -101,6 +94,8 @@ class ApplicationDispatcher extends Library\DispatcherApplication
 
         parent::_initialize($config);
     }
+
+
 
     /**
      * Run the application
@@ -182,11 +177,29 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         if($context->request->query->has('option'))
         {
             $component = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->setComponent($component);
+            $this->forward($component);
         }
 
         //Dispatch the request
         $this->dispatch();
+    }
+
+    /**
+     * Forward to the component
+     *
+     * @param Library\CommandContext $context	A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionForward(Library\CommandContext $context)
+    {
+        //Set the controller to dispatch
+        $component = (string) $context->param;
+
+        if (!$this->getObject('application.components')->isEnabled($component)) {
+            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
+        }
+
+        parent::_actionForward($context);
     }
 
     /**
@@ -196,15 +209,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     protected function _actionDispatch(Library\CommandContext $context)
     {
-        $component = $this->getComponent()->getIdentifier()->package;
-
-        if (!$this->getObject('application.components')->isEnabled($component)) {
-            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
-        }
-
-        //Dispatch the controller
-        parent::_actionDispatch($context);
-
         //Render the page
         if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
         {
@@ -221,8 +225,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
                 ->render();
         }
 
-        //Send the response
-        $this->send($context);
+        parent::_actionDispatch($context);
     }
 
     /**
@@ -498,53 +501,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     public function getTheme()
     {
         return $this->getCfg('theme');
-    }
-
-    /**
-     * Enqueue a system message.
-     *
-     * @param	string 	$msg 	The message to enqueue.
-     * @param	string	$type	The message type.
-     */
-    function enqueueMessage( $msg, $type = 'message' )
-    {
-        // For empty queue, if messages exists in the session, enqueue them first
-        if (!count($this->_message_queue))
-        {
-            $session = $this->getUser()->getSession();
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        // Enqueue the message
-        $this->_message_queue[] = array('message' => $msg, 'type' => strtolower($type));
-    }
-
-    /**
-     * Get the system message queue.
-     *
-     * @return	The system message queue.
-     */
-    function getMessageQueue()
-    {
-        // For empty queue, if messages exists in the session, enqueue them
-        if (!count($this->_message_queue))
-        {
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        return $this->_message_queue;
     }
 
     /**

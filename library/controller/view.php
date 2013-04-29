@@ -26,7 +26,7 @@ abstract class ControllerView extends ControllerAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional ObjectConfig object with configuration options.
+	 * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
 	 */
 	public function __construct(ObjectConfig $config)
 	{
@@ -46,7 +46,7 @@ abstract class ControllerView extends ControllerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -116,8 +116,8 @@ abstract class ControllerView extends ControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements ObjectInterface, ObjectIdentifier object
-	 * 					or valid identifier string
+	 * @param	mixed	$view   An object that implements ObjectInterface, ObjectIdentifier object
+	 * 					        or valid identifier string
 	 * @return	ControllerView
 	 */
 	public function setView($view)
@@ -145,7 +145,7 @@ abstract class ControllerView extends ControllerAbstract
      *
      * This function will also set the rendered output in the response.
 	 *
-	 * @param	CommandContext	A command context object
+	 * @param	CommandContext	$context    A command context object
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
 	protected function _actionRender(CommandContext $context)
@@ -153,8 +153,13 @@ abstract class ControllerView extends ControllerAbstract
         $view = $this->getView();
 
         //Push the params in the view
-        foreach($context->param as $name => $value) {
-            $view->set($name, $value);
+        $param = ObjectConfig::unbox($context->param);
+
+        if(is_array($param))
+        {
+            foreach($context->param as $name => $value) {
+                $view->set($name, $value);
+            }
         }
 
         //Push the content in the view
@@ -178,8 +183,8 @@ abstract class ControllerView extends ControllerAbstract
 	 *
 	 * For example : $controller->layout('name')->format('html')->render();
 	 *
-	 * @param	string	Method name
-	 * @param	array	Array containing all the arguments for the original call
+	 * @param	string	$method Method name
+	 * @param	array	$args   Array containing all the arguments for the original call
 	 * @return	ControllerView
 	 *
 	 * @see http://martinfowler.com/bliki/FluentInterface.html

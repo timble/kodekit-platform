@@ -51,6 +51,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
+            'behaviors'  => array('persistable')
          ));
 
         parent::_initialize($config);
@@ -131,12 +132,15 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
         }
     }
 
-	/**
-	 * Dispatch the http method
-	 *
-	 * @param   CommandContext	$context A command context object
-	 * @return	mixed
-	 */
+    /**
+     * Dispatch the request
+     *
+     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
+     * the request and passing along the context.
+     *
+     * @param   CommandContext	$context A command context object
+     * @return	mixed
+     */
 	protected function _actionDispatch(CommandContext $context)
 	{
         //Redirect if no view information can be found in the request
@@ -167,7 +171,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     protected function _actionGet(CommandContext $context)
     {
         $controller = $this->getController();
-        return $controller->execute('render', $context);
+        return $controller->render($context);
     }
 
     /**
