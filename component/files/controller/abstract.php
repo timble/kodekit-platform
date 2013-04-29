@@ -101,7 +101,7 @@ abstract class ControllerAbstract extends \ApplicationControllerDefault
 	}
 
 	/**
-	 * Overridden method to be able to use it with both resource and service controllers
+	 * Overridden method to be able to use it with both view and model controllers
 	 */
 	protected function _actionRender(Library\CommandContext $context)
 	{
@@ -112,10 +112,13 @@ abstract class ControllerAbstract extends \ApplicationControllerDefault
 			$view = $this->getView();
 
 	        //Push the params in the view
-	        foreach($context->param as $name => $value) {
-	            $view->set($name, $value);
-	        }
-	
+            if(is_array($context->param))
+            {
+                foreach($context->param as $name => $value) {
+                    $view->set($name, $value);
+                }
+            }
+
 	        //Render the view
 	        $content = $view->render();
 

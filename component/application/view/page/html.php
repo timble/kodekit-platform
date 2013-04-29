@@ -34,7 +34,7 @@ class ViewPageHtml extends ViewHtml
         $this->messages = $this->getObject('session')->getContainer('message')->toArray();
 
         //Set the component and layout information
-        $this->component = $this->getObject('application')->getController()->getIdentifier()->package;
+        $this->component = $this->getObject('component')->getIdentifier()->package;
         $this->layout    = $this->getObject('component')->getController()->getView()->getLayout();
 
         return parent::render();

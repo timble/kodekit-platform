@@ -203,4 +203,53 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		return $this;
 	}
+
+    /**
+     * Forward the request
+     *
+     * Forward to another dispatcher internally. Function makes an internal sub-request, calling the specified
+     * dispatcher and passing along the context.
+     *
+     * @param CommandContext $context	A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionForward(CommandContext $context)
+    {
+        //Get the dispatcher identifier
+        if(is_string($context->param) && strpos($context->param, '.') === false )
+        {
+            $identifier			 = clone $this->getIdentifier();
+            $identifier->package = $context->param;
+        }
+        else $identifier = $this->getIdentifier($context->param);
+
+        //Create the dispatcher
+        $config = array(
+            'request' 	 => $context->request,
+            'response'   => $context->response,
+            'user'       => $context->user,
+        );
+
+        $dispatcher = $this->getObject($identifier, $config);
+
+        if(!$dispatcher instanceof DispatcherInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Dispatcher: '.get_class($dispatcher).' does not implement DispatcherInterface'
+            );
+        }
+
+        $dispatcher->dispatch($context);
+    }
+
+    /**
+     * Dispatch the request
+     *
+     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
+     * the request and passing along the context.
+     *
+     * @param   CommandContext	$context A command context object
+     * @return	mixed
+     */
+    abstract protected function _actionDispatch(CommandContext $context);
 }

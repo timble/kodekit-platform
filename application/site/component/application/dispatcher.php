@@ -95,6 +95,8 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         parent::_initialize($config);
     }
 
+
+
     /**
      * Run the application
      *
@@ -175,11 +177,29 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         if($context->request->query->has('option'))
         {
             $component = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->setComponent($component);
+            $this->forward($component);
         }
 
         //Dispatch the request
         $this->dispatch();
+    }
+
+    /**
+     * Forward to the component
+     *
+     * @param Library\CommandContext $context	A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionForward(Library\CommandContext $context)
+    {
+        //Set the controller to dispatch
+        $component = (string) $context->param;
+
+        if (!$this->getObject('application.components')->isEnabled($component)) {
+            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
+        }
+
+        parent::_actionForward($context);
     }
 
     /**
@@ -189,15 +209,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     protected function _actionDispatch(Library\CommandContext $context)
     {
-        $component = $this->getComponent()->getIdentifier()->package;
-
-        if (!$this->getObject('application.components')->isEnabled($component)) {
-            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
-        }
-
-        //Dispatch the controller
-        parent::_actionDispatch($context);
-
         //Render the page
         if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
         {
@@ -214,8 +225,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
                 ->render();
         }
 
-        //Send the response
-        $this->send($context);
+        parent::_actionDispatch($context);
     }
 
     /**

@@ -153,8 +153,11 @@ abstract class ControllerView extends ControllerAbstract
         $view = $this->getView();
 
         //Push the params in the view
-        foreach($context->param as $name => $value) {
-            $view->set($name, $value);
+        if(is_array($context->param))
+        {
+            foreach($context->param as $name => $value) {
+                $view->set($name, $value);
+            }
         }
 
         //Push the content in the view
