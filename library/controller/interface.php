@@ -81,9 +81,8 @@ interface ControllerInterface
     /**
      * Register (map) an action to a method in the class.
      *
-     * @param   string  The action.
-     * @param   string  The name of the method in the derived class to perform
-     *                  for this action.
+     * @param   string  $alias  The action.
+     * @param   string  $action The name of the method in the derived class to perform for this action.
      * @return  ControllerAbstract
      */
     public function registerActionAlias($alias, $action);
