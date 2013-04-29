@@ -256,8 +256,10 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
             );
         }
 
-        $config = array('request'  => $this->getRequest());
-        $config = array('response' => $this->getResponse());
+        $config = array(
+            'request'  => $this->getRequest(),
+            'response' => $this->getResponse()
+        );
 
         $this->getObject('com:application.controller.exception',  $config)
             ->render($context->param->getException());
