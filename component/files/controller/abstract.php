@@ -111,8 +111,10 @@ abstract class ControllerAbstract extends \ApplicationControllerDefault
 
 			$view = $this->getView();
 
-	        //Push the params in the view
-            if(is_array($context->param))
+            //Push the params in the view
+            $param = ObjectConfig::unbox($context->param);
+
+            if(is_array($param))
             {
                 foreach($context->param as $name => $value) {
                     $view->set($name, $value);
