@@ -151,8 +151,6 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     /**
      * Unset an item in the array
      *
-     * All numerical array keys will be modified to start counting from zero while literal keys won't be touched.
-     *
      * Required by interface ArrayAccess
      *
      * @param   int     $offset
