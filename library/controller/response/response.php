@@ -45,6 +45,7 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
 
         $this->setStatus($code, $message);
         $this->_headers->set('Location', (string) $location);
+
         return $this;
     }
 
