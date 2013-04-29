@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ContactsControllerMessage extends Library\ControllerView
+class ContactsControllerMessage extends Library\ControllerAbstract
 { 
     protected function _actionAdd(Library\CommandContext $context)
 	{
@@ -63,7 +63,7 @@ class ContactsControllerMessage extends Library\ControllerView
         }
 
 	    $message = JText::_('Thank you for your e-mail');
-	    $context->response->setRedirect($context->request->getReferrer(), $message);
+	    //$context->response->setRedirect($context->request->getReferrer(), $message);
 	}
 
     public function __call($method, $args)

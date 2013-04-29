@@ -43,9 +43,10 @@ class ContactsViewContactHtml extends Library\ViewHtml
         //JFactory::getDocument()->setTitle( $params->get( 'page_title' ) );
 
         //Set the breadcrumbs
-        $pathway =$this->getObject('application')->getPathway();
+        $pathway = $this->getObject('application')->getPathway();
 
-        if($page->getLink()->query['view'] == 'categories' ) {
+        if($page->getLink()->query['view'] == 'categories' )
+        {
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($contact->name, '');
         }
@@ -54,7 +55,9 @@ class ContactsViewContactHtml extends Library\ViewHtml
             $pathway->addItem($contact->name, '');
         }
 
-        $this->params = $params;
+        $this->params   = $params;
+        $this->category = $category;
+
         return parent::render();
     }
 

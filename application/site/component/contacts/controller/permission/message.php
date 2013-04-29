@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Contacts
  */
-class ContactsControllerPermissionMessage extends ApplicationControllerPermissionDefault
+class ContactsControllerPermissionMessage extends Library\ControllerPermissionAbstract
 {
     public function canAdd()
     {
