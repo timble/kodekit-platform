@@ -148,9 +148,12 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
             $response->setContent(null);
         }
 
-        //Remove location header if we are not redirecting
-        if(!$response->isRedirect() && $response->headers->has('Location')) {
-           $response->headers->remove('Location');
+        //Remove location header if we are not redirecting and the status code is not 201
+        if(!$response->isRedirect() && $response->getStatusCode() !== HttpResponse::CREATED)
+        {
+            if($response->headers->has('Location')) {
+                $response->headers->remove('Location');
+            }
         }
 
         //Add the version header
