@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDispatcher extends Library\DispatcherApplication
+class ApplicationDispatcher extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
      * The site identifier.
@@ -88,6 +88,22 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         ));
 
         parent::_initialize($config);
+    }
+
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    {
+        // Check if an instance with this identifier already exists
+        if (!$manager->isRegistered('application'))
+        {
+            $classname = $config->object_identifier->classname;
+            $instance  = new $classname($config);
+            $manager->setObject($config->object_identifier, $instance);
+
+            //Add the service alias to allow easy access to the singleton
+            $manager->registerAlias('application', $config->object_identifier);
+        }
+
+        return $manager->getObject('application');
     }
 
     /**

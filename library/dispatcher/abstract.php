@@ -207,7 +207,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     /**
      * Forward the request
      *
-     * Forward to another dispatcher internally. Function makes an internal sub-request, calling the specified
+     * Forward to another dispatcher internally. Method makes an internal sub-request, calling the specified
      * dispatcher and passing along the context.
      *
      * @param CommandContext $context	A command context object
@@ -243,6 +243,36 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
+     * Redirect
+     *
+     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
+     * redirect the dispatcher to another URL after a GET request.
+     *
+     * @param CommandContext $context   A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionRedirect(CommandContext $context)
+    {
+        $url = $context->param;
+
+        $context->response->setRedirect($url, null, DispatcherResponse::MOVED_PERMANENTLY);
+        $this->send();
+
+        return false;
+    }
+
+    /**
+     * Send the response
+     *
+     * @param CommandContext $context	A command context object
+     */
+    public function _actionSend(CommandContext $context)
+    {
+        $context->response->send();
+        exit(0);
+    }
+
+    /**
      * Dispatch the request
      *
      * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
@@ -251,5 +281,9 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      * @param   CommandContext	$context A command context object
      * @return	mixed
      */
-    abstract protected function _actionDispatch(CommandContext $context);
+    protected function _actionDispatch(CommandContext $context)
+    {
+        //Send the response
+        $this->send($context);
+    }
 }

@@ -32,8 +32,7 @@ class PagesDispatcher extends Library\DispatcherComponent
             $url->query['view'] = $view;
             $url->query['menu'] = $page->pages_menu_id;
 
-            $context->response->setRedirect($url);
-            return false;
+            return $this->redirect($url);
         }
 
         if($view == 'modules' && !$context->request->query->has('application'))
@@ -41,8 +40,7 @@ class PagesDispatcher extends Library\DispatcherComponent
             $url = clone($context->request->getUrl());
             $url->query['application']  = 'site';
 
-            $context->response->setRedirect($url);
-            return false;
+            return $this->redirect($url);
         }
 
         return parent::_actionDispatch($context);

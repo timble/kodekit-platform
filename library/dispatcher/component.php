@@ -149,8 +149,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             $url = clone($context->request->getUrl());
             $url->query['view'] = $this->getController()->getView()->getName();
 
-            $context->response->setRedirect($url);
-            return false;
+            return $this->redirect($url);
         }
 
         //Execute the component method

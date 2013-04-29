@@ -94,9 +94,11 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED) {
+        if ($user->getStatus() == Library\Database::STATUS_CREATED)
+        {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
+
             $context->response->setRedirect($url);
         }
     }
