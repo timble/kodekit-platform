@@ -49,7 +49,7 @@ class CommandMixin extends ObjectMixinAbstract
             $callback = new ObjectMixinCallback($config);
 
             //Mixin the callback mixin
-            $mixin = $this->_mixer->mixin('lib:object.mixin.callback', $config);
+            $mixin = $this->getMixer()->mixin('lib:object.mixin.callback', $config);
 
             //Enqueue the command in the mixer's command chain
             $this->getCommandChain()->enqueue($mixin, $config->callback_priority);
@@ -57,8 +57,8 @@ class CommandMixin extends ObjectMixinAbstract
         
         //Enqueue the event command with a lowest priority to make sure it runs last
         if($config->dispatch_events) 
-        { 
-            $this->_mixer->mixin('lib:event.mixin', $config);
+        {
+            $this->getMixer()->mixin('lib:event.mixin', $config);
 
             $command = $this->getCommandChain()->getObject('lib:command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()
