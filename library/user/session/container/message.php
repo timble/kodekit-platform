@@ -23,16 +23,6 @@ namespace Nooku\Library;
 class UserSessionContainerMessage extends UserSessionContainerAbstract
 {
     /**
-     * Default messages types
-     *
-     * Note : Messages types are based on the Bootstrap class names for messages
-     */
-    const TYPE_INFO    = 'info';
-    const TYPE_SUCCESS = 'success';
-    const TYPE_WARNING = 'warning';
-    const TYPE_ERROR   = 'error';
-
-    /**
      * Get all the flash messages and clears all messages
      *
      * @return array

@@ -27,7 +27,7 @@ class ControllerResponse extends HttpResponse implements ControllerResponseInter
      * @param  string   $code       The redirect status code
      * @throws \InvalidArgumentException If the location is empty
      * @throws \UnexpectedValueException If the location is not a string, or cannot be cast to a string
-     * @return DispatcherResponse
+     * @return ControllerResponse
      */
     public function setRedirect($location, $code = self::SEE_OTHER)
     {

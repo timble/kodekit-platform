@@ -19,10 +19,42 @@ namespace Nooku\Library;
 class ControllerUser extends User implements ControllerUserInterface
 {
     /**
+     * Default messages types
+     *
+     * Note : Messages types are based on the Bootstrap class names for messages
+     */
+    const FLASH_INFO    = 'info';
+    const FLASH_SUCCESS = 'success';
+    const FLASH_WARNING = 'warning';
+    const FLASH_ERROR   = 'error';
+
+    /**
+     * Add a user flash message
+     *
+     * Flash messages are self-expiring messages that are meant to live for exactly one request. They're designed to be
+     * used across redirects.
+     *
+     * @param  string   $message   The flash message
+     * @param  string   $type      Message category type. Default is 'success'.
+     * @return ControllerUser
+     */
+    public function addFlashMessage($message, $type = self::FLASH_SUCCESS)
+    {
+        if (!is_string($message) && !is_callable(array($message, '__toString')))
+        {
+            throw new \UnexpectedValueException(
+                'The Response location must be a string or object implementing __toString(), "'.gettype($message).'" given.'
+            );
+        }
+
+        $this->getSession()->getContainer('message')->add($message, $type);
+        return $this;
+    }
+
+    /**
      * Get a user attribute
      *
-     * - Implements a virtual 'session' class property to return the session object.
-     * - Implements a virtual 'message' class property to return the flash message container
+     * Implements a virtual 'session' class property to return the session object.
      *
      * @param   string $name  The attribute name.
      * @return  string $value The attribute value.
@@ -31,10 +63,6 @@ class ControllerUser extends User implements ControllerUserInterface
     {
         if($name == 'session') {
             return $this->getSession();
-        }
-
-        if($name == 'message') {
-            return $this->getSession()->getContainer('message');
         }
 
         return parent::__get($name);

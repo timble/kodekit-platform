@@ -69,7 +69,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->user->message->add('Wrong activation token');
+            $context->user->addFlashMessage('Wrong activation token');
             $context->response->setRedirect($url);
 
             return false;
@@ -102,7 +102,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
             $message = 'Activation failed';
         }
 
-        $context->user->message->add($message);
+        $context->user->addFlashMessage($message);
         $context->response->setRedirect($url);
     }
 

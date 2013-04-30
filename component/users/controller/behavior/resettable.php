@@ -64,7 +64,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->user->message->add(JText::_('INVALID_REQUEST'), 'error');
+            $context->user->addFlashMessage(JText::_('INVALID_REQUEST'), 'error');
             $context->response->setRedirect($url);
 
             $result = false;
@@ -120,7 +120,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         if ($user->isNew() || !$user->enabled)
         {
-            $context->user->message->add(JText::_('COULD_NOT_FIND_USER'), 'error');
+            $context->user->addFlashMessage(JText::_('COULD_NOT_FIND_USER'), 'error');
             $context->response->setRedirect($context->request->getReferrer());
 
             $result = false;
@@ -166,7 +166,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         if (!$user->notify(array('subject' => $subject, 'message' => $message)))
         {
-            $context->user->message->add(JText::_('ERROR_SENDING_CONFIRMATION_EMAIL'), 'error');
+            $context->user->addFlashMessage(JText::_('ERROR_SENDING_CONFIRMATION_EMAIL'), 'error');
             $context->response->setRedirect($context->request->getReferrer());
 
             $result = false;

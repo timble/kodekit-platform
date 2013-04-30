@@ -63,7 +63,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         {
             $url =  '?Itemid='.$this->getObject('application.pages')->getHome()->id;
 
-            $context->user->message->add('You are already registered');
+            $context->user->addFlashMessage('You are already registered');
             $context->response->setRedirect($url);
             return false;
         }

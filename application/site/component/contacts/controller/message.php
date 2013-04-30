@@ -62,6 +62,6 @@ class ContactsControllerMessage extends Library\ControllerView
             $mail->Send();
         }
 
-        $context->user->message->add(JText::_('Thank you for your e-mail'));
+        $context->user->addFlashMessage(JText::_('Thank you for your e-mail'));
 	}
 }
