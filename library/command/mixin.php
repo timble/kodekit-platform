@@ -60,7 +60,7 @@ class CommandMixin extends ObjectMixinAbstract
         { 
             $this->_mixer->mixin('lib:event.mixin', $config);
 
-            $command = $this->_command_chain->getObject('lib:command.event', array(
+            $command = $this->getCommandChain()->getObject('lib:command.event', array(
             	'event_dispatcher' => $this->getEventDispatcher()
             ));
 
