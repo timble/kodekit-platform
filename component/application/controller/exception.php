@@ -22,7 +22,7 @@ class ControllerException extends Library\ControllerView
     /**
      * Render an exception
      *
-     * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
+     * @throws \InvalidArgumentException If the action parameter is not an instance of Library\Exception
      * @param Library\CommandContext $context	A command context object
      */
     protected function _actionRender(Library\CommandContext $context)
