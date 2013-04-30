@@ -29,11 +29,11 @@ class ControllerUser extends User implements ControllerUserInterface
      */
     public function __get($name)
     {
-        if($name = 'session') {
+        if($name == 'session') {
             return $this->getSession();
         }
 
-        if($name = 'message') {
+        if($name == 'message') {
             return $this->getSession()->getContainer('message');
         }
 
