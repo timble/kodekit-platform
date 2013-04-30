@@ -43,7 +43,7 @@ class ControllerUser extends User implements ControllerUserInterface
         if (!is_string($message) && !is_callable(array($message, '__toString')))
         {
             throw new \UnexpectedValueException(
-                'The Response location must be a string or object implementing __toString(), "'.gettype($message).'" given.'
+                'The flash message must be a string or object implementing __toString(), "'.gettype($message).'" given.'
             );
         }
 
