@@ -19,7 +19,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional ObjectConfig object with configuration options.
+	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
 	 */
 	public function __construct(ObjectConfig $config)
 	{
@@ -44,7 +44,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param 	ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(ObjectConfig $config)
@@ -60,7 +60,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Force creation of a singleton
      *
-     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherComponent
      */
@@ -82,7 +82,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Check the request token to prevent CSRF exploits
      *
-     * @param   object  The command context
+     * @param   CommandContext $context The command context
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     public function authenticateRequest(CommandContext $context)
@@ -114,7 +114,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Sign the response with a token
      *
-     * @param	CommandContext	A command context object
+     * @param	CommandContext	$context A command context object
      */
     public function signResponse(CommandContext $context)
     {
@@ -264,7 +264,8 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Options method
      *
-     * @return  string    The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
+     * @param	CommandContext	$context    A command context object
+     * @return  string  The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
      */
     protected function _actionOptions(CommandContext $context)
     {

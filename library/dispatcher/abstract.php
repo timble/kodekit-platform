@@ -41,7 +41,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(ObjectConfig $config)
@@ -255,7 +255,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         $url = $context->param;
 
-        $context->response->setRedirect($url, null, DispatcherResponse::MOVED_PERMANENTLY);
+        $context->response->setRedirect($url, DispatcherResponse::MOVED_PERMANENTLY);
         $this->send();
 
         return false;
