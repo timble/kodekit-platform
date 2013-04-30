@@ -21,7 +21,8 @@ class ControllerUser extends User implements ControllerUserInterface
     /**
      * Get a user attribute
      *
-     * Implement a virtual 'session' class property to return the session object.
+     * - Implements a virtual 'session' class property to return the session object.
+     * - Implements a virtual 'message' class property to return the flash message container
      *
      * @param   string $name  The attribute name.
      * @return  string $value The attribute value.
@@ -30,6 +31,10 @@ class ControllerUser extends User implements ControllerUserInterface
     {
         if($name = 'session') {
             return $this->getSession();
+        }
+
+        if($name = 'message') {
+            return $this->getSession()->getContainer('message');
         }
 
         return parent::__get($name);
