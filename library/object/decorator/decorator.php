@@ -178,7 +178,7 @@ class ObjectDecorator implements ObjectDecoratorInterface
      */
     public function mixin($mixin, $config = array())
     {
-        $this->getDelegate->mixin($mixin, $config);
+        $this->getDelegate()->mixin($mixin, $config);
         return $this;
     }
 
