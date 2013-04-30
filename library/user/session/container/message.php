@@ -12,7 +12,9 @@ namespace Nooku\Library;
 /**
  * Message User Session Container Class
  *
- * Session container that stores session flash messages and provides utility functions.
+ * Session container that stores flash messages and provides utility functions. Flash messages are self-expiring
+ * messages that are meant to live for exactly one request (they're "gone in a flash"). They're designed to be used
+ * across redirects.
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Session
@@ -21,7 +23,9 @@ namespace Nooku\Library;
 class UserSessionContainerMessage extends UserSessionContainerAbstract
 {
     /**
-     * Default messages namespace
+     * Default messages types
+     *
+     * Note : Messages types are based on the Bootstrap class names for messages
      */
     const TYPE_INFO    = 'info';
     const TYPE_SUCCESS = 'success';
@@ -29,7 +33,21 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     const TYPE_ERROR   = 'error';
 
     /**
-     * Gets flash messages for a given type
+     * Get all the flash messages and clears all messages
+     *
+     * @return array
+     */
+    public function all()
+    {
+        $result = $this->toArray();
+
+        $this->clear();
+
+        return $result;
+    }
+
+    /**
+     * Gets flash messages for a given type and clears all messages for that type
      *
      * @param string $type    Message category type.
      * @param array  $default Default value if $type does not exist.
@@ -37,19 +55,40 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function get($type, $default = array())
     {
-        parent::get($type, $default);
+        $result = parent::get($type, $default);
+
+        $this->remove($type);
+
+        return $result;
     }
 
     /**
-     * Add a message for a given type.
+     * Add a messages for a given type.
      *
-     * @param string       $type    Message category type.
-     * @param string|array $message
+     * @param string    $type    Message category type.
+     * @param string    $message
      * @return UserSessionContainerMessage
      */
-    public function set($type, $message)
+    public function add($type, $message)
     {
-        parent::set($type, $message);
+        if(!isset($this->_data[$type])) {
+            $this->_data[$type] = array();
+        }
+
+        $this->_data[$type][] = $message;
+        return $this;
+    }
+
+    /**
+     * Set the messages for a given type.
+     *
+     * @param string       $type    Message category type.
+     * @param string|array $messages
+     * @return UserSessionContainerMessage
+     */
+    public function set($type, $messages)
+    {
+        parent::set($type, (array) $messages);
         return $this;
     }
 
@@ -158,6 +197,6 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function offsetUnset($offset)
     {
-        return ObjectArray::offsetUnset($offset);
+        ObjectArray::offsetUnset($offset);
     }
 }
