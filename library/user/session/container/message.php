@@ -65,11 +65,11 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     /**
      * Add a messages for a given type.
      *
-     * @param string    $type    Message category type.
      * @param string    $message
+     * @param string    $type    Message category type. Default is 'success'.
      * @return UserSessionContainerMessage
      */
-    public function add($type, $message)
+    public function add($message, $type = self::TYPE_SUCCESS)
     {
         if(!isset($this->_data[$type])) {
             $this->_data[$type] = array();
