@@ -18,9 +18,8 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
+            $context->user->message->add(\JText::_('CONFIRMATION_EMAIL_SENT'));
             $context->response->setRedirect($url);
-            //@TODO : Set message in session
-            //$context->response->setRedirect($url, \JText::_('CONFIRMATION_EMAIL_SENT'));
         }
     }
 }

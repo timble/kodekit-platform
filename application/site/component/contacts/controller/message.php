@@ -62,7 +62,6 @@ class ContactsControllerMessage extends Library\ControllerView
             $mail->Send();
         }
 
-	    $message = JText::_('Thank you for your e-mail');
-	    //$context->response->setRedirect($context->request->getReferrer(), $message);
+        $context->user->message->add(JText::_('Thank you for your e-mail'));
 	}
 }

@@ -30,7 +30,7 @@ class CacheControllerGroup extends ApplicationControllerDefault
            $message = JText::_('Error purging expired items');
         }
 
-        $context->response->setRedirect($context->request-getUrl(), $message);
+        $context->user->message->add($message);
         return true;
     }
     

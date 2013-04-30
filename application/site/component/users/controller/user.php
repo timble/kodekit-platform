@@ -62,7 +62,9 @@ class UsersControllerUser extends ApplicationControllerDefault
         if($context->request->query->get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
             $url =  '?Itemid='.$this->getObject('application.pages')->getHome()->id;
-            $context->response->setRedirect($url, 'You are already registered');
+
+            $context->user->message->add('You are already registered');
+            $context->response->setRedirect($url);
             return false;
         }
 
