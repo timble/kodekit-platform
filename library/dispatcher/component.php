@@ -271,7 +271,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     {
         $methods = array();
 
-        //Retrieve HTTP methods
+        //Retrieve HTTP methods allowed by the dispatcher
         $actions = array_diff($this->getActions(), array('dispatch'));
 
         foreach($actions as $key => $action)
@@ -281,7 +281,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             }
         }
 
-        //Retrieve POST actions
+        //Retrieve POST actions allowed by the controller
         if(in_array('post', $methods))
         {
             $actions = array_diff($this->getController()->getActions(), array('browse', 'read', 'render'));
