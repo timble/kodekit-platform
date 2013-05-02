@@ -143,6 +143,9 @@ class UsersControllerSession extends ApplicationControllerDefault
             }
         }
 
+        //Redirect to caller
+        $context->response->setRedirect($context->request->getReferrer());
+
         return $entity;
     }
 }
