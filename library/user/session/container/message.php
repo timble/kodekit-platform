@@ -23,21 +23,41 @@ namespace Nooku\Library;
 class UserSessionContainerMessage extends UserSessionContainerAbstract
 {
     /**
-     * Get all the flash messages and clears all messages
+     * The previous flash messages
+     *
+     * @var array
+     */
+    protected $_previous = array();
+
+    /**
+     * Constructor
+     *
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return  UserSessionContainerAbstract
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        $this->_previous = $this->toArray();
+        $this->clear();
+    }
+
+    /**
+     * Get all the previous flash messages and flush them from the container
      *
      * @return array
      */
     public function all()
     {
-        $result = $this->toArray();
-
-        $this->clear();
+        $result = $this->_previous;
+        $this->_previous = array();
 
         return $result;
     }
 
     /**
-     * Gets flash messages for a given type and clears all messages for that type
+     * Get previous flash messages for a given type and flush them from the container
      *
      * @param string $type    Message category type.
      * @param array  $default Default value if $type does not exist.
@@ -45,15 +65,18 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function get($type, $default = array())
     {
-        $result = parent::get($type, $default);
-
-        $this->remove($type);
+        if(isset($this->_previous[$type]))
+        {
+            $result = $this->_previous[$type];
+            unset($this->_previous[$type]);
+        }
+        else $result = $default;
 
         return $result;
     }
 
     /**
-     * Add a messages for a given type.
+     * Add a new message for a given type.
      *
      * @param string    $message
      * @param string    $type    Message category type. Default is 'success'.
@@ -70,7 +93,7 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     }
 
     /**
-     * Set the messages for a given type.
+     * Set current flash messages for a given type.
      *
      * @param string       $type    Message category type.
      * @param string|array $messages
@@ -83,7 +106,7 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     }
 
     /**
-     * Has flash messages for a given type?
+     * Has current flash messages for a given type?
      *
      * @param string $type  Message category type.
      * @return boolean
@@ -94,7 +117,7 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     }
 
     /**
-     * Removes the flash messages for a given type
+     * Removes current flash messages for a given type
      *
      * @param string $type  Message category type.
      * @return UserSessionContainerMessage
@@ -106,7 +129,7 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     }
 
     /**
-     * Clears out all flash messages
+     * Clears out all current flash messages
      *
      * @return UserSessionContainerMessage
      */
@@ -117,7 +140,7 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
     }
 
     /**
-     * Add flash messages
+     * Add new flash messages
      *
      * @param array $messages An of messages per type
      * @return UserSessionContainerMessage
