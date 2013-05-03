@@ -17,9 +17,15 @@ Nooku is only supported on PHP 5.3.3 and up running MySQL v5.x, or similar.
 Installation
 ------------
 
-Checking out a working copy is necessary to install Nooku. To clone the git repository, use the following URL: [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git).
+Clone the git repository, use the following URL: [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git).
 
 For more information about Git, please see the official website: [http://www.git-scm.org](http://www.git-scm.org)
+
+Then run [Composer](http://getcomposer.org/) to install dependencies:
+
+```
+~ $ php composer.phar install
+```
 
 #### The 12.1 release
 
