@@ -24,7 +24,7 @@
 	}
 </script>
 
-<form action="<?= @route('view=message&id='.$id) ?>" method="post" name="emailForm" class="form-validate form-horizontal">
+<form action="<?=  @helper('route.message', array('row' => $contact, 'category' => $category->getSlug())) ?>" method="post" name="emailForm" class="form-validate form-horizontal">
     <input type="hidden" name="_action" value="add" />
     <div class="control-group">
         <label class="control-label" for="name">

@@ -24,11 +24,10 @@ interface ControllerResponseInterface extends HttpResponseInterface
      * @see http://tools.ietf.org/html/rfc2616#section-10.3
      *
      * @param  string   $location   The redirect location
-     * @param  string   $message    The redirect message
      * @param  string   $code       The redirect status code
      * @throws \InvalidArgumentException If the location is empty
      * @throws \UnexpectedValueException If the location is not a string, or cannot be cast to a string
      * @return DispatcherResponse
      */
-    public function setRedirect($location, $message = null, $code = self::SEE_OTHER);
+    public function setRedirect($location, $code = self::SEE_OTHER);
 }

@@ -84,10 +84,13 @@ class UsersControllerSession extends ApplicationControllerDefault
 
     public function redirect(Library\CommandContext $context)
     {
-        if ($context->result !== false) {
+        if ($context->result !== false)
+        {
             $user     = $context->user;
             $password = $this->getObject('com:users.database.row.password')->set('id', $user->getEmail())->load();
-            if ($password->expired()) {
+
+            if ($password->expired())
+            {
                 $component = $this->getObject('application.components')->getComponent('users');
                 $pages     = $this->getObject('application.pages');
 
@@ -100,8 +103,8 @@ class UsersControllerSession extends ApplicationControllerDefault
                 $url->query['id']     = $user->getId();
 
                 $this->getObject('application')->getRouter()->build($url);
-                $context->response->setRedirect($url);
-            } else $context->response->setRedirect($context->request->getReferrer());
+                $this->getObject('application')->redirect($url);
+            }
         }
     }
 
@@ -156,8 +159,6 @@ class UsersControllerSession extends ApplicationControllerDefault
                 $context->user->session->destroy();
             }
         }
-        //Redirect to caller
-        $context->response->setRedirect($context->request->getReferrer());
 
         return $entity;
     }

@@ -19,7 +19,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional ObjectConfig object with configuration options.
+	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
 	 */
 	public function __construct(ObjectConfig $config)
 	{
@@ -44,13 +44,14 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param 	ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
+            'behaviors'  => array('persistable')
          ));
 
         parent::_initialize($config);
@@ -59,7 +60,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Force creation of a singleton
      *
-     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherComponent
      */
@@ -81,7 +82,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Check the request token to prevent CSRF exploits
      *
-     * @param   object  The command context
+     * @param   CommandContext $context The command context
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     public function authenticateRequest(CommandContext $context)
@@ -113,7 +114,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Sign the response with a token
      *
-     * @param	CommandContext	A command context object
+     * @param	CommandContext	$context A command context object
      */
     public function signResponse(CommandContext $context)
     {
@@ -131,14 +132,15 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
         }
     }
 
-	/**
-	 * Dispatch the http method
-	 *
-	 * @param   object	$context A command context object
-     * @throws  DispatcherExceptionActionNotImplemented If the action is not implemented and the request cannot be
-     *                                                   full filled.
-	 * @return	mixed
-	 */
+    /**
+     * Dispatch the request
+     *
+     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
+     * the request and passing along the context.
+     *
+     * @param   CommandContext	$context A command context object
+     * @return	mixed
+     */
 	protected function _actionDispatch(CommandContext $context)
 	{
         //Redirect if no view information can be found in the request
@@ -147,8 +149,12 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             $url = clone($context->request->getUrl());
             $url->query['view'] = $this->getController()->getView()->getName();
 
-            $context->response->setRedirect($url);
-            return false;
+            return $this->redirect($url);
+        }
+
+        //Set default RAP (redirect after post) to the referrer for POST requests
+        if($context->request->isPost() && !$context->request->isAjax()) {
+            $context->response->setRedirect($context->request->getReferrer());
         }
 
         //Execute the component method
@@ -195,7 +201,6 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             if(in_array($action, array('browse', 'read', 'render'))) {
                 throw new DispatcherExceptionActionNotAllowed('Action: '.$action.' not allowed');
             }
-
         }
         else $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
 
@@ -252,19 +257,21 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     protected function _actionDelete(CommandContext $context)
     {
         $controller = $this->getController();
+
         return $controller->execute('delete', $context);
     }
 
     /**
      * Options method
      *
-     * @return  string    The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
+     * @param	CommandContext	$context    A command context object
+     * @return  string  The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
      */
     protected function _actionOptions(CommandContext $context)
     {
         $methods = array();
 
-        //Retrieve HTTP methods
+        //Retrieve HTTP methods allowed by the dispatcher
         $actions = array_diff($this->getActions(), array('dispatch'));
 
         foreach($actions as $key => $action)
@@ -274,7 +281,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             }
         }
 
-        //Retrieve POST actions
+        //Retrieve POST actions allowed by the controller
         if(in_array('post', $methods))
         {
             $actions = array_diff($this->getController()->getActions(), array('browse', 'read', 'render'));

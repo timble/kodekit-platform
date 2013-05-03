@@ -23,6 +23,6 @@ use Nooku\Library;
     {
         $this->getClassLoader()
              ->getLocator('psr')
-             ->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/lib');
+             ->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/imagine/lib');
     }
 }

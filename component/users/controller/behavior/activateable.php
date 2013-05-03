@@ -68,9 +68,10 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
+
+            $context->user->addFlashMessage('Wrong activation token');
             $context->response->setRedirect($url);
-            // TODO Set message in session.
-            //$context->response->setRedirect($context->request->getBaseUrl(), 'Wrong activation token');
+
             return false;
         }
     }
@@ -93,15 +94,16 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
     {
         $url = $this->getObject('application.pages')->getHome()->getLink();
         $this->getObject('application')->getRouter()->build($url);
-        $context->response->setRedirect($url);
+
 
         if ($context->result === true) {
-            //@TODO : Set message in session
-            // 'Activation successfully completed'
+            $message = 'Activation successfully completed';
         } else {
-            //@TODO : Set message in session
-            // 'Activation failed'
+            $message = 'Activation failed';
         }
+
+        $context->user->addFlashMessage($message);
+        $context->response->setRedirect($url);
     }
 
     protected function _beforeControllerAdd(Library\CommandContext $context)

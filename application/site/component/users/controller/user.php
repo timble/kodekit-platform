@@ -1,6 +1,5 @@
 <?php
 /**
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -14,7 +13,6 @@ use Nooku\Library;
  * User Controller Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
- * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
  */
@@ -43,8 +41,8 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $request = parent::getRequest();
 
+        // Set request so that actions are made against logged user if none was given.
         if (!$request->query->get('id','int') && ($id = $this->getUser()->getId())) {
-            // Set request so that actions are made against logged user if none was given.
             $request->query->id = $id;
         }
 
@@ -64,7 +62,9 @@ class UsersControllerUser extends ApplicationControllerDefault
         if($context->request->query->get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
         {
             $url =  '?Itemid='.$this->getObject('application.pages')->getHome()->id;
-            $context->response->setRedirect($url, 'You are already registered');
+
+            $context->user->addFlashMessage('You are already registered');
+            $context->response->setRedirect($url);
             return false;
         }
 
@@ -82,10 +82,11 @@ class UsersControllerUser extends ApplicationControllerDefault
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
+
         $user = $this->getObject('user');
 
+        // Logged user changed. Updated in memory/session user object.
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
-            // Logged user changed. Updated in memory/session user object.
             $user->values($entity->getSessionData($user->isAuthentic()));
         }
     }
@@ -94,9 +95,11 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED) {
+        if ($user->getStatus() == Library\Database::STATUS_CREATED)
+        {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
+
             $context->response->setRedirect($url);
         }
     }

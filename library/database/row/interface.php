@@ -24,24 +24,40 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
      * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
      * If the row is new the value will be (re)set and marked as modified
      *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
+     * @param   string $column The column name.
+     * @param   mixed  $value  The value for the property.
      * @return  DatabaseRowInterface
      */
     public function set($column, $value);
 
     /**
-     * Get row field value
+     * Get a row field value
      *
-     * @param   string  The column name.
-     * @return  DatabaseRowInterface
+     * @param   string  $column The column name.
+     * @return  string  The corresponding value.
      */
     public function get($column);
 
     /**
+     * Test existence of a column
+     *
+     * @param  string  $column The column name.
+     * @return boolean
+     */
+    public function has($column);
+
+    /**
+     * Remove a row field
+     *
+     * @param   string  $column The column name.
+     * @return  DatabaseRowAbstract
+     */
+    public function remove($column);
+
+    /**
      * Returns an associative array of the raw data
      *
-     * @param   boolean  If TRUE, only return the modified data.
+     * @param   boolean  $modified If TRUE, only return the modified data.
      * @return  array
      */
     public function getData($modified = false);
@@ -49,8 +65,8 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     /**
      * Set the row data
      *
-     * @param   mixed   Either and associative array, an object or a DatabaseRow
-     * @param   boolean If TRUE, update the modified information for each column being set.
+     * @param   mixed   $data       Either and associative array, an object or a DatabaseRow
+     * @param   boolean $modified   If TRUE, update the modified information for each column being set.
      * @return  DatabaseRowInterface
      */
     public function setData( $data, $modified = true );
@@ -65,7 +81,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     /**
      * Set the status
      *
-     * @param   string|null     The status value or NULL to reset the status
+     * @param   string|null $status The status value or NULL to reset the status
      * @return  DatabaseRowAbstract
      */
     public function setStatus($status);
@@ -80,7 +96,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     /**
      * Set the status message
      *
-     * @param   string      The status message
+     * @param   string $message The status message
      * @return  DatabaseRowAbstract
      */
     public function setStatusMessage($message);
@@ -133,7 +149,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     /**
      * Check if a column has been modified
      *
-     * @param   string  The column name.
+     * @param   string  $column The column name.
      * @return  boolean
      */
     public function isModified($column);

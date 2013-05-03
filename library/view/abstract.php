@@ -47,7 +47,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Constructor
      *
-     * @param     object     An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -71,7 +71,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -100,8 +100,8 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Set a view property
      *
-     * @param   string  The property name.
-     * @param   mixed   The property value.
+     * @param   string  $property The property name.
+     * @param   mixed   $value    The property value.
      * @return ViewAbstract
      */
     public function set($property, $value)
@@ -113,7 +113,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Get a view property
      *
-     * @param   string  The property name.
+     * @param   string  $property The property name.
      * @return  string  The property value.
      */
     public function get($property)
@@ -234,9 +234,9 @@ abstract class ViewAbstract extends Object implements ViewInterface
      *
      * In templates, use @route()
      *
-     * @param   string|array The query string used to create the route
-     * @param   boolean      If TRUE create a fully qualified route. Default TRUE.
-     * @param   boolean      If TRUE escapes the route for xml compliance. Default TRUE.
+     * @param   string|array $route  The query string used to create the route
+     * @param   boolean      $fqr    If TRUE create a fully qualified route. Default TRUE.
+     * @param   boolean      $escape If TRUE escapes the route for xml compliance. Default TRUE.
      * @return  string The route
      */
     public function getRoute($route, $fqr = null, $escape = null)
@@ -292,7 +292,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Get the view base url
      *
-     * @return     object    A HttpUrl object
+     * @return  HttpUrl  A HttpUrl object
      */
     public function getBaseUrl()
     {
@@ -302,7 +302,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Returns the views output
      *
-     * @return     string
+     * @return string
      */
     public function __toString()
     {

@@ -54,15 +54,18 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $user     = $this->getModel()->getRow();
         $password = $user->getPassword();
 
-        if (!$user->isNew() && $this->_tokenValid($context->request->data->get('token', $this->_filter), $password)) {
+        if (!$user->isNew() && $this->_tokenValid($context->request->data->get('token', $this->_filter), $password))
+        {
             $context->password = $password;
             $result            = true;
-        } else {
+        }
+        else
+        {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
+
+            $context->user->addFlashMessage(JText::_('INVALID_REQUEST'), 'error');
             $context->response->setRedirect($url);
-            //@TODO : Set message in session
-            //$context->response->setRedirect($url, JText::_('INVALID_REQUEST'),'error');
 
             $result = false;
         }
@@ -77,17 +80,21 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $password->password = $context->request->data->get('password', 'string');
         $password->save();
 
-        if ($password->getStatus() == Library\Database::STATUS_FAILED) {
+        if ($password->getStatus() == Library\Database::STATUS_FAILED)
+        {
+            $context->user->message($password->getStatusMessage(), 'error');
             $context->response->setRedirect($context->request->getReferrer());
-            //@TODO : Set message in session
-            //$context->response->setRedirect($context->request->getReferrer(), $password->getStatusMessage(), 'error');
+
             $result = false;
-        } else {
+        }
+        else
+        {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
+
+            $context->user->message(JText::_('PASSWORD_RESET_SUCCESS'));
             $context->response->setRedirect($url);
-            //@TODO : Set message in session
-            //$context->response->setRedirect($url, JText::_('PASSWORD_RESET_SUCCESS'));
+
             $result = true;
         }
 
@@ -111,12 +118,15 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             ->set('email', $context->request->data->get('email', 'email'))
             ->getRow();
 
-        if ($user->isNew() || !$user->enabled) {
+        if ($user->isNew() || !$user->enabled)
+        {
+            $context->user->addFlashMessage(JText::_('COULD_NOT_FIND_USER'), 'error');
             $context->response->setRedirect($context->request->getReferrer());
-            //@TODO : Set message in session
-            //$context->reponse->setRedirect($context->request->getReferrer(), JText::_('COULD_NOT_FIND_USER'), 'error');
+
             $result = false;
-        } else {
+        }
+        else
+        {
             $context->user = $user;
             $result        = true;
         }
@@ -154,10 +164,11 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
         $message = $url;
 
-        if (!$user->notify(array('subject' => $subject, 'message' => $message))) {
+        if (!$user->notify(array('subject' => $subject, 'message' => $message)))
+        {
+            $context->user->addFlashMessage(JText::_('ERROR_SENDING_CONFIRMATION_EMAIL'), 'error');
             $context->response->setRedirect($context->request->getReferrer());
-            //@TODO : Set message in session
-            //$context->response->setRedirect($context->request->getReferrer(), JText::_('ERROR_SENDING_CONFIRMATION_EMAIL'), 'error');
+
             $result = false;
         }
 

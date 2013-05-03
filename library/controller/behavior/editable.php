@@ -37,7 +37,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Lock the referrer from updates
      *
-     * @param    CommandContext    A command context object
+     * @param  CommandContext  $context A command context object
      * @return void
      */
     public function lockReferrer(CommandContext $context)
@@ -54,7 +54,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Unlock the referrer for updates
      *
-     * @param    CommandContext    A command context object
+     * @param   CommandContext  $context A command context object
      * @return void
      */
     public function unlockReferrer(CommandContext $context)
@@ -66,7 +66,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Get the referrer
      *
-     * @param    CommandContext    A command context object
+     * @param    CommandContext $context A command context object
      * @return HttpUrl    A HttpUrl object.
      */
     public function getReferrer(CommandContext $context)
@@ -83,7 +83,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Set the referrer
      *
-     * @param    CommandContext    A command context object
+     * @param    CommandContext $context A command context object
      * @return void
      */
     public function setReferrer(CommandContext $context)
@@ -134,7 +134,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function also sets the redirect to the referrer.
      *
-     * @param   CommandContext  A command context object
+     * @param   CommandContext  $context A command context object
      * @return  DatabaseRow     A row object containing the saved data
      */
     protected function _actionSave(CommandContext $context)
@@ -156,7 +156,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function also sets the redirect to the current url
      *
-     * @param    CommandContext    A command context object
+     * @param    CommandContext  $context A command context object
      * @return   DatabaseRow     A row object containing the saved data
      */
     protected function _actionApply(CommandContext $context)
@@ -192,7 +192,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function will unlock the row(s) and set the redirect to the referrer
      *
-     * @param   CommandContext    A command context object
+     * @param   CommandContext  $context A command context object
      * @return  DatabaseRow    A row object containing the data of the cancelled object
      */
     protected function _actionCancel(CommandContext $context)

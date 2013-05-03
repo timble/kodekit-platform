@@ -30,7 +30,7 @@ class ContactsControllerMessage extends Library\ControllerView
 	    $application = $this->getObject('application');
         $site_name   = $application->getCfg('sitename');
 
-        $prefix      = JText::sprintf('ENQUIRY_TEXT', JURI::base());
+        $prefix      = JText::sprintf('ENQUIRY_TEXT', $context->request->getBaseUrl());
         $body        = $prefix."\n".$name.' <'.$email_from.'>'."\r\n\r\n".stripslashes($body);
         $mail_from   = $application->getCfg('mailfrom');
         $from_name   = $application->getCfg('fromname');
@@ -62,18 +62,6 @@ class ContactsControllerMessage extends Library\ControllerView
             $mail->Send();
         }
 
-	    $message = JText::_('Thank you for your e-mail');
-	    $context->response->setRedirect($context->request->getReferrer(), $message);
+        $context->user->addFlashMessage(JText::_('Thank you for your e-mail'));
 	}
-
-    public function __call($method, $args)
-    {
-        if($method == 'id')
-        {
-            $this->getView()->id = $args[0];
-            return $this;
-        }
-
-        return parent::__call($method, $args);
-    }
 }

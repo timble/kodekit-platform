@@ -28,7 +28,7 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
     /**
      * Constructor.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {
@@ -57,7 +57,7 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param 	ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(ObjectConfig $config)
@@ -143,8 +143,17 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
     {
         $response = $this->getResponse();
 
-        if (in_array($response->getStatusCode(), array(204, 304))) {
+        //Make sure we do not have body content for 204 and 305 status codes
+        if (in_array($response->getStatusCode(), array(HttpResponse::NO_CONTENT, HttpResponse::NOT_MODIFIED))) {
             $response->setContent(null);
+        }
+
+        //Remove location header if we are not redirecting and the status code is not 201
+        if(!$response->isRedirect() && $response->getStatusCode() !== HttpResponse::CREATED)
+        {
+            if($response->headers->has('Location')) {
+                $response->headers->remove('Location');
+            }
         }
 
         //Add the version header

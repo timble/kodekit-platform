@@ -40,7 +40,14 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
      *
      * @var array
      */
-    protected $_containers;
+    protected $_containers = array();
+
+    /**
+     * The namespace
+     *
+     * @var string
+     */
+    protected $_namespace;
 
     /**
      * Valid session config options
@@ -108,6 +115,9 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
             $this->setId($config->id);
         }
 
+        //Set the session namespace
+        $this->setNamespace($config->namespace);
+
         //Set lifetime time
         $this->getContainer('metadata')->setLifetime($config->lifetime);
 
@@ -131,7 +141,7 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
             'name'       => 'KSESSIONID',
             'id'         => '',
             'lifetime'   => 1440,
-            'namespace'  => '__koowa',
+            'namespace'  => '__nooku',
             'options' => array(
                 'auto_start'        => 0,
                 'cache_limiter'     => '',
@@ -289,7 +299,7 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
     }
 
     /**
-     * Set the session namespace
+     * Set the global session namespace
      *
      * This specifies namespace that is used when storing or retrieving attributes from the $_SESSION global. The
      * namespace prevents session conflicts when the session is shared.
@@ -304,7 +314,13 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
             throw new \LogicException('Cannot change the name of an active session');
         }
 
+        //Set the global session namespace
         $this->_namespace = $namespace;
+
+        foreach($this->_containers as $name => $container ) {
+            $container->setNamespace($namespace.'_'.$name);
+        }
+
         return $this;
     }
 
@@ -409,7 +425,8 @@ class UserSession extends Object implements UserSessionInterface, ObjectInstanti
 
         if (!isset($this->_containers[$identifier->name]))
         {
-            $container = $this->getObject($identifier);
+            $namespace = $this->getNamespace().'_'.$identifier->name;
+            $container = $this->getObject($identifier, array('namespace' => $namespace));
 
             if (!($container instanceof UserSessionContainerInterface))
             {

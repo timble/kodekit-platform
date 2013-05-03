@@ -26,7 +26,7 @@ abstract class ControllerModel extends ControllerView
     /**
      * Constructor
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {
@@ -45,7 +45,7 @@ abstract class ControllerModel extends ControllerView
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -304,8 +304,8 @@ abstract class ControllerModel extends ControllerView
      *
      * For example : $controller->limit(10)->browse();
      *
-     * @param	string	Method name
-     * @param	array	Array containing all the arguments for the original call
+     * @param	string	$method Method name
+     * @param	array	$args   Array containing all the arguments for the original call
      * @return	ControllerView
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html

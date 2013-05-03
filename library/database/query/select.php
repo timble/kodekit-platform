@@ -372,8 +372,8 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
 
-        if($this->_params) {
-            $query = $this->_replaceParams($query);
+        if($this->_parameters) {
+            $query = $this->_replaceParameters($query);
         }
 
         return $query;

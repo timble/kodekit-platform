@@ -98,7 +98,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Constructor
      *
-     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return DispatcherRequest
      */
     public function __construct(ObjectConfig $config)
@@ -220,7 +220,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -253,7 +253,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Force creation of a singleton
      *
-     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
@@ -763,6 +763,16 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     }
 
     /**
+     * Is this a POST method request?
+     *
+     * @return bool
+     */
+    public function isPost()
+    {
+        return (strtoupper($_SERVER['REQUEST_METHOD']) === self::POST);
+    }
+
+    /**
      * Checks whether the request is secure or not.
      *
      * @return  string
@@ -795,8 +805,8 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      * Parses an accept header and returns an array (type => quality) of the accepted types,
      * ordered by quality.
      *
-     * @param string    header to parse
-     * @param array     default values
+     * @param string    $accept     The header to parse
+     * @param array     $default    The default values
      * @return array
      */
     protected function _parseAccept( $accept, array $defaults = NULL)

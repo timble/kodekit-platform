@@ -35,7 +35,7 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     /**
      * Constructor.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {
@@ -53,7 +53,7 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options.
+     * @param   ObjectConfig $config    An optional ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(ObjectConfig $config)
@@ -69,7 +69,7 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     /**
      * Force creation of a singleton
      *
-     * @param 	ObjectConfig                  $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
@@ -120,8 +120,8 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     /**
      * Method to set a transport strategy
      *
-     * @param	mixed	An object that implements ObjectInterface, ObjectIdentifier object
-     * 					or valid identifier string
+     * @param	mixed	$transport An object that implements ObjectInterface, ObjectIdentifier object
+     * 					           or valid identifier string
      * @return	DispatcherResponse
      */
     public function setTransport($transport)

@@ -72,7 +72,7 @@ class ApplicationControllerDefault extends Library\ControllerModel
         if(isset($row))
         {
             if($row->isLockable() && $row->locked()) {
-                $this->getObject('application')->enqueueMessage($row->lockMessage(), 'notice');
+                //$this->getObject('application')->enqueueMessage($row->lockMessage(), 'notice');
             }
         }
 

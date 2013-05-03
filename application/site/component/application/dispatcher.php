@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDispatcher extends Library\DispatcherApplication
+class ApplicationDispatcher extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
      * The site identifier.
@@ -24,13 +24,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      * @var string
      */
     protected $_site;
-
-    /**
-     * The application message queue.
-     *
-     * @var	array
-     */
-    protected $_message_queue = array();
 
     /**
      * The application options
@@ -49,7 +42,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     /**
      * Constructor.
      *
-     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
+     * @param ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
      */
     public function __construct(Library\ObjectConfig $config)
     {
@@ -81,7 +74,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
+     * @param 	ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -100,6 +93,22 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         ));
 
         parent::_initialize($config);
+    }
+
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    {
+        // Check if an instance with this identifier already exists
+        if (!$manager->isRegistered('application'))
+        {
+            $classname = $config->object_identifier->classname;
+            $instance  = new $classname($config);
+            $manager->setObject($config->object_identifier, $instance);
+
+            //Add the service alias to allow easy access to the singleton
+            $manager->registerAlias('application', $config->object_identifier);
+        }
+
+        return $manager->getObject('application');
     }
 
     /**
@@ -156,8 +165,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
 
                 $this->getRouter()->build($url);
 
-                $context->response->setRedirect($url, Library\HttpResponse::MOVED_PERMANENTLY);
-                $this->send($context);
+                return $this->redirect($url);
             }
         }
 
@@ -171,8 +179,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             }
             else $url = $page->link_url;
 
-            $context->response->setRedirect($url, Library\HttpResponse::MOVED_PERMANENTLY);
-            $this->send($context);
+            return $this->redirect($url);
         }
 
         //Set the request
@@ -182,11 +189,29 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         if($context->request->query->has('option'))
         {
             $component = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->setComponent($component);
+            $this->forward($component);
         }
 
         //Dispatch the request
         $this->dispatch();
+    }
+
+    /**
+     * Forward to the component
+     *
+     * @param Library\CommandContext $context	A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionForward(Library\CommandContext $context)
+    {
+        //Set the controller to dispatch
+        $component = (string) $context->param;
+
+        if (!$this->getObject('application.components')->isEnabled($component)) {
+            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
+        }
+
+        parent::_actionForward($context);
     }
 
     /**
@@ -196,15 +221,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     protected function _actionDispatch(Library\CommandContext $context)
     {
-        $component = $this->getComponent()->getIdentifier()->package;
-
-        if (!$this->getObject('application.components')->isEnabled($component)) {
-            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
-        }
-
-        //Dispatch the controller
-        parent::_actionDispatch($context);
-
         //Render the page
         if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
         {
@@ -221,8 +237,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
                 ->render();
         }
 
-        //Send the response
-        $this->send($context);
+        parent::_actionDispatch($context);
     }
 
     /**
@@ -241,8 +256,10 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             );
         }
 
-        $config = array('request'  => $this->getRequest());
-        $config = array('response' => $this->getResponse());
+        $config = array(
+            'request'  => $this->getRequest(),
+            'response' => $this->getResponse()
+        );
 
         $this->getObject('com:application.controller.exception',  $config)
             ->render($context->param->getException());
@@ -501,53 +518,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     }
 
     /**
-     * Enqueue a system message.
-     *
-     * @param	string 	$msg 	The message to enqueue.
-     * @param	string	$type	The message type.
-     */
-    function enqueueMessage( $msg, $type = 'message' )
-    {
-        // For empty queue, if messages exists in the session, enqueue them first
-        if (!count($this->_message_queue))
-        {
-            $session = $this->getUser()->getSession();
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        // Enqueue the message
-        $this->_message_queue[] = array('message' => $msg, 'type' => strtolower($type));
-    }
-
-    /**
-     * Get the system message queue.
-     *
-     * @return	The system message queue.
-     */
-    function getMessageQueue()
-    {
-        // For empty queue, if messages exists in the session, enqueue them
-        if (!count($this->_message_queue))
-        {
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        return $this->_message_queue;
-    }
-
-    /**
      * Find the site name
      *
      * This function tries to get the site name based on the information present in the request. If no site can be found
@@ -558,7 +528,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected function _findSite()
     {
         // Check URL host
-        $uri  = clone(JURI::getInstance());
+        $uri  = clone($this->getRequest()->getUrl());
 
         $host = $uri->getHost();
         if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))

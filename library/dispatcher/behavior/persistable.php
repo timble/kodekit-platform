@@ -18,7 +18,26 @@ namespace Nooku\Library;
  */
 class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 {
-	/**
+    /**
+     * Get an object handle
+     *
+     * Disable dispatcher persistency on non-HTTP requests, e.g. AJAX. This avoids changing the model state session
+     * variable of the requested model, which is often undesirable under these circumstances.
+     *
+     * @return string A string that is unique, or NULL
+     * @see execute()
+     */
+    public function getHandle()
+    {
+        $result = null;
+        if($this->getRequest()->isGet() && !$this->getRequest()->isAjax()) {
+            $result = parent::getHandle();
+        }
+
+        return $result;
+    }
+
+    /**
 	 * Load the model state from the request and persist it.
 	 *
 	 * This functions merges the request information with any model state information that was saved in the session

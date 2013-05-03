@@ -136,8 +136,8 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Set a view data property
      *
-     * @param   string  The property name.
-     * @param   mixed   The property value.
+     * @param   string  $property The property name.
+     * @param   mixed   $value    The property value.
      */
     public function __set($property, $value)
     {
@@ -147,7 +147,7 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Get a view data property
      *
-     * @param   string  The property name.
+     * @param   string  $property The property name.
      * @return  string  The property value.
      */
     public function __get($property)
@@ -194,7 +194,7 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Sets the view data
      *
-     * @param   array The view data
+     * @param   array $data The view data
      * @return  ViewAbstract
      */
     public function setData(array $data)
@@ -226,7 +226,7 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Sets the layout name to use
      *
-     * @param    string  The template name.
+     * @param    string  $layout The template name.
      * @return   ViewAbstract
      */
     public function setLayout($layout)
@@ -238,7 +238,7 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Sets the _escape() callback.
      *
-     * @param   mixed The callback for _escape() to use.
+     * @param   mixed $spec The callback for _escape() to use.
      * @return  ViewAbstract
      */
     public function setEscape($spec)
@@ -282,8 +282,8 @@ abstract class ViewTemplate extends ViewAbstract
     /**
      * Method to set a template object attached to the view
      *
-     * @param   mixed   An object that implements ObjectInterface, an object that
-     *                  implements ObjectIdentifierInterface or valid identifier string
+     * @param   mixed   $template An object that implements ObjectInterface, an object that implements
+     *                            ObjectIdentifierInterface or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  ViewAbstract
      */
@@ -322,10 +322,10 @@ abstract class ViewTemplate extends ViewAbstract
      *
      * This function adds the layout information to the route if a layout has been set
      *
-     * @param    string    The query string used to create the route
-     * @param     boolean    If TRUE create a fully qualified route. Default TRUE.
-     * @param     boolean    If TRUE escapes the route for xml compliance. Default TRUE.
-     * @return     string     The route
+     * @param string $route   The query string used to create the route
+     * @param boolean $fqr    If TRUE create a fully qualified route. Default TRUE.
+     * @param boolean $escape If TRUE escapes the route for xml compliance. Default TRUE.
+     * @return  string The route
      */
     public function getRoute($route = '', $fqr = null, $escape = null)
     {
@@ -357,8 +357,8 @@ abstract class ViewTemplate extends ViewAbstract
      *
      * For example : $view->layout('foo')->title('name')->render().
      *
-     * @param   string  Method name
-     * @param   array   Array containing all the arguments for the original call
+     * @param   string  $method Method name
+     * @param   array   $args   Array containing all the arguments for the original call
      * @return  ViewAbstract
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html

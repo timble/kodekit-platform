@@ -4285,6 +4285,9 @@ fieldset {
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
+.-koowa-grid .icon-star {
+  color: #ffc40d;
+}
 .pagination {
   float: right;
   font-size: 11px;

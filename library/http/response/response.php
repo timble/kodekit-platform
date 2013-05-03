@@ -233,7 +233,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     {
         $code = $this->getStatusCode();
 
-        if (isset($this->_status_message)) {
+        if (empty($this->_status_message)) {
             $message = self::$status_messages[$code];
         } else {
             $message = $this->_status_message;
