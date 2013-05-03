@@ -47,6 +47,11 @@ class ControllerUser extends User implements ControllerUserInterface
             );
         }
 
+        //Auto start the session if it's not active.
+        if(!$this->getSession()->isActive()) {
+            $this->getSession()->start();
+        }
+
         $this->getSession()->getContainer('message')->add($message, $type);
         return $this;
     }

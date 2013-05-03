@@ -96,13 +96,14 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
         {
             $row = $this->_table->select($session_id, Database::FETCH_ROW);
 
-            if (!$row->isNew())
-            {
-                $row->time = time();
-                $row->data = $session_data;
-
-                $result = $row->save();
+            if ($row->isNew()) {
+                $row->id   = $session_id;
             }
+
+            $row->time = time();
+            $row->data = $session_data;
+
+            $result = $row->save();
         }
 
         return $result;

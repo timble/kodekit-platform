@@ -33,15 +33,21 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
         if($event->getException() instanceof Library\ControllerExceptionUnauthorized)
         {
             $application = $this->getObject('application');
+            $request     = $application->getRequest();
 
-            if($application->getRequest()->getFormat() == 'html')
+            if($request->getFormat() == 'html')
             {
-                $application->getRequest()->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
-                $application->forward('users');
-                $application->dispatch();
+                if($request->isSafe())
+                {
+                    $request->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
+                    $application->forward('users');
+                }
+                else $application->getUser()->addFlashMessage($event->getMessage(), 'error');
 
-                $event->stopPropagation();
+                $application->dispatch();
             }
+
+            $event->stopPropagation();
         }
     }
 }
