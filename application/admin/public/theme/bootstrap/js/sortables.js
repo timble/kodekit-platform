@@ -114,14 +114,20 @@ Drag.Sortable = new Class({
 		this.clone.set('morph', {duration: this.options.fx.duration, transition: this.options.fx.transition}).morph(this.options.fx.from);
 
         if(this.options.nested) {
+            this.nexts = new Elements;
+            this.ghostnexts = new Elements;
             var spacing = this.element.getParents('table')[0].getStyle('border-spacing').split(' ')[0].toInt(),
                 cells = this.clone.getChildren();
-            var current = this.element, nexts = new Elements;
+            var current = this.element, nexts = this.nexts; //@TODO optimize
             while(current.getNext() && current.getNext().getProperty('data-sortable-parent').toInt() !== this.element.getProperty('data-sortable-parent').toInt() && current.getNext().getProperty('data-sortable-level').toInt() > this.element.getProperty('data-sortable-level').toInt()) {
-                current = current.getNext().addClass('clone');
+                current = current.getNext();
+                var el = current;
+                nexts.include(el);
+                el = this.getClone(event, current);
+                var cells = el.getChildren();
 
                 current.getChildren().each(function(cell, i){
-                    cell.setStyles({
+                    cells[i].setStyles({
                         maxWidth: '100%',
                         maxHeight: '100%',
                         minHeight: 'auto',
@@ -135,21 +141,31 @@ Drag.Sortable = new Class({
                     });
                 }, this);
 
-                nexts.include(current);
+                this.ghostnexts.include(el);
+                console.log(this.ghostnexts);
             }
+
+            this.ghostnexts.set('morph', {duration: this.options.fx.duration, transition: this.options.fx.transition}).morph(this.options.fx.from);
+
+            var self = this;
             this.drag.addEvent('drag', function(el, event){
 
                 var top = this.value.now.y + el.getScrollSize().y;
-                nexts.setStyles({position: 'absolute', width: element.getScrollSize().x});
-                nexts.forEach(function(element){
+                self.ghostnexts.setStyles({position: 'absolute', width: element.getScrollSize().x});
+                self.ghostnexts.forEach(function(element){
                     element.setStyle('top', top);
-                    top += element.getScrollSize().y;
+                    top += (element.getSize().y - element.getStyle('border-top-width').toInt() - element.getStyle('border-bottom-width').toInt() - spacing);
+                    console.error(element.getStyle('border-top-width').toInt());
                 });
                 console.warn('drag', this.value.now.y);
             });
+            this.drag.addEvent('snap', function(el, event){
+                this.ghostnexts.setStyle('visibility', 'visible');
+                nexts.set('opacity', 0);
+            }.bind(this));
             this.drag.addEvent('complete', function(el, event){
 
-                nexts.setStyles({position: '', top: ''}).removeClass('clone').getChildren().forEach(function(el){
+                this.ghostnexts.setStyles({position: '', top: ''}).removeClass('clone').getChildren().forEach(function(el){
                     el.setStyles({
                         maxWidth: '',
                         maxHeight: '',
@@ -163,14 +179,16 @@ Drag.Sortable = new Class({
                         paddingLeft: ''
                     });
                 });
-                nexts.inject(element, 'after');
-            });
+                nexts.inject(this.element, 'after');
+            }.bind(this));
         }
 	},
 
 	reset: function(){
 
 		this.element.set('opacity', this.opacity);
+
+        if(this.nexts) this.nexts.set('opacity', 1);
 
 		this.parent();
 
@@ -428,7 +446,7 @@ Table.Sortable = new Class({
             console.log('sort', arguments, this);
 			this.clone.inject(this.element, 'before');
 			this.ghost.inject(this.element, 'after');
-
+            if(this.nexts) this.nexts.inject(this.ghost, 'after');
 		},
 		
 		onComplete: function(){
@@ -495,6 +513,37 @@ Table.Sortable = new Class({
 		this.ghost = this.getClone(new Event, element);
 		this.ghost.inject(this.element, 'after');
 
+        //@TODO disable for now
+        if(this.nexts && false) {
+            console.error('nexts');
+            this.ghostnexts = new Elements;
+            this.nexts.each(function(next){
+                /* @TODO optimize later
+                var cells = next.getChildren();
+
+                this.element.getChildren().each(function(cell, i){
+                    cells[i].setStyles({
+                        maxWidth: '100%',
+                        maxHeight: '100%',
+                        minHeight: 'auto',
+                        minWidth: 'auto',
+                        width: this._getOffsetSize(cell),
+                        height: this._getOffsetSize(cell, true),
+                        paddingTop: cell.getStyle('padding-top'),
+                        paddingRight: cell.getStyle('padding-right'),
+                        paddingBottom: cell.getStyle('padding-bottom'),
+                        paddingLeft: cell.getStyle('padding-left')
+                    });
+                }, this);
+                //*/
+
+                var ghost = this.getClone(new Event, next);
+                ghost.inject(this.element, 'after');
+
+                this.ghostnexts.include(ghost);
+            }, this);
+        }
+
 	},
 
 	reset: function(){
@@ -502,7 +551,7 @@ Table.Sortable = new Class({
 		this.parent();
 
 		this.ghost.destroy();
-
+        if(this.ghostnexts) this.ghostnexts.destroy();
 	},
 
 	_getOffsetSize: function(cell, vertical){
