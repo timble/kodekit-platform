@@ -139,11 +139,11 @@ class User extends Object implements UserInterface, ObjectInstantiable
      * This should be the encoded password. On authentication, a plain-text password will be salted, encoded, and
      * then compared to this value.
      *
-     * @return string The password
+     * @return string The password or NULL if no password defined
      */
     public function getPassword()
     {
-        return $this->getSession()->get('user.password');
+        return null; //return NULL by default
     }
 
     /**
@@ -151,11 +151,11 @@ class User extends Object implements UserInterface, ObjectInstantiable
      *
      * This can return null if the password was not encoded using a salt.
      *
-     * @return string The salt
+     * @return string The salt or NULL if no salt defined
      */
     public function getSalt()
     {
-        return $this->getSession()->get('user.salt');
+        return null; //return NULL by default
     }
 
     /**
