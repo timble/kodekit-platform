@@ -213,21 +213,6 @@ class JFactory
     }
 
     /**
-     * Return a reference to the {@link JURI} object
-     *
-     * @access public
-     * @return object JURI
-     * @since 1.5
-     */
-    function &getURI($uri = 'SERVER')
-    {
-        jimport('joomla.environment.uri');
-
-        $instance =& JURI::getInstance($uri);
-        return $instance;
-    }
-
-    /**
      * Create a configuration object
      *
      * @access private
