@@ -74,33 +74,6 @@ class JUtility
 	}
 
 	/**
-	 * Sends mail to administrator for approval of a user submission
- 	 *
- 	 * @param string $adminName Name of administrator
- 	 * @param string $adminEmail Email address of administrator
- 	 * @param string $email [NOT USED TODO: Deprecate?]
- 	 * @param string $type Type of item to approve
- 	 * @param string $title Title of item to approve
- 	 * @param string $author Author of item to approve
- 	 * @return boolean True on success
- 	 */
-	function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null )
-	{
-		$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
-
-		$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_( 'MAIL_MSG') ."\n";
-
-	 	// Get a JMail instance
-		$mail =& JFactory::getMailer();
-		$mail->addRecipient($adminEmail);
-		$mail->setSubject($subject);
-		$mail->setBody($message);
-
-		return  $mail->Send();
-	}
-
-	/**
   	 * Provides a secure hash based on a seed
  	 *
  	 * @param string Seed string
