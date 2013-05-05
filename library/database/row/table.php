@@ -26,22 +26,39 @@ class DatabaseRowTable extends DatabaseRowAbstract
     protected $_table = false;
 
     /**
-     * Object constructor
+     * Constructor
      *
-     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {
-        parent::__construct($config);
+        //Bypass DatabaseRowAbstract constructor to prevent data from being added twice
+        Object::__construct($config);
 
+        //Set the table identifier
         $this->_table = $config->table;
+
+        // Set the table identifier
+        if (isset($config->identity_column)) {
+            $this->_identity_column = $config->identity_column;
+        }
 
         // Reset the row
         $this->reset();
 
-        // Reset the row data
+        //Set the status
+        if (isset($config->status)) {
+            $this->setStatus($config->status);
+        }
+
+        // Set the row data
         if (isset($config->data)) {
-            $this->setData($config->data->toArray(), $config->new);
+            $this->setData($config->data->toArray(), $this->isNew());
+        }
+
+        //Set the status message
+        if (!empty($config->status_message)) {
+            $this->setStatusMessage($config->status_message);
         }
     }
 

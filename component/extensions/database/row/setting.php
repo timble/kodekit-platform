@@ -57,7 +57,7 @@ abstract class DatabaseRowSetting extends Library\DatabaseRowAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-             'new'    => false,
+             'status' => Library\Database::STATUS_LOADED,
              'name'   => 'system',
              'path'	  => '',
         ));

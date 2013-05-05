@@ -28,21 +28,36 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
     /**
      * Constructor
      *
-     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
-     * @return DatabaseRowsetTable
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return DatabaseRowsetAbstract
      */
     public function __construct(ObjectConfig $config)
     {
-        parent::__construct($config);
+        //Bypass DatabaseRowsetAbstract constructor to prevent data from being added twice
+        ObjectSet::__construct($config);
 
+        //Set the row cloning
+        $this->_row_cloning = $config->row_cloning;
+
+        //Set the table identifier
         $this->_table = $config->table;
+
+        // Set the table identifier
+        if (isset($config->identity_column)) {
+            $this->_identity_column = $config->identity_column;
+        }
 
         // Reset the rowset
         $this->reset();
 
         // Insert the data, if exists
         if (!empty($config->data)) {
-            $this->addRow($config->data->toArray(), $config->new);
+            $this->addRow($config->data->toArray(), $config->status);
+        }
+
+        //Set the status message
+        if (!empty($config->status_message)) {
+            $this->setStatusMessage($config->status_message);
         }
     }
 
@@ -139,7 +154,7 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
      * Add rows to the rowset
      *
      * @param  array  $data  An associative array of row data to be inserted.
-     * @param  boole  $new   If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+     * @param  bool   $new   If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
      * @return  DatabaseRowsetAbstract
      * @see __construct
      */

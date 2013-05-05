@@ -42,7 +42,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Constructor
      *
-     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig  $config  An optional ObjectConfig object with configuration options
      * @return DatabaseRowsetAbstract
      */
     public function __construct(ObjectConfig $config)
@@ -61,7 +61,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
         // Insert the data, if exists
         if (!empty($config->data)) {
-            $this->addRow($config->data->toArray(), $config->new);
+            $this->addRow($config->data->toArray(), $config->status);
         }
 
         //Set the status message
@@ -81,9 +81,9 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data' => null,
-            'new'  => true,
+            'data'            => null,
             'identity_column' => null,
+            'status'          => null,
             'status_message'  => '',
             'row_cloning'     => true
         ));
@@ -180,7 +180,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      *
      * @param   string  $column The column name.
      * @param   mixed   $value The value for the property.
-     * @return  void
+     * @return  DatabaseRowsetAbstract
      */
     public function set($column, $value)
     {
@@ -245,11 +245,10 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      * @return  DatabaseRowsetAbstract
      * @see __construct
      */
-    public function addRow(array $rows, $new = true)
+    public function addRow(array $rows, $status = NULL)
     {
         $options = array(
-            'status' => $new ? NULL : Database::STATUS_LOADED,
-            'new'    => $new,
+            'status' => $status,
         );
 
         if ($this->_row_cloning)
@@ -259,7 +258,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             foreach ($rows as $k => $data)
             {
                 $row = clone $default;
-                $row->setData($data, $new);
+                $row->setData($data, $row->isNew());
 
                 $this->insert($row);
             }
@@ -268,9 +267,9 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         {
             foreach ($rows as $k => $data)
             {
-                $options['data'] = $data;
-
                 $row = $this->getRow($options);
+                $row->setData($data, $row->isNew());
+
                 $this->insert($row);
             }
         }
@@ -309,7 +308,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Set the status message
      *
-     * @param   string      The status message
+     * @param   string $message The status message
      * @return  DatabaseRowsetAbstract
      */
     public function setStatusMessage($message)
