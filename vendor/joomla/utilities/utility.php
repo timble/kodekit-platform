@@ -113,46 +113,6 @@ class JUtility
 	}
 
 	/**
-	 * Method to determine a hash for anti-spoofing variable names
-	 *
-	 * @return	string	Hashed var name
-	 * @since	1.5
-	 * @static
-	 */
-	function getToken($forceNew = false)
-	{
-		$user		= JFactory::getUser();
-		$session	= JFactory::getSession();
-
-		//If the session is not active start it
-		/*if($session->getState() != 'active')
-        {
-			$session->start();
-
-		    jimport('joomla.database.table');
-			$storage = & JTable::getInstance('session');
-			$storage->purge($session->getExpire());
-
-			// Session exists and is not expired, update time in session table
-			if ($storage->load($session->getId())) {
-				$storage->update();
-			}
-			else
-			{
-				//Session doesn't exist, initalise and store it in the session table
-				$session->set('user',		new JUser());
-
-				if (!$storage->insert( $session->getId(), JFactory::getApplication()->getClientId())) {
-					jexit( $storage->getError());
-				}
-			}
-		}*/
-
-		$hash = JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
-		return $hash;
-	}
-
-	/**
  	 * Method to extract key/value pairs out of a string with xml style attributes
  	 *
  	 * @param	string	$string	String containing xml style attributes
