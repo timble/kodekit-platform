@@ -55,12 +55,12 @@ interface DatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Cou
 	/**
      * Add rows to the rowset
      *
-     * @param  array   $data An associative array of row data to be inserted.
-     * @param  boolean $new  If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+     * @param  array   $rows    An associative array of row data to be inserted.
+     * @param  string  $status  The row(s) status
      * @return DatabaseRowsetInterface
      * @see __construct
      */
-    public function addRow(array $data, $new = true);
+    public function addRow(array $rows, $status = null);
 
     /**
      * Returns the status message
