@@ -38,30 +38,6 @@ class JFactory
     }
 
     /**
-     * Get an user object
-     *
-     * Returns a reference to the global {@link JUser} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @param     int     $id     The user to load - Can be an integer or string - If string, it is converted to ID automatically.
-     *
-     * @access public
-     * @return object JUser
-     */
-    function &getUser($id = null)
-    {        
-        if (is_null($id)) {
-            $session = Nooku\Library\ObjectManager::getInstance()->getObject('user')->getSession();
-            $instance = $session->user;
-
-            if (!$instance instanceof UsersDatabaseRowUser) {
-                $instance = Nooku\Library\ObjectManager::getInstance()->getObject('com:users.database.row.user');
-            }
-        } else $instance = Nooku\Library\ObjectManager::getInstance()->getObject('com:users.database.row.user')->set('id', $id)->load();
-        return $instance;
-    }
-
-    /**
      * Get a configuration object
      *
      * Returns a reference to the global {@link JRegistry} object, only creating it
