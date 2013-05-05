@@ -39,4 +39,3 @@ JLoader::import( 'joomla.filter.filteroutput'	);
 
 //Register class that don't follow one file per class naming conventions
 JLoader::register('JText' , dirname(__FILE__).DS.'methods.php');
-JLoader::register('JRoute', dirname(__FILE__).DS.'methods.php');

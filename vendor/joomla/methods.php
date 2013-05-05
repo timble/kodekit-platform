@@ -15,45 +15,6 @@
 defined('JPATH_BASE') or die();
 
 /**
- * Route handling class
- *
- * @static
- * @package 	Joomla.Framework
- * @since		1.5
- */
-class JRoute
-{
-	/**
-	 * Translates an internal Joomla URL to a humanly readible URL.
-	 *
-	 * @access public
-	 * @param 	string 	 $url 	Absolute or Relative URI to Joomla resource
-	 * @param 	boolean  $xhtml Replace & by &amp; for xml compilance
-	 * @param	int		 $ssl	Secure state for the resolved URI
-	 * 		 1: Make URI secure using global secure site URI
-	 * 		 0: Leave URI in the same secure state as it was passed to the function
-	 * 		-1: Make URI unsecure using the global unsecure site URI
-	 * @return The translated humanly readible URL
-	 */
-	function _($url, $xhtml = true, $ssl = null)
-	{
-		//Create the route
-        $url = Nooku\Library\ObjectManager::getInstance()->getObject('lib:http.url', array('url' => $url));
-
-        JFactory::getApplication()->getRouter()->build($url);
-
-		// Transform to string
-		$url = (string) $url;
-
-		if($xhtml) {
-			$url = str_replace( '&', '&amp;', $url );
-		}
-
-		return $url;
-	}
-}
-
-/**
  * Text  handling class
  *
  * @static
