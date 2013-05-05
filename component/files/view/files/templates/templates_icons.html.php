@@ -48,7 +48,7 @@
     			<a href="#" class="navigate"></a>
     	</div>
     	<div class="files-icons-controls">
-    	<div class="controls" style="display:none">
+    	<div style="display:none">
     		<input type="checkbox" class="files-select" value="" />
     	</div>
     	<div class="ellipsis" style="width:[%= icon_size%]px" title="[%=name%]">
@@ -68,7 +68,7 @@
     	 		data-extension="[%=metadata.extension%]"></a>
     	</div>
     	<div class="files-icons-controls">
-    	<div class="controls" style="display:none">
+    	<div style="display:none">
     		<input type="checkbox" class="files-select" value="" />
     	</div>
     	<div class="ellipsis" style="width:[%= icon_size%]px" title="[%=name%]">
@@ -94,7 +94,7 @@
     		</a>
     	</div>
     	<div class="files-icons-controls">
-    	<div class="controls" style="display:none">
+    	<div style="display:none">
     		<input type="checkbox" class="files-select" value="" />
     	</div>
     	<div class="ellipsis" style="width:[%= icon_size%]px" title="[%=name%]">

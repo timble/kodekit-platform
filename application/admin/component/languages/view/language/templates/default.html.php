@@ -25,39 +25,39 @@
         <div class="grid_8">
     		<fieldset class="form-horizontal">
     			<legend><?= @text('Details') ?></legend>
-    			<div class="control-group">
-    			    <label class="control-label"><?= @text('Name') ?></label>
-    			    <div class="controls">
+    			<div>
+    			    <label><?= @text('Name') ?></label>
+    			    <div>
     			        <input id="name_field" type="text" name="name" value="<?= $language->name ?>" />
     			    </div>
     			</div>
-    			<div class="control-group">
-    			    <label class="control-label"><?= @text('Native Name') ?></label>
-    			    <div class="controls">
+    			<div>
+    			    <label><?= @text('Native Name') ?></label>
+    			    <div>
     			        <input id="native_field" type="text" name="native_name" value="<?= $language->native_name ?>" />
     			    </div>
     			</div>
-    			<div class="control-group">
-    			    <label class="control-label"><?= @text('Slug') ?></label>
-    			    <div class="controls">
+    			<div>
+    			    <label><?= @text('Slug') ?></label>
+    			    <div>
     			        <input id="alias_field" type="text" name="slug" value="<?= $language->slug ?>" />
     			    </div>
     			</div>
-    			<div class="control-group">
-    			    <label class="control-label"><?= @text('ISO Code') ?></label>
-    			    <div class="controls">
+    			<div>
+    			    <label><?= @text('ISO Code') ?></label>
+    			    <div>
     			        <input type="text" name="iso_code" type="text" value="<?= $language->iso_code ?>" />
     			    </div>
     			</div>
-    			<div class="control-group">
-    			    <label class="control-label" for="enabled"><?= @text('Enabled') ?></label>
-    			    <div class="controls">
+    			<div>
+    			    <label for="enabled"><?= @text('Enabled') ?></label>
+    			    <div>
     			        <input type="checkbox" name="enabled" value="1" <?= $language->enabled ? 'checked="checked"' : '' ?> />
     			    </div>
     			</div>
-    			<div class="control-group">
-    			    <label class="control-label" for="primary"><?= @text('Primary') ?></label>
-    			    <div class="controls">
+    			<div>
+    			    <label for="primary"><?= @text('Primary') ?></label>
+    			    <div>
     			        <input type="checkbox" name="primary" value="1" <?= $language->primary ? 'checked="checked"' : '' ?> />
     			    </div>
     			</div>

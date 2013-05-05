@@ -29,15 +29,15 @@
 		<div class="scrollable">
 		    <fieldset class="form-horizontal">
 		    	<legend><?= @text( 'Details' ); ?></legend>
-				<div class="control-group">
-				    <label class="control-label"><?= @text('Type') ?></label>
-				    <div class="controls">
+				<div>
+				    <label><?= @text('Type') ?></label>
+				    <div>
 				        <?= @text(ucfirst($module->identifier->package)).' &raquo; '. @text(ucfirst($module->identifier->path[1])); ?>
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label"><?= @text('Description') ?></label>
-				    <div class="controls">
+				<div>
+				    <label><?= @text('Description') ?></label>
+				    <div>
 				        <?= @text($module->description) ?>
 				    </div>
 				</div>

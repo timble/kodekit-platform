@@ -2,12 +2,12 @@
 
 body {
 	margin: 0; padding: 0;
-	font-size: @baseFontSize;
+	font-size: $baseFontSize;
 	background-color: #FFF;
 	min-width: 960px;
 }
 
-body, td, th { font-family: @baseFontFamily; }
+body, td, th { font-family: $baseFontFamily; }
 
 #tmpl-component {
 	overflow: auto;
@@ -29,7 +29,7 @@ img { border: 0 none; }
 
 h1 {
 	margin: 0; padding-bottom: 8px;
-	color: @linkColor; font-size: 20px; font-weight: bold;
+	color: $linkColor; font-size: 20px; font-weight: bold;
 }
 
 h3 {
@@ -38,14 +38,14 @@ h3 {
 
 // Horizontal rules
 hr {
-  margin: @baseLineHeight 0;
+  margin: $baseLineHeight 0;
   border: 0;
-  border-top: 1px solid @hrBorder;
-  border-bottom: 1px solid @white;
+  border-top: 1px solid $gray;
+  border-bottom: 1px solid $white;
 }
 
 a {
-	color: @linkColor;
+	color: $linkColor;
 }
 
 a:link    { text-decoration: none; }
@@ -54,10 +54,6 @@ a:hover   { text-decoration: underline; }
 
 ul {
     padding: 0;
-}
-
-fieldset {
-	margin: 20px;
 }
 
 .hide {
@@ -75,7 +71,7 @@ fieldset {
 }
 
 ::-webkit-scrollbar-track {
-    border-left: 1px solid @grayLighter;
+    border-left: 1px solid $grayLighter;
     padding: 4px;
 }
 
@@ -88,22 +84,22 @@ fieldset {
 /* -- overall styles ------------------------------ */
 #panel-header  {
 	background-color: #333;
-	border-bottom: 1px solid lighten(@navbarBackground, 10%);
-	#gradient > .vertical(@navbarBackground, darken(@navbarBackground, 15%));
-	.box-shadow(rgba(0, 0, 0, .8) 0px 1px 3px);
+	border-bottom: 1px solid lighten($navbarBackground, 10%);
+	@include background(linear-gradient($navbarBackground, darken($navbarBackground, 15%)));
+    @include box-shadow(rgba(0, 0, 0, .8) 0px 1px 3px);
 
 	position: relative; // We need this for .box-shadow
 }
 
 #panel-tabbar {
-	#gradient > .vertical(@tabbarBackground, darken(@tabbarBackground, 10%));
-	.box-shadow(inset rgba(0, 0, 0, .10) 0px -2px 2px);
+    @include background(linear-gradient($tabbarBackground, darken($tabbarBackground, 10%)));
+    @include box-shadow(inset rgba(0, 0, 0, .10) 0px -2px 2px);
 }
 
 #panel-toolbar {
-	.box-sizing(border-box);
+  @include box-sizing(border-box);
 	padding: 8px 0;
-	#gradient > .vertical(@tabbarBackgroundHighlight, darken(@tabbarBackgroundHighlight, 5%));
+  @include background(linear-gradient($tabbarBackgroundHighlight, darken($tabbarBackgroundHighlight, 5%)));
 
 	select[name="language"] {
 		margin-right: 12px;
@@ -125,23 +121,23 @@ fieldset {
 		color: #333; // bootstrap override
 		font-weight: bold;  // bootstrap override
 		border: 1px solid #BBB;  // bootstrap override
-        font-size: @baseFontSize - 1px;
+        font-size: $baseFontSize - 1px;
 	}
 }
 
 #panel-pages {
-	#flexbox > .box(column, 1);
+  @include flex-box(column, 1);
 
 	min-width: 180px;
 	max-width: 180px;
 
-	border-right: 1px solid @grayLighter;
-	background-color: @grayLighter;
+	border-right: 1px solid $grayLighter;
+	background-color: $grayLighter;
 }
 
 #panel-sidebar,
 #panel-inspector {
-	.box-sizing(border-box);
+  @include box-sizing(border-box);
 	background-color: #F9F9F9;
 
 	h3,
@@ -149,19 +145,19 @@ fieldset {
 		padding: 0;
 		margin: 0;
 		line-height: 28px;
-		vertical-align: middle;
+		gradient-vertical-align: middle;
 
-		color: @gray;
-		font-size: @baseFontSize - 1px;
+		color: $gray;
+		font-size: $baseFontSize - 1px;
 		font-weight: 600;
 		text-indent: 12px;
 		text-transform: uppercase;
 
-		border-top: 1px solid @grayLighter;
-		border-bottom: 1px solid @grayLighter;
-		#gradient > .vertical(#F2F2F2, #E9E9E9);
+		border-top: 1px solid $grayLighter;
+		border-bottom: 1px solid $grayLighter;
+      @include background(linear-gradient(#F2F2F2, #E9E9E9));
 
-        .ellipsis();
+      @extend .ellipsis;
 	}
 
 	fieldset {
@@ -170,7 +166,7 @@ fieldset {
 }
 
 #panel-inspector {
-	border-left: 1px solid @grayLighter;
+	border-left: 1px solid $grayLighter;
 
 	#activities-list {
 		h4 {
@@ -178,7 +174,7 @@ fieldset {
 			margin: 0;
 			border-top: 1px solid #E8EAEC;
 			color: #666;
-			#gradient > .vertical(#f1f2f4, #F9F9F9);
+          @include background(linear-gradient(#f1f2f4, #F9F9F9));
 		}
 
 		h4:first-of-type {
@@ -190,11 +186,10 @@ fieldset {
 
 			.activity 			{
 				padding: 7px 0;
-				border-bottom: 1px dotted @grayLighter;
-				.clearfix();
+				border-bottom: 1px dotted $grayLighter;
+                @include clearfix();
 
 				> div {
-					width: 100% - 20px;
 					float: left;
 				}
 
@@ -207,11 +202,11 @@ fieldset {
 				i {
 					margin-right: 6px;
 					margin-top: 1px;
-					vertical-align: text-bottom;
+					gradient-vertical-align: text-bottom;
 					float: left;
 				}
 
-				.datetime { color: @gray; }
+				.datetime { color: $gray; }
 			}
 			.activity:last-child { border-bottom: none 0px; }
 		}
@@ -223,11 +218,11 @@ fieldset {
 }
 
 #panel-sidebar {
-	border-right: 1px solid @grayLighter;
+	border-right: 1px solid $grayLighter;
 
 	h4 {
 		padding: 4px 0 4px 10px;
-		margin: @baseLineHeight 0 0 0;
+		margin: $baseLineHeight 0 0 0;
 		color: #666;
 		text-transform: uppercase;
 	}
@@ -243,7 +238,7 @@ fieldset {
 			color: #333;
             font-weight: 500;
 
-			.ellipsis();
+          @extend .ellipsis;
 
             .badge {
                 float: right;
@@ -253,8 +248,8 @@ fieldset {
 
 		a:hover {
 			padding-top: 6px;
-			border-top: 1px solid lighten(@blueDark, 40%);
-			#gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
+			border-top: 1px solid lighten($blueDark, 40%);
+          @include background(linear-gradient(lighten($blueDark, 45%), lighten($blueDark, 35%)));
 			text-decoration: none;
 		}
 
@@ -262,9 +257,9 @@ fieldset {
 		 a.active:hover {
 			padding-top: 6px;
 			color: #FFF;
-			border-top: 1px solid lighten(@blueDark, 15%);
-			#gradient > .vertical(lighten(@blueDark, 20%), @blueDark);
-			.box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
+			border-top: 1px solid lighten($blueDark, 15%);
+           @include background(linear-gradient(lighten($blueDark, 20%), $blueDark));
+           @include box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
 			text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
 		}
 	}
@@ -273,11 +268,11 @@ fieldset {
 /** Scopebar styles **/
 .scopebar {
 	padding: 3px 10px 3px;
-	#gradient > .vertical(#F2F2F2, #E9E9E9);
-	border-bottom: 1px solid @grayLighter;
-	border-top: 1px solid @grayLighter;
+  @include background(linear-gradient(#F2F2F2, #E9E9E9));
+	border-bottom: 1px solid $grayLighter;
+	border-top: 1px solid $grayLighter;
 
-    font-size: @baseFontSize - 1px;
+    font-size: $baseFontSize - 1px;
 
 	.scopebar-group {
 		border-right: 1px solid #BBB;
@@ -304,13 +299,13 @@ fieldset {
 			text-decoration: none;
 			background: #A0A0A0;
 			color: #FFF;
-			.border-radius(10px);
+          @include border-radius(10px);
 			text-shadow: hsla(0, 0%, 0%, 0.35) 0 1px 0;
 		}
 
 		a.active,
 		a:active {
-			.box-shadow(~"inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0");
+          @include box-shadow(inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0);
 		}
 
 		a:active {
@@ -319,7 +314,7 @@ fieldset {
 	}
 
 	.scopebar-search {
-		.input-append();
+      @extend .input-append;
 		margin-bottom: 0;
 		margin-left: 25px;
 
@@ -329,7 +324,8 @@ fieldset {
 		}
 
 		button {
-			.btn-small();
+          padding: $paddingSmall;
+          font-size: $fontSizeSmall;
 		}
 	}
 }
@@ -359,11 +355,11 @@ fieldset {
 			th {
 				line-height: 18px;
 				text-align: left;
-				#gradient > .vertical(#f7f7f7, #F2F2F2);
+              @include background(linear-gradient(#f7f7f7, #F2F2F2));
 				color: #666;
-				border-bottom: 1px solid @grayLighter;
-				border-left: 1px solid @grayLighter;
-                font-size: @baseFontSize - 1px;
+				border-bottom: 1px solid $grayLighter;
+				border-left: 1px solid $grayLighter;
+                font-size: $baseFontSize - 1px;
 
 				a {
 					display: block;
@@ -386,7 +382,7 @@ fieldset {
 			}
 
 			th:not(.void):active {
-				#gradient > .vertical(#e0e0e0, #e5e5e5);
+              @include background(linear-gradient(#e0e0e0, #e5e5e5));
 			}
 		}
 
@@ -404,7 +400,7 @@ fieldset {
 			tr.selected td,
 			tr.selected:hover td {
 				background-color: #CDE7FD !important;
-				.transition(all 150ms ease-in-out);
+              @include transition(all 150ms ease-in-out);
 			}
 
             tr td.ellipsis {
@@ -425,17 +421,17 @@ fieldset {
 		span:last-of-type:after { content: ""; }
 	}
 
-    .icon-ok { color: @green; }
-    .icon-remove { color: @red }
-    .icon-star { color: @yellow; }
+    .icon-ok { color: $green; }
+    .icon-remove { color: $red }
+    .icon-star { color: $yellow; }
 }
 
 .pagination {
 	float: right;
-    font-size: @baseFontSize - 1px;
+    font-size: $baseFontSize - 1px;
 
     .btn {
-        font-size: @baseFontSize - 1px;
+        font-size: $baseFontSize - 1px;
     }
 
 	> div {
@@ -457,20 +453,20 @@ fieldset {
 	.main {
 		.title {
 			padding: 10px 10px 10px 10px;
-			#gradient > .vertical(#F0F0F0, #EAEAEA);
+          @include background(linear-gradient(#F0F0F0, #EAEAEA));
 			border-bottom: 1px solid #CCC;
 
 			> input {
-				font-size: @baseFontSize * 1.5;
+				font-size: $baseFontSize * 1.5;
 				padding: 4px 8px;
 				margin-bottom: 0;
-				.border-radius(4px);
-				height: @baseLineHeight * 3;
-				line-height: @baseLineHeight * 3;
+              @include border-radius(4px);
+				height: $baseLineHeight * 3;
+				line-height: $baseLineHeight * 3;
 			}
 
 			.slug {
-				.input-prepend();
+              @extend .input-prepend;
 				clear: left;
 				margin-top: 5px;
 				margin-bottom: 0;
@@ -478,19 +474,19 @@ fieldset {
 		}
 
 		.scrollable {
-			background-color: @white;
+			background-color: $white;
 		}
 	}
 }
 
 .box-column {
-	.box-shadow(rgba(0, 0, 0, .6) 0px 0px 10px);
+  @include box-shadow(rgba(0, 0, 0, .6) 0px 0px 10px);
 }
 
 /* Sidebar */
 #panel-content {
 	.-koowa-form {
-		border-top: 1px solid @grayLighter;
+		border-top: 1px solid $grayLighter;
 
 		.sidebar {
 			width: 350px;
@@ -512,7 +508,7 @@ fieldset {
 				margin-left: 6px;
 				background: #f0f0f0;
 				color: #666;
-				.border-radius(5px 5px 0 0);
+              @include border-radius(5px 5px 0 0);
 				margin-bottom: -1px;
 			}
 
@@ -529,7 +525,7 @@ fieldset {
 				z-index: 100;
 				color: #333;
 				border-bottom-color: #FFF;
-				.box-shadow(inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px);
+              @include box-shadow(inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px);
 			}
 
 			dt:active {
@@ -552,7 +548,7 @@ fieldset {
 	}
 }
 
-/* @endgroup */
+/* $endgroup */
 
 .CodeMirror {
 	border-bottom: 1px solid #CCCCCC;

@@ -6,46 +6,46 @@ html, body {
 	height: 100%;
 
 	#container {
-		#flexbox > .box(column, 1);
+		@include flex-box(column, 1);
 		min-height: 100%;
 	}
 }
 
 .box-row {
-	#flexbox > .box(row, 1);
+	@include flex-box(row, 1);
 	min-height: 100%;
 }
 
 #panel-header  {
-	#flexbox > .box(row);
+	@include flex-box(row);
 	min-height: 30px;
 	max-height: 30px;
 
 	#menu {
-		#flexbox > .box(row, 1);
+		@include flex-box(row, 1);
 	}
 }
 
 #panel-tabbar {
-	#flexbox > .box(column, 30px 0);
+	@include flex-box(column, 30px 0);
 
 	#menubar {
-		#flexbox > .box();
+		@include flex-box();
 	}
 }
 
 #panel-toolbar {
-	#flexbox .box(row, 41px 0);
+	@include flex-box(row, 41px 0);
     min-height: auto;
 
 	> .toolbar {
-		#flexbox > .box(row, 1);
+		@include flex-box(row, 1);
 	}
 }
 
 #panel-sidebar,
 #panel-inspector {
-	#flexbox > .box(column, 1 1 15%);
+	@include flex-box(column, 1 1 15%);
     max-width: 200px;
 
 	h3 {
@@ -54,7 +54,7 @@ html, body {
 }
 
 #panel-content {
-	#flexbox > .box(column, 1 1 70%);
+	@include flex-box(column, 1 1 70%);
 	min-height: 100%;
 
 	.-koowa-grid {
@@ -62,38 +62,38 @@ html, body {
 	}
 
 	.-koowa-form {
-		#flexbox > .box(row, 1);
+		@include flex-box(row, 1);
 		min-height: 100%;
 
 		.main {
-			#flexbox > .box(column, 1);
+			@include flex-box(column, 1);
 			min-height: 100%;
 
 			.title {
 				min-height: 64px;
 
-                #flexbox > .box(column, 0);
+                @include flex-box(column, 0);
 
 				.slug {
-					#flexbox > .box(row, 0);
+					@include flex-box(row, 0);
 				}
 			}
 
 			.scrollable {
-				#flexbox > .box-flex(1);
-				#flexbox > .box-scrollable(scrollable);
+				@include box-flex(1);
+				@include box-scrollable(scrollable);
 				min-height: 100%;
 			}
 		}
 		.sidebar {
-			#flexbox > .box(column, initial);
+			@include flex-box(column, initial);
 		}
 	}
 }
 
 .scrollable {
-	#flexbox > .box-scrollable(scrollable);
-	#flexbox > .box-flex(1);
+	@include box-scrollable(scrollable);
+	@include box-flex(1);
 	min-height: 100%;
 }
 
@@ -105,7 +105,7 @@ table.mceLayout > tbody,
 table.mceLayout > tbody > tr:nth-of-type(2),
 table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer,
 table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
-	#flexbox > .box(column, 1);
+	@include flex-box(column, 1);
 }
 
 table.mceLayout,
@@ -114,24 +114,24 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 }
 
 .CodeMirror {
-	#flexbox > .box(column, 1);
+	@include flex-box(column, 1);
 
 	.CodeMirror-scroll {
-		#flexbox > .box-flex(1);
+		@include box-flex(1);
 	}
 }
 
 /* @group Scope Bar */
 .scopebar {
-	#flexbox > .box(row, 0);
+	@include flex-box(row, 0);
 	min-height: 22px;
 
 	.scopebar-search {
-		#flexbox > .box(horizontal, 1);
-		#flexbox > .box-justify-content(flex-end);
+		@include flex-box(horizontal, 1);
+		@include box-justify-content(flex-end);
 
 		input {
-			#flexbox > .box(horizontal, 1);
+			@include flex-box(horizontal, 1);
 		}
 	}
 }
@@ -139,29 +139,29 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 .com_pages {
 	#components,
 	#layouts {
-		#flexbox > .box(column, none);
+		@include flex-box(column, none);
 	}
 }
 
 .com_dashboard #panel-content {
-	#flexbox > .box(row, 1);
+	@include flex-box(row, 1);
 
 	> div:first-child {
-		#flexbox > .box(row, 1);
+		@include flex-box(row, 1);
 
 		> div {
-			#flexbox > .box(column, 1);
+			@include flex-box(column, 1);
 
 			#activities-list {
-				#flexbox > .box(column, 1);
+				@include flex-box(column, 1);
 
 				.activities {
-					#flexbox > .box-flex(1);
-					#flexbox > .box-scrollable(scrollable);
+					@include box-flex(1);
+					@include box-scrollable(scrollable);
 					min-height: 100%;
 
 					* {
-						#flexbox > .box-flex(none);
+						@include box-flex(none);
 					}
 				}
 			}
@@ -171,22 +171,22 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 
 .com_files {
 	#files-app {
-		#flexbox > .box(column, 1);
+		@include flex-box(column, 1);
 
 		#files-canvas {
-			#flexbox > .box(column, 1);
+			@include flex-box(column, 1);
 
 			.view {
-				#flexbox > .box(column, 1);
+				@include flex-box(column, 1);
 
 				#files-grid {
-					#flexbox > .box-flex(1);
-					#flexbox > .box-scrollable(scrollable);
+					@include box-flex(1);
+					@include box-scrollable(scrollable);
 					min-height: 100%;
 
 					div {
-						#flexbox > .box-flex(none);
-						.clearfix();
+						@include box-flex(none);
+                      @include clearfix();
 					}
 				}
 			}
@@ -198,8 +198,8 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 	}
 
 	#files-tree {
-			#flexbox > .box-flex(1);
-			#flexbox > .box-scrollable(scrollable);
+			@include box-flex(1);
+			@include box-scrollable(scrollable);
 			min-height: 100%;
 	}
 }

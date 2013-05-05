@@ -22,8 +22,8 @@
 <? endif ?>
 
 <? if($state->type['name'] == 'redirect') : ?>
-    <div class="control-group" id="page-link-type">
-        <label class="control-label" for="parent"><?= @text('Type') ?></label>
+    <div id="page-link-type">
+        <label for="parent"><?= @text('Type') ?></label>
         <div id="parent" class="controls">
             <label class="radio">
                 <input type="radio" name="link_type" value="id" <?= $page->isNew() || $page->link_id ? 'checked="checked"' : '' ?> />
@@ -36,14 +36,14 @@
             </label>
         </div>
     </div>
-    <div class="control-group" id="page-link-id">
-        <label class="control-label" for="parent"><?= @text('Page') ?></label>
+    <div id="page-link-id">
+        <label for="parent"><?= @text('Page') ?></label>
         <div id="parent" class="controls">
             <?= @helper('listbox.pages', array('name' => 'link_id', 'selected' => $page->link_id)) ?>
         </div>
     </div>
-    <div class="control-group" id="page-link-url">
-        <label class="control-label" for="parent"><?= @text('URL') ?></label>
+    <div id="page-link-url">
+        <label for="parent"><?= @text('URL') ?></label>
         <div id="parent" class="controls">
             <input type="text" name="link_url" value="<?= $page->link_url ?>" />
         </div>
@@ -51,8 +51,8 @@
 <? endif ?>
 
 <? if($state->type['name'] == 'pagelink') : ?>
-    <div class="control-group">
-        <label class="control-label" for="parent"><?= @text('Page') ?></label>
+    <div>
+        <label for="parent"><?= @text('Page') ?></label>
         <div id="parent" class="controls">
             <?= @helper('listbox.pages', array('name' => 'link_id', 'selected' => $page->link_id)) ?>
         </div>

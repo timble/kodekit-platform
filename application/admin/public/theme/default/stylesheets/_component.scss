@@ -26,16 +26,16 @@ body.login
 
         border: 1px solid #D7DADE;
         background: #FFF;
-        .border-radius(10px);
-        .box-shadow(0 1px 2px rgba(0,0,0,.05));
+        @include border-radius(10px);
+        @include box-shadow(0 1px 2px rgba(0,0,0,.05));
 
         h1 {
             margin: 0;
             text-align: center;
             padding: 10px 0;
-            color: @grayDarker;
-            #gradient > .vertical(#f6f6f6, #e6e6e6);
-            .border-radius(10px 10px 0 0);
+            color: $grayDarker;
+            @include background(linear-gradient(#f6f6f6, #e6e6e6));
+            @include border-radius(10px 10px 0 0);
             border-bottom: 1px solid #D7DADE;
         }
 
@@ -54,9 +54,9 @@ body.login
             input {
                 width: 220px !important;
                 padding: 4px 8px;
-                font-size: @baseFontSize * 1.5;
-                .box-sizing(border-box);
-                height: @baseLineHeight * 3;
+                font-size: $baseFontSize * 1.5;
+              @include box-sizing(border-box);
+                height: $baseLineHeight * 3;
             }
 
             a {
@@ -91,7 +91,7 @@ body.login
 
 .com_dashboard #panel-content {	
 	> div:first-child {
-		border-right: 1px solid @grayLighter;
+		border-right: 1px solid $grayLighter;
 	}
 	
 	.sidebar {
@@ -131,7 +131,7 @@ body.login
 
 .com_extensions {
 	#toolbar-box {
-		border-bottom: 1px solid @grayLighter;
+		border-bottom: 1px solid $grayLighter;
 	}
 
     .tabs {
@@ -165,8 +165,8 @@ body.login
 
     .tab > label:hover {
         color: #444;
-        border-top-color: lighten(@blueDark, 40%);
-        #gradient > .vertical(lighten(@blueDark, 45%), lighten(@blueDark, 35%));
+        border-top-color: lighten($blueDark, 40%);
+      @include background(linear-gradient(lighten($blueDark, 45%), lighten($blueDark, 35%)));
         text-decoration: none;
     }
 
@@ -191,9 +191,9 @@ body.login
     }
     [type=radio]:checked ~ label {
         color: #FFF;
-        border-top-color: lighten(@blueDark, 15%);
-        #gradient > .vertical(lighten(@blueDark, 20%), @blueDark);
-        .box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
+        border-top-color: lighten($blueDark, 15%);
+      @include background(linear-gradient(lighten($blueDark, 20%), $blueDark));
+      @include box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
         text-shadow: hsla(0, 0%, 0%, 0.2) 0 -1px 0;
 
         z-index: 2;
@@ -258,16 +258,12 @@ body.login
 		font-weight: normal;
 		color: #333;
 	}
-	
-    .level1 { .com_pages .padding(1) }
-    .level2 { .com_pages .padding(2) }
-    .level3 { .com_pages .padding(3) }
-    .level4 { .com_pages .padding(4) }
-    .level5 { .com_pages .padding(5) }
-    
-    .padding(@level:1) {
-        padding-left: (18px * @level) + 18px;
-    }
+
+    .level1 { padding-left: (18px * 1) + 18px; }
+    .level2 { padding-left: (18px * 2) + 18px; }
+    .level3 { padding-left: (18px * 3) + 18px; }
+    .level4 { padding-left: (18px * 4) + 18px; }
+    .level5 { padding-left: (18px * 5) + 18px; }
 }
 
 .com_files {
@@ -290,7 +286,7 @@ body.login
         li:nth-last-child(2) {
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px solid @grayLighter;
+            border-bottom: 1px solid $grayLighter;
         }
         
         li:last-of-type {

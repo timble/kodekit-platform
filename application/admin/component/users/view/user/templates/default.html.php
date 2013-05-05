@@ -37,15 +37,15 @@
 		<div class="scrollable">
 			<fieldset class="form-horizontal">
 				<legend><?= @text('General') ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="email"><?= @text('E-Mail') ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="email"><?= @text('E-Mail') ?></label>
+				    <div>
 				        <input class="required validate-email" type="email" id="email" name="email" value="<?= $user->email ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="params[timezone]"><?= @text('Time Zone') ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="params[timezone]"><?= @text('Time Zone') ?></label>
+				    <div>
 				        <?= @helper('com:extensions.listbox.timezones',
 				            array('name' => 'params[timezone]', 'selected' => $user->params->get('timezone'), 'deselect' => true, 'attribs' => array('class' => 'select-timezone', 'style' => 'width:220px'))) ?>
 				    </div>
@@ -53,22 +53,22 @@
 			</fieldset>
 			<fieldset class="form-horizontal">
 				<legend><?= @text('Password') ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="password"><?= @text('Password') ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="password"><?= @text('Password') ?></label>
+				    <div>
 				        <input class="passwordLength:<?=$params->get('password_length', 6);?>" id="password" type="password" name="password" maxlength="100" />
 				        <?=@helper('com:users.form.password');?>
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="password_verify"><?= @text('Verify Password') ?></label>
+				    <div>
 				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify" maxlength="100" />
 				    </div>
 				</div>
 			    <? if (!$user->isNew()): ?>
-				<div class="control-group">
-				    <div class="controls">
+				<div>
+				    <div>
 				        <label class="checkbox" for="password_change">
 				            <input type="checkbox" id="password_change" name="password_change" />
 				            <?= @text('Require a change of password in the next sign in') ?>
