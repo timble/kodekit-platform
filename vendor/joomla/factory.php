@@ -21,23 +21,6 @@ defined('JPATH_BASE') or die();
 class JFactory
 {
     /**
-     * Get a application object
-     *
-     * Returns a reference to the global {@link JApplication} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @param    mixed    $id         A client identifier or name.
-     * @param    array    $config     An optional associative array of configuration settings.
-     * @return object JApplication
-     */
-    function &getApplication($id = null, $config = array(), $prefix = 'J')
-    {
-        $instance =  Nooku\Library\ObjectManager::getInstance()->getObject('application');
-        return $instance;
-    }
-
-    /**
      * Get a configuration object
      *
      * Returns a reference to the global {@link JRegistry} object, only creating it
@@ -110,8 +93,8 @@ class JFactory
             'cachebase' => $conf->getValue('config.cache_path'),
             'lifetime' => $conf->getValue('config.cachetime') * 60, // minutes to seconds
             'language' => $conf->getValue('config.language'),
-            'storage' => $storage,
-            'site' => self::getApplication()->getSite()
+            'storage'  => $storage,
+            'site'     => Nooku\Library\ObjectManager::getInstance()->getObject('application')->getSite()
         );
 
         jimport('joomla.cache.cache');

@@ -42,7 +42,7 @@ $GLOBALS['_JERROR_LEVELS'] = array(
 $GLOBALS['_JERROR_HANDLERS'] = array(
 	E_NOTICE 	=> array( 'mode' => 'message' ),
 	E_WARNING 	=> array( 'mode' => 'message' ),
-	E_ERROR 	=> array( 'mode' => 'callback', 'options' => array('JError','customErrorPage') )
+	E_ERROR 	=> array( 'mode' => 'message')
 );
 
 /**
@@ -535,52 +535,6 @@ class JError
 	{
 		$result = call_user_func( $options, $error );
 		return $result;
-	}
-
-	/**
-	 * Display a custom error page and exit gracefully
-	 *
-	 * @static
-	 * @param	object	$error Exception object
-	 * @return	void
-	 * @since	1.5
-	 */
-	function customErrorPage(& $error)
-	{
-		// Initialize variables
-		jimport('joomla.document.document');
-		$app        = & JFactory::getApplication();
-		$document	= & JDocument::getInstance('error');
-		$config		= & JFactory::getConfig();
-
-		//Get the current language direction
-		$language = &JFactory::getLanguage();
-		if ($language->isRTL()){
-		$dir ="rtl";
-		}
-		else {
-		$dir ="ltr";
-		}
-
-		// Get the current template from the application
-		$template = $app->getTemplate();
-
-		// Push the error object into the document
-		$document->setError($error);
-
-		@ob_end_clean();
-		$document->setTitle(JText::_('Error').': '.$error->code);
-		$document->setLanguage($language->getTag());
-		$document->setDirection($dir);
-		$data = $document->render(false, array (
-			'template' => $template,
-			'directory' => JPATH_APPLICATION.'/templates',
-			'debug' => $config->getValue('config.debug')
-		));
-
-		JResponse::setBody($data);
-		echo JResponse::toString();
-		exit(0);
 	}
 
 	function customErrorHandler($level, $msg)
