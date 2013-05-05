@@ -131,7 +131,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
-                $this->getModules()->addRow(array($values), false);
+                $this->getModules()->addRow(array($values), Library\Database::STATUS_LOADED);
             }
 
             //Remove the <khtml:module></khtml:module> tags

@@ -148,8 +148,7 @@ class ModelModules extends Library\ModelTable
     /**
      * Get a list of items
      *
-     * If the installed state is TRUE this function will return a list of the installed
-     * modules.
+     * If the installed state is TRUE this function will return a list of the installed modules.
      *
      * @return Library\DatabaseRowsetInterface
      */

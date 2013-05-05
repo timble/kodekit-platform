@@ -111,7 +111,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
 	/**
      * Load the row from the database.
      *
-     * @return object	If successfull returns the row object, otherwise NULL
+     * @return object	If successful returns the row object, otherwise NULL
      */
 	public function load();
 

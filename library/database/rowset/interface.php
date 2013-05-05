@@ -19,14 +19,6 @@ namespace Nooku\Library;
 interface DatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Countable, \Serializable
 {
     /**
-     * Retrieve an array of column values
-     *
-     * @param   string  $column The column name.
-     * @return  array   An array of all the column values
-     */
-    public function get($column);
-
-    /**
      * Set the value of all the columns
      *
      * @param   string  $column The column name.
@@ -34,6 +26,14 @@ interface DatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Cou
      * @return  void
      */
     public function set($column, $value);
+
+    /**
+     * Retrieve an array of column values
+     *
+     * @param   string  $column The column name.
+     * @return  array   An array of all the column values
+     */
+    public function get($column);
 
     /**
      * Returns all data as an array.
@@ -118,8 +118,7 @@ interface DatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Cou
 	/**
      * Insert a row in the rowset
      *
-     * The row will be stored by i'ts identity_column if set or otherwise by
-     * it's object handle.
+     * The row will be stored by i'ts identity_column if set or otherwise by it's object handle.
      *
      * @param  DatabaseRowInterface $row A DatabaseRow object to be inserted
      * @return DatabaseRowsetInterface
@@ -129,8 +128,7 @@ interface DatabaseRowsetInterface extends \IteratorAggregate, \ArrayAccess, \Cou
 	/**
      * Removes a row
      *
-     * The row will be removed based on it's identity_column if set or otherwise by
-     * it's object handle.
+     * The row will be removed based on it's identity_column if set or otherwise by it's object handle.
      *
      * @param  DatabaseRowInterface $row A DatabaseRow object to be removed
      * @return DatabaseRowsetInterface
