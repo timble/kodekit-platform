@@ -17,15 +17,15 @@
 -->
 
 <form action="" method="post" name="login" id="form-login">
-    <div class="control-group">
-        <label class="control-label" for=""><?= @text( 'Email' ); ?></label>
-        <div class="controls">
+    <div>
+        <label for=""><?= @text( 'Email' ); ?></label>
+        <div>
         <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
         </div>
     </div>
-   <div class="control-group">
-       <label class="control-label" for=""><?= @text( 'Password' ); ?></label>
-       <div class="controls">
+   <div>
+       <label for=""><?= @text( 'Password' ); ?></label>
+       <div>
             <input name="password" type="password" id="password" class="inputbox" placeholder="<?= @text('Password') ?>" />
        </div>
    </div>

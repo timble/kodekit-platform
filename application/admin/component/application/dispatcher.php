@@ -83,7 +83,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
                 'session_name' => 'admin',
                 'config_file'  => JPATH_ROOT.'/config/config.php',
                 'language'     => null,
-                'theme'        => 'bootstrap'
+                'theme'        => 'default'
             ),
         ));
 

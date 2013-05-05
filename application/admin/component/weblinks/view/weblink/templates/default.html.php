@@ -34,15 +34,15 @@
 	    <div class="scrollable">
 	        <fieldset class="form-horizontal">
 	        	<legend><?= @text( 'Details' ); ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for=""><?= @text( 'URL' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for=""><?= @text( 'URL' ); ?></label>
+				    <div>
 				        <input class="required validate-url" type="text" name="url" value="<?= $weblink->url; ?>" maxlength="250" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for=""><?= @text( 'Description' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for=""><?= @text( 'Description' ); ?></label>
+				    <div>
 				        <textarea rows="9" name="description"><?= $weblink->description; ?></textarea>
 				    </div>
 				</div>

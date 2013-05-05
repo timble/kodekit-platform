@@ -11,15 +11,15 @@
 
 <fieldset class="form-horizontal">
     <legend><?= @text('Publish'); ?></legend>
-    <div class="control-group">
-        <label class="control-label" for="published"><?= @text( 'Published' ); ?></label>
-        <div class="controls">
+    <div>
+        <label for="published"><?= @text( 'Published' ); ?></label>
+        <div>
             <input type="checkbox" name="published" value="1" <?= $contact->published ? 'checked="checked"' : '' ?> />
         </div>
     </div>
-    <div class="control-group">
-        <label class="control-label" for="access"><?= @text('Registered') ?></label>
-        <div class="controls">
+    <div>
+        <label for="access"><?= @text('Registered') ?></label>
+        <div>
             <input type="checkbox" name="access" value="1" <?= $contact->access ? 'checked="checked"' : '' ?> />
         </div>
     </div>
@@ -27,7 +27,7 @@
 
 <fieldset class="categories group">
     <legend><?= @text('Category') ?></legend>
-    <div class="control-group">
+    <div>
         <?= @helper('listbox.radiolist', array(
             'list'     => @object('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
             'selected' => $contact->categories_category_id,
