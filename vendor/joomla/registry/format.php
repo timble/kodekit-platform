@@ -42,7 +42,7 @@ class JRegistryFormat extends JObject
 			$instances = array ();
 		}
 
-		$format = strtolower(JFilterInput::clean($format, 'word'));
+		$format = strtolower($format);
 		if (empty ($instances[$format]))
 		{
 			$class = 'JRegistryFormat'.$format;
