@@ -38,22 +38,6 @@ class JFactory
     }
 
     /**
-     * Get a session object
-     *
-     * Returns a reference to the global {@link JSession} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @param array An array containing session options
-     * @return object JSession
-     */
-    function &getSession($options = array())
-    {
-        $instance = Nooku\Library\ObjectManager::getInstance()->getObject('user')->getSession();
-        return $instance;
-    }
-
-    /**
      * Get an user object
      *
      * Returns a reference to the global {@link JUser} object, only creating it
@@ -74,7 +58,6 @@ class JFactory
                 $instance = Nooku\Library\ObjectManager::getInstance()->getObject('com:users.database.row.user');
             }
         } else $instance = Nooku\Library\ObjectManager::getInstance()->getObject('com:users.database.row.user')->set('id', $id)->load();
-
         return $instance;
     }
 
@@ -232,33 +215,6 @@ class JFactory
         // Create the registry with a default namespace of config
         $registry = new JRegistry('config');
         return $registry;
-    }
-
-    /**
-     * Create a session object
-     *
-     * @access private
-     * @param array $options An array containing session options
-     * @return object JSession
-     * @since 1.5
-     */
-    function &_createSession($options = array())
-    {
-        jimport('joomla.session.session');
-
-        //get the editor configuration setting
-        $conf =& JFactory::getConfig();
-        $handler = $conf->getValue('config.session_handler', 'none');
-
-        // config time is in minutes
-        $options['expire'] = ($conf->getValue('config.lifetime')) ? $conf->getValue('config.lifetime') * 60 : 900;
-
-        $session = JSession::getInstance($handler, $options);
-        if ($session->getState() == 'expired') {
-            $session->restart();
-        }
-
-        return $session;
     }
 
     /**
