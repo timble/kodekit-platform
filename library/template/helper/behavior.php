@@ -403,8 +403,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $options = !empty($config->options) ? $config->options->toArray() : array();
             $html .= "
-                <script src=\"/administrator/theme/bootstrap/js/sortables.js\" />
-                <style src=\"/administrator/theme/bootstrap/stylesheets/sortables.css\" />
+                <script src=\"/administrator/theme/default/js/sortables.js\" />
+                <style src=\"/administrator/theme/default/stylesheets/sortables.css\" />
 				<script>
 				(function(){
 					var sortable = function() {

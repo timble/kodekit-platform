@@ -17,18 +17,9 @@
 -->
 
 <form action="" method="post" name="login" id="form-login">
-    <div>
-        <label for=""><?= @text( 'Email' ); ?></label>
-        <div>
-        <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
-        </div>
-    </div>
-   <div>
-       <label for=""><?= @text( 'Password' ); ?></label>
-       <div>
-            <input name="password" type="password" id="password" class="inputbox" placeholder="<?= @text('Password') ?>" />
-       </div>
-   </div>
+    <input name="email" id="email" type="email" class="inputbox" autofocus="autofocus" placeholder="<?= @text('Email') ?>" />
+    <input name="password" type="password" id="password" class="inputbox" placeholder="<?= @text('Password') ?>" />
+
    <input type="submit" class="btn btn-large btn-block" value="<?= @text('Login') ?>" />
    <p><a class="return" href="/"><?= @text('Go to site homepage.'); ?></a></p>
 </form>
