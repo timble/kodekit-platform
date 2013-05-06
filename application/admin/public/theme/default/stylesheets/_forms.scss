@@ -54,20 +54,34 @@ textarea {
   font-family: $baseFontFamily; // And only set font-family here for those that need it (note the missing label element)
 }
 
-// Identify controls by their labels
 label {
   display: block;
-  @include font-shorthand($baseFontSize + 1, normal, $baseLineHeight + 9); // Set size, weight, line-height here
-  margin-bottom: 0;
-  float: left;
-  width: 120px;
-  padding-top: 5px;
-  text-align: right;
+}
+
+fieldset {
+  // Identify controls by their labels
+  label {
+    display: block;
+    @include font-shorthand($baseFontSize + 1, normal, $baseLineHeight + 9); // Set size, weight, line-height here
+    margin-bottom: 0;
+    float: left;
+    width: 120px;
+    padding-top: 5px;
+    text-align: right;
+  }
+
+  // New style
+  label:after {
+    content:":";
+  }
+
+  label + div {
+    margin-left: 140px;
+  }
 }
 
 // Form controls
 // -------------------------
-
 // Shared size and type resets
 select,
 textarea,
@@ -96,6 +110,7 @@ input[type="color"],
   @include border-radius($inputBorderRadius);
   vertical-align: middle;
 }
+
 
 // Reset appearance properties for textual inputs and textarea
 // Declare width for legacy (can't be on input[type=*] selectors or it's too specific)
@@ -418,30 +433,30 @@ legend + div {
   -webkit-margin-top-collapse: separate;
 }
 
-  // Increase spacing between groups
-  fieldset > div {
-    margin-bottom: $baseLineHeight;
-    @include clearfix();
+// Increase spacing between groups
+fieldset > div {
+  margin-bottom: $baseLineHeight;
+  @include clearfix();
+}
+// Remove bottom margin on block level help text since that's accounted for on .control-group
+.help-block {
+  margin-bottom: 0;
+}
+// And apply it only to .help-block instances that follow a form control
+input,
+select,
+textarea,
+.uneditable-input,
+.input-prepend,
+.input-append {
+  + .help-block {
+    margin-top: $baseLineHeight / 2;
   }
-  // Remove bottom margin on block level help text since that's accounted for on .control-group
-  .help-block {
-    margin-bottom: 0;
-  }
-  // And apply it only to .help-block instances that follow a form control
-  input,
-  select,
-  textarea,
-  .uneditable-input,
-  .input-prepend,
-  .input-append {
-    + .help-block {
-      margin-top: $baseLineHeight / 2;
-    }
-  }
-  // Move over buttons in .form-actions to align with .controls
-  .form-actions {
-    padding-left: $horizontalComponentOffset;
-  }
+}
+// Move over buttons in .form-actions to align with .controls
+.form-actions {
+  padding-left: $horizontalComponentOffset;
+}
 
 // Override Inputs, Textareas, Selects
 input[type="text"],
@@ -461,10 +476,6 @@ textarea {
 	height: auto;
 }
 
-label + div {
-    margin-left: 140px;
-}
-
 .input-prepend,
 .input-append {
 	.add-on {
@@ -474,11 +485,6 @@ label + div {
 	.btn {
 		padding-top: 3px;
 	}
-}
-
-// New style
-label:after {
-	content:":";
 }
 
 .controls-calendar .input-append {

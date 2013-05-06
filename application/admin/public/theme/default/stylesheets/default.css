@@ -2104,8 +2104,13 @@ textarea {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* line 58, _forms.scss */
+/* line 57, _forms.scss */
 label {
+  display: block;
+}
+
+/* line 63, _forms.scss */
+fieldset label {
   display: block;
   font-size: 13px;
   font-weight: normal;
@@ -2116,8 +2121,16 @@ label {
   padding-top: 5px;
   text-align: right;
 }
+/* line 74, _forms.scss */
+fieldset label:after {
+  content: ":";
+}
+/* line 78, _forms.scss */
+fieldset label + div {
+  margin-left: 140px;
+}
 
-/* line 88, _forms.scss */
+/* line 105, _forms.scss */
 select,
 textarea,
 input[type="text"],
@@ -2150,19 +2163,19 @@ input[type="color"],
   vertical-align: middle;
 }
 
-/* line 104, _forms.scss */
+/* line 122, _forms.scss */
 input,
 textarea,
 .uneditable-input {
   width: 206px;
 }
 
-/* line 108, _forms.scss */
+/* line 126, _forms.scss */
 textarea {
   height: auto;
 }
 
-/* line 127, _forms.scss */
+/* line 145, _forms.scss */
 textarea,
 input[type="text"],
 input[type="password"],
@@ -2189,7 +2202,7 @@ input[type="color"],
   -o-transition: border linear 0.2s, box-shadow linear 0.2s;
   transition: border linear 0.2s, box-shadow linear 0.2s;
 }
-/* line 134, _forms.scss */
+/* line 152, _forms.scss */
 textarea:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -2215,14 +2228,14 @@ input[type="color"]:focus,
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-/* line 144, _forms.scss */
+/* line 162, _forms.scss */
 input[type="radio"],
 input[type="checkbox"] {
   margin: 4px 0 0;
   line-height: normal;
 }
 
-/* line 156, _forms.scss */
+/* line 174, _forms.scss */
 input[type="file"],
 input[type="image"],
 input[type="submit"],
@@ -2233,26 +2246,26 @@ input[type="checkbox"] {
   width: auto;
 }
 
-/* line 162, _forms.scss */
+/* line 180, _forms.scss */
 select,
 input[type="file"] {
   line-height: 22px;
 }
 
-/* line 167, _forms.scss */
+/* line 185, _forms.scss */
 select {
   width: 220px;
   border: 1px solid #cccccc;
   background-color: white;
 }
 
-/* line 175, _forms.scss */
+/* line 193, _forms.scss */
 select[multiple],
 select[size] {
   height: auto;
 }
 
-/* line 183, _forms.scss */
+/* line 201, _forms.scss */
 select:focus,
 input[type="file"]:focus,
 input[type="radio"]:focus,
@@ -2262,7 +2275,7 @@ input[type="checkbox"]:focus {
   outline-offset: -2px;
 }
 
-/* line 193, _forms.scss */
+/* line 211, _forms.scss */
 .uneditable-input,
 .uneditable-textarea {
   color: #999999;
@@ -2274,13 +2287,13 @@ input[type="checkbox"]:focus {
   cursor: not-allowed;
 }
 
-/* line 202, _forms.scss */
+/* line 220, _forms.scss */
 .uneditable-input {
   overflow: hidden;
   white-space: nowrap;
 }
 
-/* line 208, _forms.scss */
+/* line 226, _forms.scss */
 .uneditable-textarea {
   width: auto;
   height: auto;
@@ -2302,21 +2315,21 @@ textarea::-webkit-input-placeholder {
   color: #999999;
 }
 
-/* line 229, _forms.scss */
+/* line 247, _forms.scss */
 .radio,
 .checkbox {
   min-height: 12px;
   padding-left: 20px;
 }
 
-/* line 234, _forms.scss */
+/* line 252, _forms.scss */
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
   float: left;
   margin-left: -19px;
 }
 
-/* line 248, _forms.scss */
+/* line 266, _forms.scss */
 input[disabled],
 select[disabled],
 textarea[disabled],
@@ -2327,7 +2340,7 @@ textarea[readonly] {
   background-color: #dddddd;
 }
 
-/* line 256, _forms.scss */
+/* line 274, _forms.scss */
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
 input[type="radio"][readonly],
@@ -2335,14 +2348,14 @@ input[type="checkbox"][readonly] {
   background-color: transparent;
 }
 
-/* line 265, _forms.scss */
+/* line 283, _forms.scss */
 input:focus:invalid,
 textarea:focus:invalid,
 select:focus:invalid {
   color: #b94a48;
   border-color: #ee5f5b;
 }
-/* line 268, _forms.scss */
+/* line 286, _forms.scss */
 input:focus:invalid:focus,
 textarea:focus:invalid:focus,
 select:focus:invalid:focus {
@@ -2352,26 +2365,26 @@ select:focus:invalid:focus {
   box-shadow: 0 0 6px #f8b9b7;
 }
 
-/* line 279, _forms.scss */
+/* line 297, _forms.scss */
 .help-block,
 .help-inline {
   color: #595959;
 }
 
-/* line 283, _forms.scss */
+/* line 301, _forms.scss */
 .help-block {
   display: block;
   margin-bottom: 6px;
 }
 
-/* line 288, _forms.scss */
+/* line 306, _forms.scss */
 .help-inline {
   display: inline-block;
   vertical-align: middle;
   padding-left: 5px;
 }
 
-/* line 301, _forms.scss */
+/* line 319, _forms.scss */
 .input-append, .scopebar .scopebar-search,
 .input-prepend,
 .-koowa-form .main .title .slug {
@@ -2381,7 +2394,7 @@ select:focus:invalid:focus {
   font-size: 0;
   white-space: nowrap;
 }
-/* line 313, _forms.scss */
+/* line 331, _forms.scss */
 .input-append input, .scopebar .scopebar-search input,
 .input-append select,
 .scopebar .scopebar-search select,
@@ -2403,7 +2416,7 @@ select:focus:invalid:focus {
 .-koowa-form .main .title .slug .popover {
   font-size: 12px;
 }
-/* line 319, _forms.scss */
+/* line 337, _forms.scss */
 .input-append input, .scopebar .scopebar-search input,
 .input-append select,
 .scopebar .scopebar-search select,
@@ -2425,7 +2438,7 @@ select:focus:invalid:focus {
   -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
-/* line 326, _forms.scss */
+/* line 344, _forms.scss */
 .input-append input:focus, .scopebar .scopebar-search input:focus,
 .input-append select:focus,
 .scopebar .scopebar-search select:focus,
@@ -2439,7 +2452,7 @@ select:focus:invalid:focus {
 .-koowa-form .main .title .slug .uneditable-input:focus {
   z-index: 2;
 }
-/* line 330, _forms.scss */
+/* line 348, _forms.scss */
 .input-append .add-on, .scopebar .scopebar-search .add-on,
 .input-prepend .add-on,
 .-koowa-form .main .title .slug .add-on {
@@ -2456,7 +2469,7 @@ select:focus:invalid:focus {
   background-color: #dddddd;
   border: 1px solid #ccc;
 }
-/* line 346, _forms.scss */
+/* line 364, _forms.scss */
 .input-append .add-on, .scopebar .scopebar-search .add-on,
 .input-append .btn,
 .scopebar .scopebar-search .btn,
@@ -2475,7 +2488,7 @@ select:focus:invalid:focus {
   -o-border-radius: 0;
   border-radius: 0;
 }
-/* line 350, _forms.scss */
+/* line 368, _forms.scss */
 .input-append .active, .scopebar .scopebar-search .active,
 .input-prepend .active,
 .-koowa-form .main .title .slug .active {
@@ -2483,13 +2496,13 @@ select:focus:invalid:focus {
   border-color: #297e52;
 }
 
-/* line 358, _forms.scss */
+/* line 376, _forms.scss */
 .input-prepend .add-on, .-koowa-form .main .title .slug .add-on,
 .input-prepend .btn,
 .-koowa-form .main .title .slug .btn {
   margin-right: -1px;
 }
-/* line 362, _forms.scss */
+/* line 380, _forms.scss */
 .input-prepend .add-on:first-child, .-koowa-form .main .title .slug .add-on:first-child,
 .input-prepend .btn:first-child,
 .-koowa-form .main .title .slug .btn:first-child {
@@ -2500,7 +2513,7 @@ select:focus:invalid:focus {
   border-radius: 4px 0 0 4px;
 }
 
-/* line 371, _forms.scss */
+/* line 389, _forms.scss */
 .input-append input, .scopebar .scopebar-search input,
 .input-append select,
 .scopebar .scopebar-search select,
@@ -2512,7 +2525,7 @@ select:focus:invalid:focus {
   -o-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
-/* line 373, _forms.scss */
+/* line 391, _forms.scss */
 .input-append input + .btn-group .btn:last-child, .scopebar .scopebar-search input + .btn-group .btn:last-child,
 .input-append select + .btn-group .btn:last-child,
 .scopebar .scopebar-search select + .btn-group .btn:last-child,
@@ -2524,7 +2537,7 @@ select:focus:invalid:focus {
   -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
-/* line 379, _forms.scss */
+/* line 397, _forms.scss */
 .input-append .add-on, .scopebar .scopebar-search .add-on,
 .input-append .btn,
 .scopebar .scopebar-search .btn,
@@ -2532,7 +2545,7 @@ select:focus:invalid:focus {
 .scopebar .scopebar-search .btn-group {
   margin-left: -1px;
 }
-/* line 384, _forms.scss */
+/* line 402, _forms.scss */
 .input-append .add-on:last-child, .scopebar .scopebar-search .add-on:last-child,
 .input-append .btn:last-child,
 .scopebar .scopebar-search .btn:last-child,
@@ -2545,7 +2558,7 @@ select:focus:invalid:focus {
   border-radius: 0 4px 4px 0;
 }
 
-/* line 393, _forms.scss */
+/* line 411, _forms.scss */
 .input-prepend.input-append input, .scopebar .input-prepend.scopebar-search input, .scopebar .-koowa-form .main .title .scopebar-search.slug input, .-koowa-form .main .title .scopebar .scopebar-search.slug input, .-koowa-form .main .title .input-append.slug input,
 .input-prepend.input-append select,
 .scopebar .input-prepend.scopebar-search select,
@@ -2563,7 +2576,7 @@ select:focus:invalid:focus {
   -o-border-radius: 0;
   border-radius: 0;
 }
-/* line 395, _forms.scss */
+/* line 413, _forms.scss */
 .input-prepend.input-append input + .btn-group .btn, .scopebar .input-prepend.scopebar-search input + .btn-group .btn, .scopebar .-koowa-form .main .title .scopebar-search.slug input + .btn-group .btn, .-koowa-form .main .title .scopebar .scopebar-search.slug input + .btn-group .btn, .-koowa-form .main .title .input-append.slug input + .btn-group .btn,
 .input-prepend.input-append select + .btn-group .btn,
 .scopebar .input-prepend.scopebar-search select + .btn-group .btn,
@@ -2581,7 +2594,7 @@ select:focus:invalid:focus {
   -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
-/* line 400, _forms.scss */
+/* line 418, _forms.scss */
 .input-prepend.input-append .add-on:first-child, .scopebar .input-prepend.scopebar-search .add-on:first-child, .scopebar .-koowa-form .main .title .scopebar-search.slug .add-on:first-child, .-koowa-form .main .title .scopebar .scopebar-search.slug .add-on:first-child, .-koowa-form .main .title .input-append.slug .add-on:first-child,
 .input-prepend.input-append .btn:first-child,
 .scopebar .input-prepend.scopebar-search .btn:first-child,
@@ -2595,7 +2608,7 @@ select:focus:invalid:focus {
   -o-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
-/* line 405, _forms.scss */
+/* line 423, _forms.scss */
 .input-prepend.input-append .add-on:last-child, .scopebar .input-prepend.scopebar-search .add-on:last-child, .scopebar .-koowa-form .main .title .scopebar-search.slug .add-on:last-child, .-koowa-form .main .title .scopebar .scopebar-search.slug .add-on:last-child, .-koowa-form .main .title .input-append.slug .add-on:last-child,
 .input-prepend.input-append .btn:last-child,
 .scopebar .input-prepend.scopebar-search .btn:last-child,
@@ -2609,30 +2622,30 @@ select:focus:invalid:focus {
   -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
-/* line 409, _forms.scss */
+/* line 427, _forms.scss */
 .input-prepend.input-append .btn-group:first-child, .scopebar .input-prepend.scopebar-search .btn-group:first-child, .scopebar .-koowa-form .main .title .scopebar-search.slug .btn-group:first-child, .-koowa-form .main .title .scopebar .scopebar-search.slug .btn-group:first-child, .-koowa-form .main .title .input-append.slug .btn-group:first-child {
   margin-left: 0;
 }
 
-/* line 416, _forms.scss */
+/* line 434, _forms.scss */
 legend + div {
   margin-top: 12px;
   -webkit-margin-top-collapse: separate;
 }
 
-/* line 422, _forms.scss */
+/* line 440, _forms.scss */
 fieldset > div {
   margin-bottom: 12px;
   overflow: hidden;
   *zoom: 1;
 }
 
-/* line 427, _forms.scss */
+/* line 445, _forms.scss */
 .help-block {
   margin-bottom: 0;
 }
 
-/* line 437, _forms.scss */
+/* line 455, _forms.scss */
 input + .help-block,
 select + .help-block,
 textarea + .help-block,
@@ -2644,12 +2657,12 @@ textarea + .help-block,
   margin-top: 6px;
 }
 
-/* line 442, _forms.scss */
+/* line 460, _forms.scss */
 .form-actions {
   padding-left: 180px;
 }
 
-/* line 448, _forms.scss */
+/* line 466, _forms.scss */
 input[type="text"],
 select {
   -webkit-box-sizing: border-box;
@@ -2659,52 +2672,42 @@ select {
   width: 100%;
 }
 
-/* line 455, _forms.scss */
+/* line 473, _forms.scss */
 select {
   max-width: 220px;
 }
 
-/* line 460, _forms.scss */
+/* line 478, _forms.scss */
 textarea {
   height: auto;
 }
 
-/* line 464, _forms.scss */
-label + div {
-  margin-left: 140px;
-}
-
-/* line 470, _forms.scss */
+/* line 484, _forms.scss */
 .input-prepend .add-on, .-koowa-form .main .title .slug .add-on,
 .input-append .add-on,
 .scopebar .scopebar-search .add-on {
   padding: 5px 5px;
 }
-/* line 474, _forms.scss */
+/* line 488, _forms.scss */
 .input-prepend .btn, .-koowa-form .main .title .slug .btn,
 .input-append .btn,
 .scopebar .scopebar-search .btn {
   padding-top: 3px;
 }
 
-/* line 480, _forms.scss */
-label:after {
-  content: ":";
-}
-
-/* line 484, _forms.scss */
+/* line 493, _forms.scss */
 .controls-calendar .input-append, .controls-calendar .scopebar .scopebar-search, .scopebar .controls-calendar .scopebar-search {
   width: 120px;
 }
 
-/* line 490, _forms.scss */
+/* line 499, _forms.scss */
 label.checkbox,
 label.radio {
   float: none;
   text-align: left;
   width: auto;
 }
-/* line 494, _forms.scss */
+/* line 503, _forms.scss */
 label.checkbox:after,
 label.radio:after {
   content: none;
