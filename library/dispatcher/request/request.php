@@ -387,7 +387,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function getContentType()
     {
-        if (!isset($this->_content_type) && $this->_headers->has('Content-Type'))
+        if (empty($this->_content_type) && $this->_headers->has('Content-Type'))
         {
             $type = $this->_headers->get('Content-Type');
 
@@ -767,10 +767,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      *
      * @return bool
      */
-    public function isPost()
+    /*public function isPost()
     {
         return (strtoupper($_SERVER['REQUEST_METHOD']) === self::POST);
-    }
+    }*/
 
     /**
      * Checks whether the request is secure or not.
