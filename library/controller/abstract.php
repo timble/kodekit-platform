@@ -70,7 +70,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Constructor.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
      */
     public function __construct(ObjectConfig $config)
     {
@@ -103,7 +103,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -135,8 +135,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Execute an action by triggering a method in the derived class.
      *
-     * @param   string      The action to execute
-     * @param   object      A command context object
+     * @param   string         $action  The action to execute
+     * @param   CommandContext $context A command context object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
@@ -181,9 +181,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed    An object that implements ObjectMixinInterface, ObjectIdentifier object
-     *                     or valid identifier string
-     * @param    array An optional associative array of configuration options
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @param    array $config  An optional associative array of configuration options
      * @return  Object
      */
     public function mixin($mixin, $config = array())
