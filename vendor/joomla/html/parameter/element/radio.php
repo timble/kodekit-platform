@@ -40,9 +40,15 @@ class JElementRadio extends JElement
 		{
 			$val	= $option->attributes('value');
 			$text	= $option->data();
-			$options[] = JHTML::_('select.option', $val, JText::_($text));
+			$options[] = (object) array('id' => $val, 'title' => JText::_($text));
 		}
 
-		return JHTML::_('select.radiolist', $options, ''.$control_name.'['.$name.']', '', 'value', 'text', $value, $control_name.$name );
+        $config = array(
+            'list'     => (object) $options,
+            'name'     => $control_name.'['.$name.']',
+            'selected' => $value,
+        );
+
+        return Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select')->radiolist($config);
 	}
 }

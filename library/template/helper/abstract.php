@@ -28,7 +28,7 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional ObjectConfig object with configuration options
+	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options
 	 */
 	public function __construct(ObjectConfig $config)
 	{

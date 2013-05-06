@@ -65,7 +65,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     {
         parent::__construct($config);
 
-        // Set the table indentifier
+        // Set the table identifier
         if (isset($config->identity_column)) {
             $this->_identity_column = $config->identity_column;
         }
@@ -73,17 +73,14 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         // Reset the row
         $this->reset();
 
-        // Set the new state of the row
-        $this->__new = $config->new;
-
-        // Set the row data
-        if (isset($config->data)) {
-            $this->setData((array)ObjectConfig::unbox($config->data), $this->__new);
-        }
-
         //Set the status
         if (isset($config->status)) {
             $this->setStatus($config->status);
+        }
+
+        // Set the row data
+        if (isset($config->data)) {
+            $this->setData($config->data->toArray(), $this->isNew());
         }
 
         //Set the status message
@@ -103,9 +100,8 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data'   => null,
-            'new'    => true,
-            'status' => null,
+            'data'            => null,
+            'status'          => null,
             'status_message'  => '',
             'identity_column' => null
         ));

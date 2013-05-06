@@ -45,9 +45,10 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
                 else $application->getUser()->addFlashMessage($event->getMessage(), 'error');
 
                 $application->dispatch();
-            }
 
-            $event->stopPropagation();
+                //Stop event propgation
+                $event->stopPropagation();
+            }
         }
     }
 }

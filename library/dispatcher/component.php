@@ -51,7 +51,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
-            'behaviors'  => array('persistable')
+            'behaviors'  => array('persistable', 'resettable')
          ));
 
         parent::_initialize($config);
@@ -150,11 +150,6 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             $url->query['view'] = $this->getController()->getView()->getName();
 
             return $this->redirect($url);
-        }
-
-        //Set default RAP (redirect after post) to the referrer for POST requests
-        if($context->request->isPost() && !$context->request->isAjax()) {
-            $context->response->setRedirect($context->request->getReferrer());
         }
 
         //Execute the component method

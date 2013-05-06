@@ -45,12 +45,12 @@ class DatabaseRowsetFolders extends DatabaseRowsetNodes
      * This function requires each row to contain a an enumerated 'path' array containing the node id's from root to
      * the node. If no path exists or the path is empty the row will be added to the root node.
      *
-	 * @param  array  	An associative array of row data to be inserted.
-	 * @param  boolean	If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
+	 * @param  array  	$list   An associative array of row data to be inserted.
+	 * @param  string	$status If TRUE, mark the row(s) as new (i.e. not in the database yet). Default TRUE
 	 * @return  Library\DatabaseRowsetAbstract
 	 * @see __construct
      */
-	public function addRow(array $list, $new = true)
+	public function addRow(array $list, $status = null)
     {
     	foreach($list as $k => $row)
 		{
@@ -60,7 +60,7 @@ class DatabaseRowsetFolders extends DatabaseRowsetNodes
 		    //Create a row prototype and clone it this is faster then instanciating a new row
 			$instance = $this->getRow()
 							->setData($row)
-							->setStatus($new ? NULL : Library\Database::STATUS_LOADED);
+							->setStatus($status);
 
         	if($hierarchy)
         	{
@@ -78,9 +78,8 @@ class DatabaseRowsetFolders extends DatabaseRowsetNodes
 				}
 
 				$node->insertChild($instance);
-        	} else {
-        		$this->insert($instance);	
         	}
+            else $this->insert($instance);
 		}
 
 		return $this;

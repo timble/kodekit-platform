@@ -107,7 +107,7 @@
         <div class="scrollable">
             <?= @template('default_publish.html') ?>
             <? if($menu->application == 'site' && ($state->type['name'] == 'component' || $state->type['name'] == 'redirect' || $state->type['name'] == 'pagelink')) : ?>
-                <fieldset class="form-horizontal">
+                <fieldset>
                     <legend><?= @text('Page') ?></legend>
                     <?= @template('default_page.html') ?>
                 </fieldset>

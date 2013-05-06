@@ -29,8 +29,6 @@ class JElementLanguages extends JElement
 			return JText::_('No Access');
 		}
 
-		jimport('joomla.language.helper');
-
         return  Library\ObjectManager::getInstance()->getObject('com:users.template.helper.listbox')->languages(array(
             'selected'    => $value,
             'application' => $node->attributes('client'),

@@ -8,45 +8,45 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
     <legend><?= @text('Publish') ?></legend>
-    <div class="control-group">
-        <label class="control-label" for="published"><?= @text('Published') ?></label>
-        <div class="controls">
+    <div>
+        <label for="published"><?= @text('Published') ?></label>
+        <div>
             <input type="checkbox" name="published" value="1" <?= $article->published ? 'checked="checked"' : '' ?> />
         </div>
     </div>
-    <div class="control-group">
-        <label class="control-label" for="access"><?= @text('Registered') ?></label>
-        <div class="controls">
+    <div>
+        <label for="access"><?= @text('Registered') ?></label>
+        <div>
             <input type="checkbox" name="access" value="1" <?= $article->access ? 'checked="checked"' : '' ?> />
         </div>
     </div>
-    <div class="control-group">
-        <label class="control-label" for="publish_on"><?= @text('Publish on') ?></label>
-        <div class="controls controls-calendar">
+    <div>
+        <label for="publish_on"><?= @text('Publish on') ?></label>
+        <div class="controls-calendar">
             <?= @helper('behavior.calendar', array('date' => $article->publish_on, 'name' => 'publish_on')); ?>
         </div>
     </div>
-    <div class="control-group">
-        <label class="control-label" for="unpublish_on"><?= @text('Unpublish on') ?></label>
-        <div class="controls controls-calendar">
+    <div>
+        <label for="unpublish_on"><?= @text('Unpublish on') ?></label>
+        <div class="controls-calendar">
             <?= @helper('behavior.calendar', array('date' => $article->unpublish_on, 'name' => 'unpublish_on')); ?>
         </div>
     </div>
 </fieldset>
 
-<fieldset class="form-horizontal">
+<fieldset>
     <legend><?= @text('Details') ?></legend>
-    <div class="control-group">
-        <label class="control-label" for="created_by"><?= @text('Author') ?></label>
-        <div class="controls">
+    <div>
+        <label for="created_by"><?= @text('Author') ?></label>
+        <div>
             <?= @helper('com:users.listbox.users', array('autocomplete' => true, 'name' => 'created_by', 'value' => 'created_by', 'selected' => $article->id ? $article->created_by : @object('user')->getId())) ?>
         </div>
     </div>
-    <div class="control-group">
-        <label class="control-label" for="created_on"><?= @text('Created on') ?></label>
-        <div class="controls">
+    <div>
+        <label for="created_on"><?= @text('Created on') ?></label>
+        <div>
             <p class="help-block"><?= @helper('date.humanize', array('date' => $article->created_on)) ?></p>
         </div>
     </div>
@@ -54,13 +54,14 @@
 
 <fieldset class="categories group">
     <legend><?= @text('Category') ?></legend>
-    <div class="control-group">
+    <div>
         <?= @template('default_categories.html', array('categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
     </div>
 </fieldset>
+
 <fieldset>
     <legend><?= @text('Description') ?></legend>
-    <div class="control-group">
+    <div>
         <textarea name="description" rows="5"><?= $article->description ?></textarea>
     </div>
 </fieldset>
@@ -82,7 +83,7 @@
     <fieldset>
         <legend><?= @text('Attachments') ?></legend>
         <? if (!$article->isNew()) : ?>
-            <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true)) ?>
+            <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true, 'image' => $article->image)) ?>
         <? endif ?>
         <?= @template('com:attachments.view.attachments.upload.html') ?>
     </fieldset>
@@ -91,11 +92,6 @@
 <? if($article->isTaggable()) : ?>
     <fieldset>
         <legend><?= @text('Tags') ?></legend>
-        <div class="control-group">
-            <label class="control-label" for="created_by"><?= @text('Tags') ?></label>
-            <div class="controls">
-                <?= @helper('com:terms.listbox.terms', array('name' => 'terms[]', 'selected' => $article->getTerms()->terms_term_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-terms', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
-            </div>
-        </div>
+        <?= @helper('com:terms.listbox.terms', array('name' => 'terms[]', 'selected' => $article->getTerms()->terms_term_id, 'filter' => array('table' => 'articles'), 'attribs' => array('class' => 'select-terms', 'multiple' => 'multiple', 'style' => 'width:220px'))) ?>
     </fieldset>
 <? endif ?>

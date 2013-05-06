@@ -21,64 +21,6 @@ defined('JPATH_BASE') or die();
 class JFactory
 {
     /**
-     * Get a application object
-     *
-     * Returns a reference to the global {@link JApplication} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @param    mixed    $id         A client identifier or name.
-     * @param    array    $config     An optional associative array of configuration settings.
-     * @return object JApplication
-     */
-    function &getApplication($id = null, $config = array(), $prefix = 'J')
-    {
-        $instance =  Nooku\Library\ObjectManager::getInstance()->getObject('application');
-        return $instance;
-    }
-
-    /**
-     * Get a session object
-     *
-     * Returns a reference to the global {@link JSession} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @access public
-     * @param array An array containing session options
-     * @return object JSession
-     */
-    function &getSession($options = array())
-    {
-        $instance = Nooku\Library\ObjectManager::getInstance()->getObject('user')->getSession();
-        return $instance;
-    }
-
-    /**
-     * Get an user object
-     *
-     * Returns a reference to the global {@link JUser} object, only creating it
-     * if it doesn't already exist.
-     *
-     * @param     int     $id     The user to load - Can be an integer or string - If string, it is converted to ID automatically.
-     *
-     * @access public
-     * @return object JUser
-     */
-    function &getUser($id = null)
-    {        
-        if (is_null($id)) {
-            $session = Nooku\Library\ObjectManager::getInstance()->getObject('user')->getSession();
-            $instance = $session->user;
-
-            if (!$instance instanceof UsersDatabaseRowUser) {
-                $instance = Nooku\Library\ObjectManager::getInstance()->getObject('com:users.database.row.user');
-            }
-        } else $instance = Nooku\Library\ObjectManager::getInstance()->getObject('com:users.database.row.user')->set('id', $id)->load();
-
-        return $instance;
-    }
-
-    /**
      * Get a configuration object
      *
      * Returns a reference to the global {@link JRegistry} object, only creating it
@@ -151,8 +93,8 @@ class JFactory
             'cachebase' => $conf->getValue('config.cache_path'),
             'lifetime' => $conf->getValue('config.cachetime') * 60, // minutes to seconds
             'language' => $conf->getValue('config.language'),
-            'storage' => $storage,
-            'site' => self::getApplication()->getSite()
+            'storage'  => $storage,
+            'site'     => Nooku\Library\ObjectManager::getInstance()->getObject('application')->getSite()
         );
 
         jimport('joomla.cache.cache');
@@ -213,21 +155,6 @@ class JFactory
     }
 
     /**
-     * Return a reference to the {@link JURI} object
-     *
-     * @access public
-     * @return object JURI
-     * @since 1.5
-     */
-    function &getURI($uri = 'SERVER')
-    {
-        jimport('joomla.environment.uri');
-
-        $instance =& JURI::getInstance($uri);
-        return $instance;
-    }
-
-    /**
      * Create a configuration object
      *
      * @access private
@@ -247,33 +174,6 @@ class JFactory
         // Create the registry with a default namespace of config
         $registry = new JRegistry('config');
         return $registry;
-    }
-
-    /**
-     * Create a session object
-     *
-     * @access private
-     * @param array $options An array containing session options
-     * @return object JSession
-     * @since 1.5
-     */
-    function &_createSession($options = array())
-    {
-        jimport('joomla.session.session');
-
-        //get the editor configuration setting
-        $conf =& JFactory::getConfig();
-        $handler = $conf->getValue('config.session_handler', 'none');
-
-        // config time is in minutes
-        $options['expire'] = ($conf->getValue('config.lifetime')) ? $conf->getValue('config.lifetime') * 60 : 900;
-
-        $session = JSession::getInstance($handler, $options);
-        if ($session->getState() == 'expired') {
-            $session->restart();
-        }
-
-        return $session;
     }
 
     /**

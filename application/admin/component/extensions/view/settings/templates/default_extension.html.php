@@ -14,7 +14,7 @@ $params->loadArray($settings->toArray());
 ?>
 
 <? if($params = $params->render('settings['.$settings->getName().']')) : ?>
-	<fieldset class="form-horizontal">
+	<fieldset>
 	    <legend><?=  @text(ucfirst($settings->getName())); ?></legend>
 		<?= $params; ?>
 	</fieldset>

@@ -11,8 +11,8 @@
 
 <fieldset id="pages-modules" class="form-horizontal">
     <legend><?= @text('Module assignement') ?></legend>
-    <div class="control-group">
-        <div class="controls">
+    <div>
+        <div>
         <? foreach($modules->available as $module) : ?>
             <input type="hidden" name="modules[<?= $module->id ?>][others]" value="" />
             <label class="checkbox">

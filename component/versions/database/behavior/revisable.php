@@ -110,7 +110,6 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                     $options = array(
                         'data'   => $row->data,
                         'status' => 'trashed',
-                        'new'    => false,
                     );
 
                     $rowset->insert($rowset->getRow($options));

@@ -22,7 +22,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render a checkbox field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function checkbox($config = array())
@@ -54,7 +54,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an search header
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function search($config = array())
@@ -76,7 +76,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render a checkall header
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function checkall($config = array())
@@ -90,7 +90,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render a sorting header
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function sort( $config = array())
@@ -156,7 +156,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an enable field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function enable($config = array())
@@ -184,7 +184,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an order field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function order($config = array())
@@ -221,7 +221,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an access field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function access($config = array())

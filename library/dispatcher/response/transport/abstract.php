@@ -143,8 +143,9 @@ abstract class DispatcherResponseTransportAbstract extends Object implements Dis
     {
         $response = $this->getResponse();
 
-        //Make sure we do not have body content for 204 and 305 status codes
-        if (in_array($response->getStatusCode(), array(HttpResponse::NO_CONTENT, HttpResponse::NOT_MODIFIED))) {
+        //Make sure we do not have body content for 204, 205 and 305 status codes
+        $codes = array(HttpResponse::NO_CONTENT, HttpResponse::NOT_MODIFIED, HttpResponse::RESET_CONTENT);
+        if (in_array($response->getStatusCode(), $codes)) {
             $response->setContent(null);
         }
 

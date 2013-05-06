@@ -21,7 +21,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
     /**
      * Render the toolbar
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function render($config = array())
@@ -60,7 +60,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
     /**
      * Render a toolbar command
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function command($config = array())
@@ -95,7 +95,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
 	/**
      * Render a separator
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function separator($config = array())
@@ -115,7 +115,7 @@ class TemplateHelperToolbar extends TemplateHelperAbstract
 	/**
      * Render a dialog button
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function dialog($config = array())
