@@ -33,6 +33,7 @@ Install [Composer](http://getcomposer.org/) and move it to a global location so 
 
 ```
 $ curl -sS https://getcomposer.org/installer | php
+
 $ mv composer.phar /usr/local/bin/composer
 ```
 Make sure to restart your Terminal before running ```composer install``` from within your cloned nooku-framework directory.
