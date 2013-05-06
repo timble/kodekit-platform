@@ -35,18 +35,20 @@ class JElementList extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$class = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
+        $class  = $node->attributes('class') ? $node->attributes('class') : 'inputbox';
+        $helper = Nooku\Library\ObjectManager::getInstance()->getObject('lib:template.helper.select');
 
         $options = array ();
         foreach ($node->children() as $option)
         {
-            $val	= $option->attributes('value');
-            $text	= $option->data();
-            $options[] = (object) array('id' => $val, 'title' => JText::_($text));
+            $options[] =  $helper->option(array(
+                'value' => $option->attributes('value'),
+                'text'  => $option->data()
+            ));
         }
 
         $config = array(
-            'list'     => (object) $options,
+            'options'  => $options,
             'name'     => $control_name.'['.$name.']',
             'selected' => $value,
             'attribs'  => array('class' => array($class))
