@@ -21,7 +21,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -135,7 +135,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function also sets the redirect to the referrer.
      *
      * @param   CommandContext  $context A command context object
-     * @return  DatabaseRow     A row object containing the saved data
+     * @return  DatabaseRowInterface     A row object containing the saved data
      */
     protected function _actionSave(CommandContext $context)
     {
@@ -157,7 +157,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function also sets the redirect to the current url
      *
      * @param    CommandContext  $context A command context object
-     * @return   DatabaseRow     A row object containing the saved data
+     * @return   DatabaseRowInterface     A row object containing the saved data
      */
     protected function _actionApply(CommandContext $context)
     {
@@ -193,7 +193,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      * This function will unlock the row(s) and set the redirect to the referrer
      *
      * @param   CommandContext  $context A command context object
-     * @return  DatabaseRow    A row object containing the data of the cancelled object
+     * @return  DatabaseRowInterface    A row object containing the data of the cancelled object
      */
     protected function _actionCancel(CommandContext $context)
     {

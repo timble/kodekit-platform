@@ -28,7 +28,7 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	/**
 	 * Fetch the unrendered view data from the cache
 	 *
-	 * @param   Library\CommandContext	A command context object
+	 * @param   Library\CommandContext	$context A command context object
 	 * @return 	void	
 	 */
 	protected function _beforeControllerRender(Library\CommandContext $context)
@@ -57,7 +57,7 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	/**
 	 * Store the unrendered view data in the cache
 	 *
-	 * @param   Library\CommandContext	A command context object
+	 * @param   Library\CommandContext	$context A command context object
 	 * @return 	void
 	 */
 	protected function _afterControllerRender(Library\CommandContext $context)
