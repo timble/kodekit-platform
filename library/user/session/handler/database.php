@@ -147,7 +147,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
 
-            $result = $this->_table->select($query, Database::FETCH_ROW)->delete();
+            $result = $this->_table->select($query, Database::FETCH_ROWSET)->delete();
         }
 
         return $result;
