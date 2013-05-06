@@ -31,7 +31,7 @@ class TemplateHelperImage extends TemplateHelperListbox
 	 * selected		string		currently selected value
 	 * attribs		array		associative array of listbox attributes
 	 *
-	 * @param   array   An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
 	 */
 	public function listbox($config = array())
@@ -104,7 +104,7 @@ class TemplateHelperImage extends TemplateHelperListbox
  	 * style		string		style string
  	 * selected		string		currently selected vallue
  	 *
- 	 * @param   array   An optional array with configuration options
+ 	 * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
  	 */
  	public function preview($config = array())

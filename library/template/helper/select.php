@@ -21,7 +21,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML select option
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function option( $config = array() )
@@ -48,7 +48,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML select list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function optionlist($config = array())
@@ -115,7 +115,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML radio list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function radiolist( $config = array())
@@ -155,7 +155,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML check list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function checklist( $config = array())
@@ -209,7 +209,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML boolean radio list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function booleanlist( $config = array())
