@@ -20,7 +20,7 @@ Installation
 
 * Clone the git repository at [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git)
 * Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
-* Run [Composer](http://getcomposer.org/) to install dependencies ```composer install``` (see Install Composer below)
+* Run [Composer](http://getcomposer.org/) to install dependencies `composer install` (see Install Composer below)
 * Create a database, eg nooku-server
 * Execute the [schema.sql](develop/code/install/sql/schema.sql), [data.sql](develop/code/install/sql/data.sqll) and [sample.sql](develop/code/install/sql/sample.sql) scripts in your nooku-server database
 * Rename [config/config.php-dist](code/config/config.php-dist) to config/config.php and fill in your database details
@@ -36,7 +36,8 @@ $ curl -sS https://getcomposer.org/installer | php
 
 $ mv composer.phar /usr/local/bin/composer
 ```
-Make sure to restart your Terminal before running ```composer install``` from within your cloned nooku-framework directory.
+
+Make sure to restart your Terminal before running `composer install` from within your cloned nooku-framework directory.
 
 License
 -------
