@@ -17,9 +17,8 @@
 ?>
 
 <? foreach($categories as $category) : ?>
-	<span class="section"></span><br />
     <label class="radio" for="categories_category_id<?= $category->id ?>">
-        <input type="radio" name="categories_category_id" id="categories_category_id<?= $category->id ?>" value="<?= $category->id ?>" class="">
+        <input type="radio" name="categories_category_id" id="categories_category_id<?= $category->id ?>" value="<?= $category->id ?>">
         <?= @escape($category->title); ?>
     </label>
     <? if($category->hasChildren()) : ?>

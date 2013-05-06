@@ -233,7 +233,7 @@ textarea {
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
   float: left;
-  margin-left: -20px;
+  margin-left: -19px;
 }
 
 // DISABLED STATE
@@ -490,6 +490,7 @@ label.checkbox,
 label.radio {
   float: none;
   text-align: left;
+  width: auto;
   &:after {
     content:none;
   }

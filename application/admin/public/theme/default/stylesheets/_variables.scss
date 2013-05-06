@@ -66,6 +66,14 @@ $borderRadiusLarge:     6px !default;
 $borderRadiusSmall:     3px !default;
 
 
+// Tables
+// -------------------------
+$tableBackground:                   transparent !default; // overall background-color
+$tableBackgroundAccent:             #f9f9f9 !default; // for striping
+$tableBackgroundHover:              #f5f5f5 !default; // for hover
+$tableBorder:                       #ddd !default; // table and cell border
+
+
 // Buttons
 // -------------------------
 $btnBackground:                     $white !default;

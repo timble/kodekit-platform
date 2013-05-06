@@ -709,6 +709,51 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0 0 6px 6px;
 }
 
+/* line 8, _tables.scss */
+.table {
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin-bottom: 12px;
+}
+/* line 18, _tables.scss */
+.table th,
+.table td {
+  padding: 8px;
+  line-height: 12px;
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+/* line 25, _tables.scss */
+.table th {
+  font-weight: bold;
+}
+/* line 29, _tables.scss */
+.table thead th {
+  vertical-align: bottom;
+}
+/* line 38, _tables.scss */
+.table caption + thead tr:first-child th,
+.table caption + thead tr:first-child td,
+.table colgroup + thead tr:first-child th,
+.table colgroup + thead tr:first-child td,
+.table thead:first-child tr:first-child th,
+.table thead:first-child tr:first-child td {
+  border-top: 0;
+}
+/* line 42, _tables.scss */
+.table tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+/* line 48, _tables.scss */
+.table tbody > tr:nth-child(odd) > td,
+.table tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+
 /* line 1, _type.scss */
 .text-small {
   font-size: smaller;
@@ -1352,8 +1397,17 @@ ul {
 .-koowa-form .main .scrollable {
   background-color: white;
 }
-
 /* line 482, _general.scss */
+.-koowa-form .sidebar textarea {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  resize: vertical;
+  width: 100%;
+}
+
+/* line 493, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1361,25 +1415,25 @@ ul {
 }
 
 /* Sidebar */
-/* line 488, _general.scss */
+/* line 499, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 491, _general.scss */
+/* line 502, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
 }
-/* line 494, _general.scss */
+/* line 505, _general.scss */
 #panel-content .-koowa-form .sidebar .scrollable {
   border-left: 1px solid #E1E1E1;
 }
-/* line 499, _general.scss */
+/* line 510, _general.scss */
 #panel-content .-koowa-form dl.tabs {
   float: left;
   margin: 10px 0 0 0;
   z-index: 50;
 }
-/* line 504, _general.scss */
+/* line 515, _general.scss */
 #panel-content .-koowa-form dl.tabs dt {
   float: left;
   padding: 6px 14px;
@@ -1394,13 +1448,13 @@ ul {
   border-radius: 5px 5px 0 0;
   margin-bottom: -1px;
 }
-/* line 515, _general.scss */
+/* line 526, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:hover {
   background-color: #F6F6F6;
   z-index: 100;
   color: #333;
 }
-/* line 523, _general.scss */
+/* line 534, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:active,
 #panel-content .-koowa-form dl.tabs dt.open,
 #panel-content .-koowa-form dl.tabs dt.open:active {
@@ -1412,31 +1466,31 @@ ul {
   -moz-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
   box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
 }
-/* line 531, _general.scss */
+/* line 542, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:active {
   background-color: #FFF;
   border-bottom-color: #CCC;
 }
-/* line 537, _general.scss */
+/* line 548, _general.scss */
 #panel-content .-koowa-form div.current {
   clear: both;
   border: 1px solid #CCC;
   padding: 10px 10px;
   background-color: #FFF;
 }
-/* line 544, _general.scss */
+/* line 555, _general.scss */
 #panel-content .-koowa-form div.current dd {
   padding: 0;
   margin: 0;
 }
 
 /* $endgroup */
-/* line 553, _general.scss */
+/* line 564, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 557, _general.scss */
+/* line 568, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -1811,49 +1865,15 @@ body.login .form #password-check.score5 {
 }
 
 /* line 104, _component.scss */
-.com_articles .categories,
-.com_users .groups {
-  padding-bottom: 14px;
-}
-
-/* line 108, _component.scss */
-.com_articles .categories h3 {
-  margin-bottom: 10px;
-}
-
-/* line 113, _component.scss */
-.com_articles .categories span,
-.com_users .groups span {
-  padding: 12px 10px 0px 0;
-  font-weight: bold;
-  display: block;
-}
-
-/* line 119, _component.scss */
-.com_articles .categories .control-group {
-  margin-left: 12px;
-}
-
-/* line 123, _component.scss */
-.com_articles textarea[name="description"] {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0;
-  resize: vertical;
-  width: 100%;
-}
-
-/* line 133, _component.scss */
 .com_extensions #toolbar-box {
   border-bottom: 1px solid #dddddd;
 }
-/* line 137, _component.scss */
+/* line 108, _component.scss */
 .com_extensions .tabs {
   position: relative;
   -webkit-flex: 1;
 }
-/* line 142, _component.scss */
+/* line 113, _component.scss */
 .com_extensions .tabs h3 {
   color: #666;
   font-size: 11px;
@@ -1862,11 +1882,11 @@ body.login .form #password-check.score5 {
   margin: 0;
   text-transform: uppercase;
 }
-/* line 151, _component.scss */
+/* line 122, _component.scss */
 .com_extensions .tab {
   z-index: 1;
 }
-/* line 154, _component.scss */
+/* line 125, _component.scss */
 .com_extensions .tab > label {
   padding: 0px 0 0px 22px;
   line-height: 26px;
@@ -1877,7 +1897,7 @@ body.login .form #password-check.score5 {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 166, _component.scss */
+/* line 137, _component.scss */
 .com_extensions .tab > label:hover {
   color: #444;
   border-top-color: #c4dbf2;
@@ -1888,11 +1908,11 @@ body.login .form #password-check.score5 {
   background: linear-gradient(#d9e8f6, #afceed);
   text-decoration: none;
 }
-/* line 173, _component.scss */
+/* line 144, _component.scss */
 .com_extensions .tab > [type=radio] {
   display: none;
 }
-/* line 176, _component.scss */
+/* line 147, _component.scss */
 .com_extensions .content {
   padding: 20px;
   position: absolute;
@@ -1904,11 +1924,11 @@ body.login .form #password-check.score5 {
   border-left: 1px solid #E1E1E1;
   overflow: scroll;
 }
-/* line 189, _component.scss */
+/* line 160, _component.scss */
 .com_extensions .content > * {
   opacity: 0;
 }
-/* line 192, _component.scss */
+/* line 163, _component.scss */
 .com_extensions [type=radio]:checked ~ label {
   color: #FFF;
   border-top-color: #5c9bda;
@@ -1923,28 +1943,28 @@ body.login .form #password-check.score5 {
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
   z-index: 2;
 }
-/* line 201, _component.scss */
+/* line 172, _component.scss */
 .com_extensions [type=radio]:checked ~ label ~ .content {
   z-index: 10;
 }
-/* line 204, _component.scss */
+/* line 175, _component.scss */
 .com_extensions [type=radio]:checked ~ label ~ .content > * {
   opacity: 1;
 }
 
-/* line 210, _component.scss */
+/* line 181, _component.scss */
 .com_pages #components {
   width: 200px;
   background: #F7F7F7;
   border-right: 1px solid #DDD;
 }
-/* line 216, _component.scss */
+/* line 187, _component.scss */
 .com_pages #components h3 {
   border-bottom: 1px solid #DDD;
   margin: 0;
   padding: 10px;
 }
-/* line 222, _component.scss */
+/* line 193, _component.scss */
 .com_pages #components a {
   display: block;
   font-size: 120%;
@@ -1952,16 +1972,16 @@ body.login .form #password-check.score5 {
   padding: 10px 15px;
   border-bottom: 1px solid #DDD;
 }
-/* line 230, _component.scss */
+/* line 201, _component.scss */
 .com_pages #components a.active {
   background: #E8F3FB;
 }
-/* line 232, _component.scss */
+/* line 203, _component.scss */
 .com_pages #layouts {
   width: 250px;
   border-right: 1px solid #DDD;
 }
-/* line 237, _component.scss */
+/* line 208, _component.scss */
 .com_pages #layouts .view h4 {
   margin: 0;
   padding: 5px;
@@ -1969,47 +1989,47 @@ body.login .form #password-check.score5 {
   border-bottom: 1px solid #DDD;
   border-top: 1px solid #DDD;
 }
-/* line 245, _component.scss */
+/* line 216, _component.scss */
 .com_pages #layouts .view:first-of-type h4 {
   border-top: none 0px;
 }
-/* line 247, _component.scss */
+/* line 218, _component.scss */
 .com_pages #layouts .view a {
   padding: 5px 10px;
   display: block;
   font-weight: bold;
 }
-/* line 252, _component.scss */
+/* line 223, _component.scss */
 .com_pages #layouts .view a.active {
   background: #E8F3FB;
 }
-/* line 257, _component.scss */
+/* line 228, _component.scss */
 .com_pages #layouts .view a small {
   font-weight: normal;
   color: #333;
 }
-/* line 262, _component.scss */
+/* line 233, _component.scss */
 .com_pages .level1 {
   padding-left: 36px;
 }
-/* line 263, _component.scss */
+/* line 234, _component.scss */
 .com_pages .level2 {
   padding-left: 54px;
 }
-/* line 264, _component.scss */
+/* line 235, _component.scss */
 .com_pages .level3 {
   padding-left: 72px;
 }
-/* line 265, _component.scss */
+/* line 236, _component.scss */
 .com_pages .level4 {
   padding-left: 90px;
 }
-/* line 266, _component.scss */
+/* line 237, _component.scss */
 .com_pages .level5 {
   padding-left: 108px;
 }
 
-/* line 270, _component.scss */
+/* line 241, _component.scss */
 .com_files #files-paginator {
   padding-top: 5px;
   background-color: #F1F1F1;
@@ -2018,17 +2038,17 @@ body.login .form #password-check.score5 {
   z-index: 1000;
 }
 
-/* line 282, _component.scss */
+/* line 253, _component.scss */
 #attachments-attachments-upload ul li {
   margin-left: 20px;
 }
-/* line 286, _component.scss */
+/* line 257, _component.scss */
 #attachments-attachments-upload ul li:nth-last-child(2) {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #dddddd;
 }
-/* line 292, _component.scss */
+/* line 263, _component.scss */
 #attachments-attachments-upload ul li:last-of-type {
   list-style: none;
 }
@@ -2293,7 +2313,7 @@ textarea::-webkit-input-placeholder {
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
   float: left;
-  margin-left: -20px;
+  margin-left: -19px;
 }
 
 /* line 248, _forms.scss */
@@ -2682,8 +2702,9 @@ label.checkbox,
 label.radio {
   float: none;
   text-align: left;
+  width: auto;
 }
-/* line 493, _forms.scss */
+/* line 494, _forms.scss */
 label.checkbox:after,
 label.radio:after {
   content: none;
