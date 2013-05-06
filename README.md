@@ -31,11 +31,8 @@ For more information about Git, please see the official website: [http://www.git
 
 Install [Composer](http://getcomposer.org/) and move it to a global location so you can use it in other projects to.
 
-```
-$ curl -sS https://getcomposer.org/installer | php
-
-$ mv composer.phar /usr/local/bin/composer
-```
+    $ curl -sS https://getcomposer.org/installer | php
+    $ mv composer.phar /usr/local/bin/composer
 
 Make sure to restart your Terminal before running `composer install` from within your cloned nooku-framework directory.
 
