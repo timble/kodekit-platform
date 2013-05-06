@@ -73,7 +73,8 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 			$value  = $option->value;
 			$text   = $config->translate ? \JText::_( $option->text ) : $option->text;
             
-			if ($option->group) {
+			if ($option->group)
+            {
 			    $html[] = '<optgroup label="'.$text.'">'.$text.'</option>';
 			    continue;
 			}
