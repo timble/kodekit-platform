@@ -8,7 +8,7 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
     <legend><?= @text('Publish') ?></legend>
     <div>
         <label for="status"><?= @text('Published') ?></label>

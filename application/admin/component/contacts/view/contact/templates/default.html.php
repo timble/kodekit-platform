@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text('Information'); ?></legend>
 				<div>
 				    <label for="position"><?= @text( 'Position' ); ?></label>

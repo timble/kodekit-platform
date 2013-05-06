@@ -8,7 +8,7 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'Diagnostics' ); ?></legend>
 	<div>
 	    <label for="settings[system][debug]"><?= @text( 'Application Profiling' ); ?></label>
@@ -26,7 +26,7 @@
 	</div>
 </fieldset>
 
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'Errors' ); ?></legend>
 	<div>
 	    <label for="settings[system][debug_mode]"><?= @text( 'Debug mode' ); ?></label>
@@ -37,7 +37,7 @@
 	</div>
 </fieldset>
 
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'Cache' ); ?></legend>
 	<div>
 	    <label for="settings[system][caching]"><?= @text( 'Cache' ); ?></label>
@@ -57,7 +57,7 @@
 	</div>
 </fieldset>
 
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'Session' ); ?></legend>
 	<div>
 	    <label for=""><?= @text( 'Session Lifetime' ); ?></label>
@@ -70,7 +70,7 @@
 	</div>
 </fieldset>
 
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'Locale' ); ?></legend>
 	<div>
 	    <label for=""><?= @text( 'Time Zone' ); ?></label>

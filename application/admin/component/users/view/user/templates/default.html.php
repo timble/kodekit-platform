@@ -35,7 +35,7 @@
 		</div>
 		
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text('General') ?></legend>
 				<div>
 				    <label for="email"><?= @text('E-Mail') ?></label>
@@ -51,7 +51,7 @@
 				    </div>
 				</div>
 			</fieldset>
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text('Password') ?></legend>
 				<div>
 				    <label for="password"><?= @text('Password') ?></label>
@@ -77,7 +77,7 @@
 				</div>
 			    <? endif; ?>
 			</fieldset>
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text('Language') ?></legend>
 				<?= $user->params->render('params') ?>
 			</fieldset>

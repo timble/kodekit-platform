@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="scrollable">
-		    <fieldset class="form-horizontal">
+		    <fieldset>
 		    	<legend><?= @text( 'Details' ); ?></legend>
 				<div>
 				    <label><?= @text('Type') ?></label>
@@ -44,21 +44,21 @@
 			</fieldset>
 
             <? if($params_rendered = $params->render('params')) : ?>
-            <fieldset class="form-horizontal">
+            <fieldset>
 				<legend><?= @text( 'Default Parameters' ); ?></legend>
                 <?= $params_rendered; ?>
 			</fieldset>
             <? endif ?>
 
             <? if($params_rendered = $params->render('params', 'advanced')) : ?>
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text( 'Advanced Parameters' ); ?></legend>
                 <?= $params_rendered; ?>
 			</fieldset>
 			<? endif ?>
 
             <? if($params_rendered = $params->render('params', 'other')) : ?>
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text( 'Other Parameters' ); ?></legend>
                 <?= $params_rendered; ?>
 			</fieldset>
