@@ -34,7 +34,7 @@
 		</div>
 
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text( 'Details' ); ?></legend>
 				<div>
 				    <label for=""><?= @text( 'Description' ); ?></label>
@@ -43,7 +43,7 @@
 				    </div>
 				</div>
 			</fieldset>
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text( 'Image' ); ?></legend>
 				<div>
 				    <label for="image"><?= @text( 'Image' ); ?></label>

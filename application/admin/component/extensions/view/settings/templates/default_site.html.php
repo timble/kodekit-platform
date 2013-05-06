@@ -8,7 +8,7 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'General' ); ?></legend>
 	<div>
 	    <label for="settings[system][sitename]"><?= @text( 'Site Name' ); ?></label>
@@ -26,7 +26,7 @@
 	</div>
 </fieldset>		
 		
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'Defaults' ); ?></legend>
 	<div>
 	    <label for="settings[system][list_limit]"><?= @text( 'List Length' ); ?></label>

@@ -9,7 +9,7 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
     <legend><?= @text( 'Publish' ); ?></legend>
     <div>
         <label for="published"><?= @text( 'Published' ) ?></label>

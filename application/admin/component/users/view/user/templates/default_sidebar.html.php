@@ -9,7 +9,7 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
     <legend><?= @text('System Information') ?></legend>
     <div>
         <label for="enabled"><?= @text('Enable User') ?></label>

@@ -9,7 +9,7 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
     <legend><?= @text('Publish'); ?></legend>
     <div>
         <label for="published"><?= @text( 'Published' ); ?></label>
@@ -38,7 +38,7 @@
     </div>
 </fieldset>
 
-<fieldset class="form-horizontal">
+<fieldset>
     <legend><?= @text('Parameters'); ?></legend>
     <?= $contact->params->render(); ?>
 </fieldset>

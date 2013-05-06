@@ -32,7 +32,7 @@
 		    </div>
 		</div>
 	    <div class="scrollable">
-	        <fieldset class="form-horizontal">
+	        <fieldset>
 	        	<legend><?= @text( 'Details' ); ?></legend>
 				<div>
 				    <label for=""><?= @text( 'URL' ); ?></label>

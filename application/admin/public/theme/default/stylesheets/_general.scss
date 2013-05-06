@@ -453,20 +453,20 @@ ul {
 	.main {
 		.title {
 			padding: 10px 10px 10px 10px;
-          @include background(linear-gradient(#F0F0F0, #EAEAEA));
+            @include background(linear-gradient(#F0F0F0, #EAEAEA));
 			border-bottom: 1px solid #CCC;
 
 			> input {
 				font-size: $baseFontSize * 1.5;
 				padding: 4px 8px;
 				margin-bottom: 0;
-              @include border-radius(4px);
+                @include border-radius(4px);
 				height: $baseLineHeight * 3;
 				line-height: $baseLineHeight * 3;
 			}
 
 			.slug {
-              @extend .input-prepend;
+                @extend .input-prepend;
 				clear: left;
 				margin-top: 5px;
 				margin-bottom: 0;
@@ -477,6 +477,17 @@ ul {
 			background-color: $white;
 		}
 	}
+
+    .sidebar {
+        textarea {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            resize: vertical;
+            width: 100%
+        }
+    }
 }
 
 .box-column {

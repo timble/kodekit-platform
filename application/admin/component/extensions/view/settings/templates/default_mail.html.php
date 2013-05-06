@@ -8,7 +8,7 @@
  */
 ?>
 
-<fieldset class="form-horizontal">
+<fieldset>
 	<legend><?= @text( 'Mail' ); ?></legend>
 	<div>
 	    <label for=""><?= @text( 'Mailer' ); ?></label>

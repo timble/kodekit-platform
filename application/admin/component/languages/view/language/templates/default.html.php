@@ -23,7 +23,7 @@
     
     <div class="form-content">
         <div class="grid_8">
-    		<fieldset class="form-horizontal">
+    		<fieldset>
     			<legend><?= @text('Details') ?></legend>
     			<div>
     			    <label><?= @text('Name') ?></label>

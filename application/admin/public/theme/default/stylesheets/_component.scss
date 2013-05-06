@@ -65,68 +65,39 @@ body.login
             }
         }
 	}
-	
-	.form {	
+
+	.form {
 		#password-check.score1 {
 			color: #FF0000;
 		}
-		
+
 		#password-check.score2 {
 			color: #FF5F5F;
 		}
-		
+
 		#password-check.score3 {
 			color: #56E500;
 		}
-		
+
 		#password-check.score4 {
 			color: #4DCD00;
 		}
-		
+
 		#password-check.score5 {
 			color: #399800;
 		}
 	}
 }
 
-.com_dashboard #panel-content {	
+.com_dashboard #panel-content {
 	> div:first-child {
 		border-right: 1px solid $grayLighter;
 	}
-	
+
 	.sidebar {
 		width: 400px;
 		padding: 20px;
 	}
-}
-
-.com_articles .categories,
-.com_users .groups {
-	padding-bottom: 14px;
-}
-
-.com_articles .categories h3 {
-	margin-bottom: 10px;
-}
-
-.com_articles .categories span,
-.com_users .groups span {
-	padding: 12px 10px 0px 0;
-	font-weight: bold;
-	display: block;
-}
-
-.com_articles .categories .control-group {
-	margin-left: 12px;
-}
-
-.com_articles textarea[name="description"] {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	margin: 0;
-	resize: vertical;
-	width: 100%
 }
 
 .com_extensions {
@@ -166,7 +137,7 @@ body.login
     .tab > label:hover {
         color: #444;
         border-top-color: lighten($blueDark, 40%);
-      @include background(linear-gradient(lighten($blueDark, 45%), lighten($blueDark, 35%)));
+        @include background(linear-gradient(lighten($blueDark, 45%), lighten($blueDark, 35%)));
         text-decoration: none;
     }
 
@@ -206,19 +177,19 @@ body.login
     }
 }
 
-.com_pages {	
+.com_pages {
 	#components {
 		width: 200px;
 		background: #F7F7F7;
 		border-right: 1px solid #DDD;
 	}
-	
+
 	#components h3 {
 		border-bottom: 1px solid #DDD;
 		margin: 0;
 		padding: 10px;
 	}
-	
+
 	#components a {
 		display: block;
 		font-size: 120%;
@@ -226,14 +197,14 @@ body.login
 		padding: 10px 15px;
 		border-bottom: 1px solid #DDD;
 	}
-	
+
 	#components a.active 	{ background: #E8F3FB; }
-	
+
 	#layouts {
 		width: 250px;
 		border-right: 1px solid #DDD;
 	}
-	
+
 	#layouts .view h4 {
 		margin: 0;
 		padding: 5px;
@@ -241,19 +212,19 @@ body.login
 		border-bottom: 1px solid #DDD;
 		border-top: 1px solid #DDD;
 	}
-	
+
 	#layouts .view:first-of-type h4 { border-top: none 0px; }
-	
+
 	#layouts .view a {
 		padding: 5px 10px;
 		display: block;
 		font-weight: bold;
-		
+
 		&.active {
 			background: #E8F3FB;
 		}
 	}
-	
+
 	#layouts .view a small {
 		font-weight: normal;
 		color: #333;
@@ -272,7 +243,7 @@ body.login
 		background-color: #F1F1F1;
 		border-top: 1px solid darken(#F1F1F1, 10%);
 		color: #333;
-		
+
 		z-index: 1000;
 	}
 }
@@ -288,7 +259,7 @@ body.login
             padding-bottom: 10px;
             border-bottom: 1px solid $grayLighter;
         }
-        
+
         li:last-of-type {
             list-style: none;
         }
