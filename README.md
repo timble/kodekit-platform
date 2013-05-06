@@ -14,36 +14,28 @@ Requirements
 
 Nooku is only supported on PHP 5.3.3 and up running MySQL v5.x, or similar. 
 
+
 Installation
 ------------
 
-Clone the git repository, use the following URL: [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git).
+* Clone the git repository at [git://git.assembla.com/nooku-framework.git](git://git.assembla.com/nooku-framework.git)
+* Switch to the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch
+* Run [Composer](http://getcomposer.org/) to install dependencies ```composer install``` (see Install Composer below)
+* Create a database, eg nooku-server
+* Execute the [schema.sql](develop/code/install/sql/schema.sql), [data.sql](develop/code/install/sql/data.sqll) and [sample.sql](develop/code/install/sql/sample.sql) scripts in your nooku-server database
+* Rename [config/config.php-dist](code/config/config.php-dist) to config/config.php and fill in your database details
 
 For more information about Git, please see the official website: [http://www.git-scm.org](http://www.git-scm.org)
 
-Then run [Composer](http://getcomposer.org/) to install dependencies:
+### Install Composer
+
+Install [Composer](http://getcomposer.org/) and move it to a global location so you can use it in other projects to.
 
 ```
-~ $ php composer.phar install
+$ curl -sS https://getcomposer.org/installer | php
+$ mv composer.phar /usr/local/bin/composer
 ```
-
-#### The 12.1 release
-
-The 12.1 release can be found in the [release/12.1](https://nooku.assembla.com/code/nooku-framework/git/nodes/release/12.1) branch and can be installed using the web installer. To install, follow the following steps :
-
-* Checkout the [release/12.1](https://nooku.assembla.com/code/nooku-framework/git/nodes/release/12.1) branch using Git.
-* Point your browser to [http://mysite.com/code/installation](http://mysite.com/code/installation) to start the installation process.
-
-You can either check out the repos root or you can checout the /code folder which contains the actual code.
-
-#### The 13.1 release
-
-The 13.1 release can befound in the the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch and for the moment can only be installed manually. To install follow the following steps :
-
-* Checkout the [develop](https://nooku.assembla.com/code/nooku-framework/git/nodes/develop) branch using Git.
-* Create a database, eg nooku-server.
-* Execute the [schema.sql](develop/code/install/sql/schema.sql), [data.sql](develop/code/install/sql/data.sqll) and [sample.sql](develop/code/install/sql/sample.sql) scripts in your nooku-server database.
-* Rename [config/config.php-dist](code/config/config.php-dist) to config/config.php and fill in your database details.
+Make sure to restart your Terminal before running ```composer install``` from within your cloned nooku-framework directory.
 
 License
 -------
