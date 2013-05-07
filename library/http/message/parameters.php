@@ -138,12 +138,20 @@ class HttpMessageParameters extends ObjectArray
      * Set a parameter
      *
      * @param   mixed   $identifier Parameter identifier, eg foo.bar
-     * @param   mixed   $value      Parameter value
+     * @param   mixed   $value     Parameter value
      * @param   boolean $replace    Whether to replace the actual value or not (true by default)
+     * @throws UnexpectedValueException If the content is not a string are cannot be casted to a string.
      * @return HttpMessageParameters
      */
     public function set($identifier, $value, $replace = true)
     {
+        if (!is_null($value) && !is_scalar($value) && !is_array($value) && !is_callable(array($value, '__toString')))
+        {
+            throw new \UnexpectedValueException(
+                'The http parameter value must be a string or object implementing __toString(), "'.gettype($value).'" given.'
+            );
+        }
+
         $keys = $this->_parseIdentifier($identifier);
 
         foreach(array_reverse($keys, true) as $key)
