@@ -57,20 +57,6 @@ class UsersControllerUser extends ApplicationControllerDefault
         }
     }
 
-    public function _actionRender(Library\CommandContext $context)
-    {
-        if($context->request->query->get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
-        {
-            $url =  '?Itemid='.$this->getObject('application.pages')->getHome()->id;
-
-            $context->user->addFlashMessage('You are already registered');
-            $context->response->setRedirect($url);
-            return false;
-        }
-
-        return parent::_actionRender($context);
-    }
-
     protected function _actionAdd(Library\CommandContext $context)
     {
         $params = $this->getObject('application.components')->users->params;
