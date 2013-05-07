@@ -21,7 +21,7 @@ class LanguagesControllerComponent extends ApplicationControllerDefault
 {
     protected function _actionEdit(Library\CommandContext $context)
     {
-        $entity = $this->getService('com:languages.model.tables')
+        $entity = $this->getObject('com:languages.model.tables')
             ->component($context->request->data->get('id', 'int'))
             ->getRowset();
 

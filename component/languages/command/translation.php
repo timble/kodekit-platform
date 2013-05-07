@@ -19,7 +19,7 @@ class CommandTranslation extends Library\Command
     {
         parent::__construct($config);
 
-        $this->_tables = $this->getService('com:languages.model.tables')
+        $this->_tables = $this->getObject('com:languages.model.tables')
             ->enabled(true)
             ->getRowset();
     }
@@ -40,7 +40,7 @@ class CommandTranslation extends Library\Command
     {
         if($query = $context->query)
         {
-            $languages = $this->getService('application.languages');
+            $languages = $this->getObject('application.languages');
             $active    = $languages->getActive();
             $primary   = $languages->getPrimary();
 
@@ -67,7 +67,7 @@ class CommandTranslation extends Library\Command
             $table = $this->_tables->find(array('name' => $context->query->table))->top();
             if($table instanceof Library\DatabaseRowInterface && $table->enabled)
             {
-                $languages = $this->getService('application.languages');
+                $languages = $this->getObject('application.languages');
                 $primary   = $languages->getPrimary();
 
                 foreach($languages as $language)
@@ -90,7 +90,7 @@ class CommandTranslation extends Library\Command
 
     protected function _databaseBeforeUpdate(Library\CommandContext $context)
     {
-        $languages = $this->getService('application.languages');
+        $languages = $this->getObject('application.languages');
         $active    = $languages->getActive();
         $primary   = $languages->getPrimary();
 
@@ -111,7 +111,7 @@ class CommandTranslation extends Library\Command
             $params = $context->query->getParams();
             if(!isset($params['id']))
             {
-                $languages = $this->getService('application.languages');
+                $languages = $this->getObject('application.languages');
                 $primary   = $languages->getPrimary();
                 $active    = $languages->getActive();
 
