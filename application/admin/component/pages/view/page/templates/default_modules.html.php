@@ -9,7 +9,7 @@
 ?>
 <?= @helper('behavior.modal') ?>
 
-<fieldset id="pages-modules" class="form-horizontal">
+<fieldset id="pages-modules">
     <legend><?= @text('Module assignement') ?></legend>
     <div>
         <div>
