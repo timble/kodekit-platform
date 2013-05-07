@@ -12,6 +12,7 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
+<?= @helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
 <ktml:module position="toolbar">
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
@@ -26,6 +27,7 @@
     <table>
         <thead>
             <tr>
+                <? if($state->sort == 'custom' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
                 <th width="1">
                     <?= @helper('grid.checkall'); ?>
                 </th>
@@ -49,9 +51,15 @@
             </tr>
         </tfoot>
 
-        <tbody>
-        <? foreach($pages as $page) : ?>
-            <tr class="sortable">
+        <tbody class="sortable">
+        <? $tbody = null; foreach($pages as $page) : ?>
+            <? if(!$page->getParentId() && $page->getParentId() != $tbody) $tbody = $page->getParentId(); ?>
+            <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>" data-sortable-level="<?= (int)$page->level ?>">
+                <? if($state->sort == 'custom' && $state->direction == 'asc') : ?>
+                    <td class="handle">
+                        <span class="text-small data-order"><?= $page->ordering ?></span>
+                    </td>
+                <? endif ?>
                 <td align="center">
                     <?= @helper('grid.checkbox',array('row' => $page)); ?>
                 </td>

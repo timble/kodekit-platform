@@ -31,7 +31,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
      */
     protected $_error_message;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -42,9 +42,9 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         $this->_config = $config->captcha;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'auto_mixin'        => true,

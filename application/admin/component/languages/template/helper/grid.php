@@ -22,7 +22,7 @@ class LanguagesTemplateHelperGrid extends Library\TemplateHelperGrid
 {
     public function status($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'status'   => '',
             'original' => 0,

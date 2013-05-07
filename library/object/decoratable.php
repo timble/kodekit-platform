@@ -21,7 +21,7 @@ interface ObjectDecoratable
      *
      * When using decorate(), the object will be decorate by the decorator
      *
-     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ServiceIdentifier object
+     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
      *                              or valid identifier string
      * @param    array $config  An optional associative array of configuration options
      * @return   ObjectDecoratable

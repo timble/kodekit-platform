@@ -31,7 +31,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
      */
     protected $_filter;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -39,7 +39,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $this->_filter = $config->filter;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'enable' => true,
@@ -64,12 +64,14 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $activation = $context->request->data->get('activation', $this->_filter);
         $item       = $this->getModel()->getRow();
 
-        if ($activation !== $item->activation) {
-            $url = $this->getService('application.pages')->getHome()->getLink();
-            $this->getService('application')->getRouter()->build($url);
+        if ($activation !== $item->activation)
+        {
+            $url = $this->getObject('application.pages')->getHome()->getLink();
+            $this->getObject('application')->getRouter()->build($url);
+
+            $context->user->addFlashMessage('Wrong activation token');
             $context->response->setRedirect($url);
-            // TODO Set message in session.
-            //$context->response->setRedirect(Library\Request::root(), 'Wrong activation token');
+
             return false;
         }
     }
@@ -90,24 +92,25 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 
     protected function _afterControllerActivate(Library\CommandContext $context)
     {
-        $url = $this->getService('application.pages')->getHome()->getLink();
-        $this->getService('application')->getRouter()->build($url);
-        $context->response->setRedirect($url);
+        $url = $this->getObject('application.pages')->getHome()->getLink();
+        $this->getObject('application')->getRouter()->build($url);
+
 
         if ($context->result === true) {
-            //@TODO : Set message in session
-            // 'Activation successfully completed'
+            $message = 'Activation successfully completed';
         } else {
-            //@TODO : Set message in session
-            // 'Activation failed'
+            $message = 'Activation failed';
         }
+
+        $context->user->addFlashMessage($message);
+        $context->response->setRedirect($url);
     }
 
     protected function _beforeControllerAdd(Library\CommandContext $context)
     {
         // Set activation on new records.
         if ($this->_enable) {
-            $context->request->data->activation = $this->getService('com:users.database.row.password')->getRandom(32);
+            $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
             $context->request->data->enabled    = 0;
         }
     }

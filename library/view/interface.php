@@ -26,8 +26,8 @@ interface ViewInterface
     /**
      * Set a view property
      *
-     * @param   string  The property name.
-     * @param   mixed   The property value.
+     * @param   string  $property The property name.
+     * @param   mixed   $value    The property value.
      * @return ViewAbstract
      */
     public function set($property, $value);
@@ -35,7 +35,7 @@ interface ViewInterface
     /**
      * Get a view property
      *
-     * @param   string  The property name.
+     * @param   string  $property   The property name.
      * @return  string  The property value.
      */
     public function get($property);
@@ -79,8 +79,8 @@ interface ViewInterface
 	/**
 	 * Method to set a model object attached to the view
 	 *
-	 * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
-	 * 					or valid identifier string
+	 * @param	mixed	$model  An object that implements ObjectInterface, ObjectIdentifier object
+	 * 					        or valid identifier string
 	 * @throws	\UnexpectedValueException	If the identifier is not a model identifier
 	 * @return	ViewAbstract
 	 */
@@ -96,9 +96,9 @@ interface ViewInterface
 	 *
 	 * In templates, use @route()
 	 *
-	 * @param	string	The query string used to create the route
-	 * @param 	boolean	If TRUE create a fully qualified route. Default TRUE.
-     * @param 	boolean	If TRUE escapes the route for xml compliance. Default TRUE.
+	 * @param	string	$route  The query string used to create the route
+	 * @param 	boolean	$fqr    If TRUE create a fully qualified route. Default TRUE.
+     * @param 	boolean	$escape If TRUE escapes the route for xml compliance. Default TRUE.
 	 * @return 	string 	The route
 	 */
 	public function getRoute($route, $fqr = null, $escape = null);

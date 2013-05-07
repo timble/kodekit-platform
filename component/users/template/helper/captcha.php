@@ -29,9 +29,9 @@ class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
      */
     public function render($config = array()) {
 
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'captcha'        => array(
@@ -64,7 +64,7 @@ class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
 
         // Use options if any.
         if (count($options = $captcha->options)) {
-            $options = Library\Config::unbox($options);
+            $options = Library\ObjectConfig::unbox($options);
             $html .= '<script type="text/javascript">';
             $html .= 'var RecaptchaOptions = ' . json_encode($options);
             $html .= '</script> ';

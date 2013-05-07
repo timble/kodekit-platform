@@ -37,14 +37,14 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         'query' => '(?:[?&][^?&"]+)*'
     );
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_linkable = $config->linkable;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array('linkable' => true));
         parent::_initialize($config);

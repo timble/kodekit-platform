@@ -129,7 +129,7 @@ class DatabaseSchemaColumn extends Object
             }
 
             if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getService('lib:filter.factory')->getFilter($this->_filter);
+                $this->_filter = $this->getObject('lib:filter.factory')->getInstance($this->_filter);
             }
 
             return $this->_filter;

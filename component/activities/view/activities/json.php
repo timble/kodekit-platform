@@ -77,13 +77,13 @@ class ViewActivitiesJson extends Library\ViewJson
 			foreach($list as $item)
 			{
 			    $id = array(
-			    	'tag:'.$this->getService('request')->getUrl()->toString(Library\HttpUrl::BASE),
+			    	'tag:'.$this->getObject('request')->getUrl()->toString(Library\HttpUrl::BASE),
 			    	'id:'.$item->id
 				);
 
 			    $items[] = array(
 			    	'id' => implode(',', $id),
-			    	'published' => $this->getService('com:activities.template.helper.date')->format(array(
+			    	'published' => $this->getObject('com:activities.template.helper.date')->format(array(
 			    		'date'   => $item->created_on,
 			    		'format' => '%Y-%m-%dT%TZ'
 				    )),

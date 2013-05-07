@@ -26,9 +26,9 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	/**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional Config object with configuration options.
+	 * @param 	object 	An optional ObjectConfig object with configuration options.
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -41,10 +41,10 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         //Create permission identifier
         $permission       = clone $this->getIdentifier();
@@ -144,7 +144,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
         if(!($this->_controller instanceof ControllerInterface))
 		{
 		    //Make sure we have a controller identifier
-		    if(!($this->_controller instanceof ServiceIdentifier)) {
+		    if(!($this->_controller instanceof ObjectIdentifier)) {
 		        $this->setController($this->_controller);
 			}
 
@@ -155,7 +155,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 			    'dispatched' => true
         	);
 
-			$this->_controller = $this->getService($this->_controller, $config);
+			$this->_controller = $this->getObject($this->_controller, $config);
 
             //Make sure the controller implements ControllerInterface
             if(!$this->_controller instanceof ControllerInterface)
@@ -172,7 +172,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 	/**
 	 * Method to set a controller object attached to the dispatcher
 	 *
-	 * @param	mixed	$controller An object that implements ControllerInterface, ServiceIdentifier object
+	 * @param	mixed	$controller An object that implements ControllerInterface, ObjectIdentifier object
 	 * 					            or valid identifier string
 	 * @return	DispatcherAbstract
 	 */
@@ -194,7 +194,7 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 		    else $identifier = $this->getIdentifier($controller);
 
             //Set the configuration
-            $this->getService()->setConfig($identifier, $config);
+            $identifier->setConfig($config);
 
 			$controller = $identifier;
 		}
@@ -203,4 +203,87 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		return $this;
 	}
+
+    /**
+     * Forward the request
+     *
+     * Forward to another dispatcher internally. Method makes an internal sub-request, calling the specified
+     * dispatcher and passing along the context.
+     *
+     * @param CommandContext $context	A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionForward(CommandContext $context)
+    {
+        //Get the dispatcher identifier
+        if(is_string($context->param) && strpos($context->param, '.') === false )
+        {
+            $identifier			 = clone $this->getIdentifier();
+            $identifier->package = $context->param;
+        }
+        else $identifier = $this->getIdentifier($context->param);
+
+        //Create the dispatcher
+        $config = array(
+            'request' 	 => $context->request,
+            'response'   => $context->response,
+            'user'       => $context->user,
+        );
+
+        $dispatcher = $this->getObject($identifier, $config);
+
+        if(!$dispatcher instanceof DispatcherInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Dispatcher: '.get_class($dispatcher).' does not implement DispatcherInterface'
+            );
+        }
+
+        $dispatcher->dispatch($context);
+    }
+
+    /**
+     * Redirect
+     *
+     * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
+     * redirect the dispatcher to another URL after a GET request.
+     *
+     * @param CommandContext $context   A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionRedirect(CommandContext $context)
+    {
+        $url = $context->param;
+
+        $context->response->setRedirect($url, DispatcherResponse::MOVED_PERMANENTLY);
+        $this->send();
+
+        return false;
+    }
+
+    /**
+     * Send the response
+     *
+     * @param CommandContext $context	A command context object
+     */
+    public function _actionSend(CommandContext $context)
+    {
+        $context->response->send();
+        exit(0);
+    }
+
+    /**
+     * Dispatch the request
+     *
+     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
+     * the request and passing along the context.
+     *
+     * @param   CommandContext	$context A command context object
+     * @return	mixed
+     */
+    protected function _actionDispatch(CommandContext $context)
+    {
+        //Send the response
+        $this->send($context);
+    }
 }

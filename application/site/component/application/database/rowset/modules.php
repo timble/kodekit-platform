@@ -16,40 +16,28 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ServiceInstantiatable
+class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract implements Library\ObjectSingleton
 {
-    public function __construct(Library\Config $config )
+    public function __construct(Library\ObjectConfig $config )
     {
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $page = $this->getService('application.pages')->getActive();
+        $page = $this->getObject('application.pages')->getActive();
 
-        $modules = $this->getService('com:pages.model.modules')
+        $modules = $this->getObject('com:pages.model.modules')
             ->application('site')
             ->published(true)
-            ->access((int) $this->getService('user')->isAuthentic())
+            ->access((int) $this->getObject('user')->isAuthentic())
             ->page($page->id)
             ->getRowset();
 
         $this->merge($modules);
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->identity_column = 'id';
         parent::_initialize($config);
-    }
-
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
-    {
-        if (!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
-        }
-
-        return $manager->get($config->service_identifier);
     }
 }

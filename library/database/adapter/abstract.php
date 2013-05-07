@@ -70,7 +70,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * The connection options
      *
-     * @var Config
+     * @var ObjectConfig
      */
     protected $_options = null;
     
@@ -84,11 +84,11 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Constructor.
      *
-     * @param     object     An optional Config object with configuration options.
+     * @param     object     An optional ObjectConfig object with configuration options.
      * Recognized key values include 'command_chain', 'charset',
      * (this list is not meant to be comprehensive).
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -105,11 +105,8 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         // Set the connection options
         $this->_options = $config->options;
 
-        //Set the mixer in the config
-        $config->mixer = $this;
-
         // Mixin the command interface
-        $this->mixin(new ObjectMixinCommand($config));
+        $this->mixin('lib:command.mixin', $config);
     }
 
     /**
@@ -127,17 +124,17 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options.
+     * @param     object     An optional ObjectConfig object with configuration options.
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'options'          => array(),
             'charset'          => 'UTF8',
-            'command_chain'    => $this->getService('lib:command.chain'),
+            'command_chain'    => $this->getObject('lib:command.chain'),
             'dispatch_events'  => true,
-            'event_dispatcher' => $this->getService('lib:event.dispatcher.default'),
+            'event_dispatcher' => $this->getObject('lib:event.dispatcher.default'),
             'enable_callbacks' => false,
             'connection'       => null,
         ));
@@ -306,7 +303,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             $this->getCommandChain()->run('after.select', $context);
         }
 
-        return Config::unbox($context->result);
+        return ObjectConfig::unbox($context->result);
     }
 
     /**

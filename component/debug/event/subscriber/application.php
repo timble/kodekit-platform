@@ -19,16 +19,16 @@ use Nooku\Library;
  */
 class EventSubscriberApplication extends Library\EventSubscriberAbstract
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
 	{
 	    //Intercept the events for profiling
-	    if($this->getService('application')->getCfg('debug'))
+	    if($this->getObject('application')->getCfg('debug'))
 	    {
 	        //Replace the event dispatcher
-	        $this->getService()->setAlias('lib:event.dispatcher.default', 'com:debug.event.profiler');
+	        $this->getObject('manager')->registerAlias('lib:event.dispatcher.default', 'com:debug.event.profiler');
 	          
 	        //Add the database tracer
-	        $this->getService('application.database')->addEventSubscriber('com:debug.event.subscriber.database');
+	        $this->getObject('application.database')->addEventSubscriber('com:debug.event.subscriber.database');
 		}
 		
 		parent::__construct($config);

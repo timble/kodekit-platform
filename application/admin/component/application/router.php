@@ -24,7 +24,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $path = trim($url->getPath(), '/');
 
         //Remove base path
-        $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBaseUrl()->getPath()));
+        $path = substr_replace($path, '', 0, strlen($this->getObject('request')->getBaseUrl()->getPath()));
 
         // Set the format
         if(!empty($url->format)) {
@@ -32,20 +32,10 @@ class ApplicationRouter extends Library\DispatcherRouter
         }
 
         //Parse site route
-        $url->query['site'] = $this->getService('application')->getSite();
+        $url->query['site'] = $this->getObject('application')->getSite();
 
         $path = str_replace($url->query['site'], '', $path);
         $path = ltrim($path, '/');
-
-        // Parse language.
-        $languages = $this->getService('application.languages');
-        if(count($languages) > 1)
-        {
-            $language  = $languages->find(array('slug' => strtok($path, '/')));
-            if(count($language)) {
-                $path = substr($path, strlen(strtok($path, '/')) + 1);
-            }
-        }
 
         //Parse component route
         if(!empty($path))
@@ -76,23 +66,9 @@ class ApplicationRouter extends Library\DispatcherRouter
         $segments = array();
 
         //Build site route
-        $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
+        $site = $this->getObject('application')->getSite();
+        if($site != 'default' && $site != $this->getObject('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
             $segments[] = $site;
-        }
-
-        //Build language route
-        $languages = $this->getService('application.languages');
-        if(count($languages) > 1)
-        {
-            if(isset($query['language']))
-            {
-                $language = $query['language'];
-                unset($query['language']);
-            }
-            else $language = $languages->getActive()->slug;
-
-            $segments[] = $language;
         }
 
 	    //Build component route

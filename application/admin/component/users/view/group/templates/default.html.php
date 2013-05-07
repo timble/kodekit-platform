@@ -27,8 +27,8 @@
         <div class="scrollable">
     		<fieldset>
     			<legend><?= @text('Users') ?></legend>
-    			<div class="control-group">
-    			    <div class="controls">
+    			<div>
+    			    <div>
     			        <?= @helper('select.users', array('selected' => $users, 'name' => 'users')) ?>
     			    </div>
     			</div>

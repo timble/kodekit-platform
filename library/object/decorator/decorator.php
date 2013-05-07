@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Object
  * @subpackage  Decorator
  */
-class ObjectDecorator extends Object implements ObjectDecoratorInterface
+class ObjectDecorator implements ObjectDecoratorInterface
 {
     /**
      * Class methods
@@ -35,14 +35,33 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig  $config  A ObjectConfig object with optional configuration options
      * @return ObjectDecorator
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
-        parent::__construct($config);
+        //Initialise the object
+        $this->_initialize($config);
 
-        $this->_delegate = $config->delegate;
+        //Set the delegate
+        if(isset($config->delegate)) {
+            $this->setDelegate($config->delegate);
+        }
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'delegate' => null,
+        ));
     }
 
     /**
@@ -73,12 +92,25 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
      * This function is called when an object is being decorated. It will get the object passed in.
      *
      * @param ObjectDecoratable $delegate The object being decorated
-     * @return ObjectMixinInterface
+     * @return ObjectDecorator
      */
     public function onDecorate(ObjectDecoratable $delegate)
     {
         $this->setDelegate($delegate);
         return $this;
+    }
+
+    /**
+     * Get a handle for this object
+     *
+     * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
+     * or for identifying an object
+     *
+     * @return string A string that is unique
+     */
+    public function getHandle()
+    {
+        return $this->getDelegate()->getHandle();
     }
 
     /**
@@ -109,6 +141,65 @@ class ObjectDecorator extends Object implements ObjectDecoratorInterface
         }
 
         return $this->__methods;
+    }
+
+    /**
+     * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
+     *
+     * @param	string|object	$identifier The class identifier or identifier object
+     * @param	array  			$config     An optional associative array of configuration settings.
+     * @return	Object Return object on success, throws exception on failure
+     */
+    public function getObject($identifier = null, array $config = array())
+    {
+        return $this->getDelegate()->getObject($identifier, $config);
+    }
+
+    /**
+     * Get a service identifier.
+     *
+     * @param	string|object	$identifier The class identifier or identifier object
+     * @return	ObjectIdentifier
+     */
+    public function getIdentifier($identifier = null)
+    {
+        return $this->getDelegate()->getIdentifier($identifier);
+    }
+
+    /**
+     * Mixin an object
+     *
+     * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
+     *
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @param    array $config  An optional associative array of configuration options
+     * @return  ObjectInterface
+     */
+    public function mixin($mixin, $config = array())
+    {
+        $this->getDelegate()->mixin($mixin, $config);
+        return $this;
+    }
+
+    /**
+     * Decorate the object
+     *
+     * When using decorate(), the object will be decorated by the decorator
+     *
+     * @@param   mixed  $decorator  An object that implements ObjectDecorator, ObjectIdentifier object
+     *                              or valid identifier string
+     * @param    array $config  An optional associative array of configuration options
+     * @return   ObjectDecorator
+     */
+    public function decorate($decorator, $config = array())
+    {
+        $decorator = $this->getDelegate($decorator, $config);
+
+        //Notify the decorator and set the delegate
+        $decorator->onDecorate($this);
+
+        return $decorator;
     }
 
     /**

@@ -20,14 +20,14 @@ use Nooku\Library;
  */
 class UsersControllerUser extends ApplicationControllerDefault
 { 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->registerCallback(array('after.add','after.edit'), array($this, 'expire'));
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -43,7 +43,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $entity = parent::_actionDelete($context);
 
-        $this->getService('com:users.model.sessions')
+        $this->getObject('com:users.model.sessions')
             ->email($entity->email)
             ->getRowset()
             ->delete();
@@ -54,7 +54,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     protected function _actionEdit(Library\CommandContext $context)
     {
         $entity = parent::_actionEdit($context);
-        $user = $this->getService('user');
+        $user = $this->getObject('user');
 
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
             // Logged user changed. Updated in memory/session user object.
@@ -69,7 +69,7 @@ class UsersControllerUser extends ApplicationControllerDefault
         $entity = $context->result;
         // Expire the user's password if a password change was requested.
         if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
-            'boolean')
+            'bool')
         ) {
             $entity->getPassword()->expire();
         }

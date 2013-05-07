@@ -30,7 +30,7 @@ class CacheControllerGroup extends ApplicationControllerDefault
            $message = JText::_('Error purging expired items');
         }
 
-        $context->response->setRedirect($context->request-getUrl(), $message);
+        $context->user->addFlashMessage($message);
         return true;
     }
     
@@ -39,7 +39,7 @@ class CacheControllerGroup extends ApplicationControllerDefault
 		$request = parent::getRequest();
 		
 	    //Force the site
-	    //$request->site = $this->getService('application')->getSite();
+	    //$request->site = $this->getObject('application')->getSite();
 	    
 	    return $request;
 	}

@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ViewPageHtml extends ViewHtml
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'template_filters' => array('expire','module'),
@@ -31,21 +31,11 @@ class ViewPageHtml extends ViewHtml
     public function render()
     {
         // Build the sorted message list
-        $messages = $this->getService('application')->getMessageQueue();
-        if (is_array($messages) && count($messages))
-        {
-            foreach ($messages as $message)
-            {
-                if (isset($message['type']) && isset($message['message'])) {
-                    $this->messages[$message['type']][] = $message['message'];
-                }
-            }
-        }
-        else  $this->messages = array();
+        $this->messages = $this->getObject('session')->getContainer('message')->all();
 
         //Set the component and layout information
-        $this->component = $this->getService('application')->getController()->getIdentifier()->package;
-        $this->layout    = $this->getService('component')->getController()->getView()->getLayout();
+        $this->component = $this->getObject('component')->getIdentifier()->package;
+        $this->layout    = $this->getObject('component')->getController()->getView()->getLayout();
 
         return parent::render();
     }

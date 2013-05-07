@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Dispatcher
  * @subpackage  Request
  */
-class DispatcherRequest extends ControllerRequest implements DispatcherRequestInterface
+class DispatcherRequest extends ControllerRequest implements DispatcherRequestInterface, ObjectInstantiable
 {
     /**
      * The request cookies
@@ -98,10 +98,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return DispatcherRequest
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -121,6 +121,18 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
         foreach($config->formats as $format => $mimetypes) {
             $this->addFormat($format, $mimetypes);
         }
+
+        //Set document root for IIS
+        if(!isset($_SERVER['DOCUMENT_ROOT']))
+        {
+            if(isset($_SERVER['SCRIPT_FILENAME'])) {
+                $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF'])));
+            }
+
+            if(isset($_SERVER['PATH_TRANSLATED'])) {
+                $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF'])));
+            }
+         }
 
         //Set the authorization
         if (!isset($_SERVER['PHP_AUTH_USER']))
@@ -208,10 +220,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'base_url'  => '/',
@@ -241,23 +253,23 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('request'))
+        if (!$manager->isRegistered('request'))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('request', $config->service_identifier);
+            $manager->registerAlias('request', $config->object_identifier);
         }
 
-        return $manager->get('request');
+        return $manager->getObject('request');
     }
 
     /**
@@ -268,7 +280,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function setCookies($parameters)
     {
-        $this->_cookies = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
+        $this->_cookies = $this->getObject('lib:http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -289,7 +301,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function setFiles($parameters)
     {
-        $this->_files = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
+        $this->_files = $this->getObject('lib:http.message.parameters', array('parameters' => $parameters));
     }
 
     /**
@@ -375,7 +387,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function getContentType()
     {
-        if (!isset($this->_content_type) && $this->_headers->has('Content-Type'))
+        if (empty($this->_content_type) && $this->_headers->has('Content-Type'))
         {
             $type = $this->_headers->get('Content-Type');
 
@@ -448,10 +460,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             }
 
             // Sanitize the url since we can't trust the server var
-            $url = $this->getService('lib:filter.url')->sanitize($url);
+            $url = $this->getObject('lib:filter.url')->sanitize($url);
 
             // Create the URI object
-            $this->_url = $this->getService('lib:http.url', array('url' => $url));
+            $this->_url = $this->getObject('lib:http.url', array('url' => $url));
 
             //Set the url port
             $port = $_SERVER['SERVER_PORT'];
@@ -487,13 +499,13 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     {
         if(!isset($this->_referrer))
         {
-            $referrer = $this->getService('lib:filter.url')->sanitize($this->_headers->get('Referer'));
-            $this->_referrer = $this->getService('lib:http.url', array('url' => $referrer));
+            $referrer = $this->getObject('lib:filter.url')->sanitize($this->_headers->get('Referer'));
+            $this->_referrer = $this->getObject('lib:http.url', array('url' => $referrer));
         }
 
         if($isInternal)
         {
-            if(!$this->getService('lib:filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
+            if(!$this->getObject('lib:filter.internalurl')->validate($this->_referrer->toString(HttpUrl::SCHEME | HttpUrl::HOST))) {
                 return null;
             }
         }
@@ -542,7 +554,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $base = clone $this->getUrl();
             $base->fromString(rtrim((string)$this->_base_url, '/'));
 
-            $this->_base_url = $this->getService('lib:http.url', array('url' => $base->toString(HttpUrl::BASE)));
+            $this->_base_url = $this->getObject('lib:http.url', array('url' => $base->toString(HttpUrl::BASE)));
         }
 
         return $this->_base_url;
@@ -563,9 +575,10 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Returns the base path of the request.
      *
+     * @param   boolean  If TRUE create a fully qualified path. Default TRUE.
      * @return  string
      */
-    public function getBasePath()
+    public function getBasePath($fqp = false)
     {
         if(!isset($this->_base_path))
         {
@@ -579,7 +592,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $this->_base_path = rtrim(dirname($path), '/\\');
         }
 
-        return $this->_base_path;
+        return $fqp ? $_SERVER['DOCUMENT_ROOT'].$this->_base_path : $this->_base_path;
     }
 
     /**
@@ -750,6 +763,16 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     }
 
     /**
+     * Is this a POST method request?
+     *
+     * @return bool
+     */
+    /*public function isPost()
+    {
+        return (strtoupper($_SERVER['REQUEST_METHOD']) === self::POST);
+    }*/
+
+    /**
      * Checks whether the request is secure or not.
      *
      * @return  string
@@ -782,8 +805,8 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      * Parses an accept header and returns an array (type => quality) of the accepted types,
      * ordered by quality.
      *
-     * @param string    header to parse
-     * @param array     default values
+     * @param string    $accept     The header to parse
+     * @param array     $default    The default values
      * @return array
      */
     protected function _parseAccept( $accept, array $defaults = NULL)

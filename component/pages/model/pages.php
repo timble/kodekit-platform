@@ -21,7 +21,7 @@ class ModelPages extends Library\ModelTable
 {
     protected $_page_xml;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 

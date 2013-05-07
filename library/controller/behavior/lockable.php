@@ -21,9 +21,9 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 

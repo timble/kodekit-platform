@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseTablePasswords extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array('behaviors' => array('expirable')));
         parent::_initialize($config);

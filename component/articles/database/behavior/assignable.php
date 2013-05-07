@@ -19,24 +19,21 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
 
         if($data->assign)
         {
-            $attachment =  $this->getService('com:attachments.model.attachments')
+            $attachment =  $this->getObject('com:attachments.model.attachments')
                 ->id($data->id)
                 ->getRow();
 
-            $article =  $this->getService('com:articles.model.articles')
+            $article =  $this->getObject('com:articles.model.articles')
                 ->id($attachment->relation->row)
                 ->getRow();
 
-            if($article->image == $attachment->path)
-            {
-                // Toggle to remove the image
-                $article->image = $article->thumbnail = null;
-            }
-            else
+            // Toggle to remove the image
+            if($article->image != $attachment->path)
             {
                 $article->image = $attachment->path;
-                $article->thumbnail = $attachment->thumbnail->thumbnail;
+                $article->thumbnail = $attachment->thumbnail->thumbnail;   
             }
+            else $article->image = $article->thumbnail = null;
 
             $article->save();
         }

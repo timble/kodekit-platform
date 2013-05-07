@@ -27,9 +27,9 @@ class UsersDispatcher extends Library\DispatcherComponent
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
-                $menu = $this->getService('application.pages')->getHome();
+                $menu = $this->getObject('application.pages')->getHome();
                 //@TODO : Fix the redirect
-                //$this->getService('application')->redirect('?Itemid='.$menu->id, 'You are already logged in!');
+                //$this->getObject('application')->redirect('?Itemid='.$menu->id, 'You are already logged in!');
             }
         }
 
@@ -38,9 +38,9 @@ class UsersDispatcher extends Library\DispatcherComponent
             //Redirect if user is already logged in
             if($context->request->query->get('view', 'alpha') == 'session')
             {
-                $menu = $this->getService('application.pages')->getHome();
+                $menu = $this->getObject('application.pages')->getHome();
                 //@TODO : Fix the redirect
-                //$this->getService('application')->redirect('?Itemid='.$menu->id, 'You are already logged out!');
+                //$this->getObject('application')->redirect('?Itemid='.$menu->id, 'You are already logged out!');
             }
         } 
                

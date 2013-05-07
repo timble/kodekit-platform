@@ -27,7 +27,7 @@ class ModuleWidgetHtml extends ModuleDefaultHtml
 
     public function _inline()
     {
-        $url = $this->getService('lib:http.url', array('url' => $this->module->params->get('url')));
+        $url = $this->getObject('lib:http.url', array('url' => $this->module->params->get('url')));
 
         $parts   = $url->getQuery(true);
         $package = substr($parts['option'], 4);
@@ -36,7 +36,7 @@ class ModuleWidgetHtml extends ModuleDefaultHtml
         $identifier = 'com:'.$package.'.controller.'.$view;
 
         //Render the component
-        $html = $this->getService($identifier, array('request' => $parts))->render();
+        $html = $this->getObject($identifier, array('request' => $parts))->render();
 
         return $html;
     }

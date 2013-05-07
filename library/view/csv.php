@@ -42,10 +42,10 @@ class ViewCsv extends ViewFile
 	 *
 	 * Called from {@link __construct()} as a first step of object instantiation.
 	 *
-	 * @param 	object 	An optional Config object with configuration options
+	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options
 	 * @return  void
 	 */
-	protected function _initialize(Config $config)
+	protected function _initialize(ObjectConfig $config)
 	{
 		$config->append(array(
 			'version'     => '1.0',
@@ -103,7 +103,7 @@ class ViewCsv extends ViewFile
 	/**
      * Render
      *
-     * @param	string	Value
+     * @param	string	$data Value
      * return 	boolean
      */
 	protected function _arrayToString($data)
@@ -131,7 +131,7 @@ class ViewCsv extends ViewFile
     /**
      * Check if the value should be quoted
      *
-     * @param	string	Value
+     * @param	string	$value Value
      * return 	boolean
      */
     protected function _quoteValue($value)

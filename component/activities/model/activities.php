@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelActivities extends Library\ModelTable
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -87,7 +87,7 @@ class ModelActivities extends Library\ModelTable
 		if ($state->start_date && $state->start_date != '0000-00-00')
 		{
 		    // TODO: Sync this code with Date and DatabaseQuery changes.
-			$start_date = $this->getService('lib:date', array('date' => $this->_state->start_date));
+			$start_date = $this->getObject('lib:date', array('date' => $this->_state->start_date));
 			$days_back  = clone $start_date;
 			$start      = $start_date->addDays(1)->addSeconds(-1)->getDate();
 

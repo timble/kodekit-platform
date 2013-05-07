@@ -22,12 +22,12 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render a checkbox field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function checkbox($config = array())
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 		$config->append(array(
 			'row'    => null,
 	    ))->append(array( 
@@ -54,12 +54,12 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an search header
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function search($config = array())
 	{
-	    $config = new ConfigJson($config);
+	    $config = new ObjectConfigJson($config);
 		$config->append(array(
 			'search'      => null,
 			'results'     => 5,
@@ -76,12 +76,12 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render a checkall header
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function checkall($config = array())
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 
 		$html = '<input type="checkbox" class="-koowa-grid-checkall" />';
 		return $html;
@@ -90,12 +90,12 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render a sorting header
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function sort( $config = array())
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 		$config->append(array(
 			'title'   	    => '',
 			'column'  	    => '',
@@ -156,12 +156,12 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an enable field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function enable($config = array())
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'enabled'
@@ -184,12 +184,12 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an order field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function order($config = array())
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'total'		=> null,
@@ -221,12 +221,12 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 	/**
 	 * Render an access field
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function access($config = array())
 	{
-		$config = new ConfigJson($config);
+		$config = new ObjectConfigJson($config);
 		$config->append(array(
 			'row'  		=> null,
 		    'field'		=> 'access'

@@ -34,20 +34,20 @@
 		</div>
 
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text( 'Details' ); ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for=""><?= @text( 'Description' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for=""><?= @text( 'Description' ); ?></label>
+				    <div>
 				        <textarea rows="9" name="description"><?= $category->description; ?></textarea>
 				    </div>
 				</div>
 			</fieldset>
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text( 'Image' ); ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="image"><?= @text( 'Image' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="image"><?= @text( 'Image' ); ?></label>
+				    <div>
 				        <?= @helper('image.listbox', array('name' => 'image')); ?>
 				    </div>
 				</div>

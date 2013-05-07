@@ -9,7 +9,7 @@
 namespace Nooku\Library;
 
 /**
- * Http Exception Bad Request Class
+ * Http Exception Not Implemented Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http

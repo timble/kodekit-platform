@@ -20,7 +20,7 @@ use Nooku\Library;
  */
 class CacheModelItems extends Library\ModelAbstract
 {	
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
 	{
 	    parent::__construct($config);
 		
@@ -80,7 +80,7 @@ class CacheModelItems extends Library\ModelAbstract
 		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
             }
 		    
-		    $this->_rowset = $this->getService('com:cache.database.rowset.items', array('data' => $data));
+		    $this->_rowset = $this->getObject('com:cache.database.rowset.items', array('data' => $data));
         }
         
         return $this->_rowset;

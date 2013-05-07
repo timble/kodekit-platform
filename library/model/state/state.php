@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Model
  * @subpackage  State
  */
-class ModelState extends Config implements ModelStateInterface
+class ModelState extends ObjectConfig implements ModelStateInterface
 {
     /**
      * Insert a new state
@@ -142,7 +142,7 @@ class ModelState extends Config implements ModelStateInterface
                     if($value !== '')
                     {
                         if(!($filter instanceof FilterInterface)) {
-                            $filter =  ServiceManager::get('lib:filter.factory')->getFilter($filter);
+                            $filter =  ObjectManager::getInstance()->getObject('lib:filter.factory')->getInstance($filter);
                         }
 
                         $value = $filter->sanitize($value);

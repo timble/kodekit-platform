@@ -31,7 +31,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
      */
     protected $_parent_column;
 
-    public function __construct( Library\Config $config)
+    public function __construct( Library\ObjectConfig $config)
     {
         $config->append(array('parent_column' => null));
         $this->_parent_column = $config->parent_column;
@@ -115,7 +115,7 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
                 $table = $context->getSubject();
                 $parent_column = $table->mapColumns($parent_column);
 
-                $subquery = $this->getService('lib:database.query.select')
+                $subquery = $this->getObject('lib:database.query.select')
                                  ->columns(array($parent_column, 'order_total' => 'COUNT(ordering)'))
                                  ->table($table->getBase())
                                  ->group($parent_column);

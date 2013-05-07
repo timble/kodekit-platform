@@ -21,7 +21,7 @@ use Nooku\Library;
  
 class CacheDatabaseRowGroup extends Library\DatabaseRowAbstract
 {	
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'identity_column'   => 'name'

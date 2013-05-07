@@ -22,7 +22,7 @@ class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
 	/**
      * Test existence of a key
      *
-     * @param  string  The key name.
+     * @param  string  $key The key name.
      * @return boolean
      */
     public function __isset($key)
@@ -33,7 +33,7 @@ class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
 	/**
      * Get a row by key
      *
-     * @param   string  The key name.
+     * @param   string  $key The key name.
      * @return  string  The corresponding value.
      */
     public function __get($key)
@@ -44,9 +44,8 @@ class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
 	/**
      * Set the rowset data based on a named array/hash
      *
-     * @param   array   An associative array of data
-     * @param   boolean If TRUE, update the modified information for each column being set.
-     *                  Default TRUE
+     * @param   array   $data     An associative array of data
+     * @param   boolean $modified If TRUE, update the modified information for each column being set. Default TRUE
      * @return  Library\DatabaseRowsetAbstract
      */
      public function setData( $data, $modified = true )

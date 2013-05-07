@@ -25,7 +25,7 @@ class ModelNodes extends ModelAbstract
 		$identifier->path  = array('database', 'row');
 		$identifier->name  = Library\StringInflector::singularize($this->getIdentifier()->name);
 	
-		return $this->getService($identifier, $options);
+		return $this->getObject($identifier, $options);
 	}
 	
 	public function createRowset(array $options = array())
@@ -33,7 +33,7 @@ class ModelNodes extends ModelAbstract
 		$identifier         = clone $this->getIdentifier();
 		$identifier->path   = array('database', 'rowset');
 	
-		return $this->getService($identifier, $options);
+		return $this->getObject($identifier, $options);
 	}
 	
     public function getRow()
@@ -72,7 +72,7 @@ class ModelNodes extends ModelAbstract
 			$state = $this->_state;
 			$type = !empty($state->types) ? (array) $state->types : array();
 
-			$list = $this->getService('com:files.database.rowset.nodes');
+			$list = $this->getObject('com:files.database.rowset.nodes');
 
 			// Special case for limit=0. We set it to -1
 			// So loop goes on till end since limit is a negative value
@@ -82,7 +82,7 @@ class ModelNodes extends ModelAbstract
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders = $this->getService('com:files.model.folders')->set($state->toArray());
+				$folders = $this->getObject('com:files.model.folders')->set($state->toArray());
 
 				foreach ($folders->getRowset() as $folder)
 				{
@@ -103,7 +103,7 @@ class ModelNodes extends ModelAbstract
 				$data = $state->toArray();
 				$data['offset'] = $offset_left < 0 ? 0 : $offset_left;
 
-                $files = $this->getService('com:files.model.files')->set($data);
+                $files = $this->getObject('com:files.model.files')->set($data);
 
 				foreach ($files->getRowset() as $file)
 				{

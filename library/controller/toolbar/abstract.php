@@ -34,9 +34,9 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     /**
      * Constructor.
      *
-     * @param  Config     An associative array of configuration settings or a Config instance.
+     * @param  ObjectConfig     An associative array of configuration settings or a ObjectConfig instance.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -66,10 +66,10 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'controller' => null,

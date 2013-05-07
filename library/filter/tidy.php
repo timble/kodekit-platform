@@ -44,14 +44,14 @@ class FilterTidy extends FilterAbstract implements FilterTraversable
     /**
      * Constructor
      *
-     * @param  object  An optional Config object with configuration options
+     * @param  object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_encoding = $config->encoding;
-        $this->_options  = Config::unbox($config->options);
+        $this->_options  = ObjectConfig::unbox($config->options);
     }
 
  	/**
@@ -59,10 +59,10 @@ class FilterTidy extends FilterAbstract implements FilterTraversable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'encoding'      => 'utf8',

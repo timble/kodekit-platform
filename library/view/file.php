@@ -65,9 +65,9 @@ class ViewFile extends ViewAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -81,10 +81,10 @@ class ViewFile extends ViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $count = count($this->getIdentifier()->path);
 
@@ -171,12 +171,13 @@ class ViewFile extends ViewAbstract
         $this->end_point = $this->filesize - 1;
     
         $this->_setHeaders();
-        
-        if (Request::get('server.HTTP_RANGE', 'cmd'))
+
+        if ($this->getObject('request')->headers->has('Range'))
         {
             // Partial download
-            $range = Request::get('server.HTTP_RANGE', 'cmd');
+            $range = $this->getObject('request')->headers->get('Range');
             $parts = explode('-', substr($range, strlen('bytes=')));
+
             $this->start_point = $parts[0];
             if (isset($parts[0])) {
                 $this->start_point = $parts[0];

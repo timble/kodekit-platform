@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Controller
  * @subpackage 	Toolbar
  */
-class ControllerToolbarCommand extends Config implements ControllerToolbarInterface
+class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbarInterface
 {
  	/**
      * The command name
@@ -50,7 +50,7 @@ class ControllerToolbarCommand extends Config implements ControllerToolbarInterf
      * Constructor.
      *
      * @param	string 			The command name
-     * @param   array|Config 	An associative array of configuration settings or a Config instance.
+     * @param   array|ObjectConfig 	An associative array of configuration settings or a ObjectConfig instance.
      */
     public function __construct( $name, $config = array() )
     {
@@ -159,7 +159,7 @@ class ControllerToolbarCommand extends Config implements ControllerToolbarInterf
     public function set($name, $value)
     {
         if (is_array($value)) {
-            $this->_data[$name] = new Config($value);
+            $this->_data[$name] = new ObjectConfig($value);
         } else {
             $this->_data[$name] = $value;
         }

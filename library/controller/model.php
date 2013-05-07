@@ -26,9 +26,9 @@ abstract class ControllerModel extends ControllerView
     /**
      * Constructor
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -45,10 +45,10 @@ abstract class ControllerModel extends ControllerView
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
     		'behaviors'  => array('lockable'),
@@ -67,7 +67,7 @@ abstract class ControllerModel extends ControllerView
     {
         if(!$this->_view instanceof ViewInterface)
         {
-            if(!$this->_view instanceof ServiceIdentifier)
+            if(!$this->_view instanceof ObjectIdentifier)
             {
                 if(!$this->getRequest()->query->has('view'))
                 {
@@ -105,11 +105,11 @@ abstract class ControllerModel extends ControllerView
     {
         if(!$this->_model instanceof ModelInterface)
         {
-            if(!($this->_model instanceof ServiceIdentifier)) {
+            if(!($this->_model instanceof ObjectIdentifier)) {
                 $this->setModel($this->_model);
             }
 
-            $this->_model = $this->getService($this->_model);
+            $this->_model = $this->getObject($this->_model);
 
             //Inject the request into the model state
             $state = $this->getRequest()->query->toArray();
@@ -129,7 +129,7 @@ abstract class ControllerModel extends ControllerView
     /**
      * Method to set a model object attached to the controller
      *
-     * @param	mixed	$model An object that implements ServiceInterface, ServiceIdentifier object
+     * @param	mixed	$model An object that implements ObjectInterface, ObjectIdentifier object
      * 					       or valid identifier string
      * @return	ControllerView
      */
@@ -304,8 +304,8 @@ abstract class ControllerModel extends ControllerView
      *
      * For example : $controller->limit(10)->browse();
      *
-     * @param	string	Method name
-     * @param	array	Array containing all the arguments for the original call
+     * @param	string	$method Method name
+     * @param	array	$args   Array containing all the arguments for the original call
      * @return	ControllerView
      *
      * @see http://martinfowler.com/bliki/FluentInterface.html

@@ -8,7 +8,7 @@ window.addEvent('domready', function() {
     new Attachments.List({
         container: 'attachments-list',
         action: '<?= @route('view=attachments') ?>',
-        token: '<?= $this->getService('user')->getSession()->getToken() ?>'
+        token: '<?= $this->getObject('user')->getSession()->getToken() ?>'
     });
 });
 </script>
@@ -28,7 +28,7 @@ window.addEvent('domready', function() {
                         <i class="icon-trash icon-white"></i>
                     </a>
                     <? if($assignable) : ?>
-                    <a class="btn btn-mini <?= ($item->path == $article->image ? 'btn-warning' : '') ?>" href="#" data-action="assign" data-id="<?= $item->id; ?>">
+                    <a class="btn btn-mini <?= ($item->path == $image ? 'btn-warning' : '') ?>" href="#" data-action="assign" data-id="<?= $item->id; ?>">
                         <i class="icon-star"></i>
                     </a>
                     <? endif ?>

@@ -28,10 +28,10 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return UserSessionHandlerDatabase
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -47,10 +47,10 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'table' => null,
@@ -96,13 +96,14 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
         {
             $row = $this->_table->select($session_id, Database::FETCH_ROW);
 
-            if (!$row->isNew())
-            {
-                $row->time = time();
-                $row->data = $session_data;
-
-                $result = $row->save();
+            if ($row->isNew()) {
+                $row->id   = $session_id;
             }
+
+            $row->time = time();
+            $row->data = $session_data;
+
+            $result = $row->save();
         }
 
         return $result;
@@ -142,11 +143,11 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
 
         if ($this->getTable()->isConnected())
         {
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->where('time < :time')
                 ->bind(array('time' => (int)(time() - $maxlifetime)));
 
-            $result = $this->_table->select($query, Database::FETCH_ROW)->delete();
+            $result = $this->_table->select($query, Database::FETCH_ROWSET)->delete();
         }
 
         return $result;
@@ -163,11 +164,11 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
         if (!($this->_table instanceof DatabaseTableInterface))
         {
             //Make sure we have a table identifier
-            if (!($this->_table instanceof ServiceIdentifier)) {
+            if (!($this->_table instanceof ObjectIdentifier)) {
                 $this->setTable($this->_table);
             }
 
-            $this->_table = $this->getService($this->_table);
+            $this->_table = $this->getObject($this->_table);
 
             if (!($this->_table instanceof DatabaseTableInterface))
             {
@@ -183,7 +184,7 @@ class UserSessionHandlerDatabase extends UserSessionHandlerAbstract
     /**
      * Set a table object attached to the handler
      *
-     * @param   mixed   $table An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed   $table An object that implements ObjectInterface, ObjectIdentifier object
      *                         or valid identifier string
      * @return UserSessionHandlerDatabase
      */

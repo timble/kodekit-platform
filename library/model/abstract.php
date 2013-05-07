@@ -47,9 +47,9 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Constructor
      *
-     * @param  Config $config    An optional Config object with configuration options
+     * @param  ObjectConfig $config    An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -62,10 +62,10 @@ abstract class ModelAbstract extends Object implements ModelInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $config An optional Config object with configuration options
+     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'state' => new ModelState(),
@@ -89,7 +89,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
         $changed = false;
 
         if (is_object($name)) {
-            $name = (array)Config::unbox($name);
+            $name = (array)ObjectConfig::unbox($name);
         }
 
         if (is_array($name))

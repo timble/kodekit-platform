@@ -35,6 +35,8 @@ Files.Compact.App = new Class({
 	},
 	setPaginator: function() {
 	},
+    setPathway: function() {
+    },
 	setGrid: function() {
 		var opts = this.options.grid;
 		var that = this;

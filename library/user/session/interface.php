@@ -39,6 +39,25 @@ interface UserSessionInterface
     public function setLifetime($lifetime);
 
     /**
+     * Set the global session namespace
+     *
+     * This specifies namespace that is used when storing or retrieving attributes from the $_SESSION global. The
+     * namespace prevents session conflicts when the session is shared.
+     *
+     * @param string $namespace The session namespace
+     * @throws \LogicException When changing the namespace of an active session
+     * @return UserSession
+     */
+    public function setNamespace($namespace);
+
+    /**
+     * Get the session namespace
+     *
+     * @return string The session namespace
+     */
+    public function getNamespace();
+
+    /**
      * Get the session token, if a token isn't set yet one will be generated.
      *
      * @param   boolean $refresh If true, a new token to be created
@@ -81,7 +100,7 @@ interface UserSessionInterface
     /**
      * Method to set a session handler object
      *
-     * @param mixed $handler An object that implements ServiceInterface, ServiceIdentifier object
+     * @param mixed $handler An object that implements ObjectInterface, ObjectIdentifier object
      *                       or valid identifier string
      * @param array $config An optional associative array of configuration settings
      * @return UserSession
@@ -109,7 +128,7 @@ interface UserSessionInterface
      *
      * If the container does not exist a container will be created on the fly.
      *
-     * @param   mixed $name An object that implements ServiceInterface, ServiceIdentifier object
+     * @param   mixed $name An object that implements ObjectInterface, ObjectIdentifier object
      *                      or valid identifier string
      * @throws \UnexpectedValueException    If the identifier is not a session container identifier
      * @return UserSessionContainerInterface
@@ -180,8 +199,8 @@ interface UserSessionInterface
     /**
      * Get a session attribute
      *
-     * @param   string  Attribute identifier, eg .foo.bar
-     * @param   mixed   Default value when the attribute doesn't exist
+     * @param   string  $identifier Attribute identifier, eg .foo.bar
+     * @param   mixed   $default    Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null);
@@ -189,8 +208,8 @@ interface UserSessionInterface
     /**
      * Set a session attribute
      *
-     * @param   mixed   Attribute identifier, eg foo.bar
-     * @param   mixed   Attribute value
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $value      Attribute value
      * @return User
      */
     public function set($identifier, $value);
@@ -198,7 +217,7 @@ interface UserSessionInterface
     /**
      * Check if a session attribute exists
      *
-     * @param   string  Attribute identifier, eg foo.bar
+     * @param   string  $identifier Attribute identifier, eg foo.bar
      * @return  boolean
      */
     public function has($identifier);

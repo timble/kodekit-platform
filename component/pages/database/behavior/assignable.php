@@ -37,7 +37,7 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
     {
         if($context->data->getStatus() == Library\Database::STATUS_DELETED)
         {
-            $this->getService('com:pages.database.table.modules_pages')
+            $this->getObject('com:pages.database.table.modules_pages')
                 ->select(array('pages_page_id' => $context->data->id))
                 ->delete();
         }
@@ -47,11 +47,11 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
     {
         if($context->data->modules)
         {
-            $pages = $this->getService('com:pages.database.table.pages')
-                ->select($this->getService('lib:database.query.select'));
+            $pages = $this->getObject('com:pages.database.table.pages')
+                ->select($this->getObject('lib:database.query.select'));
 
-            $relations = $this->getService('com:pages.database.table.modules_pages')
-                ->select($this->getService('lib:database.query.select'));
+            $relations = $this->getObject('com:pages.database.table.modules_pages')
+                ->select($this->getObject('lib:database.query.select'));
 
             foreach($context->data->modules as $id => $assignments)
             {

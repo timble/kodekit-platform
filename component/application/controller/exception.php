@@ -22,7 +22,7 @@ class ControllerException extends Library\ControllerView
     /**
      * Render an exception
      *
-     * @throws InvalidArgumentException If the action parameter is not an instance of Library\Exception
+     * @throws \InvalidArgumentException If the action parameter is not an instance of Library\Exception
      * @param Library\CommandContext $context	A command context object
      */
     protected function _actionRender(Library\CommandContext $context)
@@ -77,7 +77,7 @@ class ControllerException extends Library\ControllerView
         }
 
         //Find the real file path
-        $aliases = $this->getService('loader')->getAliases();
+        $aliases = $this->getObject('manager')->getClassLoader()->getAliases();
 
         if($alias = array_search($file, $aliases)) {
             $file = $alias;

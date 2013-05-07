@@ -20,7 +20,7 @@ class WeblinksTemplateHelperRoute extends PagesTemplateHelperRoute
 {
     public function weblink($config = array())
 	{
-        $config   = new Library\Config($config);
+        $config   = new Library\ObjectConfig($config);
         $config->append(array(
            'layout'    => null,
         ));
@@ -48,7 +48,7 @@ class WeblinksTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new Library\Config($config);
+        $config   = new Library\ObjectConfig($config);
         $config->append(array(
             'layout' => null
         ));

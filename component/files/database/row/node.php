@@ -15,11 +15,11 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 {
 	protected $_adapter;
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->mixin(new Library\ObjectMixinCommand($config->append(array('mixer' => $this))));
+		$this->mixin('lib:command.mixin', $config);
 
 		if ($config->validator !== false)
 		{
@@ -27,16 +27,16 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 				$config->validator = 'com:files.command.validator.'.$this->getIdentifier()->name;
 			}
 
-			$this->getCommandChain()->enqueue($this->getService($config->validator));
+			$this->getCommandChain()->enqueue($this->getObject($config->validator));
 		}
 	}
 
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'command_chain'     => $this->getService('lib:command.chain'),
+			'command_chain'     => $this->getObject('lib:command.chain'),
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getService('lib:event.dispatcher.default'),
+			'event_dispatcher'  => $this->getObject('lib:event.dispatcher.default'),
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));

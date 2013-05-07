@@ -19,7 +19,7 @@ use Nooku\Component\Pages;
  */
 class ApplicationTemplateFilterModule extends Pages\TemplateFilterModule
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'modules' => 'application.modules',

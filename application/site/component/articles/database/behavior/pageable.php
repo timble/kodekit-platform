@@ -27,11 +27,11 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
      */
     protected $_user;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_user = $this->getService('com:users.model.users')->id($config->user)->getRow();
+        $this->_user = $this->getObject('com:users.model.users')->id($config->user)->getRow();
     }
 
     protected function _beforeTableSelect(Library\CommandContext $context)
@@ -130,7 +130,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
                 $needles['access'] = 0;
             }
 
-            $pages = $this->getService('com:pages.model.pages')
+            $pages = $this->getObject('com:pages.model.pages')
                            ->application('site')
                            ->published(true)
                            ->getRowset()->find($needles);
@@ -158,7 +158,7 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
             if (is_null($page))
             {
                 // Look for a category page.
-                $category = $this->getService('com:categories.model.categories')->category($this->category)->getRow();
+                $category = $this->getObject('com:categories.model.categories')->category($this->category)->getRow();
                 $page     = $pages->find(array('link' => array(
                         array(
                             'view'     => 'categories',

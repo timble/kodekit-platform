@@ -29,7 +29,7 @@ class ControllerThumbnail extends ControllerAbstract
     	// Save state data for later
         $state_data = $model->getState()->toArray();
         
-        $nodes = $this->getService('com:files.model.nodes')->set($state_data)->getRowset();
+        $nodes = $this->getObject('com:files.model.nodes')->set($state_data)->getRowset();
 
         if (!$model->getState()->files && !$model->getState()->filename) 
         {

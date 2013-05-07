@@ -20,7 +20,7 @@ use Nooku\Library;
  */
 class UsersControllerSession extends ApplicationControllerDefault
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -32,7 +32,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         $this->registerCallback('after.add'  , array($this, 'redirect'));
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -45,7 +45,7 @@ class UsersControllerSession extends ApplicationControllerDefault
 
     public function authenticate(Library\CommandContext $context)
     {
-        $user = $this->getService('com:users.model.users')->email($context->request->data->get('email', 'email'))
+        $user = $this->getObject('com:users.model.users')->email($context->request->data->get('email', 'email'))
             ->getRow();
 
         if(!$user->isNew())
@@ -84,26 +84,27 @@ class UsersControllerSession extends ApplicationControllerDefault
 
     public function redirect(Library\CommandContext $context)
     {
-        if ($context->result !== false) {
+        if ($context->result !== false)
+        {
             $user     = $context->user;
-            $password = $this->getService('com:users.database.row.password')->set('id', $user->getEmail())->load();
-            if ($password->expired()) {
-                $component = $this->getService('application.components')->getComponent('users');
-                $pages     = $this->getService('application.pages');
+            $password = $this->getObject('com:users.database.row.password')->set('id', $user->getEmail())->load();
+
+            if ($password->expired())
+            {
+                $component = $this->getObject('application.components')->getComponent('users');
+                $pages     = $this->getObject('application.pages');
 
                 $page = $pages->find(array(
                     'extensions_component_id' => $component->id,
-                    'access' => 1,
                     'link'                    => array(array('view' => 'user'))));
 
                 $url                  = $page->getLink();
                 $url->query['layout'] = 'password';
                 $url->query['id']     = $user->getId();
 
-                $this->getService('application')->getRouter()->build($url);
-                $context->response->setRedirect($url);
-                // TODO Set a message in session explaining that password must be changed since it has expired.
-            } else $context->response->setRedirect($context->request->getReferrer());
+                $this->getObject('application')->getRouter()->build($url);
+                $this->getObject('application')->redirect($url);
+            }
         }
     }
 
@@ -135,7 +136,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         $entity = parent::_actionAdd($context);
 
         //Set the session data
-        $session->site = $this->getService('application')->getSite();
+        $session->site = $this->getObject('application')->getSite();
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());
@@ -158,8 +159,6 @@ class UsersControllerSession extends ApplicationControllerDefault
                 $context->user->session->destroy();
             }
         }
-        //Redirect to caller
-        $context->response->setRedirect($context->request->getReferrer());
 
         return $entity;
     }

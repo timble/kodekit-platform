@@ -61,7 +61,7 @@ class DatabaseRowFolder extends DatabaseRowNode
 	public function __get($column)
 	{
 		if ($column == 'children' && !isset($this->_data['children'])) {
-			$this->_data['children'] = $this->getService('com:files.database.rowset.folders');
+			$this->_data['children'] = $this->getObject('com:files.database.rowset.folders');
 		}
 
 		return parent::__get($column);
@@ -123,7 +123,7 @@ class DatabaseRowFolder extends DatabaseRowNode
 				'identity_column' => $this->getIdentityColumn()
 			);
 
-			$this->_children = $this->getService($identifier, $options);
+			$this->_children = $this->getObject($identifier, $options);
 		}
 
 		return $this->_children;

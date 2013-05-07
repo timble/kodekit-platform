@@ -24,7 +24,7 @@
             <input type="radio" id="tab-1" name="tab-group-1" checked="">
             <label for="tab-1"><?= @text('Global') ?></label>
             <div class="content">
-                <?= @template('default_global.html'); ?>
+                <?= @template('default_global.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
             <input type="radio" id="tab-2" name="tab-group-1">
             <label for="tab-2"><?= @text('Site') ?></label>
             <div class="content">
-                <?= @template('default_site.html'); ?>
+                <?= @template('default_site.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
             <input type="radio" id="tab-3" name="tab-group-1">
             <label for="tab-3"><?= @text('Mail') ?></label>
             <div class="content">
-                <?= @template('default_mail.html'); ?>
+                <?= @template('default_mail.html',  array('settings' => $settings->system)); ?>
             </div>
         </div>
 

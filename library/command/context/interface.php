@@ -20,15 +20,15 @@ interface CommandContextInterface
     /**
     * Get the command subject 
     *     
-    * @return ServiceInterface The command subject
+    * @return ObjectInterface The command subject
     */
     public function getSubject();
 
     /**
      * Set the command subject
      *
-     * @param ServiceInterface $subject The command subject
+     * @param ObjectInterface $subject The command subject
      * @return CommandContextInterface
      */
-    public function setSubject(ServiceInterface $subject);
+    public function setSubject(ObjectInterface $subject);
 }

@@ -35,10 +35,10 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return HttpResponse
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -54,10 +54,10 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'query' => array(),
@@ -75,7 +75,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      */
     public function setQuery($parameters)
     {
-        $this->_query = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
+        $this->_query = $this->getObject('lib:http.message.parameters', array('parameters' => $parameters));
         return $this;
     }
 
@@ -97,7 +97,7 @@ class ControllerRequest extends HttpRequest implements ControllerRequestInterfac
      */
     public function setData($parameters)
     {
-        $this->_data = $this->getService('lib:http.message.parameters', array('parameters' => $parameters));
+        $this->_data = $this->getObject('lib:http.message.parameters', array('parameters' => $parameters));
         return $this;
     }
 

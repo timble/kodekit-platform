@@ -23,15 +23,15 @@ class HttpMessageParameters extends ObjectArray
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return ObjectArray
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         //Add the parameters
-        $this->add(Config::unbox($config->parameters));
+        $this->add(ObjectConfig::unbox($config->parameters));
     }
 
     /**
@@ -39,10 +39,10 @@ class HttpMessageParameters extends ObjectArray
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'parameters' => array(),
@@ -76,7 +76,7 @@ class HttpMessageParameters extends ObjectArray
 
             // Filter the data
             if(!($filter instanceof FilterInterface)) {
-                $filter = $this->getService('lib:filter.factory')->getFilter($filter);
+                $filter = $this->getObject('lib:filter.factory')->getInstance($filter);
             }
 
             $result = $filter->sanitize($result);
@@ -124,7 +124,7 @@ class HttpMessageParameters extends ObjectArray
 
             // Filter the data
             if(!($filter instanceof FilterInterface)) {
-                $filter = $this->getService('lib:filter.factory')->getFilter($filter);
+                $filter = $this->getObject('lib:filter.factory')->getInstance($filter);
             }
 
             $result = $filter->sanitize($result);

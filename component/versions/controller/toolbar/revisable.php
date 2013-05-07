@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
     		'priority'  => Library\CommandChain::PRIORITY_LOW

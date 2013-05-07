@@ -70,9 +70,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -91,14 +91,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         //Set the dispatched state
         $this->_dispatched = $config->dispatched;
 
-        //Set the mixer in the config
-        $config->mixer = $this;
-
         // Mixin the command interface
-        $this->mixin(new ObjectMixinCommand($config));
+        $this->mixin('lib:command.mixin', $config);
 
         // Mixin the behavior interface
-        $this->mixin(new ObjectMixinBehavior($config));
+        $this->mixin('lib:behavior.mixin', $config);
     }
 
     /**
@@ -106,10 +103,10 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'command_chain'     => 'lib:command.chain',
@@ -138,8 +135,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Execute an action by triggering a method in the derived class.
      *
-     * @param   string      The action to execute
-     * @param   object      A command context object
+     * @param   string         $action  The action to execute
+     * @param   CommandContext $context A command context object
      * @throws  ControllerException If the action method doesn't exist
      * @return  mixed|false The value returned by the called method, false in error case.
      */
@@ -184,9 +181,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed    An object that implements ObjectMixinInterface, ServiceIdentifier object
-     *                     or valid identifier string
-     * @param    array An optional associative array of configuration options
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
+     *                          or valid identifier string
+     * @param    array $config  An optional associative array of configuration options
      * @return  Object
      */
     public function mixin($mixin, $config = array())
@@ -252,7 +249,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_request instanceof ControllerRequestInterface)
         {
-            $this->_request = $this->getService($this->_request);
+            $this->_request = $this->getObject($this->_request);
 
             if(!$this->_request instanceof ControllerRequestInterface)
             {
@@ -287,7 +284,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_response instanceof ControllerResponseInterface)
         {
-            $this->_response = $this->getService($this->_response);
+            $this->_response = $this->getObject($this->_response);
 
             if(!$this->_response instanceof ControllerResponseInterface)
             {
@@ -322,7 +319,7 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_user instanceof ControllerUserInterface)
         {
-            $this->_user = $this->getService($this->_user);
+            $this->_user = $this->getObject($this->_user);
 
             if(!$this->_user instanceof ControllerUserInterface)
             {
@@ -338,11 +335,11 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Get the command chain context
      *
-     * Overrides ObjectMixinCommand::getCommandContext() to insert the request and response objects into the controller
+     * Overrides CommandMixin::getCommandContext() to insert the request and response objects into the controller
      * command context.
      *
      * @return  CommandContext
-     * @see ObjectMixinCommand::getCommandContext
+     * @see CommandMixin::getCommandContext
      */
     public function getCommandContext()
     {
@@ -358,9 +355,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     /**
      * Register (map) an action to a method in the class.
      *
-     * @param   string  The action.
-     * @param   string  The name of the method in the derived class to perform
-     *                  for this action.
+     * @param   string  $alias   The action.
+     * @param   string  $action  The name of the method in the derived class to perform for this action.
      * @return  ControllerAbstract
      */
     public function registerActionAlias($alias, $action)
@@ -383,8 +379,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      * Function is also capable of checking is a behavior has been mixed successfully using is[Behavior]
      * function. If the behavior exists the function will return TRUE, otherwise FALSE.
      *
-     * @param   string  Method name
-     * @param   array   Array containing all the arguments for the original call
+     * @param   string  $method Method name
+     * @param   array   $args   Array containing all the arguments for the original call
      * @see execute()
      */
     public function __call($method, $args)

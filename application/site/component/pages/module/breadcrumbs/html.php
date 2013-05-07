@@ -21,7 +21,7 @@ class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
 {
     public function render()
     {
-        $list   = (array) $this->getService('application')->getPathway()->items;
+        $list   = (array) $this->getObject('application')->getPathway()->items;
         $params = $this->module->params;
 
         if($params->get('homeText'))
@@ -29,7 +29,7 @@ class PagesModuleBreadcrumbsHtml extends PagesModuleDefaultHtml
             $item = new \stdClass();
             $item->name = $params->get('homeText', JText::_('Home'));
 
-            $home = $this->getService('application.pages')->getHome();
+            $home = $this->getObject('application.pages')->getHome();
             $item->link = $this->getRoute($home->getLink()->getQuery().'&Itemid='.$home->id);
 
             array_unshift($list, $item);

@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDispatcher extends Library\DispatcherApplication
+class ApplicationDispatcher extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
      * The site identifier.
@@ -26,25 +26,18 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected $_site;
 
     /**
-     * The application message queue.
-     *
-     * @var	array
-     */
-    protected $_message_queue = array();
-
-    /**
      * The application options
      *
-     * @var Library\Config
+     * @var Library\ObjectConfig
      */
     protected $_options = null;
 
     /**
      * Constructor.
      *
-     * @param 	object 	An optional Library\Config object with configuration options.
+     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -62,9 +55,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         //Set the base url in the request
         $this->getRequest()->setBaseUrl($config->base_url);
 
-        //Setup the request
-        Library\Request::root(str_replace('/administrator', '', Library\Request::base()));
-
         //Set the site name
         if(empty($config->site)) {
             $this->_site = $this->_findSite();
@@ -78,25 +68,42 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\Config object with configuration options.
+     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
+            'controller'        => 'page',
             'base_url'          => '/administrator',
-            'component'         => 'dashboard',
             'event_dispatcher'  => 'com:debug.event.dispatcher.debug',
             'event_subscribers' => array('com:application.event.subscriber.unauthorized'),
             'site'     => null,
             'options'  => array(
                 'session_name' => 'admin',
                 'config_file'  => JPATH_ROOT.'/config/config.php',
-                'theme'        => 'bootstrap'
+                'language'     => null,
+                'theme'        => 'default'
             ),
         ));
 
         parent::_initialize($config);
+    }
+
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    {
+        // Check if an instance with this identifier already exists
+        if (!$manager->isRegistered('application'))
+        {
+            $classname = $config->object_identifier->classname;
+            $instance  = new $classname($config);
+            $manager->setObject($config->object_identifier, $instance);
+
+            //Add the service alias to allow easy access to the singleton
+            $manager->registerAlias('application', $config->object_identifier);
+        }
+
+        return $manager->getObject('application');
     }
 
     /**
@@ -110,7 +117,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the paths
-        $params = $this->getService('application.components')->files->params;
+        $params = $this->getObject('application.components')->files->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
@@ -139,45 +146,43 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         //Set the request
         $context->request->query->add($url->query);
 
-        //Set the controller to dispatch
-        if($context->request->query->has('option'))
-        {
-            $component = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->setComponent($component);
-        }
+        //Forward the request
+        $component = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
+        $this->forward($component);
 
         //Dispatch the request
         $this->dispatch();
     }
 
     /**
-     * Dispatch the request
+     * Forward to the component
+     *
+     * @param Library\CommandContext $context	A command context object
+     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
+     */
+    protected function _actionForward(Library\CommandContext $context)
+    {
+        //Set the controller to dispatch
+        $component = (string) $context->param;
+
+        if (!$this->getObject('application.components')->isEnabled($component)) {
+            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
+        }
+
+        parent::_actionForward($context);
+    }
+
+    /**
+     * Dispatch the controller
      *
      * @param Library\CommandContext $context	A command context object
      */
     protected function _actionDispatch(Library\CommandContext $context)
     {
-        $component = $this->getController()->getIdentifier()->package;
-
-        if (!$this->getService('application.components')->isEnabled($component)) {
-            throw new ControllerExceptionNotFound('Component Not Enabled');
-        }
-
-        /*
-         * Disable controller persistency on non-HTTP requests, e.g. AJAX. This avoids changing
-         * the model state session variable of the requested model, which is often undesirable
-         * under these circumstances.
-         */
-        if($this->getRequest()->isGet() && !$this->getRequest()->isAjax()) {
-            $this->getComponent()->attachBehavior('persistable');
-        }
-
-        //Dispatch the controller
-        parent::_actionDispatch($context);
-
         //Render the page
         if(!$context->response->isRedirect() && $context->request->getFormat() == 'html')
         {
+            //Render the page
             $config = array('response' => $context->response);
 
             $layout = $context->request->query->get('tmpl', 'cmd', 'default');
@@ -185,13 +190,12 @@ class ApplicationDispatcher extends Library\DispatcherApplication
                 $layout = 'login';
             }
 
-            $this->getService('com:application.controller.page', $config)
-                 ->layout($layout)
-                 ->render();
+            $this->getObject('com:application.controller.page', $config)
+                ->layout($layout)
+                ->render();
         }
 
-        //Send the response
-        $this->send($context);
+        parent::_actionDispatch($context);
     }
 
     /**
@@ -215,7 +219,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             'response' => $this->getResponse()
         );
 
-        $this->getService('com:application.controller.exception',  $config)
+        $this->getObject('com:application.controller.exception',  $config)
              ->render($context->param->getException());
 
         //Send the response
@@ -231,7 +235,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     public function loadConfig(Library\CommandContext $context)
     {
         // Check if the site exists
-        if($this->getService('com:sites.model.sites')->getRowset()->find($this->getSite()))
+        if($this->getObject('com:sites.model.sites')->getRowset()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->_options->toArray());
@@ -289,7 +293,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
         if($context->user->isAuthentic() && ($session->site != $this->getSite()))
         {
             //@TODO : Fix this
-            //if(!$this->getService('com:users.controller.session')->add()) {
+            //if(!$this->getObject('com:users.controller.session')->add()) {
             //    $session->destroy();
             //}
         }
@@ -302,43 +306,35 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     public function loadLanguage(Library\CommandContext $context)
     {
-        $languages = $this->getService('application.languages');
-        $primary   = $languages->getPrimary();
+        $languages = $this->getObject('application.languages');
+        $language = null;
 
-        // Set content language.
-        if(count($languages) > 1)
+        // If a language was specified it has priority.
+        if($iso_code = $this->_options->language)
         {
-            $url      = clone $context->request->getUrl();
-            $path     = explode('/', $url->getPath());
-            $language = isset($path[2]) ? $languages->find(array('slug' => $path[2])) : array();
-
-            // If language slug is not in the path, make a redirect.
-            if(!count($language))
-            {
-                $url->setPath(implode('/', array_merge(array_slice($path, 0, 2), array($primary->slug), array_slice($path, 2))));
-                $context->response->setRedirect($url);
-                $languages->setActive($primary);
-            }
-            else
-            {
-                $language = $language->top();
-                $languages->setActive($language);
-
-                $chain = $this->getService('com:languages.command.translation');
-                $this->getService('lib:database.adapter.mysql')->getCommandChain()->enqueue($chain);
+            $result = $languages->find(array('iso_code' => $iso_code));
+            if(count($result) == 1) {
+                $language = $result->top();
             }
         }
-        else $languages->setActive($primary);
 
-        // Set application language.
-        $language = $languages->find(array('iso_code' => $context->user->get('language')));
+        // Otherwise use user language setting.
+        if(!$language && $iso_code = $context->user->get('language'))
+        {
+            $result = $languages->find(array('iso_code' => $iso_code));
+            if(count($result) == 1) {
+                $language = $result->top();
+            }
+        }
 
-        if(count($language)) {
-            $language = $language->top();
-        } else {
+        // If language still not set, use the primary.
+        if(!$language) {
             $language = $languages->getPrimary();
         }
 
+        $languages->setActive($language);
+
+        // TODO: Remove this.
         JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
@@ -350,7 +346,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
      */
     public function getRouter(array $options = array())
     {
-        $router = $this->getService('com:application.router', $options);
+        $router = $this->getObject('com:application.router', $options);
         return $router;
     }
 
@@ -387,52 +383,6 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     }
 
     /**
-     * Enqueue a system message.
-     *
-     * @param	string 	$msg 	The message to enqueue.
-     * @param	string	$type	The message type.
-     */
-    function enqueueMessage( $msg, $type = 'message' )
-    {
-        // For empty queue, if messages exists in the session, enqueue them first
-        if (!count($this->_message_queue))
-        {
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->remove('application.queue');
-            }
-        }
-
-        // Enqueue the message
-        $this->_message_queue[] = array('message' => $msg, 'type' => strtolower($type));
-    }
-
-    /**
-     * Get the system message queue.
-     *
-     * @return	The system message queue.
-     */
-    function getMessageQueue()
-    {
-        // For empty queue, if messages exists in the session, enqueue them
-        if (!count($this->_message_queue))
-        {
-            $session_queue = $this->getUser()->get('application.queue');
-
-            if (count($session_queue))
-            {
-                $this->_message_queue = $session_queue;
-                $this->getUser()->set('application.queue', null);
-            }
-        }
-
-        return $this->_message_queue;
-    }
-
-    /**
      * Find the site name
      *
      * This function tries to get the site name based on the information present in the request. If no site can be found
@@ -443,10 +393,10 @@ class ApplicationDispatcher extends Library\DispatcherApplication
     protected function _findSite()
     {
         // Check URL host
-        $uri  = clone(JURI::getInstance());
+        $uri  = clone($this->getRequest()->getUrl());
 
         $host = $uri->getHost();
-        if(!$this->getService('com:sites.model.sites')->getRowset()->find($host))
+        if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
         {
             // Check folder
             $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -458,7 +408,7 @@ class ApplicationDispatcher extends Library\DispatcherApplication
             }
 
             //Check if the site can be found, otherwise use 'default'
-            if(!$this->getService('com:sites.model.sites')->getRowset()->find($site)) {
+            if(!$this->getObject('com:sites.model.sites')->getRowset()->find($site)) {
                 $site = 'default';
             }
 

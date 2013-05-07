@@ -19,18 +19,18 @@ use Nooku\Library;
  */
 class ViewHtml extends Library\ViewHtml
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $path  = $this->getService('request')->getBaseUrl()->getPath();
-        $path .= '/theme/'.$this->getService('application')->getTheme().'/';
+        $path  = $this->getObject('request')->getBaseUrl()->getPath();
+        $path .= '/theme/'.$this->getObject('application')->getTheme().'/';
         $this->getTemplate()->getFilter('alias')->addAlias(
             array($this->_mediaurl.'/application/' => $path), Library\TemplateFilter::MODE_COMPILE | Library\TemplateFilter::MODE_RENDER
         );
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'auto_assign' => false,

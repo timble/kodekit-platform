@@ -28,7 +28,7 @@ class ContactsViewContactsRss extends Library\ViewRss
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com:contacts.model.categories')
+        $category = $this->getObject('com:contacts.model.categories')
                          ->table('contacts')
                          ->id($this->getModel()->getState()->category)
                          ->getRow();

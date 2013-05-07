@@ -27,5 +27,15 @@ class DatabaseRowRevision extends Library\DatabaseRowTable
 		}
 
     	return parent::__get($column);
-   }
+    }
+
+    public function setStatus($status)
+    {
+        if($status == 'trashed') {
+            parent::setStatus(Library\Database::STATUS_DELETED);
+        }
+
+        $this->_status = $status;
+        return $this;
+    }
 }

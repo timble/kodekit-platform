@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Object
  * @subpackage  Decorator
  */
-interface ObjectDecoratorInterface extends ObjectInterface
+interface ObjectDecoratorInterface extends ObjectInterface, ObjectHandlable, ObjectMixable, ObjectDecoratable
 {
     /**
      * Get the decorated object

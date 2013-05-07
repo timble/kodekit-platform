@@ -51,10 +51,10 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return HttpMessage
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -71,10 +71,10 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'version'      => '1.1',
@@ -94,7 +94,7 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      */
     public function setHeaders($headers)
     {
-        $this->_headers = $this->getService('lib:http.message.headers', array('headers' => $headers));
+        $this->_headers = $this->getObject('lib:http.message.headers', array('headers' => $headers));
         return $this;
     }
 

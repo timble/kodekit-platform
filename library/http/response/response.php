@@ -133,7 +133,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
         500 => 'Internal Server Error',  
         501 => 'Not Implemented',  
         502 => 'Bad Gateway',  
-        503 => 'Service Unavailable',  
+        503 => 'Object Unavailable',
         504 => 'Gateway Timeout',  
         505 => 'HTTP Version Not Supported'  
     );
@@ -141,10 +141,10 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return HttpResponse
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -162,10 +162,10 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'content'        => '',
@@ -186,7 +186,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      */
     public function setHeaders($headers)
     {
-        $this->_headers = $this->getService('lib:http.response.headers', array('headers' => $headers));
+        $this->_headers = $this->getObject('lib:http.response.headers', array('headers' => $headers));
         return $this;
     }
 
@@ -233,7 +233,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
     {
         $code = $this->getStatusCode();
 
-        if (isset($this->_status_message)) {
+        if (empty($this->_status_message)) {
             $message = self::$status_messages[$code];
         } else {
             $message = $this->_status_message;

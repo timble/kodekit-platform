@@ -24,7 +24,7 @@ class PagesViewPageHtml extends Library\ViewHtml
         // Load languages.
         $language   = JFactory::getLanguage();
 
-        foreach($this->getService('com:extensions.model.components')->getRowset() as $component) {
+        foreach($this->getObject('com:extensions.model.components')->getRowset() as $component) {
             $language->load($component->name);
         }
         
@@ -32,31 +32,31 @@ class PagesViewPageHtml extends Library\ViewHtml
         $model = $this->getModel();
         $page  = $model->getRow();
 
-        $menu  = $this->getService('com:pages.model.menus')
+        $menu  = $this->getObject('com:pages.model.menus')
             ->id($model->menu)
             ->getRow();
         
-        $this->components = $this->getService('com:pages.model.types')
+        $this->components = $this->getObject('com:pages.model.types')
             ->application($menu->application)
             ->getRowset();
 
         // Get available and assigned modules.
-        $available = $this->getService('com:pages.model.modules')
+        $available = $this->getObject('com:pages.model.modules')
             ->published(true)
             ->application('site')
             ->getRowset();
 
-        $query = $this->getService('lib:database.query.select')
+        $query = $this->getObject('lib:database.query.select')
             ->where('tbl.pages_page_id IN :id')
             ->bind(array('id' => array((int) $page->id, 0)));
 
-        $assigned = $this->getService('com:pages.database.table.modules_pages')
+        $assigned = $this->getObject('com:pages.database.table.modules_pages')
             ->select($query);
 
         $this->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
         // Assign menu.
-        $this->menu = $this->getService('com:pages.model.menus')->id($model->menu)->getRow();
+        $this->menu = $this->getObject('com:pages.model.menus')->id($model->menu)->getRow();
 
         // Assign parent ID
         $this->parent_id = $page->getParentId();

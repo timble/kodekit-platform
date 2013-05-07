@@ -22,7 +22,7 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function groups( $config = array())
     {
-    	$config = new Library\Config($config);
+    	$config = new Library\ObjectConfig($config);
     	$config->append(array(
     		'model' 	=> 'groups',
     		'value'		=> 'id',
@@ -34,7 +34,7 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
     
     public function users($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'model'		=> 'users',
 			'name'		=> 'id',
@@ -53,7 +53,7 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function languages($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
         $config->append(array(
             'value'      => 'iso_code',

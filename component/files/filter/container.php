@@ -22,7 +22,7 @@ class FilterContainer extends Library\FilterAbstract
     public function validate($data)
     {
         if (is_string($data)) {
-            return $this->getService('lib:filter.cmd')->validate($data);
+            return $this->getObject('lib:filter.cmd')->validate($data);
         } else if (is_object($data)) {
             return true;
         }
@@ -33,7 +33,7 @@ class FilterContainer extends Library\FilterAbstract
     public function sanitize($data)
     {
         if (is_string($data)) {
-            return $this->getService('lib:filter.cmd')->sanitize($data);
+            return $this->getObject('lib:filter.cmd')->sanitize($data);
         } else if (is_object($data)) {
             return $data;
         }

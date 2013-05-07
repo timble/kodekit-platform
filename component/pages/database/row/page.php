@@ -21,7 +21,7 @@ class DatabaseRowPage extends Library\DatabaseRowTable
 {
     protected $_type;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 

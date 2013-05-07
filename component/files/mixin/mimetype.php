@@ -31,16 +31,16 @@ class MixinMimetype extends Library\Object
 	 */
 	protected $_adapters = array();
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
 		if (isset($config->adapters)) {
-			$this->_adapters = Library\Config::unbox($config->adapters);
+			$this->_adapters = Library\ObjectConfig::unbox($config->adapters);
 		}
 	}
 
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		if (empty($config->adapters)) {
 			$config->adapters = array('image', 'finfo');

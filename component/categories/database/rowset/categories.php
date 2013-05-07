@@ -19,11 +19,11 @@ use Nooku\Library;
  */
 class DatabaseRowsetCategories extends DatabaseRowsetNodes
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'new'               => false,
-            'identity_column'   => 'id'
+            'status'          => Library\Database::STATUS_LOADED,
+            'identity_column' => 'id'
         ));
 
         parent::_initialize($config);

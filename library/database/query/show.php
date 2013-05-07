@@ -134,8 +134,8 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
             }
         }
 
-        if($this->_params) {
-            $query = $this->_replaceParams($query);
+        if($this->_parameters) {
+            $query = $this->_replaceParameters($query);
         }
 
         return $query;
@@ -149,10 +149,9 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
      */
     protected function _replaceParamsCallback($matches)
     {
-        $key    = substr($matches[0], 1);
-
-        $replacement = $this->getAdapter()->quoteValue($this->_params[$key]);
+        $key         = substr($matches[0], 1);
+        $replacement = $this->getAdapter()->quoteValue($this->_parameters[$key]);
         
-        return is_array($this->_params[$key]) ? '('.$replacement.')' : $replacement;
+        return is_array($this->_parameters[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

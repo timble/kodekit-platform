@@ -23,7 +23,7 @@ class TermsTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function terms($config = array())
     {
-    	$config = new Library\Config($config);
+    	$config = new Library\ObjectConfig($config);
     	$config->append(array(
     		'model' 	=> 'terms',
     		'value'		=> 'id',

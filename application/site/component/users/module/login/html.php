@@ -19,10 +19,10 @@ use Nooku\Library;
  
 class UsersModuleLoginHtml extends PagesModuleDefaultHtml
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     { 
         $config->append(array(
-            'layout' => $this->getService('user')->isAuthentic() ? 'logout' : 'login'
+            'layout' => $this->getObject('user')->isAuthentic() ? 'logout' : 'login'
         ));
         
         parent::_initialize($config);
@@ -33,7 +33,7 @@ class UsersModuleLoginHtml extends PagesModuleDefaultHtml
         $this->name          = $this->module->params->get('name');
         $this->usesecure     = $this->module->params->get('usesecure');
         $this->show_title    = $this->module->params->get('show_title', false);
-        $this->allow_registration = $this->getService('application.components')->users->params->get('allowUserRegistration');
+        $this->allow_registration = $this->getObject('application.components')->users->params->get('allowUserRegistration');
 
         return parent::render();
     }

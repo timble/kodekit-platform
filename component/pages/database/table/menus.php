@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseTableMenus extends Library\DatabaseTableDefault
 {
-    public function  _initialize(Library\Config $config)
+    public function  _initialize(Library\ObjectConfig $config)
     {		
         $config->append(array(
             'behaviors'  => array(

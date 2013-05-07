@@ -12,8 +12,9 @@
 
 <script>
 
-Files.sitebase = '';
-Files.token = '<?= $token; ?>';
+Files.sitebase = '<?= $sitebase; ?>';
+Files.base     = '<?= $base; ?>';
+Files.token    = '<?= $token; ?>';
 
 window.addEvent('domready', function() {
 	var config = <?= json_encode($state->config); ?>,
@@ -149,9 +150,11 @@ window.addEvent('domready', function() {
 });
 </script>
 
+<? if (isset($toolbar)): ?>
 <ktml:module position="toolbar">
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
 </ktml:module>
+<? endif; ?>
 
 <div id="files-app">
 	<?= @template('templates_icons.html'); ?>

@@ -21,7 +21,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function list_limits($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'		=> 'list_limit',
             'attribs'	=> array()
@@ -48,7 +48,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function cache_handlers($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'		=> 'cache_handler',
             'attribs'	=> array()
@@ -73,7 +73,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function timezones($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'		=> 'timezone',
             'attribs'	=> array(),
@@ -114,7 +114,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function error_reportings($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'		=> 'error_reporting',
             'attribs'	=> array()
@@ -136,7 +136,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function mailers($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'		=> 'mailer',
             'attribs'	=> array()
@@ -158,7 +158,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function smtpsecure($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name'		=> 'smtpsecure',
             'attribs'	=> array()

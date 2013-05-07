@@ -27,7 +27,7 @@ class AdapterLocalFile extends AdapterLocalAbstract
         {
 			$this->_metadata = array(
 				'extension' => strtolower(pathinfo($this->_handle->getFilename(), PATHINFO_EXTENSION)),
-				'mimetype' => $this->getService('com:files.mixin.mimetype')->getMimetype($this->_encoded)
+				'mimetype' => $this->getObject('com:files.mixin.mimetype')->getMimetype($this->_encoded)
 			);
 
             try

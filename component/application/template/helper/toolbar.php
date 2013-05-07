@@ -27,7 +27,7 @@ class TemplateHelperToolbar extends Library\TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'toolbar' => null,
             'attribs' => array()
@@ -59,7 +59,7 @@ class TemplateHelperToolbar extends Library\TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'command' => array()
         ));

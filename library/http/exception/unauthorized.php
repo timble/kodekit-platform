@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Http Exception Forbidden Class
+ * Http Exception Unauthorized Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Exception

@@ -21,7 +21,7 @@ class DatabaseRowFile extends DatabaseRowNode
 {
 	public static $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tiff', 'tif', 'xbm', 'bmp');
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -169,7 +169,7 @@ class DatabaseRowFile extends DatabaseRowNode
 		{
 			$parameters      = $this->container->getParameters();
 			$thumbnails_size = isset($parameters['thumbnail_size']) ? $parameters['thumbnail_size'] : array();
-			$thumb           = $this->getService('com:files.database.row.thumbnail', array('thumbnail_size' => $thumbnails_size));
+			$thumb           = $this->getObject('com:files.database.row.thumbnail', array('thumbnail_size' => $thumbnails_size));
 			$thumb->source = $this;
 
 			$result = $thumb->save();
@@ -180,7 +180,7 @@ class DatabaseRowFile extends DatabaseRowNode
 
 	public function deleteThumbnail(Library\CommandContext $context = null)
 	{
-		$thumb = $this->getService('com:files.model.thumbnails')
+		$thumb = $this->getObject('com:files.model.thumbnails')
 			->source($this)
 			->getRow();
 

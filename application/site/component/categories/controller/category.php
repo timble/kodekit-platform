@@ -18,7 +18,7 @@ use Nooku\Library;
  */
 abstract class CategoriesControllerCategory extends ApplicationControllerDefault
 { 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'model' => 'com:categories.model.categories'
@@ -40,7 +40,7 @@ abstract class CategoriesControllerCategory extends ApplicationControllerDefault
             $alias = clone $layout;
             $alias->package = 'categories';
 
-            $this->getService()->setAlias($layout, $alias);
+            $this->getObject('manager')->registerAlias($layout, $alias);
         }
 
         return parent::_actionRender($context);

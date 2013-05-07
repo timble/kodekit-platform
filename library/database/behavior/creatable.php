@@ -48,7 +48,7 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
     protected function _beforeTableInsert(CommandContext $context)
     {
         if($this->has('created_by') && empty($this->created_by)) {
-            $this->created_by  = (int) $this->getService('user')->getId();
+            $this->created_by  = (int) $this->getObject('user')->getId();
         }
 
         if($this->has('created_on') && (empty($this->created_on) || $this->created_on == $this->getTable()->getDefault('created_on'))) {

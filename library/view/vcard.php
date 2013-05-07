@@ -32,10 +32,10 @@ class ViewVcard extends ViewFile
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'mimetype'    => 'text/x-vcard; version=2.1',
@@ -52,7 +52,7 @@ class ViewVcard extends ViewFile
     public function render()
     {
         //Set the filename
-        $filename = $this->getService('lib:filter.filename')->sanitize($this->_properties['FN']);
+        $filename = $this->getObject('lib:filter.filename')->sanitize($this->_properties['FN']);
         $this->filename = !empty($filename) ? $filename.'.vcf' : 'vcard.vcf';
 
         //Render the vcard
@@ -79,11 +79,11 @@ class ViewVcard extends ViewFile
     /**
      * A structured representation of the name of the person, place or thing
      *
-     * @param   string  Family name
-     * @param   string  First name
-     * @param   string  Additional name
-     * @param   string  Prefix
-     * @param   string  Suffix
+     * @param   string  $family     Family name
+     * @param   string  $first      First name
+     * @param   string  $additional Additional name
+     * @param   string  $prefix     Prefix
+     * @param   string  $suffix     Suffix
      * @return  ViewVcard
      */
     public function setName( $family = '', $first = '', $additional = '', $prefix = '', $suffix = '' )
@@ -96,7 +96,7 @@ class ViewVcard extends ViewFile
     /**
      * The formatted name string
      *
-     * @param   string  Name
+     * @param   string $name Name
      * @return  ViewVcard
      */
     public function setFormattedName($name)
@@ -110,7 +110,7 @@ class ViewVcard extends ViewFile
      *
      * This property is based on the X.520 Organization Name attribute and the X.520 Organization Unit attribute
      *
-     * @param   string  Organisation
+     * @param   string $org Organisation
      * @return  ViewVcard
      */
     public function setOrg( $org )
@@ -123,7 +123,7 @@ class ViewVcard extends ViewFile
      * Specifies the job title, functional position or function of the individual
      * within an organization (V. P. Research and Development)
      *
-     * @param   string  Title
+     * @param   string $title Title
      * @return  ViewVcard
      */
     public function setTitle( $title )
@@ -135,7 +135,7 @@ class ViewVcard extends ViewFile
     /**
      * The role, occupation, or business category within an organization (eg. Executive)
      *
-     * @param   string  Role
+     * @param   string $role Role
      * @return  ViewVcard
      */
     public function setRole( $role )
@@ -148,8 +148,8 @@ class ViewVcard extends ViewFile
     /**
      * The canonical number string for a telephone number for telephony communication
      *
-     * @param   string  Phone number
-     * @param   string  Type [PREF|WORK|HOME|VOICE|FAX|MSG|CELL|PAGER|BBS|CAR|MODEM|ISDN|VIDEO] or a combination, e.g. "PREF;WORK;VOICE"
+     * @param   string  $number Phone number
+     * @param   string  $type   Type [PREF|WORK|HOME|VOICE|FAX|MSG|CELL|PAGER|BBS|CAR|MODEM|ISDN|VIDEO] or a combination, e.g. "PREF;WORK;VOICE"
      * @return   ViewVcard
      */
     public function setPhoneNumber($number, $type = 'PREF;WORK;VOICE')
@@ -161,14 +161,14 @@ class ViewVcard extends ViewFile
     /**
      * A structured representation of the physical delivery address
      *
-     * @param   string Postoffice
-     * @param   string Extended
-     * @param   string Street
-     * @param   string City
-     * @param   string Region
-     * @param   string Zip
-     * @param   string Country
-     * @param   string Type [DOM|INTL|POSTAL|PARCEL|HOME|WORK] or a combination e.g. "WORK;PARCEL;POSTAL"
+     * @param   string $postoffice  Postoffice
+     * @param   string $extended    Extended
+     * @param   string $street      Street
+     * @param   string $city        City
+     * @param   string $region      Region
+     * @param   string $zip         Zip
+     * @param   string $country     Country
+     * @param   string $type        Type [DOM|INTL|POSTAL|PARCEL|HOME|WORK] or a combination e.g. "WORK;PARCEL;POSTAL"
      * @return  ViewVcard
      */
     public function setAddress( $postoffice = '', $extended = '', $street = '', $city = '', $region = '', $zip = '', $country = '', $type = 'WORK;POSTAL' )
@@ -188,14 +188,14 @@ class ViewVcard extends ViewFile
     /**
      * Addressing label for physical delivery to the person/object
      *
-     * @param   string Postoffice
-     * @param   string Extended
-     * @param   string Street
-     * @param   string City
-     * @param   string Region
-     * @param   string Zip
-     * @param   string Country
-     * @param   string Type [DOM|INTL|POSTAL|PARCEL|HOME|WORK] or a combination e.g. "WORK;PARCEL;POSTAL"
+     * @param   string $postoffice  Postoffice
+     * @param   string $extended    Extended
+     * @param   string $street      Street
+     * @param   string $city        City
+     * @param   string $region      Region
+     * @param   string $zip         Zip
+     * @param   string $country     Country
+     * @param   string $type        Type [DOM|INTL|POSTAL|PARCEL|HOME|WORK] or a combination e.g. "WORK;PARCEL;POSTAL"
      * @return  ViewVcard
      */
     public function setLabel($postoffice = '', $extended = '', $street = '', $city = '', $region = '', $zip = '', $country = '', $type = 'WORK;POSTAL')
@@ -242,7 +242,7 @@ class ViewVcard extends ViewFile
     /**
      * The address for electronic mail communication
      *
-     * @param   string Email
+     * @param   string $address Email
      * @return  ViewVcard
      */
     public function setEmail($address)
@@ -254,8 +254,8 @@ class ViewVcard extends ViewFile
     /**
      * An URL is a representation of an Internet location that can be used to obtain real-time information
      *
-     * @param   string  Url
-     * @param   string  Type [WORK|HOME]
+     * @param   string  $url    Url
+     * @param   string  $type   Type [WORK|HOME]
      * @return  ViewVcard
      */
     public function setURL($url, $type = 'WORK')
@@ -267,8 +267,8 @@ class ViewVcard extends ViewFile
     /**
      * An image or photograph of the individual associated with the vCard
      *
-     * @param   string  Photo data to be encoded
-     * @param   string  Type [GIF|JPEG]
+     * @param   string $photo   Photo data to be encoded
+     * @param   string $type    Type [GIF|JPEG]
      * @return  ViewVcard
      */
     public function setPhoto($photo, $type = 'JPEG')
@@ -280,7 +280,7 @@ class ViewVcard extends ViewFile
     /**
      * Date of birth of the individual
      *
-     * @param   string  Date YYYY-MM-DD
+     * @param   string $date Date YYYY-MM-DD
      * @return  ViewVcard
      */
     public function setBirthday($date)
@@ -293,7 +293,7 @@ class ViewVcard extends ViewFile
     /**
      * Specifies supplemental information or a comment that is associated with the vCard
      *
-     * @param   string  Note
+     * @param   string $note Note
      * @return  ViewVcard
      */
     public function setNote($note)
@@ -305,7 +305,7 @@ class ViewVcard extends ViewFile
     /**
      * Encode
      *
-     * @param   string  String to encode
+     * @param   string $string  String to encode
      * @return  string  Encoded string
      */
     protected function _encode($string)
@@ -316,7 +316,7 @@ class ViewVcard extends ViewFile
     /**
      * Escape
      *
-     * @param   string  String to escape
+     * @param   string $string  String to escape
      * @return  string  Escaped string
      */
     protected function _escape($string)
@@ -327,8 +327,8 @@ class ViewVcard extends ViewFile
     /**
      * Quote for printable output
      *
-     * @param   string  Input
-     * @param   int     Max line length
+     * @param   string $input   Input
+     * @param   int    $line_max Max line length
      * @return  string
      */
     protected function _quoted_printable_encode($input, $line_max = 76)

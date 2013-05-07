@@ -21,12 +21,12 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML select option
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function option( $config = array() )
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'value' 	=> null,
 			'text'   	=> '',
@@ -48,12 +48,12 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML select list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function optionlist($config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'options' 	=> array(),
 			'name'   	=> 'id',
@@ -73,7 +73,8 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 			$value  = $option->value;
 			$text   = $config->translate ? \JText::_( $option->text ) : $option->text;
             
-			if ($option->group) {
+			if ($option->group)
+            {
 			    $html[] = '<optgroup label="'.$text.'">'.$text.'</option>';
 			    continue;
 			}
@@ -89,7 +90,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 
 			if(!is_null($config->selected))
 			{
-				if ($config->selected instanceof Config)
+				if ($config->selected instanceof ObjectConfig)
 				{
 					foreach ($config->selected as $selected)
 					{
@@ -115,12 +116,12 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML radio list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function radiolist( $config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'list' 		=> null,
 			'name'   	=> 'id',
@@ -155,12 +156,12 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML check list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function checklist( $config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'list' 		=> null,
 			'name'   	=> 'id',
@@ -183,7 +184,7 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 
 			$extra = '';
 
-			if ($config->selected instanceof Config)
+			if ($config->selected instanceof ObjectConfig)
 			{
 				foreach ($config->selected as $value)
 				{
@@ -209,12 +210,12 @@ class TemplateHelperSelect extends TemplateHelperAbstract
 	/**
 	 * Generates an HTML boolean radio list
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function booleanlist( $config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'name'   	=> '',
 			'attribs'	=> array(),

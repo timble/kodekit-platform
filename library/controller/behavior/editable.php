@@ -21,9 +21,9 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -37,12 +37,12 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Lock the referrer from updates
      *
-     * @param    CommandContext    A command context object
+     * @param  CommandContext  $context A command context object
      * @return void
      */
     public function lockReferrer(CommandContext $context)
     {
-        $cookie = $this->getService('lib:http.cookie', array(
+        $cookie = $this->getObject('lib:http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
             'path'   => $context->request->getBaseUrl()->getPath()
@@ -54,7 +54,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Unlock the referrer for updates
      *
-     * @param    CommandContext    A command context object
+     * @param   CommandContext  $context A command context object
      * @return void
      */
     public function unlockReferrer(CommandContext $context)
@@ -66,14 +66,14 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Get the referrer
      *
-     * @param    CommandContext    A command context object
+     * @param    CommandContext $context A command context object
      * @return HttpUrl    A HttpUrl object.
      */
     public function getReferrer(CommandContext $context)
     {
         $identifier = $this->getMixer()->getIdentifier();
 
-        $referrer = $this->getService('lib:http.url',
+        $referrer = $this->getObject('lib:http.url',
             array('url' => $context->request->cookies->get('referrer', 'url'))
         );
 
@@ -83,7 +83,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     /**
      * Set the referrer
      *
-     * @param    CommandContext    A command context object
+     * @param    CommandContext $context A command context object
      * @return void
      */
     public function setReferrer(CommandContext $context)
@@ -105,7 +105,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             }
 
             //Add the referrer cookie
-            $cookie = $this->getService('lib:http.cookie', array(
+            $cookie = $this->getObject('lib:http.cookie', array(
                 'name'   => 'referrer',
                 'value'  => $referrer,
                 'path'   => $context->request->getBaseUrl()->getPath()
@@ -134,8 +134,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function also sets the redirect to the referrer.
      *
-     * @param   CommandContext  A command context object
-     * @return  DatabaseRow     A row object containing the saved data
+     * @param   CommandContext  $context A command context object
+     * @return  DatabaseRowInterface     A row object containing the saved data
      */
     protected function _actionSave(CommandContext $context)
     {
@@ -156,8 +156,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function also sets the redirect to the current url
      *
-     * @param    CommandContext    A command context object
-     * @return   DatabaseRow     A row object containing the saved data
+     * @param    CommandContext  $context A command context object
+     * @return   DatabaseRowInterface     A row object containing the saved data
      */
     protected function _actionApply(CommandContext $context)
     {
@@ -192,8 +192,8 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      *
      * This function will unlock the row(s) and set the redirect to the referrer
      *
-     * @param   CommandContext    A command context object
-     * @return  DatabaseRow    A row object containing the data of the cancelled object
+     * @param   CommandContext  $context A command context object
+     * @return  DatabaseRowInterface    A row object containing the data of the cancelled object
      */
     protected function _actionCancel(CommandContext $context)
     {

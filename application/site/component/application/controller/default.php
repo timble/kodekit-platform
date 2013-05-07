@@ -28,9 +28,9 @@ class ApplicationControllerDefault extends Library\ControllerModel
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional Library\Config object with configuration options.
+	 * @param 	object 	An optional Library\ObjectConfig object with configuration options.
 	 */
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -42,13 +42,13 @@ class ApplicationControllerDefault extends Library\ControllerModel
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\Config object with configuration options.
+     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'limit' => array('max' => 100, 'default' => $this->getService('application')->getCfg('list_limit'))
+            'limit' => array('max' => 100, 'default' => $this->getObject('application')->getCfg('list_limit'))
         ));
 
         parent::_initialize($config);
