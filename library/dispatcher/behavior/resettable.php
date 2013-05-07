@@ -41,17 +41,17 @@ class DispatcherBehaviorResettable extends ControllerBehaviorAbstract
     }
 
     /**
-	 *  Force a GET after POST using the referrer
+	 * Force a GET after POST using the referrer
      *
-     *  Method will only set the redirect for none AJAX requests and only if the controller has returned a
-     * 205 (RESET CONTENT) status code. In all other cases no redirect will be set.
+     * Method will only set the redirect for none AJAX requests and only if the controller has a returned a 2xx status
+     * code. In all other cases no redirect will be set.
 	 *
 	 * @param 	CommandContext $context The active command context
 	 * @return 	void
 	 */
 	protected function _afterControllerDispatch(CommandContext $context)
 	{
-        if(!$context->request->isAjax() && $context->response->getStatusCode() == HttpResponse::RESET_CONTENT) {
+        if(!$context->request->isAjax() && $context->response->isSuccess()) {
             $context->response->setRedirect($context->request->getReferrer());
         }
 	}
