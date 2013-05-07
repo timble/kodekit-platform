@@ -43,7 +43,7 @@ class ContactsControllerMessage extends Library\ControllerView
         // Send mail.
         $mail = JFactory::getMailer();
         $mail->addRecipient($email_to);
-        $mail->setSender(array($email_from, $name));
+        $mail->setSender(array($name, $email_from));
         $mail->setSubject($from_name.': '.$subject);
         $mail->setBody($body);
         $mail->Send();
@@ -56,7 +56,7 @@ class ContactsControllerMessage extends Library\ControllerView
 
             $mail = JFactory::getMailer();
             $mail->addRecipient( $email_from );
-            $mail->setSender( array( $mail_from, $from_name ) );
+            $mail->setSender( array( $from_name, $mail_from ) );
             $mail->setSubject( $copy_subject );
             $mail->setBody( $copy_text );
             $mail->Send();
