@@ -78,7 +78,7 @@ interface ModelStateInterface
      * This function will only filter values if we have a value. If the value is an empty string it will be filtered
      * to NULL.
      *
-     * @param   array An associative array of state values by name
+     * @param   array $data An associative array of state values by name
      * @return  ModelState
      */
     public function values(array $data);
@@ -88,7 +88,7 @@ interface ModelStateInterface
      *
      * This function only returns states that have been been set.
      *
-     * @param   boolean If TRUE only retrieve unique state values, default FALSE
+     * @param   boolean $unqique If TRUE only retrieve unique state values, default FALSE
      * @return  array   An associative array of state values by name
      */
     public function toArray($unique = false);
@@ -96,7 +96,6 @@ interface ModelStateInterface
     /**
      * Return an associative array of the states.
      *
-     * @param bool 	If TRUE return only as associative array of the state values. Default is TRUE.
      * @return array
      */
     public function getStates();
