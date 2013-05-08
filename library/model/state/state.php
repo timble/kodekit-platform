@@ -107,7 +107,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
     /**
      * Reset all state data and revert to the default state
      *
-     * @param   boolean If TRUE use defaults when resetting. Default is TRUE
+     * @param   boolean $default If TRUE use defaults when resetting. Default is TRUE
      * @return ModelState
      */
     public function reset($default = true)
@@ -125,7 +125,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      * This function will only filter values if we have a value. If the value is an empty string it will be filtered
      * to NULL.
      *
-     * @param   array An associative array of state values by name
+     * @param   array $data An associative array of state values by name
      * @return  ModelState
      */
     public function values(array $data)
@@ -162,7 +162,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      *
      * This function only returns states that have been been set.
      *
-     * @param   boolean If TRUE only retrieve unique state values, default FALSE
+     * @param   boolean $unique If TRUE only retrieve unique state values, default FALSE
      * @return  array   An associative array of state values by name
      */
     public function toArray($unique = false)
@@ -252,7 +252,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
     /**
      * Check if the state information is empty
      *
-     * @param   array   An array of states names to exclude.
+     * @param   array   $exclude An array of states names to exclude.
      * @return  boolean TRUE if the state is empty, otherwise FALSE.
      */
     public function isEmpty(array $exclude = array())
@@ -269,7 +269,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
 	/**
      * Validate a unique state.
      *
-     * @param  object  The state object.
+     * @param  object  $state The state object.
      * @return boolean True if unique state is valid, false otherwise.
      */
     protected function _validate($state)

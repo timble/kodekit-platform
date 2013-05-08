@@ -536,7 +536,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Returns the base URL from which this request is executed.
      *
-     * The base URL never ends with a / and t also includes the script filename (e.g. index.php) if one exists.
+     * The base URL never ends with a / and it also includes the script filename (e.g. index.php) if one exists.
      *
      * Suppose this request is instantiated from /mysite on localhost:
      *

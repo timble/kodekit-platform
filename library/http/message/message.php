@@ -141,7 +141,7 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      * Valid types are strings, numbers, and objects that implement a __toString() method.
      *
      * @param mixed $content
-     * @throws UnexpectedValueException
+     * @throws UnexpectedValueException If the content is not a string are cannot be casted to a string.
      * @return HttpMessageAbstract
      */
     public function setContent($content)

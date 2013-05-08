@@ -28,7 +28,7 @@ class ApplicationControllerDefault extends Library\ControllerModel
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional Library\ObjectConfig object with configuration options.
+	 * @param Library\ObjectConfig 	$config An optional Library\ObjectConfig object with configuration options.
 	 */
 	public function __construct(Library\ObjectConfig $config)
 	{
@@ -42,7 +42,7 @@ class ApplicationControllerDefault extends Library\ControllerModel
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Library\ObjectConfig object with configuration options.
+     * @param Library\ObjectConfig $config 	An optional Library\ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -61,7 +61,8 @@ class ApplicationControllerDefault extends Library\ControllerModel
      * This functions implements an extra check to hide the main menu is the view name
      * is singular (item views)
      *
-     *  @return Library\DatabaseRow    A row object containing the selected row
+     * @param  Library\CommandContext $context A command context object
+     * @return Library\DatabaseRowInterface    A row object containing the selected row
      */
     protected function _actionRead(Library\CommandContext $context)
     {
@@ -72,7 +73,7 @@ class ApplicationControllerDefault extends Library\ControllerModel
         if(isset($row))
         {
             if($row->isLockable() && $row->locked()) {
-                //$this->getObject('application')->enqueueMessage($row->lockMessage(), 'notice');
+                $context->user->addFlashMessage($row->lockMessage(), 'notice');
             }
         }
 
@@ -84,8 +85,8 @@ class ApplicationControllerDefault extends Library\ControllerModel
      *
      * Use the application default limit if no limit exists in the model and limit the limit to a maximum.
      *
-     * @param   Library\CommandContext A command context object
-     * @return  Library\DatabaseRow(set)   A row(set) object containing the data to display
+     * @param   Library\CommandContext $context A command context object
+     * @return  Library\DatabaseRow(set)Interface   A row(set) object containing the data to display
      */
     protected function _actionBrowse(Library\CommandContext $context)
     {
