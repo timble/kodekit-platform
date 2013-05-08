@@ -226,8 +226,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Get a route based on a full or partial query string
      *
-     * option, view and layout can be ommitted. The following variations
-     * will all result in the same route
+     * 'option', 'view' and 'layout' can be omitted. The following variations will all result in the same route :
      *
      * - foo=bar
      * - option=com_mycomp&view=myview&foo=bar
