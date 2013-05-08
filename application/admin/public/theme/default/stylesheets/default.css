@@ -2170,8 +2170,70 @@ body.login .form #password-check.score5 {
 .com_pages .level5 {
   padding-left: 108px;
 }
+/* line 239, _component.scss */
+.com_pages .title {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
+  z-index: 3;
+}
+/* line 244, _component.scss */
+.com_pages .tabs {
+  position: relative;
+  -webkit-flex: 1;
+  background-color: #F0F0F0;
+  z-index: 1;
+}
+/* line 250, _component.scss */
+.com_pages .tabs .tab {
+  float: left;
+}
+/* line 253, _component.scss */
+.com_pages .tabs .tab > label {
+  padding: 0px 22px;
+  line-height: 30px;
+  color: #444;
+  font-weight: bold;
+  position: relative;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+/* line 263, _component.scss */
+.com_pages .tabs .tab > [type=radio] {
+  display: none;
+}
+/* line 266, _component.scss */
+.com_pages .tabs .content {
+  padding: 20px;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  overflow: scroll;
+  border-top: 1px solid #dddddd;
+}
+/* line 277, _component.scss */
+.com_pages .tabs .content > * {
+  opacity: 0;
+}
+/* line 280, _component.scss */
+.com_pages .tabs [type=radio]:checked ~ label {
+  background-color: white;
+  border-bottom-color: white;
+  z-index: 2;
+}
+/* line 286, _component.scss */
+.com_pages .tabs [type=radio]:checked ~ label ~ .content {
+  z-index: 1;
+}
+/* line 289, _component.scss */
+.com_pages .tabs [type=radio]:checked ~ label ~ .content > * {
+  opacity: 1;
+}
 
-/* line 241, _component.scss */
+/* line 297, _component.scss */
 .com_files #files-paginator {
   padding-top: 5px;
   background-color: #F1F1F1;
@@ -2180,17 +2242,17 @@ body.login .form #password-check.score5 {
   z-index: 1000;
 }
 
-/* line 253, _component.scss */
+/* line 309, _component.scss */
 #attachments-attachments-upload ul li {
   margin-left: 20px;
 }
-/* line 257, _component.scss */
+/* line 313, _component.scss */
 #attachments-attachments-upload ul li:nth-last-child(2) {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #dddddd;
 }
-/* line 263, _component.scss */
+/* line 319, _component.scss */
 #attachments-attachments-upload ul li:last-of-type {
   list-style: none;
 }

@@ -9,10 +9,9 @@
 ?>
 <?= @helper('behavior.modal') ?>
 
-<fieldset id="pages-modules">
-    <legend><?= @text('Module assignement') ?></legend>
+<div>
+    <label for="modules"><?= @text('Module assignment') ?></label>
     <div>
-        <div>
         <? foreach($modules->available as $module) : ?>
             <input type="hidden" name="modules[<?= $module->id ?>][others]" value="" />
             <label class="checkbox">
@@ -23,6 +22,6 @@
                 </a>
             </label>
         <? endforeach ?>
-        </div>
     </div>
-</fieldset>
+</div>
+
