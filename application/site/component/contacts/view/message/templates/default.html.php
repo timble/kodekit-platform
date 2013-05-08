@@ -8,30 +8,17 @@
  */
 ?>
 
-<script>
-	function validateForm( frm ) {
-    	var valid = document.formvalidator.isValid(frm);
-        if (valid == false) {
-        	if (frm.email.invalid) {
-            	alert( "' . @text( 'Please enter a valid e-mail address.', true ) . '" );
-            } else if (frm.text.invalid) {
-                alert( "' . @text( 'CONTACT_FORM_NC', true ) . '" );
-            }
-            return false;
-         } else {
-        	frm.submit();
-         }
-	}
-</script>
+<?=@helper('behavior.mootools')?>
+<?=@helper('behavior.validator')?>
 
-<form action="<?=  @helper('route.message', array('row' => $contact, 'category' => $category->getSlug())) ?>" method="post" name="emailForm" class="form-validate form-horizontal">
+<form action="<?=  @helper('route.message', array('row' => $contact, 'category' => $category->getSlug())) ?>" method="post" name="emailForm" class="-koowa-form form-horizontal">
     <input type="hidden" name="_action" value="add" />
     <div class="control-group">
         <label class="control-label" for="name">
             <?= @text( 'Enter your name' );?>:
         </label>
         <div class="controls">
-            <input type="text" name="name" value="" />
+            <input type="text" name="name" value="" class="required" required />
         </div>
     </div>
     <div class="control-group">
@@ -39,7 +26,7 @@
             <?= @text( 'Email address' );?>:
         </label>
         <div class="controls">
-            <input type="text" name="email" value="" class="required validate-email" maxlength="100" />
+            <input type="email" name="email" value="" class="required validate-email" maxlength="100" required />
         </div>
     </div>
     <div class="control-group">
@@ -47,7 +34,7 @@
             <?= @text( 'Message subject' );?>:
         </label>
         <div class="controls">
-            <input type="text" name="subject" value="" />
+            <input type="text" name="subject" value="" required />
         </div>
     </div>
     <div class="control-group">
@@ -55,7 +42,7 @@
             <?= @text( 'Enter your message' );?>:
         </label>
         <div class="controls">
-            <textarea rows="10" name="text" class="required"></textarea>
+            <textarea rows="10" name="text" class="required" required></textarea>
         </div>
     </div>
     <div class="control-group">
