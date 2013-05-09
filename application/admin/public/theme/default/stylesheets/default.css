@@ -6093,7 +6093,7 @@ table th.file-count {
   padding: 0px !important;
 }
 /* line 901, components/_files.scss */
-#files-app div.imgOutline {
+#files-app div.files-node {
   cursor: pointer;
   display: inline-block;
   border: 1px;
@@ -6115,7 +6115,7 @@ table th.file-count {
   opacity: 1;
 }
 /* line 919, components/_files.scss */
-#files-app div.imgOutline img {
+#files-app div.files-node img {
   opacity: 0;
   -webkit-transition: opacity 150ms ease-out;
   -moz-transition: opacity 150ms ease-out;
@@ -6123,17 +6123,17 @@ table th.file-count {
   transition: opacity 150ms ease-out;
 }
 /* line 923, components/_files.scss */
-#files-app div.imgOutline img.loaded {
+#files-app div.files-node img.loaded {
   opacity: 1;
 }
 /* line 926, components/_files.scss */
-#files-app div.imgOutline .ellipsis, #files-app div.imgOutline #panel-sidebar nav a, #panel-sidebar nav #files-app div.imgOutline a, #files-app div.imgOutline #files-tree .mooTree_node, #files-tree #files-app div.imgOutline .mooTree_node, #files-app div.imgOutline #panel-sidebar h3, #panel-sidebar #files-app div.imgOutline h3,
-#files-app div.imgOutline #panel-sidebar legend,
-#panel-sidebar #files-app div.imgOutline legend,
-#files-app div.imgOutline #panel-inspector h3,
-#panel-inspector #files-app div.imgOutline h3,
-#files-app div.imgOutline #panel-inspector legend,
-#panel-inspector #files-app div.imgOutline legend {
+#files-app div.files-node .ellipsis, #files-app div.files-node #panel-sidebar nav a, #panel-sidebar nav #files-app div.files-node a, #files-app div.files-node #files-tree .mooTree_node, #files-tree #files-app div.files-node .mooTree_node, #files-app div.files-node #panel-sidebar h3, #panel-sidebar #files-app div.files-node h3,
+#files-app div.files-node #panel-sidebar legend,
+#panel-sidebar #files-app div.files-node legend,
+#files-app div.files-node #panel-inspector h3,
+#panel-inspector #files-app div.files-node h3,
+#files-app div.files-node #panel-inspector legend,
+#panel-inspector #files-app div.files-node legend {
   max-width: 200px;
   width: 100%;
   overflow: hidden;
@@ -6142,7 +6142,7 @@ table th.file-count {
   height: 17px;
 }
 /* line 934, components/_files.scss */
-#files-app div.imgOutline.selected {
+#files-app div.files-node.selected {
   color: white;
   border-color: #2b75bf;
   border-color: rgba(0, 0, 0, 0.1);
@@ -6194,7 +6194,7 @@ table th.file-count {
   width: inherit;
 }
 /* line 973, components/_files.scss */
-#files-app div.imgOutline.selected div.imgTotal a.navigate::after {
+#files-app div.files-node.selected div.imgTotal a.navigate::after {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;

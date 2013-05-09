@@ -82,7 +82,7 @@ Files.Grid = new Class({
 
 			that.checkNode(box.retrieve('row'));
 		};
-		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
+		this.container.addEvent('click:relay(div.files-node)', fireCheck.bind(this));
         this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this));
 
 		/*
@@ -410,7 +410,7 @@ Files.Grid = new Class({
 	            width: size + 'px',
 	            height: (size * 0.75) + 'px'
 	        });
-	        this.container.getElements('.imgOutline .ellipsis').setStyle('width', size + 'px');
+	        this.container.getElements('.files-node .ellipsis').setStyle('width', size + 'px');
 		}
 
     	this.fireEvent('afterSetIconSize', {size: size});

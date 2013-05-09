@@ -898,7 +898,7 @@ $comFilesLocation: '../../../../media/files/images/';
   .spinner {
     padding: 0px!important;
   }
-  div.imgOutline {
+  div.files-node {
     cursor: pointer;
     display: inline-block;
     border: 1px;
@@ -916,14 +916,14 @@ $comFilesLocation: '../../../../media/files/images/';
   #files-grid .loaded {
     opacity: 1;
   }
-  div.imgOutline img {
+  div.files-node img {
     opacity: 0;
     @include transition(opacity 150ms ease-out);
   }
-  div.imgOutline img.loaded {
+  div.files-node img.loaded {
     opacity: 1;
   }
-  div.imgOutline .ellipsis {
+  div.files-node .ellipsis {
     max-width: 200px;
     width: 100%;
     overflow: hidden;
@@ -931,7 +931,7 @@ $comFilesLocation: '../../../../media/files/images/';
     white-space: nowrap;
     height: 17px;
   }
-  div.imgOutline.selected {
+  div.files-node.selected {
     color: white;
     border-color: mix($blueDark, $blueDark, 50%);
     border-color: hsla(0, 0%, 0%, .1);
@@ -970,7 +970,7 @@ $comFilesLocation: '../../../../media/files/images/';
     top: 0;
     width: inherit;
   }
-  div.imgOutline.selected div.imgTotal a.navigate::after {
+  div.files-node.selected div.imgTotal a.navigate::after {
     @include box-shadow(0 0 3px rgba(0, 0, 0, 0.3) inset);
   }
   div.imgTotal a.navigate img {
