@@ -13,7 +13,6 @@
 
 <?= @helper('behavior.modal'); ?>
 
-<style src="media://css/mootree.css" />
 <script src="media://files/js/delegation.js" />
 <script src="media://files/js/uri.js" />
 <script src="media://files/js/history/history.js" />

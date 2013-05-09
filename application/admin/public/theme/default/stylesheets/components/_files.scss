@@ -959,6 +959,28 @@ table th.file-count {
 }
 /* @end */
 
+#files-tree {
+  border-top: 1px solid $grayLighter;
+
+  .mooTree_node {
+    @extend %navigation__item;
+    padding-left: 10px;
+  }
+
+  .mooTree_text {
+    text-indent: 5px;
+  }
+
+  .mooTree_img {
+    float: left;
+    width: 18px;
+    height: 18px;
+    overflow: hidden;
+    top: 5px;
+    position: relative;
+  }
+}
+
 /* @group files-layout-icons.css */
 #files-app
 {
