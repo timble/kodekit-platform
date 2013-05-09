@@ -177,7 +177,7 @@ window.addEvent('domready', function() {
 			</div>
 		</div>
 		<div class="view">
-			<div id="files-grid"></div>
+			<div id="files-grid" class="-koowa-grid"></div>
 		</div>
 		<div id="files-paginator">
 			<?= @helper('paginator.pagination') ?>

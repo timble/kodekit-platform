@@ -30,7 +30,7 @@ window.addEvent('domready', function() {
 
 <textarea style="display: none" id="details_container">
 <div class="manager -koowa-grid">
-	<table class="table table-striped"  style="clear: both;">
+	<table>
 		<thead>
 			<tr>
 				<th width="10">
