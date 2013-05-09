@@ -54,17 +54,6 @@ Files.App = new Class({
 		},
 		initial_response: null,
 
-		onAfterSetGrid: function(){
-		    window.addEvent('resize', function(){
-		        this.setDimensions(true);
-		    }.bind(this));
-		    this.grid.addEvent('onAfterRenew', function(){
-		        this.setDimensions(true);
-		    }.bind(this));
-		    this.addEvent('onUploadFile', function(){
-		        this.setDimensions(true);
-		    }.bind(this));
-		},
 		onAfterNavigate: function(path) {
 			if (path !== undefined) {
 				this.setTitle(this.folder.name || this.container.title);
@@ -434,7 +423,6 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
-		this.setDimensions(true);
 		var nodes = this.grid.nodes,
 			that = this;
 		if (nodes.getLength()) {
@@ -461,28 +449,6 @@ Files.App = new Class({
 		}
 
 	},
-	setDimensions: function(force){
-
-	    if(!this._cached_grid_width) this._cached_grid_width = 0;
-
-        //Only fire if the cache have changed
-        if(this._cached_grid_width != this.grid.root.element.getSize().x || force) {
-            var width = this.grid.root.element.getSize().x,
-                factor = width/(this.grid.options.icon_size.toInt()+40),
-                limit = Math.min(Math.floor(factor), this.grid.nodes.getLength()),
-                resize = width / limit,
-                thumbs = [[]],
-                labels = [[]],
-                index = 0,
-                pointer = 0;
-
-            this.grid.root.element.getElements('.files-node-shadow').each(function(element, i, elements){
-                element.setStyle('width', (100/limit)+'%');
-            }, this);
-
-            this._cached_grid_width = this.grid.root.element.getSize().x;
-        }
-    },
     setPathway: function() {
     	this.fireEvent('beforeSetPathway');
 
