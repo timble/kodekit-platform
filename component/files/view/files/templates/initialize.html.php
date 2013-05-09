@@ -14,7 +14,6 @@
 <?= @helper('behavior.modal'); ?>
 
 <style src="media://css/mootree.css" />
-<style src="media://files/css/files.css" />
 <script src="media://files/js/delegation.js" />
 <script src="media://files/js/uri.js" />
 <script src="media://files/js/history/history.js" />

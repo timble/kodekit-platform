@@ -12,7 +12,6 @@
 
 <script src="media://files/js/files.compact.js" />
 
-<style src="media://files/css/files.css" />
 <style src="media://files/css/files.compact.css" />
 <style>
     #files-compact #details {
