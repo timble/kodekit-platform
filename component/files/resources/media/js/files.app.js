@@ -330,7 +330,7 @@ Files.App = new Class({
 		$extend(opts, {
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
-				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+				    node = target.getParent('.files-node'),
 					path = node.retrieve('row').path;
 				if (path) {
 					this.navigate(path);
@@ -338,7 +338,7 @@ Files.App = new Class({
 			}.bind(this),
 			'onClickImage': function(e) {
 				var target = document.id(e.target),
-				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+				    node = target.getParent('.files-node'),
 					img = node.retrieve('row').image;
 
 				if (img) {
@@ -347,7 +347,7 @@ Files.App = new Class({
 			},
 			'onClickFile': function(e) {
 				var target = document.id(e.target),
-				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+				    node = target.getParent('.files-node'),
 					row = node.retrieve('row'),
 					copy = $extend({}, row),
 					trash = new Element('div', {style: 'display: none'}).inject(document.body);

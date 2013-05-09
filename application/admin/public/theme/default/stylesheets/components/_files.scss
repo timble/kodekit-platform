@@ -898,11 +898,6 @@ $comFilesLocation: '../../../../media/files/images/';
   .spinner {
     padding: 0px!important;
   }
-
-  .files-node-shadow {
-    float: left;
-    text-align: center;
-  }
   div.imgOutline {
     cursor: pointer;
     display: inline-block;
@@ -1018,6 +1013,10 @@ $comFilesLocation: '../../../../media/files/images/';
   .imgBorderHover {
     background: #FFFFCC;
     cursor: hand;
+  }
+
+  .files-icons-controls {
+    text-align: center;
   }
 
   div.controls {

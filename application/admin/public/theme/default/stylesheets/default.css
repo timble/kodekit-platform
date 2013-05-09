@@ -4840,20 +4840,8 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 179, _flexbox.scss */
-.com_files #files-app #files-canvas .view {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-/* line 182, _flexbox.scss */
-.com_files #files-app #files-canvas .view #files-grid {
+/* line 181, _flexbox.scss */
+.com_files #files-app #files-canvas #files-grid {
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
@@ -4861,19 +4849,19 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-overflow-scrolling: touch;
   min-height: 100%;
 }
-/* line 187, _flexbox.scss */
-.com_files #files-app #files-canvas .view #files-grid div {
+/* line 186, _flexbox.scss */
+.com_files #files-app #files-canvas #files-grid > div {
   -webkit-flex: none;
   -moz-flex: none;
   flex: none;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 196, _flexbox.scss */
+/* line 195, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 200, _flexbox.scss */
+/* line 199, _flexbox.scss */
 .com_files #files-tree {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -6104,12 +6092,7 @@ table th.file-count {
 #files-app .spinner {
   padding: 0px !important;
 }
-/* line 902, components/_files.scss */
-#files-app .files-node-shadow {
-  float: left;
-  text-align: center;
-}
-/* line 906, components/_files.scss */
+/* line 901, components/_files.scss */
 #files-app div.imgOutline {
   cursor: pointer;
   display: inline-block;
@@ -6123,15 +6106,15 @@ table th.file-count {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 917, components/_files.scss */
+/* line 912, components/_files.scss */
 #files-app #files-grid .loading {
   opacity: 0.6;
 }
-/* line 921, components/_files.scss */
+/* line 916, components/_files.scss */
 #files-app #files-grid .loaded {
   opacity: 1;
 }
-/* line 924, components/_files.scss */
+/* line 919, components/_files.scss */
 #files-app div.imgOutline img {
   opacity: 0;
   -webkit-transition: opacity 150ms ease-out;
@@ -6139,11 +6122,11 @@ table th.file-count {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 928, components/_files.scss */
+/* line 923, components/_files.scss */
 #files-app div.imgOutline img.loaded {
   opacity: 1;
 }
-/* line 931, components/_files.scss */
+/* line 926, components/_files.scss */
 #files-app div.imgOutline .ellipsis, #files-app div.imgOutline #panel-sidebar nav a, #panel-sidebar nav #files-app div.imgOutline a, #files-app div.imgOutline #files-tree .mooTree_node, #files-tree #files-app div.imgOutline .mooTree_node, #files-app div.imgOutline #panel-sidebar h3, #panel-sidebar #files-app div.imgOutline h3,
 #files-app div.imgOutline #panel-sidebar legend,
 #panel-sidebar #files-app div.imgOutline legend,
@@ -6158,7 +6141,7 @@ table th.file-count {
   white-space: nowrap;
   height: 17px;
 }
-/* line 939, components/_files.scss */
+/* line 934, components/_files.scss */
 #files-app div.imgOutline.selected {
   color: white;
   border-color: #2b75bf;
@@ -6176,7 +6159,7 @@ table th.file-count {
   background: -o-linear-gradient(#2b75bf, #2b75bf);
   background: linear-gradient(#2b75bf, #2b75bf);
 }
-/* line 952, components/_files.scss */
+/* line 947, components/_files.scss */
 #files-app div.imgTotal {
   position: relative;
   margin: 0 0 8px 0;
@@ -6189,7 +6172,7 @@ table th.file-count {
   background-image: -o-radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
   background-image: radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
 }
-/* line 961, components/_files.scss */
+/* line 956, components/_files.scss */
 #files-app div.imgTotal a.navigate {
   display: block;
   background: no-repeat center center;
@@ -6198,7 +6181,7 @@ table th.file-count {
   width: inherit;
   height: inherit;
 }
-/* line 969, components/_files.scss */
+/* line 964, components/_files.scss */
 #files-app div.imgTotal a.navigate::after {
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
@@ -6210,58 +6193,62 @@ table th.file-count {
   top: 0;
   width: inherit;
 }
-/* line 978, components/_files.scss */
+/* line 973, components/_files.scss */
 #files-app div.imgOutline.selected div.imgTotal a.navigate::after {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
-/* line 981, components/_files.scss */
+/* line 976, components/_files.scss */
 #files-app div.imgTotal a.navigate img {
   width: 100%;
 }
-/* line 984, components/_files.scss */
+/* line 979, components/_files.scss */
 #files-app .files-folder div.imgTotal a.navigate {
   background-image: url("../../../../media/files/images/folder-64.png");
 }
-/* line 988, components/_files.scss */
+/* line 983, components/_files.scss */
 #files-app .files-file div.imgTotal a.navigate,
 #files-app .files-image.nothumbnails div.imgTotal a.navigate {
   background-image: url("../../../../media/files/images/document-64.png");
 }
-/* line 991, components/_files.scss */
+/* line 986, components/_files.scss */
 #files-app .files-image.thumbnails div.imgTotal a.navigate {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
   background: url("../../../../media/files/images/checker.png") repeat left top white;
 }
-/* line 998, components/_files.scss */
+/* line 993, components/_files.scss */
 #files-app div.imgBorder {
   height: 72px;
   vertical-align: middle;
   width: 88px;
   overflow: hidden;
 }
-/* line 1005, components/_files.scss */
+/* line 1000, components/_files.scss */
 #files-app div.imgBorder a {
   height: 72px;
   width: 88px;
   display: block;
 }
-/* line 1011, components/_files.scss */
+/* line 1006, components/_files.scss */
 #files-app div.imgBorder a:hover {
   height: 72px;
   width: 88px;
   background-color: #f0f0f0;
   color: #FF6600;
 }
-/* line 1018, components/_files.scss */
+/* line 1013, components/_files.scss */
 #files-app .imgBorderHover {
   background: #FFFFCC;
   cursor: hand;
 }
-/* line 1023, components/_files.scss */
+/* line 1018, components/_files.scss */
+#files-app .files-icons-controls {
+  text-align: center;
+}
+/* line 1022, components/_files.scss */
 #files-app div.controls {
   text-align: center;
   height: 20px;
@@ -6269,19 +6256,19 @@ table th.file-count {
   background: #f9fcf9;
   border-top: 1px solid #dddddd;
 }
-/* line 1030, components/_files.scss */
+/* line 1029, components/_files.scss */
 #files-app div.controls input {
   vertical-align: middle;
 }
-/* line 1034, components/_files.scss */
+/* line 1033, components/_files.scss */
 #files-app div.controls img {
   vertical-align: middle;
 }
-/* line 1038, components/_files.scss */
+/* line 1037, components/_files.scss */
 #files-app div.controls:hover {
   display: block;
 }
-/* line 1043, components/_files.scss */
+/* line 1042, components/_files.scss */
 #files-app div.imginfoBorder {
   background: #f9f9f9;
   font-family: Arial, Helvetica, sans-serif;
@@ -6293,36 +6280,36 @@ table th.file-count {
   overflow: hidden;
   padding: 0 8px;
 }
-/* line 1055, components/_files.scss */
+/* line 1054, components/_files.scss */
 #files-app div.imgBorder a {
   cursor: pointer;
 }
-/* line 1059, components/_files.scss */
+/* line 1058, components/_files.scss */
 #files-app .buttonHover {
   border: 1px solid;
   border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
   cursor: hand;
   background: #FFFFCC;
 }
-/* line 1066, components/_files.scss */
+/* line 1065, components/_files.scss */
 #files-app .buttonOut {
   border: 0px;
 }
-/* line 1070, components/_files.scss */
+/* line 1069, components/_files.scss */
 #files-app .imgCaption {
   font-size: 9pt;
   text-align: center;
 }
-/* line 1075, components/_files.scss */
+/* line 1074, components/_files.scss */
 #files-app .dirField {
   font-size: 9pt;
   width: 110px;
 }
-/* line 1080, components/_files.scss */
+/* line 1079, components/_files.scss */
 #files-app div.image {
   padding-top: 10px;
 }
-/* line 1084, components/_files.scss */
+/* line 1083, components/_files.scss */
 #files-app .imgBorder a.navigate {
   -webkit-animation-duration: 2s;
   -webkit-animation-iteration-count: infinite;
@@ -6332,19 +6319,19 @@ table th.file-count {
 /* Global overrides are in this file */
 /* @group _global_overrides.less */
 /* @NOTE this fixes ugly scrollbars in animations */
-/* line 1096, components/_files.scss */
+/* line 1095, components/_files.scss */
 #sbox-content {
   overflow: hidden;
 }
 
 /* @NOTE default border-radius is horrendous */
-/* line 1100, components/_files.scss */
+/* line 1099, components/_files.scss */
 #sbox-window {
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 15px;
 }
-/* line 1105, components/_files.scss */
+/* line 1104, components/_files.scss */
 #sbox-window .well {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -6352,7 +6339,7 @@ table th.file-count {
 }
 
 /* @NOTE the following code makes sure that the flash adapter of plupload does not break when the modal is closed */
-/* line 1113, components/_files.scss */
+/* line 1112, components/_files.scss */
 .uploader-flash-container object, .uploader-flash-container embed {
   display: block !important;
   visibility: visible !important;

@@ -77,10 +77,8 @@ Files.Grid = new Class({
 			if (e.target.get('tag') == 'input') {
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
-			var box = e.target.getParent('.files-node-shadow');
-			if (!box) {
-				box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
-			}
+			box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
+
 
 			that.checkNode(box.retrieve('row'));
 		};
@@ -95,10 +93,7 @@ Files.Grid = new Class({
 				e.stop();
 			}
 
-			var box = e.target.getParent('.files-node-shadow');
-			if (!box) {
-				box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
-			}
+			box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
 
 			this.erase(box.retrieve('row').path);
 		}.bind(this);
@@ -137,7 +132,7 @@ Files.Grid = new Class({
 					checkboxes = this.container.getElements('input[type=checkbox]:checked.files-select')
 					.filter(function(el) {
 						if (el.checked) {
-							var box = el.getParent('.files-node-shadow') || el.getParent('.files-node'),
+							var box = el.getParent('.files-node'),
 								name = box.retrieve('row').name;
 							
 							if (el.getParent('.files-node').hasClass('files-folder')) {

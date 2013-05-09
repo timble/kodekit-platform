@@ -176,20 +176,19 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 		#files-canvas {
 			@include flex-box(column, 1);
 
-			.view {
-				@include flex-box(column, 1);
+
 
 				#files-grid {
 					@include box-flex(1);
 					@include box-scrollable(scrollable);
 					min-height: 100%;
 
-					div {
+					> div {
 						@include box-flex(none);
                       @include clearfix();
 					}
 				}
-			}
+
 		}
 	}
 

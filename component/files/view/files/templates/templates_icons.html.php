@@ -42,7 +42,6 @@
 </textarea>
 
 <textarea style="display: none" id="icons_folder">
-<div class="files-node-shadow">
     <div class="imgOutline files-node files-folder">
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
     			<a href="#" class="navigate"></a>
@@ -56,11 +55,9 @@
     	</div>
     	</div>
     </div>
-</div>
 </textarea>
 
 <textarea style="display: none" id="icons_file">
-<div class="files-node-shadow">
     <div class="imgOutline files-node files-file">
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
     	 	<a class="navigate extension-label" href="#"
@@ -76,11 +73,9 @@
     	</div>
     	</div>
     </div>
-</div>
 </textarea>
 
 <textarea style="display: none" id="icons_image">
-<div class="files-node-shadow">
     <div class="imgOutline [%= typeof thumbnail === 'string' ? 'thumbnails' : 'nothumbnails' %] files-node files-image [%= typeof thumbnail === 'string' ? (client_cache ? 'load' : 'loading') : '' %]">
 
     	<div class="imgTotal files-node-thumbnail" style="width:[%= icon_size%]px; height: [%= icon_size*0.75%]px">
@@ -102,5 +97,4 @@
     	</div>
     	</div>
     </div>
-</div>
 </textarea>
