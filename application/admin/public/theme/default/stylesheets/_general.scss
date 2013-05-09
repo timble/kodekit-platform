@@ -13,7 +13,6 @@ body, td, th { font-family: $baseFontFamily; }
 	overflow: auto;
 }
 
-.clr { clear: both; overflow:hidden; height: 0; }
 .group:after {
 	content: ".";
 	display: block;
@@ -26,11 +25,6 @@ body, td, th { font-family: $baseFontFamily; }
 a, img { padding: 0; margin: 0; }
 
 img { border: 0 none; }
-
-h1 {
-	margin: 0; padding-bottom: 8px;
-	color: $linkColor; font-size: 20px; font-weight: bold;
-}
 
 h3 {
 	font-size: 13px;
@@ -60,7 +54,6 @@ ul {
 	display: none;
 }
 
-.submitable,
 [data-action] {
 	cursor: pointer;
 }
@@ -501,10 +494,7 @@ ul {
 
 		.sidebar {
 			width: 350px;
-
-		 	.scrollable {
-				border-left: 1px solid #E1E1E1;
-			}
+            border-left: 1px solid #E1E1E1;
 		}
 
 		dl.tabs {
