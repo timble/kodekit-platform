@@ -7,9 +7,10 @@
 
 // Make wrapper ul behave like the grid
 .thumbnails {
-  margin-left: -20px;
   list-style: none;
   @include clearfix();
+  margin: 0;
+  padding: 0;
 }
 // Fluid rows have no left margin
 .row-fluid .thumbnails {
@@ -20,7 +21,8 @@
 .thumbnails > li {
   float: left; // Explicity set the float since we don't require .span* classes
   margin-bottom: $baseLineHeight;
-  margin-left: 20px;
+  margin-right: 10px;
+  width: 140px;
 }
 
 // The actual thumbnail (can be `a` or `div`)
