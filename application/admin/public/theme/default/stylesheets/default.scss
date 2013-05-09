@@ -8,6 +8,8 @@
 @import "variables";
 @import "mixins";
 
+@import "modules/navigation";
+
 @import "reset";
 
 @import "thumbnails";
@@ -18,7 +20,6 @@
 @import "type";
 @import "general";
 @import "menu";
-@import "component";
 @import "forms";
 @import "validation";
 @import "icons";
