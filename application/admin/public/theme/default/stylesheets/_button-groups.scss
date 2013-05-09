@@ -58,7 +58,6 @@
   @include border-top-left-radius($baseBorderRadius);
   @include border-bottom-left-radius($baseBorderRadius);
 }
-// Need .dropdown-toggle since :last-child doesn't apply given a .dropdown-menu immediately after it
 .btn-group > .btn:last-child {
   @include border-top-right-radius($baseBorderRadius);
   @include border-bottom-right-radius($baseBorderRadius);
