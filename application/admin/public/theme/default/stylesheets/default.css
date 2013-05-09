@@ -38,6 +38,75 @@
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
+/* line 7, modules/_thumbnail.scss */
+.thumbnail {
+  display: block;
+  width: 130px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  float: left;
+  padding: 4px;
+  line-height: 12px;
+  border: 1px solid #dddddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+/* line 20, modules/_thumbnail.scss */
+.thumbnail a img {
+  border: 1px solid #dddddd;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*
+.thumbnail img {
+  opacity: 0;
+  @include transition(opacity 150ms ease-out);
+}
+.thumbnail img.loaded {
+  opacity: 1;
+}
+*/
+/* line 35, modules/_thumbnail.scss */
+.thumbnail.selected {
+  color: white;
+  border-color: #2b75bf;
+  border-color: rgba(0, 0, 0, 0.1);
+  background-color: #2b75bf;
+  background-clip: border-box;
+  background-origin: border-box;
+  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2b75bf), color-stop(100%, #2b75bf));
+  background: -webkit-linear-gradient(#2b75bf, #2b75bf);
+  background: -moz-linear-gradient(#2b75bf, #2b75bf);
+  background: -o-linear-gradient(#2b75bf, #2b75bf);
+  background: linear-gradient(#2b75bf, #2b75bf);
+}
+
+/* line 49, modules/_thumbnail.scss */
+.thumbnail__caption {
+  padding: 9px;
+  color: #555555;
+  max-width: 200px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 17px;
+}
+
 /* line 10, _reset.scss */
 html {
   font-size: 100%;
@@ -224,71 +293,6 @@ textarea {
     page-break-after: avoid;
   }
 }
-/* line 9, _thumbnails.scss */
-.thumbnails {
-  list-style: none;
-  overflow: hidden;
-  *zoom: 1;
-  margin: 0;
-  padding: 0;
-}
-
-/* line 16, _thumbnails.scss */
-.row-fluid .thumbnails {
-  margin-left: 0;
-}
-
-/* line 21, _thumbnails.scss */
-.thumbnails > li {
-  float: left;
-  margin-bottom: 12px;
-  margin-right: 10px;
-  width: 140px;
-}
-
-/* line 29, _thumbnails.scss */
-.thumbnail {
-  display: block;
-  padding: 4px;
-  line-height: 12px;
-  border: 1px solid #ddd;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-
-/* line 40, _thumbnails.scss */
-a.thumbnail:hover,
-a.thumbnail:focus {
-  border-color: #0b55c4;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-  -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-  box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-}
-
-/* line 46, _thumbnails.scss */
-.thumbnail > img {
-  display: block;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* line 52, _thumbnails.scss */
-.thumbnail .caption {
-  padding: 9px;
-  color: #555555;
-}
-
 /* line 10, _buttons.scss */
 .btn {
   display: inline-block;

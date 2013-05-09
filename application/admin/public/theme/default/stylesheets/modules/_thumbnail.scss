@@ -12,11 +12,17 @@
   float: left;
   padding: 4px;
   line-height: $baseLineHeight;
-  border: 1px solid #ddd;
+  border: 1px solid $grayLighter;
   @include border-radius($baseBorderRadius);
   @include transition(all .2s ease-in-out);
 }
 
+.thumbnail a img {
+  border: 1px solid $grayLighter;
+  @include box-sizing(border-box);
+}
+
+/*
 .thumbnail img {
   opacity: 0;
   @include transition(opacity 150ms ease-out);
@@ -24,18 +30,7 @@
 .thumbnail img.loaded {
   opacity: 1;
 }
-
-.thumbnail {
-  cursor: pointer;
-  display: inline-block;
-  border: 1px;
-
-  padding: 11px;
-  margin: 5px;
-  border: 1px solid hsl(0, 0%, 90%);
-  border-radius: 3px;
-  @include transition(opacity 150ms ease-out);
-}
+*/
 
 .thumbnail.selected {
   color: white;
