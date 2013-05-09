@@ -38,75 +38,6 @@
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
-/* line 7, modules/_thumbnail.scss */
-.thumbnail {
-  display: block;
-  width: 130px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  float: left;
-  padding: 4px;
-  line-height: 12px;
-  border: 1px solid #dddddd;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-
-/* line 20, modules/_thumbnail.scss */
-.thumbnail a img {
-  border: 1px solid #dddddd;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-/*
-.thumbnail img {
-  opacity: 0;
-  @include transition(opacity 150ms ease-out);
-}
-.thumbnail img.loaded {
-  opacity: 1;
-}
-*/
-/* line 35, modules/_thumbnail.scss */
-.thumbnail.selected {
-  color: white;
-  border-color: #2b75bf;
-  border-color: rgba(0, 0, 0, 0.1);
-  background-color: #2b75bf;
-  background-clip: border-box;
-  background-origin: border-box;
-  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
-  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
-  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
-  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2b75bf), color-stop(100%, #2b75bf));
-  background: -webkit-linear-gradient(#2b75bf, #2b75bf);
-  background: -moz-linear-gradient(#2b75bf, #2b75bf);
-  background: -o-linear-gradient(#2b75bf, #2b75bf);
-  background: linear-gradient(#2b75bf, #2b75bf);
-}
-
-/* line 49, modules/_thumbnail.scss */
-.thumbnail__caption {
-  padding: 9px;
-  color: #555555;
-  max-width: 200px;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  height: 17px;
-}
-
 /* line 10, _reset.scss */
 html {
   font-size: 100%;
@@ -4840,7 +4771,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 181, _flexbox.scss */
+/* line 178, _flexbox.scss */
 .com_files #files-app #files-canvas #files-grid {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -4850,18 +4781,10 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   min-height: 100%;
 }
 /* line 186, _flexbox.scss */
-.com_files #files-app #files-canvas #files-grid > div {
-  -webkit-flex: none;
-  -moz-flex: none;
-  flex: none;
-  overflow: hidden;
-  *zoom: 1;
-}
-/* line 195, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 199, _flexbox.scss */
+/* line 190, _flexbox.scss */
 .com_files #files-tree {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -5049,59 +4972,24 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   opacity: 1;
 }
 
-/* @group from docman _admin.less */
 /* line 3, components/_files.scss */
-#files-sidebar .sidebar-inner {
-  border-right: 1px solid #dddddd;
-}
-/* line 7, components/_files.scss */
-#files-sidebar h3 {
-  background-color: #dddddd;
-  padding: 3px 8px;
-  line-height: 18px;
-  border-bottom: 1px solid #dddddd;
-  font-size: 11px;
-  text-transform: uppercase;
-  color: #666;
-  text-shadow: white 0 1px 0;
-  margin: 0;
-}
-
-/* line 21, components/_files.scss */
-#files-app #files-canvas {
-  border-top: 1px solid #dddddd;
-  /* Some admin templates give this unwanted styling */
-}
-/* line 25, components/_files.scss */
-#files-app #files-canvas .navigate .spinner {
-  display: none;
-}
-/* line 29, components/_files.scss */
 #files-app #files-canvas #files-grid {
   min-height: 300px;
 }
-/* line 34, components/_files.scss */
-#files-app #files-canvas #files-grid thead th:first-child {
-  padding: 0;
-}
-/* line 37, components/_files.scss */
-#files-app #files-canvas #files-grid thead th:nth-child(3) {
-  padding-left: 0px;
-}
-/* line 43, components/_files.scss */
+/* line 7, components/_files.scss */
 #files-app #files-canvas #files-grid tbody tr.files-node td:nth-child(2) {
   padding: 0 10px;
 }
-/* line 45, components/_files.scss */
+/* line 9, components/_files.scss */
 #files-app #files-canvas #files-grid tbody tr.files-node td:nth-child(2) img {
   width: 26px;
   max-width: 100%;
 }
-/* line 51, components/_files.scss */
+/* line 15, components/_files.scss */
 #files-app #files-canvas #files-grid tbody tr.files-node td:nth-child(1) {
   text-align: center;
 }
-/* line 58, components/_files.scss */
+/* line 22, components/_files.scss */
 #files-app #files-paginator {
   padding-top: 5px;
   background-color: #F1F1F1;
@@ -5111,275 +4999,16 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 }
 
 /* @end */
-/* @group jquery.plupload.queue.css */
-/* line 72, components/_files.scss */
-.plupload_button {
-  display: -moz-inline-box;
-  /* FF < 3*/
-  display: inline-block;
-  font: normal 12px sans-serif;
-  text-decoration: none;
-  color: #42454a;
-  border: 1px solid #bababa;
-  padding: 2px 8px 3px 20px;
-  margin-right: 4px;
-  background: #f3f3f3 url("../../../../media/files/plupload/jquery.plupload.queue/img/buttons.png") no-repeat 0 center;
-  outline: 0;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-
-/* line 87, components/_files.scss */
-.plupload_button:hover {
-  color: #000;
-  text-decoration: none;
-}
-
-/* line 92, components/_files.scss */
-.plupload_disabled, a.plupload_disabled:hover {
-  color: #737373;
-  border-color: #c5c5c5;
-  background: #ededed url("../../../../media/files/plupload/jquery.plupload.queue/img/buttons-disabled.png") no-repeat 0 center;
-  cursor: default;
-}
-
-/* line 99, components/_files.scss */
-.plupload_add {
-  background-position: -181px center;
-}
-
-/* line 103, components/_files.scss */
-.plupload_wrapper {
-  font: normal 11px Verdana,sans-serif;
-  width: 100%;
-}
-
-/* line 108, components/_files.scss */
-.plupload_container {
-  padding: 8px;
-  /*-moz-border-radius: 5px;*/
-}
-
-/* line 114, components/_files.scss */
-.plupload_container input {
-  border: 1px solid #dddddd;
-  font: normal 11px Verdana,sans-serif;
-  width: 98%;
-}
-
-/* line 120, components/_files.scss */
-.plupload_header {
-  background: #2a2c2e url("../../../../media/files/plupload/jquery.plupload.queue/img/backgrounds.gif") repeat-x;
-}
-
-/* line 121, components/_files.scss */
-.plupload_header_content {
-  background: url("../../../../media/files/plupload/jquery.plupload.queue/img/backgrounds.gif") no-repeat 0 -317px;
-  min-height: 56px;
-  padding-left: 60px;
-  color: #FFF;
-}
-
-/* line 127, components/_files.scss */
-.plupload_header_title {
-  font: normal 18px sans-serif;
-  padding: 6px 0 3px;
-}
-
-/* line 131, components/_files.scss */
-.plupload_header_text {
-  font: normal 12px sans-serif;
-}
-
-/* line 135, components/_files.scss */
-.plupload_filelist {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* line 141, components/_files.scss */
-.plupload_scroll .plupload_filelist {
-  height: 185px;
-  background: #F5F5F5;
-  overflow-y: scroll;
-}
-
-/* line 147, components/_files.scss */
-.plupload_filelist li {
-  padding: 10px 8px;
-  background: whitesmoke url("../../../../media/files/plupload/jquery.plupload.queue/img/backgrounds.gif") repeat-x 0 -156px;
-  border-bottom: 1px solid #dddddd;
-}
-
-/* line 153, components/_files.scss */
-.plupload_filelist_header, .plupload_filelist_footer {
-  background: #DFDFDF;
-  padding: 8px 8px;
-  color: #42454A;
-}
-
-/* line 158, components/_files.scss */
-.plupload_filelist_header {
-  border-top: 1px solid #EEE;
-  border-bottom: 1px solid #CDCDCD;
-}
-
-/* line 163, components/_files.scss */
-.plupload_filelist_footer {
-  border-top: 1px solid #FFF;
-  height: 22px;
-  line-height: 20px;
-  vertical-align: middle;
-}
-
-/* line 164, components/_files.scss */
-.plupload_file_name {
-  float: left;
-  overflow: hidden;
-}
-
-/* line 165, components/_files.scss */
-.plupload_file_status {
-  color: #777;
-}
-
-/* line 166, components/_files.scss */
-.plupload_file_status span {
-  color: #42454A;
-}
-
-/* line 167, components/_files.scss */
-.plupload_file_size, .plupload_file_status, .plupload_progress {
-  float: right;
-  width: 80px;
-}
-
-/* line 171, components/_files.scss */
-.plupload_file_size, .plupload_file_status, .plupload_file_action {
-  text-align: right;
-}
-
-/* line 173, components/_files.scss */
-.plupload_filelist .plupload_file_name {
-  width: 205px;
-}
-
-/* line 175, components/_files.scss */
-.plupload_file_action {
-  float: right;
-  width: 16px;
-  height: 16px;
-  margin-left: 15px;
-}
-
-/* line 182, components/_files.scss */
-.plupload_file_action * {
-  display: none;
-  width: 16px;
-  height: 16px;
-}
-
-/* line 188, components/_files.scss */
-li.plupload_uploading {
-  background: #ecf3dc url("../../../../media/files/plupload/jquery.plupload.queue/img/backgrounds.gif") repeat-x 0 -238px;
-}
-
-/* line 189, components/_files.scss */
-li.plupload_done {
-  color: #AAA;
-}
-
-/* line 191, components/_files.scss */
-li.plupload_delete a {
-  background: url("../../../../media/files/plupload/jquery.plupload.queue/img/delete.gif");
-}
-
-/* line 195, components/_files.scss */
-li.plupload_failed a {
-  background: url("../../../../media/files/plupload/jquery.plupload.queue/img/error.gif");
-  cursor: default;
-}
-
-/* line 200, components/_files.scss */
-li.plupload_done a {
-  background: url("../../../../media/files/plupload/jquery.plupload.queue/img/done.gif");
-  cursor: default;
-}
-
-/* line 205, components/_files.scss */
-.plupload_progress, .plupload_upload_status {
-  display: none;
-}
-
-/* line 209, components/_files.scss */
-.plupload_progress_container {
-  margin-top: 3px;
-  border: 1px solid #CCC;
-  background: #FFF;
-  padding: 1px;
-}
-
-/* line 215, components/_files.scss */
-.plupload_progress_bar {
-  width: 0px;
-  height: 7px;
-  background: #CDEB8B;
-}
-
-/* line 221, components/_files.scss */
-.plupload_scroll .plupload_filelist_header .plupload_file_action, .plupload_scroll .plupload_filelist_footer .plupload_file_action {
-  margin-right: 17px;
-}
-
-/* Floats */
-/* line 227, components/_files.scss */
-.plupload_clear, .plupload_clearer {
-  clear: both;
-}
-
-/* line 228, components/_files.scss */
-.plupload_clearer, .plupload_progress_bar {
-  display: block;
-  font-size: 0;
-  line-height: 0;
-}
-
-/* line 234, components/_files.scss */
-li.plupload_droptext {
-  background: transparent;
-  text-align: center;
-  vertical-align: middle;
-  border: 0;
-  line-height: 165px;
-}
-
-/* @end */
-/* @group plupload.css */
-/* For drag and drop */
-/* line 246, components/_files.scss */
-.dragover {
-  opacity: 0.5;
-}
-
-/* line 250, components/_files.scss */
-#uploads .upload {
-  padding: 4px;
-}
-
 /**
  * Upload Widget CSS
  */
-/* line 257, components/_files.scss */
+/* line 36, components/_files.scss */
 #files-upload {
   padding: 0;
   margin: 0;
   overflow: hidden;
 }
-/* line 261, components/_files.scss */
+/* line 40, components/_files.scss */
 #files-upload h3 {
   padding: 15px 0 0 15px;
   margin: 0 !important;
@@ -5388,43 +5017,43 @@ li.plupload_droptext {
   font-size: 18px;
 }
 
-/* line 271, components/_files.scss */
+/* line 50, components/_files.scss */
 #files-upload-controls .upload-buttons {
   padding: 0;
   list-style: none;
   float: left;
   margin: 10px 0 0 20px;
 }
-/* line 277, components/_files.scss */
+/* line 56, components/_files.scss */
 #files-upload-controls .upload-buttons li {
   display: inline;
   font-size: 12px;
 }
-/* line 281, components/_files.scss */
+/* line 60, components/_files.scss */
 #files-upload-controls .upload-buttons li:first-child {
   padding-right: 5px;
 }
-/* line 285, components/_files.scss */
+/* line 64, components/_files.scss */
 #files-upload-controls .upload-buttons li a {
   font-weight: bold;
   padding: 5px 10px 10px;
   display: inline-block;
   position: relative;
 }
-/* line 292, components/_files.scss */
+/* line 71, components/_files.scss */
 #files-upload-controls .upload-buttons li a.active, #files-upload-controls .upload-buttons li a.active:hover {
   color: #3c3c3c;
 }
-/* line 298, components/_files.scss */
+/* line 77, components/_files.scss */
 #files-upload-controls .upload-buttons li a, #files-upload-controls .upload-buttons li a:hover, #files-upload-controls .upload-buttons li a:visited {
   color: #0b55c4;
 }
-/* line 305, components/_files.scss */
+/* line 84, components/_files.scss */
 #files-upload-controls .upload-buttons li a, #files-upload-controls .upload-buttons li a:hover, #files-upload-controls .upload-buttons li a:active, #files-upload-controls .upload-buttons li a.active {
   text-decoration: none;
   background: none;
 }
-/* line 311, components/_files.scss */
+/* line 90, components/_files.scss */
 #files-upload-controls .upload-buttons li a.active::after, #files-upload-controls .upload-buttons li a.active::before {
   content: '.';
   color: transparent;
@@ -5439,24 +5068,49 @@ li.plupload_droptext {
   margin-left: -8px;
   z-index: 1;
 }
-/* line 326, components/_files.scss */
+/* line 105, components/_files.scss */
 #files-upload-controls .upload-buttons li a.active::before {
   bottom: 0;
   border-bottom-color: #E6E6E6;
 }
 
-/* line 334, components/_files.scss */
+/* line 115, components/_files.scss */
+#files-upload.uploader-files-queued .plupload_filelist_footer {
+  height: auto;
+  padding-bottom: 54px;
+  position: relative;
+}
+/* line 120, components/_files.scss */
+#files-upload.uploader-files-queued .plupload_filelist_footer .plupload_buttons {
+  position: absolute;
+  border-top: 1px solid #dddddd;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 10px;
+}
+/* line 130, components/_files.scss */
+#files-upload.uploader-files-queued .plupload_start, #files-upload.uploader-files-queued .plupload_clear {
+  float: right;
+  clear: none;
+}
+/* line 134, components/_files.scss */
+#files-upload.uploader-files-queued .plupload_clear {
+  margin-right: 10px;
+}
+
+/* line 139, components/_files.scss */
 .uploader-files-queued #files-upload-controls .upload-buttons li a.active.target-computer::after {
   border-bottom-color: white;
 }
 
-/* line 338, components/_files.scss */
+/* line 143, components/_files.scss */
 .upload-form {
   margin-bottom: 10px;
   position: relative;
 }
 
-/* line 344, components/_files.scss */
+/* line 149, components/_files.scss */
 .uploader-files-queued #files-upload-multi, #files-uploader-web form, .dropzone {
   padding: 0;
   background-color: #fcfcfc;
@@ -5466,21 +5120,20 @@ li.plupload_droptext {
   z-index: 0;
 }
 
-/* line 354, components/_files.scss */
+/* line 159, components/_files.scss */
 .uploader-files-queued .dropzone, .uploader-files-queued .nodropzone {
   display: none !important;
 }
 
-/* line 357, components/_files.scss */
+/* line 162, components/_files.scss */
 .dropzone h2 {
-  text-align: center;
   font-weight: 100;
   color: #595959;
   font-size: 30px;
   margin: 100px 0;
 }
 
-/* line 364, components/_files.scss */
+/* line 168, components/_files.scss */
 #files-upload .nodropzone {
   display: inline-block;
   float: none;
@@ -5492,17 +5145,17 @@ li.plupload_droptext {
   font-size: 15px;
 }
 
-/* line 374, components/_files.scss */
+/* line 178, components/_files.scss */
 .uploader-files-empty .upload-form {
   text-align: center;
 }
 
-/* line 377, components/_files.scss */
+/* line 181, components/_files.scss */
 .uploader-files-empty #files-upload-multi {
   display: inline-block;
 }
 
-/* line 380, components/_files.scss */
+/* line 184, components/_files.scss */
 #files-upload-multi .warning {
   display: block;
   float: none;
@@ -5511,35 +5164,38 @@ li.plupload_droptext {
   text-align: center;
 }
 
-/* line 387, components/_files.scss */
+/* line 191, components/_files.scss */
 #files-uploader-web form {
   padding: 2px;
 }
 
-/* line 390, components/_files.scss */
+/* line 194, components/_files.scss */
 #files-upload-multi .plupload_container {
   padding: 0px;
 }
 
 /* blur focus fix */
-/* line 394, components/_files.scss */
+/* line 198, components/_files.scss */
 #files-uploader-web input:focus {
   z-index: 1;
   position: relative;
 }
 
-/* line 402, components/_files.scss */
+/* line 206, components/_files.scss */
 #files-upload-multi .plupload_filelist_header, #files-upload-multi .plupload_filelist_footer {
   background: none;
 }
 
-/* line 405, components/_files.scss */
+/* line 209, components/_files.scss */
 #files-upload-multi .plupload_filelist_header {
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  -ms-border-radius: 4px 4px 0 0;
+  -o-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
   border-top: none;
+  -webkit-box-shadow: #f7f7f7 0 -1px 0 inset;
+  -moz-box-shadow: #f7f7f7 0 -1px 0 inset;
   box-shadow: #f7f7f7 0 -1px 0 inset;
   border-bottom: 1px solid #e6e6e6;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f5f5f5));
@@ -5549,36 +5205,37 @@ li.plupload_droptext {
   background: linear-gradient(#ffffff, #f5f5f5);
 }
 
-/* line 416, components/_files.scss */
+/* line 217, components/_files.scss */
 #files-upload-multi .plupload_filelist_footer {
-  -moz-border-radius-bottomleft: 4px;
-  -moz-border-radius-bottomright: 4px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  -webkit-border-radius: 0 0 4px 4px;
+  -moz-border-radius: 0 0 4px 4px;
+  -ms-border-radius: 0 0 4px 4px;
+  -o-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
   border-bottom: none;
   border-top: none;
   box-shadow: 0 -1px 0 #e6e6e6;
 }
 
-/* line 425, components/_files.scss */
+/* line 223, components/_files.scss */
 .uploader-files-empty #files-upload-multi .plupload_filelist_footer {
   border: 0 hidden transparent;
   box-shadow: none;
 }
 
-/* line 429, components/_files.scss */
+/* line 227, components/_files.scss */
 #files-upload-multi .plupload_scroll .plupload_filelist {
   background: none;
 }
 
-/* line 432, components/_files.scss */
+/* line 230, components/_files.scss */
 #files-upload-multi .plupload_filelist {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 437, components/_files.scss */
+/* line 235, components/_files.scss */
 #files-upload-multi .plupload_filelist li {
   background: none;
   line-height: normal;
@@ -5586,13 +5243,13 @@ li.plupload_droptext {
   padding: 10px 8px;
 }
 
-/* line 443, components/_files.scss */
+/* line 241, components/_files.scss */
 #files-upload-multi .plupload_filelist .plupload_file_name {
   /*width: 471px;*/
   width: 453px;
 }
 
-/* line 448, components/_files.scss */
+/* line 246, components/_files.scss */
 #upload-max {
   font-size: 11px !important;
   padding-top: 6px;
@@ -5600,154 +5257,8 @@ li.plupload_droptext {
   color: #444;
 }
 
-/* line 455, components/_files.scss */
-#upload-progress {
-  float: right;
-  margin: 8px 20px 0 0;
-}
-
-/* line 460, components/_files.scss */
-#upload-queue {
-  list-style: none;
-  clear: both;
-  padding: 0;
-  margin: 0;
-  background-color: #FFF;
-  width: 100%;
-}
-
-/* line 469, components/_files.scss */
-#upload-queue tr.validation-error {
-  background-color: #E6C0C0;
-  color: #c00;
-  border-top: 1px solid #E1E1E1;
-  border-bottom: 1px solid #E1E1E1;
-  padding: 4px;
-}
-
-/* line 477, components/_files.scss */
-#upload-queue tr.file {
-  overflow: auto;
-  padding: 4px;
-  border-bottom: 1px solid #E1E1E1;
-  height: 20px;
-}
-
-/* line 484, components/_files.scss */
-#upload-queue tr.file:nth-child(2) {
-  border-top: 1px solid #E1E1E1;
-}
-
-/* line 488, components/_files.scss */
-#upload-queue tr.file:nth-child(odd) {
-  background-color: #F9F9F9;
-}
-
-/* line 492, components/_files.scss */
-#upload-queue tr.file.file-uploading {
-  background-color: #D9DDE9;
-}
-
-/* line 496, components/_files.scss */
-#upload-queue tr.file.file-success {
-  background-color: #C3D2E5;
-}
-
-/* line 500, components/_files.scss */
-#upload-queue tr.file.file-failed {
-  background-color: #E6C0C0;
-}
-
-/* line 504, components/_files.scss */
-#upload-queue tr.file .file-name {
-  font-weight: bold;
-}
-
-/* line 509, components/_files.scss */
-#upload-queue tr.file .file-remove {
-  width: 75px;
-  text-align: center;
-}
-
-/* line 514, components/_files.scss */
-#upload-queue tr.file .file-size {
-  width: 75px;
-  text-align: right;
-}
-
-/* line 523, components/_files.scss */
-div#files-noimages {
-  width: 100%;
-  text-align: center;
-  font-weight: bold;
-  color: #CCCCCC;
-}
-
-/* line 530, components/_files.scss */
-div#upload-queue-wrapper {
-  background-color: #CCC;
-  border-radius: 5px;
-}
-
-/* @group Style for the custom modal stuff */
-/* line 536, components/_files.scss */
-.files-modal {
-  padding: 5px;
-}
-/* line 539, components/_files.scss */
-.files-modal .upload-files-to {
-  margin-bottom: 5px;
-}
-/* line 543, components/_files.scss */
-.files-modal form {
-  margin-bottom: 0px;
-}
-
-/* @end */
-/* @group Uploader - Computer */
-/* line 551, components/_files.scss */
-#files-upload.uploader-files-queued .plupload_filelist_footer {
-  height: auto;
-  padding-bottom: 54px;
-  position: relative;
-}
-/* line 556, components/_files.scss */
-#files-upload.uploader-files-queued .plupload_filelist_footer .plupload_buttons {
-  position: absolute;
-  box-shadow: 0 -1px 0 #e6e6e6;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  padding: 10px;
-}
-/* line 566, components/_files.scss */
-#files-upload.uploader-files-queued .plupload_start, #files-upload.uploader-files-queued .plupload_clear {
-  float: right;
-  clear: none;
-}
-/* line 570, components/_files.scss */
-#files-upload.uploader-files-queued .plupload_clear {
-  margin-right: 10px;
-}
-/* line 575, components/_files.scss */
-#files-upload.uploader-files-queued .plupload_start.plupload_disabled {
-  cursor: default;
-  background-color: #e6e6e6;
-  background-image: none;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=6500);
-  opacity: 65;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  background-color: #0b17c4;
-  *background-color: #0a14ac;
-}
-
-/* line 587, components/_files.scss */
-#files-upload.uploader-files-empty {
-  /* No files state, this is the initial state */
-}
-/* line 596, components/_files.scss */
+/* No files state, this is the initial state */
+/* line 262, components/_files.scss */
 #files-upload.uploader-files-empty .plupload_filelist_header,
 #files-upload.uploader-files-empty .plupload_start,
 #files-upload.uploader-files-empty .plupload_clear,
@@ -5761,7 +5272,7 @@ div#upload-queue-wrapper {
 
 /* @end */
 /* @group Uploader - Web */
-/* line 606, components/_files.scss */
+/* line 269, components/_files.scss */
 #remote-url, #remote-name {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -5778,13 +5289,13 @@ div#upload-queue-wrapper {
   height: 20px;
 }
 
-/* line 615, components/_files.scss */
+/* line 278, components/_files.scss */
 #remote-url {
   width: 75%;
   border-right-color: #e6e6e6;
 }
 
-/* line 619, components/_files.scss */
+/* line 282, components/_files.scss */
 #remote-name {
   width: 25%;
   border-left-color: #e6e6e6;
@@ -5793,7 +5304,7 @@ div#upload-queue-wrapper {
   border-left-color: inherit;
 }
 
-/* line 626, components/_files.scss */
+/* line 289, components/_files.scss */
 .remote-wrap {
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
@@ -5801,7 +5312,7 @@ div#upload-queue-wrapper {
   border-right-width: 0;
 }
 
-/* line 632, components/_files.scss */
+/* line 295, components/_files.scss */
 .remote-wrap::after {
   content: '.';
   clear: both;
@@ -5810,7 +5321,7 @@ div#upload-queue-wrapper {
   visibility: hidden;
 }
 
-/* line 639, components/_files.scss */
+/* line 302, components/_files.scss */
 #files-uploader-web .remote-submit {
   position: absolute;
   right: 2px;
@@ -5833,18 +5344,18 @@ div#upload-queue-wrapper {
   height: 22px;
 }
 
-/* line 654, components/_files.scss */
+/* line 317, components/_files.scss */
 #files-uploader-web input.remote-submit:focus {
   position: absolute;
 }
 
-/* line 660, components/_files.scss */
+/* line 323, components/_files.scss */
 #files-uploader-web form {
   position: relative;
 }
 
 /* admin template form overrides is breaking the text input styling for span5 */
-/* line 665, components/_files.scss */
+/* line 328, components/_files.scss */
 #files-new-folder-input {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -5853,176 +5364,142 @@ div#upload-queue-wrapper {
   width: 380px;
 }
 
-/* line 672, components/_files.scss */
+/* line 335, components/_files.scss */
 #files-new-folder-create {
   padding-top: 4px;
 }
 
 /* @end */
 /* @group Modal */
-/* line 679, components/_files.scss */
+/* line 342, components/_files.scss */
 .files-preview {
   display: inline-block;
   overflow: hidden;
   padding: 10px;
 }
-/* line 684, components/_files.scss */
+/* line 347, components/_files.scss */
 .files-preview .preview, .files-preview .details, .files-preview ul {
   display: block;
   float: left;
 }
-/* line 689, components/_files.scss */
+/* line 352, components/_files.scss */
 .files-preview ul {
   clear: left;
   list-style: none;
   padding: 0;
   margin-bottom: 0;
 }
-/* line 696, components/_files.scss */
+/* line 359, components/_files.scss */
 .files-preview .name {
   max-width: 400px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: pre;
 }
-/* line 703, components/_files.scss */
+/* line 366, components/_files.scss */
 .files-preview h3, .files-preview a {
   margin: 11px 0;
   display: block;
 }
-/* line 708, components/_files.scss */
+/* line 371, components/_files.scss */
 .files-preview .label {
   display: inline-block;
   text-align: right;
   width: 60px;
   text-transform: capitalize;
 }
-/* line 714, components/_files.scss */
+/* line 377, components/_files.scss */
 .files-preview .label::after {
   content: ':';
 }
 
 /* @end */
-/* @end */
-/* @group files-compact.css */
-/* line 725, components/_files.scss */
-table td.file-count, table th.file-count {
-  text-align: center;
-  width: 10px;
-}
-
-/* line 729, components/_files.scss */
-table th.file-count {
-  text-align: right;
-  padding-right: 20px;
-}
-
-/* line 734, components/_files.scss */
-.files-modal {
+/* line 385, components/_files.scss */
+#files-new-folder-modal .files-modal {
   margin: 0;
   padding: 3px;
 }
-/* line 738, components/_files.scss */
-.files-modal .input-append, .files-modal .scopebar .scopebar-search, .scopebar .files-modal .scopebar-search {
-  margin-bottom: 0;
-}
-/* line 741, components/_files.scss */
-.files-modal .span2 {
-  width: 120px;
-}
-/* line 745, components/_files.scss */
-.files-modal.well {
-  padding: 10px;
-}
-/* line 748, components/_files.scss */
-.files-modal.well h3 {
-  padding: 0 0 0 0;
-  margin: 10px 0 !important;
-  display: block;
-  float: left;
+/* line 389, components/_files.scss */
+#files-new-folder-modal .files-modal h3 {
   font-size: 18px;
-  line-height: 20px;
-  width: 447px;
-  word-break: break-word;
 }
 
-/* line 763, components/_files.scss */
+/* @group files-compact.css */
+/* line 396, components/_files.scss */
 #files-compact {
-  width: 690px;
-  /* Mozilla needs this */
   overflow: hidden;
 }
-/* line 768, components/_files.scss */
+/* line 399, components/_files.scss */
 #files-compact > * {
   background-color: #F9F9F9;
 }
-/* line 773, components/_files.scss */
+/* line 404, components/_files.scss */
 #files-compact #insert {
   border: 1px solid #E1E1E1;
   background-color: #FFF;
   overflow: hidden;
 }
-/* line 779, components/_files.scss */
+/* line 410, components/_files.scss */
 #files-compact #insert .hide {
   display: none;
 }
-/* line 783, components/_files.scss */
+/* line 414, components/_files.scss */
 #files-compact #insert #details {
   overflow: hidden;
   height: 389px;
   background-color: #F4F4F4;
   position: relative;
 }
-/* line 790, components/_files.scss */
+/* line 421, components/_files.scss */
 #files-compact #insert #files-grid {
   width: 264px;
 }
-/* line 793, components/_files.scss */
+/* line 424, components/_files.scss */
 #files-compact #insert #files-container {
   width: 200px;
 }
-/* line 798, components/_files.scss */
+/* line 429, components/_files.scss */
 #files-compact #insert #details,
 #files-compact #insert #files-preview {
   width: 200px;
 }
-/* line 801, components/_files.scss */
+/* line 432, components/_files.scss */
 #files-compact #insert #details tr:last-child td,
 #files-compact #insert #files-preview tr:last-child td {
   border-bottom: 1px #E1E1E1 solid;
 }
-/* line 804, components/_files.scss */
+/* line 435, components/_files.scss */
 #files-compact #insert #details img.icon,
 #files-compact #insert #files-preview img.icon {
   margin: 10px;
 }
-/* line 809, components/_files.scss */
+/* line 440, components/_files.scss */
 #files-compact #insert #files-grid {
   border-right: 1px solid #E1E1E1;
   height: 389px;
   overflow: auto;
 }
-/* line 814, components/_files.scss */
+/* line 445, components/_files.scss */
 #files-compact #insert #files-preview {
   background: white;
   margin-bottom: 10px;
 }
-/* line 818, components/_files.scss */
+/* line 449, components/_files.scss */
 #files-compact #insert ul {
   list-style-type: none;
 }
-/* line 825, components/_files.scss */
+/* line 456, components/_files.scss */
 #files-compact #files-uploader-web form {
   padding: 5px;
 }
-/* line 833, components/_files.scss */
+/* line 464, components/_files.scss */
 #files-compact #files-uploader-web form #remote-url, #files-compact #files-uploader-web form #remote-name {
   height: 28px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 837, components/_files.scss */
+/* line 468, components/_files.scss */
 #files-compact #files-uploader-web form #remote-url {
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
@@ -6030,7 +5507,7 @@ table th.file-count {
   -o-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
-/* line 840, components/_files.scss */
+/* line 471, components/_files.scss */
 #files-compact #files-uploader-web form #remote-name {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -6038,7 +5515,7 @@ table th.file-count {
   -o-border-radius: 0;
   border-radius: 0;
 }
-/* line 843, components/_files.scss */
+/* line 474, components/_files.scss */
 #files-compact #files-uploader-web form .remote-submit {
   top: 5px;
   right: 5px;
@@ -6049,26 +5526,26 @@ table th.file-count {
   -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
-/* line 857, components/_files.scss */
+/* line 488, components/_files.scss */
 #files-compact .parameters .detail-label {
   text-align: right;
   color: gray;
 }
 
 /* @end */
-/* line 864, components/_files.scss */
+/* line 495, components/_files.scss */
 #files-tree {
   border-top: 1px solid #dddddd;
 }
-/* line 867, components/_files.scss */
+/* line 498, components/_files.scss */
 #files-tree .mooTree_node {
   padding-left: 10px;
 }
-/* line 872, components/_files.scss */
+/* line 503, components/_files.scss */
 #files-tree .mooTree_text {
   text-indent: 5px;
 }
-/* line 876, components/_files.scss */
+/* line 507, components/_files.scss */
 #files-tree .mooTree_img {
   float: left;
   width: 18px;
@@ -6079,20 +5556,15 @@ table th.file-count {
 }
 
 /* @group files-layout-icons.css */
-/* line 890, components/_files.scss */
-#files-app #files-grid {
-  min-height: 120px;
-  overflow: hidden;
-}
-/* line 895, components/_files.scss */
+/* line 521, components/_files.scss */
 #files-app #files-grid > div {
   padding: 10px;
 }
-/* line 898, components/_files.scss */
+/* line 525, components/_files.scss */
 #files-app .spinner {
   padding: 0px !important;
 }
-/* line 901, components/_files.scss */
+/* line 528, components/_files.scss */
 #files-app div.files-node {
   cursor: pointer;
   display: inline-block;
@@ -6106,15 +5578,15 @@ table th.file-count {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 912, components/_files.scss */
+/* line 539, components/_files.scss */
 #files-app #files-grid .loading {
   opacity: 0.6;
 }
-/* line 916, components/_files.scss */
+/* line 543, components/_files.scss */
 #files-app #files-grid .loaded {
   opacity: 1;
 }
-/* line 919, components/_files.scss */
+/* line 546, components/_files.scss */
 #files-app div.files-node img {
   opacity: 0;
   -webkit-transition: opacity 150ms ease-out;
@@ -6122,26 +5594,11 @@ table th.file-count {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 923, components/_files.scss */
+/* line 550, components/_files.scss */
 #files-app div.files-node img.loaded {
   opacity: 1;
 }
-/* line 926, components/_files.scss */
-#files-app div.files-node .ellipsis, #files-app div.files-node #panel-sidebar nav a, #panel-sidebar nav #files-app div.files-node a, #files-app div.files-node #files-tree .mooTree_node, #files-tree #files-app div.files-node .mooTree_node, #files-app div.files-node #panel-sidebar h3, #panel-sidebar #files-app div.files-node h3,
-#files-app div.files-node #panel-sidebar legend,
-#panel-sidebar #files-app div.files-node legend,
-#files-app div.files-node #panel-inspector h3,
-#panel-inspector #files-app div.files-node h3,
-#files-app div.files-node #panel-inspector legend,
-#panel-inspector #files-app div.files-node legend {
-  max-width: 200px;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  height: 17px;
-}
-/* line 934, components/_files.scss */
+/* line 553, components/_files.scss */
 #files-app div.files-node.selected {
   color: white;
   border-color: #2b75bf;
@@ -6159,8 +5616,8 @@ table th.file-count {
   background: -o-linear-gradient(#2b75bf, #2b75bf);
   background: linear-gradient(#2b75bf, #2b75bf);
 }
-/* line 947, components/_files.scss */
-#files-app div.imgTotal {
+/* line 566, components/_files.scss */
+#files-app div.files-node-thumbnail {
   position: relative;
   margin: 0 0 8px 0;
   overflow: hidden;
@@ -6172,8 +5629,8 @@ table th.file-count {
   background-image: -o-radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
   background-image: radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
 }
-/* line 956, components/_files.scss */
-#files-app div.imgTotal a.navigate {
+/* line 575, components/_files.scss */
+#files-app div.files-node-thumbnail a.navigate {
   display: block;
   background: no-repeat center center;
   position: relative;
@@ -6181,8 +5638,8 @@ table th.file-count {
   width: inherit;
   height: inherit;
 }
-/* line 964, components/_files.scss */
-#files-app div.imgTotal a.navigate::after {
+/* line 583, components/_files.scss */
+#files-app div.files-node-thumbnail a.navigate::after {
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
@@ -6193,153 +5650,40 @@ table th.file-count {
   top: 0;
   width: inherit;
 }
-/* line 973, components/_files.scss */
-#files-app div.files-node.selected div.imgTotal a.navigate::after {
+/* line 592, components/_files.scss */
+#files-app div.files-node.selected div.files-node-thumbnail a.navigate::after {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
-/* line 976, components/_files.scss */
-#files-app div.imgTotal a.navigate img {
+/* line 595, components/_files.scss */
+#files-app div.files-node-thumbnail a.navigate img {
   width: 100%;
 }
-/* line 979, components/_files.scss */
-#files-app .files-folder div.imgTotal a.navigate {
+/* line 598, components/_files.scss */
+#files-app .files-folder div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/folder-64.png");
 }
-/* line 983, components/_files.scss */
-#files-app .files-file div.imgTotal a.navigate,
-#files-app .files-image.nothumbnails div.imgTotal a.navigate {
+/* line 602, components/_files.scss */
+#files-app .files-file div.files-node-thumbnail a.navigate,
+#files-app .files-image.nothumbnails div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/document-64.png");
 }
-/* line 986, components/_files.scss */
-#files-app .files-image.thumbnails div.imgTotal a.navigate {
+/* line 605, components/_files.scss */
+#files-app .files-image.thumbnails div.files-node-thumbnail a.navigate {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
   background: url("../../../../media/files/images/checker.png") repeat left top white;
 }
-/* line 993, components/_files.scss */
-#files-app div.imgBorder {
-  height: 72px;
-  vertical-align: middle;
-  width: 88px;
-  overflow: hidden;
-}
-/* line 1000, components/_files.scss */
-#files-app div.imgBorder a {
-  height: 72px;
-  width: 88px;
-  display: block;
-}
-/* line 1006, components/_files.scss */
-#files-app div.imgBorder a:hover {
-  height: 72px;
-  width: 88px;
-  background-color: #f0f0f0;
-  color: #FF6600;
-}
-/* line 1013, components/_files.scss */
-#files-app .imgBorderHover {
-  background: #FFFFCC;
-  cursor: hand;
-}
-/* line 1018, components/_files.scss */
+/* line 612, components/_files.scss */
 #files-app .files-icons-controls {
   text-align: center;
 }
-/* line 1022, components/_files.scss */
-#files-app div.controls {
-  text-align: center;
-  height: 20px;
-  line-height: 20px;
-  background: #f9fcf9;
-  border-top: 1px solid #dddddd;
-}
-/* line 1029, components/_files.scss */
-#files-app div.controls input {
-  vertical-align: middle;
-}
-/* line 1033, components/_files.scss */
-#files-app div.controls img {
-  vertical-align: middle;
-}
-/* line 1037, components/_files.scss */
-#files-app div.controls:hover {
-  display: block;
-}
-/* line 1042, components/_files.scss */
-#files-app div.imginfoBorder {
-  background: #f9f9f9;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
-  display: block;
-  height: 15px;
-  vertical-align: middle;
-  text-align: center;
-  overflow: hidden;
-  padding: 0 8px;
-}
-/* line 1054, components/_files.scss */
-#files-app div.imgBorder a {
-  cursor: pointer;
-}
-/* line 1058, components/_files.scss */
-#files-app .buttonHover {
-  border: 1px solid;
-  border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
-  cursor: hand;
-  background: #FFFFCC;
-}
-/* line 1065, components/_files.scss */
-#files-app .buttonOut {
-  border: 0px;
-}
-/* line 1069, components/_files.scss */
-#files-app .imgCaption {
-  font-size: 9pt;
-  text-align: center;
-}
-/* line 1074, components/_files.scss */
-#files-app .dirField {
-  font-size: 9pt;
-  width: 110px;
-}
-/* line 1079, components/_files.scss */
-#files-app div.image {
-  padding-top: 10px;
-}
-/* line 1083, components/_files.scss */
-#files-app .imgBorder a.navigate {
-  -webkit-animation-duration: 2s;
-  -webkit-animation-iteration-count: infinite;
-}
 
 /* @end */
-/* Global overrides are in this file */
-/* @group _global_overrides.less */
-/* @NOTE this fixes ugly scrollbars in animations */
-/* line 1095, components/_files.scss */
-#sbox-content {
-  overflow: hidden;
-}
-
-/* @NOTE default border-radius is horrendous */
-/* line 1099, components/_files.scss */
-#sbox-window {
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-}
-/* line 1104, components/_files.scss */
-#sbox-window .well {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
 /* @NOTE the following code makes sure that the flash adapter of plupload does not break when the modal is closed */
-/* line 1112, components/_files.scss */
+/* line 619, components/_files.scss */
 .uploader-flash-container object, .uploader-flash-container embed {
   display: block !important;
   visibility: visible !important;

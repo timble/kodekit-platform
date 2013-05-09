@@ -182,23 +182,20 @@ window.addEvent('domready', function() {
 		
 		<?= @template('uploader.html');?>
 	</div>
-	<div style="clear: both"></div>
 </div>
 
 <div>
 	<div id="files-new-folder-modal" style="display: none">
-        <div>
-            <form class="files-modal well">
-                <div style="text-align: center;">
-                    <h3 style=" float: none">
-                        <?= str_replace('%folder%', '<span class="upload-files-to"></span>', @text('Create a new folder in %folder%')) ?>
-                    </h3>
-                </div>
-                <div class="input-append">
-                    <input class="span5 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" />
-                    <button id="files-new-folder-create" class="btn btn-primary" disabled><?= @text('Create'); ?></button>
-                </div>
-            </form>
-        </div>
+        <form class="files-modal">
+            <div style="text-align: center;">
+                <h3 style=" float: none">
+                    <?= str_replace('%folder%', '<span class="upload-files-to"></span>', @text('Create a new folder in %folder%')) ?>
+                </h3>
+            </div>
+            <div class="input-append">
+                <input class="span5 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" />
+                <button id="files-new-folder-create" class="btn btn-primary" disabled><?= @text('Create'); ?></button>
+            </div>
+        </form>
     </div>
 </div>

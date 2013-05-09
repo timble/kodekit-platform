@@ -1,43 +1,7 @@
-/* @group from docman _admin.less */
-#files-sidebar {
-  .sidebar-inner {
-    border-right: 1px solid $tableBorder;
-  }
-
-  h3 {
-    background-color: $grayLighter;
-    padding: 3px 8px;
-    line-height: 18px;
-    border-bottom: 1px solid $tableBorder;
-    font-size: 11px;
-    text-transform: uppercase;
-    color: #666;
-    text-shadow: white 0 1px 0;
-    margin: 0;
-  }
-}
-
 #files-app {
   #files-canvas {
-    border-top: 1px solid $grayLighter;
-
-    /* Some admin templates give this unwanted styling */
-    .navigate .spinner {
-      display: none;
-    }
-
     #files-grid {
       min-height: 300px;
-
-      thead {
-        //Checkall box, we need it to expand to fill the th element
-        th:first-child {
-          padding: 0;
-        }
-        th:nth-child(3) {
-          padding-left: 0px;
-        }
-      }
 
       tbody tr.files-node {
         td:nth-child(2) {
@@ -65,191 +29,6 @@
   }
 }
 /* @end */
-
-/* @group jquery.plupload.queue.css */
-$pluploadLocation: '../../../../media/files/plupload/jquery.plupload.queue/img/';
-
-.plupload_button {
-  display: -moz-inline-box; /* FF < 3*/
-  display: inline-block;
-  font: normal 12px sans-serif;
-  text-decoration: none;
-  color: #42454a;
-  border: 1px solid #bababa;
-  padding: 2px 8px 3px 20px;
-  margin-right: 4px;
-  background: #f3f3f3 url('#{$pluploadLocation}buttons.png') no-repeat 0 center;
-  outline: 0;
-
-  @include border-radius(3px);
-}
-
-.plupload_button:hover {
-  color: #000;
-  text-decoration: none;
-}
-
-.plupload_disabled, a.plupload_disabled:hover {
-  color: #737373;
-  border-color: #c5c5c5;
-  background: #ededed url('#{$pluploadLocation}buttons-disabled.png') no-repeat 0 center;
-  cursor: default;
-}
-
-.plupload_add {
-  background-position: -181px center;
-}
-
-.plupload_wrapper {
-  font: normal 11px Verdana,sans-serif;
-  width: 100%;
-}
-
-.plupload_container {
-  padding: 8px;
-
-  /*-moz-border-radius: 5px;*/
-}
-
-.plupload_container input {
-  border: 1px solid $grayLighter;
-  font: normal 11px Verdana,sans-serif;
-  width: 98%;
-}
-
-.plupload_header {background: #2A2C2E url('#{$pluploadLocation}backgrounds.gif') repeat-x;}
-.plupload_header_content {
-  background: url('#{$pluploadLocation}backgrounds.gif') no-repeat 0 -317px;
-  min-height: 56px;
-  padding-left: 60px;
-  color: #FFF;
-}
-.plupload_header_title {
-  font: normal 18px sans-serif;
-  padding: 6px 0 3px;
-}
-.plupload_header_text {
-  font: normal 12px sans-serif;
-}
-
-.plupload_filelist {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.plupload_scroll .plupload_filelist {
-  height: 185px;
-  background: #F5F5F5;
-  overflow-y: scroll;
-}
-
-.plupload_filelist li {
-  padding: 10px 8px;
-  background: #F5F5F5 url('#{$pluploadLocation}backgrounds.gif') repeat-x 0 -156px;
-  border-bottom: 1px solid $grayLighter;
-}
-
-.plupload_filelist_header, .plupload_filelist_footer {
-  background: #DFDFDF;
-  padding: 8px 8px;
-  color: #42454A;
-}
-.plupload_filelist_header {
-  border-top: 1px solid #EEE;
-  border-bottom: 1px solid #CDCDCD;
-}
-
-.plupload_filelist_footer {border-top: 1px solid #FFF; height: 22px; line-height: 20px; vertical-align: middle;}
-.plupload_file_name {float: left; overflow: hidden}
-.plupload_file_status {color: #777;}
-.plupload_file_status span {color: #42454A;}
-.plupload_file_size, .plupload_file_status, .plupload_progress {
-  float: right;
-  width: 80px;
-}
-.plupload_file_size, .plupload_file_status, .plupload_file_action {text-align: right;}
-
-.plupload_filelist .plupload_file_name {width: 205px}
-
-.plupload_file_action {
-  float: right;
-  width: 16px;
-  height: 16px;
-  margin-left: 15px;
-}
-
-.plupload_file_action * {
-  display: none;
-  width: 16px;
-  height: 16px;
-}
-
-li.plupload_uploading {background: #ECF3DC url('#{$pluploadLocation}backgrounds.gif') repeat-x 0 -238px;}
-li.plupload_done {color:#AAA}
-
-li.plupload_delete a {
-  background: url('#{$pluploadLocation}delete.gif');
-}
-
-li.plupload_failed a {
-  background: url('#{$pluploadLocation}error.gif');
-  cursor: default;
-}
-
-li.plupload_done a {
-  background: url('#{$pluploadLocation}done.gif');
-  cursor: default;
-}
-
-.plupload_progress, .plupload_upload_status {
-  display: none;
-}
-
-.plupload_progress_container {
-  margin-top: 3px;
-  border: 1px solid #CCC;
-  background: #FFF;
-  padding: 1px;
-}
-.plupload_progress_bar {
-  width: 0px;
-  height: 7px;
-  background: #CDEB8B;
-}
-
-.plupload_scroll .plupload_filelist_header .plupload_file_action, .plupload_scroll .plupload_filelist_footer .plupload_file_action {
-  margin-right: 17px;
-}
-
-/* Floats */
-
-.plupload_clear,.plupload_clearer {clear: both;}
-.plupload_clearer, .plupload_progress_bar {
-  display: block;
-  font-size: 0;
-  line-height: 0;
-}
-
-li.plupload_droptext {
-  background: transparent;
-  text-align: center;
-  vertical-align: middle;
-  border: 0;
-  line-height: 165px;
-}
-
-/* @end */
-
-/* @group plupload.css */
-/* For drag and drop */
-.dragover {
-  opacity: 0.5;
-}
-
-#uploads .upload {
-  padding: 4px;
-}
 
 /**
  * Upload Widget CSS
@@ -331,6 +110,32 @@ li.plupload_droptext {
     }
   }
 }
+
+#files-upload.uploader-files-queued {
+  .plupload_filelist_footer {
+    height: auto;
+    padding-bottom: 54px;
+    position: relative;
+
+    .plupload_buttons {
+      position: absolute;
+      border-top: 1px solid $grayLighter;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      padding: 10px;
+    }
+  }
+
+  .plupload_start, .plupload_clear {
+    float: right;
+    clear: none;
+  }
+  .plupload_clear {
+    margin-right: 10px;
+  }
+}
+
 .uploader-files-queued #files-upload-controls .upload-buttons li a.active.target-computer::after {
   border-bottom-color: white;
 }
@@ -355,7 +160,6 @@ li.plupload_droptext {
   display: none!important;
 }
 .dropzone h2 {
-  text-align: center;
   font-weight: 100;
   color: #595959;
   font-size: 30px;
@@ -403,21 +207,15 @@ li.plupload_droptext {
   background: none;
 }
 #files-upload-multi .plupload_filelist_header {
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  @include border-radius(4px 4px 0 0);
   border-top: none;
-  box-shadow: hsl(0, 0%, 97%) 0 -1px 0 inset;
+  @include box-shadow(hsl(0, 0%, 97%) 0 -1px 0 inset);
   border-bottom: 1px solid hsl(0, 0%, 90%);
   @include background(linear-gradient(white, whitesmoke));
 }
 
 #files-upload-multi .plupload_filelist_footer {
-  -moz-border-radius-bottomleft: 4px;
-  -moz-border-radius-bottomright: 4px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  @include border-radius(0 0 4px 4px);
   border-bottom: none;
   border-top: none;
   box-shadow: 0 -1px 0 hsl(0, 0%, 90%);
@@ -452,140 +250,8 @@ li.plupload_droptext {
   color: #444;
 }
 
-#upload-progress {
-  float: right;
-  margin: 8px 20px 0 0;
-}
-
-#upload-queue {
-  list-style: none;
-  clear:both;
-  padding:0;
-  margin: 0;
-  background-color: #FFF;
-  width: 100%;
-}
-
-#upload-queue tr.validation-error {
-  background-color: #E6C0C0;
-  color: #c00;
-  border-top: 1px solid #E1E1E1;
-  border-bottom: 1px solid #E1E1E1;
-  padding: 4px;
-}
-
-#upload-queue tr.file {
-  overflow: auto;
-  padding: 4px;
-  border-bottom: 1px solid #E1E1E1;
-  height: 20px;
-}
-
-#upload-queue tr.file:nth-child(2) {
-  border-top: 1px solid #E1E1E1;
-}
-
-#upload-queue tr.file:nth-child(odd) {
-  background-color: #F9F9F9;
-}
-
-#upload-queue tr.file.file-uploading {
-  background-color: #D9DDE9;
-}
-
-#upload-queue tr.file.file-success {
-  background-color: #C3D2E5;
-}
-
-#upload-queue tr.file.file-failed {
-  background-color: #E6C0C0;
-}
-
-#upload-queue tr.file .file-name {
-
-  font-weight: bold;
-}
-
-#upload-queue tr.file .file-remove {
-  width: 75px;
-  text-align: center;
-}
-
-#upload-queue tr.file .file-size {
-  width: 75px;
-  text-align: right;
-}
-
-#upload-queue tr.file .file-info {
-
-}
-
-div#files-noimages {
-  width: 100%;
-  text-align:center;
-  font-weight:bold;
-  color:#CCCCCC;
-}
-
-div#upload-queue-wrapper {
-  background-color: #CCC;
-  border-radius: 5px;
-}
-
-/* @group Style for the custom modal stuff */
-.files-modal {
-  padding: 5px;
-
-  .upload-files-to {
-    margin-bottom: 5px;
-  }
-
-  form {
-    margin-bottom: 0px;
-  }
-}
-/* @end */
-
-/* @group Uploader - Computer */
-#files-upload.uploader-files-queued {
-  .plupload_filelist_footer {
-    height: auto;
-    padding-bottom: 54px;
-    position: relative;
-
-    .plupload_buttons {
-      position: absolute;
-      box-shadow: 0 -1px 0 hsl(0, 0%, 90%);
-      bottom: 0px;
-      left: 0px;
-      right: 0px;
-      padding: 10px;
-    }
-  }
-
-  .plupload_start, .plupload_clear {
-    float: right;
-    clear: none;
-  }
-  .plupload_clear {
-    margin-right: 10px;
-  }
-
-  .plupload_start {
-    &.plupload_disabled {
-      cursor: default;
-      background-color: darken($white, 10%);
-      background-image: none;
-      @include opacity(65);
-      @include box-shadow(none);
-      background-color: $btnPrimaryBackgroundHighlight;
-      *background-color: darken($btnPrimaryBackgroundHighlight, 5%);
-    }
-  }
-}
-
+/* No files state, this is the initial state */
 #files-upload.uploader-files-empty {
-  /* No files state, this is the initial state */
   .plupload_filelist_header,
   .plupload_start,
   .plupload_clear,
@@ -595,9 +261,6 @@ div#upload-queue-wrapper {
   .plupload_file_size,
   .plupload_progress {
     display: none;
-  }
-
-  .plupload_add {
   }
 }
 /* @end */
@@ -717,53 +380,21 @@ div#upload-queue-wrapper {
   }
 }
 /* @end */
-/* @end */
 
-/* @group files-compact.css */
-$modalWidth: 690px;
-
-table td.file-count, table th.file-count {
-  text-align: center;
-  width: 10px;
-}
-table th.file-count {
-  text-align: right;
-  padding-right: 20px;
-}
-
-.files-modal {
-  margin: 0;
-  padding: 3px;
-
-  .input-append {
-    margin-bottom: 0;
-  }
-  .span2 {
-    width: 120px;
-  }
-
-  &.well {
-    padding: 10px;
+#files-new-folder-modal {
+  .files-modal {
+    margin: 0;
+    padding: 3px;
 
     h3 {
-      padding: 0 0 0 0;
-      margin: 10px 0!important;
-      display: block;
-      float: left;
       font-size: 18px;
-      line-height: 20px;
-
-      width: 447px; //To avoid issues when opening and closing the modal multiple times
-      word-break: break-word;
     }
   }
 }
 
+/* @group files-compact.css */
 #files-compact {
-  & {
-    width: $modalWidth; /* Mozilla needs this */
-    overflow: hidden;
-  }
+  overflow: hidden;
 
   & > * {
     background-color: #F9F9F9;
@@ -884,17 +515,13 @@ table th.file-count {
 }
 
 /* @group files-layout-icons.css */
-#files-app
-{
-$comFilesLocation: '../../../../media/files/images/';
-  #files-grid {
-    min-height: 120px;
-    overflow: hidden;
-  }
+#files-app {
+  $comFilesLocation: '../../../../media/files/images/';
 
   #files-grid > div {
     padding: 10px;
   }
+
   .spinner {
     padding: 0px!important;
   }
@@ -923,14 +550,6 @@ $comFilesLocation: '../../../../media/files/images/';
   div.files-node img.loaded {
     opacity: 1;
   }
-  div.files-node .ellipsis {
-    max-width: 200px;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    height: 17px;
-  }
   div.files-node.selected {
     color: white;
     border-color: mix($blueDark, $blueDark, 50%);
@@ -944,7 +563,7 @@ $comFilesLocation: '../../../../media/files/images/';
     @include background(linear-gradient($blueDark, $blueDark));
   }
 
-  div.imgTotal {
+  div.files-node-thumbnail {
     position: relative;
     margin: 0 0 8px 0;
     overflow: hidden;
@@ -953,7 +572,7 @@ $comFilesLocation: '../../../../media/files/images/';
     @include background-image(radial-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1)));
   }
 
-  div.imgTotal a.navigate {
+  div.files-node-thumbnail a.navigate {
     display: block;
     background: no-repeat center center;
     position: relative;
@@ -961,7 +580,7 @@ $comFilesLocation: '../../../../media/files/images/';
     width: inherit;
     height: inherit;
   }
-  div.imgTotal a.navigate::after {
+  div.files-node-thumbnail a.navigate::after {
     @include box-shadow(0 0 2px rgba(0, 0, 0, .20) inset);
     content: '';
     height: inherit;
@@ -970,148 +589,35 @@ $comFilesLocation: '../../../../media/files/images/';
     top: 0;
     width: inherit;
   }
-  div.files-node.selected div.imgTotal a.navigate::after {
+  div.files-node.selected div.files-node-thumbnail a.navigate::after {
     @include box-shadow(0 0 3px rgba(0, 0, 0, 0.3) inset);
   }
-  div.imgTotal a.navigate img {
+  div.files-node-thumbnail a.navigate img {
     width: 100%;
   }
-  .files-folder div.imgTotal a.navigate {
+  .files-folder div.files-node-thumbnail a.navigate {
     background-image: url('#{$comFilesLocation}folder-64.png');
   }
-  .files-file div.imgTotal a.navigate,
-  .files-image.nothumbnails div.imgTotal a.navigate {
+  .files-file div.files-node-thumbnail a.navigate,
+  .files-image.nothumbnails div.files-node-thumbnail a.navigate {
     background-image: url('#{$comFilesLocation}document-64.png');
   }
-  .files-image.thumbnails div.imgTotal a.navigate {
+  .files-image.thumbnails div.files-node-thumbnail a.navigate {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
     background: url('#{$comFilesLocation}checker.png') repeat left top white;
   }
 
-  div.imgBorder {
-    height: 72px;
-    vertical-align: middle;
-    width: 88px;
-    overflow: hidden;
-  }
-
-  div.imgBorder a {
-    height: 72px;
-    width: 88px;
-    display: block;
-  }
-
-  div.imgBorder a:hover {
-    height: 72px;
-    width: 88px;
-    background-color: #f0f0f0;
-    color : #FF6600;
-  }
-
-  .imgBorderHover {
-    background: #FFFFCC;
-    cursor: hand;
-  }
-
   .files-icons-controls {
     text-align: center;
   }
-
-  div.controls {
-    text-align: center;
-    height: 20px;
-    line-height: 20px;
-    background: #f9fcf9;
-    border-top: 1px solid $grayLighter;
-
-    input {
-      vertical-align: middle;
-    }
-
-    img {
-      vertical-align: middle;
-    }
-
-    &:hover {
-      display: block;
-    }
-  }
-
-  div.imginfoBorder {
-    background: #f9f9f9;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10px;
-    display: block;
-    height: 15px;
-    vertical-align: middle;
-    text-align: center;
-    overflow: hidden;
-    padding: 0 8px;
-  }
-
-  div.imgBorder a {
-    cursor: pointer;
-  }
-
-  .buttonHover {
-    border: 1px solid;
-    border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
-    cursor: hand;
-    background: #FFFFCC;
-  }
-
-  .buttonOut {
-    border: 0px;
-  }
-
-  .imgCaption {
-    font-size: 9pt;
-    text-align: center;
-  }
-
-  .dirField {
-    font-size: 9pt;
-    width:110px;
-  }
-
-  div.image {
-    padding-top: 10px;
-  }
-
-  .imgBorder a.navigate {
-    -webkit-animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-  }
 }
 /* @end */
-
-/* Global overrides are in this file */
-
-/* @group _global_overrides.less */
-
-/* @NOTE this fixes ugly scrollbars in animations */
-#sbox-content {
-  overflow: hidden;
-}
-/* @NOTE default border-radius is horrendous */
-#sbox-window {
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
-
-  .well {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-  }
-}
 
 /* @NOTE the following code makes sure that the flash adapter of plupload does not break when the modal is closed */
 .uploader-flash-container object, .uploader-flash-container embed {
   display: block !important;
   visibility: visible!important;
 }
-
 /* @end */

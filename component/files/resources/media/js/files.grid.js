@@ -406,7 +406,7 @@ Files.Grid = new Class({
 		this.options.icon_size = size;
 
 		if (this.nodes.getKeys().length && this.layout == 'icons') {
-			this.container.getElements('.imgTotal').setStyles({
+			this.container.getElements('.files-node-thumbnail').setStyles({
 	            width: size + 'px',
 	            height: (size * 0.75) + 'px'
 	        });
