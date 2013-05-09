@@ -15,10 +15,10 @@ window.addEvent('domready', function() {
 
 <? if(count($list)) : ?>
     <div id="attachments-list">
-    <ul class="thumbnails" style="padding-left:0;">
+    <ul class="thumbnails">
     <? foreach($list as $item) : ?>
     	<? if($item->file->isImage()) : ?>
-    	<li style="width: 130px;">
+    	<li>
 	    	<div class="thumbnail">
                 <a class="modal" href="<?= @route('view=attachment&format=file&id='.$item->id) ?>" rel="{handler: 'image'}">
                     <img src="<?= $item->thumbnail->thumbnail ?>" />
