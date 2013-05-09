@@ -31,6 +31,5 @@
 <script src="media://files/js/files.tree.js" />
 <script src="media://files/js/files.row.js" />
 <script src="media://files/js/files.paginator.js" />
-<script src="media://files/js/files.pathway.js" />
 
 <script src="media://files/js/files.app.js" />

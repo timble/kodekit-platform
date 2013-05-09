@@ -24,9 +24,6 @@ Files.App = new Class({
 		container: null,
 		active: null,
 		title: 'files-title',
-		pathway: {
-			element: 'files-pathway'
-		},
 		state: {
 			defaults: {}
 		},
@@ -70,7 +67,6 @@ Files.App = new Class({
 			this.cookie = 'com.files.container.'+container;
 		}
 
-		this.setPathway();
 		this.setState();
 		this.setHistory();
 		this.setGrid();
@@ -448,14 +444,6 @@ Files.App = new Class({
 			});
 		}
 
-	},
-    setPathway: function() {
-    	this.fireEvent('beforeSetPathway');
-
-		var pathway = new Files.Pathway(this.options.pathway);
-		this.addEvent('afterSetTitle', pathway.setPath.bind(pathway, this));
-
-		this.fireEvent('afterSetPathway');
 	},
 	setTitle: function(title) {
 		this.fireEvent('beforeSetTitle', {title: title});

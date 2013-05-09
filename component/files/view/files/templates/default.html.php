@@ -165,9 +165,8 @@ window.addEvent('domready', function() {
 	</ktml:module>
 
 	<div id="files-canvas">
-	    <div class="path" style="height: 24px;">
-            <div id="files-pathway"></div>
-			<div class="files-layout-controls btn-group"  data-toggle="buttons-radio">
+	    <div class="scopebar">
+			<div class="btn-group" data-toggle="buttons-radio">
 				<button class="btn files-layout-switcher" data-layout="icons" title="<?= @text('Show files as icons'); ?>">
 					<i class="icon-th"></i>
 				</button>
