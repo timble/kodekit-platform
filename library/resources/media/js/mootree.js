@@ -495,7 +495,7 @@ var MooTreeNode = new Class({
 			var x;
 
 			// make selected, or not:
-			this.div.main.className = 'mooTree_node' + (this.selected ? ' mooTree_selected' : '');
+			this.div.main.className = 'mooTree_node' + (this.selected ? ' active' : '');
 
 			// update indentations:
 			x = this.div.indent;

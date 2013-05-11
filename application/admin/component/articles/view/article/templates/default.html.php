@@ -57,10 +57,8 @@
         </div>
         <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </div>
-    <div class="sidebar">        
-        <div class="scrollable">
-            <?= @template('default_sidebar.html'); ?>
-        </div>
+    <div class="sidebar">
+        <?= @template('default_sidebar.html'); ?>
     </div>
 </form>
 

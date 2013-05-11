@@ -77,14 +77,12 @@ Files.Grid = new Class({
 			if (e.target.get('tag') == 'input') {
 				e.target.setProperty('checked', !e.target.getProperty('checked'));
 			};
-			var box = e.target.getParent('.files-node-shadow');
-			if (!box) {
-				box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
-			}
+			box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
+
 
 			that.checkNode(box.retrieve('row'));
 		};
-		this.container.addEvent('click:relay(div.imgOutline)', fireCheck.bind(this));
+		this.container.addEvent('click:relay(div.files-node)', fireCheck.bind(this));
         this.container.addEvent('click:relay(input.files-select)', fireCheck.bind(this));
 
 		/*
@@ -95,10 +93,7 @@ Files.Grid = new Class({
 				e.stop();
 			}
 
-			var box = e.target.getParent('.files-node-shadow');
-			if (!box) {
-				box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
-			}
+			box = e.target.match('.files-node') ? e.target :  e.target.getParent('.files-node');
 
 			this.erase(box.retrieve('row').path);
 		}.bind(this);
@@ -137,7 +132,7 @@ Files.Grid = new Class({
 					checkboxes = this.container.getElements('input[type=checkbox]:checked.files-select')
 					.filter(function(el) {
 						if (el.checked) {
-							var box = el.getParent('.files-node-shadow') || el.getParent('.files-node'),
+							var box = el.getParent('.files-node'),
 								name = box.retrieve('row').name;
 							
 							if (el.getParent('.files-node').hasClass('files-folder')) {
@@ -411,11 +406,11 @@ Files.Grid = new Class({
 		this.options.icon_size = size;
 
 		if (this.nodes.getKeys().length && this.layout == 'icons') {
-			this.container.getElements('.imgTotal').setStyles({
+			this.container.getElements('.files-node-thumbnail').setStyles({
 	            width: size + 'px',
 	            height: (size * 0.75) + 'px'
 	        });
-	        this.container.getElements('.imgOutline .ellipsis').setStyle('width', size + 'px');
+	        this.container.getElements('.files-node .ellipsis').setStyle('width', size + 'px');
 		}
 
     	this.fireEvent('afterSetIconSize', {size: size});

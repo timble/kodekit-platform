@@ -42,11 +42,4 @@
   tbody + tbody {
     border-top: 2px solid $tableBorder;
   }
-  // Zebra-striping
-  tbody {
-    > tr:nth-child(odd) > td,
-    > tr:nth-child(odd) > th {
-      background-color: $tableBackgroundAccent;
-    }
-  }
 }

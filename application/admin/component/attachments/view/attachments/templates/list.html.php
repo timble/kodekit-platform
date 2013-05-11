@@ -15,29 +15,25 @@ window.addEvent('domready', function() {
 
 <? if(count($list)) : ?>
     <div id="attachments-list">
-    <ul class="thumbnails" style="padding-left:0;">
     <? foreach($list as $item) : ?>
     	<? if($item->file->isImage()) : ?>
-    	<li style="width: 130px;">
-	    	<div class="thumbnail">
-                <a class="modal" href="<?= @route('view=attachment&format=file&id='.$item->id) ?>" rel="{handler: 'image'}">
-                    <img src="<?= $item->thumbnail->thumbnail ?>" />
+        <div class="thumbnail">
+            <a class="modal" href="<?= @route('view=attachment&format=file&id='.$item->id) ?>" rel="{handler: 'image'}">
+                <img src="<?= $item->thumbnail->thumbnail ?>" />
+            </a>
+            <div class="thumbnail__caption">
+                <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
+                    <i class="icon-trash icon-white"></i>
                 </a>
-                <div class="caption">                    
-                    <a class="btn btn-mini btn-danger" href="#" data-action="delete" data-id="<?= $item->id; ?>">
-                        <i class="icon-trash icon-white"></i>
-                    </a>
-                    <? if($assignable) : ?>
-                    <a class="btn btn-mini <?= ($item->path == $image ? 'btn-warning' : '') ?>" href="#" data-action="assign" data-id="<?= $item->id; ?>">
-                        <i class="icon-star"></i>
-                    </a>
-                    <? endif ?>
-                </div>
+                <? if($assignable) : ?>
+                <a class="btn btn-mini <?= ($item->path == $image ? 'btn-warning' : '') ?>" href="#" data-action="assign" data-id="<?= $item->id; ?>">
+                    <i class="icon-star"></i>
+                </a>
+                <? endif ?>
             </div>
-    	</li>
+        </div>
     	<? endif ?>
     <? endforeach ?>
-	</ul>
     
     <ul>
     <? foreach($list as $item) : ?>        
