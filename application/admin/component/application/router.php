@@ -37,6 +37,16 @@ class ApplicationRouter extends Library\DispatcherRouter
         $path = str_replace($url->query['site'], '', $path);
         $path = ltrim($path, '/');
 
+        // Parse language.
+        $languages = $this->getObject('application.languages');
+        if(count($languages) > 1)
+        {
+            $language  = $languages->find(array('slug' => strtok($path, '/')));
+            if(count($language)) {
+                $path = substr($path, strlen(strtok($path, '/')) + 1);
+            }
+        }
+
         //Parse component route
         if(!empty($path))
         {
@@ -69,6 +79,20 @@ class ApplicationRouter extends Library\DispatcherRouter
         $site = $this->getObject('application')->getSite();
         if($site != 'default' && $site != $this->getObject('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
             $segments[] = $site;
+        }
+
+        //Build language route
+        $languages = $this->getObject('application.languages');
+        if(count($languages) > 1)
+        {
+            if(isset($query['language']))
+            {
+                $language = $query['language'];
+                unset($query['language']);
+            }
+            else $language = $languages->getActive()->slug;
+
+            $segments[] = $language;
         }
 
 	    //Build component route
