@@ -27,8 +27,8 @@ class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
      *
      * @return string - The HTML to be embedded in the user's form.
      */
-    public function render($config = array()) {
-
+    public function render($config = array())
+    {
         $config = new Library\ObjectConfig($config);
 
         $params = $this->getObject('application.components')->users->params;
