@@ -82,7 +82,7 @@ class HttpCookie extends Object implements HttpCookieInterface
      * Constructor
      *
      * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
-     * @return DispatcherSessionAbstract
+     * @return HttpCookie
      */
     public function __construct(ObjectConfig $config)
     {
@@ -206,7 +206,7 @@ class HttpCookie extends Object implements HttpCookieInterface
     {
         $str = urlencode($this->name) . '=';
 
-        if ('' !== (string)$this->value)
+        if ((string)$this->value !== '' )
         {
             $str .= urlencode($this->value);
 
@@ -216,19 +216,19 @@ class HttpCookie extends Object implements HttpCookieInterface
         }
         else $str .= 'deleted; expires=' . gmdate(\DateTime::COOKIE, time() - 31536001);
 
-        if ('/' !== $this->path) {
+        if ($this->path !== '/') {
             $str .= '; path=' . $this->path;
         }
 
-        if (null !== $this->domain) {
+        if ($this->domain !== null) {
             $str .= '; domain=' . $this->domain;
         }
 
-        if (true === $this->isSecure()) {
+        if ($this->isSecure() === true) {
             $str .= '; secure';
         }
 
-        if (true === $this->isHttpOnly()) {
+        if ($this->isHttpOnly() === true) {
             $str .= '; httponly';
         }
 
