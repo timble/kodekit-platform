@@ -120,7 +120,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         if ($user->isNew() || !$user->enabled)
         {
-            $context->user->addFlashMessage(JText::_('COULD_NOT_FIND_USER'), 'error');
+            $context->user->addFlashMessage(\JText::_('COULD_NOT_FIND_USER'), 'error');
             $context->response->setRedirect($context->request->getReferrer());
 
             $result = false;
