@@ -35,9 +35,9 @@ class ModelPaginator extends ObjectConfig implements ModelPaginatorInterface
      * @param  mixed 
      * @return void
      */
-    public function __set($name, $value)
+    public function set($name, $value)
     {
-        parent::__set($name, $value);
+        parent::set($name, $value);
         
         //Only calculate the limit and offset if we have a total
         if($this->total)
