@@ -28,7 +28,7 @@ class ModelTable extends ModelAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -55,7 +55,7 @@ class ModelTable extends ModelAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -72,8 +72,8 @@ class ModelTable extends ModelAbstract
      *
      * This function overloads the DatabaseTableAbstract::set() function and only acts on state properties.
      *
-     * @param   string|array|object The name of the property, an associative array or an object
-     * @param   mixed               The value of the property
+     * @param   string|array|object $property The name of the property, an associative array or an object
+     * @param   mixed               $value    The value of the property
      * @return  ModelTable
      */
     public function set( $property, $value = null )
@@ -143,10 +143,10 @@ class ModelTable extends ModelAbstract
     /**
      * Method to get a item object which represents a table row
      *
-     * If the model state is unique a row is fetched from the database based on the state.
-     * If not, an empty row is be returned instead.
+     * If the model state is unique a row is fetched from the database based on the state. If not, an empty row is be
+     * returned instead.
      *
-     * @return DatabaseRow
+     * @return DatabaseRowInterface
      */
     public function getRow()
     {
@@ -177,7 +177,7 @@ class ModelTable extends ModelAbstract
     /**
      * Get a list of items which represents a  table rowset
      *
-     * @return DatabaseRowset
+     * @return DatabaseRowsetInterface
      */
     public function getRowset()
     {

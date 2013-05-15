@@ -127,10 +127,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Get the model state value
      *
-     * If no state name is given then the function will return an associative array of all state values
-     *
-     * If the property does not exist and a  default value is specified this is returned, otherwise the function return
-     * NULL.
+     * If no state name is given then the function will return an associative array of all state values. If the property
+     * does not exist and a  default value is specified this is returned, otherwise the function return NULL.
      *
      * @param   string  $name   The name of the property
      * @param   mixed   $default The default value

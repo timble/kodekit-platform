@@ -45,7 +45,7 @@ interface ModelInterface
     /**
      * Reset all cached data and reset the model state to it's default
      *
-     * @param   boolean If TRUE use defaults when resetting. Default is TRUE
+     * @param   boolean $default If TRUE use defaults when resetting. Default is TRUE
      * @return  ModelInterface
      */
     public function reset($default = true);
