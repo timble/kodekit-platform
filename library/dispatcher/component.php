@@ -125,7 +125,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             $context->response->headers->addCookie($this->getObject('lib:http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
-                'path'   => $context->request->getBaseUrl()->getPath()
+                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
             )));
 
             $context->response->headers->set('X-Token', $token);
