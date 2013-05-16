@@ -30,7 +30,7 @@
         <label class="control-label" for="password"><?= @text('Verify Password') ?></label>
 
         <div class="controls">
-            <input class="validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify"/>
+            <input class="validate-match required matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify"/>
         </div>
     </div>
     <div class="form-actions">

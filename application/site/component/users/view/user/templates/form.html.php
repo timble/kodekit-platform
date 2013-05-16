@@ -51,7 +51,7 @@
     <div class="control-group">
         <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
         <div class="controls">
-            <input class="inputbox validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" size="40" />
+            <input class="inputbox required validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" size="40" />
         </div>
     </div>
 
