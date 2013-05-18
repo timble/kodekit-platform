@@ -101,8 +101,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
             // Check if E-mail address is not already being used
             $query = $this->getObject('lib:database.query.select')
                 ->where('email = :email')
-                ->where('users_user_id <> :id')
-                ->bind(array('email' => $this->email, 'id' => $this->id));
+                ->bind(array('email' => $this->email));
 
             if ($this->getObject('com:users.database.table.users')->count($query))
             {

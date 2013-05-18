@@ -17,7 +17,7 @@
 
 <script type="text/javascript">
     window.addEvent('domready', function() {
-        ComUsers.Form.addValidator('passwordLength');
+        ComUsers.Form.addValidators(['passwordLength','passwordVerify']);
     });
 </script>
 
@@ -63,7 +63,7 @@
 				<div>
 				    <label for="password_verify"><?= @text('Verify Password') ?></label>
 				    <div>
-				        <input class="validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify" maxlength="100" />
+				        <input class="passwordVerify matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify" maxlength="100" />
 				    </div>
 				</div>
 			    <? if (!$user->isNew()): ?>

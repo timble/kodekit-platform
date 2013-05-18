@@ -1,6 +1,6 @@
 <?
 /**
- * @category	Nooku
+ * @category    Nooku
  * @package     Nooku_Server
  * @subpackage  Users
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
@@ -10,7 +10,7 @@
 ?>
 
 <div class="page-header">
-    <h1><?= @escape($parameters->get('page_title')) ?></h1>
+    <h1><?= @text('Registration') ?></h1>
 </div>
 
-<?=@template('form.html')?>
+<?= @template('form.html') ?>

@@ -75,6 +75,8 @@ class UsersControllerUser extends ApplicationControllerDefault
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
             $user->values($entity->getSessionData($user->isAuthentic()));
         }
+
+        return $entity;
     }
 
     public function redirect(Library\CommandContext $context)

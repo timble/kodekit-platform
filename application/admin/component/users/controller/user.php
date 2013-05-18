@@ -69,7 +69,9 @@ class UsersControllerUser extends ApplicationControllerDefault
         $entity = $context->result;
 
         // Expire the user's password if a password change was requested.
-        if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change', 'bool')) {
+        if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
+            'boolean')
+        ) {
             $entity->getPassword()->expire();
         }
     }
