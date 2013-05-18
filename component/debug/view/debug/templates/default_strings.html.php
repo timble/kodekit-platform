@@ -18,7 +18,7 @@
 		$file	= $info['file'];
 		$line	= $info['line'];
 	?>
-	<?= strtoupper( $key )."\t$class::$func()\t[$file:$line]\n"; ?>
+	<?= strtoupper( $key )."\t$class::$func()\t[$file:$line]".PHP_EOL; ?>
 	<? endforeach; ?>
 <? endforeach; ?>
 </pre>
