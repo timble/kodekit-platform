@@ -19,7 +19,7 @@ use Nooku\Library;
  * @subpackage  Files
  */
 
-abstract class ControllerAbstract extends \ApplicationControllerDefault
+abstract class ControllerAbstract extends Library\ControllerModel
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{
@@ -144,7 +144,7 @@ abstract class ControllerAbstract extends \ApplicationControllerDefault
 	{
 	    if($this->isDispatched())
 	    {
-	        $limit = $this->getModel()->get('limit');
+	        $limit = $this->getModel()->getState()->limit;
 
 	        //If limit is empty use default
 	        if(empty($limit) && $limit !== 0) {

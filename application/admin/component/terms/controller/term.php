@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Terms
  */
-abstract class TermsControllerTerm extends ApplicationControllerDefault
+abstract class TermsControllerTerm extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {
