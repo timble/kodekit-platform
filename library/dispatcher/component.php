@@ -16,7 +16,14 @@ namespace Nooku\Library;
  */
 class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiable
 {
-	/**
+    /**
+     * The limit information
+     *
+     * @var	array
+     */
+    protected $_limit;
+
+    /**
 	 * Constructor.
 	 *
 	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
@@ -24,6 +31,8 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
+
+        $this->_limit = $config->limit;
 
         //Authenticate none safe requests
         $this->registerCallback('before.post'  , array($this, 'authenticateRequest'));
@@ -51,7 +60,8 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
-            'behaviors'  => array('persistable', 'resettable')
+            'behaviors'  => array('persistable', 'resettable'),
+            'limit'      => array('max' => 100, 'default' => 20)
          ));
 
         parent::_initialize($config);
@@ -81,6 +91,9 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 
     /**
      * Check the request token to prevent CSRF exploits
+     *
+     * Method will always perform a referrer and cookie token check. If a user session is active a session token check
+     * will also be done. If any of the checks fail an forbidden exception  being thrown.
      *
      * @param   CommandContext $context The command context
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
@@ -162,7 +175,8 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     /**
      * Get method
      *
-     * This function translates a GET request into a render action.
+     * This function translates a GET request into a render action. If the request contains a limit the limit will
+     * be set the enforced to the maximum limit. Default max limit is 100.
      *
      * @param	CommandContext	$context    A command context object
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
@@ -170,6 +184,27 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     protected function _actionGet(CommandContext $context)
     {
         $controller = $this->getController();
+
+        if($controller instanceof ControllerModellable)
+        {
+            if(!$controller->getModel()->getState()->isUnique())
+            {
+                $limit = $controller->getModel()->getState()->limit;
+
+                //If limit is empty use default
+                if(empty($limit)) {
+                    $limit = $this->_limit->default;
+                }
+
+                //Force the maximum limit
+                if($limit > $this->_limit->max) {
+                    $limit = $this->_limit->max;
+                }
+
+                $controller->getModel()->getState()->limit = $limit;
+            }
+        }
+
         return $controller->execute('render', $context);
     }
 
@@ -179,16 +214,22 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      * This function translated a POST request action into an edit or add action. If the model state is unique a edit
      * action will be executed, if not unique an add action will be executed.
      *
+     * If an _action parameter exists in the request data it will be used instead. If no action can be found an bad
+     * request exception will be thrown.
+     *
      * @param	CommandContext	$context    A command context object
      * @throws  DispatcherExceptionActionNotAllowed    The action specified in the request is not allowed for the
      *          resource identified by the Request-URI. The response MUST include an Allow header containing a list of
      *          valid actions for the requested resource.
+     *          ControllerExceptionBadRequest           The action could not be found based on the info in the request.
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
     protected function _actionPost(CommandContext $context)
     {
+        $action     = null;
         $controller = $this->getController();
 
+        //Get the action from the request data
         if($context->request->data->has('_action'))
         {
             $action = strtolower($context->request->data->get('_action', 'alpha'));
@@ -197,8 +238,19 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
                 throw new DispatcherExceptionActionNotAllowed('Action: '.$action.' not allowed');
             }
         }
-        else $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+        else
+        {
+            //Determine the action based on the model state
+            if($controller instanceof ControllerModellable) {
+                $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+            }
+        }
 
+        //Throw exception if no action could be determined from the request
+        if(!$action) {
+            throw new ControllerExceptionBadRequest('Action not found');
+        }
+        
         return $controller->execute($action, $context);
     }
 
@@ -206,7 +258,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      * Put method
      *
      * This function translates a PUT request into an edit or add action. Only if the model state is unique and the item
-     * exists an edit action will be executed, if the resources doesn't exist and the state is unique an add action will
+     * exists an edit action will be executed, if the resources does not exist and the state is unique an add action will
      * be executed.
      *
      * If the resource already exists it will be completely replaced based on the data available in the request.
@@ -217,28 +269,36 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      */
     protected function _actionPut(CommandContext $context)
     {
+        $action     = null;
         $controller = $this->getController();
-        $entity     = $controller->getModel()->getRow();
 
-        if($controller->getModel()->getState()->isUnique())
+        if($controller instanceof ControllerModellable)
         {
-            $action = 'add';
-            if(!$entity->isNew())
+            if($controller->getModel()->getState()->isUnique())
             {
-                //Reset the row data
-                $entity->reset();
-                $action = 'edit';
+                $action = 'add';
+                $entity = $controller->getModel()->getRow();
+
+                if(!$entity->isNew())
+                {
+                    //Reset the row data
+                    $entity->reset();
+                    $action = 'edit';
+                }
+
+                //Set the row data based on the unique state information
+                $state = $controller->getModel()->getState()->getValues(true);
+                $entity->setData($state);
             }
-
-            //Set the row data based on the unique state information
-            $state = $controller->getModel()->getState()->toArray(true);
-            $entity->setData($state);
-
-            $entity = $controller->execute($action, $context);
+            else throw new ControllerExceptionBadRequest('Resource not found');
         }
-        else throw new ControllerExceptionBadRequest('Resource not found');
 
-        return $entity;
+        //Throw exception if no action could be determined from the request
+        if(!$action) {
+            throw new ControllerExceptionBadRequest('Action not found');
+        }
+
+        return $entity = $controller->execute($action, $context);
     }
 
     /**
@@ -252,7 +312,6 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     protected function _actionDelete(CommandContext $context)
     {
         $controller = $this->getController();
-
         return $controller->execute('delete', $context);
     }
 
