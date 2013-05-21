@@ -28,7 +28,7 @@ class EventDispatcherException extends EventDispatcherAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -54,7 +54,7 @@ class EventDispatcherException extends EventDispatcherAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -92,8 +92,8 @@ class EventDispatcherException extends EventDispatcherAbstract
     /**
      * Register the exception handler.
      *
-     * @return  Returns the name of the previously defined exception handler, or NULL if no previous handler
-     *          was defined.
+     * @return  string|null Returns the name of the previously defined exception handler, or NULL if no previous handler
+     *                      was defined.
      */
     public function registerExceptionHandler()
     {
@@ -109,8 +109,8 @@ class EventDispatcherException extends EventDispatcherAbstract
     /**
      * Register the error handler.
      *
-     * @return  Returns the name of the previously defined error handler, or NULL if no previous handler
-     *          was defined.
+     * @return  string|null Returns the name of the previously defined error handler, or NULL if no previous handler
+     *                      was defined.
      */
     public function registerErrorHandler()
     {
@@ -169,7 +169,7 @@ class EventDispatcherException extends EventDispatcherAbstract
      * exception instead.
      *
      * @link    http://www.php.net/manual/en/function.set-exception-handler.php#88082
-     * @param   string  The event name
+     * @param   string  $name  The event name
      * @param   object|array   An array, a ObjectConfig or a Event object
      * @return  EventException
      */

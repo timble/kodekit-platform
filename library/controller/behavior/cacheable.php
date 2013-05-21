@@ -7,7 +7,7 @@
  * @link        http://www.nooku.org
  */
 
-use Nooku\Library;
+namespace Nooku\Library;
 
 /**
  * Default Controller Cacheable Behavior
@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
+class ControllerBehaviorCacheable extends ControllerBehaviorAbstract
 {
 	/**
 	 * The cached state of the resource
@@ -28,10 +28,10 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	/**
 	 * Fetch the unrendered view data from the cache
 	 *
-	 * @param   Library\CommandContext	$context A command context object
+	 * @param   CommandContext	$context A command context object
 	 * @return 	void	
 	 */
-	protected function _beforeControllerRender(Library\CommandContext $context)
+	protected function _beforeControllerRender(CommandContext $context)
 	{ 
 	    $view   = $this->getView();
 	    $cache  = JFactory::getCache($this->_getGroup(), 'output');
@@ -42,7 +42,7 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
             $data = unserialize($data);
             
             //Render the view output
-            if($view instanceof Library\ViewTemplate)
+            if($view instanceof ViewTemplate)
             {
                 $context->result = $view->getTemplate()
                                ->loadString($data['component'], array(), false)
@@ -57,10 +57,10 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	/**
 	 * Store the unrendered view data in the cache
 	 *
-	 * @param   Library\CommandContext	$context A command context object
+	 * @param   CommandContext	$context A command context object
 	 * @return 	void
 	 */
-	protected function _afterControllerRender(Library\CommandContext $context)
+	protected function _afterControllerRender(CommandContext $context)
 	{
 	    if(empty($this->_output))
 	    {
@@ -71,7 +71,7 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	        $data  = array();
 	   
 	        //Store the un rendered view output
-	        if($view instanceof Library\ViewTemplate) {
+	        if($view instanceof ViewTemplate) {
 	            $data['component'] = (string) $view->getTemplate();
 	        } else {
 	            $data['component'] = $context->result;
@@ -87,10 +87,10 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	 * Only if cached data was found return it but allow the chain to continue to allow
 	 * processing all the read commands
 	 *
-	 * @param   Library\CommandContext	A command context object
+	 * @param   CommandContext	A command context object
 	 * @return 	void
 	 */
-	protected function _afterControllerRead(Library\CommandContext $context)
+	protected function _afterControllerRead(CommandContext $context)
 	{ 
 	    if(!empty($this->_output)) {
 	        $context->result = $this->_output;
@@ -103,10 +103,10 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	 * Only if cached data was fetch return it and break the chain to dissallow any
 	 * further processing to take place
 	 * 
-	 * @param   Library\CommandContext	A command context object
+	 * @param   CommandContext	A command context object
 	 * @return 	void
 	 */
-    protected function _beforeControllerBrowse(Library\CommandContext $context)
+    protected function _beforeControllerBrowse(CommandContext $context)
 	{
 	    if(!empty($this->_output)) 
 	    {
@@ -118,15 +118,15 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	/**
 	 * Clean the cache
 	 *
-	 * @param   Library\CommandContext	A command context object
+	 * @param   CommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterControllerAdd(Library\CommandContext $context)
+	protected function _afterControllerAdd(CommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
-	    if($status == Library\Database::STATUS_CREATED) {
-	         JFactory::getCache()->clean($this->_getGroup());
+	    if($status == Database::STATUS_CREATED) {
+	         \JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
 	    return true;
@@ -135,15 +135,15 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	/**
 	 * Clean the cache
 	 *
-	 * @param   Library\CommandContext	A command context object
+	 * @param   CommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterControllerDelete(Library\CommandContext $context)
+	protected function _afterControllerDelete(CommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
-	    if($status == Library\Database::STATUS_DELETED) {
-	        JFactory::getCache()->clean($this->_getGroup());
+	    if($status == Database::STATUS_DELETED) {
+	        \JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
 	    return true;
@@ -152,15 +152,15 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	/**
 	 * Clean the cache
 	 *
-	 * @param   Library\CommandContext	A command context object
+	 * @param   CommandContext	A command context object
 	 * @return 	boolean
 	 */
-	protected function _afterControllerEdit(Library\CommandContext $context)
+	protected function _afterControllerEdit(CommandContext $context)
 	{
 	    $status = $context->result->getStatus();
 	    
-	    if($status == Library\Database::STATUS_UPDATED) {
-	        JFactory::getCache()->clean($this->_getGroup());
+	    if($status == Database::STATUS_UPDATED) {
+	        \JFactory::getCache()->clean($this->_getGroup());
 	    }
 	      
 	    return true;
@@ -176,7 +176,7 @@ class ControllerBehaviorCacheable extends Library\ControllerBehaviorAbstract
 	protected function _getKey()
 	{
 	    $view  = $this->getView();
-	    $state = $this->getModel()->getState()->toArray();
+	    $state = $this->getModel()->getState()->getValues();
 	    
 	    $key = $view->getLayout().'-'.$view->getFormat().':'.md5(http_build_query($state));
 	    return $key;
