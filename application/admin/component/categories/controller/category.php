@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-abstract class CategoriesControllerCategory extends ApplicationControllerDefault
+abstract class CategoriesControllerCategory extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {

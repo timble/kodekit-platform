@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ContactsControllerContact extends ApplicationControllerDefault
+class ContactsControllerContact extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {
