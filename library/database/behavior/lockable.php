@@ -137,29 +137,6 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	}
 
 	/**
-	 * Get the locked information
-	 *
-	 * @return string	The locked information as an internationalised string
-	 */
-	public function lockMessage()
-	{
-		$message = '';
-
-		if($this->locked())
-		{
-	        $user = $this->getObject('com:users.database.row.user')
-                         ->set('id', $this->locked_by)
-                         ->load();
-
-			$date = $this->getObject('lib:template.helper.date')->humanize(array('date' => $this->locked_on));
-
-			$message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date);
-		}
-
-		return $message;
-	}
-
-	/**
 	 * Checks if a row can be updated
 	 *
 	 * This function determines if a row can be updated based on it's locked_by information.
