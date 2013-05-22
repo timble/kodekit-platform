@@ -32,7 +32,7 @@ class HttpResponseHeaders extends HttpMessageHeaders
     /**
      * Add a cookie.
      *
-     * @param Cookie $cookie
+     * @param HttpCookie $cookie
      */
     public function addCookie(HttpCookie $cookie)
     {

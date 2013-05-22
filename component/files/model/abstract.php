@@ -23,7 +23,7 @@ abstract class ModelAbstract extends Library\ModelAbstract
 	{
 		parent::__construct($config);
 
-        $this->_state
+        $this->getState()
             ->insert('limit'    , 'int')
             ->insert('offset'   , 'int')
             ->insert('sort'     , 'cmd')
@@ -38,14 +38,5 @@ abstract class ModelAbstract extends Library\ModelAbstract
 			->insert('editor'   , 'string', '') // used in modal windows
 			->insert('config'   , 'json', '')   // used to pass options to the JS application in HMVC
 			;
-	}
-
-	protected function _initialize(Library\ObjectConfig $config)
-	{
-		$config->append(array(
-			'state' => new ModelState()
-		));
-
-		parent::_initialize($config);
 	}
 }

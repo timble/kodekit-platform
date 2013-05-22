@@ -226,8 +226,7 @@ abstract class ViewAbstract extends Object implements ViewInterface
     /**
      * Get a route based on a full or partial query string
      *
-     * option, view and layout can be ommitted. The following variations
-     * will all result in the same route
+     * 'option', 'view' and 'layout' can be omitted. The following variations will all result in the same route :
      *
      * - foo=bar
      * - option=com_mycomp&view=myview&foo=bar
@@ -269,8 +268,15 @@ abstract class ViewAbstract extends Object implements ViewInterface
         //Add the model state only for routes to the same view
         if ($parts['view'] == $this->getName())
         {
-            $state = $this->getModel()->getState()->toArray();
-            $parts = array_merge($state, $parts);
+            $states = array();
+            foreach($this->getModel()->getState() as $name => $state)
+            {
+                if($state->default != $state->value) {
+                    $states[$name] = $state->value;
+                }
+            }
+
+            $parts = array_merge($states, $parts);
         }
 
         //Create the route

@@ -22,15 +22,16 @@ class ModelAttachments extends Library\ModelTable
 	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
-		
-		$this->_state
+
+        $this->getState()
 			->insert('row', 'int')
 		 	->insert('table', 'string');
 	}
 
 	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
 	{
-		if(!$this->_state->isUnique()) {
+		if(!$this->getState()->isUnique())
+        {
 			$query->columns(array('count' => 'COUNT(relations.attachments_attachment_id)'))
 				->columns('table')
 				->columns('row');
@@ -41,7 +42,7 @@ class ModelAttachments extends Library\ModelTable
 	
 	protected function _buildQueryGroup(Library\DatabaseQuerySelect $query)
 	{	
-		if(!$this->_state->isUnique()) {
+		if(!$this->getState()->isUnique()) {
 			$query->group('relations.attachments_attachment_id');
 		}
 		
@@ -50,7 +51,7 @@ class ModelAttachments extends Library\ModelTable
 	
 	protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
 	{
-		if(!$this->_state->isUnique()) {
+		if(!$this->getState()->isUnique()) {
 			$query->join(array('relations' => 'attachments_relations'), 'relations.attachments_attachment_id = tbl.attachments_attachment_id', 'LEFT');
 		}
 		
@@ -59,14 +60,14 @@ class ModelAttachments extends Library\ModelTable
 	
 	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{
-		if(!$this->_state->isUnique()) 
+		if(!$this->getState()->isUnique())
 		{
-			if($this->_state->table) {
-				$query->where('relations.table = :table')->bind(array('table' => $this->_state->table));
+			if($this->getState()->table) {
+				$query->where('relations.table = :table')->bind(array('table' => $this->getState()->table));
 			}
 		
-			if($this->_state->row) {
-				$query->where('relations.row IN :row')->bind(array('row' => (array) $this->_state->row));
+			if($this->getState()->row) {
+				$query->where('relations.row IN :row')->bind(array('row' => (array) $this->getState()->row));
 			}
 		}
 		

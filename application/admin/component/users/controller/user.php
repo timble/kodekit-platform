@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class UsersControllerUser extends ApplicationControllerDefault
+class UsersControllerUser extends Library\ControllerModel
 { 
     public function __construct(Library\ObjectConfig $config)
     {
@@ -56,8 +56,8 @@ class UsersControllerUser extends ApplicationControllerDefault
         $entity = parent::_actionEdit($context);
         $user = $this->getObject('user');
 
+        // Logged user changed. Updated in memory/session user object.
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
-            // Logged user changed. Updated in memory/session user object.
             $user->values($entity->getSessionData($user->isAuthentic()));
         }
 
@@ -67,9 +67,10 @@ class UsersControllerUser extends ApplicationControllerDefault
     public function expire(Library\CommandContext $context)
     {
         $entity = $context->result;
+
         // Expire the user's password if a password change was requested.
         if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
-            'bool')
+            'boolean')
         ) {
             $entity->getPassword()->expire();
         }

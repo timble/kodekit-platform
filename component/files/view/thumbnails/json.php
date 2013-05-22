@@ -23,15 +23,18 @@ class ViewThumbnailsJson extends ViewJson
     protected function _getRowset()
     {
         $list = $this->getModel()->getRowset();
+
         $results = array();
         foreach ($list as $item) 
         {
         	$key = $item->filename;
         	$results[$key] = $item->toArray();
         }
+
         ksort($results);
 
     	$data = parent::_getRowset();
+
         $data['items'] = $results;
         $data['total'] = count($list);
 

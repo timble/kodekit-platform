@@ -21,7 +21,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      *
      * @var ModelStateInterface
      */
-    protected $_state;
+    private $__state;
 
     /**
      * List total
@@ -53,8 +53,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
     {
         parent::__construct($config);
 
-        //Set the model state
-        $this->setState($config->state);
+        // Set the state identifier
+        $this->__state = $config->state;
     }
 
     /**
@@ -68,95 +68,16 @@ abstract class ModelAbstract extends Object implements ModelInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'state' => new ModelState(),
+            'state' => 'lib:model.state',
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Set the model state values
+     * Reset the model data and state
      *
-     * This function only acts on existing states it will reset (unsets) the $_rowset, $_item and $_total model
-     * properties when a state changes.
-     *
-     * @param   string|array|object  $name  The name of the property, an associative array or an object
-     * @param   mixed                $value The value of the property
-     * @return  ModelAbstract
-     */
-    public function set($name, $value = null)
-    {
-        $changed = false;
-
-        if (is_object($name)) {
-            $name = (array)ObjectConfig::unbox($name);
-        }
-
-        if (is_array($name))
-        {
-            foreach ($name as $key => $value)
-            {
-                if ($this->_state->has($key) && $this->_state->get($key) != $value)
-                {
-                    $changed = true;
-                    break;
-                }
-            }
-
-            $this->_state->values($name);
-        }
-        else
-        {
-            if ($this->getState()->has($name) && $this->_state->get($name) != $value) {
-                $changed = true;
-            }
-
-            $this->_state->set($name, $value);
-        }
-
-        if ($changed)
-        {
-            $this->_rowset = null;
-            $this->_row = null;
-            $this->_total = null;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the model state value
-     *
-     * If no state name is given then the function will return an associative array of all state values
-     *
-     * If the property does not exist and a  default value is specified this is returned, otherwise the function return
-     * NULL.
-     *
-     * @param   string  $name   The name of the property
-     * @param   mixed   $default The default value
-     * @return  mixed   The value of the property, an associative array or NULL
-     */
-    public function get($name = null, $default = null)
-    {
-        $result = $default;
-
-        if (is_null($name)) {
-            $result = $this->_state->toArray();
-        }
-        else
-        {
-            if ($this->_state->has($name)) {
-                $result = $this->_state->get($name);
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Reset all cached data and reset the model state to it's default
-     *
-     * @param  boolean $default If TRUE use defaults when resetting. Default is TRUE
+     * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
      * @return ModelAbstract
      */
     public function reset($default = true)
@@ -165,31 +86,58 @@ abstract class ModelAbstract extends Object implements ModelInterface
         $this->_row    = null;
         $this->_total  = null;
 
-        $this->_state->reset($default);
+        $this->getState()->reset($default);
 
         return $this;
     }
 
     /**
-     * Set the model state object
+     * Set the model state values
      *
-     * @param  ModelState $state A model state object
+     * @param  array $values Set the state values
      * @return ModelAbstract
      */
-    public function setState(ModelState $state)
+    public function setState(array $values)
     {
-        $this->_state = $state;
+        $this->getState()->setValues($values);
         return $this;
     }
 
     /**
      * Get the model state object
      *
-     * @return  ModelState  The model state object
+     * @return  ModelStateInterface  The model state object
      */
     public function getState()
     {
-        return $this->_state;
+        if(!$this->__state instanceof ModelStateInterface)
+        {
+            $this->__state = $this->getObject($this->__state, array('model' => $this));
+
+            if(!$this->__state instanceof ModelStateInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'State: '.get_class($this->__state).' does not implement ModelStateInterface'
+                );
+            }
+        }
+
+        return $this->__state;
+    }
+
+    /**
+     * State Change notifier
+     *
+     * This function is called when the state has changed.
+     *
+     * @param  string 	$name  The state name being changed
+     * @return void
+     */
+    public function onStateChange($name)
+    {
+        $this->_rowset = null;
+        $this->_row    = null;
+        $this->_total  = null;
     }
 
     /**
@@ -231,7 +179,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     public function getData()
     {
-        if ($this->_state->isUnique()) {
+        if ($this->getState()->isUnique()) {
             $data = $this->getRow();
         } else {
             $data = $this->getRowset();
@@ -248,35 +196,12 @@ abstract class ModelAbstract extends Object implements ModelInterface
     public function getPaginator()
     {
         $paginator = new ModelPaginator(array(
-            'offset' => (int) $this->offset,
-            'limit'  => (int) $this->limit,
+            'offset' => (int) $this->getState()->offset,
+            'limit'  => (int) $this->getState()->limit,
             'total'  => (int) $this->getTotal(),
         ));
 
         return $paginator;
-    }
-
-    /**
-     * Get a model state by name
-     *
-     * @param   string  $key The key name.
-     * @return  string  The corresponding value.
-     */
-    public function __get($key)
-    {
-        return $this->get($key);
-    }
-
-    /**
-     * Set a model state by name
-     *
-     * @param   string  $key   The key name.
-     * @param   mixed   $value The value for the key
-     * @return  void
-     */
-    public function __set($key, $value)
-    {
-        $this->set($key, $value);
     }
 
     /**
@@ -294,7 +219,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     {
         if ($this->getState()->has($method))
         {
-            $this->set($method, $args[0]);
+            $this->getState()->set($method, $args[0]);
             return $this;
         }
 
@@ -310,6 +235,6 @@ abstract class ModelAbstract extends Object implements ModelInterface
     {
         parent::__clone();
 
-        $this->_state = clone $this->_state;
+        $this->__state = clone $this->__state;
     }
 }

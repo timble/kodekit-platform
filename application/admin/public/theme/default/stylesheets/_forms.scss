@@ -357,8 +357,7 @@ select:focus:invalid {
     border: 1px solid #ccc;
   }
   .add-on,
-  .btn,
-  .btn-group > .dropdown-toggle {
+  .btn {
     vertical-align: top;
     @include border-radius(0);
   }
@@ -395,8 +394,7 @@ select:focus:invalid {
     margin-left: -1px;
   }
   .add-on:last-child,
-  .btn:last-child,
-  .btn-group:last-child > .dropdown-toggle {
+  .btn:last-child {
     @include border-radius(0 $inputBorderRadius $inputBorderRadius 0);
   }
 }

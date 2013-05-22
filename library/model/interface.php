@@ -17,53 +17,37 @@ namespace Nooku\Library;
 interface ModelInterface
 {
     /**
-     * Set the model state properties
+     * Reset the model data and state
      *
-     * This function only acts on state properties it will reset (unsets) the $_rowset, $_row and $_total model
-     * properties when a state changes.
-     *
-     * @param   string|array|object  $name  The name of the property, an associative array or an object
-     * @param   mixed                $value The value of the property
-     * @return  ModelAbstract
-     */
-    public function set($name, $value = null);
-
-    /**
-     * Get the model state properties
-     *
-     * If no state name is given then the function will return an associative array of all properties.
-     *
-     * If the property does not exist and a  default value is specified this is returned, otherwise the function return
-     * NULL.
-     *
-     * @param   string  $name   The name of the property
-     * @param   mixed   $default The default value
-     * @return  mixed   The value of the property, an associative array or NULL
-     */
-    public function get($name = null, $default = null);
-
-    /**
-     * Reset all cached data and reset the model state to it's default
-     *
-     * @param   boolean If TRUE use defaults when resetting. Default is TRUE
-     * @return  ModelInterface
+     * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
+     * @return ModelAbstract
      */
     public function reset($default = true);
 
     /**
-     * Set the model state object
+     * Set the model state values
      *
-     * @param ModelState $state A model state object
-     * @return  ModelInterface
+     * @param  array $values Set the state values
+     * @return ModelAbstract
      */
-    public function setState(ModelState $state);
+    public function setState(array $values);
 
     /**
      * Method to get state object
      *
-     * @return  ModelState  The model state object
+     * @return  ModelStateInterface  The model state object
      */
     public function getState();
+
+    /**
+     * State Change notifier
+     *
+     * This function is called when the state has changed.
+     *
+     * @param  string 	$name  The state name being changed
+     * @return void
+     */
+    public function onStateChange($name);
 
     /**
      * Method to get a item

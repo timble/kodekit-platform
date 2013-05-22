@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class UsersControllerUser extends ApplicationControllerDefault
+class UsersControllerUser extends Library\ControllerModel
 {
     public function __construct(Library\ObjectConfig $config)
     {
@@ -57,20 +57,6 @@ class UsersControllerUser extends ApplicationControllerDefault
         }
     }
 
-    public function _actionRender(Library\CommandContext $context)
-    {
-        if($context->request->query->get('layout', 'alpha') == 'register' && $context->user->isAuthentic())
-        {
-            $url =  '?Itemid='.$this->getObject('application.pages')->getHome()->id;
-
-            $context->user->addFlashMessage('You are already registered');
-            $context->response->setRedirect($url);
-            return false;
-        }
-
-        return parent::_actionRender($context);
-    }
-
     protected function _actionAdd(Library\CommandContext $context)
     {
         $params = $this->getObject('application.components')->users->params;
@@ -89,6 +75,8 @@ class UsersControllerUser extends ApplicationControllerDefault
         if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
             $user->values($entity->getSessionData($user->isAuthentic()));
         }
+
+        return $entity;
     }
 
     public function redirect(Library\CommandContext $context)

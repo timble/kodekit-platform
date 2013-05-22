@@ -451,7 +451,6 @@ window.addEvent('domready', function() {
 			<?= sprintf(@text('Upload files to %s'), '<span id="upload-files-to"></span>') ?>
 		</h3>
 	</div>
-	<div class="clr"></div>
 	<div id="files-upload-controls">
 		<ul class="upload-buttons">
 			<li><?= @text('Upload from:') ?></li>
@@ -462,7 +461,6 @@ window.addEvent('domready', function() {
 			</li>
 		</ul>
 	</div>
-	<div class="clr"></div>
 	<div id="files-uploader-computer" class="upload-form">
 
 		<div style="clear: both"></div>
@@ -473,7 +471,6 @@ window.addEvent('domready', function() {
 		<div id="files-upload-multi"></div>
 
 	</div>
-	<div class="clr"></div>
 	<div id="files-uploader-web" class="upload-form" style="display: none">
 		<form action="" method="post" name="remoteForm" id="remoteForm" >
 			<div class="remote-wrap">

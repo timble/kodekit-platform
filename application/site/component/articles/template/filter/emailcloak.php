@@ -114,7 +114,7 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         // Split email address
         $email_parts = explode('@', $email);
 
-        $output = "\n <script data-inline language='JavaScript' type='text/javascript'>";
+        $output = "\n <script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n var path = 'hr' + 'ef' + '=';";
         $output .= "\n var addy{$rand} = '" . $email_parts[0] . "' + '&#64;';";
@@ -150,13 +150,13 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         $output .= "\n </script>";
 
         // XHTML compliance `No JavaScript` text handling
-        $output .= "<script data-inline language='JavaScript' type='text/javascript'>";
+        $output .= "<script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n document.write( '<span style=\'display: none;\'>' );";
         $output .= "\n //-->";
         $output .= "\n </script>";
         $output .= JText::_('CLOAKING');
-        $output .= "\n <script data-inline language='JavaScript' type='text/javascript'>";
+        $output .= "\n <script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n document.write( '</' );";
         $output .= "\n document.write( 'span>' );";

@@ -27,9 +27,9 @@ class ControllerThumbnail extends ControllerAbstract
         $model = clone $this->getModel();
 
     	// Save state data for later
-        $state_data = $model->getState()->toArray();
+        $state_data = $model->getState()->getValues();
         
-        $nodes = $this->getObject('com:files.model.nodes')->set($state_data)->getRowset();
+        $nodes = $this->getObject('com:files.model.nodes')->setState($state_data)->getRowset();
 
         if (!$model->getState()->files && !$model->getState()->filename) 
         {
@@ -44,8 +44,8 @@ class ControllerThumbnail extends ControllerAbstract
         else $needed = $model->getState()->files ? $model->getState()->files : $model->getState()->filename;
         
 		$model->reset()
-		      ->set($state_data)
-		      ->set('files', $needed);
+		      ->setState($state_data)
+		      ->files($needed);
 
 		$list = $model->getRowset();
 
@@ -71,7 +71,7 @@ class ControllerThumbnail extends ControllerAbstract
         	if (count($new))
         	{
 				$model->reset()
-				    ->set($state_data)
+				    ->getState()->setValues($state_data)
 				    ->set('files', $new);
 				
 				$additional = $model->getRowset();

@@ -22,7 +22,7 @@ window.addEvent('domready', (function() {
 }));
 </script>
 
-<form id="module-pages" class="form-horizontal scrollable">
+<form id="module-pages" class="scrollable">
     <fieldset>
         <label class="radio inline">
             <input type="radio" name="pages" value="all" <?= $module->pages == 'all' ? 'checked="checked"' : '' ?>/>

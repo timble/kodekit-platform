@@ -45,7 +45,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
         $cookie = $this->getObject('lib:http.cookie', array(
             'name'   => 'referrer_locked',
             'value'  => true,
-            'path'   => $context->request->getBaseUrl()->getPath()
+            'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
         ));
 
         $context->response->headers->addCookie($cookie);
@@ -59,7 +59,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function unlockReferrer(CommandContext $context)
     {
-        $path = $context->request->getBaseUrl()->getPath();
+        $path = $context->request->getBaseUrl()->getPath() ?: '/';
         $context->response->headers->clearCookie('referrer_locked', $path);
     }
 
@@ -108,7 +108,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
             $cookie = $this->getObject('lib:http.cookie', array(
                 'name'   => 'referrer',
                 'value'  => $referrer,
-                'path'   => $context->request->getBaseUrl()->getPath()
+                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
             ));
 
             $context->response->headers->addCookie($cookie);
@@ -122,7 +122,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
      */
     public function unsetReferrer(CommandContext $context)
     {
-        $path = $context->request->getBaseUrl()->getPath();
+        $path = $context->request->getBaseUrl()->getPath() ?: '/';
         $context->response->headers->clearCookie('referrer', $path);
     }
 
@@ -173,7 +173,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 
             if ($this->getModel()->getState()->isUnique())
             {
-                $states = $this->getModel()->getState()->toArray(true);
+                $states = $this->getModel()->getState()->getValues(true);
 
                 foreach ($states as $key => $value) {
                     $url->query[$key] = $entity->get($key);

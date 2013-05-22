@@ -6,7 +6,7 @@
  * @link        http://www.nooku.org
  */
 
-define('JPATH_ROOT'         , $_SERVER['DOCUMENT_ROOT']);
+define('JPATH_ROOT'         , realpath($_SERVER['DOCUMENT_ROOT']));
 define('JPATH_APPLICATION'  , JPATH_ROOT.'/application/admin');
 define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
 define('JPATH_SITES'        , JPATH_ROOT.'/sites');

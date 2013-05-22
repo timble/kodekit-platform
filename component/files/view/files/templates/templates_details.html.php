@@ -30,23 +30,11 @@ window.addEvent('domready', function() {
 
 <textarea style="display: none" id="details_container">
 <div class="manager -koowa-grid">
-	<table class="table table-striped"  style="clear: both;">
+	<table>
 		<thead>
 			<tr>
-				<th width="10">
-                    <div class="btn-group">
-                        <label class="btn dropdown-toggle" style="
-                        padding-top: 6px;
-                        padding-bottom: 6px;
-                        border-bottom: none;
-                        padding-left: 10px;
-                        border-top: none;
-                        border-left: none;
-                        border-radius: 0;
-                        ">
-                            <input type="checkbox" class="-check-all" id="select-check-all" />
-                        </label>
-                    </div>
+				<th width="1">
+                    <input type="checkbox" class="-check-all" />
 				</th>
 				<th width="32"></th>
 				<th><?= @text('Name'); ?></th>

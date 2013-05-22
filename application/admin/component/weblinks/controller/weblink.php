@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class WeblinksControllerWeblink extends ApplicationControllerDefault
+class WeblinksControllerWeblink extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {

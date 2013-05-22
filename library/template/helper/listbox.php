@@ -150,7 +150,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		    'filter' 	=> array('sort' => $config->text),
 		));
 
-		$list = $this->getObject($config->identifier)->set($config->filter)->getRowset();
+		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->getRowset();
 
 		//Get the list of items
  	    $items = $list->get($config->value);

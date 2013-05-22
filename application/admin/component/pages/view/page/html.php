@@ -29,11 +29,11 @@ class PagesViewPageHtml extends Library\ViewHtml
         }
         
         // Load components.
-        $model = $this->getModel();
-        $page  = $model->getRow();
+        $state = $this->getModel()->getState();
+        $page  = $this->getModel()->getRow();
 
         $menu  = $this->getObject('com:pages.model.menus')
-            ->id($model->menu)
+            ->id($state->menu)
             ->getRow();
         
         $this->components = $this->getObject('com:pages.model.types')
@@ -56,7 +56,7 @@ class PagesViewPageHtml extends Library\ViewHtml
         $this->modules = (object) array('available' => $available, 'assigned' => $assigned);
 
         // Assign menu.
-        $this->menu = $this->getObject('com:pages.model.menus')->id($model->menu)->getRow();
+        $this->menu = $this->getObject('com:pages.model.menus')->id($state->menu)->getRow();
 
         // Assign parent ID
         $this->parent_id = $page->getParentId();

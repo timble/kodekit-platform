@@ -39,6 +39,19 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
         parent::_initialize($config);
     }
 
+    public function getThumbnailSize()
+    {
+        return $this->_thumbnail_size;
+    }
+
+    /**
+     * @param array $size An array with x and y properties
+     */
+    public function setThumbnailSize(array $size)
+    {
+        $this->_thumbnail_size = $size;
+    }
+
     public function generateThumbnail()
     {
 		@ini_set('memory_limit', '256M');
@@ -92,7 +105,7 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 				$str = $this->generateThumbnail();
 
 		    	$this->setData(array(
-			    	'files_container_id' => $source->container->id,
+			    	'files_container_id' => $source->getContainer()->id,
 					'folder'			 => $source->folder,
 					'filename'           => $source->name,
 					'thumbnail'          => $str
@@ -109,22 +122,9 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
     {
         $data = parent::toArray();
 
-		unset($data['_thumbnail_size']);
-		unset($data['source']);
+        unset($data['_thumbnail_size']);
+        unset($data['source']);
 
         return $data;
-    }
-
-    public function getThumbnailSize()
-    {
-        return $this->_thumbnail_size;
-    }
-
-    /**
-     * @param array $size An array with x and y properties
-     */
-    public function setThumbnailSize(array $size)
-    {
-        $this->_thumbnail_size = $size;
     }
 }

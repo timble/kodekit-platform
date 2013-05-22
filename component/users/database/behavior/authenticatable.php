@@ -52,8 +52,8 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
             if (!$password->setData(array('password' => $data->password))->save())
             {
-                $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage($password->getStatusMessage());
+                $data->setStatus(Library\Database::STATUS_FAILED);
+                $data->setStatusMessage($password->getStatusMessage());
                 return false;
             }
         }

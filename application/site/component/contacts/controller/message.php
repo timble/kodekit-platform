@@ -30,8 +30,8 @@ class ContactsControllerMessage extends Library\ControllerView
 	    $application = $this->getObject('application');
         $site_name   = $application->getCfg('sitename');
 
-        $prefix      = JText::sprintf('ENQUIRY_TEXT', $context->request->getBaseUrl());
-        $body        = $prefix."\n".$name.' <'.$email_from.'>'."\r\n\r\n".stripslashes($body);
+        $prefix      = JText::sprintf('This is an enquiry e-mail via %s from', $context->request->getBaseUrl());
+        $body        = $prefix.' '.$name.' <'.$email_from.'>.'."\r\n\r\n".stripslashes($body);
         $mail_from   = $application->getCfg('mailfrom');
         $from_name   = $application->getCfg('fromname');
 
@@ -43,7 +43,7 @@ class ContactsControllerMessage extends Library\ControllerView
         // Send mail.
         $mail = JFactory::getMailer();
         $mail->addRecipient($email_to);
-        $mail->setSender(array($email_from, $name));
+        $mail->setSender(array($name, $email_from));
         $mail->setSubject($from_name.': '.$subject);
         $mail->setBody($body);
         $mail->Send();
@@ -56,12 +56,13 @@ class ContactsControllerMessage extends Library\ControllerView
 
             $mail = JFactory::getMailer();
             $mail->addRecipient( $email_from );
-            $mail->setSender( array( $mail_from, $from_name ) );
+            $mail->setSender( array( $from_name, $mail_from ) );
             $mail->setSubject( $copy_subject );
             $mail->setBody( $copy_text );
             $mail->Send();
         }
 
         $context->user->addFlashMessage(JText::_('Thank you for your e-mail'));
+        $context->response->setStatus(self::STATUS_RESET);
 	}
 }

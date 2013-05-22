@@ -24,9 +24,6 @@ Files.App = new Class({
 		container: null,
 		active: null,
 		title: 'files-title',
-		pathway: {
-			element: 'files-pathway'
-		},
 		state: {
 			defaults: {}
 		},
@@ -54,17 +51,6 @@ Files.App = new Class({
 		},
 		initial_response: null,
 
-		onAfterSetGrid: function(){
-		    window.addEvent('resize', function(){
-		        this.setDimensions(true);
-		    }.bind(this));
-		    this.grid.addEvent('onAfterRenew', function(){
-		        this.setDimensions(true);
-		    }.bind(this));
-		    this.addEvent('onUploadFile', function(){
-		        this.setDimensions(true);
-		    }.bind(this));
-		},
 		onAfterNavigate: function(path) {
 			if (path !== undefined) {
 				this.setTitle(this.folder.name || this.container.title);
@@ -81,7 +67,6 @@ Files.App = new Class({
 			this.cookie = 'com.files.container.'+container;
 		}
 
-		this.setPathway();
 		this.setState();
 		this.setHistory();
 		this.setGrid();
@@ -345,7 +330,7 @@ Files.App = new Class({
 		$extend(opts, {
 			'onClickFolder': function(e) {
 				var target = document.id(e.target),
-				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+				    node = target.getParent('.files-node'),
 					path = node.retrieve('row').path;
 				if (path) {
 					this.navigate(path);
@@ -353,7 +338,7 @@ Files.App = new Class({
 			}.bind(this),
 			'onClickImage': function(e) {
 				var target = document.id(e.target),
-				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+				    node = target.getParent('.files-node'),
 					img = node.retrieve('row').image;
 
 				if (img) {
@@ -362,7 +347,7 @@ Files.App = new Class({
 			},
 			'onClickFile': function(e) {
 				var target = document.id(e.target),
-				    node = target.getParent('.files-node-shadow') || target.getParent('.files-node'),
+				    node = target.getParent('.files-node'),
 					row = node.retrieve('row'),
 					copy = $extend({}, row),
 					trash = new Element('div', {style: 'display: none'}).inject(document.body);
@@ -434,7 +419,6 @@ Files.App = new Class({
 		return this.active;
 	},
 	setThumbnails: function() {
-		this.setDimensions(true);
 		var nodes = this.grid.nodes,
 			that = this;
 		if (nodes.getLength()) {
@@ -460,36 +444,6 @@ Files.App = new Class({
 			});
 		}
 
-	},
-	setDimensions: function(force){
-
-	    if(!this._cached_grid_width) this._cached_grid_width = 0;
-
-        //Only fire if the cache have changed
-        if(this._cached_grid_width != this.grid.root.element.getSize().x || force) {
-            var width = this.grid.root.element.getSize().x,
-                factor = width/(this.grid.options.icon_size.toInt()+40),
-                limit = Math.min(Math.floor(factor), this.grid.nodes.getLength()),
-                resize = width / limit,
-                thumbs = [[]],
-                labels = [[]],
-                index = 0,
-                pointer = 0;
-
-            this.grid.root.element.getElements('.files-node-shadow').each(function(element, i, elements){
-                element.setStyle('width', (100/limit)+'%');
-            }, this);
-
-            this._cached_grid_width = this.grid.root.element.getSize().x;
-        }
-    },
-    setPathway: function() {
-    	this.fireEvent('beforeSetPathway');
-
-		var pathway = new Files.Pathway(this.options.pathway);
-		this.addEvent('afterSetTitle', pathway.setPath.bind(pathway, this));
-
-		this.fireEvent('afterSetPathway');
 	},
 	setTitle: function(title) {
 		this.fireEvent('beforeSetTitle', {title: title});

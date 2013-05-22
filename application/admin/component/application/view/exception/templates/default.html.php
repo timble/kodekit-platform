@@ -18,8 +18,7 @@
 <table width="550" align="center" class="outline">
     <tr>
         <td align="center">
-            <h1>
-                <?= $code ?> - <?= @text('An error has occurred') ?>
+            <h1><?= $code ?> - <?= @text('An error has occurred') ?></h1>
         </td>
     </tr>
     <tr>

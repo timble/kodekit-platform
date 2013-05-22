@@ -22,6 +22,6 @@ class TemplateFilterScript extends Library\TemplateFilterScript
     public function render(&$text)
     {
         $scripts = $this->_parseTags($text);
-        $text = str_replace('<ktml:script />'."\n", $scripts, $text);
+        $text = str_replace('<ktml:script />'.PHP_EOL, $scripts, $text);
     }
 }

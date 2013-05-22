@@ -70,8 +70,7 @@ class DatabaseSchemaTable extends Object
 	/**
 	 * List of columns
 	 * 
-	 * Associative array of columns, where key holds the columns name and the value is 
-	 * an DatabaseSchemaColumn object.
+	 * Associative array of columns, where key holds the columns name and the value is  an DatabaseSchemaColumn object.
 	 * 
 	 * @var	array
 	 */
@@ -80,8 +79,7 @@ class DatabaseSchemaTable extends Object
 	/**
 	 * List of indexes
 	 * 
-	 * Associative array of indexes, where key holds the index name and the
-	 * and the value is an object.
+	 * Associative array of indexes, where key holds the index name and the and the value is an object.
 	 * 
 	 * @var	array
 	 */

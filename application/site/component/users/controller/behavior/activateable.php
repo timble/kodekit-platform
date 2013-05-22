@@ -38,7 +38,11 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
             $subject = 'User Account Activation';
             $message = $url;
 
-            $user->notify(array('subject' => $subject, 'message' => $message));
+            if ($user->notify(array('subject' => $subject, 'message' => $message))) {
+                $context->user->addFlashMessage('Activation E-mail sent');
+            } else {
+                $context->user->addFlashMessage('Failed to send activation E-mail', 'error');
+            }
         }
     }
 
@@ -55,8 +59,6 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
         $url                      = $page->getLink();
         $url->query['activation'] = $user->activation;
         $url->query['uuid']       = $user->uuid;
-        // We need to append a publicly available layout, same as registration works.
-        $url->query['layout'] = 'form';
 
         $this->getObject('application')->getRouter()->build($url);
 

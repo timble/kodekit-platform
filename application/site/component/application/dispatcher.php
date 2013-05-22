@@ -318,7 +318,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
 
         //Set Session Options
         $session->setOptions(array(
-            'cookie_path'   => (string) $context->request->getBaseUrl()->getPath(),
+            'cookie_path'   => (string) $context->request->getBaseUrl()->getPath() ?: '/',
             'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
         ));
 

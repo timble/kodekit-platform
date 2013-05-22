@@ -89,6 +89,12 @@ var ComUsers = {
             }
         },
 
+        addValidators:function(validators) {
+            Array.each(validators, function(validator, idx) {
+                ComUsers.Form.addValidator(validator);
+            });
+        },
+
         Validators:{
 
             passwordLength:function () {
@@ -103,6 +109,24 @@ var ComUsers = {
                             // Only check if a password is set.
                             if (value.length) {
                                 result = value.length >= props.passwordLength;
+                            }
+                            return result;
+                        }
+                    });
+                }
+            },
+
+            passwordVerify:function () {
+                if (Form && Form.Validator) {
+                    Form.Validator.add('passwordVerify', {
+                        errorMsg:function (element, props) {
+                            return Form.Validator.getMsg('match').substitute({matchName: props.matchName || document.id(props.matchInput).get('name')});
+                        },
+                        test:function (element, props) {
+                            var result = true;
+                            var passwd = $(props.matchInput).get('value');
+                            if (passwd.length && passwd != element.get('value')) {
+                                result = false;
                             }
                             return result;
                         }

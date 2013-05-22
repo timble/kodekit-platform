@@ -492,8 +492,8 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      * 'referer' a commonly used misspelling word for 'referrer'
      * @see     http://en.wikipedia.org/wiki/HTTP_referrer
      *
-     * @param   boolean     Only allow internal url's
-     * @return  HttpUrl    A HttpUrl object
+     * @param   boolean  $isInternal Only allow internal url's
+     * @return  HttpUrl  A HttpUrl object
      */
     public function getReferrer($isInternal = true)
     {

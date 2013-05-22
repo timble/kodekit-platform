@@ -52,14 +52,14 @@ class ModelRelations extends Library\ModelTable
 	{                
         $state = $this->getState();
         
-        if(!$this->_state->isUnique()) 
+        if(!$this->getState()->isUnique())
 		{
-			if($this->_state->table) {
-				$query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
+			if($this->getState()->table) {
+				$query->where('tbl.table = :table')->bind(array('table' => $this->getState()->table));
 			}
 		
-			if($this->_state->row) {
-				$query->where('tbl.row IN :row')->bind(array('row' => (array) $this->_state->row));
+			if($this->getState()->row) {
+				$query->where('tbl.row IN :row')->bind(array('row' => (array) $this->getState()->row));
 			}
 		}
         

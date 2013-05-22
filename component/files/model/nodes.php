@@ -19,7 +19,9 @@ use Nooku\Library;
  */
 class ModelNodes extends ModelAbstract
 {
-	public function createRow(array $options = array())
+    protected $_container;
+
+    public function createRow(array $options = array())
 	{
 		$identifier        = clone $this->getIdentifier();
 		$identifier->path  = array('database', 'row');
@@ -42,9 +44,9 @@ class ModelNodes extends ModelAbstract
         {
             $this->_row = $this->createRow(array(
                 'data' => array(
-            		'container' => $this->_state->container,
-                    'folder' 	=> $this->_state->folder,
-                    'name' 		=> $this->_state->name
+            		'container' => $this->getState()->container,
+                    'folder' 	=> $this->getState()->folder,
+                    'name' 		=> $this->getState()->name
                 )
             ));
         }
@@ -52,37 +54,23 @@ class ModelNodes extends ModelAbstract
         return parent::getRow();
     }
 
-    protected function _getPath()
-    {
-        $state = $this->_state;
-
-        $path = $state->container->path;
-
-        if (!empty($state->folder) && $state->folder != '/') {
-            $path .= '/'.ltrim($state->folder, '/');
-        }
-
-        return $path;
-    }
-
 	public function getRowset()
 	{
 		if (!isset($this->_rowset))
 		{
-			$state = $this->_state;
+			$state = $this->getState();
 			$type = !empty($state->types) ? (array) $state->types : array();
 
 			$list = $this->getObject('com:files.database.rowset.nodes');
 
-			// Special case for limit=0. We set it to -1
-			// So loop goes on till end since limit is a negative value
+			// Special case for limit=0. We set it to -1 so loop goes on till end since limit is a negative value
 			$limit_left  = $state->limit ? $state->limit : -1;
 			$offset_left = $state->offset;
 			$total       = 0;
 
 			if (empty($type) || in_array('folder', $type))
 			{
-				$folders = $this->getObject('com:files.model.folders')->set($state->toArray());
+                $folders = $this->getObject('com:files.model.folders')->setState($state->getValues());
 
 				foreach ($folders->getRowset() as $folder)
 				{
@@ -100,10 +88,10 @@ class ModelNodes extends ModelAbstract
 
 			if ((empty($type) || (in_array('file', $type) || in_array('image', $type))))
 			{
-				$data = $state->toArray();
+				$data = $state->getValues();
 				$data['offset'] = $offset_left < 0 ? 0 : $offset_left;
 
-                $files = $this->getObject('com:files.model.files')->set($data);
+                $files = $this->getObject('com:files.model.files')->setState($data);
 
 				foreach ($files->getRowset() as $file)
 				{
@@ -123,4 +111,33 @@ class ModelNodes extends ModelAbstract
 
 		return parent::getRowset();
 	}
+
+    public function getContainer()
+    {
+        if(!isset($this->_container))
+        {
+            //Set the container
+            $container = $this->getObject('com:files.model.containers')->slug($this->getState()->container)->getRow();
+
+            if (!is_object($container) || $container->isNew()) {
+                throw new \UnexpectedValueException('Invalid container');
+            }
+
+            $this->_container = $container;
+        }
+
+        return $this->_container;
+    }
+
+    protected function _getPath()
+    {
+        $state = $this->getState();
+        $path  = $this->getContainer()->path;
+
+        if (!empty($state->folder) && $state->folder != '/') {
+            $path .= '/'.ltrim($state->folder, '/');
+        }
+
+        return $path;
+    }
 }

@@ -17,6 +17,6 @@ use Nooku\Library;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerDirectory extends ApplicationControllerDefault
+class FilesControllerDirectory extends Library\ControllerModel
 {
 }
