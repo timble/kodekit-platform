@@ -164,10 +164,10 @@ class DatabaseRowFile extends DatabaseRowNode
 
 	public function saveThumbnail(Library\CommandContext $context = null)
 	{
-		$result = null;
-		if ($this->isImage() && $this->container->getParameters()->thumbnails)
+        $result = null;
+		if ($this->isImage() && $this->getContainer()->getParameters()->thumbnails)
 		{
-			$parameters      = $this->container->getParameters();
+			$parameters      = $this->getContainer()->getParameters();
 			$thumbnails_size = isset($parameters['thumbnail_size']) ? $parameters['thumbnail_size'] : array();
 			$thumb           = $this->getObject('com:files.database.row.thumbnail', array('thumbnail_size' => $thumbnails_size));
 			$thumb->source = $this;

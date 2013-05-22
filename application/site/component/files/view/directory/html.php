@@ -41,7 +41,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 		$state->sort = $params->get('sort');
 		$state->direction = $params->get('direction');
 	
-		$request = $state->toArray();
+		$request = $state->getValues();
 		$request['folder'] = isset($request['folder']) ? rawurldecode($request['folder']) : '';
 		
 		if ($state->name) {

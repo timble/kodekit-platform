@@ -76,7 +76,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     protected function _beforeControllerToken(Library\CommandContext $context)
     {
         $row = $this->getObject('com:users.model.users')
-               ->set('email', $context->request->data->get('email', 'email'))
+               ->email($context->request->data->get('email', 'email'))
                ->getRow();
 
         if ($row->isNew() || !$row->enabled)

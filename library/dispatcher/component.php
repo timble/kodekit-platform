@@ -61,7 +61,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
             'behaviors'  => array('persistable', 'resettable'),
-            'limit'      => array('max' => 100, 'default' => 20)
+            'limit'      => array('max' => 1000, 'default' => 20)
          ));
 
         parent::_initialize($config);

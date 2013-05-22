@@ -32,14 +32,14 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 	protected function _beforeControllerBrowse(Library\CommandContext $context)
 	{
 		 // Built the session identifier based on the action
-        $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->get('table');
+        $identifier  = $this->getModel()->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
         $state       = $context->user->get($identifier);
 
         //Add the data to the request query object
         $context->request->add($state);
 
         //Push the request query data in the model
-        $this->getModel()->set($context->request->query->toArray());
+        $this->getModel()->setState($context->request->query->toArray());
 	}
 	
 	/**
@@ -50,13 +50,13 @@ class ControllerBehaviorPersistable extends Library\ControllerBehaviorPersistabl
 	 */
 	protected function _afterControllerBrowse(Library\CommandContext $context)
 	{
-		$model  = $this->getModel();
-        $state  = $model->getState();
+		$model = $this->getModel();
+        $state = $model->getState();
 
         // Built the session identifier based on the action
-        $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->get('table');
+        $identifier  = $model->getIdentifier().'.'.$this->_action.'.'.$this->getModel()->getState()->table;
         
         //Set the state in the user session
-        $context->user->set($identifier, $state->toArray());
+        $context->user->set($identifier, $state->getValues());
 	}
 }

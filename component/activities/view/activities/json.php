@@ -40,7 +40,7 @@ class ViewActivitiesJson extends Library\ViewJson
         $paginator = $model->getPaginator();
 
 	    $vars = array();
-	    foreach($state->getStates() as $var)
+	    foreach($state->toArray() as $var)
 	    {
 	        if(!$var->unique) {
 	            $vars[] = $var->name;
@@ -49,7 +49,7 @@ class ViewActivitiesJson extends Library\ViewJson
 
 		$data = array(
 			'version'  => '1.0',
-			'href'     => (string) $route->setQuery($state->toArray()),
+			'href'     => (string) $route->setQuery($state->getValues()),
 			'url'      => array(
 				'type'     => 'application/json',
 				'template' => (string) $route->get(Library\HttpUrl::BASE).'?{&'.implode(',', $vars).'}',
@@ -64,7 +64,7 @@ class ViewActivitiesJson extends Library\ViewJson
 		if($list = $model->getRowset())
 		{
 		    $vars = array();
-	        foreach($state->getStates() as $var)
+	        foreach($state->toArray() as $var)
 	        {
 	            if($var->unique)
 	            {

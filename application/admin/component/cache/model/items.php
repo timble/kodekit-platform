@@ -23,8 +23,8 @@ class CacheModelItems extends Library\ModelAbstract
     public function __construct(Library\ObjectConfig $config)
 	{
 	    parent::__construct($config);
-		
-		$this->_state
+
+        $this->getState()
 		    ->insert('name'  , 'cmd')
 		    ->insert('hash'  , 'cmd')
 		    ->insert('group' , 'url')
@@ -44,29 +44,29 @@ class CacheModelItems extends Library\ModelAbstract
             $data = $this->_getData();
           
             //Apply state information
-		    if($this->_state->hash) {    
-		        $data = array_intersect_key($data, array_flip((array)$this->_state->hash));
+		    if($this->getState()->hash) {
+		        $data = array_intersect_key($data, array_flip((array)$this->getState()->hash));
 		    } 
 		    
 		    foreach($data as $key => $value)
 	        {    
-	            if($this->_state->group) 
+	            if($this->getState()->group)
 		        {
-		            if($value->group != $this->_state->group) {
+		            if($value->group != $this->getState()->group) {
 		               unset($data[$key]);
 		            }
 		        }
 		        
-	            if($this->_state->site) 
+	            if($this->getState()->site)
 		        {
-		            if($value->site != $this->_state->site) {
+		            if($value->site != $this->getState()->site) {
 		               unset($data[$key]);
 		            }
 		        }
 	            
-	            if($this->_state->search)
+	            if($this->getState()->search)
 	            {
-	                 if($value->name != $this->_state->search) {
+	                 if($value->name != $this->getState()->search) {
 		               unset($data[$key]);
 		            }
 	            }
@@ -76,8 +76,8 @@ class CacheModelItems extends Library\ModelAbstract
             $this->_total = count($data);
 		    
             //Apply limit and offset
-            if($this->_state->limit) {
-		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
+            if($this->getState()->limit) {
+		        $data = array_slice($data, $this->getState()->offset, $this->getState()->limit);
             }
 		    
 		    $this->_rowset = $this->getObject('com:cache.database.rowset.items', array('data' => $data));

@@ -22,7 +22,9 @@ class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
 {
     protected function _afterControllerBrowse(Library\CommandContext $context)
     {
-        if (!$context->request->query->get('thumbnails', 'cmd') || $this->getModel()->container->parameters->thumbnails !== true) {
+        $container = $this->getModel()->getContainer();
+
+        if (!$context->request->query->get('thumbnails', 'cmd') || $container->parameters->thumbnails !== true) {
             return;
         }
 
@@ -35,14 +37,15 @@ class ControllerBehaviorThumbnailable extends Library\ControllerBehaviorAbstract
         }
 
         $folder = $context->request->query->get('folder', 'com:files.filter.path');
+
         $thumbnails = $this->getObject('com:files.controller.thumbnail', array(
             'request' => $this->getObject('lib:controller.request', array(
                 'query' => array(
-                    'container' => $this->getModel()->container,
-                    'folder' => $folder,
-                    'filename' => $files,
-                    'limit' => 0,
-                    'offset' => 0
+                    'container' => $this->getModel()->getState()->container,
+                    'folder'    => $folder,
+                    'filename'  => $files,
+                    'limit'     => 0,
+                    'offset'    => 0
                 )
             ))
         ))->browse();

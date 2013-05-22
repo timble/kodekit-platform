@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-abstract class ControllerView extends ControllerAbstract
+abstract class ControllerView extends ControllerAbstract implements ControllerViewable
 {
 	/**
 	 * View object or identifier
@@ -73,7 +73,6 @@ abstract class ControllerView extends ControllerAbstract
 	 * @throws  ControllerExceptionNotFond If the view cannot be found. Only when controller is being dispatched.
      * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
 	 * @return	ViewInterface
-	 *
 	 */
 	public function getView()
 	{

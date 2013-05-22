@@ -30,7 +30,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     public function save()
     {
         $user = $this->getObject('com:users.model.users')
-            ->set('email', $this->id)
+            ->email($this->id)
             ->getRow();
 
         // Check if referenced user actually exists.

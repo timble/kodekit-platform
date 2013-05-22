@@ -33,7 +33,7 @@ class ControllerToolbarCategory extends Library\ControllerToolbarModel
     {
         $option = $this->getController()->getIdentifier()->package;
 		$view	= Library\StringInflector::singularize($this->getIdentifier()->name);
-		$table  = $this->getController()->getModel()->get('table');
+		$table  = $this->getController()->getModel()->getState()->table;
 		
         $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;
     }

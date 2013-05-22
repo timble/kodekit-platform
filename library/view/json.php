@@ -83,7 +83,7 @@ class ViewJson extends ViewAbstract
         $paginator = $model->getPaginator();
 
         $vars = array();
-        foreach ($state->getStates() as $var)
+        foreach ($state->toArray() as $var)
         {
             if (!$var->unique) {
                 $vars[] = $var->name;
@@ -92,7 +92,7 @@ class ViewJson extends ViewAbstract
 
         $data = array(
             'version' => '1.0',
-            'href' => (string)$route->setQuery($state->toArray(), true),
+            'href' => (string)$route->setQuery($state->getValues(), true),
             'url' => array(
                 'type' => 'application/json',
                 'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
@@ -107,7 +107,7 @@ class ViewJson extends ViewAbstract
         if ($list = $model->getRowset())
         {
             $vars = array();
-            foreach ($state->getStates() as $var)
+            foreach ($state->toArray() as $var)
             {
                 if ($var->unique)
                 {
@@ -172,7 +172,7 @@ class ViewJson extends ViewAbstract
         $state = $model->getState();
 
         $vars = array();
-        foreach ($state->getStates() as $var)
+        foreach ($state->toArray() as $var)
         {
             if ($var->unique)
             {
@@ -183,7 +183,7 @@ class ViewJson extends ViewAbstract
 
         $data = array(
             'version' => '1.0',
-            'href' => (string)$route->setQuery($state->toArray(true)),
+            'href' => (string)$route->setQuery($state->getValues(true)),
             'url' => array(
                 'type' => 'application/json',
                 'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',

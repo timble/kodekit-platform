@@ -19,7 +19,7 @@ namespace Nooku\Library;
 class ModelTable extends ModelAbstract
 {
     /**
-     * Table object or identifier (APP::com.COMPONENT.table.TABLENAME)
+     * Table object or identifier
      *
      * @var string|object
      */
@@ -68,26 +68,23 @@ class ModelTable extends ModelAbstract
     }
 
     /**
-     * Set the model state properties
+     * State Change notifier
      *
-     * This function overloads the DatabaseTableAbstract::set() function and only acts on state properties.
-     *
-     * @param   string|array|object $property The name of the property, an associative array or an object
-     * @param   mixed               $value    The value of the property
-     * @return  ModelTable
+     * @param  string 	$name  The state name being changed
+     * @return void
      */
-    public function set( $property, $value = null )
+    public function onStateChange($name)
     {
-        parent::set($property, $value);
-        
-        // If limit has been changed, adjust offset accordingly
-        if($limit = $this->getState()->limit) {
-             $this->getState()->offset = $limit != 0 ? (floor($this->getState()->offset / $limit) * $limit) : 0;
-        }
+        parent::onStateChange($name);
 
-        return $this;
+        //If limit has been changed, adjust offset accordingly
+        if($name == 'limit')
+        {
+            $limit = $this->getState()->limit;
+            $this->getState()->offset = $limit != 0 ? (floor($this->getState()->offset / $limit) * $limit) : 0;
+        }
     }
-    
+
     /**
      * Method to get a table object
      *
@@ -265,7 +262,7 @@ class ModelTable extends ModelAbstract
     protected function _buildQueryWhere(DatabaseQuerySelect $query)
     {
         //Get only the unique states
-        $states = $this->getState()->toArray(true);
+        $states = $this->getState()->getValues(true);
         
         if(!empty($states))
         {

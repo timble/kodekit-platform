@@ -54,7 +54,7 @@ class ControllerToolbarPage extends Library\ControllerToolbarModel
     
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
-        $menu = $this->getController()->getModel()->menu;
+        $menu = $this->getController()->getModel()->getState()->menu;
         $command->href = 'option=com_pages&view=page&menu='.$menu;
     }
 }

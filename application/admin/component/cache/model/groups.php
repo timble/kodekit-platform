@@ -24,7 +24,7 @@ class CacheModelGroups extends Library\ModelAbstract
 	{
 	    parent::__construct($config);
 		
-		$this->_state
+		$this->getState()
 		    ->insert('name'     , 'cmd')
 		    ->insert('site'     , 'cmd')
 		 	->insert('limit'    , 'int')
@@ -41,15 +41,15 @@ class CacheModelGroups extends Library\ModelAbstract
             $data = $this->_getData();
             
             //Apply state information
-            if($this->_state->name) {    
-		       $data = array_intersect_key($data, array_flip((array)$this->_state->name));
+            if($this->getState()->name) {
+		       $data = array_intersect_key($data, array_flip((array)$this->getState()->name));
 		    }
 		    
             foreach($data as $key => $value)
 	        {     
-	            if($this->_state->search)
+	            if($this->getState()->search)
 	            { 
-	                if($value['name'] != $this->_state->search) {
+	                if($value['name'] != $this->getState()->search) {
 		               unset($data[$key]);
 		            }
 	            }
@@ -59,8 +59,8 @@ class CacheModelGroups extends Library\ModelAbstract
 		    $this->_total = count($data);
 		    
 		    //Apply limit and offset
-            if($this->_state->limit) {
-		        $data = array_slice($data, $this->_state->offset, $this->_state->limit);
+            if($this->getState()->limit) {
+		        $data = array_slice($data, $this->getState()->offset, $this->getState()->limit);
             }
 		      
 		    $this->_rowset = $this->getObject('com:cache.database.rowset.groups', array('data' => $data));
@@ -81,7 +81,7 @@ class CacheModelGroups extends Library\ModelAbstract
     protected function _getData()
     {
         $data = array();
-        $keys = $this->getObject('com:cache.model.items')->site($this->_state->site)->getRowset();
+        $keys = $this->getObject('com:cache.model.items')->site($this->getState()->site)->getRowset();
        
         foreach($keys as $key) 
         {

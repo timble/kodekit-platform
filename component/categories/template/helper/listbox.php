@@ -70,9 +70,9 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         }
 
         $list = $this->getObject('com:categories.model.categories')
-                     ->set('table', $config->table)
-                     ->set('parent', $config->parent)
-                     ->set('sort', 'title')
+                     ->table($config->table)
+                     ->parent($config->parent)
+                     ->sort('title')
                      ->getRowset();
 
         $iterator = new \RecursiveIteratorIterator($list, \RecursiveIteratorIterator::SELF_FIRST);

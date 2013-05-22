@@ -19,7 +19,9 @@ use Nooku\Library;
  */
 class ModelThumbnails extends Library\ModelTable
 {
-	public function __construct(Library\ObjectConfig $config)
+    protected $_container;
+
+    public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -32,13 +34,13 @@ class ModelThumbnails extends Library\ModelTable
 		    ->insert('types'     , 'cmd', '')
 		    ->insert('config'    , 'json', '');
 	}
-	
+
 	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'state' => new ModelState()
+            'state' => 'com:files.model.state'
 		));
-		
+
 		parent::_initialize($config);
 	}
 
@@ -52,6 +54,23 @@ class ModelThumbnails extends Library\ModelTable
 
 		return $item;
 	}
+
+    public function getContainer()
+    {
+        if(!isset($this->_container))
+        {
+            //Set the container
+            $container = $this->getObject('com:files.model.containers')->slug($this->getState()->container)->getRow();
+
+            if (!is_object($container) || $container->isNew()) {
+                throw new \UnexpectedValueException('Invalid container');
+            }
+
+            $this->_container = $container;
+        }
+
+        return $this->_container;
+    }
 
 	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
     {
@@ -94,7 +113,7 @@ class ModelThumbnails extends Library\ModelTable
 		else 
 		{
 		    if ($state->container) {
-		        $query->where('tbl.files_container_id = :container_id')->bind(array('container_id' => $state->container->id));
+                $query->where('tbl.files_container_id = :container_id')->bind(array('container_id' => $this->getContainer()->id));
 		    }
 		    
 		    if ($state->folder !== false) {
@@ -112,8 +131,8 @@ class ModelThumbnails extends Library\ModelTable
 	
 	protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
 	{
-		$sort      = $this->_state->sort;
-		$direction = strtoupper($this->_state->direction);
+		$sort      = $this->getState()->sort;
+		$direction = strtoupper($this->getState()->direction);
 		
 		if($sort) 
 		{

@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package		Koowa_Controller
  */
-abstract class ControllerModel extends ControllerView
+abstract class ControllerModel extends ControllerView implements ControllerModellable
 {
     /**
      * Model object or identifier
@@ -51,6 +51,7 @@ abstract class ControllerModel extends ControllerView
     protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
+            'toolbars'   => array($this->getIdentifier()->name),
     		'behaviors'  => array('lockable'),
             'model'	     => $this->getIdentifier()->name,
         ));
@@ -112,8 +113,7 @@ abstract class ControllerModel extends ControllerView
             $this->_model = $this->getObject($this->_model);
 
             //Inject the request into the model state
-            $state = $this->getRequest()->query->toArray();
-            $this->_model->set($state);
+            $this->_model->setState($this->getRequest()->query->toArray());
 
             if(!$this->_model instanceof ModelInterface)
             {
@@ -320,7 +320,7 @@ abstract class ControllerModel extends ControllerView
             if(isset($this->getModel()->getState()->$method))
             {
                 $this->getRequest()->query->set($method, $args[0]);
-                $this->getModel()->set($method, $args[0]);
+                $this->getModel()->getState()->set($method, $args[0]);
 
                 return $this;
             }

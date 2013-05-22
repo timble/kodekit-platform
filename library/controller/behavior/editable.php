@@ -173,7 +173,7 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
 
             if ($this->getModel()->getState()->isUnique())
             {
-                $states = $this->getModel()->getState()->toArray(true);
+                $states = $this->getModel()->getState()->getValues(true);
 
                 foreach ($states as $key => $value) {
                     $url->query[$key] = $entity->get($key);

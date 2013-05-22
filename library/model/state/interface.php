@@ -62,15 +62,14 @@ interface ModelStateInterface
      * @param   string $name The name of the state
      * @return  ModelStateInterface
      */
-    public function remove( $name );
+    public function remove($name);
 
     /**
      * Reset all state data and revert to the default state
      *
-     * @param   boolean $default If TRUE use defaults when resetting. Default is TRUE
      * @return ModelStateInterface
      */
-    public function reset($default = true);
+    public function reset();
 
     /**
      * Set the state data
@@ -81,7 +80,7 @@ interface ModelStateInterface
      * @param   array $data An associative array of state values by name
      * @return  ModelState
      */
-    public function values(array $data);
+    public function setValues(array $data);
 
     /**
      * Get the state data
@@ -91,14 +90,7 @@ interface ModelStateInterface
      * @param   boolean $unqique If TRUE only retrieve unique state values, default FALSE
      * @return  array   An associative array of state values by name
      */
-    public function toArray($unique = false);
-
-    /**
-     * Return an associative array of the states.
-     *
-     * @return array
-     */
-    public function getStates();
+    public function getValues($unique = false);
 
     /**
      * Check if the state information is unique
