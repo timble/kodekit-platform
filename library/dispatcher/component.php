@@ -17,13 +17,6 @@ namespace Nooku\Library;
 class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiable
 {
     /**
-     * The limit information
-     *
-     * @var	array
-     */
-    protected $_limit;
-
-    /**
 	 * Constructor.
 	 *
 	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
@@ -31,8 +24,6 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
-
-        $this->_limit = $config->limit;
 
         //Authenticate none safe requests
         $this->registerCallback('before.post'  , array($this, 'authenticateRequest'));
@@ -193,12 +184,12 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 
                 //If limit is empty use default
                 if(empty($limit)) {
-                    $limit = $this->_limit->default;
+                    $limit = $this->getConfig()->limit->default;
                 }
 
                 //Force the maximum limit
-                if($limit > $this->_limit->max) {
-                    $limit = $this->_limit->max;
+                if($limit > $this->getConfig()->limit->max) {
+                    $limit = $this->getConfig()->limit->max;
                 }
 
                 $controller->getModel()->getState()->limit = $limit;
