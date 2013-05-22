@@ -173,12 +173,11 @@ abstract class ObjectMixinAbstract implements ObjectMixinInterface
      * This function is called when the mixin is being mixed. It will get the mixer passed in.
      *
      * @param ObjectMixable $mixer The mixer object
-     * @return ObjectMixinInterface
+     * @return void
      */
     public function onMixin(ObjectMixable $mixer)
     {
         $this->setMixer($mixer);
-        return $this;
     }
 
     /**
