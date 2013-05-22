@@ -92,12 +92,11 @@ class ObjectDecorator implements ObjectDecoratorInterface
      * This function is called when an object is being decorated. It will get the object passed in.
      *
      * @param ObjectDecoratable $delegate The object being decorated
-     * @return ObjectDecorator
+     * @return void
      */
     public function onDecorate(ObjectDecoratable $delegate)
     {
         $this->setDelegate($delegate);
-        return $this;
     }
 
     /**
