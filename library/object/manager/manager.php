@@ -125,6 +125,43 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
+     * Get an identifier object based on an object identifier.
+     *
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectIdentifier
+     */
+    public function getIdentifier($identifier = null)
+    {
+        if(isset($identifier))
+        {
+            if (!is_string($identifier))
+            {
+                if ($identifier instanceof ObjectInterface) {
+                    $identifier = $identifier->getIdentifier();
+                }
+            }
+
+            //Get the identifier object
+            if (!$result = $this->_registry->find($identifier))
+            {
+                if (is_string($identifier)) {
+                    $result = new ObjectIdentifier($identifier, $this);
+                } else {
+                    $result = $identifier;
+                }
+
+                $this->_registry->set($result);
+            }
+        }
+        else $result = $this->__object_identifier;
+
+        return $result;
+    }
+
+    /**
      * Get an object instance based on an object identifier
      *
      * If the object implements the ObjectSingleton interface the object will be automatically registered in the
@@ -179,6 +216,33 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
     }
 
     /**
+     * Set the configuration options for an identifier
+     *
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @param array $config      An associative array of configuration options
+     * @return ObjectManager
+     */
+    public function setConfig($identifier, array $config = array())
+    {
+        $identifier = $this->getIdentifier($identifier);
+        $identifier->setConfig($config, false);
+
+        return $this;
+    }
+
+    /**
+     * Get the object configuration
+     *
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectConfig
+     */
+    public function getConfig($identifier = null)
+    {
+        $config = $this->getIdentifier($identifier)->getConfig();
+        return $config;
+    }
+
+    /**
      * Load a file based on an identifier
      *
      * @param string|object $identifier  An ObjectIdentifier or identifier string
@@ -199,58 +263,6 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         }
 
         return $result;
-    }
-
-    /**
-     * Get an identifier object based on an object identifier.
-     *
-     * If no identifier is passed the object identifier of this object will be returned. Function recursively
-     * resolves identifier aliases and returns the aliased identifier.
-     *
-     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @return ObjectIdentifier
-     */
-    public function getIdentifier($identifier = null)
-    {
-        if(isset($identifier))
-        {
-            if (!is_string($identifier))
-            {
-                if ($identifier instanceof ObjectInterface) {
-                    $identifier = $identifier->getIdentifier();
-                }
-            }
-
-            //Get the identifier object
-            if (!$result = $this->_registry->find($identifier))
-            {
-                if (is_string($identifier)) {
-                    $result = new ObjectIdentifier($identifier, $this);
-                } else {
-                    $result = $identifier;
-                }
-
-                $this->_registry->set($result);
-            }
-        }
-        else $result = $this->__object_identifier;
-
-        return $result;
-    }
-
-    /**
-     * Set the configuration options for an identifier
-     *
-     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @param array $config      An associative array of configuration options
-     * @return ObjectManager
-     */
-    public function setIdentifier($identifier, array $config = array())
-    {
-        $identifier = $this->getIdentifier($identifier);
-        $identifier->setConfig($config, false);
-
-        return $this;
     }
 
     /**
