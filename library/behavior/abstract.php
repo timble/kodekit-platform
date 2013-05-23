@@ -235,6 +235,6 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
             $result = $this->__object_config;
         }
 
-        return $this->__object_config;
+        return $result;
     }
 }

@@ -319,7 +319,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $result = $this->__object_config;
         }
 
-        return $this->__object_config;
+        return $result;
     }
 
     /**
