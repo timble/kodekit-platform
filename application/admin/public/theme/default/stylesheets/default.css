@@ -38,6 +38,40 @@
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
+/* line 5, modules/_thumbnail.scss */
+.thumbnail {
+  margin: 0 12px 12px 0;
+  float: left;
+  width: 130px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
+}
+/* line 14, modules/_thumbnail.scss */
+.thumbnail:nth-child(even) {
+  margin-right: 0;
+}
+/* line 18, modules/_thumbnail.scss */
+.thumbnail img {
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  -ms-border-radius: 4px 4px 0 0;
+  -o-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+}
+
+/* line 23, modules/_thumbnail.scss */
+.thumbnail__caption {
+  padding: 6px 0 0;
+}
+
 /* line 10, _reset.scss */
 html {
   font-size: 100%;
@@ -999,7 +1033,7 @@ ul {
 /** Scopebar styles **/
 /* line 235, _general.scss */
 .scopebar {
-  padding: 3px 10px 3px;
+  padding: 3px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f2f2f2), color-stop(100%, #e9e9e9));
   background: -webkit-linear-gradient(#f2f2f2, #e9e9e9);
   background: -moz-linear-gradient(#f2f2f2, #e9e9e9);
@@ -1012,16 +1046,10 @@ ul {
 /* line 243, _general.scss */
 .scopebar .scopebar-group {
   border-right: 1px solid #BBB;
-  padding-top: 5px;
-  padding-right: 10px;
-  margin-right: 10px;
+  padding: 2px 10px 0 0;
+  margin: 3px 10px 3px 0;
 }
-/* line 249, _general.scss */
-.scopebar .scopebar-group.last {
-  border-right: 0 none;
-  margin-right: 0;
-}
-/* line 254, _general.scss */
+/* line 248, _general.scss */
 .scopebar .scopebar-group a {
   margin: 0 2px;
   padding: 2px 7px;
@@ -1030,7 +1058,7 @@ ul {
   text-transform: capitalize;
   text-shadow: rgba(255, 255, 255, 0.75) 0 1px 0;
 }
-/* line 264, _general.scss */
+/* line 258, _general.scss */
 .scopebar .scopebar-group a:hover,
 .scopebar .scopebar-group a.active {
   text-decoration: none;
@@ -1043,40 +1071,40 @@ ul {
   border-radius: 10px;
   text-shadow: rgba(0, 0, 0, 0.35) 0 1px 0;
 }
-/* line 273, _general.scss */
+/* line 267, _general.scss */
 .scopebar .scopebar-group a.active,
 .scopebar .scopebar-group a:active {
   -webkit-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
   -moz-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
   box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
 }
-/* line 277, _general.scss */
+/* line 271, _general.scss */
 .scopebar .scopebar-group a:active {
   background: gray;
 }
-/* line 282, _general.scss */
+/* line 276, _general.scss */
 .scopebar .scopebar-search {
-  margin-bottom: 0;
-  margin-left: 25px;
+  margin: 0px 0 0 25px;
+  margin-bottom: 0 !important;
 }
-/* line 287, _general.scss */
+/* line 282, _general.scss */
 .scopebar .scopebar-search input[type="search"] {
   max-width: 150px;
   margin-bottom: 0;
 }
-/* line 292, _general.scss */
+/* line 287, _general.scss */
 .scopebar .scopebar-search button {
   padding: 2px 10px;
   font-size: 10.2px;
 }
 
-/* line 299, _general.scss */
+/* line 294, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 303, _general.scss */
+/* line 298, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1085,16 +1113,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 314, _general.scss */
+/* line 309, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 318, _general.scss */
+/* line 313, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 321, _general.scss */
+/* line 316, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1108,26 +1136,26 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 330, _general.scss */
+/* line 325, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 337, _general.scss */
+/* line 332, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 341, _general.scss */
+/* line 336, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 344, _general.scss */
+/* line 339, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 350, _general.scss */
+/* line 345, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #e5e5e5));
   background: -webkit-linear-gradient(#e0e0e0, #e5e5e5);
@@ -1135,31 +1163,31 @@ ul {
   background: -o-linear-gradient(#e0e0e0, #e5e5e5);
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 356, _general.scss */
+/* line 351, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 358, _general.scss */
+/* line 353, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 359, _general.scss */
+/* line 354, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 362, _general.scss */
+/* line 357, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 364, _general.scss */
+/* line 359, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 367, _general.scss */
+/* line 362, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1168,73 +1196,73 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 372, _general.scss */
+/* line 367, _general.scss */
 .-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 377, _general.scss */
+/* line 372, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 380, _general.scss */
+/* line 375, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 381, _general.scss */
+/* line 376, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 386, _general.scss */
+/* line 381, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 387, _general.scss */
+/* line 382, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 390, _general.scss */
+/* line 385, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 391, _general.scss */
+/* line 386, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 392, _general.scss */
+/* line 387, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 395, _general.scss */
+/* line 390, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 399, _general.scss */
+/* line 394, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 403, _general.scss */
+/* line 398, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 406, _general.scss */
+/* line 401, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 411, _general.scss */
+/* line 406, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 415, _general.scss */
+/* line 410, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 420, _general.scss */
+/* line 415, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
@@ -1244,7 +1272,7 @@ ul {
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 425, _general.scss */
+/* line 420, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1257,17 +1285,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 434, _general.scss */
+/* line 429, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0;
 }
-/* line 442, _general.scss */
+/* line 437, _general.scss */
 .-koowa-form .main .scrollable {
   background-color: white;
 }
-/* line 448, _general.scss */
+/* line 443, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1277,7 +1305,7 @@ ul {
   width: 100%;
 }
 
-/* line 457, _general.scss */
+/* line 452, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1285,22 +1313,22 @@ ul {
 }
 
 /* Sidebar */
-/* line 463, _general.scss */
+/* line 458, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 466, _general.scss */
+/* line 461, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
-/* line 471, _general.scss */
+/* line 466, _general.scss */
 #panel-content .-koowa-form dl.tabs {
   float: left;
   margin: 10px 0 0 0;
   z-index: 50;
 }
-/* line 476, _general.scss */
+/* line 471, _general.scss */
 #panel-content .-koowa-form dl.tabs dt {
   float: left;
   padding: 6px 14px;
@@ -1315,13 +1343,13 @@ ul {
   border-radius: 5px 5px 0 0;
   margin-bottom: -1px;
 }
-/* line 487, _general.scss */
+/* line 482, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:hover {
   background-color: #F6F6F6;
   z-index: 100;
   color: #333;
 }
-/* line 495, _general.scss */
+/* line 490, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:active,
 #panel-content .-koowa-form dl.tabs dt.open,
 #panel-content .-koowa-form dl.tabs dt.open:active {
@@ -1333,31 +1361,31 @@ ul {
   -moz-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
   box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
 }
-/* line 503, _general.scss */
+/* line 498, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:active {
   background-color: #FFF;
   border-bottom-color: #CCC;
 }
-/* line 509, _general.scss */
+/* line 504, _general.scss */
 #panel-content .-koowa-form div.current {
   clear: both;
   border: 1px solid #CCC;
   padding: 10px 10px;
   background-color: #FFF;
 }
-/* line 516, _general.scss */
+/* line 511, _general.scss */
 #panel-content .-koowa-form div.current dd {
   padding: 0;
   margin: 0;
 }
 
 /* $endgroup */
-/* line 525, _general.scss */
+/* line 520, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 529, _general.scss */
+/* line 524, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -4641,9 +4669,8 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-flex: 0;
   -moz-flex: 0;
   flex: 0;
-  min-height: 22px;
 }
-/* line 129, _flexbox.scss */
+/* line 128, _flexbox.scss */
 .scopebar .scopebar-search {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4656,7 +4683,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
   -webkit-justify-content: flex-end;
 }
-/* line 133, _flexbox.scss */
+/* line 132, _flexbox.scss */
 .scopebar .scopebar-search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4669,7 +4696,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
 }
 
-/* line 141, _flexbox.scss */
+/* line 140, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4683,7 +4710,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: none;
 }
 
-/* line 146, _flexbox.scss */
+/* line 145, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4695,7 +4722,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 149, _flexbox.scss */
+/* line 148, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4707,7 +4734,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 152, _flexbox.scss */
+/* line 151, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4719,7 +4746,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 155, _flexbox.scss */
+/* line 154, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4731,7 +4758,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 158, _flexbox.scss */
+/* line 157, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list .activities {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -4740,14 +4767,14 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-overflow-scrolling: touch;
   min-height: 100%;
 }
-/* line 163, _flexbox.scss */
+/* line 162, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list .activities * {
   -webkit-flex: none;
   -moz-flex: none;
   flex: none;
 }
 
-/* line 173, _flexbox.scss */
+/* line 172, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4759,7 +4786,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 176, _flexbox.scss */
+/* line 175, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4771,7 +4798,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 178, _flexbox.scss */
+/* line 177, _flexbox.scss */
 .com_files #files-app #files-canvas #files-grid {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -4780,11 +4807,11 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-overflow-scrolling: touch;
   min-height: 100%;
 }
-/* line 186, _flexbox.scss */
+/* line 185, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 190, _flexbox.scss */
+/* line 189, _flexbox.scss */
 .com_files #files-tree {
   -webkit-flex: 1;
   -moz-flex: 1;
