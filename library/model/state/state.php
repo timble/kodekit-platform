@@ -177,8 +177,12 @@ class ModelState extends ObjectArray implements ModelStateInterface
      */
     public function reset($default = true)
     {
-        foreach($this->_data as $state) {
+        foreach($this->_data as $state)
+        {
             $state->value = $default ? $state->default : null;
+
+            //Notify the model
+            $this->_model->onStateChange($state->name);
         }
 
         return $this;
