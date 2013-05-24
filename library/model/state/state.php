@@ -135,9 +135,11 @@ class ModelState extends ObjectArray implements ModelStateInterface
      */
     public function set($name, $value = null)
     {
-        $this->offsetSet($name, $value);
+        if ($this->has($name) && $this->get($name) != $value)
+        {
+            $this->offsetSet($name, $value);
 
-        if ($this->has($name) && $this->get($name) != $value) {
+            //Notify the model
             $this->_model->onStateChange($name);
         }
 
