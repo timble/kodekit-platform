@@ -37,7 +37,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 	
         $folder = $this->getModel()->getRow();
 
-        if ($page->getLink()->query['folder'] !== urlencode($folder->path))
+        if ($page->getLink()->query['folder'] !== $folder->path)
 		{
 			$path   = explode('/', $folder->path);
 			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
