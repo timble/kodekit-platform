@@ -48,6 +48,7 @@ class FilterPath extends Library\FilterAbstract implements Library\FilterTravers
      */
     public function sanitize($value)
     {
+        $value = urldecode($value);
         $value = trim(str_replace('\\', '/', $value));
         $value = preg_replace(self::$_safepath_pattern, '', $value);
 
