@@ -24,5 +24,9 @@ use Nooku\Library;
         $this->getClassLoader()
              ->getLocator('psr')
              ->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/imagine/lib');
+
+        $manager = $this->getObjectManager();
+        $manager->registerAlias('com:files.adapter.local.directory', 'com:files.adapter.local.folder');
+        $manager->registerAlias('com:files.command.validator.directory', 'com:files.command.validator.folder');
     }
 }
