@@ -55,8 +55,6 @@ class FilesControllerDirectory extends Library\ControllerModel
                 }
             }
 
-            $view = $this->getView();
-
             if ($view->getLayout() == 'gallery')
             {
                 $request->query->set('types', array('image'));
