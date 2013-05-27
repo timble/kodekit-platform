@@ -24,9 +24,14 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $page = $this->getObject('application.pages')->getActive();
         $params = new JParameter($page->params);
 
-        $this->folders = $this->_getFolders();
+        $folders       = $this->_getFolders();
+        $this->folders = $folders['items'];
 
-		if ($params->get('humanize_filenames', 1)) 
+        $files       = $this->_getFiles();
+        $this->files = $files['items'];
+        $this->total = $files['total'];
+
+        if ($params->get('humanize_filenames', 1))
 		{
 			foreach ($this->folders as $folder) {
 				$folder->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $folder->name));
@@ -36,7 +41,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
                 $file->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $file->filename));
 			}
 		}
-	
+
         $folder = $this->getModel()->getRow();
 
         if ($page->getLink()->query['folder'] !== $folder->path)
@@ -51,13 +56,13 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 	 		$params->set('page_title', $page->title);
 	 	}
 
-        $this->parent  = $parent;
-		$this->params  = $params;
-		$this->page    = $page;
-		$this->thumbnail_size = array('x' => 200, 'y' => 150);
-	
+        $this->parent         = $parent;
+        $this->params         = $params;
+        $this->page           = $page;
+        $this->thumbnail_size = array('x' => 200, 'y' => 150);
+
 		$this->setPathway();
-	
+
 		return parent::render();
 	}
 
@@ -75,13 +80,48 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $identifier->name = Library\StringInflector::pluralize($this->getName());
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
             $folders          = $model->getRowset();
+            $total            = $model->getTotal();
         }
         else
         {
             $folders = array();
+            $total   = 0;
         }
 
-        return $folders;
+        return array('items' => $folders, 'total' => $total);
+    }
+
+    protected function _getFiles()
+    {
+        $page   = $this->getObject('application.pages')->getActive();
+        $params = new JParameter($page->params);
+
+        $state = $this->getModel()->getState();
+
+        $request = $this->getObject('lib:controller.request');
+
+        if ($this->getLayout() == 'gallery')
+        {
+            $request->query->set('types', array('image'));
+        }
+
+        $request->query->set('thumbnails', true);
+        $request->query->set('sort', $params->get('sort'));
+        $request->query->set('direction', $params->get('direction'));
+        $request->query->set('offset', $state->offset);
+        $request->query->set('folder', $state->folder);
+        $request->query->set('container', $state->container);
+        $request->query->set('limit', $state->limit);
+
+        $identifier       = clone $this->getIdentifier();
+        $identifier->path = array('controller');
+        $identifier->name = 'file';
+        $controller       = $this->getObject($identifier, array('request' => $request));
+
+        $files = $controller->browse();
+        $total = $controller->getModel()->getTotal();
+
+        return array('items' => $files, 'total' => $total);
     }
 
 	public function setPathway()
