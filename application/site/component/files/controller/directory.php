@@ -13,93 +13,84 @@ use Nooku\Library;
 /**
  * Folder Controller Class
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerDirectory extends Library\ControllerView
+class FilesControllerDirectory extends Library\ControllerModel
 {
-    protected $_model;
-
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
-        $this->_model = $config->model;
+
+        $this->registerCallback(array('before.read'), array($this, 'setFiles'));
+        $this->registerCallback(array('before.read'), array($this, 'setFolders'));
     }
 
-    protected function _initialize(Library\ObjectConfig $config)
+    public function getRequest()
     {
-        $config->append(array('model' => $this->getIdentifier()->name));
-        parent::_initialize($config);
+        $request = parent::getRequest();
+
+        // Force container.
+        $request->query->set('container', 'files-files');
+
+        return $request;
     }
 
-    public function getView() {
-        $view = parent::getView();
-
-        $view->setModel($this->getModel());
-
-        return $view;
-    }
-
-    /**
-     * Get the model object attached to the controller
-     *
-     * @throws	\UnexpectedValueException	If the model doesn't implement the ModelInterface
-     * @return	ModelAbstract
-     */
-    public function getModel()
+    public function setFiles(Library\CommandContext $context)
     {
-        if(!$this->_model instanceof Library\ModelInterface)
+        $request = clone $this->getRequest();
+
+        $page   = $this->getObject('application.pages')->getActive();
+        $params = new JParameter($page->params);
+
+        if ($request->getFormat() == 'html')
         {
-            if(!($this->_model instanceof Library\ObjectIdentifier)) {
-                $this->setModel($this->_model);
-            }
-
-            $this->_model = $this->getObject($this->_model);
-
-            //Inject the request into the model state
-            $this->_model->setState($this->getRequest()->query->toArray());
-
-            if(!$this->_model instanceof Library\ModelInterface)
+            if ($params->get('limit') > 0)
             {
-                throw new \UnexpectedValueException(
-                    'Model: '.get_class($this->_model).' does not implement ModelInterface'
-                );
+                $request->query->set('limit', (int) $params->get('limit'));
             }
         }
 
-        return $this->_model;
-    }
+        $view = $this->getView();
 
-    /**
-     * Method to set a model object attached to the controller
-     *
-     * @param	mixed	$model An object that implements ObjectInterface, ObjectIdentifier object
-     * 					       or valid identifier string
-     * @return	ControllerView
-     */
-    public function setModel($model)
-    {
-        if(!($model instanceof Library\ModelInterface))
+        if ($view->getLayout() == 'gallery')
         {
-            if(is_string($model) && strpos($model, '.') === false )
-            {
-                // Model names are always plural
-                if(Library\StringInflector::isSingular($model)) {
-                    $model = Library\StringInflector::pluralize($model);
-                }
-
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('model');
-                $identifier->name	= $model;
-            }
-            else $identifier = $this->getIdentifier($model);
-
-            $model = $identifier;
+            $request->query->set('types', array('image'));
         }
 
-        $this->_model = $model;
+        $request->query->set('thumbnails', true);
+        $request->query->set('sort', $params->get('sort'));
+        $request->query->set('direction', $params->get('direction'));
 
-        return $this;
+        $identifier       = clone $this->getIdentifier();
+        $identifier->name = 'file';
+        $controller       = $this->getObject($identifier, array('request' => $request));
+
+        $view->files = $controller->browse();
+        $view->total = $controller->getModel()->getTotal();
+    }
+
+    public function setFolders(Library\CommandContext $context)
+    {
+        $page   = $this->getObject('application.pages')->getActive();
+        $params = new JParameter($page->params);
+        if ($params->get('show_folders', 1))
+        {
+            $request = clone $this->getRequest();
+            $request->query->set('limit', 0);
+            $request->query->set('offset', 0);
+
+            $identifier       = clone $this->getIdentifier();
+            $identifier->name = 'folder';
+            $controller       = $this->getObject($identifier, array('request' => $request));
+            $folders          = $controller->browse();
+        }
+        else
+        {
+            $folders = array();
+        }
+
+        $this->getView()->folders = $folders;
     }
 }
