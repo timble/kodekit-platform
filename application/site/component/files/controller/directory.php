@@ -19,13 +19,6 @@ use Nooku\Library;
  */
 class FilesControllerDirectory extends Library\ControllerModel
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->registerCallback(array('before.render'), array($this, 'setFiles'));
-    }
-
     public function getRequest()
     {
         $request = parent::getRequest();
@@ -33,43 +26,18 @@ class FilesControllerDirectory extends Library\ControllerModel
         // Force container.
         $request->query->set('container', 'files-files');
 
-        return $request;
-    }
-
-    public function setFiles(Library\CommandContext $context)
-    {
-        $view = $this->getView();
-
-        if ($view->getName() == 'directory')
+        if ($request->query->get('view', 'cmd') == 'directory')
         {
-            $request = clone $this->getRequest();
+            $page = $this->getObject('application.pages')->getActive();
 
-            $page   = $this->getObject('application.pages')->getActive();
             $params = new JParameter($page->params);
 
-            if ($request->getFormat() == 'html')
+            if (isset($params->limit) && $params->limit > 0)
             {
-                if ($params->get('limit') > 0)
-                {
-                    $request->query->set('limit', (int) $params->get('limit'));
-                }
+                $request->query->set('limit', $params->limit);
             }
-
-            if ($view->getLayout() == 'gallery')
-            {
-                $request->query->set('types', array('image'));
-            }
-
-            $request->query->set('thumbnails', true);
-            $request->query->set('sort', $params->get('sort'));
-            $request->query->set('direction', $params->get('direction'));
-
-            $identifier       = clone $this->getIdentifier();
-            $identifier->name = 'file';
-            $controller       = $this->getObject($identifier, array('request' => $request));
-
-            $view->files = $controller->browse();
-            $view->total = $controller->getModel()->getTotal();
         }
+
+        return $request;
     }
 }
