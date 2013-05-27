@@ -72,7 +72,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
             $identifier       = clone $this->getIdentifier();
             $identifier->path = array('model');
-            $identifier->name = 'folders';
+            $identifier->name = Library\StringInflector::pluralize($this->getName());
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
             $folders          = $model->getRowset();
         }
