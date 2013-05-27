@@ -24,6 +24,8 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $page = $this->getObject('application.pages')->getActive();
         $params = new JParameter($page->params);
 
+        $this->folders = $this->_getFolders();
+
 		if ($params->get('humanize_filenames', 1)) 
 		{
 			foreach ($this->folders as $folder) {
@@ -58,6 +60,29 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 	
 		return parent::render();
 	}
+
+    protected function _getFolders()
+    {
+        $page   = $this->getObject('application.pages')->getActive();
+        $params = new JParameter($page->params);
+
+        if ($params->get('show_folders', 1))
+        {
+            $state = $this->getModel()->getState();
+
+            $identifier       = clone $this->getIdentifier();
+            $identifier->path = array('model');
+            $identifier->name = 'folders';
+            $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
+            $folders          = $model->getRowset();
+        }
+        else
+        {
+            $folders = array();
+        }
+
+        return $folders;
+    }
 
 	public function setPathway()
 	{
