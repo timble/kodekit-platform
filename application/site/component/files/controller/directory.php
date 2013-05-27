@@ -19,14 +19,6 @@ use Nooku\Library;
  */
 class FilesControllerDirectory extends Library\ControllerModel
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->registerCallback(array('before.read'), array($this, 'setFiles'));
-        $this->registerCallback(array('before.read'), array($this, 'setFolders'));
-    }
-
     public function getRequest()
     {
         $request = parent::getRequest();
@@ -37,8 +29,10 @@ class FilesControllerDirectory extends Library\ControllerModel
         return $request;
     }
 
-    public function setFiles(Library\CommandContext $context)
+    public function _actionRead(Library\CommandContext $context)
     {
+        $entity = parent::_actionRead($context);
+
         $request = clone $this->getRequest();
 
         $page   = $this->getObject('application.pages')->getActive();
@@ -69,28 +63,7 @@ class FilesControllerDirectory extends Library\ControllerModel
 
         $view->files = $controller->browse();
         $view->total = $controller->getModel()->getTotal();
-    }
 
-    public function setFolders(Library\CommandContext $context)
-    {
-        $page   = $this->getObject('application.pages')->getActive();
-        $params = new JParameter($page->params);
-        if ($params->get('show_folders', 1))
-        {
-            $request = clone $this->getRequest();
-            $request->query->set('limit', 0);
-            $request->query->set('offset', 0);
-
-            $identifier       = clone $this->getIdentifier();
-            $identifier->name = 'folder';
-            $controller       = $this->getObject($identifier, array('request' => $request));
-            $folders          = $controller->browse();
-        }
-        else
-        {
-            $folders = array();
-        }
-
-        $this->getView()->folders = $folders;
+        return $entity;
     }
 }
