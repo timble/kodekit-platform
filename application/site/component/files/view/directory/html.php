@@ -31,17 +31,6 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
         $this->files = $files['items'];
         $this->total = $files['total'];
 
-        if ($params->get('humanize_filenames', 1))
-		{
-			foreach ($this->folders as $folder) {
-				$folder->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $folder->name));
-			}
-			
-			foreach ($this->files as $file) {
-                $file->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $file->filename));
-			}
-		}
-
         $folder = $this->getModel()->getRow();
 
         if ($page->getLink()->query['folder'] !== $folder->path)
@@ -81,6 +70,14 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
             $folders          = $model->getRowset();
             $total            = $model->getTotal();
+
+            if ($params->get('humanize_filenames', 1))
+            {
+                foreach ($folders as $folder)
+                {
+                    $folder->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $folder->name));
+                }
+            }
         }
         else
         {
@@ -120,6 +117,14 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
         $files = $controller->browse();
         $total = $controller->getModel()->getTotal();
+
+        if ($params->get('humanize_filenames', 1))
+        {
+            foreach ($files as $file)
+            {
+                $file->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $file->filename));
+            }
+        }
 
         return array('items' => $files, 'total' => $total);
     }
