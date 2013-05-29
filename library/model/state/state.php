@@ -177,12 +177,8 @@ class ModelState extends ObjectArray implements ModelStateInterface
      */
     public function reset($default = true)
     {
-        foreach($this->_data as $state)
-        {
-            $state->value = $default ? $state->default : null;
-
-            //Notify the model
-            $this->_model->onStateChange($state->name);
+        foreach($this->_data as $state) {
+            $this->set($state->name, $default ? $state->default : null);
         }
 
         return $this;
@@ -323,7 +319,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
      * Set an state value
      *
      * This function only accepts scalar or array values. Values are only filtered if not NULL. If the value is an empty
-     * string it will be filtered to NULL. Values will obly be set if the state exists. Function will not create new
+     * string it will be filtered to NULL. Values will only be set if the state exists. Function will not create new
      * states. Use the insert() function instead.
      *
      * @param   string        $name
@@ -357,9 +353,9 @@ class ModelState extends ObjectArray implements ModelStateInterface
                     $value = $filter->sanitize($value);
                 }
                 else $value = null;
-
-                $this->_data[$name]->value = $value;
             }
+
+            $this->_data[$name]->value = $value;
         }
     }
 
