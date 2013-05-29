@@ -229,6 +229,9 @@ ul {
 			@extend %navigation__item;
         }
 	}
+  input[type=date] {
+    width: 160px;
+  }
 }
 
 /** Scopebar styles **/
@@ -446,6 +449,9 @@ ul {
             resize: vertical;
             width: 100%
         }
+      input[type=datetime-local] {
+        width: 160px;
+      }
     }
 }
 
