@@ -24,7 +24,7 @@ class ApplicationDatabaseRowComponent extends Library\DatabaseRowAbstract
         $tables = $this->getObject('com:languages.model.tables')
             ->reset()
             ->enabled(true)
-            ->getRowset();
+            ->fetch();
         
         if(count($tables->find(array('extensions_component_id' => $this->id)))) {
             $result = true;

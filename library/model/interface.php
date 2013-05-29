@@ -11,11 +11,19 @@ namespace Nooku\Library;
 /**
  * Model Interface
  *
- * @author        Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
  */
 interface ModelInterface
 {
+    /**
+     * Get a list of items which represents a  table rowset
+     *
+     * @param integer  $mode The database fetch style.
+     * @return DatabaseRowsetInterface
+     */
+    public function fetch($mode = Database::FETCH_ROWSET);
+
     /**
      * Reset the model data and state
      *
@@ -50,34 +58,11 @@ interface ModelInterface
     public function onStateChange($name);
 
     /**
-     * Method to get a item
-     *
-     * @return  DatabaseRowInterface
-     */
-    public function getRow();
-
-    /**
-     * Get a list of items
-     *
-     * @return  DatabaseRowsetInterface
-     */
-    public function getRowset();
-
-    /**
      * Get the total amount of items
      *
      * @return  int
      */
     public function getTotal();
-
-    /**
-     * Get the model data
-     *
-     * If the model state is unique this function will call getRow(), otherwise it will call getRowset().
-     *
-     * @return DatabaseRowsetInterface or DatabaseRowInterface
-     */
-    public function getData();
 
     /**
      * Get the model paginator object

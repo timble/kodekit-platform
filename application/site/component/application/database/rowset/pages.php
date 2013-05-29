@@ -30,7 +30,7 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
         $pages = $this->getObject('com:pages.model.pages')
             ->published(true)
             ->application('site')
-            ->getRowset();
+            ->fetch();
 
         $this->merge($pages);
 

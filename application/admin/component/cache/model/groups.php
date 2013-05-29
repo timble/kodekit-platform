@@ -36,7 +36,7 @@ class CacheModelGroups extends Library\ModelAbstract
 	
     public function getRowset()
     {  
-        if(!isset($this->_rowset))
+        if(!isset($this->_data))
         {
             $data = $this->_getData();
             
@@ -63,16 +63,16 @@ class CacheModelGroups extends Library\ModelAbstract
 		        $data = array_slice($data, $this->getState()->offset, $this->getState()->limit);
             }
 		      
-		    $this->_rowset = $this->getObject('com:cache.database.rowset.groups', array('data' => $data));
+		    $this->_data = $this->getObject('com:cache.database.rowset.groups', array('data' => $data));
         }
         
-        return $this->_rowset;
+        return $this->_data;
     }
 
     public function getTotal()
     {
         if(!isset($this->_total)) {
-            $this->getRowset();
+            $this->fetch();
         }
         
         return $this->_total;
@@ -81,7 +81,7 @@ class CacheModelGroups extends Library\ModelAbstract
     protected function _getData()
     {
         $data = array();
-        $keys = $this->getObject('com:cache.model.items')->site($this->getState()->site)->getRowset();
+        $keys = $this->getObject('com:cache.model.items')->site($this->getState()->site)->fetch();
        
         foreach($keys as $key) 
         {

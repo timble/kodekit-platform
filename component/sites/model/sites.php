@@ -34,7 +34,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleto
     
     public function getRowset()
     {
-        if(!isset($this->_rowset))
+        if(!isset($this->_data))
         {
             $state = $this->getState();
             $data = array();
@@ -69,16 +69,16 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleto
                 $data = array_slice($data, $state->offset, $state->limit);
             }
                         
-            $this->_rowset = $this->getObject('com:sites.database.rowset.sites', array('data' => $data));
+            $this->_data = $this->getObject('com:sites.database.rowset.sites', array('data' => $data));
         }
         
-        return $this->_rowset;
+        return $this->_data;
     }
     
     public function getTotal()
     {
         if(!isset($this->_total)) {
-            $this->getRowset();
+            $this->fetch();
         }
         
         return $this->_total;

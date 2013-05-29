@@ -29,7 +29,7 @@ class DatabaseBehaviorDiscussible extends Library\DatabaseBehaviorAbstract
 		$comments = $this->getObject('com:comments.model.comments')
 					->row($this->id)
 					->table($this->getTable()->getName())
-					->getRowset();
+					->fetch();
 
 		return $comments;
 	}

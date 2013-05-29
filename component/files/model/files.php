@@ -21,7 +21,7 @@ class ModelFiles extends ModelNodes
 {
     public function getRowset()
     {
-        if (!isset($this->_rowset))
+        if (!isset($this->_data))
         {
             $state = $this->getState();
 
@@ -55,9 +55,7 @@ class ModelFiles extends ModelNodes
                 );
             }
 
-            $this->_rowset = $this->createRowset(array(
-                'data' => $data
-            ));
+            $this->_data = $this->createRowset(array('data' => $data));
         }
 
         return parent::getRowset();

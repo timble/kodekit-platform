@@ -147,7 +147,7 @@ class ModelTable extends ModelAbstract
      */
     public function getRow()
     {
-        if(!isset($this->_row))
+        if(!isset($this->_data))
         {
             $query = null;
             $state = $this->getState();
@@ -163,12 +163,12 @@ class ModelTable extends ModelAbstract
                 $this->_buildQueryGroup($query);
                 $this->_buildQueryHaving($query);
 
-                $this->_row = $this->getTable()->select($query, Database::FETCH_ROW, array('state' => $state));
+                $this->_data = $this->getTable()->select($query, Database::FETCH_ROW, array('state' => $state));
             }
-            else $this->_row = $this->getTable()->getRow(array('state' => $state));
+            else $this->_data = $this->getTable()->getRow(array('state' => $state));
         }
 
-        return $this->_row;
+        return $this->_data;
     }
 
     /**
@@ -179,7 +179,7 @@ class ModelTable extends ModelAbstract
     public function getRowset()
     {
         // Get the data if it doesn't already exist
-        if (!isset($this->_rowset))
+        if (!isset($this->_data))
         {
             $query = null;
             $state = $this->getState();
@@ -197,12 +197,12 @@ class ModelTable extends ModelAbstract
                 $this->_buildQueryOrder($query);
                 $this->_buildQueryLimit($query);
 
-                $this->_rowset = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
+                $this->_data = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
             }
-            else $this->_rowset = $this->getTable()->getRowset(array('state' => $state));
+            else $this->_data = $this->getTable()->getRowset(array('state' => $state));
         }
 
-        return $this->_rowset;
+        return $this->_data;
     }
     
     /**

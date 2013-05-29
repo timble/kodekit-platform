@@ -34,7 +34,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
             $rows = $this->getObject('com:terms.model.relations')
                 ->row($row->id)
                 ->table($table)
-                ->getRowset();
+                ->fetch();
 
             $rows->delete();
         }
@@ -82,7 +82,7 @@ class ControllerBehaviorTaggable extends Library\BehaviorAbstract
                 $rows = $this->getObject('com:terms.model.relations')
                     ->row($id)
                     ->table($table)
-                    ->getRowset();
+                    ->fetch();
 
                 $rows->delete();
             }

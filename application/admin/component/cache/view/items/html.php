@@ -24,7 +24,7 @@ class CacheViewItemsHtml extends Library\ViewHtml
 	{
         $group = $this->getModel()->getState()->group;
         
-	    $this->groups = $this->getObject('com:cache.model.groups')->getRowset();
+	    $this->groups = $this->getObject('com:cache.model.groups')->fetch();
 	    $this->size   = !empty($group) ? $this->groups->find($group)->size : $this->groups->size;
         $this->count  = !empty($group)? $this->groups->find($group)->count : $this->groups->count;
         

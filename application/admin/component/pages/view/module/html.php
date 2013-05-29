@@ -27,13 +27,13 @@ class PagesViewModuleHtml extends Library\ViewHtml
         if($this->getLayout() == 'modal')
         {
             $this->menus   = $this->getObject('com:pages.model.menus')
-                                  ->sort('title')->getRowset();
+                                  ->sort('title')->fetch();
 
             $this->pages   = $this->getObject('com:pages.model.pages')
-                                  ->application('site')->getRowset();
+                                  ->application('site')->fetch();
 
             $this->modules = $this->getObject('com:pages.model.modules')
-                                  ->application('site')->getRowset();
+                                  ->application('site')->fetch();
         }
 
         if($this->getModel()->getState()->isUnique())

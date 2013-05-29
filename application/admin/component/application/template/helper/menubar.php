@@ -35,7 +35,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
 
         $menus = $this->getObject('com:pages.model.menus')
             ->application('admin')
-            ->getRowset();
+            ->fetch();
 
         $menu = $menus->find(array('slug' => 'menubar'));
 

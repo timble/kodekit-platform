@@ -21,7 +21,7 @@ class ActivitiesViewActivitiesHtml extends Library\ViewHtml
         if ($this->getLayout() == 'default')
 		{
 			$model = $this->getObject($this->getModel()->getIdentifier());
-            $this->packages = $model->distinct(true)->column('package')->getRowset();
+            $this->packages = $model->distinct(true)->column('package')->fetch();
 		} 
 		
 		return parent::render();

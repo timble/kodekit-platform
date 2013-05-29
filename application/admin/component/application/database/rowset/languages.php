@@ -29,7 +29,7 @@ class ApplicationDatabaseRowsetLanguages extends Library\DatabaseRowsetAbstract 
         $components = $this->getObject('com:languages.model.languages')
             ->enabled(true)
             ->application('site')
-            ->getRowset();
+            ->fetch();
 
         $this->merge($components);
     }

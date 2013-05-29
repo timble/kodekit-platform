@@ -30,7 +30,7 @@ class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract im
             ->published(true)
             ->access((int) $this->getObject('user')->isAuthentic())
             ->page($page->id)
-            ->getRowset();
+            ->fetch();
 
         $this->merge($modules);
     }

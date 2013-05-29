@@ -47,7 +47,7 @@
     <div>
         <div>
             <?= @helper('listbox.radiolist', array(
-                'list'     => @object('com:users.model.roles')->sort('id')->getRowset(),
+                'list'     => @object('com:users.model.roles')->sort('id')->fetch(),
                 'selected' => $user->role_id,
                 'name'     => 'role_id',
                 'text'     => 'name',

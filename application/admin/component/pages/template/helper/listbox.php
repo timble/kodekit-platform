@@ -46,8 +46,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
-        $menus = $this->getObject('com:pages.model.menus')->getRowset();
-        $pages = $this->getObject('com:pages.model.pages')->published(true)->getRowset();
+        $menus = $this->getObject('com:pages.model.menus')->fetch();
+        $pages = $this->getObject('com:pages.model.pages')->published(true)->fetch();
 
         foreach($menus as $menu)
         {
@@ -80,7 +80,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             ->published(true)
             ->menu($config->menu)
             ->limit(0)
-            ->getRowset();
+            ->fetch();
 
         if($config->page)
         {

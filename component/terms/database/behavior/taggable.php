@@ -34,7 +34,7 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
                 ->table($this->getTable()->getName())
                 ->getRowset();
         }
-        else $tags = $model->getRowset();
+        else $tags = $model->fetch();
 
         return $tags;
 	}

@@ -40,9 +40,9 @@ class ModelNodes extends ModelAbstract
 	
     public function getRow()
     {
-        if (!isset($this->_row))
+        if (!isset($this->_data))
         {
-            $this->_row = $this->createRow(array(
+            $this->_data = $this->createRow(array(
                 'data' => array(
             		'container' => $this->getState()->container,
                     'folder' 	=> $this->getState()->folder,
@@ -56,7 +56,7 @@ class ModelNodes extends ModelAbstract
 
 	public function getRowset()
 	{
-		if (!isset($this->_rowset))
+		if (!isset($this->_data))
 		{
 			$state = $this->getState();
 			$type = !empty($state->types) ? (array) $state->types : array();
@@ -72,7 +72,7 @@ class ModelNodes extends ModelAbstract
 			{
                 $folders = $this->getObject('com:files.model.folders')->setState($state->getValues());
 
-				foreach ($folders->getRowset() as $folder)
+				foreach ($folders->fetch() as $folder)
 				{
 					if (!$limit_left) {
 						break;
@@ -93,7 +93,7 @@ class ModelNodes extends ModelAbstract
 
                 $files = $this->getObject('com:files.model.files')->setState($data);
 
-				foreach ($files->getRowset() as $file)
+				foreach ($files->fetch() as $file)
 				{
 					if (!$limit_left) {
 						break;
@@ -105,8 +105,8 @@ class ModelNodes extends ModelAbstract
 				$total += $files->getTotal();
 			}
 
-			$this->_total  = $total;
-			$this->_rowset = $list;
+			$this->_total = $total;
+			$this->_data  = $list;
 		}
 
 		return parent::getRowset();

@@ -66,7 +66,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $list = $this->getObject('com:articles.model.articles')
                      ->set($config->filter)
-                     ->getRowset();
+                     ->fetch();
 
         foreach ($list as $item)
         {
@@ -84,7 +84,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 
-        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->getRowset();
+        $pages = $this->getObject('com:pages.model.pages')->application('site')->type('component')->published(true)->fetch();
         $pages = $pages->find(array(
             'link_url' => 'option=com_articles&view=articles&layout=search'));
 

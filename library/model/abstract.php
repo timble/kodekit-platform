@@ -33,16 +33,9 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Model list data
      *
-     * @var DatabaseRowsetInterface
+     * @var DatabaseRow(set)Interface
      */
-    protected $_rowset;
-
-    /**
-     * Model row data
-     *
-     * @var DatabaseRowInterface
-     */
-    protected $_row;
+    protected $_data;
 
     /**
      * Constructor
@@ -75,6 +68,26 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
+     * Get a list of items which represents a  table rowset
+     *
+     * @param integer  $mode The database fetch style.
+     * @return DatabaseRowsetInterface
+     */
+    public function fetch($mode = Database::FETCH_ROWSET)
+    {
+        if(!isset($this->_data))
+        {
+            if($mode == Database::FETCH_ROW) {
+                $this->_data = $this->getRow();
+            } else {
+                $this->_data = $this->getRowset();
+            }
+        }
+
+        return $this->_data;
+    }
+
+    /**
      * Reset the model data and state
      *
      * @param  boolean $default If TRUE use defaults when resetting the state. Default is TRUE
@@ -82,9 +95,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     public function reset($default = true)
     {
-        $this->_rowset = null;
-        $this->_row    = null;
-        $this->_total  = null;
+        $this->_data  = null;
+        $this->_total = null;
 
         $this->getState()->reset($default);
 
@@ -135,9 +147,8 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     public function onStateChange($name)
     {
-        $this->_rowset = null;
-        $this->_row    = null;
-        $this->_total  = null;
+        $this->_data  = null;
+        $this->_total = null;
     }
 
     /**
@@ -147,7 +158,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     public function getRow()
     {
-        return $this->_row;
+        return $this->_data;
     }
 
     /**
@@ -157,7 +168,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
      */
     public function getRowset()
     {
-        return $this->_rowset;
+        return $this->_data;
     }
 
     /**
@@ -168,24 +179,6 @@ abstract class ModelAbstract extends Object implements ModelInterface
     public function getTotal()
     {
         return $this->_total;
-    }
-
-    /**
-     * Get the model data
-     *
-     * If the model state is unique this function will call getRow(), otherwise it will call getRowset().
-     *
-     * @return DatabaseRowsetInterface or DatabaseRowInterface
-     */
-    public function getData()
-    {
-        if ($this->getState()->isUnique()) {
-            $data = $this->getRow();
-        } else {
-            $data = $this->getRowset();
-        }
-
-        return $data;
     }
 
     /**
@@ -207,7 +200,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Supports a simple form Fluent Interfaces. Allows you to set states by using the state name as the method name.
      *
-     * For example : $model->sort('name')->limit(10)->getRowset();
+     * For example : $model->sort('name')->limit(10)->fetch();
      *
      * @param   string  $method Method name
      * @param   array   $args   Array containing all the arguments for the original call

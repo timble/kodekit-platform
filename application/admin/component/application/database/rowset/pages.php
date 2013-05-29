@@ -26,7 +26,7 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
         //TODO : Inject raw data using $config->data
         $pages = $this->getObject('com:pages.model.pages')
             ->published(true)
-            ->getRowset();
+            ->fetch();
 
         $this->merge($pages);
     }

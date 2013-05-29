@@ -25,7 +25,7 @@ class LanguagesControllerComponent extends Library\ControllerView
         {
             $this->getObject('com:languages.model.tables')
                 ->component($context->request->data->get('id', 'int'))
-                ->getRowset()
+                ->fetch()
                 ->setData(array('enabled' => $context->request->data->get('enabled', 'int')))
                 ->save();
         }

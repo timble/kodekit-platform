@@ -23,7 +23,7 @@ class PagesViewModulesHtml extends Library\ViewHtml
 		//Load language files for each module
 	    if($this->getLayout() == 'list') 
 		{
-		    foreach($this->getModel()->getRowset() as $module)
+		    foreach($this->getModel()->fetch() as $module)
 		    {
                 $path = Library\ClassLoader::getInstance()->getApplication($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );

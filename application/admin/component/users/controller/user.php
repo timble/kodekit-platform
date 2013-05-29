@@ -45,7 +45,7 @@ class UsersControllerUser extends Library\ControllerModel
 
         $this->getObject('com:users.model.sessions')
             ->email($entity->email)
-            ->getRowset()
+            ->fetch()
             ->delete();
 
         return $entity;

@@ -2,8 +2,8 @@
 
 <nav class="scrollable">
 <ul class="nav nav-list">
-<? foreach(@object('com:pages.model.menus')->sort('title')->getRowset() as $menu) : ?>
-    <? $menu_pages = @object('com:pages.model.pages')->getRowset()->find(array('pages_menu_id' => $menu->id)) ?>
+<? foreach(@object('com:pages.model.menus')->sort('title')->fetch() as $menu) : ?>
+    <? $menu_pages = @object('com:pages.model.pages')->fetch()->find(array('pages_menu_id' => $menu->id)) ?>
     <? if(count($menu_pages)) : ?>
         <li class="nav-header"><?= $menu->title ?></li>
 		<? $first = true; $last_depth = 0; ?>

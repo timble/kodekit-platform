@@ -277,7 +277,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     public function loadConfig(Library\CommandContext $context)
     {
         // Check if the site exists
-        if($this->getObject('com:sites.model.sites')->getRowset()->find($this->getSite()))
+        if($this->getObject('com:sites.model.sites')->fetch()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->_options->toArray());
@@ -531,7 +531,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $uri  = clone($this->getRequest()->getUrl());
 
         $host = $uri->getHost();
-        if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
+        if(!$this->getObject('com:sites.model.sites')->fetch()->find($host))
         {
             // Check folder
             $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -543,7 +543,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
             }
 
             //Check if the site can be found, otherwise use 'default'
-            if(!$this->getObject('com:sites.model.sites')->getRowset()->find($site)) {
+            if(!$this->getObject('com:sites.model.sites')->fetch()->find($site)) {
                 $site = 'default';
             }
 

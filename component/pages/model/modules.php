@@ -118,23 +118,23 @@ class ModelModules extends Library\ModelTable
      */
     public function getRow()
     {
-        if(!isset($this->_row))
+        if(!isset($this->_data))
         {
-            $this->_row = parent::getRow();
+            $this->_data = parent::getRow();
 
-            if($this->_row->isNew())
+            if($this->_data->isNew())
             {
                 $state = $this->getState();
 
                 if($state->application) {
-                    $this->_row->application = $state->application;
+                    $this->_data->application = $state->application;
                 }
 
                 if($state->component)
                 {
-                    $this->_row->extensions_component_id = $state->component;
+                    $this->_data->extensions_component_id = $state->component;
 
-                    $this->_row->component_name = $this->getObject('application.components')
+                    $this->_data->component_name = $this->getObject('application.components')
                         ->find(array('id' => $state->component))
                         ->top()
                         ->name;
@@ -142,7 +142,7 @@ class ModelModules extends Library\ModelTable
             }
         }
 
-        return $this->_row;
+        return $this->_data;
     }
 
     /**
@@ -154,7 +154,7 @@ class ModelModules extends Library\ModelTable
      */
     public function getRowset()
     {
-        if(!isset($this->_rowset))
+        if(!isset($this->_data))
         {
             $state = $this->getState();
 
@@ -207,11 +207,11 @@ class ModelModules extends Library\ModelTable
                     $modules = array_reverse($modules);
                 }
 
-                $this->_rowset = $this->getTable()->getRowset()->addRow($modules);
+                $this->_data = $this->getTable()->fetch()->addRow($modules);
 
-            } else $this->_rowset = parent::getRowset();
+            } else $this->_data = parent::getRowset();
         }
 
-        return $this->_rowset;
+        return $this->_data;
     }
 }

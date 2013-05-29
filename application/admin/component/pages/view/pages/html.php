@@ -21,7 +21,7 @@ class PagesViewPagesHtml extends Library\ViewHtml
     public function render()
     {
         $this->applications = array_keys(Library\ClassLoader::getInstance()->getApplications());
-        $this->menus        = $this->getObject('com:pages.model.menus')->getRowset();
+        $this->menus        = $this->getObject('com:pages.model.menus')->fetch();
         
         return parent::render();
     }

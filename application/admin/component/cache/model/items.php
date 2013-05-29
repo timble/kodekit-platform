@@ -38,7 +38,7 @@ class CacheModelItems extends Library\ModelAbstract
 	
     public function getRowset()
     { 
-        if(!isset($this->_rowset))
+        if(!isset($this->_data))
         {
             //Get the keys
             $data = $this->_getData();
@@ -80,16 +80,16 @@ class CacheModelItems extends Library\ModelAbstract
 		        $data = array_slice($data, $this->getState()->offset, $this->getState()->limit);
             }
 		    
-		    $this->_rowset = $this->getObject('com:cache.database.rowset.items', array('data' => $data));
+		    $this->_data = $this->getObject('com:cache.database.rowset.items', array('data' => $data));
         }
         
-        return $this->_rowset;
+        return $this->_data;
     }
     
     public function getTotal()
     {
         if(!isset($this->_total)) {
-            $this->getRowset();
+            $this->fetch();
         }
         
         return $this->_total;

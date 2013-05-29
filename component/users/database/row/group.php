@@ -39,7 +39,7 @@ class DatabaseRowGroup extends Library\DatabaseRowTable
             }
 
             // Remove users no longer attached to group
-            foreach ($this->getObject('com:users.model.groups_users')->group_id($this->id)->getRowset() as $group_user)
+            foreach ($this->getObject('com:users.model.groups_users')->group_id($this->id)->fetch() as $group_user)
             {
                 // Remove all users that are no longer selected
                 if (!in_array($group_user->user_id, $this->users)) {

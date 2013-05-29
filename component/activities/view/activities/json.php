@@ -61,7 +61,7 @@ class ViewActivitiesJson extends Library\ViewJson
 			'queries'  => array()
 		);
 
-		if($list = $model->getRowset())
+		if($list = $model->fetch())
 		{
 		    $vars = array();
 	        foreach($state->toArray() as $var)

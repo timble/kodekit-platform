@@ -36,7 +36,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         $identifier = 'com:'.$config->package.'.model.'.($config->model ? $config->model : Library\StringInflector::pluralize($config->package));
 
-        $list = $this->getObject($identifier)->set($config->filter)->getRowset();
+        $list = $this->getObject($identifier)->set($config->filter)->fetch();
 
         $options = array();
         foreach($list as $item) {
@@ -73,7 +73,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
                      ->table($config->table)
                      ->parent($config->parent)
                      ->sort('title')
-                     ->getRowset();
+                     ->fetch();
 
         $iterator = new \RecursiveIteratorIterator($list, \RecursiveIteratorIterator::SELF_FIRST);
         foreach($iterator as $item)

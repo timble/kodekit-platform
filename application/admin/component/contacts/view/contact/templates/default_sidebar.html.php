@@ -29,7 +29,7 @@
     <legend><?= @text('Category') ?></legend>
     <div>
         <?= @helper('listbox.radiolist', array(
-            'list'     => @object('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
+            'list'     => @object('com:categories.model.categories')->sort('title')->table('contacts')->fetch(),
             'selected' => $contact->categories_category_id,
             'name'     => 'categories_category_id',
             'text'     => 'title',

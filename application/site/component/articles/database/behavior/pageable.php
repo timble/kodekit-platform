@@ -133,7 +133,8 @@ class ArticlesDatabaseBehaviorPageable extends Library\DatabaseBehaviorAbstract
             $pages = $this->getObject('com:pages.model.pages')
                            ->application('site')
                            ->published(true)
-                           ->getRowset()->find($needles);
+                           ->fetch()
+                           ->find($needles);
 
             $this->_pages = $pages;
         }

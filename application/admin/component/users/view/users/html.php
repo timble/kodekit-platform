@@ -22,9 +22,9 @@ class UsersViewUsersHtml extends Library\ViewHtml
 {
 	public function render()
 	{
-	    $this->groups       = $this->getObject('com:users.model.groups')->getRowset();
-		$this->roles        = $this->getObject('com:users.model.roles')->getRowset();
-		$this->groups_users = $this->getObject('com:users.model.groups_users')->getRowset();
+	    $this->groups       = $this->getObject('com:users.model.groups')->fetch();
+		$this->roles        = $this->getObject('com:users.model.roles')->fetch();
+		$this->groups_users = $this->getObject('com:users.model.groups_users')->fetch();
 
 		return parent::render();
 	}

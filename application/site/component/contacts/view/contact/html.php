@@ -24,7 +24,7 @@ class ContactsViewContactHtml extends Library\ViewHtml
         $params = $this->getObject('application')->getParams();
         
         //Get the contact
-        $contact = $this->getModel()->getData();
+        $contact = $this->getModel()->fetch(Library\Database::FETCH_ROW);
 
         //Get the category
         $category = $this->getCategory();

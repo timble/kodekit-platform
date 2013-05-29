@@ -186,7 +186,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 */
 	protected function _actionBrowse(CommandContext $context)
 	{
-		$entity = $this->getModel()->getRowset();
+		$entity = $this->getModel()->fetch();
 		return $entity;
 	}
 
@@ -217,7 +217,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 */
 	protected function _actionEdit(CommandContext $context)
 	{
-	    $entity = $this->getModel()->getData();
+	    $entity = $this->getModel()->fetch(Database::FETCH_ROW);
 
 	    if(count($entity))
 	    {
@@ -273,7 +273,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 */
 	protected function _actionDelete(CommandContext $context)
 	{
-	    $entity = $this->getModel()->getData();
+	    $entity = $this->getModel()->fetch(Database::FETCH_ROW);
 
         if($entity instanceof DatabaseRowsetInterface)  {
             $count = count($entity);

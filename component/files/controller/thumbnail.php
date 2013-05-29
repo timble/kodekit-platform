@@ -29,7 +29,7 @@ class ControllerThumbnail extends ControllerAbstract
     	// Save state data for later
         $state_data = $model->getState()->getValues();
         
-        $nodes = $this->getObject('com:files.model.nodes')->setState($state_data)->getRowset();
+        $nodes = $this->getObject('com:files.model.nodes')->setState($state_data)->fetch();
 
         if (!$model->getState()->files && !$model->getState()->filename) 
         {
@@ -47,7 +47,7 @@ class ControllerThumbnail extends ControllerAbstract
 		      ->setState($state_data)
 		      ->files($needed);
 
-		$list = $model->getRowset();
+		$list = $model->fetch();
 
     	$found = array();
         foreach ($list as $row) {
@@ -74,7 +74,7 @@ class ControllerThumbnail extends ControllerAbstract
 				    ->getState()->setValues($state_data)
 				    ->set('files', $new);
 				
-				$additional = $model->getRowset();
+				$additional = $model->fetch();
 				
 				foreach ($additional as $row) {
 					$list->insert($row);

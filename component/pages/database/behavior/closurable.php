@@ -162,7 +162,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
 
             $result = $table->select($query);
         }
-        else $result = $table->getRowset();
+        else $result = $table->fetch();
         
         return $result;
     }

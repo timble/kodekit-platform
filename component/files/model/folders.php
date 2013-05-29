@@ -28,7 +28,7 @@ class ModelFolders extends ModelNodes
 
 	public function getRowset()
 	{
-		if (!isset($this->_rowset))
+		if (!isset($this->_data))
 		{
 			$state = $this->getState();
 
@@ -72,7 +72,7 @@ class ModelFolders extends ModelNodes
 				);
 			}
 
-			$this->_rowset = $this->createRowset()->addRow($results);
+			$this->_data = $this->createRowset()->addRow($results);
 		}
 
 		return parent::getRowset();

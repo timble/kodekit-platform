@@ -32,9 +32,9 @@ class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
         {
             $attachements = $model->row($this->id)
                 ->table($this->getTable()->getBase())
-                ->getRowset();
+                ->fetch();
         }
-        else $attachements = $model->getRowset();
+        else $attachements = $model->fetch();
 
         return $attachements;
 	}

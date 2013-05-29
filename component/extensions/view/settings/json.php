@@ -24,7 +24,7 @@ class ViewSettingsJson extends Library\ViewJson
         $model = $this->getModel();
 
         if(Library\StringInflector::isPlural($this->getName())) {
-            $data = array('settings' => $model->getRowset()->toArray());
+            $data = array('settings' => $model->fetch()->toArray());
         } else {
             $data = $model->getRow()->toArray();
         }

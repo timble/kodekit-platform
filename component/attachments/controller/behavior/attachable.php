@@ -237,7 +237,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
                 $rows = $this->getObject('com:attachments.model.attachments')
                     ->row($id)
                     ->table($table)
-                    ->getRowset();
+                    ->fetch();
 
                 $rows->delete();
             }

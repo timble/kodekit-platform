@@ -29,10 +29,10 @@ class ModelSettings extends Library\ModelAbstract
      
     public function getRow()
     {
-        if(isset($this->getRowset()->{$this->getState()->name})) {
-            $row = $this->getRowset()->{$this->getState()->name};
+        if(isset($this->fetch()->{$this->getState()->name})) {
+            $row = $this->fetch()->{$this->getState()->name};
         } else {
-            $row = $this->getRowset()->getRow();
+            $row = $this->fetch()->getRow();
         }
         
         return $row;
@@ -40,7 +40,7 @@ class ModelSettings extends Library\ModelAbstract
     
     public function getRowset()
     {
-        if (!isset($this->_rowset))
+        if (!isset($this->_data))
         {
             $rowset = $this->getObject('com:extensions.database.rowset.settings');
             
@@ -48,7 +48,7 @@ class ModelSettings extends Library\ModelAbstract
             $rowset->insert($this->getObject('com:extensions.database.row.setting_system'));
                         
             //Insert the component configuration settings
-            $components = $this->getObject('com:extensions.model.components')->enabled(1)->getRowset();
+            $components = $this->getObject('com:extensions.model.components')->enabled(1)->fetch();
 
             foreach($components as $component)
             {
@@ -70,9 +70,9 @@ class ModelSettings extends Library\ModelAbstract
                 }
             }
              
-            $this->_rowset = $rowset;
+            $this->_data = $rowset;
         }
 
-        return $this->_rowset;
+        return $this->_data;
     }
 }  

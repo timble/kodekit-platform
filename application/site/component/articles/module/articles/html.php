@@ -67,7 +67,7 @@ class ArticlesModuleArticlesHtml extends PagesModuleDefaultHtml
             'direction' => $direction,
             'section'   => $section,
             'category'  => $category))
-            ->getRowset();
+            ->fetch();
 
         $this->articles   = $articles;
         $this->show_title = $this->module->params->get('show_title', false);

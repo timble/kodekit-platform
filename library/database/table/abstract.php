@@ -473,7 +473,6 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      *
      * @param mixed    $query   DatabaseQuery, query string, array of row id's, or an id or null
      * @param integer  $mode    The database fetch style.
-     * @param integer  $mode    The database fetch style.
      * @param array    $options An optional associative array of configuration options.
      * @return DatabaseRow(set) depending on the mode.
      */

@@ -25,7 +25,7 @@ class ApplicationDatabaseRowsetComponents extends Library\DatabaseRowsetAbstract
         //TODO : Inject raw data using $config->data
         $components = $this->getObject('com:extensions.model.components')
             ->enabled(true)
-            ->getRowset();
+            ->fetch();
 
         $this->merge($components);
     }

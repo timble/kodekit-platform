@@ -39,10 +39,10 @@ class ModelRevisions extends Library\ModelTable
      */
     public function getRow()
     {
-        if (!isset($this->_row))
+        if (!isset($this->_data))
         {
             if ($this->getState()->revision > 1) {
-                $this->_row = $this->getRevision();
+                $this->_data = $this->getRevision();
             }
         }
 
@@ -56,7 +56,7 @@ class ModelRevisions extends Library\ModelTable
      */
     public function getRevision()
     {
-        $revisions = $this->getRowset();
+        $revisions = $this->fetch();
         $data      = array();
 
         foreach ($revisions as $row)

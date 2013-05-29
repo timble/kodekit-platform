@@ -63,10 +63,10 @@ class ViewRss extends ViewTemplate
 	        //Assign the data of the model to the view
 		    if(StringInflector::isPlural($name))
 			{
-		        $this->$name = $model->getRowset();
+		        $this->$name = $model->fetch();
 				$this->total = $model->getTotal();
 		    }
-			else $this->$name = $model->getRow();
+			else $this->$name = $model->fetch(Database::FETCH_ROW);
 		}
 
 		return parent::render();

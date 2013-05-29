@@ -69,7 +69,7 @@ class ViewCsv extends ViewFile
 	{
 		$rows    = '';
 	    $columns = array();
-		$rowset  = $this->getModel()->getRowset();
+		$rowset  = $this->getModel()->fetch();
 
 		// Get the columns
 		foreach($rowset as $row)

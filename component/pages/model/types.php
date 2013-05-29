@@ -19,8 +19,6 @@ use Nooku\Library;
  */
 class ModelTypes extends Library\ModelAbstract
 {
-    protected $_rowset;
-    
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
@@ -30,7 +28,7 @@ class ModelTypes extends Library\ModelAbstract
 
     public function getRowset()
     {
-        if(!isset($this->_rowset))
+        if(!isset($this->_data))
         {
             $table = $this->getObject('com:extensions.database.table.components');
             $query = $this->getObject('lib:database.query.select')
@@ -98,9 +96,9 @@ class ModelTypes extends Library\ModelAbstract
                 $component->views = $views;
             }
 
-            $this->_rowset = $components;
+            $this->_data = $components;
         }
 
-        return $this->_rowset;
+        return $this->_data;
     }
 }

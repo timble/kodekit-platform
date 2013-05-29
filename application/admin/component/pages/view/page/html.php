@@ -24,7 +24,7 @@ class PagesViewPageHtml extends Library\ViewHtml
         // Load languages.
         $language   = JFactory::getLanguage();
 
-        foreach($this->getObject('com:extensions.model.components')->getRowset() as $component) {
+        foreach($this->getObject('com:extensions.model.components')->fetch() as $component) {
             $language->load($component->name);
         }
         
@@ -38,13 +38,13 @@ class PagesViewPageHtml extends Library\ViewHtml
         
         $this->components = $this->getObject('com:pages.model.types')
             ->application($menu->application)
-            ->getRowset();
+            ->fetch();
 
         // Get available and assigned modules.
         $available = $this->getObject('com:pages.model.modules')
             ->published(true)
             ->application('site')
-            ->getRowset();
+            ->fetch();
 
         $query = $this->getObject('lib:database.query.select')
             ->where('tbl.pages_page_id IN :id')

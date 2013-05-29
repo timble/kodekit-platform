@@ -27,7 +27,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         
         $this->_tables = $this->getObject('com:languages.model.tables')
             ->enabled(true)
-            ->getRowset();
+            ->fetch();
     }
 
     public function getHandle()
@@ -79,7 +79,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
         $translations = $this->getObject('com:languages.model.translations')
             ->table($this->getMixer()->getIdentifier()->package)
             ->row($this->id)
-            ->getRowset();
+            ->fetch();
         
         return $translations;
     }

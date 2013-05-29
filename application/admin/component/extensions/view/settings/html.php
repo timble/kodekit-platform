@@ -18,7 +18,7 @@ class ExtensionsViewSettingsHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $settings = $this->getModel()->getRowset();
+        $settings = $this->getModel()->fetch();
         
         foreach($settings as $setting) 
         {
