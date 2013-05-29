@@ -1029,9 +1029,13 @@ ul {
 #panel-sidebar h4:first-of-type {
   margin-top: 2px;
 }
+/* line 232, _general.scss */
+#panel-sidebar input[type=date] {
+  width: 160px;
+}
 
 /** Scopebar styles **/
-/* line 235, _general.scss */
+/* line 238, _general.scss */
 .scopebar {
   padding: 3px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f2f2f2), color-stop(100%, #e9e9e9));
@@ -1043,13 +1047,13 @@ ul {
   border-top: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 243, _general.scss */
+/* line 246, _general.scss */
 .scopebar .scopebar-group {
   border-right: 1px solid #BBB;
   padding: 2px 10px 0 0;
   margin: 3px 10px 3px 0;
 }
-/* line 248, _general.scss */
+/* line 251, _general.scss */
 .scopebar .scopebar-group a {
   margin: 0 2px;
   padding: 2px 7px;
@@ -1058,7 +1062,7 @@ ul {
   text-transform: capitalize;
   text-shadow: rgba(255, 255, 255, 0.75) 0 1px 0;
 }
-/* line 258, _general.scss */
+/* line 261, _general.scss */
 .scopebar .scopebar-group a:hover,
 .scopebar .scopebar-group a.active {
   text-decoration: none;
@@ -1071,40 +1075,40 @@ ul {
   border-radius: 10px;
   text-shadow: rgba(0, 0, 0, 0.35) 0 1px 0;
 }
-/* line 267, _general.scss */
+/* line 270, _general.scss */
 .scopebar .scopebar-group a.active,
 .scopebar .scopebar-group a:active {
   -webkit-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
   -moz-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
   box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
 }
-/* line 271, _general.scss */
+/* line 274, _general.scss */
 .scopebar .scopebar-group a:active {
   background: gray;
 }
-/* line 276, _general.scss */
+/* line 279, _general.scss */
 .scopebar .scopebar-search {
   margin: 0px 0 0 25px;
   margin-bottom: 0 !important;
 }
-/* line 282, _general.scss */
+/* line 285, _general.scss */
 .scopebar .scopebar-search input[type="search"] {
   max-width: 150px;
   margin-bottom: 0;
 }
-/* line 287, _general.scss */
+/* line 290, _general.scss */
 .scopebar .scopebar-search button {
   padding: 2px 10px;
   font-size: 10.2px;
 }
 
-/* line 294, _general.scss */
+/* line 297, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 298, _general.scss */
+/* line 301, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1113,16 +1117,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 309, _general.scss */
+/* line 312, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 313, _general.scss */
+/* line 316, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 316, _general.scss */
+/* line 319, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1136,26 +1140,26 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 325, _general.scss */
+/* line 328, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 332, _general.scss */
+/* line 335, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 336, _general.scss */
+/* line 339, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 339, _general.scss */
+/* line 342, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 345, _general.scss */
+/* line 348, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #e5e5e5));
   background: -webkit-linear-gradient(#e0e0e0, #e5e5e5);
@@ -1163,31 +1167,31 @@ ul {
   background: -o-linear-gradient(#e0e0e0, #e5e5e5);
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 351, _general.scss */
+/* line 354, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 353, _general.scss */
+/* line 356, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 354, _general.scss */
+/* line 357, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 357, _general.scss */
+/* line 360, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 359, _general.scss */
+/* line 362, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 362, _general.scss */
+/* line 365, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1196,73 +1200,73 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 367, _general.scss */
+/* line 370, _general.scss */
 .-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 372, _general.scss */
+/* line 375, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 375, _general.scss */
+/* line 378, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 376, _general.scss */
+/* line 379, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 381, _general.scss */
+/* line 384, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 382, _general.scss */
+/* line 385, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 385, _general.scss */
+/* line 388, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 386, _general.scss */
+/* line 389, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 387, _general.scss */
+/* line 390, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 390, _general.scss */
+/* line 393, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 394, _general.scss */
+/* line 397, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 398, _general.scss */
+/* line 401, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 401, _general.scss */
+/* line 404, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 406, _general.scss */
+/* line 409, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 410, _general.scss */
+/* line 413, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 415, _general.scss */
+/* line 418, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
@@ -1272,7 +1276,7 @@ ul {
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 420, _general.scss */
+/* line 423, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1285,17 +1289,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 429, _general.scss */
+/* line 432, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0;
 }
-/* line 437, _general.scss */
+/* line 440, _general.scss */
 .-koowa-form .main .scrollable {
   background-color: white;
 }
-/* line 443, _general.scss */
+/* line 446, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1304,8 +1308,12 @@ ul {
   resize: vertical;
   width: 100%;
 }
-
 /* line 452, _general.scss */
+.-koowa-form .sidebar input[type=datetime-local] {
+  width: 160px;
+}
+
+/* line 458, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1313,22 +1321,22 @@ ul {
 }
 
 /* Sidebar */
-/* line 458, _general.scss */
+/* line 464, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 461, _general.scss */
+/* line 467, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
-/* line 466, _general.scss */
+/* line 472, _general.scss */
 #panel-content .-koowa-form dl.tabs {
   float: left;
   margin: 10px 0 0 0;
   z-index: 50;
 }
-/* line 471, _general.scss */
+/* line 477, _general.scss */
 #panel-content .-koowa-form dl.tabs dt {
   float: left;
   padding: 6px 14px;
@@ -1343,13 +1351,13 @@ ul {
   border-radius: 5px 5px 0 0;
   margin-bottom: -1px;
 }
-/* line 482, _general.scss */
+/* line 488, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:hover {
   background-color: #F6F6F6;
   z-index: 100;
   color: #333;
 }
-/* line 490, _general.scss */
+/* line 496, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:active,
 #panel-content .-koowa-form dl.tabs dt.open,
 #panel-content .-koowa-form dl.tabs dt.open:active {
@@ -1361,31 +1369,31 @@ ul {
   -moz-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
   box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
 }
-/* line 498, _general.scss */
+/* line 504, _general.scss */
 #panel-content .-koowa-form dl.tabs dt:active {
   background-color: #FFF;
   border-bottom-color: #CCC;
 }
-/* line 504, _general.scss */
+/* line 510, _general.scss */
 #panel-content .-koowa-form div.current {
   clear: both;
   border: 1px solid #CCC;
   padding: 10px 10px;
   background-color: #FFF;
 }
-/* line 511, _general.scss */
+/* line 517, _general.scss */
 #panel-content .-koowa-form div.current dd {
   padding: 0;
   margin: 0;
 }
 
 /* $endgroup */
-/* line 520, _general.scss */
+/* line 526, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 524, _general.scss */
+/* line 530, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -2279,19 +2287,14 @@ textarea {
   padding-top: 3px;
 }
 
-/* line 488, _forms.scss */
-.controls-calendar .input-append, .controls-calendar .scopebar .scopebar-search, .scopebar .controls-calendar .scopebar-search {
-  width: 120px;
-}
-
-/* line 494, _forms.scss */
+/* line 490, _forms.scss */
 label.checkbox,
 label.radio {
   float: none;
   text-align: left;
   width: auto;
 }
-/* line 498, _forms.scss */
+/* line 494, _forms.scss */
 label.checkbox:after,
 label.radio:after {
   content: none;
