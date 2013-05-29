@@ -106,8 +106,8 @@ class BehaviorMixin extends ObjectMixinAbstract
     /**
      * Check if a behavior exists
      *
-     * @param     string    The name of the behavior
-     * @return  boolean    TRUE if the behavior exists, FALSE otherwise
+     * @param     string  $behavior The name of the behavior
+     * @return  boolean   TRUE if the behavior exists, FALSE otherwise
      */
     public function hasBehavior($behavior)
     {
@@ -117,9 +117,9 @@ class BehaviorMixin extends ObjectMixinAbstract
     /**
      * Get a behavior by identifier
      *
-     * @param   mixed    An object that implements ObjectInterface, ObjectIdentifier object
-     *                   or valid identifier string
-     * @param   array   An optional associative array of configuration settings
+     * @param   mixed  $behavior    An object that implements ObjectInterface, ObjectIdentifier object
+     *                              or valid identifier string
+     * @param   array   $cofnig     An optional associative array of configuration settings
      * @throws \UnexpectedValueException    If the behavior does not implement the BehaviorInterface
      * @return ControllerBehaviorAbstract
      */

@@ -1,9 +1,9 @@
 <?php
 /**
- * @package        Koowa_Model
- * @copyright    Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link         http://www.nooku.org
+ * @package     Koowa_Model
+ * @copyright   Copyright (C) 2007 - 2012 Johan Janssens. All rights reserved.
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
 
 namespace Nooku\Library;
@@ -17,10 +17,10 @@ namespace Nooku\Library;
 interface ModelInterface
 {
     /**
-     * Get a list of items which represents a  table rowset
+     * Fetch a row or a rowset based on the model state
      *
      * @param integer  $mode The database fetch style.
-     * @return DatabaseRowsetInterface
+     * @return DatabaseRow(set)Interface
      */
     public function fetch($mode = Database::FETCH_ROWSET);
 

@@ -48,6 +48,12 @@ abstract class ModelAbstract extends Object implements ModelInterface
 
         // Set the state identifier
         $this->__state = $config->state;
+
+        // Mixin the command interface
+        $this->mixin('lib:command.mixin', $config);
+
+        // Mixin the behavior interface
+        $this->mixin('lib:behavior.mixin', $config);
     }
 
     /**
@@ -61,27 +67,43 @@ abstract class ModelAbstract extends Object implements ModelInterface
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'state' => 'lib:model.state',
+            'state'             => 'lib:model.state',
+            'command_chain'     => 'lib:command.chain',
+            'dispatch_events'   => false,
+            'event_dispatcher'  => null,
+            'enable_callbacks'  => true,
         ));
 
         parent::_initialize($config);
     }
 
     /**
-     * Get a list of items which represents a  table rowset
+     * Fetch a row or a rowset based on the model state
      *
      * @param integer  $mode The database fetch style.
-     * @return DatabaseRowsetInterface
+     * @return DatabaseRow(set)Interface
      */
     public function fetch($mode = Database::FETCH_ROWSET)
     {
         if(!isset($this->_data))
         {
-            if($mode == Database::FETCH_ROW) {
-                $this->_data = $this->getRow();
-            } else {
-                $this->_data = $this->getRowset();
+            //Create commandchain context
+            $context = $this->getCommandContext();
+            $context->mode = $mode;
+            $context->data = null;
+
+            if ($this->getCommandChain()->run('before.fetch', $context) !== false)
+            {
+                if($mode == Database::FETCH_ROW) {
+                    $context->data = $this->getRow();
+                } else {
+                    $context->data = $this->getRowset();
+                }
+
+                $this->getCommandChain()->run('after.fetch', $context);
             }
+
+            $this->_data = ObjectConfig::unbox($context->data);
         }
 
         return $this->_data;
@@ -229,5 +251,16 @@ abstract class ModelAbstract extends Object implements ModelInterface
         parent::__clone();
 
         $this->__state = clone $this->__state;
+    }
+
+    /**
+     * Fetch the data when model is invoked.
+     *
+     * @param integer  $mode The database fetch style.
+     * @return DatabaseRow(set)Interface
+     */
+    public function __invoke($mode = Database::FETCH_ROWSET)
+    {
+        return $this->fetch($mode);
     }
 }
