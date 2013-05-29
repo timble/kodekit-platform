@@ -78,12 +78,6 @@ html, body {
 					@include flex-box(row, 0);
 				}
 			}
-
-			.scrollable {
-				@include box-flex(1);
-				@include box-scrollable(scrollable);
-				min-height: 100%;
-			}
 		}
 		.sidebar {
 			@include flex-box(column, initial);
@@ -94,7 +88,7 @@ html, body {
 .scrollable {
 	@include box-scrollable(scrollable);
 	@include box-flex(1);
-	min-height: 100%;
+    height: 1px;
 }
 
 .editor-wrap,
