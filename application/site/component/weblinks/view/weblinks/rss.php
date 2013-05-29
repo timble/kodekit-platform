@@ -28,7 +28,7 @@ class WeblinksViewWeblinksRss extends Library\ViewRss
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com:weblinks.model.categories')
+        $category = $this->getObject('com:weblinks.model.categories')
                          ->table('weblinks')
                          ->id($this->getModel()->getState()->category)
                          ->getRow();

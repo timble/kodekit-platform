@@ -13,12 +13,10 @@
 
 <?= @template('page_head.html') ?>
 
-<body>
-<?= @template('page_message.html') ?>
-<div id="frame" class="outline">
-    <h1><?= @service('application')->getCfg('sitename'); ?></h1>
-    <ktml:content />
-</div>
+<body class="login">
+    <div class="container">
+        <?= @template('page_message.html') ?>
+        <ktml:content />
+    </div>
 </body>
-
 </html>

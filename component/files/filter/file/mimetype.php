@@ -19,12 +19,9 @@ use Nooku\Library;
  */
 class FilterFileMimetype extends Library\FilterAbstract
 {
-	protected $_walk = false;
-
-	protected function _validate($context)
+	public function validate($row)
 	{
-		$row = $context->getSubject();
-		$mimetypes = Library\Config::unbox($row->container->parameters->allowed_mimetypes);
+		$mimetypes = Library\ObjectConfig::unbox($row->container->parameters->allowed_mimetypes);
 
 		if (is_array($mimetypes))
 		{
@@ -38,20 +35,13 @@ class FilterFileMimetype extends Library\FilterAbstract
 					$mimetype = $info ? $info['mime'] : false;
 				}
                 elseif ($row->file instanceof SplFileInfo) {
-					$mimetype = $this->getService('com:files.mixin.mimetype')->getMimetype($row->file->getPathname());
+					$mimetype = $this->getObject('com:files.mixin.mimetype')->getMimetype($row->file->getPathname());
 				}
 			}
 
-			if ($mimetype && !in_array($mimetype, $mimetypes))
-            {
-				$context->setError(\JText::_('Invalid Mimetype'));
-				return false;
+			if ($mimetype && !in_array($mimetype, $mimetypes)) {
+				return $this->_error(\JText::_('Invalid Mimetype'));
 			}
 		}
-	}
-
-	protected function _sanitize($value)
-	{
-		return false;
 	}
 }

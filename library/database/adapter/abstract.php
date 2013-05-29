@@ -54,13 +54,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     protected $_table_schema = null;
 
     /**
-     * The table prefix
-     *
-     * @var string
-     */
-    protected $_table_prefix = '';
-
-    /**
      * The table needle
      *
      * @var string
@@ -77,7 +70,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * The connection options
      *
-     * @var Config
+     * @var ObjectConfig
      */
     protected $_options = null;
     
@@ -91,11 +84,11 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
     /**
      * Constructor.
      *
-     * @param     object     An optional Config object with configuration options.
-     * Recognized key values include 'command_chain', 'charset', 'table_prefix',
+     * @param     object     An optional ObjectConfig object with configuration options.
+     * Recognized key values include 'command_chain', 'charset',
      * (this list is not meant to be comprehensive).
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -109,20 +102,11 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             $this->setCharset($config->charset);
         }
 
-        // Set the table prefix
-        $this->_table_prefix = $config->table_prefix;
-
-        // Set the table prefix
-        $this->_table_needle = $config->table_needle;
-
         // Set the connection options
         $this->_options = $config->options;
 
-        //Set the mixer in the config
-        $config->mixer = $this;
-
         // Mixin the command interface
-        $this->mixin(new MixinCommand($config));
+        $this->mixin('lib:command.mixin', $config);
     }
 
     /**
@@ -140,19 +124,17 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options.
+     * @param     object     An optional ObjectConfig object with configuration options.
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'options'          => array(),
             'charset'          => 'UTF8',
-            'table_prefix'     => 'jos_',
-            'table_needle'     => '#__',
-            'command_chain'    => $this->getService('lib:command.chain'),
+            'command_chain'    => $this->getObject('lib:command.chain'),
             'dispatch_events'  => true,
-            'event_dispatcher' => $this->getService('lib:event.dispatcher.default'),
+            'event_dispatcher' => $this->getObject('lib:event.dispatcher.default'),
             'enable_callbacks' => false,
             'connection'       => null,
         ));
@@ -321,7 +303,7 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
             $this->getCommandChain()->run('after.select', $context);
         }
 
-        return Config::unbox($context->result);
+        return ObjectConfig::unbox($context->result);
     }
 
     /**
@@ -405,59 +387,6 @@ abstract class DatabaseAdapterAbstract extends Object implements DatabaseAdapter
         }
 
         return $context->affected;
-    }
-
-    /**
-     * Set the table prefix
-     *
-     * @param string The table prefix
-     * @return DatabaseAdapterAbstract
-     * @see    DatabaseAdapterAbstract::replaceTableNeedle
-     */
-    public function setTablePrefix($prefix)
-    {
-        $this->_table_prefix = $prefix;
-        return $this;
-    }
-
-    /**
-     * Get the table prefix
-     *
-     * @return string The table prefix
-     * @see DatabaseAdapterAbstract::replaceTableNeedle
-     */
-    public function getTablePrefix()
-    {
-        return $this->_table_prefix;
-    }
-
-    /**
-     * Get the table needle
-     *
-     * @return string The table needle
-     * @see DatabaseAdapterAbstract::replaceTableNeedle
-     */
-    public function getTableNeedle()
-    {
-        return $this->_table_needle;
-    }
-
-    /**
-     * This function replaces the table needles in a query string with the actual table prefix.
-     *
-     * @param  string     The SQL query string
-     * @return string    The SQL query string
-     */
-    public function replaceTableNeedle($sql, $replace = null)
-    {
-        $needle = $this->getTableNeedle();
-        $replace = isset($replace) ? $replace : $this->getTablePrefix();
-        $sql = trim($sql);
-
-        $pattern = "($needle(?=[a-z0-9]))";
-        $sql = preg_replace($pattern, $replace, $sql);
-
-        return $sql;
     }
 
     /**

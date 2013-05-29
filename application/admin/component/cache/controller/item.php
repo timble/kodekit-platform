@@ -19,7 +19,7 @@ use Nooku\Library;
  * @subpackage  Cache
  */
  
-class CacheControllerItem extends ApplicationControllerDefault
+class CacheControllerItem extends Library\ControllerModel
 { 
     protected function _actionPurge(Library\CommandContext $context)
     {
@@ -39,7 +39,7 @@ class CacheControllerItem extends ApplicationControllerDefault
 		$request = parent::getRequest();
 		
 	    //Force the site
-	    //$request->site = $this->getService('application')->getSite();
+	    //$request->site = $this->getObject('application')->getSite();
 	    
 	    return $request;
 	}

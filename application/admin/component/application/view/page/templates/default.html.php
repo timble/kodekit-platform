@@ -22,9 +22,7 @@
         <?= @helper('toolbar.render', array('toolbar' => $toolbar, 'attribs' => array('id' => 'statusmenu')))?>
 	</div>
 
-    <div id="panel-navigation">
-        <?= @helper('tabbar.render', array('tabbar' => $tabbar, 'attribs' => array('id' => 'menubar')))?>
-	</div>
+    <?= @helper('tabbar.render', array('tabbar' => $tabbar, 'attribs' => array('id' => 'menubar')))?>
 
     <ktml:modules position="toolbar">
     <div id="panel-toolbar">
@@ -53,9 +51,6 @@
     </div>
 </div>
 
-
-<script data-inline src="media://application/js/chosen.mootools.1.2.js" /></script>
-<script data-inline> $$(".chzn-select").chosen(); </script>
 </body>
 
 </html>

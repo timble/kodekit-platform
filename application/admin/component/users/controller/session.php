@@ -18,9 +18,9 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class UsersControllerSession extends ApplicationControllerDefault
+class UsersControllerSession extends Library\ControllerModel
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -39,7 +39,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         }
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
@@ -53,12 +53,10 @@ class UsersControllerSession extends ApplicationControllerDefault
     public function authenticate(Library\CommandContext $context)
     {
         //Load the user
-        $email = $context->request->data->get('email', 'email');
+        $user = $this->getObject('com:users.model.users')->email($context->request->data->get('email', 'email'))->getRow();
 
-        if(isset($email))
+        if(!$user->isNew())
         {
-            $user = $this->getService('com:users.model.users')->email($email)->getRow();
-
             //Authenticate the user
             if($user->id)
             {
@@ -74,20 +72,7 @@ class UsersControllerSession extends ApplicationControllerDefault
             $context->user->session->start();
 
             //Set user data in context
-            $data = array(
-                'id'         => $user->id,
-                'email'      => $user->email,
-                'name'       => $user->name,
-                'role'       => $user->role_id,
-                'groups'     => $user->getGroups(),
-                'password'   => $user->getPassword()->password,
-                'salt'       => $user->getPassword()->salt,
-                'authentic'  => true,
-                'enabled'    => $user->enabled,
-                'attributes' => $user->params->toArray(),
-            );
-
-            $context->user->fromArray($data);
+            $context->user->values($user->getSessionData(true));
         }
         else throw new Library\ControllerExceptionUnauthorized('Wrong email');
 
@@ -134,7 +119,7 @@ class UsersControllerSession extends ApplicationControllerDefault
         $entity = parent::_actionAdd($context);
 
         //Set the session data
-        $session->site = $this->getService('application')->getSite();
+        $session->site = $this->getObject('application')->getSite();
 
         //Redirect to caller
         $context->response->setRedirect($context->request->getReferrer());

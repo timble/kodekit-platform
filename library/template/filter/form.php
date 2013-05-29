@@ -21,7 +21,7 @@ namespace Nooku\Library;
  * @subpackage  Filter
  * @see         http://www.w3.org/TR/html401/interact/forms.html#h-17.13.3.4
  */
-class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilterWrite
+class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
     /**
      * The form token value
@@ -40,9 +40,9 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -55,10 +55,10 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'token_value' => '',
@@ -71,17 +71,17 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     /**
      * Get the session token value.
      *
-     * If a token isn't set yet one will be generated. Tokens are used to secure forms
-     * from spamming attacks. Once a token has been generated the system will check the
-     * post request to see if it is present, if not it will invalidate the session.
+     * If a token isn't set yet one will be generated. Tokens are used to secure forms from spamming attacks. Once a
+     * token has been generated the system will check the post request to see if it is present, if not it will
+     * invalidate the session.
      *
-     * @param boolean If true, force a new token to be created
+     * @param boolean $force If true, force a new token to be created
      * @return string The session token
      */
     protected function _tokenValue($force = false)
     {
         if (empty($this->_token_value) || $force) {
-            $this->_token_value = $this->getService('user')->getSession()->getToken($force);
+            $this->_token_value = $this->getObject('user')->getSession()->getToken($force);
         }
 
         return $this->_token_value;
@@ -90,9 +90,8 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     /**
      * Get the session token name
      *
-     * Tokens are used to secure forms from spamming attacks. Once a token
-     * has been generated the system will check the post request to see if
-     * it is present, if not it will invalidate the session.
+     * Tokens are used to secure forms from spamming attacks. Once a token has been generated the system will check the
+     * post request to see if it is present, if not it will invalidate the session.
      *
      * @return string The session token
      */
@@ -104,17 +103,17 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
     /**
      * Add unique token field
      *
-     * @param string
-     * @return TemplateFilterForm
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         // All: Add the action if left empty
         if (preg_match_all('#<\s*form.*?action=""#im', $text, $matches, PREG_SET_ORDER))
         {
             $view = $this->getTemplate()->getView();
             $state = $view->getModel()->getState();
-            $action = $view->getRoute(http_build_query($state->toArray($state->isUnique())));
+            $action = $view->getRoute(http_build_query($state->getValues($state->isUnique())));
 
             foreach ($matches as $match)
             {
@@ -155,16 +154,14 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
                 $text = str_replace($matches[0][$key], $matches[0][$key] . $input, $text);
             }
         }
-
-        return $this;
     }
 
     /**
      * Recursive function that transforms the query array into a string of input elements
      *
-     * @param     array    Associative array of query information
-     * @param     string    The name of the current input element
-     * @return     string    String of the html input elements
+     * @param  array    $query Associative array of query information
+     * @param  string   $key The name of the current input element
+     * @return string String of the html input elements
      */
     protected function _renderQuery($query, $key = '')
     {

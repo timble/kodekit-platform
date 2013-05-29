@@ -19,28 +19,13 @@ use Nooku\Library;
  */
 class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'auto_mixin' => true
         ));
 
         parent::_initialize($config);
-    }
-
-    protected function _afterTableUpdate(Library\CommandContext $context)
-    {
-        $data = $context->data;
-
-        // Force a password change on next login.
-        if ($data->password_change) {
-            $data->getPassword()->expire();
-        }
-
-        // Set the user password for reset and keep a copy of the token on the context
-        if ($context->password_reset) {
-            $data->reset = $data->getPassword()->setReset();
-        }
     }
 
     protected function _beforeTableInsert(Library\CommandContext $context)
@@ -50,12 +35,9 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         if(!$data->password)
         {
             // Generate a random password
-            $params         = $this->getService('application.components')->users->params;
-            $password       = $this->getService('com:users.database.row.password');
+            $params         = $this->getObject('application.components')->users->params;
+            $password       = $this->getObject('com:users.database.row.password');
             $data->password = $password->getRandom($params->get('password_length', 6));
-
-            // Set the password row for reset
-            $context->password_reset = true;
         }
     }
 
@@ -70,8 +52,8 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
             if (!$password->setData(array('password' => $data->password))->save())
             {
-                $this->setStatus(Library\Database::STATUS_FAILED);
-                $this->setStatusMessage($password->getStatusMessage());
+                $data->setStatus(Library\Database::STATUS_FAILED);
+                $data->setStatusMessage($password->getStatusMessage());
                 return false;
             }
         }
@@ -87,9 +69,6 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
             $data->getPassword()
                   ->setData(array('id' => $data->email, 'password' => $data->password))
                   ->save();
-
-            // Same as update.
-            $this->_afterTableUpdate($context);
         }
     }
 
@@ -99,7 +78,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
 
         if (!$this->isNew())
         {
-            $password = $this->getService('com:users.database.row.password')
+            $password = $this->getObject('com:users.database.row.password')
                 ->set('id', $this->email);
             $password->load();
         }

@@ -10,7 +10,7 @@
 
 <head>
     <base href="<?= @url(); ?>" />
-    <title><?= @escape(@service('application')->getCfg('sitename' )) ?></title>
+    <title><?= @escape(@object('application')->getCfg('sitename' )) ?></title>
 
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,9 +22,9 @@
 
     <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <style src="media://application/css/system.css"  />
-    <style src="media://application/css/general.css"  />
-    <style src="media://application/css/default.css" />
-    <style src="media://application/css/print.css" media="print" />
+    <style src="media://application/stylesheets/system.css"  />
+    <style src="media://application/stylesheets/general.css"  />
+    <style src="media://application/stylesheets/default.css" />
+    <style src="media://application/stylesheets/print.css" media="print" />
 
 </head>

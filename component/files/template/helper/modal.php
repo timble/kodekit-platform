@@ -21,7 +21,7 @@ class TemplateHelperModal extends Library\TemplateHelperAbstract
 {
 	public function select($config = array())
 	{
-		$config = new Library\Config($config);
+		$config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'name'      => '',
 			'visible'   => true,

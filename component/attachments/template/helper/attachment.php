@@ -26,18 +26,18 @@ class TemplateHelperAttachment extends Library\TemplateHelperAbstract
      * types and any corresponding extension.
 	 * @see http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#attr-input-accept
 	 * 
-	 * @param 	object 	An optional Library\Config object with configuration options
+	 * @param 	object 	An optional Library\ObjectConfig object with configuration options
 	 */
 	public function upload($config = array())
 	{
-		$config = new Library\Config($config);
+		$config = new Library\ObjectConfig($config);
 		$config->append(array(
 				'container'	 		 => 'document.body'
 		));
 
 		if(!$config->allowed_extensions || !$config->allowed_mimetypes)
 		{
-			$container = $this->getService('com:files.database.table.containers')
+			$container = $this->getObject('com:files.database.table.containers')
 							  ->select(array('slug' => 'attachments-attachments'), Library\Database::FETCH_ROW);
 			
 			$config->append(array(

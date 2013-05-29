@@ -31,24 +31,9 @@ class JElementContact extends JElement
             'autocomplete' => true,
         );
 
-        $template = Library\ServiceManager::get('com:contacts.controller.contact')->getView()->getTemplate();
-        $html     = Library\ServiceManager::get('com:contacts.template.helper.listbox', array('template' => $template))->contacts($config);
+        $template = Library\ObjectManager::getInstance()->getObject('com:contacts.controller.contact')->getView()->getTemplate();
+        $html     = Library\ObjectManager::getInstance()->getObject('com:contacts.template.helper.listbox', array('template' => $template))->contacts($config);
 
         return $html;
-
-
-		$db = JFactory::getDBO();
-
-		$query = 'SELECT a.id, CONCAT( a.name, " - ",a.con_position ) AS text, a.categories_category_id '
-		. ' FROM #__contacts AS a'
-		. ' INNER JOIN #__categories AS c ON a.categories_category_id = c.id'
-		. ' WHERE a.published = 1'
-		. ' AND c.published = 1'
-		. ' ORDER BY a.categories_category_id, a.name'
-		;
-		$db->setQuery( $query );
-		$options = $db->loadObjectList( );
-
-		return JHTML::_('select.genericlist',  $options, ''.$control_name.'['.$name.']', 'class="inputbox"', 'id', 'text', $value, $control_name.$name );
 	}
 }

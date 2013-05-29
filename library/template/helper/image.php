@@ -31,12 +31,12 @@ class TemplateHelperImage extends TemplateHelperListbox
 	 * selected		string		currently selected value
 	 * attribs		array		associative array of listbox attributes
 	 *
-	 * @param   array   An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
 	 */
 	public function listbox($config = array())
 	{
-  		$config = new Config($config);
+  		$config = new ObjectConfig($config);
   		$config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',
@@ -51,7 +51,7 @@ class TemplateHelperImage extends TemplateHelperListbox
 			'class'   => 'inputbox'
 			)));
 
-	    $root = \JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory);
+	    $root = $this->getObject('request')->getBasePath().str_replace(JPATH_ROOT, '', $config->directory);
 
 		$html = "
 		<script>
@@ -104,12 +104,12 @@ class TemplateHelperImage extends TemplateHelperListbox
  	 * style		string		style string
  	 * selected		string		currently selected vallue
  	 *
- 	 * @param   array   An optional array with configuration options
+ 	 * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
  	 */
  	public function preview($config = array())
  	{
- 	    $config = new Config($config);
+ 	    $config = new ObjectConfig($config);
  	    $config->append(array(
    			'name'		=> 'image_name',
    			'directory'	=> JPATH_IMAGES.'/stories',
@@ -121,7 +121,7 @@ class TemplateHelperImage extends TemplateHelperListbox
             'selected'  => $config->{$config->name}
  	    ));
 
- 	    $image = \JURI::root(true).str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
+ 	    $image = $this->getObject('request')->getBasePath().str_replace(JPATH_ROOT, '', $config->directory).'/'.$config->selected;
 
  	    $path = $config->selected ? $image : 'media://images/blank.png';
   		$html = '<img '.$this->_buildAttributes(array(

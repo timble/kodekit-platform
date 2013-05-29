@@ -40,7 +40,7 @@ class ViewActivitiesJson extends Library\ViewJson
         $paginator = $model->getPaginator();
 
 	    $vars = array();
-	    foreach($state->getStates() as $var)
+	    foreach($state->toArray() as $var)
 	    {
 	        if(!$var->unique) {
 	            $vars[] = $var->name;
@@ -49,7 +49,7 @@ class ViewActivitiesJson extends Library\ViewJson
 
 		$data = array(
 			'version'  => '1.0',
-			'href'     => (string) $route->setQuery($state->toArray()),
+			'href'     => (string) $route->setQuery($state->getValues()),
 			'url'      => array(
 				'type'     => 'application/json',
 				'template' => (string) $route->get(Library\HttpUrl::BASE).'?{&'.implode(',', $vars).'}',
@@ -64,7 +64,7 @@ class ViewActivitiesJson extends Library\ViewJson
 		if($list = $model->getRowset())
 		{
 		    $vars = array();
-	        foreach($state->getStates() as $var)
+	        foreach($state->toArray() as $var)
 	        {
 	            if($var->unique)
 	            {
@@ -77,22 +77,22 @@ class ViewActivitiesJson extends Library\ViewJson
 			foreach($list as $item)
 			{
 			    $id = array(
-			    	'tag:'.$this->getService('request')->getUrl()->toString(Library\HttpUrl::BASE),
+			    	'tag:'.$this->getObject('request')->getUrl()->toString(Library\HttpUrl::BASE),
 			    	'id:'.$item->id
 				);
 
 			    $items[] = array(
 			    	'id' => implode(',', $id),
-			    	'published' => $this->getService('com:activities.template.helper.date')->format(array(
+			    	'published' => $this->getObject('com:activities.template.helper.date')->format(array(
 			    		'date'   => $item->created_on,
 			    		'format' => '%Y-%m-%dT%TZ'
 				    )),
 		    		'verb' => $item->action,
 	        		'object' => array(
-	        			'url' => $this->getRoute('option='.$item->type.'_'.$item->package.'&view='.$item->name.'&id='.$item->row),
+	        			'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name.'&id='.$item->row),
 	                ),
 			    	'target' => array(
-			    		'url' => $this->getRoute('option='.$item->type.'_'.$item->package.'&view='.$item->name),
+			    		'url' => $this->getRoute('option=com_'.$item->package.'&view='.$item->name),
 				    ),
 				    'actor' => array(
 				    	'url' => $this->getRoute('option=com_users&view=user&id='.$item->created_by),

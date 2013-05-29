@@ -68,14 +68,14 @@ class DatabaseSchemaColumn extends Object
 	public $primary = false;
 
 	/**
-	 * Is the column autoincremented
+	 * Is the column auto-incremented
 	 *
 	 * @var	bool
 	 */
 	public $autoinc = false;
 
 	/**
-	 * Is the column unqiue
+	 * Is the column unique
 	 *
 	 * @var	bool
 	 */
@@ -93,7 +93,7 @@ class DatabaseSchemaColumn extends Object
 	 *
 	 * Public access is allowed via __get() with $filter.
 	 *
-	 * @var	Filter
+	 * @var	FilterInterface
 	 */
 	protected $_filter;
 
@@ -103,8 +103,8 @@ class DatabaseSchemaColumn extends Object
      * The value can be a Filter object, a filter name, an array of filter
      * names or a filter identifier
      *
-     * @param 	string 	The virtual property to set, only accepts 'filter'
-     * @param 	string 	Set the virtual property to this value.
+     * @param 	string 	$key   The virtual property to set, only accepts 'filter'
+     * @param 	string 	$value Set the virtual property to this value.
      */
     public function __set($key, $value)
     {
@@ -117,7 +117,7 @@ class DatabaseSchemaColumn extends Object
      * Implements access to $_filter by reference so that it appears to be
      * a public $filter property.
      *
-     * @param   string  The virtual property to return, only accepts 'filter'
+     * @param   string  $key The virtual property to return, only accepts 'filter'
      * @return  mixed   The value of the virtual property.
      */
     public function __get($key)
@@ -129,7 +129,7 @@ class DatabaseSchemaColumn extends Object
             }
 
             if(!($this->_filter instanceof FilterInterface)) {
-                $this->_filter = $this->getService('lib:filter.factory')->getFilter($this->_filter);
+                $this->_filter = $this->getObject('lib:filter.factory')->getInstance($this->_filter);
             }
 
             return $this->_filter;

@@ -27,45 +27,47 @@
 		</div>
 
 		<div class="scrollable">
-		    <fieldset class="form-horizontal">
+		    <fieldset>
 		    	<legend><?= @text( 'Details' ); ?></legend>
-				<div class="control-group">
-				    <label class="control-label"><?= @text('Type') ?></label>
-				    <div class="controls">
+				<div>
+				    <label><?= @text('Type') ?></label>
+				    <div>
 				        <?= @text(ucfirst($module->identifier->package)).' &raquo; '. @text(ucfirst($module->identifier->path[1])); ?>
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label"><?= @text('Description') ?></label>
-				    <div class="controls">
+				<div>
+				    <label><?= @text('Description') ?></label>
+				    <div>
 				        <?= @text($module->description) ?>
 				    </div>
 				</div>
 			</fieldset>
 
-			<fieldset class="form-horizontal">
+            <? if($params_rendered = $params->render('params')) : ?>
+            <fieldset>
 				<legend><?= @text( 'Default Parameters' ); ?></legend>
-				<?= @template('default_parameters.html', array('params' => $module->params)) ?>
+                <?= $params_rendered; ?>
 			</fieldset>
+            <? endif ?>
 
-			<? if($module->params->getNumParams('advanced')) : ?>
-			<fieldset class="form-horizontal">
+            <? if($params_rendered = $params->render('params', 'advanced')) : ?>
+			<fieldset>
 				<legend><?= @text( 'Advanced Parameters' ); ?></legend>
-				<?= @template('default_parameters.html', array('params' => $module->params, 'group' => 'advanced')) ?>
+                <?= $params_rendered; ?>
 			</fieldset>
 			<? endif ?>
 
-			<? if($module->params->getNumParams('other')) : ?>
-			<fieldset class="form-horizontal">
+            <? if($params_rendered = $params->render('params', 'other')) : ?>
+			<fieldset>
 				<legend><?= @text( 'Other Parameters' ); ?></legend>
-				<?= @template('default_parameters.html', array('params' => $module->params, 'group' => 'other')) ?>
+                <?= $params_rendered; ?>
 			</fieldset>
 			<? endif ?>
 
 			<? if($module->name == 'mod_custom') : ?>
 			<fieldset>
 				<legend><?= @text('Custom Output') ?></legend>
-				<?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
+				<?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'content', 'text' => $module->content)) ?>
 			</fieldset>
 			<? endif ?>
 		</div>
@@ -73,27 +75,7 @@
 
 	<div class="sidebar">
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
-				<legend><?= @text('Publish') ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="published"><?= @text('Published') ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="published" value="1" <?= $module->published ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for=""><?= @text('Position') ?></label>
-				    <div class="controls">
-                        <?= @helper('listbox.positions', array('name' => 'position', 'selected' => $module->position, 'application' => $state->application, 'deselect' => false)) ?>
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for="access"><?= @text('Registered') ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="access" value="1" <?= $module->access ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-			</fieldset>
+            <?= @template('default_sidebar.html'); ?>
 		</div>
 	</div>
 </form>

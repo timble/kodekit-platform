@@ -94,11 +94,10 @@ class DatabaseQueryInsert extends DatabaseQueryAbstract
     public function __toString()
     {
         $adapter = $this->getAdapter();
-        $prefix  = $adapter->getTablePrefix();
         $query   = 'INSERT';
 
         if($this->table) {
-            $query .= ' INTO '.$adapter->quoteIdentifier($prefix.$this->table);
+            $query .= ' INTO '.$adapter->quoteIdentifier($this->table);
         }
 
         if($this->columns) {

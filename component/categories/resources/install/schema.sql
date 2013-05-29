@@ -2,10 +2,10 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__categories`
+-- Table structure for table `categories`
 --
 
-CREATE TABLE `#__categories` (
+CREATE TABLE `categories` (
   `categories_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',

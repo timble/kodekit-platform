@@ -29,14 +29,14 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options
+     * @param 	object 	An optional ObjectConfig object with configuration options
      * @return void
      */
-	protected function _initialize(Config $config)
+	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => Command::PRIORITY_HIGH,
-            'lifetime'   =>  $this->getService('user')->getSession()->getLifetime()
+			'priority'   => CommandChain::PRIORITY_HIGH,
+            'lifetime'   =>  $this->getObject('user')->getSession()->getLifetime()
 	  	));
 
 	  	$this->_lifetime = $config->lifetime;
@@ -50,10 +50,10 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 * This function conditionaly mixies the behavior. Only if the mixer
 	 * has a 'locked_by' property the behavior will be mixed in.
 	 *
-	 * @param object The mixer requesting the mixable methods.
+	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
 	 * @return array An array of methods
 	 */
-	public function getMixableMethods(Object $mixer = null)
+	public function getMixableMethods(ObjectMixable $mixer = null)
 	{
 		$methods = array();
 
@@ -76,7 +76,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 		//Prevent lock take over, only an saved and unlocked row and be locked
 		if(!$this->isNew() && !$this->locked())
 		{
-			$this->locked_by = (int) $this->getService('user')->getId();
+			$this->locked_by = (int) $this->getObject('user')->getId();
 			$this->locked_on = gmdate('Y-m-d H:i:s');
 			$this->save();
 		}
@@ -93,7 +93,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 */
 	public function unlock()
 	{
-		$userid = $this->getService('user')->getId();
+		$userid = $this->getObject('user')->getId();
 
 		//Only an saved row can be unlocked by the user who locked it
 		if(!$this->isNew() && $this->locked_by != 0 && $this->locked_by == $userid)
@@ -125,7 +125,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
                 //Check if the lock has gone stale
                 if($current - $locked < $this->_lifetime)
 			    {
-                    $userid = $this->getService('user')->getId();
+                    $userid = $this->getObject('user')->getId();
 			        if($this->locked_by != 0 && $this->locked_by != $userid) {
 			            $result= true;
                     }
@@ -134,26 +134,6 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Get the locked information
-	 *
-	 * @return string	The locked information as an internationalised string
-	 */
-	public function lockMessage()
-	{
-		$message = '';
-
-		if($this->locked())
-		{
-	        $user = \JFactory::getUser($this->locked_by);
-			$date = $this->getService('com:base.template.helper.date')->humanize(array('date' => $this->locked_on));
-
-			$message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date);
-		}
-
-		return $message;
 	}
 
 	/**

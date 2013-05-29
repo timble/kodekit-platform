@@ -23,13 +23,13 @@ abstract class ControllerPermissionAbstract extends ControllerBehaviorAbstract i
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Command::PRIORITY_HIGH,
+            'priority'   => CommandChain::PRIORITY_HIGH,
             'auto_mixin' => true
         ));
 
@@ -80,13 +80,13 @@ abstract class ControllerPermissionAbstract extends ControllerBehaviorAbstract i
      */
     public function getHandle()
     {
-        return MixinAbstract::getHandle();
+        return ObjectMixinAbstract::getHandle();
     }
 
     /**
      * Check if an action can be executed
      *
-     * @param   string  Action name
+     * @param   string  $action Action name
      * @return  boolean True if the action can be executed, otherwise FALSE.
      */
     public function isPermitted($action)

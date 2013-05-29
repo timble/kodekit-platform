@@ -25,15 +25,15 @@ class ControllerToolbarCategory extends Library\ControllerToolbarModel
         parent::onAfterControllerBrowse($event);
         
         $this->addSeparator();
-		$this->addEnable(array('label' => 'publish'));
-	    $this->addDisable(array('label' => 'unpublish'));
+        $this->addEnable(array('label' => 'publish', 'attribs' => array('data-data' => '{published:1}')));
+        $this->addDisable(array('label' => 'unpublish', 'attribs' => array('data-data' => '{published:0}')));
     }  
     
     protected function _commandNew(Library\ControllerToolbarCommand $command)
     {
         $option = $this->getController()->getIdentifier()->package;
 		$view	= Library\StringInflector::singularize($this->getIdentifier()->name);
-		$table  = $this->getController()->getModel()->get('table');
+		$table  = $this->getController()->getModel()->getState()->table;
 		
         $command->href = 'option=com_'.$option.'&view='.$view.'&table='.$table;
     }

@@ -21,7 +21,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 	/**
 	 * Render item pagination
 	 * 
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/
 	 */
@@ -58,12 +58,12 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 	/**
 	 * Render a select box with limit values
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return 	string	Html select box
 	 */
 	public function limit($config = array())
 	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'limit'	  	=> 0,
             'page_rows' => array(10, 20, 50, 100),
@@ -89,7 +89,7 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 	/**
 	 * Render a list of pages links
 	 *
-	 * @param   array   An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
 	public function pages($config = array())
@@ -124,12 +124,12 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 	/**
 	 * Render a page link
 	 *
-	 * @param   array   An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 */
     public function link($config)
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
 		$config->append(array(
 			'title'   => '',
 			'current' => false,

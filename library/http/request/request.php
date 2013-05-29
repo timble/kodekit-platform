@@ -45,10 +45,10 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return HttpResponse
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -66,10 +66,10 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'method'  => self::GET,
@@ -88,7 +88,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
      */
     public function setHeaders($headers)
     {
-        $this->_headers = $this->getService('lib:http.request.headers', array('headers' => $headers));
+        $this->_headers = $this->getObject('lib:http.request.headers', array('headers' => $headers));
         return $this;
     }
 
@@ -134,7 +134,7 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
         }
 
         if (is_string($url)) {
-            $url = $this->getService('lib:http.url', array('url' => $url));
+            $url = $this->getObject('lib:http.url', array('url' => $url));
         }
 
         $this->_url = $url;
@@ -288,5 +288,19 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
         $str .= "\r\n";
         $str .= $this->getContent();
         return $str;
+    }
+
+    /**
+     * Deep clone of this instance
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        parent::__clone();
+
+        if($this->_url instanceof HttpUrl) {
+            $this->_url = clone $this->_url;
+        }
     }
 }

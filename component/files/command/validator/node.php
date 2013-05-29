@@ -25,7 +25,7 @@ class CommandValidatorNode extends Library\Command
 
 		if (!$row->isNew() && !$row->overwrite)
         {
-			$row->setStatusMessage(JText::_('Resource already exists and overwrite switch is not present.'));
+			$row->setStatusMessage(\JText::_('Resource already exists and overwrite switch is not present.'));
 			return false;
 		}
 
@@ -38,7 +38,7 @@ class CommandValidatorNode extends Library\Command
 
 		if (!array_intersect(array('destination_folder', 'destination_name'), $row->getModified()))
         {
-            $row->setStatusMessage(JText::_('Please supply a destination.'));
+            $row->setStatusMessage(\JText::_('Please supply a destination.'));
 			return false;
 		}
 
@@ -51,17 +51,17 @@ class CommandValidatorNode extends Library\Command
 		$dest_adapter = $row->container->getAdapter($row->getIdentifier()->name, array(
 			'path' => $row->destination_fullpath
 		));
+
 		$exists = $dest_adapter->exists();
 
 		if ($exists)
 		{
-			if (!$row->overwrite) {
-                $row->setStatusMessage(JText::_('Destination resource already exists.'));
+			if (!$row->overwrite)
+            {
+                $row->setStatusMessage(\JText::_('Destination resource already exists.'));
 				return false;
-			} else {
-				$row->overwritten = true;
-
 			}
+            else $row->overwritten = true;
 		}
 
 		return true;

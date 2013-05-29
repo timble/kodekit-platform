@@ -12,6 +12,7 @@
 <script src="media://js/koowa.js" />
 <style src="media://css/koowa.css" />
 -->
+<?= @helper('behavior.sortable', array('options' => array('nested' => true/*, 'adapter' => array('options' => array('key' => 'custom'))*/))) ?>
 
 <ktml:module position="toolbar">
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
@@ -21,21 +22,18 @@
     <?= @template('default_sidebar.html') ?>
 </ktml:module>
 
-<ktml:module position="inspector">
-    <?= @template('com:activities.view.activities.simple.html', array('package' => 'pages', 'name' => 'page')); ?>
-</ktml:module>
-
 <form id="pages-form" action="" method="get" class="-koowa-grid" >
     <?= @template('default_scopebar.html') ?>
     <table>
         <thead>
             <tr>
+                <? if($state->sort == 'custom' && $state->direction == 'asc') : ?><th class="handle"></th><? endif ?>
+                <th width="1">
+                    <?= @helper('grid.checkall'); ?>
+                </th>
                 <th width="1"></th>
                 <th>
                     <?= @helper('grid.sort', array('column' => 'title')); ?>
-                </th>
-                <th width="1">
-                    <?= @helper('grid.sort', array('column' => 'published' , 'title' => 'Published')); ?>
                 </th>
                 <th width="1">
                     <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
@@ -53,11 +51,20 @@
             </tr>
         </tfoot>
 
-        <tbody>
-        <? foreach($pages as $page) : ?>
-            <tr class="sortable">
+        <tbody class="sortable">
+        <? $tbody = null; foreach($pages as $page) : ?>
+            <? if(!$page->getParentId() && $page->getParentId() != $tbody) $tbody = $page->getParentId(); ?>
+            <tr class="sortable" data-sortable-parent="<?= (int)$page->getParentId() ?>" data-sortable-level="<?= (int)$page->level ?>">
+                <? if($state->sort == 'custom' && $state->direction == 'asc') : ?>
+                    <td class="handle">
+                        <span class="text-small data-order"><?= $page->ordering ?></span>
+                    </td>
+                <? endif ?>
                 <td align="center">
                     <?= @helper('grid.checkbox',array('row' => $page)); ?>
+                </td>
+                <td align="center">
+                    <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
                 </td>
                 <td>
                     <?
@@ -85,9 +92,6 @@
                     <? if($page->hidden) : ?>
                         <span class="label label-info"><?= @text('Hidden') ?></span>
                     <? endif; ?>
-                </td>
-                <td align="center">
-                    <?= @helper('grid.enable', array('row' => $page, 'field' => 'published')) ?>
                 </td>
                 <td align="center">
                     <?= @helper('grid.order', array('row'=> $page, 'total' => $total)) ?>

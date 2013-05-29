@@ -20,7 +20,7 @@ use Nooku\Library;
  */
 class DatabaseTableRevisions extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {     
         $config->append(array(
             'behaviors' => array('creatable'),
@@ -41,7 +41,7 @@ class DatabaseTableRevisions extends Library\DatabaseTableDefault
      */
     public function insert(Library\DatabaseRowInterface $row)
     {
-    	$query = $this->getService('lib:database.query.select')
+    	$query = $this->getObject('lib:database.query.select')
             ->where('table', '=', $row->table)
             ->where('row',   '=', $row->row)
             ->order('revision','desc')

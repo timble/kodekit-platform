@@ -19,11 +19,11 @@ use Nooku\Library;
  */
 class ModelComments extends Library\ModelTable
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
-		
-		$this->_state
+
+        $this->getState()
 			->insert('table', 'cmd')
 			->insert('row', 'int');
 	}
@@ -61,14 +61,14 @@ class ModelComments extends Library\ModelTable
 	{
 		parent::_buildQueryWhere($query);
 		
-		if(!$this->_state->isUnique())
+		if(!$this->getState()->isUnique())
         {
-			if($this->_state->table) {
-				$query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
+			if($this->getState()->table) {
+				$query->where('tbl.table = :table')->bind(array('table' => $this->getState()->table));
 			}
 
-			if($this->_state->row) {
-				$query->where('tbl.row = :row')->bind(array('row' => $this->_state->row));
+			if($this->getState()->row) {
+				$query->where('tbl.row = :row')->bind(array('row' => $this->getState()->row));
 			}
 		}
 	}

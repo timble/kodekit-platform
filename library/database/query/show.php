@@ -108,12 +108,11 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
     public function __toString()
     {
         $adapter = $this->getAdapter();
-        $prefix  = $adapter->getTablePrefix();
         $query   = 'SHOW '.$this->show;
 
         if($this->from)
         {
-            $table  = (in_array($this->show, array('FULL COLUMNS', 'COLUMNS', 'INDEX', 'INDEXES', 'KEYS')) ? $prefix : '').$this->from;
+            $table  = $this->from;
             $query .= ' FROM '.$adapter->quoteIdentifier($table);
         }
 
@@ -135,8 +134,8 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
             }
         }
 
-        if($this->_params) {
-            $query = $this->_replaceParams($query);
+        if($this->_parameters) {
+            $query = $this->_replaceParameters($query);
         }
 
         return $query;
@@ -150,17 +149,9 @@ class DatabaseQueryShow extends DatabaseQueryAbstract
      */
     protected function _replaceParamsCallback($matches)
     {
-        $key    = substr($matches[0], 1);
-        $prefix = '';
+        $key         = substr($matches[0], 1);
+        $replacement = $this->getAdapter()->quoteValue($this->_parameters[$key]);
         
-        if(in_array($this->show, array('FULL TABLES', 'OPEN TABLES', 'TABLE STATUS', 'TABLES')) &&
-            ($this->like && $key == 'like' || $this->where && ($key == 'name' || $key == 'table')))
-        {
-            $prefix = $this->getAdapter()->getTablePrefix();
-        }
-        
-        $replacement = $this->getAdapter()->quoteValue($prefix.$this->_params[$key]);
-        
-        return is_array($this->_params[$key]) ? '('.$replacement.')' : $replacement;
+        return is_array($this->_parameters[$key]) ? '('.$replacement.')' : $replacement;
     }
 }

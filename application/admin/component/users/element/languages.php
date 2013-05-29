@@ -23,18 +23,13 @@ class JElementLanguages extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$user =  Library\ServiceManager::get('user');
+		$user =  Library\ObjectManager::getInstance()->getObject('user');
 
-		/*
-		 * @TODO: change to acl_check method
-		 */
 		if(!($user->getRole() >= 23) && $node->attributes('client') == 'administrator') {
 			return JText::_('No Access');
 		}
 
-		jimport('joomla.language.helper');
-
-        return  Library\ServiceManager::get('com:users.template.helper.listbox')->languages(array(
+        return  Library\ObjectManager::getInstance()->getObject('com:users.template.helper.listbox')->languages(array(
             'selected'    => $value,
             'application' => $node->attributes('client'),
             'name'        => $control_name . '[' . $name . ']'));

@@ -9,16 +9,11 @@
 ?>
 
 <? if(count($messages)) : ?>
-<dl id="system-message">
-<? foreach ($messages as $type => $message) : ?>
-	<dt class="<?= strtolower($type) ?>"><?= @text( $type ) ?></dt>
-	<dd class="<?= strtolower($type) ?> message fade">
-	<ul>
-    <? foreach ($message as $line) : ?>
-        <li><?= $line ?></li>
+    <? foreach ($messages as $type => $message) : ?>
+        <div class="alert alert-<?= strtolower($type) ?>">
+            <? foreach ($message as $line) : ?>
+                <?= $line ?>
+            <? endforeach; ?>
+        </div>
     <? endforeach; ?>
-    </ul>
-	</dd>
-<? endforeach; ?>
-</dl>
 <? endif; ?>

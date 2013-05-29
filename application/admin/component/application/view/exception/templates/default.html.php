@@ -11,15 +11,14 @@
 <!DOCTYPE HTML>
 <html lang="<?= $language; ?>" dir="<?= $direction; ?>">
 <head>
-    <link rel="stylesheet" href="media://application/css/error.css" type="text/css" />
+    <link rel="stylesheet" href="media://application/stylesheets/error.css" type="text/css" />
     <title><?= @text('Error').': '.$code; ?></title>
 </head>
 <body>
 <table width="550" align="center" class="outline">
     <tr>
         <td align="center">
-            <h1>
-                <?= $code ?> - <?= @text('An error has occurred') ?>
+            <h1><?= $code ?> - <?= @text('An error has occurred') ?></h1>
         </td>
     </tr>
     <tr>

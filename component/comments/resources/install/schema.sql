@@ -1,10 +1,10 @@
 
 -- --------------------------------------------------------
 --
--- Table structure for table `#__comments`
+-- Table structure for table `comments`
 --
 
-CREATE TABLE `#__comments` (
+CREATE TABLE `comments` (
     `comments_comment_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `table` VARCHAR(64) NOT NULL,
     `row` INT UNSIGNED NOT NULL,

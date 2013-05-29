@@ -16,15 +16,15 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage	Filter
  */
-class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateFilterRead
+class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateFilterCompiler
 {
 	/**
 	 * Convert <?= ?> to long-form <?php echo ?> when needed
 	 *
-	 * @param string
-	 * @return TemplateFilterShorttag
+	 * @param string $text  The text to parse
+	 * @return void
 	 */
-	public function read(&$text)
+	public function compile(&$text)
 	{
         if (!ini_get('short_open_tag'))
         {
@@ -46,7 +46,5 @@ class TemplateFilterShorttag extends TemplateFilterAbstract implements TemplateF
         	$replace = "<?php \$1";
         	$text = preg_replace($find, $replace, $text);
         }
-
-        return $this;
 	}
 }

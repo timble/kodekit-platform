@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
+class TemplateHelperCaptcha extends Library\TemplateHelperDefault
 {
     /**
      * Renders the reCAPTCHA widget.
@@ -27,11 +27,11 @@ class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
      *
      * @return string - The HTML to be embedded in the user's form.
      */
-    public function render($config = array()) {
+    public function render($config = array())
+    {
+        $config = new Library\ObjectConfig($config);
 
-        $config = new Library\Config($config);
-
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'captcha'        => array(
@@ -64,7 +64,7 @@ class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
 
         // Use options if any.
         if (count($options = $captcha->options)) {
-            $options = Library\Config::unbox($options);
+            $options = Library\ObjectConfig::unbox($options);
             $html .= '<script type="text/javascript">';
             $html .= 'var RecaptchaOptions = ' . json_encode($options);
             $html .= '</script> ';

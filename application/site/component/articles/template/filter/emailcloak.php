@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract implements Library\TemplateFilterWrite
+class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
 {
     /**
      * Determines if email address should be linked
@@ -37,14 +37,14 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         'query' => '(?:[?&][^?&"]+)*'
     );
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_linkable = $config->linkable;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array('linkable' => true));
         parent::_initialize($config);
@@ -65,7 +65,7 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         return $result;
     }
 
-    public function write(&$text)
+    public function render(&$text)
     {
         // Search for <a href="mailto:|http(s)://mce_host/dir/email@email.tld">
         $pattern = '~<a[^>]*href\s*=\s*"(?:mailto:|https?://.+?)';
@@ -92,8 +92,6 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
             $text = substr_replace($text, $this->_cloak($matches[1][0]), $matches[1][1],
                 strlen($matches[1][0]));
         }
-
-        return $this;
     }
 
     /**
@@ -116,7 +114,7 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         // Split email address
         $email_parts = explode('@', $email);
 
-        $output = "\n <script data-inline language='JavaScript' type='text/javascript'>";
+        $output = "\n <script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n var path = 'hr' + 'ef' + '=';";
         $output .= "\n var addy{$rand} = '" . $email_parts[0] . "' + '&#64;';";
@@ -152,13 +150,13 @@ class ArticlesTemplateFilterEmailcloak extends Library\TemplateFilterAbstract im
         $output .= "\n </script>";
 
         // XHTML compliance `No JavaScript` text handling
-        $output .= "<script data-inline language='JavaScript' type='text/javascript'>";
+        $output .= "<script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n document.write( '<span style=\'display: none;\'>' );";
         $output .= "\n //-->";
         $output .= "\n </script>";
         $output .= JText::_('CLOAKING');
-        $output .= "\n <script data-inline language='JavaScript' type='text/javascript'>";
+        $output .= "\n <script data-inline type='text/javascript'>";
         $output .= "\n <!--";
         $output .= "\n document.write( '</' );";
         $output .= "\n document.write( 'span>' );";

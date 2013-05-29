@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelWeblinks extends Library\ModelTable
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 

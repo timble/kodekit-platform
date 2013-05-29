@@ -32,7 +32,7 @@ class HttpResponseHeaders extends HttpMessageHeaders
     /**
      * Add a cookie.
      *
-     * @param Cookie $cookie
+     * @param HttpCookie $cookie
      */
     public function addCookie(HttpCookie $cookie)
     {
@@ -76,7 +76,7 @@ class HttpResponseHeaders extends HttpMessageHeaders
      */
     public function clearCookie($name, $path = '/', $domain = null)
     {
-        $cookie = $this->getService('lib:http.cookie', array(
+        $cookie = $this->getObject('lib:http.cookie', array(
             'name'   => $name,
             'path'   => $path,
             'domain' => $domain,

@@ -28,7 +28,7 @@ class DispatcherRouterRoute extends HttpUrl
     public function toString($parts = self::FULL)
     {
         if(isset($this->query['option'])) {
-            $this->getService('application')->getRouter()->build($this);
+            $this->getObject('application')->getRouter()->build($this);
         }
 
         return parent::toString($parts);

@@ -17,20 +17,8 @@ use Nooku\Library;
  * @author  Johan Janssens <johan@nooku.org>
  * @package Nooku\Component\Pages
  */
-class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ServiceInstantiatable
+class ModuleDynamicHtml extends ModuleDefaultHtml implements Library\ObjectSingleton
 {
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
-    {
-        if (!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
-        }
-
-        return $manager->get($config->service_identifier);
-    }
-
     public function render()
     {
         //Dynamically attach the chrome filter

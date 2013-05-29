@@ -21,25 +21,25 @@ interface DatabaseQueryInterface
     /**
      * Bind values to a corresponding named placeholders in the query.
      *
-     * @param  array $params Associative array of parameters.
+     * @param  array $parameters Associative array of parameters.
      * @return DatabaseQueryInterface
      */
-    public function bind(array $params);
+    public function bind(array $parameters);
 
     /**
      * Get the query parameters
      *
-     * @return ObjectArray
+     * @return  DatabaseQueryParameters
      */
-    public function getParams();
+    public function getParameters();
 
     /**
      * Set the query parameters
      *
-     * @param ObjectArray $params  The query parameters
+     * @param array $parameters  The query parameters
      * @return DatabaseQueryInterface
      */
-    public function setParams(ObjectArray $params);
+    public function setParameters(array $parameters);
 
     /**
      * Gets the database adapter

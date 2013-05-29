@@ -24,8 +24,8 @@ class ApplicationControllerPage extends Library\ControllerView
         $content = parent::_actionRender($context);
 
         //Make images paths absolute
-        $base = $this->getService('request')->getBaseUrl();
-        $site = $this->getService('application')->getSite();
+        $base = $this->getObject('request')->getBaseUrl();
+        $site = $this->getObject('application')->getSite();
 
         $path = $base->getPath().'/files/'.$site.'/images/';
 

@@ -19,12 +19,10 @@ use Nooku\Library;
  */
 class FilterContainer extends Library\FilterAbstract
 {
-    protected $_walk = false;
-
-    protected function _validate($data)
+    public function validate($data)
     {
         if (is_string($data)) {
-            return $this->getService('lib:filter.cmd')->validate($value);
+            return $this->getObject('lib:filter.cmd')->validate($data);
         } else if (is_object($data)) {
             return true;
         }
@@ -32,10 +30,10 @@ class FilterContainer extends Library\FilterAbstract
         return false;
     }
 
-    protected function _sanitize($data)
+    public function sanitize($data)
     {
         if (is_string($data)) {
-            return $this->getService('lib:filter.cmd')->sanitize($data);
+            return $this->getObject('lib:filter.cmd')->sanitize($data);
         } else if (is_object($data)) {
             return $data;
         }

@@ -28,18 +28,18 @@ class CommandValidatorFile extends CommandValidatorNode
 			// remote file
 			try
             {
-				$file = $this->getService('com:files.database.row.url');
+				$file = $this->getObject('com:files.database.row.url');
 				$file->setData(array('file' => $row->file));
 				$file->load();
 				$row->contents = $file->contents;
 
-			} catch (FilesDatabaseRowUrlException $e) {
+			} catch (DatabaseRowUrlException $e) {
 				throw new \RuntimeException($e->getMessage(), $e->getCode());
 			}
 
 			if (empty($row->name))
 			{
-				$uri = $this->getService('lib:http.url', array('url' => $row->file));
+				$uri  = $this->getObject('lib:http.url', array('url' => $row->file));
 	        	$path = $uri->toString(Library\HttpUrl::PATH | Library\HttpUrl::FORMAT);
 	        	if (strpos($path, '/') !== false) {
 	        		$path = basename($path);
@@ -49,7 +49,22 @@ class CommandValidatorFile extends CommandValidatorNode
 			}
 		}
 
-		return parent::_databaseBeforeSave($context) && $this->getService('com:files.filter.file.uploadable')->validate($context);
+        $result = parent::_databaseBeforeSave($context);
+
+        if ($result)
+        {
+            $filter = $this->getObject('com:files.filter.file.uploadable');
+            $result = $filter->validate($context->getSubject());
+            if ($result === false)
+            {
+                $errors = $filter->getErrors();
+                if (count($errors)) {
+                    $context->getSubject()->setStatusMessage(array_shift($errors));
+                }
+            }
+        }
+
+		return $result;
 
 	}
 }

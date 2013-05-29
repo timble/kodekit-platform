@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesControllerSection extends ApplicationControllerDefault
+class ArticlesControllerSection extends Library\ControllerModel
 {
     public function getRequest()
     {

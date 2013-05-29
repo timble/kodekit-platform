@@ -17,26 +17,26 @@ use Nooku\Library;
  * @author  Israel Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Activities
  */
-class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ServiceInstantiatable
+class TemplateHelperActivity extends Library\TemplateHelperDefault implements Library\ObjectInstantiable
 {
 	/**
      * Check for overrides of the helper
      *
-     * @param   Library\Config         	        $config  An optional Library\Config object with configuration options
-     * @param 	Library\ServiceManagerInterface	$manager A Library\ServiceManagerInterface object
+     * @param   Library\ObjectConfig         	        $config  An optional Library\ObjectConfig object with configuration options
+     * @param 	Library\ObjectManagerInterface	$manager A Library\ObjectManagerInterface object
      * @return  TemplateHelperActivity
      */
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
-        $identifier = clone $config->service_identifier;
+        $identifier = clone $config->object_identifier;
         $identifier->package = $config->row->package;
        
         $identifier = $manager->getIdentifier($identifier);
         
-        if(file_exists($identifier->filepath)) {
+        if(file_exists($identifier->classpath)) {
             $classname = $identifier->classname;    
         } else {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
         }
         
         $instance  = new $classname($config);               
@@ -45,22 +45,22 @@ class TemplateHelperActivity extends Library\TemplateHelperDefault implements Li
     
     public function message($config = array())
 	{
-	    $config = new Library\Config($config);
+	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'row'      => ''
 		));
 	
 		$row  = $config->row;
-		$item = $this->getTemplate()->getView()->getRoute('option='.$row->type.'_'.$row->package.'&view='.$row->name.'&id='.$row->row);
+		$item = $this->getTemplate()->getView()->getRoute('option=com_'.$row->package.'&view='.$row->name.'&id='.$row->row);
 		$user = $this->getTemplate()->getView()->getRoute('option=com_users&view=user&id='.$row->created_by); 
 		
 		$message   = '<a href="'.$user.'">'.$row->created_by_name.'</a> '; 
 		$message  .= $row->status;
        
-		if ($row->status != 'deleted') {
+		if ($row->status != 'trashed') {
 			$message .= ' <a href="'.$item.'">'.$row->title.'</a>';
 		} else {
-			$message .= ' <span class="deleted">'.$row->title.'</span>';
+			$message .= ' <span class="trashed">'.$row->title.'</span>';
 		}
 		
 		$message .= ' '.$row->name; 

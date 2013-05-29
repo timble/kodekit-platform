@@ -74,33 +74,6 @@ class JUtility
 	}
 
 	/**
-	 * Sends mail to administrator for approval of a user submission
- 	 *
- 	 * @param string $adminName Name of administrator
- 	 * @param string $adminEmail Email address of administrator
- 	 * @param string $email [NOT USED TODO: Deprecate?]
- 	 * @param string $type Type of item to approve
- 	 * @param string $title Title of item to approve
- 	 * @param string $author Author of item to approve
- 	 * @return boolean True on success
- 	 */
-	function sendAdminMail( $adminName, $adminEmail, $email, $type, $title, $author, $url = null )
-	{
-		$subject = JText::_( 'User Submitted' ) ." '". $type ."'";
-
-		$message = sprintf ( JText::_( 'MAIL_MSG_ADMIN' ), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
-		$message .= JText::_( 'MAIL_MSG') ."\n";
-
-	 	// Get a JMail instance
-		$mail =& JFactory::getMailer();
-		$mail->addRecipient($adminEmail);
-		$mail->setSubject($subject);
-		$mail->setBody($message);
-
-		return  $mail->Send();
-	}
-
-	/**
   	 * Provides a secure hash based on a seed
  	 *
  	 * @param string Seed string
@@ -110,72 +83,5 @@ class JUtility
 	{
 		$conf =& JFactory::getConfig();
 		return md5( $conf->getValue('config.secret') .  $seed  );
-	}
-
-	/**
-	 * Method to determine a hash for anti-spoofing variable names
-	 *
-	 * @return	string	Hashed var name
-	 * @since	1.5
-	 * @static
-	 */
-	function getToken($forceNew = false)
-	{
-		$user		= JFactory::getUser();
-		$session	= JFactory::getSession();
-
-		//If the session is not active start it
-		/*if($session->getState() != 'active')
-        {
-			$session->start();
-
-		    jimport('joomla.database.table');
-			$storage = & JTable::getInstance('session');
-			$storage->purge($session->getExpire());
-
-			// Session exists and is not expired, update time in session table
-			if ($storage->load($session->getId())) {
-				$storage->update();
-			}
-			else
-			{
-				//Session doesn't exist, initalise and store it in the session table
-				$session->set('user',		new JUser());
-
-				if (!$storage->insert( $session->getId(), JFactory::getApplication()->getClientId())) {
-					jexit( $storage->getError());
-				}
-			}
-		}*/
-
-		$hash = JUtility::getHash( $user->get( 'id', 0 ).$session->getToken( $forceNew ) );
-		return $hash;
-	}
-
-	/**
- 	 * Method to extract key/value pairs out of a string with xml style attributes
- 	 *
- 	 * @param	string	$string	String containing xml style attributes
- 	 * @return	array	Key/Value pairs for the attributes
- 	 * @since	1.5
- 	 */
-	function parseAttributes( $string )
-	{
-	 	//Initialize variables
-		$attr		= array();
-		$retarray	= array();
-
-		// Lets grab all the key/value pairs using a regular expression
-		preg_match_all( '/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr );
-
-		if (is_array($attr))
-		{
-			$numPairs = count($attr[1]);
-			for($i = 0; $i < $numPairs; $i++ )
-			{
-				$retarray[$attr[1][$i]] = $attr[2][$i];
-			}
-		}
-		return $retarray;
 	}
 }

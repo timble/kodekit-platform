@@ -9,7 +9,7 @@
 namespace Nooku\Library;
 
 /**
- * Object Hashable interface
+ * Object Handlable interface
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @category    Koowa

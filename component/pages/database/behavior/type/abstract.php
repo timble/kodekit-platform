@@ -43,7 +43,7 @@ abstract class DatabaseBehaviorTypeAbstract extends Library\DatabaseBehaviorAbst
         // Set home.
         if($this->isModified('home') && $this->home == 1)
         {
-            $page = $this->getService('com:pages.database.table.pages')
+            $page = $this->getObject('com:pages.database.table.pages')
                 ->select(array('home' => 1), Library\Database::FETCH_ROW);
 
             $page->home = 0;

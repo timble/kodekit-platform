@@ -30,10 +30,10 @@ class ObjectSet extends Object implements \IteratorAggregate, \ArrayAccess, \Cou
     /**
      * Constructor
      *
-     * @param Config $config  A Config object with configuration options
+     * @param ObjectConfig $config  A ObjectConfig object with configuration options
      * @return ObjectSet
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 

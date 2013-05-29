@@ -5,14 +5,13 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__activities_activities`
+-- Table structure for table `activities_activities`
 --
 
-CREATE TABLE `#__activities_activities` (
+CREATE TABLE `activities_activities` (
     `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
     `application` VARCHAR(10) NOT NULL DEFAULT '',
-    `type` VARCHAR(3) NOT NULL DEFAULT '',
     `package` VARCHAR(50) NOT NULL DEFAULT '',
     `name` VARCHAR(50) NOT NULL DEFAULT '',
     `action` VARCHAR(50) NOT NULL DEFAULT '',
@@ -29,10 +28,10 @@ CREATE TABLE `#__activities_activities` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__articles`
+-- Table structure for table `articles`
 --
 
-CREATE TABLE `#__articles` (
+CREATE TABLE `articles` (
   `articles_article_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) DEFAULT NULL,
@@ -63,10 +62,10 @@ CREATE TABLE `#__articles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__attachments`
+-- Table structure for table `attachments`
 --
 
-CREATE TABLE `#__attachments` (
+CREATE TABLE `attachments` (
   `attachments_attachment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `container` varchar(255) NOT NULL,
@@ -85,24 +84,24 @@ CREATE TABLE `#__attachments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__attachments_relations`
+-- Table structure for table `attachments_relations`
 --
 
-CREATE TABLE `#__attachments_relations` (
+CREATE TABLE `attachments_relations` (
   `attachments_attachment_id` int(10) unsigned NOT NULL,
   `table` varchar(64) NOT NULL,
   `row` int(10) unsigned NOT NULL,
   KEY `attachments_attachment_id` (`attachments_attachment_id`),
-  CONSTRAINT `#__attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `#__attachments` (`attachments_attachment_id`) ON DELETE CASCADE
+  CONSTRAINT `attachments_relations_ibfk_1` FOREIGN KEY (`attachments_attachment_id`) REFERENCES `attachments` (`attachments_attachment_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__categories`
+-- Table structure for table `categories`
 --
 
-CREATE TABLE `#__categories` (
+CREATE TABLE `categories` (
   `categories_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -128,10 +127,10 @@ CREATE TABLE `#__categories` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__comments`
+-- Table structure for table `comments`
 --
 
-CREATE TABLE `#__comments` (
+CREATE TABLE `comments` (
     `comments_comment_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `table` VARCHAR(64) NOT NULL,
     `row` INT UNSIGNED NOT NULL,
@@ -149,10 +148,10 @@ CREATE TABLE `#__comments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__contacts`
+-- Table structure for table `contacts`
 --
 
-CREATE TABLE `#__contacts` (
+CREATE TABLE `contacts` (
   `contacts_contact_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) DEFAULT NULL,
@@ -187,10 +186,10 @@ CREATE TABLE `#__contacts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__extensions_components`
+-- Table structure for table `extensions_components`
 --
 
-CREATE TABLE `#__extensions_components` (
+CREATE TABLE `extensions_components` (
   `extensions_component_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -203,10 +202,10 @@ CREATE TABLE `#__extensions_components` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__files_containers`
+-- Table structure for table `files_containers`
 --
 
-CREATE TABLE `#__files_containers` (
+CREATE TABLE `files_containers` (
   `files_container_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -219,25 +218,25 @@ CREATE TABLE `#__files_containers` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__files_thumbnails`
+-- Table structure for table `files_thumbnails`
 --
 
-CREATE TABLE `#__files_thumbnails` (
+CREATE TABLE `files_thumbnails` (
   `files_thumbnail_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `files_container_id` varchar(255) NOT NULL,
   `folder` varchar(255) NOT NULL,
   `filename` varchar(255) NOT NULL,
-  `thumbnail` text NOT NULL,
+  `thumbnail` MEDIUMTEXT NOT NULL,
   PRIMARY KEY (`files_thumbnail_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__languages`
+-- Table structure for table `languages`
 --
 
-CREATE TABLE `#__languages` (
+CREATE TABLE `languages` (
     `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `application` VARCHAR(50) NOT NULL,
     `name` VARCHAR(150) NOT NULL,
@@ -252,10 +251,10 @@ CREATE TABLE `#__languages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__languages_translations`
+-- Table structure for table `languages_translations`
 --
 
-CREATE TABLE `#__languages_translations` (
+CREATE TABLE `languages_translations` (
     `languages_translation_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `iso_code` VARCHAR(8) NOT NULL,
     `table` VARCHAR(64) NOT NULL,
@@ -270,26 +269,26 @@ CREATE TABLE `#__languages_translations` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__languages_tables`
+-- Table structure for table `languages_tables`
 --
 
-CREATE TABLE `#__languages_tables` (
+CREATE TABLE `languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `extensions_component_id` INT(11) UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`extensions_component_id`) ON DELETE CASCADE
+    CONSTRAINT `languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `extensions_components` (`extensions_component_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages`
+-- Table structure for table `pages`
 --
 
-CREATE TABLE `#__pages` (
+CREATE TABLE `pages` (
   `pages_page_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `pages_menu_id` INT UNSIGNED NOT NULL,
   `users_group_id` INT UNSIGNED NOT NULL,
@@ -311,8 +310,8 @@ CREATE TABLE `#__pages` (
   `access` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `params` TEXT,
   PRIMARY KEY (`pages_page_id`),
-  CONSTRAINT `#__pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `#__pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
-  CONSTRAINT `#__pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
   INDEX `ix_extensions_component_id` (`extensions_component_id`),
   INDEX `ix_home` (`home`)
@@ -322,32 +321,32 @@ CREATE TABLE `#__pages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_orderings`
+-- Table structure for table `pages_orderings`
 --
 
-CREATE TABLE `#__pages_orderings` (
+CREATE TABLE `pages_orderings` (
   `pages_page_id` int(11) unsigned NOT NULL,
   `title` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
   `custom` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
   PRIMARY KEY (`pages_page_id`),
   KEY `ix_title` (`title`),
   KEY `ix_custom` (`custom`),
-  CONSTRAINT `#__pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE
+  CONSTRAINT `pages_orderings__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_closures`
+-- Table structure for table `pages_closures`
 --
 
-CREATE TABLE `#__pages_closures` (
+CREATE TABLE `pages_closures` (
   `ancestor_id` INT(11) UNSIGNED NOT NULL,
   `descendant_id` INT(11) UNSIGNED NOT NULL,
   `level` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`ancestor_id`, `descendant_id`),
-  CONSTRAINT `#__pages_closures__ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
-  CONSTRAINT `#__pages_closures__descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `#__pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages_closures__ancestor_id` FOREIGN KEY (`ancestor_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
+  CONSTRAINT `pages_closures__descendant_id` FOREIGN KEY (`descendant_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_level` (`level`),
   INDEX `ix_descendant_id` (`descendant_id`)
 ) ENGINE=InnoDB CHARSET = utf8;
@@ -355,10 +354,10 @@ CREATE TABLE `#__pages_closures` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_menus`
+-- Table structure for table `pages_menus`
 --
 
-CREATE TABLE `#__pages_menus` (
+CREATE TABLE `pages_menus` (
   `pages_menu_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `application` varchar(50) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -377,24 +376,24 @@ CREATE TABLE `#__pages_menus` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_modules`
+-- Table structure for table `pages_modules`
 --
 
-CREATE TABLE `#__pages_modules_pages` (
+CREATE TABLE `pages_modules_pages` (
   `pages_module_id` INT(11) UNSIGNED NOT NULL,
   `pages_page_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`pages_module_id`,`pages_page_id`),
-  CONSTRAINT `#__pages_modules_pages__pages_module_id` FOREIGN KEY (`pages_module_id`) REFERENCES `#__pages_modules` (`pages_module_id`) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT `#__pages_modules_pages__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `#__pages` (`pages_page_id`) ON UPDATE CASCADE ON DELETE CASCADE
+  CONSTRAINT `pages_modules_pages__pages_module_id` FOREIGN KEY (`pages_module_id`) REFERENCES `pages_modules` (`pages_module_id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `pages_modules_pages__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `pages` (`pages_page_id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__pages_modules`
+-- Table structure for table `pages_modules`
 --
 
-CREATE TABLE `#__pages_modules` (
+CREATE TABLE `pages_modules` (
   `pages_module_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` text NOT NULL,
   `content` text NOT NULL,
@@ -419,10 +418,10 @@ CREATE TABLE `#__pages_modules` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__terms`
+-- Table structure for table `terms`
 --
 
-CREATE TABLE `#__terms` (
+CREATE TABLE `terms` (
   `terms_term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
@@ -443,10 +442,10 @@ CREATE TABLE `#__terms` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__terms_relations`
+-- Table structure for table `terms_relations`
 --
 
-CREATE TABLE `#__terms_relations` (
+CREATE TABLE `terms_relations` (
 	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
   	`row` BIGINT(20) UNSIGNED NOT NULL,
   	`table` VARCHAR( 255 ) NOT NULL,
@@ -456,10 +455,10 @@ CREATE TABLE `#__terms_relations` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__users`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `#__users` (
+CREATE TABLE `users` (
   `users_user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
@@ -480,16 +479,16 @@ CREATE TABLE `#__users` (
   UNIQUE KEY `uuid` (`uuid`),
   UNIQUE KEY `email` (`email`),
   KEY `users_role_id` (`users_role_id`),
-  CONSTRAINT `users_user_role` FOREIGN KEY (`users_role_id`) REFERENCES `#__users_roles` (`users_role_id`)
+  CONSTRAINT `users_user_role` FOREIGN KEY (`users_role_id`) REFERENCES `users_roles` (`users_role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__users_roles`
+-- Table structure for table `users_roles`
 --
 
-CREATE TABLE `#__users_roles` (
+CREATE TABLE `users_roles` (
   `users_role_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -500,10 +499,10 @@ CREATE TABLE `#__users_roles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__users_groups`
+-- Table structure for table `users_groups`
 --
 
-CREATE TABLE `#__users_groups` (
+CREATE TABLE `users_groups` (
   `users_group_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -514,24 +513,24 @@ CREATE TABLE `#__users_groups` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__users_groups_users`
+-- Table structure for table `users_groups_users`
 --
 
-CREATE TABLE `#__users_groups_users` (
+CREATE TABLE `users_groups_users` (
   `users_group_id` int(11) unsigned NOT NULL,
   `users_user_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`users_group_id`,`users_user_id`),
-  CONSTRAINT `#__users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `#__users` (`users_user_id`) ON DELETE CASCADE,
-  CONSTRAINT `#__users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `#__users_groups` (`users_group_id`) ON DELETE CASCADE
+  CONSTRAINT `users_groups_users__users_user_id` FOREIGN KEY (`users_user_id`) REFERENCES `users` (`users_user_id`) ON DELETE CASCADE,
+  CONSTRAINT `users_groups_users__users_group_id` FOREIGN KEY (`users_group_id`) REFERENCES `users_groups` (`users_group_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__users_sessions`
+-- Table structure for table `users_sessions`
 --
 
-CREATE TABLE `#__users_sessions` (
+CREATE TABLE `users_sessions` (
   `time` varchar(14) DEFAULT '',
   `users_session_id` varchar(128) NOT NULL,
   `guest` tinyint(4) DEFAULT '1',
@@ -546,25 +545,25 @@ CREATE TABLE `#__users_sessions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__users_passwords`
+-- Table structure for table `users_passwords`
 --
 
-CREATE TABLE `#__users_passwords` (
+CREATE TABLE `users_passwords` (
   `email` varchar(100) NOT NULL DEFAULT '',
   `expiration` date DEFAULT NULL,
   `hash` varchar(100) NOT NULL DEFAULT '',
   `reset` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`email`),
-  CONSTRAINT `#__users_password__email` FOREIGN KEY (`email`) REFERENCES `#__users` (`email`) ON UPDATE CASCADE ON DELETE CASCADE
+  CONSTRAINT `users_password__email` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__versions_revisions`
+-- Table structure for table `versions_revisions`
 --
 
-CREATE TABLE `#__versions_revisions` (
+CREATE TABLE `versions_revisions` (
   `table` varchar(64) NOT NULL,
   `row` bigint(20) unsigned NOT NULL,
   `revision` bigint(20) unsigned NOT NULL DEFAULT '1',
@@ -578,10 +577,10 @@ CREATE TABLE `#__versions_revisions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__weblinks`
+-- Table structure for table `weblinks`
 --
 
-CREATE TABLE `#__weblinks` (
+CREATE TABLE `weblinks` (
   `weblinks_weblink_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `categories_category_id` int(11) NOT NULL DEFAULT '0',
   `title` varchar(250) NOT NULL DEFAULT '',

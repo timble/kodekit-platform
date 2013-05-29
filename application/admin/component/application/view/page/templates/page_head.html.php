@@ -10,7 +10,7 @@
 
 <head>
     <base href="<?= @url(); ?>" />
-    <title><?= @escape(@service('application')->getCfg('sitename' )). ' - ' .@text( 'Administration')  ?></title>
+    <title><?= @escape(@object('application')->getCfg('sitename' )). ' - ' .@text( 'Administration')  ?></title>
     <meta content="text/html; charset=utf-8" http-equiv="content-type"  />
     <meta content="chrome=1" http-equiv="X-UA-Compatible" />
 
@@ -25,12 +25,13 @@
     <script src="media://application/js/application.js" />
     <script src="media://application/js/chromatable.js" />
 
-    <? if(true) : ?>
-    <style src="media://application/css/default.css" />
-    <? else : ?>
-    <script src="media://application/js/sidebar.js" />
-    <style src="media://application/css/legacy.css" />
-    <? endif; ?>
+    <style src="media://application/stylesheets/default.css" />
 
-    <style src="media://application/css/system.css"  />
+    <style src="media://application/stylesheets/system.css"  />
+
+    <script src="media://application/js/jquery.js" /></script>
+    <script type="text/javascript">
+        var $jQuery = jQuery.noConflict();
+    </script>
+    <script src="media://application/js/select2.js" /></script>
 </head>

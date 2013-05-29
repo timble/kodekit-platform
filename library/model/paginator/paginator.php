@@ -16,12 +16,12 @@ namespace Nooku\Library;
  * @package		Koowa_Model
  * @subpackage  Paginator
  */
-class ModelPaginator extends Config implements ModelPaginatorInterface
+class ModelPaginator extends ObjectConfig implements ModelPaginatorInterface
 {
     /**
      * Get the pages
      *
-     * @return Config A Config object that holds the page information
+     * @return ObjectConfig A ObjectConfig object that holds the page information
      */
     public function getPages()
     {
@@ -35,9 +35,9 @@ class ModelPaginator extends Config implements ModelPaginatorInterface
      * @param  mixed 
      * @return void
      */
-    public function __set($name, $value)
+    public function set($name, $value)
     {
-        parent::__set($name, $value);
+        parent::set($name, $value);
         
         //Only calculate the limit and offset if we have a total
         if($this->total)
@@ -87,7 +87,7 @@ class ModelPaginator extends Config implements ModelPaginatorInterface
      */
     protected function _pages()
     {
-        $pages = new Config();
+        $pages = new ObjectConfig();
         $current  = ($this->current - 1) * $this->limit;
         
         // First

@@ -2,10 +2,10 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__terms`
+-- Table structure for table `terms`
 --
 
-CREATE TABLE `#__terms` (
+CREATE TABLE `terms` (
   `terms_term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
@@ -26,10 +26,10 @@ CREATE TABLE `#__terms` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__terms_relations`
+-- Table structure for table `terms_relations`
 --
 
-CREATE TABLE IF NOT EXISTS `#__terms_relations` (
+CREATE TABLE IF NOT EXISTS `terms_relations` (
 	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
   	`row` BIGINT(20) UNSIGNED NOT NULL,
   	`table` VARCHAR( 255 ) NOT NULL,

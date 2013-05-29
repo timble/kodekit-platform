@@ -26,19 +26,24 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 	 */
 	public function getTerms()
 	{
-		return $this->getService('com:terms.model.relations')
-					->row($this->id)
-					->table($this->getTable()->getName())
-					->getRowset();
+        $model = $this->getObject('com:terms.model.relations');
 
-		return $tags;
+        if(!$this->isNew())
+        {
+            $tags = $model->row($this->id)
+                ->table($this->getTable()->getName())
+                ->getRowset();
+        }
+        else $tags = $model->getRowset();
+
+        return $tags;
 	}
         
     /**
 	 * Modify the select query
 	 * 
-	 * If the query's where information includes a tag propery, auto-join the terms tables
-	 * with the query and select all the rows that are tagged with the term.
+	 * If the query's where information includes a tag propery, auto-join the terms tables with the query and select
+     * all the rows that are tagged with the term.
 	 */
 	protected function _beforeTableSelect(Library\CommandContext $context)
 	{

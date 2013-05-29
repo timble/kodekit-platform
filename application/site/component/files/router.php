@@ -26,9 +26,9 @@ class FilesRouter extends Library\DispatcherRouter
         $query    = &$url->query;
 		
 		if (isset($query['Itemid'])) {
-			$page = $this->getService('application.pages')->getPage($query['Itemid']);
+			$page = $this->getObject('application.pages')->getPage($query['Itemid']);
 		} else {
-			$page = $this->getService('application.pages')->getActive();
+			$page = $this->getObject('application.pages')->getActive();
 		}
 		
 		$menu_query = $page->getLink()->query;
@@ -50,17 +50,13 @@ class FilesRouter extends Library\DispatcherRouter
 				// do nothing
 			}
 			else if (strpos($query['folder'], $menu_query['folder']) === 0) {
-				$relative = substr($query['folder'], strlen($menu_query['folder'])+1, strlen($query['folder']));
-				$relative = str_replace($menu_query['folder'].'/', '', $query['folder']);
-		
-				$segments[] = $relative;
+				$segments[] = str_replace($menu_query['folder'].'/', '', $query['folder']);
 			}
 		}
 
 		if (isset($query['name']))
 		{
-			$name = $query['name'];
-			$segments[] = $name;
+			$segments[] = $query['name'];
 		}
 
 		unset($query['view']);
@@ -75,13 +71,13 @@ class FilesRouter extends Library\DispatcherRouter
         $vars = array();
         $path = &$url->path;
 
-		$page  = $this->getService('application.pages')->getActive();
+		$page  = $this->getObject('application.pages')->getActive();
 		$query = $page->getLink()->query;
 		
 		if ($path[0] === 'file')
 		{ // file view
 			$vars['view']    = array_shift($path);
-			$vars['name']    = array_pop($path);
+			$vars['name']    = array_pop($path).'.'.$url->getFormat();
 			$vars['folder']  = $query['folder'] ? $query['folder'].'/' : '';
 			$vars['folder'] .= implode('/', $path);
 		}

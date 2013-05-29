@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseBehaviorOrderableAbstract extends Library\DatabaseBehaviorAbstract implements DatabaseBehaviorOrderableInterface
 {
-    public function getMixableMethods(Library\Object $mixer = null)
+    public function getMixableMethods(Library\ObjectMixable $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
         unset($methods['is'.ucfirst($this->getIdentifier()->name)]);

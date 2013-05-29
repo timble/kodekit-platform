@@ -9,200 +9,89 @@
 namespace Nooku\Library;
 
 /**
- * Abstract filter.
+ * Abstract Filter
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-abstract class FilterAbstract extends Object implements FilterInterface
+abstract class FilterAbstract extends Object implements FilterInterface, ObjectInstantiable, ObjectSingleton
 {
-	/**
-	 * The filter chain
-	 *
-	 * @var	object
-	 */
-	protected $_chain = null;
-	
-	/**
-	 * If the data to be santized or validated if an object or array,
-	 * walk over each individual property or element. Default TRUE.
-	 *
-	 * @var	boolean
-	 */
-	protected $_walk = true;
-	    
-	/**
-	 * Constructor
-	 *
-	 * @param 	object	An optional Config object with configuration options
-	 */
-	public function __construct(Config $config)
-	{
-		parent::__construct($config); 
-		 
-	    $this->_chain = $this->getService('lib:filter.chain');
-		$this->addFilter($this);
-	}
-	
+    /**
+     * Priority levels
+     */
+    const PRIORITY_HIGHEST = 1;
+    const PRIORITY_HIGH    = 2;
+    const PRIORITY_NORMAL  = 3;
+    const PRIORITY_LOW     = 4;
+    const PRIORITY_LOWEST  = 5;
+
+    /**
+     * The filter errors
+     *
+     * @var	array
+     */
+    protected $_errors = array();
+
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return FilterInterface
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+        $instance = new static($config);
+
+        if($instance instanceof FilterTraversable) {
+            $instance = $instance->decorate('lib:filter.iterator');
         }
-        
-        return $manager->get($config->service_identifier);
+
+        return $instance;
     }
-	
-	/**
-	 * Command handler
-	 * 
-	 * @param string  The command name
-	 * @param object  The command context
-	 *
-	 * @return object
-	 */
-	final public function execute($name, CommandContext $context)
-	{	
-		$function = '_'.$name;
-        $data     = Config::unbox($context->data);
 
-		return $this->$function($data);
-	}
+    /**
+     * Validate a scalar or traversable value
+     *
+     * NOTE: This should always be a simple yes/no question (is $value valid?), so only true or false should be returned
+     *
+     * @param   mixed   $value Value to be validated
+     * @return  bool    True when the value is valid. False otherwise.
+     */
+    public function validate($value)
+    {
+        return false;
+    }
 
-	/**
-	 * Validate a variable or data collection
-	 *
-	 * @param	mixed	Data to be validated
-	 * @return	bool	True when the data is valid
-	 */
-	final public function validate($data)
-	{
-		if($this->_walk && (is_array($data) || is_object($data))) 
-		{
-			$arr = (array)$data;
-			
-			foreach($arr as $value) 
-			{
-				if($this->validate($value) ===  false) {
-					return false;
-				}
-			}
-		} 
-		else 
-		{	
-			$context = $this->_chain->getContext();
-			$context->data = $data;
-			
-			$result = $this->_chain->run('validate', $context);
-			
-			if($result ===  false) {
-				return false;
-			}
-		}
-			
-		return true;
-	}
-	
-	/**
-	 * Sanitize a variable or data collection
-	 *
-	 * @param	mixed	Data to be sanitized
-	 * @return	mixed	The sanitized data
-	 */
-	final public function sanitize($data)
-	{
-		if($this->_walk && (is_array($data) || is_object($data))) 
-		{
-			$arr = (array)$data;
-				
-			foreach($arr as $key => $value) 
-			{
-				if(is_array($data)) {
-					$data[$key] = $this->sanitize($value);
-				}
-				
-				if(is_object($data)) {
-					$data->$key = $this->sanitize($value);	
-				}
-			}
-		}
-		else
-		{
-            $context = $this->_chain->getContext();
-			$context->data = $data;
+    /**
+     * Sanitize a scalar or traversable value
+     *
+     * @param   mixed   $value Value to be sanitized
+     * @return  mixed   The sanitized value
+     */
+    public function sanitize($value)
+    {
+        return $value;
+    }
 
-			$data = $this->_chain->run('sanitize', $context);
-		}
-		
-		return $data;
-	}
-	
-	/**
-	 * Add a filter based on priority
-	 * 
-	 * @param object 	A Filter
-	 * @param integer	The command priority, usually between 1 (high priority) and 5 (lowest), 
-     *                  default is 3. If no priority is set, the command priority will be used 
-     *                  instead.
-	 *
-	 * @return FilterAbstract
-	 */
-	public function addFilter(FilterInterface $filter, $priority = null)
-	{	
-		$this->_chain->enqueue($filter, $priority);
-		return $this;
-	}
-	
-	/**
-	 * Get a handle for this object
-	 *
-	 * This function returns an unique identifier for the object. This id can be used as
-	 * a hash key for storing objects or for identifying an object
-	 *
-	 * @return string A string that is unique
-	 */
-	public function getHandle()
-	{
-		return spl_object_hash( $this );
-	}
-	
-	/**
-	 * Get the priority of the filter
-	 *
-	 * @return	integer The command priority
-	 */
-  	public function getPriority()
-  	{
-  		return Command::PRIORITY_NORMAL;
-  	}
+    /**
+     * Get a list of error that occurred during sanitize or validate
+     *
+     * @return array
+     */
+    public function getErrors()
+    {
+        return (array) $this->_errors;
+    }
 
-	/**
-	 * Validate a variable
-	 * 
-	 * Variable passed to this function will always be a scalar
-	 *
-	 * @param	scalar	Value to be validated
-	 * @return	bool	True when the variable is valid
-	 */
-	abstract protected function _validate($value);
-	
-	/**
-	 * Sanitize a variable only
-	 * 
-	 * Variable passed to this function will always be a scalar
-	 *
-	 * @param	scalar	Value to be sanitized
-	 * @return	mixed
-	 */
-	abstract protected function _sanitize($value);
+    /**
+     * Add an error message
+     *
+     * @param $message
+     */
+    protected function _error($message)
+    {
+        $this->_errors[] = $message;
+        return false;
+    }
 }

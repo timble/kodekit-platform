@@ -56,13 +56,10 @@ class DatabaseRowUser extends Library\DatabaseRowTable
      */
     public function getRole()
     {
-        if (!$this->_role)
-        {
-            //@TODO : Temporarily using  Library\ServiceManager::get since User object is not yet properly set on session when
-            // getting it with JFactory::getUser.
-            $this->_role =  Library\ServiceManager::get('com:users.model.roles')->id($this->role_id)->getRow();
-            //$this->_role = $this->getService('com:users.model.roles')->id($this->role_id)->getRow();
+        if (!$this->_role) {
+            $this->_role = $this->getObject('com:users.model.roles')->id($this->role_id)->getRow();
         }
+
         return $this->_role;
     }
 
@@ -72,7 +69,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         {
             if(!$this->guest)
             {
-                $this->_groups =  Library\ServiceManager::get('com:users.database.table.groups_users')
+                $this->_groups =  $this->getObject('com:users.database.table.groups_users')
                     ->select(array('users_user_id' => $this->id), Library\Database::FETCH_FIELD_LIST);
             }
             else $this->_groups = array();
@@ -94,7 +91,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         if ($this->isModified('email'))
         {
             // Validate E-mail
-            if (!$this->getService('lib:filter.email')->validate($this->email))
+            if (!$this->getObject('lib:filter.email')->validate($this->email))
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('Please enter a valid E-mail address'));
@@ -102,12 +99,11 @@ class DatabaseRowUser extends Library\DatabaseRowTable
             }
 
             // Check if E-mail address is not already being used
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->where('email = :email')
-                ->where('users_user_id <> :id')
-                ->bind(array('email' => $this->email, 'id' => $this->id));
+                ->bind(array('email' => $this->email));
 
-            if ($this->getService('com:users.database.table.users')->count($query))
+            if ($this->getObject('com:users.database.table.users')->count($query))
             {
                 $this->setStatus(Library\Database::STATUS_FAILED);
                 $this->setStatusMessage(\JText::_('The provided E-mail address is already registered'));
@@ -143,16 +139,16 @@ class DatabaseRowUser extends Library\DatabaseRowTable
         if (!$this->isNew())
         {
             // Load the current user row for checks.
-            $current = $this->getService('com:users.database.table.users')
+            $current = $this->getObject('com:users.database.table.users')
                 ->select($this->id, Library\Database::FETCH_ROW);
 
             // There must be at least one enabled super administrator
             if (($this->isModified('role_id') || ($this->isModified('enabled') && !$this->enabled)) && $current->role_id == 25)
             {
-                $query = $this->getService('lib:database.query.select')->where('enabled = :enabled')
+                $query = $this->getObject('lib:database.query.select')->where('enabled = :enabled')
                     ->where('users_role_id = :role_id')->bind(array('enabled' => 1, 'role_id' => 25));
 
-                if ($this->getService('com:users.database.table.users')->count($query) <= 1)
+                if ($this->getObject('com:users.database.table.users')->count($query) <= 1)
                 {
                     $this->setStatus(Library\Database::STATUS_FAILED);
                     $this->setStatusMessage('There must be at least one enabled super administrator');
@@ -201,6 +197,35 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     }
 
     /**
+     * Session data getter.
+     *
+     * @param bool Whether or not the user is authenticated.
+     *
+     * @return array An associative array containing session user data.
+     */
+    public function getSessionData($authentic = false)
+    {
+        $data = array();
+
+        if (!$this->isNew()) {
+            $data = array(
+                'id'         => $this->id,
+                'email'      => $this->email,
+                'name'       => $this->name,
+                'role'       => $this->role_id,
+                'groups'     => $this->getGroups(),
+                'password'   => $this->getPassword()->password,
+                'salt'       => $this->getPassword()->salt,
+                'enabled'    => $this->enabled,
+                'attributes' => $this->params->toArray(),
+                'authentic'  => $authentic
+            );
+        }
+
+        return $data;
+    }
+
+    /**
      * Sends a notification E-mail to the user.
      *
      * @param array $config Optional configuration array.
@@ -209,10 +234,10 @@ class DatabaseRowUser extends Library\DatabaseRowTable
      */
     public function notify($config = array()) {
 
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
-        $application = $this->getService('application');
-        $user        = $this->getService('user');
+        $application = $this->getObject('application');
+        $user        = $this->getObject('user');
 
         $config->append(array(
             'subject' => '',

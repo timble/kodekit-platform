@@ -21,12 +21,12 @@ class TemplateHelperTabs extends TemplateHelperBehavior
     /**
      * Creates a pane and creates the javascript object for it
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function startPane( $config = array() )
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'id'      => 'pane',
             'attribs' => array(),
@@ -59,7 +59,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
     /**
      * Ends the pane
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function endPane($config = array())
@@ -70,12 +70,12 @@ class TemplateHelperTabs extends TemplateHelperBehavior
     /**
      * Creates a tab panel with title and starts that panel
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function startPanel( $config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'title'     => '',
             'attribs'   => array(),
@@ -92,7 +92,7 @@ class TemplateHelperTabs extends TemplateHelperBehavior
     /**
      * Ends a tab page
      *
-     * @param   array   An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return  string  Html
      */
     public function endPanel($config = array())

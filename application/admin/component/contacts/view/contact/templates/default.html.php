@@ -27,7 +27,7 @@
 	
 	<div class="main">
 		<div class="title">
-		    <input class="required" type="text" name="title" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
+		    <input class="required" type="text" name="name" maxlength="255" value="<?= $contact->name ?>" placeholder="<?= @text('Name') ?>" />
 		    <div class="slug">
 		        <span class="add-on"><?= @text('Slug'); ?></span>
 		        <input type="text" name="slug" maxlength="255" value="<?= $contact->slug ?>" />
@@ -35,84 +35,84 @@
 		</div>
 
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
+			<fieldset>
 				<legend><?= @text('Information'); ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="position"><?= @text( 'Position' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="position"><?= @text( 'Position' ); ?></label>
+				    <div>
 				        <input type="text" name="position" maxlength="255" value="<?= $contact->position; ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="email_to"><?= @text( 'E-mail' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="email_to"><?= @text( 'E-mail' ); ?></label>
+				    <div>
 				        <input type="text" name="email_to" maxlength="255" value="<?= $contact->email_to; ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="address"><?= @text( 'Street Address' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="address"><?= @text( 'Street Address' ); ?></label>
+				    <div>
 				        <textarea name="address" rows="5"><?= $contact->address; ?></textarea>
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="suburb"><?= @text( 'Town/Suburb' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="suburb"><?= @text( 'Town/Suburb' ); ?></label>
+				    <div>
 				        <input type="text" name="suburb" maxlength="100" value="<?= $contact->suburb;?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="state"><?= @text( 'State/County' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="state"><?= @text( 'State/County' ); ?></label>
+				    <div>
 				        <input type="text" name="state" maxlength="100" value="<?= $contact->state;?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="postcode"><?= @text( 'Postal Code/ZIP' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="postcode"><?= @text( 'Postal Code/ZIP' ); ?></label>
+				    <div>
 				        <input type="text" name="postcode" maxlength="100" value="<?= $contact->postcode; ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="country"><?= @text( 'Country' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="country"><?= @text( 'Country' ); ?></label>
+				    <div>
 				        <input type="text" name="country" maxlength="100" value="<?= $contact->country;?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="telephone"><?= @text( 'Telephone' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="telephone"><?= @text( 'Telephone' ); ?></label>
+				    <div>
 				        <input type="text" name="telephone" maxlength="255" value="<?= $contact->telephone; ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="mobile"><?= @text( 'Mobile' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="mobile"><?= @text( 'Mobile' ); ?></label>
+				    <div>
 				        <input type="text" name="mobile" maxlength="255" value="<?= $contact->mobile; ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="fax"><?= @text( 'Fax' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="fax"><?= @text( 'Fax' ); ?></label>
+				    <div>
 				        <input type="text" name="fax" maxlength="255" value="<?= $contact->fax; ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="webpage"><?= @text( 'Webpage' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="webpage"><?= @text( 'Webpage' ); ?></label>
+				    <div>
 				        <input type="text" name="webpage" maxlength="255" value="<?= $contact->webpage; ?>" />
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="misc"><?= @text( 'Miscellaneous Info' ); ?></label>
-				    <div class="controls">
+				<div>
+				    <label for="misc"><?= @text( 'Miscellaneous Info' ); ?></label>
+				    <div>
 				        <textarea name="misc" rows="5"><?= $contact->misc; ?></textarea>
 				    </div>
 				</div>
-				<div class="control-group">
-				    <label class="control-label" for="image"><?= @text( 'Image' ); ?></label>
-				    <div class="controls">
-				        <?= @helper('image.listbox', array('name' => 'image', 'attribs' => array('class' => 'chzn-select'))); ?>
+				<div>
+				    <label for="image"><?= @text( 'Image' ); ?></label>
+				    <div>
+				        <?= @helper('image.listbox', array('name' => 'image', 'attribs' => array('class' => 'select-image', 'style' => 'width:220px'))); ?>
 				    </div>
 				</div>
 			</fieldset>
@@ -121,40 +121,10 @@
 
 	<div class="sidebar">
 		<div class="scrollable">
-			<fieldset class="form-horizontal">
-				<legend><?= @text('Publish'); ?></legend>
-				<div class="control-group">
-				    <label class="control-label" for="published"><?= @text( 'Published' ); ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="published" value="1" <?= $contact->published ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-				<div class="control-group">
-				    <label class="control-label" for="access"><?= @text('Registered') ?></label>
-				    <div class="controls">
-				        <input type="checkbox" name="access" value="1" <?= $contact->access ? 'checked="checked"' : '' ?> />
-				    </div>
-				</div>
-			</fieldset>
-	
-	        <fieldset class="categories group">
-	            <legend><?= @text('Category') ?></legend>
-	            <div class="control-group">
-	                <?= @helper('listbox.radiolist', array(
-	                		'list'     => @service('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
-	                		'selected' => $contact->categories_category_id,
-	                		'name'     => 'categories_category_id',
-	                        'text'     => 'title',
-	                	));
-	                ?>
-	            </div>
-	        </fieldset>
-			
-			<fieldset class="form-horizontal">
-				<legend><?= @text('Parameters'); ?></legend>
-				<?= $contact->params->render(); ?>
-			</fieldset>
+            <?= @template('default_sidebar.html'); ?>
 		</div>
 	</div>
 	
 </form>
+
+<script data-inline> $jQuery(".select-image").select2(); </script>

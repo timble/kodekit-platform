@@ -29,12 +29,26 @@
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
 </ktml:module>
 
+<? if($state->type['name'] == 'component') {
+    $query = array(
+        'option' => $state->type['option'],
+        'view'   => $state->type['view']
+    );
+
+    if(!empty($state->type['layout']) && $state->layout != 'default') {
+        $query['layout'] = $state->layout;
+    }
+} ?>
+
 <form action="" method="post" class="-koowa-form" id="page-form">
     <input type="hidden" name="pages_menu_id" value="<?= $state->menu ?>" />
     <input type="hidden" name="type" value="<?= $state->type['name'] ?>" />
     <input type="hidden" name="access" value="0" />
     <input type="hidden" name="published" value="0" />
     <input type="hidden" name="hidden" value="0" />
+    <? if($state->type['name'] == 'component') : ?>
+    <input type="hidden" name="link_url" value="<?= http_build_query($query) ?>" />
+    <? endif ?>
 
     <div id="components">
         <div class="scrollable">
@@ -90,16 +104,37 @@
                 <input type="text" name="slug" maxlength="255" value="<?= $page->slug ?>" />
             </div>
         </div>
-        <div class="scrollable">
-            <?= @template('default_publish.html') ?>
+        <div class="tabs">
+            <div class="tab">
+                <input type="radio" id="tab-1" name="tab-group-1" checked="">
+                <label for="tab-1"><?= @text('Publish') ?></label>
+                <div class="content">
+                    <fieldset>
+                        <?= @template('default_publish.html') ?>
+                    </fieldset>
+                </div>
+            </div>
             <? if($menu->application == 'site' && ($state->type['name'] == 'component' || $state->type['name'] == 'redirect' || $state->type['name'] == 'pagelink')) : ?>
-                <fieldset class="form-horizontal">
-                    <legend><?= @text('Page') ?></legend>
-                    <?= @template('default_page.html') ?>
-                </fieldset>
+            <div class="tab">
+                <input type="radio" id="tab-2" name="tab-group-1">
+                <label for="tab-2"><?= @text('Page') ?></label>
+                <div class="content">
+                    <fieldset>
+                        <?= @template('default_page.html') ?>
+                    </fieldset>
+                </div>
+            </div>
             <? endif ?>
             <? if($menu->application == 'site' && $state->type['name'] == 'component') : ?>
-                <?= @template('default_modules.html') ?>
+                <div class="tab">
+                    <input type="radio" id="tab-3" name="tab-group-1">
+                    <label for="tab-3"><?= @text('Modules') ?></label>
+                    <div class="content">
+                        <fieldset id="pages-modules">
+                            <?= @template('default_modules.html') ?>
+                        </fieldset>
+                    </div>
+                </div>
             <? endif ?>
         </div>
     </div>

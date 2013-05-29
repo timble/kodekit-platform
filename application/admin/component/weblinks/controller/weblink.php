@@ -18,9 +18,9 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class WeblinksControllerWeblink extends ApplicationControllerDefault
+class WeblinksControllerWeblink extends Library\ControllerModel
 { 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
         	'behaviors' => array('com:activities.controller.behavior.loggable'),

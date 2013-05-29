@@ -39,14 +39,14 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         'getLink'
     );
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_populateStrategies();
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'auto_mixin' => true
@@ -55,15 +55,15 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         parent::_initialize($config);
     }
 
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
+    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
     {
         $instance = parent::getInstance($config, $manager);
 
-        if(!$manager->has($config->service_identifier)) {
-            $manager->set($config->service_identifier, $instance);
+        if(!$manager->isRegistered($config->object_identifier)) {
+            $manager->setObject($config->object_identifier, $instance);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->getObject($config->object_identifier);
     }
 
     protected function _populateStrategies()
@@ -75,7 +75,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
                 $name = $fileinfo->getBasename('.php');
                 if($name != 'abstract' && $name != 'interface')
                 {
-                    $strategy = $this->getService('com:pages.database.behavior.type.'.$name);
+                    $strategy = $this->getObject('com:pages.database.behavior.type.'.$name);
                     $this->_strategies[$name] = $strategy;
                 }
             }
@@ -104,7 +104,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         return array_fill_keys($this->_methods, $this);
     }
 
-    public function getMixableMethods(Library\Object $mixer = null)
+    public function getMixableMethods(Library\ObjectMixable $mixer = null)
     {
         $methods = array_fill_keys($this->_mixable_methods, $this);
         $methods['is'.ucfirst($this->getIdentifier()->name)] = function() { return true; };

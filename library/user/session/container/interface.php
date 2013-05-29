@@ -21,8 +21,8 @@ interface UserSessionContainerInterface
     /**
      * Get a an attribute
      *
-     * @param   string  Attribute identifier, eg .foo.bar
-     * @param   mixed   Default value when the attribute doesn't exist
+     * @param   string $identifier  Attribute identifier, eg .foo.bar
+     * @param   mixed  $default     Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null);
@@ -30,8 +30,8 @@ interface UserSessionContainerInterface
     /**
      * Set an attribute
      *
-     * @param   mixed   Attribute identifier, eg foo.bar
-     * @param   mixed   Attribute value
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $value      Attribute value
      * @return UserSessionContainerInterface
      */
     public function set($identifier, $value);
@@ -39,7 +39,7 @@ interface UserSessionContainerInterface
     /**
      * Check if an attribute exists
      *
-     * @param   string  Attribute identifier, eg foo.bar
+     * @param   string  $identifier Attribute identifier, eg foo.bar
      * @return  boolean
      */
     public function has($identifier);
@@ -60,6 +60,14 @@ interface UserSessionContainerInterface
     public function clear();
 
     /**
+     * Adds new attributes
+     *
+     * @param array $attributes An array of attributes
+     * @return  UserSessionContainerInterface
+     */
+    public function values(array $attributes);
+
+    /**
      * Get all attributes
      *
      * @return  array  An array of attributes
@@ -67,12 +75,12 @@ interface UserSessionContainerInterface
     public function toArray();
 
     /**
-     * Adds new attributes
+     * Set the session attributes namespace
      *
-     * @param array $attributes An array of attributes
-     * @return  UserSessionContainerInterface
+     * @param string $namespace The session attributes namespace
+     * @return UserSessionContainerAbstract
      */
-    public function fromArray(array $attributes);
+    public function setNamespace($namespace);
 
     /**
      * Get the session attributes namespace

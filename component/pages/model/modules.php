@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelModules extends Library\ModelTable
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -134,7 +134,7 @@ class ModelModules extends Library\ModelTable
                 {
                     $this->_row->extensions_component_id = $state->component;
 
-                    $this->_row->component_name = $this->getService('application.components')
+                    $this->_row->component_name = $this->getObject('application.components')
                         ->find(array('id' => $state->component))
                         ->top()
                         ->name;
@@ -148,8 +148,7 @@ class ModelModules extends Library\ModelTable
     /**
      * Get a list of items
      *
-     * If the installed state is TRUE this function will return a list of the installed
-     * modules.
+     * If the installed state is TRUE this function will return a list of the installed modules.
      *
      * @return Library\DatabaseRowsetInterface
      */
@@ -161,8 +160,8 @@ class ModelModules extends Library\ModelTable
 
             if($state->installed)
             {
-                $table = $this->getService('com:extensions.database.table.components');
-                $query = $this->getService('lib:database.query.select')->order('name');
+                $table = $this->getObject('com:extensions.database.table.components');
+                $query = $this->getObject('lib:database.query.select')->order('name');
 
                 $components = $table->select($query);
 
@@ -170,7 +169,7 @@ class ModelModules extends Library\ModelTable
                 $modules = array();
                 foreach($components as $component)
                 {
-                    $path  = $this->getService('loader')->getApplication('site');
+                    $path  = Library\ClassLoader::getInstance()->getApplication('site');
                     $path .= '/component/'.substr($component->name, 4).'/modules';
 
                     if(!is_dir($path)) {

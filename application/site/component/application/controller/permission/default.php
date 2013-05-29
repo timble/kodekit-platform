@@ -25,7 +25,7 @@ class ApplicationControllerPermissionDefault extends Library\ControllerPermissio
      */
     public function canRender()
     {
-        $application = $this->getService('application');
+        $application = $this->getObject('application');
         $user        = $this->getUser();
         $request     = $this->getRequest();
 
@@ -33,9 +33,13 @@ class ApplicationControllerPermissionDefault extends Library\ControllerPermissio
         {
             $page = $request->query->get('Itemid', 'int');
 
-            if($this->getService('application.pages')->isAuthorized($page, $user)) {
-               return true;
+            if($this->isDispatched())
+            {
+                if($this->getObject('application.pages')->isAuthorized($page, $user)) {
+                    return true;
+                }
             }
+            else return true;
         }
 
         return false;

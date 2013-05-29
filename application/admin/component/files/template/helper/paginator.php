@@ -20,7 +20,7 @@ class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
      */
     public function pagination($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'limit'   => 0,
         ));
@@ -62,7 +62,7 @@ class FilesTemplateHelperPaginator extends ApplicationTemplateHelperPaginator
     
     public function link($config)
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'title'   => '',
             'current' => false,

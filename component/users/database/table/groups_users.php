@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseTableGroups_users extends Library\DatabaseTableDefault
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'column_map' => array('group_id' => 'users_group_id', 'user_id' => 'users_user_id'))

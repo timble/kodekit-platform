@@ -21,12 +21,12 @@ class TemplateHelperListbox extends TemplateHelperSelect
     /**
      * Generates an HTML enabled listbox
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function enabled( $config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
@@ -54,12 +54,12 @@ class TemplateHelperListbox extends TemplateHelperSelect
     /**
      * Generates an HTML published listbox
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function published( $config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'name'      => 'enabled',
             'attribs'   => array(),
@@ -87,22 +87,21 @@ class TemplateHelperListbox extends TemplateHelperSelect
     /**
 	 * Generates an HTML optionlist based on the distinct data from a model column.
 	 *
-	 * The column used will be defined by the name -> value => column options in
-	 * cascading order.
+	 * The column used will be defined by the name -> value => column options in cascading order.
 	 *
-	 * If no 'model' name is specified the model identifier will be created using
-	 * the helper identifier. The model name will be the pluralised package name.
+	 * If no 'model' name is specified the model identifier will be created using the helper identifier. The model name
+     * will be the pluralised package name.
 	 *
-	 * If no 'value' option is specified the 'name' option will be used instead.
-	 * If no 'text'  option is specified the 'value' option will be used instead.
+	 * If no 'value' option is specified the 'name' option will be used instead. If no 'text'  option is specified the
+     * 'value' option will be used instead.
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$config An optional array with configuration options
 	 * @return	string	Html
 	 * @see __call()
 	 */
     protected function _render($config = array())
  	{
- 	    $config = new Config($config);
+ 	    $config = new ObjectConfig($config);
  	    $config->append(array(
  	        'autocomplete' => false
  	    ));
@@ -119,22 +118,21 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	/**
 	 * Generates an HTML optionlist based on the distinct data from a model column.
 	 *
-	 * The column used will be defined by the name -> value => column options in
-	 * cascading order.
+	 * The column used will be defined by the name -> value => column options in cascading order.
 	 *
-	 * If no 'model' name is specified the model identifier will be created using
-	 * the helper identifier. The model name will be the pluralised package name.
+	 * If no 'model' name is specified the model identifier will be created using the helper identifier. The model name
+     * will be the pluralised package name.
 	 *
-	 * If no 'value' option is specified the 'name' option will be used instead.
-	 * If no 'text'  option is specified the 'value' option will be used instead.
+	 * If no 'value' option is specified the 'name' option will be used instead. If no 'text'  option is specified the
+     * 'value' option will be used instead.
 	 *
-	 * @param 	array 	An optional array with configuration options
+	 * @param 	array 	$cofnig An optional array with configuration options
 	 * @return	string	Html
 	 * @see __call()
 	 */
 	protected function _listbox($config = array())
  	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 			'name'		  => '',
 			'attribs'	  => array(),
@@ -152,7 +150,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		    'filter' 	=> array('sort' => $config->text),
 		));
 
-		$list = $this->getService($config->identifier)->set($config->filter)->getRowset();
+		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->getRowset();
 
 		//Get the list of items
  	    $items = $list->get($config->value);
@@ -186,7 +184,7 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	 */
 	protected function _autocomplete($config = array())
  	{
-		$config = new Config($config);
+		$config = new ObjectConfig($config);
 		$config->append(array(
 		    'name'		 => '',
 			'attribs'	 => array(),
@@ -214,15 +212,13 @@ class TemplateHelperListbox extends TemplateHelperSelect
 	/**
      * Search the mixin method map and call the method or trigger an error
      *
-     * This function check to see if the method exists in the mixing map if not
-     * it will call the 'listbox' function. The method name will become the 'name'
-     * in the config array.
+     * This function check to see if the method exists in the mixing map if not it will call the 'listbox' function.
+     * The method name will become the 'name' in the config array.
      *
-     * This can be used to auto-magically create select filters based on the
-     * function name.
+     * This can be used to auto-magically create select filters based on the function name.
      *
-     * @param  string   The function name
-     * @param  array    The function arguments
+     * @param  string   $method     The function name
+     * @param  array    $arguments  The function arguments
      * @throws \BadMethodCallException   If method could not be found
      * @return mixed The result of the function
      */

@@ -15,11 +15,13 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 {
 	protected $_adapter;
 
-	public function __construct(Library\Config $config)
+    protected $_container;
+
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->mixin(new Library\MixinCommand($config->append(array('mixer' => $this))));
+		$this->mixin('lib:command.mixin', $config);
 
 		if ($config->validator !== false)
 		{
@@ -27,16 +29,16 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 				$config->validator = 'com:files.command.validator.'.$this->getIdentifier()->name;
 			}
 
-			$this->getCommandChain()->enqueue($this->getService($config->validator));
+			$this->getCommandChain()->enqueue($this->getObject($config->validator));
 		}
 	}
 
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
-			'command_chain'     => $this->getService('lib:command.chain'),
+			'command_chain'     => $this->getObject('lib:command.chain'),
 			'dispatch_events'   => false,
-			'event_dispatcher'  => $this->getService('lib:event.dispatcher.default'),
+			'event_dispatcher'  => $this->getObject('lib:event.dispatcher.default'),
 			'enable_callbacks'  => true,
 			'validator' 		=> true
 		));
@@ -60,21 +62,18 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 			$this->getCommandChain()->run('after.copy', $context);
         }
 
-		if ($context->result === false)
+		if ($context->result !== false)
 		{
-			$this->setStatus(Library\Database::STATUS_FAILED);
-		}
-		else
-		{
-			if ($this->destination_folder) {
-				$this->folder = $this->destination_folder;
-			}
-			if ($this->destination_name) {
-				$this->name = $this->destination_name;
-			}
+            if ($this->destination_folder) {
+                $this->folder = $this->destination_folder;
+            }
+            if ($this->destination_name) {
+                $this->name = $this->destination_name;
+            }
 
-			$this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
+            $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
 		}
+		else $this->setStatus(Library\Database::STATUS_FAILED);
 
 		return $context->result;
 	}
@@ -90,21 +89,19 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 			$this->getCommandChain()->run('after.move', $context);
         }
 
-		if ($context->result === false)
+		if ($context->result !== false)
 		{
-			$this->setStatus(Library\Database::STATUS_FAILED);
-		}
-		else
-		{
-			if ($this->destination_folder) {
-				$this->folder = $this->destination_folder;
-			}
-			if ($this->destination_name) {
-				$this->name = $this->destination_name;
-			}
+            if ($this->destination_folder) {
+                $this->folder = $this->destination_folder;
+            }
 
-			$this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
+            if ($this->destination_name) {
+                $this->name = $this->destination_name;
+            }
+
+            $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
 		}
+		else $this->setStatus(Library\Database::STATUS_FAILED);
 
 		return $context->result;
 	}
@@ -172,11 +169,30 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		}
 	}
 
+    public function getContainer()
+    {
+        if(!isset($this->_container))
+        {
+            //Set the container
+            $container = $this->getObject('com:files.model.containers')->slug($this->container)->getRow();
+
+            if (!is_object($container) || $container->isNew()) {
+                throw new \UnexpectedValueException('Invalid container');
+            }
+
+            $this->_container = $container;
+        }
+
+        return $this->_container;
+    }
+
 	public function setAdapter()
 	{
-		$type = $this->getIdentifier()->name;
-		$this->_adapter = $this->container->getAdapter($type, array(
-			'path' => $this->container->path.'/'.($this->folder ? $this->folder.'/' : '').$this->name
+		$type      = $this->getIdentifier()->name;
+        $container = $this->getContainer();
+
+		$this->_adapter = $container->getAdapter($type, array(
+			'path' => $container->path.'/'.($this->folder ? $this->folder.'/' : '').$this->name
 		));
 
 		unset($this->_data['fullpath']);
@@ -211,7 +227,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
         unset($data['format']);
         unset($data['view']);
 
-		$data['container'] = $this->container->slug;
+		$data['container'] = $this->getContainer()->slug;
 		$data['type']      = $this->getIdentifier()->name;
 
         return $data;

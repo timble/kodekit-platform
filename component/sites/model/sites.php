@@ -17,9 +17,9 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Sites
  */
-class ModelSites extends Library\ModelAbstract implements Library\ServiceInstantiatable
+class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleton
 {	
-     public function __construct(Library\Config $config)
+     public function __construct(Library\ObjectConfig $config)
      {
          parent::__construct($config);
          
@@ -31,18 +31,6 @@ class ModelSites extends Library\ModelAbstract implements Library\ServiceInstant
              ->insert('direction' , 'word', 'asc')
              ->insert('search'    , 'string');
     }
-
-    public static function getInstance(Library\Config $config, Library\ServiceManagerInterface $manager)
-    {
-        if (!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
-        }
-        
-        return $manager->get($config->service_identifier);
-    }
     
     public function getRowset()
     {
@@ -50,7 +38,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ServiceInstant
         {
             $state = $this->getState();
             $data = array();
-            
+
             //Get the sites
 			foreach(new \DirectoryIterator(JPATH_SITES) as $file)
 			{
@@ -61,7 +49,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ServiceInstant
 				    );
     			}
 			}
-			
+
             //Apply state information
             foreach($data as $key => $value)
             {   
@@ -81,7 +69,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ServiceInstant
                 $data = array_slice($data, $state->offset, $state->limit);
             }
                         
-            $this->_rowset = $this->getService('com:sites.database.rowset.sites', array('data' => $data));
+            $this->_rowset = $this->getObject('com:sites.database.rowset.sites', array('data' => $data));
         }
         
         return $this->_rowset;

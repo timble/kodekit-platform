@@ -21,13 +21,13 @@ class WeblinksViewWeblinksHtml extends Library\ViewHtml
     public function render()
     {
         //Get the parameters
-        $params = $this->getService('application')->getParams();
+        $params = $this->getObject('application')->getParams();
 
         //Get the category
         $category = $this->getCategory();
 
         //Get the parameters of the active menu item
-        if ($page = $this->getService('application.pages')->getActive())
+        if ($page = $this->getObject('application.pages')->getActive())
         {
             $menu_params = new JParameter( $page->params );
             if (!$menu_params->get( 'page_title')) {
@@ -41,7 +41,7 @@ class WeblinksViewWeblinksHtml extends Library\ViewHtml
 
         //Set the pathway
         if($page->getLink()->query['view'] == 'categories' ) {
-            $this->getService('application')->getPathway()->addItem($category->title, '');
+            $this->getObject('application')->getPathway()->addItem($category->title, '');
         }
 
         $this->params   = $params;
@@ -53,7 +53,7 @@ class WeblinksViewWeblinksHtml extends Library\ViewHtml
     public function getCategory()
     {
         //Get the category
-        $category = $this->getService('com:weblinks.model.categories')
+        $category = $this->getObject('com:weblinks.model.categories')
             ->table('weblinks')
             ->id($this->getModel()->getState()->category)
             ->getRow();

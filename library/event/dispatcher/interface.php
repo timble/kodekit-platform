@@ -23,7 +23,7 @@ interface EventDispatcherInterface
      * the event and returning their return values.
      *
      * @param   string  The event name
-     * @param   object|array   An array, a Config or a Event object
+     * @param   object|array   An array, a ObjectConfig or a Event object
      * @return  Event
      */
     public function dispatchEvent($name, $event = array());

@@ -29,10 +29,10 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     /**
      * Constructor
      *
-     * @param  object   A Library\Config object with configuration options.
+     * @param  object   A Library\ObjectConfig object with configuration options.
      * @return void
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
         
@@ -46,13 +46,13 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  object   A Library\Config object with configuration options.
+     * @param  object   A Library\ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'   => Library\Command::PRIORITY_HIGH,
+            'priority'   => Library\CommandChain::PRIORITY_HIGH,
             'auto_mixin' => true,
             'table'      => null
         ));
@@ -93,7 +93,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     public function getClosureTable()
     {
         if(!$this->_table instanceof Library\DatabaseTableInterface) {
-            $this->_table = $this->getService($this->_table);
+            $this->_table = $this->getObject($this->_table);
         }
 
         return $this->_table;
@@ -108,7 +108,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     {
         
         $table = $this->getTable();
-        $query = $this->getService('lib:database.query.select')
+        $query = $this->getObject('lib:database.query.select')
             ->columns('tbl.*')
             ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('tbl.'.$table->getIdentityColumn().' <> :id')
@@ -153,7 +153,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
         
         if($this->level > 1)
         {
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->columns('tbl.*')
                 ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.ancestor_id = tbl.'.$table->getIdentityColumn(), 'INNER')
                 ->where('closures.descendant_id = :id')
@@ -175,7 +175,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
     public function getDescendants()
     {
         $table = $this->getTable();
-        $query = $this->getService('lib:database.query.select')
+        $query = $this->getObject('lib:database.query.select')
             ->columns('tbl.*')
             ->join(array('closures' => $this->getClosureTable()->getName()), 'closures.descendant_id = tbl.'.$table->getIdentityColumn(), 'INNER')
             ->where('closures.ancestor_id = :id')
@@ -260,7 +260,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
             $table = $context->getSubject();
             
             // Insert the self relation.
-            $query = $this->getService('lib:database.query.insert')
+            $query = $this->getObject('lib:database.query.insert')
                 ->table($this->getClosureTable()->getBase())
                 ->columns(array('ancestor_id', 'descendant_id', 'level'))
                 ->values(array($data->id, $data->id, 0));
@@ -274,13 +274,13 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
 
                 // Insert child relations.
-                $select = $this->getService('lib:database.query.select')
+                $select = $this->getObject('lib:database.query.select')
                     ->columns(array('ancestor_id', $data->id, 'level + 1'))
                     ->table($this->getClosureTable()->getName())
                     ->where('descendant_id = :descendant_id')
                     ->bind(array('descendant_id' => $parent->id));
                 
-                $query = $this->getService('lib:database.query.insert')
+                $query = $this->getObject('lib:database.query.insert')
                     ->table($this->getClosureTable()->getBase())
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
@@ -320,7 +320,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 }
                 
                 // Delete the outdated paths for the old location.
-                $query = $this->getService('lib:database.query.delete')
+                $query = $this->getObject('lib:database.query.delete')
                     ->table(array('a' => $this->getClosureTable()->getBase()))
                     ->join(array('d' => $this->getClosureTable()->getBase()), 'a.descendant_id = d.descendant_id', 'INNER')
                     ->join(array('x' => $this->getClosureTable()->getBase()), 'x.ancestor_id = d.ancestor_id AND x.descendant_id = a.ancestor_id')
@@ -331,7 +331,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 $table->getAdapter()->delete($query);
 
                 // Insert the subtree under its new location.
-                $select = $this->getService('lib:database.query.select')
+                $select = $this->getObject('lib:database.query.select')
                     ->columns(array('supertree.ancestor_id', 'subtree.descendant_id', 'supertree.level + subtree.level + 1'))
                     ->table(array('supertree' => $this->getClosureTable()->getName()))
                     ->join(array('subtree' => $this->getClosureTable()->getName()), null, 'INNER')
@@ -339,7 +339,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                     ->where('supertree.descendant_id = :descendant_id')
                     ->bind(array('ancestor_id' => $row->id, 'descendant_id' => (int) $row->parent_id));
 
-                $query = $this->getService('lib:database.query.insert')
+                $query = $this->getObject('lib:database.query.insert')
                     ->table($this->getClosureTable()->getBase())
                     ->columns(array('ancestor_id', 'descendant_id', 'level'))
                     ->values($select);
@@ -364,14 +364,14 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
         $table         = $context->getSubject();
         $id_column     = $table->getIdentityColumn();
 
-        $select = $this->getService('lib:database.query.select')
+        $select = $this->getObject('lib:database.query.select')
             ->columns('descendant_id')
             ->table($table->getClosureTable()->getName())
             ->where('ancestor_id = :id')
             ->where('descendant_id <> :id')
             ->bind(array('id' => $context->data->id));
         
-        $query = $this->getService('lib:database.query.delete')
+        $query = $this->getObject('lib:database.query.delete')
             ->table($table->getBase())
             ->where($id_column.' IN :id')
             ->bind(array('id' => $select));

@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @package     Koowa_Dispatcher
  * @subpackage  Response
  */
-class DispatcherResponse extends ControllerResponse implements DispatcherResponseInterface
+class DispatcherResponse extends ControllerResponse implements DispatcherResponseInterface, ObjectInstantiable
 {
     /**
      * Transport object or identifier
@@ -35,9 +35,9 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     /**
      * Constructor.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -53,10 +53,10 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param   ObjectConfig $config    An optional ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'transport' => 'default',
@@ -69,24 +69,24 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('response'))
+        if (!$manager->isRegistered('response'))
         {
             //Create the singleton
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('response', $config->service_identifier);
+            $manager->registerAlias('response', $config->object_identifier);
         }
 
-        return $manager->get('response');
+        return $manager->getObject('response');
     }
 
     /**
@@ -100,11 +100,11 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     {
         if(!$this->_transport instanceof DispatcherResponseTransportInterface)
         {
-            if(!($this->_transport instanceof ServiceIdentifier)) {
+            if(!($this->_transport instanceof ObjectIdentifier)) {
                 $this->setTransport($this->_transport);
             }
 
-            $this->_transport = $this->getService($this->_transport, array('response' => $this));
+            $this->_transport = $this->getObject($this->_transport, array('response' => $this));
 
             if(!$this->_transport instanceof DispatcherResponseTransportInterface)
             {
@@ -120,8 +120,8 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     /**
      * Method to set a transport strategy
      *
-     * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
-     * 					or valid identifier string
+     * @param	mixed	$transport An object that implements ObjectInterface, ObjectIdentifier object
+     * 					           or valid identifier string
      * @return	DispatcherResponse
      */
     public function setTransport($transport)
@@ -164,7 +164,7 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     {
         if(!$this->_request instanceof DispatcherRequestInterface)
         {
-            $this->_request = $this->getService($this->_request);
+            $this->_request = $this->getObject($this->_request);
 
             if(!$this->_request instanceof DispatcherRequestInterface)
             {
@@ -202,5 +202,18 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
         }
 
         $this->getTransport()->send();
+    }
+
+    /**
+     * Deep clone of this instance
+     *
+     * @return void
+     */
+    public function __clone()
+    {
+        parent::__clone();
+
+        $this->_transport  = clone $this->_transport;
+        $this->_request    = clone $this->_request;
     }
 }

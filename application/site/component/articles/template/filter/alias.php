@@ -18,10 +18,10 @@ use Nooku\Library;
  */
 class ArticlesTemplateFilterAlias extends Library\TemplateFilterAlias
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->addAlias(array('@highlight(' => '$this->getView()->highlight('), Library\TemplateFilter::MODE_READ);
+        $this->addAlias(array('@highlight(' => '$this->getView()->highlight('), Library\TemplateFilter::MODE_COMPILE);
     }
 }

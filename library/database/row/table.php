@@ -12,7 +12,7 @@ namespace Nooku\Library;
 /**
  * Table Row Class
  *
- * @author        Johan Janssens <johan@nooku.org>
+ * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Database
  * @subpackage  Row
  */
@@ -26,22 +26,39 @@ class DatabaseRowTable extends DatabaseRowAbstract
     protected $_table = false;
 
     /**
-     * Object constructor
+     * Constructor
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
-        parent::__construct($config);
+        //Bypass DatabaseRowAbstract constructor to prevent data from being added twice
+        Object::__construct($config);
 
+        //Set the table identifier
         $this->_table = $config->table;
+
+        // Set the table identifier
+        if (isset($config->identity_column)) {
+            $this->_identity_column = $config->identity_column;
+        }
 
         // Reset the row
         $this->reset();
 
-        // Reset the row data
+        //Set the status
+        if (isset($config->status)) {
+            $this->setStatus($config->status);
+        }
+
+        // Set the row data
         if (isset($config->data)) {
-            $this->setData($config->data->toArray(), $config->new);
+            $this->setData($config->data->toArray(), $this->isNew());
+        }
+
+        //Set the status message
+        if (!empty($config->status_message)) {
+            $this->setStatusMessage($config->status_message);
         }
     }
 
@@ -50,10 +67,10 @@ class DatabaseRowTable extends DatabaseRowAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'table' => $this->getIdentifier()->name
@@ -77,12 +94,12 @@ class DatabaseRowTable extends DatabaseRowAbstract
             if (!($this->_table instanceof DatabaseTableInterface))
             {
                 //Make sure we have a table identifier
-                if (!($this->_table instanceof ServiceIdentifier)) {
+                if (!($this->_table instanceof ObjectIdentifier)) {
                     $this->setTable($this->_table);
                 }
 
                 try {
-                    $this->_table = $this->getService($this->_table);
+                    $this->_table = $this->getObject($this->_table);
                 } catch (\RuntimeException $e) {
                     $this->_table = false;
                 }
@@ -95,8 +112,8 @@ class DatabaseRowTable extends DatabaseRowAbstract
     /**
      * Method to set a table object attached to the rowset
      *
-     * @param    mixed    An object that implements ServiceInterface, ServiceIdentifier object
-     *                    or valid identifier string
+     * @param    mixed    $table An object that implements ObjectInterface, ObjectIdentifier object
+     *                           or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
      * @return  DatabaseRowsetAbstract
      */
@@ -236,19 +253,19 @@ class DatabaseRowTable extends DatabaseRowAbstract
      *
      * This function will reset required column to their default value, not required fields will be unset.
      *
-     * @param    string  The column name.
-     * @return    void
+     * @param    string  $column The column name.
+     * @return   void
      */
-    public function __unset($column)
+    public function offsetUnset($column)
     {
         if ($this->isConnected())
         {
             $field = $this->getTable()->getColumn($column);
 
             if (isset($field) && $field->required) {
-                $this->_data[$column] = $field->default;
+                parent::offsetSet($this->_data[$column], $field->default);
             } else {
-                parent::__unset($column);
+                parent::offsetUnset($column);
             }
         }
     }
@@ -259,8 +276,8 @@ class DatabaseRowTable extends DatabaseRowAbstract
      * This function implements a just in time mixin strategy. Available table behaviors are only mixed when needed.
      * Lazy mixing is triggered by calling DatabaseRowsetTable::is[Behaviorable]();
      *
-     * @param  string     The function name
-     * @param  array      The function arguments
+     * @param  string     $method   The function name
+     * @param  array      $argument The function arguments
      * @throws \BadMethodCallException     If method could not be found
      * @return mixed The result of the function
      */

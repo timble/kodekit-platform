@@ -16,7 +16,7 @@
  * @package     Nooku_Server
  * @subpackage  Weblinks
  */
-class WeblinksControllerWeblink extends ApplicationControllerDefault
+class WeblinksControllerWeblink extends Library\ControllerModel
 {
     public function getRequest()
 	{
@@ -36,7 +36,7 @@ class WeblinksControllerWeblink extends ApplicationControllerDefault
 		if ($context->request->getFormat() == 'html')
 		{           
 			if ($weblink->url) {
-                $context->response->setRedirect($weblink->url);
+                $this->getObject('application')->redirect($weblink->url);
 			}
 
 			return true;

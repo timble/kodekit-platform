@@ -20,9 +20,9 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
 {
     public function timestamp($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 
-        $config->append(array('parameters' => $this->getService('application.components')->articles->params))
+        $config->append(array('parameters' => $this->getObject('application.components')->articles->params))
                ->append(array(
                     'show_create_date' => $config->parameters->get('show_create_date'),
                     'show_modify_date' => $config->parameters->get('show_modify_date')

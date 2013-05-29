@@ -16,9 +16,9 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesControllerArticle extends ApplicationControllerDefault
+class ArticlesControllerArticle extends Library\ControllerModel
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
                 'toolbars'  => array('article'),
@@ -48,7 +48,7 @@ class ArticlesControllerArticle extends ApplicationControllerDefault
                     'order'  => array('ordering' => 'ASC'));
 
                 // Get the parameters
-                $params = $this->getService('application')->getParams();
+                $params = $this->getObject('application')->getParams();
 
                 // Force some request vars based on setting parameters.
                 $request->query->limit     = (int) $params->get('articles_per_page', 10);
@@ -64,7 +64,7 @@ class ArticlesControllerArticle extends ApplicationControllerDefault
             }
 
             //Always show child category articles
-            $request->query->category_recurse = true;
+            $request->query->category_recurse = false;
         }
 
         return $request;

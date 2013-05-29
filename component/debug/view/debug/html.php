@@ -21,8 +21,8 @@ class ViewDebugHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $database = $this->getService('com:debug.event.subscriber.database');
-        $profiler = $this->getService('com:debug.event.profiler');
+        $database = $this->getObject('com:debug.event.subscriber.database');
+        $profiler = $this->getObject('com:debug.event.profiler');
         $language = \JFactory::getLanguage();
 
         //Remove the template includes
@@ -31,7 +31,7 @@ class ViewDebugHtml extends Library\ViewHtml
         foreach($includes as $key => $value)
         {
             //Find the real file path
-            if($alias = $this->getService('loader')->getAlias($value)) {
+            if($alias = Library\ClassLoader::getInstance()->getAlias($value)) {
                 $includes[$key] = $alias;
             };
         }

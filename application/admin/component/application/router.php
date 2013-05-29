@@ -24,7 +24,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         $path = trim($url->getPath(), '/');
 
         //Remove base path
-        $path = substr_replace($path, '', 0, strlen($this->getService('request')->getBaseUrl()->getPath()));
+        $path = substr_replace($path, '', 0, strlen($this->getObject('request')->getBaseUrl()->getPath()));
 
         // Set the format
         if(!empty($url->format)) {
@@ -32,7 +32,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         }
 
         //Parse site route
-        $url->query['site'] = $this->getService('application')->getSite();
+        $url->query['site'] = $this->getObject('application')->getSite();
 
         $path = str_replace($url->query['site'], '', $path);
         $path = ltrim($path, '/');
@@ -66,8 +66,8 @@ class ApplicationRouter extends Library\DispatcherRouter
         $segments = array();
 
         //Build site route
-        $site = $this->getService('application')->getSite();
-        if($site != 'default' && $site != $this->getService('application')->getRequest()->getUrl()->toString(HttpUrl::HOST)) {
+        $site = $this->getObject('application')->getSite();
+        if($site != 'default' && $site != $this->getObject('application')->getRequest()->getUrl()->toString(Library\HttpUrl::HOST)) {
             $segments[] = $site;
         }
 
@@ -87,28 +87,22 @@ class ApplicationRouter extends Library\DispatcherRouter
             }
         }
 
-        $url->query  = $query;
-
-        //Build the route
-        $route  = implode('/', $segments);
+        $url->query = $query;
 
         //Add the format to the uri
-        $format = isset($url->query['format']) ? $url->query['format'] : 'html';
-
-        if($this->getService('application')->getCfg('sef_suffix'))
+        if(isset($url->query['format']))
         {
-            $url->format = $format;
+            $format = $url->query['format'];
+
+            if($format != 'html') {
+                $url->format = $format;
+            }
+
             unset($url->query['format']);
         }
-        else
-        {
-            $url->format = '';
-            if($format == 'html') {
-                unset($url->query['format']);
-            }
-        }
 
-        $url->path = $this->getService('request')->getBaseUrl()->getPath().'/'.$route;
+        //Build the route
+        $url->path = $this->getObject('request')->getBaseUrl()->getPath().'/'. implode('/', $segments);
 
         // Removed unused query variables
         unset($url->query['Itemid']);

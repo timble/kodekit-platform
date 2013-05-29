@@ -21,7 +21,7 @@ class TemplateHelperFilesize extends Library\TemplateHelperAbstract
 {
 	public function humanize($config = array())
 	{
-		$config = new Library\Config($config);
+		$config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'sizes' => array('Bytes', 'KB', 'MB', 'GB', 'TB', 'PB')
 		));
@@ -43,6 +43,6 @@ class TemplateHelperFilesize extends Library\TemplateHelperAbstract
 			$size = Library\StringInflector::singularize($size);
 		}
 
-		return sprintf($format, $result, JText::_($size));
+		return sprintf($format, $result, \JText::_($size));
 	}
 }

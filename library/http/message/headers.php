@@ -25,14 +25,14 @@ class HttpMessageHeaders extends ObjectArray
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return ObjectArray
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $headers = Config::unbox($config->headers);
+        $headers = ObjectConfig::unbox($config->headers);
         foreach ($headers as $key => $values) {
             $this->set($key, $values);
         }
@@ -43,10 +43,10 @@ class HttpMessageHeaders extends ObjectArray
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'headers' => array(),
@@ -219,7 +219,7 @@ class HttpMessageHeaders extends ObjectArray
      * @param   string  $key The key name.
      * @return  string  The corresponding value.
      */
-    public function __get($key)
+    public function offsetGet($key)
     {
         $key = strtr(strtolower($key), '_', '-');
 
@@ -238,7 +238,7 @@ class HttpMessageHeaders extends ObjectArray
      * @param   mixed   $value The value for the key
      * @return  void
      */
-    public function __set($key, $value)
+    public function offsetSet($key, $value)
     {
         $key = strtr(strtolower($key), '_', '-');
 
@@ -251,7 +251,7 @@ class HttpMessageHeaders extends ObjectArray
      * @param  string  $key The key name
      * @return boolean
      */
-    public function __isset($key)
+    public function offsetExists($key)
     {
         $key = strtr(strtolower($key), '_', '-');
 
@@ -264,7 +264,7 @@ class HttpMessageHeaders extends ObjectArray
      * @param   string  $key The key name
      * @return  void
      */
-    public function __unset($key)
+    public function offsetUnset($key)
     {
         $key = strtr(strtolower($key), '_', '-');
 

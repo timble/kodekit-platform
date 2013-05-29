@@ -21,7 +21,7 @@ class TemplateHelperSelect extends Library\TemplateHelperSelect
 {
 	public function booleanlist( $config = array())
 	{
-		$config = new Library\Config($config);
+		$config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'name'   	=> '',
 			'attribs'	=> array(),

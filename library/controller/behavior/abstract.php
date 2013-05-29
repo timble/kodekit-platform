@@ -23,9 +23,9 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      * This function translates the command name that starts with 'action' to a command handler function of the format
      * '_action[Action]'
      *
-     * @param     string      The command name
-     * @param     object       The command context
-     * @return     boolean        Can return both true or false.
+     * @param   string          $name     The command name
+     * @param   CommandContext  $context  The command context
+     * @return  boolean  Can return both true or false.
      */
     public function execute($name, CommandContext $context)
     {
@@ -49,10 +49,10 @@ abstract class ControllerBehaviorAbstract extends BehaviorAbstract
      *
      * This function also dynamically adds a function of format _action[Action]
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = parent::getMixableMethods($mixer);
 

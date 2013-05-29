@@ -1,10 +1,10 @@
 
 -- --------------------------------------------------------
 --
--- Table structure for table `#__languages`
+-- Table structure for table `languages`
 --
 
-CREATE TABLE `#__languages` (
+CREATE TABLE `languages` (
     `languages_language_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `application` VARCHAR(50) NOT NULL,
     `name` VARCHAR(150) NOT NULL,
@@ -19,10 +19,10 @@ CREATE TABLE `#__languages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__languages_translations`
+-- Table structure for table `languages_translations`
 --
 
-CREATE TABLE `#__languages_translations` (
+CREATE TABLE `languages_translations` (
     `languages_translation_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `iso_code` VARCHAR(8) NOT NULL,
     `table` VARCHAR(64) NOT NULL,
@@ -37,15 +37,15 @@ CREATE TABLE `#__languages_translations` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__languages_tables`
+-- Table structure for table `languages_tables`
 --
 
-CREATE TABLE `#__languages_tables` (
+CREATE TABLE `languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `extensions_component_id` INT(11) UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `#__languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `#__extensions_components` (`extensions_component_id`) ON DELETE CASCADE
+    CONSTRAINT `languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `extensions_components` (`extensions_component_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;

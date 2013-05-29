@@ -22,8 +22,9 @@ class UsersViewUserHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $this->parameters = $this->getService('application')->getParams();
-		
+        $this->parameters = $this->getObject('application')->getParams();
+        $this->page = $this->getObject('application.pages')->getActive();
+
         //JFactory::getDocument()->setTitle($this->parameters->get('page_title'));
         return parent::render();
     }

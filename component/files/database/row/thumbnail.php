@@ -21,16 +21,16 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 {
     protected $_thumbnail_size;
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->setThumbnailSize(Library\Config::unbox($config->thumbnail_size));
+		$this->setThumbnailSize(Library\ObjectConfig::unbox($config->thumbnail_size));
 	}
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
-    	$size = Library\Config::unbox($config->thumbnail_size);
+    	$size = Library\ObjectConfig::unbox($config->thumbnail_size);
     	
 		if (empty($size)) {
 			$config->thumbnail_size = array('x' => 200, 'y' => 150);
@@ -39,42 +39,61 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
         parent::_initialize($config);
     }
 
+    public function getThumbnailSize()
+    {
+        return $this->_thumbnail_size;
+    }
+
+    /**
+     * @param array $size An array with x and y properties
+     */
+    public function setThumbnailSize(array $size)
+    {
+        $this->_thumbnail_size = $size;
+    }
+
     public function generateThumbnail()
     {
 		@ini_set('memory_limit', '256M');
 
     	$source = $this->source;
-    	if ($source && !$source->isNew())
-		{
-			//Load the phpthumb library
-		    require_once JPATH_VENDOR.'/phpthumb/phpthumb.php';
 
-		    //Create the thumb
-		    $image = \PhpThumbFactory::create($source->fullpath)
-		        ->setOptions(array('jpegQuality' => 50));
+        if (!$source || $source->isNew()) {
+            return false;
+        }
 
-			if ($this->_thumbnail_size['x'] && $this->_thumbnail_size['y'])
-            {
-				// Resize then crop to the provided resolution.
-				$image->adaptiveResize($this->_thumbnail_size['x'], $this->_thumbnail_size['y']);
-			}
+        try
+        {
+            $x = isset($this->_thumbnail_size['x']) ? $this->_thumbnail_size['x'] : 0;
+            $y = isset($this->_thumbnail_size['y']) ? $this->_thumbnail_size['y'] : 0;
+
+            if (!$x && !$y) {
+                return false;
+            }
+
+            $imagine = new \Imagine\Gd\Imagine();
+            $image   = $imagine->open($source->fullpath);
+
+            if ($x && $y) {
+                $size = new \Imagine\Image\Box($x, $y);
+            }
             else
             {
-				$width = isset($this->_thumbnail_size['x'])?$this->_thumbnail_size['x']:0;
-				$height = isset($this->_thumbnail_size['y'])?$this->_thumbnail_size['y']:0;
-				// PhpThumb will calculate the missing side while preserving the aspect ratio.
-				$image->resize($width, $height);
-			}
+                $image_size = $image->getSize();
+                $larger     = max($image_size->getWidth(), $image_size->getHeight());
+                $scale      = max($x, $y);
 
-		    ob_start();
-		    echo $image->getImageAsString();
-		    $str = ob_get_clean();
-		    $str = sprintf('data:%s;base64,%s', $source->mimetype, base64_encode($str));
+                $size       = $image_size->scale(1/($larger/$scale));
+            }
 
-	    	return $str;
-		}
+            $thumbnail = $image->thumbnail($size, \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND);
+            $string    = sprintf('data:image/png;base64,%s', base64_encode((string)$thumbnail));
 
-		return false;
+            return $string;
+        }
+        catch (Exception $e) {
+            return false;
+        }
     }
 
 	public function save()
@@ -86,7 +105,7 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 				$str = $this->generateThumbnail();
 
 		    	$this->setData(array(
-			    	'files_container_id' => $source->container->id,
+			    	'files_container_id' => $source->getContainer()->id,
 					'folder'			 => $source->folder,
 					'filename'           => $source->name,
 					'thumbnail'          => $str
@@ -103,22 +122,9 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
     {
         $data = parent::toArray();
 
-		unset($data['_thumbnail_size']);
-		unset($data['source']);
+        unset($data['_thumbnail_size']);
+        unset($data['source']);
 
         return $data;
-    }
-
-    public function getThumbnailSize()
-    {
-        return $this->_thumbnail_size;
-    }
-
-    /**
-     * @param array $size An array with x and y properties
-     */
-    public function setThumbnailSize(array $size)
-    {
-        $this->_thumbnail_size = $size;
     }
 }

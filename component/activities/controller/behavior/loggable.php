@@ -33,18 +33,18 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
      */
     protected $_title_column;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->_actions      = Library\Config::unbox($config->actions);
-        $this->_title_column = Library\Config::unbox($config->title_column);
+        $this->_actions      = Library\ObjectConfig::unbox($config->actions);
+        $this->_title_column = Library\ObjectConfig::unbox($config->title_column);
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'priority'     => Library\Command::PRIORITY_LOWEST,
+            'priority'     => Library\CommandChain::PRIORITY_LOWEST,
             'actions'      => array('after.edit', 'after.add', 'after.delete'),
             'title_column' => array('title', 'name'),
         ));
@@ -79,17 +79,11 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
                          $log = array(
                             'action'	  => $context->action,
-            				'type'        => $identifier->type,
             				'package'     => $identifier->package,
             				'name'        => $identifier->name,
-                    		'status'      => $status
+                    		'status'      => $status,
+                            'created_by'  => $context->user->getId()
                         );
-
-                        if (!empty($row->created_by)) {
-                            $log['created_by'] = $row->created_by;
-                        } else {
-                            $log['created_by'] = $context->user->getId();
-                        }
 
                         if (is_array($this->_title_column))
                         {
@@ -101,8 +95,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                                 }
                             }
                         }
-                        elseif($row->{$this->_title_column})
-                        {
+                        elseif($row->{$this->_title_column}) {
                             $log['title'] = $row->{$this->_title_column};
                         }
 
@@ -114,7 +107,7 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                         $log['ip']  = $context->request->getAddress();
 
 
-                        $this->getService('com:activities.database.row.activity', array('data' => $log))->save();
+                        $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();
                     }
                 }
             }
@@ -123,6 +116,6 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
     public function getHandle()
     {
-        return Library\MixinAbstract::getHandle();
+        return Library\ObjectMixinAbstract::getHandle();
     }
 }

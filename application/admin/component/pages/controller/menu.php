@@ -16,9 +16,9 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Pages
  */
-class PagesControllerMenu extends ApplicationControllerDefault
+class PagesControllerMenu extends Library\ControllerModel
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'request' => array('application' => 'site')

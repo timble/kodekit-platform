@@ -14,49 +14,35 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Filter
  */
-class FilterFactory extends Object implements ServiceInstantiatable
+class FilterFactory extends ObjectFactoryAbstract implements ObjectSingleton
 {
-	/**
-     * Force creation of a singleton
-     *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
-     * @return FilterFactory
-     */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
-    {
-        if (!$manager->has($config->service_identifier))
-        {
-            $classname = $config->service_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
-        }
-
-        return $manager->get($config->service_identifier);
-    }
-
 	/**
 	 * Factory method for FilterInterface classes.
      *
      * Method accepts an array of filter names, or filter service identifiers and will create a chained filter
      * using a FIFO approach.
 	 *
-	 * @param	string|array Filter identifier(s)
-	 * @param 	object 	An optional Config object with configuration options
+	 * @param	string|array $identifier Filter identifier(s)
+	 * @param 	object|array $config     An optional ObjectConfig object with configuration options
 	 * @return  FilterInterface
 	 */
-	public function getFilter($identifier, $config = array())
+	public function getInstance($identifier, $config = array())
 	{
 		//Get the filter(s) we need to create
 		$filters = (array) $identifier;
 
-		//Create the filter chain
-		$filter = array_shift($filters);
-		$filter = $this->_instantiate($filter, $config);
+        //Create a filter chain
+        if(count($filters) > 1)
+        {
+            $filter = $this->getObject('lib:filter.chain');
 
-		foreach($filters as $name) {
-			$filter->addFilter($this->_instantiate($name, $config));
-		}
+            foreach($filters as $name)
+            {
+                $instance = $this->_instantiate($name, $config);
+                $filter->addFilter($instance);
+            }
+        }
+        else $filter = $this->_instantiate($filters[0], $config);
 
 		return $filter;
 	}
@@ -64,10 +50,11 @@ class FilterFactory extends Object implements ServiceInstantiatable
 	/**
 	 * Create a filter based on it's name
 	 *
-	 * If the filter is not an identifier this function will create it directly instead of going through the Service
+	 * If the filter is not an identifier this function will create it directly instead of going through the Object
      * identification process.
 	 *
-	 * @param 	string	Filter identifier
+	 * @param 	string	$filter Filter identifier
+     * @param   array   $config An array of configuration options.
 	 * @throws	\InvalidArgumentException	When the filter could not be found
      * @throws	\UnexpectedValueException	When the filter does not implement FilterInterface
 	 * @return  FilterInterface
@@ -80,9 +67,9 @@ class FilterFactory extends Object implements ServiceInstantiatable
 				$filter = 'lib:filter.'.trim($filter);
 			}
 
-			$filter = $this->getService($filter, $config);
+			$filter = $this->getObject($filter, $config);
 
-		} catch(ServiceException $e) {
+		} catch(ObjectException $e) {
 			throw new \InvalidArgumentException('Invalid filter: '.$filter);
 		}
 

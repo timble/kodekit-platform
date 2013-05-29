@@ -19,7 +19,7 @@ namespace Nooku\Library;
  * @package     Koowa_Template
  * @subpackage  Filter
  */
-class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFilterWrite
+class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFilterRenderer
 {
     /**
      * Quick lookup cache, mostly useful for <img /> and url() rewrites as there are often duplicates on page
@@ -33,13 +33,13 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => Command::PRIORITY_LOWEST,
+            'priority' => TemplateFilterChain::PRIORITY_LOWEST,
         ));
 
         parent::_initialize($config);
@@ -48,10 +48,10 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
     /**
      * Filter the template output
      *
-     * @param string
-     * @return TemplateFilterForm
+     * @param string $text  The text to parse
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         // Stylesheets, favicons etc
         $text = preg_replace_callback('#<link.*href="([^"]+)".*\/>#iU', array($this, '_replace'), $text);
@@ -67,12 +67,12 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
 
         // Inline CSS URIs within style tags
         $text = preg_replace_callback('#<style.*>(.*)<\/style>#siU', array($this, '_replaceInlineCSS'), $text);
-        return $this;
     }
 
     /**
      * Adds 'modified' query variable to resource URI when possible, makes browsers caching useful and failsafe
      *
+     * @param string $url
      * @return string
      */
     protected function _processResourceURL($url)
@@ -80,18 +80,18 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
         if(!isset($this->_cache[$url]))
         {
             // Remote resources cannot be processed
-            if($this->getService('lib:filter.url')->validate($url)) {
+            if($this->getObject('lib:filter.url')->validate($url)) {
                 return $this->_cache[$url] = $url;
             }
 
-            /**
-             * The count is a referenced value, so need to be passed as a variable.
-             * And the count is needed to prevent the root to be replaced multiple times in a longer path.
-             */
+            //Strip the base path from the url
             $count = 1;
-            $src   = JPATH_ROOT.str_replace(Request::root(), '', $url, $count);
+            $path  = str_replace($this->getObject('request')->getBaseUrl()->getPath(), '', $url, $count);
 
-            if(file_exists($src) && $modified = filemtime($src))
+            //Create the fully qualified file path
+            $file  = $this->getObject('request')->getBasePath(true).$path;
+
+            if(file_exists($file) && $modified = filemtime($file))
             {
                 $join  = strpos($url, '?') ? '&' : '?';
                 $this->_cache[$url] = $url.$join.$modified;
@@ -115,8 +115,9 @@ class TemplateFilterExpire extends TemplateFilterAbstract implements TemplateFil
     protected function _replaceInlineCSSMatch($matches)
     {
         $match = trim($matches[1], '"\'');
+
         if(strpos($match, '..') === 0) {
-            $match = Request::root().ltrim($match, '.');
+            $match = $this->getObject('request')->getBaseUrl()->getPath().ltrim($match, '.');
         }
 
         return str_replace($matches[1], $this->_processResourceURL($match), $matches[0]);

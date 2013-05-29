@@ -41,15 +41,18 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
     /**
      * Constructor
      *
-     * @param Config $config  An optional Config object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  UserSessionContainerAbstract
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
+        //@TODO : Fix this. If we don't hardcode it, it gets set to __nooku.
+        $config->namespace = '__nooku_'.$this->getIdentifier()->name;
+
         //Set the attribute session namespace
-        $this->_namespace = $config->namespace;
+        $this->setNamespace($config->namespace);
 
         //Set the attribute session separator
         $this->_separator = $config->separator;
@@ -63,13 +66,13 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'namespace' => '_koowa_'.$this->getIdentifier()->name,
+            'namespace' => '__nooku_'.$this->getIdentifier()->name,
             'separator' => '.',
         ));
 
@@ -85,18 +88,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      */
     public function get($identifier, $default = null)
     {
-        $keys = $this->_parseIdentifier($identifier);
-
-        $result = $this->toArray();
-        foreach($keys as $key)
-        {
-            if(array_key_exists($key, $result)) {
-                $result = $result[$key];
-            } else {
-                $result = null;
-                break;
-            }
-        }
+       $result = $this->offsetGet($identifier);
 
         // If the value is null return the default
         if(is_null($result)) {
@@ -117,14 +109,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      */
     public function set($identifier, $value)
     {
-        $keys = $this->_parseIdentifier($identifier);
-
-        foreach(array_reverse($keys, true) as $key) {
-            $value = array($key => $value);
-        }
-
-        $this->_data = $this->_mergeArrays($this->_data, $value);
-
+        $this->offsetSet($identifier, $value);
         return $this;
     }
 
@@ -136,16 +121,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      */
     public function has($identifier)
     {
-        $keys = $this->_parseIdentifier($identifier);
-
-        foreach($keys as $key)
-        {
-            if(array_key_exists($key, $this->_data)) {
-                return true;
-            };
-        }
-
-        return false;
+        return $this->offsetExists($identifier);
     }
 
     /**
@@ -156,17 +132,7 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      */
     public function remove($identifier)
     {
-        $keys = $this->_parseIdentifier($identifier);
-
-        foreach($keys as $key)
-        {
-            if(array_key_exists($key, $this->_data))
-            {
-                unset($this->_data[$key]);
-                break;
-            };
-        }
-
+        $this->offsetUnset($identifier);
         return $this;
     }
 
@@ -187,12 +153,24 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
      * @param array $attributes An array of attributes
      * @return UserSessionContainerAbstract
      */
-    public function fromArray(array $attributes)
+    public function values(array $attributes)
     {
         foreach ($attributes as $key => $values) {
             $this->set($key, $values);
         }
 
+        return $this;
+    }
+
+    /**
+     * Set the session attributes namespace
+     *
+     * @param string $namespace The session attributes namespace
+     * @return UserSessionContainerAbstract
+     */
+    public function setNamespace($namespace)
+    {
+        $this->_namespace = $namespace;
         return $this;
     }
 
@@ -234,8 +212,91 @@ abstract class UserSessionContainerAbstract extends ObjectArray implements UserS
         }
 
         $this->_data = &$session[$this->_namespace];
-
         return $this;
+    }
+
+    /**
+     * Get a an attribute
+     *
+     * @param   string  $identifier Attribute identifier, eg .foo.bar
+     * @return  mixed   The value
+     */
+    public function offsetGet($identifier)
+    {
+        $keys = $this->_parseIdentifier($identifier);
+
+        $result = $this->toArray();
+        foreach($keys as $key)
+        {
+            if(array_key_exists($key, $result)) {
+                $result = $result[$key];
+            } else {
+                $result = null;
+                break;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set an attribute
+     *
+     * Valid types are strings, numbers, and objects that implement a __toString() method.
+     *
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   string  $value      Attribute value
+     * @return void
+     */
+    public function offsetSet($identifier, $value)
+    {
+        $keys = $this->_parseIdentifier($identifier);
+
+        foreach(array_reverse($keys, true) as $key) {
+            $value = array($key => $value);
+        }
+
+        $this->_data = $this->_mergeArrays($this->_data, $value);
+    }
+
+    /**
+     * Check if an attribute exists
+     *
+     * @param   string  $identifier Attribute identifier, eg foo.bar
+     * @return  boolean
+     */
+    public function offsetExists($identifier)
+    {
+        $keys = $this->_parseIdentifier($identifier);
+
+        foreach($keys as $key)
+        {
+            if(array_key_exists($key, $this->_data)) {
+                return true;
+            };
+        }
+
+        return false;
+    }
+
+    /**
+     * Unset an attribute
+     *
+     * @param string $identifier Attribute identifier, eg foo.bar
+     * @return void
+     */
+    public function offsetUnset($identifier)
+    {
+        $keys = $this->_parseIdentifier($identifier);
+
+        foreach($keys as $key)
+        {
+            if(array_key_exists($key, $this->_data))
+            {
+                unset($this->_data[$key]);
+                break;
+            };
+        }
     }
 
     /**

@@ -17,15 +17,15 @@ use Nooku\Library;
  * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
  * @package Nooku\Component\Pages
  */
-class PagesControllerToolbarModule extends Library\ControllerToolbarModel
+class ControllerToolbarModule extends Library\ControllerToolbarModel
 {
     public function onAfterControllerBrowse(Library\Event $event)
     {
         parent::onAfterControllerBrowse($event);
         
         $this->addSeparator();
-        $this->addEnable(array('label' => 'publish'));
-        $this->addDisable(array('label' => 'unpublish'));
+        $this->addEnable(array('label' => 'publish', 'attribs' => array('data-data' => '{published:1}')));
+        $this->addDisable(array('label' => 'unpublish', 'attribs' => array('data-data' => '{published:0}')));
     }
     
     protected function _commandNew(Library\ControllerToolbarCommand &$command)

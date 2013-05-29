@@ -30,20 +30,20 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
      *
      * @var array
      */
-    protected $_params;
+    protected $_parameters;
 
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
      * @return ObjectDecorator
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_adapter = $config->adapter;
-        $this->_params  = $config->params;
+        $this->setParameters(ObjectConfig::unbox($config->parameters));
     }
 
     /**
@@ -51,65 +51,52 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config $object An optional Config object with configuration options
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'adapter' => 'lib:database.adapter.mysql',
-            'params'  => 'lib:object.array'
+            'adapter'     => 'lib:database.adapter.mysql',
+            'parameters'  => array()
         ));
     }
 
     /**
      * Bind values to a corresponding named placeholders in the query.
      *
-     * @param  array $params Associative array of parameters.
+     * @param  array $parameters Associative array of parameters.
      * @return DatabaseQueryInterface
      */
-    public function bind(array $params)
+    public function bind(array $parameters)
     {
-        foreach ($params as $key => $value) {
-            $this->getParams()->set($key, $value);
+        foreach ($parameters as $key => $value) {
+            $this->getParameters()->set($key, $value);
         }
 
+        return $this;
+    }
+
+    /**
+     * Set the query parameters
+     *
+     * @param  array $parameters
+     * @return DatabaseAdapterInterface
+     */
+    public function setParameters(array $parameters)
+    {
+        $this->_parameters = $this->getObject('lib:database.query.parameters', array('parameters' => $parameters));
         return $this;
     }
 
     /**
      * Get the query parameters
      *
-     * @throws	\UnexpectedValueException	If the params doesn't implement ObjectArray
-     * @return ObjectArray
+     * @return  DatabaseQueryParameters
      */
-    public function getParams()
+    public function getParameters()
     {
-        if(!$this->_params instanceof ObjectArray)
-        {
-            $this->_params = $this->getService($this->_params);
-
-            if(!$this->_params instanceof ObjectArray)
-            {
-                throw new \UnexpectedValueException(
-                    'Params: '.get_class($this->_params).' does not implement ObjectArray'
-                );
-            }
-        }
-
-        return $this->_params;
-    }
-
-    /**
-     * Set the query parameters
-     *
-     * @param ObjectArray $params  The query parameters
-     * @return DatabaseQueryAbstract
-     */
-    public function setParams(ObjectArray $params)
-    {
-        $this->_params = $params;
-        return $this;
+        return $this->_parameters;
     }
 
     /**
@@ -122,7 +109,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     {
         if(!$this->_adapter instanceof DatabaseAdapterInterface)
         {
-            $this->_adapter = $this->getService($this->_adapter);
+            $this->_adapter = $this->getObject($this->_adapter);
 
             if(!$this->_adapter instanceof DatabaseAdapterInterface)
             {
@@ -138,7 +125,7 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     /**
      * Set the database adapter
      *
-     * @param DatabaseAdpaterInterface $adapter
+     * @param DatabaseAdapterInterface $adapter
      * @return DatabaseQueryInterface
      */
     public function setAdapter(DatabaseAdapterInterface $adapter)
@@ -153,9 +140,9 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
      * @param  string $query The query string.
      * @return string The replaced string.
      */
-    protected function _replaceParams($query)
+    protected function _replaceParameters($query)
     {
-        return preg_replace_callback('/(?<!\w):\w+/', array($this, '_replaceParamsCallback'), $query);
+        return preg_replace_callback('/(?<!\w):\w+/', array($this, '_replaceParametersCallback'), $query);
     }
 
     /**
@@ -164,10 +151,10 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
      * @param  array  $matches Matches of preg_replace_callback.
      * @return string The replaced string.
      */
-    protected function _replaceParamsCallback($matches)
+    protected function _replaceParametersCallback($matches)
     {
         $key   = substr($matches[0], 1);
-        $value = $this->_params[$key];
+        $value = $this->_parameters[$key];
 
         if(!$value instanceof DatabaseQuerySelect)
         {
@@ -182,15 +169,15 @@ abstract class DatabaseQueryAbstract extends Object implements DatabaseQueryInte
     /**
      * Get a property
      *
-     * Implement a virtual 'params' property to return the params object.
+     * Implement a virtual 'parameters' property to return the parameters object.
      *
      * @param   string $name  The property name.
      * @return  string $value The property value.
      */
     public function __get($name)
     {
-        if($name = 'params') {
-            return $this->getParams();
+        if($name = 'parameters') {
+            return $this->getParameters();
         }
 
         return parent::__get($name);

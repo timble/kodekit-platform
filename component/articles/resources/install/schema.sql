@@ -1,10 +1,10 @@
 
 -- --------------------------------------------------------
 --
--- Table structure for table `#__articles`
+-- Table structure for table `articles`
 --
 
-CREATE TABLE `#__articles` (
+CREATE TABLE `articles` (
   `articles_article_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) DEFAULT NULL,

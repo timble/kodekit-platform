@@ -30,9 +30,9 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     /**
      * Constructor
      *
-     * @param Library\Config $config
+     * @param Library\ObjectConfig $config
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -49,13 +49,13 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   Config  $config An optional Library\Config object with configuration options
+     * @param   ObjectConfig  $config An optional Library\ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	'table' => $this->getService('com:versions.database.table.revisions')
+        	'table' => $this->getObject('com:versions.database.table.revisions')
         ));
 
         parent::_initialize($config);
@@ -110,7 +110,6 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                     $options = array(
                         'data'   => $row->data,
                         'status' => 'trashed',
-                        'new'    => false,
                     );
 
                     $rowset->insert($rowset->getRow($options));
@@ -366,7 +365,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     	// Set revision number.
     	if ($status == Library\Database::STATUS_UPDATED || $status == Library\Database::STATUS_DELETED)
     	{
-    	    $query = $this->getService('lib:database.query.select')
+    	    $query = $this->getObject('lib:database.query.select')
         	    ->where('table = :table')
         	    ->where('row = :row')
         	    ->order('revision', 'DESC')

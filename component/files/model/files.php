@@ -23,9 +23,9 @@ class ModelFiles extends ModelNodes
     {
         if (!isset($this->_rowset))
         {
-            $state = $this->_state;
+            $state = $this->getState();
 
-            $files = $state->container->getAdapter('iterator')->getFiles(array(
+            $files = $this->getContainer()->getAdapter('iterator')->getFiles(array(
         		'path'    => $this->_getPath(),
         		'exclude' => array('.svn', '.htaccess', '.git', 'CVS', 'index.html', '.DS_Store', 'Thumbs.db', 'Desktop.ini'),
         		'filter'  => array($this, 'iteratorFilter'),
@@ -39,7 +39,7 @@ class ModelFiles extends ModelNodes
 
             $this->_total = count($files);
             
-            if (strtolower($this->_state->direction) == 'desc') {
+            if (strtolower($this->getState()->direction) == 'desc') {
             	$files = array_reverse($files);
             }
             
@@ -50,8 +50,8 @@ class ModelFiles extends ModelNodes
             {
                 $data[] = array(
                 	'container' => $state->container,
-                	'folder' => $state->folder,
-                	'name' => $file
+                	'folder'    => $state->folder,
+                	'name'      => $file
                 );
             }
 
@@ -73,20 +73,24 @@ class ModelFiles extends ModelNodes
 		$filename = basename($path);
 		$extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
-		if ($this->_state->name) {
-			if (!in_array($filename, (array) $this->_state->name)) {
+		if ($this->getState()->name)
+        {
+			if (!in_array($filename, (array) $this->getState()->name)) {
 				return false;
 			}
 		}
 
-		if ($this->_state->types) 
+		if ($this->getState()->types)
         {
-			if ((in_array($extension, DatabaseRowFile::$image_extensions) && !in_array('image', (array) $this->_state->types))
-			|| (!in_array($extension, DatabaseRowFile::$image_extensions) && !in_array('file', (array) $this->_state->types))
+			if ((in_array($extension, DatabaseRowFile::$image_extensions) && !in_array('image', (array) $this->getState()->types))
+			|| (!in_array($extension, DatabaseRowFile::$image_extensions) && !in_array('file', (array) $this->getState()->types))
 			) {
 				return false;
 			}
 		}
-		if ($this->_state->search && stripos($filename, $this->_state->search) === false) return false;
+
+		if ($this->getState()->search && stripos($filename, $this->getState()->search) === false) {
+            return false;
+        }
 	}
 }

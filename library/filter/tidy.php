@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package     Koowa_Filter
  * @see         http://tidy.sourceforge.net/docs/quickref.html
  */
-class FilterTidy extends FilterAbstract
+class FilterTidy extends FilterAbstract implements FilterTraversable
 {
     /**
      * A tidy object
@@ -44,14 +44,14 @@ class FilterTidy extends FilterAbstract
     /**
      * Constructor
      *
-     * @param  object  An optional Config object with configuration options
+     * @param  object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->_encoding = $config->encoding;
-        $this->_options  = Config::unbox($config->options);
+        $this->_options  = ObjectConfig::unbox($config->options);
     }
 
  	/**
@@ -59,10 +59,10 @@ class FilterTidy extends FilterAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'encoding'      => 'utf8',
@@ -83,10 +83,10 @@ class FilterTidy extends FilterAbstract
     /**
      * Validate a variable
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         return (is_string($value));
     }
@@ -94,10 +94,10 @@ class FilterTidy extends FilterAbstract
     /**
      * Sanitize a variable
      *
-     * @param   scalar  Value to be sanitized
+     * @param   scalar  $value Value to be sanitized
      * @return  string
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         //Tidy is not installed, return the input
         if($tidy = $this->getTidy($value))

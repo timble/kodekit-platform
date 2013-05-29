@@ -21,7 +21,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 {
     public function menus($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'model'		=> 'menus',
 			'name' 		=> 'pages_menu_id',
@@ -34,7 +34,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
     
     public function pages($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'deselect' => true,
             'prompt' => '- Select -',
@@ -46,8 +46,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
             $options[] = $this->option(array('text' => JText::_($config->prompt)));
         }
 
-        $menus = $this->getService('com:pages.model.menus')->getRowset();
-        $pages = $this->getService('com:pages.model.pages')->published(true)->getRowset();
+        $menus = $this->getObject('com:pages.model.menus')->getRowset();
+        $pages = $this->getObject('com:pages.model.pages')->published(true)->getRowset();
 
         foreach($menus as $menu)
         {
@@ -57,7 +57,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
                 $options[] = $this->option(array(
                     'text' => str_repeat(str_repeat('&nbsp;', 4), $page->level).$page->title,
                     'value' => $page->id,
-                    'disable' => in_array($page->type, Library\Config::unbox($config->disable))
+                    'disable' => in_array($page->type, Library\ObjectConfig::unbox($config->disable))
                 ));
             }
         }
@@ -69,14 +69,14 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function parents($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name' => 'parent_id',
             'page' => null,
             'menu' => null
         ));
 
-        $pages = $this->getService('com:pages.model.pages')
+        $pages = $this->getObject('com:pages.model.pages')
             ->published(true)
             ->menu($config->menu)
             ->limit(0)
@@ -113,15 +113,15 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
     public function positions($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
             'name' => 'position',
         ));
 
         $options = array();
 
-        $path = $this->getService('loader')->getApplication('site');
-        $path = $path.'/public/theme/bootstrap/config.xml';
+        $path = Library\ClassLoader::getInstance()->getApplication('site');
+        $path = $path.'/public/theme/'.$this->getObject('application')->getCfg('theme').'/config.xml';
 
         if (file_exists($path))
         {

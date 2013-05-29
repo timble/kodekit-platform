@@ -12,7 +12,7 @@ namespace Nooku\Library;
  * Template Filter Factory
  *
  * @author		Johan Janssens <johan@nooku.org>
- * @package     Koowa_Database
+ * @package     Koowa_Template
  * @subpackage 	Filter
  */
 class TemplateFilter
@@ -20,6 +20,6 @@ class TemplateFilter
 	/**
 	 * Filter modes
 	 */
-	const MODE_READ  = 1;
-	const MODE_WRITE = 2; 
+	const MODE_COMPILE  = 1;
+	const MODE_RENDER   = 2;
 }

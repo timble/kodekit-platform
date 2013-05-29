@@ -59,13 +59,13 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
-        // Set the table indentifier
+        // Set the table identifier
         if (isset($config->identity_column)) {
             $this->_identity_column = $config->identity_column;
         }
@@ -73,17 +73,14 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
         // Reset the row
         $this->reset();
 
-        // Set the new state of the row
-        $this->__new = $config->new;
-
-        // Set the row data
-        if (isset($config->data)) {
-            $this->setData((array)Config::unbox($config->data), $this->__new);
-        }
-
         //Set the status
         if (isset($config->status)) {
             $this->setStatus($config->status);
+        }
+
+        // Set the row data
+        if (isset($config->data)) {
+            $this->setData($config->data->toArray(), $this->isNew());
         }
 
         //Set the status message
@@ -97,15 +94,14 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'data'   => null,
-            'new'    => true,
-            'status' => null,
+            'data'            => null,
+            'status'          => null,
             'status_message'  => '',
             'identity_column' => null
         ));
@@ -114,44 +110,59 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
+     * Get a row field value
+     *
+     * @param   string  $column The column name.
+     * @return  string  The corresponding value.
+     */
+    public function get($column)
+    {
+        return $this->offsetGet($column);
+    }
+
+    /**
      * Set row field value
      *
      * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
      * If the row is new the value will be (re)set and marked as modified
      *
-     * @param   string  The column name.
-     * @param   mixed   The value for the property.
+     * @param   string  $column The column name.
+     * @param   mixed   $value  The column value.
      * @return  DatabaseRowAbstract
      */
     public function set($column, $value)
     {
-        if ($this->isNew() || !array_key_exists($column, $this->_data) || ($this->_data[$column] != $value))
-        {
-            parent::set($column, $value);
-            $this->_modified[$column] = $column;
-        }
-
+        $this->offsetSet($column, $value);
         return $this;
+    }
+
+    /**
+     * Test existence of a column
+     *
+     * @param  string  $column The column name.
+     * @return boolean
+     */
+    public function has($column)
+    {
+        return $this->offsetExists($column);
     }
 
     /**
      * Remove a row field
      *
-     * @param   string  The column name.
+     * @param   string  $column The column name.
      * @return  DatabaseRowAbstract
      */
     public function remove($column)
     {
-        parent::remove($column);
-        unset($this->_modified[$column]);
-
+        $this->offsetUnset($column);
         return $this;
     }
 
     /**
      * Returns an associative array of the raw data
      *
-     * @param   boolean  If TRUE, only return the modified data.
+     * @param   boolean  $modified If TRUE, only return the modified data.
      * @return  array
      */
     public function getData($modified = false)
@@ -168,8 +179,8 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Set the row data
      *
-     * @param   mixed   Either and associative array, an object or a DatabaseRow
-     * @param   boolean If TRUE, update the modified information for each column being set.
+     * @param   mixed   $data        Either and associative array, an object or a DatabaseRow
+     * @param   boolean $modified If TRUE, update the modified information for each column being set.
      * @return  DatabaseRowAbstract
      */
     public function setData($data, $modified = true)
@@ -204,7 +215,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Set the status
      *
-     * @param   string|null     The status value or NULL to reset the status
+     * @param   string|null  $status The status value or NULL to reset the status
      * @return  DatabaseRowAbstract
      */
     public function setStatus($status)
@@ -238,7 +249,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Set the status message
      *
-     * @param   string      The status message
+     * @param   string $message The status message
      * @return  DatabaseRowAbstract
      */
     public function setStatusMessage($message)
@@ -248,7 +259,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Gets the identitiy column of the rowset
+     * Gets the identity column of the rowset
      *
      * @return string
      */
@@ -333,7 +344,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     /**
      * Check if a column has been modified
      *
-     * @param   string  The column name.
+     * @param   string  $column The column name.
      * @return  boolean
      */
     public function isModified($column)
@@ -354,5 +365,36 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     public function isConnected()
     {
         return true;
+    }
+
+    /**
+     * Set row field value
+     *
+     * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
+     * If the row is new the value will be (re)set and marked as modified
+     *
+     * @param   string  $column The column name.
+     * @param   mixed   $value  The column value.
+     * @return  void
+     */
+    public function offsetSet($column, $value)
+    {
+        if ($this->isNew() || !array_key_exists($column, $this->_data) || ($this->_data[$column] != $value))
+        {
+            parent::offsetSet($column, $value);
+            $this->_modified[$column] = $column;
+        }
+    }
+
+    /**
+     * Remove a row field
+     *
+     * @param   string  $column The column name.
+     * @return  void
+     */
+    public function offsetUnset($column)
+    {
+        parent::offsetUnset($column);
+        unset($this->_modified[$column]);
     }
 }

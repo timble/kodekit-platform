@@ -24,7 +24,7 @@ class ControllerToolbarWeblink extends Library\ControllerToolbarModel
         parent::onAfterControllerBrowse($event);
 
         $this->addSeparator();
-        $this->addEnable(array('label' => 'publish'));
-        $this->addDisable(array('label' => 'unpublish'));
+        $this->addEnable(array('label' => 'publish', 'attribs' => array('data-data' => '{published:1}')));
+        $this->addDisable(array('label' => 'unpublish', 'attribs' => array('data-data' => '{published:0}')));
     }
 }

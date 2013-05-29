@@ -33,7 +33,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
      */
     protected $_expirable;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -41,9 +41,9 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
         $this->_expirable     = $config->expirable;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'expirable'     => $params->get('password_expire', 0),
@@ -92,10 +92,10 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
      */
     public function expire($autosave = true)
     {
-        $this->expiration = date('Y-m-d');
+        $this->expiration = gmdate('Y-m-d');
 
         if ($autosave) {
-            $this->save();
+            $result = $this->save();
         } else {
             $result = $this->getMixer();
         }
@@ -114,7 +114,7 @@ class DatabaseBehaviorExpirable extends Library\DatabaseBehaviorAbstract
 
         if (empty($this->expiration)) {
             $result = null;
-        } elseif (strtotime(date('Y-m-d')) < strtotime($this->expiration)) {
+        } elseif (strtotime(gmdate('Y-m-d')) < strtotime($this->expiration)) {
             $result = false;
         }
 

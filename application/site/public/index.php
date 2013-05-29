@@ -6,7 +6,7 @@
  * @link        http://www.nooku.org
  */
 
-define('JPATH_ROOT'         , $_SERVER['DOCUMENT_ROOT']);
+define('JPATH_ROOT'         , realpath($_SERVER['DOCUMENT_ROOT']));
 define('JPATH_APPLICATION'  , JPATH_ROOT.'/application/site');
 define('JPATH_VENDOR'       , JPATH_ROOT.'/vendor' );
 define('JPATH_SITES'        , JPATH_ROOT.'/sites');
@@ -17,5 +17,4 @@ define( 'DS', DIRECTORY_SEPARATOR );
 
 require_once(__DIR__.'/bootstrap.php' );
 
-Nooku\Library\ServiceManager::get('loader')->loadIdentifier('com:application.aliases');
-Nooku\Library\ServiceManager::get('application')->run();
+Nooku\Library\ObjectManager::getInstance()->getObject('application')->run();

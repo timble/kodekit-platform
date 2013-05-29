@@ -23,10 +23,6 @@
 	<?= @template('default_sidebar.html'); ?>
 </ktml:module>
 
-<ktml:module position="inspector">
-    <?= @template('com:activities.view.activities.simple.html', array('package' => 'contacts', 'name' => 'contact')); ?>
-</ktml:module>
-
 <form action="" method="get"  class="-koowa-grid">
 <?= @template('default_scopebar.html'); ?>
 <table>
@@ -38,12 +34,12 @@
 			<th width="1">
 			    <?= @helper('grid.checkall'); ?>
 			</th>
+            <th width="1">
+
+            </th>
 			<th>
 			    <?= @helper('grid.sort', array('column' => 'name')); ?>
 			</th>
-			<th width="1">
-			    <?= @helper('grid.sort', array('column' => 'published')); ?>
-			 </th>
 		</tr>		
 	</thead>
 
@@ -65,7 +61,10 @@
             <? endif ?>
 			<td align="center">
 				<?= @helper('grid.checkbox', array('row' => $contact))?>
-			</td>				
+			</td>
+            <td align="center">
+                <?= @helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
+            </td>
 			<td>
 				<a href="<?= @route('view=contact&id='.$contact->id); ?>">
 	   				<?= @escape($contact->name); ?>
@@ -74,9 +73,6 @@
 	   			    <span class="label label-important"><?= @text('Registered') ?></span>
 	   			<? endif; ?>
 			</td>
-			<td align="center">
-				<?= @helper('grid.enable', array('row' => $contact, 'field' => 'published')) ?>
-            </td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>	

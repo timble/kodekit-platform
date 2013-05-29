@@ -81,10 +81,10 @@ class HttpCookie extends Object implements HttpCookieInterface
     /**
      * Constructor
      *
-     * @param Config|null $config  An optional Config object with configuration options
-     * @return DispatcherSessionAbstract
+     * @param ObjectConfig|null $config  An optional ObjectConfig object with configuration options
+     * @return HttpCookie
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -99,10 +99,10 @@ class HttpCookie extends Object implements HttpCookieInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation
      *
-     * @param   Config $config An optional Config object with configuration options
+     * @param   ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'name'      => '',
@@ -206,7 +206,7 @@ class HttpCookie extends Object implements HttpCookieInterface
     {
         $str = urlencode($this->name) . '=';
 
-        if ('' !== (string)$this->value)
+        if ((string)$this->value !== '' )
         {
             $str .= urlencode($this->value);
 
@@ -216,19 +216,19 @@ class HttpCookie extends Object implements HttpCookieInterface
         }
         else $str .= 'deleted; expires=' . gmdate(\DateTime::COOKIE, time() - 31536001);
 
-        if ('/' !== $this->path) {
+        if ($this->path !== '/') {
             $str .= '; path=' . $this->path;
         }
 
-        if (null !== $this->domain) {
+        if ($this->domain !== null) {
             $str .= '; domain=' . $this->domain;
         }
 
-        if (true === $this->isSecure()) {
+        if ($this->isSecure() === true) {
             $str .= '; secure';
         }
 
-        if (true === $this->isHttpOnly()) {
+        if ($this->isHttpOnly() === true) {
             $str .= '; httponly';
         }
 

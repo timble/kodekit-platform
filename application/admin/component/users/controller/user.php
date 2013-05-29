@@ -18,20 +18,20 @@ use Nooku\Library;
  * @package		Nooku_Server
  * @subpackage	Users
  */
-class UsersControllerUser extends ApplicationControllerDefault
+class UsersControllerUser extends Library\ControllerModel
 { 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        $this->registerCallback('after.add' , array($this, 'notify'));
-        $this->registerCallback('after.edit', array($this, 'reset'));
+        $this->registerCallback(array('after.add','after.edit'), array($this, 'expire'));
     }
-    
-    protected function _initialize(Library\Config $config)
+
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'behaviors' => array(
+                'resettable',
                 'com:activities.controller.behavior.loggable' => array('title_column' => 'name'),
             )
         ));
@@ -43,7 +43,7 @@ class UsersControllerUser extends ApplicationControllerDefault
     {
         $entity = parent::_actionDelete($context);
 
-        $this->getService('com:users.model.sessions')
+        $this->getObject('com:users.model.sessions')
             ->email($entity->email)
             ->getRowset()
             ->delete();
@@ -51,38 +51,28 @@ class UsersControllerUser extends ApplicationControllerDefault
         return $entity;
     }
 
-    public function reset(Library\CommandContext $context)
+    protected function _actionEdit(Library\CommandContext $context)
     {
-        if ($context->response->getStatusCode() == self::STATUS_RESET)
-        {
-            $user = $context->result;
-            JFactory::getUser($user->id)->setData($user->getData());
+        $entity = parent::_actionEdit($context);
+        $user = $this->getObject('user');
+
+        // Logged user changed. Updated in memory/session user object.
+        if ($context->response->getStatusCode() == self::STATUS_RESET && $entity->id == $user->getId()) {
+            $user->values($entity->getSessionData($user->isAuthentic()));
         }
+
+        return $entity;
     }
 
-    public function notify(Library\CommandContext $context)
+    public function expire(Library\CommandContext $context)
     {
-        $user = $context->result;
-        $reset = $user->reset;
+        $entity = $context->result;
 
-        if(($user->getStatus() != Library\Database::STATUS_FAILED) && $reset)
-        {
-            $application = $this->getService('application');
-
-            /*
-            $url        = $this->getService('lib:http.url',
-                array('url' => "option=com_users&view=password&layout=form&id={$password->id}&token={$token}"));
-            $this->getService('com:application.router')->build($url);
-            */
-            // TODO Hardcoding URL since AFAIK currently there's no other way to build a frontend route from here.
-            // Due to namespacing problems the backend router will always be returned.
-            $url = "/component/users/user?layout=password&uuid={$user->uuid}&reset={$reset}";
-            $url = $context->request->getUrl()->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $url;
-
-            $subject = JText::_('NEW_USER_MESSAGE_SUBJECT');
-            $message = JText::sprintf('NEW_USER_MESSAGE', $context->result->name, $application->getCfg('sitename'), $url);
-
-           $user->notify(array('subject' => $subject, 'message' => $message));
+        // Expire the user's password if a password change was requested.
+        if ($entity->getStatus() !== Library\Database::STATUS_FAILED && $context->request->data->get('password_change',
+            'boolean')
+        ) {
+            $entity->getPassword()->expire();
         }
     }
 }

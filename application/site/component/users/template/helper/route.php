@@ -20,7 +20,7 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
 {
 	public function session($config = array())
 	{
-        $config   = new Library\Config($config);
+        $config   = new Library\ObjectConfig($config);
         $config->append(array(
            'layout' => null
         ));
@@ -34,8 +34,8 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
             'layout'   => $config->layout,
         );
 
-        if($this->getService('user')->isAuthentic()) {
-            $route['id'] = $this->getService('session')->getId();
+        if($this->getObject('user')->isAuthentic()) {
+            $route['id'] = $this->getObject('session')->getId();
         }
 
         if (($page = $this->_findPage($needles))) {
@@ -47,21 +47,29 @@ class UsersTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function user($config = array())
     {
-        $config   = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
+            'access' => null,
             'layout' => null
         ));
 
-        $needles = array(
-            array('view' => 'user'),
-        );
-
         $route = array(
-            'view'     => 'user',
-            'layout'   => $config->layout,
+            'view'   => 'user',
+            'layout' => $config->layout,
         );
 
-        if (($page = $this->_findPage($needles))) {
+        $needles = array(
+            'extensions_component_id' => $this->getObject('application.components')
+                ->getComponent($this->getIdentifier()->package)->id,
+            'link'                    => array(
+                array('view' => 'user'))
+        );
+
+        if (isset($config->access)) {
+            $needles['access'] = $config->access;
+        }
+
+        if ($page = $this->getObject('application.pages')->find($needles)) {
             $route['Itemid'] = $page->id;
         }
 

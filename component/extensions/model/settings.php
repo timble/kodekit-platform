@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ModelSettings extends Library\ModelAbstract
 {
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -42,17 +42,17 @@ class ModelSettings extends Library\ModelAbstract
     {
         if (!isset($this->_rowset))
         {
-            $rowset = $this->getService('com:extensions.database.rowset.settings');
+            $rowset = $this->getObject('com:extensions.database.rowset.settings');
             
             //Insert the system configuration settings
-            $rowset->insert($this->getService('com:extensions.database.row.setting_system'));
+            $rowset->insert($this->getObject('com:extensions.database.row.setting_system'));
                         
             //Insert the component configuration settings
-            $components = $this->getService('com:extensions.model.components')->enabled(1)->getRowset();
+            $components = $this->getObject('com:extensions.model.components')->enabled(1)->getRowset();
 
             foreach($components as $component)
             {
-                $path  = $this->getService('loader')->getApplication('admin');
+                $path  = Library\ClassLoader::getInstance()->getApplication('admin');
                 $path .= '/component/'.substr($component->name, 4).'/resources/config/settings.xml';
 
                 if(file_exists($path))
@@ -64,7 +64,7 @@ class ModelSettings extends Library\ModelAbstract
                         'data' => $component->params->toArray(),
                     );
 
-                    $row = $this->getService('com:extensions.database.row.setting_component', $config);
+                    $row = $this->getObject('com:extensions.database.row.setting_component', $config);
 
                     $rowset->insert($row);
                 }

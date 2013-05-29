@@ -26,13 +26,13 @@ class PagesViewModuleHtml extends Library\ViewHtml
 
         if($this->getLayout() == 'modal')
         {
-            $this->menus   = $this->getService('com:pages.model.menus')
+            $this->menus   = $this->getObject('com:pages.model.menus')
                                   ->sort('title')->getRowset();
 
-            $this->pages   = $this->getService('com:pages.model.pages')
+            $this->pages   = $this->getObject('com:pages.model.pages')
                                   ->application('site')->getRowset();
 
-            $this->modules = $this->getService('com:pages.model.modules')
+            $this->modules = $this->getObject('com:pages.model.modules')
                                   ->application('site')->getRowset();
         }
 
@@ -44,9 +44,18 @@ class PagesViewModuleHtml extends Library\ViewHtml
                 $module->name        = $model->name;
             }
 
-            $path = $this->getService('loader')->getApplication($module->application);
+            $path = Library\ClassLoader::getInstance()->getApplication($module->application);
             JFactory::getLanguage()->load(substr($module->component_name, 4), $module->name, $path);
         }
+
+        // Build path to module config file
+        $path  = Library\ClassLoader::getInstance()->getApplication('site');
+        $path .= '/component/'.substr($module->component_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
+
+        $params = new \JParameter( null, $path );
+        $params->loadArray($module->params->toArray());
+
+        $this->params = $params;
 
         return parent::render();
     }

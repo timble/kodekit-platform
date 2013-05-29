@@ -20,11 +20,11 @@ use Nooku\Library;
  */
 class ModelRevisions extends Library\ModelTable
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->_state
+        $this->getState()
 			->insert('status'  , 'cmd');
 	}
 
@@ -41,7 +41,7 @@ class ModelRevisions extends Library\ModelTable
     {
         if (!isset($this->_row))
         {
-            if ($this->_state->revision > 1) {
+            if ($this->getState()->revision > 1) {
                 $this->_row = $this->getRevision();
             }
         }
@@ -97,7 +97,7 @@ class ModelRevisions extends Library\ModelTable
     {
     	parent::_buildQueryWhere($query);
 
-    	$state = $this->_state;
+    	$state = $this->getState();
 
         if($state->revision > 1) {
             $state->revision = range(1, $state->revision);

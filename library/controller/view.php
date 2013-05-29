@@ -14,7 +14,7 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  */
-abstract class ControllerView extends ControllerAbstract
+abstract class ControllerView extends ControllerAbstract implements ControllerViewable
 {
 	/**
 	 * View object or identifier
@@ -26,9 +26,9 @@ abstract class ControllerView extends ControllerAbstract
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional Config object with configuration options.
+	 * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options.
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -37,7 +37,7 @@ abstract class ControllerView extends ControllerAbstract
 
 		// Mixin the toolbar
 		if($config->dispatch_events) {
-            $this->mixin(new MixinToolbar($config->append(array('mixer' => $this))));
+            $this->mixin('lib:controller.toolbar.mixin', $config);
 		}
 	}
 	
@@ -46,10 +46,10 @@ abstract class ControllerView extends ControllerAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         //Create permission identifier
         $permission       = clone $this->getIdentifier();
@@ -73,25 +73,24 @@ abstract class ControllerView extends ControllerAbstract
 	 * @throws  ControllerExceptionNotFond If the view cannot be found. Only when controller is being dispatched.
      * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
 	 * @return	ViewInterface
-	 *
 	 */
 	public function getView()
 	{
         if(!$this->_view instanceof ViewInterface)
 		{
 		    //Make sure we have a view identifier
-		    if(!($this->_view instanceof ServiceIdentifier)) {
+		    if(!($this->_view instanceof ObjectIdentifier)) {
 		        $this->setView($this->_view);
 			}
 
 			//Create the view
 			$config = array(
-                'media_url' => $this->getService('request')->getBaseUrl()->getPath().'/media',
-			    'base_url'	=> $this->getService('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
+                'media_url' => $this->getObject('request')->getBaseUrl()->getPath().'/media',
+			    'base_url'	=> $this->getObject('request')->getUrl()->toString(HttpUrl::BASE ^ HttpUrl::USER ^ HttpUrl::PASS),
                 'layout'    => $this->getRequest()->getQuery()->get('layout', 'alpha')
 			);
 
-			$this->_view = $this->getService($this->_view, $config);
+			$this->_view = $this->getObject($this->_view, $config);
 
             //Make sure the view implements ViewInterface
             if(!$this->_view instanceof ViewInterface)
@@ -104,7 +103,7 @@ abstract class ControllerView extends ControllerAbstract
 			//Make sure the view exists if we are dispatching this controller
             if($this->isDispatched())
             {
-                //if(!file_exists(dirname($this->_view->getIdentifier()->filepath))) {
+                //if(!file_exists(dirname($this->_view->getIdentifier()->classpath))) {
                 //    throw new ControllerExceptionNotFound('View : '.$this->_view->getName().' not found');
                 //}
             }
@@ -116,8 +115,8 @@ abstract class ControllerView extends ControllerAbstract
 	/**
 	 * Method to set a view object attached to the controller
 	 *
-	 * @param	mixed	An object that implements ServiceInterface, ServiceIdentifier object
-	 * 					or valid identifier string
+	 * @param	mixed	$view   An object that implements ObjectInterface, ObjectIdentifier object
+	 * 					        or valid identifier string
 	 * @return	ControllerView
 	 */
 	public function setView($view)
@@ -145,7 +144,7 @@ abstract class ControllerView extends ControllerAbstract
      *
      * This function will also set the rendered output in the response.
 	 *
-	 * @param	CommandContext	A command context object
+	 * @param	CommandContext	$context    A command context object
 	 * @return 	string|false 	The rendered output of the view or false if something went wrong
 	 */
 	protected function _actionRender(CommandContext $context)
@@ -153,8 +152,13 @@ abstract class ControllerView extends ControllerAbstract
         $view = $this->getView();
 
         //Push the params in the view
-        foreach($context->param as $name => $value) {
-            $view->set($name, $value);
+        $param = ObjectConfig::unbox($context->param);
+
+        if(is_array($param))
+        {
+            foreach($context->param as $name => $value) {
+                $view->set($name, $value);
+            }
         }
 
         //Push the content in the view
@@ -178,8 +182,8 @@ abstract class ControllerView extends ControllerAbstract
 	 *
 	 * For example : $controller->layout('name')->format('html')->render();
 	 *
-	 * @param	string	Method name
-	 * @param	array	Array containing all the arguments for the original call
+	 * @param	string	$method Method name
+	 * @param	array	$args   Array containing all the arguments for the original call
 	 * @return	ControllerView
 	 *
 	 * @see http://martinfowler.com/bliki/FluentInterface.html

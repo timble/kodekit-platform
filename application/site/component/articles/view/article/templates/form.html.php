@@ -15,7 +15,7 @@
 <script src="media://js/koowa.js"/>
 -->
 
-<div id="toolbar-box">
+<div class="btn-toolbar">
     <?= @helper('com:base.toolbar.render', array('toolbar' => $toolbar));?>
 </div>
 
@@ -24,14 +24,8 @@
     <input type="hidden" name="access" value="0" />
     
     <fieldset>
-    	<legend><?= @text('Article'); ?></legend>
-    	<div class="control-group">
-    	    <label class="control-label" for="title"><?= @text('Title') ?></label>
-    	    <div class="controls">
-    	        <input class="inputbox" type="text" id="title" name="title" size="50" maxlength="100" value="<? echo @escape($article->title); ?>"/>
-    	    </div>
-    	</div>
-        <?= @service('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
+        <input class="input-block-level" type="text" name="title" maxlength="100" value="<? echo @escape($article->title); ?>" style="margin-bottom: 10px"/>
+        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </fieldset>
     <fieldset>
         <legend><?= @text('Publishing'); ?></legend>
@@ -62,7 +56,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= @text('Category'); ?></label>
             <div class="controls">
-                <?= @template('com:articles.view.article.default_categories.html', array('categories' =>  @service('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
+                <?= @helper('com:categories.listbox.categories', array('table' => 'articles', 'name' => 'categories_category_id', 'category' => $article->categories_category_id)) ?>
             </div>
         </div>
     </fieldset>

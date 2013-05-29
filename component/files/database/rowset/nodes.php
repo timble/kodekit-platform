@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'identity_column' => 'name'

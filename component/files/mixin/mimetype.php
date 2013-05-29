@@ -31,16 +31,16 @@ class MixinMimetype extends Library\Object
 	 */
 	protected $_adapters = array();
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
 		if (isset($config->adapters)) {
-			$this->_adapters = Library\Config::unbox($config->adapters);
+			$this->_adapters = Library\ObjectConfig::unbox($config->adapters);
 		}
 	}
 
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		if (empty($config->adapters)) {
 			$config->adapters = array('image', 'finfo');
@@ -102,7 +102,7 @@ class MixinMimetype extends Library\Object
 		// PHP updated libmagic to v5 in 5.3.11 which broke the old mimetype formats
 		// Use the system wide magic file for these versions
 		$database = version_compare(phpversion(), '5.3.11', '>=') ? null : dirname(__FILE__).'/mimetypes/magic';
-		$finfo    = @new finfo(FILEINFO_MIME, $database);
+		$finfo    = new \finfo(FILEINFO_MIME, $database);
 		
 		if (empty($finfo)) {
 		    return MixinMimetype::NOT_AVAILABLE;

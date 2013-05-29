@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Files;
 
 /**
  * Files Html View Class
@@ -18,25 +19,19 @@ use Nooku\Library;
  * @subpackage  Files
  */
 
-class FilesViewFilesHtml extends Library\ViewHtml
+class FilesViewFilesHtml extends Files\ViewFilesHtml
 {
-	protected function _initialize(Library\Config $config)
-	{
-		$config->auto_assign = false;
+    public function render()
+    {
+        $base = clone $this->getObject('request')->getBaseUrl();
 
-		parent::_initialize($config);
-	}
+        $this->sitebase = (string) $base;
 
-	public function render()
-	{
-	    $state = $this->getModel()->getState();
-	    if (empty($state->limit)) {
-	        $state->limit = $this->getService('application')->getCfg('list_limit');
-	    }
-	    
-		$this->token     = $this->getService('user')->getSession()->getToken();
-		$this->container = $this->getModel()->getState()->container;
+        $base->setQuery(array('option' => 'com_files'));
+        $this->getObject('application')->getRouter()->build($base);
 
-		return parent::render();
-	}
+        $this->base = (string) $base;
+
+        return parent::render();
+    }
 }

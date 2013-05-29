@@ -93,7 +93,7 @@ class ApplicationTemplateHelperPaginator extends Library\TemplateHelperPaginator
      */
    public function link($config)
    {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'title'   => '',
 			'current' => false,

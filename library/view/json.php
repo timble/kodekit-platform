@@ -21,10 +21,10 @@ class ViewJson extends ViewAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object Config An optional Config object with configuration options
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'version' => '1.0'
@@ -83,7 +83,7 @@ class ViewJson extends ViewAbstract
         $paginator = $model->getPaginator();
 
         $vars = array();
-        foreach ($state->getStates() as $var)
+        foreach ($state->toArray() as $var)
         {
             if (!$var->unique) {
                 $vars[] = $var->name;
@@ -92,7 +92,7 @@ class ViewJson extends ViewAbstract
 
         $data = array(
             'version' => '1.0',
-            'href' => (string)$route->setQuery($state->toArray(), true),
+            'href' => (string)$route->setQuery($state->getValues(), true),
             'url' => array(
                 'type' => 'application/json',
                 'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',
@@ -107,7 +107,7 @@ class ViewJson extends ViewAbstract
         if ($list = $model->getRowset())
         {
             $vars = array();
-            foreach ($state->getStates() as $var)
+            foreach ($state->toArray() as $var)
             {
                 if ($var->unique)
                 {
@@ -172,7 +172,7 @@ class ViewJson extends ViewAbstract
         $state = $model->getState();
 
         $vars = array();
-        foreach ($state->getStates() as $var)
+        foreach ($state->toArray() as $var)
         {
             if ($var->unique)
             {
@@ -183,7 +183,7 @@ class ViewJson extends ViewAbstract
 
         $data = array(
             'version' => '1.0',
-            'href' => (string)$route->setQuery($state->toArray(true)),
+            'href' => (string)$route->setQuery($state->getValues(true)),
             'url' => array(
                 'type' => 'application/json',
                 'template' => (string)$route->toString(HttpUrl::BASE) . '?{&' . implode(',', $vars) . '}',

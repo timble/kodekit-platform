@@ -30,14 +30,14 @@
         <label class="control-label" for="password"><?= @text('Verify Password') ?></label>
 
         <div class="controls">
-            <input class="validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify"/>
+            <input class="validate-match required matchInput:'password' matchName:'password'" type="password" id="password_verify" name="password_verify"/>
         </div>
     </div>
     <div class="form-actions">
         <button class="btn btn-primary validate" type="submit"><?= @text('Save') ?></button>
     </div>
-    <? if (isset($reset)): ?>
-    <input type="hidden" name="reset" value="<?=$reset;?>"/>
+    <? if (isset($token)): ?>
+    <input type="hidden" name="token" value="<?=$token;?>"/>
     <? endif;?>
-    <input type="hidden" name="action" value="<?= isset($reset) ? 'reset' : 'save';?>"/>
+    <input type="hidden" name="_action" value="<?= isset($token) ? 'reset' : 'save';?>"/>
 </form>

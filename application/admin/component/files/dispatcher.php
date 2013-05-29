@@ -19,12 +19,15 @@ use Nooku\Library;
 
 class FilesDispatcher extends Library\DispatcherComponent
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 	
 		// Return JSON response when possible
 		$this->registerCallback('after.post' , array($this, 'renderResponse'));
+
+        // Return correct status code for plupload
+        $this->getObject('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
 	}
 	
 	public function renderResponse(Library\CommandContext $context)
@@ -33,40 +36,15 @@ class FilesDispatcher extends Library\DispatcherComponent
 			$this->getController()->execute('render', $context);
 		}
 	}
-	
+
     /**
-     * Overloaded execute function to handle exceptions in JSON requests
+     * We need to return 200 even if an error happens in requests using Plupload.
+     * Otherwise we cannot get the error message and display it to the user interface
      */
-    public function execute($action, Library\CommandContext $context)
+    public function setStatusForPlupload(Library\CommandContext $context)
     {
-        try {
-            return parent::execute($action, $context);
+        if ($context->request->getFormat() == 'json' && $context->request->query->get('plupload', 'int')) {
+            $context->response->setStatus('200');
         }
-        catch (Library\ControllerException $e) {
-            $this->_handleException($e);
-        }
-        catch (UnexpectedValueException $e) {
-            $this->_handleException($e);
-        }
-    }
-
-    protected function _handleException(Exception $e) 
-    {
-    	if ($this->getRequest()->getFormat() == 'json')
-        {
-    		$obj = new \stdClass;
-    		$obj->status = false;
-    		$obj->error  = $e->getMessage();
-    		$obj->code   = $e->getCode();
-
-    		// Plupload does not pass the error to our application if the status code is not 200
-    		$code = $this->getRequest()->query->get('plupload', 'int') ? 200 : $e->getCode();
-
-            $this->getResponse()->setStatus($code, $e->getMessage());
-
-    		echo json_encode($obj);
-    		exit(0);
-    	}
-    	else throw $e;
     }
 }

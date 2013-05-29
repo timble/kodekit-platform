@@ -28,9 +28,9 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	/**
 	 * Constructor
 	 *
-	 * @param 	object 	An optional Config object with configuration options
+	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -72,8 +72,8 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
     {
         $output = array();
 
-        if($array instanceof Config) {
-            $array = Config::unbox($array);
+        if($array instanceof ObjectConfig) {
+            $array = ObjectConfig::unbox($array);
         }
 
         if(is_array($array))

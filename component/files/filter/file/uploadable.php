@@ -17,28 +17,16 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class FilterFileUploadable extends Library\FilterAbstract
+class FilterFileUploadable extends Library\FilterChain
 {
-	protected $_walk = false;
-
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
-		$this->addFilter($this->getService('com:files.filter.file.name'), Library\Command::PRIORITY_HIGH);
+		$this->addFilter($this->getObject('com:files.filter.file.name'), self::PRIORITY_HIGH);
 
-		$this->addFilter($this->getService('com:files.filter.file.extension'));
-		$this->addFilter($this->getService('com:files.filter.file.mimetype'));
-		$this->addFilter($this->getService('com:files.filter.file.size'));
-	}
-
-	protected function _validate($context)
-	{
-
-	}
-
-	protected function _sanitize($context)
-	{
-
+		$this->addFilter($this->getObject('com:files.filter.file.extension'));
+		$this->addFilter($this->getObject('com:files.filter.file.mimetype'));
+		$this->addFilter($this->getObject('com:files.filter.file.size'));
 	}
 }

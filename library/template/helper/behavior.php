@@ -30,7 +30,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
      *
      * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
      *
-     * @param    boolean    $debug    Is debugging mode on? [optional]
+     * @param array $config An optional array with configuration options
+     * @return string    The html output
      */
     public function mootools($config = array())
     {
@@ -39,7 +40,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Only load once
         if (!isset(self::$_loaded['mootools']))
         {
-            $config = new Config($config);
+            $config = new ObjectConfig($config);
 
             $html .= '<script src="media://js/mootools.js" />';
             self::$_loaded['mootools'] = true;
@@ -51,11 +52,12 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Render a modal box
      *
+     * @param 	array 	$config An optional array with configuration options
      * @return string    The html output
      */
     public function modal($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'selector' => 'a.modal',
             'options'  => array('disableFx' => true)
@@ -95,11 +97,12 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Render a tooltip
      *
+     * @param 	array 	$config An optional array with configuration options
      * @return string    The html output
      */
     public function tooltip($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'selector' => '.hasTip',
             'options' => array()
@@ -126,11 +129,12 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Render an overlay
      *
+     * @param 	array 	$config An optional array with configuration options
      * @return string    The html output
      */
     public function overlay($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'url' => '',
             'options' => array(),
@@ -147,7 +151,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
             self::$_loaded['overlay'] = true;
         }
 
-        $url = $this->getService('lib:http.url', array('url' => $config->url));
+        $url = $this->getObject('lib:http.url', array('url' => $config->url));
 
         //Force tmpl to overlay
         $url->query['tmpl'] = 'overlay';
@@ -175,14 +179,14 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Keep session alive
      *
-     * This will send an ascynchronous request to the server via AJAX on an interval
-     * in miliseconds
+     * This will send an ascynchronous request to the server via AJAX on an interval in miliseconds
      *
+     * @param 	array 	$config An optional array with configuration options
      * @return string    The html output
      */
     public function keepalive($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'refresh' => 15 * 60000, //default refresh is 15min
             'url'     => $this->getTemplate()->getView()->getRoute('', false, false),
@@ -193,7 +197,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         // Only load once
         if (!isset(self::$_loaded['keepalive']))
         {
-            $session = $this->getService('user')->getSession();
+            $session = $this->getObject('user')->getSession();
             if($session->isActive())
             {
                 //Get the config session lifetime
@@ -228,17 +232,17 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Loads the Forms.Validator class and connects it to Koowa.Controller
      *
-     * This allows you to do easy, css class based forms validation-
-     * Koowa.Controller.Form works with it automatically.
+     * This allows you to do easy, css class based forms validation Koowa.Controller.Form works with it automatically.
      * Requires koowa.js and mootools to be loaded in order to work.
      *
      * @see    http://www.mootools.net/docs/more125/more/Forms/Form.Validator
      *
+     * @param 	array 	$config An optional array with configuration options
      * @return string    The html output
      */
     public function validator($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'selector' => '.-koowa-form',
             'options'  => array(
@@ -279,12 +283,15 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Loads the autocomplete behavior and attaches it to a specified element
      *
-     * @see    http://mootools.net/forge/p/meio_autocomplete
+     * @see http://mootools.net/forge/p/meio_autocomplete
+     *
+     * @param 	array 	$config An optional array with configuration options
      * @return string    The html output
+     *
      */
     public function autocomplete($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'identifier'    => null,
             'element'       => null,
@@ -308,7 +315,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
                 'requestOptions' => array('method' => 'get'),
                 'urlOptions'    => array(
                     'queryVarName' => 'search',
-                    'extraParams'  => Config::unbox($config->filter)
+                    'extraParams'  => ObjectConfig::unbox($config->filter)
                 )
             )
         ));
@@ -357,15 +364,15 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Drag and Drop Sortables Behavior
      *
-     * @param 	array 	An optional array with configuration options
+     * @param 	array 	$config An optional array with configuration options
      * @return	string 	Html
      */
     public function sortable($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
-            'option'	=> Request::get('get.option', 'cmd'),
-            'view'		=> StringInflector::singularize(Request::get('get.view', 'cmd')),
+            'option'	=> 'com_'.$this->getIdentifier()->getPackage(),
+            'view'		=> StringInflector::singularize($this->getTemplate()->getView()->getName()),
             'selector'	=> 'table tbody.sortable',
             'direction' => 'asc',
             'url'       => '?format=json'
@@ -379,7 +386,7 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
                         'options'	=> array(
                             'url'		=> $config->url,
                             'data'	=> array(
-                                '_token'	=> $this->getService('user')->getSession()->getToken(),
+                                '_token'	=> $this->getObject('user')->getSession()->getToken(),
                                 '_action'	=> 'edit'
                             ),
                             'key'		=> 'order',
@@ -396,8 +403,8 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
         {
             $options = !empty($config->options) ? $config->options->toArray() : array();
             $html .= "
-                <script src=\"/administrator/theme/bootstrap/js/sortables.js\" />
-                <style src=\"/administrator/theme/bootstrap/css/sortables.css\" />
+                <script src=\"/administrator/theme/default/js/sortables.js\" />
+                <style src=\"/administrator/theme/default/stylesheets/sortables.css\" />
 				<script>
 				(function(){
 					var sortable = function() {
@@ -417,11 +424,12 @@ class TemplateHelperBehavior extends TemplateHelperAbstract
     /**
      * Loads the calendar behavior and attaches it to a specified element
      *
-     * @return string    The html output
+     * @param 	array  $config An optional array with configuration options
+     * @return string  The html output
      */
     public function calendar($config = array())
     {
-        $config = new ConfigJson($config);
+        $config = new ObjectConfigJson($config);
         $config->append(array(
             'date'       => gmdate("M d Y H:i:s"),
             'name'       => '',

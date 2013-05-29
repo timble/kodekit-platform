@@ -21,7 +21,7 @@ interface ObjectMixable
      *
      * When using mixin(), the calling object inherits the methods of the mixed in objects, in a LIFO order.
      *
-     * @@param   mixed  $mixin  An object that implements MixinInterface, ServiceIdentifier object
+     * @@param   mixed  $mixin  An object that implements ObjectMixinInterface, ObjectIdentifier object
      *                          or valid identifier string
      * @param    array $config  An optional associative array of configuration options
      * @return  ObjectInterface

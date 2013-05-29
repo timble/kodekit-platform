@@ -19,26 +19,22 @@ use Nooku\Library;
  */
 class FilterFolderName extends Library\FilterAbstract
 {
-	protected $_walk = false;
-
-	protected function _validate($context)
+	public function validate($row)
 	{
-		$value = $context->getSubject()->name;
+		$value = $row->name;
 
 		if (strpos($value, '/') !== false) {
-			$context->setError(\JText::_('Folder names cannot contain slashes'));
-			return false;
+			return $this->_error(\JText::_('Folder names cannot contain slashes'));
 		}
 
-		if ($this->_sanitize($value) == '') {
-			$context->setError(\JText::_('Invalid folder name'));
-			return false;
+		if ($this->sanitize($value) == '') {
+			return $this->_error(\JText::_('Invalid folder name'));
 		}
 	}
 
-	protected function _sanitize($value)
+    public function sanitize($value)
 	{
 		$value = str_replace('/', '', $value);
-		return $this->getService('com:files.filter.path')->sanitize($value);
+		return $this->getObject('com:files.filter.path')->sanitize($value);
 	}
 }

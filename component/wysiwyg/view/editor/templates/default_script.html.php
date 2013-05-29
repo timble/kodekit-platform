@@ -16,7 +16,7 @@
     <script src="media://wysiwyg/js/Fx.Toggle.js" />
 <? endif ?>
 
-<script src="media://wysiwyg/tinymce/tiny_mce<?= @service('application')->getCfg('debug') ? '_src.js' : '.js' ?>" />
+<script src="media://wysiwyg/tinymce/tiny_mce<?= @object('application')->getCfg('debug') ? '_src.js' : '.js' ?>" />
 <script src="media://wysiwyg/js/Editor.js" />
 
 <? if($codemirror) : ?>
@@ -48,7 +48,7 @@ try { convertEntities(quicktagsL10n);} catch(e) { };
 <? endif ?>
 		
 <script>
-Editor.baseurl = <?= json_encode(JURI::root()); ?>;
+Editor.baseurl = '';
 
 new Editor(<?= json_encode($id) ?>, <?= json_encode($options) ?>, <?= json_encode($settings) ?>);
 </script>

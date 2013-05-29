@@ -19,11 +19,11 @@ class Date extends \DateTime implements DateInterface
     /**
      * Constructor.
      *
-     * @param   array|Config An associative array of configuration settings or a Config instance.
+     * @param   array|ObjectConfig An associative array of configuration settings or a ObjectConfig instance.
      */
     public function __construct($config = array())
     {
-        if(!$config instanceof Config) $config = new Config($config);
+        if(!$config instanceof ObjectConfig) $config = new ObjectConfig($config);
         
         $this->_initialize($config);
         
@@ -39,10 +39,10 @@ class Date extends \DateTime implements DateInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options.
+     * @param   object  An optional ObjectConfig object with configuration options.
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
         	'date'     => 'now',

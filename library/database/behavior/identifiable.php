@@ -28,9 +28,9 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -47,10 +47,10 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param     object     An optional Config object with configuration options
+     * @param     object     An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'auto_generate' => true,
@@ -62,13 +62,13 @@ class DatabaseBehaviorIdentifiable extends DatabaseBehaviorAbstract
     /**
      * Get the methods that are available for mixin based
      *
-     * This function conditionaly mixes of the behavior. Only if the mixer
+     * This function conditionally mixes of the behavior. Only if the mixer
      * has a 'uuid' property the behavior will be mixed in.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = array();
 

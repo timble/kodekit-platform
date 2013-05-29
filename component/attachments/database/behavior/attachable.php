@@ -19,11 +19,23 @@ use Nooku\Library;
  */
 class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
 {
-	public function getAttachments()
+    /**
+     * Get a list of attachments
+     *
+     * @return RowsetAttachments
+     */
+    public function getAttachments()
 	{
-		return $this->getService('com:attachments.model.attachments')
-				->row($this->id)
-				->table($this->getTable()->getBase())
-				->getRowset();
+        $model = $this->getObject('com:attachments.model.attachments');
+
+        if(!$this->isNew())
+        {
+            $attachements = $model->row($this->id)
+                ->table($this->getTable()->getBase())
+                ->getRowset();
+        }
+        else $attachements = $model->getRowset();
+
+        return $attachements;
 	}
 }

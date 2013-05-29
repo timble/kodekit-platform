@@ -21,15 +21,39 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         $this->registerCallback('after.read'  , array($this, 'lockEntity'));
         $this->registerCallback('after.save'  , array($this, 'unlockEntity'));
         $this->registerCallback('after.cancel', array($this, 'unlockEntity'));
+    }
+
+    /**
+     * Render a lock flash message if the row is locked
+     *
+     * @param   CommandContext	$context A command context object
+     * @return 	void
+     */
+    protected function _afterControllerRead(CommandContext $context)
+    {
+        $row = $context->result;
+
+        //Add the notice if the row is locked
+        if($row->isLockable() && $row->locked())
+        {
+            $user = $this->getObject('com:users.database.row.user')
+                ->set('id', $row->locked_by)
+                ->load();
+
+            $date    = $this->getView()->getTemplate()->getHelper('date')->humanize(array('date' => $row->locked_on));
+            $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date);
+
+            $context->user->addFlashMessage($message, 'notice');
+        }
     }
 
     /**

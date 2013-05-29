@@ -101,8 +101,8 @@ interface UserInterface
     /**
      * Get an user attribute
      *
-     * @param   string  Attribute identifier, eg .foo.bar
-     * @param   mixed   Default value when the attribute doesn't exist
+     * @param   string  $identifier Attribute identifier, eg .foo.bar
+     * @param   mixed   $default Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null);
@@ -110,8 +110,8 @@ interface UserInterface
     /**
      * Set an user attribute
      *
-     * @param   mixed   Attribute identifier, eg foo.bar
-     * @param   mixed   Attribute value
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $value      Attribute value
      * @return User
      */
     public function set($identifier, $value);
@@ -119,7 +119,7 @@ interface UserInterface
     /**
      * Check if a user attribute exists
      *
-     * @param   string  Attribute identifier, eg foo.bar
+     * @param   string  $identifier Attribute identifier, eg foo.bar
      * @return  boolean
      */
     public function has($identifier);
@@ -133,17 +133,19 @@ interface UserInterface
     public function remove($identifier);
 
     /**
+     * Set the user data from an array
+     *
+     * @param  array $data An associative array of data
+     * @return User
+     */
+    public function values(array $data);
+
+    /**
      * Get the user data as an array
      *
      * @return array An associative array of data
      */
     public function toArray();
 
-    /**
-     * Set the user data from an array
-     *
-     * @param  array $data An associative array of data
-     * @return User
-     */
-    public function fromArray(array $data);
+
 }

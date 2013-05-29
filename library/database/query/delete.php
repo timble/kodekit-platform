@@ -149,7 +149,6 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
     public function __toString()
     {
         $adapter = $this->getAdapter();
-        $prefix  = $adapter->getTablePrefix();
         $query   = 'DELETE';
         
         if($this->table && $this->join) {
@@ -157,7 +156,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
         }
         
         if($this->table) {
-            $query .= ' FROM '.$adapter->quoteIdentifier($prefix.current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+            $query .= ' FROM '.$adapter->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
         }
         
         if($this->join)
@@ -174,7 +173,7 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
                 if($join['table'] instanceof DatabaseQuerySelect) {
                     $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
                 } else {
-                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
                 if($join['condition']) {
@@ -217,8 +216,8 @@ class DatabaseQueryDelete extends DatabaseQueryAbstract
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
 
-        if($this->_params) {
-            $query = $this->_replaceParams($query);
+        if($this->_parameters) {
+            $query = $this->_replaceParameters($query);
         }
 
         return $query;

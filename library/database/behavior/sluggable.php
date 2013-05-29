@@ -65,9 +65,9 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -84,10 +84,10 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'columns'    => array('title'),
@@ -107,10 +107,10 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
      * This function conditionally mixes the behavior. Only if the mixer
      * has a 'slug' property the behavior will be mixed in.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = array();
 
@@ -193,7 +193,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         }
 
         //Create the filter
-        $filter = $this->getService('lib:filter.slug', $config);
+        $filter = $this->getObject('lib:filter.slug', $config);
         return $filter;
     }
 
@@ -253,7 +253,7 @@ class DatabaseBehaviorSluggable extends DatabaseBehaviorAbstract
         if ($this->_unique && $table->count(array('slug' => $this->slug)))
         {
             $db = $table->getAdapter();
-            $query = $this->getService('lib:database.query.select')
+            $query = $this->getObject('lib:database.query.select')
                 ->columns('slug')
                 ->where('slug LIKE :slug')
                 ->bind(array('slug' => $this->slug . '-%'));

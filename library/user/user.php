@@ -19,20 +19,20 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_User
  */
-class User extends Object implements UserInterface, ServiceInstantiatable
+class User extends Object implements UserInterface, ObjectInstantiable
 {
     /**
      * Constructor
      *
-     * @param Config $config An optional Config object with configuration options.
+     * @param ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return User
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         //Set the user properties and attributes
-        $this->fromArray(Config::unbox($config));
+        $this->values(ObjectConfig::unbox($config));
     }
 
     /**
@@ -40,10 +40,10 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config An optional Config object with configuration options.
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'id'         => 0,
@@ -65,22 +65,22 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                 $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherRequest
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has('user'))
+        if (!$manager->isRegistered('user'))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
-            $manager->setAlias('user', $config->service_identifier);
+            $manager->registerAlias('user', $config->object_identifier);
         }
 
-        return $manager->get('user');
+        return $manager->getObject('user');
     }
 
     /**
@@ -139,11 +139,11 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      * This should be the encoded password. On authentication, a plain-text password will be salted, encoded, and
      * then compared to this value.
      *
-     * @return string The password
+     * @return string The password or NULL if no password defined
      */
     public function getPassword()
     {
-        return $this->getSession()->get('user.password');
+        return null; //return NULL by default
     }
 
     /**
@@ -151,11 +151,11 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      *
      * This can return null if the password was not encoded using a salt.
      *
-     * @return string The salt
+     * @return string The salt or NULL if no salt defined
      */
     public function getSalt()
     {
-        return $this->getSession()->get('user.salt');
+        return null; //return NULL by default
     }
 
     /**
@@ -193,11 +193,11 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      *
      * This function will create a session object if it hasn't been created yet.
      *
-     * @return KUserSessionInterface
+     * @return UserSessionInterface
      */
     public function getSession()
     {
-        return $this->getService('lib:user.session');
+        return $this->getObject('lib:user.session');
     }
 
     /**
@@ -216,18 +216,18 @@ class User extends Object implements UserInterface, ServiceInstantiatable
      * @param  array $data An associative array of data
      * @return User
      */
-    public function fromArray(array $data)
+    public function values(array $data)
     {
         //Re-initialize the object
-        $data = new Config($data);
+        $data = new ObjectConfig($data);
         $this->_initialize($data);
 
         unset($data['mixins']);
-        unset($data['service_manager']);
-        unset($data['service_identifier']);
+        unset($data['object_manager']);
+        unset($data['object_identifier']);
 
         //Set the user data
-        $this->getSession()->set('user', Config::unbox($data));
+        $this->getSession()->set('user', ObjectConfig::unbox($data));
 
         return $this;
     }
@@ -235,8 +235,8 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Get an user attribute
      *
-     * @param   string  Attribute identifier, eg .foo.bar
-     * @param   mixed   Default value when the attribute doesn't exist
+     * @param   string  $identifier Attribute identifier, eg .foo.bar
+     * @param   mixed   $value      Default value when the attribute doesn't exist
      * @return  mixed   The value
      */
     public function get($identifier, $default = null)
@@ -247,8 +247,8 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Set an user attribute
      *
-     * @param   mixed   Attribute identifier, eg foo.bar
-     * @param   mixed   Attribute value
+     * @param   mixed   $identifier Attribute identifier, eg foo.bar
+     * @param   mixed   $value Attribute value
      * @return User
      */
     public function set($identifier, $value)
@@ -260,7 +260,7 @@ class User extends Object implements UserInterface, ServiceInstantiatable
     /**
      * Check if a user attribute exists
      *
-     * @param   string  Attribute identifier, eg foo.bar
+     * @param   string  $identifier Attribute identifier, eg foo.bar
      * @return  boolean
      */
     public function has($identifier)

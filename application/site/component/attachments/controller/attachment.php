@@ -2,9 +2,9 @@
 
 use Nooku\Library;
 
-class AttachmentsControllerAttachment extends ApplicationControllerDefault
+class AttachmentsControllerAttachment extends Library\ControllerModel
 {
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 		    'model'   => 'com:attachments.model.attachments',

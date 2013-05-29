@@ -22,13 +22,13 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options
+     * @param 	object 	An optional ObjectConfig object with configuration options
      * @return void
      */
-	protected function _initialize(Config $config)
+	protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
-			'priority'   => Command::PRIORITY_LOW,
+			'priority'   => CommandChain::PRIORITY_LOW,
 	  	));
 
     	parent::_initialize($config);
@@ -41,10 +41,10 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 	 * has a 'modified_by' or 'modified_by' property the behavior will
 	 * be mixed in.
 	 *
-	 * @param object The mixer requesting the mixable methods.
+	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
 	 * @return array An array of methods
 	 */
-	public function getMixableMethods(Object $mixer = null)
+	public function getMixableMethods(ObjectMixable $mixer = null)
 	{
 		$methods = array();
 
@@ -70,7 +70,7 @@ class DatabaseBehaviorModifiable extends DatabaseBehaviorAbstract
 		if(!empty($modified))
 		{
 			if($this->has('modified_by')) {
-				$this->modified_by = (int) $this->getService('user')->getId();
+				$this->modified_by = (int) $this->getObject('user')->getId();
 			}
 
 			if($this->has('modified_on')) {

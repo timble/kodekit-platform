@@ -2,10 +2,10 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__extensions_components`
+-- Table structure for table `extensions_components`
 --
 
-CREATE TABLE `#__extensions_components` (
+CREATE TABLE `extensions_components` (
   `extensions_component_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',

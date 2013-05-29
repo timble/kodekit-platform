@@ -26,7 +26,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
      */
     public function render($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'tabbar'  => null,
             'attribs' => array(),
@@ -35,21 +35,26 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
         $html = '';
         if(isset($config->tabbar))
         {
-            $html = '<ul '.$this->_buildAttributes($config->attribs).'>';
-            foreach ($config->tabbar->getCommands() as $command)
-            {
-                $html .= '<li>';
-                $name = $command->getName();
+            $commands = $config->tabbar->getCommands();
 
-                if(method_exists($this, $name)) {
-                    $html .= $this->$name(array('command' => $command));
-                } else {
-                    $html .= $this->command(array('command' => $command));
+            if(count($commands)) {
+                $html = '<div id="panel-tabbar">';
+                $html .= '<ul '.$this->_buildAttributes($config->attribs).'>';
+                foreach ($commands as $command)
+                {
+                    $html .= '<li>';
+                    $name = $command->getName();
+
+                    if(method_exists($this, $name)) {
+                        $html .= $this->$name(array('command' => $command));
+                    } else {
+                        $html .= $this->command(array('command' => $command));
+                    }
+                    $html .= '</li>';
                 }
-                $html .= '</li>';
+                $html .= '</ul>';
+                $html .= '</div>';
             }
-
-            $html .= '</ul>';
         }
 
 		return $html;
@@ -63,7 +68,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
      */
     public function command($config = array())
     {
-        $config = new Library\Config($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
         	'command' => null
         ));

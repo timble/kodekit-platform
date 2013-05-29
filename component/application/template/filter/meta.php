@@ -19,11 +19,9 @@ use Nooku\Library;
  */
 class TemplateFilterMeta extends Library\TemplateFilterMeta
 {
-    public function write(&$text)
+    public function render(&$text)
     {
         $meta = $this->_parseTags($text);
-        $text = str_replace('<ktml:meta />'."\n", $meta, $text);
-
-        return $this;
+        $text = str_replace('<ktml:meta />'.PHP_EOL, $meta, $text);
     }
 }

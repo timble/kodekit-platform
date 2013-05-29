@@ -22,16 +22,16 @@ class CommandEvent extends Command
     /**
      * The event dispatcher object
      *
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $_dispatcher;
 
     /**
      * Constructor.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -50,10 +50,10 @@ class CommandEvent extends Command
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'event_dispatcher' => null
@@ -65,13 +65,13 @@ class CommandEvent extends Command
     /**
      * Get the event dispatcher
      *
-     * @return  EventDispatcher
+     * @return  EventDispatcherInterface
      */
     public function getEventDispatcher()
     {
         if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
         {
-            $this->_event_dispatcher = $this->getService($this->_event_dispatcher);
+            $this->_event_dispatcher = $this->getObject($this->_event_dispatcher);
 
             //Make sure the request implements ControllerRequestInterface
             if(!$this->_event_dispatcher instanceof EventDispatcherInterface)
@@ -90,8 +90,8 @@ class CommandEvent extends Command
      *
      * This functions returns void to prevent is from breaking the chain.
      *
-     * @param   string      The command name
-     * @param   object      The command context
+     * @param   string  $name    The command name
+     * @param   object  $context The command context
      * @return  void
      */
     public function execute($name, CommandContext $context)

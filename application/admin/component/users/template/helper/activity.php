@@ -24,7 +24,7 @@ class UsersTemplateHelperActivity extends Activities\TemplateHelperActivity
 {
     public function message($config = array())
 	{
-	    $config = new Library\Config($config);
+	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'row'      => ''
 		));

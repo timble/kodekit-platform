@@ -19,13 +19,14 @@ use Nooku\Library;
  */
 class ModelTerms extends Library\ModelTable
 {
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 		
 		// Set the state
 		$this->getState()
-		 	->insert('table', 'string', $this->getIdentifier()->package);
+		 	->insert('table', 'string', $this->getIdentifier()->package)
+            ->insert('search', 'string');
 	}
 	
 	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
@@ -54,11 +55,11 @@ class ModelTerms extends Library\ModelTable
         $state = $this->getState();
 
         if($state->search) {
-            $query->where('tbl.title LIKE %:search%')->bind(array('search' => $state->search));
+            $query->where('tbl.title LIKE :search')->bind(array('search' => '%' . $state->search . '%'));
         }
         
-        if($this->_state->table) {
-            $query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
+        if($this->getState()->table) {
+            $query->where('tbl.table = :table')->bind(array('table' => $this->getState()->table));
         }
         
         parent::_buildQueryWhere($query);

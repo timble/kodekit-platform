@@ -26,7 +26,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
      */
     public function format($config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
@@ -59,7 +59,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
      */
     public function humanize($config = array())
     {
-        $config = new Config($config);
+        $config = new ObjectConfig($config);
         $config->append(array(
             'date'            => 'now',
             'timezone'        => date_default_timezone_get(),

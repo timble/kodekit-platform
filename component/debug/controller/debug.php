@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class ControllerDebug extends Library\ControllerView
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         parent::_initialize($config);
 

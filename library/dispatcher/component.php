@@ -14,14 +14,14 @@ namespace Nooku\Library;
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class DispatcherComponent extends DispatcherAbstract implements ServiceInstantiatable
+class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiable
 {
-	/**
+    /**
 	 * Constructor.
 	 *
-	 * @param 	object 	An optional Config object with configuration options.
+	 * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
 	 */
-	public function __construct(Config $config)
+	public function __construct(ObjectConfig $config)
 	{
 		parent::__construct($config);
 
@@ -44,13 +44,15 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional Config object with configuration options.
+     * @param 	ObjectConfig $config An optional ObjectConfig object with configuration options.
      * @return 	void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
     	$config->append(array(
         	'controller' => $this->getIdentifier()->package,
+            'behaviors'  => array('persistable', 'resettable'),
+            'limit'      => array('max' => 1000, 'default' => 20)
          ));
 
         parent::_initialize($config);
@@ -59,29 +61,32 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
     /**
      * Force creation of a singleton
      *
-     * @param 	Config                  $config	  A Config object with configuration options
-     * @param 	ServiceManagerInterface	$manager  A ServiceInterface object
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return DispatcherComponent
      */
-    public static function getInstance(Config $config, ServiceManagerInterface $manager)
+    public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {
-        if (!$manager->has($config->service_identifier))
+        if (!$manager->isRegistered($config->object_identifier))
         {
-            $classname = $config->service_identifier->classname;
+            $classname = $config->object_identifier->classname;
             $instance  = new $classname($config);
-            $manager->set($config->service_identifier, $instance);
+            $manager->setObject($config->object_identifier, $instance);
 
             //Add the service alias to allow easy access to the singleton
-            $manager->setAlias('component', $config->service_identifier);
+            $manager->registerAlias('component', $config->object_identifier);
         }
 
-        return $manager->get($config->service_identifier);
+        return $manager->getObject($config->object_identifier);
     }
 
     /**
      * Check the request token to prevent CSRF exploits
      *
-     * @param   object  The command context
+     * Method will always perform a referrer and cookie token check. If a user session is active a session token check
+     * will also be done. If any of the checks fail an forbidden exception  being thrown.
+     *
+     * @param   CommandContext $context The command context
      * @return  boolean Returns FALSE if the check failed. Otherwise TRUE.
      */
     public function authenticateRequest(CommandContext $context)
@@ -113,7 +118,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
     /**
      * Sign the response with a token
      *
-     * @param	CommandContext	A command context object
+     * @param	CommandContext	$context A command context object
      */
     public function signResponse(CommandContext $context)
     {
@@ -121,24 +126,25 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
         {
             $token = $context->user->session->getToken();
 
-            $context->response->headers->addCookie($this->getService('lib:http.cookie', array(
+            $context->response->headers->addCookie($this->getObject('lib:http.cookie', array(
                 'name'   => '_token',
                 'value'  => $token,
-                'path'   => $context->request->getBaseUrl()->getPath()
+                'path'   => $context->request->getBaseUrl()->getPath() ?: '/'
             )));
 
             $context->response->headers->set('X-Token', $token);
         }
     }
 
-	/**
-	 * Dispatch the http method
-	 *
-	 * @param   object	$context A command context object
-     * @throws  DispatcherExceptionActionNotImplemented If the action is not implemented and the request cannot be
-     *                                                   full filled.
-	 * @return	mixed
-	 */
+    /**
+     * Dispatch the request
+     *
+     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
+     * the request and passing along the context.
+     *
+     * @param   CommandContext	$context A command context object
+     * @return	mixed
+     */
 	protected function _actionDispatch(CommandContext $context)
 	{
         //Redirect if no view information can be found in the request
@@ -147,13 +153,8 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
             $url = clone($context->request->getUrl());
             $url->query['view'] = $this->getController()->getView()->getName();
 
-            $context->response->setRedirect($url);
-            return false;
+            return $this->redirect($url);
         }
-
-        //Load the component aliases
-        $component = $this->getController()->getIdentifier()->package;
-        $this->getService('loader')->loadIdentifier('com:'.$component.'.aliases');
 
         //Execute the component method
         $method = strtolower($context->request->getMethod());
@@ -165,7 +166,8 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
     /**
      * Get method
      *
-     * This function translates a GET request into a render action.
+     * This function translates a GET request into a render action. If the request contains a limit the limit will
+     * be set the enforced to the maximum limit. Default max limit is 100.
      *
      * @param	CommandContext	$context    A command context object
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
@@ -173,6 +175,27 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
     protected function _actionGet(CommandContext $context)
     {
         $controller = $this->getController();
+
+        if($controller instanceof ControllerModellable)
+        {
+            if(!$controller->getModel()->getState()->isUnique())
+            {
+                $limit = $controller->getModel()->getState()->limit;
+
+                //If limit is empty use default
+                if(empty($limit)) {
+                    $limit = $this->getConfig()->limit->default;
+                }
+
+                //Force the maximum limit
+                if($limit > $this->getConfig()->limit->max) {
+                    $limit = $this->getConfig()->limit->max;
+                }
+
+                $controller->getModel()->getState()->limit = $limit;
+            }
+        }
+
         return $controller->execute('render', $context);
     }
 
@@ -182,16 +205,22 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
      * This function translated a POST request action into an edit or add action. If the model state is unique a edit
      * action will be executed, if not unique an add action will be executed.
      *
+     * If an _action parameter exists in the request data it will be used instead. If no action can be found an bad
+     * request exception will be thrown.
+     *
      * @param	CommandContext	$context    A command context object
      * @throws  DispatcherExceptionActionNotAllowed    The action specified in the request is not allowed for the
      *          resource identified by the Request-URI. The response MUST include an Allow header containing a list of
      *          valid actions for the requested resource.
+     *          ControllerExceptionBadRequest           The action could not be found based on the info in the request.
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
     protected function _actionPost(CommandContext $context)
     {
+        $action     = null;
         $controller = $this->getController();
 
+        //Get the action from the request data
         if($context->request->data->has('_action'))
         {
             $action = strtolower($context->request->data->get('_action', 'alpha'));
@@ -199,10 +228,20 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
             if(in_array($action, array('browse', 'read', 'render'))) {
                 throw new DispatcherExceptionActionNotAllowed('Action: '.$action.' not allowed');
             }
-
         }
-        else $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+        else
+        {
+            //Determine the action based on the model state
+            if($controller instanceof ControllerModellable) {
+                $action = $controller->getModel()->getState()->isUnique() ? 'edit' : 'add';
+            }
+        }
 
+        //Throw exception if no action could be determined from the request
+        if(!$action) {
+            throw new ControllerExceptionBadRequest('Action not found');
+        }
+        
         return $controller->execute($action, $context);
     }
 
@@ -210,7 +249,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
      * Put method
      *
      * This function translates a PUT request into an edit or add action. Only if the model state is unique and the item
-     * exists an edit action will be executed, if the resources doesn't exist and the state is unique an add action will
+     * exists an edit action will be executed, if the resources does not exist and the state is unique an add action will
      * be executed.
      *
      * If the resource already exists it will be completely replaced based on the data available in the request.
@@ -221,28 +260,36 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
      */
     protected function _actionPut(CommandContext $context)
     {
+        $action     = null;
         $controller = $this->getController();
-        $entity     = $controller->getModel()->getRow();
 
-        if($controller->getModel()->getState()->isUnique())
+        if($controller instanceof ControllerModellable)
         {
-            $action = 'add';
-            if(!$entity->isNew())
+            if($controller->getModel()->getState()->isUnique())
             {
-                //Reset the row data
-                $entity->reset();
-                $action = 'edit';
+                $action = 'add';
+                $entity = $controller->getModel()->getRow();
+
+                if(!$entity->isNew())
+                {
+                    //Reset the row data
+                    $entity->reset();
+                    $action = 'edit';
+                }
+
+                //Set the row data based on the unique state information
+                $state = $controller->getModel()->getState()->getValues(true);
+                $entity->setData($state);
             }
-
-            //Set the row data based on the unique state information
-            $state = $controller->getModel()->getState()->toArray(true);
-            $entity->setData($state);
-
-            $entity = $controller->execute($action, $context);
+            else throw new ControllerExceptionBadRequest('Resource not found');
         }
-        else throw new ControllerExceptionBadRequest('Resource not found');
 
-        return $entity;
+        //Throw exception if no action could be determined from the request
+        if(!$action) {
+            throw new ControllerExceptionBadRequest('Action not found');
+        }
+
+        return $entity = $controller->execute($action, $context);
     }
 
     /**
@@ -262,13 +309,14 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
     /**
      * Options method
      *
-     * @return  string    The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
+     * @param	CommandContext	$context    A command context object
+     * @return  string  The allowed actions; e.g., `GET, POST [add, edit, cancel, save], PUT, DELETE`
      */
     protected function _actionOptions(CommandContext $context)
     {
         $methods = array();
 
-        //Retrieve HTTP methods
+        //Retrieve HTTP methods allowed by the dispatcher
         $actions = array_diff($this->getActions(), array('dispatch'));
 
         foreach($actions as $key => $action)
@@ -278,7 +326,7 @@ class DispatcherComponent extends DispatcherAbstract implements ServiceInstantia
             }
         }
 
-        //Retrieve POST actions
+        //Retrieve POST actions allowed by the controller
         if(in_array('post', $methods))
         {
             $actions = array_diff($this->getController()->getActions(), array('browse', 'read', 'render'));

@@ -16,7 +16,7 @@ namespace Nooku\Library;
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Event
  */
-class Event extends Config implements EventInterface
+class Event extends ObjectConfig implements EventInterface
 {
  	/**
      * Priority levels
@@ -44,14 +44,14 @@ class Event extends Config implements EventInterface
     /**
      * Target of the event
      *
-     * @var ServiceInterface
+     * @var ObjectInterface
      */
     protected $_target;
     
     /**
      * Dispatcher of the event
      * 
-     * @var EventDispatcher
+     * @var EventDispatcherInterface
      */
     protected $_dispatcher;
 
@@ -65,7 +65,7 @@ class Event extends Config implements EventInterface
     public function set($name, $value)
     {
         if (is_array($value)) {
-            $this->_data[$name] = new Config($value);
+            $this->_data[$name] = new ObjectConfig($value);
         } else {
             $this->_data[$name] = $value;
         }
@@ -84,7 +84,7 @@ class Event extends Config implements EventInterface
     /**
      * Set the event name
      *
-     * @param string	The event name
+     * @param string $name  The event name
      * @return Event
      */
     public function setName($name)
@@ -106,10 +106,10 @@ class Event extends Config implements EventInterface
     /**
      * Set the event target
      *
-     * @param object	The event target
+     * @param object $target The event target
      * @return Event
      */
-    public function setTarget(ServiceInterface $target)
+    public function setTarget(ObjectInterface $target)
     {
         $this->_target = $target;
         return $this;
@@ -118,7 +118,7 @@ class Event extends Config implements EventInterface
     /**
      * Stores the EventDispatcher that dispatches this Event
      *
-     * @param EventDispatcher $dispatcher
+     * @param EventDispatcherInterface $dispatcher
      * @return Event
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
@@ -130,7 +130,7 @@ class Event extends Config implements EventInterface
     /**
      * Returns the EventDispatcher that dispatches this Event
      *
-     * @return EventDispatcher
+     * @return EventDispatcherInterface
      */
     public function getDispatcher()
     {
@@ -150,9 +150,8 @@ class Event extends Config implements EventInterface
     /**
      * Stops the propagation of the event to further event listeners.
      *
-     * If multiple event listeners are connected to the same event, no
-     * further event listener will be triggered once any trigger calls
-     * stopPropagation().
+     * If multiple event listeners are connected to the same event, no further event listener will be triggered once
+     * any trigger calls stopPropagation().
      * 
      * @return Event
      */

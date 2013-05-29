@@ -51,7 +51,7 @@ class IteratorDirectory extends \DirectoryIterator
 	 */
 	public static function getNodes($config = array())
 	{
-		$config = new Library\Config($config);
+		$config = new Library\ObjectConfig($config);
 		$config->append(array(
 			'path' 		=> null, // path to the directory
 			'type' 		=> null, // folders or files, null for both
@@ -64,9 +64,9 @@ class IteratorDirectory extends \DirectoryIterator
 			'return_raw'=> false
 		));
 
-		$exclude = Library\Config::unbox($config->exclude);
-		$filter  = Library\Config::unbox($config->filter);
-		$map     = Library\Config::unbox($config->map);
+		$exclude = Library\ObjectConfig::unbox($config->exclude);
+		$filter  = Library\ObjectConfig::unbox($config->filter);
+		$map     = Library\ObjectConfig::unbox($config->map);
 		$recurse = $config->recurse;
 
 		$results = array();

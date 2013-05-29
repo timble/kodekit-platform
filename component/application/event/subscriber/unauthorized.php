@@ -19,7 +19,7 @@ use Nooku\Library;
  */
 class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
 {
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'priority' => Library\Event::PRIORITY_HIGH
@@ -32,13 +32,26 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
     {
         if($event->getException() instanceof Library\ControllerExceptionUnauthorized)
         {
-            $application = $this->getService('application');
+            $application = $this->getObject('application');
+            $request     = $application->getRequest();
+            $response    = $application->getResponse();
 
-            if($application->getRequest()->getFormat() == 'html')
+            if($request->getFormat() == 'html')
             {
-                $application->getRequest()->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
-                $application->setComponent('users')->dispatch();
+                if($request->isSafe())
+                {
+                    $request->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
+                    $application->forward('users');
+                }
+                else
+                {
+                    $application->getUser()->addFlashMessage($event->getMessage(), 'error');
+                    $response->setRedirect($request->getReferrer());
+                }
 
+                $application->dispatch();
+
+                //Stop event propgation
                 $event->stopPropagation();
             }
         }

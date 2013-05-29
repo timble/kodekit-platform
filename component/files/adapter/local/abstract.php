@@ -29,14 +29,14 @@ abstract class AdapterLocalAbstract extends Library\Object
 	 */
 	protected $_handle = null;
 
-	public function __construct(Library\Config $config)
+	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
 
 		$this->setPath($config->path);
 	}
 
-	protected function _initialize(Library\Config $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
 		$config->append(array(
 			'path' => ''

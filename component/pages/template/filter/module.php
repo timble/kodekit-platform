@@ -23,7 +23,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Pages
  */
-class TemplateFilterModule extends Library\TemplateFilterAbstract implements Library\TemplateFilterWrite
+class TemplateFilterModule extends Library\TemplateFilterAbstract implements Library\TemplateFilterRenderer
 {
     /**
      * Database rowset or identifier
@@ -35,9 +35,9 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     /**
      * Constructor.
      *
-     * @param   object  An optional Library\Config object with configuration options
+     * @param   object  An optional Library\ObjectConfig object with configuration options
      */
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -49,14 +49,14 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Library\Config object with configuration options
+     * @param   object  An optional Library\ObjectConfig object with configuration options
      * @return void
      */
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
             'modules'  => null,
-            'priority' => Library\Command::PRIORITY_LOW,
+            'priority' => Library\TemplateFilterChain::PRIORITY_LOW,
         ));
 
         parent::_initialize($config);
@@ -66,14 +66,12 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
      * Parse <khtml:modules /> and <khtml:modules></khtml:modules> tags
      *
      * @param string Block of text to parse
-     * @return TemplateFilterModule
+     * @return void
      */
-    public function write(&$text)
+    public function render(&$text)
     {
         $this->_parseModuleTags($text);
         $this->_parseModulesTags($text);
-
-        return $this;
     }
 
     /**
@@ -86,7 +84,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
     {
         if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
         {
-            $this->_modules = $this->getService($this->_modules);
+            $this->_modules = $this->getObject($this->_modules);
 
             if(!$this->_modules instanceof Library\DatabaseRowsetInterface)
             {
@@ -133,7 +131,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
                     'attribs'    => array_diff_key($attributes, $defaults)
                 );
 
-                $this->getModules()->addRow(array($values), false);
+                $this->getModules()->addRow(array($values), Library\Database::STATUS_LOADED);
             }
 
             //Remove the <khtml:module></khtml:module> tags
@@ -221,7 +219,7 @@ class TemplateFilterModule extends Library\TemplateFilterAbstract implements Lib
             $module->attribs = array_merge($module->attribs, $attribs);
 
             //Render the module
-            $content = $this->getService($module->identifier)
+            $content = $this->getObject($module->identifier)
                 ->data(array('module' => $module))
                 ->content($module->content)
                 ->render();

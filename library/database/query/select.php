@@ -262,7 +262,6 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
     public function __toString()
     {
         $adapter = $this->getAdapter();
-        $prefix  = $adapter->getTablePrefix();
         $query   = 'SELECT';
 
         if($this->columns)
@@ -290,7 +289,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
             if(current($this->table) instanceof DatabaseQuerySelect) {
                 $table= '('.current($this->table).')'.(!is_numeric(key($this->table)) ? ' AS '.$adapter->quoteIdentifier(key($this->table)) : '');
             } else {
-                $table = $adapter->quoteIdentifier($prefix.current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
+                $table = $adapter->quoteIdentifier(current($this->table).(!is_numeric(key($this->table)) ? ' AS '.key($this->table) : ''));
             }
 
             $query .= ' FROM '.$table;
@@ -310,7 +309,7 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
                 if($join['table'] instanceof DatabaseQuerySelect) {
                     $tmp .= ' JOIN ('.$join['table'].')'.(is_string($alias) ? ' AS '.$adapter->quoteIdentifier($alias) : '');
                 } else {
-                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($prefix.$join['table'].(is_string($alias) ? ' AS '.$alias : ''));
+                    $tmp .= ' JOIN '.$adapter->quoteIdentifier($join['table'].(is_string($alias) ? ' AS '.$alias : ''));
                 }
 
                 if($join['condition']) {
@@ -373,8 +372,8 @@ class DatabaseQuerySelect extends DatabaseQueryAbstract
             $query .= ' LIMIT '.$this->offset.' , '.$this->limit;
         }
 
-        if($this->_params) {
-            $query = $this->_replaceParams($query);
+        if($this->_parameters) {
+            $query = $this->_replaceParameters($query);
         }
 
         return $query;

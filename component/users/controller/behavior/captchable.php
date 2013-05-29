@@ -31,7 +31,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
      */
     protected $_error_message;
 
-    public function __construct(Library\Config $config)
+    public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
@@ -42,15 +42,15 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         $this->_config = $config->captcha;
     }
 
-    protected function _initialize(Library\Config $config)
+    protected function _initialize(Library\ObjectConfig $config)
     {
-        $params = $this->getService('application.components')->users->params;
+        $params = $this->getObject('application.components')->users->params;
 
         $config->append(array(
             'auto_mixin'        => true,
             'captcha'           => array(
                 'private_key'       => $params->get('recaptcha_private_key', null),
-                'remote_ip'         => $this->getRequest()->getAddress(),
+                'remote_ip'         => $this->getObject('application')->getRequest()->getAddress(),
                 'verify_server'     => array(
                     'host' => 'www.google.com',
                     'path' => '/recaptcha/api/verify',
@@ -134,13 +134,17 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
 
     protected function _beforeControllerAdd(Library\CommandContext $context)
     {
+        $result = true;
+
         $challenge = $context->request->data->get('recaptcha_challenge_field', 'string');
         $answer    = $context->request->data->get('recaptcha_response_field', 'string');
 
         // Prevent the action from happening.
         if (!$this->verifyCaptcha($challenge, $answer)) {
-            return false;
+            $result = false;
         }
+
+        return $result;
     }
 
     /**

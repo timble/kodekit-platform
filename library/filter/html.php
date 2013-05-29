@@ -61,20 +61,20 @@ class FilterHtml extends FilterTidy
     /**
      * Constructor
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      */
-    public function __construct(Config $config)
+    public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
 
         // List of user-defined tags
         if(isset($config->tag_list)) {
-            $this->_tagsArray = array_map('strtolower', (array) Config::unbox($config->tag_list));
+            $this->_tagsArray = array_map('strtolower', (array) ObjectConfig::unbox($config->tag_list));
         }
 
         // List of user-defined attributes
         if(isset($config->attrib_list)) {
-            $this->_attrArray = array_map('strtolower', (array) Config::unbox($config->attrib_list));
+            $this->_attrArray = array_map('strtolower', (array) ObjectConfig::unbox($config->attrib_list));
         }
 
         // WhiteList method = 0, BlackList method = 1
@@ -98,10 +98,10 @@ class FilterHtml extends FilterTidy
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional Config object with configuration options
+     * @param   object  An optional ObjectConfig object with configuration options
      * @return  void
      */
-    protected function _initialize(Config $config)
+    protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
             'tag_list'      => array(),
@@ -120,10 +120,10 @@ class FilterHtml extends FilterTidy
     /**
      * Validate a value
      *
-     * @param   scalar  Value to be validated
+     * @param   scalar  $value Value to be validated
      * @return  bool    True when the variable is valid
      */
-    protected function _validate($value)
+    public function validate($value)
     {
         return (is_string($value)
         // this is too strict, html is usually sanitized
@@ -134,15 +134,15 @@ class FilterHtml extends FilterTidy
     /**
      * Sanitize a value
      *
-     * @param   scalar  Input string/array-of-string to be 'cleaned'
+     * @param   scalar  $value Value to be sanitized
      * @return  mixed   'Cleaned' version of input parameter
      */
-    protected function _sanitize($value)
+    public function sanitize($value)
     {
         $value = (string) $value;
 
         //Tidy the value first.
-        $value = parent::_sanitize($value);
+        $value = parent::sanitize($value);
 
         // Filter var for XSS and other 'bad' code etc.
         if (!empty ($value)) {

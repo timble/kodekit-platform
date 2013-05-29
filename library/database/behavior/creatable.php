@@ -24,10 +24,10 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
      * has a 'created_by' or 'created_on' property the behavior will be
      * mixed in.
      *
-     * @param object The mixer requesting the mixable methods.
+     * @param ObjectMixable $mixer The mixer requesting the mixable methods.
      * @return array An array of methods
      */
-    public function getMixableMethods(Object $mixer = null)
+    public function getMixableMethods(ObjectMixable $mixer = null)
     {
         $methods = array();
 
@@ -48,7 +48,7 @@ class DatabaseBehaviorCreatable extends DatabaseBehaviorAbstract
     protected function _beforeTableInsert(CommandContext $context)
     {
         if($this->has('created_by') && empty($this->created_by)) {
-            $this->created_by  = (int) $this->getService('user')->getId();
+            $this->created_by  = (int) $this->getObject('user')->getId();
         }
 
         if($this->has('created_on') && (empty($this->created_on) || $this->created_on == $this->getTable()->getDefault('created_on'))) {

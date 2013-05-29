@@ -28,5 +28,5 @@
 <? endif; ?>
 
 <? if ( $contact->params->get('show_email_form', true) && $contact->email_to) : ?>
-    <?= @service('com:contacts.controller.message')->id($contact->id)->render(); ?>
+    <?= @object('com:contacts.controller.message')->render(array('contact' => $contact, 'category' => $category)); ?>
 <? endif; ?>   
