@@ -8,8 +8,6 @@
  */
 ?>
 
-<style src="media://activities/css/activities-list.css" />
-
 <div id="activities-list">
     <?= @template('default_scopebar.html') ?>
     <? if(count($activities)) : ?>

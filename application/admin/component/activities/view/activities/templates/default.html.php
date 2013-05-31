@@ -8,10 +8,6 @@
  */
 ?>
 
-<!--
-<style src="media://activities/css/activities-default.css" />
--->
-
 <ktml:module position="toolbar">
     <?= @helper('toolbar.render', array('toolbar' => $toolbar))?>
 </ktml:module>
