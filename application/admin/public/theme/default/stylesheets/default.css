@@ -4752,23 +4752,8 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 151, _flexbox.scss */
-.com_dashboard #panel-content > div:first-child > div #activities-list .activities {
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  min-height: 100%;
-}
-/* line 156, _flexbox.scss */
-.com_dashboard #panel-content > div:first-child > div #activities-list .activities * {
-  -webkit-flex: none;
-  -moz-flex: none;
-  flex: none;
-}
 
-/* line 166, _flexbox.scss */
+/* line 160, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4780,7 +4765,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 169, _flexbox.scss */
+/* line 163, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4792,7 +4777,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 171, _flexbox.scss */
+/* line 165, _flexbox.scss */
 .com_files #files-app #files-canvas #files-grid {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -4801,11 +4786,11 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-overflow-scrolling: touch;
   min-height: 100%;
 }
-/* line 179, _flexbox.scss */
+/* line 173, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 183, _flexbox.scss */
+/* line 177, _flexbox.scss */
 .com_files #files-tree {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -4821,6 +4806,75 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
     display: none !important;
   }
 }
+/* line 1, components/_activities.scss */
+td.activities-timeago {
+  height: auto;
+  text-align: left;
+  font-weight: bold;
+  background-color: #ededed;
+  border-bottom: 1px solid #dddddd;
+}
+
+/* line 9, components/_activities.scss */
+.activities-deleted {
+  text-decoration: line-through;
+}
+
+/* line 13, components/_activities.scss */
+.activities-filter fieldset > div {
+  padding: 10px;
+}
+
+/* line 19, components/_activities.scss */
+#activities-list .activities {
+  padding: 0 10px;
+}
+
+/* line 25, components/_activities.scss */
+#activities-list h3,
+#activities-list h4 {
+  background-color: #f1f2f4;
+  background-image: -webkit-gradient(linear, 0% 50%, 0% 100%, from(#f1f2f4), to(#e8eaec));
+  background-image: -moz-linear-gradient(0% 50% 270deg, #f1f2f4, #e8eaec);
+}
+
+/* line 31, components/_activities.scss */
+#activities-list h3 {
+  margin: 0 0 10px 0;
+  padding: 7px 15px;
+}
+
+/* line 36, components/_activities.scss */
+#activities-list h4 {
+  padding: 5px;
+  margin: 10px 0 0 0;
+  font-size: 1em;
+  border: 1px solid #E8EAEC;
+  border-bottom-color: #E3E3E3;
+  color: #666;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+/* line 46, components/_activities.scss */
+#activities-list .activities-day .activity {
+  padding: 7px;
+  border-bottom: 1px solid #DDD;
+}
+
+/* line 47, components/_activities.scss */
+#activities-list .activities-day .activity:last-child {
+  border-bottom: none 0px;
+}
+
+/* line 49, components/_activities.scss */
+#activities-list .activities-day .activity span.info {
+  color: #999;
+  float: right;
+  width: auto;
+  text-transform: capitalize;
+}
+
 /* line 2, components/_articles.scss */
 .com_articles .tabs {
   position: relative;
