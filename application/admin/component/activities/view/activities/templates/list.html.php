@@ -9,9 +9,8 @@
 ?>
 
 <div id="activities-list">
-    <?= @template('default_scopebar.html') ?>
     <? if(count($activities)) : ?>
-    <div class="activities">
+    <div class="activities scrollable">
 	    <? foreach ($activities as $activity) : ?>
 	       <? $list[substr($activity->created_on, 0, 10)][] = $activity; ?>
 	    <? endforeach; ?>

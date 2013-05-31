@@ -149,13 +149,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 				@include flex-box(column, 1);
 
 				.activities {
-					@include box-flex(1);
-					@include box-scrollable(scrollable);
-					min-height: 100%;
 
-					* {
-						@include box-flex(none);
-					}
 				}
 			}
 		}
