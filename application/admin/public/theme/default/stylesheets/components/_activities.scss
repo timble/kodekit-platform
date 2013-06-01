@@ -1,11 +1,3 @@
-td.activities-timeago {
-  height: auto;
-  text-align: left;
-  font-weight: bold;
-  background-color: #ededed;
-  border-bottom: 1px solid #dddddd;
-}
-
 .activities-deleted {
   text-decoration: line-through;
 }
@@ -14,9 +6,7 @@ td.activities-timeago {
   padding: 10px;
 }
 
-#activities-list { }
-
-#activities-list .activities {
+#activities-list {
   padding: 0 10px;
 }
 
@@ -42,7 +32,7 @@ td.activities-timeago {
   -webkit-border-radius: 5px; -moz-border-radius: 5px;
 }
 
-#activities-list .activities-day .activity 			{ padding: 7px; border-bottom: 1px solid #DDD;  }
-#activities-list .activities-day .activity:last-child 	{ border-bottom: none 0px; }
+#activities-list .activity 			{ padding: 7px; border-bottom: 1px solid #DDD; }
+#activities-list .activity:last-child 	{ border-bottom: none 0px; }
 
-#activities-list .activities-day .activity span.info { color: #999; float: right; width: auto; text-transform: capitalize; }
+#activities-list .activity__info { font-size: 10px; color: #999; float: right; width: auto; text-transform: capitalize; }

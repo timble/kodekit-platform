@@ -11,7 +11,7 @@ html, body {
 	}
 }
 
-.box-row {
+#panel-component {
 	@include flex-box(row, 1);
 	min-height: 100%;
 }
@@ -117,7 +117,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 
 /* @group Scope Bar */
 .scopebar {
-	@include flex-box(row, 0);
+	@include flex-box(row, none);
 
 	.scopebar-search {
 		@include flex-box(horizontal, 1);
@@ -146,11 +146,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 			@include flex-box(column, 1);
 
 			#activities-list {
-				@include flex-box(column, 1);
-
-				.activities {
-
-				}
+              @extend .scrollable;
 			}
 		}
 	}
@@ -163,9 +159,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 		#files-canvas {
 			@include flex-box(column, 1);
 				#files-grid {
-					@include box-flex(1);
-					@include box-scrollable(scrollable);
-					min-height: 100%;
+                  @extend .scrollable;
 				}
 		}
 	}
@@ -175,8 +169,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 	}
 
 	#files-tree {
-			@include box-flex(1);
-			@include box-scrollable(scrollable);
-			min-height: 100%;
+      @extend .scrollable;
 	}
 }

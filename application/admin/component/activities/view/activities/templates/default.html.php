@@ -41,8 +41,8 @@
 	        <? $date = @date(array('date' => $activity->created_on, 'format' => 'l d M Y'))?>
 	        <? if ($date != $old_date): ?>
 	        <? $old_date = $date; ?>
-	        <tr class="no-hover">
-				<td class="activities-timeago" colspan="3">
+	        <tr class="no-hover separator">
+				<td colspan="3">
 			        <?= $date; ?>
 				</td>
 			</tr>

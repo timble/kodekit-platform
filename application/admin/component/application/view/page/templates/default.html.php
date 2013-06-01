@@ -32,14 +32,14 @@
 
     <?= @template('page_message.html') ?>
 
-    <div class="box-row">
+    <div id="panel-component">
         <ktml:modules position="sidebar">
         <div id="panel-sidebar">
             <ktml:modules:content />
         </div>
         </ktml:modules>
 
-        <div id="panel-content" class="row-fluid">
+        <div id="panel-content">
             <ktml:content />
 	    </div>
 

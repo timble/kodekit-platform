@@ -367,6 +367,14 @@ ul {
               @include transition(all 150ms ease-in-out);
 			}
 
+            tr.separator td {
+              height: auto;
+              text-align: left;
+              font-weight: bold;
+              background-color: #ededed;
+              border-bottom: 1px solid #dddddd;
+            }
+
             tr td.ellipsis {
                 max-width: 100px;
             }
