@@ -1,4 +1,4 @@
-/* line 5, modules/_navigation.scss */
+/* line 5, blocks/_navigation.scss */
 #panel-sidebar nav a, #files-tree .mooTree_node {
   display: block;
   padding-left: 22px;
@@ -7,13 +7,13 @@
   font-weight: 500;
   border-top: 1px solid #f9f9f9;
 }
-/* line 15, modules/_navigation.scss */
+/* line 15, blocks/_navigation.scss */
 #panel-sidebar nav a .badge, #files-tree .mooTree_node .badge {
   float: right;
   margin: 5px 8px 0 0;
   line-height: 14px;
 }
-/* line 21, modules/_navigation.scss */
+/* line 21, blocks/_navigation.scss */
 #panel-sidebar nav a:hover, #files-tree .mooTree_node:hover {
   border-top: 1px solid #c4dbf2;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9e8f6), color-stop(100%, #afceed));
@@ -23,7 +23,7 @@
   background: linear-gradient(#d9e8f6, #afceed);
   text-decoration: none;
 }
-/* line 28, modules/_navigation.scss */
+/* line 28, blocks/_navigation.scss */
 #panel-sidebar nav a.active, #files-tree .active.mooTree_node, #panel-sidebar nav a.active:hover, #files-tree .active.mooTree_node:hover {
   color: #FFF;
   border-top: 1px solid #5c9bda;
@@ -38,7 +38,7 @@
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
-/* line 5, modules/_thumbnail.scss */
+/* line 5, blocks/_thumbnail.scss */
 .thumbnail {
   margin: 0 12px 12px 0;
   float: left;
@@ -54,11 +54,11 @@
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
 }
-/* line 14, modules/_thumbnail.scss */
+/* line 14, blocks/_thumbnail.scss */
 .thumbnail:nth-child(even) {
   margin-right: 0;
 }
-/* line 18, modules/_thumbnail.scss */
+/* line 18, blocks/_thumbnail.scss */
 .thumbnail img {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
@@ -67,9 +67,133 @@
   border-radius: 4px 4px 0 0;
 }
 
-/* line 23, modules/_thumbnail.scss */
+/* line 23, blocks/_thumbnail.scss */
 .thumbnail__caption {
   padding: 6px 0 0;
+}
+
+/** Scopebar styles **/
+/* line 2, blocks/_scopebar.scss */
+.scopebar {
+  padding: 3px 10px;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f2f2f2), color-stop(100%, #e9e9e9));
+  background: -webkit-linear-gradient(#f2f2f2, #e9e9e9);
+  background: -moz-linear-gradient(#f2f2f2, #e9e9e9);
+  background: -o-linear-gradient(#f2f2f2, #e9e9e9);
+  background: linear-gradient(#f2f2f2, #e9e9e9);
+  border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
+  font-size: 11px;
+}
+
+/* line 11, blocks/_scopebar.scss */
+.scopebar__group {
+  border-right: 1px solid #BBB;
+  padding: 2px 10px 0 0;
+  margin: 3px 10px 3px 0;
+}
+/* line 16, blocks/_scopebar.scss */
+.scopebar__group a {
+  margin: 0 2px;
+  padding: 2px 7px;
+  font-weight: bold;
+  color: #363636;
+  text-transform: capitalize;
+  text-shadow: rgba(255, 255, 255, 0.75) 0 1px 0;
+}
+/* line 26, blocks/_scopebar.scss */
+.scopebar__group a:hover,
+.scopebar__group a.active {
+  text-decoration: none;
+  background: #A0A0A0;
+  color: #FFF;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  text-shadow: rgba(0, 0, 0, 0.35) 0 1px 0;
+}
+/* line 35, blocks/_scopebar.scss */
+.scopebar__group a.active,
+.scopebar__group a:active {
+  -webkit-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
+  -moz-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
+  box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
+}
+/* line 39, blocks/_scopebar.scss */
+.scopebar__group a:active {
+  background: gray;
+}
+
+/* line 44, blocks/_scopebar.scss */
+.scopebar__search {
+  margin: 0px 0 0 25px;
+  margin-bottom: 0 !important;
+}
+/* line 50, blocks/_scopebar.scss */
+.scopebar__search input[type="search"] {
+  max-width: 150px;
+  margin-bottom: 0;
+}
+/* line 55, blocks/_scopebar.scss */
+.scopebar__search button {
+  padding: 2px 10px;
+  font-size: 10.2px;
+}
+
+/* line 1, blocks/_tabs.scss */
+.tabs {
+  position: relative;
+  -webkit-flex: 1;
+  z-index: 1;
+}
+/* line 7, blocks/_tabs.scss */
+.tabs .tab {
+  float: left;
+}
+/* line 10, blocks/_tabs.scss */
+.tabs .tab > label {
+  padding: 0px 22px;
+  line-height: 30px;
+  color: #444;
+  font-weight: bold;
+  position: relative;
+  border-right: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+/* line 20, blocks/_tabs.scss */
+.tabs .tab > [type=radio] {
+  display: none;
+}
+/* line 23, blocks/_tabs.scss */
+.tabs .content {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  overflow: scroll;
+  border-top: 1px solid #dddddd;
+}
+/* line 33, blocks/_tabs.scss */
+.tabs .content > * {
+  opacity: 0;
+}
+/* line 36, blocks/_tabs.scss */
+.tabs [type=radio]:checked ~ label {
+  background-color: white;
+  border-bottom-color: white;
+  z-index: 2;
+}
+/* line 42, blocks/_tabs.scss */
+.tabs [type=radio]:checked ~ label ~ .content {
+  z-index: 1;
+}
+/* line 45, blocks/_tabs.scss */
+.tabs [type=radio]:checked ~ label ~ .content > * {
+  opacity: 1;
 }
 
 /* line 10, _reset.scss */
@@ -1034,81 +1158,13 @@ ul {
   width: 160px;
 }
 
-/** Scopebar styles **/
-/* line 238, _general.scss */
-.scopebar {
-  padding: 3px 10px;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f2f2f2), color-stop(100%, #e9e9e9));
-  background: -webkit-linear-gradient(#f2f2f2, #e9e9e9);
-  background: -moz-linear-gradient(#f2f2f2, #e9e9e9);
-  background: -o-linear-gradient(#f2f2f2, #e9e9e9);
-  background: linear-gradient(#f2f2f2, #e9e9e9);
-  border-bottom: 1px solid #dddddd;
-  border-top: 1px solid #dddddd;
-  font-size: 11px;
-}
-/* line 246, _general.scss */
-.scopebar .scopebar-group {
-  border-right: 1px solid #BBB;
-  padding: 2px 10px 0 0;
-  margin: 3px 10px 3px 0;
-}
-/* line 251, _general.scss */
-.scopebar .scopebar-group a {
-  margin: 0 2px;
-  padding: 2px 7px;
-  font-weight: bold;
-  color: #363636;
-  text-transform: capitalize;
-  text-shadow: rgba(255, 255, 255, 0.75) 0 1px 0;
-}
-/* line 261, _general.scss */
-.scopebar .scopebar-group a:hover,
-.scopebar .scopebar-group a.active {
-  text-decoration: none;
-  background: #A0A0A0;
-  color: #FFF;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
-  text-shadow: rgba(0, 0, 0, 0.35) 0 1px 0;
-}
-/* line 270, _general.scss */
-.scopebar .scopebar-group a.active,
-.scopebar .scopebar-group a:active {
-  -webkit-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
-  -moz-box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
-  box-shadow: inset rgba(51, 51, 51, 0.8) 0px 1px 2px, white 0 1px 0;
-}
-/* line 274, _general.scss */
-.scopebar .scopebar-group a:active {
-  background: gray;
-}
-/* line 279, _general.scss */
-.scopebar .scopebar-search {
-  margin: 0px 0 0 25px;
-  margin-bottom: 0 !important;
-}
-/* line 285, _general.scss */
-.scopebar .scopebar-search input[type="search"] {
-  max-width: 150px;
-  margin-bottom: 0;
-}
-/* line 290, _general.scss */
-.scopebar .scopebar-search button {
-  padding: 2px 10px;
-  font-size: 10.2px;
-}
-
-/* line 297, _general.scss */
+/* line 237, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 301, _general.scss */
+/* line 241, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1117,16 +1173,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 312, _general.scss */
+/* line 252, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 316, _general.scss */
+/* line 256, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 319, _general.scss */
+/* line 259, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1140,26 +1196,26 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 328, _general.scss */
+/* line 268, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 335, _general.scss */
+/* line 275, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 339, _general.scss */
+/* line 279, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 342, _general.scss */
+/* line 282, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 348, _general.scss */
+/* line 288, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #e5e5e5));
   background: -webkit-linear-gradient(#e0e0e0, #e5e5e5);
@@ -1167,31 +1223,31 @@ ul {
   background: -o-linear-gradient(#e0e0e0, #e5e5e5);
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 354, _general.scss */
+/* line 294, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 356, _general.scss */
+/* line 296, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 357, _general.scss */
+/* line 297, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 360, _general.scss */
+/* line 300, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 362, _general.scss */
+/* line 302, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 365, _general.scss */
+/* line 305, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1200,7 +1256,7 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 370, _general.scss */
+/* line 310, _general.scss */
 .-koowa-grid table tbody tr.separator td {
   height: auto;
   text-align: left;
@@ -1208,73 +1264,73 @@ ul {
   background-color: #ededed;
   border-bottom: 1px solid #dddddd;
 }
-/* line 378, _general.scss */
+/* line 318, _general.scss */
 .-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 383, _general.scss */
+/* line 323, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 386, _general.scss */
+/* line 326, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 387, _general.scss */
+/* line 327, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 392, _general.scss */
+/* line 332, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 393, _general.scss */
+/* line 333, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 396, _general.scss */
+/* line 336, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 397, _general.scss */
+/* line 337, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 398, _general.scss */
+/* line 338, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 401, _general.scss */
+/* line 341, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 405, _general.scss */
+/* line 345, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 409, _general.scss */
+/* line 349, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 412, _general.scss */
+/* line 352, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 417, _general.scss */
+/* line 357, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 421, _general.scss */
+/* line 361, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 426, _general.scss */
+/* line 366, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
@@ -1284,7 +1340,7 @@ ul {
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 431, _general.scss */
+/* line 371, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1297,17 +1353,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 440, _general.scss */
+/* line 380, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0;
 }
-/* line 448, _general.scss */
+/* line 388, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main .com_dashboard #panel-content > div:first-child > div #activities-list, .com_dashboard #panel-content > div:first-child > div .-koowa-form .main #activities-list, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 454, _general.scss */
+/* line 394, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1316,12 +1372,12 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 460, _general.scss */
+/* line 400, _general.scss */
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 466, _general.scss */
+/* line 406, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1329,79 +1385,23 @@ ul {
 }
 
 /* Sidebar */
-/* line 472, _general.scss */
+/* line 412, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 475, _general.scss */
+/* line 415, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
-/* line 480, _general.scss */
-#panel-content .-koowa-form dl.tabs {
-  float: left;
-  margin: 10px 0 0 0;
-  z-index: 50;
-}
-/* line 485, _general.scss */
-#panel-content .-koowa-form dl.tabs dt {
-  float: left;
-  padding: 6px 14px;
-  border: 1px solid #ccc;
-  margin-left: 6px;
-  background: #f0f0f0;
-  color: #666;
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  -ms-border-radius: 5px 5px 0 0;
-  -o-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
-  margin-bottom: -1px;
-}
-/* line 496, _general.scss */
-#panel-content .-koowa-form dl.tabs dt:hover {
-  background-color: #F6F6F6;
-  z-index: 100;
-  color: #333;
-}
-/* line 504, _general.scss */
-#panel-content .-koowa-form dl.tabs dt:active,
-#panel-content .-koowa-form dl.tabs dt.open,
-#panel-content .-koowa-form dl.tabs dt.open:active {
-  background-color: #FFF;
-  z-index: 100;
-  color: #333;
-  border-bottom-color: #FFF;
-  -webkit-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
-  -moz-box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
-  box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
-}
-/* line 512, _general.scss */
-#panel-content .-koowa-form dl.tabs dt:active {
-  background-color: #FFF;
-  border-bottom-color: #CCC;
-}
-/* line 518, _general.scss */
-#panel-content .-koowa-form div.current {
-  clear: both;
-  border: 1px solid #CCC;
-  padding: 10px 10px;
-  background-color: #FFF;
-}
-/* line 525, _general.scss */
-#panel-content .-koowa-form div.current dd {
-  padding: 0;
-  margin: 0;
-}
 
 /* $endgroup */
-/* line 534, _general.scss */
+/* line 424, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 538, _general.scss */
+/* line 428, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -1991,7 +1991,7 @@ select:focus:invalid:focus {
 }
 
 /* line 316, _forms.scss */
-.input-append, .scopebar .scopebar-search,
+.input-append, .scopebar__search,
 .input-prepend,
 .-koowa-form .main .title .slug {
   display: inline-block;
@@ -2001,15 +2001,15 @@ select:focus:invalid:focus {
   white-space: nowrap;
 }
 /* line 328, _forms.scss */
-.input-append input, .scopebar .scopebar-search input,
+.input-append input, .scopebar__search input,
 .input-append select,
-.scopebar .scopebar-search select,
+.scopebar__search select,
 .input-append .uneditable-input,
-.scopebar .scopebar-search .uneditable-input,
+.scopebar__search .uneditable-input,
 .input-append .dropdown-menu,
-.scopebar .scopebar-search .dropdown-menu,
+.scopebar__search .dropdown-menu,
 .input-append .popover,
-.scopebar .scopebar-search .popover,
+.scopebar__search .popover,
 .input-prepend input,
 .-koowa-form .main .title .slug input,
 .input-prepend select,
@@ -2023,11 +2023,11 @@ select:focus:invalid:focus {
   font-size: 12px;
 }
 /* line 334, _forms.scss */
-.input-append input, .scopebar .scopebar-search input,
+.input-append input, .scopebar__search input,
 .input-append select,
-.scopebar .scopebar-search select,
+.scopebar__search select,
 .input-append .uneditable-input,
-.scopebar .scopebar-search .uneditable-input,
+.scopebar__search .uneditable-input,
 .input-prepend input,
 .-koowa-form .main .title .slug input,
 .input-prepend select,
@@ -2045,11 +2045,11 @@ select:focus:invalid:focus {
   border-radius: 0 4px 4px 0;
 }
 /* line 341, _forms.scss */
-.input-append input:focus, .scopebar .scopebar-search input:focus,
+.input-append input:focus, .scopebar__search input:focus,
 .input-append select:focus,
-.scopebar .scopebar-search select:focus,
+.scopebar__search select:focus,
 .input-append .uneditable-input:focus,
-.scopebar .scopebar-search .uneditable-input:focus,
+.scopebar__search .uneditable-input:focus,
 .input-prepend input:focus,
 .-koowa-form .main .title .slug input:focus,
 .input-prepend select:focus,
@@ -2059,7 +2059,7 @@ select:focus:invalid:focus {
   z-index: 2;
 }
 /* line 345, _forms.scss */
-.input-append .add-on, .scopebar .scopebar-search .add-on,
+.input-append .add-on, .scopebar__search .add-on,
 .input-prepend .add-on,
 .-koowa-form .main .title .slug .add-on {
   display: inline-block;
@@ -2076,9 +2076,9 @@ select:focus:invalid:focus {
   border: 1px solid #ccc;
 }
 /* line 360, _forms.scss */
-.input-append .add-on, .scopebar .scopebar-search .add-on,
+.input-append .add-on, .scopebar__search .add-on,
 .input-append .btn,
-.scopebar .scopebar-search .btn,
+.scopebar__search .btn,
 .input-prepend .add-on,
 .-koowa-form .main .title .slug .add-on,
 .input-prepend .btn,
@@ -2091,7 +2091,7 @@ select:focus:invalid:focus {
   border-radius: 0;
 }
 /* line 364, _forms.scss */
-.input-append .active, .scopebar .scopebar-search .active,
+.input-append .active, .scopebar__search .active,
 .input-prepend .active,
 .-koowa-form .main .title .slug .active {
   background-color: #70d09e;
@@ -2116,11 +2116,11 @@ select:focus:invalid:focus {
 }
 
 /* line 385, _forms.scss */
-.input-append input, .scopebar .scopebar-search input,
+.input-append input, .scopebar__search input,
 .input-append select,
-.scopebar .scopebar-search select,
+.scopebar__search select,
 .input-append .uneditable-input,
-.scopebar .scopebar-search .uneditable-input {
+.scopebar__search .uneditable-input {
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
   -ms-border-radius: 4px 0 0 4px;
@@ -2128,11 +2128,11 @@ select:focus:invalid:focus {
   border-radius: 4px 0 0 4px;
 }
 /* line 387, _forms.scss */
-.input-append input + .btn-group .btn:last-child, .scopebar .scopebar-search input + .btn-group .btn:last-child,
+.input-append input + .btn-group .btn:last-child, .scopebar__search input + .btn-group .btn:last-child,
 .input-append select + .btn-group .btn:last-child,
-.scopebar .scopebar-search select + .btn-group .btn:last-child,
+.scopebar__search select + .btn-group .btn:last-child,
 .input-append .uneditable-input + .btn-group .btn:last-child,
-.scopebar .scopebar-search .uneditable-input + .btn-group .btn:last-child {
+.scopebar__search .uneditable-input + .btn-group .btn:last-child {
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
   -ms-border-radius: 0 4px 4px 0;
@@ -2140,17 +2140,17 @@ select:focus:invalid:focus {
   border-radius: 0 4px 4px 0;
 }
 /* line 393, _forms.scss */
-.input-append .add-on, .scopebar .scopebar-search .add-on,
+.input-append .add-on, .scopebar__search .add-on,
 .input-append .btn,
-.scopebar .scopebar-search .btn,
+.scopebar__search .btn,
 .input-append .btn-group,
-.scopebar .scopebar-search .btn-group {
+.scopebar__search .btn-group {
   margin-left: -1px;
 }
 /* line 397, _forms.scss */
-.input-append .add-on:last-child, .scopebar .scopebar-search .add-on:last-child,
+.input-append .add-on:last-child, .scopebar__search .add-on:last-child,
 .input-append .btn:last-child,
-.scopebar .scopebar-search .btn:last-child {
+.scopebar__search .btn:last-child {
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
   -ms-border-radius: 0 4px 4px 0;
@@ -2159,16 +2159,14 @@ select:focus:invalid:focus {
 }
 
 /* line 406, _forms.scss */
-.input-prepend.input-append input, .scopebar .input-prepend.scopebar-search input, .scopebar .-koowa-form .main .title .scopebar-search.slug input, .-koowa-form .main .title .scopebar .scopebar-search.slug input, .-koowa-form .main .title .input-append.slug input,
+.input-prepend.input-append input, .input-prepend.scopebar__search input, .-koowa-form .main .title .scopebar__search.slug input, .-koowa-form .main .title .input-append.slug input,
 .input-prepend.input-append select,
-.scopebar .input-prepend.scopebar-search select,
-.scopebar .-koowa-form .main .title .scopebar-search.slug select,
-.-koowa-form .main .title .scopebar .scopebar-search.slug select,
+.input-prepend.scopebar__search select,
+.-koowa-form .main .title .scopebar__search.slug select,
 .-koowa-form .main .title .input-append.slug select,
 .input-prepend.input-append .uneditable-input,
-.scopebar .input-prepend.scopebar-search .uneditable-input,
-.scopebar .-koowa-form .main .title .scopebar-search.slug .uneditable-input,
-.-koowa-form .main .title .scopebar .scopebar-search.slug .uneditable-input,
+.input-prepend.scopebar__search .uneditable-input,
+.-koowa-form .main .title .scopebar__search.slug .uneditable-input,
 .-koowa-form .main .title .input-append.slug .uneditable-input {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -2177,16 +2175,14 @@ select:focus:invalid:focus {
   border-radius: 0;
 }
 /* line 408, _forms.scss */
-.input-prepend.input-append input + .btn-group .btn, .scopebar .input-prepend.scopebar-search input + .btn-group .btn, .scopebar .-koowa-form .main .title .scopebar-search.slug input + .btn-group .btn, .-koowa-form .main .title .scopebar .scopebar-search.slug input + .btn-group .btn, .-koowa-form .main .title .input-append.slug input + .btn-group .btn,
+.input-prepend.input-append input + .btn-group .btn, .input-prepend.scopebar__search input + .btn-group .btn, .-koowa-form .main .title .scopebar__search.slug input + .btn-group .btn, .-koowa-form .main .title .input-append.slug input + .btn-group .btn,
 .input-prepend.input-append select + .btn-group .btn,
-.scopebar .input-prepend.scopebar-search select + .btn-group .btn,
-.scopebar .-koowa-form .main .title .scopebar-search.slug select + .btn-group .btn,
-.-koowa-form .main .title .scopebar .scopebar-search.slug select + .btn-group .btn,
+.input-prepend.scopebar__search select + .btn-group .btn,
+.-koowa-form .main .title .scopebar__search.slug select + .btn-group .btn,
 .-koowa-form .main .title .input-append.slug select + .btn-group .btn,
 .input-prepend.input-append .uneditable-input + .btn-group .btn,
-.scopebar .input-prepend.scopebar-search .uneditable-input + .btn-group .btn,
-.scopebar .-koowa-form .main .title .scopebar-search.slug .uneditable-input + .btn-group .btn,
-.-koowa-form .main .title .scopebar .scopebar-search.slug .uneditable-input + .btn-group .btn,
+.input-prepend.scopebar__search .uneditable-input + .btn-group .btn,
+.-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group .btn,
 .-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .btn {
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
@@ -2195,11 +2191,10 @@ select:focus:invalid:focus {
   border-radius: 0 4px 4px 0;
 }
 /* line 413, _forms.scss */
-.input-prepend.input-append .add-on:first-child, .scopebar .input-prepend.scopebar-search .add-on:first-child, .scopebar .-koowa-form .main .title .scopebar-search.slug .add-on:first-child, .-koowa-form .main .title .scopebar .scopebar-search.slug .add-on:first-child, .-koowa-form .main .title .input-append.slug .add-on:first-child,
+.input-prepend.input-append .add-on:first-child, .input-prepend.scopebar__search .add-on:first-child, .-koowa-form .main .title .scopebar__search.slug .add-on:first-child, .-koowa-form .main .title .input-append.slug .add-on:first-child,
 .input-prepend.input-append .btn:first-child,
-.scopebar .input-prepend.scopebar-search .btn:first-child,
-.scopebar .-koowa-form .main .title .scopebar-search.slug .btn:first-child,
-.-koowa-form .main .title .scopebar .scopebar-search.slug .btn:first-child,
+.input-prepend.scopebar__search .btn:first-child,
+.-koowa-form .main .title .scopebar__search.slug .btn:first-child,
 .-koowa-form .main .title .input-append.slug .btn:first-child {
   margin-right: -1px;
   -webkit-border-radius: 4px 0 0 4px;
@@ -2209,11 +2204,10 @@ select:focus:invalid:focus {
   border-radius: 4px 0 0 4px;
 }
 /* line 418, _forms.scss */
-.input-prepend.input-append .add-on:last-child, .scopebar .input-prepend.scopebar-search .add-on:last-child, .scopebar .-koowa-form .main .title .scopebar-search.slug .add-on:last-child, .-koowa-form .main .title .scopebar .scopebar-search.slug .add-on:last-child, .-koowa-form .main .title .input-append.slug .add-on:last-child,
+.input-prepend.input-append .add-on:last-child, .input-prepend.scopebar__search .add-on:last-child, .-koowa-form .main .title .scopebar__search.slug .add-on:last-child, .-koowa-form .main .title .input-append.slug .add-on:last-child,
 .input-prepend.input-append .btn:last-child,
-.scopebar .input-prepend.scopebar-search .btn:last-child,
-.scopebar .-koowa-form .main .title .scopebar-search.slug .btn:last-child,
-.-koowa-form .main .title .scopebar .scopebar-search.slug .btn:last-child,
+.input-prepend.scopebar__search .btn:last-child,
+.-koowa-form .main .title .scopebar__search.slug .btn:last-child,
 .-koowa-form .main .title .input-append.slug .btn:last-child {
   margin-left: -1px;
   -webkit-border-radius: 0 4px 4px 0;
@@ -2223,7 +2217,7 @@ select:focus:invalid:focus {
   border-radius: 0 4px 4px 0;
 }
 /* line 422, _forms.scss */
-.input-prepend.input-append .btn-group:first-child, .scopebar .input-prepend.scopebar-search .btn-group:first-child, .scopebar .-koowa-form .main .title .scopebar-search.slug .btn-group:first-child, .-koowa-form .main .title .scopebar .scopebar-search.slug .btn-group:first-child, .-koowa-form .main .title .input-append.slug .btn-group:first-child {
+.input-prepend.input-append .btn-group:first-child, .input-prepend.scopebar__search .btn-group:first-child, .-koowa-form .main .title .scopebar__search.slug .btn-group:first-child, .-koowa-form .main .title .input-append.slug .btn-group:first-child {
   margin-left: 0;
 }
 
@@ -2253,7 +2247,7 @@ textarea + .help-block,
 .input-prepend + .help-block,
 .-koowa-form .main .title .slug + .help-block,
 .input-append + .help-block,
-.scopebar .scopebar-search + .help-block {
+.scopebar__search + .help-block {
   margin-top: 6px;
 }
 
@@ -2285,13 +2279,13 @@ textarea {
 /* line 479, _forms.scss */
 .input-prepend .add-on, .-koowa-form .main .title .slug .add-on,
 .input-append .add-on,
-.scopebar .scopebar-search .add-on {
+.scopebar__search .add-on {
   padding: 5px 5px;
 }
 /* line 483, _forms.scss */
 .input-prepend .btn, .-koowa-form .main .title .slug .btn,
 .input-append .btn,
-.scopebar .scopebar-search .btn {
+.scopebar__search .btn {
   padding-top: 3px;
 }
 
@@ -4673,7 +4667,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: none;
 }
 /* line 122, _flexbox.scss */
-.scopebar .scopebar-search {
+.scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4686,7 +4680,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-justify-content: flex-end;
 }
 /* line 126, _flexbox.scss */
-.scopebar .scopebar-search input {
+.scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4847,59 +4841,9 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 
 /* line 2, components/_articles.scss */
 .com_articles .tabs {
-  position: relative;
-  -webkit-flex: 1;
-  z-index: 1;
   border-top: 1px solid #dddddd;
 }
-/* line 8, components/_articles.scss */
-.com_articles .tabs .tab {
-  float: left;
-}
-/* line 11, components/_articles.scss */
-.com_articles .tabs .tab > label {
-  padding: 0px 22px;
-  line-height: 30px;
-  color: #444;
-  font-weight: bold;
-  position: relative;
-  border-right: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
-}
-/* line 21, components/_articles.scss */
-.com_articles .tabs .tab > [type=radio] {
-  display: none;
-}
-/* line 24, components/_articles.scss */
-.com_articles .tabs .content {
-  position: absolute;
-  top: 30px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  overflow: scroll;
-  border-top: 1px solid #dddddd;
-}
-/* line 34, components/_articles.scss */
-.com_articles .tabs .content > * {
-  opacity: 0;
-}
-/* line 37, components/_articles.scss */
-.com_articles .tabs [type=radio]:checked ~ label {
-  background-color: white;
-  border-bottom-color: white;
-  z-index: 2;
-}
-/* line 43, components/_articles.scss */
-.com_articles .tabs [type=radio]:checked ~ label ~ .content {
-  z-index: 1;
-}
-/* line 46, components/_articles.scss */
-.com_articles .tabs [type=radio]:checked ~ label ~ .content > * {
-  opacity: 1;
-}
-/* line 51, components/_articles.scss */
+/* line 5, components/_articles.scss */
 .com_articles .select2-offscreen {
   display: none;
 }
@@ -5817,61 +5761,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px;
   z-index: 3;
-}
-/* line 65, components/_pages.scss */
-.com_pages .tabs {
-  position: relative;
-  -webkit-flex: 1;
-  background-color: #F0F0F0;
-  z-index: 1;
-}
-/* line 71, components/_pages.scss */
-.com_pages .tabs .tab {
-  float: left;
-}
-/* line 74, components/_pages.scss */
-.com_pages .tabs .tab > label {
-  padding: 0px 22px;
-  line-height: 30px;
-  color: #444;
-  font-weight: bold;
-  position: relative;
-  border-right: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
-}
-/* line 84, components/_pages.scss */
-.com_pages .tabs .tab > [type=radio] {
-  display: none;
-}
-/* line 87, components/_pages.scss */
-.com_pages .tabs .content {
-  padding: 20px;
-  position: absolute;
-  top: 30px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  overflow: scroll;
-  border-top: 1px solid #dddddd;
-}
-/* line 98, components/_pages.scss */
-.com_pages .tabs .content > * {
-  opacity: 0;
-}
-/* line 101, components/_pages.scss */
-.com_pages .tabs [type=radio]:checked ~ label {
-  background-color: white;
-  border-bottom-color: white;
-  z-index: 2;
-}
-/* line 107, components/_pages.scss */
-.com_pages .tabs [type=radio]:checked ~ label ~ .content {
-  z-index: 1;
-}
-/* line 110, components/_pages.scss */
-.com_pages .tabs [type=radio]:checked ~ label ~ .content > * {
-  opacity: 1;
 }
 
 /* com:application.view.page.login.html */

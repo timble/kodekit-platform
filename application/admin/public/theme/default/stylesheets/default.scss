@@ -8,8 +8,10 @@
 @import "variables";
 @import "mixins";
 
-@import "modules/navigation";
-@import "modules/thumbnail";
+@import "blocks/navigation";
+@import "blocks/thumbnail";
+@import "blocks/scopebar";
+@import "blocks/tabs";
 
 @import "reset";
 

@@ -119,7 +119,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 .scopebar {
 	@include flex-box(row, none);
 
-	.scopebar-search {
+	.scopebar__search {
 		@include flex-box(horizontal, 1);
 		@include box-justify-content(flex-end);
 
