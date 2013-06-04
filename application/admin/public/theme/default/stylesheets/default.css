@@ -1,5 +1,11 @@
 /* line 5, blocks/_navigation.scss */
-#panel-sidebar nav a, #files-tree .mooTree_node {
+#panel-pages nav h3 {
+  margin: 0;
+  padding: 6px 16px;
+}
+
+/* line 10, blocks/_navigation.scss */
+#panel-pages nav a, #panel-sidebar nav a, #files-tree .mooTree_node {
   display: block;
   padding-left: 22px;
   line-height: 27px;
@@ -7,14 +13,18 @@
   font-weight: 500;
   border-top: 1px solid #f9f9f9;
 }
-/* line 15, blocks/_navigation.scss */
-#panel-sidebar nav a .badge, #files-tree .mooTree_node .badge {
+/* line 20, blocks/_navigation.scss */
+#panel-pages nav a .badge, #panel-sidebar nav a .badge, #files-tree .mooTree_node .badge {
   float: right;
   margin: 5px 8px 0 0;
   line-height: 14px;
 }
-/* line 21, blocks/_navigation.scss */
-#panel-sidebar nav a:hover, #files-tree .mooTree_node:hover {
+/* line 26, blocks/_navigation.scss */
+#panel-pages nav a.level1, #panel-sidebar nav a.level1, #files-tree .level1.mooTree_node {
+  padding-left: 36px;
+}
+/* line 30, blocks/_navigation.scss */
+#panel-pages nav a:hover, #panel-sidebar nav a:hover, #files-tree .mooTree_node:hover {
   border-top: 1px solid #c4dbf2;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9e8f6), color-stop(100%, #afceed));
   background: -webkit-linear-gradient(#d9e8f6, #afceed);
@@ -23,8 +33,8 @@
   background: linear-gradient(#d9e8f6, #afceed);
   text-decoration: none;
 }
-/* line 28, blocks/_navigation.scss */
-#panel-sidebar nav a.active, #files-tree .active.mooTree_node, #panel-sidebar nav a.active:hover, #files-tree .active.mooTree_node:hover {
+/* line 37, blocks/_navigation.scss */
+#panel-pages nav a.active, #panel-sidebar nav a.active, #files-tree .active.mooTree_node, #panel-pages nav a.active:hover, #panel-sidebar nav a.active:hover, #files-tree .active.mooTree_node:hover {
   color: #FFF;
   border-top: 1px solid #5c9bda;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #71a8df), color-stop(100%, #2b75bf));
@@ -844,7 +854,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 5, _type.scss */
-.ellipsis, #panel-sidebar nav a, #files-tree .mooTree_node, #panel-sidebar h3,
+.ellipsis, #panel-pages nav a, #panel-sidebar nav a, #files-tree .mooTree_node, #panel-sidebar h3,
 #panel-sidebar legend,
 #panel-inspector h3,
 #panel-inspector legend {
@@ -1039,10 +1049,14 @@ ul {
   min-width: 180px;
   max-width: 180px;
   border-right: 1px solid #dddddd;
-  background-color: #dddddd;
+  background-color: #cfd6de;
+}
+/* line 135, _general.scss */
+#panel-pages nav a {
+  border-top-color: #cfd6de;
 }
 
-/* line 132, _general.scss */
+/* line 143, _general.scss */
 #panel-sidebar,
 #panel-inspector {
   -webkit-box-sizing: border-box;
@@ -1050,7 +1064,7 @@ ul {
   box-sizing: border-box;
   background-color: #f9f9f9;
 }
-/* line 137, _general.scss */
+/* line 148, _general.scss */
 #panel-sidebar h3,
 #panel-sidebar legend,
 #panel-inspector h3,
@@ -1072,17 +1086,17 @@ ul {
   background: -o-linear-gradient(#f2f2f2, #e9e9e9);
   background: linear-gradient(#f2f2f2, #e9e9e9);
 }
-/* line 156, _general.scss */
+/* line 167, _general.scss */
 #panel-sidebar fieldset,
 #panel-inspector fieldset {
   margin: 0;
 }
 
-/* line 161, _general.scss */
+/* line 172, _general.scss */
 #panel-inspector {
   border-left: 1px solid #dddddd;
 }
-/* line 165, _general.scss */
+/* line 176, _general.scss */
 #panel-inspector #activities-list h4 {
   padding: 5px;
   margin: 0;
@@ -1094,77 +1108,77 @@ ul {
   background: -o-linear-gradient(#f1f2f4, #f9f9f9);
   background: linear-gradient(#f1f2f4, #f9f9f9);
 }
-/* line 173, _general.scss */
+/* line 184, _general.scss */
 #panel-inspector #activities-list h4:first-of-type {
   border-top: none 0px;
 }
-/* line 177, _general.scss */
+/* line 188, _general.scss */
 #panel-inspector #activities-list .activities {
   margin: 0 10px 10px 10px;
 }
-/* line 180, _general.scss */
+/* line 191, _general.scss */
 #panel-inspector #activities-list .activities .activity {
   padding: 7px 0;
   border-bottom: 1px dotted #dddddd;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 185, _general.scss */
+/* line 196, _general.scss */
 #panel-inspector #activities-list .activities .activity > div {
   float: left;
 }
-/* line 189, _general.scss */
+/* line 200, _general.scss */
 #panel-inspector #activities-list .activities .activity a {
   line-height: 16px;
   width: 100%;
 }
-/* line 195, _general.scss */
+/* line 206, _general.scss */
 #panel-inspector #activities-list .activities .activity i {
   margin-right: 6px;
   margin-top: 1px;
   gradient-vertical-align: text-bottom;
   float: left;
 }
-/* line 202, _general.scss */
+/* line 213, _general.scss */
 #panel-inspector #activities-list .activities .activity .datetime {
   color: #555555;
 }
-/* line 204, _general.scss */
+/* line 215, _general.scss */
 #panel-inspector #activities-list .activities .activity:last-child {
   border-bottom: none 0px;
 }
-/* line 207, _general.scss */
+/* line 218, _general.scss */
 #panel-inspector #activities-list .btn-group {
   padding: 0 10px;
 }
 
-/* line 213, _general.scss */
+/* line 224, _general.scss */
 #panel-sidebar {
   border-right: 1px solid #dddddd;
 }
-/* line 216, _general.scss */
+/* line 227, _general.scss */
 #panel-sidebar h4 {
   padding: 4px 0 4px 10px;
   margin: 12px 0 0 0;
   color: #666;
   text-transform: uppercase;
 }
-/* line 223, _general.scss */
+/* line 234, _general.scss */
 #panel-sidebar h4:first-of-type {
   margin-top: 2px;
 }
-/* line 232, _general.scss */
+/* line 243, _general.scss */
 #panel-sidebar input[type=date] {
   width: 160px;
 }
 
-/* line 237, _general.scss */
+/* line 248, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 241, _general.scss */
+/* line 252, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1173,16 +1187,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 252, _general.scss */
+/* line 263, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 256, _general.scss */
+/* line 267, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 259, _general.scss */
+/* line 270, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1196,26 +1210,26 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 268, _general.scss */
+/* line 279, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 275, _general.scss */
+/* line 286, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 279, _general.scss */
+/* line 290, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 282, _general.scss */
+/* line 293, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 288, _general.scss */
+/* line 299, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #e5e5e5));
   background: -webkit-linear-gradient(#e0e0e0, #e5e5e5);
@@ -1223,31 +1237,31 @@ ul {
   background: -o-linear-gradient(#e0e0e0, #e5e5e5);
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 294, _general.scss */
+/* line 305, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 296, _general.scss */
+/* line 307, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 297, _general.scss */
+/* line 308, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 300, _general.scss */
+/* line 311, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 302, _general.scss */
+/* line 313, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 305, _general.scss */
+/* line 316, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1256,7 +1270,7 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 310, _general.scss */
+/* line 321, _general.scss */
 .-koowa-grid table tbody tr.separator td {
   height: auto;
   text-align: left;
@@ -1264,73 +1278,73 @@ ul {
   background-color: #ededed;
   border-bottom: 1px solid #dddddd;
 }
-/* line 318, _general.scss */
+/* line 329, _general.scss */
 .-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 323, _general.scss */
+/* line 334, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 326, _general.scss */
+/* line 337, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 327, _general.scss */
+/* line 338, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 332, _general.scss */
+/* line 343, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 333, _general.scss */
+/* line 344, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 336, _general.scss */
+/* line 347, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 337, _general.scss */
+/* line 348, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 338, _general.scss */
+/* line 349, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 341, _general.scss */
+/* line 352, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 345, _general.scss */
+/* line 356, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 349, _general.scss */
+/* line 360, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 352, _general.scss */
+/* line 363, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 357, _general.scss */
+/* line 368, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 361, _general.scss */
+/* line 372, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 366, _general.scss */
+/* line 377, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
@@ -1340,7 +1354,7 @@ ul {
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 371, _general.scss */
+/* line 382, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1353,17 +1367,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 380, _general.scss */
+/* line 391, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0;
 }
-/* line 388, _general.scss */
+/* line 399, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main .com_dashboard #panel-content > div:first-child > div #activities-list, .com_dashboard #panel-content > div:first-child > div .-koowa-form .main #activities-list, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 394, _general.scss */
+/* line 405, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1372,12 +1386,12 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 400, _general.scss */
+/* line 411, _general.scss */
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 406, _general.scss */
+/* line 417, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1385,23 +1399,23 @@ ul {
 }
 
 /* Sidebar */
-/* line 412, _general.scss */
+/* line 423, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 415, _general.scss */
+/* line 426, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 424, _general.scss */
+/* line 435, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 428, _general.scss */
+/* line 439, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -4396,6 +4410,20 @@ html #container, body #container {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  min-height: 100%;
+}
+
+/* line 14, _flexbox.scss */
+#panel-wrapper {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
@@ -4405,7 +4433,7 @@ html #container, body #container {
   min-height: 100%;
 }
 
-/* line 14, _flexbox.scss */
+/* line 19, _flexbox.scss */
 #panel-component {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4419,7 +4447,7 @@ html #container, body #container {
   min-height: 100%;
 }
 
-/* line 19, _flexbox.scss */
+/* line 24, _flexbox.scss */
 #panel-header {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4433,7 +4461,7 @@ html #container, body #container {
   min-height: 30px;
   max-height: 30px;
 }
-/* line 24, _flexbox.scss */
+/* line 29, _flexbox.scss */
 #panel-header #menu {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4446,7 +4474,7 @@ html #container, body #container {
   flex: 1;
 }
 
-/* line 29, _flexbox.scss */
+/* line 34, _flexbox.scss */
 #panel-tabbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4458,7 +4486,7 @@ html #container, body #container {
   -moz-flex: 30px 0;
   flex: 30px 0;
 }
-/* line 32, _flexbox.scss */
+/* line 37, _flexbox.scss */
 #panel-tabbar #menubar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4471,7 +4499,7 @@ html #container, body #container {
   flex: 0;
 }
 
-/* line 37, _flexbox.scss */
+/* line 42, _flexbox.scss */
 #panel-toolbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4484,7 +4512,7 @@ html #container, body #container {
   flex: 41px 0;
   min-height: auto;
 }
-/* line 41, _flexbox.scss */
+/* line 46, _flexbox.scss */
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4497,7 +4525,7 @@ html #container, body #container {
   flex: 1;
 }
 
-/* line 47, _flexbox.scss */
+/* line 52, _flexbox.scss */
 #panel-sidebar,
 #panel-inspector {
   display: -webkit-flex;
@@ -4511,13 +4539,13 @@ html #container, body #container {
   flex: 1 1 15%;
   max-width: 200px;
 }
-/* line 51, _flexbox.scss */
+/* line 56, _flexbox.scss */
 #panel-sidebar h3,
 #panel-inspector h3 {
   width: 100%;
 }
 
-/* line 56, _flexbox.scss */
+/* line 61, _flexbox.scss */
 #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4530,11 +4558,11 @@ html #container, body #container {
   flex: 1 1 70%;
   min-height: 100%;
 }
-/* line 60, _flexbox.scss */
+/* line 65, _flexbox.scss */
 #panel-content .-koowa-grid {
   width: 100%;
 }
-/* line 64, _flexbox.scss */
+/* line 69, _flexbox.scss */
 #panel-content .-koowa-form {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4547,7 +4575,7 @@ html #container, body #container {
   flex: 1;
   min-height: 100%;
 }
-/* line 68, _flexbox.scss */
+/* line 73, _flexbox.scss */
 #panel-content .-koowa-form .main {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4560,7 +4588,7 @@ html #container, body #container {
   flex: 1;
   min-height: 100%;
 }
-/* line 72, _flexbox.scss */
+/* line 77, _flexbox.scss */
 #panel-content .-koowa-form .main .title {
   min-height: 64px;
   display: -webkit-flex;
@@ -4573,7 +4601,7 @@ html #container, body #container {
   -moz-flex: 0;
   flex: 0;
 }
-/* line 77, _flexbox.scss */
+/* line 82, _flexbox.scss */
 #panel-content .-koowa-form .main .title .slug {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4585,7 +4613,7 @@ html #container, body #container {
   -moz-flex: 0;
   flex: 0;
 }
-/* line 82, _flexbox.scss */
+/* line 87, _flexbox.scss */
 #panel-content .-koowa-form .sidebar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4598,7 +4626,7 @@ html #container, body #container {
   flex: initial;
 }
 
-/* line 88, _flexbox.scss */
+/* line 93, _flexbox.scss */
 .scrollable, .com_dashboard #panel-content > div:first-child > div #activities-list, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4608,7 +4636,7 @@ html #container, body #container {
   height: 1px;
 }
 
-/* line 101, _flexbox.scss */
+/* line 106, _flexbox.scss */
 .editor-wrap,
 .editor-container,
 .mceEditor,
@@ -4628,13 +4656,13 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
 }
 
-/* line 106, _flexbox.scss */
+/* line 111, _flexbox.scss */
 table.mceLayout,
 table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   height: auto !important;
 }
 
-/* line 110, _flexbox.scss */
+/* line 115, _flexbox.scss */
 .CodeMirror {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4646,7 +4674,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 113, _flexbox.scss */
+/* line 118, _flexbox.scss */
 .CodeMirror .CodeMirror-scroll {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -4654,7 +4682,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 }
 
 /* @group Scope Bar */
-/* line 119, _flexbox.scss */
+/* line 124, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4666,7 +4694,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: none;
   flex: none;
 }
-/* line 122, _flexbox.scss */
+/* line 127, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4679,7 +4707,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
   -webkit-justify-content: flex-end;
 }
-/* line 126, _flexbox.scss */
+/* line 131, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4692,7 +4720,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
 }
 
-/* line 134, _flexbox.scss */
+/* line 139, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4706,7 +4734,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: none;
 }
 
-/* line 139, _flexbox.scss */
+/* line 144, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4718,7 +4746,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 142, _flexbox.scss */
+/* line 147, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4730,7 +4758,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 145, _flexbox.scss */
+/* line 150, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4743,7 +4771,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
 }
 
-/* line 156, _flexbox.scss */
+/* line 161, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4755,7 +4783,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 159, _flexbox.scss */
+/* line 164, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4767,7 +4795,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 167, _flexbox.scss */
+/* line 172, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }

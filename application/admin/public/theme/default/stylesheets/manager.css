@@ -1,0 +1,6 @@
+/* line 3, manager.scss */
+#panel-header,
+#panel-tabbar,
+#panel-sidebar {
+  display: none;
+}

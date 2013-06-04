@@ -125,7 +125,18 @@ ul {
 	max-width: 180px;
 
 	border-right: 1px solid $grayLighter;
-	background-color: $grayLighter;
+	background-color: rgb(207,214,222);
+
+  nav {
+    h3 {
+      @extend %navigation__separator;
+    }
+
+    a {
+      @extend %navigation__item;
+      border-top-color: rgb(207,214,222);
+    }
+  }
 }
 
 #panel-sidebar,

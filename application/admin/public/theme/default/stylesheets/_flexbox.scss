@@ -6,9 +6,14 @@ html, body {
 	height: 100%;
 
 	#container {
-		@include flex-box(column, 1);
+		@include flex-box(row, 1);
 		min-height: 100%;
 	}
+}
+
+#panel-wrapper {
+  @include flex-box(column, 1);
+  min-height: 100%;
 }
 
 #panel-component {

@@ -2,6 +2,11 @@
 
 }
 
+%navigation__separator {
+  margin: 0;
+  padding: 6px 16px;
+}
+
 %navigation__item {
   display: block;
   padding-left: 22px;
@@ -16,6 +21,10 @@
     float: right;
     margin: 5px 8px 0 0;
     line-height: 14px;
+  }
+
+  &.level1 {
+    padding-left: 36px;
   }
 
   &:hover {
