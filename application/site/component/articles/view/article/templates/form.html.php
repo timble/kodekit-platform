@@ -44,13 +44,13 @@
         <div class="control-group">
             <label class="control-label" for="publish_on"><?= @text('Publish on'); ?></label>
             <div class="controls">
-                <?= @helper('behavior.calendar', array('date' => $article->publish_on, 'name' => 'publish_on')); ?>
+                <input type="datetime-local" name="publish_on" value="<?= $article->publish_on ?>" />
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="unpublish_on"><?= @text('Unpublish on'); ?></label>
             <div class="controls">
-                <?= @helper('behavior.calendar', array('date' => $article->publishun_on, 'name' => 'publishun_on')); ?>
+                <input type="datetime-local" name="unpublish_on" value="<?= $article->unpublish_on ?>" />
             </div>
         </div>
         <div class="control-group">

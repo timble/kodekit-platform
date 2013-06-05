@@ -249,7 +249,7 @@ class ObjectIdentifier implements ObjectIdentifierInterface
         if($merge) {
             $config->append($data);
         } else {
-            $config = new ObjectConfig($data);
+            $this->_config = new ObjectConfig($data);
         }
 
         return $this;

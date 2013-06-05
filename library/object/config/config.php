@@ -101,6 +101,7 @@ class ObjectConfig implements ObjectConfigInterface
     public function remove( $name )
     {
         unset($this->_data[$name]);
+        return $this;
     }
 
 	/**

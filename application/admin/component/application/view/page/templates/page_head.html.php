@@ -27,8 +27,6 @@
 
     <style src="media://application/stylesheets/default.css" />
 
-    <style src="media://application/stylesheets/system.css"  />
-
     <script src="media://application/js/jquery.js" /></script>
     <script type="text/javascript">
         var $jQuery = jQuery.noConflict();

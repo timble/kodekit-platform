@@ -24,5 +24,9 @@ use Nooku\Library;
         $this->getClassLoader()
              ->getLocator('psr')
              ->registerNamespace('Imagine', JPATH_VENDOR.'/imagine/imagine/lib');
+
+        $manager = $this->getObjectManager();
+        $manager->registerAlias('com:files.database.rowset.directories', 'com:files.database.rowset.folders');
+        $manager->registerAlias('com:files.database.row.directory', 'com:files.database.row.folder');
     }
 }

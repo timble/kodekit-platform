@@ -19,6 +19,17 @@ namespace Nooku\Library;
 interface ObjectManagerInterface
 {
     /**
+     * Returns an identifier object.
+     *
+     * If no identifier is passed the object identifier of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
+     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectIdentifier
+     */
+    public function getIdentifier($identifier = null);
+
+    /**
      * Get an object instance based on an object identifier
      *
      * If the object implements the ObjectSingleton interface the object will be automatically registered in the
@@ -44,24 +55,21 @@ interface ObjectManagerInterface
 	public function setObject($identifier, ObjectInterface $object);
 
     /**
-     * Returns an identifier object.
+     * Get the object configuration based on an object identifier
      *
-     * If no identifier is passed the object identifier of this object will be returned. Function recursively
-     * resolves identifier aliases and returns the aliased identifier.
-     *
-     * @param mixed $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
-     * @return ObjectIdentifier
+     * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
+     * @return ObjectConfig
      */
-    public function getIdentifier($identifier = null);
+    public function getConfig($identifier = null);
 
     /**
-     * Register and identifier
+     * Register object configuration for  specific object identifier
      *
      * @param mixed  $identifier An ObjectIdentifier, identifier string or object implementing ObjectInterface
      * @param array $config      An optional associative array of configuration options
      * @return ObjectManagerInterface
      */
-    public function setIdentifier($identifier, array $config = null);
+    public function setConfig($identifier, array $config = null);
 
     /**
      * Register a mixin or an array of mixins for an identifier

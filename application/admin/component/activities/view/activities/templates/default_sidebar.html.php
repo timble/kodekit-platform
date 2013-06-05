@@ -41,14 +41,7 @@ window.addEvent('domready', function(){
 		    <legend><?=@text( 'Filters' )?></legend>
 		    <div>
 				<label for="start_date"><?=@text( 'Start Date' )?></label>
-				<div class="controls-calendar">
-					<?= @helper('behavior.calendar',
-							array(
-								'date' => $state->start_date,
-								'name' => 'start_date',
-								'format' => '%Y-%m-%d'
-							)); ?>
-				</div>
+                <input type="date" name="start_date" value="<?= $state->start_date ?>" />
 	
 				<label for="days_back"><?=@text( 'Days Back' )?></label>
 				<div class="activities-days-back">
