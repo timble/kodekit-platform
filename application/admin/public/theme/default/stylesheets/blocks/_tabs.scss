@@ -22,10 +22,10 @@
   }
 
   .content > *                                { opacity: 0; }
-  [type=radio]                                { display: none; }
-  [type=radio]:checked ~ label                { z-index: 2; }
-  [type=radio]:checked ~ label ~ .content     { z-index: 1; }
-  [type=radio]:checked ~ label ~ .content > * { opacity: 1; }
+  .tab > [type=radio]                                { display: none; }
+  .tab > [type=radio]:checked ~ label                { z-index: 2; }
+  .tab > [type=radio]:checked ~ label ~ .content     { z-index: 1; }
+  .tab > [type=radio]:checked ~ label ~ .content > * { opacity: 1; }
 }
 
 .tabs.tabs-horizontal {

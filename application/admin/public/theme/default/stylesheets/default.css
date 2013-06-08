@@ -181,11 +181,11 @@
   opacity: 0;
 }
 /* line 25, blocks/_tabs.scss */
-.tabs [type=radio] {
+.tabs .tab > [type=radio] {
   display: none;
 }
 /* line 26, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label {
+.tabs .tab > [type=radio]:checked ~ label {
   z-index: 2;
 }
 /* line 27, blocks/_tabs.scss */
