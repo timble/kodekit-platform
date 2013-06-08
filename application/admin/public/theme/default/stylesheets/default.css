@@ -1420,62 +1420,56 @@ ul {
   height: 18px;
 }
 
-/* ---- Basic menu styles ------------------- */
-/* line 5, _menu.scss */
+/* ---- Menu layout -------------------------- */
+/* line 4, _menu.scss */
 #panel-header ul, #panel-header li {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-/* line 7, _menu.scss */
+/* line 6, _menu.scss */
 #panel-header li {
   float: left;
   position: relative;
   display: inline;
 }
-/* line 8, _menu.scss */
+/* line 7, _menu.scss */
 #panel-header li li {
   clear: both;
 }
-/* line 9, _menu.scss */
+/* line 8, _menu.scss */
 #panel-header li ul {
   visibility: hidden;
   position: absolute;
 }
-/* line 11, _menu.scss */
+/* line 10, _menu.scss */
 #panel-header li li ul {
   top: 0;
   left: 0;
 }
-/* line 13, _menu.scss */
+/* line 12, _menu.scss */
 #panel-header li:hover ul {
   visibility: visible;
 }
-/* line 14, _menu.scss */
+/* line 13, _menu.scss */
 #panel-header li:hover ul li ul {
   visibility: hidden;
 }
-/* line 15, _menu.scss */
+/* line 14, _menu.scss */
 #panel-header li:hover li:hover ul {
   visibility: visible;
   left: 100%;
 }
-/* line 17, _menu.scss */
+/* line 16, _menu.scss */
 #panel-header ul.nav {
   position: relative;
   z-index: 100;
 }
-
-/* ---- Menu layout -------------------------- */
-/* line 26, _menu.scss */
+/* line 20, _menu.scss */
 #panel-header ul {
   /* 1 level - hover */
 }
-/* line 27, _menu.scss */
-#panel-header ul li {
-  /* This is for fixing a WebKit quirk, more info: https://nooku.assembla.com/spaces/nooku-server/tickets/159 */
-}
-/* line 28, _menu.scss */
+/* line 22, _menu.scss */
 #panel-header ul li a, #panel-header ul li span {
   display: block;
   padding: 0 18px;
@@ -1491,11 +1485,7 @@ ul {
   border-right: 1px solid #555555;
   white-space: nowrap;
 }
-/* line 43, _menu.scss */
-#panel-header ul li a:hover, #panel-header ul li span:hover {
-  cursor: default;
-}
-/* line 45, _menu.scss */
+/* line 36, _menu.scss */
 #panel-header ul li ul {
   -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 13px, rgba(0, 0, 0, 0.5) 0 0 1px;
   -moz-box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 13px, rgba(0, 0, 0, 0.5) 0 0 1px;
@@ -1508,42 +1498,42 @@ ul {
   background-color: white;
   padding: 4px 0;
 }
-/* line 51, _menu.scss */
+/* line 42, _menu.scss */
 #panel-header ul li ul li.node {
   background: transparent url(../images/arrow-right.png) no-repeat 95% 50%;
 }
-/* line 52, _menu.scss */
+/* line 43, _menu.scss */
 #panel-header ul li ul li.node > a {
   background-image: url(../images/arrow-right-active.png) !important;
   background-repeat: no-repeat;
   background-position: 195% 50%;
 }
-/* line 53, _menu.scss */
+/* line 44, _menu.scss */
 #panel-header ul li ul li.node:hover > a {
   background-position: 95% 50%;
 }
-/* line 55, _menu.scss */
+/* line 46, _menu.scss */
 #panel-header ul li ul li {
   border: 0;
   display: block;
   float: none;
   width: 100%;
 }
-/* line 61, _menu.scss */
+/* line 52, _menu.scss */
 #panel-header ul li ul li a {
   padding-left: 15px;
   padding-right: 30px;
   line-height: 1em;
 }
-/* line 71, _menu.scss */
+/* line 62, _menu.scss */
 #panel-header ul:not(.disabled) li a, #panel-header ul:not(.disabled) li span {
   color: white;
 }
-/* line 77, _menu.scss */
+/* line 68, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover {
   /* 2 level - normal */
 }
-/* line 78, _menu.scss */
+/* line 69, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover a, #panel-header ul:not(.disabled) > li:hover span {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4f6ef6), color-stop(100%, #0c36ec));
   background: -webkit-linear-gradient(#4f6ef6, #0c36ec);
@@ -1551,15 +1541,15 @@ ul {
   background: -o-linear-gradient(#4f6ef6, #0c36ec);
   background: linear-gradient(#4f6ef6, #0c36ec);
 }
-/* line 83, _menu.scss */
+/* line 74, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul {
   /* 2 level - hover */
 }
-/* line 84, _menu.scss */
+/* line 75, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul li {
   border-top: 1px solid white;
 }
-/* line 85, _menu.scss */
+/* line 76, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul li a {
   color: #333333;
   background-color: transparent;
@@ -1567,7 +1557,7 @@ ul {
   padding-top: 0.75em;
   padding-bottom: 0.75em;
 }
-/* line 88, _menu.scss */
+/* line 79, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4f6ef6), color-stop(100%, #0c36ec));
   background: -webkit-linear-gradient(#4f6ef6, #0c36ec);
@@ -1577,11 +1567,11 @@ ul {
   border-top: 1px solid #1e46f4;
   /* 3 level - normal */
 }
-/* line 92, _menu.scss */
+/* line 83, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) a {
   color: white;
 }
-/* line 95, _menu.scss */
+/* line 86, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul {
   margin-top: -5px;
   z-index: 1;
@@ -1592,48 +1582,36 @@ ul {
   border-radius: 0 5px 5px 5px;
   /* 3 level - hover */
 }
-/* line 100, _menu.scss */
+/* line 91, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li a {
   color: #333333;
   background-color: transparent;
   border: 0 none;
 }
-/* line 103, _menu.scss */
+/* line 94, _menu.scss */
 #panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul li:hover a {
   color: white;
 }
-/* line 111, _menu.scss */
+/* line 102, _menu.scss */
 #panel-header ul.disabled span.nolink {
   cursor: default;
 }
-/* line 114, _menu.scss */
+/* line 105, _menu.scss */
 #panel-header ul.disabled ul li {
   display: none;
 }
-/* line 118, _menu.scss */
+/* line 109, _menu.scss */
 #panel-header ul:nth-child(2) li:first-child a {
   border-left: 1px solid #555555;
 }
-/* line 119, _menu.scss */
+/* line 110, _menu.scss */
 #panel-header ul:nth-child(2) li:last-child a {
   border-right: 0 none;
 }
 
 /* menubar styling */
-/* line 126, _menu.scss */
-#menubar {
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0 0px;
-}
-/* line 131, _menu.scss */
-#menubar li {
-  padding: 0;
-  margin: 0px 0px 0 0px;
-}
-/* line 137, _menu.scss */
-#menubar li a,
-#menubar span.nolink {
+/* line 116, _menu.scss */
+#panel-tabbar a {
   font-weight: bold;
   cursor: pointer;
   padding: 0 25px;
@@ -1648,14 +1626,8 @@ ul {
   border-radius: 0 0;
   border-right: 1px solid #6497ef;
 }
-/* line 149, _menu.scss */
-#menubar span.nolink {
-  color: #7ba7f1;
-  cursor: default;
-}
-/* line 155, _menu.scss */
-#menubar a.active,
-#menubar span.nolink.active {
+/* line 128, _menu.scss */
+#panel-tabbar a.active {
   color: #333333;
   background-color: #f9f9f9;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #f9f9f9));
@@ -1667,9 +1639,8 @@ ul {
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 4px;
 }
-/* line 163, _menu.scss */
-#menubar a.active:hover,
-#menubar span.nolink.active:hover {
+/* line 135, _menu.scss */
+#panel-tabbar a.active:hover {
   text-decoration: none !important;
 }
 
@@ -4479,27 +4450,15 @@ html #container, body #container {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  flex-direction: row;
   -webkit-flex: 30px 0;
   -moz-flex: 30px 0;
   flex: 30px 0;
 }
-/* line 37, _flexbox.scss */
-#panel-tabbar #menubar {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 0;
-  -moz-flex: 0;
-  flex: 0;
-}
 
-/* line 42, _flexbox.scss */
+/* line 40, _flexbox.scss */
 #panel-toolbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4512,7 +4471,7 @@ html #container, body #container {
   flex: 41px 0;
   min-height: auto;
 }
-/* line 46, _flexbox.scss */
+/* line 44, _flexbox.scss */
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4525,7 +4484,7 @@ html #container, body #container {
   flex: 1;
 }
 
-/* line 52, _flexbox.scss */
+/* line 50, _flexbox.scss */
 #panel-sidebar,
 #panel-inspector {
   display: -webkit-flex;
@@ -4539,13 +4498,13 @@ html #container, body #container {
   flex: 1 1 15%;
   max-width: 200px;
 }
-/* line 56, _flexbox.scss */
+/* line 54, _flexbox.scss */
 #panel-sidebar h3,
 #panel-inspector h3 {
   width: 100%;
 }
 
-/* line 61, _flexbox.scss */
+/* line 59, _flexbox.scss */
 #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4558,11 +4517,11 @@ html #container, body #container {
   flex: 1 1 70%;
   min-height: 100%;
 }
-/* line 65, _flexbox.scss */
+/* line 63, _flexbox.scss */
 #panel-content .-koowa-grid {
   width: 100%;
 }
-/* line 69, _flexbox.scss */
+/* line 67, _flexbox.scss */
 #panel-content .-koowa-form {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4575,7 +4534,7 @@ html #container, body #container {
   flex: 1;
   min-height: 100%;
 }
-/* line 73, _flexbox.scss */
+/* line 71, _flexbox.scss */
 #panel-content .-koowa-form .main {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4588,7 +4547,7 @@ html #container, body #container {
   flex: 1;
   min-height: 100%;
 }
-/* line 77, _flexbox.scss */
+/* line 75, _flexbox.scss */
 #panel-content .-koowa-form .main .title {
   min-height: 64px;
   display: -webkit-flex;
@@ -4601,7 +4560,7 @@ html #container, body #container {
   -moz-flex: 0;
   flex: 0;
 }
-/* line 82, _flexbox.scss */
+/* line 80, _flexbox.scss */
 #panel-content .-koowa-form .main .title .slug {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4613,7 +4572,7 @@ html #container, body #container {
   -moz-flex: 0;
   flex: 0;
 }
-/* line 87, _flexbox.scss */
+/* line 85, _flexbox.scss */
 #panel-content .-koowa-form .sidebar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4626,7 +4585,7 @@ html #container, body #container {
   flex: initial;
 }
 
-/* line 93, _flexbox.scss */
+/* line 91, _flexbox.scss */
 .scrollable, .com_dashboard #panel-content > div:first-child > div #activities-list, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4636,7 +4595,7 @@ html #container, body #container {
   height: 1px;
 }
 
-/* line 106, _flexbox.scss */
+/* line 104, _flexbox.scss */
 .editor-wrap,
 .editor-container,
 .mceEditor,
@@ -4656,13 +4615,13 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
 }
 
-/* line 111, _flexbox.scss */
+/* line 109, _flexbox.scss */
 table.mceLayout,
 table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   height: auto !important;
 }
 
-/* line 115, _flexbox.scss */
+/* line 113, _flexbox.scss */
 .CodeMirror {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4674,7 +4633,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 118, _flexbox.scss */
+/* line 116, _flexbox.scss */
 .CodeMirror .CodeMirror-scroll {
   -webkit-flex: 1;
   -moz-flex: 1;
@@ -4682,7 +4641,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 }
 
 /* @group Scope Bar */
-/* line 124, _flexbox.scss */
+/* line 122, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4694,7 +4653,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: none;
   flex: none;
 }
-/* line 127, _flexbox.scss */
+/* line 125, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4707,7 +4666,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
   -webkit-justify-content: flex-end;
 }
-/* line 131, _flexbox.scss */
+/* line 129, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4720,7 +4679,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
 }
 
-/* line 139, _flexbox.scss */
+/* line 137, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4734,7 +4693,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: none;
 }
 
-/* line 144, _flexbox.scss */
+/* line 142, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4746,7 +4705,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 147, _flexbox.scss */
+/* line 145, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4758,7 +4717,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 150, _flexbox.scss */
+/* line 148, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4771,7 +4730,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex: 1;
 }
 
-/* line 161, _flexbox.scss */
+/* line 159, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4783,7 +4742,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 164, _flexbox.scss */
+/* line 162, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4795,7 +4754,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 172, _flexbox.scss */
+/* line 170, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }

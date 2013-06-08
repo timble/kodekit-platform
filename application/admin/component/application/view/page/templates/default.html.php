@@ -26,7 +26,7 @@
         <?= @helper('toolbar.render', array('toolbar' => $toolbar, 'attribs' => array('id' => 'statusmenu')))?>
 	</div>
 
-    <?= @helper('tabbar.render', array('tabbar' => $tabbar, 'attribs' => array('id' => 'menubar')))?>
+    <?= @helper('tabbar.render', array('tabbar' => $tabbar))?>
 
     <ktml:modules position="toolbar">
     <div id="panel-toolbar">

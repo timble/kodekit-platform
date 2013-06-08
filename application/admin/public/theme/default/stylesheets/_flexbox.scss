@@ -32,11 +32,9 @@ html, body {
 }
 
 #panel-tabbar {
-	@include flex-box(column, 30px 0);
+	@include flex-box(row, 30px 0);
 
-	#menubar {
-		@include flex-box();
-	}
+
 }
 
 #panel-toolbar {
