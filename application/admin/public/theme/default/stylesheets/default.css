@@ -158,52 +158,111 @@
   -webkit-flex: 1;
   z-index: 1;
 }
-/* line 7, blocks/_tabs.scss */
-.tabs .tab {
-  float: left;
-}
-/* line 10, blocks/_tabs.scss */
+/* line 6, blocks/_tabs.scss */
 .tabs .tab > label {
-  padding: 0px 22px;
-  line-height: 30px;
   color: #444;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 14, blocks/_tabs.scss */
+.tabs .content {
+  position: absolute;
+  background: white;
+  overflow: scroll;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+/* line 24, blocks/_tabs.scss */
+.tabs .content > * {
+  opacity: 0;
+}
+/* line 25, blocks/_tabs.scss */
+.tabs [type=radio] {
+  display: none;
+}
+/* line 26, blocks/_tabs.scss */
+.tabs [type=radio]:checked ~ label {
+  z-index: 2;
+}
+/* line 27, blocks/_tabs.scss */
+.tabs [type=radio]:checked ~ label ~ .content {
+  z-index: 1;
+}
+/* line 28, blocks/_tabs.scss */
+.tabs [type=radio]:checked ~ label ~ .content > * {
+  opacity: 1;
+}
+
+/* line 32, blocks/_tabs.scss */
+.tabs.tabs-horizontal .tab {
+  float: left;
+}
+/* line 36, blocks/_tabs.scss */
+.tabs.tabs-horizontal .tab > label {
+  padding: 0px 22px;
+  line-height: 30px;
   position: relative;
   border-right: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
 }
-/* line 20, blocks/_tabs.scss */
-.tabs .tab > [type=radio] {
-  display: none;
-}
-/* line 23, blocks/_tabs.scss */
-.tabs .content {
-  position: absolute;
+/* line 44, blocks/_tabs.scss */
+.tabs.tabs-horizontal .content {
   top: 30px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-  overflow: scroll;
   border-top: 1px solid #dddddd;
 }
-/* line 33, blocks/_tabs.scss */
-.tabs .content > * {
-  opacity: 0;
-}
-/* line 36, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label {
+/* line 49, blocks/_tabs.scss */
+.tabs.tabs-horizontal [type=radio]:checked ~ label {
   background-color: white;
   border-bottom-color: white;
-  z-index: 2;
 }
-/* line 42, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content {
-  z-index: 1;
+
+/* line 56, blocks/_tabs.scss */
+.tabs.tabs-vertical h3 {
+  color: #666;
+  font-size: 11px;
+  padding: 6px 0;
+  text-indent: 12px;
+  margin: 0;
+  text-transform: uppercase;
 }
-/* line 45, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content > * {
-  opacity: 1;
+/* line 65, blocks/_tabs.scss */
+.tabs.tabs-vertical .tab > label {
+  padding: 0px 0 0px 22px;
+  line-height: 26px;
+  border-top: 1px solid #F9F9F9;
+}
+/* line 71, blocks/_tabs.scss */
+.tabs.tabs-vertical .tab > label:hover {
+  border-top-color: #c4dbf2;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9e8f6), color-stop(100%, #afceed));
+  background: -webkit-linear-gradient(#d9e8f6, #afceed);
+  background: -moz-linear-gradient(#d9e8f6, #afceed);
+  background: -o-linear-gradient(#d9e8f6, #afceed);
+  background: linear-gradient(#d9e8f6, #afceed);
+  text-decoration: none;
+}
+/* line 77, blocks/_tabs.scss */
+.tabs.tabs-vertical .content {
+  left: 200px;
+  border-left: 1px solid #E1E1E1;
+}
+/* line 82, blocks/_tabs.scss */
+.tabs.tabs-vertical [type=radio]:checked ~ label {
+  color: #FFF;
+  border-top-color: #5c9bda;
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #71a8df), color-stop(100%, #2b75bf));
+  background: -webkit-linear-gradient(#71a8df, #2b75bf);
+  background: -moz-linear-gradient(#71a8df, #2b75bf);
+  background: -o-linear-gradient(#71a8df, #2b75bf);
+  background: linear-gradient(#71a8df, #2b75bf);
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
+  text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
 /* line 10, _reset.scss */
@@ -4858,94 +4917,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 .com_dashboard #panel-content .sidebar {
   width: 400px;
   padding: 20px;
-}
-
-/* line 2, components/_extensions.scss */
-.com_extensions #toolbar-box {
-  border-bottom: 1px solid #dddddd;
-}
-/* line 6, components/_extensions.scss */
-.com_extensions .tabs {
-  position: relative;
-  -webkit-flex: 1;
-}
-/* line 11, components/_extensions.scss */
-.com_extensions .tabs h3 {
-  color: #666;
-  font-size: 11px;
-  padding: 6px 0;
-  text-indent: 12px;
-  margin: 0;
-  text-transform: uppercase;
-}
-/* line 20, components/_extensions.scss */
-.com_extensions .tab {
-  z-index: 1;
-}
-/* line 23, components/_extensions.scss */
-.com_extensions .tab > label {
-  padding: 0px 0 0px 22px;
-  line-height: 26px;
-  color: #444;
-  border-top: 1px solid #F9F9F9;
-  font-weight: bold;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-/* line 35, components/_extensions.scss */
-.com_extensions .tab > label:hover {
-  color: #444;
-  border-top-color: #c4dbf2;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9e8f6), color-stop(100%, #afceed));
-  background: -webkit-linear-gradient(#d9e8f6, #afceed);
-  background: -moz-linear-gradient(#d9e8f6, #afceed);
-  background: -o-linear-gradient(#d9e8f6, #afceed);
-  background: linear-gradient(#d9e8f6, #afceed);
-  text-decoration: none;
-}
-/* line 42, components/_extensions.scss */
-.com_extensions .tab > [type=radio] {
-  display: none;
-}
-/* line 45, components/_extensions.scss */
-.com_extensions .content {
-  padding: 20px;
-  position: absolute;
-  top: 0;
-  left: 200px;
-  background: white;
-  right: 0;
-  bottom: 0;
-  border-left: 1px solid #E1E1E1;
-  overflow: scroll;
-}
-/* line 58, components/_extensions.scss */
-.com_extensions .content > * {
-  opacity: 0;
-}
-/* line 61, components/_extensions.scss */
-.com_extensions [type=radio]:checked ~ label {
-  color: #FFF;
-  border-top-color: #5c9bda;
-  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #71a8df), color-stop(100%, #2b75bf));
-  background: -webkit-linear-gradient(#71a8df, #2b75bf);
-  background: -moz-linear-gradient(#71a8df, #2b75bf);
-  background: -o-linear-gradient(#71a8df, #2b75bf);
-  background: linear-gradient(#71a8df, #2b75bf);
-  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
-  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
-  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
-  text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
-  z-index: 2;
-}
-/* line 70, components/_extensions.scss */
-.com_extensions [type=radio]:checked ~ label ~ .content {
-  z-index: 10;
-}
-/* line 73, components/_extensions.scss */
-.com_extensions [type=radio]:checked ~ label ~ .content > * {
-  opacity: 1;
 }
 
 /* line 3, components/_files.scss */
