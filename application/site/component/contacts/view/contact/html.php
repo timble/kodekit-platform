@@ -55,6 +55,10 @@ class ContactsViewContactHtml extends Library\ViewHtml
             $pathway->addItem($contact->name, '');
         }
 
+        if ($contact->id && $contact->isAttachable()) {
+            $this->attachments($contact->getAttachments());
+        }
+
         $this->params   = $params;
         $this->category = $category;
 
