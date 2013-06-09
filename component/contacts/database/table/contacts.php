@@ -28,7 +28,8 @@ class DatabaseTableContacts extends Library\DatabaseTableDefault
                 'sluggable' => array('columns' => array('name'))
             ),
              'filters' => array(
-                'params'    => 'ini'
+                 'misc'     => array('html', 'tidy'),
+                 'params'   => 'ini'
             )
         ));
         

@@ -98,12 +98,6 @@
 				    </div>
 				</div>
 				<div>
-				    <label for="misc"><?= @text( 'Miscellaneous Info' ); ?></label>
-				    <div>
-				        <textarea name="misc" rows="5"><?= $contact->misc; ?></textarea>
-				    </div>
-				</div>
-				<div>
 				    <label for="image"><?= @text( 'Image' ); ?></label>
 				    <div>
 				        <?= @helper('image.listbox', array('name' => 'image', 'attribs' => array('class' => 'select-image', 'style' => 'width:220px'))); ?>
@@ -111,6 +105,7 @@
 				</div>
 			</fieldset>
 		</div>
+        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'misc', 'text' => $contact->misc)) ?>
 	</div>
 
 	<div class="sidebar">
