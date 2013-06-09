@@ -98,12 +98,6 @@
 				    </div>
 				</div>
 				<div>
-				    <label for="webpage"><?= @text( 'Webpage' ); ?></label>
-				    <div>
-				        <input type="text" name="webpage" maxlength="255" value="<?= $contact->webpage; ?>" />
-				    </div>
-				</div>
-				<div>
 				    <label for="misc"><?= @text( 'Miscellaneous Info' ); ?></label>
 				    <div>
 				        <textarea name="misc" rows="5"><?= $contact->misc; ?></textarea>
