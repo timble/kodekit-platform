@@ -15,9 +15,13 @@
     <?if ($contact->con_position) : ?>
     <h2 class="title"><?= $contact->con_position?></h2>
     <? endif;?>
-    <?if ($contact->image) : ?>
-        <img class="photo thumbnail" align="right" src="images/stories/<?= $contact->image ?>" title="<?= $contact->name ?>" />
-    <? endif;?>
+    <? if(count($attachments)) : ?>
+        <? foreach($attachments as $item) : ?>
+            <? if($item->file->isImage()) : ?>
+                <img class="photo thumbnail" align="right" src="<?= $item->thumbnail->thumbnail ?>" />
+            <? endif ?>
+        <? endforeach ?>
+    <? endif ?>
     <div class="adr">
         <? if ($contact->address) : ?>
         <div class="street-address"><?= $contact->address?></div>

@@ -9,12 +9,12 @@
 ?>
 
 <div class="scopebar">
-    <div class="scopebar-group">
+    <div class="scopebar__group">
         <a href="<?= @route('enabled=') ?>" class="<?= is_null($state->enabled) ? 'active' : '' ?>">
             <?= @text('All') ?>
         </a>
     </div>
-    <div class="scopebar-group">
+    <div class="scopebar__group">
         <a href="<?= @route('enabled=1') ?>" class="<?= $state->enabled === true ? 'active' : '' ?>">
             <?= @text('Enabled') ?>
         </a>
@@ -22,7 +22,7 @@
             <?= @text('Disabled') ?>
         </a>
     </div>
-    <div class="scopebar-search">
+    <div class="scopebar__search">
         <?= @helper('grid.search') ?>
     </div>
 </div>

@@ -6,12 +6,17 @@ html, body {
 	height: 100%;
 
 	#container {
-		@include flex-box(column, 1);
+		@include flex-box(row, 1);
 		min-height: 100%;
 	}
 }
 
-.box-row {
+#panel-wrapper {
+  @include flex-box(column, 1);
+  min-height: 100%;
+}
+
+#panel-component {
 	@include flex-box(row, 1);
 	min-height: 100%;
 }
@@ -27,11 +32,9 @@ html, body {
 }
 
 #panel-tabbar {
-	@include flex-box(column, 30px 0);
+	@include flex-box(row, 30px 0);
 
-	#menubar {
-		@include flex-box();
-	}
+
 }
 
 #panel-toolbar {
@@ -117,9 +120,9 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 
 /* @group Scope Bar */
 .scopebar {
-	@include flex-box(row, 0);
+	@include flex-box(row, none);
 
-	.scopebar-search {
+	.scopebar__search {
 		@include flex-box(horizontal, 1);
 		@include box-justify-content(flex-end);
 
@@ -146,17 +149,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 			@include flex-box(column, 1);
 
 			#activities-list {
-				@include flex-box(column, 1);
-
-				.activities {
-					@include box-flex(1);
-					@include box-scrollable(scrollable);
-					min-height: 100%;
-
-					* {
-						@include box-flex(none);
-					}
-				}
+              @extend .scrollable;
 			}
 		}
 	}
@@ -169,9 +162,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 		#files-canvas {
 			@include flex-box(column, 1);
 				#files-grid {
-					@include box-flex(1);
-					@include box-scrollable(scrollable);
-					min-height: 100%;
+                  @extend .scrollable;
 				}
 		}
 	}
@@ -181,8 +172,6 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 	}
 
 	#files-tree {
-			@include box-flex(1);
-			@include box-scrollable(scrollable);
-			min-height: 100%;
+      @extend .scrollable;
 	}
 }

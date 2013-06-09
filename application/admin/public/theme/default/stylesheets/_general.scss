@@ -125,7 +125,18 @@ ul {
 	max-width: 180px;
 
 	border-right: 1px solid $grayLighter;
-	background-color: $grayLighter;
+	background-color: rgb(207,214,222);
+
+  nav {
+    h3 {
+      @extend %navigation__separator;
+    }
+
+    a {
+      @extend %navigation__item;
+      border-top-color: rgb(207,214,222);
+    }
+  }
 }
 
 #panel-sidebar,
@@ -234,66 +245,6 @@ ul {
   }
 }
 
-/** Scopebar styles **/
-.scopebar {
-	padding: 3px 10px;
-    @include background(linear-gradient(#F2F2F2, #E9E9E9));
-	border-bottom: 1px solid $grayLighter;
-	border-top: 1px solid $grayLighter;
-
-    font-size: $baseFontSize - 1px;
-
-	.scopebar-group {
-		border-right: 1px solid #BBB;
-        padding: 2px 10px 0 0;
-        margin: 3px 10px 3px 0;
-
-		a {
-			margin: 0 2px;
-			padding: 2px 7px;
-			font-weight: bold;
-			color: #363636;
-			text-transform: capitalize;
-			text-shadow: hsla(0, 0%, 100%, 0.75) 0 1px 0;
-		}
-
-		a:hover,
-		a.active {
-			text-decoration: none;
-			background: #A0A0A0;
-			color: #FFF;
-          @include border-radius(10px);
-			text-shadow: hsla(0, 0%, 0%, 0.35) 0 1px 0;
-		}
-
-		a.active,
-		a:active {
-          @include box-shadow(inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0);
-		}
-
-		a:active {
-		    background: gray;
-		}
-	}
-
-	.scopebar-search {
-        @extend .input-append;
-
-        margin: 0px 0 0 25px;
-        margin-bottom: 0 !important;
-
-		input[type="search"] {
-			max-width: 150px;
-			margin-bottom: 0;
-		}
-
-		button {
-          padding: $paddingSmall;
-          font-size: $fontSizeSmall;
-		}
-	}
-}
-
 .-koowa-grid {
 	margin: 0; /* bootstrap override */
 
@@ -366,6 +317,14 @@ ul {
 				background-color: #CDE7FD !important;
               @include transition(all 150ms ease-in-out);
 			}
+
+            tr.separator td {
+              height: auto;
+              text-align: left;
+              font-weight: bold;
+              background-color: #ededed;
+              border-bottom: 1px solid #dddddd;
+            }
 
             tr td.ellipsis {
                 max-width: 100px;
@@ -467,56 +426,6 @@ ul {
 		.sidebar {
 			width: 350px;
             border-left: 1px solid #E1E1E1;
-		}
-
-		dl.tabs {
-			float: left;
-			margin: 10px 0 0 0;
-			z-index: 50;
-
-			dt {
-				float: left;
-				padding: 6px 14px;
-				border: 1px solid #ccc;
-				margin-left: 6px;
-				background: #f0f0f0;
-				color: #666;
-              @include border-radius(5px 5px 0 0);
-				margin-bottom: -1px;
-			}
-
-			dt:hover {
-				background-color: #F6F6F6;
-				z-index: 100;
-				color: #333;
-			}
-
-			dt:active,
-			dt.open,
-			dt.open:active {
-				background-color: #FFF;
-				z-index: 100;
-				color: #333;
-				border-bottom-color: #FFF;
-              @include box-shadow(inset hsla(0, 0%, 55%, 0.20) 0px 2px 2px);
-			}
-
-			dt:active {
-				background-color: #FFF;
-				border-bottom-color: #CCC;
-			}
-		}
-
-		div.current {
-			clear: both;
-			border: 1px solid #CCC;
-			padding: 10px 10px;
-			background-color: #FFF;
-		}
-
-		div.current dd {
-			padding: 0;
-			margin: 0;
 		}
 	}
 }

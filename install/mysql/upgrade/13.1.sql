@@ -338,6 +338,7 @@ ALTER TABLE `contacts` ADD `modified_on` DATETIME AFTER `modified_by`;
 ALTER TABLE `contacts` DROP `imagepos`;
 ALTER TABLE `contacts` DROP `default_con`;
 ALTER TABLE `contacts` DROP `user_id`;
+ALTER TABLE `contacts` DROP `webpage`;
 
 # --------------------------------------------------------
 

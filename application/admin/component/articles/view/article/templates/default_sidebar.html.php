@@ -35,7 +35,7 @@
     </div>
 </fieldset>
 
-<div class="tabs">
+<div class="tabs tabs-horizontal">
     <div class="tab">
         <input type="radio" id="tab-1" name="tab-group-1" checked="">
         <label for="tab-1"><?= @text('Classifications') ?></label>

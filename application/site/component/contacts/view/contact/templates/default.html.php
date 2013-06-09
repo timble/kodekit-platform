@@ -17,7 +17,7 @@
 <? endif; ?>
 
 <?= @template('hcard.html') ?>
-               
+
 <?if ($contact->params->get('allow_vcard', false)) :?>
 <p>
     <?= @text( 'Download information as a' );?>
@@ -29,4 +29,4 @@
 
 <? if ( $contact->params->get('show_email_form', true) && $contact->email_to) : ?>
     <?= @object('com:contacts.controller.message')->render(array('contact' => $contact, 'category' => $category)); ?>
-<? endif; ?>   
+<? endif; ?>

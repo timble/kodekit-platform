@@ -178,7 +178,6 @@ CREATE TABLE `contacts` (
   `categories_category_id` int(11) NOT NULL DEFAULT '0',
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `mobile` varchar(255) NOT NULL DEFAULT '',
-  `webpage` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`contacts_contact_id`),
   KEY `category` (`categories_category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
