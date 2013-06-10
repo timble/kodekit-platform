@@ -70,7 +70,7 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
      * an exception. This is a security measure to make sure we can only explicitly get data from views the have been
      * physically defined.
 	 *
-	 * @throws  ControllerExceptionNotFond If the view cannot be found. Only when controller is being dispatched.
+	 * @throws  ControllerExceptionNotFound If the view cannot be found. Only when controller is being dispatched.
      * @throws	\UnexpectedValueException	If the views doesn't implement the ViewInterface
 	 * @return	ViewInterface
 	 */
