@@ -162,7 +162,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 			
 			$model = $this->_file_controller->getModel(); 
 			$data = $model->getState();
-			$model->reset(false)->getState()->setValues($data);
+			$model->reset(false)->getState()->setValues($data->toArray());
 			$this->_attachment_controller->getModel()->reset(false);
 		}
 		catch (Library\ControllerException $e) {
