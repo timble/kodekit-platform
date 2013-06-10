@@ -33,7 +33,7 @@ class ViewHtml extends Library\ViewHtml
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'auto_assign' => false,
+            'auto_assign'      => false,
             'template_filters' => array('script', 'style', 'link', 'meta'),
         ));
 

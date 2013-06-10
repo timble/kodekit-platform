@@ -21,7 +21,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
  	/**
      * Render the menubar
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function render($config = array())
@@ -37,7 +37,8 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
         {
             $commands = $config->tabbar->getCommands();
 
-            if(count($commands)) {
+            if(count($commands))
+            {
                 $html = '<div id="panel-tabbar">';
                 $html .= '<ul '.$this->_buildAttributes($config->attribs).'>';
                 foreach ($commands as $command)
@@ -63,7 +64,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
     /**
      * Render a menubar command
      *
-     * @param   array   An optional array with configuration options
+     * @param   array   $config An optional array with configuration options
      * @return  string  Html
      */
     public function command($config = array())
