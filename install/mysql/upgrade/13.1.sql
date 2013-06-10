@@ -218,6 +218,7 @@ ALTER TABLE `articles` DROP `metadata`;
 DELETE FROM `categories` WHERE `section` = 'com_content';
 DELETE FROM `categories` WHERE `section` = 'com_newsfeeds';
 DELETE FROM `categories` WHERE `section` = 'com_banner';
+DELETE FROM `categories` WHERE `section` = 'com_weblinks';
 
 -- Remove unused columns
 ALTER TABLE `categories` DROP `image_position`;
@@ -282,37 +283,15 @@ DELETE FROM `menu` WHERE `componentid` = 1;
 
 # --------------------------------------------------------
 
--- Remove com_installer
-DELETE FROM `components` WHERE `id` = 22;
+-- Remove com_weblinks
+DROP TABLE  `weblinks`;
+DELETE FROM `components` WHERE `parent` = 4 OR `option` = 'com_weblinks';
+DELETE FROM `menu` WHERE `componentid` = 4;
 
 # --------------------------------------------------------
 
--- Remove unused columns
-ALTER TABLE `weblinks` DROP `sid`;
-ALTER TABLE `weblinks` DROP `archived`;
-ALTER TABLE `weblinks` DROP `approved`;
-ALTER TABLE `weblinks` DROP `hits`;
-
--- Remove weblink submission links
-DELETE FROM `menu` WHERE `link` = 'index.php?option=com_weblinks&view=weblink&layout=form';
-
--- Update schema to follow conventions
-ALTER TABLE `weblinks` CHANGE  `id`  `weblinks_weblink_id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `weblinks` DROP PRIMARY KEY , ADD PRIMARY KEY (  `weblinks_weblink_id` );
-
-ALTER TABLE `weblinks` CHANGE  `catid`  `categories_category_id` INT( 11 ) NOT NULL DEFAULT  '0';
-ALTER TABLE `weblinks` DROP INDEX  `catid` , ADD INDEX  `category` (  `categories_category_id` );
-
-ALTER TABLE `weblinks` CHANGE  `alias`  `slug` VARCHAR(255);
-
-ALTER TABLE `weblinks` ADD `created_by` INT(11) UNSIGNED AFTER `description`;
-ALTER TABLE `weblinks` CHANGE  `date`  `created_on` DATETIME;
-
-ALTER TABLE `weblinks` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
-ALTER TABLE `weblinks` ADD `modified_on` DATETIME AFTER `modified_by`;
-
-ALTER TABLE `weblinks` CHANGE  `checked_out`  `locked_by` INT(11) UNSIGNED;
-ALTER TABLE `weblinks` CHANGE  `checked_out_time`  `locked_on` DATETIME;
+-- Remove com_installer
+DELETE FROM `components` WHERE `id` = 22;
 
 # --------------------------------------------------------
 
@@ -367,7 +346,6 @@ ALTER TABLE  `menu_types` ENGINE = INNODB;
 ALTER TABLE  `modules` ENGINE = INNODB;
 ALTER TABLE  `modules_menu` ENGINE = INNODB;
 ALTER TABLE  `users_sessions` ENGINE = INNODB;
-ALTER TABLE  `weblinks` ENGINE = INNODB;
 ALTER TABLE  `users` ENGINE = INNODB;
 
 # --------------------------------------------------------
@@ -483,13 +461,10 @@ INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published
   ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_activities'), 1, @base + 7, 1, ''),
   ('menubar', 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', 'component', 1, 32, 2, @base + 7, 1, ''),
   ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 2, 1, ''),
-  ('menubar', 'Web Links', 'web-links', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 2, @base + 2, 1, ''),
   ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 3, @base + 2, 1, ''),
   ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 4, @base + 2, 1, ''),
   ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 10, 2, ''),
   ('menubar', 'Categories', 'categories', 'option=com_articles&view=categories', 'component', 1, 20, 2, @base + 10, 2, ''),
-  ('menubar', 'Web Links', 'weblinks', 'option=com_weblinks&view=weblinks', 'component', 1, 4, 1, @base + 11, 2, ''),
-  ('menubar', 'Categories', 'categories', 'option=com_weblinks&view=categories', 'component', 1, 4, 2, @base + 11, 2, ''),
   ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 1, @base + 12, 2, ''),
   ('menubar', 'Categories', 'categories', 'option=com_contacts&view=categories', 'component', 1, 7, 2, @base + 12, 2, ''),
   ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 1, @base + 13, 2, ''),
