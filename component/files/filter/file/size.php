@@ -21,7 +21,7 @@ class FilterFileSize extends Library\FilterAbstract
 {
 	public function validate($row)
 	{
-		$max = $row->container->parameters->maximum_size;
+		$max = $row->getContainer()->parameters->maximum_size;
 
 		if ($max)
 		{

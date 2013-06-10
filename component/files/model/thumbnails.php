@@ -104,7 +104,7 @@ class ModelThumbnails extends Library\ModelTable
 
 			$query->where('tbl.files_container_id = :container_id')
 				->where('tbl.filename = :filename')
-				->bind(array('container_id' => $source->container->id, 'filename' => $source->name));
+				->bind(array('container_id' => $this->getContainer()->id, 'filename' => $source->name));
 
 			if ($source->folder) {
 				$query->where('tbl.folder = :folder')->bind(array('folder' => $source->folder));
