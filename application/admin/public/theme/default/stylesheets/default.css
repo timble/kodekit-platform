@@ -1433,7 +1433,7 @@ ul {
   margin-bottom: 0;
 }
 /* line 399, _general.scss */
-.-koowa-form .main .scrollable, .-koowa-form .main .com_dashboard #panel-content > div:first-child > div #activities-list, .com_dashboard #panel-content > div:first-child > div .-koowa-form .main #activities-list, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
+.-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
 /* line 405, _general.scss */
@@ -4615,7 +4615,7 @@ html #container, body #container {
 }
 
 /* line 91, _flexbox.scss */
-.scrollable, .com_dashboard #panel-content > div:first-child > div #activities-list, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
+.scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-flex: 1;
@@ -4758,8 +4758,25 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
+/* line 151, _flexbox.scss */
+.com_dashboard #panel-content > div:first-child > div #activities-list {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
 
-/* line 159, _flexbox.scss */
+/* line 161, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4771,7 +4788,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 162, _flexbox.scss */
+/* line 164, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4783,7 +4800,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 170, _flexbox.scss */
+/* line 172, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
