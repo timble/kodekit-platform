@@ -4,7 +4,6 @@
   clear: both;
   font-size: 11px;
   color: #7e5501;
-  float: left;
   position: relative;
   margin-bottom: 10px;
   overflow: visible !important;
@@ -12,7 +11,7 @@
   padding: 6px 10px;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
+  text-align: left;
   text-shadow: white 0 1px 1px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -32,7 +31,7 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0 2px 7px, rgba(255, 213, 46, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, rgba(255, 255, 255, 0.6) 0 1px 0 inset;
 }
 
-/* line 26, validation.scss */
+/* line 25, validation.scss */
 .validation-advice::before {
   content: '▾';
   font-family: Arial;

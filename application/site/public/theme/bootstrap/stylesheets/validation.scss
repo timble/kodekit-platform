@@ -8,7 +8,6 @@
   clear: both;
   font-size: 11px;
   color: hsl(40, 98%, 25%);
-  float: left;
   position: relative;
   margin-bottom: 10px;
   overflow: visible!important;
@@ -16,7 +15,7 @@
   padding: 6px 10px;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
+  text-align: left;
   text-shadow: white 0 1px 1px;
   @include border-radius(5px);
   @include box-sizing(content-box);
