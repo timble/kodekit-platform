@@ -1,15 +1,14 @@
 /* Forms validation message */
-/* line 2, ../../../../../admin/public/theme/default/stylesheets/_validation.scss */
+/* line 7, validation.scss */
 .validation-advice {
   clear: both;
   font-size: 11px;
   color: #7e5501;
   float: left;
   position: relative;
-  margin-top: 15px;
+  margin-bottom: 10px;
   overflow: visible !important;
-  top: -10px;
-  left: 1px;
+  left: 10px;
   padding: 6px 10px;
   margin-left: auto;
   margin-right: auto;
@@ -33,46 +32,16 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0 2px 7px, rgba(255, 213, 46, 0.6) 0 0 1px, white 0 0 1px inset, white 0 0 1px inset, white 0 0 1px inset, rgba(255, 255, 255, 0.6) 0 1px 0 inset;
 }
 
-/* line 22, ../../../../../admin/public/theme/default/stylesheets/_validation.scss */
-.validation-advice::before, .validation-advice::after {
+/* line 26, validation.scss */
+.validation-advice::before {
   content: '▾';
   font-family: Arial;
   color: #fff3c5;
   -webkit-transform: rotate(180deg);
   display: block;
   position: absolute;
-}
-
-/* line 34, ../../../../../admin/public/theme/default/stylesheets/_validation.scss */
-.validation-advice::before {
-  text-shadow: white 0 1px 0;
-  top: -22px;
+  top: -12px;
   z-index: 1;
   font-size: 36px;
   left: 10px;
-}
-
-/* line 41, ../../../../../admin/public/theme/default/stylesheets/_validation.scss */
-.validation-advice::after {
-  content: '▾';
-  color: rgba(102, 82, 0, 0.4);
-  text-shadow: rgba(0, 0, 0, 0.1) 0 2px 7px;
-  top: -24px;
-  font-size: 38px;
-  left: 9px;
-}
-
-/* line 52, ../../../../../admin/public/theme/default/stylesheets/_validation.scss */
-.validation-failed,
-.required,
-input[class*=validate],
-select[class*=validate] {
-  float: left;
-}
-
-/* line 55, ../../../../../admin/public/theme/default/stylesheets/_validation.scss */
-td .validation-advice {
-  margin-top: 5px;
-  top: 0px;
-  float: left;
 }
