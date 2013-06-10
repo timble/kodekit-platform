@@ -189,11 +189,11 @@
   z-index: 2;
 }
 /* line 27, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content {
+.tabs .tab > [type=radio]:checked ~ label ~ .content {
   z-index: 1;
 }
 /* line 28, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content > * {
+.tabs .tab > [type=radio]:checked ~ label ~ .content > * {
   opacity: 1;
 }
 
