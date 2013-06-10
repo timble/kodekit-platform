@@ -15,8 +15,8 @@
     <?if ($contact->con_position) : ?>
     <h2 class="title"><?= $contact->con_position?></h2>
     <? endif;?>
-    <? if(count($attachments)) : ?>
-        <? foreach($attachments as $item) : ?>
+    <? if($contact->isAttachable()) : ?>
+        <? foreach($contact->getAttachments() as $item) : ?>
             <? if($item->file->isImage()) : ?>
                 <img class="photo thumbnail" align="right" src="<?= $item->thumbnail->thumbnail ?>" />
             <? endif ?>

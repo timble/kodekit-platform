@@ -189,11 +189,11 @@
   z-index: 2;
 }
 /* line 27, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content {
+.tabs .tab > [type=radio]:checked ~ label ~ .content {
   z-index: 1;
 }
 /* line 28, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content > * {
+.tabs .tab > [type=radio]:checked ~ label ~ .content > * {
   opacity: 1;
 }
 
@@ -2382,47 +2382,17 @@ label.radio:after {
 }
 
 /* line 22, _validation.scss */
-.validation-advice::before, .validation-advice::after {
+.validation-advice::before {
   content: '▾';
   font-family: Arial;
   color: #fff3c5;
   -webkit-transform: rotate(180deg);
   display: block;
   position: absolute;
-}
-
-/* line 34, _validation.scss */
-.validation-advice::before {
-  text-shadow: white 0 1px 0;
   top: -22px;
   z-index: 1;
   font-size: 36px;
   left: 10px;
-}
-
-/* line 41, _validation.scss */
-.validation-advice::after {
-  content: '▾';
-  color: rgba(102, 82, 0, 0.4);
-  text-shadow: rgba(0, 0, 0, 0.1) 0 2px 7px;
-  top: -24px;
-  font-size: 38px;
-  left: 9px;
-}
-
-/* line 52, _validation.scss */
-.validation-failed,
-.required,
-input[class*=validate],
-select[class*=validate] {
-  float: left;
-}
-
-/* line 55, _validation.scss */
-td .validation-advice {
-  margin-top: 5px;
-  top: 0px;
-  float: left;
 }
 
 @font-face {
