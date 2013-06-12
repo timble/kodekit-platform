@@ -138,8 +138,8 @@ VALUES
 
 INSERT INTO `pages_orderings` (`pages_page_id`, `title`, `custom`)
 VALUES
-	(32, 4, 1),
-	(33, 1, 4),
+	(32, 5, 1),
+	(33, 2, 4),
 	(34, 7, 2),
 	(35, 1, 1),
 	(36, 2, 2),
@@ -156,11 +156,12 @@ VALUES
 	(47, 2, 2),
 	(48, 10, 10),
 	(49, 9, 9),
-	(50, 3, 2),
+	(50, 4, 2),
 	(51, 1, 1),
 	(52, 1, 11),
   (53, 6, 6),
-  (54, 2, 3);
+  (54, 3, 3),
+  (54, 1, 5);
 
 
 --
@@ -196,7 +197,8 @@ VALUES
 	(51, 51, 0),
   (52, 52, 0),
   (53, 53, 0),
-  (54, 54, 0);
+  (54, 54, 0),
+  (55, 55, 0);
 
 --
 -- Dumping data for table `pages`
@@ -226,7 +228,8 @@ VALUES
 	(51, 1, NULL, 'Search Results', 'search-results', 'option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(52, 1, NULL, 'Contacts', 'contacts', 'option=com_contacts&view=categories', NULL, 'component', 1, 0, 0, 7, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
   (53, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(54, 3, NULL, 'User', 'user', 'option=com_users&view=user', NULL, 'component', 1, 1, 0, 31, 1, '2013-04-17 08:06:47', NULL, NULL, NULL, NULL, 0, NULL);
+	(54, 3, NULL, 'User', 'user', 'option=com_users&view=user', NULL, 'component', 1, 1, 0, 31, 1, '2013-04-17 08:06:47', NULL, NULL, NULL, NULL, 0, NULL),
+  (55, 3, NULL, 'Comments', 'comments', 'option=com_comments&view=comments', NULL, 'component', 1, 1, 0, 36, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL);
 
 
 
