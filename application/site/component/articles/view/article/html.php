@@ -54,10 +54,6 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
             $this->attachments($article->getAttachments());
         }
 
-        if ($article->id && $article->isDiscussible()) {
-            $this->comments($article->getComments());
-        }
-        
         if ($article->id && $article->isTaggable()) {
             $this->terms($article->getTerms());
         }

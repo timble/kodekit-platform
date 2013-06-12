@@ -1,3 +1,9 @@
+<script src="media://js/mootools.js" />
+<!--
+'option=com_comments&view=comment&layout=form&row='.$state->row.'&table='.$state->table.'&Itemid='.$Itemid
+-->
+
+<?= @overlay(array('url' => @helper('route.comment',array('layout'=>'form','row'=>$state->row,'table'=>$state->table)))) ?>
 <? foreach($comments as $comment) :?>
 <div class="comment">
     <div class="comment-header">
