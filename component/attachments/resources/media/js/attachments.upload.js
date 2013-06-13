@@ -53,6 +53,8 @@ Attachments.Upload = new Class({
 		
 		var matches = /(?:\.([^.]+))?$/.exec(target.value);
 		var extension = matches.length ? matches[1] : '';
+
+        extension = extension.toLowerCase();
 		
 		if(this.options.extensions.contains(extension)) {
 			return true;

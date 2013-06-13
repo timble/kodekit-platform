@@ -139,7 +139,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	protected function _saveFile(Library\CommandContext $context, $attachment)
 	{
 		$row = $context->result;
-		
+
 		try {
 			$ext = pathinfo($attachment['name'], PATHINFO_EXTENSION);
 			$name = md5(time().rand()).'.'.$ext;
@@ -149,7 +149,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 				'name' => $name,
 				'parent' => ''
 			));
-			
+
 			$data = $this->_attachment_controller->add(array(
 				'name' => $attachment['name'],
 				'path' => $name,
@@ -157,13 +157,19 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 				'hash' => $hash,
 				'row' => $row->id,
 				'table' => $row->getTable()->getBase()
-			
 			));
-			
-			$model = $this->_file_controller->getModel(); 
-			$data = $model->getState();
-			$model->reset(false)->set($data);
+
+            // Reset models
+			$model  = $this->_file_controller->getModel();
+            $container = $model->getState()->container;
+
+			$model->reset(false)->getState()->set('container', $container);
+
 			$this->_attachment_controller->getModel()->reset(false);
+
+            // Clear the data in controllers for the next file
+            $this->_file_controller->getRequest()->data->clear();
+            $this->_attachment_controller->getRequest()->data->clear();
 		}
 		catch (Library\ControllerException $e) {
 			$context->response->setStatus($e->getCode() , $e->getMessage());
@@ -203,7 +209,7 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 				$count++;	
 			}
 		}
-		
+
 		return true;
 	}
 	

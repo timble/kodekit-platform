@@ -189,11 +189,11 @@
   z-index: 2;
 }
 /* line 27, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content {
+.tabs .tab > [type=radio]:checked ~ label ~ .content {
   z-index: 1;
 }
 /* line 28, blocks/_tabs.scss */
-.tabs [type=radio]:checked ~ label ~ .content > * {
+.tabs .tab > [type=radio]:checked ~ label ~ .content > * {
   opacity: 1;
 }
 
@@ -1433,7 +1433,7 @@ ul {
   margin-bottom: 0;
 }
 /* line 399, _general.scss */
-.-koowa-form .main .scrollable, .-koowa-form .main .com_dashboard #panel-content > div:first-child > div #activities-list, .com_dashboard #panel-content > div:first-child > div .-koowa-form .main #activities-list, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
+.-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
 /* line 405, _general.scss */
@@ -2382,47 +2382,17 @@ label.radio:after {
 }
 
 /* line 22, _validation.scss */
-.validation-advice::before, .validation-advice::after {
+.validation-advice::before {
   content: '▾';
   font-family: Arial;
   color: #fff3c5;
   -webkit-transform: rotate(180deg);
   display: block;
   position: absolute;
-}
-
-/* line 34, _validation.scss */
-.validation-advice::before {
-  text-shadow: white 0 1px 0;
   top: -22px;
   z-index: 1;
   font-size: 36px;
   left: 10px;
-}
-
-/* line 41, _validation.scss */
-.validation-advice::after {
-  content: '▾';
-  color: rgba(102, 82, 0, 0.4);
-  text-shadow: rgba(0, 0, 0, 0.1) 0 2px 7px;
-  top: -24px;
-  font-size: 38px;
-  left: 9px;
-}
-
-/* line 52, _validation.scss */
-.validation-failed,
-.required,
-input[class*=validate],
-select[class*=validate] {
-  float: left;
-}
-
-/* line 55, _validation.scss */
-td .validation-advice {
-  margin-top: 5px;
-  top: 0px;
-  float: left;
 }
 
 @font-face {
@@ -4645,7 +4615,7 @@ html #container, body #container {
 }
 
 /* line 91, _flexbox.scss */
-.scrollable, .com_dashboard #panel-content > div:first-child > div #activities-list, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
+.scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   -webkit-flex: 1;
@@ -4788,8 +4758,25 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
+/* line 151, _flexbox.scss */
+.com_dashboard #panel-content > div:first-child > div #activities-list {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
 
-/* line 159, _flexbox.scss */
+/* line 161, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4801,7 +4788,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 162, _flexbox.scss */
+/* line 164, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4813,7 +4800,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 170, _flexbox.scss */
+/* line 172, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }

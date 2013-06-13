@@ -149,7 +149,9 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 			@include flex-box(column, 1);
 
 			#activities-list {
-              @extend .scrollable;
+              @include box-scrollable(scrollable);
+              @include box-flex(1);
+              @include flex-box(column, 1);
 			}
 		}
 	}

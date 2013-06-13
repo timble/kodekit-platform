@@ -575,30 +575,6 @@ CREATE TABLE `versions_revisions` (
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `weblinks`
---
-
-CREATE TABLE `weblinks` (
-  `weblinks_weblink_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `categories_category_id` int(11) NOT NULL DEFAULT '0',
-  `title` varchar(250) NOT NULL DEFAULT '',
-  `slug` varchar(255) NOT NULL DEFAULT '',
-  `url` varchar(250) NOT NULL DEFAULT '',
-  `description` text NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `created_by` int(11) unsigned,
-  `created_on` datetime,
-  `modified_by` int(11) unsigned,
-  `modified_on` datetime,
-  `locked_by` int(11) unsigned,
-  `locked_on` datetime,
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `params` text NOT NULL,
-  PRIMARY KEY (`weblinks_weblink_id`),
-  KEY `category` (`categories_category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET TIME_ZONE=@OLD_TIME_ZONE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

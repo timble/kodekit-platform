@@ -35,10 +35,6 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        if (is_null($config->captcha->private_key)) {
-            throw new \InvalidArgumentException('Private key is missing');
-        }
-
         $this->_config = $config->captcha;
     }
 
@@ -140,7 +136,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
         $answer    = $context->request->data->get('recaptcha_response_field', 'string');
 
         // Prevent the action from happening.
-        if (!$this->verifyCaptcha($challenge, $answer)) {
+        if ($this->_config->private_key && !$this->verifyCaptcha($challenge, $answer)) {
             $result = false;
         }
 
