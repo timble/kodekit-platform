@@ -2420,10 +2420,9 @@ label.radio:after {
 /*
 Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
-[class*="icon-"] {
 */
-/* line 31, _icons.scss */
-.icon-glass, .icon-music, .icon-search, .icon-envelope, .icon-heart, .icon-star, .icon-star-empty, .icon-user, .icon-film, .icon-th-large, .icon-th, .icon-th-list, .icon-ok, .icon-remove, .icon-zoom-in, .icon-zoom-out, .icon-off, .icon-signal, .icon-cog, .icon-trash, .icon-home, .icon-file, .icon-time, .icon-road, .icon-download-alt, .icon-download, .icon-upload, .icon-inbox, .icon-play-circle, .icon-repeat, .icon-refresh, .icon-list-alt, .icon-lock, .icon-flag, .icon-headphones, .icon-volume-off, .icon-volume-down, .icon-volume-up, .icon-qrcode, .icon-barcode, .icon-tag, .icon-tags, .icon-book, .icon-bookmark, .icon-print, .icon-camera, .icon-font, .icon-bold, .icon-italic, .icon-text-height, .icon-text-width, .icon-align-left, .icon-align-center, .icon-align-right, .icon-align-justify, .icon-list, .icon-indent-left, .icon-indent-right, .icon-facetime-video, .icon-picture, .icon-pencil, .icon-map-marker, .icon-adjust, .icon-tint, .icon-edit, .icon-share, .icon-check, .icon-move, .icon-step-backward, .icon-fast-backward, .icon-backward, .icon-play, .icon-pause, .icon-stop, .icon-forward, .icon-fast-forward, .icon-step-forward, .icon-eject, .icon-chevron-left, .icon-chevron-right, .icon-plus-sign, .icon-minus-sign, .icon-remove-sign, .icon-ok-sign, .icon-question-sign, .icon-info-sign, .icon-screenshot, .icon-remove-circle, .icon-ok-circle, .icon-ban-circle, .icon-arrow-left, .icon-arrow-right, .icon-arrow-up, .icon-arrow-down, .icon-share-alt, .icon-resize-full, .icon-resize-small, .icon-plus, .icon-minus, .icon-asterisk, .icon-exclamation-sign, .icon-gift, .icon-leaf, .icon-fire, .icon-eye-open, .icon-eye-close, .icon-warning-sign, .icon-plane, .icon-calendar, .icon-random, .icon-comment, .icon-magnet, .icon-chevron-up, .icon-chevron-down, .icon-retweet, .icon-shopping-cart, .icon-folder-close, .icon-folder-open, .icon-resize-vertical, .icon-resize-horizontal, .icon-bar-chart, .icon-twitter-sign, .icon-facebook-sign, .icon-camera-retro, .icon-key, .icon-cogs, .icon-comments, .icon-thumbs-up, .icon-thumbs-down, .icon-star-half, .icon-heart-empty, .icon-signout, .icon-linkedin-sign, .icon-pushpin, .icon-external-link, .icon-signin, .icon-trophy, .icon-github-sign, .icon-upload-alt, .icon-lemon, .icon-phone, .icon-check-empty, .icon-bookmark-empty, .icon-phone-sign, .icon-twitter, .icon-facebook, .icon-github, .icon-unlock, .icon-credit, .icon-rss, .icon-hdd, .icon-bullhorn, .icon-bell, .icon-certificate, .icon-hand-right, .icon-hand-left, .icon-hand-up, .icon-hand-down, .icon-circle-arrow-left, .icon-circle-arrow-right, .icon-circle-arrow-up, .icon-circle-arrow-down, .icon-globe, .icon-wrench, .icon-tasks, .icon-filter, .icon-briefcase, .icon-fullscreen, .icon-group, .icon-link, .icon-cloud, .icon-beaker, .icon-cut, .icon-copy, .icon-paper-clip, .icon-save, .icon-sign-blank, .icon-reorder, .icon-list-ul, .icon-list-ol, .icon-strikethrough, .icon-underline, .icon-table, .icon-magic, .icon-truck, .icon-pinterest, .icon-pinterest-sign, .icon-google-plus-sign, .icon-google-plus, .icon-money, .icon-caret-down, .icon-caret-up, .icon-caret-left, .icon-caret-right, .icon-columns, .icon-sort, .icon-sort-down, .icon-sort-up, .icon-envelope-alt, .icon-linkedin, .icon-undo, .icon-legal, .icon-dashboard, .icon-comment-alt, .icon-comments-alt, .icon-bolt, .icon-sitemap, .icon-umbrella, .icon-paste, .icon-lightbulb, .icon-exchange, .icon-cloud-download, .icon-cloud-upload, .icon-user-md, .icon-stethoscope, .icon-suitcase, .icon-bell-alt, .icon-coffee, .icon-food, .icon-file-alt, .icon-building, .icon-hospital, .icon-ambulance, .icon-medkit, .icon-fighter-jet, .icon-beer, .icon-h-sign, .icon-plus-sign-2, .icon-double-angle-left, .icon-double-angle-right, .icon-double-angle-up, .icon-double-angle-down, .icon-angle-left, .icon-angle-right, .icon-angle-up, .icon-angle-down, .icon-desktop, .icon-laptop, .icon-tablet, .icon-mobile, .icon-circle-blank, .icon-quote-left, .icon-quote-right, .icon-spinner, .icon-circle, .icon-reply, .icon-github-alt, .icon-folder-close-alt, .icon-folder-open-alt {
+/* line 30, _icons.scss */
+[class*="icon-"] {
   font-family: 'fontawesome';
   speak: none;
   font-style: normal;
@@ -2434,1247 +2433,1247 @@ you can use the generic selector below, but it's slower:
   -webkit-font-smoothing: antialiased;
 }
 
-/* line 41, _icons.scss */
+/* line 40, _icons.scss */
 .icon-glass:before {
   content: "\f000";
 }
 
-/* line 44, _icons.scss */
+/* line 43, _icons.scss */
 .icon-music:before {
   content: "\f001";
 }
 
-/* line 47, _icons.scss */
+/* line 46, _icons.scss */
 .icon-search:before {
   content: "\f002";
 }
 
-/* line 50, _icons.scss */
+/* line 49, _icons.scss */
 .icon-envelope:before {
   content: "\f003";
 }
 
-/* line 53, _icons.scss */
+/* line 52, _icons.scss */
 .icon-heart:before {
   content: "\f004";
 }
 
-/* line 56, _icons.scss */
+/* line 55, _icons.scss */
 .icon-star:before {
   content: "\f005";
 }
 
-/* line 59, _icons.scss */
+/* line 58, _icons.scss */
 .icon-star-empty:before {
   content: "\f006";
 }
 
-/* line 62, _icons.scss */
+/* line 61, _icons.scss */
 .icon-user:before {
   content: "\f007";
 }
 
-/* line 65, _icons.scss */
+/* line 64, _icons.scss */
 .icon-film:before {
   content: "\f008";
 }
 
-/* line 68, _icons.scss */
+/* line 67, _icons.scss */
 .icon-th-large:before {
   content: "\f009";
 }
 
-/* line 71, _icons.scss */
+/* line 70, _icons.scss */
 .icon-th:before {
   content: "\f00a";
 }
 
-/* line 74, _icons.scss */
+/* line 73, _icons.scss */
 .icon-th-list:before {
   content: "\f00b";
 }
 
-/* line 77, _icons.scss */
+/* line 76, _icons.scss */
 .icon-ok:before {
   content: "\f00c";
 }
 
-/* line 80, _icons.scss */
+/* line 79, _icons.scss */
 .icon-remove:before {
   content: "\f00d";
 }
 
-/* line 83, _icons.scss */
+/* line 82, _icons.scss */
 .icon-zoom-in:before {
   content: "\f00e";
 }
 
-/* line 86, _icons.scss */
+/* line 85, _icons.scss */
 .icon-zoom-out:before {
   content: "\f010";
 }
 
-/* line 89, _icons.scss */
+/* line 88, _icons.scss */
 .icon-off:before {
   content: "\f011";
 }
 
-/* line 92, _icons.scss */
+/* line 91, _icons.scss */
 .icon-signal:before {
   content: "\f012";
 }
 
-/* line 95, _icons.scss */
+/* line 94, _icons.scss */
 .icon-cog:before {
   content: "\f013";
 }
 
-/* line 98, _icons.scss */
-.icon-trash:before {
+/* line 97, _icons.scss */
+.icon-trash:before, .icon-delete:before {
   content: "\f014";
 }
 
-/* line 101, _icons.scss */
+/* line 100, _icons.scss */
 .icon-home:before {
   content: "\f015";
 }
 
-/* line 104, _icons.scss */
+/* line 103, _icons.scss */
 .icon-file:before {
   content: "\f016";
 }
 
-/* line 107, _icons.scss */
+/* line 106, _icons.scss */
 .icon-time:before {
   content: "\f017";
 }
 
-/* line 110, _icons.scss */
+/* line 109, _icons.scss */
 .icon-road:before {
   content: "\f018";
 }
 
-/* line 113, _icons.scss */
+/* line 112, _icons.scss */
 .icon-download-alt:before {
   content: "\f019";
 }
 
-/* line 116, _icons.scss */
+/* line 115, _icons.scss */
 .icon-download:before {
   content: "\f01a";
 }
 
-/* line 119, _icons.scss */
+/* line 118, _icons.scss */
 .icon-upload:before {
   content: "\f01b";
 }
 
-/* line 122, _icons.scss */
+/* line 121, _icons.scss */
 .icon-inbox:before {
   content: "\f01c";
 }
 
-/* line 125, _icons.scss */
+/* line 124, _icons.scss */
 .icon-play-circle:before {
   content: "\f01d";
 }
 
-/* line 128, _icons.scss */
+/* line 127, _icons.scss */
 .icon-repeat:before {
   content: "\f01e";
 }
 
-/* line 131, _icons.scss */
+/* line 130, _icons.scss */
 .icon-refresh:before {
   content: "\f021";
 }
 
-/* line 134, _icons.scss */
+/* line 133, _icons.scss */
 .icon-list-alt:before {
   content: "\f022";
 }
 
-/* line 137, _icons.scss */
+/* line 136, _icons.scss */
 .icon-lock:before {
   content: "\f023";
 }
 
-/* line 140, _icons.scss */
+/* line 139, _icons.scss */
 .icon-flag:before {
   content: "\f024";
 }
 
-/* line 143, _icons.scss */
+/* line 142, _icons.scss */
 .icon-headphones:before {
   content: "\f025";
 }
 
-/* line 146, _icons.scss */
+/* line 145, _icons.scss */
 .icon-volume-off:before {
   content: "\f026";
 }
 
-/* line 149, _icons.scss */
+/* line 148, _icons.scss */
 .icon-volume-down:before {
   content: "\f027";
 }
 
-/* line 152, _icons.scss */
+/* line 151, _icons.scss */
 .icon-volume-up:before {
   content: "\f028";
 }
 
-/* line 155, _icons.scss */
+/* line 154, _icons.scss */
 .icon-qrcode:before {
   content: "\f029";
 }
 
-/* line 158, _icons.scss */
+/* line 157, _icons.scss */
 .icon-barcode:before {
   content: "\f02a";
 }
 
-/* line 161, _icons.scss */
+/* line 160, _icons.scss */
 .icon-tag:before {
   content: "\f02b";
 }
 
-/* line 164, _icons.scss */
+/* line 163, _icons.scss */
 .icon-tags:before {
   content: "\f02c";
 }
 
-/* line 167, _icons.scss */
+/* line 166, _icons.scss */
 .icon-book:before {
   content: "\f02d";
 }
 
-/* line 170, _icons.scss */
+/* line 169, _icons.scss */
 .icon-bookmark:before {
   content: "\f02e";
 }
 
-/* line 173, _icons.scss */
+/* line 172, _icons.scss */
 .icon-print:before {
   content: "\f02f";
 }
 
-/* line 176, _icons.scss */
+/* line 175, _icons.scss */
 .icon-camera:before {
   content: "\f030";
 }
 
-/* line 179, _icons.scss */
+/* line 178, _icons.scss */
 .icon-font:before {
   content: "\f031";
 }
 
-/* line 182, _icons.scss */
+/* line 181, _icons.scss */
 .icon-bold:before {
   content: "\f032";
 }
 
-/* line 185, _icons.scss */
+/* line 184, _icons.scss */
 .icon-italic:before {
   content: "\f033";
 }
 
-/* line 188, _icons.scss */
+/* line 187, _icons.scss */
 .icon-text-height:before {
   content: "\f034";
 }
 
-/* line 191, _icons.scss */
+/* line 190, _icons.scss */
 .icon-text-width:before {
   content: "\f035";
 }
 
-/* line 194, _icons.scss */
+/* line 193, _icons.scss */
 .icon-align-left:before {
   content: "\f036";
 }
 
-/* line 197, _icons.scss */
+/* line 196, _icons.scss */
 .icon-align-center:before {
   content: "\f037";
 }
 
-/* line 200, _icons.scss */
+/* line 199, _icons.scss */
 .icon-align-right:before {
   content: "\f038";
 }
 
-/* line 203, _icons.scss */
+/* line 202, _icons.scss */
 .icon-align-justify:before {
   content: "\f039";
 }
 
-/* line 206, _icons.scss */
+/* line 205, _icons.scss */
 .icon-list:before {
   content: "\f03a";
 }
 
-/* line 209, _icons.scss */
+/* line 208, _icons.scss */
 .icon-indent-left:before {
   content: "\f03b";
 }
 
-/* line 212, _icons.scss */
+/* line 211, _icons.scss */
 .icon-indent-right:before {
   content: "\f03c";
 }
 
-/* line 215, _icons.scss */
+/* line 214, _icons.scss */
 .icon-facetime-video:before {
   content: "\f03d";
 }
 
-/* line 218, _icons.scss */
+/* line 217, _icons.scss */
 .icon-picture:before {
   content: "\f03e";
 }
 
-/* line 221, _icons.scss */
+/* line 220, _icons.scss */
 .icon-pencil:before {
   content: "\f040";
 }
 
-/* line 224, _icons.scss */
+/* line 223, _icons.scss */
 .icon-map-marker:before {
   content: "\f041";
 }
 
-/* line 227, _icons.scss */
+/* line 226, _icons.scss */
 .icon-adjust:before {
   content: "\f042";
 }
 
-/* line 230, _icons.scss */
+/* line 229, _icons.scss */
 .icon-tint:before {
   content: "\f043";
 }
 
-/* line 233, _icons.scss */
+/* line 232, _icons.scss */
 .icon-edit:before {
   content: "\f044";
 }
 
-/* line 236, _icons.scss */
+/* line 235, _icons.scss */
 .icon-share:before {
   content: "\f045";
 }
 
-/* line 239, _icons.scss */
+/* line 238, _icons.scss */
 .icon-check:before {
   content: "\f046";
 }
 
-/* line 242, _icons.scss */
+/* line 241, _icons.scss */
 .icon-move:before {
   content: "\f047";
 }
 
-/* line 245, _icons.scss */
+/* line 244, _icons.scss */
 .icon-step-backward:before {
   content: "\f048";
 }
 
-/* line 248, _icons.scss */
+/* line 247, _icons.scss */
 .icon-fast-backward:before {
   content: "\f049";
 }
 
-/* line 251, _icons.scss */
+/* line 250, _icons.scss */
 .icon-backward:before {
   content: "\f04a";
 }
 
-/* line 254, _icons.scss */
+/* line 253, _icons.scss */
 .icon-play:before {
   content: "\f04b";
 }
 
-/* line 257, _icons.scss */
+/* line 256, _icons.scss */
 .icon-pause:before {
   content: "\f04c";
 }
 
-/* line 260, _icons.scss */
+/* line 259, _icons.scss */
 .icon-stop:before {
   content: "\f04d";
 }
 
-/* line 263, _icons.scss */
+/* line 262, _icons.scss */
 .icon-forward:before {
   content: "\f04e";
 }
 
-/* line 266, _icons.scss */
+/* line 265, _icons.scss */
 .icon-fast-forward:before {
   content: "\f050";
 }
 
-/* line 269, _icons.scss */
+/* line 268, _icons.scss */
 .icon-step-forward:before {
   content: "\f051";
 }
 
-/* line 272, _icons.scss */
+/* line 271, _icons.scss */
 .icon-eject:before {
   content: "\f052";
 }
 
-/* line 275, _icons.scss */
+/* line 274, _icons.scss */
 .icon-chevron-left:before {
   content: "\f053";
 }
 
-/* line 278, _icons.scss */
+/* line 277, _icons.scss */
 .icon-chevron-right:before {
   content: "\f054";
 }
 
-/* line 281, _icons.scss */
-.icon-plus-sign:before {
+/* line 280, _icons.scss */
+.icon-plus-sign:before, .icon-add:before {
   content: "\f055";
 }
 
-/* line 284, _icons.scss */
+/* line 283, _icons.scss */
 .icon-minus-sign:before {
   content: "\f056";
 }
 
-/* line 287, _icons.scss */
+/* line 286, _icons.scss */
 .icon-remove-sign:before {
   content: "\f057";
 }
 
-/* line 290, _icons.scss */
+/* line 289, _icons.scss */
 .icon-ok-sign:before {
   content: "\f058";
 }
 
-/* line 293, _icons.scss */
+/* line 292, _icons.scss */
 .icon-question-sign:before {
   content: "\f059";
 }
 
-/* line 296, _icons.scss */
+/* line 295, _icons.scss */
 .icon-info-sign:before {
   content: "\f05a";
 }
 
-/* line 299, _icons.scss */
+/* line 298, _icons.scss */
 .icon-screenshot:before {
   content: "\f05b";
 }
 
-/* line 302, _icons.scss */
+/* line 301, _icons.scss */
 .icon-remove-circle:before {
   content: "\f05c";
 }
 
-/* line 305, _icons.scss */
+/* line 304, _icons.scss */
 .icon-ok-circle:before {
   content: "\f05d";
 }
 
-/* line 308, _icons.scss */
+/* line 307, _icons.scss */
 .icon-ban-circle:before {
   content: "\f05e";
 }
 
-/* line 311, _icons.scss */
+/* line 310, _icons.scss */
 .icon-arrow-left:before {
   content: "\f060";
 }
 
-/* line 314, _icons.scss */
+/* line 313, _icons.scss */
 .icon-arrow-right:before {
   content: "\f061";
 }
 
-/* line 317, _icons.scss */
+/* line 316, _icons.scss */
 .icon-arrow-up:before {
   content: "\f062";
 }
 
-/* line 320, _icons.scss */
+/* line 319, _icons.scss */
 .icon-arrow-down:before {
   content: "\f063";
 }
 
-/* line 323, _icons.scss */
+/* line 322, _icons.scss */
 .icon-share-alt:before {
   content: "\f064";
 }
 
-/* line 326, _icons.scss */
+/* line 325, _icons.scss */
 .icon-resize-full:before {
   content: "\f065";
 }
 
-/* line 329, _icons.scss */
+/* line 328, _icons.scss */
 .icon-resize-small:before {
   content: "\f066";
 }
 
-/* line 332, _icons.scss */
+/* line 331, _icons.scss */
 .icon-plus:before {
   content: "\f067";
 }
 
-/* line 335, _icons.scss */
+/* line 334, _icons.scss */
 .icon-minus:before {
   content: "\f068";
 }
 
-/* line 338, _icons.scss */
+/* line 337, _icons.scss */
 .icon-asterisk:before {
   content: "\f069";
 }
 
-/* line 341, _icons.scss */
+/* line 340, _icons.scss */
 .icon-exclamation-sign:before {
   content: "\f06a";
 }
 
-/* line 344, _icons.scss */
+/* line 343, _icons.scss */
 .icon-gift:before {
   content: "\f06b";
 }
 
-/* line 347, _icons.scss */
+/* line 346, _icons.scss */
 .icon-leaf:before {
   content: "\f06c";
 }
 
-/* line 350, _icons.scss */
+/* line 349, _icons.scss */
 .icon-fire:before {
   content: "\f06d";
 }
 
-/* line 353, _icons.scss */
+/* line 352, _icons.scss */
 .icon-eye-open:before {
   content: "\f06e";
 }
 
-/* line 356, _icons.scss */
+/* line 355, _icons.scss */
 .icon-eye-close:before {
   content: "\f070";
 }
 
-/* line 359, _icons.scss */
+/* line 358, _icons.scss */
 .icon-warning-sign:before {
   content: "\f071";
 }
 
-/* line 362, _icons.scss */
+/* line 361, _icons.scss */
 .icon-plane:before {
   content: "\f072";
 }
 
-/* line 365, _icons.scss */
+/* line 364, _icons.scss */
 .icon-calendar:before {
   content: "\f073";
 }
 
-/* line 368, _icons.scss */
+/* line 367, _icons.scss */
 .icon-random:before {
   content: "\f074";
 }
 
-/* line 371, _icons.scss */
+/* line 370, _icons.scss */
 .icon-comment:before {
   content: "\f075";
 }
 
-/* line 374, _icons.scss */
+/* line 373, _icons.scss */
 .icon-magnet:before {
   content: "\f076";
 }
 
-/* line 377, _icons.scss */
+/* line 376, _icons.scss */
 .icon-chevron-up:before {
   content: "\f077";
 }
 
-/* line 380, _icons.scss */
+/* line 379, _icons.scss */
 .icon-chevron-down:before {
   content: "\f078";
 }
 
-/* line 383, _icons.scss */
+/* line 382, _icons.scss */
 .icon-retweet:before {
   content: "\f079";
 }
 
-/* line 386, _icons.scss */
+/* line 385, _icons.scss */
 .icon-shopping-cart:before {
   content: "\f07a";
 }
 
-/* line 389, _icons.scss */
+/* line 388, _icons.scss */
 .icon-folder-close:before {
   content: "\f07b";
 }
 
-/* line 392, _icons.scss */
+/* line 391, _icons.scss */
 .icon-folder-open:before {
   content: "\f07c";
 }
 
-/* line 395, _icons.scss */
+/* line 394, _icons.scss */
 .icon-resize-vertical:before {
   content: "\f07d";
 }
 
-/* line 398, _icons.scss */
+/* line 397, _icons.scss */
 .icon-resize-horizontal:before {
   content: "\f07e";
 }
 
-/* line 401, _icons.scss */
+/* line 400, _icons.scss */
 .icon-bar-chart:before {
   content: "\f080";
 }
 
-/* line 404, _icons.scss */
+/* line 403, _icons.scss */
 .icon-twitter-sign:before {
   content: "\f081";
 }
 
-/* line 407, _icons.scss */
+/* line 406, _icons.scss */
 .icon-facebook-sign:before {
   content: "\f082";
 }
 
-/* line 410, _icons.scss */
+/* line 409, _icons.scss */
 .icon-camera-retro:before {
   content: "\f083";
 }
 
-/* line 413, _icons.scss */
+/* line 412, _icons.scss */
 .icon-key:before {
   content: "\f084";
 }
 
-/* line 416, _icons.scss */
+/* line 415, _icons.scss */
 .icon-cogs:before {
   content: "\f085";
 }
 
-/* line 419, _icons.scss */
+/* line 418, _icons.scss */
 .icon-comments:before {
   content: "\f086";
 }
 
-/* line 422, _icons.scss */
+/* line 421, _icons.scss */
 .icon-thumbs-up:before {
   content: "\f087";
 }
 
-/* line 425, _icons.scss */
+/* line 424, _icons.scss */
 .icon-thumbs-down:before {
   content: "\f088";
 }
 
-/* line 428, _icons.scss */
+/* line 427, _icons.scss */
 .icon-star-half:before {
   content: "\f089";
 }
 
-/* line 431, _icons.scss */
+/* line 430, _icons.scss */
 .icon-heart-empty:before {
   content: "\f08a";
 }
 
-/* line 434, _icons.scss */
+/* line 433, _icons.scss */
 .icon-signout:before {
   content: "\f08b";
 }
 
-/* line 437, _icons.scss */
+/* line 436, _icons.scss */
 .icon-linkedin-sign:before {
   content: "\f08c";
 }
 
-/* line 440, _icons.scss */
+/* line 439, _icons.scss */
 .icon-pushpin:before {
   content: "\f08d";
 }
 
-/* line 443, _icons.scss */
+/* line 442, _icons.scss */
 .icon-external-link:before {
   content: "\f08e";
 }
 
-/* line 446, _icons.scss */
+/* line 445, _icons.scss */
 .icon-signin:before {
   content: "\f090";
 }
 
-/* line 449, _icons.scss */
+/* line 448, _icons.scss */
 .icon-trophy:before {
   content: "\f091";
 }
 
-/* line 452, _icons.scss */
+/* line 451, _icons.scss */
 .icon-github-sign:before {
   content: "\f092";
 }
 
-/* line 455, _icons.scss */
+/* line 454, _icons.scss */
 .icon-upload-alt:before {
   content: "\f093";
 }
 
-/* line 458, _icons.scss */
+/* line 457, _icons.scss */
 .icon-lemon:before {
   content: "\f094";
 }
 
-/* line 461, _icons.scss */
+/* line 460, _icons.scss */
 .icon-phone:before {
   content: "\f095";
 }
 
-/* line 464, _icons.scss */
+/* line 463, _icons.scss */
 .icon-check-empty:before {
   content: "\f096";
 }
 
-/* line 467, _icons.scss */
+/* line 466, _icons.scss */
 .icon-bookmark-empty:before {
   content: "\f097";
 }
 
-/* line 470, _icons.scss */
+/* line 469, _icons.scss */
 .icon-phone-sign:before {
   content: "\f098";
 }
 
-/* line 473, _icons.scss */
+/* line 472, _icons.scss */
 .icon-twitter:before {
   content: "\f099";
 }
 
-/* line 476, _icons.scss */
+/* line 475, _icons.scss */
 .icon-facebook:before {
   content: "\f09a";
 }
 
-/* line 479, _icons.scss */
+/* line 478, _icons.scss */
 .icon-github:before {
   content: "\f09b";
 }
 
-/* line 482, _icons.scss */
+/* line 481, _icons.scss */
 .icon-unlock:before {
   content: "\f09c";
 }
 
-/* line 485, _icons.scss */
+/* line 484, _icons.scss */
 .icon-credit:before {
   content: "\f09d";
 }
 
-/* line 488, _icons.scss */
+/* line 487, _icons.scss */
 .icon-rss:before {
   content: "\f09e";
 }
 
-/* line 491, _icons.scss */
+/* line 490, _icons.scss */
 .icon-hdd:before {
   content: "\f0a0";
 }
 
-/* line 494, _icons.scss */
+/* line 493, _icons.scss */
 .icon-bullhorn:before {
   content: "\f0a1";
 }
 
-/* line 497, _icons.scss */
+/* line 496, _icons.scss */
 .icon-bell:before {
   content: "\f0a2";
 }
 
-/* line 500, _icons.scss */
+/* line 499, _icons.scss */
 .icon-certificate:before {
   content: "\f0a3";
 }
 
-/* line 503, _icons.scss */
+/* line 502, _icons.scss */
 .icon-hand-right:before {
   content: "\f0a4";
 }
 
-/* line 506, _icons.scss */
+/* line 505, _icons.scss */
 .icon-hand-left:before {
   content: "\f0a5";
 }
 
-/* line 509, _icons.scss */
+/* line 508, _icons.scss */
 .icon-hand-up:before {
   content: "\f0a6";
 }
 
-/* line 512, _icons.scss */
+/* line 511, _icons.scss */
 .icon-hand-down:before {
   content: "\f0a7";
 }
 
-/* line 515, _icons.scss */
+/* line 514, _icons.scss */
 .icon-circle-arrow-left:before {
   content: "\f0a8";
 }
 
-/* line 518, _icons.scss */
+/* line 517, _icons.scss */
 .icon-circle-arrow-right:before {
   content: "\f0a9";
 }
 
-/* line 521, _icons.scss */
+/* line 520, _icons.scss */
 .icon-circle-arrow-up:before {
   content: "\f0aa";
 }
 
-/* line 524, _icons.scss */
+/* line 523, _icons.scss */
 .icon-circle-arrow-down:before {
   content: "\f0ab";
 }
 
-/* line 527, _icons.scss */
+/* line 526, _icons.scss */
 .icon-globe:before {
   content: "\f0ac";
 }
 
-/* line 530, _icons.scss */
+/* line 529, _icons.scss */
 .icon-wrench:before {
   content: "\f0ad";
 }
 
-/* line 533, _icons.scss */
+/* line 532, _icons.scss */
 .icon-tasks:before {
   content: "\f0ae";
 }
 
-/* line 536, _icons.scss */
+/* line 535, _icons.scss */
 .icon-filter:before {
   content: "\f0b0";
 }
 
-/* line 539, _icons.scss */
+/* line 538, _icons.scss */
 .icon-briefcase:before {
   content: "\f0b1";
 }
 
-/* line 542, _icons.scss */
+/* line 541, _icons.scss */
 .icon-fullscreen:before {
   content: "\f0b2";
 }
 
-/* line 545, _icons.scss */
+/* line 544, _icons.scss */
 .icon-group:before {
   content: "\f0c0";
 }
 
-/* line 548, _icons.scss */
+/* line 547, _icons.scss */
 .icon-link:before {
   content: "\f0c1";
 }
 
-/* line 551, _icons.scss */
+/* line 550, _icons.scss */
 .icon-cloud:before {
   content: "\f0c2";
 }
 
-/* line 554, _icons.scss */
+/* line 553, _icons.scss */
 .icon-beaker:before {
   content: "\f0c3";
 }
 
-/* line 557, _icons.scss */
+/* line 556, _icons.scss */
 .icon-cut:before {
   content: "\f0c4";
 }
 
-/* line 560, _icons.scss */
+/* line 559, _icons.scss */
 .icon-copy:before {
   content: "\f0c5";
 }
 
-/* line 563, _icons.scss */
+/* line 562, _icons.scss */
 .icon-paper-clip:before {
   content: "\f0c6";
 }
 
-/* line 566, _icons.scss */
+/* line 565, _icons.scss */
 .icon-save:before {
   content: "\f0c7";
 }
 
-/* line 569, _icons.scss */
+/* line 568, _icons.scss */
 .icon-sign-blank:before {
   content: "\f0c8";
 }
 
-/* line 572, _icons.scss */
+/* line 571, _icons.scss */
 .icon-reorder:before {
   content: "\f0c9";
 }
 
-/* line 575, _icons.scss */
+/* line 574, _icons.scss */
 .icon-list-ul:before {
   content: "\f0ca";
 }
 
-/* line 578, _icons.scss */
+/* line 577, _icons.scss */
 .icon-list-ol:before {
   content: "\f0cb";
 }
 
-/* line 581, _icons.scss */
+/* line 580, _icons.scss */
 .icon-strikethrough:before {
   content: "\f0cc";
 }
 
-/* line 584, _icons.scss */
+/* line 583, _icons.scss */
 .icon-underline:before {
   content: "\f0cd";
 }
 
-/* line 587, _icons.scss */
+/* line 586, _icons.scss */
 .icon-table:before {
   content: "\f0ce";
 }
 
-/* line 590, _icons.scss */
+/* line 589, _icons.scss */
 .icon-magic:before {
   content: "\f0d0";
 }
 
-/* line 593, _icons.scss */
+/* line 592, _icons.scss */
 .icon-truck:before {
   content: "\f0d1";
 }
 
-/* line 596, _icons.scss */
+/* line 595, _icons.scss */
 .icon-pinterest:before {
   content: "\f0d2";
 }
 
-/* line 599, _icons.scss */
+/* line 598, _icons.scss */
 .icon-pinterest-sign:before {
   content: "\f0d3";
 }
 
-/* line 602, _icons.scss */
+/* line 601, _icons.scss */
 .icon-google-plus-sign:before {
   content: "\f0d4";
 }
 
-/* line 605, _icons.scss */
+/* line 604, _icons.scss */
 .icon-google-plus:before {
   content: "\f0d5";
 }
 
-/* line 608, _icons.scss */
+/* line 607, _icons.scss */
 .icon-money:before {
   content: "\f0d6";
 }
 
-/* line 611, _icons.scss */
+/* line 610, _icons.scss */
 .icon-caret-down:before {
   content: "\f0d7";
 }
 
-/* line 614, _icons.scss */
+/* line 613, _icons.scss */
 .icon-caret-up:before {
   content: "\f0d8";
 }
 
-/* line 617, _icons.scss */
+/* line 616, _icons.scss */
 .icon-caret-left:before {
   content: "\f0d9";
 }
 
-/* line 620, _icons.scss */
+/* line 619, _icons.scss */
 .icon-caret-right:before {
   content: "\f0da";
 }
 
-/* line 623, _icons.scss */
+/* line 622, _icons.scss */
 .icon-columns:before {
   content: "\f0db";
 }
 
-/* line 626, _icons.scss */
+/* line 625, _icons.scss */
 .icon-sort:before {
   content: "\f0dc";
 }
 
-/* line 629, _icons.scss */
+/* line 628, _icons.scss */
 .icon-sort-down:before {
   content: "\f0dd";
 }
 
-/* line 632, _icons.scss */
+/* line 631, _icons.scss */
 .icon-sort-up:before {
   content: "\f0de";
 }
 
-/* line 635, _icons.scss */
+/* line 634, _icons.scss */
 .icon-envelope-alt:before {
   content: "\f0e0";
 }
 
-/* line 638, _icons.scss */
+/* line 637, _icons.scss */
 .icon-linkedin:before {
   content: "\f0e1";
 }
 
-/* line 641, _icons.scss */
+/* line 640, _icons.scss */
 .icon-undo:before {
   content: "\f0e2";
 }
 
-/* line 644, _icons.scss */
+/* line 643, _icons.scss */
 .icon-legal:before {
   content: "\f0e3";
 }
 
-/* line 647, _icons.scss */
+/* line 646, _icons.scss */
 .icon-dashboard:before {
   content: "\f0e4";
 }
 
-/* line 650, _icons.scss */
+/* line 649, _icons.scss */
 .icon-comment-alt:before {
   content: "\f0e5";
 }
 
-/* line 653, _icons.scss */
+/* line 652, _icons.scss */
 .icon-comments-alt:before {
   content: "\f0e6";
 }
 
-/* line 656, _icons.scss */
+/* line 655, _icons.scss */
 .icon-bolt:before {
   content: "\f0e7";
 }
 
-/* line 659, _icons.scss */
+/* line 658, _icons.scss */
 .icon-sitemap:before {
   content: "\f0e8";
 }
 
-/* line 662, _icons.scss */
+/* line 661, _icons.scss */
 .icon-umbrella:before {
   content: "\f0e9";
 }
 
-/* line 665, _icons.scss */
+/* line 664, _icons.scss */
 .icon-paste:before {
   content: "\f0ea";
 }
 
-/* line 668, _icons.scss */
+/* line 667, _icons.scss */
 .icon-lightbulb:before {
   content: "\f0eb";
 }
 
-/* line 671, _icons.scss */
+/* line 670, _icons.scss */
 .icon-exchange:before {
   content: "\f0ec";
 }
 
-/* line 674, _icons.scss */
+/* line 673, _icons.scss */
 .icon-cloud-download:before {
   content: "\f0ed";
 }
 
-/* line 677, _icons.scss */
+/* line 676, _icons.scss */
 .icon-cloud-upload:before {
   content: "\f0ee";
 }
 
-/* line 680, _icons.scss */
+/* line 679, _icons.scss */
 .icon-user-md:before {
   content: "\f0f0";
 }
 
-/* line 683, _icons.scss */
+/* line 682, _icons.scss */
 .icon-stethoscope:before {
   content: "\f0f1";
 }
 
-/* line 686, _icons.scss */
+/* line 685, _icons.scss */
 .icon-suitcase:before {
   content: "\f0f2";
 }
 
-/* line 689, _icons.scss */
+/* line 688, _icons.scss */
 .icon-bell-alt:before {
   content: "\f0f3";
 }
 
-/* line 692, _icons.scss */
+/* line 691, _icons.scss */
 .icon-coffee:before {
   content: "\f0f4";
 }
 
-/* line 695, _icons.scss */
+/* line 694, _icons.scss */
 .icon-food:before {
   content: "\f0f5";
 }
 
-/* line 698, _icons.scss */
+/* line 697, _icons.scss */
 .icon-file-alt:before {
   content: "\f0f6";
 }
 
-/* line 701, _icons.scss */
+/* line 700, _icons.scss */
 .icon-building:before {
   content: "\f0f7";
 }
 
-/* line 704, _icons.scss */
+/* line 703, _icons.scss */
 .icon-hospital:before {
   content: "\f0f8";
 }
 
-/* line 707, _icons.scss */
+/* line 706, _icons.scss */
 .icon-ambulance:before {
   content: "\f0f9";
 }
 
-/* line 710, _icons.scss */
+/* line 709, _icons.scss */
 .icon-medkit:before {
   content: "\f0fa";
 }
 
-/* line 713, _icons.scss */
+/* line 712, _icons.scss */
 .icon-fighter-jet:before {
   content: "\f0fb";
 }
 
-/* line 716, _icons.scss */
+/* line 715, _icons.scss */
 .icon-beer:before {
   content: "\f0fc";
 }
 
-/* line 719, _icons.scss */
+/* line 718, _icons.scss */
 .icon-h-sign:before {
   content: "\f0fd";
 }
 
-/* line 722, _icons.scss */
+/* line 721, _icons.scss */
 .icon-plus-sign-2:before {
   content: "\f0fe";
 }
 
-/* line 725, _icons.scss */
+/* line 724, _icons.scss */
 .icon-double-angle-left:before {
   content: "\f100";
 }
 
-/* line 728, _icons.scss */
+/* line 727, _icons.scss */
 .icon-double-angle-right:before {
   content: "\f101";
 }
 
-/* line 731, _icons.scss */
+/* line 730, _icons.scss */
 .icon-double-angle-up:before {
   content: "\f102";
 }
 
-/* line 734, _icons.scss */
+/* line 733, _icons.scss */
 .icon-double-angle-down:before {
   content: "\f103";
 }
 
-/* line 737, _icons.scss */
+/* line 736, _icons.scss */
 .icon-angle-left:before {
   content: "\f104";
 }
 
-/* line 740, _icons.scss */
+/* line 739, _icons.scss */
 .icon-angle-right:before {
   content: "\f105";
 }
 
-/* line 743, _icons.scss */
+/* line 742, _icons.scss */
 .icon-angle-up:before {
   content: "\f106";
 }
 
-/* line 746, _icons.scss */
+/* line 745, _icons.scss */
 .icon-angle-down:before {
   content: "\f107";
 }
 
-/* line 749, _icons.scss */
+/* line 748, _icons.scss */
 .icon-desktop:before {
   content: "\f108";
 }
 
-/* line 752, _icons.scss */
+/* line 751, _icons.scss */
 .icon-laptop:before {
   content: "\f109";
 }
 
-/* line 755, _icons.scss */
+/* line 754, _icons.scss */
 .icon-tablet:before {
   content: "\f10a";
 }
 
-/* line 758, _icons.scss */
+/* line 757, _icons.scss */
 .icon-mobile:before {
   content: "\f10b";
 }
 
-/* line 761, _icons.scss */
+/* line 760, _icons.scss */
 .icon-circle-blank:before {
   content: "\f10c";
 }
 
-/* line 764, _icons.scss */
+/* line 763, _icons.scss */
 .icon-quote-left:before {
   content: "\f10d";
 }
 
-/* line 767, _icons.scss */
+/* line 766, _icons.scss */
 .icon-quote-right:before {
   content: "\f10e";
 }
 
-/* line 770, _icons.scss */
+/* line 769, _icons.scss */
 .icon-spinner:before {
   content: "\f110";
 }
 
-/* line 773, _icons.scss */
+/* line 772, _icons.scss */
 .icon-circle:before {
   content: "\f111";
 }
 
-/* line 776, _icons.scss */
+/* line 775, _icons.scss */
 .icon-reply:before {
   content: "\f112";
 }
 
-/* line 779, _icons.scss */
+/* line 778, _icons.scss */
 .icon-github-alt:before {
   content: "\f113";
 }
 
-/* line 782, _icons.scss */
+/* line 781, _icons.scss */
 .icon-folder-close-alt:before {
   content: "\f114";
 }
 
-/* line 785, _icons.scss */
+/* line 784, _icons.scss */
 .icon-folder-open-alt:before {
   content: "\f115";
 }
