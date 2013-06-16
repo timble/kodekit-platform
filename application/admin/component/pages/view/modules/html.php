@@ -28,7 +28,16 @@ class PagesViewModulesHtml extends Library\ViewHtml
                 $path = Library\ClassLoader::getInstance()->getApplication($module->application);
                 JFactory::getLanguage()->load($module->getIdentifier()->package, $module->name, $path );
 		    }
-		} 
+		}
+
+        //Load a unique list of module positions
+        $positions = array();
+        $modules = $this->getObject('com:pages.model.modules')->application('site')->fetch();
+        foreach($modules as $module) {
+            $positions[] = $module->position;
+        }
+
+        $this->positions = array_unique($positions);
 
         return parent::render();
 	}

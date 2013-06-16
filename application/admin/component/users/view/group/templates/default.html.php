@@ -29,7 +29,7 @@
     			<legend><?= @text('Users') ?></legend>
     			<div>
     			    <div>
-    			        <?= @helper('select.users', array('selected' => $users, 'name' => 'users')) ?>
+    			        <?= @helper('select.users', array('selected' => $selected, 'name' => 'users')) ?>
     			    </div>
     			</div>
     		</fieldset>

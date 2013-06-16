@@ -24,8 +24,13 @@ class UsersViewGroupHtml extends Library\ViewHtml
     {
         $group = $this->getModel()->getRow();
 
-        $this->users = $this->getObject('com:users.model.groups_users')->group_id($group->id)->fetch()->user_id;
-        
+        //Load a list of selected users
+        $this->selected = array();
+        $users = $this->getObject('com:users.model.groups_users')->group_id($group->id)->fetch();
+        foreach($users as $user) {
+            $this->selected[] = $user->user_id;
+        }
+
         return parent::render();
     }
 }

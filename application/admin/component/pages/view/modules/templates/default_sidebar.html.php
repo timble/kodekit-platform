@@ -13,7 +13,7 @@
 	<a <? if(!$state->position && $state->application == 'site') echo 'class="active"' ?> href="<?= @route('position=&application=site') ?>">
 	    <?= @text('All positions') ?>
 	</a>
-	<? foreach(array_unique(@object('com:pages.model.modules')->application('site')->fetch()->position) as $position) : ?>
+	<? foreach($positions as $position) : ?>
 	<a <? if($state->position == $position && $state->application == 'site') echo 'class="active"' ?> href="<?= @route('sort=ordering&position='.$position.'&application=site') ?>">
 	    <?= $position; ?>
 	</a>
