@@ -26,14 +26,14 @@ window.addEvent('domready', function(){
 
 
 <h3><?=@text( 'Components' )?></h3>
-<nav>
+<ul class="navigation">
     <a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= @route('package=') ?>">
     <?= @text('All components')?>
     </a>
     <?php foreach ($packages as $package): ?>
     <a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
     <?php endforeach ?>
-</nav>
+</ul>
 
 <form action="" method="get" id="activities-filter">
     <fieldset>
