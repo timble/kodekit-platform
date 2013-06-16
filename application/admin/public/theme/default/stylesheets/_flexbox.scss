@@ -201,7 +201,7 @@ table.mceLayout > tbody > tr:nth-of-type(3){
 
     #files-tree-container,
     #files-grid {
-      @include flex;
+      @include flex(0 0 auto);
     }
 
     #details {

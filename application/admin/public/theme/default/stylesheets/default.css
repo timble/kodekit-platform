@@ -4705,6 +4705,9 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
+  -webkit-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 /* line 207, _flexbox.scss */
 .com_files #files-insert #details {
@@ -5500,15 +5503,15 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 #files-compact #files-insert #details #files-preview > div {
   margin: auto;
   text-align: center;
-  padding: 20px;
 }
-/* line 41, components/_files_compact.scss */
+/* line 40, components/_files_compact.scss */
 #files-compact #files-insert #details #files-preview > div > div {
   padding-top: 6px;
 }
-/* line 46, components/_files_compact.scss */
+/* line 45, components/_files_compact.scss */
 #files-compact #files-insert #details #files-preview img {
   max-height: 125px;
+  max-width: 300px;
 }
 /* line 51, components/_files_compact.scss */
 #files-compact #files-insert #details #image-insert-form {
