@@ -39,12 +39,12 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 	 *
 	 * This method is specialized because of the magic property "pages" which is in a 1:n relation with modules
 	 *
-	 * @param   string  The key name.
+	 * @param   string  $property The key name.
 	 * @return  string  The corresponding value.
 	 */
-	public function __get($column)
+	public function get($property)
 	{  
-	    if($column == 'title' && empty($this->_data['title']))
+	    if($property == 'title' && empty($this->_data['title']))
 	    {
             if($this->manifest instanceof \SimpleXMLElement) {
                 $this->_data['title'] = $this->manifest->name;
@@ -53,7 +53,7 @@ class DatabaseRowModule extends Library\DatabaseRowTable
             }
 	    }
 
-        if($column == 'identifier' && empty($this->_data['identifier']))
+        if($property == 'identifier' && empty($this->_data['identifier']))
         {
             $name        = substr( $this->name, 4);
             $package     = substr($this->component_name, 4);
@@ -61,15 +61,15 @@ class DatabaseRowModule extends Library\DatabaseRowTable
             $this->_data['identifier'] = $this->getIdentifier('com:'.$package.'.module.'.$name.'.html');
         }
 
-        if($column == 'attribs' && empty($this->_data['attribs'])) {
+        if($property == 'attribs' && empty($this->_data['attribs'])) {
             $this->_data['attribs'] = array();
         }
 
-        if($column == 'chrome' && empty($this->_data['chrome'])) {
+        if($property == 'chrome' && empty($this->_data['chrome'])) {
             $this->_data['chrome'] = array();
         }
 
-	    if($column == 'manifest' && empty($this->_data['manifest']))
+	    if($property == 'manifest' && empty($this->_data['manifest']))
 		{
             $path = dirname($this->identifier->classpath);
             $file = $path.'/'.basename($path).'.xml';
@@ -81,11 +81,11 @@ class DatabaseRowModule extends Library\DatabaseRowTable
             }
         }
 
-		if(in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
-            $this->_data[$column] = isset($this->manifest->{$column}) ? $this->manifest->{$column} : '';
+		if(in_array($property, self::$_manifest_fields) && empty($this->_data[$property])) {
+            $this->_data[$property] = isset($this->manifest->{$property}) ? $this->manifest->{$property} : '';
         }
         
-	    if($column == 'params' && !($this->_data['params']) instanceof \JParameter)
+	    if($property == 'params' && !($this->_data['params']) instanceof \JParameter)
         {
             $path = dirname($this->identifier->classpath);
             $file = $path.'/config.xml';
@@ -93,7 +93,7 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 	        $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'module' );
         }
 
-	    if($column == 'pages' && !isset($this->_data['pages'])) 
+	    if($property == 'pages' && !isset($this->_data['pages']))
 		{
 		    if(!$this->isNew()) 
 		    {
@@ -118,14 +118,13 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 		    $this->_data['pages'] = $pages;
 		}
 		
-		return parent::__get($column);
+		return parent::get($property);
 	}
 	
 	/**
 	 * Saves the row to the database.
 	 *
-	 * This performs an intelligent insert/update and reloads the properties
-	 * with fresh data from the table on success.
+	 * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
 	 *
 	 * @return boolean	If successfull return TRUE, otherwise FALSE
 	 */
@@ -145,25 +144,21 @@ class DatabaseRowModule extends Library\DatabaseRowTable
 		    {
                 foreach($this->pages as $page)
 			    {
-				    $table
-					    ->select(null, Library\Database::FETCH_ROW)
-					    ->setData(array(
-							'pages_module_id' => $this->id,
-							'pages_page_id' => $page
-				    	))
-					    ->save();
+				    $table->select(null, Library\Database::FETCH_ROW)
+					       ->setProperties(array(
+							    'pages_module_id' => $this->id,
+							    'pages_page_id'   => $page
+				    	   ))->save();
 			    }
 
 		    } 
 		    elseif($this->pages == 'all') 
 		    {
-                $table
-				    ->select(null, Library\Database::FETCH_ROW)
-				    ->setData(array(
-						'moduleid'	=> $this->id,
-						'menuid'	=> 0
-			    	))
-				    ->save();
+                $table->select(null, Library\Database::FETCH_ROW)
+				       ->setProperties(array(
+						    'moduleid'	=> $this->id,
+						    'menuid'	=> 0
+			    	    ))->save();
 		    }
 		}
 													

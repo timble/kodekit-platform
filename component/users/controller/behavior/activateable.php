@@ -55,16 +55,18 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 
         if (($activation = $context->request->query->get('activation', $this->_filter)))
         {
-            if ($row->activation)
+            if (!$row->activation)
             {
-                $this->activate(array('activation' => $activation));
-            }
-            else
-            {
-                $context->response->setRedirect($this->getObject('lib:dispatcher.router.route',
-                    array('url' => $this->getObject('application.pages')->getHome()->getLink())));
+                $url   = $this->getObject('application.pages')->getHome()->getLink();
+                $route = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
+
+                $context->response->setRedirect($route);
                 $context->user->addFlashMessage('Invalid request', 'error');
+
+
             }
+            else $this->activate(array('activation' => $activation));
+
             return false;
         }
     }
@@ -91,10 +93,9 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $result = true;
 
         $row = $this->getModel()->getRow();
-        $row->setData(array('activation' => '', 'enabled' => 1));
+        $row->setProperties(array('activation' => '', 'enabled' => 1));
 
-        if (!$row->save())
-        {
+        if (!$row->save()) {
             $result = false;
         }
 
@@ -107,12 +108,9 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $this->getObject('application')->getRouter()->build($url);
 
 
-        if ($context->result === true)
-        {
+        if ($context->result === true) {
             $context->user->addFlashMessage('Activation successfully completed');
-        }
-        else
-        {
+        } else {
             $context->user->addFlashMessage('Activation failed', 'error');
         }
 
