@@ -33,7 +33,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Model list data
      *
-     * @var DatabaseRow(set)Interface
+     * @var DatabaseRowsetInterface
      */
     protected $_data;
 
@@ -80,26 +80,18 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Fetch a row or a rowset based on the model state
      *
-     * @param integer  $mode The database fetch style.
-     * @return DatabaseRow(set)Interface
+     * @return DatabaseRowsetInterface
      */
-    public function fetch($mode = Database::FETCH_ROWSET)
+    public function fetch()
     {
         if(!isset($this->_data))
         {
-            //Create commandchain context
             $context = $this->getCommandContext();
-            $context->mode = $mode;
             $context->data = null;
 
             if ($this->getCommandChain()->run('before.fetch', $context) !== false)
             {
-                if($mode == Database::FETCH_ROW) {
-                    $context->data = $this->getRow();
-                } else {
-                    $context->data = $this->getRowset();
-                }
-
+                $context->data = $this->getRowset();
                 $this->getCommandChain()->run('after.fetch', $context);
             }
 
@@ -256,11 +248,10 @@ abstract class ModelAbstract extends Object implements ModelInterface
     /**
      * Fetch the data when model is invoked.
      *
-     * @param integer  $mode The database fetch style.
-     * @return DatabaseRow(set)Interface
+     * @return DatabaseRowsetInterface
      */
-    public function __invoke($mode = Database::FETCH_ROWSET)
+    public function __invoke()
     {
-        return $this->fetch($mode);
+        return $this->fetch();
     }
 }
