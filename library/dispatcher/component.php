@@ -279,7 +279,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 
                 //Set the row data based on the unique state information
                 $state = $controller->getModel()->getState()->getValues(true);
-                $entity->setData($state);
+                $entity->setProperties($state);
             }
             else throw new ControllerExceptionBadRequest('Resource not found');
         }
