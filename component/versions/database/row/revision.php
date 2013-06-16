@@ -20,13 +20,13 @@ use Nooku\Library;
  */
 class DatabaseRowRevision extends Library\DatabaseRowTable
 {
-	public function __get($column)
+	public function get($property)
     {
-    	if($column == 'data' && is_string($this->_data['data'])) {
+    	if($property == 'data' && is_string($this->_data['data'])) {
 			$this->_data['data'] = json_decode($this->_data['data'], true);
 		}
 
-    	return parent::__get($column);
+    	return parent::get($property);
     }
 
     public function setStatus($status)

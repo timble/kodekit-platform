@@ -28,9 +28,9 @@ class DatabaseRowUser extends Library\DatabaseRowTable
 
     protected $_groups;
 
-    public function __get($column)
+    public function get($property)
     {
-        if ($column == 'params' && !$this->_data['params'] instanceof \JParameter)
+        if ($property == 'params' && !$this->_data['params'] instanceof \JParameter)
         {
             $path = JPATH_APPLICATION . '/component/users/databases/rows';
             $name = str_replace(' ', '_', strtolower((string) $this->getRole()->name));
@@ -46,7 +46,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
             $this->_data['params'] = $params;
         }
 
-        return parent::__get($column);
+        return parent::get($property);
     }
 
     /**
@@ -207,7 +207,8 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     {
         $data = array();
 
-        if (!$this->isNew()) {
+        if (!$this->isNew())
+        {
             $data = array(
                 'id'         => $this->id,
                 'email'      => $this->email,
