@@ -24,7 +24,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         $params = $this->getObject('application')->getParams();
 
         //Get the contact
-        $article = $this->getModel()->fetch(Library\Database::FETCH_ROW);
+        $article = $this->getModel()->fetch();
 
         //Get the parameters of the active menu item
         if($page = $this->getObject('application.pages')->getActive())
