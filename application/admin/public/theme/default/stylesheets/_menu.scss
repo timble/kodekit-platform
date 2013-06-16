@@ -35,7 +35,7 @@
 
       ul {
         @include box-shadow(rgba(0, 0, 0, .4) 0px 8px 13px, rgba(0, 0, 0, .5) 0 0 1px);
-        @include border-radius(0 0 4px 4px);
+        border-radius:0 0 4px 4px;
         background-color: $navbarBackgroundDropdown;
         padding: 4px 0;
 
@@ -86,7 +86,7 @@
           ul {
             margin-top: -5px;
             z-index: 1;
-            @include border-radius(0 5px 5px 5px);
+            border-radius:0 5px 5px 5px;
 
             li a { color: $navbarLinkColor; background-color: transparent; border: 0 none; }
 
@@ -121,7 +121,7 @@
     vertical-align: middle;
     color: $tabbarLinkColor;
     display: block;
-    @include border-radius(0 0);
+    border-radius:0 0;
     border-right: 1px solid $tabbarBackground;
   }
 

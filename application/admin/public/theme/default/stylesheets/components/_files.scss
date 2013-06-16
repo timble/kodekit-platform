@@ -207,7 +207,7 @@
   background: none;
 }
 #files-upload-multi .plupload_filelist_header {
-  @include border-radius(4px 4px 0 0);
+  border-radius:4px 4px 0 0;
   border-top: none;
   @include box-shadow(hsl(0, 0%, 97%) 0 -1px 0 inset);
   border-bottom: 1px solid hsl(0, 0%, 90%);
@@ -215,7 +215,7 @@
 }
 
 #files-upload-multi .plupload_filelist_footer {
-  @include border-radius(0 0 4px 4px);
+  border-radius:0 0 4px 4px;
   border-bottom: none;
   border-top: none;
   box-shadow: 0 -1px 0 hsl(0, 0%, 90%);
@@ -272,7 +272,7 @@
   float: left;
   margin: 0;
   border-style: none;
-  @include border-radius(0px);
+  border-radius:0px;
   height: $baseLineHeight + 8px; // bottom + top paddding
 }
 #remote-url {
@@ -307,7 +307,7 @@
   top: 2px;
   bottom: 2px;
   margin: 0;
-  @include border-radius(0px);
+  border-radius:0px;
   @include border-top-right-radius(2px);
   @include border-bottom-right-radius(2px);
   overflow: hidden;

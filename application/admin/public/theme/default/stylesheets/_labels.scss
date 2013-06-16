@@ -10,7 +10,7 @@
 .badge{
   padding: 1px 6px;
   font-size: $baseFontSize * .85;
-  @include border-radius(3px);
+  border-radius:3px;
   @include label-colors();
 }
 

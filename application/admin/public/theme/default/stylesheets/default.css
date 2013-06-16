@@ -66,10 +66,6 @@
   width: 130px;
   padding: 6px;
   border: 1px solid #ddd;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
   border-radius: 5px;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.055);
@@ -81,10 +77,6 @@
 }
 /* line 18, blocks/_thumbnail.scss */
 .thumbnail img {
-  -webkit-border-radius: 4px 4px 0 0;
-  -moz-border-radius: 4px 4px 0 0;
-  -ms-border-radius: 4px 4px 0 0;
-  -o-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
 
@@ -128,10 +120,6 @@
   text-decoration: none;
   background: #A0A0A0;
   color: #FFF;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
   border-radius: 10px;
   text-shadow: rgba(0, 0, 0, 0.35) 0 1px 0;
 }
@@ -484,10 +472,6 @@ textarea {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   border: 1px solid #cccccc;
   border-bottom-color: #b3b3b3;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -536,10 +520,6 @@ textarea {
 .btn-large {
   padding: 11px 19px;
   font-size: 15px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -o-border-radius: 6px;
   border-radius: 6px;
 }
 
@@ -553,10 +533,6 @@ textarea {
 .btn-small {
   padding: 2px 10px;
   font-size: 10.2px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
   border-radius: 3px;
 }
 
@@ -576,10 +552,6 @@ textarea {
 .btn-mini {
   padding: 0px 6px;
   font-size: 9px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
   border-radius: 3px;
 }
 
@@ -797,10 +769,6 @@ input[type="submit"].btn.btn-mini {
 /* line 33, _button-groups.scss */
 .btn-group > .btn {
   position: relative;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 
@@ -1429,10 +1397,6 @@ ul {
   font-size: 18px;
   padding: 4px 8px;
   margin-bottom: 0;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
   border-radius: 4px;
   height: 36px;
   line-height: 36px;
@@ -1560,10 +1524,6 @@ ul {
   -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 13px, rgba(0, 0, 0, 0.5) 0 0 1px;
   -moz-box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 13px, rgba(0, 0, 0, 0.5) 0 0 1px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 8px 13px, rgba(0, 0, 0, 0.5) 0 0 1px;
-  -webkit-border-radius: 0 0 4px 4px;
-  -moz-border-radius: 0 0 4px 4px;
-  -ms-border-radius: 0 0 4px 4px;
-  -o-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
   background-color: white;
   padding: 4px 0;
@@ -1645,10 +1605,6 @@ ul {
 #panel-header ul:not(.disabled) > li:hover ul li:hover:not(.separator) ul {
   margin-top: -5px;
   z-index: 1;
-  -webkit-border-radius: 0 5px 5px 5px;
-  -moz-border-radius: 0 5px 5px 5px;
-  -ms-border-radius: 0 5px 5px 5px;
-  -o-border-radius: 0 5px 5px 5px;
   border-radius: 0 5px 5px 5px;
   /* 3 level - hover */
 }
@@ -1689,10 +1645,6 @@ ul {
   vertical-align: middle;
   color: white;
   display: block;
-  -webkit-border-radius: 0 0;
-  -moz-border-radius: 0 0;
-  -ms-border-radius: 0 0;
-  -o-border-radius: 0 0;
   border-radius: 0 0;
   border-right: 1px solid #6497ef;
 }
@@ -1816,10 +1768,6 @@ input[type="color"],
   font-size: 12px;
   line-height: 12px;
   color: #555555;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
   border-radius: 4px;
   vertical-align: middle;
 }
@@ -2093,10 +2041,6 @@ select:focus:invalid:focus {
   margin-bottom: 0;
   *margin-left: 0;
   vertical-align: top;
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
 /* line 341, _forms.scss */
@@ -2139,10 +2083,6 @@ select:focus:invalid:focus {
 .input-prepend .btn,
 .-koowa-form .main .title .slug .btn {
   vertical-align: top;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 /* line 364, _forms.scss */
@@ -2163,10 +2103,6 @@ select:focus:invalid:focus {
 .input-prepend .add-on:first-child, .-koowa-form .main .title .slug .add-on:first-child,
 .input-prepend .btn:first-child,
 .-koowa-form .main .title .slug .btn:first-child {
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  -ms-border-radius: 4px 0 0 4px;
-  -o-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
 
@@ -2176,10 +2112,6 @@ select:focus:invalid:focus {
 .scopebar__search select,
 .input-append .uneditable-input,
 .scopebar__search .uneditable-input {
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  -ms-border-radius: 4px 0 0 4px;
-  -o-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
 /* line 387, _forms.scss */
@@ -2188,10 +2120,6 @@ select:focus:invalid:focus {
 .scopebar__search select + .btn-group .btn:last-child,
 .input-append .uneditable-input + .btn-group .btn:last-child,
 .scopebar__search .uneditable-input + .btn-group .btn:last-child {
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
 /* line 393, _forms.scss */
@@ -2206,10 +2134,6 @@ select:focus:invalid:focus {
 .input-append .add-on:last-child, .scopebar__search .add-on:last-child,
 .input-append .btn:last-child,
 .scopebar__search .btn:last-child {
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
 
@@ -2223,10 +2147,6 @@ select:focus:invalid:focus {
 .input-prepend.scopebar__search .uneditable-input,
 .-koowa-form .main .title .scopebar__search.slug .uneditable-input,
 .-koowa-form .main .title .input-append.slug .uneditable-input {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 /* line 408, _forms.scss */
@@ -2239,10 +2159,6 @@ select:focus:invalid:focus {
 .input-prepend.scopebar__search .uneditable-input + .btn-group .btn,
 .-koowa-form .main .title .scopebar__search.slug .uneditable-input + .btn-group .btn,
 .-koowa-form .main .title .input-append.slug .uneditable-input + .btn-group .btn {
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
 /* line 413, _forms.scss */
@@ -2252,10 +2168,6 @@ select:focus:invalid:focus {
 .-koowa-form .main .title .scopebar__search.slug .btn:first-child,
 .-koowa-form .main .title .input-append.slug .btn:first-child {
   margin-right: -1px;
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  -ms-border-radius: 4px 0 0 4px;
-  -o-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
 /* line 418, _forms.scss */
@@ -2265,10 +2177,6 @@ select:focus:invalid:focus {
 .-koowa-form .main .title .scopebar__search.slug .btn:last-child,
 .-koowa-form .main .title .input-append.slug .btn:last-child {
   margin-left: -1px;
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
 /* line 422, _forms.scss */
@@ -2374,10 +2282,6 @@ label.radio:after {
   margin-right: auto;
   text-align: center;
   text-shadow: white 0 1px 1px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
   border-radius: 5px;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -3697,10 +3601,6 @@ you can use the generic selector below, but it's slower:
 #files-tree .mooTree_node .navigation__badge {
   padding: 1px 6px;
   font-size: 10.2px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
   border-radius: 3px;
   background-color: #eaeaea;
   color: #555555;
@@ -4930,19 +4830,11 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 #activities-filter fieldset .input-prepend span, #activities-filter fieldset .-koowa-form .main .title .slug span, .-koowa-form .main .title #activities-filter fieldset .slug span {
   width: 60px;
   text-align: right;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 /* line 55, components/_activities.scss */
 #activities-filter fieldset .input-prepend input, #activities-filter fieldset .-koowa-form .main .title .slug input, .-koowa-form .main .title #activities-filter fieldset .slug input {
   width: auto;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 
@@ -5196,10 +5088,6 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 
 /* line 209, components/_files.scss */
 #files-upload-multi .plupload_filelist_header {
-  -webkit-border-radius: 4px 4px 0 0;
-  -moz-border-radius: 4px 4px 0 0;
-  -ms-border-radius: 4px 4px 0 0;
-  -o-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
   border-top: none;
   -webkit-box-shadow: #f7f7f7 0 -1px 0 inset;
@@ -5215,10 +5103,6 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 
 /* line 217, components/_files.scss */
 #files-upload-multi .plupload_filelist_footer {
-  -webkit-border-radius: 0 0 4px 4px;
-  -moz-border-radius: 0 0 4px 4px;
-  -ms-border-radius: 0 0 4px 4px;
-  -o-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
   border-bottom: none;
   border-top: none;
@@ -5289,10 +5173,6 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   float: left;
   margin: 0;
   border-style: none;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  -ms-border-radius: 0px;
-  -o-border-radius: 0px;
   border-radius: 0px;
   height: 20px;
 }
@@ -5336,10 +5216,6 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   top: 2px;
   bottom: 2px;
   margin: 0;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  -ms-border-radius: 0px;
-  -o-border-radius: 0px;
   border-radius: 0px;
   -moz-border-radius-topright: 2px;
   -webkit-border-top-right-radius: 2px;
@@ -5659,18 +5535,10 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 /* line 74, components/_files_compact.scss */
 #files-compact #files-upload form #remote-url {
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  -ms-border-radius: 4px 0 0 4px;
-  -o-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
 }
 /* line 77, components/_files_compact.scss */
 #files-compact #files-upload form #remote-name {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
   border-radius: 0;
 }
 /* line 80, components/_files_compact.scss */
@@ -5678,10 +5546,6 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   top: 5px;
   right: 5px;
   bottom: 5px;
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
 }
 
@@ -5810,10 +5674,6 @@ body.login .login-box {
   margin: auto;
   border: 1px solid #D7DADE;
   background: #FFF;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
   border-radius: 10px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -5830,10 +5690,6 @@ body.login .login-box h1 {
   background: -moz-linear-gradient(#f6f6f6, #e6e6e6);
   background: -o-linear-gradient(#f6f6f6, #e6e6e6);
   background: linear-gradient(#f6f6f6, #e6e6e6);
-  -webkit-border-radius: 10px 10px 0 0;
-  -moz-border-radius: 10px 10px 0 0;
-  -ms-border-radius: 10px 10px 0 0;
-  -o-border-radius: 10px 10px 0 0;
   border-radius: 10px 10px 0 0;
   border-bottom: 1px solid #D7DADE;
 }

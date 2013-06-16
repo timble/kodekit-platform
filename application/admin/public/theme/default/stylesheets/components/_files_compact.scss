@@ -72,17 +72,17 @@
         @include box-sizing(border-box);
       }
       #remote-url {
-        @include border-radius($inputBorderRadius 0 0 $inputBorderRadius);
+        border-radius:$inputBorderRadius 0 0 $inputBorderRadius;
       }
       #remote-name {
-        @include border-radius(0);
+        border-radius:0;
       }
       .remote-submit {
         top: $padding;
         right: $padding;
         bottom: $padding;
 
-        @include border-radius(0 $inputBorderRadius $inputBorderRadius 0);
+        border-radius:0 $inputBorderRadius $inputBorderRadius 0;
 
         &.valid {
           //.buttonBackground($btnPrimaryBackground, $btnPrimaryBackgroundHighlight);
