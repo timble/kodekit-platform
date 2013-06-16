@@ -49,9 +49,8 @@ body {
     @include flex-shrink(0);
   }
 
-  nav {
-    @include flex(1 0 auto);
-    @include flex-direction(column);
+  .navigation {
+    @include flex-grow(1);
     overflow-y: scroll;
 
     a {

@@ -1,5 +1,9 @@
 %navigation {
+  margin: 0;
 
+  li li a {
+    padding-left: 36px;
+  }
 }
 
 %navigation__separator {

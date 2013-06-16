@@ -10,16 +10,20 @@
 ?>
 
 <h3><?= @text( 'Groups' ); ?></h3>
-<nav>
-    <a <? if(!$state->group) echo 'class="active"' ?> href="<?= @route('group=') ?>">
-        <?= @text('All groups') ?>
-    </a>
+<ul class="navigation">
+    <li>
+        <a <? if(!$state->group) echo 'class="active"' ?> href="<?= @route('group=') ?>">
+            <?= @text('All groups') ?>
+        </a>
+    </li>
     <? foreach($groups as $group) : ?>
-    <a <? if($state->group == $group->name) echo 'class="active"' ?> href="<?= @route('group='.$group->name) ?>">
-        <?= $group->name; ?>
-    </a>
+    <li>
+        <a <? if($state->group == $group->name) echo 'class="active"' ?> href="<?= @route('group='.$group->name) ?>">
+            <?= $group->name; ?>
+        </a>
+    </li>
     <? endforeach ?>
-</nav>
+</ul>
 <h3><?= @text( 'Details' ); ?></h3>
 <p><?= @text('Files').':'.$count ?></p>
 <p><?= @text('Size').':'.number_format($size / 1024, 2) ?></p>

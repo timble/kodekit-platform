@@ -1,11 +1,20 @@
-/* line 5, blocks/_navigation.scss */
+/* line 1, blocks/_navigation.scss */
+#panel-sidebar .navigation {
+  margin: 0;
+}
+/* line 4, blocks/_navigation.scss */
+#panel-sidebar .navigation li li a {
+  padding-left: 36px;
+}
+
+/* line 9, blocks/_navigation.scss */
 #panel-pages nav h3 {
   margin: 0;
   padding: 6px 16px;
 }
 
-/* line 10, blocks/_navigation.scss */
-#panel-pages nav a, #panel-sidebar nav a, #files-tree .mooTree_node {
+/* line 14, blocks/_navigation.scss */
+#panel-pages nav a, #panel-sidebar .navigation a, #files-tree .mooTree_node {
   display: block;
   padding-left: 22px;
   line-height: 27px;
@@ -13,18 +22,18 @@
   font-weight: 500;
   border-top: 1px solid #f9f9f9;
 }
-/* line 20, blocks/_navigation.scss */
-#panel-pages nav a .navigation__badge, #panel-sidebar nav a .navigation__badge, #files-tree .mooTree_node .navigation__badge {
+/* line 24, blocks/_navigation.scss */
+#panel-pages nav a .navigation__badge, #panel-sidebar .navigation a .navigation__badge, #files-tree .mooTree_node .navigation__badge {
   margin: auto 8px;
   height: 14px;
   line-height: 14px;
 }
-/* line 28, blocks/_navigation.scss */
-#panel-pages nav a.level1, #panel-sidebar nav a.level1, #files-tree .level1.mooTree_node {
+/* line 32, blocks/_navigation.scss */
+#panel-pages nav a.level1, #panel-sidebar .navigation a.level1, #files-tree .level1.mooTree_node {
   padding-left: 36px;
 }
-/* line 32, blocks/_navigation.scss */
-#panel-pages nav a:hover, #panel-sidebar nav a:hover, #files-tree .mooTree_node:hover {
+/* line 36, blocks/_navigation.scss */
+#panel-pages nav a:hover, #panel-sidebar .navigation a:hover, #files-tree .mooTree_node:hover {
   border-top: 1px solid #c4dbf2;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9e8f6), color-stop(100%, #afceed));
   background: -webkit-linear-gradient(#d9e8f6, #afceed);
@@ -33,8 +42,8 @@
   background: linear-gradient(#d9e8f6, #afceed);
   text-decoration: none;
 }
-/* line 39, blocks/_navigation.scss */
-#panel-pages nav a.active, #panel-sidebar nav a.active, #files-tree .active.mooTree_node, #panel-pages nav a.active:hover, #panel-sidebar nav a.active:hover, #files-tree .active.mooTree_node:hover {
+/* line 43, blocks/_navigation.scss */
+#panel-pages nav a.active, #panel-sidebar .navigation a.active, #files-tree .active.mooTree_node, #panel-pages nav a.active:hover, #panel-sidebar .navigation a.active:hover, #files-tree .active.mooTree_node:hover {
   color: #FFF;
   border-top: 1px solid #5c9bda;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #71a8df), color-stop(100%, #2b75bf));
@@ -914,7 +923,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 5, _type.scss */
-.ellipsis, #panel-pages nav a, #panel-sidebar nav a, #files-tree .mooTree_node, #panel-sidebar h3,
+.ellipsis, #panel-pages nav a, #panel-sidebar .navigation a, #files-tree .mooTree_node, #panel-sidebar h3,
 #panel-sidebar legend,
 #panel-inspector h3,
 #panel-inspector legend {
@@ -1227,18 +1236,18 @@ ul {
 #panel-sidebar h4:first-of-type {
   margin-top: 2px;
 }
-/* line 244, _general.scss */
+/* line 246, _general.scss */
 #panel-sidebar input[type=date] {
   width: 160px;
 }
 
-/* line 249, _general.scss */
+/* line 251, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 253, _general.scss */
+/* line 255, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1247,16 +1256,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 264, _general.scss */
+/* line 266, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 268, _general.scss */
+/* line 270, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 271, _general.scss */
+/* line 273, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1270,26 +1279,26 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 280, _general.scss */
+/* line 282, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 287, _general.scss */
+/* line 289, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 291, _general.scss */
+/* line 293, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 294, _general.scss */
+/* line 296, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 300, _general.scss */
+/* line 302, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #e5e5e5));
   background: -webkit-linear-gradient(#e0e0e0, #e5e5e5);
@@ -1297,31 +1306,31 @@ ul {
   background: -o-linear-gradient(#e0e0e0, #e5e5e5);
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 306, _general.scss */
+/* line 308, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 308, _general.scss */
+/* line 310, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 309, _general.scss */
+/* line 311, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 312, _general.scss */
+/* line 314, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 314, _general.scss */
+/* line 316, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 317, _general.scss */
+/* line 319, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1330,7 +1339,7 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 322, _general.scss */
+/* line 324, _general.scss */
 .-koowa-grid table tbody tr.separator td {
   height: auto;
   text-align: left;
@@ -1338,73 +1347,73 @@ ul {
   background-color: #ededed;
   border-bottom: 1px solid #dddddd;
 }
-/* line 330, _general.scss */
+/* line 332, _general.scss */
 .-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 335, _general.scss */
+/* line 337, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 338, _general.scss */
+/* line 340, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 339, _general.scss */
+/* line 341, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 344, _general.scss */
+/* line 346, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 345, _general.scss */
+/* line 347, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 348, _general.scss */
+/* line 350, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 349, _general.scss */
+/* line 351, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 350, _general.scss */
+/* line 352, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 353, _general.scss */
+/* line 355, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 357, _general.scss */
+/* line 359, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 361, _general.scss */
+/* line 363, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 364, _general.scss */
+/* line 366, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 369, _general.scss */
+/* line 371, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 373, _general.scss */
+/* line 375, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 378, _general.scss */
+/* line 380, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
@@ -1414,7 +1423,7 @@ ul {
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 383, _general.scss */
+/* line 385, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1427,17 +1436,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 392, _general.scss */
+/* line 394, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0 !important;
 }
-/* line 400, _general.scss */
+/* line 402, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 406, _general.scss */
+/* line 408, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1446,12 +1455,12 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 412, _general.scss */
+/* line 414, _general.scss */
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 418, _general.scss */
+/* line 420, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1459,23 +1468,23 @@ ul {
 }
 
 /* Sidebar */
-/* line 424, _general.scss */
+/* line 426, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 427, _general.scss */
+/* line 429, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 436, _general.scss */
+/* line 438, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 440, _general.scss */
+/* line 442, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -3683,7 +3692,7 @@ you can use the generic selector below, but it's slower:
 .label,
 .badge,
 #panel-pages nav a .navigation__badge,
-#panel-sidebar nav a .navigation__badge,
+#panel-sidebar .navigation a .navigation__badge,
 #files-tree .mooTree_node .navigation__badge {
   padding: 1px 6px;
   font-size: 10.2px;
@@ -3700,7 +3709,7 @@ you can use the generic selector below, but it's slower:
 .label:empty,
 .badge:empty,
 #panel-pages nav a .navigation__badge:empty,
-#panel-sidebar nav a .navigation__badge:empty,
+#panel-sidebar .navigation a .navigation__badge:empty,
 #files-tree .mooTree_node .navigation__badge:empty {
   display: none;
 }
@@ -4507,22 +4516,16 @@ body {
   flex-shrink: 0;
 }
 /* line 52, _flexbox.scss */
-#panel-sidebar nav,
-#panel-inspector nav {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1 0 auto;
-  -moz-flex: 1 0 auto;
-  flex: 1 0 auto;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
+#panel-sidebar .navigation,
+#panel-inspector .navigation {
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  flex-grow: 1;
   overflow-y: scroll;
 }
-/* line 57, _flexbox.scss */
-#panel-sidebar nav a,
-#panel-inspector nav a {
+/* line 56, _flexbox.scss */
+#panel-sidebar .navigation a,
+#panel-inspector .navigation a {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4533,15 +4536,15 @@ body {
   -moz-justify-content: space-between;
   justify-content: space-between;
 }
-/* line 61, _flexbox.scss */
-#panel-sidebar nav a .navigation__badge,
-#panel-inspector nav a .navigation__badge {
+/* line 60, _flexbox.scss */
+#panel-sidebar .navigation a .navigation__badge,
+#panel-inspector .navigation a .navigation__badge {
   -webkit-flex-grow: 0;
   -moz-flex-grow: 0;
   flex-grow: 0;
 }
 
-/* line 68, _flexbox.scss */
+/* line 67, _flexbox.scss */
 #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4550,7 +4553,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 71, _flexbox.scss */
+/* line 70, _flexbox.scss */
 #panel-content .-koowa-grid {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4562,7 +4565,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 76, _flexbox.scss */
+/* line 75, _flexbox.scss */
 #panel-content .-koowa-form {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4571,7 +4574,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 79, _flexbox.scss */
+/* line 78, _flexbox.scss */
 #panel-content .-koowa-form .main {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4583,7 +4586,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 83, _flexbox.scss */
+/* line 82, _flexbox.scss */
 #panel-content .-koowa-form .main .title {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4595,17 +4598,17 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 87, _flexbox.scss */
+/* line 86, _flexbox.scss */
 #panel-content .-koowa-form .main .title .slug {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 92, _flexbox.scss */
+/* line 91, _flexbox.scss */
 #panel-content .-koowa-form .sidebar:not(.no--scrollbar) {
   overflow-y: scroll;
 }
-/* line 95, _flexbox.scss */
+/* line 94, _flexbox.scss */
 #panel-content .-koowa-form .sidebar.no--scrollbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4615,7 +4618,7 @@ body {
   flex-direction: column;
 }
 
-/* line 102, _flexbox.scss */
+/* line 101, _flexbox.scss */
 .scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4624,7 +4627,7 @@ body {
   flex-grow: 1;
 }
 
-/* line 114, _flexbox.scss */
+/* line 113, _flexbox.scss */
 .editor-wrap,
 .editor-container,
 .mceEditor,
@@ -4644,7 +4647,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex-direction: column;
 }
 
-/* line 120, _flexbox.scss */
+/* line 119, _flexbox.scss */
 table.mceLayout > tbody > tr:nth-of-type(1),
 table.mceLayout > tbody > tr:nth-of-type(3) {
   display: -webkit-flex;
@@ -4655,7 +4658,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 0 0 auto;
 }
 
-/* line 124, _flexbox.scss */
+/* line 123, _flexbox.scss */
 .CodeMirror {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4667,7 +4670,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 128, _flexbox.scss */
+/* line 127, _flexbox.scss */
 .CodeMirror .CodeMirror-scroll {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4678,20 +4681,20 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 
 /* @group Scope Bar */
-/* line 134, _flexbox.scss */
+/* line 133, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 137, _flexbox.scss */
+/* line 136, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 141, _flexbox.scss */
+/* line 140, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4701,7 +4704,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 1;
 }
 
-/* line 149, _flexbox.scss */
+/* line 148, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4712,7 +4715,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 155, _flexbox.scss */
+/* line 154, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4721,7 +4724,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 158, _flexbox.scss */
+/* line 157, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4730,7 +4733,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 161, _flexbox.scss */
+/* line 160, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4742,7 +4745,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 165, _flexbox.scss */
+/* line 164, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4757,7 +4760,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 175, _flexbox.scss */
+/* line 174, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4769,7 +4772,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 179, _flexbox.scss */
+/* line 178, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4781,7 +4784,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 188, _flexbox.scss */
+/* line 187, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
@@ -5650,6 +5653,355 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 
 /* @end */
+/* line 1, components/_files_compact.scss */
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+/* line 5, components/_files_compact.scss */
+#files-compact {
+  width: 730px;
+  /* Mozilla needs this */
+  overflow: hidden;
+}
+
+/* line 10, components/_files_compact.scss */
+#files-compact > * {
+  background-color: #f9f9f9;
+}
+
+/* line 14, components/_files_compact.scss */
+#insert {
+  border: 1px solid #E1E1E1;
+  background-color: #FFF;
+  overflow: hidden;
+}
+
+/* line 20, components/_files_compact.scss */
+#insert .properties {
+  background-color: #F4F4F4;
+  border-top: 1px solid #E1E1E1;
+  width: 100%;
+}
+
+/* line 26, components/_files_compact.scss */
+#insert .properties tr,
+#insert .properties td {
+  border: none;
+}
+
+/* line 29, components/_files_compact.scss */
+#insert .properties tr:last-child td {
+  padding-bottom: 7px;
+}
+
+/* line 32, components/_files_compact.scss */
+#insert .properties td {
+  padding: 2px 5px;
+}
+
+/* line 35, components/_files_compact.scss */
+#insert .properties label {
+  display: block;
+  margin-top: 10px;
+  padding-left: 5px;
+}
+
+/* line 40, components/_files_compact.scss */
+#insert .properties input[type=text] {
+  width: 98%;
+}
+
+/* line 45, components/_files_compact.scss */
+#insert-modal-cancel,
+.insert-or {
+  font-size: 13px;
+}
+
+/* line 51, components/_files_compact.scss */
+#insert-modal-cancel,
+#insert-link,
+.insert-or {
+  border-radius: 2px;
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* line 57, components/_files_compact.scss */
+.insert-or {
+  padding: 5px 5px 5px 0;
+  margin-left: -5px;
+  cursor: default;
+}
+
+/* line 62, components/_files_compact.scss */
+#insert-link {
+  font-size: 15px;
+  overflow: hidden;
+  box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
+  background: #8F8F8F;
+  border: 1px solid rgba(117, 117, 117, 0.48);
+  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+  background-clip: border-box;
+  color: white;
+  background: linear-gradient(top, #72a8df, #2b75bf);
+}
+
+/* line 74, components/_files_compact.scss */
+#files-new-folder-modal {
+  margin-left: 16px;
+}
+
+/* line 77, components/_files_compact.scss */
+#files-new-folder-input, #files-new-folder-create {
+  float: left;
+  font-size: 10px;
+  margin: 0;
+  padding: 5px;
+}
+
+/* line 83, components/_files_compact.scss */
+#files-new-folder-input {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-right: none 0px transparent;
+}
+
+/* line 89, components/_files_compact.scss */
+#files-new-folder-create {
+  margin: 0;
+  border-radius: 0px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  overflow: hidden;
+  display: inline-block;
+  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
+  background-clip: border-box;
+  color: white;
+  box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
+  background: linear-gradient(top, #a8a8a8, #757575);
+  border: 1px solid rgba(117, 117, 117, 0.48);
+  opacity: 0.5;
+}
+
+/* line 104, components/_files_compact.scss */
+#files-new-folder-create.valid {
+  cursor: pointer;
+  opacity: 1;
+  background: linear-gradient(top, #72a8df, #2b75bf);
+}
+
+/* line 109, components/_files_compact.scss */
+#files-new-folder-create.valid:active, #files-new-folder-create:active {
+  background: linear-gradient(top, #2b75bf, #72a8df);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
+  text-shadow: none;
+}
+
+/* line 115, components/_files_compact.scss */
+#insert .buttons {
+  background-color: #F4F4F4;
+  border-top: 1px solid #E1E1E1;
+  padding: 4px;
+  text-align: right;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* line 126, components/_files_compact.scss */
+#insert .hide {
+  display: none;
+}
+
+/* line 130, components/_files_compact.scss */
+#insert #details {
+  overflow: hidden;
+  height: 389px;
+  background-color: #F4F4F4;
+  position: relative;
+}
+
+/* line 137, components/_files_compact.scss */
+#insert #files-tree-container {
+  width: 200px;
+}
+
+/* line 140, components/_files_compact.scss */
+#insert #files-grid {
+  width: 304px;
+}
+
+/* line 146, components/_files_compact.scss */
+#insert #files-tree-container,
+#insert #files-grid {
+  border-right: 1px solid #E1E1E1;
+  height: 389px;
+  overflow: auto;
+}
+
+/* line 148, components/_files_compact.scss */
+#insert #files-container {
+  width: 200px;
+}
+
+/* line 152, components/_files_compact.scss */
+#insert #files-container ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 158, components/_files_compact.scss */
+#insert #details,
+#insert #files-preview {
+  width: 200px;
+}
+
+/* line 161, components/_files_compact.scss */
+#insert #files-preview {
+  background: white;
+}
+
+/* line 164, components/_files_compact.scss */
+#insert #files-preview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+/* line 171, components/_files_compact.scss */
+#insert #files-preview ul li.info {
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #F1F1F1;
+  padding: 6px 0;
+}
+
+/* line 177, components/_files_compact.scss */
+#insert #files-preview ul li.preview {
+  padding: 10px;
+}
+
+/* line 181, components/_files_compact.scss */
+#insert li.files-node {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 187, components/_files_compact.scss */
+#insert li.files-node a {
+  display: block;
+  padding: 4px 10px;
+  text-decoration: none;
+  line-height: normal;
+}
+
+/* line 194, components/_files_compact.scss */
+#insert li.files-node a {
+  font-family: Verdana, Arial, Helvetica;
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-top: 1px solid #FFF;
+  padding: 3px 10px;
+  height: 15px;
+  color: #000;
+}
+
+/* line 205, components/_files_compact.scss */
+#insert li.files-node a:hover {
+  border-top-color: #c5dbf0;
+  background-color: #cee1f4;
+}
+
+/* line 211, components/_files_compact.scss */
+#insert li.files-node.active a,
+#insert li.files-node.active a:hover {
+  color: white;
+  border-top-color: #72a8df;
+  background-color: #6ea6de;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
+  text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
+}
+
+/* line 219, components/_files_compact.scss */
+.path {
+  background-color: #EEE;
+  border-left: 1px solid #E1E1E1;
+  border-right: 1px solid #E1E1E1;
+  border-bottom: 1px solid #E1E1E1;
+  padding: 4px;
+}
+
+/* line 227, components/_files_compact.scss */
+#insert #files-grid ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+/* tabs */
+/* line 234, components/_files_compact.scss */
+#files-compact dl.tabs {
+  float: left;
+  margin: 10px 0 0 0;
+  z-index: 50;
+  background: none;
+}
+
+/* line 241, components/_files_compact.scss */
+#files-compact dl.tabs dt {
+  float: left;
+  padding: 6px 14px;
+  border: 1px solid #ccc;
+  margin-left: 6px;
+  background: #f0f0f0;
+  color: #666;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: -1px;
+}
+
+/* line 252, components/_files_compact.scss */
+#files-compact dl.tabs dt:hover {
+  background: #F6F6F6;
+  z-index: 100;
+  color: #333;
+}
+
+/* line 260, components/_files_compact.scss */
+#files-compact dl.tabs dt:active,
+#files-compact dl.tabs dt.open,
+#files-compact dl.tabs dt.open:active {
+  background: #F9F9F9;
+  z-index: 100;
+  color: #333;
+  border-bottom-color: #F9F9F9;
+  box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
+}
+
+/* line 268, components/_files_compact.scss */
+#files-compact dl.tabs dt:active {
+  background: #EEE;
+  border-bottom-color: #CCC;
+}
+
+/* line 273, components/_files_compact.scss */
+#files-compact div.current {
+  clear: both;
+  border: 1px solid #CCC;
+  padding: 10px 10px;
+}
+
+/* line 279, components/_files_compact.scss */
+#files-compact div.current dd {
+  padding: 0;
+  margin: 0;
+}
+
 /* line 2, components/_pages.scss */
 .com_pages #components {
   width: 200px;
