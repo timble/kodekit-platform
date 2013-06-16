@@ -51,19 +51,19 @@ class DatabaseRowFile extends DatabaseRowNode
 		return $context->result;
 	}
 
-	public function __get($column)
+	public function get($property)
 	{
-		if (in_array($column, array('size', 'extension', 'modified_date', 'mimetype')))
+		if (in_array($property, array('size', 'extension', 'modified_date', 'mimetype')))
         {
 			$metadata = $this->_adapter->getMetadata();
-			return $metadata && array_key_exists($column, $metadata) ? $metadata[$column] : false;
+			return $metadata && array_key_exists($property, $metadata) ? $metadata[$property] : false;
 		}
 
-		if ($column == 'filename') {
+		if ($property == 'filename') {
 			return pathinfo($this->name, PATHINFO_FILENAME);
 		}
 
-		if ($column == 'metadata')
+		if ($property == 'metadata')
 		{
 			$metadata = $this->_adapter->getMetadata();
 			if ($this->isImage() && !empty($metadata))
@@ -78,16 +78,16 @@ class DatabaseRowFile extends DatabaseRowNode
 			return $metadata;
 		}
 
-		if (in_array($column, array('width', 'height', 'thumbnail')) && $this->isImage())
+		if (in_array($property, array('width', 'height', 'thumbnail')) && $this->isImage())
         {
-			if ($column == 'thumbnail' && !empty($this->_data['thumbnail'])) {
+			if ($property == 'thumbnail' && !empty($this->_data['thumbnail'])) {
 				return $this->_data['thumbnail'];
 			}
 			
-			return $this->getImageSize($column);
+			return $this->getImageSize($property);
 		}
 
-		return parent::__get($column);
+		return parent::get($property);
 	}	
 	
 	/**
@@ -95,13 +95,13 @@ class DatabaseRowFile extends DatabaseRowNode
 	 * 
 	 * @param string $key
 	 */
-	public function __isset($key)
+	public function has($property)
 	{
-		$result = parent::__isset($key);
+		$result = parent::has($property);
 		
 		if (!$result) 
 		{
-			$var = $this->__get($key);
+			$var = $this->get($property);
 			if (!empty($var)) {
 				$result = true;
 			}
@@ -152,7 +152,8 @@ class DatabaseRowFile extends DatabaseRowNode
 				if ($width < 200 && $height < 200) {
 					// go down to default case
 				}
-				else {
+				else
+                {
 					$higher = $width > $height ? $width : $height;
 					$ratio = 200 / $higher;
 					return array_map('round', array('width' => $ratio*$width, 'height' => $ratio*$height));

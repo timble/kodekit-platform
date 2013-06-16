@@ -126,21 +126,21 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		return $context->result;
 	}
 
-	public function __get($column)
+	public function get($property)
 	{
-		if ($column == 'fullpath' && !isset($this->_data['fullpath'])) {
+		if ($property == 'fullpath' && !isset($this->_data['fullpath'])) {
 			return $this->getFullpath();
 		}
 
-		if ($column == 'path') {
+		if ($property == 'path') {
 			return trim(($this->folder ? $this->folder.'/' : '').$this->name, '/\\');
 		}
 		
-		if ($column == 'display_name' && empty($this->_data['display_name'])) {
+		if ($property == 'display_name' && empty($this->_data['display_name'])) {
 			return $this->name;
 		}
 
-		if ($column == 'destination_path')
+		if ($property == 'destination_path')
 		{
 			$folder = !empty($this->destination_folder) ? $this->destination_folder.'/' : (!empty($this->folder) ? $this->folder.'/' : '');
 			$name   = !empty($this->destination_name) ? $this->destination_name : $this->name;
@@ -148,23 +148,23 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 			return trim($folder.$name, '/\\');
 		}
 
-		if ($column == 'destination_fullpath') {
+		if ($property == 'destination_fullpath') {
 			return $this->container->path.'/'.$this->destination_path;
 		}
 
-		if ($column == 'adapter') {
+		if ($property == 'adapter') {
 			return $this->_adapter;
 		}
 
 
-		return parent::__get($column);
+		return parent::get($property);
 	}
 
-	public function __set($column, $value)
+	public function set($property, $value, $modified = true)
 	{
-		parent::__set($column, $value);
+		parent::set($property, $value, $modified);
 
-		if (in_array($column, array('container', 'folder', 'name'))) {
+		if (in_array($property, array('container', 'folder', 'name'))) {
 			$this->setAdapter();
 		}
 	}
@@ -201,9 +201,9 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		return $this;
 	}
 
-	public function setData($data, $modified = true)
+	public function setProperties($data, $modified = true)
 	{
-		$result = parent::setData($data, $modified);
+		$result = parent::setProperties($data, $modified);
 
 		if (isset($data['container'])) {
 			$this->setAdapter();

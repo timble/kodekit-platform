@@ -23,7 +23,8 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	{
 		$return = parent::save();
 			
-		if ($return && $this->row && $this->table) {
+		if ($return && $this->row && $this->table)
+        {
 			$relation = $this->getObject('com:attachments.database.row.relation');
 			$relation->attachments_attachment_id = $this->id;
 			$relation->table = $this->table;
@@ -50,22 +51,22 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 			))->delete();
 			
 			$relations = $this->getObject('com:attachments.database.table.relations')
-				->select(array('attachments_attachment_id' => $this->id));
-			$relations->delete();
+				->select(array('attachments_attachment_id' => $this->id))
+			    ->delete();
 		}
 
 		return $return;
 	}
 	
-	public function __get($name)
+	public function get($property)
 	{
-	    if($name == 'relation' && !isset($this->relation))
+	    if($property == 'relation' && !isset($this->relation))
 	    {
 	        $this->relation = $this->getObject('com:attachments.database.table.relations')
 	            ->select(array('attachments_attachment_id' => $this->id), Library\Database::FETCH_ROW);
 	    }
         
-        if($name == 'file' && !isset($this->file))
+        if($property == 'file' && !isset($this->file))
 	    {
 	    	$this->file = $this->getObject('com:files.model.files')
 	    					->container($this->container)
@@ -74,7 +75,7 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	    					->getRow();
 	    }
 	    
-	    if($name == 'thumbnail' && !isset($this->thumbnail))
+	    if($property == 'thumbnail' && !isset($this->thumbnail))
 	    {
 	    	$file = $this->file;
 	    	
@@ -87,6 +88,6 @@ class DatabaseRowAttachment extends Library\DatabaseRowTable
 	    	}
 	    }
 	    
-	    return parent::__get($name);
+	    return parent::get($property);
 	}
 }

@@ -27,9 +27,9 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 	 */
 	protected $_parameters;
 
-	public function __get($column)
+	public function get($property)
 	{
-		if ($column == 'path' && !empty($this->_data['path']))
+		if ($property == 'path' && !empty($this->_data['path']))
 		{
 			$result = $this->_data['path'];
 			// Prepend with site root if it is a relative path
@@ -40,15 +40,21 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 			$result = rtrim(str_replace('\\', '/', $result), '\\');
 			return $result;
 		}
-		else if ($column == 'relative_path') {
+
+        if ($property == 'relative_path') {
 		    return $this->getRelativePath();
 		}
-		else if ($column == 'path_value') {
+
+        if ($property == 'path_value') {
 			return $this->_data['path'];
 		}
-		else if ($column == 'parameters' && !is_object($this->_data['parameters'])) {
+
+        if ($property == 'parameters' && !is_object($this->_data['parameters'])) {
 			return $this->getParameters();
-		} else if ($column == 'adapter') {
+		}
+
+        if ($property == 'adapter')
+        {
 		    if (strpos($this->_data['path'], '://') !== false) {
 		        return substr($this->_data['path'], 0, strpos($this->_data['path'], '://'));
 		    } else {
@@ -56,12 +62,13 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 		    }
 		}
 
-		return parent::__get($column);
+		return parent::get($property);
 	}
 
 	public function getRelativePath()
 	{
-	    if ($this->adapter === 'local') {
+	    if ($this->adapter === 'local')
+        {
 	        $path = $this->path;
 	        $root = str_replace('\\', '/', JPATH_ROOT);
 	        return str_replace($root.'/', '', $path);
@@ -72,9 +79,10 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 
 	public function getParameters()
 	{
-		if (empty($this->_parameters)) {
+		if (empty($this->_parameters))
+        {
 			$this->_parameters = $this->getObject('com:files.database.row.config')
-				->setData(json_decode($this->_data['parameters'], true));
+				->setProperties(json_decode($this->_data['parameters'], true));
 		}
 
 		return $this->_parameters;
@@ -84,19 +92,19 @@ class DatabaseRowContainer extends Library\DatabaseRowTable
 	{
 		$data = parent::toArray();
 
-		$data['path'] = $this->path_value;
-		$data['parameters'] = $this->parameters->toArray();
-		$data['relative_path'] = $this->getRelativePath();
+		$data['path']           = $this->path_value;
+		$data['parameters']     = $this->parameters->toArray();
+		$data['relative_path']  = $this->getRelativePath();
 
 		return $data;
 	}
 
-	public function getData($modified = false)
+	public function getProperties($modified = false)
 	{
-		$data = parent::getData($modified);
+		$data = parent::getProperties($modified);
 
 		if (isset($data['parameters'])) {
-			$data['parameters'] = $this->parameters->getData();
+			$data['parameters'] = $this->parameters->getProperties();
 		}
 
 		return $data;

@@ -19,9 +19,9 @@ use Nooku\Library;
  */
 class DatabaseRowContact extends Library\DatabaseRowTable
 {
-	public function __get($column)
+	public function get($property)
 	{
-	    if($column == 'params' && !($this->_data['params']) instanceof \JParameter)
+	    if($property == 'params' && !($this->_data['params']) instanceof \JParameter)
         {
 	        $file = __DIR__.'/contact.xml';
 
@@ -31,7 +31,7 @@ class DatabaseRowContact extends Library\DatabaseRowTable
 			$this->_data['params'] = $params;
         }
 	    
-        return parent::__get($column);
+        return parent::get($property);
 	}
 	
     public function toArray()

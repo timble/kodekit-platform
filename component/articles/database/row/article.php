@@ -19,15 +19,6 @@ use Nooku\Library;
  */
 class DatabaseRowArticle extends Library\DatabaseRowTable
 {
-    public function __get($column)
-    {
-        if($column == 'text' && !isset($this->_data['text'])) {
-            $this->_data['text'] = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
-        }
-
-        return parent::__get($column);
-    }
-
     public function save()
     {
         //Set the introtext and the full text
@@ -57,5 +48,14 @@ class DatabaseRowArticle extends Library\DatabaseRowTable
         }
 
         return parent::save();
+    }
+
+    public function get($property)
+    {
+        if($property == 'text' && !isset($this->_data['text'])) {
+            $this->_data['text'] = $this->fulltext ? $this->introtext.'<hr id="system-readmore" />'.$this->fulltext : $this->introtext;
+        }
+
+        return parent::get($property);
     }
 }

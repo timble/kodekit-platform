@@ -33,17 +33,16 @@ class DatabaseRowComponent extends Library\DatabaseRowTable
     );
 	
 	/**
-	 * Get a value by key
+	 * Get a property
 	 *
-	 * This method is specialized because of the magic property "description"
-	 * which reads from the plugin xml file
+	 * This method is specialized because of the magic property "description" which reads from the plugin xml file
 	 *
-	 * @param   string  The key name.
+	 * @param   string  $property The key name.
 	 * @return  string  The corresponding value.
 	 */
-	public function __get($column)
+	public function get($property)
 	{
-	    if($column == 'title' && empty($this->_data['title'])) 
+	    if($property == 'title' && empty($this->_data['title']))
 	    {
             if(!empty($this->manifest)) {
                 $this->_data['title'] = $this->manifest->name;
@@ -52,7 +51,7 @@ class DatabaseRowComponent extends Library\DatabaseRowTable
             }
         }
 	    
-	    if($column == 'manifest' && empty($this->_data['manifest'])) 
+	    if($property == 'manifest' && empty($this->_data['manifest']))
 		{
             $file = JPATH_APPLICATION.'/component/'.$this->option.'/manifest.xml';
 
@@ -63,17 +62,19 @@ class DatabaseRowComponent extends Library\DatabaseRowTable
             }
         }
 
-		if(in_array($column, self::$_manifest_fields) && empty($this->_data[$column])) {
-            $this->_data[$column] = isset($this->manifest->{$column}) ? $this->manifest->{$column} : '';
+		if(in_array($property, self::$_manifest_fields) && empty($this->_data[$property])) {
+            $this->_data[$property] = isset($this->manifest->{$property}) ? $this->manifest->{$property} : '';
         }
-        
-	    if($column == 'params' && !($this->_data['params']) instanceof \JParameter)
+
+        if($property == 'params' && !($this->_data['params']) instanceof \JParameter)
         {
-            $file = JPATH_APPLICATION.'/component/'.$this->option.'/config.xml';
-	        $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'component' );
+            $path = Library\ClassLoader::getInstance()->getApplication('admin');
+            $file = $path.'/component/'.$this->option.'/resources/config/settings.xml';
+
+            $this->_data['params'] = new \JParameter( $this->_data['params'], $file, 'component' );
         }
-        
-		return parent::__get($column);
+
+		return parent::get($property);
 	}
 	
 	/**

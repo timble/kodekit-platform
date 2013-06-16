@@ -58,13 +58,13 @@ class DatabaseRowFolder extends DatabaseRowNode
 		return $context->result;
 	}
 
-	public function __get($column)
+	public function get($property)
 	{
-		if ($column == 'children' && !isset($this->_data['children'])) {
+		if ($property == 'children' && !isset($this->_data['children'])) {
 			$this->_data['children'] = $this->getObject('com:files.database.rowset.folders');
 		}
 
-		return parent::__get($column);
+		return parent::get($property);
 	}
 
 	public function toArray()
@@ -78,12 +78,12 @@ class DatabaseRowFolder extends DatabaseRowNode
 		return $data;
 	}
 
-	public function getData($modified = false)
+	public function getProperties($modified = false)
 	{
-		$result = parent::getData($modified);
+		$result = parent::getProperties($modified);
 
 		if (isset($result['children']) && $result['children'] instanceof Library\DatabaseRowsetInterface) {
-			$result['children'] = $result['children']->getData();
+			$result['children'] = $result['children']->getProperties();
 		}
 
 		return $result;
