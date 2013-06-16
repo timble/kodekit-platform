@@ -8,12 +8,13 @@
  */
 ?>
 
-<nav class="scrollable">
+<nav>
     <? foreach($applications as $application) : ?>
         <h4><?= $application ?></h4>
         <? foreach($menus->find(array('application' => $application)) as $menu) : ?>
             <a class="<?= $state->menu == $menu->id ? 'active' : '' ?>" href="<?= @route('view=pages&menu='.$menu->id ) ?>">
-                <?= @escape($menu->title) ?> <span class="badge"><?= $menu->page_count ?></span>
+                <span class="navigation__text"><?= @escape($menu->title) ?></span>
+                <span class="navigation__badge"><?= $menu->page_count ?></span>
             </a>
         <? endforeach ?>
     <? endforeach ?>

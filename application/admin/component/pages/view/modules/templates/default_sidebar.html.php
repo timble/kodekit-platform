@@ -9,7 +9,7 @@
 ?>
 
 <h3><?= @text( 'Positions' ); ?></h3>
-<nav class="scrollable">
+<nav>
 	<a <? if(!$state->position && $state->application == 'site') echo 'class="active"' ?> href="<?= @route('position=&application=site') ?>">
 	    <?= @text('All positions') ?>
 	</a>

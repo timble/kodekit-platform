@@ -17,10 +17,12 @@
 
   @extend .ellipsis;
 
-  .badge {
-    float: right;
-    margin: 5px 8px 0 0;
+  .navigation__badge {
+    margin: auto 8px;
+    height: 14px;
     line-height: 14px;
+
+    @extend .badge;
   }
 
   &.level1 {

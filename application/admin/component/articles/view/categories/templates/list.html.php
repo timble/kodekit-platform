@@ -8,7 +8,7 @@
  */
 ?>
 
-<nav class="scrollable">
+<nav>
 	<a class="<?= !is_numeric($state->category) ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
 	    <?= @text('All articles')?>
 	</a>

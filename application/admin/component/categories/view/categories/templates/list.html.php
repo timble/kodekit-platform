@@ -8,7 +8,7 @@
  */
 ?>
 
-<nav class="scrollable">
+<nav>
 	<a class="<?= $state->category == null ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
 		<?= 'All categories' ?>
 	</a>

@@ -1,6 +1,6 @@
 .tabs {
   position: relative;
-  -webkit-flex: 1;
+  @include flex-grow(1);
   z-index: 1;
 
   .tab > label {

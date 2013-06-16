@@ -103,9 +103,7 @@
 	</div>
 
 	<div class="sidebar">
-		<div class="scrollable">
-            <?= @template('default_sidebar.html'); ?>
-		</div>
+        <?= @template('default_sidebar.html'); ?>
 	</div>
 	
 </form>

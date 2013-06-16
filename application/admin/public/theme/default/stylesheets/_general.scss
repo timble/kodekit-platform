@@ -119,7 +119,8 @@ ul {
 }
 
 #panel-pages {
-  @include flex-box(column, 1);
+  @include flex(1);
+  @include flex-direction(column);
 
 	min-width: 180px;
 	max-width: 180px;
@@ -392,7 +393,7 @@ ul {
                 @extend .input-prepend;
 				clear: left;
 				margin-top: 5px;
-				margin-bottom: 0;
+				margin-bottom: 0 !important;
 			}
 		}
 

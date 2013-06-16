@@ -10,7 +10,7 @@
 ?>
 
 <h3><?= @text('Roles') ?></h3>
-<nav class="scrollable">
+<nav>
 	<a class="<?= is_null($state->role) ? 'active' : ''; ?>" href="<?= @route('role=') ?>">
 	    <?= @text('All roles') ?>
 	</a>
@@ -22,7 +22,7 @@
 </nav>
 
 <h3><?= @text('Groups') ?></h3>
-<nav class="scrollable">
+<nav>
 	<a class="<?= is_null($state->group) ? 'active' : ''; ?>" href="<?= @route('group=') ?>">
 	    <?= @text('All groups') ?>
 	</a>

@@ -9,7 +9,7 @@
 ?>
 
 <h3><?= @text('Applications') ?></h3>
-<nav class="scrollable">
+<nav>
     <a class="<?= $state->application == 'admin' ? 'active' : '' ?>" href="<?= @route('application=admin') ?>">
         <?= @text('Administrator') ?>
     </a>

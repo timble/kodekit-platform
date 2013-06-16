@@ -14,16 +14,16 @@
   border-top: 1px solid #f9f9f9;
 }
 /* line 20, blocks/_navigation.scss */
-#panel-pages nav a .badge, #panel-sidebar nav a .badge, #files-tree .mooTree_node .badge {
-  float: right;
-  margin: 5px 8px 0 0;
+#panel-pages nav a .navigation__badge, #panel-sidebar nav a .navigation__badge, #files-tree .mooTree_node .navigation__badge {
+  margin: auto 8px;
+  height: 14px;
   line-height: 14px;
 }
-/* line 26, blocks/_navigation.scss */
+/* line 28, blocks/_navigation.scss */
 #panel-pages nav a.level1, #panel-sidebar nav a.level1, #files-tree .level1.mooTree_node {
   padding-left: 36px;
 }
-/* line 30, blocks/_navigation.scss */
+/* line 32, blocks/_navigation.scss */
 #panel-pages nav a:hover, #panel-sidebar nav a:hover, #files-tree .mooTree_node:hover {
   border-top: 1px solid #c4dbf2;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9e8f6), color-stop(100%, #afceed));
@@ -33,7 +33,7 @@
   background: linear-gradient(#d9e8f6, #afceed);
   text-decoration: none;
 }
-/* line 37, blocks/_navigation.scss */
+/* line 39, blocks/_navigation.scss */
 #panel-pages nav a.active, #panel-sidebar nav a.active, #files-tree .active.mooTree_node, #panel-pages nav a.active:hover, #panel-sidebar nav a.active:hover, #files-tree .active.mooTree_node:hover {
   color: #FFF;
   border-top: 1px solid #5c9bda;
@@ -138,15 +138,14 @@
 
 /* line 44, blocks/_scopebar.scss */
 .scopebar__search {
-  margin: 0px 0 0 25px;
   margin-bottom: 0 !important;
 }
-/* line 50, blocks/_scopebar.scss */
+/* line 49, blocks/_scopebar.scss */
 .scopebar__search input[type="search"] {
   max-width: 150px;
   margin-bottom: 0;
 }
-/* line 55, blocks/_scopebar.scss */
+/* line 54, blocks/_scopebar.scss */
 .scopebar__search button {
   padding: 2px 10px;
   font-size: 10.2px;
@@ -155,7 +154,9 @@
 /* line 1, blocks/_tabs.scss */
 .tabs {
   position: relative;
-  -webkit-flex: 1;
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  flex-grow: 1;
   z-index: 1;
 }
 /* line 6, blocks/_tabs.scss */
@@ -481,12 +482,12 @@ textarea {
   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* line 164, _mixins.scss */
+/* line 186, _mixins.scss */
 .btn:hover, .btn:focus, .btn:active, .btn.active, .btn.disabled, .btn[disabled] {
   color: #333333;
   background-color: #e6e6e6;
 }
-/* line 171, _mixins.scss */
+/* line 193, _mixins.scss */
 .btn:active, .btn.active {
   background-color: #cccccc \9;
 }
@@ -616,12 +617,12 @@ input[type="button"].btn-block {
   border-color: #0b17c4 #0b17c4 #070f7c;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-/* line 164, _mixins.scss */
+/* line 186, _mixins.scss */
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
   color: white;
   background-color: #0b17c4;
 }
-/* line 171, _mixins.scss */
+/* line 193, _mixins.scss */
 .btn-primary:active, .btn-primary.active {
   background-color: #081294 \9;
 }
@@ -638,12 +639,12 @@ input[type="button"].btn-block {
   border-color: #f89406 #f89406 #ad6704;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-/* line 164, _mixins.scss */
+/* line 186, _mixins.scss */
 .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .btn-warning.disabled, .btn-warning[disabled] {
   color: white;
   background-color: #f89406;
 }
-/* line 171, _mixins.scss */
+/* line 193, _mixins.scss */
 .btn-warning:active, .btn-warning.active {
   background-color: #c67605 \9;
 }
@@ -660,12 +661,12 @@ input[type="button"].btn-block {
   border-color: #bd362f #bd362f #802420;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-/* line 164, _mixins.scss */
+/* line 186, _mixins.scss */
 .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .btn-danger.disabled, .btn-danger[disabled] {
   color: white;
   background-color: #bd362f;
 }
-/* line 171, _mixins.scss */
+/* line 193, _mixins.scss */
 .btn-danger:active, .btn-danger.active {
   background-color: #942a25 \9;
 }
@@ -682,12 +683,12 @@ input[type="button"].btn-block {
   border-color: #51a351 #51a351 #387038;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-/* line 164, _mixins.scss */
+/* line 186, _mixins.scss */
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .btn-success.disabled, .btn-success[disabled] {
   color: white;
   background-color: #51a351;
 }
-/* line 171, _mixins.scss */
+/* line 193, _mixins.scss */
 .btn-success:active, .btn-success.active {
   background-color: #408140 \9;
 }
@@ -704,12 +705,12 @@ input[type="button"].btn-block {
   border-color: #2f96b4 #2f96b4 #1f6377;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-/* line 164, _mixins.scss */
+/* line 186, _mixins.scss */
 .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .btn-info.disabled, .btn-info[disabled] {
   color: white;
   background-color: #2f96b4;
 }
-/* line 171, _mixins.scss */
+/* line 193, _mixins.scss */
 .btn-info:active, .btn-info.active {
   background-color: #24748c \9;
 }
@@ -726,12 +727,12 @@ input[type="button"].btn-block {
   border-color: #222222 #222222 black;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
-/* line 164, _mixins.scss */
+/* line 186, _mixins.scss */
 .btn-inverse:hover, .btn-inverse:focus, .btn-inverse:active, .btn-inverse.active, .btn-inverse.disabled, .btn-inverse[disabled] {
   color: white;
   background-color: #222222;
 }
-/* line 171, _mixins.scss */
+/* line 193, _mixins.scss */
 .btn-inverse:active, .btn-inverse.active {
   background-color: #090909 \9;
 }
@@ -1099,23 +1100,23 @@ ul {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
   min-width: 180px;
   max-width: 180px;
   border-right: 1px solid #dddddd;
   background-color: #cfd6de;
 }
-/* line 135, _general.scss */
+/* line 136, _general.scss */
 #panel-pages nav a {
   border-top-color: #cfd6de;
 }
 
-/* line 143, _general.scss */
+/* line 144, _general.scss */
 #panel-sidebar,
 #panel-inspector {
   -webkit-box-sizing: border-box;
@@ -1123,7 +1124,7 @@ ul {
   box-sizing: border-box;
   background-color: #f9f9f9;
 }
-/* line 148, _general.scss */
+/* line 149, _general.scss */
 #panel-sidebar h3,
 #panel-sidebar legend,
 #panel-inspector h3,
@@ -1145,17 +1146,17 @@ ul {
   background: -o-linear-gradient(#f2f2f2, #e9e9e9);
   background: linear-gradient(#f2f2f2, #e9e9e9);
 }
-/* line 167, _general.scss */
+/* line 168, _general.scss */
 #panel-sidebar fieldset,
 #panel-inspector fieldset {
   margin: 0;
 }
 
-/* line 172, _general.scss */
+/* line 173, _general.scss */
 #panel-inspector {
   border-left: 1px solid #dddddd;
 }
-/* line 176, _general.scss */
+/* line 177, _general.scss */
 #panel-inspector #activities-list h4 {
   padding: 5px;
   margin: 0;
@@ -1167,77 +1168,77 @@ ul {
   background: -o-linear-gradient(#f1f2f4, #f9f9f9);
   background: linear-gradient(#f1f2f4, #f9f9f9);
 }
-/* line 184, _general.scss */
+/* line 185, _general.scss */
 #panel-inspector #activities-list h4:first-of-type {
   border-top: none 0px;
 }
-/* line 188, _general.scss */
+/* line 189, _general.scss */
 #panel-inspector #activities-list .activities {
   margin: 0 10px 10px 10px;
 }
-/* line 191, _general.scss */
+/* line 192, _general.scss */
 #panel-inspector #activities-list .activities .activity {
   padding: 7px 0;
   border-bottom: 1px dotted #dddddd;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 196, _general.scss */
+/* line 197, _general.scss */
 #panel-inspector #activities-list .activities .activity > div {
   float: left;
 }
-/* line 200, _general.scss */
+/* line 201, _general.scss */
 #panel-inspector #activities-list .activities .activity a {
   line-height: 16px;
   width: 100%;
 }
-/* line 206, _general.scss */
+/* line 207, _general.scss */
 #panel-inspector #activities-list .activities .activity i {
   margin-right: 6px;
   margin-top: 1px;
   gradient-vertical-align: text-bottom;
   float: left;
 }
-/* line 213, _general.scss */
+/* line 214, _general.scss */
 #panel-inspector #activities-list .activities .activity .datetime {
   color: #555555;
 }
-/* line 215, _general.scss */
+/* line 216, _general.scss */
 #panel-inspector #activities-list .activities .activity:last-child {
   border-bottom: none 0px;
 }
-/* line 218, _general.scss */
+/* line 219, _general.scss */
 #panel-inspector #activities-list .btn-group {
   padding: 0 10px;
 }
 
-/* line 224, _general.scss */
+/* line 225, _general.scss */
 #panel-sidebar {
   border-right: 1px solid #dddddd;
 }
-/* line 227, _general.scss */
+/* line 228, _general.scss */
 #panel-sidebar h4 {
   padding: 4px 0 4px 10px;
   margin: 12px 0 0 0;
   color: #666;
   text-transform: uppercase;
 }
-/* line 234, _general.scss */
+/* line 235, _general.scss */
 #panel-sidebar h4:first-of-type {
   margin-top: 2px;
 }
-/* line 243, _general.scss */
+/* line 244, _general.scss */
 #panel-sidebar input[type=date] {
   width: 160px;
 }
 
-/* line 248, _general.scss */
+/* line 249, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 252, _general.scss */
+/* line 253, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1246,16 +1247,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 263, _general.scss */
+/* line 264, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 267, _general.scss */
+/* line 268, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 270, _general.scss */
+/* line 271, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1269,26 +1270,26 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 279, _general.scss */
+/* line 280, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 286, _general.scss */
+/* line 287, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 290, _general.scss */
+/* line 291, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 293, _general.scss */
+/* line 294, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 299, _general.scss */
+/* line 300, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #e5e5e5));
   background: -webkit-linear-gradient(#e0e0e0, #e5e5e5);
@@ -1296,31 +1297,31 @@ ul {
   background: -o-linear-gradient(#e0e0e0, #e5e5e5);
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 305, _general.scss */
+/* line 306, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 307, _general.scss */
+/* line 308, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 308, _general.scss */
+/* line 309, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 311, _general.scss */
+/* line 312, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 313, _general.scss */
+/* line 314, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 316, _general.scss */
+/* line 317, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1329,7 +1330,7 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 321, _general.scss */
+/* line 322, _general.scss */
 .-koowa-grid table tbody tr.separator td {
   height: auto;
   text-align: left;
@@ -1337,73 +1338,73 @@ ul {
   background-color: #ededed;
   border-bottom: 1px solid #dddddd;
 }
-/* line 329, _general.scss */
+/* line 330, _general.scss */
 .-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 334, _general.scss */
+/* line 335, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 337, _general.scss */
+/* line 338, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 338, _general.scss */
+/* line 339, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 343, _general.scss */
+/* line 344, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 344, _general.scss */
+/* line 345, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 347, _general.scss */
+/* line 348, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 348, _general.scss */
+/* line 349, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 349, _general.scss */
+/* line 350, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 352, _general.scss */
+/* line 353, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 356, _general.scss */
+/* line 357, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 360, _general.scss */
+/* line 361, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 363, _general.scss */
+/* line 364, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 368, _general.scss */
+/* line 369, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 372, _general.scss */
+/* line 373, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 377, _general.scss */
+/* line 378, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
@@ -1413,7 +1414,7 @@ ul {
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 382, _general.scss */
+/* line 383, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1426,17 +1427,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 391, _general.scss */
+/* line 392, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
-/* line 399, _general.scss */
+/* line 400, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 405, _general.scss */
+/* line 406, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1445,12 +1446,12 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 411, _general.scss */
+/* line 412, _general.scss */
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 417, _general.scss */
+/* line 418, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1458,23 +1459,23 @@ ul {
 }
 
 /* Sidebar */
-/* line 423, _general.scss */
+/* line 424, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 426, _general.scss */
+/* line 427, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 435, _general.scss */
+/* line 436, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 439, _general.scss */
+/* line 440, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -1949,17 +1950,17 @@ input[type="checkbox"]:focus {
   height: auto;
 }
 
-/* line 111, _mixins.scss */
+/* line 133, _mixins.scss */
 input:-moz-placeholder,
 textarea:-moz-placeholder {
   color: #999999;
 }
-/* line 114, _mixins.scss */
+/* line 136, _mixins.scss */
 input:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
   color: #999999;
 }
-/* line 117, _mixins.scss */
+/* line 139, _mixins.scss */
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #999999;
@@ -3680,7 +3681,10 @@ you can use the generic selector below, but it's slower:
 
 /* line 10, _labels.scss */
 .label,
-.badge {
+.badge,
+#panel-pages nav a .navigation__badge,
+#panel-sidebar nav a .navigation__badge,
+#files-tree .mooTree_node .navigation__badge {
   padding: 1px 6px;
   font-size: 10.2px;
   -webkit-border-radius: 3px;
@@ -3692,31 +3696,34 @@ you can use the generic selector below, but it's slower:
   color: #555555;
 }
 
-/* line 22, _labels.scss */
+/* line 20, _labels.scss */
 .label:empty,
-.badge:empty {
+.badge:empty,
+#panel-pages nav a .navigation__badge:empty,
+#panel-sidebar nav a .navigation__badge:empty,
+#files-tree .mooTree_node .navigation__badge:empty {
   display: none;
 }
 
-/* line 28, _labels.scss */
+/* line 26, _labels.scss */
 .label-important {
   background-color: #fdebeb;
   color: #cf1010;
 }
 
-/* line 29, _labels.scss */
+/* line 27, _labels.scss */
 .label-warning {
   background-color: #fef4e5;
   color: #f89406;
 }
 
-/* line 30, _labels.scss */
+/* line 28, _labels.scss */
 .label-success {
   background-color: #e3f6ec;
   color: #297e52;
 }
 
-/* line 31, _labels.scss */
+/* line 29, _labels.scss */
 .label-info {
   background-color: #e0f5fe;
   color: #049cdb;
@@ -4396,234 +4403,228 @@ disabled look for disabled choices in the results dropdown
   }
 }
 /* line 1, _flexbox.scss */
-body {
-  overflow: hidden;
-}
-
-/* line 5, _flexbox.scss */
-html, body {
-  height: 100%;
-}
-/* line 8, _flexbox.scss */
-html #container, body #container {
+html {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-/* line 14, _flexbox.scss */
+/* line 7, _flexbox.scss */
+body {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  flex: 1 1 auto;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* line 13, _flexbox.scss */
 #panel-wrapper {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  flex: 1 1 auto;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  min-height: 100%;
 }
 
-/* line 19, _flexbox.scss */
-#panel-component {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  min-height: 100%;
-}
-
-/* line 24, _flexbox.scss */
+/* line 18, _flexbox.scss */
 #panel-header {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 0;
-  -moz-flex: 0;
-  flex: 0;
-  min-height: 30px;
-  max-height: 30px;
-}
-/* line 29, _flexbox.scss */
-#panel-header #menu {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
 }
 
-/* line 34, _flexbox.scss */
+/* line 24, _flexbox.scss */
 #panel-tabbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 30px 0;
-  -moz-flex: 30px 0;
-  flex: 30px 0;
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
 }
 
-/* line 40, _flexbox.scss */
+/* line 29, _flexbox.scss */
 #panel-toolbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 41px 0;
-  -moz-flex: 41px 0;
-  flex: 41px 0;
-  min-height: auto;
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
 }
-/* line 44, _flexbox.scss */
+/* line 33, _flexbox.scss */
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
 }
 
-/* line 50, _flexbox.scss */
+/* line 38, _flexbox.scss */
+#panel-component {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+/* line 43, _flexbox.scss */
 #panel-sidebar,
 #panel-inspector {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
+  -webkit-flex: 0 1 auto;
+  -moz-flex: 0 1 auto;
+  flex: 0 1 auto;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-  -webkit-flex: 1 1 15%;
-  -moz-flex: 1 1 15%;
-  flex: 1 1 15%;
-  max-width: 200px;
+  width: 200px;
 }
-/* line 54, _flexbox.scss */
+/* line 48, _flexbox.scss */
 #panel-sidebar h3,
 #panel-inspector h3 {
-  width: 100%;
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
+}
+/* line 52, _flexbox.scss */
+#panel-sidebar nav,
+#panel-inspector nav {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -moz-flex: 1 0 auto;
+  flex: 1 0 auto;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+/* line 57, _flexbox.scss */
+#panel-sidebar nav a,
+#panel-inspector nav a {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  flex: 0 0 auto;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
+}
+/* line 61, _flexbox.scss */
+#panel-sidebar nav a .navigation__badge,
+#panel-inspector nav a .navigation__badge {
+  -webkit-flex-grow: 0;
+  -moz-flex-grow: 0;
+  flex-grow: 0;
 }
 
-/* line 59, _flexbox.scss */
+/* line 68, _flexbox.scss */
 #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+/* line 71, _flexbox.scss */
+#panel-content .-koowa-grid {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-  -webkit-flex: 1 1 70%;
-  -moz-flex: 1 1 70%;
-  flex: 1 1 70%;
-  min-height: 100%;
 }
-/* line 63, _flexbox.scss */
-#panel-content .-koowa-grid {
-  width: 100%;
-}
-/* line 67, _flexbox.scss */
+/* line 76, _flexbox.scss */
 #panel-content .-koowa-form {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
-  min-height: 100%;
 }
-/* line 71, _flexbox.scss */
+/* line 79, _flexbox.scss */
 #panel-content .-koowa-form .main {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
-  min-height: 100%;
-}
-/* line 75, _flexbox.scss */
-#panel-content .-koowa-form .main .title {
-  min-height: 64px;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-  -webkit-flex: 0;
-  -moz-flex: 0;
-  flex: 0;
 }
-/* line 80, _flexbox.scss */
+/* line 83, _flexbox.scss */
+#panel-content .-koowa-form .main .title {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  flex: 0 0 auto;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+}
+/* line 87, _flexbox.scss */
 #panel-content .-koowa-form .main .title .slug {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: 0;
-  -moz-flex: 0;
-  flex: 0;
 }
-/* line 85, _flexbox.scss */
-#panel-content .-koowa-form .sidebar {
+/* line 92, _flexbox.scss */
+#panel-content .-koowa-form .sidebar:not(.no--scrollbar) {
+  overflow-y: scroll;
+}
+/* line 95, _flexbox.scss */
+#panel-content .-koowa-form .sidebar.no--scrollbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-  -webkit-flex: initial;
-  -moz-flex: initial;
-  flex: initial;
 }
 
-/* line 91, _flexbox.scss */
+/* line 102, _flexbox.scss */
 .scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  height: 1px;
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  flex-grow: 1;
 }
 
-/* line 104, _flexbox.scss */
+/* line 114, _flexbox.scss */
 .editor-wrap,
 .editor-container,
 .mceEditor,
@@ -4635,79 +4636,72 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
 }
 
-/* line 109, _flexbox.scss */
-table.mceLayout,
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
-  height: auto !important;
+/* line 120, _flexbox.scss */
+table.mceLayout > tbody > tr:nth-of-type(1),
+table.mceLayout > tbody > tr:nth-of-type(3) {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
-/* line 113, _flexbox.scss */
+/* line 124, _flexbox.scss */
 .CodeMirror {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
 }
-/* line 116, _flexbox.scss */
+/* line 128, _flexbox.scss */
 .CodeMirror .CodeMirror-scroll {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
 }
 
 /* @group Scope Bar */
-/* line 122, _flexbox.scss */
+/* line 134, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex: none;
-  -moz-flex: none;
-  flex: none;
 }
-/* line 125, _flexbox.scss */
+/* line 137, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-flex-direction: horizontal;
-  flex-direction: horizontal;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  -webkit-justify-content: flex-end;
+  margin-left: auto;
 }
-/* line 129, _flexbox.scss */
+/* line 141, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: horizontal;
-  -moz-flex-direction: horizontal;
-  flex-direction: horizontal;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
 }
 
-/* line 137, _flexbox.scss */
+/* line 149, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4716,90 +4710,78 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-  -webkit-flex: none;
-  -moz-flex: none;
-  flex: none;
 }
 
-/* line 142, _flexbox.scss */
+/* line 155, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
 }
-/* line 145, _flexbox.scss */
+/* line 158, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: row;
-  -moz-flex-direction: row;
-  flex-direction: row;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
 }
-/* line 148, _flexbox.scss */
+/* line 161, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
 }
-/* line 151, _flexbox.scss */
+/* line 165, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
 }
 
-/* line 161, _flexbox.scss */
+/* line 175, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
 }
-/* line 164, _flexbox.scss */
+/* line 179, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
   -webkit-flex: 1;
   -moz-flex: 1;
   flex: 1;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
 }
-/* line 172, _flexbox.scss */
+/* line 188, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
@@ -4828,18 +4810,16 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
 /* line 14, components/_activities.scss */
 #activities-list h3,
 #activities-list h4 {
-  background-color: #f1f2f4;
-  background-image: -webkit-gradient(linear, 0% 50%, 0% 100%, from(#f1f2f4), to(#e8eaec));
-  background-image: -moz-linear-gradient(0% 50% 270deg, #f1f2f4, #e8eaec);
+  background: #f1f2f4 linear-gradient(#f1f2f4, #e8eaec);
 }
 
-/* line 20, components/_activities.scss */
+/* line 18, components/_activities.scss */
 #activities-list h3 {
   margin: 0 0 10px 0;
   padding: 7px 15px;
 }
 
-/* line 25, components/_activities.scss */
+/* line 23, components/_activities.scss */
 #activities-list h4 {
   padding: 5px;
   margin: 10px 0 0 0;
@@ -4847,28 +4827,75 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   border: 1px solid #E8EAEC;
   border-bottom-color: #E3E3E3;
   color: #666;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
-/* line 35, components/_activities.scss */
+/* line 33, components/_activities.scss */
 #activities-list .activity {
   padding: 7px;
   border-bottom: 1px solid #DDD;
 }
 
-/* line 36, components/_activities.scss */
+/* line 34, components/_activities.scss */
 #activities-list .activity:last-child {
   border-bottom: none 0px;
 }
 
-/* line 38, components/_activities.scss */
+/* line 36, components/_activities.scss */
 #activities-list .activity__info {
   font-size: 10px;
   color: #999;
   float: right;
   width: auto;
   text-transform: capitalize;
+}
+
+/* line 38, components/_activities.scss */
+#activities-filter {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+/* line 41, components/_activities.scss */
+#activities-filter fieldset {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  flex: 1 1 auto;
+  min-width: 100%;
+}
+/* line 45, components/_activities.scss */
+#activities-filter fieldset .input-prepend, #activities-filter fieldset .-koowa-form .main .title .slug, .-koowa-form .main .title #activities-filter fieldset .slug {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  -moz-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+/* line 49, components/_activities.scss */
+#activities-filter fieldset .input-prepend span, #activities-filter fieldset .-koowa-form .main .title .slug span, .-koowa-form .main .title #activities-filter fieldset .slug span {
+  width: 60px;
+  text-align: right;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+/* line 55, components/_activities.scss */
+#activities-filter fieldset .input-prepend input, #activities-filter fieldset .-koowa-form .main .title .slug input, .-koowa-form .main .title #activities-filter fieldset .slug input {
+  width: auto;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
 }
 
 /* line 2, components/_articles.scss */
@@ -5716,8 +5743,7 @@ body.login {
 /* line 7, components/_users.scss */
 body.login .login-box {
   width: 275px;
-  margin: 0 auto;
-  margin-top: 100px;
+  margin: auto;
   border: 1px solid #D7DADE;
   background: #FFF;
   -webkit-border-radius: 10px;
@@ -5729,7 +5755,7 @@ body.login .login-box {
   -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-/* line 17, components/_users.scss */
+/* line 16, components/_users.scss */
 body.login .login-box h1 {
   margin: 0;
   text-align: center;
@@ -5747,12 +5773,12 @@ body.login .login-box h1 {
   border-radius: 10px 10px 0 0;
   border-bottom: 1px solid #D7DADE;
 }
-/* line 27, components/_users.scss */
+/* line 26, components/_users.scss */
 body.login .login-box form {
   margin: 0px;
   padding: 15px 25px 0;
 }
-/* line 30, components/_users.scss */
+/* line 29, components/_users.scss */
 body.login .login-box form label {
   font-size: 13px;
   width: 120px;
@@ -5761,7 +5787,7 @@ body.login .login-box form label {
   color: #666;
   font-weight: bold;
 }
-/* line 39, components/_users.scss */
+/* line 38, components/_users.scss */
 body.login .login-box form input {
   width: 220px !important;
   padding: 4px 8px;
@@ -5771,28 +5797,28 @@ body.login .login-box form input {
   box-sizing: border-box;
   height: 36px;
 }
-/* line 47, components/_users.scss */
+/* line 46, components/_users.scss */
 body.login .login-box form a {
   text-align: center;
   display: block;
 }
-/* line 55, components/_users.scss */
+/* line 54, components/_users.scss */
 body.login .form #password-check.score1 {
   color: #FF0000;
 }
-/* line 59, components/_users.scss */
+/* line 58, components/_users.scss */
 body.login .form #password-check.score2 {
   color: #FF5F5F;
 }
-/* line 63, components/_users.scss */
+/* line 62, components/_users.scss */
 body.login .form #password-check.score3 {
   color: #56E500;
 }
-/* line 67, components/_users.scss */
+/* line 66, components/_users.scss */
 body.login .form #password-check.score4 {
   color: #4DCD00;
 }
-/* line 71, components/_users.scss */
+/* line 70, components/_users.scss */
 body.login .form #password-check.score5 {
   color: #399800;
 }
