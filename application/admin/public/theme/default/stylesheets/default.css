@@ -4810,7 +4810,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 /* line 14, components/_activities.scss */
 #activities-list h3,
 #activities-list h4 {
-  background: #f1f2f4 linear-gradient(#f1f2f4, #e8eaec);
+  background: #f1f2f4 linear-gradient(#f1f2f4, #e3e5e9);
 }
 
 /* line 18, components/_activities.scss */
