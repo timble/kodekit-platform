@@ -136,7 +136,6 @@ class ModelModules extends Library\ModelTable
 
                     $this->_data->component_name = $this->getObject('application.components')
                         ->find(array('id' => $state->component))
-                        ->top()
                         ->name;
                 }
             }

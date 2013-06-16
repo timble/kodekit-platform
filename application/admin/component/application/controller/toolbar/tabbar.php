@@ -33,8 +33,8 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
      * 
      * Disable the tabbar only for singular views that are editable.
      *
-     * @param   string	The command name
-     * @param	mixed	Parameters to be passed to the command
+     * @param   string	$name   The command name
+     * @param	mixed	$cofnig Parameters to be passed to the command
      * @return  Library\ControllerToolbarCommand
      */
     public function addCommand($name, $config = array())
@@ -71,7 +71,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
             $component  = $this->getObject('application.components')->getComponent($package);
 
             $pages     = $this->getObject('application.pages')->find(array(
-                'pages_menu_id'           => $menu->top()->id,
+                'pages_menu_id'           => $menu->id,
                 'extensions_component_id' => $component->id
             ));
 
