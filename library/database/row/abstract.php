@@ -19,14 +19,14 @@ namespace Nooku\Library;
 abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInterface
 {
     /**
-     * Tracks columns who's data is modified and has not been persisted yet.
+     * List of modified properties
      *
      * @var array
      */
     protected $_modified = array();
 
     /**
-     * Tracks the status the row
+     * The status
      *
      * Available row status values are defined as STATUS_ constants in Database
      *
@@ -50,9 +50,9 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     private $__new = true;
 
     /**
-     * Name of the identity column in the rowset
+     * The identity key
      *
-     * @var    string
+     * @var string
      */
     protected $_identity_column;
 
@@ -80,7 +80,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
 
         // Set the row data
         if (isset($config->data)) {
-            $this->setData($config->data->toArray(), $this->isNew());
+            $this->setProperties($config->data->toArray(), $this->isNew());
         }
 
         //Set the status message
@@ -110,94 +110,101 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Get a row field value
+     * Get a property
      *
-     * @param   string  $column The column name.
-     * @return  string  The corresponding value.
+     * @param   string  $property The property name
+     * @return  mixed   The property value.
      */
-    public function get($column)
+    public function get($property)
     {
-        return $this->offsetGet($column);
+        return parent::offsetGet($property);
     }
 
     /**
-     * Set row field value
+     * Set a property
      *
-     * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
-     * If the row is new the value will be (re)set and marked as modified
+     * If the value is the same as the current value and the row is loaded from the database the value will not be set.
+     * If the row is new the value will be (re)set and marked as modified.
      *
-     * @param   string  $column The column name.
-     * @param   mixed   $value  The column value.
+     * @param   string  $property   The property name.
+     * @param   mixed   $value      The property value.
+     * @param   boolean $modified   If TRUE, update the modified information for the property
      * @return  DatabaseRowAbstract
      */
-    public function set($column, $value)
+    public function set($property, $value, $modified = true)
     {
-        $this->offsetSet($column, $value);
-        return $this;
-    }
-
-    /**
-     * Test existence of a column
-     *
-     * @param  string  $column The column name.
-     * @return boolean
-     */
-    public function has($column)
-    {
-        return $this->offsetExists($column);
-    }
-
-    /**
-     * Remove a row field
-     *
-     * @param   string  $column The column name.
-     * @return  DatabaseRowAbstract
-     */
-    public function remove($column)
-    {
-        $this->offsetUnset($column);
-        return $this;
-    }
-
-    /**
-     * Returns an associative array of the raw data
-     *
-     * @param   boolean  $modified If TRUE, only return the modified data.
-     * @return  array
-     */
-    public function getData($modified = false)
-    {
-        $data = $this->_data;
-
-        if ($modified) {
-            $data = array_intersect_key($data, $this->_modified);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Set the row data
-     *
-     * @param   mixed   $data        Either and associative array, an object or a DatabaseRow
-     * @param   boolean $modified If TRUE, update the modified information for each column being set.
-     * @return  DatabaseRowAbstract
-     */
-    public function setData($data, $modified = true)
-    {
-        if ($data instanceof DatabaseRowInterface) {
-            $data = $data->toArray();
-        } else {
-            $data = (array)$data;
-        }
-
-        if ($modified)
+        if (!array_key_exists($property, $this->_data) || ($this->_data[$property] != $value))
         {
-            foreach ($data as $column => $value) {
-                $this->$column = $value;
+            parent::offsetSet($property, $value);
+
+            if($modified || $this->isNew()) {
+                $this->_modified[$property] = $property;
             }
         }
-        else $this->_data = array_merge($this->_data, $data);
+
+        return $this;
+    }
+
+    /**
+     * Test existence of a property
+     *
+     * @param  string  $property The property name.
+     * @return boolean
+     */
+    public function has($property)
+    {
+        return parent::offsetExists($property);
+    }
+
+    /**
+     * Remove a property
+     *
+     * @param   string  $property The property name.
+     * @return  DatabaseRowAbstract
+     */
+    public function remove($property)
+    {
+        parent::offsetUnset($property);
+        unset($this->_modified[$property]);
+
+        return $this;
+    }
+
+    /**
+     * Get the properties
+     *
+     * @param   boolean  $modified If TRUE, only return the modified data.
+     * @return  array   An associative array of the row properties
+     */
+    public function getProperties($modified = false)
+    {
+        $properties = $this->_data;
+
+        if ($modified) {
+            $properties = array_intersect_key($properties, $this->_modified);
+        }
+
+        return $properties;
+    }
+
+    /**
+     * Set the properties
+     *
+     * @param   mixed   $data        Either and associative array, an object or a DatabaseRow
+     * @param   boolean $modified If TRUE, update the modified information for each property being set.
+     * @return  DatabaseRowAbstract
+     */
+    public function setProperties($properties, $modified = true)
+    {
+        if ($properties instanceof DatabaseRowInterface) {
+            $properties = $properties->getProperties(false);
+        } else {
+            $properties = (array) $properties;
+        }
+
+        foreach ($properties as $property => $value) {
+            $this->set($property, $value, $modified);
+        }
 
         return $this;
     }
@@ -259,7 +266,7 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Gets the identity column of the rowset
+     * Gets the identity key
      *
      * @return string
      */
@@ -269,13 +276,32 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Get a list of columns that have been modified
+     * Get a list of properties that have been modified
      *
-     * @return array    An array of column names that have been modified
+     * @return array    An array of property names that have been modified
      */
     public function getModified()
     {
         return $this->_modified;
+    }
+
+    /**
+     * Get a handle for this object
+     *
+     * This function returns an unique identifier for the object. This id can be used as a hash key for storing objects
+     * or for identifying an object
+     *
+     * @return string A string that is unique
+     */
+    public function getHandle()
+    {
+        if (isset($this->_identity_column)) {
+            $handle = $this->get($this->_identity_column);
+        } else {
+            $handle = parent::getHandle();
+        }
+
+        return $handle;
     }
 
     /**
@@ -314,7 +340,6 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     public function delete()
     {
         $this->setStatus(Database::STATUS_DELETED);
-
         return false;
     }
 
@@ -342,17 +367,24 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Check if a column has been modified
+     * Check if a the row or specific row property has been modified.
      *
-     * @param   string  $column The column name.
+     * If a specific property name is giving method will return TRUE only if this property was modified.
+     *
+     * @param   string $property The property name
      * @return  boolean
      */
-    public function isModified($column)
+    public function isModified($property = null)
     {
         $result = false;
-        if (isset($this->_modified[$column]) && $this->_modified[$column]) {
-            $result = true;
+
+        if($property)
+        {
+            if (isset($this->_modified[$property]) && $this->_modified[$property]) {
+                $result = true;
+            }
         }
+        else $result = (bool) count($this->_modified);
 
         return $result;
     }
@@ -368,33 +400,47 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
     }
 
     /**
-     * Set row field value
+     * Set a property
      *
-     * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
-     * If the row is new the value will be (re)set and marked as modified
-     *
-     * @param   string  $column The column name.
-     * @param   mixed   $value  The column value.
+     * @param   string  $property   The property name.
+     * @param   mixed   $value      The property value.
      * @return  void
      */
-    public function offsetSet($column, $value)
+    final public function offsetSet($property, $value)
     {
-        if ($this->isNew() || !array_key_exists($column, $this->_data) || ($this->_data[$column] != $value))
-        {
-            parent::offsetSet($column, $value);
-            $this->_modified[$column] = $column;
-        }
+        $this->set($property, $value);
     }
 
     /**
-     * Remove a row field
+     * Get a property
      *
-     * @param   string  $column The column name.
+     * @param   string  $property   The property name.
+     * @return  mixed The property value
+     */
+    final public function offsetGet($property)
+    {
+        return $this->get($property);
+    }
+
+    /**
+     * Check if a property exists
+     *
+     * @param   string  $property   The property name.
+     * @return  boolean
+     */
+    final public function offsetExists($property)
+    {
+        return $this->has($property);
+    }
+
+    /**
+     * Remove a property
+     *
+     * @param   string  $property The property name.
      * @return  void
      */
-    public function offsetUnset($column)
+    final public function offsetUnset($property)
     {
-        parent::offsetUnset($column);
-        unset($this->_modified[$column]);
+        $this->remove($property);
     }
 }

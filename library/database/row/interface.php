@@ -19,60 +19,68 @@ namespace Nooku\Library;
 interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serializable, \Countable
 {
     /**
-     * Set row field value
+     * Get a property
+     *
+     * @param   string  $property The property name.
+     * @return  mixed   The property value.
+     */
+    public function get($property);
+
+    /**
+     * Set a property
      *
      * If the value is the same as the current value and the row is loaded from the database the value will not be reset.
      * If the row is new the value will be (re)set and marked as modified
      *
-     * @param   string $column The column name.
-     * @param   mixed  $value  The value for the property.
+     * @param   string  $property   The property name.
+     * @param   mixed   $value      The property value.
+     * @param   boolean $modified   If TRUE, update the modified information for the property
      * @return  DatabaseRowInterface
      */
-    public function set($column, $value);
+    public function set($property, $value, $modified = true);
 
     /**
-     * Get a row field value
+     * Test existence of a property
      *
-     * @param   string  $column The column name.
-     * @return  string  The corresponding value.
-     */
-    public function get($column);
-
-    /**
-     * Test existence of a column
-     *
-     * @param  string  $column The column name.
+     * @param  string  $property The property name.
      * @return boolean
      */
-    public function has($column);
+    public function has($property);
 
     /**
-     * Remove a row field
+     * Remove a property
      *
-     * @param   string  $column The column name.
-     * @return  DatabaseRowAbstract
-     */
-    public function remove($column);
-
-    /**
-     * Returns an associative array of the raw data
-     *
-     * @param   boolean  $modified If TRUE, only return the modified data.
-     * @return  array
-     */
-    public function getData($modified = false);
-
-    /**
-     * Set the row data
-     *
-     * @param   mixed   $data       Either and associative array, an object or a DatabaseRow
-     * @param   boolean $modified   If TRUE, update the modified information for each column being set.
+     * @param   string  $property The property name.
      * @return  DatabaseRowInterface
      */
-    public function setData( $data, $modified = true );
+    public function remove($property);
 
     /**
-     * Returns the status of this row.
+     * Gets the identity key
+     *
+     * @return string
+     */
+    public function getIdentityColumn();
+
+    /**
+     * Get the properties
+     *
+     * @param   boolean  $modified If TRUE, only return the modified data.
+     * @return  array   An associative array of the row properties
+     */
+    public function getProperties($modified = false);
+
+    /**
+     * Set the properties
+     *
+     * @param   mixed   $properties  Either and associative array, an object or a DatabaseRow
+     * @param   boolean $modified    If TRUE, update the modified information for each column being set.
+     * @return  DatabaseRowAbstract
+     */
+    public function setProperties($properties, $modified = true);
+
+    /**
+     * Returns the status.
      *
      * @return string The status value.
      */
@@ -102,21 +110,14 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     public function setStatusMessage($message);
 
     /**
-     * Get a list of columns that have been modified
+     * Get a list of properties that have been modified
      *
-     * @return array    An array of column names that have been modified
+     * @return array An array of property names that have been modified
      */
     public function getModified();
 
-	/**
-     * Load the row from the database.
-     *
-     * @return object	If successful returns the row object, otherwise NULL
-     */
-	public function load();
-
     /**
-     * Saves the row to the database.
+     * Saves the to the database.
      *
      * This performs an intelligent insert/update and reloads the properties
      * with fresh data from the table on success.
@@ -133,7 +134,7 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     public function delete();
 
     /**
-     * Resets to the default properties
+     * Resets to the row to it's default properties
      *
      * @return DatabaseRowInterface
      */
@@ -147,12 +148,14 @@ interface DatabaseRowInterface extends \IteratorAggregate, \ArrayAccess, \Serial
     public function isNew();
 
     /**
-     * Check if a column has been modified
+     * Check if a the row or specific row property has been modified.
      *
-     * @param   string  $column The column name.
+     * If a specific property name is giving method will return TRUE only if this property was modified.
+     *
+     * @param   string $property The property name
      * @return  boolean
      */
-    public function isModified($column);
+    public function isModified($property = null);
 
 	/**
 	 * Test the connected status of the row.

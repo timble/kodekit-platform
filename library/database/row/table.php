@@ -53,7 +53,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
 
         // Set the row data
         if (isset($config->data)) {
-            $this->setData($config->data->toArray(), $this->isNew());
+            $this->setProperties($config->data->toArray(), $this->isNew());
         }
 
         //Set the status message
@@ -115,7 +115,7 @@ class DatabaseRowTable extends DatabaseRowAbstract
      * @param    mixed    $table An object that implements ObjectInterface, ObjectIdentifier object
      *                           or valid identifier string
      * @throws  \UnexpectedValueException    If the identifier is not a table identifier
-     * @return  DatabaseRowsetAbstract
+     * @return  DatabaseRowTable
      */
     public function setTable($table)
     {
@@ -142,6 +142,28 @@ class DatabaseRowTable extends DatabaseRowAbstract
     }
 
     /**
+     * Remove a property
+     *
+     * This function will reset required properties to their default value, not required properties will be unset.
+     *
+     * @param    string  $property The property name.
+     * @return   void
+     */
+    public function remove($property)
+    {
+        if ($this->isConnected())
+        {
+            $column = $this->getTable()->getColumn($property);
+
+            if (isset($column) && $column->required) {
+                parent::set($this->_data[$property], $column->default);
+            } else {
+                parent::remove($property);
+            }
+        }
+    }
+
+    /**
      * Load the row from the database using the data in the row
      *
      * @return object    If successful returns the row object, otherwise NULL
@@ -154,13 +176,13 @@ class DatabaseRowTable extends DatabaseRowAbstract
         {
             if ($this->isConnected())
             {
-                $data = $this->getTable()->filter($this->getData(true), true);
+                $data = $this->getTable()->filter($this->getProperties(true), true);
                 $row  = $this->getTable()->select($data, Database::FETCH_ROW);
 
                 // Set the data if the row was loaded successfully.
                 if (!$row->isNew())
                 {
-                    $this->setData($row->getData(), false);
+                    $this->setProperties($row->getProperties(), false);
                     $this->_modified = array();
 
                     $this->setStatus(Database::STATUS_LOADED);
@@ -246,28 +268,6 @@ class DatabaseRowTable extends DatabaseRowAbstract
     public function isConnected()
     {
         return (bool)$this->getTable();
-    }
-
-    /**
-     * Unset a row field
-     *
-     * This function will reset required column to their default value, not required fields will be unset.
-     *
-     * @param    string  $column The column name.
-     * @return   void
-     */
-    public function offsetUnset($column)
-    {
-        if ($this->isConnected())
-        {
-            $field = $this->getTable()->getColumn($column);
-
-            if (isset($field) && $field->required) {
-                parent::offsetSet($this->_data[$column], $field->default);
-            } else {
-                parent::offsetUnset($column);
-            }
-        }
     }
 
     /**
