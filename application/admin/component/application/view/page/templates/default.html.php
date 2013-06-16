@@ -15,10 +15,12 @@
 
 <body class="com_<?= $component ?>">
 <div id="container">
-    <div id="panel-pages">
-        <?= @template('com:pages.view.pages.list.html', array('state' => $state)); ?>
-    </div>
     <div id="panel-wrapper">
+<!--
+<div id="panel-pages">
+    <?= @template('com:pages.view.pages.list.html', array('state' => $state)); ?>
+</div>
+-->
     <div id="panel-header">
         <div id="menu">
         	<?= @helper('menubar.render')?>
