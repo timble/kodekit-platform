@@ -40,16 +40,14 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
      */
     protected function _afterControllerRead(CommandContext $context)
     {
-        $row = $context->result;
-
-        //Add the notice if the row is locked
-        if($row->isLockable() && $row->locked())
+        //Add the notice if the entity is locked
+        if($context->result->isLockable() && $context->result->locked())
         {
             $user = $this->getObject('com:users.database.row.user')
-                ->set('id', $row->locked_by)
+                ->set('id', $context->result->locked_by)
                 ->load();
 
-            $date    = $this->getView()->getTemplate()->getHelper('date')->humanize(array('date' => $row->locked_on));
+            $date    = $this->getView()->getTemplate()->getHelper('date')->humanize(array('date' => $context->result->locked_on));
             $message = \JText::sprintf('Locked by %s %s', $user->get('name'), $date);
 
             $context->user->addFlashMessage($message, 'notice');
@@ -59,22 +57,15 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
     /**
      * Lock callback
      *
-     * Only lock if the context contains a row object and the view layout is 'form'.
-     *
      * @param   CommandContext  $context The active command context
      * @return  void
      */
     public function lockEntity(CommandContext $context)
     {
-        if ($context->result instanceof DatabaseRowInterface)
+        if ($this->getModel()->getState()->isUnique() && $context->result->isLockable())
         {
-            $view = $this->getView();
-
-            if ($view instanceof ViewTemplate)
-            {
-                if($this->getModel()->getState()->isUnique() && $context->result->isLockable()) {
-                    $context->result->lock();
-                }
+            if ($this->getView() instanceof ViewTemplate) {
+                $context->result->lock();
             }
         }
     }
@@ -87,7 +78,7 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
      */
     public function unlockEntity(CommandContext $context)
     {
-        if ($context->result instanceof DatabaseRowInterface && $context->result->isLockable()) {
+        if ($this->getModel()->getState()->isUnique() && $context->result->isLockable()) {
             $context->result->unlock();
         }
     }
