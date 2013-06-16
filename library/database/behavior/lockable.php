@@ -29,7 +29,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options
      * @return void
      */
 	protected function _initialize(ObjectConfig $config)
@@ -47,8 +47,8 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	/**
 	 * Get the methods that are available for mixin based
 	 *
-	 * This function conditionaly mixies the behavior. Only if the mixer
-	 * has a 'locked_by' property the behavior will be mixed in.
+	 * This function conditionaly mixes the behavior. Only if the mixer has a 'locked_by' property the behavior will be
+     * mixed in.
 	 *
 	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
 	 * @return array An array of methods
@@ -117,7 +117,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 		$result = false;
 		if(!$this->isNew())
 		{
-		    if(isset($this->locked_on) && isset($this->locked_by))
+            if(isset($this->locked_on) && isset($this->locked_by))
 			{
 			    $locked  = strtotime($this->locked_on);
                 $current = strtotime(gmdate('Y-m-d H:i:s'));
