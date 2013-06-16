@@ -61,7 +61,7 @@ class ViewHtml extends ViewTemplate
                 $this->$name = $model->fetch();
                 $this->total = $model->getTotal();
             }
-            else $this->$name = $model->fetch(Database::FETCH_ROW);
+            else $this->$name = $model->fetch();
         }
 
         return parent::render();

@@ -17,12 +17,11 @@ namespace Nooku\Library;
 interface ModelInterface
 {
     /**
-     * Fetch a row or a rowset based on the model state
+     * Fetch a rowset based on the model state
      *
-     * @param integer  $mode The database fetch style.
-     * @return DatabaseRow(set)Interface
+     * @return DatabaseRowsetInterface
      */
-    public function fetch($mode = Database::FETCH_ROWSET);
+    public function fetch();
 
     /**
      * Reset the model data and state
