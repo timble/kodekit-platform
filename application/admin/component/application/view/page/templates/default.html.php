@@ -14,11 +14,14 @@
 <?= @template('page_head.html') ?>
 
 <body class="com_<?= $component ?>">
-<!--
+<?
+/*
+?>
 <div id="panel-pages">
     <?= @template('com:pages.view.pages.list.html', array('state' => $state)); ?>
 </div>
--->
+*/
+?>
 <div id="panel-wrapper">
     <div id="panel-header">
         <div id="menu">
