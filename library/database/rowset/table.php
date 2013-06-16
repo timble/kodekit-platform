@@ -54,11 +54,6 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
         if (!empty($config->data)) {
             $this->addRow($config->data->toArray(), $config->status);
         }
-
-        //Set the status message
-        if (!empty($config->status_message)) {
-            $this->setStatusMessage($config->status_message);
-        }
     }
 
     /**
@@ -196,20 +191,23 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
      */
     public function __call($method, $arguments)
     {
-        if ($this->isConnected() && !isset($this->_mixed_methods[$method]))
+        if ($this->isConnected())
         {
             $parts = StringInflector::explode($method);
 
             //Check if a behavior is mixed
             if ($parts[0] == 'is' && isset($parts[1]))
             {
-                //Lazy mix behaviors
-                $behavior = strtolower($parts[1]);
+                if($row = $this->getIterator()->current())
+                {
+                    //Lazy mix behaviors
+                    $behavior = strtolower($parts[1]);
 
-                if ($this->getTable()->hasBehavior($behavior)) {
-                    $this->mixin($this->getTable()->getBehavior($behavior));
-                } else {
-                    return false;
+                    if ($row->getTable()->hasBehavior($behavior)) {
+                        $row->mixin($row->getTable()->getBehavior($behavior));
+                    } else {
+                        return false;
+                    }
                 }
             }
         }

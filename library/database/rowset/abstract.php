@@ -26,13 +26,6 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     protected $_identity_column;
 
     /**
-     * The status message
-     *
-     * @var string
-     */
-    protected $_status_message = '';
-
-    /**
      * Clone row object when adding data
      *
      * @var    boolean
@@ -51,7 +44,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
 
         $this->_row_cloning = $config->row_cloning;
 
-        // Set the table indentifier
+        // Set the table identifier
         if (isset($config->identity_column)) {
             $this->_identity_column = $config->identity_column;
         }
@@ -62,11 +55,6 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         // Insert the data, if exists
         if (!empty($config->data)) {
             $this->addRow($config->data->toArray(), $config->status);
-        }
-
-        //Set the status message
-        if (!empty($config->status_message)) {
-            $this->setStatusMessage($config->status_message);
         }
     }
 
@@ -83,12 +71,43 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         $config->append(array(
             'data'            => null,
             'identity_column' => null,
-            'status'          => null,
-            'status_message'  => '',
             'row_cloning'     => true
         ));
 
         parent::_initialize($config);
+    }
+
+    /**
+     * Checks if the row is new or not
+     *
+     * @return bool
+     */
+    public function isNew()
+    {
+        $result = null;
+        if($row = $this->getIterator()->current()) {
+            $result = $row->isNew();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if a the row or specific row property has been modified.
+     *
+     * If a specific property name is giving method will return TRUE only if this property was modified.
+     *
+     * @param   string $property The property name
+     * @return  boolean
+     */
+    public function isModified($property = null)
+    {
+        $result = null;
+        if($row = $this->getIterator()->current()) {
+            $result = $row->isModified($property);
+        }
+
+        return $result;
     }
 
     /**
@@ -104,8 +123,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Insert a row into the rowset
      *
-     * The row will be stored by it's identity_column if set or otherwise by
-     * it's object handle.
+     * The row will be stored by it's identity_column if set or otherwise by it's object handle.
      *
      * @param  DatabaseRowInterface $row
      * @return boolean    TRUE on success FALSE on failure
@@ -117,15 +135,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
         }
 
-        if (isset($this->_identity_column)) {
-            $handle = $row->{$this->_identity_column};
-        } else {
-            $handle = $row->getHandle();
-        }
-
-        if ($handle) {
-            $this->_object_set->offsetSet($handle, $row);
-        }
+        $this->offsetSet($row);
 
         return true;
     }
@@ -133,8 +143,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Removes a row from the rowset
      *
-     * The row will be removed based on it's identity_column if set or otherwise by
-     * it's object handle.
+     * The row will be removed based on it's identity_column if set or otherwise by it's object handle.
      *
      * @param  DatabaseRowInterface $row
      * @return DatabaseRowsetAbstract
@@ -146,89 +155,110 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             throw new \InvalidArgumentException('Row needs to implement DatabaseRowInterface');
         }
 
-        if (isset($this->_identity_column)) {
-            $handle = $row->{$this->_identity_column};
-        } else {
-            $handle = $row->getHandle();
-        }
-
-        if ($this->_object_set->offsetExists($handle)) {
-            $this->_object_set->offsetUnset($handle);
+        if ($this->offsetExists($row)) {
+            $this->offsetUnset($row);
         }
 
         return $this;
     }
 
     /**
-     * Retrieve an array of column values
+     * Get a property
      *
-     * @param   string  $column The column name.
-     * @return  array   An array of all the column values
+     * @param   string  $property The property name.
+     * @return  mixed
      */
-    public function get($column)
+    public function get($property)
     {
-        $result = array();
-        foreach ($this as $key => $row) {
-            $result[$key] = $row->$column;
+        $result = null;
+        if($row = $this->getIterator()->current()) {
+            $result = $row->get($property);
         }
 
         return $result;
     }
 
     /**
-     * Set the value of all the columns
+     * Set a property
      *
-     * @param   string  $column The column name.
-     * @param   mixed   $value The value for the property.
+     * @param   string  $property   The property name.
+     * @param   mixed   $value      The property value.
+     * @param   boolean $modified   If TRUE, update the modified information for the property
      * @return  DatabaseRowsetAbstract
      */
-    public function set($column, $value)
+    public function set($property, $value, $modified = true)
     {
-        foreach ($this as $row) {
-            $row->$column = $value;
+        if($row = $this->getIterator()->current()) {
+            $row->set($property, $value, $modified);
         }
 
         return $this;
     }
 
     /**
-     * Returns all data as an array.
+     * Test existence of a property
      *
-     * @param  bool  $modified  If TRUE, only return the modified data. Default FALSE
-     * @return array
+     * @param  string  $property The property name.
+     * @return boolean
      */
-    public function getData($modified = false)
+    public function has($property)
     {
-        $result = array();
-        foreach ($this as $key => $row) {
-            $result[$key] = $row->getData($modified);
+        $result = false;
+        if($row = $this->getIterator()->current()) {
+            $result = $row->has($property);
         }
+
         return $result;
     }
 
     /**
-     * Set the rowset data based on a named array/hash
+     * Remove a property
      *
-     * @param   mixed   $data     Either and associative array, a DatabaseRow object or object
-     * @param   boolean $modified If TRUE, update the modified information for each column being set. Default TRUE
-     * @return  DatabaseRowsetAbstract
+     * @param   string  $property The property name.
+     * @return  DatabaseRowAbstract
      */
-    public function setData($data, $modified = true)
+    public function remove($property)
+    {
+        if($row = $this->getIterator()->current()) {
+            $row->remove($property);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the properties
+     *
+     * @param   boolean  $modified If TRUE, only return the modified data.
+     * @return  array   An associative array of the row properties
+     */
+    public function getProperties($modified = false)
+    {
+        $result = array();
+
+        if($row = $this->getIterator()->current()) {
+            $result = $row->getProperties($modified);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set the properties
+     *
+     * @param   mixed   $data        Either and associative array, an object or a DatabaseRow
+     * @param   boolean $modified If TRUE, update the modified information for each column being set.
+     * @return  DatabaseRowAbstract
+     */
+    public function setProperties($properties, $modified = true)
     {
         //Prevent changing the identity column
         if (isset($this->_identity_column)) {
-            unset($data[$this->_identity_column]);
+            unset($properties[$this->_identity_column]);
         }
 
-        //Set the data in the rows
-        if ($modified) {
-            foreach ($data as $column => $value) {
-                $this->$column = $value;
-            }
-        } else {
-            foreach ($this as $row) {
-                $row->setData($data, false);
-            }
+        if($row = $this->getIterator()->current()) {
+            $row->setProperties($properties, $modified);
         }
 
         return $this;
@@ -254,7 +284,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             foreach ($rows as $k => $data)
             {
                 $row = clone $default;
-                $row->setData($data, $row->isNew());
+                $row->setProperties($data, $row->isNew());
 
                 $this->insert($row);
             }
@@ -264,7 +294,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             foreach ($rows as $k => $data)
             {
                 $row = $this->getRow()->setStatus($status);
-                $row->setData($data, $row->isNew());
+                $row->setProperties($data, $row->isNew());
 
                 $this->insert($row);
             }
@@ -292,13 +322,50 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
+     * Returns the status
+     *
+     * @return string The status
+     */
+    public function getStatus()
+    {
+        $status = null;
+
+        if($row = $this->getIterator()->current()) {
+            $status = $row->getStatus();
+        }
+
+        return $status;
+    }
+
+    /**
+     * Set the status
+     *
+     * @param   string|null  $status The status value or NULL to reset the status
+     * @return  DatabaseRowsetAbstract
+     */
+    public function setStatus($status)
+    {
+        if($row = $this->getIterator()->current()) {
+            $row->setStatusMessage($status);
+        }
+
+        return $this;
+    }
+
+    /**
      * Returns the status message
      *
      * @return string The status message
      */
     public function getStatusMessage()
     {
-        return $this->_status_message;
+        $message = false;
+
+        if($row = $this->getIterator()->current()) {
+            $message = $row->getStatusMessage($message);
+        }
+
+        return $message;
     }
 
     /**
@@ -309,12 +376,15 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function setStatusMessage($message)
     {
-        $this->_status_message = $message;
+        if($row = $this->getIterator()->current()) {
+            $row->setStatusMessage($message);
+        }
+
         return $this;
     }
 
     /**
-     * Gets the identity column of the rowset
+     * Gets the identity key
      *
      * @return string
      */
@@ -324,12 +394,28 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
+     * Get a list of properties that have been modified
+     *
+     * @return array An array of properties keys that have been modified
+     */
+    public function getModified()
+    {
+        $result = array();
+
+        if($row = $this->getIterator()->current()) {
+            $result = $row->getModified();
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns a DatabaseRow(set)
      *
      * This functions accepts either a know position or associative array of key/value pairs
      *
      * @param   string|array  $needle The position or the key or an associative array of column data to match
-     * @return  DatabaseRow(set)Abstract Returns a row or rowset if successful. Otherwise NULL.
+     * @return  DatabaseRowsetInterface Returns a rowset if successful. Otherwise NULL.
      */
     public function find($needle)
     {
@@ -350,8 +436,8 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
             }
         }
 
-        if(is_scalar($needle) && isset($this->_object_set[$needle])) {
-            $result = $this->_object_set[$needle];
+        if(is_scalar($needle) && isset($this->_data[$needle])) {
+            $result = $this->_data[$needle];
         }
 
         return $result;
@@ -418,8 +504,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function reset()
     {
-        $this->_object_set->exchangeArray(array());
-
+        $this->_data = array();
         return $this;
     }
 
@@ -438,30 +523,52 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     }
 
     /**
-     * Retrieve an array of column values
+     * Get a property
      *
-     * @param   string  $column The column name.
-     * @return  array   An array of all the column values
+     * @param   string  $property The property name.
+     * @return  mixed
      */
-    public function __get($column)
+    public function __get($property)
     {
-        return $this->get($column);
+        return $this->get($property);
     }
 
     /**
-     * Set the value of all the columns
+     * Set a property
      *
-     * @param   string  $column The column name.
-     * @param   mixed   $value The value for the property.
+     * @param   string  $property   The property name.
+     * @param   mixed   $value      The property value.
      * @return  void
      */
-    public function __set($column, $value)
+    public function __set($property, $value)
     {
-        $this->set($column, $value);
+        $this->set($property, $value);
     }
 
     /**
-     * Search the mixin method map and call the method or forward the call to each row for processing.
+     * Test existence of a property
+     *
+     * @param  string  $property The property name.
+     * @return boolean
+     */
+    public function __isset($property)
+    {
+        return $this->has($property);
+    }
+
+    /**
+     * Remove a property
+     *
+     * @param   string  $property The property name.
+     * @return  DatabaseRowAbstract
+     */
+    public function __unset($property)
+    {
+        $this->remove($property);
+    }
+
+    /**
+     * Forward the call to the current row
      *
      * @param  string   $method    The function name
      * @param  array    $arguments The function arguments
@@ -470,16 +577,12 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function __call($method, $arguments)
     {
-        //If the mixed method exists call it for all the rows
-        if (!isset($this->_mixed_methods[$method]))
-        {
-            foreach ($this as $i => $row) {
-                $row->__call($method, $arguments);
-            }
+        $result = null;
 
-            return $this;
+        if($row = $this->getIterator()->current()) {
+            $result = $row->__call($method, $arguments);
         }
 
-        return parent::__call($method, $arguments);
+        return $result;
     }
 }
