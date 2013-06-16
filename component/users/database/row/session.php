@@ -42,7 +42,7 @@ class DatabaseRowSession extends Library\DatabaseRowTable
             {
                 // Hit the user last visit field
                 $row = $this->getObject('com:users.database.row.user')
-                            ->setData(array('email' => $this->email))
+                            ->setProperties(array('email' => $this->email))
                             ->load();
 
                 if($row)

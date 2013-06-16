@@ -179,7 +179,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
     }
 
 	/**
-	 * Generic browse action, fetches a list
+	 * Generic browse action, fetches an entity collection
 	 *
 	 * @param	CommandContext	$context A command context object
 	 * @return 	DatabaseRowsetInterface A rowset object containing the selected rows
@@ -191,40 +191,42 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	}
 
 	/**
-	 * Generic read action, fetches an item
+	 * Generic read action, fetches an entity
 	 *
 	 * @param	CommandContext	$context A command context object
 	 * @return 	DatabaseRowInterface A row object containing the selected row
 	 */
 	protected function _actionRead(CommandContext $context)
 	{
-	    $entity = $this->getModel()->getRow();
-	    $name   = ucfirst($this->getView()->getName());
+        $entity = $this->getModel()->getRow();
+        $name   = ucfirst($this->getView()->getName());
 
-		if($this->getModel()->getState()->isUnique() && $entity->isNew()) {
-		    throw new ControllerExceptionNotFound($name.' Not Found');
-		}
+        if($this->getModel()->getState()->isUnique() && $entity->isNew()) {
+            throw new ControllerExceptionNotFound($name.' Not Found');
+        }
 
 		return $entity;
 	}
 
 	/**
-	 * Generic edit action, saves over an existing item
+	 * Generic edit action, saves over an existing entity collection
 	 *
 	 * @param	CommandContext	$context A command context object
      * @throws  ControllerExceptionNotFound   If the resource could not be found
-	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
+	 * @return 	DatabaseRowsetInterface A rowset object containing the updated row(s)
 	 */
 	protected function _actionEdit(CommandContext $context)
 	{
-	    $entity = $this->getModel()->fetch(Database::FETCH_ROW);
+	    $entities = $this->getModel()->fetch();
 
-	    if(count($entity))
+	    if(count($entities))
 	    {
-	        $entity->setData($context->request->data->toArray());
+	        foreach($entities as $entity) {
+                $entity->setProperties($context->request->data->toArray());
+            }
 
 	        //Only set the reset content status if the action explicitly succeeded
-	        if($entity->save() === true) {
+	        if($entities->save() === true) {
 		        $context->response->setStatus(self::STATUS_RESET);
 		    } else {
 		        $context->response->setStatus(self::STATUS_UNCHANGED);
@@ -232,11 +234,11 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		}
 		else throw new ControllerExceptionNotFound('Resource could not be found');
 
-		return $entity;
+		return $entities;
 	}
 
 	/**
-	 * Generic add action, saves a new item
+	 * Generic add action, saves a new entity
 	 *
 	 * @param	CommandContext	$context A command context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
@@ -249,7 +251,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
 		if($entity->isNew())
 		{
-		    $entity->setData($context->request->data->toArray());
+		    $entity->setProperties($context->request->data->toArray());
 
 		    //Only throw an error if the action explicitly failed.
 		    if($entity->save() === false)
@@ -265,37 +267,33 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	}
 
 	/**
-	 * Generic delete function
+	 * Generic delete function, deletes an existing entity collection
 	 *
 	 * @param	CommandContext	$context A command context object
      * @throws  ControllerExceptionActionFailed 	If the delete action failed on the data entity
-	 * @return 	DatabaseRow(set)Interface A row(set) object containing the deleted row(s)
+	 * @return 	DatabaseRowsetInterface A rowset object containing the deleted row(s)
 	 */
 	protected function _actionDelete(CommandContext $context)
 	{
-	    $entity = $this->getModel()->fetch(Database::FETCH_ROW);
+	    $entities = $this->getModel()->fetch();
 
-        if($entity instanceof DatabaseRowsetInterface)  {
-            $count = count($entity);
-        } else {
-            $count = (int) !$entity->isNew();;
-        }
-
-		if($count)
+		if(count($entities))
 	    {
-            $entity->setData($context->request->data->toArray());
+            foreach($entities as $entity) {
+                $entity->setProperties($context->request->data->toArray());
+            }
 
             //Only throw an error if the action explicitly failed.
-	        if($entity->delete() === false)
+	        if($entities->delete() === false)
 	        {
-			    $error = $entity->getStatusMessage();
+			    $error = $entities->getStatusMessage();
                 throw new ControllerExceptionActionFailed($error ? $error : 'Delete Action Failed');
 		    }
 		    else $context->response->setStatus(self::STATUS_UNCHANGED);
 		}
 		else throw new ControllerExceptionNotFound('Resource Not Found');
 
-		return $entity;
+		return $entities;
 	}
 
     /**

@@ -67,8 +67,8 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string    The command name
-     * @param     object    The command context
+     * @param     string    $name       The command name
+     * @param     object    $context    The command context
      * @return    boolean   Can return both true or false.
      */
     public function execute($name, Library\CommandContext $context)
@@ -87,7 +87,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 	/**
 	 * Before table select
 	 *
-	 * If a 'deleted' query param exsist, select all the trashed rows for this table and return them, instead of
+	 * If a 'deleted' query param exists, select all the trashed rows for this table and return them, instead of
      * performing a normal query.
 	 *
 	 * @return void|false
@@ -158,7 +158,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                 //Restore the row
                 $table = clone $context->getSubject();
                 $table->getCommandChain()->disable();
-                $table->getRow()->setData($this->getData())->save();
+                $table->getRow()->setProperties($this->getProperties())->save();
 
                 //Set the status
                 $context->data->setStatus('restored');
@@ -321,9 +321,9 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 
     	// Get the row data
     	if ($this->getStatus() == Library\Database::STATUS_UPDATED) {
-            $data = $this->getData(true);
+            $data = $this->getProperties(true);
         } else {
-            $data = $this->getData();
+            $data = $this->getProperties();
         }
 
         //Get the row status

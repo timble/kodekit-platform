@@ -559,8 +559,10 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
                 case Database::FETCH_ROWSET :
                 {
-                    if (isset($data) && !empty($data)) {
-                        $options['data'] = $data;
+                    if (isset($data) && !empty($data))
+                    {
+                        $options['data']   = $data;
+                        $options['status'] = Database::STATUS_LOADED;
                     }
 
                     $context->data = $this->getRowset($options);
@@ -643,7 +645,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
         if ($this->getCommandChain()->run('before.insert', $context) !== false)
         {
             // Filter the data and remove unwanted columns.
-            $data = $this->filter($context->data->getData());
+            $data = $this->filter($context->data->getProperties());
             $context->query->values($this->mapColumns($data));
 
             // Execute the insert query.
@@ -658,7 +660,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                         $data[$this->getIdentityColumn()] = $this->getAdapter()->getInsertId();
                     }
 
-                    $context->data->setData($this->mapColumns($data, true))->setStatus(Database::STATUS_CREATED);
+                    $context->data->setProperties($this->mapColumns($data, true))->setStatus(Database::STATUS_CREATED);
                 }
                 else $context->data->setStatus(Database::STATUS_FAILED);
             }
@@ -698,7 +700,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             }
 
             // Filter the data and remove unwanted columns.
-            $data = $this->filter($context->data->getData(true));
+            $data = $this->filter($context->data->getProperties(true));
 
             foreach ($this->mapColumns($data) as $key => $value) {
                 $query->values($key . ' = :_' . $key)->bind(array('_' . $key => $value));
@@ -711,7 +713,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
             if ($context->affected !== false)
             {
                 if ($context->affected) {
-                    $context->data->setData($this->mapColumns($data, true), true)->setStatus(Database::STATUS_UPDATED);
+                    $context->data->setProperties($this->mapColumns($data, true), true)->setStatus(Database::STATUS_UPDATED);
                 } else {
                     $context->data->setStatus(Database::STATUS_FAILED);
                 }
