@@ -23,11 +23,15 @@ class LanguagesControllerComponent extends Library\ControllerView
     {
         if($context->request->data->has('id'))
         {
-            $this->getObject('com:languages.model.tables')
+            $tables = $this->getObject('com:languages.model.tables')
                 ->component($context->request->data->get('id', 'int'))
-                ->fetch()
-                ->setData(array('enabled' => $context->request->data->get('enabled', 'int')))
-                ->save();
+                ->fetch();
+
+            foreach($tables as $table) {
+                $table->setProperties(array('enabled' => $context->request->data->get('enabled', 'int')));
+            }
+
+            $tables->save();
         }
     }
 }
