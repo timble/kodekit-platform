@@ -271,7 +271,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
             if($data->parent_id)
             {
                 $parent = $table->select($data->parent_id, Library\Database::FETCH_ROW);
-                $data->setData(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
+                $data->setProperties(array('level' => $parent->level + 1, 'path' => $parent->path.'/'.$data->id), false);
 
                 // Insert child relations.
                 $select = $this->getObject('lib:database.query.select')
@@ -287,7 +287,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
                 
                 $table->getAdapter()->insert($query);
             }
-            else $data->setData(array('level' => 1, 'path' => $data->id), false);
+            else $data->setProperties(array('level' => 1, 'path' => $data->id), false);
         }
     }
     

@@ -120,7 +120,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         {
             // Insert empty row into ordering table.
             $table = $row->getTable();
-            $empty = $table->getOrderingTable()->getRow()->setData(array('id' => $row->id));
+            $empty = $table->getOrderingTable()->getRow()->setProperties(array('id' => $row->id));
             $table->getOrderingTable()->insert($empty);
             
             // Iterate through the columns and update values.
@@ -211,7 +211,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
 
                 $max = (int) $table->getAdapter()->select($query, Library\Database::FETCH_FIELD);
                 $table->getOrderingTable()->select($row->id, Library\Database::FETCH_ROW)
-                    ->setData(array('custom' => $max + 1))->save();
+                    ->setProperties(array('custom' => $max + 1))->save();
             } break;
 
             case Library\Database::OPERATION_UPDATE:

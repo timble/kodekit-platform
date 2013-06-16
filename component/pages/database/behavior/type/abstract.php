@@ -54,8 +54,9 @@ abstract class DatabaseBehaviorTypeAbstract extends Library\DatabaseBehaviorAbst
         if($this->isModified('pages_menu_id'))
         {
             $descendants = $this->getDescendants();
-            if(count($descendants)) {
-                $descendants->setData(array('pages_menu_id' => $this->pages_menu_id))->save();
+
+            foreach($descendants as $descendant) {
+                $descendant->setProperties(array('pages_menu_id' => $this->pages_menu_id))->save();
             }
         }
     }
