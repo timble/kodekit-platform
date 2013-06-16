@@ -41,7 +41,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
 
         if(count($menu))
         {
-            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->top()->id));
+            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->id));
             $result = $this->pages(array('pages' => $pages, 'attribs' => $config->attribs));
         }
 
