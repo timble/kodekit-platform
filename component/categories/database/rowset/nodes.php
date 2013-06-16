@@ -20,19 +20,6 @@ use Nooku\Library;
 class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
 {
     /**
-     * Constructor
-     *
-     * @param ObjectConfig $config  An optional Library\ObjectConfig object with configuration options
-     * @return Library\DatabaseRowsetAbstract
-     */
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->_object_set->setIteratorClass('\RecursiveArrayIterator');
-    }
-
-    /**
      * Adds the rows as an hierarchical tree of nodes.
      *
      * This function requires each row to contain a an enumerated 'path' array containing the node id's from root to
@@ -76,4 +63,15 @@ class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
 		
 		return $this;
     }
+
+    /**
+     * Defined by IteratorAggregate
+     *
+     * @return \RecursiveArrayIterator
+     */
+    public function getIterator()
+    {
+        return new \RecursiveArrayIterator($this->_data);
+    }
+
 }
