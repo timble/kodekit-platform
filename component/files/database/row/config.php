@@ -21,6 +21,6 @@ class DatabaseRowConfig extends Library\DatabaseRowAbstract
 {
 	public function __toString()
 	{
-		return json_encode($this->getData());
+		return json_encode($this->getProperties());
 	}
 }

@@ -147,7 +147,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             
             // Insert item into the translations table.
             $this->getObject('com:languages.database.row.translation')
-                ->setData($translation)
+                ->setProperties($translation)
                 ->save();
             
             // Insert item into language specific tables.
@@ -175,7 +175,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                     $translation['original'] = 0;
                     
                     $this->getObject('com:languages.database.row.translation')
-                        ->setData($translation)
+                        ->setProperties($translation)
                         ->save();
                 }
             }
@@ -208,7 +208,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 'row'      => $context->data->id
             ), Library\Database::FETCH_ROW);
         
-        $translation->setData(array(
+        $translation->setProperties(array(
             'status' => DatabaseRowTranslation::STATUS_COMPLETED
         ))->save();
         
@@ -285,10 +285,14 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             }
             
             // Mark item as deleted in translations table.
-            $this->getObject('com:languages.database.table.translations')
-                ->select(array('table' => $context->table, 'row' => $context->data->id))
-                ->setData(array('deleted' => 1))
-                ->save(); 
+            $translations = $this->getObject('com:languages.database.table.translations')
+                                 ->select(array('table' => $context->table, 'row' => $context->data->id));
+
+            foreach($translations as $translation) {
+                $translation->setProperties(array('deleted' => 1));
+            }
+
+            $translations->save();
         }
     }
 }

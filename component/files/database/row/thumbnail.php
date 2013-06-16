@@ -104,7 +104,7 @@ class DatabaseRowThumbnail extends Library\DatabaseRowTable
 			{
 				$str = $this->generateThumbnail();
 
-		    	$this->setData(array(
+		    	$this->setProperties(array(
 			    	'files_container_id' => $source->getContainer()->id,
 					'folder'			 => $source->folder,
 					'filename'           => $source->name,

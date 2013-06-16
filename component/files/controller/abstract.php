@@ -53,7 +53,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
+			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->copy() === false)
@@ -79,7 +79,7 @@ abstract class ControllerAbstract extends Library\ControllerModel
 
 		if(!$entity->isNew())
 		{
-			$entity->setData(Library\ObjectConfig::unbox($context->request->data->toArray()));
+			$entity->setProperties(Library\ObjectConfig::unbox($context->request->data->toArray()));
 
 			//Only throw an error if the action explicitly failed.
 			if($entity->move() === false)

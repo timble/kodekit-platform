@@ -29,7 +29,7 @@ class CommandValidatorFile extends CommandValidatorNode
 			try
             {
 				$file = $this->getObject('com:files.database.row.url');
-				$file->setData(array('file' => $row->file));
+				$file->setProperties(array('file' => $row->file));
 				$file->load();
 				$row->contents = $file->contents;
 

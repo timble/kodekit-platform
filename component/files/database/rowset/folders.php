@@ -57,9 +57,9 @@ class DatabaseRowsetFolders extends DatabaseRowsetNodes
 			$hierarchy = !empty($row['hierarchy']) ? $row['hierarchy'] : false;
 			unset($row['hierarchy']);
 
-		    //Create a row prototype and clone it this is faster then instanciating a new row
+		    //Create a row prototype and clone it this is faster then instantiating a new row
 			$instance = $this->getRow()
-							->setData($row)
+							->setProperties($row)
 							->setStatus($status);
 
         	if($hierarchy)
