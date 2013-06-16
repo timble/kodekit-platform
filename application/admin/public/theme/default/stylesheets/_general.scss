@@ -4,7 +4,6 @@ body {
 	margin: 0; padding: 0;
 	font-size: $baseFontSize;
 	background-color: #FFF;
-	min-width: 960px;
 }
 
 body, td, th { font-family: $baseFontFamily; }
@@ -128,13 +127,12 @@ ul {
 	border-right: 1px solid $grayLighter;
 	background-color: rgb(207,214,222);
 
-  nav {
+  .navigation {
     h3 {
-      @extend %navigation__separator;
+      @extend .navigation__separator;
     }
 
     a {
-      @extend %navigation__item;
       border-top-color: rgb(207,214,222);
     }
   }
@@ -236,13 +234,6 @@ ul {
 		margin-top: 2px;
 	}
 
-	.navigation {
-      @extend %navigation;
-
-      a {
-			@extend %navigation__item;
-        }
-	}
   input[type=date] {
     width: 160px;
   }

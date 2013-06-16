@@ -1,20 +1,20 @@
 /* line 1, blocks/_navigation.scss */
-#panel-sidebar .navigation {
+.navigation {
   margin: 0;
 }
-/* line 4, blocks/_navigation.scss */
-#panel-sidebar .navigation li li a {
+/* line 8, blocks/_navigation.scss */
+.navigation li li a {
   padding-left: 36px;
 }
 
-/* line 9, blocks/_navigation.scss */
-#panel-pages nav h3 {
+/* line 13, blocks/_navigation.scss */
+.navigation__separator, #panel-pages .navigation h3 {
   margin: 0;
   padding: 6px 16px;
 }
 
-/* line 14, blocks/_navigation.scss */
-#panel-pages nav a, #panel-sidebar .navigation a, #files-tree .mooTree_node {
+/* line 18, blocks/_navigation.scss */
+.navigation__item, .navigation a, #files-tree .mooTree_node {
   display: block;
   padding-left: 22px;
   line-height: 27px;
@@ -22,18 +22,18 @@
   font-weight: 500;
   border-top: 1px solid #f9f9f9;
 }
-/* line 24, blocks/_navigation.scss */
-#panel-pages nav a .navigation__badge, #panel-sidebar .navigation a .navigation__badge, #files-tree .mooTree_node .navigation__badge {
+/* line 28, blocks/_navigation.scss */
+.navigation__item .navigation__badge, .navigation a .navigation__badge, #files-tree .mooTree_node .navigation__badge {
   margin: auto 8px;
   height: 14px;
   line-height: 14px;
 }
-/* line 32, blocks/_navigation.scss */
-#panel-pages nav a.level1, #panel-sidebar .navigation a.level1, #files-tree .level1.mooTree_node {
+/* line 36, blocks/_navigation.scss */
+.navigation__item.level1, .navigation a.level1, #files-tree .level1.mooTree_node {
   padding-left: 36px;
 }
-/* line 36, blocks/_navigation.scss */
-#panel-pages nav a:hover, #panel-sidebar .navigation a:hover, #files-tree .mooTree_node:hover {
+/* line 40, blocks/_navigation.scss */
+.navigation__item:hover, .navigation a:hover, #files-tree .mooTree_node:hover {
   border-top: 1px solid #c4dbf2;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d9e8f6), color-stop(100%, #afceed));
   background: -webkit-linear-gradient(#d9e8f6, #afceed);
@@ -42,8 +42,10 @@
   background: linear-gradient(#d9e8f6, #afceed);
   text-decoration: none;
 }
-/* line 43, blocks/_navigation.scss */
-#panel-pages nav a.active, #panel-sidebar .navigation a.active, #files-tree .active.mooTree_node, #panel-pages nav a.active:hover, #panel-sidebar .navigation a.active:hover, #files-tree .active.mooTree_node:hover {
+
+/* line 52, blocks/_navigation.scss */
+.navigation__item--active, .navigation__item.active, .navigation a.active, #files-tree .active.mooTree_node, .navigation__item.active:hover, .navigation .files-node.active a,
+.navigation .files-node.active a:hover {
   color: #FFF;
   border-top: 1px solid #5c9bda;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #71a8df), color-stop(100%, #2b75bf));
@@ -923,7 +925,7 @@ input[type="submit"].btn.btn-mini {
 }
 
 /* line 5, _type.scss */
-.ellipsis, #panel-pages nav a, #panel-sidebar .navigation a, #files-tree .mooTree_node, #panel-sidebar h3,
+.ellipsis, .navigation__item, .navigation a, #files-tree .mooTree_node, #panel-sidebar h3,
 #panel-sidebar legend,
 #panel-inspector h3,
 #panel-inspector legend {
@@ -939,20 +941,19 @@ body {
   padding: 0;
   font-size: 12px;
   background-color: #FFF;
-  min-width: 960px;
 }
 
-/* line 10, _general.scss */
+/* line 9, _general.scss */
 body, td, th {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* line 12, _general.scss */
+/* line 11, _general.scss */
 #tmpl-component {
   overflow: auto;
 }
 
-/* line 16, _general.scss */
+/* line 15, _general.scss */
 .group:after {
   content: ".";
   display: block;
@@ -962,23 +963,23 @@ body, td, th {
   height: 0;
 }
 
-/* line 25, _general.scss */
+/* line 24, _general.scss */
 a, img {
   padding: 0;
   margin: 0;
 }
 
-/* line 27, _general.scss */
+/* line 26, _general.scss */
 img {
   border: 0 none;
 }
 
-/* line 29, _general.scss */
+/* line 28, _general.scss */
 h3 {
   font-size: 13px;
 }
 
-/* line 34, _general.scss */
+/* line 33, _general.scss */
 hr {
   margin: 12px 0;
   border: 0;
@@ -986,54 +987,54 @@ hr {
   border-bottom: 1px solid white;
 }
 
-/* line 41, _general.scss */
+/* line 40, _general.scss */
 a {
   color: #0b55c4;
 }
 
-/* line 45, _general.scss */
+/* line 44, _general.scss */
 a:link {
   text-decoration: none;
 }
 
-/* line 46, _general.scss */
+/* line 45, _general.scss */
 a:visited {
   text-decoration: none;
 }
 
-/* line 47, _general.scss */
+/* line 46, _general.scss */
 a:hover {
   text-decoration: underline;
 }
 
-/* line 49, _general.scss */
+/* line 48, _general.scss */
 ul {
   padding: 0;
 }
 
-/* line 53, _general.scss */
+/* line 52, _general.scss */
 .hide {
   display: none;
 }
 
-/* line 57, _general.scss */
+/* line 56, _general.scss */
 [data-action] {
   cursor: pointer;
 }
 
-/* line 61, _general.scss */
+/* line 60, _general.scss */
 ::-webkit-scrollbar {
   width: 8px;
   padding: 4px;
 }
 
-/* line 66, _general.scss */
+/* line 65, _general.scss */
 ::-webkit-scrollbar-track {
   border-left: 1px solid #dddddd;
   padding: 4px;
 }
 
-/* line 71, _general.scss */
+/* line 70, _general.scss */
 ::-webkit-scrollbar-thumb {
   background-color: #C3C3C3;
   margin: 4px;
@@ -1041,7 +1042,7 @@ ul {
 }
 
 /* -- overall styles ------------------------------ */
-/* line 78, _general.scss */
+/* line 77, _general.scss */
 #panel-header {
   background-color: #333;
   border-bottom: 1px solid #6e6e6e;
@@ -1056,7 +1057,7 @@ ul {
   position: relative;
 }
 
-/* line 87, _general.scss */
+/* line 86, _general.scss */
 #panel-tabbar {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6497ef), color-stop(100%, #3678ea));
   background: -webkit-linear-gradient(#6497ef, #3678ea);
@@ -1068,7 +1069,7 @@ ul {
   box-shadow: inset rgba(0, 0, 0, 0.1) 0px -2px 2px;
 }
 
-/* line 92, _general.scss */
+/* line 91, _general.scss */
 #panel-toolbar {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1080,22 +1081,22 @@ ul {
   background: -o-linear-gradient(#f9f9f9, #ececec);
   background: linear-gradient(#f9f9f9, #ececec);
 }
-/* line 97, _general.scss */
+/* line 96, _general.scss */
 #panel-toolbar select[name="language"] {
   margin-right: 12px;
 }
-/* line 101, _general.scss */
+/* line 100, _general.scss */
 #panel-toolbar .btn-group {
   padding: 0;
   margin: 0 10px;
   float: left;
 }
-/* line 106, _general.scss */
+/* line 105, _general.scss */
 #panel-toolbar .btn-group a {
   min-width: 50px;
   padding: 6px 12px;
 }
-/* line 113, _general.scss */
+/* line 112, _general.scss */
 #panel-toolbar .btn,
 #panel-toolbar a.btn {
   color: #333;
@@ -1104,7 +1105,7 @@ ul {
   font-size: 11px;
 }
 
-/* line 121, _general.scss */
+/* line 120, _general.scss */
 #panel-pages {
   display: -webkit-flex;
   display: -moz-flex;
@@ -1120,12 +1121,12 @@ ul {
   border-right: 1px solid #dddddd;
   background-color: #cfd6de;
 }
-/* line 136, _general.scss */
-#panel-pages nav a {
+/* line 135, _general.scss */
+#panel-pages .navigation a {
   border-top-color: #cfd6de;
 }
 
-/* line 144, _general.scss */
+/* line 142, _general.scss */
 #panel-sidebar,
 #panel-inspector {
   -webkit-box-sizing: border-box;
@@ -1133,7 +1134,7 @@ ul {
   box-sizing: border-box;
   background-color: #f9f9f9;
 }
-/* line 149, _general.scss */
+/* line 147, _general.scss */
 #panel-sidebar h3,
 #panel-sidebar legend,
 #panel-inspector h3,
@@ -1155,17 +1156,17 @@ ul {
   background: -o-linear-gradient(#f2f2f2, #e9e9e9);
   background: linear-gradient(#f2f2f2, #e9e9e9);
 }
-/* line 168, _general.scss */
+/* line 166, _general.scss */
 #panel-sidebar fieldset,
 #panel-inspector fieldset {
   margin: 0;
 }
 
-/* line 173, _general.scss */
+/* line 171, _general.scss */
 #panel-inspector {
   border-left: 1px solid #dddddd;
 }
-/* line 177, _general.scss */
+/* line 175, _general.scss */
 #panel-inspector #activities-list h4 {
   padding: 5px;
   margin: 0;
@@ -1177,77 +1178,77 @@ ul {
   background: -o-linear-gradient(#f1f2f4, #f9f9f9);
   background: linear-gradient(#f1f2f4, #f9f9f9);
 }
-/* line 185, _general.scss */
+/* line 183, _general.scss */
 #panel-inspector #activities-list h4:first-of-type {
   border-top: none 0px;
 }
-/* line 189, _general.scss */
+/* line 187, _general.scss */
 #panel-inspector #activities-list .activities {
   margin: 0 10px 10px 10px;
 }
-/* line 192, _general.scss */
+/* line 190, _general.scss */
 #panel-inspector #activities-list .activities .activity {
   padding: 7px 0;
   border-bottom: 1px dotted #dddddd;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 197, _general.scss */
+/* line 195, _general.scss */
 #panel-inspector #activities-list .activities .activity > div {
   float: left;
 }
-/* line 201, _general.scss */
+/* line 199, _general.scss */
 #panel-inspector #activities-list .activities .activity a {
   line-height: 16px;
   width: 100%;
 }
-/* line 207, _general.scss */
+/* line 205, _general.scss */
 #panel-inspector #activities-list .activities .activity i {
   margin-right: 6px;
   margin-top: 1px;
   gradient-vertical-align: text-bottom;
   float: left;
 }
-/* line 214, _general.scss */
+/* line 212, _general.scss */
 #panel-inspector #activities-list .activities .activity .datetime {
   color: #555555;
 }
-/* line 216, _general.scss */
+/* line 214, _general.scss */
 #panel-inspector #activities-list .activities .activity:last-child {
   border-bottom: none 0px;
 }
-/* line 219, _general.scss */
+/* line 217, _general.scss */
 #panel-inspector #activities-list .btn-group {
   padding: 0 10px;
 }
 
-/* line 225, _general.scss */
+/* line 223, _general.scss */
 #panel-sidebar {
   border-right: 1px solid #dddddd;
 }
-/* line 228, _general.scss */
+/* line 226, _general.scss */
 #panel-sidebar h4 {
   padding: 4px 0 4px 10px;
   margin: 12px 0 0 0;
   color: #666;
   text-transform: uppercase;
 }
-/* line 235, _general.scss */
+/* line 233, _general.scss */
 #panel-sidebar h4:first-of-type {
   margin-top: 2px;
 }
-/* line 246, _general.scss */
+/* line 237, _general.scss */
 #panel-sidebar input[type=date] {
   width: 160px;
 }
 
-/* line 251, _general.scss */
+/* line 242, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 255, _general.scss */
+/* line 246, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1256,16 +1257,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 266, _general.scss */
+/* line 257, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 270, _general.scss */
+/* line 261, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 273, _general.scss */
+/* line 264, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1279,26 +1280,26 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 282, _general.scss */
+/* line 273, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 289, _general.scss */
+/* line 280, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 293, _general.scss */
+/* line 284, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 296, _general.scss */
+/* line 287, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 302, _general.scss */
+/* line 293, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(100%, #e5e5e5));
   background: -webkit-linear-gradient(#e0e0e0, #e5e5e5);
@@ -1306,31 +1307,31 @@ ul {
   background: -o-linear-gradient(#e0e0e0, #e5e5e5);
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 308, _general.scss */
+/* line 299, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 310, _general.scss */
+/* line 301, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 311, _general.scss */
+/* line 302, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 314, _general.scss */
+/* line 305, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 316, _general.scss */
+/* line 307, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 319, _general.scss */
+/* line 310, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1339,7 +1340,7 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 324, _general.scss */
+/* line 315, _general.scss */
 .-koowa-grid table tbody tr.separator td {
   height: auto;
   text-align: left;
@@ -1347,73 +1348,73 @@ ul {
   background-color: #ededed;
   border-bottom: 1px solid #dddddd;
 }
-/* line 332, _general.scss */
-.-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
+/* line 323, _general.scss */
+.-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr td.navigation__item, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 337, _general.scss */
+/* line 328, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 340, _general.scss */
+/* line 331, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 341, _general.scss */
+/* line 332, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 346, _general.scss */
+/* line 337, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 347, _general.scss */
+/* line 338, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 350, _general.scss */
+/* line 341, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 351, _general.scss */
+/* line 342, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 352, _general.scss */
+/* line 343, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 355, _general.scss */
+/* line 346, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 359, _general.scss */
+/* line 350, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 363, _general.scss */
+/* line 354, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 366, _general.scss */
+/* line 357, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 371, _general.scss */
+/* line 362, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 375, _general.scss */
+/* line 366, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 380, _general.scss */
+/* line 371, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f0f0f0), color-stop(100%, #eaeaea));
@@ -1423,7 +1424,7 @@ ul {
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 385, _general.scss */
+/* line 376, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1436,17 +1437,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 394, _general.scss */
+/* line 385, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0 !important;
 }
-/* line 402, _general.scss */
+/* line 393, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 408, _general.scss */
+/* line 399, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1455,12 +1456,12 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 414, _general.scss */
+/* line 405, _general.scss */
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 420, _general.scss */
+/* line 411, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1468,23 +1469,23 @@ ul {
 }
 
 /* Sidebar */
-/* line 426, _general.scss */
+/* line 417, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 429, _general.scss */
+/* line 420, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 438, _general.scss */
+/* line 429, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 442, _general.scss */
+/* line 433, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
@@ -3691,8 +3692,8 @@ you can use the generic selector below, but it's slower:
 /* line 10, _labels.scss */
 .label,
 .badge,
-#panel-pages nav a .navigation__badge,
-#panel-sidebar .navigation a .navigation__badge,
+.navigation__item .navigation__badge,
+.navigation a .navigation__badge,
 #files-tree .mooTree_node .navigation__badge {
   padding: 1px 6px;
   font-size: 10.2px;
@@ -3708,8 +3709,8 @@ you can use the generic selector below, but it's slower:
 /* line 20, _labels.scss */
 .label:empty,
 .badge:empty,
-#panel-pages nav a .navigation__badge:empty,
-#panel-sidebar .navigation a .navigation__badge:empty,
+.navigation__item .navigation__badge:empty,
+.navigation a .navigation__badge:empty,
 #files-tree .mooTree_node .navigation__badge:empty {
   display: none;
 }
@@ -4433,6 +4434,32 @@ body {
 }
 
 /* line 13, _flexbox.scss */
+.navigation {
+  -webkit-flex-grow: 1;
+  -moz-flex-grow: 1;
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+/* line 17, _flexbox.scss */
+.navigation a {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 0 0 auto;
+  -moz-flex: 0 0 auto;
+  flex: 0 0 auto;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
+}
+/* line 21, _flexbox.scss */
+.navigation a .navigation__badge {
+  -webkit-flex-grow: 0;
+  -moz-flex-grow: 0;
+  flex-grow: 0;
+}
+
+/* line 27, _flexbox.scss */
 #panel-wrapper {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4445,7 +4472,7 @@ body {
   flex-direction: column;
 }
 
-/* line 18, _flexbox.scss */
+/* line 32, _flexbox.scss */
 #panel-header {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4458,7 +4485,7 @@ body {
   justify-content: space-between;
 }
 
-/* line 24, _flexbox.scss */
+/* line 38, _flexbox.scss */
 #panel-tabbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4468,7 +4495,7 @@ body {
   flex-shrink: 0;
 }
 
-/* line 29, _flexbox.scss */
+/* line 43, _flexbox.scss */
 #panel-toolbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4477,14 +4504,14 @@ body {
   -moz-flex-shrink: 0;
   flex-shrink: 0;
 }
-/* line 33, _flexbox.scss */
+/* line 47, _flexbox.scss */
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
 
-/* line 38, _flexbox.scss */
+/* line 52, _flexbox.scss */
 #panel-component {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4494,7 +4521,7 @@ body {
   flex: 1 1 auto;
 }
 
-/* line 43, _flexbox.scss */
+/* line 57, _flexbox.scss */
 #panel-sidebar,
 #panel-inspector {
   display: -webkit-flex;
@@ -4508,40 +4535,12 @@ body {
   flex-direction: column;
   width: 200px;
 }
-/* line 48, _flexbox.scss */
+/* line 62, _flexbox.scss */
 #panel-sidebar h3,
 #panel-inspector h3 {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
   flex-shrink: 0;
-}
-/* line 52, _flexbox.scss */
-#panel-sidebar .navigation,
-#panel-inspector .navigation {
-  -webkit-flex-grow: 1;
-  -moz-flex-grow: 1;
-  flex-grow: 1;
-  overflow-y: scroll;
-}
-/* line 56, _flexbox.scss */
-#panel-sidebar .navigation a,
-#panel-inspector .navigation a {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 0 0 auto;
-  -moz-flex: 0 0 auto;
-  flex: 0 0 auto;
-  -webkit-justify-content: space-between;
-  -moz-justify-content: space-between;
-  justify-content: space-between;
-}
-/* line 60, _flexbox.scss */
-#panel-sidebar .navigation a .navigation__badge,
-#panel-inspector .navigation a .navigation__badge {
-  -webkit-flex-grow: 0;
-  -moz-flex-grow: 0;
-  flex-grow: 0;
 }
 
 /* line 67, _flexbox.scss */
@@ -4787,6 +4786,52 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 /* line 187, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
+}
+/* line 195, _flexbox.scss */
+.com_files #files-compact {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 199, _flexbox.scss */
+.com_files #files-insert {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 203, _flexbox.scss */
+.com_files #files-insert #files-tree-container,
+.com_files #files-insert #files-grid {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 207, _flexbox.scss */
+.com_files #files-insert #details {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -moz-flex: 1 0 auto;
+  flex: 1 0 auto;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
+}
+/* line 211, _flexbox.scss */
+.com_files #files-insert #details #files-preview {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1 0 auto;
+  -moz-flex: 1 0 auto;
+  flex: 1 0 auto;
+}
+/* line 215, _flexbox.scss */
+.com_files #files-insert #details #image-insert-form {
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 @media (max-width: 1200px) {
@@ -5387,128 +5432,20 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   font-size: 18px;
 }
 
-/* @group files-compact.css */
-/* line 396, components/_files.scss */
-#files-compact {
-  overflow: hidden;
-}
-/* line 399, components/_files.scss */
-#files-compact > * {
-  background-color: #F9F9F9;
-}
-/* line 404, components/_files.scss */
-#files-compact #insert {
-  border: 1px solid #E1E1E1;
-  background-color: #FFF;
-  overflow: hidden;
-}
-/* line 410, components/_files.scss */
-#files-compact #insert .hide {
-  display: none;
-}
-/* line 414, components/_files.scss */
-#files-compact #insert #details {
-  overflow: hidden;
-  height: 389px;
-  background-color: #F4F4F4;
-  position: relative;
-}
-/* line 421, components/_files.scss */
-#files-compact #insert #files-grid {
-  width: 264px;
-}
-/* line 424, components/_files.scss */
-#files-compact #insert #files-container {
-  width: 200px;
-}
-/* line 429, components/_files.scss */
-#files-compact #insert #details,
-#files-compact #insert #files-preview {
-  width: 200px;
-}
-/* line 432, components/_files.scss */
-#files-compact #insert #details tr:last-child td,
-#files-compact #insert #files-preview tr:last-child td {
-  border-bottom: 1px #E1E1E1 solid;
-}
-/* line 435, components/_files.scss */
-#files-compact #insert #details img.icon,
-#files-compact #insert #files-preview img.icon {
-  margin: 10px;
-}
-/* line 440, components/_files.scss */
-#files-compact #insert #files-grid {
-  border-right: 1px solid #E1E1E1;
-  height: 389px;
-  overflow: auto;
-}
-/* line 445, components/_files.scss */
-#files-compact #insert #files-preview {
-  background: white;
-  margin-bottom: 10px;
-}
-/* line 449, components/_files.scss */
-#files-compact #insert ul {
-  list-style-type: none;
-}
-/* line 456, components/_files.scss */
-#files-compact #files-uploader-web form {
-  padding: 5px;
-}
-/* line 464, components/_files.scss */
-#files-compact #files-uploader-web form #remote-url, #files-compact #files-uploader-web form #remote-name {
-  height: 28px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-/* line 468, components/_files.scss */
-#files-compact #files-uploader-web form #remote-url {
-  -webkit-border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
-  -ms-border-radius: 4px 0 0 4px;
-  -o-border-radius: 4px 0 0 4px;
-  border-radius: 4px 0 0 4px;
-}
-/* line 471, components/_files.scss */
-#files-compact #files-uploader-web form #remote-name {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  -ms-border-radius: 0;
-  -o-border-radius: 0;
-  border-radius: 0;
-}
-/* line 474, components/_files.scss */
-#files-compact #files-uploader-web form .remote-submit {
-  top: 5px;
-  right: 5px;
-  bottom: 5px;
-  -webkit-border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
-  -ms-border-radius: 0 4px 4px 0;
-  -o-border-radius: 0 4px 4px 0;
-  border-radius: 0 4px 4px 0;
-}
-/* line 488, components/_files.scss */
-#files-compact .parameters .detail-label {
-  text-align: right;
-  color: gray;
-}
-
-/* @end */
-/* line 495, components/_files.scss */
-#files-tree {
+/* line 395, components/_files.scss */
+#panel-sidebar #files-tree {
   border-top: 1px solid #dddddd;
 }
-/* line 498, components/_files.scss */
+
+/* line 400, components/_files.scss */
 #files-tree .mooTree_node {
   padding-left: 10px;
 }
-/* line 503, components/_files.scss */
+/* line 405, components/_files.scss */
 #files-tree .mooTree_text {
   text-indent: 5px;
 }
-/* line 507, components/_files.scss */
+/* line 409, components/_files.scss */
 #files-tree .mooTree_img {
   float: left;
   width: 18px;
@@ -5519,15 +5456,15 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 
 /* @group files-layout-icons.css */
-/* line 521, components/_files.scss */
+/* line 423, components/_files.scss */
 #files-app #files-grid > div {
   padding: 10px;
 }
-/* line 525, components/_files.scss */
+/* line 427, components/_files.scss */
 #files-app .spinner {
   padding: 0px !important;
 }
-/* line 528, components/_files.scss */
+/* line 430, components/_files.scss */
 #files-app div.files-node {
   cursor: pointer;
   display: inline-block;
@@ -5541,15 +5478,15 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 539, components/_files.scss */
+/* line 441, components/_files.scss */
 #files-app #files-grid .loading {
   opacity: 0.6;
 }
-/* line 543, components/_files.scss */
+/* line 445, components/_files.scss */
 #files-app #files-grid .loaded {
   opacity: 1;
 }
-/* line 546, components/_files.scss */
+/* line 448, components/_files.scss */
 #files-app div.files-node img {
   opacity: 0;
   -webkit-transition: opacity 150ms ease-out;
@@ -5557,11 +5494,11 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -o-transition: opacity 150ms ease-out;
   transition: opacity 150ms ease-out;
 }
-/* line 550, components/_files.scss */
+/* line 452, components/_files.scss */
 #files-app div.files-node img.loaded {
   opacity: 1;
 }
-/* line 553, components/_files.scss */
+/* line 455, components/_files.scss */
 #files-app div.files-node.selected {
   color: white;
   border-color: #2b75bf;
@@ -5579,7 +5516,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   background: -o-linear-gradient(#2b75bf, #2b75bf);
   background: linear-gradient(#2b75bf, #2b75bf);
 }
-/* line 566, components/_files.scss */
+/* line 468, components/_files.scss */
 #files-app div.files-node-thumbnail {
   position: relative;
   margin: 0 0 8px 0;
@@ -5592,7 +5529,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   background-image: -o-radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
   background-image: radial-gradient(#ffffff, rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
 }
-/* line 575, components/_files.scss */
+/* line 477, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate {
   display: block;
   background: no-repeat center center;
@@ -5601,7 +5538,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   width: inherit;
   height: inherit;
 }
-/* line 583, components/_files.scss */
+/* line 485, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate::after {
   -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
   -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2) inset;
@@ -5613,112 +5550,142 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   top: 0;
   width: inherit;
 }
-/* line 592, components/_files.scss */
+/* line 494, components/_files.scss */
 #files-app div.files-node.selected div.files-node-thumbnail a.navigate::after {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
 }
-/* line 595, components/_files.scss */
+/* line 497, components/_files.scss */
 #files-app div.files-node-thumbnail a.navigate img {
   width: 100%;
 }
-/* line 598, components/_files.scss */
+/* line 500, components/_files.scss */
 #files-app .files-folder div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/folder-64.png");
 }
-/* line 602, components/_files.scss */
+/* line 504, components/_files.scss */
 #files-app .files-file div.files-node-thumbnail a.navigate,
 #files-app .files-image.nothumbnails div.files-node-thumbnail a.navigate {
   background-image: url("../../../../media/files/images/document-64.png");
 }
-/* line 605, components/_files.scss */
+/* line 507, components/_files.scss */
 #files-app .files-image.thumbnails div.files-node-thumbnail a.navigate {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
   background: url("../../../../media/files/images/checker.png") repeat left top white;
 }
-/* line 612, components/_files.scss */
+/* line 514, components/_files.scss */
 #files-app .files-icons-controls {
   text-align: center;
 }
 
 /* @end */
 /* @NOTE the following code makes sure that the flash adapter of plupload does not break when the modal is closed */
-/* line 619, components/_files.scss */
+/* line 521, components/_files.scss */
 .uploader-flash-container object, .uploader-flash-container embed {
   display: block !important;
   visibility: visible !important;
 }
 
 /* @end */
-/* line 1, components/_files_compact.scss */
-body {
-  font-family: Helvetica, Arial, sans-serif;
+/* line 7, components/_files_compact.scss */
+#files-compact .tab > label {
+  border-top: 1px solid #dddddd;
 }
-
-/* line 5, components/_files_compact.scss */
-#files-compact {
-  width: 730px;
-  /* Mozilla needs this */
-  overflow: hidden;
-}
-
 /* line 10, components/_files_compact.scss */
-#files-compact > * {
+#files-compact .tab:first-child > label {
+  border-left: 1px solid #dddddd;
+}
+/* line 13, components/_files_compact.scss */
+#files-compact [type=radio]:checked ~ label {
+  background-color: #f9f9f9;
+  border-bottom-color: #f9f9f9;
+}
+/* line 18, components/_files_compact.scss */
+#files-compact .content {
+  overflow: hidden;
+  border: 1px solid #dddddd;
+  top: 31px;
+}
+/* line 26, components/_files_compact.scss */
+#files-compact #files-insert #files-tree-container,
+#files-compact #files-insert #files-grid {
+  width: 200px;
+  border-right: 1px solid #E1E1E1;
   background-color: #f9f9f9;
 }
-
-/* line 14, components/_files_compact.scss */
-#insert {
-  border: 1px solid #E1E1E1;
-  background-color: #FFF;
-  overflow: hidden;
+/* line 33, components/_files_compact.scss */
+#files-compact #files-insert #details #files-preview {
+  background: white;
 }
-
-/* line 20, components/_files_compact.scss */
-#insert .properties {
-  background-color: #F4F4F4;
-  border-top: 1px solid #E1E1E1;
-  width: 100%;
+/* line 36, components/_files_compact.scss */
+#files-compact #files-insert #details #files-preview > div {
+  margin: auto;
+  text-align: center;
+  padding: 20px;
 }
-
-/* line 26, components/_files_compact.scss */
-#insert .properties tr,
-#insert .properties td {
-  border: none;
+/* line 41, components/_files_compact.scss */
+#files-compact #files-insert #details #files-preview > div > div {
+  padding-top: 6px;
 }
-
-/* line 29, components/_files_compact.scss */
-#insert .properties tr:last-child td {
-  padding-bottom: 7px;
+/* line 46, components/_files_compact.scss */
+#files-compact #files-insert #details #files-preview img {
+  max-height: 125px;
 }
-
-/* line 32, components/_files_compact.scss */
-#insert .properties td {
-  padding: 2px 5px;
-}
-
-/* line 35, components/_files_compact.scss */
-#insert .properties label {
-  display: block;
-  margin-top: 10px;
-  padding-left: 5px;
-}
-
-/* line 40, components/_files_compact.scss */
-#insert .properties input[type=text] {
-  width: 98%;
-}
-
-/* line 45, components/_files_compact.scss */
-#insert-modal-cancel,
-.insert-or {
-  font-size: 13px;
-}
-
 /* line 51, components/_files_compact.scss */
+#files-compact #files-insert #details #image-insert-form {
+  border-top: 1px solid #E1E1E1;
+  background-color: #F4F4F4;
+}
+/* line 56, components/_files_compact.scss */
+#files-compact #files-insert #details .buttons {
+  border-top: 1px solid #E1E1E1;
+  background-color: #F4F4F4;
+  padding: 6px;
+  text-align: right;
+}
+/* line 66, components/_files_compact.scss */
+#files-compact #files-upload form {
+  padding: 5px;
+}
+/* line 70, components/_files_compact.scss */
+#files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
+  height: 28px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 74, components/_files_compact.scss */
+#files-compact #files-upload form #remote-url {
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  -ms-border-radius: 4px 0 0 4px;
+  -o-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+/* line 77, components/_files_compact.scss */
+#files-compact #files-upload form #remote-name {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+}
+/* line 80, components/_files_compact.scss */
+#files-compact #files-upload form .remote-submit {
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  -ms-border-radius: 0 4px 4px 0;
+  -o-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* line 97, components/_files_compact.scss */
 #insert-modal-cancel,
 #insert-link,
 .insert-or {
@@ -5728,278 +5695,23 @@ body {
   cursor: pointer;
 }
 
-/* line 57, components/_files_compact.scss */
+/* line 103, components/_files_compact.scss */
 .insert-or {
   padding: 5px 5px 5px 0;
   margin-left: -5px;
   cursor: default;
 }
 
-/* line 62, components/_files_compact.scss */
+/* line 108, components/_files_compact.scss */
 #insert-link {
   font-size: 15px;
   overflow: hidden;
   box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
   background: #8F8F8F;
-  border: 1px solid rgba(117, 117, 117, 0.48);
   text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
   background-clip: border-box;
   color: white;
   background: linear-gradient(top, #72a8df, #2b75bf);
-}
-
-/* line 74, components/_files_compact.scss */
-#files-new-folder-modal {
-  margin-left: 16px;
-}
-
-/* line 77, components/_files_compact.scss */
-#files-new-folder-input, #files-new-folder-create {
-  float: left;
-  font-size: 10px;
-  margin: 0;
-  padding: 5px;
-}
-
-/* line 83, components/_files_compact.scss */
-#files-new-folder-input {
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-  border-right: none 0px transparent;
-}
-
-/* line 89, components/_files_compact.scss */
-#files-new-folder-create {
-  margin: 0;
-  border-radius: 0px;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-  overflow: hidden;
-  display: inline-block;
-  text-shadow: rgba(0, 0, 0, 0.3) 0 -1px 0;
-  background-clip: border-box;
-  color: white;
-  box-shadow: inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
-  background: linear-gradient(top, #a8a8a8, #757575);
-  border: 1px solid rgba(117, 117, 117, 0.48);
-  opacity: 0.5;
-}
-
-/* line 104, components/_files_compact.scss */
-#files-new-folder-create.valid {
-  cursor: pointer;
-  opacity: 1;
-  background: linear-gradient(top, #72a8df, #2b75bf);
-}
-
-/* line 109, components/_files_compact.scss */
-#files-new-folder-create.valid:active, #files-new-folder-create:active {
-  background: linear-gradient(top, #2b75bf, #72a8df);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset rgba(255, 255, 255, 0.2) 0 -1px 1px;
-  text-shadow: none;
-}
-
-/* line 115, components/_files_compact.scss */
-#insert .buttons {
-  background-color: #F4F4F4;
-  border-top: 1px solid #E1E1E1;
-  padding: 4px;
-  text-align: right;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-/* line 126, components/_files_compact.scss */
-#insert .hide {
-  display: none;
-}
-
-/* line 130, components/_files_compact.scss */
-#insert #details {
-  overflow: hidden;
-  height: 389px;
-  background-color: #F4F4F4;
-  position: relative;
-}
-
-/* line 137, components/_files_compact.scss */
-#insert #files-tree-container {
-  width: 200px;
-}
-
-/* line 140, components/_files_compact.scss */
-#insert #files-grid {
-  width: 304px;
-}
-
-/* line 146, components/_files_compact.scss */
-#insert #files-tree-container,
-#insert #files-grid {
-  border-right: 1px solid #E1E1E1;
-  height: 389px;
-  overflow: auto;
-}
-
-/* line 148, components/_files_compact.scss */
-#insert #files-container {
-  width: 200px;
-}
-
-/* line 152, components/_files_compact.scss */
-#insert #files-container ul {
-  margin: 0;
-  padding: 0;
-}
-
-/* line 158, components/_files_compact.scss */
-#insert #details,
-#insert #files-preview {
-  width: 200px;
-}
-
-/* line 161, components/_files_compact.scss */
-#insert #files-preview {
-  background: white;
-}
-
-/* line 164, components/_files_compact.scss */
-#insert #files-preview ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-}
-
-/* line 171, components/_files_compact.scss */
-#insert #files-preview ul li.info {
-  background-color: #FAFAFA;
-  border-bottom: 1px solid #F1F1F1;
-  padding: 6px 0;
-}
-
-/* line 177, components/_files_compact.scss */
-#insert #files-preview ul li.preview {
-  padding: 10px;
-}
-
-/* line 181, components/_files_compact.scss */
-#insert li.files-node {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-/* line 187, components/_files_compact.scss */
-#insert li.files-node a {
-  display: block;
-  padding: 4px 10px;
-  text-decoration: none;
-  line-height: normal;
-}
-
-/* line 194, components/_files_compact.scss */
-#insert li.files-node a {
-  font-family: Verdana, Arial, Helvetica;
-  font-size: 11px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  border-top: 1px solid #FFF;
-  padding: 3px 10px;
-  height: 15px;
-  color: #000;
-}
-
-/* line 205, components/_files_compact.scss */
-#insert li.files-node a:hover {
-  border-top-color: #c5dbf0;
-  background-color: #cee1f4;
-}
-
-/* line 211, components/_files_compact.scss */
-#insert li.files-node.active a,
-#insert li.files-node.active a:hover {
-  color: white;
-  border-top-color: #72a8df;
-  background-color: #6ea6de;
-  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
-  text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
-}
-
-/* line 219, components/_files_compact.scss */
-.path {
-  background-color: #EEE;
-  border-left: 1px solid #E1E1E1;
-  border-right: 1px solid #E1E1E1;
-  border-bottom: 1px solid #E1E1E1;
-  padding: 4px;
-}
-
-/* line 227, components/_files_compact.scss */
-#insert #files-grid ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-/* tabs */
-/* line 234, components/_files_compact.scss */
-#files-compact dl.tabs {
-  float: left;
-  margin: 10px 0 0 0;
-  z-index: 50;
-  background: none;
-}
-
-/* line 241, components/_files_compact.scss */
-#files-compact dl.tabs dt {
-  float: left;
-  padding: 6px 14px;
-  border: 1px solid #ccc;
-  margin-left: 6px;
-  background: #f0f0f0;
-  color: #666;
-  border-radius: 5px 5px 0 0;
-  margin-bottom: -1px;
-}
-
-/* line 252, components/_files_compact.scss */
-#files-compact dl.tabs dt:hover {
-  background: #F6F6F6;
-  z-index: 100;
-  color: #333;
-}
-
-/* line 260, components/_files_compact.scss */
-#files-compact dl.tabs dt:active,
-#files-compact dl.tabs dt.open,
-#files-compact dl.tabs dt.open:active {
-  background: #F9F9F9;
-  z-index: 100;
-  color: #333;
-  border-bottom-color: #F9F9F9;
-  box-shadow: inset rgba(140, 140, 140, 0.2) 0px 2px 2px;
-}
-
-/* line 268, components/_files_compact.scss */
-#files-compact dl.tabs dt:active {
-  background: #EEE;
-  border-bottom-color: #CCC;
-}
-
-/* line 273, components/_files_compact.scss */
-#files-compact div.current {
-  clear: both;
-  border: 1px solid #CCC;
-  padding: 10px 10px;
-}
-
-/* line 279, components/_files_compact.scss */
-#files-compact div.current dd {
-  padding: 0;
-  margin: 0;
 }
 
 /* line 2, components/_pages.scss */

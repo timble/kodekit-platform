@@ -12,13 +12,6 @@
 
 <script src="media://files/js/files.compact.js" />
 
-<style src="media://files/css/files.compact.css" />
-<style>
-    #files-compact #details {
-        height: 388px \0/; /* IE needs this */
-    }
-</style>
-
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
 Files.base     = '<?= $base; ?>';
@@ -52,27 +45,27 @@ window.addEvent('domready', function() {
 
 <?= @template('com:files.view.files.templates_compact.html');?>
 
-<div id="files-compact">
-	<?=	@helper('tabs.startPane', array('id' => 'pane_insert')); ?>
-	<?= @helper('tabs.startPanel', array('title' => 'Insert')); ?>
-		<div id="insert">
-			<div id="files-tree-container" style="float: left">
-				<div id="files-tree"></div>
-			</div>
-
-			<div id="files-grid" style="float: left"></div>
-			<div id="details" style="float: left;">
-				<div id="files-preview"></div>
-			</div>
-			<div class="clear" style="clear: both"></div>
-		</div>
-	<?= @helper('tabs.endPanel'); ?>
-	<?= @helper('tabs.startPanel', array('title' => @text('Upload'))); ?>
-
-		<?= @template('com:files.view.files.uploader.html'); ?>
-
-	<?= @helper('tabs.endPanel'); ?>
-	<?= @helper('tabs.endPane'); ?>
+<div id="files-compact" class="tabs tabs-horizontal">
+    <div class="tab">
+        <input type="radio" id="tab-1" name="tab-group-1" checked="">
+        <label for="tab-1"><?= @text('Insert') ?></label>
+        <div id="files-insert" class="content">
+                <div id="files-tree-container">
+                    <div id="files-tree"></div>
+                </div>
+                <div id="files-grid"></div>
+                <div id="details">
+                    <div id="files-preview"></div>
+                </div>
+        </div>
+    </div>
+    <div class="tab">
+        <input type="radio" id="tab-2" name="tab-group-1">
+        <label for="tab-2"><?= @text('Upload') ?></label>
+        <div class="content">
+            <?= @template('com:files.view.files.uploader.html'); ?>
+        </div>
+    </div>
 </div>
 
 <script>

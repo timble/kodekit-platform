@@ -10,6 +10,20 @@ body {
   overflow: hidden;
 }
 
+.navigation {
+  @include flex-grow(1);
+  overflow-y: scroll;
+
+  a {
+    @include flex(0 0 auto);
+    @include flex-justify-content(space-between);
+
+    .navigation__badge {
+      @include flex-grow(0);
+    }
+  }
+}
+
 #panel-wrapper {
   @include flex(1 1 auto);
   @include flex-direction(column);
@@ -47,20 +61,6 @@ body {
 
   h3 {
     @include flex-shrink(0);
-  }
-
-  .navigation {
-    @include flex-grow(1);
-    overflow-y: scroll;
-
-    a {
-      @include flex(0 0 auto);
-      @include flex-justify-content(space-between);
-
-      .navigation__badge {
-        @include flex-grow(0);
-      }
-    }
   }
 }
 
@@ -190,5 +190,31 @@ table.mceLayout > tbody > tr:nth-of-type(3){
 
   #files-tree {
     @extend .scrollable;
+  }
+
+  #files-compact {
+    @include flex;
+  }
+
+  #files-insert {
+    @include flex;
+
+    #files-tree-container,
+    #files-grid {
+      @include flex;
+    }
+
+    #details {
+      @include flex(1 0 auto);
+      @include flex-direction(column);
+
+      #files-preview {
+        @include flex(1 0 auto);
+      }
+
+      #image-insert-form {
+        @include flex-shrink(0);
+      }
+    }
   }
 }
