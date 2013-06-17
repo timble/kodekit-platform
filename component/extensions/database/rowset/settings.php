@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package Nooku\Component\Extensions
  */
 class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
-{       
+{
 	/**
      * Test existence of a key
      *
@@ -27,9 +27,9 @@ class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
      */
     public function __isset($key)
     {
-        return $this->_object_set->offsetExists($key);
+        return (bool) $this->find($key);
     }
-    
+
 	/**
      * Get a row by key
      *
@@ -38,9 +38,9 @@ class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
      */
     public function __get($key)
     {
-        return $this->_object_set->offsetGet($key);
+        return $this->find($key);
     }
-    
+
 	/**
      * Set the rowset data based on a named array/hash
      *
@@ -48,16 +48,16 @@ class DatabaseRowsetSettings extends Library\DatabaseRowsetAbstract
      * @param   boolean $modified If TRUE, update the modified information for each column being set. Default TRUE
      * @return  Library\DatabaseRowsetAbstract
      */
-     public function setData( $data, $modified = true )
+     public function setProperties( $data, $modified = true )
      { 
          //Set the data in the rows
         if(isset($data[$this->getIdentifier()->name])) 
         { 
             foreach($data[$this->getIdentifier()->name] as $key => $data) {
-                 $this->_object_set->offsetGet($key)->setData($data, $modified); 
+                 $this->offsetGet($key)->setProperties($data, $modified);
              }   
         }
-        else parent::setData($data, $modified);
+        else parent::setProperties($data, $modified);
         
         return $this;
     }

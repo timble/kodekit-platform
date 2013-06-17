@@ -92,9 +92,9 @@ class ApplicationRouter extends Library\DispatcherRouter
         if(!empty($route))
         {
             //Need to reverse the array (highest sublevels first)
-            foreach(array_reverse($pages->id) as $id)
+            foreach($pages as $page)
             {
-                $page   = $pages->getPage($id);
+                $page   = $pages->getPage($page->id);
                 $length = strlen($page->route);
 
                 if($length > 0 && strpos($route.'/', $page->route.'/') === 0 && $page->type != 'pagelink')
