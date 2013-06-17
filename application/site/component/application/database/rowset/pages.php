@@ -93,7 +93,7 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
         // Return false if page not found.
         if(!is_null($page))
         {
-            if($page->access)
+            if($page->access || $page->users_group_id > 0)
             {
                 // Return false if page has access set, but user is a guest.
                 if($user->isAuthentic())
