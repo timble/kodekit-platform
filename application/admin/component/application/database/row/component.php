@@ -32,17 +32,4 @@ class ApplicationDatabaseRowComponent extends Library\DatabaseRowAbstract
         
         return $result;
     }
-    
-    public function __get($name)
-    {
-        if($name == 'params' && !($this->_data['params']) instanceof JParameter)
-        {
-            $path = Library\ClassLoader::getInstance()->getApplication('admin');
-            $file = $path.'/component/'.$this->option.'/resources/config/settings.xml';
-
-            $this->_data['params'] = new JParameter( $this->_data['params'], $file, 'component' );
-        }
-        
-        return parent::__get($name);
-    }
 }
