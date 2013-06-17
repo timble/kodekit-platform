@@ -168,12 +168,12 @@ class DatabaseRowsetTable extends DatabaseRowsetAbstract
      * @param    array $options An optional associative array of configuration settings.
      * @return    DatabaseRowAbstract
      */
-    public function getRow(array $options = array())
+    public function createRow(array $options = array())
     {
         $result = null;
 
         if ($this->isConnected()) {
-            $result = $this->getTable()->getRow($options);
+            $result = $this->getTable()->createRow($options);
         }
 
         return $result;

@@ -120,7 +120,7 @@ class DatabaseBehaviorOrderableClosure extends DatabaseBehaviorOrderableAbstract
         {
             // Insert empty row into ordering table.
             $table = $row->getTable();
-            $empty = $table->getOrderingTable()->getRow()->setProperties(array('id' => $row->id));
+            $empty = $table->getOrderingTable()->createRow()->setProperties(array('id' => $row->id));
             $table->getOrderingTable()->insert($empty);
             
             // Iterate through the columns and update values.

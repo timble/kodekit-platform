@@ -142,7 +142,7 @@ interface DatabaseTableInterface
      * @param   array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRow(array $options = array());
+    public function createRow(array $options = array());
 
     /**
      * Get an instance of a rowset object for this table
@@ -150,7 +150,7 @@ interface DatabaseTableInterface
      * @param   array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRowset(array $options = array());
+    public function createRowset(array $options = array());
 
     /**
      * Table select method

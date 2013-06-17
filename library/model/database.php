@@ -165,7 +165,7 @@ class ModelDatabase extends ModelAbstract
 
                 $this->_data = $this->getTable()->select($query, Database::FETCH_ROW, array('state' => $state));
             }
-            else $this->_data = $this->getTable()->getRow(array('state' => $state));
+            else $this->_data = $this->getTable()->createRow(array('state' => $state));
         }
 
         return $this->_data;
@@ -199,7 +199,7 @@ class ModelDatabase extends ModelAbstract
 
                 $this->_data = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
             }
-            else $this->_data = $this->getTable()->getRowset(array('state' => $state));
+            else $this->_data = $this->getTable()->createRowset(array('state' => $state));
         }
 
         return $this->_data;

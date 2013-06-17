@@ -112,7 +112,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                         'status' => 'trashed',
                     );
 
-                    $rowset->insert($rowset->getRow($options));
+                    $rowset->insert($rowset->createRow($options));
                 }
 
                 $context->data = $rowset;
@@ -158,7 +158,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
                 //Restore the row
                 $table = clone $context->getSubject();
                 $table->getCommandChain()->disable();
-                $table->getRow()->setProperties($this->getProperties())->save();
+                $table->createRow()->setProperties($this->getProperties())->save();
 
                 //Set the status
                 $context->data->setStatus('restored');
@@ -333,7 +333,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
         }
 
     	// Create the new revision
-    	$revision = $this->_table->getRow();
+    	$revision = $this->_table->createRow();
     	$revision->table    = $table->getBase();
         $revision->row      = $this->id;
         $revision->status   = $status;

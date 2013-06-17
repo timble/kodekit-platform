@@ -279,7 +279,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     {
         if ($this->_row_cloning)
         {
-            $default = $this->getRow()->setStatus($status);
+            $default = $this->createRow()->setStatus($status);
 
             foreach ($rows as $k => $data)
             {
@@ -293,7 +293,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         {
             foreach ($rows as $k => $data)
             {
-                $row = $this->getRow()->setStatus($status);
+                $row = $this->createRow()->setStatus($status);
                 $row->setProperties($data, $row->isNew());
 
                 $this->insert($row);
@@ -309,7 +309,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      * @param    array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRow(array $options = array())
+    public function createRow(array $options = array())
     {
         $identifier = clone $this->getIdentifier();
         $identifier->path = array('database', 'row');

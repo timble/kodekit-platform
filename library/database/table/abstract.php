@@ -427,7 +427,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * @param array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRow(array $options = array())
+    public function createRow(array $options = array())
     {
         $identifier = clone $this->getIdentifier();
         $identifier->path = array('database', 'row');
@@ -450,7 +450,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
      * @param   array $options An optional associative array of configuration settings.
      * @return  DatabaseRowInterface
      */
-    public function getRowset(array $options = array())
+    public function createRowset(array $options = array())
     {
         $identifier = clone $this->getIdentifier();
         $identifier->path = array('database', 'rowset');
@@ -553,7 +553,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                         $options['status'] = Database::STATUS_LOADED;
                     }
 
-                    $context->data = $this->getRow($options);
+                    $context->data = $this->createRow($options);
                     break;
                 }
 
@@ -565,7 +565,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
                         $options['status'] = Database::STATUS_LOADED;
                     }
 
-                    $context->data = $this->getRowset($options);
+                    $context->data = $this->createRowset($options);
                     break;
                 }
 

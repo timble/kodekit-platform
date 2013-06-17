@@ -136,7 +136,7 @@ class DatabaseBehaviorClosurable extends Library\DatabaseBehaviorAbstract
         if($this->level > 1) {
             $result = $table->select(end(array_values($this->getParentIds())), Library\Database::FETCH_ROW);
         } else {
-            $result = $table->getRow();
+            $result = $table->createRow();
         }
         
         return $result;

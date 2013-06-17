@@ -39,7 +39,7 @@ class DatabaseRowsetNodes extends Library\DatabaseRowsetAbstract
                 'status' => $status,
             );
 		    
-		    $instance = $this->getRow($options);
+		    $instance = $this->createRow($options);
 
         	if(isset($row['path']) && !empty($row['path']))
         	{
