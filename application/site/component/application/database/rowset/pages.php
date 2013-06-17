@@ -34,24 +34,15 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
 
         $this->merge($pages);
 
-        // Set route for the pages
-        $pages = $this->getData();
-
         foreach($this as $page)
         {
             $path = array();
             foreach(explode('/', $page->path) as $id) {
-                $path[] = $pages[$id]['slug'];
+                $path[] = $pages->find($id)->slug;
             }
 
             $page->route = implode('/', $path);
         }
-    }
-
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->identity_column = 'id';
-        parent::_initialize($config);
     }
 
     public function getPage($id)
@@ -63,7 +54,7 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
     public function getHome()
     {
         if(!isset($this->_home)) {
-            $this->_home = $this->find(array('home' => 1))->top();
+            $this->_home = $this->find(array('home' => 1));
         }
 
         return $this->_home;

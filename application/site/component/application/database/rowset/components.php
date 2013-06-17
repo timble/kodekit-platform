@@ -30,30 +30,19 @@ class ApplicationDatabaseRowsetComponents extends Library\DatabaseRowsetAbstract
         $this->merge($components);
     }
 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->identity_column = 'name';
-        parent::_initialize($config);
-    }
-
     public function getComponent($name)
     {
-        $component = $this->find('com_'.$name);
+        $component = $this->find(array('name' => 'com_'.$name));
         return $component;
     }
 
     public function isEnabled($name)
     {
         $result = false;
-        if($component = $this->find('com_'.$name)) {
+        if($component = $this->find(array('name' => 'com_'.$name))) {
             $result = (bool) $component->enabled;
         }
 
         return $result;
-    }
-
-    public function __get($name)
-    {
-        return $this->getComponent($name);
     }
 }

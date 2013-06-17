@@ -31,12 +31,6 @@ class ApplicationDatabaseRowsetPages extends Pages\DatabaseRowsetPages implement
         $this->merge($pages);
     }
 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->identity_column = 'id';
-        parent::_initialize($config);
-    }
-
     public function getPage($id)
     {
         $page = $this->find($id);

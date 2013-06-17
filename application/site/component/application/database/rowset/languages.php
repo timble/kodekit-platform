@@ -34,12 +34,6 @@ class ApplicationDatabaseRowsetLanguages extends Library\DatabaseRowsetAbstract 
         $this->merge($components);
     }
 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->identity_column = 'id';
-        parent::_initialize($config);
-    }
-
     public function setActive($active)
     {
         if(is_numeric($active)) {
@@ -59,7 +53,7 @@ class ApplicationDatabaseRowsetLanguages extends Library\DatabaseRowsetAbstract 
     public function getPrimary()
     {
         if(!isset($this->_primary)) {
-            $this->_primary = $this->find(array('primary' => 1))->top();
+            $this->_primary = $this->find(array('primary' => 1));
         }
 
         return $this->_primary;

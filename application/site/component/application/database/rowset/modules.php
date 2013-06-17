@@ -34,10 +34,4 @@ class ApplicationDatabaseRowsetModules extends Library\DatabaseRowsetAbstract im
 
         $this->merge($modules);
     }
-
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->identity_column = 'id';
-        parent::_initialize($config);
-    }
 }
