@@ -22,7 +22,7 @@ class ViewThumbnailsJson extends ViewJson
 {
     protected function _getRowset()
     {
-        $list = $this->getModel()->getRowset();
+        $list = $this->getModel()->fetch();
 
         $results = array();
         foreach ($list as $item) 

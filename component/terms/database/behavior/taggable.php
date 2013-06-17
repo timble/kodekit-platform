@@ -32,7 +32,7 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
         {
             $tags = $model->row($this->id)
                 ->table($this->getTable()->getName())
-                ->getRowset();
+                ->fetch();
         }
         else $tags = $model->fetch();
 
