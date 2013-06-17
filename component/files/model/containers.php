@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelContainers extends Library\ModelTable
+class ModelContainers extends Library\ModelDatabase
 {
 	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{

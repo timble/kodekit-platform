@@ -9,14 +9,14 @@
 namespace Nooku\Library;
 
 /**
- * Table Model Class
+ * Database Model
  *
- * Provides interaction with a database table
+ * Provides interaction with a database
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
  */
-class ModelTable extends ModelAbstract
+class ModelDatabase extends ModelAbstract
 {
     /**
      * Table object or identifier
@@ -111,7 +111,7 @@ class ModelTable extends ModelAbstract
      * @param	mixed	$table An object that implements ObjectInterface, ObjectIdentifier object
 	 * 					       or valid identifier string
      * @throws  \UnexpectedValueException   If the identifier is not a table identifier
-     * @return  ModelTable
+     * @return  ModelDatabase
      */
     public function setTable($table)
 	{
@@ -204,7 +204,7 @@ class ModelTable extends ModelAbstract
 
         return $this->_data;
     }
-    
+
     /**
      * Get the total amount of items
      *

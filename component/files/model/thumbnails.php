@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class ModelThumbnails extends Library\ModelTable
+class ModelThumbnails extends Library\ModelDatabase
 {
     protected $_container;
 

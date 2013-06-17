@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Comments
  */
-class ModelComments extends Library\ModelTable
+class ModelComments extends Library\ModelDatabase
 {
 	public function __construct(Library\ObjectConfig $config)
 	{

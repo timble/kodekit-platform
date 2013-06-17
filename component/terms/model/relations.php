@@ -19,7 +19,7 @@ use Nooku\Library;
  * @package    	Nooku_Components
  * @subpackage 	Terms
  */
-class ModelRelations extends Library\ModelTable
+class ModelRelations extends Library\ModelDatabase
 {
 	public function __construct(Library\ObjectConfig $config)
 	{

@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class ModelTranslations extends Library\ModelTable
+class ModelTranslations extends Library\ModelDatabase
 {
     public function __construct(Library\ObjectConfig $config)
     {

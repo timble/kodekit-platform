@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Attachments
  */
-class ModelAttachments extends Library\ModelTable
+class ModelAttachments extends Library\ModelDatabase
 {
 	public function __construct(Library\ObjectConfig $config)
 	{

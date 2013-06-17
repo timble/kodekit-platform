@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class ModelContacts extends Library\ModelTable
+class ModelContacts extends Library\ModelDatabase
 {
 	public function __construct(Library\ObjectConfig $config)
 	{

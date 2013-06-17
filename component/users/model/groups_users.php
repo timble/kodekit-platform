@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Nooku\Component\Users
  */
-class ModelGroups_users extends Library\ModelTable
+class ModelGroups_users extends Library\ModelDatabase
 {
 	protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
 	{

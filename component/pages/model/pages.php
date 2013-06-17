@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class ModelPages extends Library\ModelTable
+class ModelPages extends Library\ModelDatabase
 {
     protected $_page_xml;
 
