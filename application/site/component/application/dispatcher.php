@@ -122,7 +122,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the paths
-        $params = $this->getObject('application.components')->files->params;
+        $params = $this->getObject('application.components')->getComponent('files')->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
@@ -352,21 +352,13 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $language = null;
 
         // If a language was specified it has priority.
-        if($iso_code = $this->_options->language)
-        {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if(count($result) == 1) {
-                $language = $result->top();
-            }
+        if($iso_code = $this->_options->language) {
+            $language = $languages->find(array('iso_code' => $iso_code));
         }
 
         // Otherwise use user language setting.
-        if(!$language && $iso_code = $context->user->get('language'))
-        {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if(count($result) == 1) {
-                $language = $result->top();
-            }
+        if(!$language && $iso_code = $context->user->get('language')) {
+            $language = $languages->find(array('iso_code' => $iso_code));
         }
 
         // If language still not set, use the primary.

@@ -35,7 +35,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         if(!$data->password)
         {
             // Generate a random password
-            $params         = $this->getObject('application.components')->users->params;
+            $params         = $this->getObject('application.components')->getComponent('users')->params;
             $password       = $this->getObject('com:users.database.row.password');
             $data->password = $password->getRandom($params->get('password_length', 6));
         }
@@ -50,7 +50,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
             // Update password record.
             $password = $data->getPassword();
 
-            if (!$password->setData(array('password' => $data->password))->save())
+            if (!$password->setProperties(array('password' => $data->password))->save())
             {
                 $data->setStatus(Library\Database::STATUS_FAILED);
                 $data->setStatusMessage($password->getStatusMessage());
@@ -67,7 +67,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         {
             // Create a password row for the user.
             $data->getPassword()
-                  ->setData(array('id' => $data->email, 'password' => $data->password))
+                  ->setProperties(array('id' => $data->email, 'password' => $data->password))
                   ->save();
         }
     }
@@ -79,7 +79,7 @@ class DatabaseBehaviorAuthenticatable extends Library\DatabaseBehaviorAbstract
         if (!$this->isNew())
         {
             $password = $this->getObject('com:users.database.row.password')
-                ->set('id', $this->email);
+                             ->set('id', $this->email);
             $password->load();
         }
 

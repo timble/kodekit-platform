@@ -13,7 +13,7 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $parameters = $this->getObject('application.components')->users->params;
+        $parameters = $this->getObject('application.components')->getComponent('users')->params;
 
         $config->append(array(
             'enable' => $parameters->get('useractivation', '1')
