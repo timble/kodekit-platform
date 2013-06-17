@@ -40,10 +40,8 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
             if(count($commands))
             {
                 $html = '<div id="panel-tabbar">';
-                $html .= '<ul '.$this->_buildAttributes($config->attribs).'>';
                 foreach ($commands as $command)
                 {
-                    $html .= '<li>';
                     $name = $command->getName();
 
                     if(method_exists($this, $name)) {
@@ -51,9 +49,7 @@ class ApplicationTemplateHelperTabbar extends Library\TemplateHelperAbstract
                     } else {
                         $html .= $this->command(array('command' => $command));
                     }
-                    $html .= '</li>';
                 }
-                $html .= '</ul>';
                 $html .= '</div>';
             }
         }

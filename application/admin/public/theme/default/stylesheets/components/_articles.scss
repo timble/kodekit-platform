@@ -1,53 +1,7 @@
 .com_articles {
   .tabs {
-    position: relative;
-    -webkit-flex: 1;
-    z-index: 1;
     border-top: 1px solid $grayLighter;
-
-    .tab {
-      float: left;
-    }
-    .tab > label {
-      padding: 0px 22px;
-      line-height: 30px;
-      color: #444;
-      font-weight: bold;
-      position: relative;
-      border-right: 1px solid $grayLighter;
-      border-bottom: 1px solid $grayLighter;
-    }
-
-    .tab > [type=radio] {
-      display: none;
-    }
-    .content {
-      position: absolute;
-      top: 30px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: white;
-      overflow: scroll;
-      border-top: 1px solid $grayLighter;
-    }
-    .content > * {
-      opacity: 0;
-    }
-    [type=radio]:checked ~ label {
-      background-color: $white;
-      border-bottom-color: $white;
-
-      z-index: 2;
-    }
-    [type=radio]:checked ~ label ~ .content {
-      z-index: 1;
-    }
-    [type=radio]:checked ~ label ~ .content > * {
-      opacity: 1;
-    }
   }
-
   .select2-offscreen {
     display: none;
   }

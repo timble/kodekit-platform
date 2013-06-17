@@ -8,24 +8,36 @@
  */
 ?>
 
-<nav class="scrollable">
-	<a class="<?= !is_numeric($state->category) ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
-	    <?= @text('All articles')?>
-	</a>
+<ul class="navigation">
+	<li>
+        <a class="<?= !is_numeric($state->category) ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
+            <?= @text('All articles')?>
+        </a>
+	</li>
+	<li>
+        <a class="<?= $state->category == '0' ? 'active' : ''; ?>" href="<?= @route('&category=0' ) ?>">
+            <?= @text('Uncategorised') ?>
+        </a>
+	</li>
 
-	<a class="<?= $state->category == '0' ? 'active' : ''; ?>" href="<?= @route('&category=0' ) ?>">
-		<?= @text('Uncategorised') ?>
-	</a>
-	<? foreach($categories as $category) : ?>
-	<a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
-		<?= @escape($category->title) ?>
-	</a>
-	<? if($category->hasChildren()) : ?>
-		<? foreach($category->getChildren() as $child) : ?>
-			<a style="padding-left: 36px;" class="<?= $state->category == $child->id ? 'active' : ''; ?>" href="<?= @route('sort=ordering&category='.$child->id ) ?>">
-				<?= $child->title; ?>
-			</a>
-		<? endforeach ?>
-	<? endif; ?>
+    <? foreach($categories as $category) : ?>
+	<li>
+        <a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
+            <?= @escape($category->title) ?>
+        </a>
+
+        <? if($category->hasChildren()) : ?>
+        <ul>
+            <? foreach($category->getChildren() as $child) : ?>
+            <li>
+                <a class="<?= $state->category == $child->id ? 'active' : ''; ?>" href="<?= @route('sort=ordering&category='.$child->id ) ?>">
+                    <?= $child->title; ?>
+                </a>
+            </li>
+            <? endforeach ?>
+        </ul>
+        <? endif; ?>
+    </li>
+
 	<? endforeach ?>
-</nav>
+</ul>

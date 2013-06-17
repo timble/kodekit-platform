@@ -14,12 +14,10 @@
 <?= @template('page_head.html') ?>
 
 <body class="login">
-<div id="container">
     <div class="login-box">
 		<?= @template('page_message.html') ?>
         <ktml:content />
 	</div>
-</div>
 </body>
 
 </html>

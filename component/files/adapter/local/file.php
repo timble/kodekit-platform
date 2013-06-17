@@ -32,12 +32,12 @@ class AdapterLocalFile extends AdapterLocalAbstract
 
             try
             {
-				$this->_metadata += array(
-					'size' => $this->_handle->getSize(),
-					'modified_date' => $this->_handle->getMTime()
-				);
+                $this->_metadata += array(
+                    'size' => $this->_handle->getSize(),
+                    'modified_date' => $this->_handle->getMTime()
+                );
 			}
-            catch (\RunTimeException $e) {}
+            catch (\RuntimeException $e) {}
 		}
 
 		return $this->_metadata;

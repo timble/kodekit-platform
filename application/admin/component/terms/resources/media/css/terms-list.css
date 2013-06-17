@@ -12,7 +12,6 @@
 }
 
 #terms-list a.button-delete {
-	background:transparent url(../images/delete_x_small_sprite.gif) no-repeat scroll 3px 4px;
 	display:inline;
 	height:14px;
 	width:14px;
@@ -41,8 +40,6 @@
 	padding:3px 5px;
 	margin-left: 3px;
 	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 	color: white;
 }
 
@@ -62,6 +59,4 @@
 #terms-list input {
 	padding: 3px 5px;
 	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
 }

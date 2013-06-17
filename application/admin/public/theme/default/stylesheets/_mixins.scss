@@ -1,27 +1,49 @@
-@mixin flex-box($orient: row, $flex: 0, $scroll: 0) {
-    display: -webkit-flex;
-    display: -moz-flex;
-    display: flex;
+@mixin flex($flex: empty) {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
 
-    @include box-orient($orient);
-    @include box-flex($flex);
-    @include box-scrollable($scroll);
-}
-
-@mixin box-orient($orient: row) {
-    -webkit-flex-direction: $orient;
-    -moz-flex-direction: $orient;
-    flex-direction: $orient;
-}
-
-@mixin box-flex($flex: 0) {
+  @if $flex != 'empty' {
     -webkit-flex: $flex;
     -moz-flex: $flex;
     flex: $flex;
+  }
 }
 
-@mixin box-justify-content($justify: flex-start) {
-    -webkit-justify-content: $justify;
+@mixin flex-direction($direction) {
+  -webkit-flex-direction: $direction;
+  -moz-flex-direction: $direction;
+  flex-direction: $direction;
+}
+
+@mixin flex-grow($grow) {
+  -webkit-flex-grow: $grow;
+  -moz-flex-grow: $grow;
+  flex-grow: $grow;
+}
+
+@mixin flex-shrink($shrink) {
+  -webkit-flex-shrink: $shrink;
+  -moz-flex-shrink: $shrink;
+  flex-shrink: $shrink;
+}
+
+@mixin flex-justify-content($justify-content) {
+  -webkit-justify-content: $justify-content;
+  -moz-justify-content: $justify-content;
+  justify-content: $justify-content;
+}
+
+@mixin flex-align-items($align-items) {
+  -webkit-align-items: $align-items;
+  -moz-align-items: $align-items;
+  align-items: $align-items;
+}
+
+@mixin flex-align-self($align-self) {
+  -webkit-align-self: $align-self;
+  -moz-align-self: $align-self;
+  align-self: $align-self;
 }
 
 @mixin box-scrollable($scroll) {

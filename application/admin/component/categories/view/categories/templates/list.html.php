@@ -8,13 +8,17 @@
  */
 ?>
 
-<nav class="scrollable">
-	<a class="<?= $state->category == null ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
-		<?= 'All categories' ?>
-	</a>
+<ul class="navigation">
+	<li>
+        <a class="<?= $state->category == null ? 'active' : ''; ?>" href="<?= @route('category=' ) ?>">
+            <?= 'All categories' ?>
+        </a>
+	</li>
 	<? foreach ($categories as $category) : ?>
-	<a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
-		<?= @escape($category->title) ?>
-	</a>
+	<li>
+        <a class="<?= $state->category == $category->id ? 'active' : ''; ?>" href="<?= @route('category='.$category->id ) ?>">
+            <?= @escape($category->title) ?>
+        </a>
+	</li>
 	<? endforeach ?>
-</nav>
+</ul>

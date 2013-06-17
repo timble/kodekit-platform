@@ -28,5 +28,6 @@ use Nooku\Library;
         $manager = $this->getObjectManager();
 
         $manager->registerAlias('com:contacts.model.categories', 'com:categories.model.categories');
+        $manager->registerAlias('com:contacts.controller.attachment', 'com:attachments.controller.attachment');
     }
 }

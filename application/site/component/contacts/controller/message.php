@@ -17,7 +17,13 @@ use Nooku\Library;
  * @subpackage  Contacts
  */
 class ContactsControllerMessage extends Library\ControllerView
-{ 
+{
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array('behaviors' => 'captchable'));
+        parent::_initialize($config);
+    }
+
     protected function _actionAdd(Library\CommandContext $context)
 	{
         // Set parts of the mail.

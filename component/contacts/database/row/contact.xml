@@ -5,7 +5,7 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-		<param name="show_email_form" type="radio" default="1" label="Show e-mail form" description="Show/Hide the email to form">
+		<param name="show_email_form" type="radio" default="0" label="Show e-mail form" description="Show/Hide the email to form">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>

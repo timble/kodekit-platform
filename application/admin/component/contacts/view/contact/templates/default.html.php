@@ -97,32 +97,13 @@
 				        <input type="text" name="fax" maxlength="255" value="<?= $contact->fax; ?>" />
 				    </div>
 				</div>
-				<div>
-				    <label for="webpage"><?= @text( 'Webpage' ); ?></label>
-				    <div>
-				        <input type="text" name="webpage" maxlength="255" value="<?= $contact->webpage; ?>" />
-				    </div>
-				</div>
-				<div>
-				    <label for="misc"><?= @text( 'Miscellaneous Info' ); ?></label>
-				    <div>
-				        <textarea name="misc" rows="5"><?= $contact->misc; ?></textarea>
-				    </div>
-				</div>
-				<div>
-				    <label for="image"><?= @text( 'Image' ); ?></label>
-				    <div>
-				        <?= @helper('image.listbox', array('name' => 'image', 'attribs' => array('class' => 'select-image', 'style' => 'width:220px'))); ?>
-				    </div>
-				</div>
 			</fieldset>
 		</div>
+        <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'misc', 'text' => $contact->misc)) ?>
 	</div>
 
 	<div class="sidebar">
-		<div class="scrollable">
-            <?= @template('default_sidebar.html'); ?>
-		</div>
+        <?= @template('default_sidebar.html'); ?>
 	</div>
 	
 </form>

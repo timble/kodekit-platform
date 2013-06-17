@@ -9,12 +9,12 @@
 ?>
 
 <div class="scopebar">
-	<div class="scopebar-group">
+	<div class="scopebar__group">
 		<a class="<?= is_null($state->action) && is_null($state->application) ? 'active' : ''; ?>" href="<?= @route('application=&action=' ) ?>">
 		    <?= @text('All') ?>
 		</a>
 	</div>
-	<div class="scopebar-group">
+	<div class="scopebar__group">
 		<a  class="<?= ($state->action == 'add') ? 'active' : ''; ?> separator-left" href="<?= @route('action=add' ) ?>">
 		    <?= @text('Created') ?>
 		</a>
@@ -25,7 +25,7 @@
 		    <?= @text('Trashed') ?>
 		</a>
 	</div>
-	<div class="scopebar-group">
+	<div class="scopebar__group">
 		<a class="<?= ($state->direction == 'desc') ? 'active' : ''; ?>" href="<?= @route($state->direction == 'desc' ? 'direction=' : 'direction=desc' ) ?>">
 		    <?= @text('Latest First') ?>
 		</a>

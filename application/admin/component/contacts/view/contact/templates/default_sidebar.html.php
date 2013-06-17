@@ -38,6 +38,18 @@
     </div>
 </fieldset>
 
+<? if($contact->isAttachable()) : ?>
+    <fieldset>
+        <legend><?= @text('Attachments'); ?></legend>
+        <? if (!$contact->isNew()) : ?>
+            <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $contact->getAttachments(), 'assignable' => false)) ?>
+        <? endif ?>
+        <? if(!count($contact->getAttachments())) : ?>
+        <?= @template('com:attachments.view.attachments.upload.html') ?>
+        <? endif ?>
+    </fieldset>
+<? endif ?>
+
 <fieldset>
     <legend><?= @text('Parameters'); ?></legend>
     <?= $contact->params->render(); ?>

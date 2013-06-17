@@ -35,10 +35,6 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
     {
         parent::__construct($config);
 
-        if (is_null($config->captcha->private_key)) {
-            throw new \InvalidArgumentException('Private key is missing');
-        }
-
         $this->_config = $config->captcha;
     }
 
@@ -50,7 +46,7 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
             'auto_mixin'        => true,
             'captcha'           => array(
                 'private_key'       => $params->get('recaptcha_private_key', null),
-                'remote_ip'         => $this->getRequest()->getAddress(),
+                'remote_ip'         => $this->getObject('application')->getRequest()->getAddress(),
                 'verify_server'     => array(
                     'host' => 'www.google.com',
                     'path' => '/recaptcha/api/verify',
@@ -134,13 +130,17 @@ class ControllerBehaviorCaptchable extends Library\ControllerBehaviorAbstract
 
     protected function _beforeControllerAdd(Library\CommandContext $context)
     {
+        $result = true;
+
         $challenge = $context->request->data->get('recaptcha_challenge_field', 'string');
         $answer    = $context->request->data->get('recaptcha_response_field', 'string');
 
         // Prevent the action from happening.
-        if (!$this->verifyCaptcha($challenge, $answer)) {
-            return false;
+        if ($this->_config->private_key && !$this->verifyCaptcha($challenge, $answer)) {
+            $result = false;
         }
+
+        return $result;
     }
 
     /**

@@ -47,14 +47,14 @@ class JElementFolders extends JElement
 			'name' => $el_name,
 			'options' => $options,
 			'showroot' => false,
-			'selected' => urlencode($value)
+			'selected' => $value
 		));
 	}
 
 	protected function _addFolder($folder, &$options)
 	{
 		$padded    = str_repeat('&nbsp;', 2*(count(explode('/', $folder->path)))).$folder->name;
-		$options[] = array('text' => $padded, 'value' => urlencode($folder->path));
+		$options[] = array('text' => $padded, 'value' => $folder->path);
 
 		if ($folder->hasChildren())
         {

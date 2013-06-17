@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
+class TemplateHelperCaptcha extends Library\TemplateHelperDefault
 {
     /**
      * Renders the reCAPTCHA widget.
@@ -46,36 +46,34 @@ class UsersTemplateHelperCaptcha extends Library\TemplateHelperDefault
 
         $captcha = $config->captcha;
 
-        if (!$public_key = $captcha->public_key) {
-            throw new \InvalidArgumentException('public_key config option is required');
-        }
-
-        if ($config->ssl) {
-            $server = $captcha->api_secure_server;
-        } else {
-            $server = $captcha->api_server;
-        }
-
-        if ($config->error) {
-            $config->error = '&amp;error=' . $config->error;
-        }
-
         $html = '';
 
-        // Use options if any.
-        if (count($options = $captcha->options)) {
-            $options = Library\ObjectConfig::unbox($options);
-            $html .= '<script type="text/javascript">';
-            $html .= 'var RecaptchaOptions = ' . json_encode($options);
-            $html .= '</script> ';
-        }
+        if ($public_key = $captcha->public_key) {
+            if ($config->ssl) {
+                $server = $captcha->api_secure_server;
+            } else {
+                $server = $captcha->api_server;
+            }
 
-        $html .= '<script data-inline type="text/javascript" src="' . $server . '/challenge?k=' . $public_key . $config->error . '"></script>
+            if ($config->error) {
+                $config->error = '&amp;error=' . $config->error;
+            }
+
+            // Use options if any.
+            if (count($options = $captcha->options)) {
+                $options = Library\ObjectConfig::unbox($options);
+                $html .= '<script type="text/javascript">';
+                $html .= 'var RecaptchaOptions = ' . json_encode($options);
+                $html .= '</script> ';
+            }
+
+            $html .= '<script data-inline type="text/javascript" src="' . $server . '/challenge?k=' . $public_key . $config->error . '"></script>
 	<noscript>
   		<iframe src="' . $server . '/noscript?k=' . $public_key . $config->error . '" height="300" width="500" frameborder="0"></iframe><br/>
   		<textarea name="recaptcha_challenge_field" rows="3" cols="40"></textarea>
   		<input type="hidden" name="recaptcha_response_field" value="manual_challenge"/>
 	</noscript>';
+        }
 
         return $html;
     }

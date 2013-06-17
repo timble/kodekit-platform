@@ -13,7 +13,7 @@
 
 <?= @template('page_head.html') ?>
 
-<body id="tmpl-modal" class="com_<?= $component ?> contentpane">
+<body id="tmpl-modal" class="com_<?= $component ?>">
     <?= @template('page_message.html') ?>
     <ktml:content />
 </body>

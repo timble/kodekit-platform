@@ -13,93 +13,31 @@ use Nooku\Library;
 /**
  * Folder Controller Class
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerDirectory extends Library\ControllerView
+class FilesControllerDirectory extends Library\ControllerModel
 {
-    protected $_model;
-
-    public function __construct(Library\ObjectConfig $config)
+    public function getRequest()
     {
-        parent::__construct($config);
-        $this->_model = $config->model;
-    }
+        $request = parent::getRequest();
 
-    protected function _initialize(Library\ObjectConfig $config)
-    {
-        $config->append(array('model' => $this->getIdentifier()->name));
-        parent::_initialize($config);
-    }
+        // Force container.
+        $request->query->set('container', 'files-files');
 
-    public function getView() {
-        $view = parent::getView();
-
-        $view->setModel($this->getModel());
-
-        return $view;
-    }
-
-    /**
-     * Get the model object attached to the controller
-     *
-     * @throws	\UnexpectedValueException	If the model doesn't implement the ModelInterface
-     * @return	ModelAbstract
-     */
-    public function getModel()
-    {
-        if(!$this->_model instanceof Library\ModelInterface)
+        if ($request->query->get('view', 'cmd') == 'directory')
         {
-            if(!($this->_model instanceof Library\ObjectIdentifier)) {
-                $this->setModel($this->_model);
-            }
+            $page = $this->getObject('application.pages')->getActive();
 
-            $this->_model = $this->getObject($this->_model);
+            $params = new JParameter($page->params);
 
-            //Inject the request into the model state
-            $this->_model->setState($this->getRequest()->query->toArray());
-
-            if(!$this->_model instanceof Library\ModelInterface)
+            if (isset($params->limit) && $params->limit > 0)
             {
-                throw new \UnexpectedValueException(
-                    'Model: '.get_class($this->_model).' does not implement ModelInterface'
-                );
+                $request->query->set('limit', $params->limit);
             }
         }
 
-        return $this->_model;
-    }
-
-    /**
-     * Method to set a model object attached to the controller
-     *
-     * @param	mixed	$model An object that implements ObjectInterface, ObjectIdentifier object
-     * 					       or valid identifier string
-     * @return	ControllerView
-     */
-    public function setModel($model)
-    {
-        if(!($model instanceof Library\ModelInterface))
-        {
-            if(is_string($model) && strpos($model, '.') === false )
-            {
-                // Model names are always plural
-                if(Library\StringInflector::isSingular($model)) {
-                    $model = Library\StringInflector::pluralize($model);
-                }
-
-                $identifier			= clone $this->getIdentifier();
-                $identifier->path	= array('model');
-                $identifier->name	= $model;
-            }
-            else $identifier = $this->getIdentifier($model);
-
-            $model = $identifier;
-        }
-
-        $this->_model = $model;
-
-        return $this;
+        return $request;
     }
 }

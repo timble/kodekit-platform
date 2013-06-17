@@ -23,7 +23,7 @@ class ContactsControllerContact extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array('com:activities.controller.behavior.loggable'),
+        	'behaviors' => array('com:activities.controller.behavior.loggable', 'com:attachments.controller.behavior.attachable'),
         ));
     
         parent::_initialize($config);

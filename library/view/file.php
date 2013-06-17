@@ -194,7 +194,7 @@ class ViewFile extends ViewAbstract
             header('HTTP/1.0 206 Partial Content');
             header('Status: 206 Partial Content');
             header('Accept-Ranges: bytes');
-            header('Content-Range: bytes '.$range.'/'.$this->filesize);
+            header('Content-Range: bytes '.$this->start_point.'-'.$this->end_point.'/'.$this->filesize);
             header('Content-Length: '.($this->end_point - $this->start_point + 1), true);
         }
 
