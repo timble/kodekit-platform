@@ -46,6 +46,13 @@ class DatabaseRowGroup extends Library\DatabaseRowTable
                     $group_user->delete();
                 }
             }
+        } else {
+            // @TODO: Bug, this should work by using the entire rowset instead of getting a row object for each row
+            foreach ($this->getObject('com:users.model.groups_users')->group_id($this->id)->getRowset() as $group_user)
+            {
+                $row = $this->getObject('com:users.model.groups_users')->group_id($this->id)->user_id($group_user->user_id)->getRow();
+                $row->delete();
+            }
         }
        
         return $result;
