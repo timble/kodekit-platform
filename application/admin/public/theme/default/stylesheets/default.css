@@ -1420,12 +1420,13 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 405, _general.scss */
+/* line 406, _general.scss */
+.-koowa-form .sidebar input[type=date],
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 411, _general.scss */
+/* line 412, _general.scss */
 .box-column {
   -webkit-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
@@ -1433,23 +1434,23 @@ ul {
 }
 
 /* Sidebar */
-/* line 417, _general.scss */
+/* line 418, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 420, _general.scss */
+/* line 421, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 429, _general.scss */
+/* line 430, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 433, _general.scss */
+/* line 434, _general.scss */
 .editor-toolbar {
   height: 18px;
 }
