@@ -46,7 +46,7 @@ class ViewJson extends ViewAbstract
     public function render()
     {
         if (empty($this->_content)) {
-            $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getRowset() : $this->_getRow();
+            $this->_content = StringInflector::isPlural($this->getName()) ? $this->_getList() : $this->_getItem();
         }
 
         if (!is_string($this->_content))
@@ -68,7 +68,7 @@ class ViewJson extends ViewAbstract
      *
      * @return array The array with data to be encoded to json
      */
-    protected function _getRowset()
+    protected function _getList()
     {
         //Get the model
         $model = $this->getModel();
@@ -160,7 +160,7 @@ class ViewJson extends ViewAbstract
      *
      * @return array     The array with data to be encoded to json
      */
-    protected function _getRow()
+    protected function _getItem()
     {
         //Get the model
         $model = $this->getModel();
@@ -191,7 +191,8 @@ class ViewJson extends ViewAbstract
             'item' => array()
         );
 
-        if ($item = $model->getRow()) {
+        if ($item = $model->getRow())
+        {
             $data = array_merge($data, array(
                 'item' => $item->toArray()
             ));
