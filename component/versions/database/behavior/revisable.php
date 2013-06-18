@@ -103,7 +103,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 
             if (!$query->isCountQuery())
             {
-                $rowset = $table->getRowset();
+                $rowset = $table->createRowset();
 
                 foreach($revisions as $row)
                 {
