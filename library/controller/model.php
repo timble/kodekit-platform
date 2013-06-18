@@ -191,19 +191,24 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	}
 
 	/**
-	 * Generic read action, fetches an entity
+	 * Generic read action, fetches a single entity
 	 *
 	 * @param	CommandContext	$context A command context object
 	 * @return 	DatabaseRowInterface A row object containing the selected row
 	 */
 	protected function _actionRead(CommandContext $context)
 	{
-        $entity = $this->getModel()->getRow();
-        $name   = ucfirst($this->getView()->getName());
+        if($this->getModel()->getState()->isUnique())
+        {
+            $entity = $this->getModel()->fetch();
 
-        if($this->getModel()->getState()->isUnique() && $entity->isNew()) {
-            throw new ControllerExceptionNotFound($name.' Not Found');
+            if(!count($entity))
+            {
+                $name   = ucfirst($this->getView()->getName());
+                throw new ControllerExceptionNotFound($name.' Not Found');
+            }
         }
+        else $entity = $this->getModel()->create();
 
 		return $entity;
 	}
@@ -242,26 +247,20 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	CommandContext	$context A command context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionBadRequest   If the resource already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
 	protected function _actionAdd(CommandContext $context)
 	{
-		$entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->create();
+        $entity->setProperties($context->request->data->toArray());
 
-		if($entity->isNew())
-		{
-		    $entity->setProperties($context->request->data->toArray());
-
-		    //Only throw an error if the action explicitly failed.
-		    if($entity->save() === false)
-		    {
-			    $error = $entity->getStatusMessage();
-		        throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
-		    }
-		    else $context->response->setStatus(self::STATUS_CREATED);
-		}
-		else throw new ControllerExceptionBadRequest('Resource Already Exists');
+        //Only throw an error if the action explicitly failed.
+        if($entity->save() === false)
+        {
+            $error = $entity->getStatusMessage();
+            throw new ControllerExceptionActionFailed($error ? $error : 'Add Action Failed');
+        }
+        else $context->response->setStatus(self::STATUS_CREATED);
 
 		return $entity;
 	}

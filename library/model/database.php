@@ -68,6 +68,31 @@ class ModelDatabase extends ModelAbstract
     }
 
     /**
+     * Method to get an entity
+     *
+     * This function will reset the model state and create a new entity
+     *
+     * @return  DatabaseRowInterface
+     */
+    public function create()
+    {
+        $context = $this->getCommandContext();
+        $context->data = null;
+
+        if ($this->getCommandChain()->run('before.fetch', $context) !== false)
+        {
+            $this->reset(); //Make sure to rest the state
+
+            $context->data = $this->getTable()->createRow(array('state' => $this->getState()));
+            $this->getCommandChain()->run('after.fetch', $context);
+        }
+
+        $this->_data = ObjectConfig::unbox($context->data);
+
+        return $this->_data;
+    }
+
+    /**
      * State Change notifier
      *
      * @param  string 	$name  The state name being changed

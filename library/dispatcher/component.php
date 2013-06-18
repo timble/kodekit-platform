@@ -268,7 +268,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             if($controller->getModel()->getState()->isUnique())
             {
                 $action = 'add';
-                $entity = $controller->getModel()->getRow();
+                $entity = $controller->getModel()->fetch();
 
                 if(!$entity->isNew())
                 {
@@ -276,6 +276,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
                     $entity->reset();
                     $action = 'edit';
                 }
+                else $entity = $controller->getModel()->create();
 
                 //Set the row data based on the unique state information
                 $state = $controller->getModel()->getState()->getValues(true);
