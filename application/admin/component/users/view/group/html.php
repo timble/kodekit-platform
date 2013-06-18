@@ -22,7 +22,7 @@ class UsersViewGroupHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $group = $this->getModel()->getRow();
+        $group = $this->getModel()->fetch();
 
         //Load a list of selected users
         $this->selected = array();

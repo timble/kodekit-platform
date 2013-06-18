@@ -24,8 +24,8 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
     {
         $result = true;
 
-        $layout       = $this->getView()->getLayout();
-        $row        = $this->getModel()->getRow();
+        $layout     = $this->getView()->getLayout();
+        $row        = $this->getModel()->fetch();
         $parameters = $this->getObject('application.components')->getComponent('users')->params;
 
         if (!$row->isNew() && $layout != 'password') {
@@ -47,7 +47,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
     {
         $result = false;
 
-        $row  = $this->getModel()->getRow();
+        $row  = $this->getModel()->fetch();
         $user = $this->getUser();
 
         if ($row->id == $user->getId() || $this->canDelete()) {

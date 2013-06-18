@@ -37,7 +37,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
     public function canEdit()
     {
         $user   = $this->getUser();
-        $entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->fetch();
 
         // Don't allow users below super administrator to edit a super administrator
         if(($entity->group_id == 25) && ($user->getRole() < 25)) {
@@ -50,7 +50,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
     public function canDelete()
     {
         $user   = $this->getUser();
-        $entity = $this->getModel()->getRow();
+        $entity = $this->getModel()->fetch();
 
         // Users cannot delete themselves
         if($user->getId() == $entity->id) {

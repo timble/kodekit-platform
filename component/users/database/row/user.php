@@ -57,7 +57,7 @@ class DatabaseRowUser extends Library\DatabaseRowTable
     public function getRole()
     {
         if (!$this->_role) {
-            $this->_role = $this->getObject('com:users.model.roles')->id($this->role_id)->getRow();
+            $this->_role = $this->getObject('com:users.model.roles')->id($this->role_id)->fetch();
         }
 
         return $this->_role;

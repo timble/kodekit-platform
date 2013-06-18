@@ -48,7 +48,7 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
 
     protected function _getActivationUrl()
     {
-        $user = $this->getModel()->getRow();
+        $user = $this->getModel()->fetch();
 
         $component = $this->getObject('application.components')->getComponent('users');
         $page      = $this->getObject('application.pages')->find(array(

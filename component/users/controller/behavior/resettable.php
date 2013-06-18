@@ -42,7 +42,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = true;
 
-        if ($this->getModel()->getRow()->isNew() || !$this->_isTokenValid($context))
+        if ($this->getModel()->fetch()->isNew() || !$this->_isTokenValid($context))
         {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
@@ -60,7 +60,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = true;
 
-        $password           = $this->getModel()->getRow()->getPassword();
+        $password           = $this->getModel()->fetch()->getPassword();
         $password->password = $context->request->data->get('password', 'string');
         $password->save();
 
@@ -77,7 +77,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $row = $this->getObject('com:users.model.users')
                ->email($context->request->data->get('email', 'email'))
-               ->getRow();
+               ->fetch();
 
         if ($row->isNew() || !$row->enabled)
         {
@@ -98,12 +98,11 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
     {
         $result = false;
 
-        $password = $this->getModel()->getRow()->getPassword();
+        $password = $this->getModel()->fetch()->getPassword();
         $hash     = $password->reset;
         $token    = $context->request->data->get('token', $this->_filter);
 
-        if ($hash && ($password->verify($token, $hash)))
-        {
+        if ($hash && ($password->verify($token, $hash))) {
             $result = true;
         }
 
@@ -140,8 +139,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
         $message = $url;
 
-        if (!$row->notify(array('subject' => $subject, 'message' => $message)))
-        {
+        if (!$row->notify(array('subject' => $subject, 'message' => $message))) {
             $result = false;
         }
 

@@ -51,7 +51,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 
     protected function _beforeControllerRender(Library\CommandContext $context)
     {
-        $row = $this->getModel()->getRow();
+        $row = $this->getModel()->fetch();
 
         if (($activation = $context->request->query->get('activation', $this->_filter)))
         {
@@ -74,7 +74,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
     protected function _beforeControllerActivate(Library\CommandContext $context)
     {
         $activation = $context->request->data->get('activation', $this->_filter);
-        $row        = $this->getModel()->getRow();
+        $row        = $this->getModel()->fetch();
 
         if ($activation !== $row->activation)
         {
@@ -106,7 +106,6 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
     {
         $url = $this->getObject('application.pages')->getHome()->getLink();
         $this->getObject('application')->getRouter()->build($url);
-
 
         if ($context->result === true) {
             $context->user->addFlashMessage('Activation successfully completed');

@@ -53,7 +53,9 @@ class UsersControllerSession extends Library\ControllerModel
     public function authenticate(Library\CommandContext $context)
     {
         //Load the user
-        $user = $this->getObject('com:users.model.users')->email($context->request->data->get('email', 'email'))->getRow();
+        $user = $this->getObject('com:users.model.users')
+                     ->email($context->request->data->get('email', 'email'))
+                     ->fetch();
 
         if(!$user->isNew())
         {

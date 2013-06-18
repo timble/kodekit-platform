@@ -31,7 +31,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
     {
         $user = $this->getObject('com:users.model.users')
             ->email($this->id)
-            ->getRow();
+            ->fetch();
 
         // Check if referenced user actually exists.
         if ($user->isNew())
