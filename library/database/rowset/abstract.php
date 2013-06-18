@@ -80,11 +80,11 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     /**
      * Checks if the row is new or not
      *
-     * @return bool
+     * @return boolean
      */
     public function isNew()
     {
-        $result = null;
+        $result = true;
         if($row = $this->getIterator()->current()) {
             $result = $row->isNew();
         }
@@ -102,7 +102,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
      */
     public function isModified($property = null)
     {
-        $result = null;
+        $result = false;
         if($row = $this->getIterator()->current()) {
             $result = $row->isModified($property);
         }
@@ -580,7 +580,7 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
         $result = null;
 
         if($row = $this->getIterator()->current()) {
-            $result = $row->__call($method, $arguments);
+            $result = $row->$method($arguments);
         }
 
         return $result;
