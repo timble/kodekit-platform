@@ -149,7 +149,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		}
 
 		if ($column == 'destination_fullpath') {
-			return $this->container->path.'/'.$this->destination_path;
+			return $this->getContainer()->path.'/'.$this->destination_path;
 		}
 
 		if ($column == 'adapter') {

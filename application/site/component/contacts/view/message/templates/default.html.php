@@ -60,9 +60,6 @@
     </div>
 
     <div class="control-group">
-        <label class="control-label" for="recaptcha_challenge_field">
-            <?=@text('Verification Code')?>
-        </label>
         <div class="controls">
             <?=@helper('com:users.captcha.render', array('attribs' => array('class' => 'required')))?>
         </div>

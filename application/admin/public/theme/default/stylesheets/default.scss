@@ -8,8 +8,10 @@
 @import "variables";
 @import "mixins";
 
-@import "modules/navigation";
-@import "modules/thumbnail";
+@import "blocks/navigation";
+@import "blocks/thumbnail";
+@import "blocks/scopebar";
+@import "blocks/tabs";
 
 @import "reset";
 
@@ -23,6 +25,7 @@
 @import "forms";
 @import "validation";
 @import "icons";
+@import "icons_custom";
 @import "labels";
 @import "select2";
 @import "flexbox";
@@ -32,8 +35,8 @@
 @import "components/articles";
 @import "components/attachments";
 @import "components/dashboard";
-@import "components/extensions";
 @import "components/files";
+@import "components/files_compact";
 @import "components/pages";
 @import "components/users";
 

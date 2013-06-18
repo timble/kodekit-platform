@@ -377,7 +377,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $languages->setActive($language);
 
         // TODO: Remove this.
-        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
     /**

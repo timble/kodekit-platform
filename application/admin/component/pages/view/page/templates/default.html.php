@@ -104,7 +104,7 @@
                 <input type="text" name="slug" maxlength="255" value="<?= $page->slug ?>" />
             </div>
         </div>
-        <div class="tabs">
+        <div class="tabs tabs-horizontal">
             <div class="tab">
                 <input type="radio" id="tab-1" name="tab-group-1" checked="">
                 <label for="tab-1"><?= @text('Publish') ?></label>

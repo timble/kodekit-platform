@@ -1,0 +1,25 @@
+//
+// Thumbnails
+// --------------------------------------------------
+
+.thumbnail {
+  margin: 0 12px 12px 0;
+  float: left;
+  width: 130px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius:5px;
+  @include box-shadow(0 1px 3px rgba(0,0,0,.055));
+
+  &:nth-child(even) {
+    margin-right: 0;
+  }
+
+  img {
+    border-radius:4px 4px 0 0;
+  }
+}
+
+.thumbnail__caption {
+  padding: 6px 0 0;
+}

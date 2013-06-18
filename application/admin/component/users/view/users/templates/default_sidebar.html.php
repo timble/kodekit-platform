@@ -10,26 +10,34 @@
 ?>
 
 <h3><?= @text('Roles') ?></h3>
-<nav class="scrollable">
-	<a class="<?= is_null($state->role) ? 'active' : ''; ?>" href="<?= @route('role=') ?>">
-	    <?= @text('All roles') ?>
-	</a>
+<ul class="navigation">
+	<li>
+        <a class="<?= is_null($state->role) ? 'active' : ''; ?>" href="<?= @route('role=') ?>">
+            <?= @text('All roles') ?>
+        </a>
+	</li>
 	<? foreach($roles as $role) : ?>
+    <li>
         <a <?= $state->role == $role->id ? 'class="active"' : '' ?> href="<?= @route('role='.$role->id) ?>">
             <?= $role->name ?>
         </a>
+    </li>
 	<? endforeach ?>
-</nav>
+</ul>
 
 <h3><?= @text('Groups') ?></h3>
-<nav class="scrollable">
-	<a class="<?= is_null($state->group) ? 'active' : ''; ?>" href="<?= @route('group=') ?>">
-	    <?= @text('All groups') ?>
-	</a>
-	
+<ul class="navigation">
+	<li>
+        <a class="<?= is_null($state->group) ? 'active' : ''; ?>" href="<?= @route('group=') ?>">
+            <?= @text('All groups') ?>
+        </a>
+	</li>
+
 	<? foreach($groups as $group) : ?>
+    <li>
         <a <?= $state->group == $group->id ? 'class="active"' : '' ?> href="<?= @route('group='.$group->id) ?>">
             <?= $group->name ?>
         </a>
+    </li>
 	<? endforeach ?>
-</nav>
+</ul>

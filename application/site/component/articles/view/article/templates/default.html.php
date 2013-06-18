@@ -28,7 +28,15 @@
         <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
     <? endif; ?>
 
-    <?= $article->introtext . $article->fulltext ?>
+    <? if($article->fulltext) : ?>
+    <div class="article__introtext">
+        <?= $article->introtext ?>
+    </div>
+    <? else : ?>
+    <?= $article->introtext ?>
+    <? endif ?>
+
+    <?= $article->fulltext ?>
     
     <?= @template('com:terms.view.terms.default.html') ?>
     <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>

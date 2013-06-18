@@ -9,7 +9,7 @@
 ?>
 
 <div class="scopebar">
-	<div class="scopebar-search">
+	<div class="scopebar__search">
 		<?= @helper('grid.search') ?>
 	</div>
 </div>

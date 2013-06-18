@@ -181,7 +181,9 @@ class DatabaseRowFile extends DatabaseRowNode
 	public function deleteThumbnail(Library\CommandContext $context = null)
 	{
 		$thumb = $this->getObject('com:files.model.thumbnails')
-			->source($this)
+            ->container($this->container)
+            ->folder($this->folder)
+            ->filename($this->name)
 			->getRow();
 
 		$result = $thumb->delete();

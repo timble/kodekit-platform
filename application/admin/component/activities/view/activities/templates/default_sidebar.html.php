@@ -26,44 +26,39 @@ window.addEvent('domready', function(){
 
 
 <h3><?=@text( 'Components' )?></h3>
-<div class="scrollable">
-	<nav>
-		<a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= @route('package=') ?>">
-		<?= @text('All components')?>
-		</a>
-		<?php foreach ($packages as $package): ?>
-		<a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
-		<?php endforeach ?>
-	</nav>
-		
-	<form action="" method="get" id="activities-filter">
-		<fieldset>
-		    <legend><?=@text( 'Filters' )?></legend>
-		    <div>
-				<label for="start_date"><?=@text( 'Start Date' )?></label>
-                <input type="date" name="start_date" value="<?= $state->start_date ?>" />
-	
-				<label for="days_back"><?=@text( 'Days Back' )?></label>
-				<div class="activities-days-back">
-					<input type="text" size="3" name="days_back" value="<?=($state->days_back) ? $state->days_back : '' ?>" />
-				</div>
-	
-				<label for="user"><?=@text( 'User' )?></label>
-				<div>
-					<?= @helper('com:users.listbox.users',
-							array(
-								'autocomplete' => true,
-								'name'		   => 'user',
-								'validate'     => false,
-								'attribs'      => array('size' => 30),
-							)) ?>
-				</div>
-	
-				<div class="btn-group">
-					<input type="submit" name="submitfilter" class="btn" value="<?=@text('Filter')?>" />
-					<input type="reset" name="cancelfilter" class="btn" value="<?=@text('Reset')?>" />
-				</div>
-			</div>
-		</fieldset>
-	</form>
-</div>
+<ul class="navigation">
+    <a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= @route('package=') ?>">
+    <?= @text('All components')?>
+    </a>
+    <?php foreach ($packages as $package): ?>
+    <a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>
+    <?php endforeach ?>
+</ul>
+
+<form action="" method="get" id="activities-filter">
+    <fieldset>
+        <legend><?=@text( 'Filters' )?></legend>
+        <div class="input-prepend">
+            <span class="add-on">Start</span>
+            <input type="date" name="start_date" value="<?= $state->start_date ?>" />
+        </div>
+        <div class="input-prepend">
+            <span class="add-on">Days back</span>
+            <input type="text" name="days_back" value="<?=($state->days_back) ? $state->days_back : '' ?>" />
+        </div>
+        <div class="input-prepend">
+            <span class="add-on">User</span>
+            <?= @helper('com:users.listbox.users',
+                array(
+                    'autocomplete' => true,
+                    'name'		   => 'user',
+                    'validate'     => false,
+                    'attribs'      => array('size' => null),
+                )) ?>
+        </div>
+        <div class="btn-group">
+            <input type="submit" name="submitfilter" class="btn" value="<?=@text('Filter')?>" />
+            <input type="reset" name="cancelfilter" class="btn" value="<?=@text('Reset')?>" />
+        </div>
+    </fieldset>
+</form>
