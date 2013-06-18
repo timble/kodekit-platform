@@ -86,26 +86,29 @@ class ApplicationRouter extends Library\DispatcherRouter
     protected function _parsePageRoute($url)
     {
         $route = $url->getPath();
-        $pages = $this->getObject('application.pages');
+        $pages   = $this->getObject('application.pages');
+        $reverse = array_reverse($pages->toArray());
+
+        //Set the default
+        $page = $pages->getHome();
 
         //Find the page
         if(!empty($route))
         {
             //Need to reverse the array (highest sublevels first)
-            foreach($pages as $page)
+            foreach($pages as $tmp)
             {
-                $page   = $pages->getPage($page->id);
-                $length = strlen($page->route);
+                $tmp     = $pages->getPage($tmp['id']);
+                $length = strlen($tmp->route);
 
-                if($length > 0 && strpos($route.'/', $page->route.'/') === 0 && $page->type != 'pagelink')
+                if($length > 0 && strpos($route.'/', $tmp->route.'/') === 0 && $tmp->type != 'pagelink')
                 {
-                    $route     = substr($route, $length);
-                    $url->path =  ltrim($route, '/');
+                    $page      = $tmp; //Set the page
+                    $url->path = ltrim(substr($route, $length), '/');
                     break;
                 }
             }
         }
-        else $page = $pages->getHome();
 
         //Set the page information in the route
         if($page->type != 'redirect')
