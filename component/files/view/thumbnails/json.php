@@ -20,7 +20,7 @@ use Nooku\Library;
  */
 class ViewThumbnailsJson extends ViewJson
 {
-    protected function _getRowset()
+    protected function _getList()
     {
         $list = $this->getModel()->fetch();
 
@@ -33,7 +33,7 @@ class ViewThumbnailsJson extends ViewJson
 
         ksort($results);
 
-    	$data = parent::_getRowset();
+    	$data = parent::_getList();
 
         $data['items'] = $results;
         $data['total'] = count($list);

@@ -19,10 +19,10 @@ use Nooku\Library;
  */
 class ViewJson extends Library\ViewJson
 {
-    protected function _getRow()
+    protected function _getItem()
     {
         $row  = $this->getModel()->getRow();
-        $data = parent::_getRow();
+        $data = parent::_getItem();
 
         $status = $row->getStatus() !== Library\Database::STATUS_FAILED;
 		$data['status'] = $status;

@@ -25,7 +25,7 @@ class ViewActivitiesJson extends Library\ViewJson
 	 *
 	 * @return array 	The array with data to be encoded to json
 	 */
-	protected function _getRowset()
+	protected function _getList()
 	{
 		//Get the model
 	    $model = $this->getModel();
