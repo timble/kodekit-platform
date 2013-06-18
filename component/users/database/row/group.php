@@ -43,7 +43,8 @@ class DatabaseRowGroup extends Library\DatabaseRowTable
             {
                 // Remove all users that are no longer selected
                 if (!in_array($group_user->user_id, $this->users)) {
-                    $group_user->delete();
+                    $row = $this->getObject('com:users.model.groups_users')->group_id($this->id)->user_id($group_user->user_id)->getRow();
+                    $row->delete();
                 }
             }
         } else {
