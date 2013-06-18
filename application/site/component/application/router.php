@@ -96,7 +96,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         if(!empty($route))
         {
             //Need to reverse the array (highest sublevels first)
-            foreach($pages as $tmp)
+            foreach($reverse as $tmp)
             {
                 $tmp     = $pages->getPage($tmp['id']);
                 $length = strlen($tmp->route);
