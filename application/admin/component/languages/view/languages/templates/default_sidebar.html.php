@@ -9,11 +9,15 @@
 ?>
 
 <h3><?= @text('Applications') ?></h3>
-<nav class="scrollable">
-    <a class="<?= $state->application == 'admin' ? 'active' : '' ?>" href="<?= @route('application=admin') ?>">
-        <?= @text('Administrator') ?>
-    </a>
-    <a class="<?= $state->application == 'site' ? 'active' : '' ?>" href="<?= @route('application=site') ?>">
-        <?= @text('Site') ?>
-    </a>
-</nav>
+<ul class="navigation">
+    <li>
+        <a class="<?= $state->application == 'admin' ? 'active' : '' ?>" href="<?= @route('application=admin') ?>">
+            <?= @text('Administrator') ?>
+        </a>
+    </li>
+    <li>
+        <a class="<?= $state->application == 'site' ? 'active' : '' ?>" href="<?= @route('application=site') ?>">
+            <?= @text('Site') ?>
+        </a>
+    </li>
+</ul>

@@ -144,7 +144,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
      */
     public function getPath()
     {
-        return current($this->_stack);
+        return end($this->_stack);
     }
 
     /**
@@ -433,7 +433,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         if(StringInflector::isPlural($view->getName()))
         {
             if($state = $view->getModel()->getState()) {
-                $params = array_merge( $state->toArray(), $params);
+                $params = array_merge( $state->getValues(), $params);
             }
         }
         else
@@ -501,7 +501,7 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     {
         //Create temporary file
         $tempfile = tempnam(sys_get_temp_dir(), 'tmpl');
-        ClassLoader::getInstance()->setAlias($this->getPath(), $tempfile);
+        $this->getObject('manager')->getClassLoader()->setAlias($this->getPath(), $tempfile);
 
         //Write the template to the file
         $handle = fopen($tempfile, "w+");

@@ -51,10 +51,20 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 
     protected function _beforeControllerRender(Library\CommandContext $context)
     {
-        $item = $this->getModel()->getRow();
+        $row = $this->getModel()->getRow();
 
-        if (($activation = $context->request->query->get('activation', $this->_filter)) && $item->activation) {
-            $this->activate(array('activation' => $activation));
+        if (($activation = $context->request->query->get('activation', $this->_filter)))
+        {
+            if ($row->activation)
+            {
+                $this->activate(array('activation' => $activation));
+            }
+            else
+            {
+                $context->response->setRedirect($this->getObject('lib:dispatcher.router.route',
+                    array('url' => $this->getObject('application.pages')->getHome()->getLink())));
+                $context->user->addFlashMessage('Invalid request', 'error');
+            }
             return false;
         }
     }
@@ -62,14 +72,14 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
     protected function _beforeControllerActivate(Library\CommandContext $context)
     {
         $activation = $context->request->data->get('activation', $this->_filter);
-        $item       = $this->getModel()->getRow();
+        $row        = $this->getModel()->getRow();
 
-        if ($activation !== $item->activation)
+        if ($activation !== $row->activation)
         {
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->user->addFlashMessage('Wrong activation token');
+            $context->user->addFlashMessage('Wrong activation token', 'error');
             $context->response->setRedirect($url);
 
             return false;
@@ -80,10 +90,11 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
     {
         $result = true;
 
-        $item = $this->getModel()->getRow();
-        $item->setData(array('activation' => '', 'enabled' => 1));
+        $row = $this->getModel()->getRow();
+        $row->setData(array('activation' => '', 'enabled' => 1));
 
-        if (!$item->save()) {
+        if (!$row->save())
+        {
             $result = false;
         }
 
@@ -96,20 +107,23 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $this->getObject('application')->getRouter()->build($url);
 
 
-        if ($context->result === true) {
-            $message = 'Activation successfully completed';
-        } else {
-            $message = 'Activation failed';
+        if ($context->result === true)
+        {
+            $context->user->addFlashMessage('Activation successfully completed');
+        }
+        else
+        {
+            $context->user->addFlashMessage('Activation failed', 'error');
         }
 
-        $context->user->addFlashMessage($message);
         $context->response->setRedirect($url);
     }
 
     protected function _beforeControllerAdd(Library\CommandContext $context)
     {
         // Set activation on new records.
-        if ($this->_enable) {
+        if ($this->_enable)
+        {
             $context->request->data->activation = $this->getObject('com:users.database.row.password')->getRandom(32);
             $context->request->data->enabled    = 0;
         }

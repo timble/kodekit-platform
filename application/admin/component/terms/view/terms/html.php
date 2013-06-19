@@ -20,7 +20,7 @@ class TermsViewTermsHtml extends Library\ViewHtml
 	public function render()
 	{
 		//If no row exists assign an empty array
-		if($this->getModel()->get('row')) {
+		if($this->getModel()->getState()->row) {
 			$this->disabled = false;
 		} else {
 			$this->disabled = true;

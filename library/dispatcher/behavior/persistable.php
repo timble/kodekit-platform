@@ -73,7 +73,7 @@ class DispatcherBehaviorPersistable extends ControllerBehaviorAbstract
 		$state  = $model->getState();
 
 	    $vars = array();
-	    foreach($state->getStates() as $var)
+	    foreach($state->toArray() as $var)
 	    {
 	        if(!$var->unique) {
 	            $vars[$var->name] = $var->value;

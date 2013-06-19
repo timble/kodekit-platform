@@ -48,7 +48,7 @@ class CommandValidatorNode extends Library\Command
 			return false;
 		}
 
-		$dest_adapter = $row->container->getAdapter($row->getIdentifier()->name, array(
+		$dest_adapter = $row->getContainer()->getAdapter($row->getIdentifier()->name, array(
 			'path' => $row->destination_fullpath
 		));
 

@@ -37,6 +37,13 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     private $__object_manager;
 
     /**
+     * The object config
+     *
+     * @var ObjectConfig
+     */
+    private $__object_config;
+
+    /**
      * Constructor.
      *
      * @param  ObjectConfig $config  A ObjectConfig object with configuration options
@@ -63,6 +70,10 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
 
         parent::__construct($config);
 
+        //Set the object config
+        $this->__object_config = $config;
+
+        //Set the command priority
         $this->_priority = $config->priority;
 
         //Automatically mixin the behavior
@@ -202,6 +213,26 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
             $result = $this->__object_manager->getIdentifier($identifier);
         } else {
             $result = $this->__object_identifier;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the object configuration
+     *
+     * If no identifier is passed the object config of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
+     *  @param   string|object    $identifier A valid identifier string or object implementing ObjectInterface
+     * @return ObjectConfig
+     */
+    public function getConfig($identifier = null)
+    {
+        if (isset($identifier)) {
+            $result = $this->__object_manager->getIdentifier($identifier)->getConfig();
+        } else {
+            $result = $this->__object_config;
         }
 
         return $result;

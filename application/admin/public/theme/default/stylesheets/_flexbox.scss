@@ -1,100 +1,106 @@
+html {
+  @include flex;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
-	overflow: hidden;
+  @include flex(1 1 auto);
+  height: 100%; // Required for Firefox 23.0a2
+  overflow: hidden;
 }
 
-html, body {
-	height: 100%;
+.navigation {
+  @include flex-grow(1);
+  overflow-y: scroll;
 
-	#container {
-		@include flex-box(column, 1);
-		min-height: 100%;
-	}
+  a {
+    @include flex(0 0 auto);
+    @include flex-justify-content(space-between);
+
+    .navigation__badge {
+      @include flex-grow(0);
+    }
+  }
 }
 
-.box-row {
-	@include flex-box(row, 1);
-	min-height: 100%;
+#panel-wrapper {
+  @include flex(1 1 auto);
+  @include flex-direction(column);
 }
 
 #panel-header  {
-	@include flex-box(row);
-	min-height: 30px;
-	max-height: 30px;
-
-	#menu {
-		@include flex-box(row, 1);
-	}
+  @include flex;
+  @include flex-shrink(0);
+  @include flex-justify-content(space-between);
 }
 
 #panel-tabbar {
-	@include flex-box(column, 30px 0);
-
-	#menubar {
-		@include flex-box();
-	}
+  @include flex;
+  @include flex-shrink(0);
 }
 
 #panel-toolbar {
-	@include flex-box(row, 41px 0);
-    min-height: auto;
+  @include flex;
+  @include flex-shrink(0);
 
-	> .toolbar {
-		@include flex-box(row, 1);
-	}
+  > .toolbar {
+    @include flex;
+  }
+}
+
+#panel-component {
+  @include flex(1 1 auto);
 }
 
 #panel-sidebar,
 #panel-inspector {
-	@include flex-box(column, 1 1 15%);
-    max-width: 200px;
+  @include flex(0 1 auto);
+  @include flex-direction(column);
+  width: 200px;
 
-	h3 {
-		width: 100%;
-	}
+  h3 {
+    @include flex-shrink(0);
+  }
 }
 
 #panel-content {
-	@include flex-box(column, 1 1 70%);
-	min-height: 100%;
+  @include flex(1);
 
-	.-koowa-grid {
-		width: 100%;
-	}
+  .-koowa-grid {
+    @include flex(1);
+    @include flex-direction(column);
+  }
 
-	.-koowa-form {
-		@include flex-box(row, 1);
-		min-height: 100%;
+  .-koowa-form {
+    @include flex(1);
 
-		.main {
-			@include flex-box(column, 1);
-			min-height: 100%;
+    .main {
+      @include flex(1);
+      @include flex-direction(column);
 
-			.title {
-				min-height: 64px;
+      .title {
+        @include flex(0 0 auto);
+        @include flex-direction(column);
 
-                @include flex-box(column, 0);
-
-				.slug {
-					@include flex-box(row, 0);
-				}
-			}
-
-			.scrollable {
-				@include box-flex(1);
-				@include box-scrollable(scrollable);
-				min-height: 100%;
-			}
-		}
-		.sidebar {
-			@include flex-box(column, initial);
-		}
-	}
+        .slug {
+          @include flex;
+        }
+      }
+    }
+    .sidebar:not(.no--scrollbar) {
+      overflow-y: scroll;
+    }
+    .sidebar.no--scrollbar {
+      @include flex;
+      @include flex-direction(column);
+    }
+  }
 }
 
 .scrollable {
-	@include box-scrollable(scrollable);
-	@include box-flex(1);
-	min-height: 100%;
+  @include box-scrollable(scrollable);
+  @include flex-grow(1);
 }
 
 .editor-wrap,
@@ -105,91 +111,110 @@ table.mceLayout > tbody,
 table.mceLayout > tbody > tr:nth-of-type(2),
 table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer,
 table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
-	@include flex-box(column, 1);
+  @include flex(1);
+  @include flex-direction(column);
 }
 
-table.mceLayout,
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
-	height: auto !important;
+table.mceLayout > tbody > tr:nth-of-type(1),
+table.mceLayout > tbody > tr:nth-of-type(3){
+  @include flex(0 0 auto);
 }
 
 .CodeMirror {
-	@include flex-box(column, 1);
+  @include flex(1);
+  @include flex-direction(column);
 
-	.CodeMirror-scroll {
-		@include box-flex(1);
-	}
+  .CodeMirror-scroll {
+    @include flex(1);
+  }
 }
 
 /* @group Scope Bar */
 .scopebar {
-	@include flex-box(row, 0);
-	min-height: 22px;
+  @include flex;
 
-	.scopebar-search {
-		@include flex-box(horizontal, 1);
-		@include box-justify-content(flex-end);
+  .scopebar__search {
+    @include flex;
+    margin-left: auto;
 
-		input {
-			@include flex-box(horizontal, 1);
-		}
-	}
+    input {
+      @include flex(1);
+    }
+  }
 }
 
 .com_pages {
-	#components,
-	#layouts {
-		@include flex-box(column, none);
-	}
+  #components,
+  #layouts {
+    @include flex;
+    @include flex-direction(column);
+  }
 }
 
 .com_dashboard #panel-content {
-	@include flex-box(row, 1);
+  @include flex(1);
 
-	> div:first-child {
-		@include flex-box(row, 1);
+  > div:first-child {
+    @include flex(1);
 
-		> div {
-			@include flex-box(column, 1);
+    > div {
+      @include flex(1);
+      @include flex-direction(column);
 
-			#activities-list {
-				@include flex-box(column, 1);
-
-				.activities {
-					@include box-flex(1);
-					@include box-scrollable(scrollable);
-					min-height: 100%;
-
-					* {
-						@include box-flex(none);
-					}
-				}
-			}
-		}
-	}
+      #activities-list {
+        @include box-scrollable(scrollable);
+        @include flex(1);
+        @include flex-direction(column);
+      }
+    }
+  }
 }
 
 .com_files {
-	#files-app {
-		@include flex-box(column, 1);
+  #files-app {
+    @include flex(1);
+    @include flex-direction(column);
 
-		#files-canvas {
-			@include flex-box(column, 1);
-				#files-grid {
-					@include box-flex(1);
-					@include box-scrollable(scrollable);
-					min-height: 100%;
-				}
-		}
-	}
+    #files-canvas {
+      @include flex(1);
+      @include flex-direction(column);
+        #files-grid {
+          @extend .scrollable;
+        }
+    }
+  }
 
-	#files-paginator {
-		height: 26px;
-	}
+  #files-paginator {
+    height: 26px;
+  }
 
-	#files-tree {
-			@include box-flex(1);
-			@include box-scrollable(scrollable);
-			min-height: 100%;
-	}
+  #files-tree {
+    @extend .scrollable;
+  }
+
+  #files-compact {
+    @include flex;
+  }
+
+  #files-insert {
+    @include flex;
+
+    #files-tree-container,
+    #files-grid {
+      @include flex(0 0 auto);
+    }
+
+    #details {
+      @include flex(1 0 auto);
+      @include flex-direction(column);
+
+      #files-preview {
+        @include flex(1 0 auto);
+      }
+
+      #image-insert-form {
+        @include flex-shrink(0);
+      }
+    }
+  }
 }

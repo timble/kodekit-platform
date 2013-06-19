@@ -92,12 +92,11 @@ class ObjectDecorator implements ObjectDecoratorInterface
      * This function is called when an object is being decorated. It will get the object passed in.
      *
      * @param ObjectDecoratable $delegate The object being decorated
-     * @return ObjectDecorator
+     * @return void
      */
     public function onDecorate(ObjectDecoratable $delegate)
     {
         $this->setDelegate($delegate);
-        return $this;
     }
 
     /**
@@ -156,14 +155,25 @@ class ObjectDecorator implements ObjectDecoratorInterface
     }
 
     /**
-     * Get a service identifier.
+     * Get an object identifier.
      *
-     * @param	string|object	$identifier The class identifier or identifier object
+     * @param	string|object	$identifier A valid identifier string or object implementing ObjectInterface
      * @return	ObjectIdentifier
      */
     public function getIdentifier($identifier = null)
     {
         return $this->getDelegate()->getIdentifier($identifier);
+    }
+
+    /**
+     * Get the object configuration
+     *
+     * @param   string|object    $identifier A valid identifier string or object implementing ObjectInterface
+     * @return ObjectConfig
+     */
+    public function getConfig($identifier = null)
+    {
+        return $this->getDelegate()->getObject($identifier);
     }
 
     /**

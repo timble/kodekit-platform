@@ -32,12 +32,17 @@ class ViewFilesHtml extends Library\ViewHtml
 	public function render()
 	{
 	    $state = $this->getModel()->getState();
-	    if (empty($state->limit)) {
+
+        //Set the limit
+        if (empty($state->limit)) {
 	        $state->limit = $this->getObject('application')->getCfg('list_limit');
 	    }
-	    
-		$this->token     = $this->getObject('user')->getSession()->getToken();
-		$this->container = $this->getModel()->getState()->container;
+
+        //Set the container
+        $this->container = $this->getModel()->getContainer();
+
+        //Set the token
+		$this->token  = $this->getObject('user')->getSession()->getToken();
 
 		return parent::render();
 	}

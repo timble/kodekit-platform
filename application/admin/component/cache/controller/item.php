@@ -19,7 +19,7 @@ use Nooku\Library;
  * @subpackage  Cache
  */
  
-class CacheControllerItem extends ApplicationControllerDefault
+class CacheControllerItem extends Library\ControllerModel
 { 
     protected function _actionPurge(Library\CommandContext $context)
     {

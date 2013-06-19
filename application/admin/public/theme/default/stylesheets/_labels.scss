@@ -8,20 +8,18 @@
 // Base
 .label,
 .badge{
-	padding: 1px 6px;
-	font-size: $baseFontSize * .85;
-  @include border-radius(3px);
+  padding: 1px 6px;
+  font-size: $baseFontSize * .85;
+  border-radius:3px;
   @include label-colors();
-
-
 }
 
 // Empty labels/badges collapse
 .label,
 .badge {
-    &:empty {
-        display: none;
-    }
+  &:empty {
+    display: none;
+  }
 }
 
 // Colors

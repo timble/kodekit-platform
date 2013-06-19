@@ -69,11 +69,11 @@
 
 <? if(count($files) != $total): ?>
     <?= @helper('paginator.pagination', array(
+        'limit' => $state->limit,
+        'offset' => $state->offset,
     	'total' => $total, 
     	'show_limit' => false, 
-    	'show_count' => false,
-    	'limit' => $state->limit,
-    	'offset' => $state->offset
+    	'show_count' => false
     )); ?>
 <? endif; ?>
 </form>

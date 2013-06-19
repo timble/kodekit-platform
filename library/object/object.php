@@ -39,6 +39,13 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     private $__object_manager;
 
     /**
+     * The object config
+     *
+     * @var ObjectConfig
+     */
+    private $__object_config;
+
+    /**
      * Mixed in methods
      *
      * @var array
@@ -74,8 +81,11 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
         //Initialise the object
         $this->_initialize($config);
 
+        //Set the object config
+        $this->__object_config = $config;
+
         //Add the mixins
-        $mixins = (array)ObjectConfig::unbox($config->mixins);
+        $mixins = (array) ObjectConfig::unbox($config->mixins);
 
         foreach ($mixins as $key => $value)
         {
@@ -98,9 +108,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'object_identifier' => null,
-            'object_manager'    => null,
-            'mixins'            => array(),
+            'mixins' => array(),
         ));
     }
 
@@ -263,10 +271,10 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
     /**
      * Get an instance of a class based on a class identifier only creating it if it does not exist yet.
      *
-     * @param    string|object    $identifier The class identifier or identifier object
+     * @param    string|object    $identifier A valid identifier string or object implementing ObjectInterface
      * @param    array            $config     An optional associative array of configuration settings.
      * @throws   \RuntimeException If the service manager has not been defined.
-     * @return   object            Return object on success, throws exception on failure
+     * @return   ObjectInterface  Return object on success, throws exception on failure
      */
     final public function getObject($identifier, array $config = array())
     {
@@ -289,6 +297,26 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
             $result = $this->__object_manager->getIdentifier($identifier);
         } else {
             $result = $this->__object_identifier;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get the object configuration
+     *
+     * If no identifier is passed the object config of this object will be returned. Function recursively
+     * resolves identifier aliases and returns the aliased identifier.
+     *
+     *  @param   string|object    $identifier A valid identifier string or object implementing ObjectInterface
+     * @return ObjectConfig
+     */
+    public function getConfig($identifier = null)
+    {
+        if (isset($identifier)) {
+            $result = $this->__object_manager->getIdentifier($identifier)->getConfig();
+        } else {
+            $result = $this->__object_config;
         }
 
         return $result;

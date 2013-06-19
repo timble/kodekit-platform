@@ -67,10 +67,8 @@ VALUES
 INSERT INTO `categories` (`categories_category_id`, `parent_id`, `title`, `slug`, `image`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
 VALUES
 	(1, 34, 'Latest', 'latest-news', 'taking_notes.jpg', 'articles', 'The latest news from the Joomla! Team', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
-	(2, 0, 'Joomla! Specific Links', 'joomla-specific-links', 'clock.jpg', 'weblinks', 'A selection of links that are all related to the Joomla! Project.', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
 	(3, 34, 'Newsflash', 'newsflash', '', 'articles', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, ''),
 	(12, 0, 'Contacts', 'contacts', '', 'contacts', 'Contact Details for this Web site', 1, 1, NULL, NULL, NULL, NULL, NULL, 0, 0, ''),
-	(19, 0, 'Other Resources', 'other-resources', '', 'weblinks', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, ''),
 	(25, 36, 'The Project', 'the-project', '', 'articles', 'General facts about Joomla!', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
 	(27, 35, 'New to Joomla!', 'new-to-joomla', '', 'articles', 'Questions for new users of Joomla!', 1, 1, NULL, NULL, NULL, NULL, NULL, 3, 0, ''),
 	(28, 35, 'Current Users', 'current-users', '', 'articles', 'Questions that users migrating to Joomla! 1.5 are likely to raise', 1, 1, NULL, NULL, NULL, NULL, 'NULL', 2, 0, ''),
@@ -86,9 +84,9 @@ VALUES
 -- Dumping data for table `contacts`
 --
 
-INSERT INTO `contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `image`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`, `webpage`)
+INSERT INTO `contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `address`, `suburb`, `state`, `country`, `postcode`, `telephone`, `fax`, `misc`, `image`, `email_to`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `params`, `categories_category_id`, `access`, `mobile`)
 VALUES
-	(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'email@example.com', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, '', 12, 0, '', '');
+	(1, 'Name', 'name', 'Position', 'Street', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', 'Miscellanous info', 'powered_by.png', 'email@example.com', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, '', 12, 0, '');
 
 --
 -- Dumping data for table `pages_menus`
@@ -220,7 +218,6 @@ VALUES
 	(45, 1, NULL, 'Section Table', 'section-table', 'option=com_articles&view=categories&category=35', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(46, 1, NULL, 'Category Blog', 'category-blog', 'option=com_articles&view=articles&category=31', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(47, 1, NULL, 'Category Table', 'category-table', 'option=com_articles&view=articles&layout=table&category=32', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
-	(48, 1, NULL, 'Web Links', 'web-links', 'option=com_weblinks&view=categories', NULL, 'component', 1, 0, 0, 4, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(49, 1, NULL, 'The News', 'the-news', 'option=com_articles&view=articles&category=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(50, 3, NULL, 'Submit an Article', 'submit-an-article', 'option=com_articles&view=article&layout=form', NULL, 'component', 0, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 1, NULL),
 	(51, 1, NULL, 'Search Results', 'search-results', 'option=com_articles&view=articles&layout=search', NULL, 'component', 1, 1, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
@@ -228,22 +225,6 @@ VALUES
   (53, 1, NULL, 'Joomla! License', 'joomla-license', 'option=com_articles&view=article&id=5', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, NULL),
 	(54, 3, NULL, 'User', 'user', 'option=com_users&view=user', NULL, 'component', 1, 1, 0, 31, 1, '2013-04-17 08:06:47', NULL, NULL, NULL, NULL, 0, NULL);
 
-
-
---
--- Dumping data for table `weblinks`
---
-
-INSERT INTO `weblinks` (`weblinks_weblink_id`, `categories_category_id`, `title`, `slug`, `url`, `description`, `created_by`, `created_on`, `modified_by`, `modified_on`, `published`, `locked_by`, `locked_on`, `ordering`, `params`)
-VALUES
-	(1, 2, 'Joomla!', 'joomla', 'http://www.joomla.org', 'Home of Joomla!', 1, NULL, NULL, NULL, 1, 0, 'NULL', 1, ''),
-	(2, 2, 'php.net', 'php', 'http://www.php.net', 'The language that Joomla! is developed in', 1, NULL, NULL, NULL, 1, 0, 'NULL', 3, ''),
-	(3, 2, 'MySQL', 'mysql', 'http://www.mysql.com', 'The database that Joomla! uses', 1, NULL, NULL, NULL, 1, 0, 'NULL', 5, ''),
-	(4, 2, 'OpenSourceMatters', 'opensourcematters', 'http://www.opensourcematters.org', 'Home of OSM', 1, NULL, NULL, NULL, 1, 0, 'NULL', 2, ''),
-	(5, 2, 'Joomla! - Forums', 'joomla-forums', 'http://forum.joomla.org', 'Joomla! Forums', 1, NULL, NULL, NULL, 1, 0, 'NULL', 4, ''),
-	(6, 2, 'Ohloh Tracking of Joomla!', 'ohloh-tracking-of-joomla', 'http://www.ohloh.net/projects/20', 'Objective reports from Ohloh about Joomla\'s development activity. Joomla! has some star developers with serious kudos.', 1, NULL, NULL, NULL, 1, 0, 'NULL', 6, '');
-	
-	
 --
 -- Update creation date to today (this very moment)
 --
@@ -255,7 +236,6 @@ UPDATE `pages` SET `created_on` = now();
 UPDATE `pages_menus` SET `created_on` = now();
 UPDATE `pages_modules` SET `created_on` = now();
 UPDATE `users` SET `created_on` = now();
-UPDATE `weblinks` SET `created_on` = now();
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

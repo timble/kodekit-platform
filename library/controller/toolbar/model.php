@@ -121,7 +121,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
     protected function _commandExport(ControllerToolbarCommand $command)
     {
         //Get the states
-        $states = $this->getController()->getModel()->getState()->toArray();
+        $states = $this->getController()->getModel()->getState()->getValues();
 
         unset($states['limit']);
         unset($states['offset']);

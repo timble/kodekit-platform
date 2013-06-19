@@ -23,19 +23,19 @@
     </div>
     <div>
         <label for="publish_on"><?= @text('Publish on') ?></label>
-        <div class="controls-calendar">
-            <?= @helper('behavior.calendar', array('date' => $article->publish_on, 'name' => 'publish_on')); ?>
+        <div>
+            <input type="datetime-local" name="publish_on" value="<?= $article->publish_on ?>" />
         </div>
     </div>
     <div>
         <label for="unpublish_on"><?= @text('Unpublish on') ?></label>
-        <div class="controls-calendar">
-            <?= @helper('behavior.calendar', array('date' => $article->unpublish_on, 'name' => 'unpublish_on')); ?>
+        <div>
+            <input type="datetime-local" name="unpublish_on" value="<?= $article->unpublish_on ?>" />
         </div>
     </div>
 </fieldset>
 
-<div class="tabs">
+<div class="tabs tabs-horizontal">
     <div class="tab">
         <input type="radio" id="tab-1" name="tab-group-1" checked="">
         <label for="tab-1"><?= @text('Classifications') ?></label>

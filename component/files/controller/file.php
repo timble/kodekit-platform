@@ -51,4 +51,13 @@ class ControllerFile extends ControllerAbstract
 
 		}
 	}
+
+    protected function _actionRender(Library\CommandContext $context)
+    {
+        if($context->request->getFormat() == 'html') {
+            return Library\ControllerView::_actionRender($context);
+        }
+
+        return parent::_actionRender($context);
+    }
 }

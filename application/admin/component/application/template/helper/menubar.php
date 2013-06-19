@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Template Menubar Helper
@@ -16,7 +17,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
+class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
 {
  	/**
      * Render the menubar
@@ -31,6 +32,11 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
             'attribs' => array('class' => array())
         ));
 
+        $groups   = $this->getObject('user')->getGroups();
+
+        // Make sure that pages without an assigned group are also included.
+        $groups[] = 0;
+
         $result = '';
 
         $menus = $this->getObject('com:pages.model.menus')
@@ -41,7 +47,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
 
         if(count($menu))
         {
-            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->top()->id));
+            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->top()->id, 'hidden' => 0, 'users_group_id' => $groups));
             $result = $this->pages(array('pages' => $pages, 'attribs' => $config->attribs));
         }
 

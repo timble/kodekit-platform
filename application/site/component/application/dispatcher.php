@@ -318,7 +318,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
 
         //Set Session Options
         $session->setOptions(array(
-            'cookie_path'   => (string) $context->request->getBaseUrl()->getPath(),
+            'cookie_path'   => (string) $context->request->getBaseUrl()->getPath() ?: '/',
             'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
         ));
 
@@ -377,7 +377,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $languages->setActive($language);
 
         // TODO: Remove this.
-        JFactory::getConfig()->setValue('config.language', $language->iso_code);
+        //JFactory::getConfig()->setValue('config.language', $language->iso_code);
     }
 
     /**

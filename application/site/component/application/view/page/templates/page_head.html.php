@@ -22,8 +22,6 @@
 
     <link href="media://application/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <style src="media://application/stylesheets/system.css"  />
-    <style src="media://application/stylesheets/general.css"  />
     <style src="media://application/stylesheets/default.css" />
     <style src="media://application/stylesheets/print.css" media="print" />
 

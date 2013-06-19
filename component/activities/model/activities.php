@@ -87,12 +87,12 @@ class ModelActivities extends Library\ModelTable
 		if ($state->start_date && $state->start_date != '0000-00-00')
 		{
 		    // TODO: Sync this code with Date and DatabaseQuery changes.
-			$start_date = $this->getObject('lib:date', array('date' => $this->_state->start_date));
+			$start_date = $this->getObject('lib:date', array('date' => $this->getState()->start_date));
 			$days_back  = clone $start_date;
 			$start      = $start_date->addDays(1)->addSeconds(-1)->getDate();
 
 			$query->where('tbl.created_on', '<', $start);
-			$query->where('tbl.created_on', '>', $days_back->addDays(-(int)$this->_state->days_back)->getDate());
+			$query->where('tbl.created_on', '>', $days_back->addDays(-(int)$this->getState()->days_back)->getDate());
 		}
 
 		if ($state->user) {

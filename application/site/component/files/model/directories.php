@@ -8,7 +8,7 @@
  * @link		http://www.nooku.org
  */
 
-use Nooku\Library;
+use Nooku\Library, Nooku\Component\Files;
 
 /**
  * Default Directories Class
@@ -18,25 +18,6 @@ use Nooku\Library;
  * @subpackage  Application
  */
  
-class FilesModelDirectories extends Library\ModelAbstract
+class FilesModelDirectories extends Files\ModelFolders
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
-
-		$this->getState()
-            ->insert('limit'    , 'int')
-            ->insert('offset'   , 'int')
-            ->insert('sort'     , 'cmd')
-            ->insert('direction', 'word', 'asc')
-            ->insert('search'   , 'string')
-            // callback state for JSONP, needs to be filtered as cmd to prevent XSS
-            ->insert('callback' , 'cmd')
-
-			->insert('container', 'com:files.filter.container', null)
-			->insert('folder'	, 'com:files.filter.path', '')
-			->insert('name'		, 'com:files.filter.path', '', true)
-			->insert('types'	, 'cmd', '')
-			;
-	}
 }

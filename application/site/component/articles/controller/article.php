@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Articles
  */
-class ArticlesControllerArticle extends ApplicationControllerDefault
+class ArticlesControllerArticle extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

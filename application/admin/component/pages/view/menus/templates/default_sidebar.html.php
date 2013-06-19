@@ -9,10 +9,12 @@
 ?>
 
 <h3><?= @text('Applications') ?></h3>
-<nav class="scrollable">
+<ul class="navigation">
 	<? foreach($applications as $application) : ?>
-	<a <?= $state->application == $application ? 'class="active"' : '' ?> href="<?= @route('application='.$application) ?>">
-	    <?= $application ?>
-	</a>
+	<li>
+        <a <?= $state->application == $application ? 'class="active"' : '' ?> href="<?= @route('application='.$application) ?>">
+            <?= $application ?>
+        </a>
+	</li>
 	<? endforeach ?>
-</nav>
+</ul>

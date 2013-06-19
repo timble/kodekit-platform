@@ -14,7 +14,7 @@ use Nooku\Library;
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  */
-class ExtensionsControllerComponent extends ApplicationControllerDefault
+class ExtensionsControllerComponent extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {

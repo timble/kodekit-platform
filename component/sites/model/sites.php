@@ -38,7 +38,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleto
         {
             $state = $this->getState();
             $data = array();
-            
+
             //Get the sites
 			foreach(new \DirectoryIterator(JPATH_SITES) as $file)
 			{
@@ -49,7 +49,7 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleto
 				    );
     			}
 			}
-			
+
             //Apply state information
             foreach($data as $key => $value)
             {   

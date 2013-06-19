@@ -75,36 +75,44 @@ window.addEvent('domready', function() {
 </script>
 
 <div id="image-insert-form">
-	<table class="properties">
-		<tr>
-			<td><label for="image-url"><?= @text('URL') ?></label></td>
-			<td><input type="text" id="image-url" value="" /></td>
-		</tr>
-		<tr>
-			<td><label for="image-alt"><?= @text('Description') ?></label></td>
-			<td><input type="text" id="image-alt" value="" /></td>
-		</tr>
-		<tr>
-			<td><label for="image-title"><?= @text('Title') ?></label></td>
-			<td><input type="text" id="image-title" value="" /></td>
-		</tr>
-		<tr>
-			<td><label for="image-align"><?= @text('Align') ?></label></td>
-			<td>
-				<select size="1" id="image-align" title="<?= @text('Positioning of this image') ?>">
-					<option value="" selected="selected"><?= @text('Not Set') ?></option>
-					<option value="left"><?= @text('Left') ?></option>
-					<option value="right"><?= @text('Right') ?></option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><label for="image-caption"><?= @text('Caption') ?></label></td>
-			<td><input type="checkbox" id="image-caption" /></td>
-		</tr>
-	</table>
+	<fieldset>
+        <div>
+            <label for="image-url"><?= @text('URL') ?></label>
+            <div>
+                <input type="text" id="image-url" value="" />
+            </div>
+        </div>
+        <div>
+            <label for="image-alt"><?= @text('Description') ?></label>
+            <div>
+                <input type="text" id="image-alt" value="" />
+            </div>
+        </div>
+        <div>
+            <label for="image-title"><?= @text('Title') ?></label>
+            <div>
+                <input type="text" id="image-title" value="" />
+            </div>
+        </div>
+        <div>
+            <label for="image-align"><?= @text('Align') ?></label>
+            <div>
+                <select size="1" id="image-align" title="<?= @text('Positioning of this image') ?>">
+                    <option value="" selected="selected"><?= @text('Not Set') ?></option>
+                    <option value="left"><?= @text('Left') ?></option>
+                    <option value="right"><?= @text('Right') ?></option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <label for="image-caption"><?= @text('Caption') ?></label>
+            <div>
+                <input type="checkbox" id="image-caption" />
+            </div>
+        </div>
+	</fieldset>
 	<div class="buttons">
-		<button type="button" id="insert-image"><?= @text('Insert') ?></button>
-		<button type="button" id="close-modal"><?= @text('Cancel') ?></button>
+        <button class="btn" type="button" id="close-modal"><?= @text('Cancel') ?></button>
+        <button class="btn" type="button" id="insert-image"><?= @text('Insert') ?></button>
 	</div>
 </div>

@@ -34,6 +34,7 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
         {
             $application = $this->getObject('application');
             $request     = $application->getRequest();
+            $response    = $application->getResponse();
 
             if($request->getFormat() == 'html')
             {
@@ -42,7 +43,11 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
                     $request->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
                     $application->forward('users');
                 }
-                else $application->getUser()->addFlashMessage($event->getMessage(), 'error');
+                else
+                {
+                    $application->getUser()->addFlashMessage($event->getMessage(), 'error');
+                    $response->setRedirect($request->getReferrer());
+                }
 
                 $application->dispatch();
 

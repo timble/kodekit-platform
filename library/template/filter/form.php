@@ -113,7 +113,7 @@ class TemplateFilterForm extends TemplateFilterAbstract implements TemplateFilte
         {
             $view = $this->getTemplate()->getView();
             $state = $view->getModel()->getState();
-            $action = $view->getRoute(http_build_query($state->toArray($state->isUnique())));
+            $action = $view->getRoute(http_build_query($state->getValues($state->isUnique())));
 
             foreach ($matches as $match)
             {

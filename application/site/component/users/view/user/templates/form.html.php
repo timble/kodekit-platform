@@ -17,15 +17,11 @@
 
 <script type="text/javascript">
     window.addEvent('domready', function () {
-        ComUsers.Form.addValidator('passwordLength');
+        ComUsers.Form.addValidators(['passwordLength','passwordVerify']);
     });
 </script>
 
 <form action="" method="post" autocomplete="off" class="-koowa-form form-horizontal">
-    <div class="page-header">
-        <h1><?= @escape($page->access ? $parameters->get('page_title') : @text('Registration')) ?></h1>
-    </div>
-
     <div class="control-group">
         <label class="control-label" for="name"><?= @text('Your Name') ?></label>
         <div class="controls">
@@ -43,7 +39,7 @@
     <div class="control-group">
         <label class="control-label" for="password"><?= @text('Password') ?></label>
         <div class="controls">
-            <input class="inputbox<?=$user->isNew() ?' required ':' ';?>passwordLength:<?=$parameters->get('password_length', 6);?>" type="password" id="password" name="password" value="" size="40" />
+            <input class="inputbox <?=!$user->isNew()?:'required'?> passwordLength:<?=$parameters->get('password_length', 6);?>" type="password" id="password" name="password" value="" size="40" />
             <?=@helper('com:users.form.password');?>
         </div>
     </div>
@@ -51,7 +47,7 @@
     <div class="control-group">
         <label class="control-label" for="password_verify"><?= @text('Verify Password') ?></label>
         <div class="controls">
-            <input class="inputbox validate-match matchInput:'password' matchName:'password'" type="password" id="password_verify" size="40" />
+            <input class="inputbox <?=!$user->isNew()?:'required'?> passwordVerify matchInput:'password' matchName:'password'" type="password" id="password_verify" size="40" />
         </div>
     </div>
 

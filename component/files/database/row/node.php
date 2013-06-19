@@ -15,6 +15,8 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 {
 	protected $_adapter;
 
+    protected $_container;
+
 	public function __construct(Library\ObjectConfig $config)
 	{
 		parent::__construct($config);
@@ -60,21 +62,18 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 			$this->getCommandChain()->run('after.copy', $context);
         }
 
-		if ($context->result === false)
+		if ($context->result !== false)
 		{
-			$this->setStatus(Library\Database::STATUS_FAILED);
-		}
-		else
-		{
-			if ($this->destination_folder) {
-				$this->folder = $this->destination_folder;
-			}
-			if ($this->destination_name) {
-				$this->name = $this->destination_name;
-			}
+            if ($this->destination_folder) {
+                $this->folder = $this->destination_folder;
+            }
+            if ($this->destination_name) {
+                $this->name = $this->destination_name;
+            }
 
-			$this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
+            $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
 		}
+		else $this->setStatus(Library\Database::STATUS_FAILED);
 
 		return $context->result;
 	}
@@ -90,21 +89,19 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 			$this->getCommandChain()->run('after.move', $context);
         }
 
-		if ($context->result === false)
+		if ($context->result !== false)
 		{
-			$this->setStatus(Library\Database::STATUS_FAILED);
-		}
-		else
-		{
-			if ($this->destination_folder) {
-				$this->folder = $this->destination_folder;
-			}
-			if ($this->destination_name) {
-				$this->name = $this->destination_name;
-			}
+            if ($this->destination_folder) {
+                $this->folder = $this->destination_folder;
+            }
 
-			$this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
+            if ($this->destination_name) {
+                $this->name = $this->destination_name;
+            }
+
+            $this->setStatus($this->overwritten ? Library\Database::STATUS_UPDATED : Library\Database::STATUS_CREATED);
 		}
+		else $this->setStatus(Library\Database::STATUS_FAILED);
 
 		return $context->result;
 	}
@@ -152,7 +149,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		}
 
 		if ($column == 'destination_fullpath') {
-			return $this->container->path.'/'.$this->destination_path;
+			return $this->getContainer()->path.'/'.$this->destination_path;
 		}
 
 		if ($column == 'adapter') {
@@ -172,11 +169,30 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
 		}
 	}
 
+    public function getContainer()
+    {
+        if(!isset($this->_container))
+        {
+            //Set the container
+            $container = $this->getObject('com:files.model.containers')->slug($this->container)->getRow();
+
+            if (!is_object($container) || $container->isNew()) {
+                throw new \UnexpectedValueException('Invalid container');
+            }
+
+            $this->_container = $container;
+        }
+
+        return $this->_container;
+    }
+
 	public function setAdapter()
 	{
-		$type = $this->getIdentifier()->name;
-		$this->_adapter = $this->container->getAdapter($type, array(
-			'path' => $this->container->path.'/'.($this->folder ? $this->folder.'/' : '').$this->name
+		$type      = $this->getIdentifier()->name;
+        $container = $this->getContainer();
+
+		$this->_adapter = $container->getAdapter($type, array(
+			'path' => $container->path.'/'.($this->folder ? $this->folder.'/' : '').$this->name
 		));
 
 		unset($this->_data['fullpath']);
@@ -211,7 +227,7 @@ class DatabaseRowNode extends Library\DatabaseRowAbstract
         unset($data['format']);
         unset($data['view']);
 
-		$data['container'] = $this->container->slug;
+		$data['container'] = $this->getContainer()->slug;
 		$data['type']      = $this->getIdentifier()->name;
 
         return $data;

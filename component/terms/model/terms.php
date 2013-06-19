@@ -58,8 +58,8 @@ class ModelTerms extends Library\ModelTable
             $query->where('tbl.title LIKE :search')->bind(array('search' => '%' . $state->search . '%'));
         }
         
-        if($this->_state->table) {
-            $query->where('tbl.table = :table')->bind(array('table' => $this->_state->table));
+        if($this->getState()->table) {
+            $query->where('tbl.table = :table')->bind(array('table' => $this->getState()->table));
         }
         
         parent::_buildQueryWhere($query);

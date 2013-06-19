@@ -47,6 +47,22 @@ class ControllerException extends Library\ControllerView
         $message = Library\HttpResponse::$status_messages[$code];
         $traces = $exception->getTrace();
 
+        //Find the real file path
+        $aliases = $this->getObject('manager')->getClassLoader()->getAliases();
+
+        //Cleanup the traces information
+        foreach($traces as $key => $trace)
+        {
+            if(isset($trace['file']))
+            {
+                if($alias = array_search($trace['file'], $aliases)) {
+                    $trace['file'] = $alias;
+                };
+
+                $traces[$key]['file'] = str_replace(JPATH_ROOT, '', $trace['file']);
+            }
+        }
+
         //Traverse up the trace stack to find the actual function that was not found
         if($traces[0]['function'] == '__call')
         {
@@ -68,20 +84,13 @@ class ControllerException extends Library\ControllerView
         else
         {
             $message  = $exception->getMessage();
-            $file	  = $exception->getFile();
+            $file	  = isset($traces[0]['file']) ? $traces[0]['file'] : $exception->getFile();
             $line     = $exception->getLine();
             $function = $traces[0]['function'];
             $class    = isset($traces[0]['class']) ? $traces[0]['class'] : '';
             $args     = isset($traces[0]['args'])  ? $traces[0]['args']  : '';
             $info     = isset($traces[0]['info'])  ? $traces[0]['info']  : '';
         }
-
-        //Find the real file path
-        $aliases = $this->getObject('manager')->getClassLoader()->getAliases();
-
-        if($alias = array_search($file, $aliases)) {
-            $file = $alias;
-        };
 
         //Create the exception message
         if(ini_get('display_errors')) {

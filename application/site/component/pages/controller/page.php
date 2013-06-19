@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Pages
  */
-class PagesControllerPage extends ApplicationControllerDefault
+class PagesControllerPage extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

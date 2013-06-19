@@ -18,7 +18,7 @@
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" >
-    <div class="tabs">
+    <div class="tabs tabs-vertical">
         <h3><?= @text('System')?></h3>
         <div class="tab">
             <input type="radio" id="tab-1" name="tab-group-1" checked="">

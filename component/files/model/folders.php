@@ -23,16 +23,16 @@ class ModelFolders extends ModelNodes
 	{
 		parent::__construct($config);
 
-		$this->_state->insert('tree', 'boolean', false);
+        $this->getState()->insert('tree', 'boolean', false);
 	}
 
 	public function getRowset()
 	{
 		if (!isset($this->_rowset))
 		{
-			$state = $this->_state;
+			$state = $this->getState();
 
-			$folders = $state->container->getAdapter('iterator')->getFolders(array(
+			$folders = $this->getContainer()->getAdapter('iterator')->getFolders(array(
 				'path'    => $this->_getPath(),
 				'recurse' => !!$state->tree,
 				'filter'  => array($this, 'iteratorFilter'),
@@ -46,7 +46,7 @@ class ModelFolders extends ModelNodes
 
 			$this->_total = count($folders);
 
-			if (strtolower($this->_state->direction) == 'desc') {
+			if (strtolower($state->direction) == 'desc') {
 				$folders = array_reverse($folders);
 			}
 
@@ -80,8 +80,8 @@ class ModelFolders extends ModelNodes
 
 	public function iteratorMap($path)
 	{
-		$path = str_replace('\\', '/', $path);
-		$path = str_replace($this->_state->container->path.'/', '', $path);
+        $path = str_replace('\\', '/', $path);
+		$path = str_replace($this->getContainer()->path.'/', '', $path);
 
 		return $path;
 	}
@@ -89,14 +89,14 @@ class ModelFolders extends ModelNodes
 	public function iteratorFilter($path)
 	{
 		$filename = basename($path);
-		if ($this->_state->name)
+		if ($this->getState()->name)
 		{
-			if (!in_array($filename, (array) $this->_state->name)) {
+			if (!in_array($filename, (array) $this->getState()->name)) {
 				return false;
 			}
 		}
 
-		if ($this->_state->search && stripos($filename, $this->_state->search) === false) {
+		if ($this->getState()->search && stripos($filename, $this->getState()->search) === false) {
 			return false;
 		}
 	}

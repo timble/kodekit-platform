@@ -20,6 +20,9 @@ class TemplateFilterScript extends TemplateFilterTag
 {
 	/**
 	 * Parse the text for script tags
+     *
+     * This function will selectively filter all script tags that don't have a type attribute defined or where the
+     * type="text/javascript". If the element includes a data-inline attribute the element will not be excluded.
 	 *
 	 * @param string $text  The text to parse
 	 * @return string
@@ -40,10 +43,17 @@ class TemplateFilterScript extends TemplateFilterTag
                 );
 
                 $attribs = array_merge($this->_parseAttributes( $matches[2][$key]), $attribs);
-				$tags .= $this->_renderTag($attribs);
-			}
 
-			$text = str_replace($matches[0], '', $text);
+                if(!isset($attribs['type'])) {
+                    $attribs['type'] = 'text/javascript';
+                };
+
+                if($attribs['type'] == 'text/javascript')
+                {
+				    $tags .= $this->_renderTag($attribs);
+                    $text = str_replace($matches[0][$key], '', $text);
+                }
+			}
 		}
 
 		$matches = array();
@@ -53,10 +63,17 @@ class TemplateFilterScript extends TemplateFilterTag
             foreach($matches[2] as $key => $match)
 			{
 				$attribs = $this->_parseAttributes( $matches[1][$key]);
-				$tags .= $this->_renderTag($attribs, $match);
-			}
 
-			$text = str_replace($matches[0], '', $text);
+                if(!isset($attribs['type'])) {
+                    $attribs['type'] = 'text/javascript';
+                };
+
+                if($attribs['type'] == 'text/javascript')
+                {
+                    $tags .= $this->_renderTag($attribs, $match);
+                    $text = str_replace($matches[0][$key], '', $text);
+                }
+			}
 		}
 
 		return $tags;
@@ -77,7 +94,7 @@ class TemplateFilterScript extends TemplateFilterTag
 		{
             $attribs = $this->_buildAttributes($attribs);
 
-            $html  = '<script type="text/javascript" '.$attribs.'>'."\n";
+            $html  = '<script '.$attribs.'>'."\n";
 			$html .= trim($content);
 			$html .= '</script>'."\n";
 		}
@@ -86,7 +103,7 @@ class TemplateFilterScript extends TemplateFilterTag
             unset($attribs['src']);
             $attribs = $this->_buildAttributes($attribs);
 
-            $html = '<script type="text/javascript" src="'.$link.'" '.$attribs.'></script>'."\n";
+            $html = '<script src="'.$link.'" '.$attribs.'></script>'."\n";
         }
 
 		return $html;

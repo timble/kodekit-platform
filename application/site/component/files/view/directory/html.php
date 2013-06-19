@@ -21,106 +21,122 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 {
 	public function render()
 	{
-		$state 	= $this->getModel()->getState();
-		$state->container = 'files-files';
-		
-		$page 	= $this->getObject('application.pages')->getActive();
-		$params = new JParameter($page->params);
+        $page = $this->getObject('application.pages')->getActive();
+        $params = new JParameter($page->params);
 
-		$data   = $this->getObject('lib:controller.request', array(
-			'query' => array('container' => $state->container, 'folder' => $state->folder, 'name' => $state->name)
-		));
-		$folder = $this->getObject('com:files.controller.folder', array(
-			'request' => $data
-		))->read();
+        $folders       = $this->_getFolders();
+        $this->folders = $folders['items'];
 
-		if ($params->get('limit') > 0) {
-			$state->limit = (int) $params->get('limit');
-		}
+        $files       = $this->_getFiles();
+        $this->files = $files['items'];
+        $this->total = $files['total'];
 
-		$state->sort = $params->get('sort');
-		$state->direction = $params->get('direction');
-	
-		$request = $state->toArray();
-		$request['folder'] = isset($request['folder']) ? rawurldecode($request['folder']) : '';
-		
-		if ($state->name) {
-			$request['folder'] .= '/'.$state->name;
-			unset($request['name']);
-		}
+        $folder = $this->getModel()->getRow();
 
-		if ($this->getLayout() === 'gallery') {
-			$request['types'] = array('image');
-		}
-		
-		$request = $this->getObject('lib:controller.request', array(
-			'query' => $request
-		));
-
-		$folders = array();
-		if ($params->get('show_folders', 1))
-		{
-			$clone = clone $request;
-			$clone->query['limit'] = 0;
-			$clone->query['offset'] = 0;
-
-			$folders = $this->getObject('com:files.controller.folder', array(
-				'request' => $clone
-			))->browse();
-		}
-		
-		$request->query->set('thumbnails', true);
-
-		$file_controller = $this->getObject('com:files.controller.file', array(
-			'request' => $request
-		));
-
-		$files = $file_controller->browse();
-		$total = $file_controller->getModel()->getTotal();
-
-		if ($params->get('humanize_filenames', 1)) 
-		{
-			foreach ($folders as $f) {
-				$f->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $f->name));
-			}
-			
-			foreach ($files as $f) {
-				$f->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $f->filename));
-			}
-		}
-	
-		$parent = null;
-		if ($page->getLink()->query['folder'] !== $folder->path)
+        if ($page->getLink()->query['folder'] !== $folder->path)
 		{
 			$path   = explode('/', $folder->path);
 			$parent = count($path) > 1 ? implode('/', array_slice($path, 0, count($path)-1)) : '';
-		}
+		} else {
+            $parent = null;
+        }
 
 	 	if (!$params->get('page_title')) {
 	 		$params->set('page_title', $page->title);
 	 	}
-	
-		$this->folder  = $folder;
-		$this->files   = $files;
-		$this->folders = $folders;
-		$this->total   = $total;
-		$this->parent  = $parent;
-		$this->params  = $params;
-		$this->page    = $page;
-		$this->thumbnail_size = array('x' => 200, 'y' => 150);
-	
+
+        $this->parent         = $parent;
+        $this->params         = $params;
+        $this->page           = $page;
+        $this->thumbnail_size = array('x' => 200, 'y' => 150);
+
 		$this->setPathway();
-	
+
 		return parent::render();
 	}
+
+    protected function _getFolders()
+    {
+        $page   = $this->getObject('application.pages')->getActive();
+        $params = new JParameter($page->params);
+
+        if ($params->get('show_folders', 1))
+        {
+            $state = $this->getModel()->getState();
+
+            $identifier       = clone $this->getIdentifier();
+            $identifier->path = array('model');
+            $identifier->name = Library\StringInflector::pluralize($this->getName());
+            $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
+            $folders          = $model->getRowset();
+            $total            = $model->getTotal();
+
+            if ($params->get('humanize_filenames', 1))
+            {
+                foreach ($folders as $folder)
+                {
+                    $folder->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $folder->name));
+                }
+            }
+        }
+        else
+        {
+            $folders = array();
+            $total   = 0;
+        }
+
+        return array('items' => $folders, 'total' => $total);
+    }
+
+    protected function _getFiles()
+    {
+        $page   = $this->getObject('application.pages')->getActive();
+        $params = new JParameter($page->params);
+
+        $state = $this->getModel()->getState();
+
+        $request = $this->getObject('lib:controller.request');
+
+        if ($this->getLayout() == 'gallery')
+        {
+            $request->query->set('types', array('image'));
+        }
+
+        $request->query->set('thumbnails', true);
+        $request->query->set('sort', $params->get('sort'));
+        $request->query->set('direction', $params->get('direction'));
+        $request->query->set('offset', $state->offset);
+        $request->query->set('folder', $state->folder);
+        $request->query->set('container', $state->container);
+        $request->query->set('limit', $state->limit);
+
+        $identifier       = clone $this->getIdentifier();
+        $identifier->path = array('controller');
+        $identifier->name = 'file';
+        $controller       = $this->getObject($identifier, array('request' => $request));
+
+        $files = $controller->browse();
+        $total = $controller->getModel()->getTotal();
+
+        if ($params->get('humanize_filenames', 1))
+        {
+            foreach ($files as $file)
+            {
+                $file->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $file->filename));
+            }
+        }
+
+        return array('items' => $files, 'total' => $total);
+    }
 
 	public function setPathway()
 	{
 		if ($this->parent !== null)
 		{
-			$state   = $this->getModel()->getState();
+            $folder = $this->getModel()->getRow();
+
 			$pathway = $this->getObject('application')->getPathway();
-			$path    = $this->folder->path;
+			$path    = $folder->path;
 			$query   = $this->page->getLink()->query;
 		
 			if (!empty($query['folder']) && strpos($path, $query['folder']) === 0) {
@@ -130,7 +146,7 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
 
 			foreach ($parts as $i => $part)
 			{
-				if ($part !== $this->folder->name)
+				if ($part !== $folder->name)
 				{
 					$path = implode('/', array_slice($parts, 0, $i+1));
 					$link = $this->getRoute('&view=directory&folder='.$path);

@@ -18,6 +18,6 @@ use Nooku\Library;
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class ControllerContainer extends \ApplicationControllerDefault
+class ControllerContainer extends Library\ControllerModel
 {
 }

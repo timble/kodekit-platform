@@ -12,12 +12,69 @@ namespace Nooku\Library;
 /**
  * Model State Class
  *
+ * A state requires a model object. It will call back to the model upon a state change using the onStateChange notifier.
+ *
+ * State values can only be of type scalar or array. Values are only filtered if not NULL. If the value is an empty
+ * string it will be filtered to NULL. Values will only be set if the state exists. To insert new states use the
+ * the insert() function.
+ *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Model
  * @subpackage  State
  */
-class ModelState extends ObjectConfig implements ModelStateInterface
+class ModelState extends ObjectArray implements ModelStateInterface
 {
+    /**
+     * Model object
+     *
+     * @var string|object
+     */
+    protected $_model;
+
+    /**
+     * Constructor
+     *
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
+     * @return ObjectArray
+     */
+    public function __construct(ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        if (empty($config->model))
+        {
+            throw new \InvalidArgumentException(
+                'model [ModelInterface] config option is required'
+            );
+        }
+
+        if(!$config->model instanceof ModelInterface)
+        {
+            throw new \UnexpectedValueException(
+                'Model: '.get_class($config->model).' does not implement ModelInterface'
+            );
+        }
+
+        $this->_model = $config->model;
+    }
+
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param   ObjectConfig $object An optional ObjectConfig object with configuration options
+     * @return  void
+     */
+    protected function _initialize(ObjectConfig $config)
+    {
+        $config->append(array(
+            'model' => null,
+        ));
+
+        parent::_initialize($config);
+    }
+
     /**
      * Insert a new state
      *
@@ -31,14 +88,20 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      */
     public function insert($name, $filter, $default = null, $unique = false, $required = array())
     {
+        //Create the state
         $state = new \stdClass();
         $state->name     = $name;
         $state->filter   = $filter;
-        $state->value    = $default;
+        $state->value    = null;
         $state->unique   = $unique;
         $state->required = $required;
         $state->default  = $default;
         $this->_data[$name] = $state;
+
+        //Set the value to default
+        if(isset($default)) {
+            $this->offsetSet($name, $default);
+        }
 
         return $this;
     }
@@ -53,24 +116,31 @@ class ModelState extends ObjectConfig implements ModelStateInterface
     public function get($name, $default = null)
     {
         $result = $default;
-        if(isset($this->_data[$name])) {
-            $result = $this->_data[$name]->value;
+        if($this->offsetExists($name)) {
+            $result = $this->offsetGet($name);
         }
 
         return $result;
     }
 
     /**
-     * Set state value
+     * Set the a state value
      *
-     * @param  	string 	$name The state name.
+     * This function only acts on existing states, if a state has changed it will call back to the model triggering the
+     * onStateChange notifier.
+     *
+     * @param  	string 	$name  The state name.
      * @param  	mixed  	$value The state value.
-     * @return 	ModelState
+     * @return  ModelAbstract
      */
-    public function set($name, $value)
+    public function set($name, $value = null)
     {
-        if(isset($this->_data[$name])) {
-            $this->_data[$name]->value = $value;
+        if ($this->has($name) && $this->get($name) != $value)
+        {
+            $this->offsetSet($name, $value);
+
+            //Notify the model
+            $this->_model->onStateChange($name);
         }
 
         return $this;
@@ -84,12 +154,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      */
     public function has($name)
     {
-        $result = false;
-        if(isset($this->_data[$name])) {
-            $result = true;
-        }
-
-        return $result;
+        return $this->offsetExists($name);
     }
 
     /**
@@ -100,7 +165,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      */
     public function remove( $name )
     {
-        unset($this->_data[$name]);
+        $this->offsetUnset($name);
         return $this;
     }
 
@@ -112,8 +177,12 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      */
     public function reset($default = true)
     {
-        foreach($this->_data as $state) {
+        foreach($this->_data as $state)
+        {
             $state->value = $default ? $state->default : null;
+
+            //Notify the model
+            $this->_model->onStateChange($state->name);
         }
 
         return $this;
@@ -122,36 +191,13 @@ class ModelState extends ObjectConfig implements ModelStateInterface
     /**
      * Set the state values from an array
      *
-     * This function will only filter values if we have a value. If the value is an empty string it will be filtered
-     * to NULL.
-     *
      * @param   array $data An associative array of state values by name
      * @return  ModelState
      */
-    public function values(array $data)
+    public function setValues(array $data)
     {
-        foreach($data as $key => $value)
-        {
-            if(isset($this->_data[$key]))
-            {
-                $filter = $this->_data[$key]->filter;
-
-                //Only filter if we have a value
-                if($value !== null)
-                {
-                    if($value !== '')
-                    {
-                        if(!($filter instanceof FilterInterface)) {
-                            $filter =  ObjectManager::getInstance()->getObject('lib:filter.factory')->getInstance($filter);
-                        }
-
-                        $value = $filter->sanitize($value);
-                    }
-                    else $value = null;
-
-                    $this->_data[$key]->value = $value;
-                }
-            }
+        foreach($data as $key => $value) {
+           $this->set($key, $value);
         }
 
         return $this;
@@ -165,7 +211,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      * @param   boolean $unique If TRUE only retrieve unique state values, default FALSE
      * @return  array   An associative array of state values by name
      */
-    public function toArray($unique = false)
+    public function getValues($unique = false)
     {
         $data = array();
 
@@ -209,16 +255,6 @@ class ModelState extends ObjectConfig implements ModelStateInterface
         return $data;
     }
 
-	/**
-     * Return an associative array of the states.
-     *
-     * @return array
-     */
-    public function getStates()
-    {
-        return $this->_data;
-    }
-
     /**
      * Check if the state information is unique
      *
@@ -229,7 +265,7 @@ class ModelState extends ObjectConfig implements ModelStateInterface
         $unique = false;
 
         //Get the unique states
-        $states = $this->toArray(true);
+        $states = $this->getValues(true);
 
         if(!empty($states))
         {
@@ -257,13 +293,74 @@ class ModelState extends ObjectConfig implements ModelStateInterface
      */
     public function isEmpty(array $exclude = array())
     {
-        $states = $this->toArray();
+        $states = $this->getValues();
 
         foreach($exclude as $state) {
             unset($states[$state]);
         }
 
         return (bool) (count($states) == 0);
+    }
+
+    /**
+     * Get an state value
+     *
+     * @param   string $name
+     * @return  mixed  The state value
+     */
+    public function offsetGet($name)
+    {
+        $result = null;
+
+        if (isset($this->_data[$name])) {
+            $result = $this->_data[$name]->value;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Set an state value
+     *
+     * This function only accepts scalar or array values. Values are only filtered if not NULL. If the value is an empty
+     * string it will be filtered to NULL. Values will obly be set if the state exists. Function will not create new
+     * states. Use the insert() function instead.
+     *
+     * @param   string        $name
+     * @param   scalar|array  $value
+     * @throws \UnexpectedValueException If the value is not a scalar or an array
+     * @return  void
+     */
+    public function offsetSet($name, $value)
+    {
+        if($this->offsetExists($name))
+        {
+            //Only filter if we have a value
+            if($value !== null)
+            {
+                if($value !== '')
+                {
+                    //Only accepts scalar values
+                    if(!is_scalar($value) && !is_array($value))
+                    {
+                        throw new \UnexpectedValueException(
+                            'Value needs to be an array or a scalar, "'.gettype($value).'" given'
+                        );
+                    }
+
+                    $filter = $this->_data[$name]->filter;
+
+                    if(!($filter instanceof FilterInterface)) {
+                        $filter =  $this->getObject('lib:filter.factory')->getInstance($filter);
+                    }
+
+                    $value = $filter->sanitize($value);
+                }
+                else $value = null;
+
+                $this->_data[$name]->value = $value;
+            }
+        }
     }
 
 	/**

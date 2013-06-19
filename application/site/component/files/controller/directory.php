@@ -13,10 +13,31 @@ use Nooku\Library;
 /**
  * Folder Controller Class
  *
- * @author      Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
+ * @author      Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package     Nooku_Components
  * @subpackage  Files
  */
-class FilesControllerDirectory extends ApplicationControllerDefault
+class FilesControllerDirectory extends Library\ControllerModel
 {
+    public function getRequest()
+    {
+        $request = parent::getRequest();
+
+        // Force container.
+        $request->query->set('container', 'files-files');
+
+        if ($request->query->get('view', 'cmd') == 'directory')
+        {
+            $page = $this->getObject('application.pages')->getActive();
+
+            $params = new JParameter($page->params);
+
+            if (isset($params->limit) && $params->limit > 0)
+            {
+                $request->query->set('limit', $params->limit);
+            }
+        }
+
+        return $request;
+    }
 }
