@@ -1,4 +1,4 @@
-<?php
+d<?php
 /**
  * @package		Koowa_Model
  * @subpackage  State
