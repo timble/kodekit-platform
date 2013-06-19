@@ -17,7 +17,7 @@ use Nooku\Library;
  * @subpackage  Languages
  */
 
-class LanguagesControllerComponent extends ApplicationControllerDefault
+class LanguagesControllerComponent extends Library\ControllerModel
 {
     protected function _actionEdit(Library\CommandContext $context)
     {
@@ -36,7 +36,7 @@ class LanguagesControllerComponent extends ApplicationControllerDefault
                 $context->response->setStatus(self::STATUS_UNCHANGED);
             }
         }
-        else throw new ControllerExceptionNotFound('Resource could not be found');
+        else throw new Library\ControllerExceptionNotFound('Resource could not be found');
 
         return $entity;
     }
