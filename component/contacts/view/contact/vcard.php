@@ -21,7 +21,7 @@ class ViewContactVcard extends Library\ViewVcard
 {
     public function render()
     {
-        $contact = $this->getModel()->getRow();
+        $contact = $this->getModel()->fetch();
        
         if(!empty($contact->email_to)) {
             $this->setEmail($contact->email_to);

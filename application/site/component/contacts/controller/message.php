@@ -43,7 +43,7 @@ class ContactsControllerMessage extends Library\ControllerView
 
         $email_to = $this->getObject('com:contacts.model.contacts')
             ->id($context->request->query->get('id', 'int'))
-            ->getRow()
+            ->fetch()
             ->email_to;
 
         // Send mail.

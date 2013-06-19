@@ -62,7 +62,7 @@ class ContactsViewContactsHtml extends Library\ViewHtml
         $category = $this->getObject('com:contacts.model.categories')
                          ->table('contacts')
                          ->id($this->getModel()->getState()->category)
-                         ->getRow();
+                         ->fetch();
 
         return $category;
     }

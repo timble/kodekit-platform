@@ -31,7 +31,7 @@ class ContactsViewContactsRss extends Library\ViewRss
         $category = $this->getObject('com:contacts.model.categories')
                          ->table('contacts')
                          ->id($this->getModel()->getState()->category)
-                         ->getRow();
+                         ->fetch();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
