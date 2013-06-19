@@ -25,7 +25,7 @@ class DatabaseBehaviorAssignable extends Library\DatabaseBehaviorAbstract
 
             $article =  $this->getObject('com:articles.model.articles')
                 ->id($attachment->relation->row)
-                ->getRow();
+                ->fetch();
 
             // Toggle to remove the image
             if($article->image != $attachment->path)
