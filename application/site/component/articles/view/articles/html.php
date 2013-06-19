@@ -53,7 +53,7 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
         $category = $this->getObject('com:articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
-                         ->getRow();
+                         ->fetch();
 
         return $category;
     }

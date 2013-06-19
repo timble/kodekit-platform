@@ -31,7 +31,7 @@ class ArticlesViewArticlesRss extends Library\ViewRss
         $category = $this->getObject('com:articles.model.categories')
                          ->table('articles')
                          ->id($this->getModel()->getState()->category)
-                         ->getRow();
+                         ->fetch();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))

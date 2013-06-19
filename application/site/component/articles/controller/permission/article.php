@@ -21,7 +21,7 @@ class ArticlesControllerPermissionArticle extends ApplicationControllerPermissio
     public function canRead()
     {
         $result  = true;
-        $article = $this->getModel()->getRow();
+        $article = $this->getModel()->fetch();
 
         if (!$article->isNew())
         {
