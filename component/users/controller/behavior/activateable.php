@@ -62,8 +62,6 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 
                 $context->response->setRedirect($route);
                 $context->user->addFlashMessage('Invalid request', 'error');
-
-
             }
             else $this->activate(array('activation' => $activation));
 
@@ -92,7 +90,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
     {
         $result = true;
 
-        $row = $this->getModel()->getRow();
+        $row = $this->getModel()->fetch();
         $row->setProperties(array('activation' => '', 'enabled' => 1));
 
         if (!$row->save()) {
