@@ -220,15 +220,15 @@ abstract class DatabaseRowAbstract extends ObjectArray implements DatabaseRowInt
      */
     public function setStatus($status)
     {
-        if($status == Database::STATUS_CREATED) {
+        if($status === Database::STATUS_CREATED) {
             $this->__new = false;
         }
 
-        if($status == Database::STATUS_DELETED) {
+        if($status === Database::STATUS_DELETED) {
             $this->__new = true;
         }
 
-        if($status == Database::STATUS_LOADED) {
+        if($status === Database::STATUS_LOADED) {
             $this->__new = false;
         }
 
