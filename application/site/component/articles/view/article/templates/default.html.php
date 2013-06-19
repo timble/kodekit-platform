@@ -9,7 +9,7 @@
 ?>
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
-	    <? if ($article->editable) : ?>
+	    <? if (@service('component')->canEdit()) : ?>
 	    <a style="float: right;" class="btn" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
 	        <i class="icon-edit"></i>
 	    </a>
