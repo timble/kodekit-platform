@@ -34,6 +34,7 @@ class ModelTranslations extends Library\ModelTable
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
     {
         parent::_buildQueryWhere($query);
+
         $state = $this->getState();
         
         if(!$state->isUnique())
@@ -66,12 +67,14 @@ class ModelTranslations extends Library\ModelTable
     
     protected function _buildQueryOrder(Library\DatabaseQuerySelect $query)
     {
-        if($this->sort == 'table')
+        $state = $this->getState();
+
+        if($state->sort == 'table')
         {
-            $direction = strtoupper($this->direction);
+            $direction = strtoupper($state->direction);
             
             $query->order('tbl.table', $direction);
-      		$query->order('tbl.row', $direction);
+      		$query->order('tbl.row',   $direction);
       		$query->order('tbl.original', 'DESC');
         }
     }
