@@ -42,7 +42,9 @@ class ApplicationRouter extends Library\DispatcherRouter
         if(count($languages) > 1)
         {
             $language  = $languages->find(array('slug' => strtok($path, '/')));
-            if(count($language)) {
+            if(count($language))
+            {
+                $languages->setActive($language->top());
                 $path = substr($path, strlen(strtok($path, '/')) + 1);
             }
         }
