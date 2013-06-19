@@ -49,7 +49,6 @@ class DatabaseRowTable extends Library\DatabaseRowTable
                     
                     $status   = DatabaseRowTranslation::STATUS_MISSING;
                     $original = 0;
-                            
                 }
                 else
                 {
