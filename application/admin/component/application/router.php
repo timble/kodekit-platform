@@ -126,7 +126,7 @@ class ApplicationRouter extends Library\DispatcherRouter
         }
 
         //Build the route
-        $url->setPath($this->getService('request')->getBaseUrl()->getPath().'/'. implode('/', $segments));
+        $url->setPath($this->getObject('request')->getBaseUrl()->getPath().'/'. implode('/', $segments));
 
         // Removed unused query variables
         unset($url->query['Itemid']);
