@@ -118,7 +118,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
         $this->setBasePath($config->base_path);
 
         //Set the formats
-        foreach(Config::unbox($config->formats) as $format => $mimetypes) {
+        foreach(ObjectConfig::unbox($config->formats) as $format => $mimetypes) {
             $this->addFormat($format, $mimetypes);
         }
 
