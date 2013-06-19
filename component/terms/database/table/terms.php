@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Terms
  */
-class DatabaseTableTerms extends Library\DatabaseTableDefault
+class DatabaseTableTerms extends Library\DatabaseTableAbstract
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

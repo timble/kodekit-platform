@@ -23,7 +23,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     /**
      * The versions_revisions table object
      *
-     * @var Library\DatabaseTableDefault
+     * @var Library\DatabaseTableInterface
      */
     protected $_table;
 

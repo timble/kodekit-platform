@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  John Bell <http://nooku.assembla.com/profile/johnbell>
  * @package Nooku\Component\Categories
  */
-class DatabaseTableCategories extends Library\DatabaseTableDefault
+class DatabaseTableCategories extends Library\DatabaseTableAbstract
 {
     public function  _initialize(Library\ObjectConfig $config)
     {
@@ -26,6 +26,7 @@ class DatabaseTableCategories extends Library\DatabaseTableDefault
             'behaviors'  => array(
             	'creatable', 'modifiable', 'lockable', 'sluggable', 'cascadable', 'nestable',
             	'orderable'  => array('parent_column' => 'parent_id'),
+                'com:languages.database.behavior.translatable',
             )
             ));
 
