@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectInstantiable
+class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract implements Library\ObjectSingleton
 {
     protected $_tables;
     
@@ -30,16 +30,22 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             ->getRowset();
     }
 
-    public static function getInstance(Library\ObjectConfig $config, Library\ObjectManagerInterface $manager)
+    public function execute($name, Library\CommandContext $context)
     {
-        if (!$manager->isRegistered($config->object_identifier))
-        {
-            $classname = $config->object_identifier->classname;
-            $instance  = new $classname($config);
-            $manager->setObject($config->object_identifier, $instance);
+        $mixer  = $this->getMixer();
+        $table  = $mixer instanceof Library\DatabaseTableInterface ? $mixer : $mixer->getTable();
+
+        if($context->getSubject() instanceof $table) {
+            $table->getAdapter()->getCommandChain()->enqueue($this);
         }
 
-        return $manager->getObject($config->object_identifier);
+        $result = parent::execute($name, $context);
+
+        if($context->subject instanceof $table) {
+            $table->getAdapter()->getCommandChain()->dequeue($this);
+        }
+
+        return $result;
     }
     
     public function getHandle()
@@ -184,7 +190,7 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             }
         }
     }
-    
+
     protected function _afterTableUpdate(Library\CommandContext $context)
     {
         $languages = $this->getObject('application.languages');
@@ -242,6 +248,131 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
             $database->execute($query);
         }
     }
+
+    protected function _beforeAdapterSelect(Library\CommandContext $context)
+    {
+        if($query = $context->query)
+        {
+            $languages = $this->getObject('application.languages');
+            $active    = $languages->getActive();
+            $primary   = $languages->getPrimary();
+
+            // Modify table in the query if active language is not the primary.
+            if($active->iso_code != $primary->iso_code && is_array($query->table))
+            {
+                $table = array_shift(array_values($query->table));
+                if(is_string($table))
+                {
+                    $table = $this->_tables->find(array('name' => $table))->top();
+                    if($table instanceof Library\DatabaseRowInterface && $table->enabled) {
+                        $query->table[key($query->table)] = strtolower($active->iso_code).'_'.$table->name;
+                    }
+                }
+            }
+        }
+    }
+
+    protected function _beforeAdapterInsert(Library\CommandContext $context)
+    {
+        $languages = $this->getObject('application.languages');
+        $active    = $languages->getActive();
+        $primary   = $languages->getPrimary();
+
+        if($active->iso_code != $primary->iso_code)
+        {
+            $table = $this->_tables->find(array('name' => $context->query->table))->top();
+            if($table instanceof Library\DatabaseRowInterface && $table->enabled) {
+                $context->query->table(strtolower($active->iso_code).'_'.$table->name);
+            }
+        }
+    }
+
+    protected function _afterAdapterInsert(Library\CommandContext $context)
+    {
+        if($context->affected)
+        {
+            // Insert item into language specific tables.
+            $table = $this->_tables->find(array('name' => $context->query->table))->top();
+            if($table instanceof Library\DatabaseRowInterface && $table->enabled)
+            {
+                $languages = $this->getObject('application.languages');
+                $primary   = $languages->getPrimary();
+
+                foreach($languages as $language)
+                {
+                    if($language->iso_code != $primary->iso_code)
+                    {
+                        $query = clone $context->query;
+                        $query->table(strtolower($language->iso_code).'_'.$query->table);
+
+                        if(($key = array_search($table->unique_column, $query->columns)) !== false) {
+                            $query->values[0][$key] = $context->getSubject()->getInsertId();
+                        }
+
+                        $context->getSubject()->execute($query);
+                    }
+                }
+            }
+        }
+    }
+
+    protected function _beforeAdapterUpdate(Library\CommandContext $context)
+    {
+        $languages = $this->getObject('application.languages');
+        $active    = $languages->getActive();
+        $primary   = $languages->getPrimary();
+
+        if($active->iso_code != $primary->iso_code)
+        {
+            $table = $this->_tables->find(array('name' => $context->query->table))->top();
+            if($table instanceof Library\DatabaseRowInterface && $table->enabled) {
+                $context->query->table(strtolower($active->iso_code).'_'.$table->name);
+            }
+        }
+    }
+
+    protected function _afterAdapterUpdate(Library\CommandContext $context)
+    {
+        if($context->affected)
+        {
+            // Execute code only if query is not item specific.
+            $params = $context->query->getParameters();
+            if(!isset($params['id']))
+            {
+                $languages = $this->getObject('application.languages');
+                $primary   = $languages->getPrimary();
+                $active    = $languages->getActive();
+
+                // Update item in other language specific tables.
+                if($active->iso_code == $primary->iso_code) {
+                    $table = $context->query->table;
+                } else {
+                    $table = substr($context->query->table, 6);
+                }
+
+                $table = $this->_tables->find(array('name' => $table))->top();
+                if($table instanceof Library\DatabaseRowInterface && $table->enabled)
+                {
+                    foreach($languages as $language)
+                    {
+                        if($language->iso_code != $active->iso_code)
+                        {
+                            $query = clone $context->query;
+
+                            if($language->iso_code == $primary->iso_code) {
+                                $query->table($table->name);
+                            } else {
+                                $query->table(strtolower($language->iso_code).'_'.$table->name);
+                            }
+
+                            $context->getSubject()->execute($query);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
     
     protected function _beforeAdapterDelete(Library\CommandContext $context)
     {
@@ -283,4 +414,6 @@ class DatabaseBehaviorTranslatable extends Library\DatabaseBehaviorAbstract impl
                 ->save(); 
         }
     }
+
+
 }
