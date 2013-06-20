@@ -25,7 +25,7 @@ class DatabaseTableAttachments extends Library\DatabaseTableDefault
     		'name'      => 'attachments',
     		'behaviors' => array('creatable', 'modifiable', 'lockable'),
     	    'filters'   => array(
-                'text' => array('html', 'tidy')
+                'description' => array('html', 'tidy')
             )
     	));
     	
