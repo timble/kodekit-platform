@@ -25,7 +25,7 @@ class DatabaseRowTerm extends Library\DatabaseRowTable
 	 * If only one relationship exists in the actual term will also be deleted. Otherwise only the relation will be
      * removed.
 	 *
-	 * @return TermsRowTerm
+	 * @return boolean
 	 */
 	public function delete()
 	{
@@ -33,20 +33,22 @@ class DatabaseRowTerm extends Library\DatabaseRowTable
 		$relation = $this->getObject('com:terms.database.row.relation');
 		$relation->terms_term_id = $this->id;
 
-		if($relation->count() <= 1) {
-			parent::delete();
+		if($relation->count() > 1)
+        {
+            //Delete the relation
+            if($this->row && $this->table)
+            {
+                $relation = $this->getObject('com:terms.database.row.relation', array('status' => Database::STATUS_LOADED));
+                $relation->terms_term_id = $this->id;
+                $relation->row		     = $this->row;
+                $relation->table		 = $this->table;
+
+                $result = $relation->delete();
+            }
+            else $result = true;
 		}
+        else $result = parent::delete();
 
-		//Delete the relation
-		if($this->row && $this->table)
- 		{
-			$relation = $this->getObject('com:terms.database.row.relation', array('status' => Database::STATUS_LOADED));
-			$relation->terms_term_id = $this->id;
-	   		$relation->row		     = $this->row;
-			$relation->table		 = $this->table;
-			$relation->delete();
- 		}
-
-		return true;
+		return $result;
 	}
 }
