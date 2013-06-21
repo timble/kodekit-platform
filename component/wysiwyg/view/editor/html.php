@@ -48,7 +48,7 @@ class ViewEditorHtml extends Library\ViewHtml
 			'relative_urls'							=> false,
 			'remove_script_host'					=> true,
 			'document_base_url'						=>  $this->getObject('request')->getBaseUrl()->getPath().'/sites/'.$this->getObject('application')->getSite(),
-			'height' 								=> '100%',
+			'height' 								=> '400',
 			'width'									=> '',
 			'dialog_type'							=> 'modal',
 			'language'								=> substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),
@@ -64,6 +64,10 @@ class ViewEditorHtml extends Library\ViewHtml
 	public function render()
 	{
 		$options = new Library\ObjectConfig(array(
+			'lang' => array(
+				'html'		=> \JText::_('HTML'),
+				'visual'	=> \JText::_('Visual')
+			),
             'autoheight'        => true,
 			'toggle'            => $this->toggle,
             'color'             => '',
