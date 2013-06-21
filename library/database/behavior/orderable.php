@@ -20,8 +20,8 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 	/**
 	 * Get the methods that are available for mixin based
 	 *
-	 * This functions conditionaly mixes the behavior. Only if the mixer
-	 * has a 'ordering' property the behavior will be mixed in.
+	 * This functions conditionally mixes the behavior. Only if the mixer has a 'ordering' property the behavior will
+     * be mixed in.
 	 *
 	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
 	 * @return array An array of methods
@@ -62,7 +62,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an 'ordering' column
 	 *
-	 * @param	integer	Amount to move up or down
+	 * @param	integer	$change Amount to move up or down
 	 * @return 	DatabaseRowAbstract
 	 */
 	public function order($change)
@@ -107,13 +107,12 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
 		return $this->_mixer;
 	}
 
-	 /**
+	/**
      * Resets the order of all rows
      * 
-     * Resetting starts at $base to allow creating space in sequence for later 
-     * record insertion.
+     * Resetting starts at $base to allow creating space in sequence for later  record insertion.
      *
-     * @param	integer 	Order at which to start resetting.
+     * @param	integer $base Order at which to start resetting.
      * @return	DatabaseBehaviorOrderable
      */
     public function reorder($base = 0)
@@ -163,8 +162,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
  	/**
      * Saves the row to the database.
      *
-     * This performs an intelligent insert/update and reloads the properties
-     * with fresh data from the table on success.
+     * This performs an intelligent insert/update and reloads the properties with fresh data from the table on success.
      *
      * @return DatabaseRowAbstract
      */
@@ -184,7 +182,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
      * Changes the rows ordering if the virtual order field is set. Order is
      * relative to the row's current position.
      *
-     * @param   CommandContext Context
+     * @param   CommandContext $context
      */
     protected function _beforeTableUpdate(CommandContext $context)
     {
@@ -196,7 +194,7 @@ class DatabaseBehaviorOrderable extends DatabaseBehaviorAbstract
     /**
      * Clean up the ordering after an item was deleted
      *
-     * @param   CommandContext Context
+     * @param   CommandContext $context
      */
     protected function _afterTableDelete(CommandContext $context)
     {

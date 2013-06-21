@@ -53,9 +53,9 @@ class DatabaseBehaviorOrderable extends Library\DatabaseBehaviorOrderable
     }
     
     /**
-     * Changes the rows ordering if the virtual order field is set. Order is
-     * relative to the row's current position. Order is to be only set if section 
-     * unchanged.
+     * Changes the rows ordering if the virtual order field is set. Order is relative to the row's current position.
+     * Order is to be only set if section unchanged.
+     *
      * Inserts space in order sequence of new section if section changed.
      *
      * @param   Library\CommandContext Context
