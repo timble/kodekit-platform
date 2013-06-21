@@ -38,7 +38,6 @@ class ViewEditorHtml extends Library\ViewHtml
 			'directionality'						=> $language->isRTL() ? 'rtl' : 'ltr',
 			'editor_selector'						=> 'editable',
 			'mode'									=> 'specific_textareas',
-			'skin'									=> 'nooku',
 			'scayt_autoStartup'						=> true,
 			'entities'						        => false,
             'basicEntities'                         => false,
@@ -49,11 +48,10 @@ class ViewEditorHtml extends Library\ViewHtml
 			'relative_urls'							=> false,
 			'remove_script_host'					=> true,
 			'document_base_url'						=>  $this->getObject('request')->getBaseUrl()->getPath().'/sites/'.$this->getObject('application')->getSite(),
-			'height' 								=> '400',
+			'height' 								=> '100%',
 			'width'									=> '',
 			'dialog_type'							=> 'modal',
 			'language'								=> substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),
-			'toolbar'				                => 'Standard',
 		);
 
 		$config->append(array(
@@ -66,14 +64,10 @@ class ViewEditorHtml extends Library\ViewHtml
 	public function render()
 	{
 		$options = new Library\ObjectConfig(array(
-			'lang' => array(
-				'html'		=> \JText::_('HTML'),
-				'visual'	=> \JText::_('Visual')
-			),
             'autoheight'        => true,
 			'toggle'            => $this->toggle,
             'color'             => '',
-            'toolbar'           => 'Standard',
+            'toolbar'           => $this->toolbar ? $this->toolbar : 'standard',
 		));
 
 		//@TODO cleanup

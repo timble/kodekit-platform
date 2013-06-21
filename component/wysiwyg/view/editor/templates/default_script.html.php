@@ -18,17 +18,18 @@
 
 <script src="media://wysiwyg/ckeditor/ckeditor.js" />
 
+
+
 <script>
     jQuery( document ).ready(function() {
 
         CKEDITOR.replace( <?= $id ?>, {
-            toolbar: '<?=$settings['toolbar']?>',
-            skin: '<?=$settings['skin']?>',
+            toolbar: '<?=$options['toolbar']?>',
             language: '<?=$settings['language']?>',
             height: '<?=$settings['height']?>px',
             width: '<?=$settings['width']?>',
             contentsLangDirection: '<?=$settings['directionality']?>',
-            scayt_autoStartup: '<?=$settings['scayt_autoStartup']?>'
+            scayt_autoStartup: '<?=$settings['scayt_autoStartup']?>',
         });
     });
 </script>
