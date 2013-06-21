@@ -48,7 +48,7 @@ class ViewEditorHtml extends Library\ViewHtml
 			'relative_urls'							=> false,
 			'remove_script_host'					=> true,
 			'document_base_url'						=>  $this->getObject('request')->getBaseUrl()->getPath().'/sites/'.$this->getObject('application')->getSite(),
-			'height' 								=> '400',
+			'height' 								=> '',
 			'width'									=> '',
 			'dialog_type'							=> 'modal',
 			'language'								=> substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),

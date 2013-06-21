@@ -107,7 +107,13 @@ body {
 #cke_text > div,
 #cke_text > div > #cke_1_contents,
 #cke_text > div > #cke_1_contents iframe {
-  @include flex(1);
+  // CK forces an inline display: block so we need !important power
+  display: -webkit-flex !important;
+  display: -moz-flex !important;
+  display: flex !important;
+
+  @include flex-grow(1);
+
   @include flex-direction(column);
 }
 
