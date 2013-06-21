@@ -579,8 +579,27 @@ abstract class DatabaseRowsetAbstract extends ObjectSet implements DatabaseRowse
     {
         $result = null;
 
-        if($row = $this->getIterator()->current()) {
-            $result = $row->$method($arguments);
+        if($row = $this->getIterator()->current())
+        {
+            // Call_user_func_array is ~3 times slower than direct method calls.
+            switch (count($arguments))
+            {
+                case 0 :
+                    $result = $row->$method();
+                    break;
+                case 1 :
+                    $result = $row->$method($arguments[0]);
+                    break;
+                case 2 :
+                    $result = $row->$method($arguments[0], $arguments[1]);
+                    break;
+                case 3 :
+                    $result = $row->$method($arguments[0], $arguments[1], $arguments[2]);
+                    break;
+                default:
+                    // Resort to using call_user_func_array for many segments
+                    $result = call_user_func_array(array($row, $method), $arguments);
+            }
         }
 
         return $result;
