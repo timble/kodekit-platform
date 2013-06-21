@@ -68,7 +68,7 @@ class ModelDatabase extends ModelAbstract
     }
 
     /**
-     * Method to get an entity
+     * Create a new entity
      *
      * This function will reset the model state and create a new entity
      *
@@ -219,8 +219,12 @@ class ModelDatabase extends ModelAbstract
                 $this->_buildQueryWhere($query);
                 $this->_buildQueryGroup($query);
                 $this->_buildQueryHaving($query);
-                $this->_buildQueryOrder($query);
-                $this->_buildQueryLimit($query);
+
+                if(!$state->isUnique())
+                {
+                    $this->_buildQueryOrder($query);
+                    $this->_buildQueryLimit($query);
+                }
 
                 $this->_data = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
             }
