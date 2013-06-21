@@ -25,7 +25,7 @@ class ModelTerms extends Library\ModelDatabase
 		
 		// Set the state
 		$this->getState()
-		 	->insert('table', 'string', $this->getIdentifier()->package)
+		 	->insert('table' , 'string', $this->getIdentifier()->package)
             ->insert('search', 'string');
 	}
 	
