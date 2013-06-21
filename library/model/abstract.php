@@ -78,7 +78,7 @@ abstract class ModelAbstract extends Object implements ModelInterface
     }
 
     /**
-     * Fetch a row or a rowset based on the model state
+     * Fetch an entity from the data store
      *
      * @return DatabaseRowsetInterface
      */
