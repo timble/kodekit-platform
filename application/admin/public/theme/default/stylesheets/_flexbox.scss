@@ -103,30 +103,12 @@ body {
   @include flex-grow(1);
 }
 
-.editor-wrap,
-.editor-container,
-.mceEditor,
-table.mceLayout,
-table.mceLayout > tbody,
-table.mceLayout > tbody > tr:nth-of-type(2),
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer,
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
+#cke_text,
+#cke_text > div,
+#cke_text > div > #cke_1_contents,
+#cke_text > div > #cke_1_contents iframe {
   @include flex(1);
   @include flex-direction(column);
-}
-
-table.mceLayout > tbody > tr:nth-of-type(1),
-table.mceLayout > tbody > tr:nth-of-type(3){
-  @include flex(0 0 auto);
-}
-
-.CodeMirror {
-  @include flex(1);
-  @include flex-direction(column);
-
-  .CodeMirror-scroll {
-    @include flex(1);
-  }
 }
 
 /* @group Scope Bar */

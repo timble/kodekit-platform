@@ -1445,16 +1445,6 @@ ul {
 }
 
 /* $endgroup */
-/* line 430, _general.scss */
-.CodeMirror {
-  border-bottom: 1px solid #CCCCCC;
-}
-
-/* line 434, _general.scss */
-.editor-toolbar {
-  height: 18px;
-}
-
 /* ---- Menu layout -------------------------- */
 /* line 4, _menu.scss */
 #panel-header ul, #panel-header li {
@@ -4527,15 +4517,11 @@ body {
   flex-grow: 1;
 }
 
-/* line 113, _flexbox.scss */
-.editor-wrap,
-.editor-container,
-.mceEditor,
-table.mceLayout,
-table.mceLayout > tbody,
-table.mceLayout > tbody > tr:nth-of-type(2),
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer,
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
+/* line 109, _flexbox.scss */
+#cke_text,
+#cke_text > div,
+#cke_text > div > #cke_1_contents,
+#cke_text > div > #cke_1_contents iframe {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
@@ -4545,56 +4531,23 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
-}
-
-/* line 119, _flexbox.scss */
-table.mceLayout > tbody > tr:nth-of-type(1),
-table.mceLayout > tbody > tr:nth-of-type(3) {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 0 0 auto;
-  -moz-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
-/* line 123, _flexbox.scss */
-.CodeMirror {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-}
-/* line 127, _flexbox.scss */
-.CodeMirror .CodeMirror-scroll {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
 }
 
 /* @group Scope Bar */
-/* line 133, _flexbox.scss */
+/* line 115, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 136, _flexbox.scss */
+/* line 118, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 140, _flexbox.scss */
+/* line 122, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4604,7 +4557,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 1;
 }
 
-/* line 148, _flexbox.scss */
+/* line 130, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4615,7 +4568,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 154, _flexbox.scss */
+/* line 136, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4624,7 +4577,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 157, _flexbox.scss */
+/* line 139, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4633,7 +4586,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 160, _flexbox.scss */
+/* line 142, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4645,7 +4598,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 164, _flexbox.scss */
+/* line 146, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4660,7 +4613,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 174, _flexbox.scss */
+/* line 156, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4672,7 +4625,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 178, _flexbox.scss */
+/* line 160, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4684,23 +4637,23 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 187, _flexbox.scss */
+/* line 169, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 195, _flexbox.scss */
+/* line 177, _flexbox.scss */
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 199, _flexbox.scss */
+/* line 181, _flexbox.scss */
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 203, _flexbox.scss */
+/* line 185, _flexbox.scss */
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4710,7 +4663,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 207, _flexbox.scss */
+/* line 189, _flexbox.scss */
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4722,7 +4675,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 211, _flexbox.scss */
+/* line 193, _flexbox.scss */
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4731,7 +4684,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 215, _flexbox.scss */
+/* line 197, _flexbox.scss */
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
@@ -5745,4 +5698,10 @@ body.login .form #password-check.score4 {
 /* line 70, components/_users.scss */
 body.login .form #password-check.score5 {
   color: #399800;
+}
+
+/* line 1, components/_wysiwyg.scss */
+.cke_chrome {
+  border: 0px none !important;
+  box-shadow: none !important;
 }
