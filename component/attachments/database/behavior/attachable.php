@@ -22,7 +22,7 @@ class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
     /**
      * Get a list of attachments
      *
-     * @return RowsetAttachments
+     * @return Library\DatabaseRowsetInterface
      */
     public function getAttachments()
 	{

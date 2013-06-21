@@ -1,3 +1,13 @@
+<?
+/**
+ * @package     Nooku_Server
+ * @subpackage  Categories
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
+ */
+?>
+
 <? $list = (isset($row) && isset($table)) ? $attachments->find(array('row' => $row, 'table' => $table)) : $attachments ?>
 
 <script src="media://attachments/js/attachments.list.js" />

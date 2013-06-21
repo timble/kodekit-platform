@@ -53,7 +53,6 @@ abstract class CategoriesControllerCategory extends Library\ControllerModel
     public function getRequest()
 	{
 		$request = parent::getRequest();
-
         $request->query->table  = $this->getIdentifier()->package;
 
 	    return $request;
