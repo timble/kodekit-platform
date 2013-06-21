@@ -21,8 +21,8 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of tags
-	 * 
-	 * @return RowsetTerms
+	 *
+	 * @return Library\DatabaseRowsetInterface
 	 */
 	public function getTerms()
 	{
@@ -42,29 +42,21 @@ class DatabaseBehaviorTaggable extends Library\DatabaseBehaviorAbstract
     /**
 	 * Modify the select query
 	 * 
-	 * If the query's where information includes a tag propery, auto-join the terms tables with the query and select
+	 * If the query's where information includes a tag property, auto-join the terms tables with the query and select
      * all the rows that are tagged with the term.
 	 */
 	protected function _beforeTableSelect(Library\CommandContext $context)
 	{
 		$query = $context->query;
-		
-		if(!is_null($query)) 
+
+        if($context->query->params->has('tag'))
 		{
-            foreach($query->where as $key => $where) 
-			{	
-                if($where['condition'] == 'tbl.tag') 
-                {
-                    $table = $context->caller;
-                                        
-					$query->where('terms_terms.slug'     , $where['constraint'],  $where['value']);
-					$query->where('terms_relations.table','=', $table->getName());
-					$query->join('LEFT', 'terms_relations AS terms_relations', 'terms_relations.row       = tbl.'.$table->getIdentityColumn());
-					$query->join('LEFT', 'terms_terms     AS terms_terms',     'terms_terms.terms_term_id = terms_relations.terms_term_id');
-				
-					unset($context->query->where[$key]);
-				}
-			}
+            $table = $context->getSubject();
+
+            $query->where('terms.slug = :tag');
+            $query->where('terms_relations.table = :table')->bind(array('table' => $table->getName()));
+            $query->join('terms_relations', 'terms_relations.row = tbl.'.$table->getIdentityColumn());
+            $query->join('terms', 'terms.terms_term_id = terms_relations.terms_term_id');
 		}
 	}
 }
