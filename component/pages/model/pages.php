@@ -31,7 +31,6 @@ class ModelPages extends Library\ModelDatabase
             ->insert('menu'       , 'int')
             ->insert('type'       , 'cmd')
             ->insert('home'       , 'boolean')
-            ->insert('trashed'    , 'int')
             ->insert('access'     , 'int')
             ->insert('hidden'     , 'boolean')
             ->insert('application', 'word');
@@ -84,10 +83,6 @@ class ModelPages extends Library\ModelDatabase
         if(is_bool($state->hidden)) {
             $query->where('tbl.hidden = :hidden')->bind(array('hidden' => (int) $state->hidden));
         }
-
-        //if(is_numeric($state->trashed)) {
-        //  $query->where('tbl.trashed','=', $state->trashed);
-        //}
 
         if(is_numeric($state->group_id)) {
             $query->where('tbl.group_id','=', $state->group_id);
