@@ -28,13 +28,6 @@ class ViewEditorHtml extends Library\ViewHtml
         if ($config->editor_settings) {
             $this->_editor_settings = $config->editor_settings;
         }
-
-        if (isset($config->codemirror)) {
-            $this->codemirror = $config->codemirror;
-        }
-        if (isset($config->codemirrorOptions)) {
-            $this->codemirrorOptions = $config->codemirrorOptions;
-        }
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -46,59 +39,27 @@ class ViewEditorHtml extends Library\ViewHtml
 			'editor_selector'						=> 'editable',
 			'mode'									=> 'specific_textareas',
 			'skin'									=> 'nooku',
-			'theme'									=> 'advanced',
-			'inline_styles'							=> true,
-			'gecko_spellcheck'						=> true,
-			'entity_encoding'						=> 'raw',
-			'extended_valid_elements'				=> '',
-			
-			//'cleanup'								=> false,
-			//'cleanup_on_startup'					=> false,
-			//'force_br_newlines'				    => true,
-			//'force_p_newlines'					=> false,
-			//'forced_root_block'					=> false,
-			//@TODO fix line breaks
-			//'convert_newlines_to_brs'				=> false,
-			
+			'scayt_autoStartup'						=> true,
+			'entities'						        => false,
+            'basicEntities'                         => false,
+            'entities_greek'                        => false,
+            'entities_latin'                        => false,
+            'forcePasteAsPlainText'                 => true,
 			'invalid_elements'						=> 'script,applet,iframe',
 			'relative_urls'							=> false,
 			'remove_script_host'					=> true,
 			'document_base_url'						=>  $this->getObject('request')->getBaseUrl()->getPath().'/sites/'.$this->getObject('application')->getSite(),
-			'theme_advanced_toolbar_location'		=> 'top',
-			'theme_advanced_toolbar_align'			=> 'left',
-			'theme_advanced_source_editor_height'	=> '400',
 			'height' 								=> '400',
-			'width'									=> '100%',
-			//'theme_advanced_source_editor_width'	=> $html_width,
-			'theme_advanced_statusbar_location'		=> 'bottom',
-			'theme_advanced_resizing'				=> false,
-			'theme_advanced_resize_horizontal'		=> false,
-			'theme_advanced_path'					=> true,
+			'width'									=> '',
 			'dialog_type'							=> 'modal',
 			'language'								=> substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),
-			'theme_advanced_buttons1'				=> implode(',', array('bold', 'italic', 'strikethrough', 'underline', '|', 'bullist', 'numlist', 'blockquote', '|', 'justifyleft', 'justifycenter', 'justifyright', 'justifyfull', '|', 'link', 'unlink', '|', 'spellchecker', 'fullscreen', 'image', 'readmore', 'article', '|', 'advanced')),
-			'theme_advanced_buttons2'				=> implode(',', array('formatselect', 'forecolor', '|', 'pastetext', 'pasteword', 'removeformat', '|', 'media', 'charmap', '|', 'outdent', 'indent', '|', 'undo', 'redo')),
-			'theme_advanced_buttons3'				=> '',
-			'theme_advanced_buttons4'				=> ''
+			'toolbar'				                => 'Standard',
 		);
-		
-		$config->append(array(
-			//Load CodeMirror in addition to TinyMCE
-			'codemirror'   		=> true,
-			'codemirrorOptions' => array(
-				'stylesheet' => array(
-					$config->media_url.'/wysiwyg/codemirror/lib/codemirror.css',
-				  	/*$config->media_url.'/wysiwyg/codemirror/css/xmlcolors.css',
-				  	$config->media_url.'/wysiwyg/codemirror/css/jscolors.css',
-				  	$config->media_url.'/wysiwyg/codemirror/css/csscolors.css',
-				  	$config->media_url.'/wysiwyg/css/codemirror.css'*/
-				),
-				'path' => $config->media_url.'/wysiwyg/codemirror/'
-			),
 
+		$config->append(array(
 			'editor_settings' => $settings
 		));
-		
+
 		parent::_initialize($config);
     }
     
@@ -110,9 +71,9 @@ class ViewEditorHtml extends Library\ViewHtml
 				'visual'	=> \JText::_('Visual')
 			),
             'autoheight'        => true,
-			'codemirror'        => $this->codemirror,
-			'codemirrorOptions' => $this->codemirrorOptions,
-			'toggle'            => $this->toggle
+			'toggle'            => $this->toggle,
+            'color'             => '',
+            'toolbar'           => 'Standard',
 		));
 
 		//@TODO cleanup
@@ -124,7 +85,6 @@ class ViewEditorHtml extends Library\ViewHtml
 
 		$this->options    = Library\ObjectConfig::unbox($options);
 		$this->settings   = $this->getEditorSettings();
-		$this->codemirror = $this->codemirror;
 
 		return parent::render();
 	}

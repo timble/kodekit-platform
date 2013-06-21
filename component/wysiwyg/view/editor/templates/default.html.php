@@ -8,6 +8,8 @@
  */
 ?>
 
-<?= @template('default_script.html') ?>
 
-<textarea id="<?= $id ?>" name="<?= $name ?>" class="editable-<?= $id ?> validate-editor" style="visibility:hidden"><?= $text ?></textarea>
+
+<textarea id="<?= $id ?>" name="<?= $name ?>" class="ckeditor editable-<?= $id ?> validate-editor" style="visibility:hidden"><?= $text ?></textarea>
+
+<?= @template('default_script.html') ?>

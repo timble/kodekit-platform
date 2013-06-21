@@ -16,39 +16,19 @@
     <script src="media://wysiwyg/js/Fx.Toggle.js" />
 <? endif ?>
 
-<script src="media://wysiwyg/tinymce/tiny_mce<?= @object('application')->getCfg('debug') ? '_src.js' : '.js' ?>" />
-<script src="media://wysiwyg/js/Editor.js" />
+<script src="media://wysiwyg/ckeditor/ckeditor.js" />
 
-<? if($codemirror) : ?>
-<script src="media://wysiwyg/codemirror/lib/codemirror.js" />
-<script src="media://wysiwyg/codemirror/mode/css/css.js" />
-<script src="media://wysiwyg/codemirror/mode/htmlmixed/htmlmixed.js" />
-<script src="media://wysiwyg/codemirror/mode/javascript/javascript.js" />
-<script src="media://wysiwyg/codemirror/mode/php/php.js" />
-<script src="media://wysiwyg/codemirror/mode/xml/xml.js" />
-
-<style src="media://wysiwyg/codemirror/lib/codemirror.css" />
-
-<script>	
-var quicktagsL10n = 
-{
-	quickLinks: "(Quick Links)",
-	wordLookup: "Enter a word to look up:",
-	dictionaryLookup: "Dictionary lookup",
-	lookup: "lookup",
-	closeAllOpenTags: "Close all open tags",
-	closeTags: "close tags",
-	enterURL: "Enter the URL",
-	enterImageURL: "Enter the URL of the image",
-	enterImageDescription: "Enter a description of the image"
-};
-
-try { convertEntities(quicktagsL10n);} catch(e) { };
-</script>
-<? endif ?>
-		
 <script>
-Editor.baseurl = '';
+    jQuery( document ).ready(function() {
 
-new Editor(<?= json_encode($id) ?>, <?= json_encode($options) ?>, <?= json_encode($settings) ?>);
+        CKEDITOR.replace( <?= $id ?>, {
+            toolbar: '<?=$settings['toolbar']?>',
+            skin: '<?=$settings['skin']?>',
+            language: '<?=$settings['language']?>',
+            height: '<?=$settings['height']?>px',
+            width: '<?=$settings['width']?>',
+            contentsLangDirection: '<?=$settings['directionality']?>',
+            scayt_autoStartup: '<?=$settings['scayt_autoStartup']?>'
+        });
+    });
 </script>
