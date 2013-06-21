@@ -30,7 +30,8 @@ class ModelArticles extends Library\ModelDatabase
             ->insert('created_by', 'int')
             ->insert('access'    , 'int')
             ->insert('trashed'   , 'int')
-            ->insert('searchword', 'string');
+            ->insert('searchword', 'string')
+            ->insert('tag'       , 'string');
 
         $this->getState()->remove('sort')->insert('sort', 'cmd', 'ordering');
     }
@@ -95,12 +96,16 @@ class ModelArticles extends Library\ModelDatabase
             $query->where('tbl.created_by = :created_by')->bind(array('created_by' => $state->created_by));
         }
 
+        if (is_numeric($state->access)) {
+            $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
+        }
+
         if($this->getTable()->isRevisable() && $state->trashed) {
             $query->bind(array('deleted' => 1));
         }
 
-        if (is_numeric($state->access)) {
-            $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
+        if($this->getTable()->isTaggable() && $state->tag) {
+            $query->bind(array('tag' => $state->tag));
         }
     }
 
