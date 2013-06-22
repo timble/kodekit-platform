@@ -27,6 +27,7 @@ class DatabaseTableContacts extends Library\DatabaseTableDefault
             	'creatable', 'modifiable', 'orderable', 'lockable',
                 'sluggable' => array('columns' => array('name')),
                 'com:attachments.database.behavior.attachable',
+                'com:categories.database.behavior.categorizable',
             ),
              'filters' => array(
                  'misc'     => array('html', 'tidy'),

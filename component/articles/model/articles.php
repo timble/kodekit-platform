@@ -41,7 +41,6 @@ class ModelArticles extends Library\ModelDatabase
         parent::_buildQueryColumns($query);
 
         $query->columns(array(
-            'category_title'         => 'categories.title',
             'thumbnail'              => 'thumbnails.thumbnail',
             'last_activity_on'       => 'IF(tbl.modified_on, tbl.modified_on, tbl.created_on)',
             'last_activity_by_name'  => 'IF(tbl.modified_on, modifier.name, creator.name)',
@@ -53,8 +52,7 @@ class ModelArticles extends Library\ModelDatabase
     {
         parent::_buildQueryJoins($query);
 
-        $query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
-              ->join(array('creator'  => 'users'), 'creator.users_user_id = tbl.created_by')
+        $query->join(array('creator'  => 'users'), 'creator.users_user_id = tbl.created_by')
               ->join(array('modifier'  => 'users'), 'modifier.users_user_id = tbl.modified_by')
               ->join(array('thumbnails'  => 'files_thumbnails'), 'thumbnails.filename = tbl.image');
     }
@@ -77,27 +75,20 @@ class ModelArticles extends Library\ModelDatabase
             $query->where('(tbl.title LIKE :search OR tbl.introtext LIKE :search OR tbl.fulltext LIKE :search)')->bind(array('search' => '%' . $state->searchword . '%'));
         }
 
-        if(is_numeric($state->category) || $state->category)
-        {
-            if($state->category)
-            {
-            	$query->where('tbl.categories_category_id IN :categories_category_id' );
-            	
-	            if($state->category_recurse === true) {
-	                $query->where('categories.parent_id IN :categories_category_id', 'OR');
-	            }
-	
-	            $query->bind(array('categories_category_id' => (array) $state->category));
-            }
-            else $query->where('tbl.categories_category_id IS NULL');
-        }
-
         if($state->created_by) {
             $query->where('tbl.created_by = :created_by')->bind(array('created_by' => $state->created_by));
         }
 
         if (is_numeric($state->access)) {
             $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
+        }
+
+        if($this->getTable()->isCategorizable())
+        {
+            $query->bind(array(
+                'category'         => $state->category,
+                'category_recurse' => $state->category_recurse
+            ));
         }
 
         if($this->getTable()->isRevisable() && $state->trashed) {
@@ -117,14 +108,21 @@ class ModelArticles extends Library\ModelDatabase
 
         if ($state->sort == 'ordering')
         {
-            $query->order('category_title', 'ASC')
-                  ->order('ordering', $direction);
+            if($this->getTable()->isCategorizable()) {
+                $query->order('category_title', 'ASC');
+            }
+
+            $query->order('ordering', $direction);
         }
         else
         {
-            $query->order($state->sort, $direction)
-                  ->order('category_title', 'ASC')
-                  ->order('ordering', 'ASC');
+            $query->order($state->sort, $direction);
+
+            if($this->getTable()->isCategorizable()) {
+                $query->order('category_title', 'ASC');
+            }
+
+            $query->order('ordering', 'ASC');
         }
     }
 }

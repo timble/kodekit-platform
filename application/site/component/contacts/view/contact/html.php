@@ -27,7 +27,9 @@ class ContactsViewContactHtml extends Library\ViewHtml
         $contact = $this->getModel()->fetch();
 
         //Get the category
-        $category = $this->getCategory();
+        if($contact->isCategorizable()) {
+            $category = $contact->getCategory();
+        }
 
         //Get the parameters of the active menu item
         if ($page = $this->getObject('application.pages')->getActive())

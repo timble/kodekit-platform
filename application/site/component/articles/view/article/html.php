@@ -23,7 +23,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         //Get the parameters
         $params = $this->getObject('application')->getParams();
 
-        //Get the contact
+        //Get the article
         $article = $this->getModel()->fetch();
 
         //Get the parameters of the active menu item
@@ -41,7 +41,10 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
 
         if($page->getLink()->query['view'] == 'categories')
         {
-            $category = $this->getCategory();
+            if($article->isCategorizable()) {
+                $category = $article->getCategory();
+            }
+
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($article->title, '');
         }
@@ -51,25 +54,14 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         }
         
         if ($article->id && $article->isAttachable()) {
-            $this->attachments($article->getAttachments());
+            $this->attachments = $article->getAttachments();
         }
         
         if ($article->id && $article->isTaggable()) {
-            $this->terms($article->getTerms());
+            $this->terms = $article->getTerms();
         }
 
         $this->params = $params;
         return parent::render();
-    }
-
-    public function getCategory()
-    {
-        //Get the category
-        $category = $this->getObject('com:articles.model.categories')
-                         ->table('articles')
-                         ->id($this->getModel()->getState()->category)
-                         ->fetch();
-
-        return $category;
     }
 }

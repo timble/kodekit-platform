@@ -55,10 +55,6 @@ class ModelContacts extends Library\ModelDatabase
 			$query->where('tbl.published = :published')->bind(array('published' => (int) $state->published));
 		}
 
-		if ($state->category) {
-			$query->where('tbl.categories_category_id = :category')->bind(array('category' => (int) $state->category));
-		}
-
 		if ($state->search) {
 			$query->where('tbl.name LIKE :search')->bind(array('search' => '%'.$state->search.'%'));
 		}
@@ -66,5 +62,9 @@ class ModelContacts extends Library\ModelDatabase
 		if (is_numeric($state->access)) {
 		    $query->where('tbl.access <= :access')->bind(array('access' => $state->access));
 		}
+
+        if($this->getTable()->isCategorizable()) {
+            $query->bind(array('category' => $state->category));
+        }
 	}
 }

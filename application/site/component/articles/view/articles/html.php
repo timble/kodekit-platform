@@ -23,8 +23,13 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
         //Get the parameters
         $params = $this->getObject('application')->getParams();
 
+        //Get the article
+        $articles = $this->getModel()->fetch();
+
         //Get the category
-        $category = $this->getCategory();
+        if($articles->isCategorizable()) {
+            $category = $articles->getCategory();
+        }
 
         //Get the parameters of the active menu item
         if($page = $this->getObject('application.pages')->getActive())
@@ -45,17 +50,6 @@ class ArticlesViewArticlesHtml extends ArticlesViewHtml
         $this->category = $category;
 
         return parent::render();
-    }
-
-    public function getCategory()
-    {
-        //Get the category
-        $category = $this->getObject('com:articles.model.categories')
-                         ->table('articles')
-                         ->id($this->getModel()->getState()->category)
-                         ->fetch();
-
-        return $category;
     }
 
     public function highlight($text)
