@@ -10,7 +10,9 @@
 
 <script src="media://js/mootools.js" />
 
-<?= @overlay(array('url' => @helper('route.comment',array('layout'=>'form','row'=>$state->row,'table'=>$state->table)))) ?>
+
+<?= @template('com:comments.view.comment.form.html'); ?>
+
 <? foreach($comments as $comment) :?>
 <div class="comment">
     <div class="comment-header">
