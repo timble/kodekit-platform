@@ -4517,37 +4517,45 @@ body {
   flex-grow: 1;
 }
 
-/* line 109, _flexbox.scss */
-#cke_text,
-#cke_text > div,
-#cke_text > div > #cke_1_contents,
-#cke_text > div > #cke_1_contents iframe {
+/* line 106, _flexbox.scss */
+.cke_chrome iframe {
+  min-height: 100px;
+}
+
+/* line 113, _flexbox.scss */
+.cke_chrome,
+.cke_chrome > div,
+.cke_chrome > div > #cke_1_contents,
+.cke_chrome > div > #cke_1_contents iframe {
   display: -webkit-flex !important;
   display: -moz-flex !important;
   display: flex !important;
   -webkit-flex-grow: 1;
   -moz-flex-grow: 1;
   flex-grow: 1;
+  -webkit-flex-shrink: 0;
+  -moz-flex-shrink: 0;
+  flex-shrink: 0;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
 }
 
 /* @group Scope Bar */
-/* line 121, _flexbox.scss */
+/* line 126, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 124, _flexbox.scss */
+/* line 129, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 128, _flexbox.scss */
+/* line 133, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4557,7 +4565,7 @@ body {
   flex: 1;
 }
 
-/* line 136, _flexbox.scss */
+/* line 141, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4568,7 +4576,7 @@ body {
   flex-direction: column;
 }
 
-/* line 142, _flexbox.scss */
+/* line 147, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4577,7 +4585,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 145, _flexbox.scss */
+/* line 150, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4586,7 +4594,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 148, _flexbox.scss */
+/* line 153, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4598,7 +4606,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 152, _flexbox.scss */
+/* line 157, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4613,7 +4621,7 @@ body {
   flex-direction: column;
 }
 
-/* line 162, _flexbox.scss */
+/* line 167, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4625,7 +4633,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 166, _flexbox.scss */
+/* line 171, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4637,23 +4645,23 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 175, _flexbox.scss */
+/* line 180, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 183, _flexbox.scss */
+/* line 188, _flexbox.scss */
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 187, _flexbox.scss */
+/* line 192, _flexbox.scss */
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 191, _flexbox.scss */
+/* line 196, _flexbox.scss */
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4663,7 +4671,7 @@ body {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 195, _flexbox.scss */
+/* line 200, _flexbox.scss */
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4675,7 +4683,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 199, _flexbox.scss */
+/* line 204, _flexbox.scss */
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4684,7 +4692,7 @@ body {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 203, _flexbox.scss */
+/* line 208, _flexbox.scss */
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
