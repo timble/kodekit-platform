@@ -18,39 +18,25 @@ use Nooku\Library;
  */
 class CommentsTemplateHelperRoute extends PagesTemplateHelperRoute
 {
+    /**
+     * Comment route helper
+     *
+     * This function will forward to the appropriate router based on the name of the row.
+     *
+     * @param array $config An array of configuration options
+     * @return string The route
+     */
     public function comment($config = array())
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-            'access' => null,
-            'layout' => null,
-            'row'   => null,
-            'table' => null,
+            'view'  => 'comments',
         ));
 
-        $route = array(
-            'view'   => 'comment',
-            'layout' => $config->layout,
-            'row'   => $config->row,
-            'table' => $config->table,
-        );
+        //Forward the route call
+        $function = $config->row->getIdentifier()->name;
+        $route    = $this->getTemplate()->getHelper('route')->$function($config);
 
-        $needles = array(
-            'extensions_component_id' => $this->getObject('application.components')
-                ->getComponent($this->getIdentifier()->package)->id,
-            'link'                    => array(
-                array('view' => 'comments'))
-        );
-
-        if (isset($config->access)) {
-            $needles['access'] = $config->access;
-        }
-
-        if ($page = $this->getObject('application.pages')->find($needles)) {
-            $route['Itemid'] = $page->id;
-        }
-
-        return $this->getTemplate()->getView()->getRoute($route);
+        return $route;
     }
-
 }
