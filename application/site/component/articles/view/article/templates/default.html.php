@@ -8,7 +8,6 @@
  */
 ?>
 
-
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
 	    <? if ($article->editable) : ?>
@@ -46,6 +45,6 @@
 
 <? if($article->id && $article->isDiscussible()) : ?>
 <div class="comments">
-    <?= @object('com:comments.controller.comment')->layout('default')->row($article->id)->table($article->getTable()->getName())->render();?>
+    <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
 </div>
 <? endif ?>
