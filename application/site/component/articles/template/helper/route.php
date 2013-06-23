@@ -22,7 +22,8 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 	{
         $config   = new Library\ObjectConfig($config);
         $config->append(array(
-           'layout' => null
+            'view'   => 'article',
+            'layout' => null
         ));
 
         $article = $config->row;
@@ -34,7 +35,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 		);
 
         $route = array(
-            'view'     => 'article',
+            'view'     => $config->view,
             'id'       => $article->getSlug(),
             'layout'   => $config->layout,
             'category' => $config->category,
@@ -49,8 +50,9 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new Library\ObjectConfig($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
+            'view'   => 'articles',
             'layout' => 'table'
         ));
 
@@ -62,7 +64,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
         );
 
         $route = array(
-            'view'      => 'articles',
+            'view'      => $config->view,
             'category'  => $category->getSlug(),
             'layout'    => $config->layout
         );
