@@ -13,10 +13,8 @@
 
 <?= @template('page_head.html') ?>
 
-<body id="tmpl-overlay" class="com_<?= $component ?> contentpane">
-    <div id="container">
-        <ktml:content />
-    </div>
+<body id="tmpl-overlay" class="com_<?= $component ?>">
+    <ktml:content />
 </body>
 
 </html>

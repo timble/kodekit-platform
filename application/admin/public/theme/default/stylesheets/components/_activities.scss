@@ -12,9 +12,7 @@
 
 #activities-list h3,
 #activities-list h4 {
-  background-color: #f1f2f4;
-  background-image: -webkit-gradient(linear, 0% 50%, 0% 100%, from(#f1f2f4), to(#e8eaec));
-  background-image: -moz-linear-gradient(0% 50% 270deg,#f1f2f4, #e8eaec);
+  background: #f1f2f4 linear-gradient(#f1f2f4, darken(#f1f2f4, 5%));
 }
 
 #activities-list h3 {
@@ -29,10 +27,35 @@
   border: 1px solid #E8EAEC;
   border-bottom-color: #E3E3E3;
   color: #666;
-  -webkit-border-radius: 5px; -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
 #activities-list .activity 			{ padding: 7px; border-bottom: 1px solid #DDD; }
 #activities-list .activity:last-child 	{ border-bottom: none 0px; }
 
 #activities-list .activity__info { font-size: 10px; color: #999; float: right; width: auto; text-transform: capitalize; }
+
+#activities-filter {
+  @include flex(1 1 auto);
+
+  fieldset {
+    @include flex(1 1 auto);
+    min-width: 100%;
+
+    .input-prepend {
+      @include flex(1 1 auto);
+
+
+      span {
+        width: 60px;
+        text-align: right;
+        border-radius:0;
+      }
+
+      input {
+        width: auto;
+        border-radius:0;
+      }
+    }
+  }
+}

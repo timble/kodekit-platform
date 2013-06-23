@@ -4,7 +4,6 @@ body {
 	margin: 0; padding: 0;
 	font-size: $baseFontSize;
 	background-color: #FFF;
-	min-width: 960px;
 }
 
 body, td, th { font-family: $baseFontFamily; }
@@ -119,7 +118,8 @@ ul {
 }
 
 #panel-pages {
-  @include flex-box(column, 1);
+  @include flex(1);
+  @include flex-direction(column);
 
 	min-width: 180px;
 	max-width: 180px;
@@ -127,13 +127,12 @@ ul {
 	border-right: 1px solid $grayLighter;
 	background-color: rgb(207,214,222);
 
-  nav {
+  .navigation {
     h3 {
-      @extend %navigation__separator;
+      @extend .navigation__separator;
     }
 
     a {
-      @extend %navigation__item;
       border-top-color: rgb(207,214,222);
     }
   }
@@ -235,11 +234,6 @@ ul {
 		margin-top: 2px;
 	}
 
-	nav {
-		a {
-			@extend %navigation__item;
-        }
-	}
   input[type=date] {
     width: 160px;
   }
@@ -383,7 +377,7 @@ ul {
 				font-size: $baseFontSize * 1.5;
 				padding: 4px 8px;
 				margin-bottom: 0;
-                @include border-radius(4px);
+                border-radius:4px;
 				height: $baseLineHeight * 3;
 				line-height: $baseLineHeight * 3;
 			}
@@ -392,7 +386,7 @@ ul {
                 @extend .input-prepend;
 				clear: left;
 				margin-top: 5px;
-				margin-bottom: 0;
+				margin-bottom: 0 !important;
 			}
 		}
 
@@ -408,6 +402,7 @@ ul {
             resize: vertical;
             width: 100%
         }
+      input[type=date],
       input[type=datetime-local] {
         width: 160px;
       }

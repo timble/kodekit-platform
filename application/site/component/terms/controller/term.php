@@ -40,7 +40,7 @@ abstract class TermsControllerTerm extends Library\ControllerModel
             $alias = clone $layout;
             $alias->package = 'terms';
 
-            $this->getService()->setAlias($layout, $alias);
+            $this->getObject('manager')->registerAlias($layout, $alias);
         }
 
         return parent::_actionRender($context);

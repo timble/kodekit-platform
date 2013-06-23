@@ -6,12 +6,11 @@ body.login
 
   .login-box {
     width: 275px;
-    margin: 0 auto;
-    margin-top: 100px;
+    margin: auto;
 
     border: 1px solid #D7DADE;
     background: #FFF;
-    @include border-radius(10px);
+    border-radius:10px;
     @include box-shadow(0 1px 2px rgba(0,0,0,.05));
 
     h1 {
@@ -20,7 +19,7 @@ body.login
       padding: 10px 0;
       color: $grayDarker;
       @include background(linear-gradient(#f6f6f6, #e6e6e6));
-      @include border-radius(10px 10px 0 0);
+      border-radius:10px 10px 0 0;
       border-bottom: 1px solid #D7DADE;
     }
 

@@ -8,7 +8,7 @@
   width: 130px;
   padding: 6px;
   border: 1px solid #ddd;
-  @include border-radius(5px);
+  border-radius:5px;
   @include box-shadow(0 1px 3px rgba(0,0,0,.055));
 
   &:nth-child(even) {
@@ -16,7 +16,7 @@
   }
 
   img {
-    @include border-radius(4px 4px 0 0);
+    border-radius:4px 4px 0 0;
   }
 }
 

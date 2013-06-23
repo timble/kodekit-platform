@@ -9,7 +9,7 @@
 ?>
 
 <script src="media://terms/js/terms.js" />
-<style src="media://terms/css/default.css" />
+<style src="media://terms/css/terms-list.css" />
 
 <? $disabled = $disabled ? 'disabled="disabled"' : ''; ?>
 

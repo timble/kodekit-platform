@@ -12,13 +12,6 @@
 
 <script src="media://files/js/files.compact.js" />
 
-<style src="media://files/css/files.compact.css" />
-<style>
-    #files-compact #details {
-        height: 388px \0/; /* IE needs this */
-    }
-</style>
-
 <script>
 Files.sitebase = '<?= $sitebase; ?>';
 Files.base     = '<?= $base; ?>';
@@ -44,46 +37,6 @@ window.addEvent('domready', function() {
 
 	Files.app = new Files.Compact.App(options);
 
-	$('files-new-folder-create').addEvent('click', function(e){
-		e.stop();
-		var element = $('files-new-folder-input');
-		var value = element.get('value');
-		if (value.length > 0) {
-			var folder = new Files.Folder({name: value, folder: Files.app.getPath()});
-			folder.add(function(response, responseText) {
-				element.set('value', '');
-				$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
-				var el = response.item;
-				var cls = Files[el.type.capitalize()];
-				var row = new cls(el);
-
-				Files.app.tree.selected.insert({
-					text: row.name,
-					id: row.path,
-					data: {
-						path: row.path,
-						url: '#'+row.path,
-						type: 'folder'
-					}
-				});
-				Files.app.tree.selected.toggle(false, true);
-			});
-		};
-	});
-	var validate = function(){
-		if(this.value.trim()) {
-			$('files-new-folder-create').addClass('valid').removeProperty('disabled');
-		} else {
-			$('files-new-folder-create').removeClass('valid').setProperty('disabled', 'disabled');
-		}
-	};
-	$('files-new-folder-input').addEvent('change', validate);
-	if(window.addEventListener) {
-		$('files-new-folder-input').addEventListener('input', validate);
-	} else {
-		$('files-new-folder-input').addEvent('keyup', validate);
-	}
-
 	$$('#tabs-pane_insert dt').addEvent('click', function(){
 		setTimeout(function(){window.fireEvent('refresh');}, 300);
 	});
@@ -92,35 +45,27 @@ window.addEvent('domready', function() {
 
 <?= @template('com:files.view.files.templates_compact.html');?>
 
-<div id="files-compact">
-	<?=	@helper('tabs.startPane', array('id' => 'pane_insert')); ?>
-	<?= @helper('tabs.startPanel', array('title' => 'Insert')); ?>
-		<div id="insert">
-			<div id="files-tree-container" style="float: left">
-				<div id="files-tree"></div>
-
-				<div id="files-new-folder-modal">
-					<form class="form">
-						<div class="input-append">
-							<input class="span2 focus" type="text" id="files-new-folder-input" placeholder="<?= @text('Enter a folder name') ?>" /><button id="files-new-folder-create" class="btn" disabled><?= @text('Create'); ?></button>
-				        </div>
-					</form>
-				</div>
-			</div>
-
-			<div id="files-grid" style="float: left"></div>
-			<div id="details" style="float: left;">
-				<div id="files-preview"></div>
-			</div>
-			<div class="clear" style="clear: both"></div>
-		</div>
-	<?= @helper('tabs.endPanel'); ?>
-	<?= @helper('tabs.startPanel', array('title' => @text('Upload'))); ?>
-
-		<?= @template('com:files.view.files.uploader.html'); ?>
-
-	<?= @helper('tabs.endPanel'); ?>
-	<?= @helper('tabs.endPane'); ?>
+<div id="files-compact" class="tabs tabs-horizontal">
+    <div class="tab">
+        <input type="radio" id="tab-1" name="tab-group-1" checked="">
+        <label for="tab-1"><?= @text('Insert') ?></label>
+        <div id="files-insert" class="content">
+                <div id="files-tree-container">
+                    <div id="files-tree"></div>
+                </div>
+                <div id="files-grid"></div>
+                <div id="details">
+                    <div id="files-preview"></div>
+                </div>
+        </div>
+    </div>
+    <div class="tab">
+        <input type="radio" id="tab-2" name="tab-group-1">
+        <label for="tab-2"><?= @text('Upload') ?></label>
+        <div class="content">
+            <?= @template('com:files.view.files.uploader.html'); ?>
+        </div>
+    </div>
 </div>
 
 <script>
