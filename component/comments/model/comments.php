@@ -25,7 +25,7 @@ class ModelComments extends Library\ModelTable
 
         $this->getState()
 			->insert('table', 'cmd')
-			->insert('row', 'int');
+			->insert('row'  , 'int');
 	}
 
     /**
