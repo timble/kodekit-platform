@@ -22,7 +22,7 @@ class DatabaseBehaviorDiscussible extends Library\DatabaseBehaviorAbstract
 	/**
 	 * Get a list of comments
 	 *
-	 * @return DatabaseRowsetComments
+	 * @return Library\DatabaseRowsetInterface
 	 */
 	public function getComments()
 	{
