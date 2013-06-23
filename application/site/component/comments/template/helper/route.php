@@ -12,7 +12,7 @@ use Nooku\Library;
 /**
  * Route Template Helper Class
  *
- * @author     Terry Visser <http://nooku.assembla.com/profile/johanjanssens>
+ * @author     Terry Visser <http://nooku.assembla.com/profile/terryvisser>
  * @package    Nooku_Server
  * @subpackage Comments
  */
@@ -49,6 +49,7 @@ class CommentsTemplateHelperRoute extends PagesTemplateHelperRoute
         if ($page = $this->getObject('application.pages')->find($needles)) {
             $route['Itemid'] = $page->id;
         }
+
         return $this->getTemplate()->getView()->getRoute($route);
     }
 
