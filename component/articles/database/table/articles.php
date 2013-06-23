@@ -44,7 +44,7 @@ class DatabaseTableArticles extends Library\DatabaseTableDefault
         {
             $config->append(array(
                 'behaviors'  => array(
-                    'com:comments.database.behavior.discussible'
+                    'com:comments.database.behavior.commentable'
                 )
             ));
         }
