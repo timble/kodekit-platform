@@ -40,8 +40,8 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
             'category' => $config->category
         );
 
-        if($item = $this->_findPage($needles)) {
-            $route['Itemid'] = $item->id;
+        if($page = $this->_findPage($needles)) {
+            $route['Itemid'] = $page->id;
         };
 
         return $this->getTemplate()->getView()->getRoute($route);
@@ -69,8 +69,8 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
             'category' => $config->category
         );
 
-		if($item = $this->_findPage($needles)) {
-			$route['Itemid'] = $item->id;
+		if($oage = $this->_findPage($needles)) {
+			$route['Itemid'] = $page->id;
 		};
 
 		return $this->getTemplate()->getView()->getRoute($route);

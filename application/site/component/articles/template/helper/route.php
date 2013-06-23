@@ -67,13 +67,13 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
             'layout'    => $config->layout
         );
 
-        if($item = $this->_findPage($needles))
+        if($page = $this->_findPage($needles))
         {
-            if(isset($item->getLink()->query['layout'])) {
-                $route['layout'] = $item->getLink()->query['layout'];
+            if(isset($page->getLink()->query['layout'])) {
+                $route['layout'] = $page->getLink()->query['layout'];
             }
 
-            $route['Itemid'] = $item->id;
+            $route['Itemid'] = $page->id;
         };
 
         return $this->getTemplate()->getView()->getRoute($route);
