@@ -81,8 +81,6 @@ class ModelDatabase extends ModelAbstract
 
         if ($this->getCommandChain()->run('before.fetch', $context) !== false)
         {
-            $this->reset(); //Make sure to rest the state
-
             $context->data = $this->getTable()->createRow(array('state' => $this->getState()));
             $this->getCommandChain()->run('after.fetch', $context);
         }
