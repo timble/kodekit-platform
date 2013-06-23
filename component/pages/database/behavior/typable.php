@@ -118,12 +118,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
         {
             $this->setMixer($context->data);
 
-            if(is_array($this->getType()))
-            {
-                $type = $this->getType();
-                $type = $type['name'];
-            }
-            else $type = $this->type;
+            $type = $this->getType();
 
             $this->setStrategy($type);
             $return = $this->getStrategy()->setMixer($context->data)->execute($name, $context);
@@ -137,12 +132,7 @@ class DatabaseBehaviorTypable extends Library\DatabaseBehaviorAbstract
     {
         if(in_array($method, $this->_mixable_methods))
         {
-            if(is_array($this->getType()))
-            {
-                $type = $this->getType();
-                $type = $type['name'];
-            }
-            else $type = $this->type;
+            $type = $this->getType();
 
             $this->setStrategy($type);
             $this->getStrategy()->setMixer($this->getMixer());

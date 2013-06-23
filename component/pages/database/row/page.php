@@ -19,26 +19,19 @@ use Nooku\Library;
  */
 class DatabaseRowPage extends Library\DatabaseRowTable
 {
-    protected $_type;
-
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        if(isset($config->state) && $config->state->type) {
-            $this->setType($config->state->type);
+        if(isset($config->state) && $config->state->type)
+        {
+            $this->type      = $config->state->type['name'];
+            $this->link_url  = http_build_query($config->state->type, '');
         }
-    }
-
-    public function setType(array $type)
-    {
-        $this->_type = $type;
-
-        return $this;
     }
 
     public function getType()
     {
-        return $this->_type;
+        return $this->type;
     }
 }

@@ -165,8 +165,12 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     protected function _getComponentXml()
     {
         $xml  = \JFactory::getXMLParser('simple');
-        $type = $this->getType();
-        $path = Library\ClassLoader::getInstance()->getApplication('admin').'/component/'.substr($type['option'], 4).'/config.xml';
+        $link = $this->getLink();
+
+        $component = substr($link->query['option'], 4);
+
+        $path  = Library\ClassLoader::getInstance()->getApplication('admin');
+        $path .= '/component/'.$component.'/config.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
@@ -178,8 +182,14 @@ class DatabaseBehaviorTypeComponent extends DatabaseBehaviorTypeAbstract
     protected function _getPageXml()
     {
         $xml  = \JFactory::getXMLParser('simple');
-        $type = $this->getType();
-        $path = Library\ClassLoader::getInstance()->getApplication('site').'/component/'.substr($type['option'], 4).'/view/'.$type['view'].'/templates/'.$type['layout'].'.xml';
+        $link = $this->getLink();
+
+        $component = substr($link->query['option'], 4);
+        $view      = $link->query['view'];
+        $layout    = isset($link->query['layout']) ? $link->query['layout'] : 'default';
+
+        $path  = Library\ClassLoader::getInstance()->getApplication('site');
+        $path .='/component/'.$component.'/view/'.$view.'/templates/'.$layout.'.xml';
 
         if(file_exists($path)) {
             $xml->loadFile($path);
