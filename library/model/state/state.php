@@ -336,7 +336,7 @@ class ModelState extends ObjectArray implements ModelStateInterface
             {
                 if($value !== '')
                 {
-                    //Only accepts scalar values
+                    //Only accepts scalar values and array
                     if(!is_scalar($value) && !is_array($value))
                     {
                         throw new \UnexpectedValueException(
