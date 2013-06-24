@@ -43,7 +43,7 @@
     <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
 
-<? if($article->id && $article->isDiscussible()) : ?>
+<? if($article->id && $article->isCommentable()) : ?>
 <div class="comments">
     <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
 </div>
