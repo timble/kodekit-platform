@@ -34,7 +34,7 @@ class CommentsTemplateHelperRoute extends PagesTemplateHelperRoute
         ));
 
         //Forward the route call
-        $function = $config->row->getIdentifier()->name;
+        $function = Library\StringInflector::singularize($config->row->getIdentifier()->name);
         $route    = $this->getTemplate()->getHelper('route')->$function($config);
 
         return $route;
