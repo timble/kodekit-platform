@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Pages;
 
 /**
  * Template Menubar Helper
@@ -16,7 +17,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
+class ApplicationTemplateHelperMenubar extends Pages\TemplateHelperList
 {
  	/**
      * Render the menubar
