@@ -375,6 +375,10 @@ UPDATE `extensions_components` SET `title` = 'Articles', `name` = 'com_articles'
 UPDATE `extensions_components` SET `title` = 'Pages', `name` = 'com_pages' WHERE `extensions_component_id` = 25;
 UPDATE `extensions_components` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `extensions_component_id` = 28;
 
+-- Empty params field
+UPDATE `extensions_components` SET `params` = '' WHERE `extensions_component_id` = 7;
+UPDATE `extensions_components` SET `params` = '' WHERE `extensions_component_id` = 20;
+
 # --------------------------------------------------------
 
 INSERT INTO `extensions_components` (`extensions_component_id`, `title`, `name`, `params`, `enabled`)

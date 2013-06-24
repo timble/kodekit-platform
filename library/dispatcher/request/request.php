@@ -118,7 +118,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
         $this->setBasePath($config->base_path);
 
         //Set the formats
-        foreach($config->formats as $format => $mimetypes) {
+        foreach(ObjectConfig::unbox($config->formats) as $format => $mimetypes) {
             $this->addFormat($format, $mimetypes);
         }
 
@@ -363,7 +363,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function getContent()
     {
-        if (!isset($this->_content) && $this->_headers->has('Content-Length') && $this->_headers->get('Content-Length') > 0)
+        if (empty($this->_content) && $this->_headers->has('Content-Length') && $this->_headers->get('Content-Length') > 0)
         {
             $data = '';
 
@@ -391,7 +391,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
         {
             $type = $this->_headers->get('Content-Type');
 
-            // strip parameters from content-type like "; charset=UTF-8"
+            //Strip parameters from content-type like "; charset=UTF-8"
             if (is_string($type))
             {
                 if (preg_match('/^([^,\;]*)/', $type, $matches)) {
@@ -763,16 +763,6 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     }
 
     /**
-     * Is this a POST method request?
-     *
-     * @return bool
-     */
-    /*public function isPost()
-    {
-        return (strtoupper($_SERVER['REQUEST_METHOD']) === self::POST);
-    }*/
-
-    /**
      * Checks whether the request is secure or not.
      *
      * @return  string
@@ -802,8 +792,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     }
 
     /**
-     * Parses an accept header and returns an array (type => quality) of the accepted types,
-     * ordered by quality.
+     * Parses an accept header and returns an array (type => quality) of the accepted types, ordered by quality.
      *
      * @param string    $accept     The header to parse
      * @param array     $default    The default values

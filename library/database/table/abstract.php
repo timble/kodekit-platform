@@ -559,7 +559,7 @@ abstract class DatabaseTableAbstract extends Object implements DatabaseTableInte
 
                 case Database::FETCH_ROWSET :
                 {
-                    if (isset($data) && !empty($data))
+                    if (isset($data) && !empty($data)) 
                     {
                         $options['data']   = $data;
                         $options['status'] = Database::STATUS_LOADED;

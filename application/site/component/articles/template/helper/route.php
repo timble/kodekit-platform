@@ -22,7 +22,8 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 	{
         $config   = new Library\ObjectConfig($config);
         $config->append(array(
-           'layout' => null
+            'view'   => 'article',
+            'layout' => null
         ));
 
         $article = $config->row;
@@ -34,7 +35,7 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 		);
 
         $route = array(
-            'view'     => 'article',
+            'view'     => $config->view,
             'id'       => $article->getSlug(),
             'layout'   => $config->layout,
             'category' => $config->category,
@@ -49,8 +50,9 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 
     public function category($config = array())
     {
-        $config   = new Library\ObjectConfig($config);
+        $config = new Library\ObjectConfig($config);
         $config->append(array(
+            'view'   => 'articles',
             'layout' => 'table'
         ));
 
@@ -62,18 +64,18 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
         );
 
         $route = array(
-            'view'      => 'articles',
+            'view'      => $config->view,
             'category'  => $category->getSlug(),
             'layout'    => $config->layout
         );
 
-        if($item = $this->_findPage($needles))
+        if($page = $this->_findPage($needles))
         {
-            if(isset($item->getLink()->query['layout'])) {
-                $route['layout'] = $item->getLink()->query['layout'];
+            if(isset($page->getLink()->query['layout'])) {
+                $route['layout'] = $page->getLink()->query['layout'];
             }
 
-            $route['Itemid'] = $item->id;
+            $route['Itemid'] = $page->id;
         };
 
         return $this->getTemplate()->getView()->getRoute($route);

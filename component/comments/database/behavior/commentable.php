@@ -12,17 +12,17 @@ namespace Nooku\Component\Comments;
 use Nooku\Library;
 
 /**
- * Dissusible Controller Behavior
+ * Commentable Controller Behavior
  *
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Comments
  */
-class DatabaseBehaviorDiscussible extends Library\DatabaseBehaviorAbstract
+class DatabaseBehaviorCommentable extends Library\DatabaseBehaviorAbstract
 {
 	/**
 	 * Get a list of comments
 	 *
-	 * @return DatabaseRowsetComments
+	 * @return Library\DatabaseRowsetInterface
 	 */
 	public function getComments()
 	{

@@ -61,6 +61,10 @@ class ArticlesRouter extends Library\DispatcherRouter
             }
         }
 
+        if(isset($query['view']) && $query['view'] == 'comments') {
+            $segments[] = 'comments';
+        }
+
         unset($query['category']);
         unset($query['id']);
         unset($query['view']);
@@ -107,6 +111,13 @@ class ArticlesRouter extends Library\DispatcherRouter
             $vars['id']     = $segment;
             $vars['view']   = 'article';
             $vars['layout'] = 'default';
+        }
+
+        if(count($path) && $path[0] == 'comments')
+        {
+            $vars['view']    = 'comments';
+            $vars['article'] = $vars['id'];
+            unset($vars['id']);
         }
 
         return $vars;

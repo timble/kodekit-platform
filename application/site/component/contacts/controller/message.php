@@ -42,7 +42,7 @@ class ContactsControllerMessage extends Library\ControllerView
         $from_name   = $application->getCfg('fromname');
 
         $email_to = $this->getObject('com:contacts.model.contacts')
-            ->id($context->request->query->get('id', 'int'))
+            ->id($context->request->query->get('contact', 'int'))
             ->fetch()
             ->email_to;
 

@@ -7,6 +7,7 @@
  * @link           http://www.nooku.org
  */
 ?>
+
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
 	    <? if ($article->editable) : ?>
@@ -41,3 +42,9 @@
     <?= @template('com:terms.view.terms.default.html') ?>
     <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
+
+<? if($article->id && $article->isDiscussible()) : ?>
+<div class="comments">
+    <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
+</div>
+<? endif ?>

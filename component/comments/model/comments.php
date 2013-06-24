@@ -25,8 +25,37 @@ class ModelComments extends Library\ModelDatabase
 
         $this->getState()
 			->insert('table', 'cmd')
-			->insert('row', 'int');
+			->insert('row'  , 'int');
 	}
+
+    /**
+     * Builds SELECT columns list for the query.
+     *
+     * @param   Library\DatabaseQuerySelect  A query object.
+     * @return  void
+     */
+    protected function _buildQueryColumns(Library\DatabaseQuerySelect $query)
+    {
+        parent::_buildQueryColumns($query);
+        $state = $this->getState();
+
+        $query->columns(array(
+            'created_by_name' => 'creator.name'
+        ));
+    }
+
+    /**
+     * Builds LEFT JOINS clauses for the query.
+     *
+     * @param   Library\DatabaseQuerySelect  A query object.
+     * @return  void
+     */
+    protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
+    {
+        $state = $this->getState();
+
+        $query->join(array('creator' => 'users'), 'creator.users_user_id = tbl.created_by');
+    }
 	
 	protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
 	{

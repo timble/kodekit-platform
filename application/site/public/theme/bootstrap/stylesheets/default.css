@@ -7882,6 +7882,41 @@ a.badge:focus {
     overflow: visible !important;
   }
 }
+.comments {
+  border: 1px solid #e3e3e3;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+.comments form {
+  padding: 19px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e3e3e3;
+}
+.comments form textarea {
+  resize: vertical;
+}
+.comment {
+  margin: 19px;
+  border-bottom: 1px solid #e3e3e3;
+}
+.comment:last-of-type {
+  border-bottom: 0 none;
+}
+.comment .comment-header {
+  color: #999999;
+  font-size: 11.9px;
+}
+.comment .comment-header .comment-header-time {
+  float: right;
+}
+.comment .comment-content {
+  padding-top: 10px;
+}
 /*
  * Bootstrap Image Gallery CSS 2.5.3
  * https://github.com/blueimp/Bootstrap-Image-Gallery

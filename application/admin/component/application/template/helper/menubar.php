@@ -31,6 +31,11 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
             'attribs' => array('class' => array())
         ));
 
+        $groups = $this->getObject('user')->getGroups();
+
+        // Make sure that pages without an assigned group are also included.
+        $groups[] = 0;
+
         $result = '';
 
         $menus = $this->getObject('com:pages.model.menus')
@@ -41,7 +46,7 @@ class ApplicationTemplateHelperMenubar extends PagesTemplateHelperList
 
         if(count($menu))
         {
-            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->id));
+            $pages  = $this->getObject('application.pages')->find(array('pages_menu_id' => $menu->id, 'hidden' => 0, 'users_group_id' => $groups));
             $result = $this->pages(array('pages' => $pages, 'attribs' => $config->attribs));
         }
 
