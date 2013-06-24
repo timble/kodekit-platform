@@ -74,7 +74,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
             // Make sure that pages without an assigned group are also included.
             $groups[] = 0;
 
-            $pages     = $this->getObject('application.pages')->find(array(
+            $pages = $this->getObject('application.pages')->find(array(
                 'pages_menu_id'           => $menu->id,
                 'extensions_component_id' => $component->id
                 'hidden'                  => 0,
