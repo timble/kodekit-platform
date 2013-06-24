@@ -103,16 +103,21 @@ body {
   @include flex-grow(1);
 }
 
-#cke_text,
-#cke_text > div,
-#cke_text > div > #cke_1_contents,
-#cke_text > div > #cke_1_contents iframe {
+.cke_chrome iframe {
+  min-height: 100px;
+}
+
+.cke_chrome,
+.cke_chrome > div,
+.cke_chrome > div > #cke_1_contents,
+.cke_chrome > div > #cke_1_contents iframe {
   // CK forces an inline display: block so we need !important power
   display: -webkit-flex !important;
   display: -moz-flex !important;
   display: flex !important;
 
   @include flex-grow(1);
+  @include flex-shrink(0);
 
   @include flex-direction(column);
 }
