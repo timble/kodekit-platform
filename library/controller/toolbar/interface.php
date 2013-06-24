@@ -27,8 +27,8 @@ interface ControllerToolbarInterface extends \IteratorAggregate
     /**
      * Add a command by name
      *
-     * @param   string	The command name
-     * @param	mixed	Parameters to be passed to the command
+     * @param   string	$name   The command name
+     * @param	mixed	$config Parameters to be passed to the command
      * @return  ControllerToolbarCommand  The command object that was added
      */
     public function addCommand($name, $config = array());
