@@ -76,7 +76,7 @@ class ApplicationControllerToolbarTabbar extends Library\ControllerToolbarAbstra
 
             $pages = $this->getObject('application.pages')->find(array(
                 'pages_menu_id'           => $menu->id,
-                'extensions_component_id' => $component->id
+                'extensions_component_id' => $component->id,
                 'hidden'                  => 0,
                 'users_group_id'          => $groups
             ));
