@@ -9,9 +9,6 @@
 ?>
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
-	    <? if ($article->editable) : ?>
-            <button class="btn" onclick='ClickToSave()'>Save</button>
-	    <? endif; ?>
 	    <h1 id="title" contenteditable="<?= $article->editable ? 'true':'false';?>" onBlur="ClickToSave()"><?= $article->title ?></h1>
 	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
