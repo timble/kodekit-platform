@@ -22,7 +22,7 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      *
      * If the behavior is auto mixed also lazy mix it into related row objects.
      *
-     * @param 	ObjectConfig                 $config	  A ObjectConfig object with configuration options
+     * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
      * @return  object
      */
@@ -50,9 +50,9 @@ abstract class DatabaseBehaviorAbstract extends BehaviorAbstract implements Obje
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string    The command name
-     * @param     object    The command context
-     * @return    boolean   Can return both true or false.
+     * @param   string           $name    The command name
+     * @param   CommandContext   $context The command context
+     * @return  boolean   Can return both true or false.
      */
     public function execute($name, CommandContext $context)
     {
