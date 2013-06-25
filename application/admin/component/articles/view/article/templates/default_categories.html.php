@@ -18,7 +18,8 @@
 
 <? foreach($categories as $category) : ?>
     <label class="radio" for="categories_category_id<?= $category->id ?>">
-        <input type="radio" name="categories_category_id" id="categories_category_id<?= $category->id ?>" value="<?= $category->id ?>">
+        <input type="radio" name="categories_category_id" id="categories_category_id<?= $category->id ?>"
+               value="<?= $category->id ?>" <?= $category->id == $article->categories_category_id ? 'checked="checked"' : '' ?>>
         <?= @escape($category->title); ?>
     </label>
     <? if($category->hasChildren()) : ?>

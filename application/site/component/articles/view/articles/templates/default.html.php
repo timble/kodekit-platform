@@ -16,7 +16,5 @@
     <?= @template('default_item.html', array('article' => $article)) ?>
 <? endforeach; ?>
 
-<? if(count($articles) != $total) : ?>
-    <?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
-<? endif; ?>
+<?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
 
