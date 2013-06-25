@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Categories;
 
 /**
  * Category Controller Class
@@ -16,45 +17,14 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Categories
  */
-abstract class CategoriesControllerCategory extends Library\ControllerModel
+abstract class CategoriesControllerCategory extends Categories\ControllerCategory
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
         	'behaviors' => array('com:activities.controller.behavior.loggable'),
-            'model'     => 'com:categories.model.categories'
         ));
         
         parent::_initialize($config);
-        
-        //Force the toolbars
-        $config->toolbars = array('menubar', 'com:categories.controller.toolbar.category');
     }
-    
-    protected function _actionRender(Library\CommandContext $context)
-    {
-        $view = $this->getView();
-        
-	    //Set the layout
-        if($view instanceof Library\ViewTemplate)
-	    {
-	        $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
-
-            $alias = clone $layout;
-            $alias->package = 'categories';
-
-	        $this->getObject('manager')->registerAlias($layout, $alias);
-	    }
-	        
-        return parent::_actionRender($context);
-    }
-    
-    public function getRequest()
-	{
-		$request = parent::getRequest();
-        $request->query->table  = $this->getIdentifier()->package;
-
-	    return $request;
-	}
 }
