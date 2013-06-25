@@ -78,7 +78,7 @@ class ModelArticles extends Library\ModelTable
 
         if(is_numeric($state->category) || $state->category)
         {
-            if($state->category)
+            if(is_numeric($state->category))
             {
             	$query->where('tbl.categories_category_id IN :categories_category_id' );
             	
