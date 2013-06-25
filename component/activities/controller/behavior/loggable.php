@@ -89,7 +89,8 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
                         {
                             foreach($this->_title_column as $title)
                             {
-                                if($row->{$title}){
+                                if($row->{$title})
+                                {
                                     $log['title'] = $row->{$title};
                                     break;
                                 }
@@ -105,7 +106,6 @@ class ControllerBehaviorLoggable extends Library\ControllerBehaviorAbstract
 
                         $log['row'] = $row->id;
                         $log['ip']  = $context->request->getAddress();
-
 
                         $this->getObject('com:activities.database.row.activity', array('data' => $log))->save();
                     }
