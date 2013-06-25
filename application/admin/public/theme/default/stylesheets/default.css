@@ -237,6 +237,81 @@
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
 }
 
+/* line 1, blocks/_alerts.scss */
+.alert__text {
+  background: #c4553c linear-gradient(135deg, transparent, transparent 25%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 50%, transparent 50%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1));
+  background-size: 20px 20px;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+  color: #f6f6f6;
+  display: block;
+  font: bold 16px/40px sans-serif;
+  text-align: center;
+  text-decoration: none;
+  -webkit-animation: alert 1s ease forwards;
+  animation: alert 1s ease forwards;
+}
+
+/* Animation */
+@-webkit-keyframes alert {
+  /* line 20, blocks/_alerts.scss */
+  0% {
+    height: 0;
+  }
+
+  /* line 21, blocks/_alerts.scss */
+  100% {
+    height: 40px;
+  }
+}
+
+@-moz-keyframes alert {
+  /* line 24, blocks/_alerts.scss */
+  0% {
+    height: 0;
+  }
+
+  /* line 25, blocks/_alerts.scss */
+  100% {
+    height: 40px;
+  }
+}
+
+@-ms-keyframes alert {
+  /* line 28, blocks/_alerts.scss */
+  0% {
+    height: 0;
+  }
+
+  /* line 29, blocks/_alerts.scss */
+  100% {
+    height: 40px;
+  }
+}
+
+@-o-keyframes alert {
+  /* line 32, blocks/_alerts.scss */
+  0% {
+    height: 0;
+  }
+
+  /* line 33, blocks/_alerts.scss */
+  100% {
+    height: 40px;
+  }
+}
+
+@keyframes alert {
+  /* line 36, blocks/_alerts.scss */
+  0% {
+    height: 0;
+  }
+
+  /* line 37, blocks/_alerts.scss */
+  100% {
+    height: 40px;
+  }
+}
+
 /* line 10, _reset.scss */
 html {
   font-size: 100%;
@@ -4184,18 +4259,21 @@ body {
   -webkit-flex: 1 1 auto;
   -moz-flex: 1 1 auto;
   flex: 1 1 auto;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
 }
 
-/* line 13, _flexbox.scss */
+/* line 14, _flexbox.scss */
 .navigation {
   -webkit-flex-grow: 1;
   -moz-flex-grow: 1;
   flex-grow: 1;
   overflow-y: scroll;
 }
-/* line 17, _flexbox.scss */
+/* line 18, _flexbox.scss */
 .navigation a {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4207,14 +4285,14 @@ body {
   -moz-justify-content: space-between;
   justify-content: space-between;
 }
-/* line 21, _flexbox.scss */
+/* line 22, _flexbox.scss */
 .navigation a .navigation__badge {
   -webkit-flex-grow: 0;
   -moz-flex-grow: 0;
   flex-grow: 0;
 }
 
-/* line 27, _flexbox.scss */
+/* line 28, _flexbox.scss */
 #panel-wrapper {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4227,7 +4305,7 @@ body {
   flex-direction: column;
 }
 
-/* line 32, _flexbox.scss */
+/* line 33, _flexbox.scss */
 #panel-header {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4240,7 +4318,7 @@ body {
   justify-content: space-between;
 }
 
-/* line 38, _flexbox.scss */
+/* line 39, _flexbox.scss */
 #panel-tabbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4250,7 +4328,7 @@ body {
   flex-shrink: 0;
 }
 
-/* line 43, _flexbox.scss */
+/* line 44, _flexbox.scss */
 #panel-toolbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4259,14 +4337,14 @@ body {
   -moz-flex-shrink: 0;
   flex-shrink: 0;
 }
-/* line 47, _flexbox.scss */
+/* line 48, _flexbox.scss */
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
 
-/* line 52, _flexbox.scss */
+/* line 53, _flexbox.scss */
 #panel-component {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4276,7 +4354,7 @@ body {
   flex: 1 1 auto;
 }
 
-/* line 57, _flexbox.scss */
+/* line 58, _flexbox.scss */
 #panel-sidebar,
 #panel-inspector {
   display: -webkit-flex;
@@ -4290,7 +4368,7 @@ body {
   flex-direction: column;
   width: 200px;
 }
-/* line 62, _flexbox.scss */
+/* line 63, _flexbox.scss */
 #panel-sidebar h3,
 #panel-inspector h3 {
   -webkit-flex-shrink: 0;
@@ -4298,7 +4376,7 @@ body {
   flex-shrink: 0;
 }
 
-/* line 67, _flexbox.scss */
+/* line 68, _flexbox.scss */
 #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4307,7 +4385,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 70, _flexbox.scss */
+/* line 71, _flexbox.scss */
 #panel-content .-koowa-grid {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4319,7 +4397,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 75, _flexbox.scss */
+/* line 76, _flexbox.scss */
 #panel-content .-koowa-form {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4328,7 +4406,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 78, _flexbox.scss */
+/* line 79, _flexbox.scss */
 #panel-content .-koowa-form .main {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4340,7 +4418,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 82, _flexbox.scss */
+/* line 83, _flexbox.scss */
 #panel-content .-koowa-form .main .title {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4352,17 +4430,17 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 86, _flexbox.scss */
+/* line 87, _flexbox.scss */
 #panel-content .-koowa-form .main .title .slug {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 91, _flexbox.scss */
+/* line 92, _flexbox.scss */
 #panel-content .-koowa-form .sidebar:not(.no--scrollbar) {
   overflow-y: scroll;
 }
-/* line 94, _flexbox.scss */
+/* line 95, _flexbox.scss */
 #panel-content .-koowa-form .sidebar.no--scrollbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4372,7 +4450,7 @@ body {
   flex-direction: column;
 }
 
-/* line 101, _flexbox.scss */
+/* line 102, _flexbox.scss */
 .scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4381,7 +4459,7 @@ body {
   flex-grow: 1;
 }
 
-/* line 113, _flexbox.scss */
+/* line 114, _flexbox.scss */
 .editor-wrap,
 .editor-container,
 .mceEditor,
@@ -4401,7 +4479,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex-direction: column;
 }
 
-/* line 119, _flexbox.scss */
+/* line 120, _flexbox.scss */
 table.mceLayout > tbody > tr:nth-of-type(1),
 table.mceLayout > tbody > tr:nth-of-type(3) {
   display: -webkit-flex;
@@ -4412,7 +4490,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 0 0 auto;
 }
 
-/* line 123, _flexbox.scss */
+/* line 124, _flexbox.scss */
 .CodeMirror {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4424,7 +4502,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 127, _flexbox.scss */
+/* line 128, _flexbox.scss */
 .CodeMirror .CodeMirror-scroll {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4435,20 +4513,20 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 
 /* @group Scope Bar */
-/* line 133, _flexbox.scss */
+/* line 134, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 136, _flexbox.scss */
+/* line 137, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 140, _flexbox.scss */
+/* line 141, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4458,7 +4536,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 1;
 }
 
-/* line 148, _flexbox.scss */
+/* line 149, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4469,7 +4547,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 154, _flexbox.scss */
+/* line 155, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4478,7 +4556,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 157, _flexbox.scss */
+/* line 158, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4487,7 +4565,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 160, _flexbox.scss */
+/* line 161, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4499,7 +4577,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 164, _flexbox.scss */
+/* line 165, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4514,7 +4592,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 174, _flexbox.scss */
+/* line 175, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4526,7 +4604,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 178, _flexbox.scss */
+/* line 179, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4538,23 +4616,23 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 187, _flexbox.scss */
+/* line 188, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 195, _flexbox.scss */
+/* line 196, _flexbox.scss */
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 199, _flexbox.scss */
+/* line 200, _flexbox.scss */
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 203, _flexbox.scss */
+/* line 204, _flexbox.scss */
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4564,7 +4642,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 207, _flexbox.scss */
+/* line 208, _flexbox.scss */
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4576,7 +4654,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 211, _flexbox.scss */
+/* line 212, _flexbox.scss */
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4585,7 +4663,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 215, _flexbox.scss */
+/* line 216, _flexbox.scss */
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;

@@ -23,6 +23,7 @@
 */
 ?>
 <div id="panel-wrapper">
+    <?= @template('page_message.html') ?>
     <div id="panel-header">
         <div id="menu">
         	<?= @helper('menubar.render')?>
@@ -37,8 +38,6 @@
         <ktml:modules:content />
     </div>
     </ktml:modules>
-
-    <?= @template('page_message.html') ?>
 
     <div id="panel-component">
         <ktml:modules position="sidebar">
