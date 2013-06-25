@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Nooku_Server
- * @subpackage  Comments
- * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
+ * Nooku Framework - http://www.nooku.org
+ *
+ * @copyright	Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link		http://www.nooku.org
+ * @link		git://git.assembla.com/nooku-framework.git
  */
 
 namespace Nooku\Component\Comments;
@@ -12,22 +12,23 @@ namespace Nooku\Component\Comments;
 use Nooku\Library;
 
 /**
- * Comment Controller Class
+ * Comment Controller
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package     Nooku_Server
- * @subpackage  Comments
+ * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Comments
  */
 abstract class ControllerComment extends Library\ControllerModel
 { 
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	//'behaviors' => array('com:activities.controller.behavior.loggable'),
             'model' => 'com:comments.model.comments'
         ));
         
         parent::_initialize($config);
+
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com:comments.controller.toolbar.comment');
     }
     
     protected function _actionRender(Library\CommandContext $context)
