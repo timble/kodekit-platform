@@ -26,11 +26,6 @@ class ContactsViewContactHtml extends Library\ViewHtml
         //Get the contact
         $contact = $this->getModel()->fetch();
 
-        //Get the category
-        if($contact->isCategorizable()) {
-            $category = $contact->getCategory();
-        }
-
         //Get the parameters of the active menu item
         if ($page = $this->getObject('application.pages')->getActive())
         {
@@ -49,6 +44,8 @@ class ContactsViewContactHtml extends Library\ViewHtml
 
         if($page->getLink()->query['view'] == 'categories' )
         {
+            $category = $contact->getCategory();
+
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($contact->name, '');
         }
@@ -57,20 +54,8 @@ class ContactsViewContactHtml extends Library\ViewHtml
             $pathway->addItem($contact->name, '');
         }
 
-        $this->params   = $params;
-        $this->category = $category;
+        $this->params = $params;
 
         return parent::render();
-    }
-
-    public function getCategory()
-    {
-        //Get the category
-        $category = $this->getObject('com:contacts.model.categories')
-                         ->table('contacts')
-                         ->id($this->getModel()->getState()->category)
-                         ->fetch();
-
-        return $category;
     }
 }
