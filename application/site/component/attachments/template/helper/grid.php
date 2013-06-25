@@ -10,7 +10,7 @@
 use Nooku\Library;
 
 /**
- * Thumbnail Template Helper Class
+ * Thumbnail Template Helper
  *
  * @author     Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package    Nooku_Server
@@ -43,8 +43,10 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
         
         $html = array();
         
-        if(count($list)) {
-            foreach($list as $item) {
+        if(count($list))
+        {
+            foreach($list as $item)
+            {
                 if($item->file->isImage()) {
                     $html[] = '<img '.$attribs.' src="'.$item->thumbnail->thumbnail.'" />';
                 }
@@ -78,8 +80,10 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
         if(count($list))
         {
             $html[] = '<ul>';
-            foreach($list as $item) {
-                if(!$item->file->isImage()) {
+            foreach($list as $item)
+            {
+                if(!$item->file->isImage())
+                {
                     $html[] = '<li>';
                     $html[] = '<a href="#">';
                     $html[] = $item->name;
@@ -87,6 +91,7 @@ class AttachmentsTemplateHelperGrid extends Library\TemplateHelperDefault
                     $html[] = '</li>';
                 }
             }
+
             $html[] = '</ul>';
     
             return implode(' ', $html);

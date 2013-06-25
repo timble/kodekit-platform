@@ -53,13 +53,9 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	{
 		parent::__construct($config);
 		
-		$this->_container = $config->container;
+		$this->_container             = $config->container;
 		$this->_populate_from_request = $config->populate_from_request;
-		
-		$this->_file_controller = $this->getObject($config->file_controller, array(
-			'request' => array('container' => $this->_container)
-		));
-        
+
         $this->_file_controller = $this->getObject($config->file_controller, array(
 			'request' => $this->getObject('lib:controller.request', array(
 				'query' => array(
@@ -140,7 +136,8 @@ class ControllerBehaviorAttachable extends Library\ControllerBehaviorAbstract
 	{
 		$row = $context->result;
 
-		try {
+		try
+        {
 			$ext = pathinfo($attachment['name'], PATHINFO_EXTENSION);
 			$name = md5(time().rand()).'.'.$ext;
 			$hash = md5_file($attachment['tmp_name']);
