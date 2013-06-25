@@ -19,7 +19,6 @@
 <script src="media://wysiwyg/ckeditor/ckeditor.js" />
 
 
-
 <script>
     jQuery( document ).ready(function() {
 
@@ -33,3 +32,4 @@
         });
     });
 </script>
+

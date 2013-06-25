@@ -1,10 +1,11 @@
 CKEDITOR.plugins.add('readmore',
     {
+        icons: 'readmore',
         init : function(editor) {
             var pluginName = 'readmore';
             var mypath = this.path;
             editor.ui.addButton(
-                'readmore.btn',
+                'readmore',
                 {
                     label : "Readmore",
                     command : 'readmore.cmd',
@@ -14,8 +15,7 @@ CKEDITOR.plugins.add('readmore',
             var cmd = editor.addCommand('readmore.cmd', {
                exec : function(editor)
                {
-
-                   editor.insertHtml( '<hr id="system-readmore" />' );
+                 editor.insertHtml( '<hr id="system-readmore" />' );
                }
             });
 

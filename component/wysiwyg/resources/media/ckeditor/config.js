@@ -12,7 +12,7 @@ CKEDITOR.editorConfig = function( config ) {
     // Loading addition plugins
     config.extraPlugins = 'codemirror';
     config.customConfig = "nookuconfig.js";
-
+    config.allowedContent = true;
     config.toolbar_full =
         [
             { name: 'document', items : [ 'Source','-','Save','NewPage','DocProps','Preview','Print','-','Templates' ] },
@@ -29,12 +29,12 @@ CKEDITOR.editorConfig = function( config ) {
             '/',
             { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
             { name: 'colors', items : [ 'TextColor','BGColor' ] },
-            { name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','readmore.btn' ] }
+            { name: 'tools', items : [ 'Maximize', 'ShowBlocks','-','readmore' ] }
         ];
 
     config.toolbar_basic =
         [
-            ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','HorizontalRule','readmore.btn']
+            ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','HorizontalRule','readmore']
         ];
     config.toolbar_standard =
         [
@@ -49,7 +49,7 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
             { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
             { name: 'styles', items: [ 'Styles', 'Format' ] },
-            { name: 'about', items: [ 'readmore.btn' ] }
+            { name: 'about', items: [ 'readmore' ] }
         ];
 
     // Default CodeMirror settings
