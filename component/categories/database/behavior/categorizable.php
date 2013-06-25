@@ -19,7 +19,24 @@ use Nooku\Library;
  */
 class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
 {
-	/**
+    /**
+     * Initializes the options for the object
+     *
+     * Called from {@link __construct()} as a first step of object instantiation.
+     *
+     * @param  ObjectConfig $config A ObjectConfig object with configuration options
+     * @return void
+     */
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'auto_mixin' => true
+        ));
+
+        parent::_initialize($config);
+    }
+
+    /**
 	 * Get the category
 	 *
 	 * @return Library\DatabaseRowsetInterface
@@ -45,6 +62,8 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
 	 * 
 	 * If the query's params information includes a category property, auto-join the terms tables with the query and
      * select all the rows that are part of the category.
+     *
+     * @param Library\CommandContext $context
 	 */
 	protected function _beforeTableSelect(Library\CommandContext $context)
 	{
