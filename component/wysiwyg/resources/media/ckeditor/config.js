@@ -57,6 +57,7 @@ CKEDITOR.editorConfig = function( config ) {
         [
             ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','HorizontalRule','readmore']
         ];
+
     config.toolbar_standard =
         [
             { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
@@ -72,7 +73,10 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'styles', items: [ 'Styles', 'Format' ] },
             { name: 'about', items: [ 'readmore' ] }
         ];
-
+    config.toolbar_title =
+        [
+            ['Undo','Redo']
+        ];
 
 
 };
