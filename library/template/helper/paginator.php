@@ -25,35 +25,41 @@ class TemplateHelperPaginator extends TemplateHelperSelect
 	 * @return	string	Html
 	 * @see  	http://developer.yahoo.com/ypatterns/navigation/pagination/
 	 */
-	public function pagination($config = array())
-	{
-	    $config = new ModelPaginator($config);
-		$config->append(array(
-		    'total'      => 0,
+    public function pagination($config = array())
+    {
+        $config = new ModelPaginator($config);
+        $config->append(array(
+            'total'      => 0,
             'display'    => 4,
             'offset'     => 0,
             'limit'      => 0,
-		    'attribs'	 => array(),
-		    'show_limit' => true,
-		    'show_count' => true,
+            'attribs'	 => array(),
+            'show_limit' => true,
+            'show_count' => true,
             'page_rows'  => array(10, 20, 50, 100)
-		));
-	
-		$html = '';
-		$html .= '<style src="media://css/koowa.css" />';
+        ));
 
-		$html .= '<div class="-koowa-pagination pagination pagination-centered">';
-		if($config->show_limit) {
-		    $html .= '<div class="limit">'.\JText::_('Display NUM').' '.$this->limit($config).'</div>';
-		}
-		$html .=  $this->pages($config);
-		if($config->show_count) {
-		    $html .= '<div class="count"> '.\JText::_('Page').' '.$config->current.' '.\JText::_('of').' '.$config->count.'</div>';
-		}
-		$html .= '</div>';
+        // Do not show pagination when $config->limit is lower then $config->total
+        if($config->total > $config->limit)
+        {
+            $html = '';
+            $html .= '<style src="media://css/koowa.css" />';
 
-		return $html;
-	}
+            $html .= '<div class="-koowa-pagination pagination pagination-centered">';
+            if($config->show_limit) {
+                $html .= '<div class="limit">'.\JText::_('Display NUM').' '.$this->limit($config).'</div>';
+            }
+            $html .=  $this->pages($config);
+            if($config->show_count) {
+                $html .= '<div class="count"> '.\JText::_('Page').' '.$config->current.' '.\JText::_('of').' '.$config->count.'</div>';
+            }
+            $html .= '</div>';
+
+            return $html;
+        }
+
+        return false;
+    }
 	
 	/**
 	 * Render a select box with limit values

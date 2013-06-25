@@ -44,3 +44,5 @@
         <?= @template('default_items.html'); ?>
     </tbody>
 </table>
+
+<?= @helper('paginator.pagination', array('total' => $total, 'show_limit' => false, 'show_count' => false)); ?>
