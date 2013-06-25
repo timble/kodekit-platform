@@ -79,6 +79,6 @@ class ViewRss extends ViewTemplate
      */
     public function getLayout()
     {
-        return 'rss';
+        return 'default';
     }
 }
