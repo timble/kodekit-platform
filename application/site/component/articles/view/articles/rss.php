@@ -21,17 +21,7 @@ class ArticlesViewArticlesRss extends Library\ViewRss
     public function render()
     {
         //Get the category
-        $this->category = $this->getCategory();
-        return parent::render();
-    }
-
-    public function getCategory()
-    {
-        //Get the category
-        $category = $this->getObject('com:articles.model.categories')
-                         ->table('articles')
-                         ->id($this->getModel()->getState()->category)
-                         ->fetch();
+        $category = $this->getCategory();
 
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
@@ -45,6 +35,19 @@ class ArticlesViewArticlesRss extends Library\ViewRss
                 'height' => $size[1]
             );
         }
+
+        $this->category = $category;
+
+        return parent::render();
+    }
+
+    public function getCategory()
+    {
+        //Get the category
+        $category = $this->getObject('com:articles.model.categories')
+                         ->table('articles')
+                         ->id($this->getModel()->getState()->category)
+                         ->fetch();
 
         return $category;
     }
