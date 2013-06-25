@@ -4522,11 +4522,12 @@ body {
   min-height: 100px;
 }
 
-/* line 113, _flexbox.scss */
+/* line 114, _flexbox.scss */
 .cke_chrome,
-.cke_chrome > div,
-.cke_chrome > div > #cke_1_contents,
-.cke_chrome > div > #cke_1_contents iframe {
+.cke_chrome > .cke_inner,
+.cke_chrome > .cke_inner > .cke_contents,
+.cke_chrome > .cke_inner > .cke_contents iframe,
+.cke_chrome > .cke_inner > .cke_contents > .cke_source {
   display: -webkit-flex !important;
   display: -moz-flex !important;
   display: flex !important;
@@ -4542,20 +4543,20 @@ body {
 }
 
 /* @group Scope Bar */
-/* line 126, _flexbox.scss */
+/* line 127, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 129, _flexbox.scss */
+/* line 130, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 133, _flexbox.scss */
+/* line 134, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4565,7 +4566,7 @@ body {
   flex: 1;
 }
 
-/* line 141, _flexbox.scss */
+/* line 142, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4576,7 +4577,7 @@ body {
   flex-direction: column;
 }
 
-/* line 147, _flexbox.scss */
+/* line 148, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4585,7 +4586,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 150, _flexbox.scss */
+/* line 151, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4594,7 +4595,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 153, _flexbox.scss */
+/* line 154, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4606,7 +4607,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 157, _flexbox.scss */
+/* line 158, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4621,7 +4622,7 @@ body {
   flex-direction: column;
 }
 
-/* line 167, _flexbox.scss */
+/* line 168, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4633,7 +4634,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 171, _flexbox.scss */
+/* line 172, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4645,23 +4646,23 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 180, _flexbox.scss */
+/* line 181, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 188, _flexbox.scss */
+/* line 189, _flexbox.scss */
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 192, _flexbox.scss */
+/* line 193, _flexbox.scss */
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 196, _flexbox.scss */
+/* line 197, _flexbox.scss */
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4671,7 +4672,7 @@ body {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 200, _flexbox.scss */
+/* line 201, _flexbox.scss */
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4683,7 +4684,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 204, _flexbox.scss */
+/* line 205, _flexbox.scss */
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4692,7 +4693,7 @@ body {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 208, _flexbox.scss */
+/* line 209, _flexbox.scss */
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
