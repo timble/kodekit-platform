@@ -60,7 +60,7 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.toolbar_standard =
         [
-            { name: 'styles', items: [ 'Format' ] },
+            { name: 'styles', items: [ 'Styles' ] },
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic' ] },
             { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
             { name: 'links', items: [ 'Link', 'Unlink', '-', 'readmore' ] },
