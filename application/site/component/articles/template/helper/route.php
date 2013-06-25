@@ -31,14 +31,14 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
         // TODO: I think that instead of the categories_category_id we should use the category parent
         $needles = array(
             array('view' => 'article' , 'id' => $article->id),
-            array('view' => 'category', 'id' => $article->categories_category_id)
+            array('view' => 'category', 'id' => $article->getCategory()->id)
 		);
 
         $route = array(
             'view'     => $config->view,
-            'id'       => $article->getSlug(),
             'layout'   => $config->layout,
-            'category' => $config->category,
+            'id'       => $article->getSlug(),
+            'category' => $article->getCategory()->getSlug(),
         );
 
         if (($page = $this->_findPage($needles)) || ($article->isPageable() && ($page = $article->getPage()))) {
@@ -65,8 +65,8 @@ class ArticlesTemplateHelperRoute extends PagesTemplateHelperRoute
 
         $route = array(
             'view'      => $config->view,
+            'layout'    => $config->layout,
             'category'  => $category->getSlug(),
-            'layout'    => $config->layout
         );
 
         if($page = $this->_findPage($needles))
