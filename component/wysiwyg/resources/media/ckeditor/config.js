@@ -61,10 +61,9 @@ CKEDITOR.editorConfig = function( config ) {
     config.toolbar_standard =
         [
             { name: 'styles', items: [ 'Format' ] },
-            { name: 'others', items: [ 'readmore' ] },
-            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Strike', '-', 'RemoveFormat' ] },
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic' ] },
             { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
-            { name: 'links', items: [ 'Link', 'Unlink' ] },
+            { name: 'links', items: [ 'Link', 'Unlink', '-', 'readmore' ] },
             { name: 'insert', items: [ 'Image', 'Table' ] },
             { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'PasteText', '-', 'Undo', 'Redo' ] },
             { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Scayt' ] },
