@@ -24,7 +24,7 @@ class DatabaseBehaviorCategorizable extends Library\DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  ObjectConfig $config A ObjectConfig object with configuration options
+     * @param  Library\ObjectConfig $config A ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(Library\ObjectConfig $config)
