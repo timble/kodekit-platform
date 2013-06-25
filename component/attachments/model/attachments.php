@@ -24,7 +24,7 @@ class ModelAttachments extends Library\ModelDatabase
 		parent::__construct($config);
 
         $this->getState()
-			->insert('row', 'int')
+			->insert('row'  , 'int')
 		 	->insert('table', 'string');
 	}
 
