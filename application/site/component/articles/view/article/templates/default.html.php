@@ -73,7 +73,7 @@
                 });
             }else{
                 editor.on( 'configLoaded', function() {
-                    editor.config.toolbar = 'full';
+                    editor.config.toolbar = 'standard';
                 });
             }
         });
