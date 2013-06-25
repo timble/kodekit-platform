@@ -77,21 +77,21 @@ ul {
 #panel-header  {
 	background-color: #333;
 	border-bottom: 1px solid lighten($navbarBackground, 10%);
-	@include background(linear-gradient($navbarBackground, darken($navbarBackground, 15%)));
-    @include box-shadow(rgba(0, 0, 0, .8) 0px 1px 3px);
+	background: darken($navbarBackground, 15%) linear-gradient($navbarBackground, darken($navbarBackground, 15%));
+    box-shadow: rgba(0, 0, 0, .8) 0px 1px 3px;
 
 	position: relative; // We need this for .box-shadow
 }
 
 #panel-tabbar {
-    @include background(linear-gradient($tabbarBackground, darken($tabbarBackground, 10%)));
-    @include box-shadow(inset rgba(0, 0, 0, .10) 0px -2px 2px);
+    background: darken($tabbarBackground, 10%) linear-gradient($tabbarBackground, darken($tabbarBackground, 10%));
+    box-shadow: inset rgba(0, 0, 0, .10) 0px -2px 2px;
 }
 
 #panel-toolbar {
+  padding: 8px 0;
   @include box-sizing(border-box);
-	padding: 8px 0;
-  @include background(linear-gradient($tabbarBackgroundHighlight, darken($tabbarBackgroundHighlight, 5%)));
+  background: $tabbarBackgroundHighlight linear-gradient($tabbarBackgroundHighlight, darken($tabbarBackgroundHighlight, 5%));
 
 	select[name="language"] {
 		margin-right: 12px;
@@ -158,7 +158,7 @@ ul {
 
 		border-top: 1px solid $grayLighter;
 		border-bottom: 1px solid $grayLighter;
-      @include background(linear-gradient(#F2F2F2, #E9E9E9));
+        background: linear-gradient(#F2F2F2, #E9E9E9);
 
       @extend .ellipsis;
 	}
@@ -177,7 +177,7 @@ ul {
 			margin: 0;
 			border-top: 1px solid #E8EAEC;
 			color: #666;
-            @include background(linear-gradient(#f1f2f4, $sidebarBackground));
+            background: linear-gradient(#f1f2f4, $sidebarBackground);
 		}
 
 		h4:first-of-type {
@@ -264,7 +264,7 @@ ul {
 			th {
 				line-height: 18px;
 				text-align: left;
-              @include background(linear-gradient(#f7f7f7, #F2F2F2));
+                background: linear-gradient(#f7f7f7, #F2F2F2);
 				color: #666;
 				border-bottom: 1px solid $grayLighter;
 				border-left: 1px solid $grayLighter;
@@ -291,7 +291,7 @@ ul {
 			}
 
 			th:not(.void):active {
-              @include background(linear-gradient(#e0e0e0, #e5e5e5));
+              background: linear-gradient(#e0e0e0, #e5e5e5);
 			}
 		}
 
@@ -370,7 +370,7 @@ ul {
 	.main {
 		.title {
 			padding: 10px 10px 10px 10px;
-            @include background(linear-gradient(#F0F0F0, #EAEAEA));
+            background: linear-gradient(#F0F0F0, #EAEAEA);
 			border-bottom: 1px solid #CCC;
 
 			> input {
@@ -410,7 +410,7 @@ ul {
 }
 
 .box-column {
-  @include box-shadow(rgba(0, 0, 0, .6) 0px 0px 10px);
+  box-shadow: rgba(0, 0, 0, .6) 0px 0px 10px;
 }
 
 /* Sidebar */

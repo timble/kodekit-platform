@@ -1,7 +1,7 @@
 /** Scopebar styles **/
 .scopebar {
   padding: 3px 10px;
-  @include background(linear-gradient(#F2F2F2, #E9E9E9));
+  background: linear-gradient(#F2F2F2, #E9E9E9);
   border-bottom: 1px solid $grayLighter;
   border-top: 1px solid $grayLighter;
 
@@ -33,7 +33,7 @@
 
   a.active,
   a:active {
-    @include box-shadow(inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0);
+    box-shadow: inset hsla(0, 0%, 20%, 0.8) 0px 1px 2px, white 0 1px 0;
   }
 
   a:active {

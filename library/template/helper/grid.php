@@ -36,9 +36,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
 		
 		if($config->row->isLockable() && $config->row->locked())
 		{
-		    $html = '<span class="editlinktip hasTip" title="'.$config->row->lockMessage() .'">
-						<i class="icon-lock"></i>
-					</span>';
+		    $html = '<i class="icon-lock"></i>';
 		}
 		else
 		{

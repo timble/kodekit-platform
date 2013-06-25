@@ -9,7 +9,7 @@
   padding: 6px;
   border: 1px solid #ddd;
   border-radius:5px;
-  @include box-shadow(0 1px 3px rgba(0,0,0,.055));
+  box-shadow: 0 1px 3px rgba(0,0,0,.055);
 
   &:nth-child(even) {
     margin-right: 0;

@@ -34,7 +34,7 @@
       }
 
       ul {
-        @include box-shadow(rgba(0, 0, 0, .4) 0px 8px 13px, rgba(0, 0, 0, .5) 0 0 1px);
+        box-shadow: rgba(0, 0, 0, .4) 0px 8px 13px, rgba(0, 0, 0, .5) 0 0 1px;
         border-radius:0 0 4px 4px;
         background-color: $navbarBackgroundDropdown;
         padding: 4px 0;
@@ -67,7 +67,7 @@
     /* 1 level - hover */
     &:not(.disabled) > li:hover {
       a, span {
-        @include background(linear-gradient($navbarBackgroundHighlight, darken($navbarBackgroundHighlight, 15%)));
+        background: linear-gradient($navbarBackgroundHighlight, darken($navbarBackgroundHighlight, 15%));
       }
 
       /* 2 level - normal */
@@ -77,7 +77,7 @@
 
         /* 2 level - hover */
         li:hover:not(.separator) {
-          @include background(linear-gradient($navbarBackgroundHighlight, darken($navbarBackgroundHighlight, 15%)));
+          background: linear-gradient($navbarBackgroundHighlight, darken($navbarBackgroundHighlight, 15%));
           border-top: 1px solid darken($navbarBackgroundHighlight, 10%);
 
           a { color: $navbarLinkColorHighlight; }
@@ -128,8 +128,8 @@
   a.active {
     color: $tabbarLinkColorHighlight;
     background-color: $tabbarBackgroundHighlight;
-    @include background(linear-gradient(#FFF, $tabbarBackgroundHighlight));
-    @include box-shadow(rgba(0, 0, 0, .3) 0px 0px 4px);
+    background: linear-gradient(#FFF, $tabbarBackgroundHighlight);
+    box-shadow: rgba(0, 0, 0, .3) 0px 0px 4px;
   }
 
   a.active:hover {

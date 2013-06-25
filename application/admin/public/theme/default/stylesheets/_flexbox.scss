@@ -6,6 +6,7 @@ html {
 
 body {
   @include flex(1 1 auto);
+  @include flex-direction(column);
   height: 100%; // Required for Firefox 23.0a2
   overflow: hidden;
 }
