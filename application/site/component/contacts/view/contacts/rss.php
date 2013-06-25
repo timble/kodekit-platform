@@ -22,26 +22,33 @@ class ContactsViewContactsRss extends Library\ViewRss
     {
         $contacts = $this->getModel()->fetch();
 
-        if($contacts->isCategorizable())
+        $category = $contacts->getCategory();
+
+        //Set the category image
+        if (isset( $category->image ) && !empty($category->image))
         {
-            $category = $contacts->getCategory();
+            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $size = getimagesize($path);
 
-            //Set the category image
-            if (isset( $category->image ) && !empty($category->image))
-            {
-                $path = JPATH_IMAGES.'/stories/'.$category->image;
-                $size = getimagesize($path);
-
-                $category->image = (object) array(
-                    'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
-                    'width'  => $size[0],
-                    'height' => $size[1]
-                );
-            }
+            $category->image = (object) array(
+                'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
+                'width'  => $size[0],
+                'height' => $size[1]
+            );
         }
 
         $this->category = $category;
 
         return parent::render();
+    }
+
+    public function getCategory()
+    {
+        $category = $this->getObject('com:articles.model.categories')
+            ->table('articles')
+            ->id($this->getModel()->getState()->category)
+            ->fetch();
+
+        return $category;
     }
 }
