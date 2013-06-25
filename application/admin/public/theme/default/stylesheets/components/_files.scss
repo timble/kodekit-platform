@@ -209,9 +209,9 @@
 #files-upload-multi .plupload_filelist_header {
   border-radius:4px 4px 0 0;
   border-top: none;
-  @include box-shadow(hsl(0, 0%, 97%) 0 -1px 0 inset);
+  box-shadow: hsl(0, 0%, 97%) 0 -1px 0 inset;
   border-bottom: 1px solid hsl(0, 0%, 90%);
-  @include background(linear-gradient(white, whitesmoke));
+  background: linear-gradient(white, whitesmoke);
 }
 
 #files-upload-multi .plupload_filelist_footer {
@@ -308,8 +308,8 @@
   bottom: 2px;
   margin: 0;
   border-radius:0px;
-  @include border-top-right-radius(2px);
-  @include border-bottom-right-radius(2px);
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
   overflow: hidden;
   display: inline-block;
   height: $baseLineHeight + 10px; // bottom + top paddding and borders
@@ -461,8 +461,8 @@
     background-origin: border-box;
     text-shadow: hsla(0, 0%, 0%, 0.3) 0 -1px 0;
 
-    @include box-shadow(hsla(0, 0%, 100%, 0.2) 0 1px 0 inset);
-    @include background(linear-gradient($blueDark, $blueDark));
+    box-shadow: hsla(0, 0%, 100%, 0.2) 0 1px 0 inset;
+    background: linear-gradient($blueDark, $blueDark);
   }
 
   div.files-node-thumbnail {
@@ -471,7 +471,7 @@
     overflow: hidden;
     width: 200px;
     height: 150px;
-    @include background-image(radial-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1)));
+    background: radial-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1) 1%, rgba(0, 0, 0, 0.1));
   }
 
   div.files-node-thumbnail a.navigate {
@@ -483,7 +483,7 @@
     height: inherit;
   }
   div.files-node-thumbnail a.navigate::after {
-    @include box-shadow(0 0 2px rgba(0, 0, 0, .20) inset);
+    box-shadow: 0 0 2px rgba(0, 0, 0, .20) inset;
     content: '';
     height: inherit;
     display: block;
@@ -492,7 +492,7 @@
     width: inherit;
   }
   div.files-node.selected div.files-node-thumbnail a.navigate::after {
-    @include box-shadow(0 0 3px rgba(0, 0, 0, 0.3) inset);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3) inset;
   }
   div.files-node-thumbnail a.navigate img {
     width: 100%;
