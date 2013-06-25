@@ -8,6 +8,7 @@
  */
 
 use Nooku\Library;
+use Nooku\Component\Terms;
 
 /**
  * Term Controller Class
@@ -16,7 +17,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Terms
  */
-abstract class TermsControllerTerm extends Library\ControllerModel
+abstract class TermsControllerTerm extends Terms\ControllerTerm
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -27,30 +28,10 @@ abstract class TermsControllerTerm extends Library\ControllerModel
         parent::_initialize($config);
     }
 
-    protected function _actionRender(Library\CommandContext $context)
-    {
-        $view = $this->getView();
-
-        //Set the layout
-        if($view instanceof Library\ViewTemplate)
-        {
-            $layout = clone $view->getIdentifier();
-            $layout->name  = $view->getLayout();
-
-            $alias = clone $layout;
-            $alias->package = 'terms';
-
-            $this->getObject('manager')->registerAlias($layout, $alias);
-        }
-
-        return parent::_actionRender($context);
-    }
-
     public function getRequest()
     {
         $request = parent::getRequest();
 
-        $request->query->table     = $this->getIdentifier()->package;
         $request->query->access    = $this->getUser()->isAuthentic();
         $request->query->published = 1;
 
