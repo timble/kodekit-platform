@@ -24,21 +24,20 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
         $config->append(array(
             'view'     => 'contact',
             'layout'   => null,
-            'category' => null
         ));
 
         $contact = $config->row;
 
         $needles = array(
             array('view' => 'contact' , 'id' => $contact->id),
-            array('view' => 'category', 'id' => $contact->category),
+            array('view' => 'category', 'id' => $contact->getCategory()->id),
 		);
 
         $route = array(
             'view'     => $config->view,
-            'id'       => $contact->getSlug(),
             'layout'   => $config->layout,
-            'category' => $config->category
+            'id'       => $contact->getSlug(),
+            'category' => $contact->getCategory()->getSlug()
         );
 
 		if($page = $this->_findPage($needles)) {
@@ -64,8 +63,8 @@ class ContactsTemplateHelperRoute extends PagesTemplateHelperRoute
 
         $route = array(
             'view'     => $config->view,
+            'layout'   => $config->layout,
             'category' => $category->getSlug(),
-            'layout'   => $config->layout
         );
 
         if($page = $this->_findPage($needles))
