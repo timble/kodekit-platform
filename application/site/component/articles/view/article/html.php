@@ -41,9 +41,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
 
         if($page->getLink()->query['view'] == 'categories')
         {
-            if($article->isCategorizable()) {
-                $category = $article->getCategory();
-            }
+            $category = $article->getCategory();
 
             $pathway->addItem($category->title, $this->getTemplate()->getHelper('route')->category(array('row' => $category)));
             $pathway->addItem($article->title, '');
@@ -51,14 +49,6 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
 
         if($page->getLink()->query['view'] == 'articles') {
             $pathway->addItem($article->title, '');
-        }
-        
-        if ($article->id && $article->isAttachable()) {
-            $this->attachments = $article->getAttachments();
-        }
-
-        if ($article->id && $article->isTaggable()) {
-            $this->terms = $article->getTerms();
         }
 
         $this->params = $params;
