@@ -18,8 +18,6 @@
 </ktml:module>
 
 <form action="" method="post" class="-koowa-form" id="term-form">
-    <input type="hidden" name="table" value="<?= $state->table ?>" />
-    
     <div class="main">
 		<div class="title">
 			<input class="required" type="text" name="title" maxlength="255" value="<?= $term->title; ?>" placeholder="<?= @text( 'Title' ); ?>" />
