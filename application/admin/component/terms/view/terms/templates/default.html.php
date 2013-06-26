@@ -44,11 +44,9 @@
                     <?= @helper('grid.checkbox', array('row' => $term)); ?>
                 </td>
                 <td>
-                    <span class="editlinktip hasTip" title="<?= @text('Edit Term') ?>::<?= @escape($term->title); ?>">
-                        <a href="<?= @route('view=term&id='.$term->id); ?>">
-                            <?= @escape($term->title); ?>
-                        </a>
-                    </span>
+                    <a href="<?= @route('view=term&id='.$term->id); ?>">
+                        <?= @escape($term->title); ?>
+                    </a>
                 </td>
                 <td>
                     <?= @escape($term->count); ?>
