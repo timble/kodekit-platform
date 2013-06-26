@@ -14,7 +14,6 @@ use Nooku\Library;
 /**
  * Revisions Model
  *
- * @author  Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */

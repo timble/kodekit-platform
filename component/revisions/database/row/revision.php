@@ -7,14 +7,13 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Versions;
+namespace Nooku\Component\Revisions;
 
 use Nooku\Library;
 
 /**
  * Revision Database Row
  *
- * @author  Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */

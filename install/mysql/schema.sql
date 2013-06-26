@@ -563,10 +563,10 @@ CREATE TABLE `users_passwords` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `versions_revisions`
+-- Table structure for table `revisions`
 --
 
-CREATE TABLE `versions_revisions` (
+CREATE TABLE `revisions` (
   `table` varchar(64) NOT NULL,
   `row` bigint(20) unsigned NOT NULL,
   `revision` bigint(20) unsigned NOT NULL DEFAULT '1',

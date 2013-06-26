@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Versions;
+namespace Nooku\Component\Revisions;
 
 use Nooku\Library;
 
@@ -21,6 +21,6 @@ class ControllerBehaviorRevisable extends Library\ControllerBehaviorAbstract
 {
 	protected function _beforeControllerRender(Library\CommandContext $context)
 	{
-	    $this->attachToolbar('com:versions.controller.toolbar.revisable');
+	    $this->attachToolbar('com:revisions.controller.toolbar.revisable');
 	}
 }

@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Versions;
+namespace Nooku\Component\Revisions;
 
 use Nooku\Library;
 

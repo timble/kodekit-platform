@@ -23,7 +23,7 @@ class ArticlesControllerArticle extends Library\ControllerModel
     	$config->append(array(
     		'behaviors' => array(
     	        'com:activities.controller.behavior.loggable',
-    	        'com:versions.controller.behavior.revisable',
+    	        'com:revisions.controller.behavior.revisable',
     		    'com:languages.controller.behavior.translatable',
                 'com:attachments.controller.behavior.attachable',
                 'com:terms.controller.behavior.taggable'
