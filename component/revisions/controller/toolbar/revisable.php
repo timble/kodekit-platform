@@ -15,7 +15,7 @@ use Nooku\Library;
  * Revisable Controller Toolbar
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Versions
+ * @package Nooku\Component\Revisions
  */
 class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
 {
