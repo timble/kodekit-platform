@@ -7,14 +7,13 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Versions;
+namespace Nooku\Component\Revisions;
 
 use Nooku\Library;
 
 /**
  * Revisions Database Table
  *
- * @author  Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
@@ -23,6 +22,7 @@ class DatabaseTableRevisions extends Library\DatabaseTableDefault
     protected function _initialize(Library\ObjectConfig $config)
     {     
         $config->append(array(
+            'name'      => 'revisions',
             'behaviors' => array('creatable'),
             'filters'   => array(
                 'data' => array('json')

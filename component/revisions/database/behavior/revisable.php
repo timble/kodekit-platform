@@ -7,21 +7,20 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Versions;
+namespace Nooku\Component\Revisions;
 
 use Nooku\Library;
 
 /**
  * Revisable Database Behavior
  *
- * @author  Torkil Johnsen <http://nooku.assembla.com/profile/torkiljohnsen>
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Versions
  */
 class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 {
     /**
-     * The versions_revisions table object
+     * The revisions table object
      *
      * @var Library\DatabaseTableDefault
      */
@@ -55,7 +54,7 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	'table' => $this->getObject('com:versions.database.table.revisions')
+        	'table' => $this->getObject('com:revisions.database.table.revisions')
         ));
 
         parent::_initialize($config);
@@ -67,8 +66,8 @@ class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
      * This function translates the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param     string    $name       The command name
-     * @param     object    $context    The command context
+     * @param     string                    $name       The command name
+     * @param     Library\CommandContext    $context    The command context
      * @return    boolean   Can return both true or false.
      */
     public function execute($name, Library\CommandContext $context)

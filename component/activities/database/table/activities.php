@@ -22,6 +22,7 @@ class DatabaseTableActivities extends Library\DatabaseTableDefault
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
+            'name'      => 'activities',
             'behaviors' => array('creatable', 'identifiable')
         ));
 
