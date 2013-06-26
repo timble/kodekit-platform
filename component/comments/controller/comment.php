@@ -23,7 +23,7 @@ abstract class ControllerComment extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	//'behaviors' => array('com:activities.controller.behavior.loggable'),
+        	'behaviors' => array('com:activities.controller.behavior.loggable'),
             'model' => 'com:comments.model.comments'
         ));
         
