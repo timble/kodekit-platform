@@ -729,9 +729,9 @@ VALUES
 	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": true,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');
 
 
--- Add terms support
-CREATE TABLE `terms` (
-  `terms_term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+-- Add tag support
+CREATE TABLE `tags` (
+  `tags_tag_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `table` varchar(50) NOT NULL,
@@ -742,15 +742,15 @@ CREATE TABLE `terms` (
   `locked_by` int(10) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
   `params` text NOT NULL,
-  PRIMARY KEY (`terms_term_id`),
+  PRIMARY KEY (`tags_tag_id`),
   UNIQUE KEY `slug` (`slug`),
   UNIQUE KEY `title` (`title`),
   KEY `table` (`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `terms_relations` (
-  `terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
+CREATE TABLE `tags_relations` (
+  `tags_tag_id` BIGINT(20) UNSIGNED NOT NULL,
   `row` BIGINT(20) UNSIGNED NOT NULL,
   `table` VARCHAR( 255 ) NOT NULL,
-  PRIMARY KEY  (`terms_term_id`,`row`,`table`)
+  PRIMARY KEY  (`tags_tag_id`,`row`,`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

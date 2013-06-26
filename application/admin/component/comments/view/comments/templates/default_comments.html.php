@@ -14,12 +14,12 @@
 		</a>
 	</td>
 	<td>
-		<a href="<?= @route('view=term&id='.$comment->id); ?>">
+		<a href="<?= @route('view=tag&id='.$comment->id); ?>">
 			<?= @escape($comment->created_by); ?>
 		</a>
 	</td>
 	<td>
-		<a href="<?= @route('view=term&id='.$comment->id); ?>">
+		<a href="<?= @route('view=tag&id='.$comment->id); ?>">
 			<?= @escape($comment->text); ?>
 		</a>
 	</td>

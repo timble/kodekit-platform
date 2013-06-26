@@ -55,7 +55,7 @@ class ArticlesViewArticleHtml extends ArticlesViewHtml
         }
         
         if ($article->id && $article->isTaggable()) {
-            $this->terms($article->getTerms());
+            $this->tags($article->getTags());
         }
 
         $this->params = $params;
