@@ -23,9 +23,14 @@ abstract class ControllerComment extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array('com:activities.controller.behavior.loggable'),
-            'model'     => 'com:comments.model.comments'
+            'model' => 'com:comments.model.comments'
         ));
+
+        //Alias the permission
+        $permission       = clone $this->getIdentifier();
+        $permission->path = array('controller', 'permission');
+
+        $this->getObject('manager')->registerAlias($permission, 'com:comments.controller.permission.comment');
         
         parent::_initialize($config);
     }
@@ -34,7 +39,7 @@ abstract class ControllerComment extends Library\ControllerModel
     {
         $view = $this->getView();
         
-	    //Set the layout
+	    //Alias the view layout
         if($view instanceof Library\ViewTemplate)
 	    {
 	        $layout = clone $view->getIdentifier();
