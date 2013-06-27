@@ -8,21 +8,25 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 -- Table structure for table `activities_activities`
 --
 
-CREATE TABLE `activities_activities` (
-    `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
-    `application` VARCHAR(10) NOT NULL DEFAULT '',
-    `package` VARCHAR(50) NOT NULL DEFAULT '',
-    `name` VARCHAR(50) NOT NULL DEFAULT '',
-    `action` VARCHAR(50) NOT NULL DEFAULT '',
-    `row` BIGINT NOT NULL DEFAULT '0',
-    `title` VARCHAR(255) NOT NULL DEFAULT '',
-    `status` varchar(100) NOT NULL,
-    `created_on` datetime DEFAULT NULL,
-    `created_by` INT(11) NOT NULL DEFAULT '0',
-    `ip` varchar(255) DEFAULT NULL,
-	PRIMARY KEY(`activities_activity_id`),
-	KEY `idx-ip` (`ip`)
+CREATE TABLE `activities` (
+  `activities_activity_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` VARCHAR(36) NOT NULL DEFAULT '' UNIQUE,
+  `application` VARCHAR(10) NOT NULL DEFAULT '',
+  `package` VARCHAR(50) NOT NULL DEFAULT '',
+  `name` VARCHAR(50) NOT NULL DEFAULT '',
+  `action` VARCHAR(50) NOT NULL DEFAULT '',
+  `row` varchar(2048) NOT NULL DEFAULT '',
+  `title` VARCHAR(255) NOT NULL DEFAULT '',
+  `status` varchar(100) NOT NULL,
+  `created_on` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` INT(11) NOT NULL DEFAULT '0',
+  `ip` varchar(45) NOT NULL DEFAULT '',
+  `metadata` text NOT NULL,
+  PRIMARY KEY(`activities_activity_id`),
+  KEY `package` (`package`),
+  KEY `name` (`name`),
+  KEY `row` (`row`),
+  KEY `ip` (`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -185,16 +189,16 @@ CREATE TABLE `contacts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `extensions_components`
+-- Table structure for table `extensions`
 --
 
-CREATE TABLE `extensions_components` (
-  `extensions_component_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `extensions` (
+  `extensions_extension_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`extensions_component_id`),
+  PRIMARY KEY (`extensions_extension_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -273,12 +277,12 @@ CREATE TABLE `languages_translations` (
 
 CREATE TABLE `languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `extensions_component_id` INT(11) UNSIGNED,
+    `extensions_extension_id` INT(11) UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `extensions_components` (`extensions_component_id`) ON DELETE CASCADE
+    CONSTRAINT `languages_tables__extensions_extension_id` FOREIGN KEY (`extensions_extension_id`) REFERENCES `extensions` (`extensions_extension_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -299,7 +303,7 @@ CREATE TABLE `pages` (
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
-  `extensions_component_id` INT UNSIGNED,
+  `extensions_extension_id` INT UNSIGNED,
   `created_by` INT UNSIGNED,
   `created_on` DATETIME,
   `modified_by` INT UNSIGNED,
@@ -312,7 +316,7 @@ CREATE TABLE `pages` (
   CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
-  INDEX `ix_extensions_component_id` (`extensions_component_id`),
+  INDEX `ix_extensions_extension_id` (`extensions_extension_id`),
   INDEX `ix_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -408,7 +412,7 @@ CREATE TABLE `pages_modules` (
   `name` varchar(50) NOT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `extensions_component_id` INT UNSIGNED,
+  `extensions_extension_id` INT UNSIGNED,
   `application` varchar(50) NOT NULL,
   PRIMARY KEY (`pages_module_id`),
   KEY `published` (`published`,`access`)
@@ -420,8 +424,8 @@ CREATE TABLE `pages_modules` (
 -- Table structure for table `terms`
 --
 
-CREATE TABLE `terms` (
-  `terms_term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tags` (
+  `tags_tag_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `table` varchar(50) NOT NULL,
@@ -432,7 +436,7 @@ CREATE TABLE `terms` (
   `locked_by` int(10) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
   `params` text NOT NULL,
-  PRIMARY KEY (`terms_term_id`),
+  PRIMARY KEY (`tags_tag_id`),
   UNIQUE KEY `slug` (`slug`),
   UNIQUE KEY `title` (`title`),
   KEY `table` (`table`)
@@ -441,14 +445,14 @@ CREATE TABLE `terms` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `terms_relations`
+-- Table structure for table `tags_relations`
 --
 
-CREATE TABLE `terms_relations` (
-	`terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
-  	`row` BIGINT(20) UNSIGNED NOT NULL,
-  	`table` VARCHAR( 255 ) NOT NULL,
-  	PRIMARY KEY  (`terms_term_id`,`row`,`table`)
+CREATE TABLE `tags_relations` (
+	`tags_tag_id` BIGINT(20) UNSIGNED NOT NULL,
+  `row` BIGINT(20) UNSIGNED NOT NULL,
+  `table` VARCHAR( 255 ) NOT NULL,
+  PRIMARY KEY  (`tags_tag_id`,`row`,`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -559,10 +563,10 @@ CREATE TABLE `users_passwords` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `versions_revisions`
+-- Table structure for table `revisions`
 --
 
-CREATE TABLE `versions_revisions` (
+CREATE TABLE `revisions` (
   `table` varchar(64) NOT NULL,
   `row` bigint(20) unsigned NOT NULL,
   `revision` bigint(20) unsigned NOT NULL DEFAULT '1',

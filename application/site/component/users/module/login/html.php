@@ -33,7 +33,7 @@ class UsersModuleLoginHtml extends PagesModuleDefaultHtml
         $this->name          = $this->module->params->get('name');
         $this->usesecure     = $this->module->params->get('usesecure');
         $this->show_title    = $this->module->params->get('show_title', false);
-        $this->allow_registration = $this->getObject('application.components')->users->params->get('allowUserRegistration');
+        $this->allow_registration = $this->getObject('application.extensions')->users->params->get('allowUserRegistration');
 
         return parent::render();
     }

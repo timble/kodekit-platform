@@ -12,7 +12,7 @@
     <? foreach ($messages as $type => $message) : ?>
         <div class="alert alert-<?= strtolower($type) ?>">
             <? foreach ($message as $line) : ?>
-                <p><?= $line ?></p>
+                <div class="alert__text"><?= $line ?></div>
             <? endforeach; ?>
         </div>
     <? endforeach; ?>

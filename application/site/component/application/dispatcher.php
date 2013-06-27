@@ -122,7 +122,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the paths
-        $params = $this->getObject('application.components')->files->params;
+        $params = $this->getObject('application.extensions')->files->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
@@ -188,8 +188,8 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         //Set the controller to dispatch
         if($context->request->query->has('option'))
         {
-            $component = substr( $context->request->query->get('option', 'cmd'), 4);
-            $this->forward($component);
+            $extension = substr( $context->request->query->get('option', 'cmd'), 4);
+            $this->forward($extension);
         }
 
         //Dispatch the request
@@ -205,10 +205,10 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     protected function _actionForward(Library\CommandContext $context)
     {
         //Set the controller to dispatch
-        $component = (string) $context->param;
+        $extension = (string) $context->param;
 
-        if (!$this->getObject('application.components')->isEnabled($component)) {
-            throw new Library\ControllerExceptionNotFound('Component Not Enabled');
+        if (!$this->getObject('application.extensions')->isEnabled($extension)) {
+            throw new Library\ControllerExceptionNotFound('Extension Not Enabled');
         }
 
         parent::_actionForward($context);
@@ -463,7 +463,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
                 $option = $this->getRequest()->getQuery()->get('option', 'cmd');
             }
 
-            $params[$hash] = $this->getObject('application.components')->getComponent(substr( $option, 4))->params;
+            $params[$hash] = $this->getObject('application.extensions')->getExtension(substr( $option, 4))->params;
 
             // Get menu parameters
             $page = $this->getObject('application.pages')->getActive();

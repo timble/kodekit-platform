@@ -24,11 +24,9 @@
 		<? $last = $i+1 == count($modules) ?>
 
 		<td width="50%">
-			<span class="editlinktip hasTip" title="<?= @escape(@text($module->description)) ?>">
-				<a href="<?= @route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_component_id) ?>">
-					<?= @text(@escape($module->name)) ?>
-				</a>
-			</span>
+            <a href="<?= @route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_extension_id) ?>">
+                <?= @text(@escape($module->name)) ?>
+            </a>
 		</td>
 
 		<? if($last) : ?> 

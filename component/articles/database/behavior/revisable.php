@@ -10,7 +10,7 @@
 namespace Nooku\Component\Articles;
 
 use Nooku\Library;
-use Nooku\Component\Versions;
+use Nooku\Component\Revisions;
 
 /**
  * Revisable Database Behavior
@@ -18,7 +18,7 @@ use Nooku\Component\Versions;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Articles
  */
-class DatabaseBehaviorRevisable extends Versions\DatabaseBehaviorRevisable
+class DatabaseBehaviorRevisable extends Revisions\DatabaseBehaviorRevisable
 {
     protected function _selectRevisions($table, $status, Library\DatabaseQueryInterface $query)
     {

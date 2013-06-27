@@ -59,7 +59,7 @@ class UsersControllerUser extends Library\ControllerModel
 
     protected function _actionAdd(Library\CommandContext $context)
     {
-        $params = $this->getObject('application.components')->users->params;
+        $params = $this->getObject('application.extensions')->users->params;
         $context->request->data->role_id = $params->get('new_usertype', 18);
 
         return parent::_actionAdd($context);

@@ -16,7 +16,7 @@ CREATE TABLE `pages` (
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
-  `extensions_component_id` INT UNSIGNED,
+  `extensions_extension_id` INT UNSIGNED,
   `created_by` INT UNSIGNED,
   `created_on` DATETIME,
   `modified_by` INT UNSIGNED,
@@ -29,7 +29,7 @@ CREATE TABLE `pages` (
   CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
-  INDEX `ix_extensions_component_id` (`extensions_component_id`),
+  INDEX `ix_extensions_extension_id` (`extensions_extension_id`),
   INDEX `ix_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -123,7 +123,7 @@ CREATE TABLE `pages_modules` (
   `name` varchar(50) NOT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `extensions_component_id` INT UNSIGNED,
+  `extensions_extension_id` INT UNSIGNED,
   `application` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `published` (`published`,`access`)
