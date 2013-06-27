@@ -24,8 +24,8 @@ class PagesViewPageHtml extends Library\ViewHtml
         // Load languages.
         $language   = JFactory::getLanguage();
 
-        foreach($this->getObject('com:extensions.model.components')->getRowset() as $component) {
-            $language->load($component->name);
+        foreach($this->getObject('com:extensions.model.extensions')->getRowset() as $extension) {
+            $language->load($extension->name);
         }
         
         // Load components.
@@ -36,7 +36,7 @@ class PagesViewPageHtml extends Library\ViewHtml
             ->id($state->menu)
             ->getRow();
         
-        $this->components = $this->getObject('com:pages.model.types')
+        $this->extensions = $this->getObject('com:pages.model.types')
             ->application($menu->application)
             ->getRowset();
 

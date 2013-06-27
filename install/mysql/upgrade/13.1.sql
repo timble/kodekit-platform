@@ -28,10 +28,10 @@ ALTER TABLE `modules` DROP INDEX newsfeeds;
 
 UPDATE `modules` SET `application` = 'site' WHERE `application` = 0;
 
-UPDATE `modules` SET `extensions_component_id` = 31 WHERE `name` = 'mod_login';
-UPDATE `modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_mainmenu';
-UPDATE `modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_breadcrumbs';
-UPDATE `modules` SET `extensions_component_id` = 25 WHERE `name` = 'mod_custom';
+UPDATE `modules` SET `extensions_extension_id` = 31 WHERE `name` = 'mod_login';
+UPDATE `modules` SET `extensions_extension_id` = 25 WHERE `name` = 'mod_mainmenu';
+UPDATE `modules` SET `extensions_extension_id` = 25 WHERE `name` = 'mod_breadcrumbs';
+UPDATE `modules` SET `extensions_extension_id` = 25 WHERE `name` = 'mod_custom';
 
 UPDATE `modules` SET `params` = CONCAT('show_title=', `showtitle`, '\n', `params`) WHERE `application` = 'site' AND `name` IN ('mod_newsflash', 'mod_login', 'mod_menu', 'mod_custom', 'mod_latestnews');
 ALTER TABLE `modules` DROP `showtitle`;
@@ -157,7 +157,7 @@ ALTER TABLE `users` DROP `username`;
 UPDATE `modules` SET `name` = 'mod_articles', `params` = CONCAT_WS('\n', 'show_content=1', `params`) WHERE `name` = 'mod_newsflash';
 UPDATE `modules` SET `name` = 'mod_articles' WHERE `name` = 'mod_latestnews';
 UPDATE `modules` SET `params` = REPLACE(REPLACE(REPLACE(`params`, 'catid', 'category'), 'secid', 'section'), 'items', 'count') WHERE `name` = 'mod_articles';
-UPDATE `modules` SET `extensions_component_id` = 20 WHERE `name` = 'mod_articles';
+UPDATE `modules` SET `extensions_extension_id` = 20 WHERE `name` = 'mod_articles';
 
 -- Rename tables to follow conventions
 RENAME TABLE `content` TO `articles`;
@@ -360,28 +360,28 @@ ALTER TABLE `components` DROP `admin_menu_link`;
 ALTER TABLE `components` DROP `admin_menu_alt`;
 ALTER TABLE `components` DROP `ordering`;
 ALTER TABLE `components` DROP `link`;
-ALTER TABLE `components` CHANGE `id` `extensions_component_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `components` CHANGE `id` `extensions_extension_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `components` CHANGE  `name`  `title` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 ALTER TABLE `components` CHANGE  `option`  `name` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '';
 ALTER TABLE `components` DROP INDEX `parent_option`;
 ALTER TABLE `components` ADD UNIQUE (`name`);
 
-RENAME TABLE `components` TO  `extensions_components`;
+RENAME TABLE `components` TO  `extensions`;
 
 -- Rename components
-UPDATE `extensions_components` SET `title` = 'Contacts', `name` = 'com_contacts' WHERE `extensions_component_id` = 7;
-UPDATE `extensions_components` SET `title` = 'Files', `name` = 'com_files' WHERE `extensions_component_id` = 19;
-UPDATE `extensions_components` SET `title` = 'Articles', `name` = 'com_articles' WHERE `extensions_component_id` = 20;
-UPDATE `extensions_components` SET `title` = 'Pages', `name` = 'com_pages' WHERE `extensions_component_id` = 25;
-UPDATE `extensions_components` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `extensions_component_id` = 28;
+UPDATE `extensions` SET `title` = 'Contacts', `name` = 'com_contacts' WHERE `extensions_extension_id` = 7;
+UPDATE `extensions` SET `title` = 'Files', `name` = 'com_files' WHERE `extensions_extension_id` = 19;
+UPDATE `extensions` SET `title` = 'Articles', `name` = 'com_articles' WHERE `extensions_extension_id` = 20;
+UPDATE `extensions` SET `title` = 'Pages', `name` = 'com_pages' WHERE `extensions_extension_id` = 25;
+UPDATE `extensions` SET `title` = 'Extensions', `name` = 'com_extensions' WHERE `extensions_extension_id` = 28;
 
 -- Empty params field
-UPDATE `extensions_components` SET `params` = '' WHERE `extensions_component_id` = 7;
-UPDATE `extensions_components` SET `params` = '' WHERE `extensions_component_id` = 20;
+UPDATE `extensions` SET `params` = '' WHERE `extensions_extension_id` = 7;
+UPDATE `extensions` SET `params` = '' WHERE `extensions_extension_id` = 20;
 
 # --------------------------------------------------------
 
-INSERT INTO `extensions_components` (`extensions_component_id`, `title`, `name`, `params`, `enabled`)
+INSERT INTO `extensions` (`extensions_extension_id`, `title`, `name`, `params`, `enabled`)
 VALUES
     (NULL, 'Activities', 'com_activities', '', 1),
     (NULL, 'Dashboard', 'com_dashboard', '', 1);
@@ -401,13 +401,13 @@ ALTER TABLE `pages` CHANGE `alias` `slug` VARCHAR(255);
 ALTER TABLE `pages` CHANGE `link` `link_url` TEXT;
 ALTER TABLE `pages` ADD COLUMN `link_id` INT(11) UNSIGNED AFTER `link_url`;
 ALTER TABLE `pages` MODIFY `type` VARCHAR(50);
-ALTER TABLE `pages` CHANGE `componentid` `extensions_component_id` INT UNSIGNED;
+ALTER TABLE `pages` CHANGE `componentid` `extensions_extension_id` INT UNSIGNED;
 ALTER TABLE `pages` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `pages` CHANGE `checked_out_time` `locked_on` DATETIME;
 ALTER TABLE `pages` ADD COLUMN `hidden` BOOLEAN NOT NULL DEFAULT 0 AFTER `published`;
 ALTER TABLE `pages` MODIFY `home` BOOLEAN NOT NULL DEFAULT 0 AFTER `hidden`;
 
-ALTER TABLE `pages` ADD `created_by` INT(11) UNSIGNED AFTER `extensions_component_id`;
+ALTER TABLE `pages` ADD `created_by` INT(11) UNSIGNED AFTER `extensions_extension_id`;
 ALTER TABLE `pages` ADD `created_on` DATETIME AFTER `created_by`;
 ALTER TABLE `pages` ADD `modified_by` INT(11) UNSIGNED AFTER `created_on`;
 ALTER TABLE `pages` ADD `modified_on` DATETIME AFTER `modified_by`;
@@ -447,13 +447,13 @@ ALTER TABLE `pages_modules_pages` ADD CONSTRAINT `pages_modules_pages__pages_mod
 ALTER TABLE `pages_modules_pages` ADD CONSTRAINT `pages_modules_pages__pages_page_id` FOREIGN KEY (`pages_page_id`) REFERENCES `pages` (`pages_page_id`) ON UPDATE CASCADE ON DELETE CASCADE;
 
 -- Add admin menubar pages
-INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`, `params`)
+INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_extension_id`, `ordering`, `parent`, `sublevel`, `params`)
   VALUES
-  ('menubar', 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_dashboard'), 1, 0, 0, '');
+  ('menubar', 'Dashboard', 'dashboard', 'option=com_dashboard&view=dashboard', 'component', 1, (SELECT `extensions_extension_id` FROM `extensions` WHERE `name` = 'com_dashboard'), 1, 0, 0, '');
 
 SET @base = LAST_INSERT_ID();
 
-INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_component_id`, `ordering`, `parent`, `sublevel`, `params`)
+INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published`, `extensions_extension_id`, `ordering`, `parent`, `sublevel`, `params`)
   VALUES
   ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 2, 0, 0, ''),
   ('menubar', 'Content', 'content', NULL, 'separator', 1, NULL, 3, 0, 0, ''),
@@ -462,7 +462,7 @@ INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published
   ('menubar', 'Extensions', 'extensions', NULL, 'separator', 1, NULL, 6, 0, 0, ''),
   ('menubar', 'Settings', 'settings', 'option=com_extensions&view=settings', 'component', 1, 28, 1, @base + 5, 1, ''),
   ('menubar', 'Tools', 'tools', NULL, 'separator', 1, NULL, 7, 0, 0, ''),
-  ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_component_id` FROM `extensions_components` WHERE `name` = 'com_activities'), 1, @base + 7, 1, ''),
+  ('menubar', 'Activity Logs', 'activity-logs', 'option=com_activities&view=activities', 'component', 1, (SELECT `extensions_extension_id` FROM `extensions` WHERE `name` = 'com_activities'), 1, @base + 7, 1, ''),
   ('menubar', 'Clean Cache', 'clean-cache', 'option=com_cache&view=items', 'component', 1, 32, 2, @base + 7, 1, ''),
   ('menubar', 'Articles', 'articles', 'option=com_articles&view=articles', 'component', 1, 20, 1, @base + 2, 1, ''),
   ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 3, @base + 2, 1, ''),
@@ -472,7 +472,7 @@ INSERT INTO `pages` (`menutype`, `title`, `slug`, `link_url`, `type`, `published
   ('menubar', 'Contacts', 'contacts', 'option=com_contacts&view=contacts', 'component', 1, 7, 1, @base + 12, 2, ''),
   ('menubar', 'Categories', 'categories', 'option=com_contacts&view=categories', 'component', 1, 7, 2, @base + 12, 2, ''),
   ('menubar', 'Languages', 'languages', 'option=com_languages&view=languages', 'component', 1, 23, 1, @base + 13, 2, ''),
-  ('menubar', 'Components', 'components', 'option=com_languages&view=components', 'component', 1, 23, 2, @base + 13, 2, ''),
+  ('menubar', 'Extensions', 'extensions', 'option=com_languages&view=extensions', 'component', 1, 23, 2, @base + 13, 2, ''),
   ('menubar', 'Pages', 'pages', 'option=com_pages&view=pages', 'component', 1, 25, 1, @base + 1, 1, ''),
   ('menubar', 'Menus', 'menus', 'option=com_pages&view=menus', 'component', 1, 25, 2, @base + 1, 1, ''),
   ('menubar', 'Modules', 'modules', 'option=com_pages&view=modules', 'component', 1, 25, 3, @base + 1, 1, ''),
@@ -488,7 +488,7 @@ ALTER TABLE `pages` ADD COLUMN `users_group_id` INT UNSIGNED AFTER `pages_menu_i
 
 ALTER TABLE `pages` DROP INDEX `componentid`;
 ALTER TABLE `pages` ADD INDEX `ix_published` (`published`);
-ALTER TABLE `pages` ADD INDEX `ix_extensions_component_id` (`extensions_component_id`);
+ALTER TABLE `pages` ADD INDEX `ix_extensions_extension_id` (`extensions_extension_id`);
 ALTER TABLE `pages` ADD INDEX `ix_home` (`home`);
 #ALTER TABLE `pages` ADD CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE;
 ALTER TABLE `pages` ADD CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE;
@@ -679,12 +679,12 @@ CREATE TABLE `languages_translations` (
 
 CREATE TABLE `languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `extensions_component_id` INT UNSIGNED,
+    `extensions_extension_id` INT UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`)
-    # CONSTRAINT `languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `extensions_components` (`extensions_component_id`) ON DELETE CASCADE
+    # CONSTRAINT `languages_tables__extensions_extension_id` FOREIGN KEY (`extensions_extension_id`) REFERENCES `extensions` (`extensions_extension_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
 
 -- Add primary languages
@@ -694,7 +694,7 @@ VALUES
     (2, 'site', 'English (United Kingdom)', 'English (United Kingdom)', 'en-GB', 'en', 1, 1);
 
 -- Add tables
-INSERT INTO `languages_tables` (`extensions_component_id`, `name`, `unique_column`, `enabled`)
+INSERT INTO `languages_tables` (`extensions_extension_id`, `name`, `unique_column`, `enabled`)
 VALUES
     (20, 'articles', 'articles_article_id', 0),
     (20, 'categories', 'categories_category_id', 0);
@@ -729,9 +729,9 @@ VALUES
 	(NULL, 'attachments-attachments', 'Attachments', 'attachments', '{\"thumbnails\": true,\"maximum_size\":\"10485760\",\"allowed_extensions\": [\"bmp\", \"csv\", \"doc\", \"gif\", \"ico\", \"jpg\", \"jpeg\", \"odg\", \"odp\", \"ods\", \"odt\", \"pdf\", \"png\", \"ppt\", \"sql\", \"swf\", \"txt\", \"xcf\", \"xls\"],\"allowed_mimetypes\": [\"image/jpeg\", \"image/gif\", \"image/png\", \"image/bmp\", \"application/x-shockwave-flash\", \"application/msword\", \"application/excel\", \"application/pdf\", \"application/powerpoint\", \"text/plain\", \"application/x-zip\"]}');
 
 
--- Add terms support
-CREATE TABLE `terms` (
-  `terms_term_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+-- Add tag support
+CREATE TABLE `tags` (
+  `tags_tag_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `table` varchar(50) NOT NULL,
@@ -742,15 +742,15 @@ CREATE TABLE `terms` (
   `locked_by` int(10) unsigned DEFAULT NULL,
   `locked_on` datetime DEFAULT NULL,
   `params` text NOT NULL,
-  PRIMARY KEY (`terms_term_id`),
+  PRIMARY KEY (`tags_tag_id`),
   UNIQUE KEY `slug` (`slug`),
   UNIQUE KEY `title` (`title`),
   KEY `table` (`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `terms_relations` (
-  `terms_term_id` BIGINT(20) UNSIGNED NOT NULL,
+CREATE TABLE `tags_relations` (
+  `tags_tag_id` BIGINT(20) UNSIGNED NOT NULL,
   `row` BIGINT(20) UNSIGNED NOT NULL,
   `table` VARCHAR( 255 ) NOT NULL,
-  PRIMARY KEY  (`terms_term_id`,`row`,`table`)
+  PRIMARY KEY  (`tags_tag_id`,`row`,`table`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

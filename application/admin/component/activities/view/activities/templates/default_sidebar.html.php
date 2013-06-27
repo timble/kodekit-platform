@@ -25,10 +25,10 @@ window.addEvent('domready', function(){
 </script>
 
 
-<h3><?=@text( 'Components' )?></h3>
+<h3><?=@text( 'Extensions' )?></h3>
 <ul class="navigation">
     <a class="<?= empty($state->package) ? 'active' : ''; ?>" href="<?= @route('package=') ?>">
-    <?= @text('All components')?>
+    <?= @text('All extensions')?>
     </a>
     <?php foreach ($packages as $package): ?>
     <a <?= $package->id == $state->package ? 'class="active"' : '' ?> href="<?=@route('package='.$package->id)?>"><?=ucfirst($package->package)?></a>

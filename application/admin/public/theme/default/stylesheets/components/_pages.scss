@@ -58,7 +58,7 @@
   .level5 { padding-left: (18px * 5) + 18px; }
 
   .title {
-    @include box-shadow(rgba(0, 0, 0, .10) 0px 1px 1px);
+    box-shadow: rgba(0, 0, 0, .10) 0px 1px 1px;
     z-index: 3;
   }
 }

@@ -117,9 +117,9 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $row   = $context->row;
         $token = $row->getPassword()->setReset();
 
-        $component = $this->getObject('application.components')->getComponent('users');
+        $extension = $this->getObject('application.extensions')->getExtension('users');
         $page      = $this->getObject('application.pages')->find(array(
-            'extensions_component_id' => $component->id,
+            'extensions_extension_id' => $extension->id,
             'access'                  => 0,
             'link'                    => array(array('view' => 'user'))));
 

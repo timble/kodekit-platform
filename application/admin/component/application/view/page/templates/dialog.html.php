@@ -13,7 +13,7 @@
 
 <?= @template('page_head.html') ?>
 
-<body id="tmpl-dialog" class="com_<?= $component ?>">
+<body id="tmpl-dialog" class="com_<?= $extension ?>">
     <?= @template('page_message.html') ?>
     <ktml:content />
 </body>

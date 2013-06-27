@@ -39,7 +39,7 @@
                     <?= @helper('grid.sort',  array('column' => 'custom' , 'title' => 'Ordering')); ?>
                 </th>
                 <th width="1">
-                    <?= @helper('grid.sort',  array('column' => 'extensions_component_id' , 'title' => 'Type')); ?>
+                    <?= @helper('grid.sort',  array('column' => 'extensions_extension_id' , 'title' => 'Type')); ?>
                 </th>
             </tr>
         </thead>

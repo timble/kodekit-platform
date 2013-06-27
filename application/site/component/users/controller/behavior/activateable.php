@@ -13,7 +13,7 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-        $parameters = $this->getObject('application.components')->users->params;
+        $parameters = $this->getObject('application.extensions')->users->params;
 
         $config->append(array(
             'enable' => $parameters->get('useractivation', '1')
@@ -50,9 +50,9 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
     {
         $user = $this->getModel()->getRow();
 
-        $component = $this->getObject('application.components')->getComponent('users');
+        $extension = $this->getObject('application.extensions')->getExtension('users');
         $page      = $this->getObject('application.pages')->find(array(
-            'extensions_component_id' => $component->id,
+            'extensions_extension_id' => $extension->id,
             'access'                  => 0,
             'link'                    => array(array('view' => 'user'))));
 

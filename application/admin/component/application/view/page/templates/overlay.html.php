@@ -13,7 +13,7 @@
 
 <?= @template('page_head.html') ?>
 
-<body id="tmpl-overlay" class="com_<?= $component ?>">
+<body id="tmpl-overlay" class="com_<?= $extension ?>">
     <ktml:content />
 </body>
 

@@ -48,23 +48,23 @@ class ModelSettings extends Library\ModelAbstract
             $rowset->insert($this->getObject('com:extensions.database.row.setting_system'));
                         
             //Insert the component configuration settings
-            $components = $this->getObject('com:extensions.model.components')->enabled(1)->getRowset();
+            $extensions = $this->getObject('com:extensions.model.extensions')->enabled(1)->getRowset();
 
-            foreach($components as $component)
+            foreach($extensions as $extension)
             {
                 $path  = Library\ClassLoader::getInstance()->getApplication('admin');
-                $path .= '/component/'.substr($component->name, 4).'/resources/config/settings.xml';
+                $path .= '/component/'.substr($extension->name, 4).'/resources/config/settings.xml';
 
                 if(file_exists($path))
                 {
                     $config = array(
-                        'name' => strtolower(substr($component->name, 4)),
+                        'name' => strtolower(substr($extension->name, 4)),
                         'path' => file_exists($path) ? $path : '',
-                        'id'   => $component->id,
-                        'data' => $component->params->toArray(),
+                        'id'   => $extension->id,
+                        'data' => $extension->params->toArray(),
                     );
 
-                    $row = $this->getObject('com:extensions.database.row.setting_component', $config);
+                    $row = $this->getObject('com:extensions.database.row.setting_extension', $config);
 
                     $rowset->insert($row);
                 }

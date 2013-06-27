@@ -22,9 +22,9 @@ use Nooku\Library;
     {
         $manager = $this->getObjectManager();
 
-        $manager->registerAlias('com:articles.model.terms', 'com:terms.model.terms');
-        $manager->registerAlias('com:articles.model.categories', 'com:categories.model.categories');
-        $manager->registerAlias('com:articles.view.attachment.file', 'com:attachments.view.attachment.file');
-        $manager->registerAlias('com:articles.model.comments', 'com:comments.model.comments');
+        $manager->registerAlias('com:articles.model.tags'           , 'com:tags.model.tags');
+        $manager->registerAlias('com:articles.model.categories'     , 'com:categories.model.categories');
+        $manager->registerAlias('com:articles.view.attachment.file' , 'com:attachments.view.attachment.file');
+        $manager->registerAlias('com:articles.model.comments'       , 'com:comments.model.comments');
     }
 }
