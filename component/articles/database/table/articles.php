@@ -38,7 +38,7 @@ class DatabaseTableArticles extends Library\DatabaseTableDefault
 		    )
         ));
 
-        $params = $this->getObject('application.components')->articles->params;
+        $params = $this->getObject('application.extensions')->articles->params;
 
         if ($params->get('discussible'))
         {
