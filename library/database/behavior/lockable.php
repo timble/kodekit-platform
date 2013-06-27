@@ -29,7 +29,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	object 	An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config 	An optional ObjectConfig object with configuration options
      * @return void
      */
 	protected function _initialize(ObjectConfig $config)
@@ -47,8 +47,8 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	/**
 	 * Get the methods that are available for mixin based
 	 *
-	 * This function conditionaly mixies the behavior. Only if the mixer
-	 * has a 'locked_by' property the behavior will be mixed in.
+	 * This function conditionaly mixies the behavior. Only if the mixer has a 'locked_by' property the behavior will
+     * be mixed in.
 	 *
 	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
 	 * @return array An array of methods
@@ -69,7 +69,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an 'locked_on' and 'locked_by' column
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function lock()
 	{
@@ -89,7 +89,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * Requires an locked_on and locked_by column to be present in the table
 	 *
-	 * @return boolean	If successfull return TRUE, otherwise FALSE
+	 * @return boolean	If successful return TRUE, otherwise FALSE
 	 */
 	public function unlock()
 	{
@@ -139,9 +139,8 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	/**
 	 * Checks if a row can be updated
 	 *
-	 * This function determines if a row can be updated based on it's locked_by information.
-	 * If a row is locked, and not by the logged in user, the function will return false,
-	 * otherwise it will return true
+	 * This function determines if a row can be updated based on it's locked_by information. If a row is locked, and
+     * not by the logged in user, the function will return false, otherwise it will return true
 	 *
 	 * @return boolean True if row can be updated, false otherwise
 	 */
@@ -153,9 +152,8 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	/**
 	 * Checks if a row can be deleted
 	 *
-	 * This function determines if a row can be deleted based on it's locked_by information.
-	 * If a row is locked, and not by the logged in user, the function will return false,
-	 * otherwise it will return true
+	 * This function determines if a row can be deleted based on it's locked_by information. If a row is locked, and
+     * not by the logged in user, the function will return false, otherwise it will return true
 	 *
 	 * @return boolean True if row can be deleted, false otherwise
 	 */
