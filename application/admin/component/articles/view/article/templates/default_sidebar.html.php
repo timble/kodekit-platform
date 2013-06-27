@@ -54,20 +54,31 @@
             <? endif ?>
         </div>
     </div>
-    <? if($article->isAttachable()) : ?>
-    <div class="tab">
-        <input type="radio" id="tab-3" name="tab-group-1">
-        <label for="tab-3"><?= @text('Attachments') ?></label>
-        <div class="content">
-            <fieldset>
-                <? if (!$article->isNew()) : ?>
-                    <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true, 'image' => $article->image)) ?>
-                <? endif ?>
-                <?= @template('com:attachments.view.attachments.upload.html') ?>
-            </fieldset>
+<!--    --><?// if($article->isAttachable()) : ?>
+<!--    <div class="tab">-->
+<!--        <input type="radio" id="tab-3" name="tab-group-1">-->
+<!--        <label for="tab-3">--><?//= @text('Attachments') ?><!--</label>-->
+<!--        <div class="content">-->
+<!--            <fieldset>-->
+<!--                --><?// if (!$article->isNew()) : ?>
+<!--                    --><?//= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true, 'image' => $article->image)) ?>
+<!--                --><?// endif ?>
+<!--                --><?//= @template('com:attachments.view.attachments.upload.html') ?>
+<!--            </fieldset>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    --><?// endif ?>
+    <? //if($article->isCommentable()) : ?>
+        <div class="tab">
+            <input type="radio" id="tab-5" name="tab-group-1">
+            <label for="tab-5"><?= @text('Comments') ?></label>
+            <div class="content">
+                <fieldset>
+                    <?= @template('default_comments.html', array('comments' =>  @object('com:articles.model.comments')->row($article->id)->getRowset(), 'article' => $article)) ?>
+                </fieldset>
+            </div>
         </div>
-    </div>
-    <? endif ?>
+    <? //endif ?>
 </div>
 
 <? if($article->isTranslatable()) : ?>

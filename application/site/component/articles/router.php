@@ -115,8 +115,10 @@ class ArticlesRouter extends Library\DispatcherRouter
 
         if(count($path) && $path[0] == 'comments')
         {
+            $segment = array_shift( $path) ;
+
             $vars['view']    = 'comments';
-            $vars['article'] = $vars['id'];
+            $vars['article'] = $segment;
             unset($vars['id']);
         }
 

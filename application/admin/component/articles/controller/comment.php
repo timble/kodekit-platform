@@ -10,13 +10,13 @@
 use Nooku\Library;
 
 /**
- * Comments Controller Class
+ * Category Controller Class
  *
- * @author    	Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @author    	Terry Visser <http://nooku.assembla.com/profile/terryvisser>
  * @package     Nooku_Server
  * @subpackage  Articles
  */
 class ArticlesControllerComment extends CommentsControllerComment
-{ 
+{
 
 }
