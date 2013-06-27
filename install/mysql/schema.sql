@@ -189,16 +189,16 @@ CREATE TABLE `contacts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `extensions_components`
+-- Table structure for table `extensions`
 --
 
-CREATE TABLE `extensions_components` (
-  `extensions_component_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `extensions` (
+  `extensions_extension_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`extensions_component_id`),
+  PRIMARY KEY (`extensions_extension_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -277,12 +277,12 @@ CREATE TABLE `languages_translations` (
 
 CREATE TABLE `languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `extensions_component_id` INT(11) UNSIGNED,
+    `extensions_extension_id` INT(11) UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `extensions_components` (`extensions_component_id`) ON DELETE CASCADE
+    CONSTRAINT `languages_tables__extensions_extension_id` FOREIGN KEY (`extensions_extension_id`) REFERENCES `extensions` (`extensions_extension_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -303,7 +303,7 @@ CREATE TABLE `pages` (
   `published` BOOLEAN NOT NULL DEFAULT 0,
   `hidden` BOOLEAN NOT NULL DEFAULT 0,
   `home` BOOLEAN NOT NULL DEFAULT 0,
-  `extensions_component_id` INT UNSIGNED,
+  `extensions_extension_id` INT UNSIGNED,
   `created_by` INT UNSIGNED,
   `created_on` DATETIME,
   `modified_by` INT UNSIGNED,
@@ -316,7 +316,7 @@ CREATE TABLE `pages` (
   CONSTRAINT `pages__pages_menu_id` FOREIGN KEY (`pages_menu_id`) REFERENCES `pages_menus` (`pages_menu_id`) ON DELETE CASCADE,
   CONSTRAINT `pages__link_id` FOREIGN KEY (`link_id`) REFERENCES `pages` (`pages_page_id`) ON DELETE CASCADE,
   INDEX `ix_published` (`published`),
-  INDEX `ix_extensions_component_id` (`extensions_component_id`),
+  INDEX `ix_extensions_extension_id` (`extensions_extension_id`),
   INDEX `ix_home` (`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -412,7 +412,7 @@ CREATE TABLE `pages_modules` (
   `name` varchar(50) NOT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `extensions_component_id` INT UNSIGNED,
+  `extensions_extension_id` INT UNSIGNED,
   `application` varchar(50) NOT NULL,
   PRIMARY KEY (`pages_module_id`),
   KEY `published` (`published`,`access`)

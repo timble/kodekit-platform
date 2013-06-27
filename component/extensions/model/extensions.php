@@ -12,12 +12,12 @@ namespace Nooku\Component\Extensions;
 use Nooku\Library;
 
 /**
- * Components Model
+ * Extensions Model
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class ModelComponents extends Library\ModelTable
+class ModelExtensions extends Library\ModelTable
 {
 	public function __construct(Library\ObjectConfig $config)
 	{

@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class DatabaseRowComponent extends Library\DatabaseRowTable
+class DatabaseRowExtension extends Library\DatabaseRowTable
 {
 	/**
      * Whitelist for keys to get from the xml manifest

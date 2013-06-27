@@ -13,7 +13,7 @@
 
 <?= @template('page_head.html') ?>
 
-<body class="com_<?= $component ?>">
+<body class="com_<?= $extension ?>">
 <?
 /*
 ?>

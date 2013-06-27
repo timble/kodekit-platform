@@ -16,18 +16,18 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDatabaseRowsetComponents extends Library\DatabaseRowsetAbstract implements Library\ObjectSingleton
+class ApplicationDatabaseRowsetExtensions extends Library\DatabaseRowsetAbstract implements Library\ObjectSingleton
 {
     public function __construct(Library\ObjectConfig $config )
     {
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $components = $this->getObject('com:extensions.model.components')
+        $extensions = $this->getObject('com:extensions.model.extensions')
             ->enabled(true)
             ->getRowset();
 
-        $this->merge($components);
+        $this->merge($extensions);
     }
 
     protected function _initialize(Library\ObjectConfig $config)
@@ -36,17 +36,17 @@ class ApplicationDatabaseRowsetComponents extends Library\DatabaseRowsetAbstract
         parent::_initialize($config);
     }
 
-    public function getComponent($name)
+    public function getExtension($name)
     {
-        $component = $this->find('com_'.$name);
-        return $component;
+        $extension = $this->find('com_'.$name);
+        return $extension;
     }
 
     public function isEnabled($name)
     {
         $result = false;
-        if($component = $this->find('com_'.$name)) {
-            $result = (bool) $component->enabled;
+        if($extension = $this->find('com_'.$name)) {
+            $result = (bool) $extension->enabled;
         }
 
         return $result;
@@ -54,6 +54,6 @@ class ApplicationDatabaseRowsetComponents extends Library\DatabaseRowsetAbstract
 
     public function __get($name)
     {
-        return $this->getComponent($name);
+        return $this->getExtension($name);
     }
 }

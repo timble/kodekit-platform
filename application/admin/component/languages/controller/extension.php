@@ -17,14 +17,14 @@ use Nooku\Library;
  * @subpackage  Languages
  */
 
-class LanguagesControllerComponent extends Library\ControllerView
+class LanguagesControllerExtension extends Library\ControllerView
 {
     protected function _actionEdit(Library\CommandContext $context)
     {
         if($context->request->data->has('id'))
         {
             $this->getObject('com:languages.model.tables')
-                ->component($context->request->data->get('id', 'int'))
+                ->extension($context->request->data->get('id', 'int'))
                 ->getRowset()
                 ->setData(array('enabled' => $context->request->data->get('enabled', 'int')))
                 ->save();

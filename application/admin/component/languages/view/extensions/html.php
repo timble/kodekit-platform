@@ -10,14 +10,14 @@
 use Nooku\Library;
 
 /**
- * Compponents Html View Class
+ * Extensions Html View Class
  *
  * @author      Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package     Nooku_Server
  * @subpackage  Languages
  */
 
-class LanguagesViewComponentsHtml extends Library\ViewHtml
+class LanguagesViewExtensionsHtml extends Library\ViewHtml
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -31,16 +31,16 @@ class LanguagesViewComponentsHtml extends Library\ViewHtml
     public function render()
     {
         $tables     = $this->getObject('com:languages.model.tables')->getRowset();
-        $components = $this->getObject('com:extensions.model.components')
-            ->id(array_unique($tables->extensions_component_id))
+        $extensions = $this->getObject('com:extensions.model.extensions')
+            ->id(array_unique($tables->extensions_extension_id))
             ->getRowset();
         
         foreach($tables as $table) {
-            $components->find($table->extensions_component_id)->enabled = $table->enabled;
+            $extensions->find($table->extensions_extension_id)->enabled = $table->enabled;
         }
         
-        $this->components = $components;
-        $this->total      = count($components);
+        $this->extension = $extensions;
+        $this->total      = count($extensions);
         
         return parent::render();
     }

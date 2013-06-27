@@ -44,7 +44,7 @@ class DatabaseRowPassword extends Library\DatabaseRowTable
         if ($password = $this->password)
         {
             // Check the password length.
-            $params = $this->getObject('application.components')->users->params;
+            $params = $this->getObject('application.extensions')->users->params;
             $length = $params->get('password_length', 5);
 
             if (strlen($password) < $length)

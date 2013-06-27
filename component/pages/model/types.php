@@ -32,17 +32,17 @@ class ModelTypes extends Library\ModelAbstract
     {
         if(!isset($this->_rowset))
         {
-            $table = $this->getObject('com:extensions.database.table.components');
+            $table = $this->getObject('com:extensions.database.table.extensions');
             $query = $this->getObject('lib:database.query.select')
                 ->order('name');
 
-            $components = $table->select($query);
+            $extensions = $table->select($query);
 
-            // Iterate through the components.
-            foreach($components as $component)
+            // Iterate through the extensions.
+            foreach($extensions as $extension)
             {
                 $path  = Library\ClassLoader::getInstance()->getApplication($this->getState()->application);
-                $path .= '/component/'.substr($component->name, 4).'/view';
+                $path .= '/component/'.substr($extension->name, 4).'/view';
 
                 if(!is_dir($path)) {
                     continue;
@@ -95,10 +95,10 @@ class ModelTypes extends Library\ModelAbstract
                     }
                 }
 
-                $component->views = $views;
+                $extension->views = $views;
             }
 
-            $this->_rowset = $components;
+            $this->_rowset = $extensions;
         }
 
         return $this->_rowset;

@@ -45,12 +45,12 @@ class PagesViewModuleHtml extends Library\ViewHtml
             }
 
             $path = Library\ClassLoader::getInstance()->getApplication($module->application);
-            JFactory::getLanguage()->load(substr($module->component_name, 4), $module->name, $path);
+            JFactory::getLanguage()->load(substr($module->extension_name, 4), $module->name, $path);
         }
 
         // Build path to module config file
         $path  = Library\ClassLoader::getInstance()->getApplication('site');
-        $path .= '/component/'.substr($module->component_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
+        $path .= '/component/'.substr($module->extension_name, 4).'/module/'.substr($module->name, 4).'/config.xml';
 
         $params = new \JParameter( null, $path );
         $params->loadArray($module->params->toArray());

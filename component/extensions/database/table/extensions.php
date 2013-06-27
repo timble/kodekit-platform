@@ -7,21 +7,25 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
+namespace Nooku\Component\Extensions;
+
 use Nooku\Library;
 
 /**
- * Component Controller
+ * Extensions Database Table
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package Nooku\Component\Extensions
  */
-class ExtensionsControllerComponent extends Library\ControllerModel
-{ 
-    protected function _initialize(Library\ObjectConfig $config)
+class DatabaseTableExtensions extends Library\DatabaseTableDefault
+{
+    public function  _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array('com:activities.controller.behavior.loggable'),
+            'name'     => 'extensions',
+            'filters'  => array('params' => 'ini')
         ));
-    
+        
         parent::_initialize($config);
     }
 }

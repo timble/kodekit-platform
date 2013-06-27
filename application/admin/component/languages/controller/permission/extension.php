@@ -17,7 +17,7 @@ use Nooku\Library;
  * @subpackage  Languages
  */
 
-class LanguagesControllerPermissionComponent extends ApplicationControllerPermissionDefault
+class LanguagesControllerPermissionExtension extends ApplicationControllerPermissionDefault
 {
     public function canEdit()
     {

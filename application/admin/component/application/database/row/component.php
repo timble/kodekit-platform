@@ -26,7 +26,7 @@ class ApplicationDatabaseRowComponent extends Library\DatabaseRowAbstract
             ->enabled(true)
             ->getRowset();
         
-        if(count($tables->find(array('extensions_component_id' => $this->id)))) {
+        if(count($tables->find(array('extensions_extension_id' => $this->id)))) {
             $result = true;
         }
         

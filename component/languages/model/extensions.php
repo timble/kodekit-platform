@@ -12,12 +12,12 @@ namespace Nooku\Component\Languages;
 use Nooku\Library;
 
 /**
- * Components Model
+ * Extensions Model
  *
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Languages
  */
-class ModelComponents extends Library\ModelAbstract
+class ModelExxtensions extends Library\ModelAbstract
 {
     
 }

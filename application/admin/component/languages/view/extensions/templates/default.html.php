@@ -39,16 +39,16 @@
 			</tr>
 		</tfoot>
 		<tbody>
-			<? foreach($components as $component) : ?>
+			<? foreach($extensions as $extension) : ?>
 			<tr>
 			    <td align="center">
-					<?= @helper('grid.checkbox', array('row' => $component)) ?>
+					<?= @helper('grid.checkbox', array('row' => $extension)) ?>
 				</td>
 				<td>
-					<?= @escape($component->title) ?>
+					<?= @escape($extension->title) ?>
 				</td>
 				<td align="center">
-					<?= @helper('grid.enable', array('row' => $component)) ?>   
+					<?= @helper('grid.enable', array('row' => $extension)) ?>
 				</td>
 			</tr>
 			<? endforeach ?>

@@ -12,12 +12,12 @@ namespace Nooku\Component\Extensions;
 use Nooku\Library;
 
 /**
- * Component Setting Database Row
+ * Extension Setting Database Row
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Extensions
  */
-class DatabaseRowSetting_Component extends DatabaseRowSetting
+class DatabaseRowSetting_Extension extends DatabaseRowSetting
 {
     /**
      * The component
@@ -58,7 +58,7 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
     {
         $config->append(array(
             'id'     => '',
-            'table'  => 'com:extensions.database.table.components'
+            'table'  => 'com:extensions.database.table.extensions'
         ));
 
         parent::_initialize($config);
@@ -89,6 +89,6 @@ class DatabaseRowSetting_Component extends DatabaseRowSetting
      */
     public function getType()
     {
-        return 'component';
+        return 'extension';
     }
 }

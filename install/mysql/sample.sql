@@ -43,7 +43,7 @@ INSERT INTO `contacts` (`contacts_contact_id`, `name`, `slug`, `position`, `addr
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_component_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
+INSERT INTO `pages` (`pages_page_id`, `pages_menu_id`, `users_group_id`, `title`, `slug`, `link_url`, `link_id`, `type`, `published`, `hidden`, `home`, `extensions_extension_id`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `access`, `params`)
   VALUES
   (29, 1, 0, 'Article', 'article', 'option=com_articles&view=article&id=1', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'show_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
   (30, 1, 0, 'Articles Blog', 'blog', 'option=com_articles&view=articles&category=2', NULL, 'component', 1, 0, 0, 20, 1, NULL, NULL, NULL, NULL, NULL, 0, 'articles_per_page=\"3\"\nsort_by=\"newest\"\nshow_create_date=\"0\"\nshow_modify_date=\"0\"\npage_title=\"\"'),
@@ -94,7 +94,7 @@ INSERT INTO `pages_menus` (`pages_menu_id`, `application`, `title`, `slug`, `des
 -- Dumping data for table `pages_modules`
 --
 
-INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_component_id`, `application`)
+INSERT INTO `pages_modules` (`pages_module_id`, `title`, `content`, `ordering`, `position`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `published`, `name`, `access`, `params`, `extensions_extension_id`, `application`)
   VALUES
   (2, 'User Menu', '', 18, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_menu', 1, 'menu_id=3\nshow_title=1\nclass=nav nav-list', 25, 'site'),
   (3, 'Login Form', '', 21, 'left', 1, NULL, NULL, NULL, NULL, NULL, 1, 'mod_login', 0, 'show_title=1', 31, 'site'),
