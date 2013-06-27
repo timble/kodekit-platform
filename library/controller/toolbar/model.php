@@ -79,7 +79,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
     /**
      * Enable toolbar command
      *
-     * @param   ControllerToolbarCommand $command A ControllerToolbarCommand object
+     * @param   ControllerToolbarCommand $commend  A ControllerToolbarCommand object
      * @return  void
      */
     protected function _commandEnable(ControllerToolbarCommand $command)

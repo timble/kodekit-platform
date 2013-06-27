@@ -49,7 +49,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
     /**
      * Constructor.
      *
-     * @param	string 	$name The command name
+     * @param	string $name The command name
      * @param   array|ObjectConfig 	An associative array of configuration settings or a ObjectConfig instance.
      */
     public function __construct( $name, $config = array() )
@@ -213,7 +213,7 @@ class ControllerToolbarCommand extends ObjectConfig implements ControllerToolbar
      * Add a command by it's name
      *
      * @param   string  $method Method name
-     * @param   array   $rags   Array containing all the arguments for the original call
+     * @param   array   $args   Array containing all the arguments for the original call
      * @return mixed
      * @see addCommand()
      */
