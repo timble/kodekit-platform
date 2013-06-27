@@ -12,37 +12,40 @@ namespace Nooku\Component\Terms;
 use Nooku\Library;
 
 /**
- * Term Controller
+ * Tag Controller
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Categories
+ * @package Nooku\Component\Tags
  */
-abstract class ControllerTerm extends Library\ControllerModel
+abstract class ControllerTag extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'model' => 'com:terms.model.terms'
+            'model' => 'com:tags.model.tags'
         ));
 
-        parent::_initialize($config);
+        //Alias the permission
+        $permission       = clone $this->getIdentifier();
+        $permission->path = array('controller', 'permission');
 
-        //Force the toolbars
-        $config->toolbars = array('menubar', 'com:terms.controller.toolbar.term');
+        $this->getObject('manager')->registerAlias($permission, 'com:tags.controller.permission.tag');
+
+        parent::_initialize($config);
     }
 
     protected function _actionRender(Library\CommandContext $context)
     {
         $view = $this->getView();
 
-        //Set the layout
+        //Alias the view layout
         if($view instanceof Library\ViewTemplate)
         {
             $layout = clone $view->getIdentifier();
             $layout->name  = $view->getLayout();
 
             $alias = clone $layout;
-            $alias->package = 'terms';
+            $alias->package = 'tags';
 
             $this->getObject('manager')->registerAlias($layout, $alias);
         }

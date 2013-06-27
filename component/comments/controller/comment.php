@@ -32,9 +32,6 @@ abstract class ControllerComment extends Library\ControllerModel
         $this->getObject('manager')->registerAlias($permission, 'com:comments.controller.permission.comment');
         
         parent::_initialize($config);
-
-        //Force the toolbars
-        $config->toolbars = array('menubar', 'com:comments.controller.toolbar.comment');
     }
     
     protected function _actionRender(Library\CommandContext $context)

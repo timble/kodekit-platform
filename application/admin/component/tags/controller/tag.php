@@ -22,8 +22,11 @@ abstract class TagsControllerTag extends Tags\ControllerTag
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	//'behaviors' => array('com:activities.controller.behavior.loggable'),
+        	'behaviors' => array('com:activities.controller.behavior.loggable'),
         ));
+
+        //Force the toolbars
+        $config->toolbars = array('menubar', 'com:terms.controller.toolbar.term');
         
         parent::_initialize($config);
     }
