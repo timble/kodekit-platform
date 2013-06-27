@@ -10,13 +10,32 @@
 
 <script src="media://js/mootools.js" />
 
+<script>
+    window.addEvent('domready', function() {
+        $$('.icon-trash').addEvent('click',function(){
+            var id = $(this).getAttribute('data-id');
+            var request = new Request.JSON({
+                url: '<?=@route();?>',
+                method: 'delete',
+                data: {
+                    action: 'delete',
+                    id: id,
+                    _token:'<?= @object('user')->getSession()->getToken() ?>'
+                },
+//                action: delete,
+                onComplete: function(response){
+                    $('comment-'+id).remove()
+                }
+            }).send();
+        });
+    });
+</script>
 
 <?if(@object('com:comments.controller.comment')->canAdd()):?>
     <?= @template('com:comments.view.comment.form.html'); ?>
 <?endif;?>
 
-
-<? foreach($comments as $comment) :?>
+<? foreach($comments as $comment) : ?>
     <div class="comment" id="comment-<?=$comment->id;?>">
         <div class="comment-header">
            <span class="comment-header-author">
@@ -36,24 +55,4 @@
         </div>
     </div>
 <? endforeach ?>
-<script>
-    window.addEvent('domready', function() {
-        $$('.icon-trash').addEvent('click',function(){
-            var id = $(this).getAttribute('data-id');
-            var request = new Request.JSON({
-                url: '<?=@route();?>',
-                method: 'delete',
-                data: {
-                    action: 'delete',
-                    id: id,
-                    _token:'<?= @object('user')->getSession()->getToken() ?>'
-                },
-//                action: delete,
-                onComplete: function(response){
-                   $('comment-'+id).remove()
-                }
-            }).send();
-        });
-    });
 
-</script>
