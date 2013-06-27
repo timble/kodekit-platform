@@ -8,7 +8,6 @@
  */
 
 use Nooku\Library;
-use Nooku\Component\Comments;
 
 /**
  * Comments Controller Class
@@ -17,7 +16,7 @@ use Nooku\Component\Comments;
  * @package     Nooku_Server
  * @subpackage  Articles
  */
-class ArticlesControllerComment extends Comments\ControllerComment
+class ArticlesControllerComment extends CommentsControllerComment
 { 
 
 }
