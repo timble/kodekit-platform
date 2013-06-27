@@ -39,7 +39,7 @@
     <?= $article->fulltext ?>
 
     <? if($article->isTaggable()) : ?>
-    <?= @template('com:terms.view.terms.default.html', array('terms' => $article->getTerms())) ?>
+    <?= @template('com:tags.view.tags.default.html', array('tags' => $article->getTags())) ?>
     <? endif; ?>
 
     <? if($article->isAttachable()) : ?>

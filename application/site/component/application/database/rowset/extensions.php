@@ -32,22 +32,17 @@ class ApplicationDatabaseRowsetExtensions extends Library\DatabaseRowsetAbstract
 
     public function getExtension($name)
     {
-        $extension = $this->find('com_'.$name);
+        $extension = $this->find(array('name' => 'com_'.$name));
         return $extension;
     }
 
     public function isEnabled($name)
     {
         $result = false;
-        if($extension = $this->find('com_'.$name)) {
+        if($extension = $this->find(array('name' => 'com_'.$name))) {
             $result = (bool) $extension->enabled;
         }
 
         return $result;
-    }
-
-    public function __get($name)
-    {
-        return $this->getExtension($name);
     }
 }

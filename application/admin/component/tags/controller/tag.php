@@ -26,7 +26,7 @@ abstract class TagsControllerTag extends Tags\ControllerTag
         ));
 
         //Force the toolbars
-        $config->toolbars = array('menubar', 'com:terms.controller.toolbar.term');
+        $config->toolbars = array('menubar', 'com:tags.controller.toolbar.tag');
         
         parent::_initialize($config);
     }
