@@ -15,7 +15,7 @@ use Nooku\Library;
  * Revision Database Row
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Versions
+ * @package Nooku\Component\Revisions
  */
 class DatabaseRowRevision extends Library\DatabaseRowTable
 {

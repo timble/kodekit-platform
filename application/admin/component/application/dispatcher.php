@@ -117,7 +117,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the paths
-        $params = $this->getObject('application.components')->getComponent('files')->params;
+        $params = $this->getObject('application.extensions')->getExtension('files')->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
@@ -147,8 +147,8 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $context->request->query->add($url->query);
 
         //Forward the request
-        $component = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
-        $this->forward($component);
+        $extension = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
+        $this->forward($extension);
 
         //Dispatch the request
         $this->dispatch();
@@ -163,9 +163,9 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     protected function _actionForward(Library\CommandContext $context)
     {
         //Set the controller to dispatch
-        $component = (string) $context->param;
+        $extension = (string) $context->param;
 
-        if (!$this->getObject('application.components')->isEnabled($component)) {
+        if (!$this->getObject('application.extensions')->isEnabled($extension)) {
             throw new Library\ControllerExceptionNotFound('Component Not Enabled');
         }
 
@@ -235,7 +235,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     public function loadConfig(Library\CommandContext $context)
     {
         // Check if the site exists
-        if($this->getObject('com:sites.model.sites')->fetch()->find($this->getSite()))
+        if($this->getObject('com:sites.model.sites')->getRowset()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->_options->toArray());
@@ -310,13 +310,21 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $language = null;
 
         // If a language was specified it has priority.
-        if($iso_code = $this->_options->language) {
-            $language = $languages->find(array('iso_code' => $iso_code));
+        if($iso_code = $this->_options->language)
+        {
+            $result = $languages->find(array('iso_code' => $iso_code));
+            if(count($result) == 1) {
+                $language = $result->top();
+            }
         }
 
         // Otherwise use user language setting.
-        if(!$language && $iso_code = $context->user->get('language')) {
-            $language = $languages->find(array('iso_code' => $iso_code));
+        if(!$language && $iso_code = $context->user->get('language'))
+        {
+            $result = $languages->find(array('iso_code' => $iso_code));
+            if(count($result) == 1) {
+                $language = $result->top();
+            }
         }
 
         // If language still not set, use the primary.
@@ -388,7 +396,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $uri  = clone($this->getRequest()->getUrl());
 
         $host = $uri->getHost();
-        if(!$this->getObject('com:sites.model.sites')->fetch()->find($host))
+        if(!$this->getObject('com:sites.model.sites')->getRowset()->find($host))
         {
             // Check folder
             $base = $this->getRequest()->getBaseUrl()->getPath();
@@ -400,7 +408,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
             }
 
             //Check if the site can be found, otherwise use 'default'
-            if(!$this->getObject('com:sites.model.sites')->fetch()->find($site)) {
+            if(!$this->getObject('com:sites.model.sites')->getRowset()->find($site)) {
                 $site = 'default';
             }
 

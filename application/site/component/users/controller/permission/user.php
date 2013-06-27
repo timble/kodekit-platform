@@ -26,7 +26,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
 
         $layout     = $this->getView()->getLayout();
         $row        = $this->getModel()->fetch();
-        $parameters = $this->getObject('application.components')->getComponent('users')->params;
+        $parameters = $this->getObject('application.extensions')->users->params;
 
         if (!$row->isNew() && $layout != 'password') {
             $result = $this->canEdit();
@@ -59,7 +59,7 @@ class UsersControllerPermissionUser extends ApplicationControllerPermissionDefau
 
     public function canAdd()
     {
-        $parameters = $this->getObject('application.components')->getComponent('users')->params;
+        $parameters = $this->getObject('application.extensions')->getExtension('users')->params;
 
         if($parameters->get('allowUserRegistration') == '0') {
             return false;

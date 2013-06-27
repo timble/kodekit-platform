@@ -15,7 +15,7 @@ use Nooku\Library;
  * Revisable Database Behavior
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Versions
+ * @package Nooku\Component\Revisions
  */
 class DatabaseBehaviorRevisable extends Library\DatabaseBehaviorAbstract
 {

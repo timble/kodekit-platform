@@ -46,7 +46,7 @@
 
         <h3><?= @text('Extensions')?></h3>
         <? foreach($settings as $name => $setting) : ?>
-        <? if($setting->getType() == 'component' && $setting->getPath()) : ?>
+        <? if($setting->getType() == 'extension' && $setting->getPath()) : ?>
         <div class="tab">
             <input type="radio" id="tab-<?= $setting->getName() ?>" name="tab-group-1">
             <label for="tab-<?= $setting->getName() ?>"><?= @text(ucfirst($setting->getName())) ?></label>

@@ -31,7 +31,7 @@ class TemplateHelperCaptcha extends Library\TemplateHelperDefault
     {
         $config = new Library\ObjectConfig($config);
 
-        $params = $this->getObject('application.components')->getComponent('users')->params;
+        $params = $this->getObject('application.extensions')->getExtension('users')->params;
 
         $config->append(array(
             'captcha'        => array(

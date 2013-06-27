@@ -7,7 +7,6 @@
  * @link           http://www.nooku.org
  */
 ?>
-
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
 	    <? if ($article->editable) : ?>

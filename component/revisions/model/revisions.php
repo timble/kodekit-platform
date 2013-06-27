@@ -15,7 +15,7 @@ use Nooku\Library;
  * Revisions Model
  *
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
- * @package Nooku\Component\Versions
+ * @package Nooku\Component\Revisions
  */
 class ModelRevisions extends Library\ModelDatabase
 {

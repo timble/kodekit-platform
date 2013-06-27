@@ -31,7 +31,7 @@ class DatabaseTableArticles extends Library\DatabaseTableDefault
                 'com:languages.database.behavior.translatable',
                 'com:attachments.database.behavior.attachable',
                 'com:categories.database.behavior.categorizable',
-                'com:terms.database.behavior.taggable'
+                'com:tags.database.behavior.taggable'
             ),
             'filters' => array(
                 'introtext'   => array('html', 'tidy'),

@@ -26,12 +26,12 @@ class ApplicationDatabaseRowsetLanguages extends Library\DatabaseRowsetAbstract 
         parent::__construct($config);
 
         //TODO : Inject raw data using $config->data
-        $components = $this->getObject('com:languages.model.languages')
+        $languages = $this->getObject('com:languages.model.languages')
             ->enabled(true)
             ->application('site')
             ->fetch();
 
-        $this->merge($components);
+        $this->merge($languages);
     }
 
     public function setActive($active)

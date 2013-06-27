@@ -91,11 +91,11 @@ class UsersControllerSession extends Library\ControllerModel
 
             if ($password->expired())
             {
-                $component = $this->getObject('application.components')->getComponent('users');
+                $extension = $this->getObject('application.extensions')->getExtension('users');
                 $pages     = $this->getObject('application.pages');
 
                 $page = $pages->find(array(
-                    'extensions_component_id' => $component->id,
+                    'extensions_extension_id' => $extension->id,
                     'link'                    => array(array('view' => 'user'))));
 
                 $url                  = $page->getLink();
