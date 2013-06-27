@@ -1,0 +1,21 @@
+/**
+ * @package     Nooku_Components
+ * @subpackage  Tags
+ * @copyright	Copyright (C) 2009 - 2010 Timble CVBA and Contributors. (http://www.timble.net)
+ * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link		http://www.nooku.org
+ */
+
+/* @group Tag cloud */
+/* display the individual items next to each other, not one-per-line */
+#tags-tags-cloud 		{ text-align: center; padding: 0 15px; }
+#tags-tags-cloud li 	{ display: inline; padding: 0 3px; }
+/* hide the extra context from CSS-enabled browsers, but not screenreaders */
+#tags-tags-cloud span { position: absolute; left: -999px; width: 990px; }
+/* size is purely presentational, based upon the class */
+#tags-tags-cloud a.weight1 { font-size: 1.0em; font-weight: 400; }
+#tags-tags-cloud a.weight2 { font-size: 1.2em; font-weight: 500; }
+#tags-tags-cloud a.weight3 { font-size: 1.4em; font-weight: 600; }
+#tags-tags-cloud a.weight4 { font-size: 1.6em; font-weight: 700; }
+#tags-tags-cloud a.weight5 { font-size: 1.8em; font-weight: 800; }
+/* @end */

@@ -117,7 +117,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the paths
-        $params = $this->getObject('application.components')->files->params;
+        $params = $this->getObject('application.extensions')->files->params;
 
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
         define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
@@ -147,8 +147,8 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $context->request->query->add($url->query);
 
         //Forward the request
-        $component = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
-        $this->forward($component);
+        $extension = substr( $context->request->query->get('option', 'cmd', 'com_dashboard'), 4);
+        $this->forward($extension);
 
         //Dispatch the request
         $this->dispatch();
@@ -163,9 +163,9 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     protected function _actionForward(Library\CommandContext $context)
     {
         //Set the controller to dispatch
-        $component = (string) $context->param;
+        $extension = (string) $context->param;
 
-        if (!$this->getObject('application.components')->isEnabled($component)) {
+        if (!$this->getObject('application.extensions')->isEnabled($extension)) {
             throw new Library\ControllerExceptionNotFound('Component Not Enabled');
         }
 

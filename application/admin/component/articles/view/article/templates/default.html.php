@@ -62,4 +62,4 @@
     </div>
 </form>
 
-<script data-inline> $jQuery(".select-terms").select2(); </script>
+<script data-inline> $jQuery(".select-tags").select2(); </script>

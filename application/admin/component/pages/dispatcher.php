@@ -43,6 +43,14 @@ class PagesDispatcher extends Library\DispatcherComponent
             return $this->redirect($url);
         }
 
+        if($view == 'menus' && !$context->request->query->has('application'))
+        {
+            $url = clone($context->request->getUrl());
+            $url->query['application']  = 'site';
+
+            return $this->redirect($url);
+        }
+
         return parent::_actionDispatch($context);
     }
 }

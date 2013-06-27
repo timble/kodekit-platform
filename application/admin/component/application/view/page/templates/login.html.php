@@ -14,8 +14,8 @@
 <?= @template('page_head.html') ?>
 
 <body class="login">
+    <?= @template('page_message.html') ?>
     <div class="login-box">
-		<?= @template('page_message.html') ?>
         <ktml:content />
 	</div>
 </body>

@@ -42,10 +42,10 @@ CREATE TABLE `languages_translations` (
 
 CREATE TABLE `languages_tables` (
     `languages_table_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `extensions_component_id` INT(11) UNSIGNED,
+    `extensions_extension_id` INT(11) UNSIGNED,
     `name` VARCHAR(64) NOT NULL,
     `unique_column` VARCHAR(64) NOT NULL,
     `enabled` BOOLEAN NOT NULL DEFAULT 0,
     PRIMARY KEY (`languages_table_id`),
-    CONSTRAINT `languages_tables__extensions_component_id` FOREIGN KEY (`extensions_component_id`) REFERENCES `extensions_components` (`extensions_component_id`) ON DELETE CASCADE
+    CONSTRAINT `languages_tables__extensions_extension_id` FOREIGN KEY (`extensions_extension_id`) REFERENCES `extensions` (`extensions_extension_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
