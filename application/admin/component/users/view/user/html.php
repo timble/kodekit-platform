@@ -22,7 +22,7 @@ class UsersViewUserHtml extends Library\ViewHtml
 {
     public function render()
     {
-        $this->params = $this->getObject('application.components')->users->params;
+        $this->params = $this->getObject('application.extensions')->users->params;
         return parent::render();
     }
 

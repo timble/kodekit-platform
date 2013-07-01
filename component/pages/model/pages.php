@@ -42,7 +42,7 @@ class ModelPages extends Library\ModelTable
         parent::_buildQueryColumns($query);
 
         if(!$query->isCountQuery()) {
-            $query->columns(array('component_name' => 'components.name'));
+            $query->columns(array('extension_name' => 'extensions.name'));
         }
     }
 
@@ -51,7 +51,7 @@ class ModelPages extends Library\ModelTable
         parent::_buildQueryJoins($query);
 
         if(!$query->isCountQuery()) {
-            $query->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
+            $query->join(array('extensions' => 'extensions'), 'extensions.extensions_extension_id = tbl.extensions_extension_id');
         }
 
         $state = $this->getState();

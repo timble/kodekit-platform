@@ -40,7 +40,7 @@
 
 
     
-    <?= @template('com:terms.view.terms.default.html') ?>
+    <?= @template('com:tags.view.tags.default.html') ?>
     <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
 <? if ($article->editable) : ?>

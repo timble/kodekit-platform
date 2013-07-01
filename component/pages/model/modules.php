@@ -25,7 +25,7 @@ class ModelModules extends Library\ModelTable
 
         $this->getState()
             ->insert('application', 'cmd', 'site')
-            ->insert('component'  , 'int')
+            ->insert('extension'  , 'int')
             ->insert('sort'  	  , 'cmd', 'ordering')
             ->insert('published'  , 'boolean')
             ->insert('position'   , 'cmd')
@@ -39,14 +39,14 @@ class ModelModules extends Library\ModelTable
     {
         parent::_buildQueryColumns($query);
 
-        $query->columns(array('component_name' => 'components.name'));
+        $query->columns(array('extension_name' => 'extensions.name'));
     }
 
     protected function _buildQueryJoins(Library\DatabaseQuerySelect $query)
     {
         $query
             ->join(array('module_menu' => 'pages_modules_pages'), 'module_menu.pages_module_id = tbl.pages_module_id')
-            ->join(array('components' => 'extensions_components'), 'components.extensions_component_id = tbl.extensions_component_id');
+            ->join(array('extensions'  => 'extensions'), 'extensions.extensions_extension_id = tbl.extensions_extension_id');
 
         parent::_buildQueryJoins($query);
     }
@@ -74,8 +74,8 @@ class ModelModules extends Library\ModelTable
                 $query->where('tbl.application = :application')->bind(array('application' => $state->application));
             }
 
-            if($state->component) {
-                $query->where('tbl.extensions_component_id = :component')->bind(array('component' => $state->component));
+            if($state->extension) {
+                $query->where('tbl.extensions_extension_id = :extension')->bind(array('extension' => $state->extension));
             }
 
             if (is_numeric($state->access)) {
@@ -130,12 +130,12 @@ class ModelModules extends Library\ModelTable
                     $this->_row->application = $state->application;
                 }
 
-                if($state->component)
+                if($state->extension)
                 {
-                    $this->_row->extensions_component_id = $state->component;
+                    $this->_row->extensions_extension_id = $state->extension;
 
-                    $this->_row->component_name = $this->getObject('application.components')
-                        ->find(array('id' => $state->component))
+                    $this->_row->extension_name = $this->getObject('application.extensions')
+                        ->find(array('id' => $state->extension))
                         ->top()
                         ->name;
                 }
@@ -160,17 +160,17 @@ class ModelModules extends Library\ModelTable
 
             if($state->installed)
             {
-                $table = $this->getObject('com:extensions.database.table.components');
+                $table = $this->getObject('com:extensions.database.table.extensions');
                 $query = $this->getObject('lib:database.query.select')->order('name');
 
-                $components = $table->select($query);
+                $extension = $table->select($query);
 
-                // Iterate through the components.
+                // Iterate through the extension
                 $modules = array();
-                foreach($components as $component)
+                foreach($extension as $extension)
                 {
                     $path  = Library\ClassLoader::getInstance()->getApplication('site');
-                    $path .= '/component/'.substr($component->name, 4).'/modules';
+                    $path .= '/component/'.substr($extension->name, 4).'/modules';
 
                     if(!is_dir($path)) {
                         continue;
@@ -186,7 +186,7 @@ class ModelModules extends Library\ModelTable
                                     'id'                      => $folder->getFilename(),
                                     'name'                    => 'mod_'.$folder->getFilename(),
                                     'application'             => 'site',
-                                    'extensions_component_id' => $component->id,
+                                    'extensions_extension_id' => $extension->id,
                                     'title'		              => null,
                                 );
                             }

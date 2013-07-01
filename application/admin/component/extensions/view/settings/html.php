@@ -22,7 +22,7 @@ class ExtensionsViewSettingsHtml extends Library\ViewHtml
         
         foreach($settings as $setting) 
         {
-	    	if($setting->getType() == 'component' && $setting->getPath()) {
+	    	if($setting->getType() == 'extension' && $setting->getPath()) {
 	    	    \JFactory::getLanguage()->load($setting->getName(), JPATH_APPLICATION);
 	    	}
         } 
