@@ -4449,7 +4449,6 @@ body {
   flex-grow: 1;
 }
 
-<<<<<<< HEAD
 /* line 107, _flexbox.scss */
 .cke_chrome iframe {
   min-height: 100px;
@@ -4470,90 +4469,26 @@ body {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
   flex-shrink: 0;
-=======
-/* line 114, _flexbox.scss */
-.editor-wrap,
-.editor-container,
-.mceEditor,
-table.mceLayout,
-table.mceLayout > tbody,
-table.mceLayout > tbody > tr:nth-of-type(2),
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer,
-table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   flex-direction: column;
 }
 
-/* line 120, _flexbox.scss */
-table.mceLayout > tbody > tr:nth-of-type(1),
-table.mceLayout > tbody > tr:nth-of-type(3) {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 0 0 auto;
-  -moz-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
-/* line 124, _flexbox.scss */
-.CodeMirror {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
->>>>>>> develop
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  flex-direction: column;
-}
-<<<<<<< HEAD
-
 /* @group Scope Bar */
 /* line 128, _flexbox.scss */
-=======
-/* line 128, _flexbox.scss */
-.CodeMirror .CodeMirror-scroll {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: flex;
-  -webkit-flex: 1;
-  -moz-flex: 1;
-  flex: 1;
-}
-
-/* @group Scope Bar */
-/* line 134, _flexbox.scss */
->>>>>>> develop
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-<<<<<<< HEAD
 /* line 131, _flexbox.scss */
-=======
-/* line 137, _flexbox.scss */
->>>>>>> develop
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-<<<<<<< HEAD
 /* line 135, _flexbox.scss */
-=======
-/* line 141, _flexbox.scss */
->>>>>>> develop
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4563,11 +4498,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 1;
 }
 
-<<<<<<< HEAD
 /* line 144, _flexbox.scss */
-=======
-/* line 149, _flexbox.scss */
->>>>>>> develop
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4578,11 +4509,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-<<<<<<< HEAD
 /* line 150, _flexbox.scss */
-=======
-/* line 155, _flexbox.scss */
->>>>>>> develop
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4591,11 +4518,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-<<<<<<< HEAD
 /* line 153, _flexbox.scss */
-=======
-/* line 158, _flexbox.scss */
->>>>>>> develop
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4604,11 +4527,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-<<<<<<< HEAD
 /* line 156, _flexbox.scss */
-=======
-/* line 161, _flexbox.scss */
->>>>>>> develop
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4620,11 +4539,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-<<<<<<< HEAD
 /* line 160, _flexbox.scss */
-=======
-/* line 165, _flexbox.scss */
->>>>>>> develop
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4639,11 +4554,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-<<<<<<< HEAD
 /* line 170, _flexbox.scss */
-=======
-/* line 175, _flexbox.scss */
->>>>>>> develop
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4655,11 +4566,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-<<<<<<< HEAD
 /* line 174, _flexbox.scss */
-=======
-/* line 179, _flexbox.scss */
->>>>>>> develop
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4671,39 +4578,23 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-<<<<<<< HEAD
 /* line 183, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
 /* line 191, _flexbox.scss */
-=======
-/* line 188, _flexbox.scss */
-.com_files #files-paginator {
-  height: 26px;
-}
-/* line 196, _flexbox.scss */
->>>>>>> develop
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-<<<<<<< HEAD
 /* line 195, _flexbox.scss */
-=======
-/* line 200, _flexbox.scss */
->>>>>>> develop
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-<<<<<<< HEAD
 /* line 199, _flexbox.scss */
-=======
-/* line 204, _flexbox.scss */
->>>>>>> develop
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4713,11 +4604,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-<<<<<<< HEAD
 /* line 203, _flexbox.scss */
-=======
-/* line 208, _flexbox.scss */
->>>>>>> develop
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4729,11 +4616,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-<<<<<<< HEAD
 /* line 207, _flexbox.scss */
-=======
-/* line 212, _flexbox.scss */
->>>>>>> develop
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4742,11 +4625,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-<<<<<<< HEAD
 /* line 211, _flexbox.scss */
-=======
-/* line 216, _flexbox.scss */
->>>>>>> develop
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;

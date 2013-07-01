@@ -24,11 +24,7 @@
 		<? $last = $i+1 == count($modules) ?>
 
 		<td width="50%">
-<<<<<<< HEAD
-            <a href="<?= @route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_component_id) ?>">
-=======
             <a href="<?= @route('view=module&layout=form&name='.$module->name.'&application='.$state->application.'&component='.$module->extensions_extension_id) ?>">
->>>>>>> develop
                 <?= @text(@escape($module->name)) ?>
             </a>
 		</td>
