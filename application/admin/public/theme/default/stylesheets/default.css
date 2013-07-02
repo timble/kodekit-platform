@@ -4474,21 +4474,53 @@ body {
   flex-direction: column;
 }
 
-/* @group Scope Bar */
 /* line 128, _flexbox.scss */
-.scopebar {
+.cke_dialog_contents_body {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
 /* line 131, _flexbox.scss */
+.cke_dialog_contents_body .cke_dialog_page_contents {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 134, _flexbox.scss */
+.cke_dialog_contents_body .cke_dialog_page_contents table {
+  margin: 0;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 141, _flexbox.scss */
+.cke_dialog_contents_body .cke_dialog_page_contents table tbody,
+.cke_dialog_contents_body .cke_dialog_page_contents table tbody tr,
+.cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td
+tbody tr td iframe {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
+}
+
+/* @group Scope Bar */
+/* line 150, _flexbox.scss */
+.scopebar {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+/* line 153, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 135, _flexbox.scss */
+/* line 157, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4498,7 +4530,7 @@ body {
   flex: 1;
 }
 
-/* line 144, _flexbox.scss */
+/* line 166, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4509,7 +4541,7 @@ body {
   flex-direction: column;
 }
 
-/* line 150, _flexbox.scss */
+/* line 172, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4518,7 +4550,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 153, _flexbox.scss */
+/* line 175, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4527,7 +4559,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 156, _flexbox.scss */
+/* line 178, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4539,7 +4571,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 160, _flexbox.scss */
+/* line 182, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4554,7 +4586,7 @@ body {
   flex-direction: column;
 }
 
-/* line 170, _flexbox.scss */
+/* line 192, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4566,7 +4598,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 174, _flexbox.scss */
+/* line 196, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4578,23 +4610,23 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 183, _flexbox.scss */
+/* line 205, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 191, _flexbox.scss */
+/* line 213, _flexbox.scss */
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 195, _flexbox.scss */
+/* line 217, _flexbox.scss */
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 199, _flexbox.scss */
+/* line 221, _flexbox.scss */
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4604,7 +4636,7 @@ body {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 203, _flexbox.scss */
+/* line 225, _flexbox.scss */
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4616,7 +4648,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 207, _flexbox.scss */
+/* line 229, _flexbox.scss */
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4625,7 +4657,7 @@ body {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 211, _flexbox.scss */
+/* line 233, _flexbox.scss */
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
