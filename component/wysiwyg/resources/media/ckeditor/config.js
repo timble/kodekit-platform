@@ -4,6 +4,7 @@
  */
 (function() {
     CKEDITOR.plugins.addExternal('readmore','nookuplugins/readmore/', 'plugin.js');
+    CKEDITOR.plugins.addExternal('files','nookuplugins/files/', 'plugin.js');
 })();
 
 
@@ -13,7 +14,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'codemirror,readmore,autosave';
+    config.extraPlugins = 'codemirror,readmore,autosave,files';
     config.codemirror = {
         theme: 'default',
         lineNumbers: true,
@@ -67,7 +68,7 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'insert', items: [ 'Image', 'Table' ] },
             { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'PasteText', '-', 'Undo', 'Redo' ] },
             { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Scayt' ] },
-            { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] }
+            { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'files','Source' ] }
         ];
     config.toolbar_title =
         [

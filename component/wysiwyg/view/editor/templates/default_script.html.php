@@ -11,11 +11,6 @@
 <? /* Image and article buttons needs this in order to work */ ?>
 <?= @helper('behavior.modal') ?>
 
-<? if ($options['toggle']) : ?>
-    <style src="media://wysiwyg/css/form.css" />
-    <script src="media://wysiwyg/js/Fx.Toggle.js" />
-<? endif ?>
-
 <script src="media://wysiwyg/ckeditor/ckeditor.js" />
 
 
@@ -25,7 +20,7 @@
         CKEDITOR.replace( <?= $id ?>, {
             toolbar: '<?=$options['toolbar']?>',
             language: '<?=$settings['language']?>',
-            height: '<?=$settings['height']?>px',
+            height: '<?=$settings['height']?>',
             width: '<?=$settings['width']?>',
             contentsLangDirection: '<?=$settings['directionality']?>',
             scayt_autoStartup: '<?=$settings['scayt_autoStartup']?>',
