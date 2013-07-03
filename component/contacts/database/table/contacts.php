@@ -19,12 +19,15 @@ use Nooku\Library;
  */
 class DatabaseTableContacts extends Library\DatabaseTableDefault
 {
-	public function _initialize(Library\ObjectConfig $config)
+	protected function _initialize(Library\ObjectConfig $config)
 	{
         $config->append(array(
             'name' => 'contacts',
             'behaviors' => array(
-            	'creatable', 'modifiable', 'orderable', 'lockable',
+            	'creatable', 'modifiable', 'lockable',
+                'orderable' => array(
+                    'strategy' => 'flat'
+                ),
                 'sluggable' => array('columns' => array('name')),
                 'com:attachments.database.behavior.attachable',
             ),

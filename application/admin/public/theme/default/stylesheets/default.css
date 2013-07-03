@@ -4798,6 +4798,11 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   list-style: none;
 }
 
+/* line 2, components/_contacts.scss */
+body.com_contacts .editor-wrap {
+  min-height: 200px;
+}
+
 /* line 2, components/_dashboard.scss */
 .com_dashboard #panel-content > div:first-child {
   border-right: 1px solid #dddddd;
