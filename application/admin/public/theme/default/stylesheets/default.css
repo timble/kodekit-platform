@@ -4474,29 +4474,29 @@ body {
   flex-direction: column;
 }
 
-/* line 128, _flexbox.scss */
-.cke_dialog_contents_body {
+/* line 129, _flexbox.scss */
+.files_dialog .cke_dialog_contents_body {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 131, _flexbox.scss */
-.cke_dialog_contents_body .cke_dialog_page_contents {
+/* line 132, _flexbox.scss */
+.files_dialog .cke_dialog_contents_body .cke_dialog_page_contents {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 134, _flexbox.scss */
-.cke_dialog_contents_body .cke_dialog_page_contents table {
+/* line 135, _flexbox.scss */
+.files_dialog .cke_dialog_contents_body .cke_dialog_page_contents table {
   margin: 0;
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 141, _flexbox.scss */
-.cke_dialog_contents_body .cke_dialog_page_contents table tbody,
-.cke_dialog_contents_body .cke_dialog_page_contents table tbody tr,
-.cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td
+/* line 142, _flexbox.scss */
+.files_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody,
+.files_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr,
+.files_dialog .cke_dialog_contents_body .cke_dialog_page_contents table tbody tr td
 tbody tr td iframe {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4507,20 +4507,20 @@ tbody tr td iframe {
 }
 
 /* @group Scope Bar */
-/* line 150, _flexbox.scss */
+/* line 152, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 153, _flexbox.scss */
+/* line 155, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 157, _flexbox.scss */
+/* line 159, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4530,7 +4530,7 @@ tbody tr td iframe {
   flex: 1;
 }
 
-/* line 166, _flexbox.scss */
+/* line 168, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4541,7 +4541,7 @@ tbody tr td iframe {
   flex-direction: column;
 }
 
-/* line 172, _flexbox.scss */
+/* line 174, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4550,7 +4550,7 @@ tbody tr td iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 175, _flexbox.scss */
+/* line 177, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4559,7 +4559,7 @@ tbody tr td iframe {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 178, _flexbox.scss */
+/* line 180, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4571,7 +4571,7 @@ tbody tr td iframe {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 182, _flexbox.scss */
+/* line 184, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4586,7 +4586,7 @@ tbody tr td iframe {
   flex-direction: column;
 }
 
-/* line 192, _flexbox.scss */
+/* line 194, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4598,7 +4598,7 @@ tbody tr td iframe {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 196, _flexbox.scss */
+/* line 198, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4610,23 +4610,23 @@ tbody tr td iframe {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 205, _flexbox.scss */
+/* line 207, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 213, _flexbox.scss */
+/* line 215, _flexbox.scss */
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 217, _flexbox.scss */
+/* line 219, _flexbox.scss */
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 221, _flexbox.scss */
+/* line 223, _flexbox.scss */
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4636,7 +4636,7 @@ tbody tr td iframe {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 225, _flexbox.scss */
+/* line 227, _flexbox.scss */
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4648,7 +4648,7 @@ tbody tr td iframe {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 229, _flexbox.scss */
+/* line 231, _flexbox.scss */
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4657,7 +4657,7 @@ tbody tr td iframe {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 233, _flexbox.scss */
+/* line 235, _flexbox.scss */
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;

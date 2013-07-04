@@ -124,22 +124,24 @@ body {
   @include flex-direction(column);
 }
 
-// Compact Files
-.cke_dialog_contents_body {
-  @include flex();
-
-  .cke_dialog_page_contents {
+// Files dialog in the editor
+.files_dialog {
+  .cke_dialog_contents_body {
     @include flex();
 
-    table {
-      margin: 0;
+    .cke_dialog_page_contents {
       @include flex();
 
-      tbody,
-      tbody tr,
-      tbody tr td
-      tbody tr td iframe {
-        @include flex(1);
+      table {
+        margin: 0;
+        @include flex();
+
+        tbody,
+        tbody tr,
+        tbody tr td
+        tbody tr td iframe {
+          @include flex(1);
+        }
       }
     }
   }
