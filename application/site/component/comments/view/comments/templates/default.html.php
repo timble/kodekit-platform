@@ -10,7 +10,30 @@
 
 <script src="media://js/mootools.js" />
 
-<script>
+
+<script src="media:///wysiwyg/ckeditor/ckeditor.js" />
+<script type='text/javascript' language='javascript'>
+
+    function ClickToSave (comment_id) {
+        var request = new Request.JSON({
+            url: '?view=comment&id='+comment_id,
+            data: {
+                id: comment_id,
+                text: CKEDITOR.instances['comment-'+comment_id].getData(),
+                _token:'<?= @object('user')->getSession()->getToken() ?>'
+            },
+            onComplete: function(response){
+
+            }
+        }).send();
+    }
+
+    CKEDITOR.on( 'instanceCreated', function( event ) {
+        var editor = event.editor,
+
+        editor.config.toolbar = 'title';
+    });
+
     window.addEvent('domready', function() {
         $$('.icon-trash').addEvent('click',function(){
             var id = $(this).getAttribute('data-id');
@@ -18,11 +41,9 @@
                 url: '?view=comment&id='+id,
                 method: 'delete',
                 data: {
-                    action: 'delete',
                     id: id,
                     _token:'<?= @object('user')->getSession()->getToken() ?>'
                 },
-//                action: delete,
                 onComplete: function(response){
                     $('comment-'+id).remove()
                 }
@@ -51,7 +72,7 @@
                 </span>
             <? endif;?>
         </div>
-        <div class="comment-content">
+        <div class="comment-content" id="comment-<?=$comment->id;?>" contenteditable="<?= $comment->editable ? 'true':'true';?>" onBlur="ClickToSave(<?=$comment->id?>)">
             <p><?= @escape($comment->text) ?></p>
         </div>
 
