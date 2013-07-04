@@ -1,3 +1,4 @@
+var iframeWindow = null;
 CKEDITOR.plugins.add('files',
     {
         requires: [ 'iframedialog' ],
@@ -9,15 +10,37 @@ CKEDITOR.plugins.add('files',
                 'filesDialog',
                 'Files',
                 '?option=com_files&container=files-files&view=images&tmpl=dialog', width, height,
-                function()
-                { // onContentLoad
-                    // Iframe loaded callback.
+                function() {
+                    var iframe = document.getElementById( this._.frameId );
+                    iframeWindow = iframe.contentWindow;
                 },
 
                 { // userDefinition
                     onOk : function()
                     {
-                        // Dialog onOk callback.
+
+                        var iframedocument = iframeWindow.document;
+                        var src = iframedocument.id('image-url').get('value');
+                        var attrs = {};
+                        ['align', 'alt', 'title'].each(function(id) {
+                            var value = iframedocument.id('image-'+id).get('value');
+                            if (value) {
+                                attrs[id] = value;
+                            }
+                        });
+                        if (iframedocument.id('image-caption').get('value')) {
+                            attrs['class'] = 'caption';
+                        }
+
+                        var str = '<img src="'+src+'" ';
+                        var parts = [];
+                        $each(attrs, function(value, key) {
+                            parts.push(key+'="'+value+'"');
+                        });
+                        str += parts.join(' ')+' />';
+
+                        // puts the image in the editor
+                        this._.editor.insertHtml(str);
                     },
                     onShow : function()
                     {
