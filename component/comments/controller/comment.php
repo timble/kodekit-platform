@@ -30,7 +30,7 @@ abstract class ControllerComment extends Library\ControllerModel
         $permission       = clone $this->getIdentifier();
         $permission->path = array('controller', 'permission');
 
-        $this->getObject('manager')->registerAlias($permission, 'com:comments.controller.permission.comment');
+        $this->getObject('manager')->registerAlias($permission->toString(), 'com:comments.controller.permission.comment');
         
         parent::_initialize($config);
     }
@@ -38,7 +38,7 @@ abstract class ControllerComment extends Library\ControllerModel
     protected function _actionRender(Library\CommandContext $context)
     {
         $view = $this->getView();
-        
+
 	    //Alias the view layout
         if($view instanceof Library\ViewTemplate)
 	    {
