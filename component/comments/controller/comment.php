@@ -30,8 +30,8 @@ abstract class ControllerComment extends Library\ControllerModel
         $permission       = clone $this->getIdentifier();
         $permission->path = array('controller', 'permission');
 
-        $this->getObject('manager')->registerAlias($permission->toString(), 'com:comments.controller.permission.comment');
-        
+        $this->getObject('manager')->registerAlias('com:'.$permission->package.'controller.permission.comment', 'com:comments.controller.permission.comment');
+
         parent::_initialize($config);
     }
     
