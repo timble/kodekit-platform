@@ -37,7 +37,15 @@ class ArticlesTemplateHelperDate extends Library\TemplateHelperDate
 
         $value = null;
         if($value = $config->row->{$config->name}) {
-            $value = gmdate('Y-m-d\TH:i:s', strtotime($value));
+            switch($config->type) {
+                case 'date':
+                    $value = gmdate('Y-m-d', strtotime($value));
+                    break;
+                case 'datetime':
+                case 'datetime-local':
+                    $value = gmdate('Y-m-d\TH:i:s', strtotime($value));
+                    break;
+            }
         }
 
         $html = '<input type="'.$config->type.'" name="'.$config->name.'" value="'.$value.'" />';
