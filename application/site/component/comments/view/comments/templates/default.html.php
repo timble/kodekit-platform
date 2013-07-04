@@ -15,7 +15,7 @@
         $$('.icon-trash').addEvent('click',function(){
             var id = $(this).getAttribute('data-id');
             var request = new Request.JSON({
-                url: '<?=@route();?>',
+                url: '?view=comment&id='+id,
                 method: 'delete',
                 data: {
                     action: 'delete',
@@ -36,6 +36,7 @@
 <?endif;?>
 
 <? foreach($comments as $comment) : ?>
+
     <div class="comment" id="comment-<?=$comment->id;?>">
         <div class="comment-header">
            <span class="comment-header-author">
@@ -44,7 +45,7 @@
            <span class="comment-header-time">
                 <time datetime="<?= $comment->created_on ?>" pubdate><?= @helper('date.humanize', array('date' => $comment->created_on)) ?></time>
             </span>
-            <?if($comment->deleteable):?>
+            <?if($comment->created_by == @object('user')->getId() || $this->getUser()->getRole() >= 23):?>
                 <span class="comment-header-options">
                     <i class="icon-trash" data-id="<?=$comment->id;?>"></i>
                 </span>
@@ -53,6 +54,8 @@
         <div class="comment-content">
             <p><?= @escape($comment->text) ?></p>
         </div>
+
     </div>
+
 <? endforeach ?>
 
