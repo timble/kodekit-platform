@@ -24,13 +24,13 @@
     <div>
         <label for="publish_on"><?= @text('Publish on') ?></label>
         <div>
-            <input type="datetime-local" name="publish_on" value="<?= $article->publish_on ?>" />
+            <input type="datetime-local" name="publish_on" value="<?= gmdate('Y-m-d\TH:i:s', strtotime($article->publish_on)) ?>" />
         </div>
     </div>
     <div>
         <label for="unpublish_on"><?= @text('Unpublish on') ?></label>
         <div>
-            <input type="datetime-local" name="unpublish_on" value="<?= $article->unpublish_on ?>" />
+            <input type="datetime-local" name="unpublish_on" value="<?= gmdate('Y-m-d\TH:i:s', strtotime($article->unpublish_on)) ?>" />
         </div>
     </div>
 </fieldset>
