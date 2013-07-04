@@ -42,8 +42,8 @@
     <?= @template('com:tags.view.tags.default.html') ?>
     <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
 </article>
-
-<? if($article->id && $article->isCommentable()) : ?>
+<?print_r($params->toArray());?>
+<? if($article->id && $params->get('commentable')) : ?>
 <div class="comments">
     <?= @object('com:articles.controller.comment')->row($article->id)->render(array('row' => $article));?>
 </div>

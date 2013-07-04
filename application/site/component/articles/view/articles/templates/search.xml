@@ -8,5 +8,11 @@
     <state>
         <name>Search layout</name>
         <description>ARTICLES SEARCH LAYOUT DESC</description>
+        <params>
+            <param name="commentable" type="radio" default="0" label="Allow comments" description="">
+                <option value="0">NO</option>
+                <option value="1">YES</option>
+            </param>
+        </params>
     </state>
 </metadata>
