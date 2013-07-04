@@ -6,30 +6,35 @@ CKEDITOR.plugins.add('files',
         {
             var height = 480, width = 750;
             CKEDITOR.dialog.addIframe(
-                'myiframedialogDialog',
+                'filesDialog',
                 'Files',
                 '?option=com_files&container=files-files&view=images&tmpl=dialog', width, height,
                 function()
-                {
+                { // onContentLoad
                     // Iframe loaded callback.
                 },
 
-                {
+                { // userDefinition
                     onOk : function()
                     {
                         // Dialog onOk callback.
+                    },
+                    onShow : function()
+                    {
+                        this.parts.dialog.addClass('files_dialog');
                     }
                 }
             );
 
-            editor.addCommand( 'myiframedialog', new CKEDITOR.dialogCommand( 'myiframedialogDialog' ) );
+            editor.addCommand( 'filesDialog', new CKEDITOR.dialogCommand( 'filesDialog' ) );
 
             editor.ui.addButton( 'files',
                 {
-                    label: 'My Iframe in dialog',
-                    command: 'myiframedialog',
+                    label: 'Files Dialog',
+                    command: 'filesDialog',
                     icon: this.path + 'images/icon.gif'
                 } );
+
         }
     }
 );
