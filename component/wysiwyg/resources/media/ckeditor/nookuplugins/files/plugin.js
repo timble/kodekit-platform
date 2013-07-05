@@ -55,7 +55,7 @@ CKEDITOR.plugins.add('files',
                 {
                     label: 'Files Dialog',
                     command: 'filesDialog',
-                    icon: this.path + 'images/icon.gif'
+                    icon: this.path + 'images/image.png'
                 } );
 
         }

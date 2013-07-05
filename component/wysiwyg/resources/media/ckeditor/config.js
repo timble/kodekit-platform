@@ -47,7 +47,7 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
                 '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
             { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
-            { name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+            { name: 'insert', items : [ 'files','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
             '/',
             { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
             { name: 'colors', items : [ 'TextColor','BGColor' ] },
@@ -65,10 +65,10 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic' ] },
             { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
             { name: 'links', items: [ 'Link', 'Unlink', '-', 'readmore' ] },
-            { name: 'insert', items: [ 'Image', 'Table' ] },
+            { name: 'insert', items: [ 'files', 'Table' ] },
             { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'PasteText', '-', 'Undo', 'Redo' ] },
             { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Scayt' ] },
-            { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'files','Source' ] }
+            { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] }
         ];
     config.toolbar_title =
         [
