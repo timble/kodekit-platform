@@ -14,90 +14,54 @@ use Nooku\Library;
 /**
  * Editor Html View Class
  *
- * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
  * @package Nooku\Component\Wysiwyg
  */
 class ViewEditorHtml extends Library\ViewHtml
 {
-    protected $_editor_settings;
-    
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        if ($config->editor_settings) {
-            $this->_editor_settings = $config->editor_settings;
-        }
-    }
-
     protected function _initialize(Library\ObjectConfig $config)
     {
         $language = \JFactory::getLanguage();
 
-		$settings = array(
-			'directionality'						=> $language->isRTL() ? 'rtl' : 'ltr',
-			'editor_selector'						=> 'editable',
-			'mode'									=> 'specific_textareas',
-			'scayt_autoStartup'						=> true,
-			'entities'						        => false,
-            'basicEntities'                         => false,
-            'entities_greek'                        => false,
-            'entities_latin'                        => false,
-            'forcePasteAsPlainText'                 => true,
-			'invalid_elements'						=> 'script,applet,iframe',
-			'relative_urls'							=> false,
-			'remove_script_host'					=> true,
-			'document_base_url'						=>  $this->getObject('request')->getBaseUrl()->getPath().'/sites/'.$this->getObject('application')->getSite(),
-			'height' 								=> '',
-			'width'									=> '',
-			'dialog_type'							=> 'modal',
-			'language'								=> substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),
-		);
+        $config->append(array('settings' => array(
+			'directionality'		=> $language->isRTL() ? 'rtl' : 'ltr',
+			'editor_selector'		=> 'editable',
+			'mode'					=> 'specific_textareas',
+			'scayt_autoStartup'		=> true,
+			'entities'				=> false,
+            'basicEntities'         => false,
+            'entities_greek'        => false,
+            'entities_latin'        => false,
+            'forcePasteAsPlainText' => true,
+			'invalid_elements'		=> 'script,applet,iframe',
+			'relative_urls'			=> false,
+			'remove_script_host'	=> true,
+			'document_base_url'		=>  $this->getObject('request')->getBaseUrl()->getPath().'/sites/'.$this->getObject('application')->getSite(),
+			'height' 				=> '',
+			'width'					=> '',
+			'dialog_type'			=> 'modal',
+			'language'			    => substr($language->getTag(), 0, strpos( $language->getTag(), '-' )),
+            'options'  => array(
+                'autoheight'  => true,
+                'toolbar'     => $this->toolbar ? $this->toolbar : 'standard',
+            )
+		)));
 
-		$config->append(array(
-			'editor_settings' => $settings
-		));
 
 		parent::_initialize($config);
     }
     
 	public function render()
 	{
-		$options = new Library\ObjectConfig(array(
-			'lang' => array(
-				'html'		=> \JText::_('HTML'),
-				'visual'	=> \JText::_('Visual')
-			),
-            'autoheight'        => true,
-			'toggle'            => $this->toggle,
-            'color'             => '',
-            'toolbar'           => $this->toolbar ? $this->toolbar : 'standard',
-		));
-
-		//@TODO cleanup
 		if(!$this->id) {
 		    $this->id = $this->name;
 		}
-		
-		$this->setEditorSettings(array('editor_selector' => 'editable-'.$this->id));
 
-		$this->options    = Library\ObjectConfig::unbox($options);
-		$this->settings   = $this->getEditorSettings();
+        $settings = clone $this->getConfig()->settings;
+        $settings->editor_selector = 'editable-'.$this->id;
+
+		$this->settings = $settings;
 
 		return parent::render();
-	}
-	
-    public function getEditorSettings()
-	{
-	    return Library\ObjectConfig::unbox($this->_editor_settings);
-	}
-	
-	public function setEditorSettings(array $settings = array())
-	{
-	    foreach($settings as $key => $value) {
-	        $this->_editor_settings->$key = $value;
-	    }
-	    
-	    return $this;
 	}
 }

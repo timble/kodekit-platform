@@ -14,7 +14,7 @@ use Nooku\Library;
 /**
  * Editor Controller
  *
- * @author  Stian Didriksen <http://nooku.assembla.com/profile/stiandidriksen>
+ * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
  * @package Nooku\Component\Wysiwyg
  */
 class ControllerEditor extends Library\ControllerView
