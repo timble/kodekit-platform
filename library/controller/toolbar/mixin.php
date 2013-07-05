@@ -80,8 +80,11 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
     public function attachToolbar($toolbar, $config = array(), $priority = Event::PRIORITY_NORMAL)
     {
         if (!($toolbar instanceof ControllerToolbarInterface)) {
-            $toolbar = $this->getToolbar($toolbar, $config);
+            $toolbar = $this->createToolbar($toolbar, $config);
         }
+
+        //Store the toolbar to allow for name lookups
+        $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
 
         if ($this->inherits('Nooku\Library\EventMixin')) {
             $this->addEventSubscriber($toolbar, $priority);
@@ -96,17 +99,44 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
      * @param   string   $toolbar The name of the toolbar
      * @return  boolean  TRUE if the toolbar exists, FALSE otherwise
      */
-    public function hasToolbar($toolbar)
+    public function hasToolbar($name)
     {
-        return isset($this->_toolbars[$toolbar]);
+        return isset($this->_toolbars[$name]);
+    }
+
+    /**
+     * Get a toolbar by name
+     *
+     * @param  string  $name   The toolbar name
+     * @return ControllerToolbarInterface
+     */
+    public function getToolbar($name)
+    {
+        $result = null;
+
+        if(isset($this->_toolbars[$name])) {
+            $result = $this->_toolbars[$name];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Gets the toolbars
+     *
+     * @return array  An associative array of toolbars, keys are the toolbar names
+     */
+    public function getToolbars()
+    {
+        return $this->_toolbars;
     }
 
     /**
      * Get a toolbar by identifier
      *
-     * @return ControllerToolbarAbstract
+     * @return ControllerToolbarInterface
      */
-    public function getToolbar($toolbar, $config = array())
+    public function createToolbar($toolbar, $config = array())
     {
         if (!($toolbar instanceof ObjectIdentifier))
         {
@@ -121,29 +151,13 @@ class ControllerToolbarMixin extends ObjectMixinAbstract
         }
         else $identifier = $toolbar;
 
-        if (!isset($this->_toolbars[$identifier->name]))
-        {
-            $config['controller'] = $this->getMixer();
-            $toolbar = $this->getObject($identifier, $config);
+        $config['controller'] = $this->getMixer();
+        $toolbar = $this->getObject($identifier, $config);
 
-            if (!($toolbar instanceof ControllerToolbarInterface)) {
-                throw new \UnexpectedValueException("Controller toolbar $identifier does not implement ControllerToolbarInterface");
-            }
-
-            $this->_toolbars[$toolbar->getIdentifier()->name] = $toolbar;
+        if (!($toolbar instanceof ControllerToolbarInterface)) {
+            throw new \UnexpectedValueException("Controller toolbar $identifier does not implement ControllerToolbarInterface");
         }
-        else $toolbar = $this->_toolbars[$identifier->name];
 
         return $toolbar;
-    }
-
-    /**
-     * Gets the toolbars
-     *
-     * @return array  An associative array of toolbars, keys are the toolbar names
-     */
-    public function getToolbars()
-    {
-        return $this->_toolbars;
     }
 }
