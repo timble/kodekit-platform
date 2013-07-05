@@ -51,13 +51,9 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
      */
     protected function _initialize(ObjectConfig $config)
     {
-        //Create permission identifier
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array('controller', 'permission');
-
         $config->append(array(
             'view'      => $this->getIdentifier()->name,
-            'behaviors' => array($permission),
+            'behaviors' => array('permissible'),
         ));
 
         parent::_initialize($config);
@@ -190,11 +186,14 @@ abstract class ControllerView extends ControllerAbstract implements ControllerVi
 	 */
 	public function __call($method, $args)
 	{
-		//Check for layout, view or format property
-        if(in_array($method, array('layout', 'format')))
+        if(!isset($this->_mixed_methods[$method]))
         {
-            $this->getRequest()->query->set($method, $args[0]);
-            return $this;
+		    //Check for layout, view or format property
+            if(in_array($method, array('layout', 'format')))
+            {
+                $this->getRequest()->query->set($method, $args[0]);
+                return $this;
+            }
         }
 
 		return parent::__call($method, $args);
