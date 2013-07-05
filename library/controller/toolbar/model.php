@@ -44,7 +44,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
             $this->addCommand('apply');
         }
 
-        if($controller->isEditable() && $controller->canCancel()) {}
+        if($controller->isEditable() && $controller->canCancel()) {
             $this->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
         }
     }
