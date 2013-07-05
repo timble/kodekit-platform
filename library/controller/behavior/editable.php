@@ -127,6 +127,58 @@ class ControllerBehaviorEditable extends ControllerBehaviorAbstract
     }
 
     /**
+     * Permission handler for save actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canSave()
+    {
+        if($this->getModel()->getState()->isUnique())
+        {
+            if($this->canEdit())
+            {
+                if($this->isLockable() && !$this->isLocked()) {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            if($this->canAdd()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Permission handler for apply actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canApply()
+    {
+       return $this->canSave();
+    }
+
+    /**
+     * Permission handler for cancel actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canCancel()
+    {
+        return $this->canRead();
+    }
+
+    /**
      * Save action
      *
      * This function wraps around the edit or add action. If the model state is unique a edit action will be
