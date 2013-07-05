@@ -10,51 +10,39 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Dispatcher Permission
+ * Dispatcher Permission Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  * @subpackage	Permission
  */
-abstract class DispatcherPermissionAbstract extends ObjectMixinAbstract implements DispatcherPermissionInterface
+interface DispatcherPermissionInterface
 {
     /**
      * Permission handler for forward actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function canForward()
-    {
-        return true;
-    }
+    public function canForward();
 
     /**
      * Permission handler for dispatch actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function canDispatch()
-    {
-        return true;
-    }
+    public function canDispatch();
 
     /**
      * Permission handler for redirect actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function canRedirect()
-    {
-        return true;
-    }
+    public function canRedirect();
 
     /**
      * Permission handler for send actions
      *
      * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function canSend()
-    {
-        return true;
-    }
+    public function canSend();
 }
