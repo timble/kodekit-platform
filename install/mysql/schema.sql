@@ -37,12 +37,13 @@ CREATE TABLE `activities` (
 
 CREATE TABLE `articles` (
   `articles_article_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `categories_category_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `attachments_attachment_id` int(11) unsigned DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) DEFAULT NULL,
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',
-  `categories_category_id` int(11) unsigned NOT NULL DEFAULT '0',
   `created_by` int(11) unsigned DEFAULT NULL,
   `created_on` datetime DEFAULT NULL,
   `modified_by` int(11) unsigned DEFAULT NULL,
@@ -157,6 +158,7 @@ CREATE TABLE `comments` (
 
 CREATE TABLE `contacts` (
   `contacts_contact_id` int(11) NOT NULL AUTO_INCREMENT,
+  `categories_category_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) DEFAULT NULL,
   `position` varchar(255) DEFAULT NULL,
@@ -168,7 +170,6 @@ CREATE TABLE `contacts` (
   `telephone` varchar(255) DEFAULT NULL,
   `fax` varchar(255) DEFAULT NULL,
   `misc` mediumtext,
-  `image` varchar(255) DEFAULT NULL,
   `email_to` varchar(255) DEFAULT NULL,
   `published` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `created_by` int(11) unsigned,
@@ -179,7 +180,6 @@ CREATE TABLE `contacts` (
   `locked_on` datetime,
   `ordering` int(11) NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `categories_category_id` int(11) NOT NULL DEFAULT '0',
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `mobile` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`contacts_contact_id`),
