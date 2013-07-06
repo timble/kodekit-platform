@@ -55,7 +55,8 @@ class ModelArticles extends Library\ModelTable
         $query->join(array('categories' => 'categories'), 'categories.categories_category_id = tbl.categories_category_id')
               ->join(array('creator'  => 'users'), 'creator.users_user_id = tbl.created_by')
               ->join(array('modifier'  => 'users'), 'modifier.users_user_id = tbl.modified_by')
-              ->join(array('thumbnails'  => 'files_thumbnails'), 'thumbnails.filename = tbl.image');
+              ->join(array('attachments'  => 'attachments'), 'attachments.attachments_attachment_id = tbl.attachments_attachment_id')
+              ->join(array('thumbnails'  => 'files_thumbnails'), 'thumbnails.filename = attachments.path');
     }
 
     protected function _buildQueryWhere(Library\DatabaseQuerySelect $query)
