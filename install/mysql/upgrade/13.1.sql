@@ -135,9 +135,6 @@ VALUES
     (24, 'Administrator', ''),
     (25, 'Super Administrator', '');
 
--- Change session table storage engine to InnoDB
--- http://nooku.assembla.com/spaces/nooku-server/tickets/190
-ALTER TABLE `session` ENGINE InnoDB;
 RENAME TABLE`session` TO  `users_sessions`;
 
 -- Remove unused columns from session
