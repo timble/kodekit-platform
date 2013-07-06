@@ -72,6 +72,36 @@
 .thumbnail__caption {
   padding: 6px 0 0;
 }
+/* line 26, blocks/_thumbnail.scss */
+.thumbnail__caption input[type=radio] {
+  display: none;
+}
+/* line 30, blocks/_thumbnail.scss */
+.thumbnail__caption label {
+  width: auto;
+  float: none;
+}
+/* line 33, blocks/_thumbnail.scss */
+.thumbnail__caption label:after {
+  content: none;
+}
+/* line 38, blocks/_thumbnail.scss */
+.thumbnail__caption input:checked + label {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background: linear-gradient(#fbb450, #f89406);
+  border-color: #f89406 #f89406 #ad6704;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+/* line 186, _mixins.scss */
+.thumbnail__caption input:checked + label:hover, .thumbnail__caption input:checked + label:focus, .thumbnail__caption input:checked + label:active, .thumbnail__caption input:checked + label.active, .thumbnail__caption input:checked + label.disabled, .thumbnail__caption input:checked + label[disabled] {
+  color: white;
+  background-color: #f89406;
+}
+/* line 193, _mixins.scss */
+.thumbnail__caption input:checked + label:active, .thumbnail__caption input:checked + label.active {
+  background-color: #c67605 \9;
+}
 
 /** Scopebar styles **/
 /* line 2, blocks/_scopebar.scss */
