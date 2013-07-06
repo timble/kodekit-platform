@@ -30,7 +30,7 @@ class CacheControllerGroup extends Library\ControllerModel
            $message = JText::_('Error purging expired items');
         }
 
-        $context->user->addFlashMessage($message);
+        $context->response->addMessage($message);
         return true;
     }
     
