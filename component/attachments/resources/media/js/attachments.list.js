@@ -51,20 +51,5 @@ Attachments.List = new Class({
         });
 
         form.submit();
-    },
-
-    _actionAssign: function(uri)
-    {
-        var form = new Koowa.Form({
-            method: 'post',
-            url: uri.toString(),
-            params: {
-                _action: 'save',
-                _token: this.token,
-                assign: 1
-            }
-        });
-
-        form.submit();
     }
 });

@@ -36,9 +36,10 @@ window.addEvent('domready', function() {
                     <i class="icon-trash icon-white"></i>
                 </a>
                 <? if($assignable) : ?>
-                <a class="btn btn-mini <?= ($item->path == $image ? 'btn-warning' : '') ?>" href="#" data-action="assign" data-id="<?= $item->id; ?>">
+                <input type="radio" name="attachments_attachment_id" id="fav-<?= $item->id; ?>" value="<?= $item->id; ?>" <?= $item->id == $attachments_attachment_id ? 'checked' : '' ?>>
+                <label for="fav-<?= $item->id; ?>" class="btn btn-mini">
                     <i class="icon-star"></i>
-                </a>
+                </label>
                 <? endif ?>
             </div>
         </div>
