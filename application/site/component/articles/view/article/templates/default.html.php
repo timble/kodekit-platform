@@ -37,5 +37,5 @@
     <?= $article->fulltext ?>
     
     <?= @template('com:tags.view.tags.default.html') ?>
-    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>
