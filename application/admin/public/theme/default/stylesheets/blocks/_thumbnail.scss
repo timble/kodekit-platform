@@ -22,4 +22,20 @@
 
 .thumbnail__caption {
   padding: 6px 0 0;
+
+  input[type=radio] {
+    display: none;
+  }
+
+  label {
+    width: auto;
+    float: none;
+    &:after {
+      content:none;
+    }
+  }
+
+  input:checked + label {
+    @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
+  }
 }

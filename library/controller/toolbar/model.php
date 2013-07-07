@@ -20,7 +20,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
 	/**
 	 * Push the toolbar into the view
 	 * .
-	 * @param Event	A event object
+	 * @param Event	$event A event object
 	 */
     public function onBeforeControllerRender(Event $event)
     {
@@ -30,7 +30,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
 	/**
 	 * Add default toolbar commands and set the toolbar title
 	 * .
-	 * @param	Event	A event object
+	 * @param	Event $event A event object
 	 */
     public function onAfterControllerRead(Event $event)
     {
@@ -59,7 +59,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
     /**
 	 * Add default toolbar commands
 	 * .
-	 * @param	Event	A event object
+	 * @param	Event $event A event object
 	 */
     public function onAfterControllerBrowse(Event $event)
     {
@@ -79,7 +79,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
     /**
      * Enable toolbar command
      *
-     * @param   object  A ControllerToolbarCommand object
+     * @param   ControllerToolbarCommand $commend  A ControllerToolbarCommand object
      * @return  void
      */
     protected function _commandEnable(ControllerToolbarCommand $command)
@@ -97,7 +97,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
     /**
      * Disable toolbar command
      *
-     * @param   object  A ControllerToolbarCommand object
+     * @param   ControllerToolbarCommand $command  A ControllerToolbarCommand object
      * @return  void
      */
     protected function _commandDisable(ControllerToolbarCommand $command)
@@ -115,7 +115,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
     /**
      * Export toolbar command
      *
-     * @param   object  A ControllerToolbarCommand object
+     * @param   ControllerToolbarCommand $command  A ControllerToolbarCommand object
      * @return  void
      */
     protected function _commandExport(ControllerToolbarCommand $command)
@@ -139,7 +139,7 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
     /**
      * Dialog toolbar command
      *
-     * @param   object  A ControllerToolbarCommand object
+     * @param   ControllerToolbarCommand $command  A ControllerToolbarCommand object
      * @return  void
      */
     protected function _commandDialog(ControllerToolbarCommand $command)

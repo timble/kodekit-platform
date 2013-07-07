@@ -24,13 +24,13 @@
     <div>
         <label for="publish_on"><?= @text('Publish on') ?></label>
         <div>
-            <input type="datetime-local" name="publish_on" value="<?= $article->publish_on ?>" />
+            <?= @helper('date.datetime', array('row' => $article, 'name' => 'publish_on')) ?>
         </div>
     </div>
     <div>
         <label for="unpublish_on"><?= @text('Unpublish on') ?></label>
         <div>
-            <input type="datetime-local" name="unpublish_on" value="<?= $article->unpublish_on ?>" />
+            <?= @helper('date.datetime', array('row' => $article, 'name' => 'unpublish_on')) ?>
         </div>
     </div>
 </fieldset>
@@ -54,31 +54,20 @@
             <? endif ?>
         </div>
     </div>
-<!--    --><?// if($article->isAttachable()) : ?>
-<!--    <div class="tab">-->
-<!--        <input type="radio" id="tab-3" name="tab-group-1">-->
-<!--        <label for="tab-3">--><?//= @text('Attachments') ?><!--</label>-->
-<!--        <div class="content">-->
-<!--            <fieldset>-->
-<!--                --><?// if (!$article->isNew()) : ?>
-<!--                    --><?//= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true, 'image' => $article->image)) ?>
-<!--                --><?// endif ?>
-<!--                --><?//= @template('com:attachments.view.attachments.upload.html') ?>
-<!--            </fieldset>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    --><?// endif ?>
-    <? //if($article->isCommentable()) : ?>
-        <div class="tab">
-            <input type="radio" id="tab-5" name="tab-group-1">
-            <label for="tab-5"><?= @text('Comments') ?></label>
-            <div class="content">
-                <fieldset>
-                    <?= @template('default_comments.html', array('comments' =>  @object('com:articles.model.comments')->row($article->id)->getRowset(), 'article' => $article)) ?>
-                </fieldset>
-            </div>
+    <? if($article->isAttachable()) : ?>
+    <div class="tab">
+        <input type="radio" id="tab-3" name="tab-group-1">
+        <label for="tab-3"><?= @text('Attachments') ?></label>
+        <div class="content">
+            <fieldset>
+                <? if (!$article->isNew()) : ?>
+                    <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true, 'attachments_attachment_id' => $article->attachments_attachment_id)) ?>
+                <? endif ?>
+                <?= @template('com:attachments.view.attachments.upload.html') ?>
+            </fieldset>
         </div>
-    <? //endif ?>
+    </div>
+    <? endif ?>
 </div>
 
 <? if($article->isTranslatable()) : ?>
