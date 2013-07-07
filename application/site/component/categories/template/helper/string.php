@@ -25,21 +25,10 @@ class CategoriesTemplateHelperString extends Library\TemplateHelperDefault
            'align' => 'right',
            'class' => 'thumbnail'
         ));
-        
-        //Set the category image
-        if (isset( $config->row->image ) && !empty($config->row->image))
-        {
-            $path = JPATH_IMAGES.'/stories/'.$config->row->image;
-            $size = getimagesize($path);
 
-            $image = (object) array(
-                'path'   => '/'.str_replace(JPATH_ROOT.DS, '', $path),
-                'width'  => $size[0],
-                'height' => $size[1]
-            );
-        }
-        
-        $html = '<img class="'.$config->class.'" align="'.$config->align.'" src="'.$image->path.'" height="'.$image->height.'" width="'.$image->width.'" />';
+        $image = $config->row;
+
+        $html = '<img class="'.$config->class.'" align="'.$config->align.'" src="'.$image->thumbnail.'" />';
 
         return $html;
     }

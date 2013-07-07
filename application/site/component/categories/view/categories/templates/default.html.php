@@ -19,7 +19,7 @@
 </div>
 
 <div class="clearfix">
-	<? if ($category->image) : ?>
+	<? if ($category->thumbnail) : ?>
 		<?= @helper('com:categories.string.image', array('row' => $category)) ?>
 	<? endif; ?>
 	

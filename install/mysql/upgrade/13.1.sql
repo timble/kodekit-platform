@@ -173,7 +173,7 @@ ALTER TABLE `articles` DROP INDEX `idx_catid`;
 ALTER TABLE `articles` ADD INDEX  `category` (  `categories_category_id` );
 ALTER TABLE `articles` CHANGE  `metadesc`  `description` TEXT;
 ALTER TABLE `articles` DROP INDEX `idx_checkout`;
-ALTER TABLE `articles` ADD `attachments_attachment_id` INT(11) UNSIGNED AFTER `categories_category_id`;
+ALTER TABLE `articles` ADD `attachments_attachment_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' AFTER `categories_category_id`;
 
 ALTER TABLE `articles` CHANGE  `attribs`  `params` TEXT;
 ALTER TABLE `articles` CHANGE  `state`  `published` TINYINT(1);
@@ -221,6 +221,7 @@ DELETE FROM `categories` WHERE `section` = 'com_weblinks';
 ALTER TABLE `categories` DROP `image_position`;
 ALTER TABLE `categories` DROP `name`;
 ALTER TABLE `categories` DROP `editor`;
+ALTER TABLE `categories` DROP `image`;
 
 -- Set parent_id of com_articles categories to the section
 UPDATE `categories` SET `parent_id` = `section` , `section` = 'com_articles' WHERE `section` REGEXP '^-?[0-9]+$';
@@ -231,8 +232,8 @@ UPDATE `categories` SET `section` = REPLACE(`section`,'com_','');
 -- Migrate date from sections to categories
 ALTER TABLE `categories` ADD `old_id` int(11) NOT NULL;
 
-INSERT INTO `categories` (`parent_id`, `title`, `alias`, `image`, `section`, `description`, `published`, `checked_out`, `checked_out_time`, `ordering`, `access`, `count`, `params`, `old_id`)
-SELECT 0, title, alias, image, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM sections;
+INSERT INTO `categories` (`parent_id`, `title`, `alias`, `section`, `description`, `published`, `checked_out`, `checked_out_time`, `ordering`, `access`, `count`, `params`, `old_id`)
+SELECT 0, title, alias, 'articles', description, published, checked_out, checked_out_time, ordering, access, count, params, id FROM sections;
 
 UPDATE categories a, categories b SET a.parent_id = b.id WHERE b.old_id = a.parent_id AND a.parent_id != 0;
 UPDATE menu a, categories b SET a.link = REPLACE(a.link, CONCAT('id=', b.old_id), CONCAT('id=', b.id)) WHERE `link` LIKE '%com_content%' AND `link` LIKE '%view=section%' AND `link` LIKE CONCAT('%id=', b.old_id ,'%');
@@ -252,6 +253,7 @@ ALTER TABLE `categories` ADD `modified_on` DATETIME AFTER `modified_by`;
 ALTER TABLE `categories` CHANGE `checked_out` `locked_by` INT UNSIGNED;
 ALTER TABLE `categories` CHANGE `checked_out_time` `locked_on` DATETIME;
 ALTER TABLE `categories` DROP INDEX `idx_checkout`;
+ALTER TABLE `categories` ADD `attachments_attachment_id` INT(11) UNSIGNED NOT NULL DEFAULT '0' AFTER `categories_category_id`;
 
 # --------------------------------------------------------
 

@@ -38,7 +38,7 @@ CREATE TABLE `activities` (
 CREATE TABLE `articles` (
   `articles_article_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `categories_category_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `attachments_attachment_id` int(11) unsigned DEFAULT NULL,
+  `attachments_attachment_id` int(11) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) DEFAULT NULL,
   `introtext` mediumtext NOT NULL,
@@ -55,7 +55,6 @@ CREATE TABLE `articles` (
   `params` text,
   `ordering` int(11) NOT NULL DEFAULT '0',
   `description` text,
-  `image` varchar(255),
   `access` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`articles_article_id`),
   KEY `idx_access` (`access`),
@@ -109,9 +108,9 @@ CREATE TABLE `attachments_relations` (
 CREATE TABLE `categories` (
   `categories_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
+  `attachments_attachment_id` int(11) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) NOT NULL DEFAULT '',
-  `image` varchar(255) NOT NULL DEFAULT '',
   `table` varchar(50) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT '0',

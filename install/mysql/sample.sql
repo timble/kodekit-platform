@@ -25,11 +25,11 @@ INSERT INTO `articles` (`articles_article_id`, `title`, `slug`, `introtext`, `fu
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`categories_category_id`, `parent_id`, `title`, `slug`, `image`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
+INSERT INTO `categories` (`categories_category_id`, `parent_id`, `title`, `slug`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
   VALUES
-  (1, 0, 'Tristique', 'tristique', '', 'articles', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
-  (2, 0, 'Tellus', 'tellus', '', 'articles', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, ''),
-  (3, 0, 'Tellus Mollis', 'tellus-mollis', '', 'contacts', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, '');
+  (1, 0, 'Tristique', 'tristique', 'articles', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, ''),
+  (2, 0, 'Tellus', 'tellus', '', 'articles', 1, 1, NULL, NULL, NULL, NULL, NULL, 2, 0, ''),
+  (3, 0, 'Tellus Mollis', 'tellus-mollis', 'contacts', '', 1, 1, NULL, NULL, NULL, NULL, NULL, 1, 0, '');
 
 --
 -- Dumping data for table `contacts`
