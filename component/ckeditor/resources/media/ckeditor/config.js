@@ -3,8 +3,8 @@
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 (function() {
-    CKEDITOR.plugins.addExternal('readmore','nookuplugins/readmore/', 'plugin.js');
-    CKEDITOR.plugins.addExternal('files','nookuplugins/files/', 'plugin.js');
+    CKEDITOR.plugins.addExternal('readmore','extras/readmore/', 'plugin.js');
+    CKEDITOR.plugins.addExternal('files','extras/files/', 'plugin.js');
 })();
 
 
