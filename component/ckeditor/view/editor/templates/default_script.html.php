@@ -8,10 +8,7 @@
  */
 ?>
 
-<? /* Image and article buttons needs this in order to work */ ?>
-<?= @helper('behavior.modal') ?>
-
-<script src="media://wysiwyg/ckeditor/ckeditor.js" />
+<script src="media://ckeditor/ckeditor/ckeditor.js" />
 
 <script>
     jQuery( document ).ready(function() {

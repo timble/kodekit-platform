@@ -46,7 +46,7 @@
 <? if ($article->editable) : ?>
     <script src="media://application/js/jquery.js" /></script>
 
-    <script src="media:///wysiwyg/ckeditor/ckeditor.js" />
+    <script src="media://ckeditor/ckeditor/ckeditor.js" />
     <script type='text/javascript' language='javascript'>
 
         function ClickToSave () {

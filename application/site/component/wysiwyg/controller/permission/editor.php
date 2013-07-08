@@ -12,11 +12,11 @@ use Nooku\Library;
 /**
  * Editor Controller Permission Class
  *
- * @author     Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author     Terry Visser <http://nooku.assembla.com/profile/terryvisser>
  * @package    Nooku_Server
- * @subpackage Wysiwyg
+ * @subpackage Ckeditor
  */
-class WysiwygControllerPermissionEditor extends ApplicationControllerPermissionDefault
+class CkeditorControllerPermissionEditor extends ApplicationControllerPermissionDefault
 {
     public function canRender()
     {

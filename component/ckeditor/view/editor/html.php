@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Wysiwyg;
+namespace Nooku\Component\Ckeditor;
 
 use Nooku\Library;
 
@@ -15,7 +15,7 @@ use Nooku\Library;
  * Editor Html View Class
  *
  * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package Nooku\Component\Wysiwyg
+ * @package Nooku\Component\Ckeditor
  */
 class ViewEditorHtml extends Library\ViewHtml
 {

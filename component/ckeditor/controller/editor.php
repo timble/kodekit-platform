@@ -7,7 +7,7 @@
  * @link		git://git.assembla.com/nooku-framework.git
  */
 
-namespace Nooku\Component\Wysiwyg;
+namespace Nooku\Component\Ckeditor;
 
 use Nooku\Library;
 
@@ -15,7 +15,7 @@ use Nooku\Library;
  * Editor Controller
  *
  * @author  Terry Visser <http://nooku.assembla.com/profile/terryvisser>
- * @package Nooku\Component\Wysiwyg
+ * @package Nooku\Component\Ckeditor
  */
 class ControllerEditor extends Library\ControllerView
 {
