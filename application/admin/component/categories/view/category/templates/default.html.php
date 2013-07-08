@@ -43,15 +43,6 @@
 				    </div>
 				</div>
 			</fieldset>
-			<fieldset>
-				<legend><?= @text( 'Image' ); ?></legend>
-				<div>
-				    <label for="image"><?= @text( 'Image' ); ?></label>
-				    <div>
-				        <?= @helper('image.listbox', array('name' => 'image')); ?>
-				    </div>
-				</div>
-			</fieldset>
 		</div>
 	</div>
 

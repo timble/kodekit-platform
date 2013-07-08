@@ -9,7 +9,7 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 INSERT INTO `extensions` (`extensions_extension_id`, `title`, `name`, `params`, `enabled`)
 VALUES
     (7, 'Contacts', 'com_contacts', '', 1),
-    (19, 'Files', 'com_files', 'image_path=images', 1),
+    (19, 'Files', 'com_files', '', 1),
     (20, 'Articles', 'com_articles', '', 1),
     (23, 'Languages', 'com_languages', '', 1),
     (25, 'Pages', 'com_pages', '', 1),

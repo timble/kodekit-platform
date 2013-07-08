@@ -24,9 +24,7 @@
 	    <? endif ?>
 	</div>
 
-    <? if($article->thumbnail): ?>
-        <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
-    <? endif; ?>
+    <?= @helper('com:attachments.image.thumbnail', array('row' => $article)) ?>
 
     <? if($article->fulltext) : ?>
     <div class="article__introtext">
@@ -39,5 +37,5 @@
     <?= $article->fulltext ?>
     
     <?= @template('com:tags.view.tags.default.html') ?>
-    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->image))) ?>
+    <?= @template('com:attachments.view.attachments.default.html', array('attachments' => $attachments, 'exclude' => array($article->attachments_attachment_id))) ?>
 </article>
