@@ -28,9 +28,6 @@ CKEDITOR.plugins.add('files',
                                 attrs[id] = value;
                             }
                         });
-                        if (iframedocument.id('image-caption').get('value')) {
-                            attrs['class'] = 'caption';
-                        }
 
                         var str = '<img src="'+src+'" ';
                         var parts = [];

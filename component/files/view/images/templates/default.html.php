@@ -27,9 +27,6 @@ window.addEvent('domready', function() {
 				attrs[id] = value;
 			}
 		});
-		if (document.id('image-caption').get('value')) {
-			attrs['class'] = 'caption';
-		}
 
 		var str = '<img src="'+src+'" ';
 		var parts = [];
@@ -92,12 +89,6 @@ window.addEvent('domready', function() {
                     <option value="left"><?= @text('Left') ?></option>
                     <option value="right"><?= @text('Right') ?></option>
                 </select>
-            </div>
-        </div>
-        <div>
-            <label for="image-caption"><?= @text('Caption') ?></label>
-            <div>
-                <input type="checkbox" id="image-caption" />
             </div>
         </div>
 	</fieldset>
