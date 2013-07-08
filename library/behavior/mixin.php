@@ -137,7 +137,9 @@ class BehaviorMixin extends ObjectMixinAbstract
         $behavior->setMixer($this->_mixer);
 
         //Enqueue the behavior
-        $this->getCommandChain()->enqueue($behavior);
+        if ($this->inherits('Nooku\Library\CommandMixin')) {
+            $this->getCommandChain()->enqueue($behavior);
+        }
 
         //Mixin the behavior
         if ($this->_auto_mixin) {
