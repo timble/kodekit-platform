@@ -45,16 +45,6 @@ window.addEvent('domready', function() {
 		window.parent.Editors.get(Files.app.editor).insertText(image);
 	};
 
-	document.id('insert-image').addEvent('click', function(e) {
-		e.stop();
-		insertImage();
-		window.parent.SqueezeBox.close();
-	});
-	document.id('close-modal').addEvent('click', function(e) {
-		e.stop();
-		window.parent.SqueezeBox.close();
-	});
-
 	document.id('details').adopt(document.id('image-insert-form'));
 
 	Files.app.grid.addEvent('clickImage', function(e) {
@@ -111,8 +101,4 @@ window.addEvent('domready', function() {
             </div>
         </div>
 	</fieldset>
-	<div class="buttons">
-        <button class="btn" type="button" id="close-modal"><?= @text('Cancel') ?></button>
-        <button class="btn" type="button" id="insert-image"><?= @text('Insert') ?></button>
-	</div>
 </div>
