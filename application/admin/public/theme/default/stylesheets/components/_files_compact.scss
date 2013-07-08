@@ -5,11 +5,9 @@
 
 #files-compact {
   .tab > label {
-    border-top: 1px solid $grayLighter;
+    border-right: 1px solid $grayLighter;
   }
-  .tab:first-child > label {
-    border-left: 1px solid $grayLighter;
-  }
+
   [type=radio]:checked ~ label {
     background-color: $sidebarBackground;
     border-bottom-color: $sidebarBackground;
@@ -17,8 +15,12 @@
 
   .content {
     overflow: hidden;
-    border: 1px solid $grayLighter;
-    top: 31px;
+    top: 30px;
+    background-color: $sidebarBackground;
+
+    .dropzone {
+      background-color: $white;
+    }
   }
 
   #files-insert {

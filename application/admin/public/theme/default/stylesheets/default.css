@@ -5409,80 +5409,80 @@ body.com_contacts .editor-wrap {
 /* @end */
 /* line 7, components/_files_compact.scss */
 #files-compact .tab > label {
-  border-top: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
 }
-/* line 10, components/_files_compact.scss */
-#files-compact .tab:first-child > label {
-  border-left: 1px solid #dddddd;
-}
-/* line 13, components/_files_compact.scss */
+/* line 11, components/_files_compact.scss */
 #files-compact [type=radio]:checked ~ label {
   background-color: #f9f9f9;
   border-bottom-color: #f9f9f9;
 }
-/* line 18, components/_files_compact.scss */
+/* line 16, components/_files_compact.scss */
 #files-compact .content {
   overflow: hidden;
-  border: 1px solid #dddddd;
-  top: 31px;
+  top: 30px;
+  background-color: #f9f9f9;
 }
-/* line 26, components/_files_compact.scss */
+/* line 21, components/_files_compact.scss */
+#files-compact .content .dropzone {
+  background-color: white;
+}
+/* line 28, components/_files_compact.scss */
 #files-compact #files-insert #files-tree-container,
 #files-compact #files-insert #files-grid {
   width: 200px;
   border-right: 1px solid #E1E1E1;
   background-color: #f9f9f9;
 }
-/* line 33, components/_files_compact.scss */
+/* line 35, components/_files_compact.scss */
 #files-compact #files-insert #details #files-preview {
   background: white;
 }
-/* line 36, components/_files_compact.scss */
+/* line 38, components/_files_compact.scss */
 #files-compact #files-insert #details #files-preview > div {
   margin: auto;
   text-align: center;
 }
-/* line 40, components/_files_compact.scss */
+/* line 42, components/_files_compact.scss */
 #files-compact #files-insert #details #files-preview > div > div {
   padding-top: 6px;
 }
-/* line 45, components/_files_compact.scss */
+/* line 47, components/_files_compact.scss */
 #files-compact #files-insert #details #files-preview img {
   max-height: 125px;
   max-width: 300px;
 }
-/* line 51, components/_files_compact.scss */
+/* line 53, components/_files_compact.scss */
 #files-compact #files-insert #details #image-insert-form {
   border-top: 1px solid #E1E1E1;
   background-color: #F4F4F4;
 }
-/* line 56, components/_files_compact.scss */
+/* line 58, components/_files_compact.scss */
 #files-compact #files-insert #details .buttons {
   border-top: 1px solid #E1E1E1;
   background-color: #F4F4F4;
   padding: 6px;
   text-align: right;
 }
-/* line 66, components/_files_compact.scss */
+/* line 68, components/_files_compact.scss */
 #files-compact #files-upload form {
   padding: 5px;
 }
-/* line 70, components/_files_compact.scss */
+/* line 72, components/_files_compact.scss */
 #files-compact #files-upload form #remote-url, #files-compact #files-upload form #remote-name {
   height: 28px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 74, components/_files_compact.scss */
+/* line 76, components/_files_compact.scss */
 #files-compact #files-upload form #remote-url {
   border-radius: 4px 0 0 4px;
 }
-/* line 77, components/_files_compact.scss */
+/* line 79, components/_files_compact.scss */
 #files-compact #files-upload form #remote-name {
   border-radius: 0;
 }
-/* line 80, components/_files_compact.scss */
+/* line 82, components/_files_compact.scss */
 #files-compact #files-upload form .remote-submit {
   top: 5px;
   right: 5px;
@@ -5490,7 +5490,7 @@ body.com_contacts .editor-wrap {
   border-radius: 0 4px 4px 0;
 }
 
-/* line 97, components/_files_compact.scss */
+/* line 99, components/_files_compact.scss */
 #insert-modal-cancel,
 #insert-link,
 .insert-or {
@@ -5500,14 +5500,14 @@ body.com_contacts .editor-wrap {
   cursor: pointer;
 }
 
-/* line 103, components/_files_compact.scss */
+/* line 105, components/_files_compact.scss */
 .insert-or {
   padding: 5px 5px 5px 0;
   margin-left: -5px;
   cursor: default;
 }
 
-/* line 108, components/_files_compact.scss */
+/* line 110, components/_files_compact.scss */
 #insert-link {
   font-size: 15px;
   overflow: hidden;
@@ -5676,8 +5676,15 @@ body.login .form #password-check.score5 {
   color: #399800;
 }
 
-/* line 1, components/_wysiwyg.scss */
+/* line 1, components/_ckeditor.scss */
 .cke_chrome {
   border: 0px none !important;
   box-shadow: none !important;
+}
+
+/* line 6, components/_ckeditor.scss */
+.cke_dialog_contents_body {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
