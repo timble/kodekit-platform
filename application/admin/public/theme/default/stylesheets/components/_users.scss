@@ -71,4 +71,20 @@ body.login
       color: #399800;
     }
   }
+
+  .alert__text {
+    background: #c4553c linear-gradient(135deg, transparent,
+      transparent 25%, hsla(0,0%,0%,.1) 25%,
+      hsla(0,0%,0%,.1) 50%, transparent 50%,
+      transparent 75%, hsla(0,0%,0%,.1) 75%,
+      hsla(0,0%,0%,.1));
+    background-size: 20px 20px;
+    box-shadow: 0 5px 0 hsla(0,0%,0%,.1);
+    color: #f6f6f6;
+    display: block;
+    height: 40px;
+    font: bold 16px/40px sans-serif;
+    text-align: center;
+    text-decoration: none;
+  }
 }
