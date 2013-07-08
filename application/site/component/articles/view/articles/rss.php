@@ -33,10 +33,14 @@ class ArticlesViewArticlesRss extends Library\ViewRss
                          ->id($this->getModel()->getState()->category)
                          ->getRow();
 
+        $container = $this->getObject('com:files.model.containers')
+            ->slug('attachments-attachments')
+            ->getRow();
+
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
         {
-            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $path = JPATH_FILES.'/'.$container->path.'/'.$category->image;
             $size = getimagesize($path);
 
             $category->image = (object) array(
