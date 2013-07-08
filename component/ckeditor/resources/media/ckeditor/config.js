@@ -14,7 +14,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'codemirror,readmore,autosave,files';
+    config.extraPlugins = 'codemirror,readmore,autosave,files,onchange';
     config.codemirror = {
         theme: 'default',
         lineNumbers: true,
