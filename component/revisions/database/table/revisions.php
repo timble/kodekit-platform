@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
  * @package Nooku\Component\Revisions
  */
-class DatabaseTableRevisions extends Library\DatabaseTableDefault
+class DatabaseTableRevisions extends Library\DatabaseTableAbstract
 {
     protected function _initialize(Library\ObjectConfig $config)
     {     

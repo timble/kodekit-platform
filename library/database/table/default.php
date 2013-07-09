@@ -16,7 +16,4 @@ namespace Nooku\Library;
  * @package     Koowa_Database
  * @subpackage  Table
  */
-class DatabaseTableDefault extends DatabaseTableAbstract implements ObjectSingleton
-{
-
-}
+final class DatabaseTableDefault extends DatabaseTableAbstract { }
