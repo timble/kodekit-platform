@@ -66,13 +66,13 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
             $this->addCommand('new', $config);
         }
 
-        $deletable = $controller->canDelete();
-        if($controller->isLockable()) {
-            $deletable = !$controller->isLocked();
-        }
-
-        if($deletable) {
-            $this->addCommand('delete');
+        if($controller->canDelete())
+        {
+            if($controller->isLockable() && !$controller->isLocked()) {
+                $this->addCommand('delete');
+            } else {
+                $this->addCommand('delete');
+            }
         }
     }
 
