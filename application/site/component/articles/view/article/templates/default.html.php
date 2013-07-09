@@ -28,7 +28,14 @@
         <img class="thumbnail" src="<?= $article->thumbnail ?>" align="right" style="margin:0 0 20px 20px;" />
     <? endif; ?>
 
-    <?= $article->introtext ?>
+    <? if($article->fulltext) : ?>
+        <div class="article__introtext">
+            <?= $article->introtext ?>
+        </div>
+    <? else : ?>
+        <?= $article->introtext ?>
+    <? endif ?>
+
     <?= $article->fulltext ?>
 
     <?= @template('com:tags.view.tags.default.html') ?>
