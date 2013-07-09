@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Steven Rombauts <https://nooku.assembla.com/profile/stevenrombauts>
  * @package Nooku\Component\Comments
  */
-class DatabaseTableComments extends Library\DatabaseTableDefault
+class DatabaseTableComments extends Library\DatabaseTableAbstract
 {
 	protected function _initialize(Library\ObjectConfig $config)
     {
