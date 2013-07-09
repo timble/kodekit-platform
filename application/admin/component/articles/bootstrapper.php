@@ -24,6 +24,7 @@ use Nooku\Library;
 
         $manager->registerAlias('com:articles.model.tags'           , 'com:tags.model.tags');
         $manager->registerAlias('com:articles.model.categories'     , 'com:categories.model.categories');
+        $manager->registerAlias('com:articles.controller.attachment', 'com:attachments.controller.attachment');
         $manager->registerAlias('com:articles.view.attachment.file' , 'com:attachments.view.attachment.file');
     }
 }
