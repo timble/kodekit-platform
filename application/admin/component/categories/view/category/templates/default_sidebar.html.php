@@ -27,20 +27,11 @@
     <fieldset class="categories group">
         <legend><?= @text('Parent') ?></legend>
         <div>
-            <?= @helper('com:categories.listbox.categories', array(
-                'name'      => 'parent_id',
-                'selected'  => $category->parent_id,
-                'prompt'    => '- None -',
-                'max_depth' => 1,
-                'table'     => 'articles',
-                'parent'	=> '0'
-            )) ?>
             <?= @template('com:categories.view.categories.radiolist.html', array(
                 'name' => 'parent_id',
                 'categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->parent('0')->getRowset(),
                 'selected' => $category->parent_id))
             ?>
-
         </div>
     </fieldset>
 <? endif ?>
