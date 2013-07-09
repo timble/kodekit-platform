@@ -26,13 +26,6 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     protected $_transport;
 
     /**
-     * Request object or identifier
-     *
-     * @var	string|object
-     */
-    protected $_request;
-
-    /**
      * Constructor.
      *
      * @param ObjectConfig $config	An optional ObjectConfig object with configuration options.
@@ -44,8 +37,8 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
         //Set the transport
         $this->_transport = $config->transport;
 
-        //Set the request
-        $this->_request = $config->request;
+        //Set the messages
+        $this->_messages = $this->getUser()->getSession()->getContainer('message')->all();
     }
 
     /**
@@ -60,7 +53,6 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     {
         $config->append(array(
             'transport' => 'default',
-            'request'   => 'lib:dispatcher.request',
         ));
 
         parent::_initialize($config);
@@ -143,41 +135,6 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
     }
 
     /**
-     * Set the request object
-     *
-     * @param DispatcherRequestInterface $request A request object
-     * @return DispatcherResponse
-     */
-    public function setRequest(DispatcherRequestInterface $request)
-    {
-        $this->_request = $request;
-        return $this;
-    }
-
-    /**
-     * Get the request object
-     *
-     * @throws	\UnexpectedValueException	If the request doesn't implement the ControllerRequestInterface
-     * @return ControllerRequestInterface
-     */
-    public function getRequest()
-    {
-        if(!$this->_request instanceof DispatcherRequestInterface)
-        {
-            $this->_request = $this->getObject($this->_request);
-
-            if(!$this->_request instanceof DispatcherRequestInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'Request: '.get_class($this->_request).' does not implement DispatcherRequestInterface'
-                );
-            }
-        }
-
-        return $this->_request;
-    }
-
-    /**
      * Send the response
      *
      * @return DispatcherResponseTransportInterface
@@ -214,6 +171,5 @@ class DispatcherResponse extends ControllerResponse implements DispatcherRespons
         parent::__clone();
 
         $this->_transport  = clone $this->_transport;
-        $this->_request    = clone $this->_request;
     }
 }

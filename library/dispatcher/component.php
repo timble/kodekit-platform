@@ -209,9 +209,9 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      * request exception will be thrown.
      *
      * @param	CommandContext	$context    A command context object
-     * @throws  DispatcherExceptionActionNotAllowed    The action specified in the request is not allowed for the
-     *          resource identified by the Request-URI. The response MUST include an Allow header containing a list of
-     *          valid actions for the requested resource.
+     * @throws  DispatcherExceptionMethodNotAllowed    The action specified in the request is not allowed for the
+     *          entity identified by the Request-URI. The response MUST include an Allow header containing a list of
+     *          valid actions for the requested entity.
      *          ControllerExceptionBadRequest           The action could not be found based on the info in the request.
      * @return 	DatabaseRow(Set)Interface	A row(set) object containing the modified data
      */
@@ -226,7 +226,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
             $action = strtolower($context->request->data->get('_action', 'alpha'));
 
             if(in_array($action, array('browse', 'read', 'render'))) {
-                throw new DispatcherExceptionActionNotAllowed('Action: '.$action.' not allowed');
+                throw new DispatcherExceptionMethodNotAllowed('Action: '.$action.' not allowed');
             }
         }
         else
@@ -249,10 +249,10 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      * Put method
      *
      * This function translates a PUT request into an edit or add action. Only if the model state is unique and the item
-     * exists an edit action will be executed, if the resources does not exist and the state is unique an add action will
+     * exists an edit action will be executed, if the entity does not exist and the state is unique an add action will
      * be executed.
      *
-     * If the resource already exists it will be completely replaced based on the data available in the request.
+     * If the entity already exists it will be completely replaced based on the data available in the request.
      *
      * @param	CommandContext	$context        A command context object
      * @throws  ControllerExceptionBadRequest 	If the model state is not unique
@@ -281,7 +281,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
                 $state = $controller->getModel()->getState()->getValues(true);
                 $entity->setData($state);
             }
-            else throw new ControllerExceptionBadRequest('Resource not found');
+            else throw new ControllerExceptionBadRequest('Entity not found');
         }
 
         //Throw exception if no action could be determined from the request
@@ -321,7 +321,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 
         foreach($actions as $key => $action)
         {
-            if($this->isPermitted($action)) {
+            if($this->canExecute($action)) {
                 $methods[$action] = $action;
             }
         }
@@ -333,7 +333,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
 
             foreach($actions as $key => $action)
             {
-                if(!$this->getController()->isPermitted($action)) {
+                if(!$this->getController()->canExecute($action)) {
                     unset($actions[$key]);
                 }
             }

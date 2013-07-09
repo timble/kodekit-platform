@@ -71,7 +71,7 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -141,8 +141,8 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      * Valid types are strings, numbers, and objects that implement a __toString() method.
      *
      * @param mixed $content
-     * @throws UnexpectedValueException If the content is not a string are cannot be casted to a string.
-     * @return HttpMessageAbstract
+     * @throws \UnexpectedValueException If the content is not a string are cannot be casted to a string.
+     * @return HttpMessage
      */
     public function setContent($content)
     {
@@ -172,7 +172,7 @@ abstract class HttpMessage extends Object implements HttpMessageInterface
      * Sets the message content type
      *
      * @param string $type Content type
-     * @return HttpMessageAbstract
+     * @return HttpMessage
      */
     public function setContentType($type)
     {

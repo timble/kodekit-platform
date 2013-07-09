@@ -15,5 +15,10 @@ namespace Nooku\Library;
  */
 interface BehaviorInterface extends CommandInterface, ObjectInterface
 {
-	
+    /**
+     * Get the behavior name
+     *
+     * @return string
+     */
+    public function getName();
 }

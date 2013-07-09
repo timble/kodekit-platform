@@ -12,6 +12,8 @@ namespace Nooku\Library;
 /**
  * Http Exception Forbidden Class
  *
+ * The requested resource could not be found.
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  * @subpackage  Exception

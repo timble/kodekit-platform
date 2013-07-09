@@ -16,4 +16,4 @@ namespace Nooku\Library;
  * @package     Koowa_Dispatcher
  * @subpackage  Exception
  */
-class DispatcherExceptionActionNotAllowed extends HttpExceptionMethodNotAllowed implements DispatcherException {}
+class DispatcherExceptionMethodNotAllowed extends HttpExceptionMethodNotAllowed implements DispatcherException {}

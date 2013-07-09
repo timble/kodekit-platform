@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Default Dispatcher Permission Class
+ * Default Dispatcher Permission
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher

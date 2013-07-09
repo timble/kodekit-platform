@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Tom Janssens <http://nooku.assembla.com/profile/tomjanssens>
  * @package Nooku\Component\Pages
  */
-class DatabaseTableMenus extends Library\DatabaseTableDefault
+class DatabaseTableMenus extends Library\DatabaseTableAbstract
 {
     public function  _initialize(Library\ObjectConfig $config)
     {		

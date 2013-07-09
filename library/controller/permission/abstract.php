@@ -10,99 +10,105 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Controller Permission Class
+ * Controller Permissible Behavior
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
  * @subpackage	Permission
  */
-abstract class ControllerPermissionAbstract extends ControllerBehaviorAbstract implements ControllerPermissionInterface
+abstract class ControllerPermissionAbstract extends ObjectMixinAbstract implements ControllerPermissionInterface
 {
     /**
-     * Initializes the default configuration for the object
+     * Permission handler for render actions
      *
-     * Called from {@link __construct()} as a first step of object instantiation.
-     *
-     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options.
-     * @return void
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    protected function _initialize(ObjectConfig $config)
+    public function canRender()
     {
-        $config->append(array(
-            'priority'   => CommandChain::PRIORITY_HIGH,
-            'auto_mixin' => true
-        ));
-
-        parent::_initialize($config);
-    }
-
-	/**
-     * Command handler
-     *
-     * Only handles before.action commands to check authorization rules.
-     *
-     * @param   string $name     The command name
-     * @param   object $context  The command context
-     * @throws  ControllerExceptionForbidden       If the user is authentic and the actions is not allowed.
-     * @throws  ControllerExceptionUnauthorized    If the user is not authentic and the action is not allowed.
-     * @return  boolean     Can return both true or false.
-     */
-    public function execute( $name, CommandContext $context)
-    {
-        $parts = explode('.', $name);
-
-        if($parts[0] == 'before')
-        {
-            $action = $parts[1];
-
-            if($this->isPermitted($action) === false)
-		    {
-                if($context->user->isAuthentic()) {
-                    throw new ControllerExceptionForbidden('Action '.ucfirst($action).' Not Allowed');
-                } else {
-                    throw new ControllerExceptionUnauthorized('Action '.ucfirst($action).' Not Allowed');
-                }
-
-		        return false;
-		    }
+        if($this->getMixer() instanceof ControllerViewable) {
+            return true;
         }
 
-        return true;
-    }
-
- 	/**
-     * Get an object handle
-     *
-     * Force the object to be enqueue in the command chain.
-     *
-     * @return string A string that is unique, or NULL
-     * @see execute()
-     */
-    public function getHandle()
-    {
-        return ObjectMixinAbstract::getHandle();
+        return false;
     }
 
     /**
-     * Check if an action can be executed
+     * Permission handler for read actions
      *
-     * @param   string  $action Action name
-     * @return  boolean True if the action can be executed, otherwise FALSE.
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function isPermitted($action)
+    public function canRead()
     {
-        //Check if the action is allowed
-        $method = 'can'.ucfirst($action);
-
-        if(!method_exists($this, $method))
-        {
-            $actions = $this->getActions();
-            $actions = array_flip($actions);
-
-            $result = isset($actions[$action]);
+        if($this->getMixer() instanceof ControllerModellable) {
+            return true;
         }
-        else $result = $this->$method();
 
-        return $result;
+        return false;
+    }
+
+    /**
+     * Permission handler for browse actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface.
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canBrowse()
+    {
+        if($this->getMixer() instanceof ControllerModellable) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Permission handler for add actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface and the user is authentic.
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canAdd()
+    {
+        if($this->getMixer() instanceof ControllerModellable && $this->getUser()->isAuthentic()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Permission handler for edit actions
+     *
+     * Method returns TRUE iff the controller implements the ControllerModellable interface and the user is authentic.
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canEdit()
+    {
+        if($this->getMixer() instanceof ControllerModellable && $this->getUser()->isAuthentic()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Permission handler for delete actions
+     *
+     * Method returns true of the controller implements ControllerModellable interface and the user is authentic.
+     *
+     * @return  boolean  Returns TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canDelete()
+    {
+        if($this->getMixer() instanceof ControllerModellable && $this->getUser()->isAuthentic()) {
+            return true;
+        }
+
+        return false;
     }
 }

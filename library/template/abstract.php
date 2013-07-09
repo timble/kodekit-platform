@@ -138,6 +138,16 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
     }
 
     /**
+     * Get the format
+     *
+     * @return 	string 	The format of the view
+     */
+    public function getFormat()
+    {
+        return $this->getView()->getFormat();
+    }
+
+    /**
      * Get the template file identifier
      *
      * @return	string

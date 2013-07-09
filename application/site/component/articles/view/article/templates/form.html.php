@@ -11,7 +11,7 @@
 <?= @helper('behavior.mootools'); ?>
 <?= @helper('behavior.keepalive'); ?>
 
-<? if ($article->editable) : ?>
+<? if (@object('component')->getController()->canEdit()) : ?>
     <?= @helper('behavior.inline_editing'); ?>
 <? endif;?>
 
@@ -26,7 +26,7 @@
 
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
-        <h1 id="title" contenteditable="<?= $article->editable ? 'true':'false';?>"><?= $article->title ?></h1>
+        <h1 id="title" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>"><?= $article->title ?></h1>
         <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
         <? if (!$article->published) : ?>
             <span class="label label-info"><?= @text('Unpublished') ?></span>
@@ -41,16 +41,16 @@
     <? endif; ?>
 
     <? if($article->fulltext) : ?>
-        <div id="introtext" class="article_introtext" contenteditable="<?= $article->editable ? 'true':'false';?>">
+        <div id="introtext" class="article_introtext" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>">
             <?= $article->introtext ?>
         </div>
     <? else : ?>
-        <div id="introtext" contenteditable="<?= $article->editable ? 'true':'false';?>" >
+        <div id="introtext" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>" >
             <?= $article->introtext ?>
         </div>
     <? endif ?>
 
-    <div id="fulltext" contenteditable="<?= $article->editable?  'true':'false';?>">
+    <div id="fulltext" contenteditable="<?= @object('component')->getController()->canEdit() ? 'true':'false';?>">
         <?= $article->fulltext ?>
     </div>
 

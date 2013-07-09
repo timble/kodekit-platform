@@ -34,7 +34,7 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     /**
      * Constructor.
      *
-     * @param  ObjectConfig     An associative array of configuration settings or a ObjectConfig instance.
+     * @param  ObjectConfig  $config An associative array of configuration settings or a ObjectConfig instance.
      */
     public function __construct(ObjectConfig $config)
     {
@@ -190,7 +190,7 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     /**
      * Reset the commands array
      *
-     * @return  \KControllerToolbarAbstract
+     * @return  ControllerToolbarAbstract
      */
     public function reset()
     {
@@ -202,8 +202,8 @@ abstract class ControllerToolbarAbstract extends EventSubscriberAbstract impleme
     /**
      * Add a command by it's name
      *
-     * @param   string  Method name
-     * @param   array   Array containing all the arguments for the original call
+     * @param   string  $method Method name
+     * @param   array   $args   Array containing all the arguments for the original call
      * @return mixed
      * @see addCommand()
      */
