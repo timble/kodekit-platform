@@ -46,16 +46,12 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
      */
     protected function _initialize(ObjectConfig $config)
     {
-        //Create permission identifier
-        $permission       = clone $this->getIdentifier();
-        $permission->path = array('dispatcher', 'permission');
-
         $config->append(array(
         	'controller' => $this->getIdentifier()->package,
             'request'    => 'lib:dispatcher.request',
             'response'   => 'lib:dispatcher.response',
             'user'       => 'lib:dispatcher.user',
-            'behaviors'  => array($permission),
+            'behaviors'  => array('permissible'),
          ));
 
         parent::_initialize($config);
@@ -150,8 +146,8 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
 
 		    $config = array(
         		'request' 	 => $this->getRequest(),
-                'response'   => $this->getResponse(),
                 'user'       => $this->getUser(),
+                'response'   => $this->getResponse(),
 			    'dispatched' => true
         	);
 
@@ -243,6 +239,21 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     }
 
     /**
+     * Dispatch the request
+     *
+     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
+     * the request and passing along the context.
+     *
+     * @param   CommandContext	$context A command context object
+     * @return	mixed
+     */
+    protected function _actionDispatch(CommandContext $context)
+    {
+        //Send the response
+        $this->send($context);
+    }
+
+    /**
      * Redirect
      *
      * Redirect to a URL externally. Method performs a 301 (permanent) redirect. Method should be used to immediately
@@ -255,7 +266,8 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         $url = $context->param;
 
-        $context->response->setRedirect($url, DispatcherResponse::MOVED_PERMANENTLY);
+        $context->response->setStatus(DispatcherResponse::MOVED_PERMANENTLY);
+        $context->response->setRedirect($url);
         $this->send();
 
         return false;
@@ -270,20 +282,5 @@ abstract class DispatcherAbstract extends ControllerAbstract implements Dispatch
     {
         $context->response->send();
         exit(0);
-    }
-
-    /**
-     * Dispatch the request
-     *
-     * Dispatch to a controller internally. Functions makes an internal sub-request, based on the information in
-     * the request and passing along the context.
-     *
-     * @param   CommandContext	$context A command context object
-     * @return	mixed
-     */
-    protected function _actionDispatch(CommandContext $context)
-    {
-        //Send the response
-        $this->send($context);
     }
 }

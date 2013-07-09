@@ -12,6 +12,8 @@ namespace Nooku\Library;
 /**
  * Http Exception Not Found Class
  *
+ * The server refused to fulfill the request, for reasons other than invalid user credentials.
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  * @subpackage  Exception

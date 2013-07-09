@@ -35,7 +35,9 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         // Set the model identifier
         $this->_model = $config->model;
 
-        if($this->isDispatched()) {
+        if($this->isDispatched())
+        {
+            $this->attachBehavior('lockable');
             $this->attachBehavior('editable');
         }
     }
@@ -52,7 +54,6 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
     {
     	$config->append(array(
             'toolbars'   => array($this->getIdentifier()->name),
-    		'behaviors'  => array('lockable'),
             'model'	     => $this->getIdentifier()->name,
         ));
 
@@ -212,7 +213,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 * Generic edit action, saves over an existing item
 	 *
 	 * @param	CommandContext	$context A command context object
-     * @throws  ControllerExceptionNotFound   If the resource could not be found
+     * @throws  ControllerExceptionNotFound   If the entity could not be found
 	 * @return 	DatabaseRow(set)Interface A row(set) object containing the updated row(s)
 	 */
 	protected function _actionEdit(CommandContext $context)
@@ -230,7 +231,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		        $context->response->setStatus(self::STATUS_UNCHANGED);
 		    }
 		}
-		else throw new ControllerExceptionNotFound('Resource could not be found');
+		else throw new ControllerExceptionNotFound('Entity could not be found');
 
 		return $entity;
 	}
@@ -240,7 +241,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 	 *
 	 * @param	CommandContext	$context A command context object
      * @throws  ControllerExceptionActionFailed If the delete action failed on the data entity
-     * @throws  ControllerExceptionBadRequest   If the resource already exists
+     * @throws  ControllerExceptionBadRequest   If the entity already exists
 	 * @return 	DatabaseRowInterface   A row object containing the new data
 	 */
 	protected function _actionAdd(CommandContext $context)
@@ -259,7 +260,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(self::STATUS_CREATED);
 		}
-		else throw new ControllerExceptionBadRequest('Resource Already Exists');
+		else throw new ControllerExceptionBadRequest('Entity Already Exists');
 
 		return $entity;
 	}
@@ -293,7 +294,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(self::STATUS_UNCHANGED);
 		}
-		else throw new ControllerExceptionNotFound('Resource Not Found');
+		else throw new ControllerExceptionNotFound('Entity Not Found');
 
 		return $entity;
 	}

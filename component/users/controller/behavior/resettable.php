@@ -47,9 +47,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->user->addFlashMessage(\JText::_('INVALID_REQUEST'), 'error');
-            $context->response->setRedirect($url);
-
+            $context->response->setRedirect($url, \JText::_('INVALID_REQUEST'), 'error');
             $result = false;
         }
 
@@ -81,8 +79,8 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         if ($row->isNew() || !$row->enabled)
         {
-            $context->user->addFlashMessage(\JText::_('COULD_NOT_FIND_USER'), 'error');
-            $context->response->setRedirect($context->request->getReferrer());
+            $url = $context->request->getReferrer();
+            $context->response->setRedirect($url, \JText::_('COULD_NOT_FIND_USER'), 'error');
             $result = false;
         }
         else
@@ -102,8 +100,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         $hash     = $password->reset;
         $token    = $context->request->data->get('token', $this->_filter);
 
-        if ($hash && ($password->verify($token, $hash)))
-        {
+        if ($hash && ($password->verify($token, $hash))) {
             $result = true;
         }
 
@@ -140,8 +137,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
         //$message    = \JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $site_name, $url);
         $message = $url;
 
-        if (!$row->notify(array('subject' => $subject, 'message' => $message)))
-        {
+        if (!$row->notify(array('subject' => $subject, 'message' => $message))) {
             $result = false;
         }
 
