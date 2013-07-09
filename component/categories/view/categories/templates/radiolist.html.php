@@ -8,10 +8,12 @@
  */
 ?>
 
+<? $name = !isset($name) ? 'categories_category_id' : $name ?>
+
 <? if(isset($uncategorised)) : ?>
 <?= @helper('listbox.radiolist', array(
     'list'      => array((object) array('title' => 'Uncategorized', 'id' => 0)),
-    'name'      => 'categories_category_id',
+    'name'      => $name,
     'text'      => 'title',
     'selected'  => $selected,
     'translate' => true));
@@ -19,8 +21,8 @@
 <? endif ?>
 
 <? foreach($categories as $category) : ?>
-    <label class="radio" for="categories_category_id<?= $category->id ?>">
-        <input type="radio" name="categories_category_id" id="categories_category_id<?= $category->id ?>"
+    <label class="radio" for="<?= $name ?><?= $category->id ?>">
+        <input type="radio" name="<?= $name ?>" id="<?= $name ?><?= $category->id ?>"
                value="<?= $category->id ?>" <?= $category->id == $selected ? 'checked="checked"' : '' ?>>
         <?= @escape($category->title); ?>
     </label>
@@ -29,7 +31,7 @@
             <?= @helper('listbox.radiolist', array(
                 'list'     => $category->getChildren(),
                 'selected' => $selected,
-                'name'     => 'categories_category_id',
+                'name'     => $name,
                 'text'     => 'title',
             ));
             ?>

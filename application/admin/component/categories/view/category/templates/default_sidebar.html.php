@@ -36,6 +36,7 @@
                 'parent'	=> '0'
             )) ?>
             <?= @template('com:categories.view.categories.radiolist.html', array(
+                'name' => 'parent_id',
                 'categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->parent('0')->getRowset(),
                 'selected' => $category->parent_id))
             ?>
