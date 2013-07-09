@@ -30,12 +30,12 @@ class DatabaseBehaviorAttachable extends Library\DatabaseBehaviorAbstract
 
         if(!$this->isNew())
         {
-            $attachements = $model->row($this->id)
+            $attachments = $model->row($this->id)
                 ->table($this->getTable()->getBase())
                 ->getRowset();
         }
-        else $attachements = $model->getRowset();
+        else $attachments = $model->getRowset();
 
-        return $attachements;
+        return $attachments;
 	}
 }

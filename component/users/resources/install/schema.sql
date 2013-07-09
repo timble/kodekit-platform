@@ -75,6 +75,11 @@ CREATE TABLE `users_groups_users` (
 --
 -- Table structure for table `users_sessions`
 --
+-- InnoDB tables can make a database slow down if not using incremental primary keys. We are storing the session hash as
+-- primary key, which can result in big load times when the table grows. Hence why we use MyISAM for the session table.
+--
+-- More info please see : http://blog.johnjosephbachir.org/2006/10/22/everything-you-need-to-know-about-designing-mysql-innodb-primary-keys/
+--
 
 CREATE TABLE `users_sessions` (
   `time` varchar(14) DEFAULT '',
@@ -86,7 +91,7 @@ CREATE TABLE `users_sessions` (
   PRIMARY KEY (`users_session_id`(64)),
   KEY `whosonline` (`guest`),
   KEY `time` (`time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
