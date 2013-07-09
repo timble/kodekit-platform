@@ -9,14 +9,12 @@
 ?>
 <article <?= !$article->published ? 'class="article-unpublished"' : '' ?>>
     <div class="page-header">
-	    <h1>
-            <?= $article->title ?>
-            <? if ($article->editable) : ?>
-                <a style="float: right;" class="btn btn-mini" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
-                    <i class="icon-edit"></i>
-                </a>
-            <? endif; ?>
-        </h1>
+        <? if ($article->editable) : ?>
+            <a style="float: right;" class="btn btn-mini" href="<?= @helper('route.article', array('row' => $article, 'layout' => 'form')) ?>">
+                <i class="icon-edit"></i>
+            </a>
+        <? endif; ?>
+        <h1><?= $article->title ?></h1>
 	    <?= @helper('date.timestamp', array('row' => $article, 'show_modify_date' => false)); ?>
 	    <? if (!$article->published) : ?>
 	    <span class="label label-info"><?= @text('Unpublished') ?></span>
