@@ -26,13 +26,6 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     protected $_site;
 
     /**
-     * The application options
-     *
-     * @var Library\ObjectConfig
-     */
-    protected $_options = null;
-
-    /**
      * The pathway object
      *
      * @var object
@@ -328,13 +321,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $language = null;
 
         // If a language was specified it has priority.
-        if($iso_code = $this->getConfig()->options->language)
-        {
-            $result = $languages->find(array('iso_code' => $iso_code));
-            if(count($result) == 1) {
-                $language = $result->top();
-            }
-        if($iso_code = $this->_options->language) {
+        if($iso_code = $this->getConfig()->options->language) {
             $language = $languages->find(array('iso_code' => $iso_code));
         }
 
