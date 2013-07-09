@@ -84,11 +84,7 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function add($message, $type = 'success')
     {
-        if(!isset($this->_data[$type])) {
-            $this->_data[$type] = array();
-        }
-
-        $this->_data[$type][] = $message;
+        $this->set($type, $message);
         return $this;
     }
 
@@ -101,7 +97,10 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function set($type, $messages)
     {
-        parent::set($type, (array) $messages);
+        foreach((array) $messages as $message) {
+            parent::set($type, $message);
+        }
+
         return $this;
     }
 
@@ -184,6 +183,10 @@ class UserSessionContainerMessage extends UserSessionContainerAbstract
      */
     public function offsetSet($offset, $value)
     {
+        if(!isset($this->_data[$offset])) {
+            $this->_data[$offset] = array();
+        }
+
         $this->_data[$offset][] = $value;
     }
 

@@ -52,6 +52,13 @@ interface TemplateInterface
     public function getContent();
 
     /**
+     * Get the format
+     *
+     * @return 	string 	The format of the view
+     */
+    public function getFormat();
+
+    /**
      * Get the view object attached to the template
      *
      * @return  ViewInterface

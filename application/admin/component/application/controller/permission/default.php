@@ -19,62 +19,86 @@ use Nooku\Library;
 class ApplicationControllerPermissionDefault extends Library\ControllerPermissionAbstract
 {
     /**
-     * Generic authorize handler for controller render actions
+     * Authorize handler for render actions
      *
-     * @return  boolean     Can return both true or false.
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
     public function canRender()
     {
-        return $this->getUser()->getRole() > 22;
+        if(parent::canRender() && $this->getUser()->getRole() > 22) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Generic authorize handler for controller read actions
+     * Authorize handler for read actions
      *
-     * @return  boolean     Can return both true or false.
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
      */
     public function canRead()
     {
-        return $this->getUser()->getRole() > 22;
+            if(parent::canRead() && $this->getUser()->getRole() > 22) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Generic authorize handler for controller browse actions
+     * Authorize handler for browse actions
      *
-     * @return  boolean     Can return both true or false.
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
     public function canBrowse()
     {
-        return $this->getUser()->getRole() > 22;
+        if(parent::canBrowse() && $this->getUser()->getRole() > 22) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Generic authorize handler for controller add actions
+     * Authorize handler for add actions
      *
-     * @return  boolean     Can return both true or false.
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
     public function canAdd()
     {
-        return $this->getUser()->getRole() > 22;
-    }
+        if(parent::canAdd() && $this->getUser()->getRole() > 22) {
+            return true;
+        }
 
-  	/**
-     * Generic authorize handler for controller edit actions
-     *
-     * @return  boolean     Can return both true or false.
-     */
-    public function canEdit()
-    {
-        return $this->getUser()->getRole() > 22;
+        return false;
     }
 
     /**
-     * Generic authorize handler for controller delete actions
+     * Authorize handler for edit actions
      *
-     * @return  boolean     Can return both true or false.
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canEdit()
+    {
+        if(parent::canEdit() && $this->getUser()->getRole() > 22) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Authorize handler for delete actions
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
     public function canDelete()
     {
-        return $this->getUser()->getRole() > 22;
+        if(parent::canDelete() && $this->getUser()->getRole() > 22) {
+            return true;
+        }
+
+        return false;
     }
 }

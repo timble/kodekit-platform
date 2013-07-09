@@ -26,7 +26,21 @@ class DispatcherResponseTransportRedirect extends DispatcherResponseTransportAbs
     public function sendContent()
     {
         $response = $this->getResponse();
+        $session  = $response->getUser()->getSession();
 
+        //Set the messages into the session
+        $messages = $response->getMessages();
+        if(count($messages))
+        {
+            //Auto start the session if it's not active.
+            if(!$session->isActive()) {
+                $session->start();
+            }
+
+            $session->getContainer('message')->values($messages);
+        }
+
+        //Set the redirect into the response
         $response->setContent(sprintf(
             '<!DOCTYPE html>
                 <html>

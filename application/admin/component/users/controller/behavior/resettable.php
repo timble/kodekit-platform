@@ -24,14 +24,10 @@ class UsersControllerBehaviorResettable extends Users\ControllerBehaviorResettab
     protected function _afterControllerAdd(Library\CommandContext $context)
     {
         $user = $context->result;
-        if ($context->request->data->get('password_reset',
-                'boolean') && $user->getStatus() !== Library\Database::STATUS_FAILED
-        )
+        if ($context->request->data->get('password_reset', 'boolean') && $user->getStatus() !== Library\Database::STATUS_FAILED)
         {
-
-            if (!$this->token($context))
-            {
-                $context->user->addFlashMessage('Failed to deliver the password reset token', 'error');
+            if (!$this->token($context)) {
+                $context->response->addMessage('Failed to deliver the password reset token', 'error');
             }
         }
     }

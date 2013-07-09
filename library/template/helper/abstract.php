@@ -34,23 +34,22 @@ abstract class TemplateHelperAbstract extends Object implements TemplateHelperIn
 	{
 		parent::__construct($config);
 
-        /*if (is_null($config->template))
-        {
-            throw new \InvalidArgumentException(
-                'template [TemplateInterface] config option is required'
-            );
-        }
-
-        if(!$config->template instanceof TemplateInterface)
-        {
-            throw new \UnexpectedValueException(
-                'Template: '.get_class($config->template).' does not implement TemplateInterface'
-            );
-        }*/
-
-		// Set the template object
-    	$this->_template = $config->template;
+        //@TODO : Remove after refactoring JElement to TemplateForm
+        $this->_template = $config->template;
+        // Set the template object
+        //$this->setTemplate($config->template);
 	}
+
+    /**
+     * Set the template object
+     *
+     * @return  TemplateInterface $template	The template object
+     */
+    public function setTemplate(TemplateInterface $template)
+    {
+        $this->_template = $template;
+        return $this;
+    }
 
     /**
      * Get the template object

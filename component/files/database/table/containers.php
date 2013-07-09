@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Files
  */
-class DatabaseTableContainers extends Library\DatabaseTableDefault
+class DatabaseTableContainers extends Library\DatabaseTableAbstract
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{

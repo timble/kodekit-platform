@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Isreal Canasa <http://nooku.assembla.com/profile/israelcanasa>
  * @package Nooku\Component\Contacts
  */
-class DatabaseTableContacts extends Library\DatabaseTableDefault
+class DatabaseTableContacts extends Library\DatabaseTableAbstract
 {
 	protected function _initialize(Library\ObjectConfig $config)
 	{

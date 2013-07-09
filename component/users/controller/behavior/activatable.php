@@ -12,12 +12,12 @@ namespace Nooku\Component\Users;
 use Nooku\Library;
 
 /**
- * Activateable Controller Behavior
+ * Activatable Controller Behavior
  *
  * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
  * @package Nooku\Component\Users
  */
-class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
+class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
 {
     /**
      * Determines whether new created items need activation or not.
@@ -55,16 +55,15 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
 
         if (($activation = $context->request->query->get('activation', $this->_filter)))
         {
-            if ($row->activation)
+            if (!$row->activation)
             {
-                $this->activate(array('activation' => $activation));
+                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url))
+
+                $context->response->setRedirect($url, 'Invalid request', 'error');
             }
-            else
-            {
-                $context->response->setRedirect($this->getObject('lib:dispatcher.router.route',
-                    array('url' => $this->getObject('application.pages')->getHome()->getLink())));
-                $context->user->addFlashMessage('Invalid request', 'error');
-            }
+            else $this->activate(array('activation' => $activation));
+
             return false;
         }
     }
@@ -79,8 +78,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->user->addFlashMessage('Wrong activation token', 'error');
-            $context->response->setRedirect($url);
+            $context->response->setRedirect($url, 'Wrong activation token', 'error');
 
             return false;
         }
@@ -93,8 +91,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $row = $this->getModel()->getRow();
         $row->setData(array('activation' => '', 'enabled' => 1));
 
-        if (!$row->save())
-        {
+        if (!$row->save()) {
             $result = false;
         }
 
@@ -106,14 +103,10 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $url = $this->getObject('application.pages')->getHome()->getLink();
         $this->getObject('application')->getRouter()->build($url);
 
-
-        if ($context->result === true)
-        {
-            $context->user->addFlashMessage('Activation successfully completed');
-        }
-        else
-        {
-            $context->user->addFlashMessage('Activation failed', 'error');
+        if ($context->result === true) {
+            $this->addMessage('Activation successfully completed');
+        } else {
+            $this->addMessage('Activation failed', 'error');
         }
 
         $context->response->setRedirect($url);

@@ -34,26 +34,19 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
 	 */
     public function onAfterControllerRead(Event $event)
     {
-        $name = ucfirst($this->getController()->getIdentifier()->name);
+        $controller = $this->getController();
 
-        if($this->getController()->getModel()->getState()->isUnique())
-        {
-            $saveable = $this->getController()->canEdit();
-            $title    = 'Edit '.$name;
-        }
-        else
-        {
-            $saveable = $this->getController()->canAdd();
-            $title    = 'New '.$name;
-        }
-
-        if($saveable)
-        {
+        if($controller->isEditable() && $controller->canSave()) {
             $this->addCommand('save');
+        }
+
+        if($controller->isEditable() && $controller->canApply()) {
             $this->addCommand('apply');
         }
 
-        $this->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
+        if($controller->isEditable() && $controller->canCancel()) {
+            $this->addCommand('cancel',  array('attribs' => array('data-novalidate' => 'novalidate')));
+        }
     }
 
     /**
@@ -63,16 +56,23 @@ class ControllerToolbarModel extends ControllerToolbarAbstract
 	 */
     public function onAfterControllerBrowse(Event $event)
     {
+        $controller = $this->getController();
+
         if($this->getController()->canAdd())
         {
-            $identifier = $this->getController()->getIdentifier();
+            $identifier = $controller->getIdentifier();
             $config     = array('href' => 'option=com_'.$identifier->package.'&view='.$identifier->name);
 
             $this->addCommand('new', $config);
         }
 
-        if($this->getController()->canDelete()) {
-            $this->addCommand('delete');
+        if($controller->canDelete())
+        {
+            if($controller->isLockable() && !$controller->isLocked()) {
+                $this->addCommand('delete');
+            } else {
+                $this->addCommand('delete');
+            }
         }
     }
 

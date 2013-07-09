@@ -34,7 +34,7 @@ class TemplateHelperGrid extends TemplateHelperAbstract
         	'column' => $config->row->getIdentityColumn() 
         )); 
 		
-		if($config->row->isLockable() && $config->row->locked())
+		if($config->row->isLockable() && $config->row->isLocked())
 		{
 		    $html = '<i class="icon-lock"></i>';
 		}

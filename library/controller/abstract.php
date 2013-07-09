@@ -263,41 +263,6 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     }
 
     /**
-     * Set the response object
-     *
-     * @param ControllerResponseInterface $request A request object
-     * @return ControllerAbstract
-     */
-    public function setResponse(ControllerResponseInterface $response)
-    {
-        $this->_response = $response;
-        return $this;
-    }
-
-    /**
-     * Get the response object
-     *
-     * @throws	\UnexpectedValueException	If the response doesn't implement the ControllerResponseInterface
-     * @return ControllerResponseInterface
-     */
-    public function getResponse()
-    {
-        if(!$this->_response instanceof ControllerResponseInterface)
-        {
-            $this->_response = $this->getObject($this->_response);
-
-            if(!$this->_response instanceof ControllerResponseInterface)
-            {
-                throw new \UnexpectedValueException(
-                    'Response: '.get_class($this->_response).' does not implement ControllerResponseInterface'
-                );
-            }
-        }
-
-        return $this->_response;
-    }
-
-    /**
      * Set the user object
      *
      * @param ControllerUserInterface $user A request object
@@ -319,7 +284,9 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
     {
         if(!$this->_user instanceof ControllerUserInterface)
         {
-            $this->_user = $this->getObject($this->_user);
+            $this->_user = $this->getObject($this->_user, array(
+                'request' => $this->getRequest(),
+            ));
 
             if(!$this->_user instanceof ControllerUserInterface)
             {
@@ -330,6 +297,44 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         }
 
         return $this->_user;
+    }
+
+    /**
+     * Set the response object
+     *
+     * @param ControllerResponseInterface $request A request object
+     * @return ControllerAbstract
+     */
+    public function setResponse(ControllerResponseInterface $response)
+    {
+        $this->_response = $response;
+        return $this;
+    }
+
+    /**
+     * Get the response object
+     *
+     * @throws	\UnexpectedValueException	If the response doesn't implement the ControllerResponseInterface
+     * @return ControllerResponseInterface
+     */
+    public function getResponse()
+    {
+        if(!$this->_response instanceof ControllerResponseInterface)
+        {
+            $this->_response = $this->getObject($this->_response, array(
+                'request' => $this->getRequest(),
+                'user'    => $this->getUser(),
+            ));
+
+            if(!$this->_response instanceof ControllerResponseInterface)
+            {
+                throw new \UnexpectedValueException(
+                    'Response: '.get_class($this->_response).' does not implement ControllerResponseInterface'
+                );
+            }
+        }
+
+        return $this->_response;
     }
 
     /**
@@ -346,8 +351,8 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
         $context = parent::getCommandContext();
 
         $context->request    = $this->getRequest();
-        $context->response   = $this->getResponse();
         $context->user       = $this->getUser();
+        $context->response   = $this->getResponse();
 
         return $context;
     }
@@ -385,43 +390,44 @@ abstract class ControllerAbstract extends Object implements ControllerInterface
      */
     public function __call($method, $args)
     {
-        //Handle action alias method
-        if (in_array($method, $this->getActions()))
+        if (!isset($this->_mixed_methods[$method]))
         {
-            //Get the data
-            $data = !empty($args) ? $args[0] : array();
-
-            //Create a context object
-            if (!($data instanceof CommandContextInterface))
+            //Handle action alias method
+            if (in_array($method, $this->getActions()))
             {
-                $context = $this->getCommandContext();
+                //Get the data
+                $data = !empty($args) ? $args[0] : array();
 
-                //Store the parameters in the context
-                $context->param = $data;
+                //Create a context object
+                if (!($data instanceof CommandContextInterface))
+                {
+                    $context = $this->getCommandContext();
 
-                //Automatic set the data in the request if an associative array is passed
-                if(is_array($data) && !is_numeric(key($data))) {
-                    $context->request->data->add($data);
+                    //Store the parameters in the context
+                    $context->param = $data;
+
+                    //Automatic set the data in the request if an associative array is passed
+                    if(is_array($data) && !is_numeric(key($data))) {
+                        $context->request->data->add($data);
+                    }
+
+                    $context->result = false;
                 }
+                else $context = $data;
 
-                $context->result = false;
-            }
-            else $context = $data;
-
-            //Execute the action
-            return $this->execute($method, $context);
-        }
-
-        //Check if a behavior is mixed
-        $parts = StringInflector::explode($method);
-
-        if ($parts[0] == 'is' && isset($parts[1]))
-        {
-            if (!isset($this->_mixed_methods[$method])) {
-                return false;
+                //Execute the action
+                return $this->execute($method, $context);
             }
 
-            return true;
+            //Check if a behavior is mixed
+            $parts = StringInflector::explode($method);
+
+            if ($parts[0] == 'is' && isset($parts[1]))
+            {
+                if (!isset($this->_mixed_methods[$method])) {
+                    return false;
+                }
+            }
         }
 
         return parent::__call($method, $args);

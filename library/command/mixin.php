@@ -46,8 +46,6 @@ class CommandMixin extends ObjectMixinAbstract
         //Mixin the callback mixer if callbacks have been enabled
         if($config->enable_callbacks)
         {
-            $callback = new ObjectMixinCallback($config);
-
             //Mixin the callback mixin
             $mixin = $this->getMixer()->mixin('lib:object.mixin.callback', $config);
 
@@ -73,7 +71,7 @@ class CommandMixin extends ObjectMixinAbstract
      * 
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param   ObjectConfig $config  An optional ObjectConfig object with configuration options
      * @return  void
      */
     protected function _initialize(ObjectConfig $config)
@@ -130,7 +128,7 @@ class CommandMixin extends ObjectMixinAbstract
     /**
      * Set the chain of command object
      *
-     * @param   object 	A command chain object
+     * @param   CommandChainInterface 	$chain A command chain object
      * @return  Object The mixer object
      */
     public function setCommandChain(CommandChainInterface $chain)

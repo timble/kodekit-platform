@@ -162,7 +162,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param   object  An optional ObjectConfig object with configuration options.
+     * @param  ObjectConfig $config  An optional ObjectConfig object with configuration options.
      * @return void
      */
     protected function _initialize(ObjectConfig $config)
@@ -196,7 +196,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      *
      * @param  integer $code
      * @param  string $message
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return HttpResponse
      */
     public function setStatus($code, $message = null)
@@ -341,7 +341,7 @@ class HttpResponse extends HttpMessage implements HttpResponseInterface
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.29
      *
      * @param \DateTime $date A \DateTime instance
-     * @return Response
+     * @return HttpResponse
      */
     public function setLastModified(\DateTime $date = null)
     {
