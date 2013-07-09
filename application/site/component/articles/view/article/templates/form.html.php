@@ -56,11 +56,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= @text('Category'); ?></label>
             <div class="controls">
-                <?= @template('com:categories.view.categories.radiolist.html', array(
-                    'categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->getRowset(),
-                    'selected' => $article->categories_category_id,
-                    'uncategorised' => true))
-                ?>
+                <?= @helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
             </div>
         </div>
     </fieldset>

@@ -28,10 +28,7 @@
 <fieldset class="categories group">
     <legend><?= @text('Category') ?></legend>
     <div>
-        <?= @template('com:categories.view.categories.radiolist.html', array(
-            'categories' =>  @object('com:articles.model.categories')->sort('title')->table('contacts')->getRowset(),
-            'selected' => $contact->categories_category_id))
-        ?>
+        <?= @helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
     </div>
 </fieldset>
 

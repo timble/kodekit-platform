@@ -27,11 +27,7 @@
     <fieldset class="categories group">
         <legend><?= @text('Parent') ?></legend>
         <div>
-            <?= @template('com:categories.view.categories.radiolist.html', array(
-                'name' => 'parent_id',
-                'categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->parent('0')->getRowset(),
-                'selected' => $category->parent_id))
-            ?>
+            <?= @helper('com:categories.radiolist.categories', array('row' => $category, 'name' => 'parent_id', 'parent' => '0')) ?>
         </div>
     </fieldset>
 <? endif ?>
