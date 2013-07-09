@@ -57,11 +57,10 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         {
             if (!$row->activation)
             {
-                $url   = $this->getObject('application.pages')->getHome()->getLink();
-                $route = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
+                $url = $this->getObject('application.pages')->getHome()->getLink();
+                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url))
 
-                $context->response->setRedirect($route);
-                $context->user->addFlashMessage('Invalid request', 'error');
+                $context->response->setRedirect($url, 'Invalid request', 'error');
             }
             else $this->activate(array('activation' => $activation));
 
@@ -79,8 +78,7 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->user->addFlashMessage('Wrong activation token', 'error');
-            $context->response->setRedirect($url);
+            $context->response->setRedirect($url, 'Wrong activation token', 'error');
 
             return false;
         }
@@ -106,9 +104,9 @@ class ControllerBehaviorActivateable extends Library\ControllerBehaviorAbstract
         $this->getObject('application')->getRouter()->build($url);
 
         if ($context->result === true) {
-            $context->user->addFlashMessage('Activation successfully completed');
+            $this->addMessage('Activation successfully completed');
         } else {
-            $context->user->addFlashMessage('Activation failed', 'error');
+            $this->addMessage('Activation failed', 'error');
         }
 
         $context->response->setRedirect($url);

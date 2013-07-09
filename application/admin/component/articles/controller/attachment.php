@@ -18,10 +18,5 @@ use Nooku\Library;
  */
 class ArticlesControllerAttachment extends AttachmentsControllerAttachment
 {
-    public function __construct(Library\ObjectConfig $config)
-    {
-        parent::__construct($config);
-
-        $this->getModel()->getTable()->attachBehavior('com:articles.database.behavior.assignable');
-    }
+    
 }

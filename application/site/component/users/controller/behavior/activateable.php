@@ -9,7 +9,7 @@
 
 use Nooku\Library, Nooku\Component\Users;
 
-class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActivateable
+class UsersControllerBehaviorActivatable extends Users\ControllerBehaviorActivatable
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
@@ -26,8 +26,8 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
     {
         $user = $context->result;
 
-        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation) {
-
+        if ($user->getStatus() == Library\Database::STATUS_CREATED && $user->activation)
+        {
             $url = $context->request->getUrl()
                 ->toString(Library\HttpUrl::SCHEME | Library\HttpUrl::HOST | Library\HttpUrl::PORT) . $this->_getActivationUrl();
 
@@ -39,9 +39,9 @@ class UsersControllerBehaviorActivateable extends Users\ControllerBehaviorActiva
             $message = $url;
 
             if ($user->notify(array('subject' => $subject, 'message' => $message))) {
-                $context->user->addFlashMessage('Activation E-mail sent');
+                $context->response->addMessage('Activation E-mail sent');
             } else {
-                $context->user->addFlashMessage('Failed to send activation E-mail', 'error');
+                $context->reponse->addMessage('Failed to send activation E-mail', 'error');
             }
         }
     }

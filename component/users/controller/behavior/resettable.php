@@ -47,9 +47,7 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
             $url = $this->getObject('application.pages')->getHome()->getLink();
             $this->getObject('application')->getRouter()->build($url);
 
-            $context->user->addFlashMessage(\JText::_('INVALID_REQUEST'), 'error');
-            $context->response->setRedirect($url);
-
+            $context->response->setRedirect($url, \JText::_('INVALID_REQUEST'), 'error');
             $result = false;
         }
 
@@ -81,8 +79,8 @@ class ControllerBehaviorResettable extends Library\ControllerBehaviorAbstract
 
         if ($row->isNew() || !$row->enabled)
         {
-            $context->user->addFlashMessage(\JText::_('COULD_NOT_FIND_USER'), 'error');
-            $context->response->setRedirect($context->request->getReferrer());
+            $url = $context->request->getReferrer();
+            $context->response->setRedirect($url, \JText::_('COULD_NOT_FIND_USER'), 'error');
             $result = false;
         }
         else

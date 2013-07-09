@@ -30,20 +30,20 @@ class ControllerToolbarRevisable extends Library\ControllerToolbarAbstract
     
     public function onAfterControllerBrowse(Library\Event $event)
     {     
-        $state = $this->getController()->getModel()->getState();
-        $name  = $this->getController()->getIdentifier()->name;
+        $controller = $this->getController();
+        $state      = $controller->getModel()->getState();
         
         if($state->trashed == true) 
-        {    
+        {
+            $name    = $controller->getIdentifier()->name;
             $toolbar = $this->getController()->getToolbar($name);
-            
             $toolbar->reset();
                  
-            if($this->getController()->canEdit()) {
+            if($controller->canEdit()) {
                 $toolbar->addCommand($this->getCommand('restore'));
             }
             
-            if($this->getController()->canDelete()) {
+            if($controller->canDelete()) {
                 $toolbar->addCommand($this->getCommand('delete'));
             }
         } 

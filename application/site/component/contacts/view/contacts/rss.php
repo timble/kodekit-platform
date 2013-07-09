@@ -24,10 +24,15 @@ class ContactsViewContactsRss extends Library\ViewRss
 
         $category = $contacts->getCategory();
 
+        // Get the attachments container
+        $container = $this->getObject('com:files.model.containers')
+            ->slug('attachments-attachments')
+            ->getRow();
+
         //Set the category image
         if (isset( $category->image ) && !empty($category->image))
         {
-            $path = JPATH_IMAGES.'/stories/'.$category->image;
+            $path = JPATH_FILES.'/'.$container->path.'/'.$category->image;
             $size = getimagesize($path);
 
             $category->image = (object) array(

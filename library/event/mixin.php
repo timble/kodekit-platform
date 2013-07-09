@@ -60,7 +60,7 @@ class EventMixin extends ObjectMixinAbstract
         }
 
         //Add the event handlers
-        $subscribers = (array)ObjectConfig::unbox($config->event_subscribers);
+        $subscribers = (array) ObjectConfig::unbox($config->event_subscribers);
 
         foreach ($subscribers as $key => $value)
         {

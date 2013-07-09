@@ -47,7 +47,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	/**
 	 * Get the methods that are available for mixin based
 	 *
-	 * This function conditionaly mixies the behavior. Only if the mixer has a 'locked_by' property the behavior will
+	 * This function conditionally mixes the behavior. Only if the mixer has a 'locked_by' property the behavior will
      * be mixed in.
 	 *
 	 * @param ObjectMixable $mixer The mixer requesting the mixable methods.
@@ -74,14 +74,15 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	public function lock()
 	{
 		//Prevent lock take over, only an saved and unlocked row and be locked
-		if(!$this->isNew() && !$this->locked())
+		if(!$this->isNew() && !$this->isLocked())
 		{
 			$this->locked_by = (int) $this->getObject('user')->getId();
 			$this->locked_on = gmdate('Y-m-d H:i:s');
-			$this->save();
+
+            return $this->save();
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -101,10 +102,10 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 			$this->locked_by = 0;
 			$this->locked_on = 0;
 
-			$this->save();
+            return $this->save();
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -112,7 +113,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 *
 	 * @return boolean	If the row is locked TRUE, otherwise FALSE
 	 */
-	public function locked()
+	public function isLocked()
 	{
 		$result = false;
 		if(!$this->isNew())
@@ -146,7 +147,7 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableUpdate(CommandContext $context)
 	{
-		return (bool) !$this->locked();
+		return (bool) !$this->isLocked();
 	}
 
 	/**
@@ -159,6 +160,6 @@ class DatabaseBehaviorLockable extends DatabaseBehaviorAbstract
 	 */
 	protected function _beforeTableDelete(CommandContext $context)
 	{
-		return (bool) !$this->locked();
+		return (bool) !$this->isLocked();
 	}
 }

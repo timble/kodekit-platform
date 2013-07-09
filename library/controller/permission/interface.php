@@ -10,7 +10,7 @@
 namespace Nooku\Library;
 
 /**
- * Abstract Controller Permission Class
+ * Controller Permissible Behavior Interface
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Controller
@@ -19,10 +19,54 @@ namespace Nooku\Library;
 interface ControllerPermissionInterface
 {
     /**
-     * Check if an action can be executed
+     * Permission handler for render actions
      *
-     * @param   string  Action name
-     * @return  boolean True if the action can be executed, otherwise FALSE.
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
      */
-    public function isPermitted($action);
+    public function canRender();
+
+    /**
+     * Permission handler for read actions
+     *
+     * Method should return FALSE if the controller does not implements the ControllerModellable interface.
+     *
+     * @return  boolean Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canRead();
+
+    /**
+     * Permission handler for browse actions
+     *
+     * Method should return FALSE if the controller does not implements the ControllerModellable interface.
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canBrowse();
+
+    /**
+     * Permission handler for add actions
+     *
+     * Method should return FALSE if the controller does not implements the ControllerModellable interface.
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canAdd();
+
+    /**
+     * Permission handler for edit actions
+     *
+     * Method should return FALSE if the controller does not implements the ControllerModellable interface.
+     *
+     * @return  boolean  Return TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canEdit();
+
+    /**
+     * Permission handler for delete actions
+     *
+     * Method should return FALSE if the controller does not implements the ControllerModellable interface.
+     *
+     * @return  boolean  Returns TRUE if action is permitted. FALSE otherwise.
+     */
+    public function canDelete();
 }

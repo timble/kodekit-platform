@@ -35,7 +35,9 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
         // Set the model identifier
         $this->_model = $config->model;
 
-        if($this->isDispatched()) {
+        if($this->isDispatched())
+        {
+            $this->attachBehavior('lockable');
             $this->attachBehavior('editable');
         }
     }
@@ -52,7 +54,6 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
     {
     	$config->append(array(
             'toolbars'   => array($this->getIdentifier()->name),
-    		'behaviors'  => array('lockable'),
             'model'	     => $this->getIdentifier()->name,
         ));
 
@@ -237,7 +238,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		        $context->response->setStatus(self::STATUS_UNCHANGED);
 		    }
 		}
-		else throw new ControllerExceptionNotFound('Resource could not be found');
+		else throw new ControllerExceptionNotFound('Entity could not be found');
 
 		return $entities;
 	}
@@ -290,7 +291,7 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 		    }
 		    else $context->response->setStatus(self::STATUS_UNCHANGED);
 		}
-		else throw new ControllerExceptionNotFound('Resource Not Found');
+		else throw new ControllerExceptionNotFound('Entity Not Found');
 
 		return $entities;
 	}

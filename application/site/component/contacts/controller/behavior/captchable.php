@@ -41,9 +41,8 @@ class ContactsControllerBehaviorCaptchable extends Users\ControllerBehaviorCaptc
 
         if (!$result)
         {
-            $context->user->addFlashMessage($this->getCaptchaErrorMessage(), 'error');
             $context->user->getSession()->getContainer('captcha')->set('data', $context->request->getData());
-            $context->response->setRedirect($context->request->getReferrer());
+            $context->response->setRedirect($context->request->getReferrer(), $this->getCaptchaErrorMessage(), 'error');
         }
 
         return $result;

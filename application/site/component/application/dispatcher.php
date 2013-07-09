@@ -42,24 +42,17 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     /**
      * Constructor.
      *
-     * @param ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
+     * @param Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
      */
     public function __construct(Library\ObjectConfig $config)
     {
         parent::__construct($config);
 
-        //Register the default exception handler
-        $this->addEventListener('onException', array($this, 'exception'), Library\Event::PRIORITY_LOW);
-
-        $this->registerCallback('before.run', array($this, 'loadConfig'));
-        $this->registerCallback('before.run', array($this, 'loadSession'));
-        $this->registerCallback('before.run', array($this, 'loadLanguage'));
-
-        // Set the connection options
-        $this->_options = $config->options;
-
         //Set the base url in the request
         $this->getRequest()->setBaseUrl($config->base_url);
+
+        //Register the default exception handler
+        $this->addEventListener('onException', array($this, 'exception'), Library\Event::PRIORITY_LOW);
 
         //Set the site name
         if(empty($config->site)) {
@@ -67,6 +60,10 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         } else {
             $this->_site = $config->site;
         }
+
+        $this->loadConfig();
+
+        $this->registerCallback('before.run', array($this, 'loadLanguage'));
     }
 
     /**
@@ -74,7 +71,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param 	ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
+     * @param 	Library\ObjectConfig $config	An optional Library\ObjectConfig object with configuration options.
      * @return 	void
      */
     protected function _initialize(Library\ObjectConfig $config)
@@ -122,10 +119,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $this->getEventDispatcher()->setDebugMode($this->getCfg('debug_mode'));
 
         //Set the paths
-        $params = $this->getObject('application.extensions')->getExtension('files')->params;
-
         define('JPATH_FILES'  , JPATH_SITES.'/'.$this->getSite().'/files');
-        define('JPATH_IMAGES' , JPATH_SITES.'/'.$this->getSite().'/files/'.$params->get('image_path', 'images'));
         define('JPATH_CACHE'  , $this->getCfg('cache_path', JPATH_ROOT.'/cache'));
 
         // Set timezone to user's setting, falling back to global configuration.
@@ -197,24 +191,6 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     }
 
     /**
-     * Forward to the component
-     *
-     * @param Library\CommandContext $context	A command context object
-     * @throws	\UnexpectedValueException	If the dispatcher doesn't implement the DispatcherInterface
-     */
-    protected function _actionForward(Library\CommandContext $context)
-    {
-        //Set the controller to dispatch
-        $extension = (string) $context->param;
-
-        if (!$this->getObject('application.extensions')->isEnabled($extension)) {
-            throw new Library\ControllerExceptionNotFound('Extension Not Enabled');
-        }
-
-        parent::_actionForward($context);
-    }
-
-    /**
      * Dispatch the request
      *
      * @param Library\CommandContext $context	A command context object
@@ -228,10 +204,6 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
             $config = array('response' => $context->response);
 
             $layout = $context->request->query->get('tmpl', 'cmd', 'default');
-            if(!$this->isPermitted('render')) {
-                $layout = 'login';
-            }
-
             $this->getObject('com:application.controller.page', $config)
                 ->layout($layout)
                 ->render();
@@ -271,19 +243,18 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     /**
      * Load the configuration
      *
-     * @param Library\CommandContext $context	A command context object
      * @return	void
      */
-    public function loadConfig(Library\CommandContext $context)
+    public function loadConfig()
     {
         // Check if the site exists
         if($this->getObject('com:sites.model.sites')->getRowset()->find($this->getSite()))
         {
             //Load the application config settings
-            JFactory::getConfig()->loadArray($this->_options->toArray());
+            JFactory::getConfig()->loadArray($this->getConfig()->options->toArray());
 
             //Load the global config settings
-            require_once( $this->_options->config_file );
+            require_once( $this->getConfig()->options->config_file );
             JFactory::getConfig()->loadObject(new JConfig());
 
             //Load the site config settings
@@ -296,48 +267,53 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     /**
      * Load the user session or create a new one
      *
-     * Old sessions are flushed based on the configuration value for the cookie lifetime. If an existing session, then
-     * the last access time is updated. If a new session, a session id is generated and a record is created in the
-     * #__users_sessions table.
+     * Old sessions are flushed based on the configuration value for the cookie lifetime. If an existing session,
+     * then the last access time is updated. If a new session, a session id is generated and a record is created
+     * in the users_sessions table.
      *
-     * @param Library\CommandContext $context	A command context object
      * @return	void
      */
-    public function loadSession( Library\CommandContext $context )
+    public function getUser()
     {
-        $session = $context->user->session;
-
-        //Set Session Name
-        $session->setName(md5($this->getCfg('secret').$this->getCfg('session_name')));
-
-        //Set Session Lifetime
-        $session->setLifetime($this->getCfg('lifetime', 15) * 60);
-
-        //Set Session Handler
-        $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
-
-        //Set Session Options
-        $session->setOptions(array(
-            'cookie_path'   => (string) $context->request->getBaseUrl()->getPath() ?: '/',
-            'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
-        ));
-
-        //Auto-start the session if a cookie is found
-        if(!$session->isActive())
+        if(!$this->_user instanceof Library\DispatcherUserInterface)
         {
-            if ($context->request->cookies->has($session->getName())) {
-                $session->start();
+            $user    =  parent::getUser();
+            $session =  $user->getSession();
+
+            //Set Session Name
+            $session->setName(md5($this->getCfg('secret').$this->getCfg('session_name')));
+
+            //Set Session Lifetime
+            $session->setLifetime($this->getCfg('lifetime', 15) * 60);
+
+            //Set Session Handler
+            $session->setHandler('database', array('table' => 'com:users.database.table.sessions'));
+
+            //Set Session Options
+            $session->setOptions(array(
+                'cookie_path'   => (string) $this->getRequest()->getBaseUrl()->getPath() ?: '/',
+                'cookie_secure' => $this->getCfg('force_ssl') == 2 ? true : false
+            ));
+
+            //Auto-start the session if a cookie is found
+            if(!$session->isActive())
+            {
+                if ($this->getRequest()->cookies->has($session->getName())) {
+                    $session->start();
+                }
+            }
+
+            //Re-create the session if we changed sites
+            if($user->isAuthentic() && ($session->site != $this->getSite()))
+            {
+                //@TODO : Fix this
+                //if(!$this->getObject('com:users.controller.session')->add()) {
+                //    $session->destroy();
+                //}
             }
         }
 
-        //Re-create the session if we changed sites
-        if($context->user->isAuthentic() && ($session->site != $this->getSite()))
-        {
-            //@TODO : Fix this
-            //if(!$this->getObject('com:users.controller.session')->add()) {
-            //    $session->destroy();
-            //}
-        }
+        return parent::getUser();
     }
 
     /**
@@ -352,6 +328,12 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
         $language = null;
 
         // If a language was specified it has priority.
+        if($iso_code = $this->getConfig()->options->language)
+        {
+            $result = $languages->find(array('iso_code' => $iso_code));
+            if(count($result) == 1) {
+                $language = $result->top();
+            }
         if($iso_code = $this->_options->language) {
             $language = $languages->find(array('iso_code' => $iso_code));
         }
@@ -436,7 +418,7 @@ class ApplicationDispatcher extends Library\DispatcherAbstract implements Librar
     /**
      * Get the component parameters
      *
-     * @param	string	The component option
+     * @param	string	$option The component option
      * @return	object	The parameters object
      */
     public function getParams($option = null)

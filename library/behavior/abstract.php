@@ -93,7 +93,7 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     protected function _initialize(ObjectConfig $config)
     {
         $config->append(array(
-            'priority' => CommandChain::PRIORITY_NORMAL,
+            'priority'   => CommandChain::PRIORITY_NORMAL,
             'auto_mixin' => false
         ));
 
@@ -111,15 +111,25 @@ abstract class BehaviorAbstract extends ObjectMixinAbstract implements BehaviorI
     }
 
     /**
+     * Get the behavior name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getIdentifier()->name;
+    }
+
+    /**
      * Command handler
      *
      * This function translated the command name to a command handler function of the format '_before[Command]' or
      * '_after[Command]. Command handler functions should be declared protected.
      *
-     * @param   string           $name     The command name
+     * @param   string          $name     The command name
      * @param   CommandContext  $context  The command context
      *
-     * @return  mixed  Method result if the method exsist, NULL otherwise.
+     * @return  mixed  Method result if the method exists, NULL otherwise.
      */
     public function execute($name, CommandContext $context)
     {

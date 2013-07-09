@@ -19,10 +19,8 @@ class UsersControllerBehaviorEditable extends \Nooku\Component\Extensions\Contro
     {
         $entity = parent::_actionSave($context);
 
-        if ($entity->getStatus() === Library\Database::STATUS_FAILED)
-        {
-            $context->user->addFlashMessage($entity->getStatusMessage(), 'error');
-            $context->response->setRedirect($context->request->getUrl());
+        if ($entity->getStatus() === Library\Database::STATUS_FAILED) {
+            $context->response->setRedirect($context->request->getUrl(), $entity->getStatusMessage(), 'error');
         }
 
         return $entity;

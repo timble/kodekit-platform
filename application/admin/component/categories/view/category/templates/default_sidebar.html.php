@@ -38,3 +38,13 @@
         </div>
     </fieldset>
 <? endif ?>
+
+<? if($category->isAttachable()) : ?>
+<fieldset>
+    <legend><?= @text('Image') ?></legend>
+    <? if (!$category->isNew()) : ?>
+        <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $category->getAttachments(), 'attachments_attachment_id' => $category->attachments_attachment_id)) ?>
+    <? endif ?>
+    <?= @template('com:attachments.view.attachments.upload.html') ?>
+</fieldset>
+<? endif ?>
