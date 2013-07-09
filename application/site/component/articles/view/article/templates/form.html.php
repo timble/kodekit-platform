@@ -11,6 +11,11 @@
 <?= @helper('behavior.mootools'); ?>
 <?= @helper('behavior.keepalive'); ?>
 
+<? if ($article->editable) : ?>
+    <?= @helper('behavior.inline_editing'); ?>
+<? endif;?>
+
+
 <!--
 <script src="media://js/koowa.js"/>
 -->
@@ -92,36 +97,3 @@
         </div>
     </fieldset>
 </form>
-
-<? if ($article->editable) : ?>
-    <script src="media://application/js/jquery.js" /></script>
-
-    <script src="media://ckeditor/ckeditor/ckeditor.js" />
-        <script type='text/javascript' language='javascript'>
-
-        CKEDITOR.on( 'instanceCreated', function( event ) {
-            var editor = event.editor,
-                element = editor.element;
-
-            if ( element.is( 'h1', 'h2', 'h3' ) || element.getAttribute( 'id' ) == 'taglist' ) {
-                editor.on( 'configLoaded', function() {
-                    editor.config.toolbar = 'title';
-                });
-            }else{
-                editor.on( 'configLoaded', function() {
-                    editor.config.toolbar = 'standard';
-                });
-            }
-            editor.on('blur', function (ev) {
-                jQuery.post('<?=@route();?>', {
-                    id: <?=$article->id;?>,
-                    introtext : CKEDITOR.instances.introtext.getData(),
-                    fulltext : CKEDITOR.instances.fulltext.getData(),
-                    title : CKEDITOR.instances.title.getData(),
-                    _token:'<?= @object('user')->getSession()->getToken() ?>'
-                });
-            });
-        });
-
-    </script>
-<? endif;?>
