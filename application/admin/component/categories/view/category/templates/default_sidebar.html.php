@@ -35,6 +35,11 @@
                 'table'     => 'articles',
                 'parent'	=> '0'
             )) ?>
+            <?= @template('com:categories.view.categories.radiolist.html', array(
+                'categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->parent('0')->getRowset(),
+                'selected' => $category->parent_id))
+            ?>
+
         </div>
     </fieldset>
 <? endif ?>
