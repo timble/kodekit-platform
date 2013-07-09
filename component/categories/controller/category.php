@@ -22,7 +22,8 @@ abstract class ControllerCategory extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'model' => 'com:categories.model.categories'
+            'model'     => 'com:categories.model.categories',
+            'behaviors' => array('com:attachments.controller.behavior.attachable'),
         ));
 
         parent::_initialize($config);
