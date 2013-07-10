@@ -7,7 +7,10 @@
  * @link        http://www.nooku.org
  */
 ?>
-
+<script src="media://files/js/jquery-1.8.0.min.js" />
+<script type="text/javascript">
+    var $jQuery = jQuery.noConflict();
+</script>
 <?= @object('com:files.controller.file')
 	->container('files-files')
 	->layout('compact')
