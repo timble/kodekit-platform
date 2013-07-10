@@ -22,10 +22,8 @@ abstract class ControllerImage extends Library\ControllerModel
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
-
         $config->append(array(
             'model' => 'com:files.model.images',
-
         ));
 
         parent::_initialize($config);
@@ -59,9 +57,6 @@ abstract class ControllerImage extends Library\ControllerModel
             $request->query->container = 'files-files';
         }
 
-
         return $request;
     }
-
-
 }
