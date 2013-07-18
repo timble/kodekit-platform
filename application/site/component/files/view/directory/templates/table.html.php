@@ -24,16 +24,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? if ($parent !== null): ?>
-		<tr>
-			<td colspan="3">
-				<i class="icon-chevron-left"></i>
-				<a href="<?= @route('&view=folder&folder='.$parent); ?>">
-					<?= @text('Parent Folder') ?>
-				</a>
-			</td>
-		</tr>
-		<? endif; ?>
 		<? foreach($folders as $folder): ?>
 		<tr>
 			<td>
