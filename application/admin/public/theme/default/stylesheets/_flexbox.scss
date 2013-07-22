@@ -127,7 +127,7 @@ body {
 }
 
 // Files dialog in the editor
-.files_dialog {
+.image_dialog {
   .cke_dialog_contents_body {
     @include flex();
 
@@ -192,7 +192,6 @@ body {
   }
 }
 
-.com_files {
   #files-app {
     @include flex(1);
     @include flex-direction(column);
@@ -239,4 +238,3 @@ body {
       }
     }
   }
-}
