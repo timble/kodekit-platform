@@ -1,15 +1,15 @@
 var iframeWindow = null;
-CKEDITOR.plugins.add('files',
+CKEDITOR.plugins.add('images',
     {
         requires: [ 'iframedialog' ],
-        icons: 'files',
+        icons: 'images',
         init: function( editor )
         {
             var height = 480, width = 750;
             CKEDITOR.dialog.addIframe(
-                'filesDialog',
-                'Files',
-                '?option=com_files&container=files-files&view=images&tmpl=dialog', width, height,
+                'imagesDialog',
+                'images',
+                '?option=com_ckeditor&container=files-files&view=images&tmpl=dialog', width, height,
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
@@ -41,17 +41,17 @@ CKEDITOR.plugins.add('files',
                     },
                     onShow : function()
                     {
-                        this.parts.dialog.addClass('files_dialog');
+                        this.parts.dialog.addClass('image_dialog');
                     }
                 }
             );
 
-            editor.addCommand( 'filesDialog', new CKEDITOR.dialogCommand( 'filesDialog' ) );
+            editor.addCommand( 'imagesDialog', new CKEDITOR.dialogCommand( 'imagesDialog' ) );
 
-            editor.ui.addButton( 'files',
+            editor.ui.addButton( 'images',
                 {
-                    label: 'Files Dialog',
-                    command: 'filesDialog',
+                    label: 'Image Dialog',
+                    command: 'imagesDialog',
                     icon: this.path + 'images/image.png'
                 } );
 
@@ -60,5 +60,5 @@ CKEDITOR.plugins.add('files',
 );
 
 function showDialogPlugin(e){
-    e.openDialog('files.dlg');
+    e.openDialog('images.dlg');
 }

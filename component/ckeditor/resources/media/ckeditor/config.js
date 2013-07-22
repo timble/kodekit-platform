@@ -4,7 +4,7 @@
  */
 (function() {
     CKEDITOR.plugins.addExternal('readmore','extras/readmore/', 'plugin.js');
-    CKEDITOR.plugins.addExternal('files','extras/files/', 'plugin.js');
+    CKEDITOR.plugins.addExternal('images','extras/images/', 'plugin.js');
 })();
 
 
@@ -14,7 +14,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'codemirror,readmore,autosave,files,onchange';
+    config.extraPlugins = 'codemirror,readmore,autosave,images,onchange';
     config.codemirror = {
         theme: 'default',
         lineNumbers: true,
@@ -47,7 +47,7 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv',
                 '-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
             { name: 'links', items : [ 'Link','Unlink','Anchor' ] },
-            { name: 'insert', items : [ 'files','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
+            { name: 'insert', items : [ 'images','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','Iframe' ] },
             '/',
             { name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },
             { name: 'colors', items : [ 'TextColor','BGColor' ] },
@@ -56,7 +56,7 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.toolbar_basic =
         [
-            ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','HorizontalRule','readmore']
+            ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','HorizontalRule','readmore','images']
         ];
 
     config.toolbar_standard =
@@ -65,7 +65,7 @@ CKEDITOR.editorConfig = function( config ) {
             { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic' ] },
             { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
             { name: 'links', items: [ 'Link', 'Unlink', '-', 'readmore' ] },
-            { name: 'insert', items: [ 'files', 'Table' ] },
+            { name: 'insert', items: [ 'images', 'Table' ] },
             { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'PasteText', '-', 'Undo', 'Redo' ] },
             { name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Scayt' ] },
             { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] }

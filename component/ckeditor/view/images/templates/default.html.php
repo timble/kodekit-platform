@@ -1,7 +1,7 @@
 <?
 /**
  * @package     Nooku_Components
- * @subpackage  Files
+ * @subpackage  Ckeditor
  * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
  * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link        http://www.nooku.org
@@ -11,55 +11,55 @@
 <script type="text/javascript">
     var $jQuery = jQuery.noConflict();
 </script>
-<?= @object('com:files.controller.file')
-	->container('files-files')
-	->layout('compact')
-	->types(array('image'))
-	->editor($state->editor)
+<?= @object('com:ckeditor.controller.file')
+    ->container('files-files')
+    ->layout('dialog')
+    ->types(array('image'))
+    ->editor($state->editor)
     ->render();
 ?>
 
 <script>
-window.addEvent('domready', function() {
-	var getImageString = function() {
-		var src = document.id('image-url').get('value');
-		var attrs = {};
-		['align', 'alt', 'title'].each(function(id) {
-			var value = document.id('image-'+id).get('value');
-			if (value) {
-				attrs[id] = value;
-			}
-		});
+    window.addEvent('domready', function() {
+        var getImageString = function() {
+            var src = document.id('image-url').get('value');
+            var attrs = {};
+            ['align', 'alt', 'title'].each(function(id) {
+                var value = document.id('image-'+id).get('value');
+                if (value) {
+                    attrs[id] = value;
+                }
+            });
 
-		var str = '<img src="'+src+'" ';
-		var parts = [];
-		$each(attrs, function(value, key) {
-			parts.push(key+'="'+value+'"');
-		});
-		str += parts.join(' ')+' />';
+            var str = '<img src="'+src+'" ';
+            var parts = [];
+            $each(attrs, function(value, key) {
+                parts.push(key+'="'+value+'"');
+            });
+            str += parts.join(' ')+' />';
 
-		return str;
-	};
-	var insertImage = function() {
-		var image = getImageString();
-		window.parent.Editors.get(Files.app.editor).insertText(image);
-	};
+            return str;
+        };
+//        var insertImage = function() {
+//            var image = getImageString();
+//            window.parent.Editors.get(Files.app.editor).insertText(image);
+//        };
 
-	document.id('details').adopt(document.id('image-insert-form'));
+        document.id('details').adopt(document.id('image-insert-form'));
 
-	Files.app.grid.addEvent('clickImage', function(e) {
-		var target = document.id(e.target).getParent('.files-node'),
-			row = target.retrieve('row'),
-    		url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+        Files.app.grid.addEvent('clickImage', function(e) {
+            var target = document.id(e.target).getParent('.files-node'),
+                row = target.retrieve('row'),
+                url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
 
-		document.id('image-url').set('value', url);
-	});
+            document.id('image-url').set('value', url);
+        });
 
-});
+    });
 </script>
 
 <div id="image-insert-form">
-	<fieldset>
+    <fieldset>
         <div>
             <label for="image-url"><?= @text('URL') ?></label>
             <div>
@@ -88,5 +88,5 @@ window.addEvent('domready', function() {
                 </select>
             </div>
         </div>
-	</fieldset>
+    </fieldset>
 </div>
