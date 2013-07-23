@@ -21,30 +21,6 @@
 
 <script>
     window.addEvent('domready', function() {
-        var getImageString = function() {
-            var src = document.id('image-url').get('value');
-            var attrs = {};
-            ['align', 'alt', 'title'].each(function(id) {
-                var value = document.id('image-'+id).get('value');
-                if (value) {
-                    attrs[id] = value;
-                }
-            });
-
-            var str = '<img src="'+src+'" ';
-            var parts = [];
-            $each(attrs, function(value, key) {
-                parts.push(key+'="'+value+'"');
-            });
-            str += parts.join(' ')+' />';
-
-            return str;
-        };
-//        var insertImage = function() {
-//            var image = getImageString();
-//            window.parent.Editors.get(Files.app.editor).insertText(image);
-//        };
-
         document.id('details').adopt(document.id('image-insert-form'));
 
         Files.app.grid.addEvent('clickImage', function(e) {
