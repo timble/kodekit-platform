@@ -15,6 +15,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 
     config.extraPlugins = 'codemirror,readmore,autosave,images,onchange';
+    config.autosave_delay = '1';
     config.codemirror = {
         theme: 'default',
         lineNumbers: true,
