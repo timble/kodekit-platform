@@ -31,14 +31,6 @@ jQuery(function($) {
 	<div class="page-header">
 		<h1><?= @escape($params->get('page_title')); ?></h1>
 	</div>
-
-    <? if ($parent !== null): ?>
-	<div class="btn-toolbar">
-	    <a class="btn btn-small" href="<?= @route('&view=folder&folder='.$parent) ?>">
-		    <i class="icon-chevron-left"></i> <?= @text('Parent folder') ?>
-	    </a>
-	</div>
-    <? endif ?>
     
     <? if (count($folders)): ?>
     <ul>

@@ -90,7 +90,6 @@ ul {
 
 #panel-toolbar {
   padding: 8px 10px;
-  @include box-sizing(border-box);
   background: $tabbarBackgroundHighlight linear-gradient($tabbarBackgroundHighlight, darken($tabbarBackgroundHighlight, 5%));
 
     .btn-group {
