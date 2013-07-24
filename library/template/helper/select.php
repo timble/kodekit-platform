@@ -202,8 +202,8 @@ class TemplateHelperSelect extends TemplateHelperAbstract
                 $attribs = $this->_buildAttributes($option->attribs);
             }
 
-            $html[] = '<label class="radio" for="'.$option->name.$option->id.'">';
-            $html[] = '<input type="radio" name="'.$option->name.'" id="'.$option->name.$option->id.'" value="'.$value.'" '.$extra.' '.$attribs.' />';
+            $html[] = '<label class="radio" for="'.$config->name.$option->id.'">';
+            $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$option->id.'" value="'.$value.'" '.$extra.' '.$attribs.' />';
             $html[] = $label;
             $html[] = '</label>';
 		}

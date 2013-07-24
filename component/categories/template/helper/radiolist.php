@@ -26,7 +26,7 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
             'name'          => 'categories_category_id',
             'row'           => '',
             'uncategorised' => false,
-            'max_depth'     => 9,
+            'max_depth'     => '9',
         ))->append(array(
             'selected'      => $config->row->{$config->name},
         ))->append(array(
@@ -47,7 +47,7 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
 
         $options = array();
         if($config->uncategorised) {
-            $options[] = $this->option(array('label' => \JText::_('Uncategorized'), 'value' => '0'));
+            $options[] = $this->option(array('label' => \JText::_('Uncategorized'), 'value' => '0', 'id' => '0'));
         }
 
         $options += $this->options(array(
