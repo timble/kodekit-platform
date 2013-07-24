@@ -45,14 +45,6 @@
 <fieldset>
     <legend><?= @text('Role') ?></legend>
     <div>
-        <div>
-            <?= @helper('listbox.radiolist', array(
-                'list'     => @object('com:users.model.roles')->sort('id')->getRowset(),
-                'selected' => $user->role_id,
-                'name'     => 'role_id',
-                'text'     => 'name',
-            ));
-            ?>
-        </div>
+        <div><?= @helper('select.groups', array('selected' => $user->role_id)); ?></div>
     </div>
 </fieldset>

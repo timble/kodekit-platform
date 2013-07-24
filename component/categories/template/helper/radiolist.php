@@ -25,70 +25,40 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
         $config->append(array(
             'name'          => 'categories_category_id',
             'row'           => '',
-            'parent'        => null,
-            'published'     => null,
-            'max_depth'     => null,
-            'sort'          => 'title',
             'uncategorised' => false,
+            'max_depth'     => 9,
         ))->append(array(
-            'table'         => $config->row->getTable()->getBase(),
             'selected'      => $config->row->{$config->name},
-        ));
-
-        $html = array();
-
-        if($config->uncategorised) {
-            $category = array();
-            $category['id'] = '0';
-            $category['title'] = \JText::_('Uncategorized');
-
-            $html[] = $this->_radiobox(array('category' => $category, 'config' => $config));
-        }
-
-        $list = $this->getObject('com:categories.model.categories')
-                     ->table($config->table)
-                     ->parent($config->parent)
-                     ->published($config->published)
-                     ->sort($config->sort)
-                     ->getRowset();
-
-        foreach($list as $category)
-        {
-            $html[] = $this->_radiobox(array('category' => $category, 'config' => $config));
-
-            if($category->hasChildren()) {
-                foreach($category->getChildren() as $category) {
-                    $html[] = '<div style="margin-left: 16px">';
-                    $html[] = $this->_radiobox(array('category' => $category, 'config' => $config));
-                    $html[] = '</div>';
-                }
-            }
-        }
-
-        return implode(PHP_EOL, $html);
-    }
-
-    public function _radiobox($config = array())
-    {
-        $config = new Library\ObjectConfig($config);
-        $config->append(array(
-            'category'   => '',
-            'config'     => '',
         ))->append(array(
-             'id'        => $config->category->id,
-             'title'     => $config->category->title,
-             'name'      => $config->config->name,
-             'selected'  => $config->config->selected,
+            'filter' 	=> array(
+                'sort'      => 'title',
+                'parent'    => null,
+                'published' => null,
+                'table'     => $config->row->getTable()->getBase()
+            ),
         ));
 
-        $html = array();
-        $checked = ($config->id == $config->selected ? 'checked="checked"' : '');
+        $categories = $this->getObject('com:categories.model.categories')
+                        ->setState(Library\ObjectConfig::unbox($config->filter))
+                        ->getRowset();
 
-        $html[] = '<label class="radio" for="'.$config->name.$config->id.'">';
-        $html[] = '<input type="radio" name="'.$config->name.'" id="'.$config->name.$config->id.'" value="'.$config->id.'" '.$checked.'/>';
-        $html[] = $config->title;
-        $html[] = '</label>';
+        $iterator = new DatabaseIteratorNode($categories);
+        $iterator->setMaxDepth($config->max_depth);
 
-        return implode(PHP_EOL, $html);
+        $options = array();
+        if($config->uncategorised) {
+            $options[] = $this->option(array('label' => \JText::_('Uncategorized'), 'value' => '0'));
+        }
+
+        $options += $this->options(array(
+            'entity' => $iterator,
+            'value'  => 'id',
+            'label'  => 'title',
+        ));
+
+        //Add the options to the config object
+        $config->options = $options;
+
+        return $this->radiolist($config);
     }
 }

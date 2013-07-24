@@ -33,17 +33,17 @@ class TemplateHelperListbox extends TemplateHelperSelect
             'deselect'  => true,
             'prompt'    => '- Select -',
         ))->append(array(
-                'selected'  => $config->{$config->name}
-            ));
+            'selected'  => $config->{$config->name}
+        ));
 
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => \JText::_($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => \JText::_($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('text' => \JText::_( 'Enabled' ) , 'value' => 1 ));
-        $options[] = $this->option(array('text' => \JText::_( 'Disabled' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => \JText::_( 'Enabled' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => \JText::_( 'Disabled' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -72,11 +72,11 @@ class TemplateHelperListbox extends TemplateHelperSelect
         $options = array();
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt), 'value' => ''));
+            $options[] = $this->option(array('label' => JText::_($config->prompt), 'value' => ''));
         }
 
-        $options[] = $this->option(array('text' => \JText::_( 'Published' ) , 'value' => 1 ));
-        $options[] = $this->option(array('text' => \JText::_( 'Draft' ), 'value' => 0 ));
+        $options[] = $this->option(array('label' => \JText::_( 'Published' ) , 'value' => 1 ));
+        $options[] = $this->option(array('label' => \JText::_( 'Draft' ), 'value' => 0 ));
 
         //Add the options to the config object
         $config->options = $options;
@@ -145,9 +145,9 @@ class TemplateHelperListbox extends TemplateHelperSelect
 			'selected'   => $config->{$config->name},
 		    'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.StringInflector::pluralize($config->model)
 		))->append(array(
-			'text'		=> $config->value,
+			'label'		=> $config->value,
 		))->append(array(
-		    'filter' 	=> array('sort' => $config->text),
+		    'filter' 	=> array('sort' => $config->label),
 		));
 
 		$list = $this->getObject($config->identifier)->setState(ObjectConfig::unbox($config->filter))->getRowset();
@@ -161,13 +161,13 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		//Compose the options array
         $options   = array();
  		if($config->deselect) {
-         	$options[] = $this->option(array('text' => \JText::_($config->prompt)));
+         	$options[] = $this->option(array('label' => \JText::_($config->prompt)));
         }
 
  		foreach($items as $key => $value)
  		{
  		    $item      = $list->find($key);
- 		    $options[] =  $this->option(array('text' => $item->{$config->text}, 'value' => $item->{$config->value}));
+ 		    $options[] =  $this->option(array('label' => $item->{$config->label}, 'value' => $item->{$config->value}));
 		}
 
 		//Add the options to the config object
@@ -195,14 +195,14 @@ class TemplateHelperListbox extends TemplateHelperSelect
 		    'selected'   => $config->{$config->name},
 			'identifier' => 'com:'.$this->getIdentifier()->package.'.model.'.StringInflector::pluralize($config->model)
 		))->append(array(
-			'text'		=> $config->value,
+			'label'		=> $config->value,
 		))->append(array(
-		    'filter' 	=> array('sort' => $config->text),
+		    'filter' 	=> array('sort' => $config->label),
 		));
 
         //For the autocomplete behavior
     	$config->element = $config->value;
-    	$config->path    = $config->text;
+    	$config->path    = $config->label;
 
 		$html = $this->getTemplate()->getHelper('behavior')->autocomplete($config);
 

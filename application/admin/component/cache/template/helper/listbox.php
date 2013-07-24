@@ -24,10 +24,10 @@ class CacheTemplateHelperListbox extends Library\TemplateHelperListbox
 	{	
 	    $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'model'		=> 'groups',
-			'name' 		=> 'group',
-			'value'		=> 'name',
-			'text'		=> 'name'
+			'model'	=> 'groups',
+			'name' 	=> 'group',
+			'value'	=> 'name',
+			'label'	=> 'name'
 		));
 	
 		return parent::_listbox($config);

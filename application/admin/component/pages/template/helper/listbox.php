@@ -23,10 +23,10 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'model'		=> 'menus',
-			'name' 		=> 'pages_menu_id',
-			'value'		=> 'id',
-			'text'		=> 'title',
+			'model'	=> 'menus',
+			'name' 	=> 'pages_menu_id',
+			'value'	=> 'id',
+			'label'	=> 'title',
 		));
 
 		return $this->_listbox($config);
@@ -43,7 +43,7 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('text' => JText::_($config->prompt)));
+            $options[] = $this->option(array('label' => JText::_($config->prompt)));
         }
 
         $menus = $this->getObject('com:pages.model.menus')->getRowset();
@@ -51,13 +51,13 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
 
         foreach($menus as $menu)
         {
-            $options[] = $this->option(array('text' => $menu->title, 'value' => '', 'disable' => true));
+            $options[] = $this->option(array('label' => $menu->title, 'value' => '', 'disabled' => true));
             foreach($pages->find(array('pages_menu_id' => $menu->id)) as $page)
             {
                 $options[] = $this->option(array(
-                    'text' => str_repeat(str_repeat('&nbsp;', 4), $page->level).$page->title,
-                    'value' => $page->id,
-                    'disable' => in_array($page->type, Library\ObjectConfig::unbox($config->disable))
+                    'label'    => str_repeat(str_repeat('&nbsp;', 4), $page->level).$page->title,
+                    'value'    => $page->id,
+                    'disabled' => in_array($page->type, Library\ObjectConfig::unbox($config->disable))
                 ));
             }
         }
@@ -85,7 +85,8 @@ class PagesTemplateHelperListbox extends Library\TemplateHelperListbox
         if($config->page)
         {
             $path = $config->page->path;
-            foreach(clone $pages as $page) {
+            foreach(clone $pages as $page)
+            {
                 if(strpos($page->path, $config->page->path) === 0) {
                     $pages->extract($page);
                 }

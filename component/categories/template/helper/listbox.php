@@ -40,7 +40,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
 
         $options = array();
         foreach($list as $item) {
-			$options[] =  $this->option(array('text' => $item->ordering, 'value' => $item->ordering - $config->ordering));
+			$options[] =  $this->option(array('label' => $item->ordering, 'value' => $item->ordering - $config->ordering));
 		}
 		
         $list = $this->optionlist(array(
@@ -66,24 +66,22 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         ));
 
         if($config->deselect) {
-            $options[] = $this->option(array('text' => \JText::_($config->prompt), 'value' => 0));
+            $options[] = $this->option(array('label' => \JText::_($config->prompt), 'value' => 0));
         }
 
-        $list = $this->getObject('com:categories.model.categories')
-                     ->table($config->table)
-                     ->parent($config->parent)
-                     ->sort('title')
-                     ->getRowset();
+        $categories = $this->getObject('com:categories.model.categories')
+                         ->table($config->table)
+                        ->parent($config->parent)
+                        ->sort('title')
+                        ->getRowset();
 
-        $iterator = new \RecursiveIteratorIterator($list, \RecursiveIteratorIterator::SELF_FIRST);
-        foreach($iterator as $item)
+        $iterator = new DatabaseIteratorNode($categories);
+        $iterator->setMaxDepth($config->max_depth);
+
+        foreach($iterator as $category)
         {
-            if($iterator->getDepth() > $config->max_depth) {
-                break;
-            }
-
-            $title =  substr('---------', 0, $iterator->getDepth()).$item->title;
-            $options[] = $this->option(array('text' => $title, 'value' => $item->id));
+            $title =  substr('---------', 0, $iterator->getDepth()).$category->title;
+            $options[] = $this->option(array('label' => $title, 'value' => $category->id));
         }
 
         $config->options = $options;
