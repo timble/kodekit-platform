@@ -1,5 +1,5 @@
 var iframeWindow = null;
-CKEDITOR.plugins.add('images',
+CKEDITOR.plugins.add('files',
     {
         requires: [ 'iframedialog' ],
         icons: 'images',
@@ -7,9 +7,9 @@ CKEDITOR.plugins.add('images',
         {
             var height = 480, width = 750;
             CKEDITOR.dialog.addIframe(
-                'imagesDialog',
-                'images',
-                '?option=com_ckeditor&container=files-files&view=images&tmpl=dialog', width, height,
+                'filesDialog',
+                'files',
+                '?option=com_ckeditor&container=files-files&view=files&tmpl=dialog', width, height,
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
@@ -20,38 +20,40 @@ CKEDITOR.plugins.add('images',
                     {
 
                         var iframedocument = iframeWindow.document;
-                        var src = iframedocument.id('image-url').get('value');
+                        var src = iframedocument.id('file-url').get('value');
+                        var link = iframedocument.id('file-link').get('value');
                         var attrs = {};
-                        ['align', 'alt', 'title'].each(function(id) {
-                            var value = iframedocument.id('image-'+id).get('value');
+                        ['alt', 'title'].each(function(id) {
+                            var value = iframedocument.id('file-'+id).get('value');
                             if (value) {
                                 attrs[id] = value;
                             }
                         });
 
-                        var str = '<img src="'+src+'" ';
+                        var str = '<a href="'+src+'" ';
                         var parts = [];
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });
-                        str += parts.join(' ')+' />';
+                        str += parts.join(' ')+' >';
+                        str += link+"</a>";
 
                         // puts the image in the editor
                         this._.editor.insertHtml(str);
                     },
                     onShow : function()
                     {
-                        this.parts.dialog.addClass('image_dialog');
+                        this.parts.dialog.addClass('file_dialog');
                     }
                 }
             );
 
-            editor.addCommand( 'imagesDialog', new CKEDITOR.dialogCommand( 'imagesDialog' ) );
+            editor.addCommand( 'filesDialog', new CKEDITOR.dialogCommand( 'filesDialog' ) );
 
-            editor.ui.addButton( 'images',
+            editor.ui.addButton( 'files',
                 {
-                    label: 'Image Dialog',
-                    command: 'imagesDialog',
+                    label: 'File Dialog',
+                    command: 'filesDialog',
                     icon: this.path + 'images/image.png'
                 } );
 
@@ -60,5 +62,5 @@ CKEDITOR.plugins.add('images',
 );
 
 function showDialogPlugin(e){
-    e.openDialog('images.dlg');
+    e.openDialog('files.dlg');
 }

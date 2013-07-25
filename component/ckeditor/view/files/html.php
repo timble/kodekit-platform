@@ -23,6 +23,15 @@ use Nooku\Component\Files;
 
 class ViewFilesHtml extends Files\ViewFilesHtml
 {
+    protected function _initialize(Library\ObjectConfig $config)
+    {
+        $config->append(array(
+            'auto_assign' => false
+        ));
+
+        parent::_initialize($config);
+    }
+
     public function render()
     {
         $base = clone $this->getObject('request')->getBaseUrl();
