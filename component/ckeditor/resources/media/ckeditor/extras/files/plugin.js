@@ -9,7 +9,7 @@ CKEDITOR.plugins.add('files',
             CKEDITOR.dialog.addIframe(
                 'filesDialog',
                 'files',
-                '?option=com_ckeditor&container=files-files&view=files&tmpl=dialog', width, height,
+                '?option=com_ckeditor&container=files-files&view=files&layout=dialog&tmpl=dialog', width, height,
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
