@@ -18,7 +18,8 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 
     config.extraPlugins = 'codemirror,readmore,autosave,images,onchange,files,links';
-    config.autosave_delay = '1';
+    config.protectedSource.push( /<\?[\s\S]*?\?>/g );
+    config.autosave_delay = '10';
     config.codemirror = {
         theme: 'default',
         lineNumbers: true,

@@ -20,21 +20,23 @@ CKEDITOR.plugins.add('links',
                     {
 
                         var iframedocument = iframeWindow.document;
-                        var src = iframedocument.id('image-url').get('value');
+                        var src = iframedocument.id('link-url').get('value');
+                        var text = iframedocument.id('link-text').get('value');
                         var attrs = {};
-                        ['align', 'alt', 'title'].each(function(id) {
-                            var value = iframedocument.id('image-'+id).get('value');
+                        ['alt', 'title'].each(function(id) {
+                            var value = iframedocument.id('link-'+id).get('value');
                             if (value) {
                                 attrs[id] = value;
                             }
                         });
 
-                        var str = '<img src="'+src+'" ';
+                        var str = '<a href="'+src+'" ';
                         var parts = [];
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });
-                        str += parts.join(' ')+' />';
+                        str += parts.join(' ')+'>';
+                        str += text+ '</a>';
 
                         // puts the image in the editor
                         this._.editor.insertHtml(str);

@@ -27,7 +27,6 @@
             var target = document.id(e.target).getParent('.files-node'),
                 row = target.retrieve('row'),
                 url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
-            console.log(row);
             document.id('image-url').set('value', url);
         });
 

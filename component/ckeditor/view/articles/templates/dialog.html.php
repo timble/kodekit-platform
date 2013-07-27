@@ -55,7 +55,9 @@
 
                                                 text.set('html',article.item.introtext+article.item.fulltext)
                                                 $('article-preview').adopt(text);
-                                                document.id('link-url').set('value', article.href);
+
+                                                var link = 'article?id='+article.item.id;
+                                                document.id('link-url').set('value', link);
                                                 document.id('link-title').set('value', article.item.title);
                                             }
                                         }).get();
@@ -72,17 +74,7 @@
                     }
                 }).get();
             });
-        })
-//        Files.app.grid.addEvent('clickFile', function(e) {
-//            var target = document.id(e.target).getParent('.files-node'),
-//                row = target.retrieve('row'),
-//                path = row.baseurl+"/"+row.name,
-//                url = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
-//
-//            document.id('file-url').set('value', url);
-//            document.id('file-link').set('value', row.name);
-//        });
-
+        });
     });
 </script>
 
