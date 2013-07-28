@@ -10,13 +10,13 @@
 use Nooku\Library;
 
 /**
- * Controller Permission Default Class
+ * Controller Permission Abstract Class
  *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationControllerPermissionDefault extends Library\ControllerPermissionAbstract
+abstract class ApplicationControllerPermissionAbstract extends Library\ControllerPermissionAbstract
 {
     /**
      * Authorize handler for render actions

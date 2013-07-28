@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class UsersControllerPermissionUser extends ApplicationControllerPermissionDefault
+class UsersControllerPermissionUser extends ApplicationControllerPermissionAbstract
 {
     public function canAdd()
     {

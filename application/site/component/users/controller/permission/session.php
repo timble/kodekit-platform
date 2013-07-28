@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Users
  */
-class UsersControllerPermissionSession extends ApplicationControllerPermissionDefault
+class UsersControllerPermissionSession extends ApplicationControllerPermissionAbstract
 {
     public function canRender()
     {
