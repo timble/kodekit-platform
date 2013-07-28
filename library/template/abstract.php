@@ -227,20 +227,25 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         {
             $info  = pathinfo( $file );
 
-            //Get the filepath based on the identifier
-            $path  = $this->getIdentifier($info['filename'])->classpath;
+            //Get the path based on the identifier
+            $identifier = $this->getIdentifier($info['filename']);
+
+            $path  = implode('/', $identifier->path).'/'.strtolower($identifier->name);
+            $path = 'component/'.strtolower($identifier->package).'/'.$path.'.php';
 
             //Add the templates folder
             $path = dirname($path).'/templates/'.basename($path);
 
             //Add the format
             $path  = str_replace('.php', '.'.$info['extension'].'.php', $path);
+
+            if(file_exists(JPATH_APPLICATION.'/'.$path)) {
+                $path = JPATH_APPLICATION.'/'.$path;
+            } else {
+                $path = JPATH_ROOT.'/'.$path;
+            }
         }
-        else
-        {
-            $path  = dirname($this->getPath());
-            $path .= '/'.$file.'.php';
-        }
+        else $path = dirname($this->getPath()).'/'.$file.'.php';
 
         //Find the template
         $template = $this->findFile($path);
