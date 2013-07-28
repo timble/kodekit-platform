@@ -23,7 +23,7 @@ interface HttpResponseInterface extends HttpMessageInterface
      *
      * @param  integer $code
      * @param  string  $message
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return HttpResponse
      */
     public function setStatus($code, $message = null);

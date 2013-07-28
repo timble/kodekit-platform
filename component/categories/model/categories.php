@@ -39,7 +39,7 @@ class ModelCategories extends Library\ModelDatabase
         parent::_buildQueryColumns($query);
 
         $query->columns(array(
-            'thumbnail'              => 'thumbnails.thumbnail'
+            'thumbnail' => 'thumbnails.thumbnail'
         ));
     }
 
@@ -72,6 +72,7 @@ class ModelCategories extends Library\ModelDatabase
     {
         parent::_buildQueryWhere($query);
         
+
         $state = $this->getState();
 
         if($state->search) {

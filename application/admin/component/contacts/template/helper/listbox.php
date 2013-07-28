@@ -24,9 +24,9 @@ class ContactsTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
         $config->append(array(
-            'model' 	=> 'contacts',
-            'value'		=> 'id',
-            'text'		=> 'name'
+            'model' => 'contacts',
+            'value'	=> 'id',
+            'label'	=> 'name'
         ));
 
         return parent::_render($config);

@@ -25,27 +25,21 @@ class ArticlesControllerPermissionArticle extends ApplicationControllerPermissio
 
         if (!$article->isNew())
         {
-            if ($article->access > $this->getUser()->isAuthentic())
-            {
-                //If user doesn't have access to it, deny access.
+            //If user doesn't have access to it, deny access.
+            if ($article->access > $this->getUser()->isAuthentic()) {
                 $result = false;
             }
-            elseif ($article->created_by == $this->getUser()->getId())
-            {
-                // Users can read their own articles regardless of the state
+
+            // Only published articles can be read. An exception is made for editors and above.
+            if ($article->published == 0 && !$this->canEdit()) {
+                $result = false;
+            }
+
+            // Users can read their own articles regardless of the state
+            if ($article->created_by == $this->getUser()->getId()) {
                 $result = true;
             }
-            elseif ($article->published == 0 && !$this->canEdit())
-            {
-                // Only published articles can be read. An exception is made for editors and above.
-                $result = false;
-            }
-            else $result = true;
-
-            // Set article editable status.
-            $article->editable = $this->canEdit();
         }
-        else $result = $this->canAdd();
 
         return $result;
     }

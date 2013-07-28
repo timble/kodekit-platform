@@ -24,7 +24,7 @@
     <input type="hidden" name="access" value="0" />
     
     <fieldset>
-        <input class="input-block-level" type="text" name="title" maxlength="100" value="<? echo @escape($article->title); ?>" style="margin-bottom: 10px"/>
+        <input class="input-block-level" type="text" name="title" maxlength="100" value="<?= @escape($article->title); ?>" style="margin-bottom: 10px"/>
         <?= @object('com:wysiwyg.controller.editor')->render(array('name' => 'text', 'text' => $article->text)) ?>
     </fieldset>
     <fieldset>
@@ -56,7 +56,7 @@
         <div class="control-group">
             <label class="control-label" for="categories_category_id"><?= @text('Category'); ?></label>
             <div class="controls">
-                <?= @helper('com:categories.listbox.categories', array('table' => 'articles', 'name' => 'categories_category_id', 'category' => $article->categories_category_id)) ?>
+                <?= @helper('com:categories.radiolist.categories', array('row' =>  $article, 'uncategorised' => 'true')) ?>
             </div>
         </div>
     </fieldset>

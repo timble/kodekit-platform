@@ -25,9 +25,9 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
     	$config = new Library\ObjectConfig($config);
     	$config->append(array(
-    		'model' 	=> 'articles',
-    		'value'		=> 'id',
-    		'text'		=> 'title'
+    		'model' => 'articles',
+    		'value'	=> 'id',
+    		'label'	=> 'title'
     	));
     
     	return parent::_render($config);
@@ -37,10 +37,10 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
     {
         $config = new Library\ObjectConfig($config);
 		$config->append(array(
-			'model'		=> 'articles',
-			'name' 		=> 'created_by',
-			'value'		=> 'created_by_id',
-			'text'		=> 'created_by_name',
+			'model'	=> 'articles',
+			'name' 	=> 'created_by',
+			'value'	=> 'created_by_id',
+			'label'	=> 'created_by_name',
 		));
 
 		return parent::_listbox($config);
@@ -71,7 +71,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
         foreach ($list as $item)
         {
             $options[] = $this->option(array(
-                'text'  => '( ' . $item->ordering . ' ) ' . $item->title,
+                'label' => '( ' . $item->ordering . ' ) ' . $item->title,
                 'value' => ($item->ordering - $article->ordering)));
         }
 
@@ -91,7 +91,7 @@ class ArticlesTemplateHelperListbox extends Library\TemplateHelperListbox
         $options = array();
 
         foreach($pages as $page) {
-            $options[] =  $this->option(array('text' => $page->title, 'value' => $page->id));
+            $options[] =  $this->option(array('label' => $page->title, 'value' => $page->id));
         }
 
         //Add the options to the config object

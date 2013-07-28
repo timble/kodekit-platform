@@ -30,11 +30,11 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         
         $options = array();
         if($config->deselect) {
-            $options[] = $this->option(array('text' => \JText::_($config->prompt)));
+            $options[] = $this->option(array('label' => \JText::_($config->prompt)));
         }
         
         foreach(Library\ClassLoader::getInstance()->getApplications() as $application => $path) {
-            $options[] = $this->option(array('text' => $application, 'value' => $application));
+            $options[] = $this->option(array('label' => $application, 'value' => $application));
         }
         
         $config->options = $options;

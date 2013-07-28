@@ -24,9 +24,9 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
     {
     	$config = new Library\ObjectConfig($config);
     	$config->append(array(
-    		'model' 	=> 'groups',
-    		'value'		=> 'id',
-    		'text'		=> 'name'
+    		'model' => 'groups',
+    		'value'	=> 'id',
+    		'label'	=> 'name'
     	));
     
     	return parent::_listbox($config);
@@ -57,7 +57,7 @@ class UsersTemplateHelperListbox extends Library\TemplateHelperListbox
 
         $config->append(array(
             'value'      => 'iso_code',
-            'text'       => 'name',
+            'label'      => 'name',
             'identifier' => 'com:languages.model.languages',
             'filter'     => array('application' => 'site', 'enabled' => 1)));
 

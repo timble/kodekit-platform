@@ -18,7 +18,7 @@ namespace Nooku\Library;
  * @package     Koowa_Database
  * @subpackage  Table
  */
-abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface
+abstract class DatabaseTableAbstract extends Object implements DatabaseTableInterface, ObjectSingleton
 {
     /**
      * Real name of the table in the db schema

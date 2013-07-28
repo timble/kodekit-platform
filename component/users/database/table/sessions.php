@@ -17,7 +17,7 @@ use Nooku\Library;
  * @author  Gergo Erdosi <http://nooku.assembla.com/profile/gergoerdosi>
  * @package Nooku\Component\Users
  */
-class DatabaseTableSessions extends Library\DatabaseTableDefault
+class DatabaseTableSessions extends Library\DatabaseTableAbstract
 {
     protected function _initialize(Library\ObjectConfig $config)
     {
