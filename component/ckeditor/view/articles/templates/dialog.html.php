@@ -56,8 +56,7 @@
                                                 text.set('html',article.item.introtext+article.item.fulltext)
                                                 $('article-preview').adopt(text);
 
-                                                var link = 'article?id='+article.item.id;
-                                                document.id('link-url').set('value', link);
+                                                document.id('link-url').set('value', article.href);
                                                 document.id('link-title').set('value', article.item.title);
                                             }
                                         }).get();
