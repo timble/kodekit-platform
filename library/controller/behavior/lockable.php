@@ -100,7 +100,7 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
     }
 
     /**
-     * Add a lock flash message if the entity is locked
+     * Add a lock flash message if the entity is editable and is locked
      *
      * @param   CommandContext	$context A command context object
      * @return 	void
@@ -109,8 +109,8 @@ class ControllerBehaviorLockable extends ControllerBehaviorAbstract
     {
         $entity = $context->result;
 
-        //Add the notice if the entity is locked
-        if($this->isLockable() && $this->isLocked())
+        //Add the notice if the entity is editable and is locked
+        if($this->canEdit() && $this->isLockable() && $this->isLocked())
         {
             //Prevent a re-render of the message
             if($context->request->getUrl() != $context->request->getReferrer())
