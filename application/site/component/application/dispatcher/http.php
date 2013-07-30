@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Application
  */
-class ApplicationDispatcher extends Library\DispatcherAbstract implements Library\ObjectInstantiable
+class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Library\ObjectInstantiable
 {
     /**
      * The site identifier.

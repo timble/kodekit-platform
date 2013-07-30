@@ -15,4 +15,4 @@ namespace Nooku\Library;
  * @package     Koowa_Dispatcher
  */
 
-final class DispatcherDefault extends DispatcherComponent { }
+final class DispatcherDefault extends DispatcherHttp { }

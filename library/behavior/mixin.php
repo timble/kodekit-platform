@@ -165,13 +165,7 @@ class BehaviorMixin extends ObjectMixinAbstract
             if (is_string($behavior) && strpos($behavior, '.') === false)
             {
                 $identifier = clone $this->getIdentifier();
-
-                if(isset($identifier->path[0])) {
-                    $identifier->path = array($identifier->path[0], 'behavior');
-                } else {
-                    $identifier->path = array($identifier->name, 'behavior');
-                }
-
+                $identifier->path = array($identifier->path[0], 'behavior');
                 $identifier->name = $behavior;
             }
             else $identifier = $this->getIdentifier($behavior);
@@ -188,6 +182,4 @@ class BehaviorMixin extends ObjectMixinAbstract
 
         return $behavior;
     }
-
-
 }

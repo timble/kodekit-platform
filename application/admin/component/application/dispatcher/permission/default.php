@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package     Nooku_Components
  * @subpackage  Default
  */
-class ApplicationDispatcherPermissionDefault extends Library\DispatcherPermissionAbstract
+class ApplicationDispatcherPermissionHttp extends Library\DispatcherPermissionAbstract
 {
     /**
      * Permission handler for dispatch actions
