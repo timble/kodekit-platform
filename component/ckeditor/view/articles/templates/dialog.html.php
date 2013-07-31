@@ -4,7 +4,7 @@
         <div id="article-tree-container">
             <div id="article-tree">
                 <h3><?= @text('Categories')?></h3>
-                <?= @template('com:articles.view.categories.list.html', array('categories' => @object('com:articles.model.categories')->sort('title')->table('articles')->getRowset())); ?>
+                <?= @template('com:ckeditor.view.menus.list.html', array('menus' => @object('com:pages.model.menus')->sort('title')->application('site')->getRowset())); ?>
             </div>
         </div>
         <div id="article-grid">
@@ -29,37 +29,44 @@
         links.each(function(link) {
             link.addEvent('click',function(e) {
                 e.stop();
+                var active = $$('.active');
+                if(active){
+                    active.removeClass('active');
+                }
+                this.set('class','active');
                 $('articles-list').empty();
+                var page_items = 'index.php?option=com_pages&view=pages&menu='+this.get('data-menu-id')+"&publishes=1&format=json";
+                var items = new Array();
+
                 var jsonRequest = new Request.JSON({
-                    url: this.get('href')+"&format=json",
+                    url: page_items,
                     onSuccess: function(result){
 
                         /* do something with results */
                         result.items.each(function(item){
                             //Create new li to insert
-                            var newLi = new Element('li');
+
+                            var newLi = new Element('li',{ class:'level'+item.data.level});
+                            var sef = new Array();
+                            var path = item.data.path.split("/");
+                            items[item.data.id] = item.data.slug;
+
+                            for(var i=0; i< path.length; i++){
+                                sef.push(items[path[i]]);
+                            }
+
                             var el = new Element('a', {
 
                                 title: item.data.title,
                                 text: item.data.title,
-                                href: item.href,
+                                'sef-url': sef.join("/"),
+                                href : item.data.link_url,
+
                                 events: {
                                     'click': function(e) {
                                         e.preventDefault();
-                                        var article = new Request.JSON({
-                                            url: this.get('href'),
-                                            onSuccess :function(article){
-                                                console.log(article);
-                                                $('article-preview').empty();
-                                                var text = new Element ('div');
-
-                                                text.set('html',article.item.introtext+article.item.fulltext)
-                                                $('article-preview').adopt(text);
-
-                                                document.id('link-url').set('value', article.href);
-                                                document.id('link-title').set('value', article.item.title);
-                                            }
-                                        }).get();
+                                        document.id('link-url').set('value', this.get('sef-url'));
+                                        document.id('link-title').set('value', this.get('title'));
 
                                     }
                                 }
@@ -67,7 +74,7 @@
                             });
 
                             newLi.adopt(el);
-                            // Insert li into UL
+
                             $('articles-list').adopt(newLi);
                         });
                     }
