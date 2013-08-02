@@ -20,16 +20,25 @@
     window.addEvent('domready', function() {
         document.id('details').adopt(document.id('image-insert-form'));
 
-        Files.app.grid.addEvent('clickFile', function(e) {
-            var target = document.id(e.target).getParent('.files-node'),
-                row = target.retrieve('row'),
-                path = row.baseurl+"/"+row.name,
-                url = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+        var type = '<?=$type?>';
+        if(type == 'file'){
+            Files.app.grid.addEvent('clickFile', function(e) {
+                var target = document.id(e.target).getParent('.files-node'),
+                    row = target.retrieve('row'),
+                    path = row.baseurl+"/"+row.name,
+                    url = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
 
-            document.id('image-url').set('value', url);
-            document.id('file-link').set('value', row.name);
-        });
-
+                document.id('image-url').set('value', url);
+                document.id('image-link').set('value', row.name);
+            });
+        }else{
+            Files.app.grid.addEvent('clickImage', function(e) {
+                var target = document.id(e.target).getParent('.files-node'),
+                    row = target.retrieve('row'),
+                    url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+                document.id('image-url').set('value', url);
+            });
+        }
     });
 </script>
 

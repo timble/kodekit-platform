@@ -24,7 +24,7 @@ CKEDITOR.plugins.add('files',
                         var link = iframedocument.id('image-link').get('value');
                         var attrs = {};
                         ['alt', 'title'].each(function(id) {
-                            var value = iframedocument.id('file-'+id).get('value');
+                            var value = iframedocument.id('image-'+id).get('value');
                             if (value) {
                                 attrs[id] = value;
                             }
