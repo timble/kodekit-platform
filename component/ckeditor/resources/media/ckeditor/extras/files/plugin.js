@@ -9,7 +9,7 @@ CKEDITOR.plugins.add('files',
             CKEDITOR.dialog.addIframe(
                 'filesDialog',
                 'files',
-                '?option=com_ckeditor&container=files-files&view=files&layout=dialog&tmpl=dialog', width, height,
+                '?option=com_ckeditor&container=files-files&view=files&type=file&layout=dialog&tmpl=dialog', width, height,
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
@@ -20,8 +20,8 @@ CKEDITOR.plugins.add('files',
                     {
 
                         var iframedocument = iframeWindow.document;
-                        var src = iframedocument.id('file-url').get('value');
-                        var link = iframedocument.id('file-link').get('value');
+                        var src = iframedocument.id('image-url').get('value');
+                        var link = iframedocument.id('image-link').get('value');
                         var attrs = {};
                         ['alt', 'title'].each(function(id) {
                             var value = iframedocument.id('file-'+id).get('value');
@@ -43,7 +43,7 @@ CKEDITOR.plugins.add('files',
                     },
                     onShow : function()
                     {
-                        this.parts.dialog.addClass('file_dialog');
+                        this.parts.dialog.addClass('image_dialog');
                     }
                 }
             );

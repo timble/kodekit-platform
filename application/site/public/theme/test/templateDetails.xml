@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.5/template-install.dtd">
+<install version="1.5" type="template">
+	<name>Track4all</name>
+	<creationDate>04/10/12</creationDate>
+	<author>Terry Visser</author>
+	<authorEmail>info@sittcomm.nl</authorEmail>
+	<authorUrl>http://www.sittcomm.nl</authorUrl>
+	<copyright></copyright>
+	<license>GNU/GPL</license>
+	<version>1.0.2</version>
+	<description>TPL_TRACK4ALL</description>
+	<files>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_thumbnail.png</filename>
+
+		<filename>css/template.css</filename>
+
+	</files>
+	<positions>
+		<position>breadcrumb</position>
+		<position>left</position>
+		<position>right</position>
+		<position>login</position>
+		<position>logo</position>
+		<position>search</position>
+		<position>menu</position>
+		<position>user1</position>
+		<position>user2</position>
+		<position>user3</position>
+		<position>user4</position>
+		<position>footer</position>
+		<position>debug</position>
+		<position>syndicate</position>
+	</positions>
+</install>

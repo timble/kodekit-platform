@@ -14,7 +14,7 @@
 <?= @object('com:ckeditor.controller.file')
     ->container('files-files')
     ->layout('browser')
-    ->types(array('file'))
+    ->types(array($type))
     ->editor($state->editor)
     ->render();
 ?>
@@ -29,38 +29,65 @@
                 path = row.baseurl+"/"+row.name,
                 url = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
 
-            document.id('file-url').set('value', url);
+            document.id('image-url').set('value', url);
             document.id('file-link').set('value', row.name);
         });
 
     });
 </script>
 
-<div id="file-insert-form">
+<div id="image-insert-form">
     <fieldset>
         <div>
-            <label for="file-url"><?= @text('URL') ?></label>
+            <label for="image-url"><?= @text('URL') ?></label>
             <div>
-                <input type="text" id="file-url" value="" />
+                <input type="text" id="image-url" value="" />
+            </div>
+        </div>
+        <?if($type == 'file'):?>
+            <div>
+                <label for="image-link"><?= @text('Link') ?></label>
+                <div>
+                    <input type="text" id="image-link" value="" />
+                </div>
+            </div>
+        <?endif;?>
+        <div>
+            <label for="image-alt"><?= @text('Description') ?></label>
+            <div>
+                <input type="text" id="image-alt" value="" />
             </div>
         </div>
         <div>
-            <label for="file-link"><?= @text('Link') ?></label>
+            <label for="image-title"><?= @text('Title') ?></label>
             <div>
-                <input type="text" id="file-link" value="" />
+                <input type="text" id="image-title" value="" />
             </div>
         </div>
-        <div>
-            <label for="file-alt"><?= @text('Description') ?></label>
+        <?if($type == 'image'):?>
             <div>
-                <input type="text" id="file-alt" value="" />
+                <label for="image-align"><?= @text('Align') ?></label>
+                <div>
+                    <select size="1" id="image-align" title="<?= @text('Positioning of this image') ?>">
+                        <option value="" selected="selected"><?= @text('Not Set') ?></option>
+                        <option value="left"><?= @text('Left') ?></option>
+                        <option value="right"><?= @text('Right') ?></option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="file-title"><?= @text('Title') ?></label>
+        <?else:?>
             <div>
-                <input type="text" id="file-title" value="" />
+                <label for="image-align"><?= @text('Target') ?></label>
+                <div>
+                    <select size="1" id="target" title="<?= @text('Target of the link') ?>">
+                        <option value="" selected="selected"><?= @text('Not Set') ?></option>
+                        <option value="_blank"><?= @text('_blank') ?></option>
+                        <option value="_top"><?= @text('_top') ?></option>
+                        <option value="_self"><?= @text('_self') ?></option>
+                        <option value="_parent"><?= @text('_parent') ?></option>
+                    </select>
+                </div>
             </div>
-        </div>
+        <?endif;?>
     </fieldset>
 </div>

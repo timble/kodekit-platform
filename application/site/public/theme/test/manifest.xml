@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.5/template-install.dtd">
+<install type="template" version="1.5.0" client="administrator">
+	<name>Default</name>
+	<creationDate>March 2011</creationDate>
+	<author>Nooku Project</author>
+	<authorEmail>info@nooku.org</authorEmail>
+	<authorUrl>www.nooku.org</authorUrl>
+	<copyright>Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)</copyright>
+	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL v3</license>
+	<version>12.2</version>
+	<description>Administration template for Nooku Server</description>
+</install>
