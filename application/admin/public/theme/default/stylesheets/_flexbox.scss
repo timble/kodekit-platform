@@ -214,7 +214,7 @@ body {
   }
 
   #files-compact {
-    @include flex;
+    @include flex(1);
   }
 
   #files-insert {

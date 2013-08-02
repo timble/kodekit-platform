@@ -1,20 +1,16 @@
 
-<div id="article-compact">
-    <div id="article-insert" class="content">
-        <div id="article-tree-container">
-            <div id="article-tree">
-                <h3><?= @text('Categories')?></h3>
-                <?= @template('com:ckeditor.view.menus.list.html', array('menus' => @object('com:pages.model.menus')->sort('title')->application('site')->getRowset())); ?>
-            </div>
+<div id="files-compact">
+    <div id="files-insert">
+        <div id="files-tree-container">
+            <?= @template('com:ckeditor.view.menus.list.html', array('menus' => @object('com:pages.model.menus')->sort('title')->application('site')->getRowset())); ?>
         </div>
-        <div id="article-grid">
-            <h3><?= @text('Articles')?></h3>
-            <ul id="articles-list">
+        <div id="files-grid">
+            <ul id="articles-list" class="navigation">
 
             </ul>
         </div>
         <div id="details">
-            <div id="article-preview">
+            <div id="files-preview">
 
             </div>
         </div>
@@ -24,7 +20,7 @@
 <script>
     window.addEvent('domready', function() {
         document.id('details').adopt(document.id('link-insert-form'));
-        var links = document.id('article-tree').getElements('a');
+        var links = document.id('files-tree-container').getElements('a');
 
         links.each(function(link) {
             link.addEvent('click',function(e) {

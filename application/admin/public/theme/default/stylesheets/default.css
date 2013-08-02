@@ -4580,6 +4580,9 @@ tbody tr td iframe {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  flex: 1;
 }
 
 /* line 220, _flexbox.scss */
