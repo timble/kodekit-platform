@@ -21,28 +21,38 @@
         document.id('details').adopt(document.id('image-insert-form'));
 
         var type = '<?=$type?>';
+
         if(type == 'file'){
             Files.app.grid.addEvent('clickFile', function(e) {
-                var target = document.id(e.target).getParent('.files-node'),
-                    row = target.retrieve('row'),
-                    path = row.baseurl+"/"+row.name,
-                    url = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+                var target = document.id(e.target).getParent('.files-node');
+                var row = target.retrieve('row');
+
+                var path = row.baseurl+"/"+row.name;
+                var url = path.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
 
                 document.id('image-url').set('value', url);
+
+                document.id('image-type').set('value',row.metadata.mimetype);
                 document.id('image-link').set('value', row.name);
             });
         }else{
+
             Files.app.grid.addEvent('clickImage', function(e) {
-                var target = document.id(e.target).getParent('.files-node'),
-                    row = target.retrieve('row'),
-                    url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
+                var target = document.id(e.target).getParent('.files-node');
+                var row = target.retrieve('row');
+
+                var    url = row.image.replace(Files.sitebase+'/', '').replace(/sites\/[^\/]+\//, '');
                 document.id('image-url').set('value', url);
+
+                document.id('image-type').set('value',row.metadata.mimetype);
             });
         }
+
     });
 </script>
 
 <div id="image-insert-form">
+    <input type="hidden" name="type" id="image-type" value=""/>
     <fieldset>
         <div>
             <label for="image-url"><?= @text('URL') ?></label>

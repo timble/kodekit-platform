@@ -32,6 +32,7 @@ CKEDITOR.plugins.add('links',
 
                         var str = '<a href="'+src+'" ';
                         var parts = [];
+                        parts.push('type="text/html"');
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });

@@ -23,7 +23,7 @@ CKEDITOR.plugins.add('files',
                         var src = iframedocument.id('image-url').get('value');
                         var link = iframedocument.id('image-link').get('value');
                         var attrs = {};
-                        ['alt', 'title'].each(function(id) {
+                        ['alt', 'title','type'].each(function(id) {
                             var value = iframedocument.id('image-'+id).get('value');
                             if (value) {
                                 attrs[id] = value;
@@ -32,9 +32,11 @@ CKEDITOR.plugins.add('files',
 
                         var str = '<a href="'+src+'" ';
                         var parts = [];
+
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });
+                        alert(parts);
                         str += parts.join(' ')+' >';
                         str += link+"</a>";
 

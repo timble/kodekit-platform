@@ -22,7 +22,7 @@ CKEDITOR.plugins.add('images',
                         var iframedocument = iframeWindow.document;
                         var src = iframedocument.id('image-url').get('value');
                         var attrs = {};
-                        ['align', 'alt', 'title'].each(function(id) {
+                        ['align', 'alt', 'title','type'].each(function(id) {
                             var value = iframedocument.id('image-'+id).get('value');
                             if (value) {
                                 attrs[id] = value;
