@@ -28,7 +28,6 @@ class BootstrapperChain extends ObjectQueue implements BootstrapperInterface
     /**
      * Bootstrap the object manager
      *
-     * @param  ObjectManagerInterface $manager   The object manager
      * @return void
      */
     public function bootstrap()
