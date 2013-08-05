@@ -158,7 +158,7 @@ class Object implements ObjectInterface, ObjectHandlable, ObjectMixable, ObjectD
         $this->_mixed_methods = array_merge($this->_mixed_methods, $mixed_methods);
 
         //Set the object methods
-        $this->__methods = array_unique(array_merge($this->__methods, array_keys($mixed_methods)));
+        $this->__methods = array_unique(array_merge($this->getMethods(), array_keys($mixed_methods)));
 
         //Notify the mixin
         $mixin->onMixin($this);
