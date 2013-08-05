@@ -34,12 +34,6 @@ abstract class ControllerModel extends ControllerView implements ControllerModel
 
         // Set the model identifier
         $this->_model = $config->model;
-
-        if($this->isDispatched())
-        {
-            $this->attachBehavior('lockable');
-            $this->attachBehavior('editable');
-        }
     }
 
     /**

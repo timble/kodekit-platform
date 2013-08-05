@@ -1,19 +1,23 @@
 <?php
 /**
- * Nooku Framework - http://www.nooku.org
- *
- * @copyright      Copyright (C) 2011 - 2013 Timble CVBA and Contributors. (http://www.timble.net)
- * @license        GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link           git://git.assembla.com/nooku-framework.git
+ * @package     Nooku_Server
+ * @subpackage  Users
+ * @copyright   Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net).
+ * @license     GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link        http://www.nooku.org
  */
-use Nooku\Library, Nooku\Component\Extensions;
+
+use Nooku\Library;
+use Nooku\Component\Extensions;
 
 /**
- * Users Editable Controller Behavior
+ * User Editable Controller Behavior
  *
- * @author  Arunas Mazeika <http://nooku.assembla.com/profile/arunasmazeika>
+ * @author      Johan Janssens <http://nooku.assembla.com/profile/johanjanssens>
+ * @package     Nooku_Server
+ * @subpackage  Users
  */
-class UsersControllerBehaviorEditable extends \Nooku\Component\Extensions\ControllerBehaviorEditable
+class UsersControllerBehaviorEditable extends Extensions\ControllerBehaviorEditable
 {
     protected function _actionSave(Library\CommandContext $context)
     {

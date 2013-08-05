@@ -21,7 +21,8 @@ class PagesControllerMenu extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-            'request' => array('application' => 'site')
+            'behaviors' => array('editable'),
+            'request'   => array('application' => 'site')
         ));
         
         parent::_initialize($config);

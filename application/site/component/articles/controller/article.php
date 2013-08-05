@@ -21,8 +21,8 @@ class ArticlesControllerArticle extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-                'toolbars'  => array('article'),
-                'behaviors' => array('searchable'))
+            'toolbars'  => array('article'),
+            'behaviors' => array('editable', 'searchable'))
         );
 
         parent::_initialize($config);

@@ -17,6 +17,6 @@ use Nooku\Library;
  * @subpackage  Articles
  */
 class ArticlesControllerCategory extends CategoriesControllerCategory
-{ 
+{
 
 }
