@@ -247,8 +247,22 @@ abstract class TemplateAbstract extends Object implements TemplateInterface
         }
         else $path = dirname($this->getPath()).'/'.$file.'.php';
 
+        //Theme override
+        $theme  = $this->getObject('application')->getTheme();
+        $theme  = JPATH_APPLICATION.'/public/theme/'.$theme.'/templates';
+        $theme .= str_replace(array(JPATH_APPLICATION.'/component', '/view', '/templates'), '', $path);
+
+        //Try to find the template
+        foreach(array($theme, $path) as $find)
+        {
+            $template = $this->findFile($find);
+            if($template !== false) {
+                break;
+            }
+        }
+
         //Find the template
-        $template = $this->findFile($path);
+        //$template = $this->findFile($path);
 
         //Check of the file exists
         if (!file_exists($template)) {
