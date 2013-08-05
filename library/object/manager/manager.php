@@ -470,8 +470,13 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         {
             $mixins = $identifier->getMixins();
 
-            foreach ($mixins as $mixin) {
-                $mixer->mixin($mixin);
+            foreach ($mixins as $key => $value)
+            {
+                if (is_numeric($key)) {
+                    $mixer->mixin($value);
+                } else {
+                    $mixer->mixin($key, $value);
+                }
             }
         }
 
@@ -491,8 +496,13 @@ class ObjectManager implements ObjectInterface, ObjectManagerInterface, ObjectSi
         {
             $decorators = $identifier->getDecorators();
 
-            foreach ($decorators as $decorator) {
-                $delegate = $delegate->decorate($decorator);
+            foreach ($decorators as $key => $value)
+            {
+                if (is_numeric($key)) {
+                    $delegate = $delegate->decorate($value);
+                } else {
+                    $delegate = $delegate->decorate($key, $value);
+                }
             }
         }
 

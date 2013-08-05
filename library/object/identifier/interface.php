@@ -100,11 +100,12 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Add a mixin
      *
-     * @param mixed $mixin      An ObjectIdentifier, identifier string or object implementing ObjectMixinInterface
+     *  @param mixed $decorator An object implementing ObjectMixinInterface, an ObjectIdentifier or an identifier string
+     * @param array $config     An array of configuration options
      * @return ObjectIdentifierInterface
      * @see Object::mixin()
      */
-    public function addMixin($mixin);
+    public function addMixin($mixin, $config = array());
 
     /**
      * Get the mixins
@@ -116,11 +117,12 @@ interface ObjectIdentifierInterface extends \Serializable
     /**
      * Add a decorator
      *
-     * @param mixed $decorator  An ObjectIdentifier, identifier string or object implementing ObjectDecoratorInterface
+     * @param mixed $decorator An object implementing ObjectDecoratorInterface, an ObjectIdentifier or an identifier string
+     * @param array $config    An array of configuration options
      * @return ObjectIdentifierInterface
      * @see Object::decorate()
      */
-    public function addDecorator($decorator);
+    public function addDecorator($decorator, $config = array());
 
     /**
      * Get the decorators
