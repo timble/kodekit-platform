@@ -19,7 +19,7 @@ namespace Nooku\Library;
 class ControllerBehaviorCacheable extends ControllerBehaviorAbstract
 {
 	/**
-	 * The cached state of the resource
+	 * The cached state of the entity
 	 * 
 	 * @var boolean
 	 */

@@ -71,8 +71,8 @@ class ControllerException extends Library\ControllerView
                 if($trace['function'] != '__call')
                 {
                     $message = "Call to undefined method : ".$trace['class'].$trace['type'].$trace['function'];
-                    $file     = $trace['file'];
-                    $line     = $trace['line'];
+                    $file     = isset($trace['file']) ? $trace['file']  : '';
+                    $line     = isset($trace['line']) ? $trace['line']  : '';
                     $function = $trace['function'];
                     $class    = $trace['class'];
                     $args     = isset($trace['args'])  ? $trace['args']  : '';

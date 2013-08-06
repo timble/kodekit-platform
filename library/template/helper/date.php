@@ -30,7 +30,7 @@ class TemplateHelperDate extends TemplateHelperAbstract
         $config->append(array(
             'date'     => 'now',
             'timezone' => date_default_timezone_get(),
-            'format'   => \JText::_('DATE_FORMAT_LC1'),
+            'format'   => $this->getTemplate()->getFormat() == 'rss' ? Date::RSS : \JText::_('DATE_FORMAT_LC1'),
             'default'  => ''
         ));
 
@@ -69,65 +69,19 @@ class TemplateHelperDate extends TemplateHelperAbstract
 
         $result = $config->default;
 
-        if(!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00'))) 
+        if(!in_array($config->date, array('0000-00-00 00:00:00', '0000-00-00')))
         {
             $periods = array('second', 'minute', 'hour', 'day', 'week', 'month', 'year');
             $lengths = array(60, 60, 24, 7, 4.35, 12, 10);
             $now     = new \DateTime();
 
-            try 
+            try
             {
                 $date = new Date(array('date' => $config->date, 'timezone' => 'UTC'));
                 $date->setTimezone(new \DateTimeZone($config->timezone));
 
-                if($now != $date) 
-                {
-                    // TODO: Use DateTime::getTimeStamp().
-                    if($now > $date) 
-                    {   
-                        $difference = $now->format('U') - $date->format('U');
-                        $tense      = 'ago';
-                    } 
-                    else 
-                    {
-                        $difference = $date->format('U') - $now->format('U');
-                        $tense      = 'from now';
-                    }
-
-                    for($i = 0; $difference >= $lengths[$i] && $i < 6; $i++) {
-                        $difference /= $lengths[$i];
-                    }
-
-                    $difference      = round($difference);
-                    $period_index    = array_search($config->smallest_period, $periods);
-                    $omitted_periods = $periods;
-                    array_splice($omitted_periods, $period_index);
-
-                    if(in_array($periods[$i], $omitted_periods)) 
-                    {
-                        $difference = 1;
-                        $i          = $period_index;
-                    }
-
-                    if($periods[$i] == 'day' && ($difference == 1 || $difference == 2)) 
-                    {
-                        if($difference == 1) {
-                            $result = \JText::_('Today');
-                        } else {
-                            $result = $tense == 'ago' ? \JText::_('Yesterday') : \JText::_('Tomorrow');
-                        }
-                    } 
-                    else 
-                    {
-                        if($difference != 1) {
-                            $periods[$i] .= 's';
-                        }
-
-                        $result = sprintf(\JText::_('%d '.$periods[$i].' '.$tense), $difference);
-                    }
-                } 
-                else $result = \JText::_('Now');
-            } 
+                $result = $date->humanize($config->period);
+            }
             catch(\Exception $e) {}
         }
 

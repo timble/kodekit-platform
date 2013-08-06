@@ -11,6 +11,8 @@ namespace Nooku\Library;
 /**
  * Http Exception Not Implemented Class
  *
+ * The server does not support the functionality required to fulfill the request.
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  */

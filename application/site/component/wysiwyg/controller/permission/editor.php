@@ -16,7 +16,7 @@ use Nooku\Library;
  * @package    Nooku_Server
  * @subpackage Wysiwyg
  */
-class WysiwygControllerPermissionEditor extends ApplicationControllerPermissionDefault
+class WysiwygControllerPermissionEditor extends ApplicationControllerPermissionAbstract
 {
     public function canRender()
     {

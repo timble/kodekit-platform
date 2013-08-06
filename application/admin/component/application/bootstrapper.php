@@ -31,7 +31,7 @@ class ApplicationBootstrapper extends Library\BootstrapperAbstract
     {
         $manager = $this->getObjectManager();
 
-        $manager->registerAlias('application'           , 'com:application.dispatcher');
+        $manager->registerAlias('application'           , 'com:application.dispatcher.http');
         $manager->registerAlias('application.extensions', 'com:application.database.rowset.extensions');
         $manager->registerAlias('application.languages' , 'com:application.database.rowset.languages');
         $manager->registerAlias('application.pages'     , 'com:application.database.rowset.pages');

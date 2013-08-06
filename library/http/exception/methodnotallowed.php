@@ -12,6 +12,8 @@ namespace Nooku\Library;
 /**
  * Http Exception Not Allowed Class
  *
+ * The request URL does not support the specific request method.
+ *
  * @author      Johan Janssens <johan@nooku.org>
  * @package     Koowa_Http
  * @subpackage  Exception

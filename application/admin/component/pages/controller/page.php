@@ -20,7 +20,7 @@ class PagesControllerPage extends Library\ControllerModel
     protected function _initialize(Library\ObjectConfig $config)
     {
     	$config->append(array(
-    		'behaviors' => array('closurable')
+    		'behaviors' => array('editable', 'closurable')
     	));
     
     	parent::_initialize($config);

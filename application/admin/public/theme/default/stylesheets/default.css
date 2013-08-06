@@ -72,6 +72,36 @@
 .thumbnail__caption {
   padding: 6px 0 0;
 }
+/* line 26, blocks/_thumbnail.scss */
+.thumbnail__caption input[type=radio] {
+  display: none;
+}
+/* line 30, blocks/_thumbnail.scss */
+.thumbnail__caption label {
+  width: auto;
+  float: none;
+}
+/* line 33, blocks/_thumbnail.scss */
+.thumbnail__caption label:after {
+  content: none;
+}
+/* line 38, blocks/_thumbnail.scss */
+.thumbnail__caption input:checked + label {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background: linear-gradient(#fbb450, #f89406);
+  border-color: #f89406 #f89406 #ad6704;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+/* line 186, _mixins.scss */
+.thumbnail__caption input:checked + label:hover, .thumbnail__caption input:checked + label:focus, .thumbnail__caption input:checked + label:active, .thumbnail__caption input:checked + label.active, .thumbnail__caption input:checked + label.disabled, .thumbnail__caption input:checked + label[disabled] {
+  color: white;
+  background-color: #f89406;
+}
+/* line 193, _mixins.scss */
+.thumbnail__caption input:checked + label:active, .thumbnail__caption input:checked + label.active {
+  background-color: #c67605 \9;
+}
 
 /** Scopebar styles **/
 /* line 2, blocks/_scopebar.scss */
@@ -235,81 +265,6 @@
   background: linear-gradient(#71a8df, #2b75bf);
   box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 inset;
   text-shadow: rgba(0, 0, 0, 0.2) 0 -1px 0;
-}
-
-/* line 1, blocks/_alerts.scss */
-.alert__text {
-  background: #c4553c linear-gradient(135deg, transparent, transparent 25%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 50%, transparent 50%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1));
-  background-size: 20px 20px;
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
-  color: #f6f6f6;
-  display: block;
-  font: bold 16px/40px sans-serif;
-  text-align: center;
-  text-decoration: none;
-  -webkit-animation: alert 1s ease forwards;
-  animation: alert 1s ease forwards;
-}
-
-/* Animation */
-@-webkit-keyframes alert {
-  /* line 20, blocks/_alerts.scss */
-  0% {
-    height: 0;
-  }
-
-  /* line 21, blocks/_alerts.scss */
-  100% {
-    height: 40px;
-  }
-}
-
-@-moz-keyframes alert {
-  /* line 24, blocks/_alerts.scss */
-  0% {
-    height: 0;
-  }
-
-  /* line 25, blocks/_alerts.scss */
-  100% {
-    height: 40px;
-  }
-}
-
-@-ms-keyframes alert {
-  /* line 28, blocks/_alerts.scss */
-  0% {
-    height: 0;
-  }
-
-  /* line 29, blocks/_alerts.scss */
-  100% {
-    height: 40px;
-  }
-}
-
-@-o-keyframes alert {
-  /* line 32, blocks/_alerts.scss */
-  0% {
-    height: 0;
-  }
-
-  /* line 33, blocks/_alerts.scss */
-  100% {
-    height: 40px;
-  }
-}
-
-@keyframes alert {
-  /* line 36, blocks/_alerts.scss */
-  0% {
-    height: 0;
-  }
-
-  /* line 37, blocks/_alerts.scss */
-  100% {
-    height: 40px;
-  }
 }
 
 /* line 10, _reset.scss */
@@ -1024,34 +979,32 @@ ul {
 
 /* line 91, _general.scss */
 #panel-toolbar {
-  padding: 8px 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+  padding: 8px 10px;
   background: #f9f9f9 linear-gradient(#f9f9f9, #ececec);
 }
-/* line 96, _general.scss */
-#panel-toolbar select[name="language"] {
-  margin-right: 12px;
-}
-/* line 100, _general.scss */
+/* line 95, _general.scss */
 #panel-toolbar .btn-group {
   padding: 0;
-  margin: 0 10px;
   float: left;
 }
-/* line 105, _general.scss */
+/* line 99, _general.scss */
 #panel-toolbar .btn-group a {
   min-width: 50px;
   padding: 6px 12px;
 }
-/* line 112, _general.scss */
+/* line 106, _general.scss */
 #panel-toolbar .btn,
 #panel-toolbar a.btn {
   color: #333;
   font-weight: bold;
   border: 1px solid #BBB;
   font-size: 11px;
+}
+/* line 113, _general.scss */
+#panel-toolbar .alert {
+  line-height: 26px;
+  font-weight: bold;
+  color: #333;
 }
 
 /* line 120, _general.scss */
@@ -4336,15 +4289,18 @@ body {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
   flex-shrink: 0;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  justify-content: space-between;
 }
-/* line 48, _flexbox.scss */
+/* line 49, _flexbox.scss */
 #panel-toolbar > .toolbar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
 
-/* line 53, _flexbox.scss */
+/* line 55, _flexbox.scss */
 #panel-component {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4354,7 +4310,7 @@ body {
   flex: 1 1 auto;
 }
 
-/* line 58, _flexbox.scss */
+/* line 60, _flexbox.scss */
 #panel-sidebar,
 #panel-inspector {
   display: -webkit-flex;
@@ -4368,7 +4324,7 @@ body {
   flex-direction: column;
   width: 200px;
 }
-/* line 63, _flexbox.scss */
+/* line 65, _flexbox.scss */
 #panel-sidebar h3,
 #panel-inspector h3 {
   -webkit-flex-shrink: 0;
@@ -4376,7 +4332,7 @@ body {
   flex-shrink: 0;
 }
 
-/* line 68, _flexbox.scss */
+/* line 70, _flexbox.scss */
 #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4385,7 +4341,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 71, _flexbox.scss */
+/* line 73, _flexbox.scss */
 #panel-content .-koowa-grid {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4397,7 +4353,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 76, _flexbox.scss */
+/* line 78, _flexbox.scss */
 #panel-content .-koowa-form {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4406,7 +4362,7 @@ body {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 79, _flexbox.scss */
+/* line 81, _flexbox.scss */
 #panel-content .-koowa-form .main {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4418,7 +4374,7 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 83, _flexbox.scss */
+/* line 85, _flexbox.scss */
 #panel-content .-koowa-form .main .title {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4430,17 +4386,17 @@ body {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 87, _flexbox.scss */
+/* line 89, _flexbox.scss */
 #panel-content .-koowa-form .main .title .slug {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 92, _flexbox.scss */
+/* line 94, _flexbox.scss */
 #panel-content .-koowa-form .sidebar:not(.no--scrollbar) {
   overflow-y: scroll;
 }
-/* line 95, _flexbox.scss */
+/* line 97, _flexbox.scss */
 #panel-content .-koowa-form .sidebar.no--scrollbar {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4450,7 +4406,7 @@ body {
   flex-direction: column;
 }
 
-/* line 102, _flexbox.scss */
+/* line 104, _flexbox.scss */
 .scrollable, .com_files #files-app #files-canvas #files-grid, .com_files #files-tree {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4459,7 +4415,7 @@ body {
   flex-grow: 1;
 }
 
-/* line 114, _flexbox.scss */
+/* line 116, _flexbox.scss */
 .editor-wrap,
 .editor-container,
 .mceEditor,
@@ -4479,7 +4435,7 @@ table.mceLayout > tbody > tr:nth-of-type(2) td.mceIframeContainer iframe {
   flex-direction: column;
 }
 
-/* line 120, _flexbox.scss */
+/* line 122, _flexbox.scss */
 table.mceLayout > tbody > tr:nth-of-type(1),
 table.mceLayout > tbody > tr:nth-of-type(3) {
   display: -webkit-flex;
@@ -4490,7 +4446,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 0 0 auto;
 }
 
-/* line 124, _flexbox.scss */
+/* line 126, _flexbox.scss */
 .CodeMirror {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4502,7 +4458,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 128, _flexbox.scss */
+/* line 130, _flexbox.scss */
 .CodeMirror .CodeMirror-scroll {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4513,20 +4469,20 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
 }
 
 /* @group Scope Bar */
-/* line 134, _flexbox.scss */
+/* line 136, _flexbox.scss */
 .scopebar {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 137, _flexbox.scss */
+/* line 139, _flexbox.scss */
 .scopebar .scopebar__search {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
   margin-left: auto;
 }
-/* line 141, _flexbox.scss */
+/* line 143, _flexbox.scss */
 .scopebar .scopebar__search input {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4536,7 +4492,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex: 1;
 }
 
-/* line 149, _flexbox.scss */
+/* line 151, _flexbox.scss */
 .com_pages #components,
 .com_pages #layouts {
   display: -webkit-flex;
@@ -4547,7 +4503,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 155, _flexbox.scss */
+/* line 157, _flexbox.scss */
 .com_dashboard #panel-content {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4556,7 +4512,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 158, _flexbox.scss */
+/* line 160, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4565,7 +4521,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1;
   flex: 1;
 }
-/* line 161, _flexbox.scss */
+/* line 163, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4577,7 +4533,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 165, _flexbox.scss */
+/* line 167, _flexbox.scss */
 .com_dashboard #panel-content > div:first-child > div #activities-list {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -4592,7 +4548,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   flex-direction: column;
 }
 
-/* line 175, _flexbox.scss */
+/* line 177, _flexbox.scss */
 .com_files #files-app {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4604,7 +4560,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 179, _flexbox.scss */
+/* line 181, _flexbox.scss */
 .com_files #files-app #files-canvas {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4616,23 +4572,23 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 188, _flexbox.scss */
+/* line 190, _flexbox.scss */
 .com_files #files-paginator {
   height: 26px;
 }
-/* line 196, _flexbox.scss */
+/* line 198, _flexbox.scss */
 .com_files #files-compact {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 200, _flexbox.scss */
+/* line 202, _flexbox.scss */
 .com_files #files-insert {
   display: -webkit-flex;
   display: -moz-flex;
   display: flex;
 }
-/* line 204, _flexbox.scss */
+/* line 206, _flexbox.scss */
 .com_files #files-insert #files-tree-container,
 .com_files #files-insert #files-grid {
   display: -webkit-flex;
@@ -4642,7 +4598,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 0 0 auto;
   flex: 0 0 auto;
 }
-/* line 208, _flexbox.scss */
+/* line 210, _flexbox.scss */
 .com_files #files-insert #details {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4654,7 +4610,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex-direction: column;
   flex-direction: column;
 }
-/* line 212, _flexbox.scss */
+/* line 214, _flexbox.scss */
 .com_files #files-insert #details #files-preview {
   display: -webkit-flex;
   display: -moz-flex;
@@ -4663,7 +4619,7 @@ table.mceLayout > tbody > tr:nth-of-type(3) {
   -moz-flex: 1 0 auto;
   flex: 1 0 auto;
 }
-/* line 216, _flexbox.scss */
+/* line 218, _flexbox.scss */
 .com_files #files-insert #details #image-insert-form {
   -webkit-flex-shrink: 0;
   -moz-flex-shrink: 0;
@@ -5650,4 +5606,16 @@ body.login .form #password-check.score4 {
 /* line 70, components/_users.scss */
 body.login .form #password-check.score5 {
   color: #399800;
+}
+/* line 75, components/_users.scss */
+body.login .alert__text {
+  background: #c4553c linear-gradient(135deg, transparent, transparent 25%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0.1) 50%, transparent 50%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1));
+  background-size: 20px 20px;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+  color: #f6f6f6;
+  display: block;
+  height: 40px;
+  font: bold 16px/40px sans-serif;
+  text-align: center;
+  text-decoration: none;
 }

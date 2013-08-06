@@ -18,5 +18,18 @@ namespace Nooku\Library;
  */
 interface ControllerUserInterface extends UserInterface
 {
+    /**
+     * Set the request object
+     *
+     * @param ControllerRequestInterface $request A request object
+     * @return ControllerUserInterface
+     */
+    public function setRequest(ControllerRequestInterface $request);
 
+    /**
+     * Get the request object
+     *
+     * @return ControllerRequestInterface
+     */
+    public function getRequest();
 }

@@ -24,13 +24,13 @@
     <div>
         <label for="publish_on"><?= @text('Publish on') ?></label>
         <div>
-            <input type="datetime-local" name="publish_on" value="<?= $article->publish_on ?>" />
+            <?= @helper('date.datetime', array('row' => $article, 'name' => 'publish_on')) ?>
         </div>
     </div>
     <div>
         <label for="unpublish_on"><?= @text('Unpublish on') ?></label>
         <div>
-            <input type="datetime-local" name="unpublish_on" value="<?= $article->unpublish_on ?>" />
+            <?= @helper('date.datetime', array('row' => $article, 'name' => 'unpublish_on')) ?>
         </div>
     </div>
 </fieldset>
@@ -61,7 +61,7 @@
         <div class="content">
             <fieldset>
                 <? if (!$article->isNew()) : ?>
-                    <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'assignable' => true, 'image' => $article->image)) ?>
+                    <?= @template('com:attachments.view.attachments.list.html', array('attachments' => $article->getAttachments(), 'attachments_attachment_id' => $article->attachments_attachment_id)) ?>
                 <? endif ?>
                 <?= @template('com:attachments.view.attachments.upload.html') ?>
             </fieldset>

@@ -43,11 +43,7 @@ class EventSubscriberUnauthorized extends Library\EventSubscriberAbstract
                     $request->query->clear()->add(array('view' => 'session', 'tmpl' => 'login'));
                     $application->forward('users');
                 }
-                else
-                {
-                    $application->getUser()->addFlashMessage($event->getMessage(), 'error');
-                    $response->setRedirect($request->getReferrer());
-                }
+                else $response->setRedirect($request->getReferrer(), $event->getMessage(), 'error');
 
                 $application->dispatch();
 

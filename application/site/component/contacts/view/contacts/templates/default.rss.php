@@ -6,6 +6,8 @@
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
  */
+
+use Nooku\Library;
 ?>
 
 <?='<?xml version="1.0" encoding="utf-8" ?>' ?>
@@ -20,13 +22,13 @@
         <title><?= @escape($category->title) ?></title>
         <description><![CDATA[<?= @escape($category->description) ?>]]></description>
         <link><?= @route() ?></link>
-        <lastBuildDate><?= @helper('date.format', array('format' => Library\Date::RSS)) ?></lastBuildDate>
+        <lastBuildDate><?= @helper('date.format') ?></lastBuildDate>
         <generator>http://www.nooku.org?v=<?= \Nooku::VERSION ?></generator>
         <language><?= JFactory::getLanguage()->getTag() ?></language>
 
         <dc:language><?= JFactory::getLanguage()->getTag() ?></dc:language>
         <dc:rights>Copyright <?= @helper('date.format', array('format' => '%Y')) ?></dc:rights>
-        <dc:date><?= @helper('date.format', array('format' => Library\Date::RSS)) ?></dc:date>
+        <dc:date><?= @helper('date.format') ?></dc:date>
 
         <sy:updatePeriod><?= $update_period ?></sy:updatePeriod>
         <sy:updateFrequency><?= $update_frequency ?></sy:updateFrequency>

@@ -140,7 +140,7 @@ class HttpMessageParameters extends ObjectArray
      * @param   mixed   $identifier Parameter identifier, eg foo.bar
      * @param   mixed   $value     Parameter value
      * @param   boolean $replace    Whether to replace the actual value or not (true by default)
-     * @throws UnexpectedValueException If the content is not a string are cannot be casted to a string.
+     * @throws \UnexpectedValueException If the content is not a string are cannot be casted to a string.
      * @return HttpMessageParameters
      */
     public function set($identifier, $value, $replace = true)
