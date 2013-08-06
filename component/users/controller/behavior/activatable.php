@@ -58,7 +58,7 @@ class ControllerBehaviorActivatable extends Library\ControllerBehaviorAbstract
             if (!$row->activation)
             {
                 $url = $this->getObject('application.pages')->getHome()->getLink();
-                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url))
+                $url = $this->getObject('lib:dispatcher.router.route', array('url' => $url));
 
                 $context->response->setRedirect($url, 'Invalid request', 'error');
             }
