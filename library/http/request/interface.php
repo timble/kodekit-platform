@@ -22,7 +22,7 @@ interface HttpRequestInterface extends HttpMessageInterface
      * Set the method for this request
      *
      * @param  string $method
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return HttpRequest
      */
     public function setMethod($method);
@@ -38,7 +38,7 @@ interface HttpRequestInterface extends HttpMessageInterface
      * Set the url for this request
      *
      * @param string|HttpUrl   $uri
-     * @throws InvalidArgumentException If the url is not an instance of HttpUrl or a string
+     * @throws \InvalidArgumentException If the url is not an instance of HttpUrl or a string
      * @return HttpRequest
      */
     public function setUrl($url);

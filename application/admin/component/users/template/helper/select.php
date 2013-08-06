@@ -23,11 +23,27 @@ class UsersTemplateHelperSelect extends Library\TemplateHelperSelect
     public function users($config = array())
     {
     	$config = new Library\ObjectConfig($config);
-    	$config->append(array(
-    		'list'      => $this->getObject('com:users.model.users')->sort('name')->getRowset(),
-    		'text'		=> 'name'
-    	));
+        $config->options = $this->options(array(
+            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
+            'label'  => 'name',
+            'value'  => 'id',
+        ));
     
     	return $this->checklist($config);
+    }
+
+    public function groups($config = array())
+    {
+        $config = new Library\ObjectConfig($config);
+        $config->append(array(
+            'name'  => 'role_id',
+        ));
+
+        $config->options = $this->options(array(
+            'entity' => $this->getObject('com:users.model.roles')->sort('id')->getRowset(),
+            'label'   => 'name'
+        ));
+
+        return $this->radiolist($config);
     }
 }

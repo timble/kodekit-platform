@@ -28,13 +28,7 @@
 <fieldset class="categories group">
     <legend><?= @text('Category') ?></legend>
     <div>
-        <?= @helper('listbox.radiolist', array(
-            'list'     => @object('com:categories.model.categories')->sort('title')->table('contacts')->getRowset(),
-            'selected' => $contact->categories_category_id,
-            'name'     => 'categories_category_id',
-            'text'     => 'title',
-        ));
-        ?>
+        <?= @helper('com:categories.radiolist.categories', array('row' => $contact)) ?>
     </div>
 </fieldset>
 

@@ -20,7 +20,6 @@ use Nooku\Library;
 class IteratorDirectory extends \DirectoryIterator
 {
 	/**
-	 *
 	 * Method to get files in a folder
 	 *
 	 * @param array $config
@@ -32,7 +31,6 @@ class IteratorDirectory extends \DirectoryIterator
 	}
 
 	/**
-	 *
 	 * Method to get child folders of a folder
 	 *
 	 * @param array $config
@@ -44,7 +42,6 @@ class IteratorDirectory extends \DirectoryIterator
 	}
 
 	/**
-	 *
 	 * Method to read child nodes of a folder
 	 *
 	 * @param array $config

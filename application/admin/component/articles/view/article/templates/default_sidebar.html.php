@@ -43,7 +43,7 @@
             <fieldset class="categories group">
                 <legend><?= @text('Category') ?></legend>
                 <div>
-                    <?= @template('default_categories.html', array('categories' =>  @object('com:articles.model.categories')->sort('title')->table('articles')->getRowset(), 'article' => $article)) ?>
+                    <?= @helper('com:categories.radiolist.categories', array('row' => $article, 'uncategorised' => true)) ?>
                 </div>
             </fieldset>
             <? if($article->isTaggable()) : ?>

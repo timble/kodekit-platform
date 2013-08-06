@@ -23,11 +23,11 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
    	{
      	$config = new Library\ObjectConfig($config);
        	$config->append(array(
-          	'model'     => 'sites',
-           	'name'      => 'site',
-            'value'     => 'name',
-        	'text'      => 'name',
-          	'deselect'  => false
+          	'model'    => 'sites',
+           	'name'     => 'site',
+            'value'    => 'name',
+        	'label'    => 'name',
+          	'deselect' => false
        	));
 
       	return parent::_listbox($config);
