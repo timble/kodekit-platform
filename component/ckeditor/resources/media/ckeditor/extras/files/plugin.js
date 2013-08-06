@@ -36,7 +36,7 @@ CKEDITOR.plugins.add('files',
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });
-                        alert(parts);
+
                         str += parts.join(' ')+' >';
                         str += link+"</a>";
 
