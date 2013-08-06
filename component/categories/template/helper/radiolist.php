@@ -45,20 +45,19 @@ class TemplateHelperRadiolist extends Library\TemplateHelperSelect
         $iterator = new DatabaseIteratorNode($categories);
         $iterator->setMaxDepth($config->max_depth);
 
-        $options = array();
-        if($config->uncategorised) {
-            $options[] = $this->option(array('label' => \JText::_('Uncategorized'), 'value' => '0', 'id' => '0'));
-        }
-
-        $options += $this->options(array(
+        $options = $this->options(array(
             'entity' => $iterator,
             'value'  => 'id',
             'label'  => 'title',
         ));
 
+        if($config->uncategorised) {
+            array_unshift($options, $this->option(array('label' => \JText::_('Uncategorized'), 'value' => '0', 'id' => '0')));
+        }
+
         //Add the options to the config object
         $config->options = $options;
 
-        return $this->radiolist($config);
+        return parent::radiolist($config);
     }
 }

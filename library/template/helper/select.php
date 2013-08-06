@@ -83,8 +83,8 @@ class TemplateHelperSelect extends TemplateHelperAbstract
                 'name'     => $config->name,
                 'disabled' => $config->disabled,
                 'attribs'  => ObjectConfig::unbox($config->attribs),
-                'value' => $entity->{$config->value},
-                'label' => $entity->{$config->label},
+                'value'    => $entity->{$config->value},
+                'label'    => $entity->{$config->label},
             );
 
             if($config->entity instanceof \RecursiveIteratorIterator) {
