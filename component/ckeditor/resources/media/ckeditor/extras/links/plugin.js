@@ -3,7 +3,7 @@ CKEDITOR.plugins.add('links',
     {
         requires: [ 'iframedialog' ],
         icons: 'images',
-        init: function( editor ,pluginPath)
+        init: function( editor)
         {
 
             var height = 480, width = 900;
@@ -18,11 +18,16 @@ CKEDITOR.plugins.add('links',
                     var dialog = CKEDITOR.dialog.getCurrent();
                     var editor = dialog.getParentEditor();
                     var selected = CKEDITOR.plugins.link.getSelectedLink( editor );
-                    iframeWindow.document.id('link-url').set('value',selected.getAttribute('href'));
-                    iframeWindow.document.id('link-text').set('value', editor.getSelection().getSelectedText());
-                    iframeWindow.document.id('link-alt').set('value',selected.getAttribute('alt'));
-                    iframeWindow.document.id('link-title').set('value',selected.getAttribute('title'));
 
+                    if(editor.getSelection().getSelectedText()){
+                        iframeWindow.document.id('link-text').set('value', editor.getSelection().getSelectedText());
+                    }
+
+                    if(selected){
+                        iframeWindow.document.id('link-url').set('value',selected.getAttribute('href'));
+                        iframeWindow.document.id('link-alt').set('value',selected.getAttribute('alt'));
+                        iframeWindow.document.id('link-title').set('value',selected.getAttribute('title'));
+                    }
 
                 },
 
@@ -79,10 +84,14 @@ CKEDITOR.plugins.add('links',
                 editor.contextMenu.addListener( function( ) {
 
                     var element = CKEDITOR.plugins.link.getSelectedLink( editor );
-                    //we only want to show this if the type = text/html
-                    if ( element.getAttribute('type')  == 'text/html') {
-                        return { linkItem: CKEDITOR.TRISTATE_OFF };
+                    if(element){
+                        if(element.getAttribute('type')  != 'text/html'){
+                            return;
+                        }
                     }
+
+                    return { linkItem: CKEDITOR.TRISTATE_OFF };
+
                 });
             }
 
