@@ -8260,3 +8260,23 @@ body.login form input {
   margin-bottom: 15px;
   padding: 7px 9px;
 }
+.radio input[type="radio"].level2,
+.checkbox input[type="checkbox"].level2 {
+  margin-left: 0px;
+  margin-right: 6px;
+}
+.radio input[type="radio"].level3,
+.checkbox input[type="checkbox"].level3 {
+  margin-left: 36px;
+  margin-right: 6px;
+}
+.radio input[type="radio"].level4,
+.checkbox input[type="checkbox"].level4 {
+  margin-left: 54px;
+  margin-right: 6px;
+}
+.radio input[type="radio"].level5,
+.checkbox input[type="checkbox"].level5 {
+  margin-left: 72px;
+  margin-right: 6px;
+}

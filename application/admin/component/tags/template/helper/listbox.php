@@ -23,14 +23,14 @@ class TagsTemplateHelperListbox extends Library\TemplateHelperListbox
     {
     	$config = new Library\ObjectConfig($config);
     	$config->append(array(
-    		'model' 	=> 'tags',
-    		'value'		=> 'id',
-    		'text'		=> 'title',
-            'prompt'    => false
+    		'model'  => 'tags',
+    		'value'	 => 'id',
+    		'label'	 => 'title',
+            'prompt' => false
         ));
         
-        $config->text = 'title';
-		$config->sort = 'title';
+        $config->label = 'title';
+		$config->sort  = 'title';
     
     	return parent::_render($config);
     }

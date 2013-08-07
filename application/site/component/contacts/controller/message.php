@@ -26,45 +26,44 @@ class ContactsControllerMessage extends Library\ControllerView
 
     protected function _actionAdd(Library\CommandContext $context)
 	{
-        // Set parts of the mail.
+        // Get data from form
         $data        = $context->request->data;
 	    $name        = $data->get('name', 'string');
 	    $email_from  = $data->get('email', 'email');
 	    $body        = $data->get('text', 'string');
 	    $subject     = $data->get('subject', 'string');
 
+        // Get configuration values
 	    $application = $this->getObject('application');
-        $site_name   = $application->getCfg('sitename');
-
-        $prefix      = JText::sprintf('This is an enquiry e-mail via %s from', $context->request->getBaseUrl());
-        $body        = $prefix.' '.$name.' <'.$email_from.'>.'."\r\n\r\n".stripslashes($body);
         $mail_from   = $application->getCfg('mailfrom');
         $from_name   = $application->getCfg('fromname');
 
+        // Create body text
+        $prefix      = JText::sprintf('This is an enquiry e-mail via %s from', $context->request->getBaseUrl());
+        $body        = $prefix.' '.$name.' <'.$email_from.'>.'."\r\n\r\n".stripslashes($body);
+
+        // Get recipient
         $email_to = $this->getObject('com:contacts.model.contacts')
             ->id($context->request->query->get('id', 'int'))
             ->getRow()
             ->email_to;
 
-        // Send mail.
+        // Send mail
         $mail = JFactory::getMailer();
         $mail->addRecipient($email_to);
-        $mail->setSender(array($name, $email_from));
+        $mail->setSender(array($email_from, $name));
         $mail->setSubject($from_name.': '.$subject);
         $mail->setBody($body);
         $mail->Send();
 
-        // Send copy if requested.
+        // Send copy if requested
         if($data->get('email_copy', 'boolean'))
         {
-            $copy_text    = JText::sprintf('Copy of:', $name, $site_name)."\r\n\r\n".$body;
-            $copy_subject = JText::_('Copy of:').' '.$subject;
-
             $mail = JFactory::getMailer();
-            $mail->addRecipient( $email_from );
-            $mail->setSender( array( $from_name, $mail_from ) );
-            $mail->setSubject( $copy_subject );
-            $mail->setBody( $copy_text );
+            $mail->addRecipient($email_from);
+            $mail->setSender(array($mail_from, $from_name));
+            $mail->setSubject($subject);
+            $mail->setBody($body);
             $mail->Send();
         }
 

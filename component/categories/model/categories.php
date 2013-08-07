@@ -39,7 +39,7 @@ class ModelCategories extends Library\ModelTable
         parent::_buildQueryColumns($query);
 
         $query->columns(array(
-            'thumbnail'              => 'thumbnails.thumbnail'
+            'thumbnail' => 'thumbnails.thumbnail'
         ));
     }
 

@@ -36,7 +36,7 @@ class JElementFolders extends JElement
 		$options = array();
 		
 		if ($show_root) {
-		    $options[] = array('text' => JText::_('Root Folder'), 'value' => '');
+		    $options[] = array('label' => JText::_('Root Folder'), 'value' => '');
 		}
 		
 		foreach ($tree as $folder) {
@@ -44,7 +44,7 @@ class JElementFolders extends JElement
 		}
 
 		return  Library\ObjectManager::getInstance()->getObject('com:files.template.helper.select')->optionlist(array(
-			'name' => $el_name,
+			'name'    => $el_name,
 			'options' => $options,
 			'showroot' => false,
 			'selected' => $value
@@ -54,7 +54,7 @@ class JElementFolders extends JElement
 	protected function _addFolder($folder, &$options)
 	{
 		$padded    = str_repeat('&nbsp;', 2*(count(explode('/', $folder->path)))).$folder->name;
-		$options[] = array('text' => $padded, 'value' => $folder->path);
+		$options[] = array('label' => $padded, 'value' => $folder->path);
 
 		if ($folder->hasChildren())
         {

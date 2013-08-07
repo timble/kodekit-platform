@@ -28,7 +28,7 @@ INSERT INTO `articles` (`articles_article_id`, `categories_category_id`, `attach
 INSERT INTO `categories` (`categories_category_id`, `parent_id`, `attachments_attachment_id`, `title`, `slug`, `table`, `description`, `published`, `created_by`, `created_on`, `modified_by`, `modified_on`, `locked_by`, `locked_on`, `ordering`, `access`, `params`)
   VALUES
   (1, 0, 0, 'Tristique', 'tristique', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 1, 0, ''),
-  (2, 0, 0, 'Tellus', 'tellus', '', 'articles', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 2, 0, ''),
+  (2, 0, 0, 'Tellus', 'tellus', 'articles', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 2, 0, ''),
   (3, 0, 0, 'Tellus Mollis', 'tellus-mollis', 'contacts', '', 1, 1, '2013-07-07 11:15:28', NULL, NULL, NULL, NULL, 1, 0, '');
 
 --

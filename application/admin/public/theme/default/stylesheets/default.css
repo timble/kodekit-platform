@@ -937,24 +937,45 @@ ul {
   display: none;
 }
 
-/* line 56, _general.scss */
+/* line 57, _general.scss */
+.radio input[type="radio"].level2, .checkbox input[type="checkbox"].level2 {
+  margin-left: 0px;
+  margin-right: 6px;
+}
+/* line 58, _general.scss */
+.radio input[type="radio"].level3, .checkbox input[type="checkbox"].level3 {
+  margin-left: 36px;
+  margin-right: 6px;
+}
+/* line 59, _general.scss */
+.radio input[type="radio"].level4, .checkbox input[type="checkbox"].level4 {
+  margin-left: 54px;
+  margin-right: 6px;
+}
+/* line 60, _general.scss */
+.radio input[type="radio"].level5, .checkbox input[type="checkbox"].level5 {
+  margin-left: 72px;
+  margin-right: 6px;
+}
+
+/* line 64, _general.scss */
 [data-action] {
   cursor: pointer;
 }
 
-/* line 60, _general.scss */
+/* line 68, _general.scss */
 ::-webkit-scrollbar {
   width: 8px;
   padding: 4px;
 }
 
-/* line 65, _general.scss */
+/* line 73, _general.scss */
 ::-webkit-scrollbar-track {
   border-left: 1px solid #dddddd;
   padding: 4px;
 }
 
-/* line 70, _general.scss */
+/* line 78, _general.scss */
 ::-webkit-scrollbar-thumb {
   background-color: #C3C3C3;
   margin: 4px;
@@ -962,7 +983,7 @@ ul {
 }
 
 /* -- overall styles ------------------------------ */
-/* line 77, _general.scss */
+/* line 85, _general.scss */
 #panel-header {
   background-color: #333;
   border-bottom: 1px solid #6e6e6e;
@@ -971,28 +992,28 @@ ul {
   position: relative;
 }
 
-/* line 86, _general.scss */
+/* line 94, _general.scss */
 #panel-tabbar {
   background: #3678ea linear-gradient(#6497ef, #3678ea);
   box-shadow: inset rgba(0, 0, 0, 0.1) 0px -2px 2px;
 }
 
-/* line 91, _general.scss */
+/* line 99, _general.scss */
 #panel-toolbar {
   padding: 8px 10px;
   background: #f9f9f9 linear-gradient(#f9f9f9, #ececec);
 }
-/* line 95, _general.scss */
+/* line 103, _general.scss */
 #panel-toolbar .btn-group {
   padding: 0;
   float: left;
 }
-/* line 99, _general.scss */
+/* line 107, _general.scss */
 #panel-toolbar .btn-group a {
   min-width: 50px;
   padding: 6px 12px;
 }
-/* line 106, _general.scss */
+/* line 114, _general.scss */
 #panel-toolbar .btn,
 #panel-toolbar a.btn {
   color: #333;
@@ -1000,14 +1021,14 @@ ul {
   border: 1px solid #BBB;
   font-size: 11px;
 }
-/* line 113, _general.scss */
+/* line 121, _general.scss */
 #panel-toolbar .alert {
   line-height: 26px;
   font-weight: bold;
   color: #333;
 }
 
-/* line 120, _general.scss */
+/* line 128, _general.scss */
 #panel-pages {
   display: -webkit-flex;
   display: -moz-flex;
@@ -1023,12 +1044,12 @@ ul {
   border-right: 1px solid #dddddd;
   background-color: #cfd6de;
 }
-/* line 135, _general.scss */
+/* line 143, _general.scss */
 #panel-pages .navigation a {
   border-top-color: #cfd6de;
 }
 
-/* line 142, _general.scss */
+/* line 150, _general.scss */
 #panel-sidebar,
 #panel-inspector {
   -webkit-box-sizing: border-box;
@@ -1036,7 +1057,7 @@ ul {
   box-sizing: border-box;
   background-color: #f9f9f9;
 }
-/* line 147, _general.scss */
+/* line 155, _general.scss */
 #panel-sidebar h3,
 #panel-sidebar legend,
 #panel-inspector h3,
@@ -1054,17 +1075,17 @@ ul {
   border-bottom: 1px solid #dddddd;
   background: linear-gradient(#f2f2f2, #e9e9e9);
 }
-/* line 166, _general.scss */
+/* line 174, _general.scss */
 #panel-sidebar fieldset,
 #panel-inspector fieldset {
   margin: 0;
 }
 
-/* line 171, _general.scss */
+/* line 179, _general.scss */
 #panel-inspector {
   border-left: 1px solid #dddddd;
 }
-/* line 175, _general.scss */
+/* line 183, _general.scss */
 #panel-inspector #activities-list h4 {
   padding: 5px;
   margin: 0;
@@ -1072,77 +1093,77 @@ ul {
   color: #666;
   background: linear-gradient(#f1f2f4, #f9f9f9);
 }
-/* line 183, _general.scss */
+/* line 191, _general.scss */
 #panel-inspector #activities-list h4:first-of-type {
   border-top: none 0px;
 }
-/* line 187, _general.scss */
+/* line 195, _general.scss */
 #panel-inspector #activities-list .activities {
   margin: 0 10px 10px 10px;
 }
-/* line 190, _general.scss */
+/* line 198, _general.scss */
 #panel-inspector #activities-list .activities .activity {
   padding: 7px 0;
   border-bottom: 1px dotted #dddddd;
   overflow: hidden;
   *zoom: 1;
 }
-/* line 195, _general.scss */
+/* line 203, _general.scss */
 #panel-inspector #activities-list .activities .activity > div {
   float: left;
 }
-/* line 199, _general.scss */
+/* line 207, _general.scss */
 #panel-inspector #activities-list .activities .activity a {
   line-height: 16px;
   width: 100%;
 }
-/* line 205, _general.scss */
+/* line 213, _general.scss */
 #panel-inspector #activities-list .activities .activity i {
   margin-right: 6px;
   margin-top: 1px;
   gradient-vertical-align: text-bottom;
   float: left;
 }
-/* line 212, _general.scss */
+/* line 220, _general.scss */
 #panel-inspector #activities-list .activities .activity .datetime {
   color: #555555;
 }
-/* line 214, _general.scss */
+/* line 222, _general.scss */
 #panel-inspector #activities-list .activities .activity:last-child {
   border-bottom: none 0px;
 }
-/* line 217, _general.scss */
+/* line 225, _general.scss */
 #panel-inspector #activities-list .btn-group {
   padding: 0 10px;
 }
 
-/* line 223, _general.scss */
+/* line 231, _general.scss */
 #panel-sidebar {
   border-right: 1px solid #dddddd;
 }
-/* line 226, _general.scss */
+/* line 234, _general.scss */
 #panel-sidebar h4 {
   padding: 4px 0 4px 10px;
   margin: 12px 0 0 0;
   color: #666;
   text-transform: uppercase;
 }
-/* line 233, _general.scss */
+/* line 241, _general.scss */
 #panel-sidebar h4:first-of-type {
   margin-top: 2px;
 }
-/* line 237, _general.scss */
+/* line 245, _general.scss */
 #panel-sidebar input[type=date] {
   width: 160px;
 }
 
-/* line 242, _general.scss */
+/* line 250, _general.scss */
 .-koowa-grid {
   margin: 0;
   /* bootstrap override */
   /** Table styles **/
 }
-/* line 246, _general.scss */
+/* line 254, _general.scss */
 .-koowa-grid table {
   width: 100%;
   border-spacing: 0px;
@@ -1151,16 +1172,16 @@ ul {
   table-layout: auto;
   white-space: nowrap;
 }
-/* line 257, _general.scss */
+/* line 265, _general.scss */
 .-koowa-grid table input[type="radio"],
 .-koowa-grid table input[type="checkbox"] {
   margin-top: 0;
 }
-/* line 261, _general.scss */
+/* line 269, _general.scss */
 .-koowa-grid table td {
   padding: 4px 4px;
 }
-/* line 264, _general.scss */
+/* line 272, _general.scss */
 .-koowa-grid table thead th {
   line-height: 18px;
   text-align: left;
@@ -1170,54 +1191,54 @@ ul {
   border-left: 1px solid #dddddd;
   font-size: 11px;
 }
-/* line 273, _general.scss */
+/* line 281, _general.scss */
 .-koowa-grid table thead th a {
   display: block;
   padding: 0px 4px;
   color: #666;
 }
-/* line 280, _general.scss */
+/* line 288, _general.scss */
 .-koowa-grid table thead th a.-koowa-desc, .-koowa-grid table thead th a.-koowa-asc {
   padding-right: 12px;
 }
-/* line 284, _general.scss */
+/* line 292, _general.scss */
 .-koowa-grid table thead th a:hover {
   text-decoration: none;
 }
-/* line 287, _general.scss */
+/* line 295, _general.scss */
 .-koowa-grid table thead th:first-child {
   border-left: none;
   padding-left: 2px;
 }
-/* line 293, _general.scss */
+/* line 301, _general.scss */
 .-koowa-grid table thead th:not(.void):active {
   background: linear-gradient(#e0e0e0, #e5e5e5);
 }
-/* line 299, _general.scss */
+/* line 307, _general.scss */
 .-koowa-grid table tbody th {
   font-weight: bold;
 }
-/* line 301, _general.scss */
+/* line 309, _general.scss */
 .-koowa-grid table tbody tr {
   background-color: #fff;
   text-align: left;
   border-top: 1px solid #FFF;
 }
-/* line 302, _general.scss */
+/* line 310, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
-/* line 305, _general.scss */
+/* line 313, _general.scss */
 .-koowa-grid table tbody tr:nth-child(even):not(.no-hover):hover td,
 .-koowa-grid table tbody tr:nth-child(odd):not(.no-hover):hover td {
   background-color: #EAF3FA;
 }
-/* line 307, _general.scss */
+/* line 315, _general.scss */
 .-koowa-grid table tbody tr td {
   height: 26px;
   border-top: 1px solid #FFF;
 }
-/* line 310, _general.scss */
+/* line 318, _general.scss */
 .-koowa-grid table tbody tr.selected td,
 .-koowa-grid table tbody tr.selected:hover td {
   background-color: #CDE7FD !important;
@@ -1226,7 +1247,7 @@ ul {
   -o-transition: all 150ms ease-in-out;
   transition: all 150ms ease-in-out;
 }
-/* line 315, _general.scss */
+/* line 323, _general.scss */
 .-koowa-grid table tbody tr.separator td {
   height: auto;
   text-align: left;
@@ -1234,79 +1255,79 @@ ul {
   background-color: #ededed;
   border-bottom: 1px solid #dddddd;
 }
-/* line 323, _general.scss */
+/* line 331, _general.scss */
 .-koowa-grid table tbody tr td.ellipsis, .-koowa-grid table tbody tr td.navigation__item, .-koowa-grid table tbody tr #files-tree td.mooTree_node, #files-tree .-koowa-grid table tbody tr td.mooTree_node {
   max-width: 100px;
 }
-/* line 328, _general.scss */
+/* line 336, _general.scss */
 .-koowa-grid table tfoot {
   background-color: #F1F1F1;
 }
-/* line 331, _general.scss */
+/* line 339, _general.scss */
 .-koowa-grid table tfoot tr {
   text-align: center;
   color: #333;
 }
-/* line 332, _general.scss */
+/* line 340, _general.scss */
 .-koowa-grid table tfoot td {
   text-align: center;
 }
-/* line 337, _general.scss */
+/* line 345, _general.scss */
 .-koowa-grid .array-separator span:after {
   content: " &";
 }
-/* line 338, _general.scss */
+/* line 346, _general.scss */
 .-koowa-grid .array-separator span:last-of-type:after {
   content: "";
 }
-/* line 341, _general.scss */
+/* line 349, _general.scss */
 .-koowa-grid .icon-ok {
   color: #297e52;
 }
-/* line 342, _general.scss */
+/* line 350, _general.scss */
 .-koowa-grid .icon-remove {
   color: #cf1010;
 }
-/* line 343, _general.scss */
+/* line 351, _general.scss */
 .-koowa-grid .icon-star {
   color: #ffc40d;
 }
 
-/* line 346, _general.scss */
+/* line 354, _general.scss */
 .pagination {
   float: right;
   font-size: 11px;
 }
-/* line 350, _general.scss */
+/* line 358, _general.scss */
 .pagination .btn {
   font-size: 11px;
 }
-/* line 354, _general.scss */
+/* line 362, _general.scss */
 .pagination > div {
   float: left;
 }
-/* line 357, _general.scss */
+/* line 365, _general.scss */
 .pagination > div.limit {
   line-height: 22px;
   margin: 0 10px;
 }
-/* line 362, _general.scss */
+/* line 370, _general.scss */
 .pagination > div select[name="limit"] {
   width: 50px;
 }
 
-/* line 366, _general.scss */
+/* line 374, _general.scss */
 .-koowa-form {
   background-color: #F9F9F9;
   margin: 0;
 }
-/* line 371, _general.scss */
+/* line 379, _general.scss */
 .-koowa-form .main .title {
   padding: 10px 10px 10px 10px;
   background: linear-gradient(#f0f0f0, #eaeaea);
   border-bottom: 1px solid #CCC;
 }
-/* line 376, _general.scss */
+/* line 384, _general.scss */
 .-koowa-form .main .title > input {
   font-size: 18px;
   padding: 4px 8px;
@@ -1315,17 +1336,17 @@ ul {
   height: 36px;
   line-height: 36px;
 }
-/* line 385, _general.scss */
+/* line 393, _general.scss */
 .-koowa-form .main .title .slug {
   clear: left;
   margin-top: 5px;
   margin-bottom: 0 !important;
 }
-/* line 393, _general.scss */
+/* line 401, _general.scss */
 .-koowa-form .main .scrollable, .-koowa-form .main .com_files #files-app #files-canvas #files-grid, .com_files #files-app #files-canvas .-koowa-form .main #files-grid, .-koowa-form .main .com_files #files-tree, .com_files .-koowa-form .main #files-tree {
   background-color: white;
 }
-/* line 399, _general.scss */
+/* line 407, _general.scss */
 .-koowa-form .sidebar textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1334,35 +1355,35 @@ ul {
   resize: vertical;
   width: 100%;
 }
-/* line 406, _general.scss */
+/* line 414, _general.scss */
 .-koowa-form .sidebar input[type=date],
 .-koowa-form .sidebar input[type=datetime-local] {
   width: 160px;
 }
 
-/* line 412, _general.scss */
+/* line 420, _general.scss */
 .box-column {
   box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
 }
 
 /* Sidebar */
-/* line 418, _general.scss */
+/* line 426, _general.scss */
 #panel-content .-koowa-form {
   border-top: 1px solid #dddddd;
 }
-/* line 421, _general.scss */
+/* line 429, _general.scss */
 #panel-content .-koowa-form .sidebar {
   width: 350px;
   border-left: 1px solid #E1E1E1;
 }
 
 /* $endgroup */
-/* line 430, _general.scss */
+/* line 438, _general.scss */
 .CodeMirror {
   border-bottom: 1px solid #CCCCCC;
 }
 
-/* line 434, _general.scss */
+/* line 442, _general.scss */
 .editor-toolbar {
   height: 18px;
 }

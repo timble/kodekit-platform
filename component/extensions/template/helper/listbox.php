@@ -27,14 +27,14 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'attribs'	=> array()
         ));
 
-        $options[] 	= $this->option(array('text' => '5', 'value' => '5'));
-        $options[] 	= $this->option(array('text' => '10', 'value' => '10'));
-        $options[] 	= $this->option(array('text' => '15', 'value' => '15'));
-        $options[] 	= $this->option(array('text' => '20', 'value' => '20'));
-        $options[] 	= $this->option(array('text' => '25', 'value' => '25'));
-        $options[] 	= $this->option(array('text' => '30', 'value' => '30'));
-        $options[] 	= $this->option(array('text' => '50', 'value' => '50'));
-        $options[] 	= $this->option(array('text' => '100', 'value' => '100'));
+        $options[] 	= $this->option(array('value' => '5'));
+        $options[] 	= $this->option(array('value' => '10'));
+        $options[] 	= $this->option(array('value' => '15'));
+        $options[] 	= $this->option(array('value' => '20'));
+        $options[] 	= $this->option(array('value' => '25'));
+        $options[] 	= $this->option(array('value' => '30'));
+        $options[] 	= $this->option(array('value' => '50'));
+        $options[] 	= $this->option(array('value' => '100'));
 
         $list = $this->optionlist(array(
             'options'   => $options,
@@ -58,7 +58,7 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         $rows = JCache::getStores();
 
         foreach($rows as $row) {
-            $options[] 	= $this->option(array('text' => \JText::_(ucfirst($row)), 'value' => $row));
+            $options[] 	= $this->option(array('label' => \JText::_(ucfirst($row)), 'value' => $row));
         }
 
         $list = $this->optionlist(array(
@@ -82,23 +82,25 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
         ));
 
         if ($config->deselect) {
-            $options[] = $this->option(array('text' => $config->prompt, 'value' => ''));
+            $options[] = $this->option(array('label' => $config->prompt, 'value' => ''));
         }
 
         foreach (\DateTimeZone::listIdentifiers() as $identifier)
         {
-            if (strpos($identifier, '/')) {
+            if (strpos($identifier, '/'))
+            {
                 list($group, $locale) = explode('/', $identifier, 2);
                 $groups[$group][] = str_replace('_', ' ', $locale);
             }
         }
 
-        $options[] = $this->option(array('text' => 'Coordinated Universal Time', 'value' => 'UTC'));
-        foreach ($groups as $group => $locales) {
-            $options[] = $this->option(array('text' => $group, 'group' => true));
+        $options[] = $this->option(array('label' => 'Coordinated Universal Time', 'value' => 'UTC'));
+        foreach ($groups as $group => $locales)
+        {
+            $options[] = $this->option(array('label' => $group, 'group' => true));
 
             foreach ($locales as $locale) {
-                $options[] = $this->option(array('text' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
+                $options[] = $this->option(array('label' => $locale, 'value' => str_replace(' ', '_', $group.'/'.$locale)));
             }
         }
 
@@ -120,9 +122,9 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'attribs'	=> array()
         ));
 
-        $options[] 	= $this->option(array('text' => 'Server Defaults', 'value' => 0));
-        $options[] 	= $this->option(array('text' => 'Development', 'value' => 1));
-        $options[] 	= $this->option(array('text' => 'Production' , 'value' => 2));
+        $options[] 	= $this->option(array('label' => 'Server Defaults', 'value' => 0));
+        $options[] 	= $this->option(array('label' => 'Development', 'value' => 1));
+        $options[] 	= $this->option(array('label' => 'Production' , 'value' => 2));
 
         $list = $this->optionlist(array(
             'options'   => $options,
@@ -142,9 +144,9 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'attribs'	=> array()
         ));
 
-        $options[] 	= $this->option(array('text' => 'PHP mail function', 'value' => 'mail'));
-        $options[] 	= $this->option(array('text' => 'Sendmail', 'value' =>  'sendmail'));
-        $options[] 	= $this->option(array('text' => 'SMTP Server', 'value' => 'smtp'));
+        $options[] 	= $this->option(array('label' => 'PHP mail function', 'value' => 'mail'));
+        $options[] 	= $this->option(array('label' => 'Sendmail', 'value' =>  'sendmail'));
+        $options[] 	= $this->option(array('label' => 'SMTP Server', 'value' => 'smtp'));
 
         $list = $this->optionlist(array(
             'options'   => $options,
@@ -164,9 +166,9 @@ class TemplateHelperListbox extends Library\TemplateHelperListbox
             'attribs'	=> array()
         ));
 
-        $options[] 	= $this->option(array('text' => 'None', 'value' => 'none'));
-        $options[] 	= $this->option(array('text' => 'SSL', 'value' =>  'ssl'));
-        $options[] 	= $this->option(array('text' => 'TLS', 'value' => 'tls'));
+        $options[] 	= $this->option(array('label' => 'None', 'value' => 'none'));
+        $options[] 	= $this->option(array('label' => 'SSL', 'value' =>  'ssl'));
+        $options[] 	= $this->option(array('label' => 'TLS', 'value' => 'tls'));
 
         $list = $this->optionlist(array(
             'options'   => $options,

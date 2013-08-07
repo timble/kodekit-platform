@@ -27,14 +27,7 @@
     <fieldset class="categories group">
         <legend><?= @text('Parent') ?></legend>
         <div>
-            <?= @helper('com:categories.listbox.categories', array(
-                'name'      => 'parent_id',
-                'selected'  => $category->parent_id,
-                'prompt'    => '- None -',
-                'max_depth' => 1,
-                'table'     => 'articles',
-                'parent'	=> '0'
-            )) ?>
+            <?= @helper('com:categories.radiolist.categories', array('row' => $category, 'name' => 'parent_id', 'filter' => array('parent' => '0', 'table' => $state->table))) ?>
         </div>
     </fieldset>
 <? endif ?>
