@@ -18,15 +18,17 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th><?=@text('Name')?></th>
-			<th><?=@text('Size')?></th>
-			<th><?=@text('Type')?></th>
+			<th style="width: 70%"><?=@text('Name')?></th>
+            <? if(count($files)) : ?>
+            <th><?=@text('Size')?></th>
+            <th><?=@text('Type')?></th>
+            <? endif ?>
 		</tr>
 	</thead>
 	<tbody>
 		<? foreach($folders as $folder): ?>
 		<tr>
-			<td>
+			<td colspan="3">
 				<i class="icon-folder-close"></i>
 				<a href="<?= @route('&view=folder&folder='.$folder->path);?>">
 					<?=@escape($folder->display_name)?>

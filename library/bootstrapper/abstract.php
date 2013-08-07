@@ -40,7 +40,7 @@ abstract class BootstrapperAbstract extends Object implements BootstrapperInterf
      *
      * Called from {@link __construct()} as a first step of object instantiation.
      *
-     * @param  Config $config An optional ObjectConfig object with configuration options
+     * @param  ObjectConfig $config An optional ObjectConfig object with configuration options
      * @return void
      */
     protected function _initialize(ObjectConfig $config)

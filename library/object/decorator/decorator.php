@@ -136,7 +136,7 @@ class ObjectDecorator implements ObjectDecoratorInterface
             }
             else $methods = $object->getMethods();
 
-            $this->__methods = array_merge(parent::getMethods(), $methods);
+            $this->__methods = $methods;
         }
 
         return $this->__methods;
@@ -337,6 +337,6 @@ class ObjectDecorator implements ObjectDecoratorInterface
             return $result;
         }
 
-        return parent::__call($method, $arguments);
+        throw new \BadMethodCallException('Call to undefined method :' . $method);
     }
 }

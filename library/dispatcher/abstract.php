@@ -9,7 +9,7 @@
 namespace Nooku\Library;
 
 /**
- * Abstract controller dispatcher
+ * Abstract Dispatcher
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher

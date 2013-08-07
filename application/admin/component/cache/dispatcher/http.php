@@ -19,7 +19,7 @@ use Nooku\Library;
  * @subpackage  Cache
  */
  
-class CacheDispatcher extends Library\DispatcherComponent
+class CacheDispatcherHttp extends Library\DispatcherHttp
 {
     protected function _initialize(Library\ObjectConfig $config)
     {

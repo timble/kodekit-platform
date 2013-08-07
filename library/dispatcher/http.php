@@ -9,12 +9,12 @@
 namespace Nooku\Library;
 
 /**
- * Controller Dispatcher Class
+ * Http Dispatcher
  *
  * @author		Johan Janssens <johan@nooku.org>
  * @package     Koowa_Dispatcher
  */
-class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiable
+class DispatcherHttp extends DispatcherAbstract implements ObjectInstantiable
 {
     /**
 	 * Constructor.
@@ -63,7 +63,7 @@ class DispatcherComponent extends DispatcherAbstract implements ObjectInstantiab
      *
      * @param 	ObjectConfig            $config	  A ObjectConfig object with configuration options
      * @param 	ObjectManagerInterface	$manager  A ObjectInterface object
-     * @return DispatcherComponent
+     * @return  DispatcherHttp
      */
     public static function getInstance(ObjectConfig $config, ObjectManagerInterface $manager)
     {

@@ -17,25 +17,25 @@ use Nooku\Library;
  * @subpackage  Files
  */
 
-class FilesDispatcher extends Library\DispatcherComponent
+class FilesDispatcherHttp extends Library\DispatcherHttp
 {
-	public function __construct(Library\ObjectConfig $config)
-	{
-		parent::__construct($config);
-	
-		// Return JSON response when possible
-		$this->registerCallback('after.post' , array($this, 'renderResponse'));
+    public function __construct(Library\ObjectConfig $config)
+    {
+        parent::__construct($config);
+
+        // Return JSON response when possible
+        $this->registerCallback('after.post' , array($this, 'renderResponse'));
 
         // Return correct status code for plupload
         $this->getObject('application')->registerCallback('before.send', array($this, 'setStatusForPlupload'));
-	}
-	
-	public function renderResponse(Library\CommandContext $context)
-	{
-		if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
-			$this->getController()->execute('render', $context);
-		}
-	}
+    }
+
+    public function renderResponse(Library\CommandContext $context)
+    {
+        if ($context->action !== 'delete' && $this->getRequest()->getFormat() === 'json') {
+            $this->getController()->execute('render', $context);
+        }
+    }
 
     /**
      * We need to return 200 even if an error happens in requests using Plupload.
@@ -46,5 +46,19 @@ class FilesDispatcher extends Library\DispatcherComponent
         if ($context->request->getFormat() == 'json' && $context->request->query->get('plupload', 'int')) {
             $context->response->setStatus('200');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRequest()
+    {
+        $request = parent::getRequest();
+
+        if ($request->getQuery()->get('view', 'cmd') === 'file') {
+            $request->setFormat('html');
+        }
+
+        return $request;
     }
 }

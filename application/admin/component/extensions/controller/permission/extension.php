@@ -15,7 +15,7 @@ use Nooku\Library;
  * @author  Ercan Ozkaya <http://nooku.assembla.com/profile/ercanozkaya>
  * @package Nooku\Component\Extensions
  */
-class ExtensionsControllerPermissionExtension extends ApplicationControllerPermissionDefault
+class ExtensionsControllerPermissionExtension extends ApplicationControllerPermissionAbstract
 {
     public function canAdd()
     {

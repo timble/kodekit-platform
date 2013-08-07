@@ -18,7 +18,7 @@ use Nooku\Library;
  * @package     Nooku_Server
  * @subpackage  Cache
  */
-class CacheControllerPermissionItem extends ApplicationControllerPermissionDefault
+class CacheControllerPermissionItem extends ApplicationControllerPermissionAbstract
 {  
     public function canAdd()
     {

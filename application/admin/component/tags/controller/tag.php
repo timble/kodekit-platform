@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Nooku_Server
- * @subpackage  Terms
+ * @subpackage  Tags
  * @copyright	Copyright (C) 2011 - 2012 Timble CVBA and Contributors. (http://www.timble.net)
  * @license		GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link		http://www.nooku.org
@@ -22,7 +22,10 @@ abstract class TagsControllerTag extends Tags\ControllerTag
     protected function _initialize(Library\ObjectConfig $config)
     {
         $config->append(array(
-        	'behaviors' => array('com:activities.controller.behavior.loggable'),
+        	'behaviors' => array(
+                'editable',
+                'com:activities.controller.behavior.loggable'
+            ),
         ));
 
         //Force the toolbars
