@@ -13,6 +13,18 @@ CKEDITOR.plugins.add('images',
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
+
+                    var dialog = CKEDITOR.dialog.getCurrent();
+                    var editor = dialog.getParentEditor();
+
+                    var image = editor.getSelection().getSelectedElement();
+
+                    if(image){
+                        iframeWindow.document.id('image-url').set('value',image.getAttribute('src'));
+                        iframeWindow.document.id('image-alt').set('value',image.getAttribute('alt'));
+                        iframeWindow.document.id('image-title').set('value',image.getAttribute('title'));
+                        iframeWindow.document.id('image-align').set('value',image.getAttribute('align'));
+                    }
                 },
 
                 { // userDefinition
@@ -49,11 +61,29 @@ CKEDITOR.plugins.add('images',
             editor.addCommand( 'imagesDialog', new CKEDITOR.dialogCommand( 'imagesDialog' ) );
 
             editor.ui.addButton( 'images',
-                {
-                    label: 'Image Dialog',
+            {
+                label: 'Image Dialog',
+                command: 'imagesDialog',
+                icon: this.path + 'images/image.png'
+            });
+            if ( editor.contextMenu ) {
+                editor.addMenuGroup( 'imageGroup' );
+                editor.addMenuItem( 'imageItem', {
+                    label: 'Edit Image',
+                    icon: this.path + 'images/image.png',
                     command: 'imagesDialog',
-                    icon: this.path + 'images/image.png'
-                } );
+                    group: 'imageGroup'
+                });
+
+                editor.contextMenu.addListener( function( ) {
+
+                    var element = editor.getSelection().getSelectedElement();;
+                    //we only want to show this if the type = text/html
+                    if ( element.getName() == 'img') {
+                        return { fileItem: CKEDITOR.TRISTATE_OFF };
+                    }
+                });
+            }
 
         }
     }

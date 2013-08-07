@@ -33,7 +33,10 @@
                 document.id('image-url').set('value', url);
 
                 document.id('image-type').set('value',row.metadata.mimetype);
-                document.id('image-link').set('value', row.name);
+                if(document.id('image-text').get('value') == ""){
+                    document.id('image-text').set('value', row.name);
+                }
+
             });
         }else{
 
@@ -62,9 +65,9 @@
         </div>
         <?if($type == 'file'):?>
             <div>
-                <label for="image-link"><?= @text('Link') ?></label>
+                <label for="image-text"><?= @text('Text') ?></label>
                 <div>
-                    <input type="text" id="image-link" value="" />
+                    <input type="text" id="image-text" value="" />
                 </div>
             </div>
         <?endif;?>
