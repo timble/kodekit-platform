@@ -13,6 +13,21 @@ CKEDITOR.plugins.add('files',
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
+
+                    var dialog = CKEDITOR.dialog.getCurrent();
+                    var editor = dialog.getParentEditor();
+                    var selected = CKEDITOR.plugins.link.getSelectedLink( editor );
+
+                    if(editor.getSelection().getSelectedText()){
+                        iframeWindow.document.id('image-text').set('value', editor.getSelection().getSelectedText());
+                    }
+
+                    if(selected){
+                        iframeWindow.document.id('image-url').set('value',selected.getAttribute('href'));
+                        iframeWindow.document.id('image-alt').set('value',selected.getAttribute('alt'));
+                        iframeWindow.document.id('image-title').set('value',selected.getAttribute('title'));
+                        iframeWindow.document.id('target').set('value',selected.getAttribute('target'));
+                    }
                 },
 
                 { // userDefinition
@@ -21,7 +36,8 @@ CKEDITOR.plugins.add('files',
 
                         var iframedocument = iframeWindow.document;
                         var src = iframedocument.id('image-url').get('value');
-                        var link = iframedocument.id('image-link').get('value');
+                        var link = iframedocument.id('image-text').get('value');
+                        var target = iframedocument.id('target').get('value');
                         var attrs = {};
                         ['alt', 'title','type'].each(function(id) {
                             var value = iframedocument.id('image-'+id).get('value');
@@ -32,7 +48,7 @@ CKEDITOR.plugins.add('files',
 
                         var str = '<a href="'+src+'" ';
                         var parts = [];
-
+                        parts.push('target='+target);
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });
@@ -53,11 +69,30 @@ CKEDITOR.plugins.add('files',
             editor.addCommand( 'filesDialog', new CKEDITOR.dialogCommand( 'filesDialog' ) );
 
             editor.ui.addButton( 'files',
-                {
-                    label: 'File Dialog',
+            {
+                label: 'File Dialog',
+                command: 'filesDialog',
+                icon: this.path + 'images/image.png'
+            });
+            if ( editor.contextMenu ) {
+                editor.addMenuGroup( 'fileGroup' );
+                editor.addMenuItem( 'fileItem', {
+                    label: 'Edit File Link',
+                    icon: this.path + 'images/image.png',
                     command: 'filesDialog',
-                    icon: this.path + 'images/image.png'
-                } );
+                    group: 'fileGroup'
+                });
+
+                editor.contextMenu.addListener( function( ) {
+
+                    var element = CKEDITOR.plugins.link.getSelectedLink( editor );
+                    //we only want to show this if the type = application
+
+                    if ( element.getAttribute('type').search('application') != -1) {
+                        return { fileItem: CKEDITOR.TRISTATE_OFF };
+                    }
+                });
+            }
 
         }
     }
