@@ -64,13 +64,13 @@ CKEDITOR.plugins.add('images',
             {
                 label: 'Image Dialog',
                 command: 'imagesDialog',
-                icon: this.path + 'images/image.png'
+                icon: this.path + 'images/icon.png'
             });
             if ( editor.contextMenu ) {
                 editor.addMenuGroup( 'imageGroup' );
                 editor.addMenuItem( 'imageItem', {
                     label: 'Edit Image',
-                    icon: this.path + 'images/image.png',
+                    icon: this.path + 'images/icon.png',
                     command: 'imagesDialog',
                     group: 'imageGroup'
                 });

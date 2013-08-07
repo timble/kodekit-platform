@@ -70,13 +70,13 @@ CKEDITOR.plugins.add('links',
             {
                 label: 'Link Dialog',
                 command: 'linksDialog',
-                icon: this.path + 'images/image.png'
+                icon: this.path + 'images/icon.png'
             } );
             if ( editor.contextMenu ) {
                 editor.addMenuGroup( 'linkGroup' );
                 editor.addMenuItem( 'linkItem', {
                     label: 'Edit Link',
-                    icon: this.path + 'images/image.png',
+                    icon: this.path + 'images/icon.png',
                     command: 'linksDialog',
                     group: 'linkGroup'
                 });

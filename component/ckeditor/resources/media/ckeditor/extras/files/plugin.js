@@ -72,13 +72,13 @@ CKEDITOR.plugins.add('files',
             {
                 label: 'File Dialog',
                 command: 'filesDialog',
-                icon: this.path + 'images/image.png'
+                icon: this.path + 'images/icon.png'
             });
             if ( editor.contextMenu ) {
                 editor.addMenuGroup( 'fileGroup' );
                 editor.addMenuItem( 'fileItem', {
                     label: 'Edit File Link',
-                    icon: this.path + 'images/image.png',
+                    icon: this.path + 'images/icon.png',
                     command: 'filesDialog',
                     group: 'fileGroup'
                 });

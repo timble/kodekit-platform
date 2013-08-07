@@ -9,7 +9,7 @@ CKEDITOR.plugins.add('readmore',
                 {
                     label : "Readmore",
                     command : 'readmore.cmd',
-                    icon : mypath + 'images/readmore.png'
+                    icon : mypath + 'images/icon.png'
                 }
             );
             var cmd = editor.addCommand('readmore.cmd', {
