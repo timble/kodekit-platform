@@ -57,9 +57,6 @@ class ContactsControllerMessage extends Library\ControllerView
         // Send copy if requested.
         if($data->get('email_copy', 'boolean'))
         {
-            $copy_text    = JText::sprintf('Copy of:', $name, $site_name)."\r\n\r\n".$body;
-            $copy_subject = JText::_('Copy of:').' '.$subject;
-
             $mail = JFactory::getMailer();
             $mail->addRecipient($email_from);
             $mail->setSender(array($mail_from, $from_name));
