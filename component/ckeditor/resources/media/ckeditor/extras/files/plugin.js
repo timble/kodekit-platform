@@ -87,9 +87,10 @@ CKEDITOR.plugins.add('files',
 
                     var element = CKEDITOR.plugins.link.getSelectedLink( editor );
                     //we only want to show this if the type = application
-
-                    if ( element.getAttribute('type').search('application') != -1) {
-                        return { fileItem: CKEDITOR.TRISTATE_OFF };
+                    if(element){
+                        if ( element.getAttribute('type').search('application') != -1) {
+                            return { fileItem: CKEDITOR.TRISTATE_OFF };
+                        }
                     }
                 });
             }
