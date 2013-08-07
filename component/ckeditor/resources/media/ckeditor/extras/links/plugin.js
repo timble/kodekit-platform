@@ -3,8 +3,9 @@ CKEDITOR.plugins.add('links',
     {
         requires: [ 'iframedialog' ],
         icons: 'images',
-        init: function( editor )
+        init: function( editor ,pluginPath)
         {
+
             var height = 480, width = 900;
             CKEDITOR.dialog.addIframe(
                 'linksDialog',
@@ -13,18 +14,27 @@ CKEDITOR.plugins.add('links',
                 function() {
                     var iframe = document.getElementById( this._.frameId );
                     iframeWindow = iframe.contentWindow;
+
+                    var dialog = CKEDITOR.dialog.getCurrent();
+                    var editor = dialog.getParentEditor();
+                    var selected = CKEDITOR.plugins.link.getSelectedLink( editor );
+                    iframeWindow.document.id('link-url').set('value',selected.getAttribute('href'));
+                    iframeWindow.document.id('link-text').set('value', editor.getSelection().getSelectedText());
+                    iframeWindow.document.id('link-alt').set('value',selected.getAttribute('alt'));
+                    iframeWindow.document.id('link-title').set('value',selected.getAttribute('title'));
+
+
                 },
 
                 { // userDefinition
                     onOk : function()
                     {
 
-                        var iframedocument = iframeWindow.document;
-                        var src = iframedocument.id('link-url').get('value');
-                        var text = iframedocument.id('link-text').get('value');
+                        var src = iframeWindow.document.id('link-url').get('value');
+                        var text = iframeWindow.document.id('link-text').get('value');
                         var attrs = {};
                         ['alt', 'title'].each(function(id) {
-                            var value = iframedocument.id('link-'+id).get('value');
+                            var value = iframeWindow.document.id('link-'+id).get('value');
                             if (value) {
                                 attrs[id] = value;
                             }
@@ -52,11 +62,29 @@ CKEDITOR.plugins.add('links',
             editor.addCommand( 'linksDialog', new CKEDITOR.dialogCommand( 'linksDialog' ) );
 
             editor.ui.addButton( 'links',
-                {
-                    label: 'Link Dialog',
+            {
+                label: 'Link Dialog',
+                command: 'linksDialog',
+                icon: this.path + 'images/image.png'
+            } );
+            if ( editor.contextMenu ) {
+                editor.addMenuGroup( 'linkGroup' );
+                editor.addMenuItem( 'linkItem', {
+                    label: 'Edit Link',
+                    icon: this.path + 'images/image.png',
                     command: 'linksDialog',
-                    icon: this.path + 'images/image.png'
-                } );
+                    group: 'linkGroup'
+                });
+
+                editor.contextMenu.addListener( function( ) {
+
+                    var element = CKEDITOR.plugins.link.getSelectedLink( editor );
+                    //we only want to show this if the type = text/html
+                    if ( element.getAttribute('type')  == 'text/html') {
+                        return { linkItem: CKEDITOR.TRISTATE_OFF };
+                    }
+                });
+            }
 
         }
     }
