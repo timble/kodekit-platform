@@ -64,7 +64,7 @@
             </div>
         </div>
         <?if($type == 'file'):?>
-            <div>
+            <div id="link-text">
                 <label for="image-text"><?= @text('Text') ?></label>
                 <div>
                     <input type="text" id="image-text" value="" />

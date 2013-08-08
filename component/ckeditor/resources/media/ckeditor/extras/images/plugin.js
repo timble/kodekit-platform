@@ -77,10 +77,12 @@ CKEDITOR.plugins.add('images',
 
                 editor.contextMenu.addListener( function( ) {
 
-                    var element = editor.getSelection().getSelectedElement();;
+                    var element = editor.getSelection().getSelectedElement();
                     //we only want to show this if the type = text/html
-                    if ( element.getName() == 'img') {
-                        return { fileItem: CKEDITOR.TRISTATE_OFF };
+                    if(element){
+                        if ( element.getName() == 'img') {
+                            return { imageItem: CKEDITOR.TRISTATE_OFF };
+                        }
                     }
                 });
             }

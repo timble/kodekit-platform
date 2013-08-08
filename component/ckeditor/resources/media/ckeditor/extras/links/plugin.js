@@ -27,6 +27,9 @@ CKEDITOR.plugins.add('links',
                         iframeWindow.document.id('link-url').set('value',selected.getAttribute('href'));
                         iframeWindow.document.id('link-alt').set('value',selected.getAttribute('alt'));
                         iframeWindow.document.id('link-title').set('value',selected.getAttribute('title'));
+                    }else if(editor.getSelection().getSelectedElement().getName() == 'img'){
+                        image = editor.getSelection().getSelectedElement();
+                        iframeWindow.document.id('link-text').set('style','display:none;')
                     }
 
                 },
@@ -36,7 +39,25 @@ CKEDITOR.plugins.add('links',
                     {
 
                         var src = iframeWindow.document.id('link-url').get('value');
-                        var text = iframeWindow.document.id('link-text').get('value');
+                        if(image){
+                            var attrs = {};
+                            ['align', 'alt', 'title','type'].each(function(id) {
+                                var value = image.getAttribute(id);
+                                if (value) {
+                                    attrs[id] = value;
+                                }
+                            });
+
+                            var text = '<img src="'+image.getAttribute('src')+'"';
+                            var parts = [];
+                            $each(attrs, function(value, key) {
+                                parts.push(key+'="'+value+'"');
+                            });
+                            text += parts.join(' ')+' />';
+                            console.log(text);
+                        }else{
+                            var text = iframeWindow.document.id('link-text').get('value');
+                        }
                         var attrs = {};
                         ['alt', 'title'].each(function(id) {
                             var value = iframeWindow.document.id('link-'+id).get('value');

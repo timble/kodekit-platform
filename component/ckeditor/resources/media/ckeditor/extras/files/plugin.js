@@ -48,7 +48,7 @@ CKEDITOR.plugins.add('files',
 
                         var str = '<a href="'+src+'" ';
                         var parts = [];
-                        parts.push('target='+target);
+                        parts.push('target="'+target+'"');
                         $each(attrs, function(value, key) {
                             parts.push(key+'="'+value+'"');
                         });

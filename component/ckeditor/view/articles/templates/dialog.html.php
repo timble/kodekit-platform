@@ -88,7 +88,7 @@
                 <input type="text" id="link-url" value="" />
             </div>
         </div>
-        <div>
+        <div id="link-text">
             <label for="link-text"><?= @text('Text') ?></label>
             <div>
                 <input type="text" id="link-text" value="" />

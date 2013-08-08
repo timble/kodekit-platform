@@ -19,7 +19,7 @@ CKEDITOR.editorConfig = function( config ) {
 
     config.extraPlugins = 'codemirror,readmore,autosave,images,onchange,files,links';
     // wee need to remove the default image and link plugins for the custom plugin's to work properly
-    config.removePlugins ='image,link';
+    config.removePlugins ='link';
 
     config.protectedSource.push( /<\?[\s\S]*?\?>/g );
     config.autosave_delay = '10';
