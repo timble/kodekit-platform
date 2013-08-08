@@ -54,7 +54,6 @@ CKEDITOR.plugins.add('links',
                                 parts.push(key+'="'+value+'"');
                             });
                             text += parts.join(' ')+' />';
-                            console.log(text);
                         }else{
                             var text = iframeWindow.document.id('link-text').get('value');
                         }
