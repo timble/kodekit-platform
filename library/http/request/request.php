@@ -123,21 +123,12 @@ class HttpRequest extends HttpMessage implements HttpRequestInterface
     /**
      * Set the url for this request
      *
-     * @param string|HttpUrl   $uri
-     * @throws \InvalidArgumentException If the url is not an instance of HttpUrl or a string
+     * @param string|array  $url Part(s) of an URL in form of a string or associative array like parse_url() returns
      * @return HttpRequest
      */
     public function setUrl($url)
     {
-        if (!$url instanceof HttpUrlInterface || !is_string($url)) {
-            throw new \InvalidArgumentException('Url must be an instance of HttpUrl or a string');
-        }
-
-        if (is_string($url)) {
-            $url = $this->getObject('lib:http.url', array('url' => $url));
-        }
-
-        $this->_url = $url;
+        $this->_url = $this->getObject('lib:http.url', array('url' => $url));
         return $this;
     }
 
