@@ -890,8 +890,8 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
      */
     public function isSecure()
     {
-        if ($this->isProxied() && $this->_header->has('X-Forwarded-Proto')) {
-            $scheme  = $this->_header->get('X-Forwarded-Proto');
+        if ($this->isProxied() && $this->_headers->has('X-Forwarded-Proto')) {
+            $scheme  = $this->_headers->get('X-Forwarded-Proto');
         } else {
            $scheme  = isset($_SERVER['HTTPS']) ? strtolower($_SERVER['HTTPS']) : 'http';
         }
