@@ -19,6 +19,23 @@ namespace Nooku\Library;
 interface DispatcherRequestInterface extends ControllerRequestInterface
 {
     /**
+     * Sets a list of trusted proxies.
+     *
+     * You should only list the reverse proxies that you manage directly.
+     *
+     * @param array $proxies A list of trusted proxies
+     * @return DispatcherRequestInterface
+     */
+    public function setProxies(array $proxies);
+
+    /**
+     * Gets the list of trusted proxies.
+     *
+     * @return array An array of trusted proxies.
+     */
+    public function getProxies();
+
+    /**
      * Set the request cookies
      *
      * @param  array $cookies
@@ -49,6 +66,34 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     public function getFiles();
 
     /**
+     * Gets the request's scheme.
+     *
+     * @return string
+     */
+    public function getScheme();
+
+    /**
+     * Returns the host name.
+     *
+     * This method can read the client host from the "X-Forwarded-Host" header when the request is proxied and the proxy
+     * is trusted. The "X-Forwarded-Host" header must contain the client host name.
+     *
+     * @throws \UnexpectedValueException when the host name is invalid
+     * @return string
+     */
+    public function getHost();
+
+    /**
+     * Returns the port on which the request is made.
+     *
+     * This method can read the client port from the "X-Forwarded-Port" header when the request is proxied and the proxy
+     * is trusted. The "X-Forwarded-Port" header must contain the client port.
+     *
+     * @return string
+     */
+    public function getPort();
+
+    /**
      * Returns the HTTP referrer.
      *
      * 'referer' a commonly used misspelling word for 'referrer'
@@ -69,7 +114,14 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     /**
      * Returns the client IP address.
      *
-     * @return string $_SERVER['HTTP_REMOTE_ADDR'] or an empty string if it's not supplied in the request
+     * This method can read the client port from the "X-Forwarded-For" header when the request is proxied and the proxy
+     * is trusted. The "X-Forwarded-For" header must contain the client port. The "X-Forwarded-For" header value is a
+     * comma+space separated list of IP addresses, the left-most being the original client, and each successive proxy
+     * that passed the request adding the IP address where it received the request from.
+     *
+     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
+     *
+     * @return string Client IP address or an empty string if it's not supplied in the request
      */
     public function getAddress();
 
@@ -158,7 +210,25 @@ interface DispatcherRequestInterface extends ControllerRequestInterface
     /**
      * Checks whether the request is secure or not.
      *
-     * @return  string
+     * This method can read the client scheme from the "X-Forwarded-Proto" header when the request is proxied and the
+     * proxy is trusted. The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
+     *
+     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.4
+     *
+     * @return  boolean
      */
     public function isSecure();
+
+    /**
+     * Checks whether the request is proxied or not.
+     *
+     * This method reads the proxy IP from the "X-Forwarded-By" header. The "X-Forwarded-By" header MUST contain the
+     * proxy IP address (and, potentially, a port number). If no "X-Forwarded-By" header can be found, or the header
+     * IP address doesn't match the list of trusted proxies the function will return false.
+     *
+     * @See http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#page-7
+     *
+     * @return  boolean Return TRUE if the request is proxied and the proxy is trusted. FALSE otherwise.
+     */
+    public function isProxied();
 }

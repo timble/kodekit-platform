@@ -89,6 +89,13 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     protected $_charsets;
 
     /**
+     * A list of trusted proxies
+     *
+     * @var array
+     */
+    protected $_proxies;
+
+    /**
      * Mimetype to format mappings
      *
      * @var array
@@ -104,6 +111,9 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     public function __construct(ObjectConfig $config)
     {
         parent::__construct($config);
+
+        //Set the trusted proxies
+        $this->setProxies(ObjectConfig::unbox($config->proxies));
 
         //Set files parameters
         $this->setFiles($config->files);
@@ -244,7 +254,8 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             'query'   => $_GET,
             'data'    => $_POST,
             'cookies' => $_COOKIE,
-            'files'   => $_FILES
+            'files'   => $_FILES,
+            'proxies' => array()
         ));
 
         parent::_initialize($config);
@@ -270,6 +281,30 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
         }
 
         return $manager->getObject('request');
+    }
+
+    /**
+     * Sets a list of trusted proxies.
+     *
+     * You should only list the reverse proxies that you manage directly.
+     *
+     * @param array $proxies A list of trusted proxies
+     * @return DispatcherRequestInterface
+     */
+    public function setProxies(array $proxies)
+    {
+        $this->_proxies = $proxies;
+        return $this;
+    }
+
+    /**
+     * Gets the list of trusted proxies.
+     *
+     * @return array An array of trusted proxies.
+     */
+    public function getProxies()
+    {
+        return $this->_proxies;
     }
 
     /**
@@ -406,17 +441,36 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     }
 
     /**
-     * Return the URI of the request regardless of the server
+     * Gets the request's scheme.
      *
-     * @return  HttpUrl    A HttpUri object
+     * @return string
      */
-    public function getUrl()
+    public function getScheme()
     {
-        if(!isset($this->_url))
-        {
-            //Scheme
-            $url = $this->isSecure() ? 'https://' : 'http://';
+        return $this->isSecure() ? 'https' : 'http';
+    }
 
+    /**
+     * Returns the host name.
+     *
+     * This method can read the client host from the "X-Forwarded-Host" header when the request is proxied and the proxy
+     * is trusted. The "X-Forwarded-Host" header must contain the client host name.
+     *
+     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.3
+     *
+     * @throws \UnexpectedValueException when the host name is invalid
+     * @return string
+     */
+    public function getHost()
+    {
+        if($this->isProxied() && $this->_headers->has('X-Forwarded-Host'))
+        {
+            $host = $this->_headers->get('X-Forwarded-Host');
+            $parts = explode(',', $host);
+            $host  = $parts[count($parts) - 1];
+        }
+        else
+        {
             if (!$host = $this->_headers->get('Host'))
             {
                 if (!isset($_SERVER['SERVER_NAME'])) {
@@ -425,12 +479,57 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
                     $host = $_SERVER['SERVER_NAME'];
                 }
             }
+        }
 
-            // Remove port number from host
-            $host = preg_replace('/:\d+$/', '', $host);
+        // Remove port number from host
+        $host = preg_replace('/:\d+$/', '', $host);
 
-            // host is lowercase as per RFC 952/2181
-            $host = trim(strtolower($host));
+        // Host is lowercase as per RFC 952/2181
+        $host = trim(strtolower($host));
+
+        // Make sure host does not contain forbidden characters (see RFC 952 and RFC 2181)
+        if ($host && !preg_match('/^\[?(?:[a-zA-Z0-9-:\]_]+\.?)+$/', $host)) {
+            throw new \UnexpectedValueException('Invalid Host');
+        }
+
+        return $host;
+    }
+
+    /**
+     * Returns the port on which the request is made.
+     *
+     * This method can read the client port from the "X-Forwarded-Port" header when the request is proxied and the proxy
+     * is trusted. The "X-Forwarded-Port" header must contain the client port.
+     *
+     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.5
+     *
+     * @return string
+     */
+    public function getPort()
+    {
+        if ($this->isProxied() && $this->_headers->has('X-Forwarded-Port')) {
+            $port = $this->_headers->has('X-Forwarded-Port');
+        } else {
+            $port = $_SERVER['SERVER_PORT'];
+        }
+
+        return $port;
+    }
+
+    /**
+     * Return the Url of the request regardless of the server
+     *
+     * @return  HttpUrl A HttpUrl object
+     */
+    public function getUrl()
+    {
+        if(!isset($this->_url))
+        {
+            //Scheme
+            $scheme = $this->getScheme();
+
+            //Host
+            $host   = $this->getHost();
 
             /*
              * Since we are assigning the URI from the server variables, we first need to determine if we
@@ -440,7 +539,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI']))
             {
                 //Prepend the protocol, and the http host to the URI string.
-                $url .= $host . $_SERVER['REQUEST_URI'];
+                $url = $scheme.'://'.$host . $_SERVER['REQUEST_URI'];
             }
             else
             {
@@ -451,7 +550,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
                  */
 
                 // IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable
-                $url .= $host . $_SERVER['SCRIPT_NAME'];
+                $url = $scheme.'://'.$host . $_SERVER['SCRIPT_NAME'];
 
                 // If the query string exists append it to the URI string
                 if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
@@ -466,7 +565,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
             $this->_url = $this->getObject('lib:http.url', array('url' => $url));
 
             //Set the url port
-            $port = $_SERVER['SERVER_PORT'];
+            $port = $this->getPort();
 
             if (($this->_url->scheme == 'http' && $port != 80) || ($this->_url->scheme == 'https' && $port != 443)) {
                 $this->_url->port = $port;
@@ -526,11 +625,28 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Returns the client IP address.
      *
-     * @return string $_SERVER['REMOTE_ADDR'] or an empty string if it's not supplied in the request
+     * This method can read the client port from the "X-Forwarded-For" header when the request is proxied and the proxy
+     * is trusted. The "X-Forwarded-For" header must contain the client address. The "X-Forwarded-For" header value is a
+     * comma+space separated list of IP addresses, the left-most being the original client, and each successive proxy
+     * that passed the request adding the IP address where it received the request from.
+     *
+     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.2
+     *
+     * @return string Client IP address or an empty string if it's not supplied in the request
      */
     public function getAddress()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        if($this->isProxied() && $this->_headers->has('X-Forwarded-For'))
+        {
+            $addresses = $this->_headers->has('X-Forwarded-For');
+            $addresses = array_map('trim', explode(',', $addresses));
+            $addresses = array_reverse($addresses);
+
+            $address   = $addresses[0];
+        }
+        else $address = $_SERVER['REMOTE_ADDR'];
+
+        return $address;
     }
 
     /**
@@ -552,7 +668,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
         if(!$this->_base_url instanceof HttpUrl)
         {
             $base = clone $this->getUrl();
-            $base->fromString(rtrim((string)$this->_base_url, '/'));
+            $base->setUrl(rtrim((string)$this->_base_url, '/'));
 
             $this->_base_url = $this->getObject('lib:http.url', array('url' => $base->toString(HttpUrl::BASE)));
         }
@@ -575,7 +691,7 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Returns the base path of the request.
      *
-     * @param   boolean  If TRUE create a fully qualified path. Default TRUE.
+     * @param   boolean $fqp If TRUE create a fully qualified path. Default TRUE.
      * @return  string
      */
     public function getBasePath($fqp = false)
@@ -765,11 +881,66 @@ class DispatcherRequest extends ControllerRequest implements DispatcherRequestIn
     /**
      * Checks whether the request is secure or not.
      *
-     * @return  string
+     * This method can read the client scheme from the "X-Forwarded-Proto" header when the request is proxied and the
+     * proxy is trusted. The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
+     *
+     * @see http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#section-5.4
+     *
+     * @return  boolean
      */
     public function isSecure()
     {
-        return isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off');
+        if ($this->isProxied() && $this->_header->has('X-Forwarded-Proto')) {
+            $scheme  = $this->_header->get('X-Forwarded-Proto');
+        } else {
+           $scheme  = isset($_SERVER['HTTPS']) ? strtolower($_SERVER['HTTPS']) : 'http';
+        }
+
+        return in_array(strtolower($scheme), array('https', 'on', '1'));
+    }
+
+    /**
+     * Checks whether the request is proxied or not.
+     *
+     * This method reads the proxy IP from the "X-Forwarded-By" header. The "X-Forwarded-By" header must contain the
+     * proxy IP address and, potentially, a port number). If no "X-Forwarded-By" header can be found, or the header
+     * IP address doesn't match the list of trusted proxies the function will return false.
+     *
+     * See : http://tools.ietf.org/html/draft-ietf-appsawg-http-forwarded-10#page-7
+     *
+     * @return  boolean Return TRUE if the request is proxied and the proxy is trusted. FALSE otherwise.
+     */
+    public function isProxied()
+    {
+        if(!empty($this->_proxies) && $this->_headers->has('X-Forwarded-By'))
+        {
+            $ip      = $this->_headers->get('X-Forwarded-By');
+            $proxies = $this->getProxies();
+
+            //Validates the proxied IP-address against the list of trusted proxies.
+            foreach ($proxies as $proxy)
+            {
+                if (strpos($proxy, '/') !== false)
+                {
+                    list($address, $netmask) = explode('/', $proxy, 2);
+
+                    if ($netmask < 1 || $netmask > 32) {
+                        return false;
+                    }
+                }
+                else
+                {
+                    $address = $proxy;
+                    $netmask = 32;
+                }
+
+                if(substr_compare(sprintf('%032b', ip2long($ip)), sprintf('%032b', ip2long($address)), 0, $netmask) === 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
