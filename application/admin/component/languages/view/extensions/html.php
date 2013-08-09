@@ -30,7 +30,7 @@ class LanguagesViewComponentsHtml extends Library\ViewHtml
     
     public function render()
     {
-        $tables     = $this->getObject('com:languages.model.tables')->getRowset();
+        $tables     = $this->getObject('com:languages.model.tables')->fetch();
         $extensions = $this->getObject('com:extensions.model.extensions')
             ->id(array_unique($tables->extensions_extension_id))
             ->fetch();

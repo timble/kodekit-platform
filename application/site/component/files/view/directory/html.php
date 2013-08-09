@@ -68,13 +68,12 @@ class FilesViewDirectoryHtml extends Library\ViewHtml
             $identifier->path = array('model');
             $identifier->name = Library\StringInflector::pluralize($this->getName());
             $model            = $this->getObject($identifier)->container($state->container)->folder($state->folder);
-            $folders          = $model->getRowset();
+            $folders          = $model->fetch();
             $total            = $model->getTotal();
 
             if ($params->get('humanize_filenames', 1))
             {
-                foreach ($folders as $folder)
-                {
+                foreach ($folders as $folder) {
                     $folder->display_name = ucfirst(preg_replace('#[-_\s\.]+#i', ' ', $folder->name));
                 }
             }

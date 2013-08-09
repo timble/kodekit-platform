@@ -87,11 +87,12 @@ abstract class ModelAbstract extends Object implements ModelInterface
         if(!isset($this->_data))
         {
             $context = $this->getCommandContext();
-            $context->data = null;
+            $context->data  = null;
+            $context->state = $this->getState();
 
             if ($this->getCommandChain()->run('before.fetch', $context) !== false)
             {
-                $context->data = $this->getRowset();
+                $context->data = $this->_data;
                 $this->getCommandChain()->run('after.fetch', $context);
             }
 
@@ -171,16 +172,6 @@ abstract class ModelAbstract extends Object implements ModelInterface
      * @return  object
      */
     public function getRow()
-    {
-        return $this->_data;
-    }
-
-    /**
-     * Get a list of items
-     *
-     * @return  object
-     */
-    public function getRowset()
     {
         return $this->_data;
     }

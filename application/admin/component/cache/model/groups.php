@@ -34,38 +34,66 @@ class CacheModelGroups extends Library\ModelAbstract
             ->insert('search'   , 'string');
 	}
 	
-    public function getRowset()
-    {  
+    public function fetch()
+    {
         if(!isset($this->_data))
         {
-            $data = $this->_getData();
-            
-            //Apply state information
-            if($this->getState()->name) {
-		       $data = array_intersect_key($data, array_flip((array)$this->getState()->name));
-		    }
-		    
-            foreach($data as $key => $value)
-	        {     
-	            if($this->getState()->search)
-	            { 
-	                if($value['name'] != $this->getState()->search) {
-		               unset($data[$key]);
-		            }
-	            }
-            } 
+            $context = $this->getCommandContext();
+            $context->data  = null;
+            $context->state = $this->getState();
 
-		    //Set the total
-		    $this->_total = count($data);
-		    
-		    //Apply limit and offset
-            if($this->getState()->limit) {
-		        $data = array_slice($data, $this->getState()->offset, $this->getState()->limit);
+            if ($this->getCommandChain()->run('before.fetch', $context) !== false)
+            {
+                $state = $context->state;
+                $data = array();
+                $keys = $this->getObject('com:cache.model.items')->site($state->site)->fetch();
+
+                foreach($keys as $key)
+                {
+                    if(!isset($data[$key->group]))
+                    {
+                        $data[$key->group] = array(
+                            'name'  => $key->group,
+                            'site'  => $key->site,
+                            'count' => 0,
+                            'size'  => 0,
+                        );
+                    }
+
+                    $data[$key->group]['size'] += $key->size;
+                    $data[$key->group]['count']++;
+                }
+
+                //Apply state information
+                if($this->getState()->name) {
+                    $data = array_intersect_key($data, array_flip((array)$state->name));
+                }
+
+                foreach($data as $key => $value)
+                {
+                    if($state->search)
+                    {
+                        if($value['name'] != $state->search) {
+                            unset($data[$key]);
+                        }
+                    }
+                }
+
+                //Set the total
+                $this->_total = count($data);
+
+                //Apply limit and offset
+                if($state->limit) {
+                    $data = array_slice($data, $state->offset, $state->limit);
+                }
+
+                $context->data = $this->getObject('com:cache.database.rowset.groups', array('data' => $data));
+                $this->getCommandChain()->run('after.fetch', $context);
             }
-		      
-		    $this->_data = $this->getObject('com:cache.database.rowset.groups', array('data' => $data));
+
+            $this->_data = Library\ObjectConfig::unbox($context->data);
         }
-        
+
         return $this->_data;
     }
 
@@ -76,29 +104,5 @@ class CacheModelGroups extends Library\ModelAbstract
         }
         
         return $this->_total;
-    }
-    
-    protected function _getData()
-    {
-        $data = array();
-        $keys = $this->getObject('com:cache.model.items')->site($this->getState()->site)->fetch();
-       
-        foreach($keys as $key) 
-        {
-            if(!isset($data[$key->group])) 
-            {
-                $data[$key->group] = array(
-			   		'name'  => $key->group,
-                    'site'  => $key->site,
-			      	'count' => 0,
-			       	'size'  => 0,
-			     );
-             }
-			      
-	        $data[$key->group]['size'] += $key->size;
-            $data[$key->group]['count']++;
-         }
-         
-         return $data;
     }
 }

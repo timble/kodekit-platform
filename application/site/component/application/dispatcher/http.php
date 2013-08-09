@@ -241,7 +241,7 @@ class ApplicationDispatcherHttp extends Library\DispatcherAbstract implements Li
     public function loadConfig()
     {
         // Check if the site exists
-        if($this->getObject('com:sites.model.sites')->getRowset()->find($this->getSite()))
+        if($this->getObject('com:sites.model.sites')->fetch()->find($this->getSite()))
         {
             //Load the application config settings
             JFactory::getConfig()->loadArray($this->getConfig()->options->toArray());

@@ -25,7 +25,7 @@ class ApplicationDatabaseRowsetExtensions extends Library\DatabaseRowsetAbstract
         //TODO : Inject raw data using $config->data
         $extensions = $this->getObject('com:extensions.model.extensions')
             ->enabled(true)
-            ->getRowset();
+            ->fetch();
 
         $this->merge($extensions);
     }

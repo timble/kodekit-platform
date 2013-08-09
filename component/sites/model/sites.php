@@ -32,46 +32,56 @@ class ModelSites extends Library\ModelAbstract implements Library\ObjectSingleto
              ->insert('search'    , 'string');
     }
     
-    public function getRowset()
+    public function fetch()
     {
         if(!isset($this->_data))
         {
-            $state = $this->getState();
-            $data = array();
+            $context = $this->getCommandContext();
+            $context->data  = null;
+            $context->state = $this->getState();
 
-            //Get the sites
-			foreach(new \DirectoryIterator(JPATH_SITES) as $file)
-			{
-				if($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.')) 
-				{
-        			$data[] = array(
-        				'name' => $file->getFilename()
-				    );
-    			}
-			}
+            if ($this->getCommandChain()->run('before.fetch', $context) !== false)
+            {
+                $state = $context->state;
+                $data = array();
 
-            //Apply state information
-            foreach($data as $key => $value)
-            {   
-                if($state->search)
+                //Get the sites
+                foreach(new \DirectoryIterator(JPATH_SITES) as $file)
                 {
-                     if($value->name != $state->search) {
-                         unset($data[$key]);
-                      }
+                    if($file->isDir() && !(substr($file->getFilename(), 0, 1) == '.'))
+                    {
+                        $data[] = array(
+                            'name' => $file->getFilename()
+                        );
+                    }
                 }
+
+                //Apply state information
+                foreach($data as $key => $value)
+                {
+                    if($state->search)
+                    {
+                        if($value->name != $state->search) {
+                            unset($data[$key]);
+                        }
+                    }
+                }
+
+                //Set the total
+                $this->_total = count($data);
+
+                //Apply limit and offset
+                if($state->limit) {
+                    $data = array_slice($data, $state->offset, $state->limit);
+                }
+
+                $context->data = $this->getObject('com:sites.database.rowset.sites', array('data' => $data));
+                $this->getCommandChain()->run('after.fetch', $context);
             }
-                        
-            //Set the total
-            $this->_total = count($data);
-                    
-            //Apply limit and offset
-            if($state->limit) {
-                $data = array_slice($data, $state->offset, $state->limit);
-            }
-                        
-            $this->_data = $this->getObject('com:sites.database.rowset.sites', array('data' => $data));
+
+            $this->_data = Library\ObjectConfig::unbox($context->data);
         }
-        
+
         return $this->_data;
     }
     

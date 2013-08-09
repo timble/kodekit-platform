@@ -104,7 +104,7 @@ class ViewJson extends ViewAbstract
             'queries' => array()
         );
 
-        if ($list = $model->getRowset())
+        if ($list = $model->fetch())
         {
             $vars = array();
             foreach ($state->toArray() as $var)

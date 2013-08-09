@@ -26,51 +26,51 @@ class ModelSettings extends Library\ModelAbstract
         $this->getState()
              ->insert('name', 'cmd', null, true);        
     }
-     
-    public function getRow()
+
+    public function fetch()
     {
-        if(isset($this->fetch()->{$this->getState()->name})) {
-            $row = $this->fetch()->{$this->getState()->name};
-        } else {
-            $row = $this->fetch()->getRow();
-        }
-        
-        return $row;
-    }
-    
-    public function getRowset()
-    {
-        if (!isset($this->_data))
+        if(!isset($this->_data))
         {
-            $rowset = $this->getObject('com:extensions.database.rowset.settings');
-            
-            //Insert the system configuration settings
-            $rowset->insert($this->getObject('com:extensions.database.row.setting_system'));
-                        
-            //Insert the component configuration settings
-            $extensions = $this->getObject('com:extensions.model.extensions')->enabled(1)->fetch();
+            $context = $this->getCommandContext();
+            $context->data  = null;
+            $context->state = $this->getState();
 
-            foreach($extensions as $extension)
+            if ($this->getCommandChain()->run('before.fetch', $context) !== false)
             {
-                $path  = Library\ClassLoader::getInstance()->getApplication('admin');
-                $path .= '/component/'.substr($extension->name, 4).'/resources/config/settings.xml';
+                $rowset = $this->getObject('com:extensions.database.rowset.settings');
 
-                if(file_exists($path))
+                //Insert the system configuration settings
+                $rowset->insert($this->getObject('com:extensions.database.row.setting_system'));
+
+                //Insert the component configuration settings
+                $extensions = $this->getObject('com:extensions.model.extensions')->enabled(1)->fetch();
+
+                foreach($extensions as $extension)
                 {
-                    $config = array(
-                        'name' => strtolower(substr($extension->name, 4)),
-                        'path' => file_exists($path) ? $path : '',
-                        'id'   => $extension->id,
-                        'data' => $extension->params->toArray(),
-                    );
+                    $path  = Library\ClassLoader::getInstance()->getApplication('admin');
+                    $path .= '/component/'.substr($extension->name, 4).'/resources/config/settings.xml';
 
-                    $row = $this->getObject('com:extensions.database.row.setting_extension', $config);
+                    if(file_exists($path))
+                    {
+                        $config = array(
+                            'name' => strtolower(substr($extension->name, 4)),
+                            'path' => file_exists($path) ? $path : '',
+                            'id'   => $extension->id,
+                            'data' => $extension->params->toArray(),
+                        );
 
-                    $rowset->insert($row);
+                        $row = $this->getObject('com:extensions.database.row.setting_extension', $config);
+
+                        $rowset->insert($row);
+                    }
                 }
+
+                $context->data = $rowset;
+
+                $this->getCommandChain()->run('after.fetch', $context);
             }
-             
-            $this->_data = $rowset;
+
+            $this->_data = Library\ObjectConfig::unbox($context->data);
         }
 
         return $this->_data;

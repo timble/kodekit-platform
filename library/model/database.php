@@ -68,6 +68,54 @@ class ModelDatabase extends ModelAbstract
     }
 
     /**
+     * Fetch an entity from the data store
+     *
+     * @return DatabaseRowsetInterface
+     */
+    public function fetch()
+    {
+        if(!isset($this->_data))
+        {
+            $context = $this->getCommandContext();
+            $context->data  = null;
+            $context->state = $this->getState();
+
+            if ($this->getCommandChain()->run('before.fetch', $context) !== false)
+            {
+                $state = $context->state;
+
+                if(!$state->isEmpty())
+                {
+                    $query = $this->getObject('lib:database.query.select');
+
+                    $this->_buildQueryColumns($query);
+                    $this->_buildQueryTable($query);
+                    $this->_buildQueryJoins($query);
+                    $this->_buildQueryWhere($query);
+                    $this->_buildQueryGroup($query);
+                    $this->_buildQueryHaving($query);
+
+                    if(!$state->isUnique())
+                    {
+                        $this->_buildQueryOrder($query);
+                        $this->_buildQueryLimit($query);
+                    }
+
+                    $data = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
+                }
+                else $data = $this->getTable()->createRowset(array('state' => $state));
+
+                $context->data  = $data;
+                $this->getCommandChain()->run('after.fetch', $context);
+            }
+
+            $this->_data = ObjectConfig::unbox($context->data);
+        }
+
+        return $this->_data;
+    }
+
+    /**
      * Create a new entity
      *
      * This function will reset the model state and create a new entity
@@ -189,44 +237,6 @@ class ModelDatabase extends ModelAbstract
                 $this->_data = $this->getTable()->select($query, Database::FETCH_ROW, array('state' => $state));
             }
             else $this->_data = $this->getTable()->createRow(array('state' => $state));
-        }
-
-        return $this->_data;
-    }
-
-    /**
-     * Get a list of items which represents a  table rowset
-     *
-     * @return DatabaseRowsetInterface
-     */
-    public function getRowset()
-    {
-        // Get the data if it doesn't already exist
-        if (!isset($this->_data))
-        {
-            $query = null;
-            $state = $this->getState();
-
-            if(!$state->isEmpty())
-            {
-                $query = $this->getObject('lib:database.query.select');
-
-                $this->_buildQueryColumns($query);
-                $this->_buildQueryTable($query);
-                $this->_buildQueryJoins($query);
-                $this->_buildQueryWhere($query);
-                $this->_buildQueryGroup($query);
-                $this->_buildQueryHaving($query);
-
-                if(!$state->isUnique())
-                {
-                    $this->_buildQueryOrder($query);
-                    $this->_buildQueryLimit($query);
-                }
-
-                $this->_data = $this->getTable()->select($query, Database::FETCH_ROWSET, array('state' => $state));
-            }
-            else $this->_data = $this->getTable()->createRowset(array('state' => $state));
         }
 
         return $this->_data;

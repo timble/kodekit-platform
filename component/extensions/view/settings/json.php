@@ -21,14 +21,7 @@ class ViewSettingsJson extends Library\ViewJson
 {
     public function render()
     {
-        $model = $this->getModel();
-
-        if(Library\StringInflector::isPlural($this->getName())) {
-            $data = array('settings' => $model->fetch()->toArray());
-        } else {
-            $data = $model->getRow()->toArray();
-        }
-
+        $data = array('settings' => $this->getModel()->fetch()->toArray());
         $this->setContent($data);
 
         return parent::render();
