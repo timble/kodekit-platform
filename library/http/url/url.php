@@ -213,8 +213,8 @@ class HttpUrl extends Object
         //Set the escaping behavior
         $this->_escape = $config->escape;
 
-        //Set the url from a string
-        $this->fromString($config->url);
+        //Set the url
+        $this->setUrl($config->url);
     }
 
     /**
@@ -236,39 +236,36 @@ class HttpUrl extends Object
     }
 
     /**
-     * Set the virtual properties.
+     * Parse the url from a string
      *
-     * @param   string $key   The virtual property to set.
-     * @param   string $value Set the virtual property to this value.
-     */
-    public function __set($key, $value)
-    {
-        if ($key == 'query') {
-            $this->setQuery($value);
-        }
-
-        if ($key == 'path') {
-            $this->setPath($value);
-        }
-    }
-
-    /**
-     * Get the virtual properties by reference so that they appears to be public
+     * Partial URLs are also accepted. setUrl() tries its best to parse them correctly. Function also accepts an
+     * associative array like parse_url returns.
      *
-     * @param   string  $key The virtual property to return.
-     * @return  mixed   The value of the virtual property.
+     * @param   string|array  $url Part(s) of an URL in form of a string or associative array like parse_url() returns
+     * @throws  \UnexpectedValueException If the url is not an array a string or cannot be casted to one.
+     * @return  HttpUrl
+     * @see     parse_url()
      */
-    public function &__get($key)
+    public function setUrl($url)
     {
-        if ($key == 'query') {
-            return $this->_query;
+        if (!is_string($url) && !is_numeric($url) && !is_callable(array($url, '__toString')) && !is_array($url))
+        {
+            throw new \UnexpectedValueException(
+                'The url must be a array as returned by parse_url() a string or object implementing __toString(), "'.gettype($url).'" given.'
+            );
         }
 
-        if ($key == 'path') {
-            return $this->_path;
+        if(!is_array($url)) {
+            $parts = parse_url((string) $url);
+        } else {
+            $parts = $url;
         }
 
-        return null;
+        foreach ($parts as $key => $value) {
+            $this->$key = $value;
+        }
+
+        return $this;
     }
 
     /**
@@ -532,18 +529,30 @@ class HttpUrl extends Object
         return $this;
     }
 
+    /**
+     * Build the url from an array
+     *
+     * @param   string  $array Associative array like parse_url() returns.
+     * @return  HttpUrl
+     * @see     parse_url()
+     */
+    public static function fromArray(array $parts)
+    {
+        $url = new static(array('components' => $parts));
+        return $url;
+    }
 
     /**
-     * Parse the url from a string
+     * Build the url from a string
      *
-     * Partial URLs are also accepted,froString tries its best to parse them correctly.
+     * Partial URLs are also accepted. fromString tries its best to parse them correctly.
      *
      * @param   string  $url
      * @throws  \UnexpectedValueException If the url is not a string or cannot be casted to one.
      * @return  HttpUrl
      * @see     parse_url()
      */
-    public function fromString($url)
+    public static function fromString($url)
     {
         if (!is_string($url) && !is_numeric($url) && !is_callable(array($url, '__toString')))
         {
@@ -552,11 +561,8 @@ class HttpUrl extends Object
             );
         }
 
-        foreach (parse_url((string) $url) as $key => $value) {
-            $this->$key = $value;
-        }
-
-        return $this;
+        $url = self::fromArray(parse_url((string) $url));
+        return $url;
     }
 
     /**
@@ -639,6 +645,42 @@ class HttpUrl extends Object
         }
 
         return implode('/', $out);
+    }
+
+    /**
+     * Set the virtual properties.
+     *
+     * @param   string $key   The virtual property to set.
+     * @param   string $value Set the virtual property to this value.
+     */
+    public function __set($key, $value)
+    {
+        if ($key == 'query') {
+            $this->setQuery($value);
+        }
+
+        if ($key == 'path') {
+            $this->setPath($value);
+        }
+    }
+
+    /**
+     * Get the virtual properties by reference so that they appears to be public
+     *
+     * @param   string  $key The virtual property to return.
+     * @return  mixed   The value of the virtual property.
+     */
+    public function &__get($key)
+    {
+        if ($key == 'query') {
+            return $this->_query;
+        }
+
+        if ($key == 'path') {
+            return $this->_path;
+        }
+
+        return null;
     }
 
     /**
