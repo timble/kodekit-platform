@@ -19,7 +19,11 @@
 </div>
 
 <div class="clearfix">
-    <?= @helper('com:attachments.image.thumbnail', array('row' => $category)) ?>
+    <? if($category->thumbnail) : ?>
+        <a href="<?= @helper('route.category', array('row' => $category)) ?>">
+            <img class="article__thumbnail" src="<?= $category->thumbnail ?>" />
+        </a>
+    <? endif ?>
 	
 	<? if ($category->description) : ?>
 	<p><?= $category->description; ?></p>
