@@ -26,7 +26,7 @@ interface EventInterface
     /**
      * Set the event name
      *
-     * @param string	The event name
+     * @param string $name The event name
      * @return Event
      */
     public function setName($name);
@@ -41,7 +41,7 @@ interface EventInterface
     /**
      * Set the event target
      *
-     * @param object	The event target
+     * @param ObjectInterface $target	The event target
      * @return Event
      */
     public function setTarget(ObjectInterface $target);
@@ -49,7 +49,7 @@ interface EventInterface
     /**
      * Stores the EventDispatcher that dispatches this Event
      *
-     * @param EventDispatcher $dispatcher
+     * @param EventDispatcherInterface $dispatcher
      * @return Event
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher);
@@ -57,7 +57,7 @@ interface EventInterface
     /**
      * Returns the EventDispatcher that dispatches this Event
      *
-     * @return EventDispatcher
+     * @return EventDispatcherInterface
      */
     public function getDispatcher();
     
@@ -71,9 +71,8 @@ interface EventInterface
     /**
      * Stops the propagation of the event to further event listeners.
      *
-     * If multiple event listeners are connected to the same event, no
-     * further event listener will be triggered once any trigger calls
-     * stopPropagation().
+     * If multiple event listeners are connected to the same event, no further event listener will be triggered once
+     * any trigger calls stopPropagation().
      * 
      * @return Event
      */

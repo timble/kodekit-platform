@@ -48,7 +48,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Constructor.
      *
-     * @param   object  An optional ObjectConfig object with configuration options
+     * @param ObjectConfig $config  An optional ObjectConfig object with configuration options
      */
     public function __construct(ObjectConfig $config)
     {
@@ -61,8 +61,8 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Dispatches an event by dispatching arguments to all listeners that handle the event.
      *
-     * @param   string  The event name
-     * @param   object|array   An array, a ObjectConfig or a Event object
+     * @param   string         $name  The event name
+     * @param   object|array   $event An array, a ObjectConfig or a Event object
      * @return  Event
      */
     public function dispatchEvent($name, $event = array())
@@ -149,7 +149,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Get a list of listeners for a specific event
      *
-     * @param   string          The event name
+     * @param   string  $name  The event name
      * @return  ObjectQueue    An object queue containing the listeners
      */
     public function getListeners($name)
@@ -168,8 +168,8 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Check if we are listening to a specific event
      *
-     * @param   string  The event name
-     * @return  boolean    TRUE if we are listening for a specific event, otherwise FALSE.
+     * @param   string  $name The event name
+     * @return  boolean  TRUE if we are listening for a specific event, otherwise FALSE.
      */
     public function hasListeners($name)
     {
@@ -184,7 +184,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Add an event subscriber
      *
-     * @param  object    The event subscriber to add
+     * @param  EventSubscriberInterface $subscriber The event subscriber to add
      * @return  EventDispatcherAbstract
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber, $priority = null)
@@ -209,7 +209,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Remove an event subscriber
      *
-     * @param  object    The event subscriber to remove
+     * @param  EventSubscriberInterface $subscriber The event subscriber to remove
      * @return  EventDispatcherAbstract
      */
     public function removeEventSubscriber(EventSubscriberInterface $subscriber)
@@ -243,7 +243,7 @@ abstract class EventDispatcherAbstract extends Object implements EventDispatcher
     /**
      * Check if the handler is connected to a dispatcher
      *
-     * @param  object  The event dispatcher
+     * @param  EventSubscriberInterface $subscriber  The event subscriber
      * @return boolean TRUE if the handler is already connected to the dispatcher. FALSE otherwise.
      */
     public function isSubscribed(EventSubscriberInterface $subscriber)
